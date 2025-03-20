@@ -1,6 +1,10 @@
 import type { Statement } from "@babel/types";
 
-import { StaticJsScope, StaticJsValue } from "../environment/index.js";
+import {
+  StaticJsEnvironment,
+  StaticJsScope,
+  StaticJsValue,
+} from "../environment/index.js";
 import {
   BreakEvaluation,
   ContinueEvaluation,
@@ -10,13 +14,11 @@ import {
 
 export function evaluateStatements(
   statements: Statement[],
-  scope?: StaticJsScope,
+  env: StaticJsEnvironment,
 ): StaticJsValue | null {
-  scope ??= new StaticJsScope();
-
   let lastValue: NodeEvaluationResult | null = null;
   for (const statement of statements) {
-    lastValue = evaluateNode(statement, scope);
+    lastValue = evaluateNode(statement, env);
     if (lastValue === ContinueEvaluation || lastValue === BreakEvaluation) {
       throw new Error("Continue and break statements must be inside loops");
     }

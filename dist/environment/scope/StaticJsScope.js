@@ -5,10 +5,18 @@ export default class StaticJsScope {
         this._properties = new Map();
     }
     hasProperty(name) {
-        return this._properties.has(name);
+        if (this._properties.has(name)) {
+            return true;
+        }
+        if (this._parent && this._parent.hasProperty(name)) {
+            return true;
+        }
+        return false;
     }
     getProperty(name) {
-        return this._properties.get(name)?.value ?? StaticJsUndefined();
+        return (this._properties.get(name)?.value ??
+            this._parent?.getProperty(name) ??
+            StaticJsUndefined());
     }
     declareConstProperty(name, value) {
         if (this.hasProperty(name)) {

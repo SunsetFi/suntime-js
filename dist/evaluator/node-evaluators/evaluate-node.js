@@ -16,10 +16,10 @@ const nodeEvaluators = {
     Identifier: identifierNodeEvaluator,
     UnaryExpression: unaryExpressionNodeEvaluator,
 };
-export function evaluateNode(node, scope) {
+export function evaluateNode(node, env) {
     const evaluator = nodeEvaluators[node.type];
     if (evaluator == null) {
         throw new Error(`Unexpected AST node type: ${node.type}`);
     }
-    return evaluator(node, scope);
+    return evaluator(node, env);
 }

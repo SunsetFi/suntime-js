@@ -11,11 +11,23 @@ export default class StaticJsScope {
   constructor(private readonly _parent: StaticJsScope | null = null) {}
 
   hasProperty(name: string): boolean {
-    return this._properties.has(name);
+    if (this._properties.has(name)) {
+      return true;
+    }
+
+    if (this._parent && this._parent.hasProperty(name)) {
+      return true;
+    }
+
+    return false;
   }
 
   getProperty(name: string): StaticJsValue {
-    return this._properties.get(name)?.value ?? StaticJsUndefined();
+    return (
+      this._properties.get(name)?.value ??
+      this._parent?.getProperty(name) ??
+      StaticJsUndefined()
+    );
   }
 
   declareConstProperty(name: string, value: StaticJsValue): void {

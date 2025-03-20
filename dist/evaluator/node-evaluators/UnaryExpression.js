@@ -1,8 +1,8 @@
 import { StaticJsBoolean, StaticJsNumber, } from "../../environment/index.js";
 import { evaluateNode } from "./evaluate-node.js";
 import { assertValueResult } from "./node-evaluation-result.js";
-export default function unaryExpressionNodeEvaluator(node, scope) {
-    const value = evaluateNode(node.argument, scope);
+export default function unaryExpressionNodeEvaluator(node, env) {
+    const value = evaluateNode(node.argument, env);
     assertValueResult(value);
     switch (node.operator) {
         case "!":

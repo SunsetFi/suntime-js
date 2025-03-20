@@ -1,12 +1,12 @@
 import { parse, parseExpression } from "@babel/parser";
 
-import { StaticJsScope } from "../environment/index.js";
+import { StaticJsEnvironment, StaticJsScope } from "../environment/index.js";
 
 import { evaluateStatements } from "./evaluate-statements.js";
 import { evaluateNode } from "./node-evaluators/evaluate-node.js";
 import { assertValueResult } from "./node-evaluators/index.js";
 
-export function evaluateString(string: string, scope?: StaticJsScope): any {
+export function evaluateString(string: string, env: StaticJsEnvironment): any {
   const ast = parse(string);
 
   if (ast.errors && ast.errors.length) {
@@ -14,7 +14,7 @@ export function evaluateString(string: string, scope?: StaticJsScope): any {
   }
 
   if (ast.program.sourceType === "script") {
-    const result = evaluateStatements(ast.program.body, scope);
+    const result = evaluateStatements(ast.program.body, env);
     if (result) {
       return result.toJs();
     }
@@ -26,7 +26,7 @@ export function evaluateString(string: string, scope?: StaticJsScope): any {
 
 export function evaluateExpressionString(
   string: string,
-  scope?: StaticJsScope,
+  env?: StaticJsEnvironment,
 ): any {
   const ast = parseExpression(string);
 
@@ -34,8 +34,8 @@ export function evaluateExpressionString(
     throw new Error(`Error parsing expression: ${ast.errors[0].code}.`);
   }
 
-  scope ??= new StaticJsScope();
-  const result = evaluateNode(ast, scope);
+  env ??= new StaticJsEnvironment();
+  const result = evaluateNode(ast, env);
   assertValueResult(result);
   if (result) {
     return result.toJs();

@@ -1,5 +1,6 @@
-import StaticJsUndefined from "../../environment/types/factories/StaticJsUndefined.js";
-export default function identifierNodeEvaluator(node, scope) {
+import { StaticJsUndefined, } from "../../environment/index.js";
+export default function identifierNodeEvaluator(node, env) {
+    const scope = env.currentScope;
     if (!scope.hasProperty(node.name)) {
         // undefined is actually an identifier because of course it is.
         // Assume the default value, but let people override it I guess...

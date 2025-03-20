@@ -1,38 +1,38 @@
 import { isStaticJsArray, isStaticJsObject, StaticJsArray, StaticJsNull, StaticJsObject, StaticJsUndefined, } from "../../environment/index.js";
 import { evaluateNode } from "./evaluate-node.js";
 import { assertValueResult } from "./node-evaluation-result.js";
-export default function variableDeclarationNodeEvaluator(statement, scope) {
+export default function variableDeclarationNodeEvaluator(statement, env) {
     let variableCreator;
     switch (statement.kind) {
         case "const":
-            variableCreator = (name, value) => scope.declareConstProperty(name, value);
+            variableCreator = (name, value) => env.currentScope.declareConstProperty(name, value);
             break;
         case "let":
         // FIXME: In practice, var is hoisted, right?
         case "var":
-            variableCreator = (name, value) => scope.declareLetProperty(name, value);
+            variableCreator = (name, value) => env.currentScope.declareLetProperty(name, value);
             break;
         default:
             throw new Error(`Unsupported variable declaration kind: ${statement.kind}`);
     }
     for (const declarator of statement.declarations) {
-        declarationStatementEvaluator(declarator, scope, variableCreator);
+        declarationStatementEvaluator(declarator, env, variableCreator);
     }
     return null;
 }
-function declarationStatementEvaluator(declarator, scope, variableCreator) {
+function declarationStatementEvaluator(declarator, env, variableCreator) {
     let value = StaticJsUndefined();
     if (declarator.init === null) {
         value = StaticJsNull();
     }
     else if (declarator.init) {
-        const initValue = evaluateNode(declarator.init, scope);
+        const initValue = evaluateNode(declarator.init, env);
         assertValueResult(initValue);
         value = initValue;
     }
-    setLVal(declarator.id, value, scope, variableCreator);
+    setLVal(declarator.id, value, env, variableCreator);
 }
-export function setLVal(lval, value, scope, setNamedVariable) {
+export function setLVal(lval, value, env, setNamedVariable) {
     switch (lval.type) {
         case "Identifier":
             setNamedVariable(lval.name, value);
@@ -49,14 +49,14 @@ export function setLVal(lval, value, scope, setNamedVariable) {
                 const property = String(index);
                 if (element.type === "RestElement") {
                     const restValue = StaticJsArray(value.sliceNative(index));
-                    setLVal(element.argument, restValue, scope, setNamedVariable);
+                    setLVal(element.argument, restValue, env, setNamedVariable);
                     return;
                 }
                 else {
                     const elementValue = value.hasProperty(property)
                         ? value.getProperty(property)
                         : StaticJsUndefined();
-                    setLVal(element, elementValue, scope, setNamedVariable);
+                    setLVal(element, elementValue, env, setNamedVariable);
                 }
             }
             return;
@@ -74,7 +74,7 @@ export function setLVal(lval, value, scope, setNamedVariable) {
                             restValue.setProperty(key, value.getProperty(key));
                         }
                     }
-                    setLVal(property.argument, restValue, scope, setNamedVariable);
+                    setLVal(property.argument, restValue, env, setNamedVariable);
                     return;
                 }
                 else {
@@ -83,7 +83,7 @@ export function setLVal(lval, value, scope, setNamedVariable) {
                         key = property.key.name;
                     }
                     else {
-                        const resolved = evaluateNode(property.key, scope);
+                        const resolved = evaluateNode(property.key, env);
                         if (resolved === null || resolved === undefined) {
                             throw new Error("Cannot destructure with non-string key");
                         }

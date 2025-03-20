@@ -1,8 +1,8 @@
 import { UnaryExpression } from "@babel/types";
 import {
   StaticJsBoolean,
+  StaticJsEnvironment,
   StaticJsNumber,
-  StaticJsScope,
   StaticJsValue,
 } from "../../environment/index.js";
 import { evaluateNode } from "./evaluate-node.js";
@@ -10,9 +10,9 @@ import { assertValueResult } from "./node-evaluation-result.js";
 
 export default function unaryExpressionNodeEvaluator(
   node: UnaryExpression,
-  scope: StaticJsScope,
+  env: StaticJsEnvironment,
 ): StaticJsValue {
-  const value = evaluateNode(node.argument, scope);
+  const value = evaluateNode(node.argument, env);
   assertValueResult(value);
 
   switch (node.operator) {

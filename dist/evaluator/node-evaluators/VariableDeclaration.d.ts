@@ -1,12 +1,12 @@
 import { VariableDeclaration, LVal } from "@babel/types";
-import { StaticJsScope, StaticJsValue } from "../../environment/index.js";
+import { StaticJsEnvironment, StaticJsValue } from "../../environment/index.js";
 export default function variableDeclarationNodeEvaluator(
   statement: VariableDeclaration,
-  scope: StaticJsScope,
+  env: StaticJsEnvironment,
 ): null;
 export declare function setLVal(
   lval: LVal,
   value: StaticJsValue,
-  scope: StaticJsScope,
+  env: StaticJsEnvironment,
   setNamedVariable: (name: string, value: StaticJsValue) => void,
 ): void;

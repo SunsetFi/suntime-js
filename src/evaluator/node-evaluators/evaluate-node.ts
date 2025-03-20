@@ -1,6 +1,6 @@
 import { Standardized, Node } from "@babel/types";
 
-import { StaticJsScope } from "../../environment/index.js";
+import { StaticJsEnvironment, StaticJsScope } from "../../environment/index.js";
 
 import variableDeclarationNodeEvaluator from "./VariableDeclaration.js";
 import numericLiteralNodeEvaluator from "./NumericLiteral.js";
@@ -16,7 +16,7 @@ import { NodeEvaluationResult } from "./node-evaluation-result.js";
 type NodeEvaluators = {
   [key in Standardized["type"]]?: (
     node: Extract<Standardized, { type: key }>,
-    scope: StaticJsScope,
+    scope: StaticJsEnvironment,
   ) => NodeEvaluationResult | null;
 };
 const nodeEvaluators: NodeEvaluators = {
@@ -32,12 +32,12 @@ const nodeEvaluators: NodeEvaluators = {
 
 export function evaluateNode(
   node: Node,
-  scope: StaticJsScope,
+  env: StaticJsEnvironment,
 ): NodeEvaluationResult | null {
   const evaluator = (nodeEvaluators as any)[node.type];
   if (evaluator == null) {
     throw new Error(`Unexpected AST node type: ${node.type}`);
   }
 
-  return evaluator(node as any, scope);
+  return evaluator(node as any, env);
 }

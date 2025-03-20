@@ -1,5 +1,10 @@
 import { BlockStatement } from "@babel/types";
-import { StaticJsScope, StaticJsUndefined } from "../../environment/index.js";
+
+import {
+  StaticJsEnvironment,
+  StaticJsUndefined,
+} from "../../environment/index.js";
+
 import { evaluateNode } from "./evaluate-node.js";
 import {
   isControlFlowEvaluationResult,
@@ -8,12 +13,12 @@ import {
 
 export default function blockStatementNodeEvaluator(
   node: BlockStatement,
-  scope: StaticJsScope,
+  env: StaticJsEnvironment,
 ): NodeEvaluationResult {
   for (const statement of node.body) {
     if (statement.type === "ReturnStatement") {
       if (statement.argument) {
-        const returnValue = evaluateNode(statement.argument, scope);
+        const returnValue = evaluateNode(statement.argument, env);
         if (!returnValue) {
           throw new Error("Return statement did not evaluate to a value");
         }
@@ -24,7 +29,7 @@ export default function blockStatementNodeEvaluator(
       return StaticJsUndefined();
     }
 
-    const statementResult = evaluateNode(statement, scope);
+    const statementResult = evaluateNode(statement, env);
     if (statementResult && isControlFlowEvaluationResult(statementResult)) {
       return statementResult;
     }
