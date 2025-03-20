@@ -1,3 +1,3 @@
 export default {
-  "*.ts": ["prettier --write"],
+  "*.ts": ["pnpx prettier --write"],
 };
