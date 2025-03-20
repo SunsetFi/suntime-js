@@ -1,18 +1,29 @@
+import StaticJsEnvironment from "../../StaticJsEnvironment.js";
+
 import { StaticJsRuntimeFunction } from "../implementation/index.js";
-import { StaticJsFunction as IStaticJsFunction } from "../index.js";
-import { StaticJsValue } from "../interfaces/StaticJsValue.js";
+import {
+  StaticJsFunction as IStaticJsFunction,
+  StaticJsValue,
+} from "../interfaces/index.js";
+
 import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
 
+export type StaticJsRuntimeFunctionEvaluate<TArgs extends StaticJsValue[]> = (
+  env: StaticJsEnvironment,
+  thisObj: StaticJsValue,
+  ...args: TArgs
+) => StaticJsValue;
+
 export default function StaticJsFunction<TArgs extends StaticJsValue[]>(
-  func: (...args: TArgs) => StaticJsValue,
+  func: StaticJsRuntimeFunctionEvaluate<TArgs>,
 ): IStaticJsFunction<TArgs>;
 export default function StaticJsFunction<TArgs extends StaticJsValue[]>(
   name: string,
-  evaluate: (...args: TArgs) => StaticJsValue,
+  func: StaticJsRuntimeFunctionEvaluate<TArgs>,
 ): IStaticJsFunction<TArgs>;
 export default function StaticJsFunction(
-  nameOrFunc: string | ((...args: any[]) => StaticJsValue),
-  evaluate?: (...args: any[]) => StaticJsValue,
+  nameOrFunc: string | StaticJsRuntimeFunctionEvaluate<any[]>,
+  evaluate?: StaticJsRuntimeFunctionEvaluate<any[]>,
 ): IStaticJsFunction<any> {
   if (staticJsInstanceOf(nameOrFunc) === "function") {
     return nameOrFunc as unknown as IStaticJsFunction<any>;

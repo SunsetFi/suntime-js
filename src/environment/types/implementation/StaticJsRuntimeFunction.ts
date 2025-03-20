@@ -1,3 +1,5 @@
+import StaticJsEnvironment from "../../StaticJsEnvironment.js";
+
 import { StaticJsFunction, StaticJsValue } from "../interfaces/index.js";
 
 import StaticJsTypeofSymbol from "../StaticJsTypeofSymbol.js";
@@ -14,7 +16,11 @@ export default class StaticJsRuntimeFunction<
   private readonly _name: StaticJsEnvString;
   constructor(
     name: string,
-    private readonly _evaluate: (...args: TArgs) => StaticJsValue,
+    private readonly _evaluate: (
+      env: StaticJsEnvironment,
+      thisObj: StaticJsValue,
+      ...args: TArgs
+    ) => StaticJsValue,
   ) {
     this._name = new StaticJsEnvString(name);
   }
@@ -35,8 +41,12 @@ export default class StaticJsRuntimeFunction<
     throw new Error("Cannot convert a runtime function to JS.");
   }
 
-  evaluate(...args: TArgs): StaticJsValue {
-    return this._evaluate(...args);
+  evaluate(
+    env: StaticJsEnvironment,
+    thisObj: StaticJsValue,
+    ...args: TArgs
+  ): StaticJsValue {
+    return this._evaluate(env, thisObj, ...args);
   }
 
   hasProperty(name: string): boolean {
