@@ -1,0 +1,38 @@
+{
+  "name": "static-js",
+  "version": "0.0.1",
+  "description": "An AST-based javascript evaluator in a sandboxed environment.",
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "prepare": "husky",
+    "build": "tsc -p tsconfig.lib.json",
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.6.2",
+  "devDependencies": {
+    "@babel/types": "^7.26.10",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^22.13.10",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.26.10",
+    "lodash-es": "^4.17.21",
+    "type-fest": "^4.37.0"
+  }
+}
