@@ -1,23 +1,16 @@
-import StaticJsEnvArray from "./StaticJsEnvArray.js";
-import StaticJsEnvBoolean from "./StaticJsEnvBoolean.js";
-import StaticJsEnvNull from "./StaticJsEnvNull.js";
-import StaticJsEnvNumber from "./StaticJsEnvNumber.js";
-import StaticJsEnvObject from "./StaticJsEnvObject.js";
-import StaticJsRuntimeFunction from "./StaticJsRuntimeFunction.js";
-import StaticJsRuntimeObject from "./StaticJsRuntimeObject.js";
-import StaticJsEnvString from "./StaticJsEnvString.js";
-import StaticJsEnvUndefined from "./StaticJsEnvUndefined.js";
-
+export { default as StaticJsEnvArray } from "./StaticJsEnvArray.js";
+export { default as StaticJsEnvBoolean } from "./StaticJsEnvBoolean.js";
 export {
-  StaticJsEnvArray,
-  StaticJsEnvBoolean,
-  StaticJsEnvNull,
-  StaticJsEnvNumber,
-  StaticJsEnvObject,
-  StaticJsRuntimeFunction,
-  StaticJsRuntimeObject,
-  StaticJsEnvString,
-  StaticJsEnvUndefined,
-};
-
-export type { StaticJsRuntimeObjectValue } from "./StaticJsRuntimeObject.js";
+  default as StaticJsEnvFunction,
+  type StaticJsEnvFunctionArgumentDeclaration,
+} from "./StaticJsEnvFunction.js";
+export { default as StaticJsEnvNull } from "./StaticJsEnvNull.js";
+export { default as StaticJsEnvNumber } from "./StaticJsEnvNumber.js";
+export { default as StaticJsEnvObject } from "./StaticJsEnvObject.js";
+export { default as StaticJsRuntimeFunction } from "./StaticJsRuntimeFunction.js";
+export {
+  default as StaticJsRuntimeObject,
+  type StaticJsRuntimeObjectValue,
+} from "./StaticJsRuntimeObject.js";
+export { default as StaticJsEnvString } from "./StaticJsEnvString.js";
+export { default as StaticJsEnvUndefined } from "./StaticJsEnvUndefined.js";

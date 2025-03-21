@@ -2,9 +2,11 @@ export * from "./utils/index.js";
 
 export {
   isStaticJsValue,
+  assertStaticJsValue,
   isStaticJsArray,
   isStaticJsFunction,
   isStaticJsObject,
+  isStaticJsObjectLike,
   isStaticJsBoolean,
   isStaticJsNull,
   isStaticJsNumber,

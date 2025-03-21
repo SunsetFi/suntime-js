@@ -17,5 +17,16 @@ export interface StaticJsObject<T extends string = "object">
   getKeys(): string[];
 }
 export function isStaticJsObject(value: any): value is StaticJsObject {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
   return value[StaticJsTypeSymbol] === "object";
+}
+export function isStaticJsObjectLike(value: any): value is StaticJsObject {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  return ["object", "array", "function"].includes(value[StaticJsTypeSymbol]);
 }

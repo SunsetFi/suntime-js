@@ -1,10 +1,9 @@
 import {
   StaticJsObject,
-  isStaticJsValue,
+  assertStaticJsValue,
   StaticJsValue,
 } from "../interfaces/index.js";
 
-import StaticJsTypeofSymbol from "../StaticJsTypeofSymbol.js";
 import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
 
 import StaticJsEnvNumber from "./StaticJsEnvNumber.js";
@@ -21,7 +20,7 @@ export default class StaticJsArray implements StaticJsObject<"array"> {
     return "array" as const;
   }
 
-  get [StaticJsTypeofSymbol]() {
+  get typeOf() {
     return "object" as const;
   }
 
@@ -29,12 +28,35 @@ export default class StaticJsArray implements StaticJsObject<"array"> {
     return this._items.length;
   }
 
+  toJs() {
+    return this._items.map((value) => value.toJs());
+  }
+
   toString() {
     return this._items.map((value) => value.toString()).join(",");
   }
 
-  toJs() {
-    return this._items.map((value) => value.toJs());
+  toNumber() {
+    // Yes, really.
+    if (this._items.length === 0) {
+      return 0;
+    }
+
+    // Yes, really really.
+    if (this._items.length === 1) {
+      return this._items[0].toNumber();
+    }
+
+    // Yes, really really really
+    return Number.NaN;
+  }
+
+  toBoolean(): boolean {
+    return true;
+  }
+
+  get [Symbol.toStringTag]() {
+    return `Array [${this._items.map((value) => value.toString()).join(", ")}]`;
   }
 
   hasProperty(name: string): boolean {
@@ -57,7 +79,7 @@ export default class StaticJsArray implements StaticJsObject<"array"> {
         return new StaticJsEnvNumber(this._items.length);
       default:
         const index = parseIndex(name);
-        if (index === null) {
+        if (index === null || index < 0 || index >= this._items.length) {
           return StaticJsEnvUndefined.Instance;
         }
 
@@ -79,7 +101,7 @@ export default class StaticJsArray implements StaticJsObject<"array"> {
   }
 
   setProperty(name: string, value: StaticJsValue): void {
-    isStaticJsValue(value);
+    assertStaticJsValue(value);
     switch (name) {
       case "length":
         // You can actually do this in javascript...
@@ -99,6 +121,10 @@ export default class StaticJsArray implements StaticJsObject<"array"> {
   }
 
   get(index: number): StaticJsValue {
+    if (index < 0 || index >= this._items.length) {
+      return StaticJsEnvUndefined.Instance;
+    }
+
     return this._items[index];
   }
 

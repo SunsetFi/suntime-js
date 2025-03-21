@@ -1,17 +1,19 @@
 import { parse, parseExpression } from "@babel/parser";
 
-import { StaticJsEnvironment, StaticJsScope } from "../environment/index.js";
+import { StaticJsEnvironment } from "../environment/index.js";
 
 import { evaluateStatements } from "./evaluate-statements.js";
 import { evaluateNode } from "./node-evaluators/evaluate-node.js";
 import { assertValueResult } from "./node-evaluators/index.js";
 
-export function evaluateString(string: string, env: StaticJsEnvironment): any {
+export function evaluateString(string: string, env?: StaticJsEnvironment): any {
   const ast = parse(string);
 
   if (ast.errors && ast.errors.length) {
     throw new Error(`Error parsing expression: ${ast.errors[0].code}.`);
   }
+
+  env ??= new StaticJsEnvironment();
 
   if (ast.program.sourceType === "script") {
     const result = evaluateStatements(ast.program.body, env);

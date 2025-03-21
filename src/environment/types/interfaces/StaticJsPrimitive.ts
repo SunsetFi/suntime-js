@@ -1,15 +1,16 @@
-import StaticJsTypeofSymbol from "../StaticJsTypeofSymbol.js";
 import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
 
 export interface StaticJsPrimitive {
-  readonly [StaticJsTypeSymbol]: string;
-  readonly [StaticJsTypeofSymbol]:
+  readonly typeOf:
     | "object"
     | "string"
     | "number"
     | "boolean"
     | "function"
     | "undefined";
-  toString(): string;
+  readonly [StaticJsTypeSymbol]: string;
   toJs(): any;
+  toString(): string;
+  toNumber(): number;
+  toBoolean(): boolean;
 }

@@ -1,7 +1,6 @@
 import { StaticJsBoolean as IStaticJsBoolean } from "../interfaces/index.js";
 
 import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
-import StaticJsTypeofSymbol from "../StaticJsTypeofSymbol.js";
 
 export default class StaticJsEnvBoolean implements IStaticJsBoolean {
   private readonly _value: boolean;
@@ -14,19 +13,31 @@ export default class StaticJsEnvBoolean implements IStaticJsBoolean {
     return "boolean" as const;
   }
 
-  get [StaticJsTypeofSymbol]() {
+  get typeOf() {
     return "boolean" as const;
   }
 
-  toString(): string {
-    return String(this._value);
+  get value() {
+    return this._value;
   }
 
   toJs() {
     return this._value;
   }
 
-  get value() {
+  toString(): string {
+    return String(this._value);
+  }
+
+  toNumber(): number {
+    return Number(this._value);
+  }
+
+  toBoolean(): boolean {
     return this._value;
+  }
+
+  negate(): IStaticJsBoolean {
+    return new StaticJsEnvBoolean(!this._value);
   }
 }

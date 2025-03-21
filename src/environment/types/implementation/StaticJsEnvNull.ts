@@ -1,6 +1,5 @@
 import { StaticJsNull as IStaticJsNull } from "../interfaces/index.js";
 
-import StaticJsTypeofSymbol from "../StaticJsTypeofSymbol.js";
 import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
 
 export default class StaticJsEnvNull implements IStaticJsNull {
@@ -10,16 +9,24 @@ export default class StaticJsEnvNull implements IStaticJsNull {
     return "null" as const;
   }
 
-  get [StaticJsTypeofSymbol]() {
+  get typeOf() {
     // Javascript is truly a wonder to behold.
     return "object" as const;
+  }
+
+  toJs() {
+    return null;
   }
 
   toString() {
     return "null";
   }
 
-  toJs() {
-    return null;
+  toNumber(): number {
+    return 0;
+  }
+
+  toBoolean(): boolean {
+    return false;
   }
 }

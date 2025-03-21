@@ -14,6 +14,7 @@ export function isStaticJsNumber(value: any): value is StaticJsNumber {
 export interface StaticJsBoolean extends StaticJsPrimitive {
   [StaticJsTypeSymbol]: "boolean";
   value: boolean;
+  negate(): StaticJsBoolean;
 }
 export function isStaticJsBoolean(value: any): value is StaticJsBoolean {
   return staticJsInstanceOf(value) === "boolean";

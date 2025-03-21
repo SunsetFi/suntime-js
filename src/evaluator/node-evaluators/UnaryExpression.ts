@@ -3,6 +3,8 @@ import {
   StaticJsBoolean,
   StaticJsEnvironment,
   StaticJsNumber,
+  StaticJsString,
+  StaticJsUndefined,
   StaticJsValue,
 } from "../../environment/index.js";
 import { evaluateNode } from "./evaluate-node.js";
@@ -17,12 +19,18 @@ export default function unaryExpressionNodeEvaluator(
 
   switch (node.operator) {
     case "!":
-      return StaticJsBoolean(!Boolean(value.toJs()));
+      return StaticJsBoolean(!value.toJs());
     case "-":
-      return StaticJsNumber(-Number(value.toJs()));
+      return StaticJsNumber(-value.toJs());
     case "+":
-      return StaticJsNumber(Number(value.toJs()));
+      return StaticJsNumber(+value.toJs());
+    case "~":
+      return StaticJsNumber(~value.toJs());
+    case "void":
+      return StaticJsUndefined();
+    case "typeof":
+      return StaticJsString(value.typeOf);
     default:
-      throw new Error(`Unknown unary operator: ${node.operator}`);
+      throw new Error(`Unknown unary operator: ${node.operator}.`);
   }
 }

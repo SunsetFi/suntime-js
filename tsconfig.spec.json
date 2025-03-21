@@ -7,11 +7,14 @@
     "isolatedModules": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "outDir": "./dist",
-    "declaration": true,
     "baseUrl": "./node_modules",
     "rootDir": "./",
-    "composite": true
+    "inlineSourceMap": true,
+    "composite": true,
+    "paths": {
+      "static-js": ["./src/index.ts"]
+    }
   },
-  "include": ["./src/**/*.spec.ts", "./e2e"]
+  "include": ["./src", "./e2e"],
+  "exclude": ["node_modules", "dist"]
 }

@@ -1,6 +1,5 @@
 import { StaticJsString, StaticJsValue } from "../interfaces/index.js";
 
-import StaticJsTypeofSymbol from "../StaticJsTypeofSymbol.js";
 import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
 
 import StaticJsRuntimeFunction from "./StaticJsRuntimeFunction.js";
@@ -18,16 +17,24 @@ export default class StaticJsEnvString implements StaticJsString {
     return "string" as const;
   }
 
-  get [StaticJsTypeofSymbol]() {
+  get typeOf() {
     return "string" as const;
+  }
+
+  toJs() {
+    return this._value;
   }
 
   toString(): string {
     return this._value;
   }
 
-  toJs() {
-    return this._value;
+  toNumber(): number {
+    return Number(this._value);
+  }
+
+  toBoolean(): boolean {
+    return Boolean(this._value);
   }
 
   hasProperty(name: string): boolean {

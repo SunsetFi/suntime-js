@@ -9,9 +9,13 @@ import {
   StaticJsUndefined,
 } from "../factories/index.js";
 
-import { StaticJsValue } from "../interfaces/index.js";
+import { isStaticJsValue, StaticJsValue } from "../interfaces/index.js";
 
 export default function toStaticJsValue(value: any): StaticJsValue {
+  if (isStaticJsValue(value)) {
+    return value;
+  }
+
   if (typeof value === "boolean") {
     return StaticJsBoolean(value);
   } else if (typeof value === "number") {

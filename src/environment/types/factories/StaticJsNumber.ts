@@ -1,8 +1,11 @@
+import typedMerge from "../../../internal/typed-merge.js";
+
 import { StaticJsEnvNumber } from "../implementation/index.js";
 import { StaticJsNumber as IStaticJsNumber } from "../interfaces/index.js";
+
 import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
 
-export default function StaticJsNumber(value: number): IStaticJsNumber {
+function StaticJsNumber(value: number): IStaticJsNumber {
   if (staticJsInstanceOf(value) === "number") {
     return value as unknown as StaticJsEnvNumber;
   }
@@ -13,3 +16,9 @@ export default function StaticJsNumber(value: number): IStaticJsNumber {
 
   return new StaticJsEnvNumber(value);
 }
+
+export default typedMerge(StaticJsNumber, {
+  Zero: StaticJsNumber(0),
+  Infinity: StaticJsNumber(Infinity),
+  NaN: StaticJsNumber(Number.NaN),
+});

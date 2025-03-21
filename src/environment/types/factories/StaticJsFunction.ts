@@ -10,7 +10,6 @@ import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
 
 export type StaticJsRuntimeFunctionEvaluate<TArgs extends StaticJsValue[]> = (
   env: StaticJsEnvironment,
-  thisObj: StaticJsValue,
   ...args: TArgs
 ) => StaticJsValue;
 

@@ -1,6 +1,5 @@
 import { StaticJsUndefined as IStaticJsUndefined } from "../interfaces/index.js";
 
-import StaticJsTypeofSymbol from "../StaticJsTypeofSymbol.js";
 import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
 
 export default class StaticJsEnvUndefined implements IStaticJsUndefined {
@@ -10,15 +9,23 @@ export default class StaticJsEnvUndefined implements IStaticJsUndefined {
     return "undefined" as const;
   }
 
-  get [StaticJsTypeofSymbol]() {
+  get typeOf() {
     return "undefined" as const;
+  }
+
+  toJs() {
+    return undefined;
   }
 
   toString(): string {
     return "undefined";
   }
 
-  toJs() {
-    return undefined;
+  toNumber(): number {
+    return Number.NaN;
+  }
+
+  toBoolean(): boolean {
+    return false;
   }
 }

@@ -1,1 +1,4 @@
-export { default as StaticJsScope } from "./StaticJsScope.js";
+export {
+  default as StaticJsScope,
+  type StaticJsScopeOptions,
+} from "./StaticJsScope.js";

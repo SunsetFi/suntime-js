@@ -8,8 +8,10 @@ import toStaticJsValue from "../utils/to-static-js-value.js";
 import {
   StaticJsValue,
   StaticJsObject as IStaticJsObject,
+  isStaticJsValue,
 } from "../interfaces/index.js";
 import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
+import typedMerge from "../../../internal/typed-merge.js";
 
 export interface StaticJsObjectConfig {
   static?: boolean;
@@ -17,24 +19,24 @@ export interface StaticJsObjectConfig {
   mutatable?: boolean;
 }
 
-export default function StaticJsObject(
-  obj: Record<string, any> | null = null,
+function StaticJsObject(
+  obj?: Record<string, any>,
   { static: isStatic, writable, mutatable }: StaticJsObjectConfig = {},
 ): IStaticJsObject {
+  if (obj === undefined) {
+    return new StaticJsEnvObject();
+  }
+
   if (staticJsInstanceOf(obj) === "object") {
     return obj as unknown as IStaticJsObject;
   }
 
-  if (typeof obj !== "object" && obj) {
+  if (typeof obj !== "object" && !obj) {
     throw new Error("Not an object");
   }
 
   if (isStatic && writable) {
     throw new Error("Cannot be both static and writable");
-  }
-
-  if (obj === null) {
-    return new StaticJsEnvObject();
   }
 
   if (writable) {
@@ -55,14 +57,27 @@ export default function StaticJsObject(
 
       return {
         get: () => toStaticJsValue(obj[key]),
-        // TODO: We need to unwrap the value for writeback.
-        // set: writable
-        //   ? (value: StaticJsValue) => {
-        //       obj[key] = value;
-        //     }
-        //   : undefined,
+        set: writable
+          ? (value: StaticJsValue) => {
+              obj[key] = value.toJs();
+            }
+          : undefined,
       } as StaticJsRuntimeObjectValue;
     }),
     mutatable ? new StaticJsEnvObject() : undefined,
   );
 }
+
+export default typedMerge(StaticJsObject, {
+  toPropertyKey(value: any) {
+    if (isStaticJsValue(value)) {
+      value = value.toJs();
+    }
+
+    if (typeof value !== "string" && typeof value !== "number") {
+      throw new Error("Invalid property key");
+    }
+
+    return String(value);
+  },
+});

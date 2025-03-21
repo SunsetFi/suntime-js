@@ -1,6 +1,5 @@
 import { StaticJsObject, StaticJsValue } from "../interfaces/index.js";
 
-import StaticJsTypeofSymbol from "../StaticJsTypeofSymbol.js";
 import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
 
 import StaticJsEnvUndefined from "./StaticJsEnvUndefined.js";
@@ -12,12 +11,8 @@ export default class StaticJsEnvObject implements StaticJsObject {
     return "object" as const;
   }
 
-  get [StaticJsTypeofSymbol]() {
+  get typeOf() {
     return "object" as const;
-  }
-
-  toString(): string {
-    return "[object Object]";
   }
 
   toJs() {
@@ -26,6 +21,18 @@ export default class StaticJsEnvObject implements StaticJsObject {
       result[key] = value.toJs();
     }
     return result;
+  }
+
+  toString(): string {
+    return "[object Object]";
+  }
+
+  toNumber(): number {
+    return Number.NaN;
+  }
+
+  toBoolean(): boolean {
+    return true;
   }
 
   hasProperty(name: string): boolean {
