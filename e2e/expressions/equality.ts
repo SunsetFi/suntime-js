@@ -3,7 +3,7 @@ import { describe, it, expect } from "vitest";
 import { evaluateExpressionString } from "static-js";
 
 describe("E2E: Equality Expressions", () => {
-  // This moltly collection of weird values includes a lot of odd pairings that represent
+  // This motly collection of weird values includes a lot of odd pairings that represent
   // some of the weirder aspects of javascript.
   // This both serves as a test of equality but also of the stranger side of javascript value casting,
   // such as can be seen with [[]] and [0] both evaluating to 0 in numeric contexts.
