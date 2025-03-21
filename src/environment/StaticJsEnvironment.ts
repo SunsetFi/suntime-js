@@ -1,10 +1,7 @@
 import { StaticJsScope, StaticJsScopeOptions } from "./scope/index.js";
 import StaticJsEnvNumber from "./types/implementation/StaticJsEnvNumber.js";
-import {
-  StaticJsNumber,
-  StaticJsUndefined,
-  toStaticJsValue,
-} from "./types/index.js";
+import StaticJsEnvUndefined from "./types/implementation/StaticJsEnvUndefined.js";
+import { toStaticJsValue } from "./types/index.js";
 
 export interface StaticJsEnvironmentGlobal {
   declare?: "const" | "let";
@@ -19,6 +16,8 @@ const defaultGlobals: Record<string, StaticJsEnvironmentGlobal> = {
   // Technically you CAN assign these without errors but they don't change???
   Infinity: { declare: "const", value: new StaticJsEnvNumber(Infinity) },
   NaN: { declare: "const", value: new StaticJsEnvNumber(NaN) },
+  // Yes, you can re-define this!
+  undefined: { declare: "let", value: StaticJsEnvUndefined.Instance },
 };
 
 export default class StaticJsEnvironment {
@@ -26,9 +25,6 @@ export default class StaticJsEnvironment {
 
   constructor({ globals }: StaticJsEnvironmentOptions = {}) {
     const globalScope = new StaticJsScope();
-
-    // Yes, this is a global-scoped variable.  Madness.
-    globalScope.declareLetProperty("undefined", StaticJsUndefined());
 
     const resolvedGlobals = {
       ...defaultGlobals,
