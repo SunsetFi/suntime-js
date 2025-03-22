@@ -1,16 +1,15 @@
 import { MemberExpression } from "@babel/types";
-import StaticJsEnvironment from "../../environment/StaticJsEnvironment.js";
-import { evaluateNodeAssertValue } from "./evaluate-node.js";
-import {
-  isStaticJsObjectLike,
-  StaticJsObject,
-} from "../../environment/index.js";
+
+import { isStaticJsObjectLike, StaticJsObject } from "../../runtime/index.js";
+
+import { evaluateNodeAssertValue } from "./nodes.js";
+import { NodeEvaluationContext } from "./node-evaluation-context.js";
 
 export default function memberExpressionNodeEvaluator(
   node: MemberExpression,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
 ) {
-  const target = evaluateNodeAssertValue(node.object, env);
+  const target = evaluateNodeAssertValue(node.object, context);
   if (!isStaticJsObjectLike(target)) {
     let postfix: string = "";
     if (node.object.type === "Identifier") {
@@ -32,7 +31,7 @@ export default function memberExpressionNodeEvaluator(
   if (!node.computed && propertyNode.type === "Identifier") {
     propertyName = propertyNode.name;
   } else {
-    const resolved = evaluateNodeAssertValue(propertyNode, env);
+    const resolved = evaluateNodeAssertValue(propertyNode, context);
     propertyName = StaticJsObject.toPropertyKey(resolved);
   }
 

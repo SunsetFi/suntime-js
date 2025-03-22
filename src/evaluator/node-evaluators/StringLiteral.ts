@@ -1,5 +1,5 @@
 import { StringLiteral } from "@babel/types";
-import { StaticJsString, StaticJsValue } from "../../environment/index.js";
+import { StaticJsString, StaticJsValue } from "../../runtime/index.js";
 
 export default function stringLiteralNodeEvaluator(
   node: StringLiteral,

@@ -1,20 +1,20 @@
 import { ArrayExpression } from "@babel/types";
 
 import {
-  StaticJsEnvironment,
   StaticJsArray,
   isStaticJsArray,
-  StaticJsValue,
   StaticJsUndefined,
-} from "../../environment/index.js";
+  StaticJsArrayItem,
+} from "../../runtime/index.js";
 
-import { evaluateNodeAssertValue } from "./evaluate-node.js";
+import { evaluateNodeAssertValue } from "./nodes.js";
+import { NodeEvaluationContext } from "./node-evaluation-context.js";
 
 export default function arrayExpressionNodeEvaluator(
   node: ArrayExpression,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
 ) {
-  const items: StaticJsValue[] = [];
+  const items: StaticJsArrayItem[] = [];
   for (const element of node.elements) {
     if (element == null) {
       items.push(StaticJsUndefined());
@@ -22,7 +22,7 @@ export default function arrayExpressionNodeEvaluator(
     }
 
     if (element.type === "SpreadElement") {
-      const resolved = evaluateNodeAssertValue(element.argument, env);
+      const resolved = evaluateNodeAssertValue(element.argument, context);
       if (!isStaticJsArray(resolved)) {
         const elementName =
           element.argument.type === "Identifier"
@@ -39,7 +39,7 @@ export default function arrayExpressionNodeEvaluator(
       continue;
     }
 
-    const value = evaluateNodeAssertValue(element, env);
+    const value = evaluateNodeAssertValue(element, context);
     items.push(value);
   }
 

@@ -1,20 +1,23 @@
 import { AssignmentExpression } from "@babel/types";
 
 import {
-  StaticJsEnvironment,
+  isStaticJsScalar,
   isStaticJsValue,
-} from "../../environment/index.js";
+  StaticJsString,
+  StaticJsNumber,
+} from "../../runtime/index.js";
 
 import setLVal from "./LVal.js";
-import { evaluateNode } from "./evaluate-node.js";
+import { evaluateNode } from "./nodes.js";
+import { NodeEvaluationContext } from "./node-evaluation-context.js";
 
 export default function assignmentExpressionNodeEvaluator(
   node: AssignmentExpression,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
 ) {
   const { left, right } = node;
 
-  const value = evaluateNode(right, env);
+  let value = evaluateNode(right, context);
   if (!isStaticJsValue(value)) {
     throw new Error("Assignment value expression did not return a value.");
   }
@@ -25,11 +28,44 @@ export default function assignmentExpressionNodeEvaluator(
     throw new Error(
       "The left-hand side of an assignment expression cannot be an optional member expression.",
     );
-  } else {
-    setLVal(left, value, env, (name, value) =>
-      env.currentScope.setProperty(name, value),
-    );
   }
+
+  switch (node.operator) {
+    case "=":
+      break;
+    case "+=":
+      {
+        if (left.type !== "Identifier") {
+          throw new SyntaxError("Invalid left-hand side in assignment");
+        }
+
+        const leftValue = context.env.getBindingValue(left.name, true);
+
+        if (!isStaticJsScalar(leftValue) || !isStaticJsScalar(value)) {
+          // One will become a string so both become a string.
+          value = StaticJsString(leftValue.toString() + value.toString());
+        } else {
+          // Use numbers
+          value = StaticJsNumber(leftValue.toNumber() + value.toNumber());
+        }
+      }
+      break;
+    case "-=":
+      {
+        if (left.type !== "Identifier") {
+          throw new SyntaxError("Invalid left-hand side in assignment");
+        }
+
+        const leftValue = context.env.getBindingValue(left.name, true);
+
+        value = StaticJsNumber(leftValue.toNumber() - value.toNumber());
+      }
+      break;
+  }
+
+  setLVal(left, value, context, (name, value) =>
+    context.env.setMutableBinding(name, value, context.realm.strict),
+  );
 
   // Pass the value for chaining.
   return value;

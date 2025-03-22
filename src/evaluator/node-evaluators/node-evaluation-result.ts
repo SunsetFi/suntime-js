@@ -1,4 +1,4 @@
-import { StaticJsValue } from "../../environment/index.js";
+import { StaticJsValue } from "../../runtime/index.js";
 
 export const ContinueEvaluation: unique symbol = Symbol(
   "static-js::ContinueEvaluation",

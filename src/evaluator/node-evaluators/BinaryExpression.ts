@@ -1,59 +1,76 @@
 import { BinaryExpression } from "@babel/types";
 
 import {
-  StaticJsEnvironment,
   StaticJsValue,
   StaticJsBoolean,
   StaticJsString,
   toStaticJsValue,
-} from "../../environment/index.js";
-import { staticJsInstanceOf } from "../../environment/types/StaticJsTypeSymbol.js";
+  isStaticJsScalar,
+} from "../../runtime/index.js";
+import { staticJsInstanceOf } from "../../runtime/primitives/StaticJsTypeSymbol.js";
 
-import { evaluateNodeAssertValue } from "./evaluate-node.js";
+import { evaluateNodeAssertValue } from "./nodes.js";
+import { NodeEvaluationContext } from "./node-evaluation-context.js";
 
 export default function binaryExpressionNodeEvaluator(
   node: BinaryExpression,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
 ): StaticJsValue {
   switch (node.operator) {
     case "+":
-      return binaryExpressionAdd(node, env);
+      return binaryExpressionAdd(node, context);
     case "-":
-      return numericComputation((a, b) => a - b, node, env);
+      return numericComputation((a, b) => a - b, node, context);
     case "*":
-      return numericComputation((a, b) => a * b, node, env);
+      return numericComputation((a, b) => a * b, node, context);
     case "/":
-      return numericComputation((a, b) => a / b, node, env);
+      return numericComputation((a, b) => a / b, node, context);
     case "%":
-      return numericComputation((a, b) => a % b, node, env);
+      return numericComputation((a, b) => a % b, node, context);
     case "**":
-      return numericComputation((a, b) => a ** b, node, env);
+      return numericComputation((a, b) => a ** b, node, context);
     case "^":
-      return numericComputation((a, b) => a ^ b, node, env);
+      return numericComputation((a, b) => a ^ b, node, context);
     case "<<":
-      return numericComputation((a, b) => a << b, node, env);
+      return numericComputation((a, b) => a << b, node, context);
     case ">>":
-      return numericComputation((a, b) => a >> b, node, env);
+      return numericComputation((a, b) => a >> b, node, context);
     case "&":
-      return numericComputation((a, b) => a & b, node, env);
+      return numericComputation((a, b) => a & b, node, context);
     case "|":
-      return numericComputation((a, b) => a | b, node, env);
+      return numericComputation((a, b) => a | b, node, context);
     case "==":
-      return binaryExpressionDoubleEquals(node, env, false);
+      return binaryExpressionDoubleEquals(node, context, false);
     case "!=":
-      return binaryExpressionDoubleEquals(node, env, true);
+      return binaryExpressionDoubleEquals(node, context, true);
     case "===":
-      return binaryExpressionTrippleEquals(node, env, false);
+      return binaryExpressionTrippleEquals(node, context, false);
     case "!==":
-      return binaryExpressionTrippleEquals(node, env, true);
+      return binaryExpressionTrippleEquals(node, context, true);
     case "<":
-      return numericComputation((a, b) => StaticJsBoolean(a < b), node, env);
+      return numericComputation(
+        (a, b) => StaticJsBoolean(a < b),
+        node,
+        context,
+      );
     case "<=":
-      return numericComputation((a, b) => StaticJsBoolean(a <= b), node, env);
+      return numericComputation(
+        (a, b) => StaticJsBoolean(a <= b),
+        node,
+        context,
+      );
     case ">":
-      return numericComputation((a, b) => StaticJsBoolean(a > b), node, env);
+      return numericComputation(
+        (a, b) => StaticJsBoolean(a > b),
+        node,
+        context,
+      );
     case ">=":
-      return numericComputation((a, b) => StaticJsBoolean(a >= b), node, env);
+      return numericComputation(
+        (a, b) => StaticJsBoolean(a >= b),
+        node,
+        context,
+      );
     default:
       throw new Error(
         `BinaryExpression operator ${node.operator} is not supported`,
@@ -63,11 +80,11 @@ export default function binaryExpressionNodeEvaluator(
 
 function binaryExpressionDoubleEquals(
   node: BinaryExpression,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
   negate: boolean,
 ): StaticJsBoolean {
-  const left = evaluateNodeAssertValue(node.left, env);
-  const right = evaluateNodeAssertValue(node.right, env);
+  const left = evaluateNodeAssertValue(node.left, context);
+  const right = evaluateNodeAssertValue(node.right, context);
 
   const leftType = staticJsInstanceOf(left);
   const rightType = staticJsInstanceOf(right);
@@ -80,7 +97,7 @@ function binaryExpressionDoubleEquals(
   if (arithmatic) {
     // Coerce whatever it is to a number.
     leftValue = left.toNumber();
-  } else if (isPrimitiveStaticJsValue(left)) {
+  } else if (isStaticJsScalar(left)) {
     leftValue = left.toJs();
   } else {
     // By reference.
@@ -91,7 +108,7 @@ function binaryExpressionDoubleEquals(
   if (arithmatic) {
     // Coerce whatever it is to a number.
     rightValue = right.toNumber();
-  } else if (isPrimitiveStaticJsValue(right)) {
+  } else if (isStaticJsScalar(right)) {
     rightValue = right.toJs();
   } else {
     // By reference.
@@ -106,17 +123,17 @@ function binaryExpressionDoubleEquals(
 
 function binaryExpressionTrippleEquals(
   node: BinaryExpression,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
   negate: boolean,
 ): StaticJsBoolean {
-  const left = evaluateNodeAssertValue(node.left, env);
-  const right = evaluateNodeAssertValue(node.right, env);
+  const left = evaluateNodeAssertValue(node.left, context);
+  const right = evaluateNodeAssertValue(node.right, context);
 
   if (staticJsInstanceOf(left) !== staticJsInstanceOf(right)) {
     return StaticJsBoolean(false);
   }
 
-  if (isPrimitiveStaticJsValue(left)) {
+  if (isStaticJsScalar(left)) {
     return StaticJsBoolean(
       negate ? left.toJs() !== right.toJs() : left.toJs() === right.toJs(),
     );
@@ -127,12 +144,12 @@ function binaryExpressionTrippleEquals(
 
 function binaryExpressionAdd(
   node: BinaryExpression,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
 ): StaticJsValue {
-  const left = evaluateNodeAssertValue(node.left, env);
-  const right = evaluateNodeAssertValue(node.right, env);
+  const left = evaluateNodeAssertValue(node.left, context);
+  const right = evaluateNodeAssertValue(node.right, context);
 
-  if (!isPrimitiveStaticJsValue(left) || !isPrimitiveStaticJsValue(right)) {
+  if (!isStaticJsScalar(left) || !isStaticJsScalar(right)) {
     // One will become a string so both become a string.
     return StaticJsString(left.toString() + right.toString());
   }
@@ -144,18 +161,12 @@ function binaryExpressionAdd(
 function numericComputation(
   func: (left: number, right: number) => any,
   node: BinaryExpression,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
 ): StaticJsValue {
-  const left = evaluateNodeAssertValue(node.left, env);
-  const right = evaluateNodeAssertValue(node.right, env);
+  const left = evaluateNodeAssertValue(node.left, context);
+  const right = evaluateNodeAssertValue(node.right, context);
 
   return toStaticJsValue(func(left.toNumber(), right.toNumber()));
-}
-
-function isPrimitiveStaticJsValue(value: StaticJsValue): boolean {
-  return ["number", "string", "boolean", "null", "undefined"].includes(
-    staticJsInstanceOf(value)!,
-  );
 }
 
 function isStaticJsNullOrUndefined(value: StaticJsValue) {

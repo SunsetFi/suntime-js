@@ -1,20 +1,22 @@
 import { UnaryExpression } from "@babel/types";
 import {
   StaticJsBoolean,
-  StaticJsEnvironment,
   StaticJsNumber,
   StaticJsString,
   StaticJsUndefined,
   StaticJsValue,
-} from "../../environment/index.js";
-import { evaluateNode } from "./evaluate-node.js";
+} from "../../runtime/index.js";
+import { evaluateNode } from "./nodes.js";
 import { assertValueResult } from "./node-evaluation-result.js";
+import { NodeEvaluationContext } from "./node-evaluation-context.js";
 
 export default function unaryExpressionNodeEvaluator(
   node: UnaryExpression,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
 ): StaticJsValue {
-  const value = evaluateNode(node.argument, env);
+  // Note: In the case of 'void', this is never used.
+  // But it still can have side-effects.
+  const value = evaluateNode(node.argument, context);
   assertValueResult(value);
 
   switch (node.operator) {

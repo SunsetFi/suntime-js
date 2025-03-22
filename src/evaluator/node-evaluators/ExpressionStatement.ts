@@ -1,15 +1,16 @@
 import { ExpressionStatement } from "@babel/types";
 
-import { StaticJsEnvironment, StaticJsValue } from "../../environment/index.js";
+import { StaticJsValue } from "../../runtime/index.js";
 
-import { evaluateNode } from "./evaluate-node.js";
+import { evaluateNode } from "./nodes.js";
 import { assertValueResult } from "./node-evaluation-result.js";
+import { NodeEvaluationContext } from "./node-evaluation-context.js";
 
 export default function expressionStatementNodeEvaluator(
   node: ExpressionStatement,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
 ): StaticJsValue {
-  const result = evaluateNode(node.expression, env);
+  const result = evaluateNode(node.expression, context);
   assertValueResult(result);
   return result;
 }

@@ -6,21 +6,33 @@ import {
   isStaticJsUndefined,
   isStaticJsValue,
   StaticJsArray,
-  StaticJsEnvironment,
   StaticJsObject,
   StaticJsUndefined,
   StaticJsValue,
-} from "../../environment/index.js";
+} from "../../runtime/index.js";
 
-import { evaluateNodeAssertValue } from "./evaluate-node.js";
+import { evaluateNodeAssertValue } from "./nodes.js";
+import { NodeEvaluationContext } from "./node-evaluation-context.js";
 
 export default function setLVal(
   lval: LVal,
   value: StaticJsValue,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
   setNamedVariable: (name: string, value: StaticJsValue) => void,
-) {
-  if (!isStaticJsValue(value)) {
+): void;
+export default function setLVal(
+  lval: LVal,
+  value: StaticJsValue | null,
+  context: NodeEvaluationContext,
+  setNamedVariable: (name: string, value: StaticJsValue | null) => void,
+): void;
+export default function setLVal(
+  lval: LVal,
+  value: StaticJsValue | null,
+  context: NodeEvaluationContext,
+  setNamedVariable: (name: string, value: any) => void,
+): void {
+  if (value && !isStaticJsValue(value)) {
     throw new Error("Cannot set LVal to non-StaticJsValue");
   }
 
@@ -42,11 +54,11 @@ export default function setLVal(
         const property = String(index);
         if (element.type === "RestElement") {
           const restValue = StaticJsArray(value.sliceNative(index));
-          setLVal(element.argument, restValue, env, setNamedVariable);
+          setLVal(element.argument, restValue, context, setNamedVariable);
           return;
         } else {
           const elementValue = value.getProperty(property);
-          setLVal(element, elementValue, env, setNamedVariable);
+          setLVal(element, elementValue, context, setNamedVariable);
         }
       }
       return;
@@ -66,7 +78,7 @@ export default function setLVal(
             }
           }
 
-          setLVal(property.argument, restValue, env, setNamedVariable);
+          setLVal(property.argument, restValue, context, setNamedVariable);
           return;
         } else {
           const propertyKey = property.key;
@@ -74,7 +86,7 @@ export default function setLVal(
           if (!property.computed && propertyKey.type === "Identifier") {
             keyName = propertyKey.name;
           } else {
-            const resolved = evaluateNodeAssertValue(propertyKey, env);
+            const resolved = evaluateNodeAssertValue(propertyKey, context);
             keyName = StaticJsObject.toPropertyKey(resolved);
           }
 
@@ -85,7 +97,7 @@ export default function setLVal(
           if (property.value.type === "Identifier") {
             setNamedVariable(property.value.name, propertyValue);
           } else if (isLVal(property.value)) {
-            setLVal(property.value, propertyValue, env, setNamedVariable);
+            setLVal(property.value, propertyValue, context, setNamedVariable);
           } else {
             // FIXME: What else can this be?  How do these come up?
             throw new Error(
@@ -98,11 +110,11 @@ export default function setLVal(
       return;
     }
     case "AssignmentPattern": {
-      if (isStaticJsUndefined(value)) {
-        value = evaluateNodeAssertValue(lval.right, env);
+      if (!value || isStaticJsUndefined(value)) {
+        value = evaluateNodeAssertValue(lval.right, context);
       }
 
-      setLVal(lval.left, value, env, setNamedVariable);
+      setLVal(lval.left, value, context, setNamedVariable);
       return;
     }
   }

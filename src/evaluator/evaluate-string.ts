@@ -1,25 +1,43 @@
 import { parse, parseExpression } from "@babel/parser";
 
-import { StaticJsEnvironment } from "../environment/index.js";
+import { StaticJsRealm } from "../runtime/index.js";
 
-import { evaluateStatements } from "./evaluate-statements.js";
-import { evaluateNode } from "./node-evaluators/evaluate-node.js";
-import { assertValueResult } from "./node-evaluators/index.js";
+import {
+  NodeEvaluationContext,
+  isControlFlowEvaluationResult,
+  NodeEvaluationResult,
+  evaluateNode,
+  setupEnvironment,
+} from "./node-evaluators/index.js";
 
-export function evaluateString(string: string, env?: StaticJsEnvironment): any {
+export function evaluateString(string: string, realm?: StaticJsRealm): any {
   const ast = parse(string);
 
   if (ast.errors && ast.errors.length) {
     throw new Error(`Error parsing expression: ${ast.errors[0].code}.`);
   }
 
-  env ??= new StaticJsEnvironment();
+  realm ??= new StaticJsRealm();
 
   if (ast.program.sourceType === "script") {
-    const result = evaluateStatements(ast.program.body, env);
+    const context: NodeEvaluationContext = {
+      realm,
+      env: realm.globalEnv,
+    };
+    setupEnvironment(ast.program, context);
+
+    let result: NodeEvaluationResult | null = null;
+    for (const statement of ast.program.body) {
+      result = evaluateNode(statement, context);
+      if (isControlFlowEvaluationResult(result)) {
+        throw new Error("Continue and break statements must be inside loops");
+      }
+    }
+
     if (result) {
       return result.toJs();
     }
+
     return undefined;
   } else {
     throw new Error("Only script source type is supported.");
@@ -28,7 +46,7 @@ export function evaluateString(string: string, env?: StaticJsEnvironment): any {
 
 export function evaluateExpressionString(
   string: string,
-  env?: StaticJsEnvironment,
+  realm?: StaticJsRealm,
 ): any {
   const ast = parseExpression(string);
 
@@ -36,11 +54,16 @@ export function evaluateExpressionString(
     throw new Error(`Error parsing expression: ${ast.errors[0].code}.`);
   }
 
-  env ??= new StaticJsEnvironment();
-  const result = evaluateNode(ast, env);
-  assertValueResult(result);
+  realm ??= new StaticJsRealm();
+
+  const result = evaluateNode(ast, { realm, env: realm.globalEnv });
+  if (isControlFlowEvaluationResult(result)) {
+    throw new Error("Control flow statements are not allowed in expressions.");
+  }
+
   if (result) {
     return result.toJs();
   }
+
   return undefined;
 }

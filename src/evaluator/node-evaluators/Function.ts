@@ -1,14 +1,14 @@
 import { Function } from "@babel/types";
 
-import { StaticJsEnvironment } from "../../environment/index.js";
-import StaticJsEnvFunction, {
-  StaticJsEnvFunctionArgumentDeclaration,
-} from "../../environment/types/implementation/StaticJsEnvFunction.js";
+import StaticJsAstFunction, {
+  StaticJsAstFunctionArgumentDeclaration,
+} from "../../runtime/primitives/implementation/StaticJsAstFunction.js";
+import { NodeEvaluationContext } from "./node-evaluation-context.js";
 
 export default function functionNodeEvaluator(
   name: string | null,
   node: Function,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
 ) {
   if (node.async) {
     // TODO: Support these when the Promise primitive is in.
@@ -24,9 +24,10 @@ export default function functionNodeEvaluator(
     throw new Error("TypeScript parameter properties are not supported");
   }
 
-  return new StaticJsEnvFunction(
+  return new StaticJsAstFunction(
     name,
-    node.params as StaticJsEnvFunctionArgumentDeclaration[],
+    node.params as StaticJsAstFunctionArgumentDeclaration[],
+    context,
     node.body,
   );
 }

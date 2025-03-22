@@ -1,4 +1,4 @@
-import { StaticJsNull, StaticJsValue } from "../../environment/index.js";
+import { StaticJsNull, StaticJsValue } from "../../runtime/index.js";
 
 export default function nullLiteralNodeEvaluator(): StaticJsValue {
   return StaticJsNull();

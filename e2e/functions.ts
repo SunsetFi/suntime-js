@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateString, StaticJsEnvironment } from "static-js";
+import { evaluateString, StaticJsRealm } from "static-js";
 
 describe("E2E: Functions", () => {
   describe("Declaration", () => {
@@ -32,12 +32,23 @@ describe("E2E: Functions", () => {
         a;
       `;
 
-      const env = new StaticJsEnvironment();
+      const env = new StaticJsRealm();
       const func = evaluateString(code, env);
       if (typeof func !== "function") {
         throw new Error("Expected a function");
       }
       expect(func(env)).toBe(42);
+    });
+
+    it("Is hoisted", () => {
+      const code = `
+        let result = a();
+        function a() {
+          return 42;
+        }
+        a();
+      `;
+      expect(evaluateString(code)).toBe(42);
     });
   });
 
@@ -58,9 +69,9 @@ describe("E2E: Functions", () => {
           return 42;
         };
       `;
-      const env = new StaticJsEnvironment();
+      const env = new StaticJsRealm();
       evaluateString(code, env);
-      expect(env.currentScope.hasProperty("foo")).toBe(false);
+      expect(env.globalObject.hasProperty("foo")).toBe(false);
     });
 
     it("Can be invoked by the engine", () => {
@@ -81,7 +92,7 @@ describe("E2E: Functions", () => {
         a;
       `;
 
-      const env = new StaticJsEnvironment();
+      const env = new StaticJsRealm();
       const func = evaluateString(code, env);
       if (typeof func !== "function") {
         throw new Error("Expected a function");
@@ -186,6 +197,51 @@ describe("E2E: Functions", () => {
         a();
       `;
       expect(evaluateString(code)).toBe(42);
+    });
+  });
+
+  describe("Scopes", () => {
+    it("Can access outer scope", () => {
+      const code = `
+        const x = 42;
+        function a() {
+          return x;
+        }
+        a();
+      `;
+      expect(evaluateString(code)).toBe(42);
+    });
+
+    it("Can mutate outer scope", () => {
+      const code = `
+        let x = 42;
+        function a() {
+          x = 43;
+        }
+        a();
+        x;
+      `;
+      expect(evaluateString(code)).toBe(43);
+    });
+
+    it("Targets the correct scope", () => {
+      const code = `
+        let x = "outer";
+        function createMutator() {
+          let x = 1;
+          return function() {
+            x += 1;
+            return x;
+          }
+        }
+
+        const mutator1 = createMutator();
+        const mutator2 = createMutator();
+
+        [mutator1(), mutator2(), x];
+      `;
+
+      expect(evaluateString(code)).toEqual([2, 2, "outer"]);
     });
   });
 });

@@ -1,21 +1,21 @@
 import { LogicalExpression } from "@babel/types";
 
-import { StaticJsEnvironment } from "../../environment/index.js";
-import { staticJsInstanceOf } from "../../environment/types/StaticJsTypeSymbol.js";
+import { staticJsInstanceOf } from "../../runtime/primitives/StaticJsTypeSymbol.js";
 
-import { evaluateNodeAssertValue } from "./evaluate-node.js";
+import { evaluateNodeAssertValue } from "./nodes.js";
+import { NodeEvaluationContext } from "./node-evaluation-context.js";
 
 export default function logicalExpressionNodeEvaluator(
   node: LogicalExpression,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
 ) {
   switch (node.operator) {
     case "&&":
-      return logicalExpressionAnd(node, env);
+      return logicalExpressionAnd(node, context);
     case "||":
-      return logicalExpressionOr(node, env);
+      return logicalExpressionOr(node, context);
     case "??":
-      return logicalExpressionNullishCoalescing(node, env);
+      return logicalExpressionNullishCoalescing(node, context);
     default:
       throw new Error(
         `LogicalExpression operator ${node.operator} is not supported`,
@@ -25,11 +25,11 @@ export default function logicalExpressionNodeEvaluator(
 
 function logicalExpressionAnd(
   node: LogicalExpression,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
 ) {
-  const left = evaluateNodeAssertValue(node.left, env);
+  const left = evaluateNodeAssertValue(node.left, context);
   if (left.toBoolean()) {
-    return evaluateNodeAssertValue(node.right, env);
+    return evaluateNodeAssertValue(node.right, context);
   }
 
   return left;
@@ -37,23 +37,23 @@ function logicalExpressionAnd(
 
 function logicalExpressionOr(
   node: LogicalExpression,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
 ) {
-  const left = evaluateNodeAssertValue(node.left, env);
+  const left = evaluateNodeAssertValue(node.left, context);
   if (left.toBoolean()) {
     return left;
   }
 
-  return evaluateNodeAssertValue(node.right, env);
+  return evaluateNodeAssertValue(node.right, context);
 }
 
 function logicalExpressionNullishCoalescing(
   node: LogicalExpression,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
 ) {
-  const left = evaluateNodeAssertValue(node.left, env);
+  const left = evaluateNodeAssertValue(node.left, context);
   if (["null", "undefined"].includes(staticJsInstanceOf(left)!)) {
-    return evaluateNodeAssertValue(node.right, env);
+    return evaluateNodeAssertValue(node.right, context);
   }
 
   return left;

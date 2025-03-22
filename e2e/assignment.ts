@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateString, StaticJsEnvironment } from "static-js";
+import { evaluateString, StaticJsRealm } from "static-js";
 
 describe("E2E: Assignment", () => {
   describe("Objects", function () {
@@ -13,7 +13,7 @@ describe("E2E: Assignment", () => {
     });
 
     it("Can be assigned with a method", () => {
-      const env = new StaticJsEnvironment();
+      const env = new StaticJsRealm();
       const code = `
         const a = {x() { return 42; }};
         a;
@@ -33,7 +33,7 @@ describe("E2E: Assignment", () => {
     });
 
     it("Can be assigned with a computed key and a method", () => {
-      const env = new StaticJsEnvironment();
+      const env = new StaticJsRealm();
       const code = `
         const key = "x";
         const a = {[key]() { return 42; }};

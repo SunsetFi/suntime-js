@@ -1,16 +1,12 @@
 import { Identifier } from "@babel/types";
 
-import { StaticJsEnvironment, StaticJsValue } from "../../environment/index.js";
+import { StaticJsValue } from "../../runtime/index.js";
+import { NodeEvaluationContext } from "./node-evaluation-context.js";
 
 export default function identifierNodeEvaluator(
   node: Identifier,
-  env: StaticJsEnvironment,
+  context: NodeEvaluationContext,
 ): StaticJsValue {
-  const scope = env.currentScope;
-
-  if (!scope.hasProperty(node.name)) {
-    throw new Error(`Identifier ${node.name} is not defined`);
-  }
-
-  return scope.getProperty(node.name);
+  // FIXME: strict mode.
+  return context.env.getBindingValue(node.name, true);
 }
