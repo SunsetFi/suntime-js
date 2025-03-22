@@ -26,6 +26,8 @@ TODO
 - Switch to sub-imports for lodash-es for tree-shaking
   Not sure why this isnt working. Identical tsconfig and setup to other projects where this works fine.
   Stupid pnpm typescript resolution jank.
+- Preprocess the AST tree and generate an AST + setup tree instead of mutating the AST nodes.
+  This is required if we want to accept external AST instead of parsing it ourselves.
 - Switch to a generator-like function for execution:
   - Line by line evaluation / debugging
   - Arbitrarily halting and resuming execution
