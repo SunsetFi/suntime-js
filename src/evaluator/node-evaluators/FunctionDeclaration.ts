@@ -23,6 +23,8 @@ function functionDeclarationEnvironmentSetup(
     // created above.
     context.env.setMutableBinding(functionName, func, true);
   }
+
+  return false;
 }
 
 export default typedMerge(functionDeclarationNodeEvaluator, {

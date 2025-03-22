@@ -26,3 +26,9 @@ TODO
 - Switch to sub-imports for lodash-es for tree-shaking
   Not sure why this isnt working. Identical tsconfig and setup to other projects where this works fine.
   Stupid pnpm typescript resolution jank.
+- A lot of lookup and stupidly redundant isNode / isStandardized checks. Could pre-walk the entire tree and
+  "compile" a tree of nodes to their evaluation functions. This could then be re-used.
+- Switch to a generator-like function for execution:
+  - Line by line evaluation / debugging
+  - Arbitrarily halting and resuming execution
+  - Lets a parent control whether to keep running or to quit.

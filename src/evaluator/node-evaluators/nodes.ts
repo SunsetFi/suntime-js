@@ -1,7 +1,5 @@
 import { Standardized, Node, isNode, isStandardized } from "@babel/types";
 
-import { mapValues, pickBy } from "lodash-es";
-
 import { assertStaticJsValue, StaticJsValue } from "../../runtime/index.js";
 
 import { NodeEvaluationResult } from "./node-evaluation-result.js";
@@ -25,6 +23,7 @@ import arrayExpressionNodeEvaluator from "./ArrayExpression.js";
 import objectExpressionNodeEvaluator from "./ObjectExpression.js";
 import binaryExpressionNodeEvaluator from "./BinaryExpression.js";
 import updateExpressionNodeEvaluator from "./UpdateExpression.js";
+import catchClauseNodeEvaluator from "./CatchClause.js";
 
 type NodeEvaluator<TKey extends Standardized["type"]> = {
   (
@@ -48,6 +47,7 @@ const nodeEvaluators: NodeEvaluators = {
   BlockStatement: blockStatementNodeEvaluator,
   BooleanLiteral: booleanLiteralNodeEvaluator,
   CallExpression: callExpressionNodeEvaluator,
+  CatchClause: catchClauseNodeEvaluator,
   ExpressionStatement: expressionStatementNodeEvaluator,
   FunctionDeclaration: functionDeclarationNodeEvaluator,
   FunctionExpression: functionExpressionNodeEvaluator,
@@ -78,12 +78,14 @@ export function setupEnvironment(
       throw new Error(`Unexpected non-standardized node: ${child.type}`);
     }
 
+    // Recurse by default, there are only a few exceptions.
+    let shouldRecurse = true;
     const evaluator = getEvaluator(child);
-    if (!evaluator || !evaluator.environmentSetup) {
-      continue;
+
+    if (evaluator && evaluator.environmentSetup) {
+      shouldRecurse = evaluator.environmentSetup(child, context);
     }
 
-    const shouldRecurse = evaluator.environmentSetup(child, context);
     if (shouldRecurse) {
       setupEnvironment(child, context);
     }
