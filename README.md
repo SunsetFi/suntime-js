@@ -32,3 +32,6 @@ TODO
   - Line by line evaluation / debugging
   - Arbitrarily halting and resuming execution
   - Lets a parent control whether to keep running or to quit.
+- Report code coverage in repo
+  coveralls.io?
+  [vitest-coverage-report-action](https://github.com/marketplace/actions/vitest-coverage-report)?
