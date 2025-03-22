@@ -20,6 +20,16 @@ export default abstract class StaticJsBaseEnvironment
 
   abstract createImmutableBinding(name: string, strict: boolean): void;
 
+  canDeclareGlobalVar(name: string): boolean {
+    return false;
+  }
+
+  createGlobalVarBinding(name: string, deletable: boolean): void {
+    throw new Error(
+      "Cannot create global var binding in non-global environment.",
+    );
+  }
+
   initializeBinding(name: string, value: StaticJsValue): void {
     const binding = this[StaticJsEnvironmentGetBinding](name);
 

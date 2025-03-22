@@ -15,9 +15,17 @@ function variableDeclarationNodeEvaluator(
   switch (node.kind) {
     case "const":
     case "let":
-    case "var":
       variableInitializer = (name, value) => {
         context.env.initializeBinding(name, value ?? StaticJsUndefined());
+      };
+      break;
+    case "var":
+      variableInitializer = (name, value) => {
+        context.env.setMutableBinding(
+          name,
+          value ?? StaticJsUndefined(),
+          context.realm.strict,
+        );
       };
       break;
     default:
@@ -43,10 +51,17 @@ function variableDeclarationEnvironmentSetup(
       };
       break;
     case "let":
+      variableCreator = (name, value) => {
+        context.env.createMutableBinding(name, false);
+      };
+      break;
     case "var":
       variableCreator = (name, value) => {
-        // TODO: var is special; let will throw an error when uninitialized, but var will not.
-        context.env.createMutableBinding(name, false);
+        if (context.env.canDeclareGlobalVar(name)) {
+          context.env.createGlobalVarBinding(name, true);
+        } else {
+          context.env.createMutableBinding(name, false);
+        }
       };
       break;
     default:

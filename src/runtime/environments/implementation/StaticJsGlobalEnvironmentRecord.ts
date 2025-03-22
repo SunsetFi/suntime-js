@@ -59,6 +59,19 @@ export default class StaticJsGlobalEnvironmentRecord
     this._declarativeRecord.createImmutableBinding(name);
   }
 
+  canDeclareGlobalVar(name: string): boolean {
+    // TODO: Is our global object extensible?
+    return !this._declarativeRecord.hasBinding(name);
+  }
+
+  createGlobalVarBinding(name: string, deletable: boolean): void {
+    if (!this.canDeclareGlobalVar(name)) {
+      return;
+    }
+
+    this._objectRecord.createMutableBinding(name, deletable);
+  }
+
   initializeBinding(name: string, value: StaticJsValue): void {
     const binding =
       this._declarativeRecord[StaticJsEnvironmentGetBinding](name) ??
