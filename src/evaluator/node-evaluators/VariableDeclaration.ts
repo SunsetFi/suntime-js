@@ -43,24 +43,25 @@ function variableDeclarationEnvironmentSetup(
   node: VariableDeclaration,
   context: NodeEvaluationContext,
 ): boolean {
-  let variableCreator: (name: string, value: StaticJsValue | null) => void;
+  let variableCreator: (name: string) => void;
   switch (node.kind) {
     case "const":
-      variableCreator = (name, value) => {
+      variableCreator = (name) => {
         context.env.createImmutableBinding(name, context.realm.strict);
       };
       break;
     case "let":
-      variableCreator = (name, value) => {
+      variableCreator = (name) => {
         context.env.createMutableBinding(name, false);
       };
       break;
     case "var":
-      variableCreator = (name, value) => {
-        if (context.env.canDeclareGlobalVar(name)) {
-          context.env.createGlobalVarBinding(name, true);
+      variableCreator = (name) => {
+        const varScope = context.env.getVarScope() ?? context.env;
+        if (varScope.canDeclareGlobalVar(name)) {
+          varScope.createGlobalVarBinding(name, true);
         } else {
-          context.env.createMutableBinding(name, false);
+          varScope.createMutableBinding(name, false);
         }
       };
       break;

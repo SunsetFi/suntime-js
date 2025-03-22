@@ -165,6 +165,10 @@ export default class StaticJsGlobalEnvironmentRecord
     return StaticJsUndefined();
   }
 
+  getVarScope(): StaticJsEnvironment | null {
+    return this;
+  }
+
   [StaticJsEnvironmentGetBinding](
     name: string,
   ): StaticJsEnvironmentBinding | undefined {

@@ -15,4 +15,6 @@ export default interface StaticJsEnvironment {
   withBaseObject(): StaticJsValue;
   getThisBinding(): StaticJsValue;
   getSuperBase(): StaticJsValue;
+
+  getVarScope(): StaticJsEnvironment | null;
 }

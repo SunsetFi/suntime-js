@@ -1,4 +1,4 @@
-import { Standardized, Node, isNode, isStandardized } from "@babel/types";
+import { Node, isNode } from "@babel/types";
 
 import { assertStaticJsValue, StaticJsValue } from "../../runtime/index.js";
 
@@ -25,19 +25,19 @@ import binaryExpressionNodeEvaluator from "./BinaryExpression.js";
 import updateExpressionNodeEvaluator from "./UpdateExpression.js";
 import catchClauseNodeEvaluator from "./CatchClause.js";
 
-type NodeEvaluator<TKey extends Standardized["type"]> = {
+type NodeEvaluator<TKey extends Node["type"]> = {
   (
-    node: Extract<Standardized, { type: TKey }>,
+    node: Extract<Node, { type: TKey }>,
     context: NodeEvaluationContext,
   ): NodeEvaluationResult | null;
   environmentSetup?: (
-    node: Extract<Standardized, { type: TKey }>,
+    node: Extract<Node, { type: TKey }>,
     context: NodeEvaluationContext,
   ) => boolean;
 };
 
 type NodeEvaluators = {
-  [key in Standardized["type"]]?: NodeEvaluator<key>;
+  [key in Node["type"]]?: NodeEvaluator<key>;
 };
 
 const nodeEvaluators: NodeEvaluators = {
@@ -62,31 +62,24 @@ const nodeEvaluators: NodeEvaluators = {
   VariableDeclaration: variableDeclarationNodeEvaluator,
 };
 
-function getEvaluator<TType extends Standardized["type"]>(
+function getEvaluator<TType extends Node["type"]>(
   node: Node & { type: TType },
 ): NodeEvaluator<TType> | null {
   const evaluator = nodeEvaluators[node.type];
   return evaluator ?? null;
 }
 
-export function setupEnvironment(
-  node: Standardized,
-  context: NodeEvaluationContext,
-) {
-  for (const child of getChildNodes(node)) {
-    if (!isStandardized(child)) {
-      throw new Error(`Unexpected non-standardized node: ${child.type}`);
-    }
+export function setupEnvironment(node: Node, context: NodeEvaluationContext) {
+  // Recurse by default, there are only a few exceptions.
+  let shouldRecurse = true;
+  const evaluator = getEvaluator(node);
 
-    // Recurse by default, there are only a few exceptions.
-    let shouldRecurse = true;
-    const evaluator = getEvaluator(child);
+  if (evaluator && evaluator.environmentSetup) {
+    shouldRecurse = evaluator.environmentSetup(node, context);
+  }
 
-    if (evaluator && evaluator.environmentSetup) {
-      shouldRecurse = evaluator.environmentSetup(child, context);
-    }
-
-    if (shouldRecurse) {
+  if (shouldRecurse) {
+    for (const child of getChildNodes(node)) {
       setupEnvironment(child, context);
     }
   }
@@ -118,13 +111,6 @@ export function evaluateNode(
   node: Node,
   context: NodeEvaluationContext,
 ): NodeEvaluationResult | null {
-  // Calling this all the time is probably terrible for performance.
-  // We don't even really care.  We just won't find the node.
-  // Should just mute the typescript errors and call it a day.
-  if (!isStandardized(node)) {
-    throw new Error(`Unexpected non-standardized node: ${node.type}`);
-  }
-
   const evaluator = getEvaluator(node);
   if (!evaluator) {
     throw new Error(`No evaluator for node type: ${node.type}`);

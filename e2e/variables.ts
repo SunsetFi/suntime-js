@@ -39,6 +39,17 @@ describe("E2E: Variables", () => {
       evaluateString(code, env);
       expect(env.globalObject.hasProperty("a")).toBe(false);
     });
+
+    it("Can be redeclared in block scopes", () => {
+      const code = `
+        const a = 1;
+        {
+          const a = 2;
+        }
+        a;
+      `;
+      expect(evaluateString(code)).toBe(1);
+    });
   });
 
   describe("let", () => {
@@ -82,6 +93,17 @@ describe("E2E: Variables", () => {
       evaluateString(code, env);
       expect(env.globalObject.hasProperty("a")).toBe(false);
     });
+
+    it("Can be redeclared in block scopes", () => {
+      const code = `
+        let a = 1;
+        {
+          let a = 2;
+        }
+        a;
+      `;
+      expect(evaluateString(code)).toBe(1);
+    });
   });
 
   describe("var", () => {
@@ -102,13 +124,35 @@ describe("E2E: Variables", () => {
       expect(evaluateString(code)).toBe(2);
     });
 
-    it("Appears on the global object", () => {
+    it("Appears on the global object in the global scope", () => {
       const code = `
         var a = 1;
       `;
       const env = new StaticJsRealm();
       evaluateString(code, env);
       expect(env.globalObject.hasProperty("a")).toBe(true);
+    });
+
+    it("Appears on the global scope in a block scope", () => {
+      const code = `
+        {
+          var a = 1;
+        }
+      `;
+      const env = new StaticJsRealm();
+      evaluateString(code, env);
+      expect(env.globalObject.hasProperty("a")).toBe(true);
+    });
+
+    it("Does not appear on the global scope in a function scope", () => {
+      const code = `
+        function f() {
+          var a = 1;
+        }
+      `;
+      const env = new StaticJsRealm();
+      evaluateString(code, env);
+      expect(env.globalObject.hasProperty("a")).toBe(false);
     });
   });
 });

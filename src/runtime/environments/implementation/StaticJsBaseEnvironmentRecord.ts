@@ -97,6 +97,10 @@ export default abstract class StaticJsBaseEnvironment
 
   abstract getSuperBase(): StaticJsValue;
 
+  getVarScope(): StaticJsEnvironment | null {
+    return null;
+  }
+
   abstract [StaticJsEnvironmentGetBinding](
     name: string,
   ): StaticJsEnvironmentBinding | undefined;

@@ -62,6 +62,10 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
     return this._record.getSuperBase();
   }
 
+  getVarScope(): StaticJsEnvironment | null {
+    return this._record.getVarScope() ?? this._parent?.getVarScope() ?? null;
+  }
+
   [StaticJsEnvironmentGetBinding](
     name: string,
   ): StaticJsEnvironmentBinding | undefined {
