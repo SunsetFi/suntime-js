@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateString, StaticJsRealm } from "static-js";
+import { evaluateString, StaticJsRealm } from "../src/index.js";
 
 describe("E2E: Variables", () => {
   describe("const", () => {

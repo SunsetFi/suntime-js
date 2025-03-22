@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateString } from "static-js";
+import { evaluateString } from "../src/index.js";
 
 describe("E2E: Loops", () => {
   describe("For", () => {

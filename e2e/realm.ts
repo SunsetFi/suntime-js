@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateExpressionString, StaticJsRealm } from "static-js";
+import { evaluateExpressionString, StaticJsRealm } from "../src/index.js";
 
 describe("E2E: Realm", () => {
   describe("Globals", () => {

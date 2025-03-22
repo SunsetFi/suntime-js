@@ -2,10 +2,7 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "./",
-    "inlineSourceMap": true,
-    "paths": {
-      "static-js": ["./src/index.ts"]
-    }
+    "inlineSourceMap": true
   },
   "include": ["./src", "./e2e"],
   "exclude": ["node_modules", "dist"]

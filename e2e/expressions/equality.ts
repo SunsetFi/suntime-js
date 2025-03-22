@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateExpressionString } from "static-js";
+import { evaluateExpressionString } from "../../src/index.js";
 
 describe("E2E: Equality Expressions", () => {
   // This motly collection of weird values includes a lot of odd pairings that represent
