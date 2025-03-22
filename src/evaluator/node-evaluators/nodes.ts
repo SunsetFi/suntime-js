@@ -24,6 +24,10 @@ import objectExpressionNodeEvaluator from "./ObjectExpression.js";
 import binaryExpressionNodeEvaluator from "./BinaryExpression.js";
 import updateExpressionNodeEvaluator from "./UpdateExpression.js";
 import catchClauseNodeEvaluator from "./CatchClause.js";
+import forStatementNodeEvaluator from "./ForStatement.js";
+import ifStatementNodeEvaluator from "./IfStatement.js";
+import breakStatementNodeEvaluator from "./BreakStatement.js";
+import continueStatementNodeEvaluator from "./ContinueStatement.js";
 
 type NodeEvaluator<TKey extends Node["type"]> = {
   (
@@ -46,11 +50,15 @@ const nodeEvaluators: NodeEvaluators = {
   BinaryExpression: binaryExpressionNodeEvaluator,
   BlockStatement: blockStatementNodeEvaluator,
   BooleanLiteral: booleanLiteralNodeEvaluator,
+  BreakStatement: breakStatementNodeEvaluator,
   CallExpression: callExpressionNodeEvaluator,
   CatchClause: catchClauseNodeEvaluator,
+  ContinueStatement: continueStatementNodeEvaluator,
   ExpressionStatement: expressionStatementNodeEvaluator,
+  ForStatement: forStatementNodeEvaluator,
   FunctionDeclaration: functionDeclarationNodeEvaluator,
   FunctionExpression: functionExpressionNodeEvaluator,
+  IfStatement: ifStatementNodeEvaluator,
   Identifier: identifierNodeEvaluator,
   MemberExpression: memberExpressionNodeEvaluator,
   NullLiteral: nullLiteralNodeEvaluator,

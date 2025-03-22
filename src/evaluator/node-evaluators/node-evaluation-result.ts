@@ -5,7 +5,9 @@ export const ContinueEvaluation: unique symbol = Symbol(
 );
 export type ContinueEvaluation = typeof ContinueEvaluation;
 
-export const BreakEvaluation = Symbol("static-js::BreakEvaluation");
+export const BreakEvaluation: unique symbol = Symbol(
+  "static-js::BreakEvaluation",
+);
 export type BreakEvaluation = typeof BreakEvaluation;
 
 export type NodeEvaluationResult =

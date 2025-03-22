@@ -8,7 +8,7 @@ import { NodeEvaluationContext } from "./node-evaluation-context.js";
 export default function functionNodeEvaluator(
   name: string | null,
   node: Function,
-  context: NodeEvaluationContext,
+  functionContext: NodeEvaluationContext,
 ) {
   if (node.async) {
     // TODO: Support these when the Promise primitive is in.
@@ -27,7 +27,7 @@ export default function functionNodeEvaluator(
   return new StaticJsAstFunction(
     name,
     node.params as StaticJsAstFunctionArgumentDeclaration[],
-    context,
+    functionContext,
     node.body,
   );
 }

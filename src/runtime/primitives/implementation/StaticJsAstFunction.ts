@@ -49,6 +49,7 @@ export default class StaticJsAstFunction extends StaticJsExternalFunction {
       this._declareArguments(args, functionContext);
 
       setupEnvironment(body, functionContext);
+
       const evaluationResult = evaluateNode(body, {
         realm: context.realm,
         env: functionEnv,
