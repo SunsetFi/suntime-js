@@ -15,7 +15,6 @@ function* variableDeclarationNodeEvaluator(
   node: VariableDeclaration,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  console.log("Variable Declaration", node);
   let variableInitializer: (name: string, value: StaticJsValue | null) => void;
   switch (node.kind) {
     case "const":
@@ -52,7 +51,6 @@ function* variableDeclarationEnvironmentSetup(
   node: VariableDeclaration,
   context: EvaluationContext,
 ): EnvironmentSetupGenerator {
-  console.log("Variable Declaration Setup", node);
   let variableCreator: (name: string) => void;
   switch (node.kind) {
     case "const":
