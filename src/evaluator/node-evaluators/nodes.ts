@@ -28,6 +28,7 @@ import continueStatementNodeEvaluator from "./ContinueStatement.js";
 
 import fileNodeEvaluator from "./File.js";
 import programNodeEvaluator from "./Program.js";
+import emptyStatementNodeEvaluator from "./EmptyStatement.js";
 
 type NodeEvaluators = {
   [key in Node["type"]]?: NodeEvaluator<key>;
@@ -43,6 +44,7 @@ const nodeEvaluators: NodeEvaluators = {
   CallExpression: callExpressionNodeEvaluator,
   CatchClause: catchClauseNodeEvaluator,
   ContinueStatement: continueStatementNodeEvaluator,
+  EmptyStatement: emptyStatementNodeEvaluator,
   ExpressionStatement: expressionStatementNodeEvaluator,
   File: fileNodeEvaluator,
   ForStatement: forStatementNodeEvaluator,

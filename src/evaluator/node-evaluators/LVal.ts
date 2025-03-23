@@ -144,3 +144,48 @@ export default function* setLVal(
 
   throw new Error(`Unsupported LVal type: ${lval.type}`);
 }
+
+export function environmentSetupLVal(
+  lval: LVal,
+  context: EvaluationContext,
+  bindVariable: (name: string) => void,
+) {
+  switch (lval.type) {
+    case "Identifier":
+      bindVariable(lval.name);
+      return;
+    case "ArrayPattern":
+      for (const element of lval.elements) {
+        if (element === null) {
+          continue;
+        }
+
+        if (element.type === "RestElement") {
+          environmentSetupLVal(element.argument, context, bindVariable);
+          return;
+        } else {
+          environmentSetupLVal(element, context, bindVariable);
+        }
+      }
+      return;
+    case "ObjectPattern":
+      for (const property of lval.properties) {
+        if (property.type === "RestElement") {
+          environmentSetupLVal(property.argument, context, bindVariable);
+          return;
+        } else if (isLVal(property.value)) {
+          environmentSetupLVal(property.value, context, bindVariable);
+        } else {
+          throw new Error(
+            `Unsupported ObjectPattern property target type: ${property.value.type}`,
+          );
+        }
+      }
+      return;
+    case "AssignmentPattern":
+      environmentSetupLVal(lval.left, context, bindVariable);
+      return;
+  }
+
+  throw new Error(`Unsupported LVal type: ${lval.type}`);
+}

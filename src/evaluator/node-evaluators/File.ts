@@ -1,16 +1,23 @@
 import { File } from "@babel/types";
 
+import typedMerge from "../../internal/typed-merge.js";
+
 import EvaluationContext from "../EvaluationContext.js";
 
-import setupEnvironment from "./setup-environment.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeCommand } from "../commands/index.js";
 
-export default function* fileNodeEvaluator(
+import setupEnvironment from "./setup-environment.js";
+
+function* fileNodeEvaluator(
   node: File,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  yield* setupEnvironment(node.program, context);
+  setupEnvironment(node.program, context);
 
   return yield* EvaluateNodeCommand(node.program, context);
 }
+
+export default typedMerge(fileNodeEvaluator, {
+  environmentSetup: () => false,
+});

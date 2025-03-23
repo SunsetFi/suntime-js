@@ -1,17 +1,22 @@
 import { ForStatement } from "@babel/types";
+
+import typedMerge from "../../internal/typed-merge.js";
+
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import typedMerge from "../../internal/typed-merge.js";
+
 import { StaticJsEnvironment } from "../../runtime/index.js";
+
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
+import { BreakEvaluationResult } from "../EvaluationResult.js";
+
 import {
   EvaluateNodeAssertValueCommand,
   EvaluateNodeCommand,
 } from "../commands/index.js";
+
 import setupEnvironment from "./setup-environment.js";
-import { BreakEvaluationResult } from "../EvaluationResult.js";
-import EnvironmentSetupGenerator from "../EnvironmentSetupGenerator.js";
 
 function* forStatementNodeEvaluator(
   node: ForStatement,
@@ -50,7 +55,7 @@ function* forStatementNodeEvaluator(
       env: bodyEnv,
     };
 
-    yield* setupEnvironment(node.body, bodyContext);
+    setupEnvironment(node.body, bodyContext);
 
     const result = yield* EvaluateNodeCommand(node.body, bodyContext);
 
@@ -66,10 +71,10 @@ function* forStatementNodeEvaluator(
   return null;
 }
 
-function* forStatementEnvironmentSetup(
+function forStatementEnvironmentSetup(
   node: ForStatement,
   context: EvaluationContext,
-): EnvironmentSetupGenerator {
+) {
   // Set up the environment for the for statement initializer.
   if (!node.init && !node.update && !node.test) {
     return false;
@@ -90,15 +95,15 @@ function* forStatementEnvironmentSetup(
   };
 
   if (node.init) {
-    yield* setupEnvironment(node.init, forContext);
+    setupEnvironment(node.init, forContext);
   }
 
   if (node.test) {
-    yield* setupEnvironment(node.test, forContext);
+    setupEnvironment(node.test, forContext);
   }
 
   if (node.update) {
-    yield* setupEnvironment(node.update, forContext);
+    setupEnvironment(node.update, forContext);
   }
 
   return false;

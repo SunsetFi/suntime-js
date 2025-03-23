@@ -3,24 +3,22 @@ import { Node, isNode } from "@babel/types";
 import EvaluationContext from "../EvaluationContext.js";
 
 import { getEvaluator } from "./nodes.js";
-import { EvaluatorCommand } from "../commands/index.js";
-import EvaluationResult from "../EvaluationResult.js";
 
-export default function* setupEnvironment(
+export default function setupEnvironment(
   node: Node,
   context: EvaluationContext,
-): Generator<EvaluatorCommand, void, EvaluationResult> {
+) {
   // Recurse by default, there are only a few exceptions.
   let shouldRecurse = true;
   const evaluator = getEvaluator(node);
 
   if (evaluator && evaluator.environmentSetup) {
-    shouldRecurse = yield* evaluator.environmentSetup(node, context);
+    shouldRecurse = evaluator.environmentSetup(node, context);
   }
 
   if (shouldRecurse) {
     for (const child of getChildNodes(node)) {
-      yield* setupEnvironment(child, context);
+      setupEnvironment(child, context);
     }
   }
 }

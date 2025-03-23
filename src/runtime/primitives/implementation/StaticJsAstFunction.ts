@@ -52,8 +52,7 @@ export default class StaticJsAstFunction extends StaticJsExternalFunction {
       };
       this._declareArguments(args, functionContext);
 
-      // FIXME: Make this a generator.
-      runUntilCompletion(setupEnvironment(body, functionContext));
+      setupEnvironment(body, functionContext);
 
       const evaluationResult = runUntilCompletion(
         evaluateNode(body, {

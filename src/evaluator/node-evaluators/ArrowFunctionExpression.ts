@@ -15,7 +15,5 @@ function* arrowFunctionExpressionNodeEvaluator(
 }
 
 export default typedMerge(arrowFunctionExpressionNodeEvaluator, {
-  environmentSetup: function* () {
-    return false;
-  },
+  environmentSetup: () => false,
 });

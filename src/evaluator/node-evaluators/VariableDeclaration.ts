@@ -7,9 +7,9 @@ import typedMerge from "../../internal/typed-merge.js";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
-import setLVal from "./LVal.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
-import EnvironmentSetupGenerator from "../EnvironmentSetupGenerator.js";
+
+import setLVal, { environmentSetupLVal } from "./LVal.js";
 
 function* variableDeclarationNodeEvaluator(
   node: VariableDeclaration,
@@ -47,10 +47,10 @@ function* variableDeclarationNodeEvaluator(
   return null;
 }
 
-function* variableDeclarationEnvironmentSetup(
+function variableDeclarationEnvironmentSetup(
   node: VariableDeclaration,
   context: EvaluationContext,
-): EnvironmentSetupGenerator {
+) {
   let variableCreator: (name: string) => void;
   switch (node.kind) {
     case "const":
@@ -79,12 +79,7 @@ function* variableDeclarationEnvironmentSetup(
   }
 
   for (const declarator of node.declarations) {
-    yield* setLVal(
-      declarator.id,
-      StaticJsUndefined(),
-      context,
-      variableCreator,
-    );
+    environmentSetupLVal(declarator.id, context, variableCreator);
   }
 
   return false;

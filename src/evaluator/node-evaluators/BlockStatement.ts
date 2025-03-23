@@ -8,11 +8,11 @@ import { StaticJsEnvironment, StaticJsUndefined } from "../../runtime/index.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
+import { isControlFlowEvaluationResult } from "../EvaluationResult.js";
 
 import { EvaluateNodeCommand } from "../commands/index.js";
-import { isControlFlowEvaluationResult } from "../EvaluationResult.js";
+
 import setupEnvironment from "./setup-environment.js";
-import EnvironmentSetupGenerator from "../EnvironmentSetupGenerator.js";
 
 function* blockStatementNodeEvaluator(
   node: BlockStatement,
@@ -54,10 +54,10 @@ function* blockStatementNodeEvaluator(
   return null;
 }
 
-function* blockStatementEnvironmentSetup(
+function blockStatementEnvironmentSetup(
   node: BlockStatement,
   context: EvaluationContext,
-): EnvironmentSetupGenerator {
+) {
   const scope = new StaticJsLexicalEnvironment(
     new StaticJsDeclarativeEnvironmentRecord(),
     context.env,
@@ -68,7 +68,7 @@ function* blockStatementEnvironmentSetup(
   };
 
   for (const child of node.body) {
-    yield* setupEnvironment(child, blockContext);
+    setupEnvironment(child, blockContext);
   }
 
   // FIXME: I don't like this mutating the node object.
