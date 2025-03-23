@@ -1,16 +1,21 @@
 import { ArrowFunctionExpression } from "@babel/types";
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
-import functionNodeEvaluator from "./Function.js";
-import { StaticJsValue } from "../../runtime/index.js";
+
 import typedMerge from "../../internal/typed-merge.js";
 
-function arrowFunctionExpressionNodeEvaluator(
+import EvaluationGenerator from "../EvaluationGenerator.js";
+import EvaluationContext from "../EvaluationContext.js";
+
+import createFunction from "./Function.js";
+
+function* arrowFunctionExpressionNodeEvaluator(
   node: ArrowFunctionExpression,
-  context: NodeEvaluationContext,
-): StaticJsValue {
-  return functionNodeEvaluator(null, node, context);
+  context: EvaluationContext,
+): EvaluationGenerator {
+  return createFunction(null, node, context);
 }
 
 export default typedMerge(arrowFunctionExpressionNodeEvaluator, {
-  environmentSetup: () => false,
+  environmentSetup: function* () {
+    return false;
+  },
 });

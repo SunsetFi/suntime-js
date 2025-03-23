@@ -1,19 +1,21 @@
 import { FunctionDeclaration } from "@babel/types";
 
-import functionNodeEvaluator from "./Function.js";
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
+import createFunction from "./Function.js";
 import typedMerge from "../../internal/typed-merge.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
+import EvaluationContext from "../EvaluationContext.js";
+import EnvironmentSetupGenerator from "../EnvironmentSetupGenerator.js";
 
-function functionDeclarationNodeEvaluator() {
+function* functionDeclarationNodeEvaluator(): EvaluationGenerator {
   return null;
 }
 
-function functionDeclarationEnvironmentSetup(
+function* functionDeclarationEnvironmentSetup(
   node: FunctionDeclaration,
-  context: NodeEvaluationContext,
-) {
+  context: EvaluationContext,
+): EnvironmentSetupGenerator {
   const functionName = node.id?.name ?? null;
-  const func = functionNodeEvaluator(functionName, node, context);
+  const func = createFunction(functionName, node, context);
 
   if (functionName) {
     // So apparently you can actually redeclare these in NodeJS.

@@ -4,20 +4,19 @@ import {
   StaticJsNumber,
   StaticJsString,
   StaticJsUndefined,
-  StaticJsValue,
 } from "../../runtime/index.js";
-import { evaluateNode } from "./nodes.js";
-import { assertValueResult } from "./node-evaluation-result.js";
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
 
-export default function unaryExpressionNodeEvaluator(
+import EvaluationGenerator from "../EvaluationGenerator.js";
+import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import EvaluationContext from "../EvaluationContext.js";
+
+export default function* unaryExpressionNodeEvaluator(
   node: UnaryExpression,
-  context: NodeEvaluationContext,
-): StaticJsValue {
+  context: EvaluationContext,
+): EvaluationGenerator {
   // Note: In the case of 'void', this is never used.
   // But it still can have side-effects.
-  const value = evaluateNode(node.argument, context);
-  assertValueResult(value);
+  const value = yield* EvaluateNodeAssertValueCommand(node.argument, context);
 
   switch (node.operator) {
     case "!":

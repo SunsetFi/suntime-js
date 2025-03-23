@@ -1,13 +1,13 @@
 import { UpdateExpression } from "@babel/types";
 
 import { isStaticJsNumber, StaticJsNumber } from "../../runtime/index.js";
+import EvaluationContext from "../EvaluationContext.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
 
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
-
-export default function updateExpressionNodeEvaluator(
+export default function* updateExpressionNodeEvaluator(
   node: UpdateExpression,
-  context: NodeEvaluationContext,
-) {
+  context: EvaluationContext,
+): EvaluationGenerator {
   let bindingName: string;
   if (node.argument.type === "Identifier") {
     bindingName = node.argument.name;
@@ -15,8 +15,10 @@ export default function updateExpressionNodeEvaluator(
     throw new Error("Unsupported argument type for update expression");
   }
 
-  // TODO: env strictness.
-  let originalValue = context.env.getBindingValue(bindingName, true);
+  let originalValue = context.env.getBindingValue(
+    bindingName,
+    context.realm.strict,
+  );
 
   if (!isStaticJsNumber(originalValue)) {
     return StaticJsNumber.NaN;

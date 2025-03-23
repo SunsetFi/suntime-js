@@ -11,27 +11,32 @@ import {
   StaticJsValue,
 } from "../../runtime/index.js";
 
-import { evaluateNodeAssertValue } from "./nodes.js";
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
+import {
+  EvaluateNodeAssertValueCommand,
+  EvaluatorCommand,
+} from "../commands/index.js";
+
+import EvaluationResult from "../EvaluationResult.js";
+import EvaluationContext from "../EvaluationContext.js";
 
 export default function setLVal(
   lval: LVal,
   value: StaticJsValue,
-  context: NodeEvaluationContext,
+  context: EvaluationContext,
   setNamedVariable: (name: string, value: StaticJsValue) => void,
-): void;
+): Generator<EvaluatorCommand, void, EvaluationResult>;
 export default function setLVal(
   lval: LVal,
   value: StaticJsValue | null,
-  context: NodeEvaluationContext,
+  context: EvaluationContext,
   setNamedVariable: (name: string, value: StaticJsValue | null) => void,
-): void;
-export default function setLVal(
+): Generator<EvaluatorCommand, void, EvaluationResult>;
+export default function* setLVal(
   lval: LVal,
   value: StaticJsValue | null,
-  context: NodeEvaluationContext,
+  context: EvaluationContext,
   setNamedVariable: (name: string, value: any) => void,
-): void {
+): Generator<EvaluatorCommand, void, EvaluationResult> {
   if (value && !isStaticJsValue(value)) {
     throw new Error("Cannot set LVal to non-StaticJsValue");
   }
@@ -54,11 +59,16 @@ export default function setLVal(
         const property = String(index);
         if (element.type === "RestElement") {
           const restValue = StaticJsArray(value.sliceNative(index));
-          setLVal(element.argument, restValue, context, setNamedVariable);
+          yield* setLVal(
+            element.argument,
+            restValue,
+            context,
+            setNamedVariable,
+          );
           return;
         } else {
           const elementValue = value.getProperty(property);
-          setLVal(element, elementValue, context, setNamedVariable);
+          yield* setLVal(element, elementValue, context, setNamedVariable);
         }
       }
       return;
@@ -78,7 +88,12 @@ export default function setLVal(
             }
           }
 
-          setLVal(property.argument, restValue, context, setNamedVariable);
+          yield* setLVal(
+            property.argument,
+            restValue,
+            context,
+            setNamedVariable,
+          );
           return;
         } else {
           const propertyKey = property.key;
@@ -86,7 +101,10 @@ export default function setLVal(
           if (!property.computed && propertyKey.type === "Identifier") {
             keyName = propertyKey.name;
           } else {
-            const resolved = evaluateNodeAssertValue(propertyKey, context);
+            const resolved = yield* EvaluateNodeAssertValueCommand(
+              propertyKey,
+              context,
+            );
             keyName = StaticJsObject.toPropertyKey(resolved);
           }
 
@@ -97,7 +115,12 @@ export default function setLVal(
           if (property.value.type === "Identifier") {
             setNamedVariable(property.value.name, propertyValue);
           } else if (isLVal(property.value)) {
-            setLVal(property.value, propertyValue, context, setNamedVariable);
+            yield* setLVal(
+              property.value,
+              propertyValue,
+              context,
+              setNamedVariable,
+            );
           } else {
             // FIXME: What else can this be?  How do these come up?
             throw new Error(
@@ -111,10 +134,10 @@ export default function setLVal(
     }
     case "AssignmentPattern": {
       if (!value || isStaticJsUndefined(value)) {
-        value = evaluateNodeAssertValue(lval.right, context);
+        value = yield* EvaluateNodeAssertValueCommand(lval.right, context);
       }
 
-      setLVal(lval.left, value, context, setNamedVariable);
+      yield* setLVal(lval.left, value, context, setNamedVariable);
       return;
     }
   }

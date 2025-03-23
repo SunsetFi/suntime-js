@@ -6,22 +6,26 @@ import {
   RestElement,
 } from "@babel/types";
 
-import {
-  evaluateNode,
-  isControlFlowEvaluationResult,
-  setupEnvironment,
-} from "../../../evaluator/node-evaluators/index.js";
 import setLVal from "../../../evaluator/node-evaluators/LVal.js";
 
 import { StaticJsValue } from "../interfaces/index.js";
 import StaticJsEnvArray from "./StaticJsEnvArray.js";
 import StaticJsEnvUndefined from "./StaticJsEnvUndefined.js";
 
-import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
+import {
+  EvaluationContext,
+  isControlFlowEvaluationResult,
+} from "../../../evaluator/index.js";
+
 import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 
-import { NodeEvaluationContext } from "../../../evaluator/node-evaluators/node-evaluation-context.js";
+import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
+import {
+  evaluateNode,
+  setupEnvironment,
+} from "../../../evaluator/node-evaluators/index.js";
+import { runUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 
 export type StaticJsAstFunctionArgumentDeclaration =
   | Identifier
@@ -32,7 +36,7 @@ export default class StaticJsAstFunction extends StaticJsExternalFunction {
   constructor(
     name: string | null,
     private readonly _argumentDeclarations: StaticJsAstFunctionArgumentDeclaration[],
-    context: NodeEvaluationContext,
+    context: EvaluationContext,
     body: BlockStatement | Expression,
     bound?: StaticJsValue,
   ) {
@@ -42,18 +46,21 @@ export default class StaticJsAstFunction extends StaticJsExternalFunction {
         context.env,
       );
 
-      const functionContext: NodeEvaluationContext = {
+      const functionContext: EvaluationContext = {
         realm: context.realm,
         env: functionEnv,
       };
       this._declareArguments(args, functionContext);
 
-      setupEnvironment(body, functionContext);
+      // FIXME: Make this a generator.
+      runUntilCompletion(setupEnvironment(body, functionContext));
 
-      const evaluationResult = evaluateNode(body, {
-        realm: context.realm,
-        env: functionEnv,
-      });
+      const evaluationResult = runUntilCompletion(
+        evaluateNode(body, {
+          realm: context.realm,
+          env: functionEnv,
+        }),
+      );
 
       if (evaluationResult == null) {
         if (body.type === "BlockStatement") {
@@ -74,33 +81,36 @@ export default class StaticJsAstFunction extends StaticJsExternalFunction {
     });
   }
 
-  private _declareArguments(
-    args: StaticJsValue[],
-    context: NodeEvaluationContext,
-  ) {
+  private _declareArguments(args: StaticJsValue[], context: EvaluationContext) {
     for (let i = 0; i < this._argumentDeclarations.length; i++) {
       const decl = this._argumentDeclarations[i];
 
       if (decl.type === "RestElement") {
         const value = new StaticJsEnvArray(args.slice(i));
-        setLVal(decl.argument, value, context, (name, value) => {
-          context.env.createMutableBinding(name, false);
+        // FIXME: Make generator
+        runUntilCompletion(
+          setLVal(decl.argument, value, context, (name, value) => {
+            context.env.createMutableBinding(name, false);
 
-          // Strict mode is whatever; our binding is created above.
-          context.env.setMutableBinding(name, value, true);
-        });
+            // Strict mode is whatever; our binding is created above.
+            context.env.setMutableBinding(name, value, true);
+          }),
+        );
         return;
       }
 
       // We might not get enough arguments, so fill in the rest with undefined.
       const value: StaticJsValue = args[i] ?? StaticJsEnvUndefined.Instance;
 
-      setLVal(decl, value, context, (name, value) => {
-        context.env.createMutableBinding(name, false);
+      // FIXME: make generator
+      runUntilCompletion(
+        setLVal(decl, value, context, (name, value) => {
+          context.env.createMutableBinding(name, false);
 
-        // Strict mode is whatever; our binding is created above.
-        context.env.setMutableBinding(name, value, true);
-      });
+          // Strict mode is whatever; our binding is created above.
+          context.env.setMutableBinding(name, value, true);
+        }),
+      );
     }
   }
 }

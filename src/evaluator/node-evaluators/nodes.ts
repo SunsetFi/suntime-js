@@ -1,9 +1,6 @@
-import { Node, isNode } from "@babel/types";
+import { Node } from "@babel/types";
 
-import { assertStaticJsValue, StaticJsValue } from "../../runtime/index.js";
-
-import { NodeEvaluationResult } from "./node-evaluation-result.js";
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
+import NodeEvaluator from "../NodeEvaluator.js";
 
 import variableDeclarationNodeEvaluator from "./VariableDeclaration.js";
 import numericLiteralNodeEvaluator from "./NumericLiteral.js";
@@ -29,16 +26,8 @@ import ifStatementNodeEvaluator from "./IfStatement.js";
 import breakStatementNodeEvaluator from "./BreakStatement.js";
 import continueStatementNodeEvaluator from "./ContinueStatement.js";
 
-type NodeEvaluator<TKey extends Node["type"]> = {
-  (
-    node: Extract<Node, { type: TKey }>,
-    context: NodeEvaluationContext,
-  ): NodeEvaluationResult | null;
-  environmentSetup?: (
-    node: Extract<Node, { type: TKey }>,
-    context: NodeEvaluationContext,
-  ) => boolean;
-};
+import fileNodeEvaluator from "./File.js";
+import programNodeEvaluator from "./Program.js";
 
 type NodeEvaluators = {
   [key in Node["type"]]?: NodeEvaluator<key>;
@@ -55,6 +44,7 @@ const nodeEvaluators: NodeEvaluators = {
   CatchClause: catchClauseNodeEvaluator,
   ContinueStatement: continueStatementNodeEvaluator,
   ExpressionStatement: expressionStatementNodeEvaluator,
+  File: fileNodeEvaluator,
   ForStatement: forStatementNodeEvaluator,
   FunctionDeclaration: functionDeclarationNodeEvaluator,
   FunctionExpression: functionExpressionNodeEvaluator,
@@ -64,77 +54,16 @@ const nodeEvaluators: NodeEvaluators = {
   NullLiteral: nullLiteralNodeEvaluator,
   NumericLiteral: numericLiteralNodeEvaluator,
   ObjectExpression: objectExpressionNodeEvaluator,
+  Program: programNodeEvaluator,
   StringLiteral: stringLiteralNodeEvaluator,
   UnaryExpression: unaryExpressionNodeEvaluator,
   UpdateExpression: updateExpressionNodeEvaluator,
   VariableDeclaration: variableDeclarationNodeEvaluator,
 };
 
-function getEvaluator<TType extends Node["type"]>(
+export function getEvaluator<TType extends Node["type"]>(
   node: Node & { type: TType },
 ): NodeEvaluator<TType> | null {
   const evaluator = nodeEvaluators[node.type];
   return evaluator ?? null;
-}
-
-export function setupEnvironment(node: Node, context: NodeEvaluationContext) {
-  // Recurse by default, there are only a few exceptions.
-  let shouldRecurse = true;
-  const evaluator = getEvaluator(node);
-
-  if (evaluator && evaluator.environmentSetup) {
-    shouldRecurse = evaluator.environmentSetup(node, context);
-  }
-
-  if (shouldRecurse) {
-    for (const child of getChildNodes(node)) {
-      setupEnvironment(child, context);
-    }
-  }
-}
-
-function getChildNodes(node: Node): Node[] {
-  const childNodes: Node[] = [];
-  for (const key in node) {
-    const value = (node as any)[key];
-    if (value == null) {
-      continue;
-    }
-
-    if (isNode(value)) {
-      childNodes.push(value);
-    } else if (Array.isArray(value)) {
-      for (const child of value) {
-        if (child && isNode(child)) {
-          childNodes.push(child);
-        }
-      }
-    }
-  }
-
-  return childNodes;
-}
-
-export function evaluateNode(
-  node: Node,
-  context: NodeEvaluationContext,
-): NodeEvaluationResult | null {
-  const evaluator = getEvaluator(node);
-  if (!evaluator) {
-    throw new Error(`No evaluator for node type: ${node.type}`);
-  }
-
-  return evaluator(node, context);
-}
-
-export function evaluateNodeAssertValue(
-  node: Node,
-  context: NodeEvaluationContext,
-): StaticJsValue {
-  const result = evaluateNode(node, context);
-  assertStaticJsValue(
-    result,
-    `Expected a ScriptJsValue from node ${node.type}`,
-  );
-  return result;
 }

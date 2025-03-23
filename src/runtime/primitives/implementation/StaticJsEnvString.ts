@@ -15,7 +15,6 @@ import StaticJsEnvUndefined from "./StaticJsEnvUndefined.js";
 const ConcatFunc = new StaticJsExternalFunction(
   "concat",
   (thisArg, ...values) => {
-    console.log("concat called with", thisArg, values);
     if (staticJsInstanceOf(thisArg) !== "string") {
       throw new Error(
         "String.prototype.concat called with non-string thisArg.",

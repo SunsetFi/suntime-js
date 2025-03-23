@@ -1,7 +1,2 @@
-export * from "./node-evaluation-result.js";
-export * from "./node-evaluation-context.js";
-export {
-  evaluateNode,
-  evaluateNodeAssertValue,
-  setupEnvironment,
-} from "./nodes.js";
+export { default as evaluateNode } from "./evaluate-node.js";
+export { default as setupEnvironment } from "./setup-environment.js";

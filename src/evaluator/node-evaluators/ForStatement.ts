@@ -1,23 +1,22 @@
 import { ForStatement } from "@babel/types";
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import {
-  evaluateNode,
-  evaluateNodeAssertValue,
-  setupEnvironment,
-} from "./nodes.js";
 import typedMerge from "../../internal/typed-merge.js";
-import {
-  BreakEvaluation,
-  ContinueEvaluation,
-} from "./node-evaluation-result.js";
 import { StaticJsEnvironment } from "../../runtime/index.js";
+import EvaluationContext from "../EvaluationContext.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
+import {
+  EvaluateNodeAssertValueCommand,
+  EvaluateNodeCommand,
+} from "../commands/index.js";
+import setupEnvironment from "./setup-environment.js";
+import { BreakEvaluationResult } from "../EvaluationResult.js";
+import EnvironmentSetupGenerator from "../EnvironmentSetupGenerator.js";
 
-function forStatementNodeEvaluator(
+function* forStatementNodeEvaluator(
   node: ForStatement,
-  context: NodeEvaluationContext,
-) {
+  context: EvaluationContext,
+): EvaluationGenerator {
   const forEnv =
     (node.extra?.environment as StaticJsEnvironment | undefined) ?? context.env;
 
@@ -27,12 +26,15 @@ function forStatementNodeEvaluator(
   };
 
   if (node.init) {
-    evaluateNode(node.init, forContext);
+    yield* EvaluateNodeCommand(node.init, forContext);
   }
 
   do {
     if (node.test) {
-      const testResult = evaluateNodeAssertValue(node.test, forContext);
+      const testResult = yield* EvaluateNodeAssertValueCommand(
+        node.test,
+        forContext,
+      );
       if (!testResult.toBoolean()) {
         break;
       }
@@ -48,26 +50,26 @@ function forStatementNodeEvaluator(
       env: bodyEnv,
     };
 
-    setupEnvironment(node.body, bodyContext);
+    yield* setupEnvironment(node.body, bodyContext);
 
-    const result = evaluateNode(node.body, bodyContext);
+    const result = yield* EvaluateNodeCommand(node.body, bodyContext);
 
-    if (result === BreakEvaluation) {
+    if (result === BreakEvaluationResult) {
       break;
     }
 
     if (node.update) {
-      evaluateNode(node.update, forContext);
+      yield* EvaluateNodeCommand(node.update, forContext);
     }
   } while (true);
 
   return null;
 }
 
-function forStatementEnvironmentSetup(
+function* forStatementEnvironmentSetup(
   node: ForStatement,
-  context: NodeEvaluationContext,
-) {
+  context: EvaluationContext,
+): EnvironmentSetupGenerator {
   // Set up the environment for the for statement initializer.
   if (!node.init && !node.update && !node.test) {
     return false;
@@ -82,21 +84,21 @@ function forStatementEnvironmentSetup(
     environment: forEnvironment,
   };
 
-  const forContext: NodeEvaluationContext = {
+  const forContext: EvaluationContext = {
     ...context,
     env: forEnvironment,
   };
 
   if (node.init) {
-    setupEnvironment(node.init, forContext);
+    yield* setupEnvironment(node.init, forContext);
   }
 
   if (node.test) {
-    setupEnvironment(node.test, forContext);
+    yield* setupEnvironment(node.test, forContext);
   }
 
   if (node.update) {
-    setupEnvironment(node.update, forContext);
+    yield* setupEnvironment(node.update, forContext);
   }
 
   return false;

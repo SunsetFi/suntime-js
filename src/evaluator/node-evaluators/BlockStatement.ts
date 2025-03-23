@@ -6,24 +6,24 @@ import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/imp
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import { StaticJsEnvironment, StaticJsUndefined } from "../../runtime/index.js";
 
-import { evaluateNode, setupEnvironment } from "./nodes.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
+import EvaluationContext from "../EvaluationContext.js";
 
-import {
-  isControlFlowEvaluationResult,
-  NodeEvaluationResult,
-} from "./node-evaluation-result.js";
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
+import { EvaluateNodeCommand } from "../commands/index.js";
+import { isControlFlowEvaluationResult } from "../EvaluationResult.js";
+import setupEnvironment from "./setup-environment.js";
+import EnvironmentSetupGenerator from "../EnvironmentSetupGenerator.js";
 
-function blockStatementNodeEvaluator(
+function* blockStatementNodeEvaluator(
   node: BlockStatement,
-  context: NodeEvaluationContext,
-): NodeEvaluationResult {
+  context: EvaluationContext,
+): EvaluationGenerator {
   const env = node.extra?.environment as StaticJsEnvironment | undefined;
   if (!env) {
     throw new Error("Block statement environment not set up");
   }
 
-  const blockContext: NodeEvaluationContext = {
+  const blockContext: EvaluationContext = {
     ...context,
     env,
   };
@@ -31,7 +31,10 @@ function blockStatementNodeEvaluator(
   for (const statement of node.body) {
     if (statement.type === "ReturnStatement") {
       if (statement.argument) {
-        const returnValue = evaluateNode(statement.argument, blockContext);
+        const returnValue = yield* EvaluateNodeCommand(
+          statement.argument,
+          blockContext,
+        );
         if (!returnValue) {
           throw new Error("Return statement did not evaluate to a value");
         }
@@ -42,7 +45,7 @@ function blockStatementNodeEvaluator(
       return StaticJsUndefined();
     }
 
-    const statementResult = evaluateNode(statement, blockContext);
+    const statementResult = yield* EvaluateNodeCommand(statement, blockContext);
     if (statementResult && isControlFlowEvaluationResult(statementResult)) {
       return statementResult;
     }
@@ -51,21 +54,21 @@ function blockStatementNodeEvaluator(
   return null;
 }
 
-function blockStatementEnvironmentSetup(
+function* blockStatementEnvironmentSetup(
   node: BlockStatement,
-  context: NodeEvaluationContext,
-) {
+  context: EvaluationContext,
+): EnvironmentSetupGenerator {
   const scope = new StaticJsLexicalEnvironment(
     new StaticJsDeclarativeEnvironmentRecord(),
     context.env,
   );
-  const blockContext: NodeEvaluationContext = {
+  const blockContext: EvaluationContext = {
     ...context,
     env: scope,
   };
 
   for (const child of node.body) {
-    setupEnvironment(child, blockContext);
+    yield* setupEnvironment(child, blockContext);
   }
 
   // FIXME: I don't like this mutating the node object.

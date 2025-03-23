@@ -1,22 +1,25 @@
 import { IfStatement } from "@babel/types";
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
-import { evaluateNode, evaluateNodeAssertValue } from "./nodes.js";
+
 import {
+  EvaluateNodeAssertValueCommand,
+  EvaluateNodeCommand,
+} from "../commands/index.js";
+import EvaluationContext from "../EvaluationContext.js";
+import EvaluationResult, {
   isControlFlowEvaluationResult,
-  NodeEvaluationResult,
-} from "./node-evaluation-result.js";
+} from "../EvaluationResult.js";
 
-export default function ifStatementNodeEvaluator(
+export default function* ifStatementNodeEvaluator(
   node: IfStatement,
-  context: NodeEvaluationContext,
+  context: EvaluationContext,
 ) {
-  const testResult = evaluateNodeAssertValue(node.test, context);
+  const testResult = yield* EvaluateNodeAssertValueCommand(node.test, context);
 
-  let result: NodeEvaluationResult | null = null;
+  let result: EvaluationResult | null = null;
   if (testResult.toBoolean()) {
-    result = evaluateNode(node.consequent, context);
+    result = yield* EvaluateNodeCommand(node.consequent, context);
   } else if (node.alternate) {
-    result = evaluateNode(node.alternate, context);
+    result = yield* EvaluateNodeCommand(node.alternate, context);
   }
 
   if (isControlFlowEvaluationResult(result)) {

@@ -2,15 +2,20 @@ import { VariableDeclaration, VariableDeclarator } from "@babel/types";
 
 import { StaticJsValue, StaticJsUndefined } from "../../runtime/index.js";
 
-import { evaluateNodeAssertValue } from "./nodes.js";
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
-import setLVal from "./LVal.js";
 import typedMerge from "../../internal/typed-merge.js";
 
-function variableDeclarationNodeEvaluator(
+import EvaluationContext from "../EvaluationContext.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
+
+import setLVal from "./LVal.js";
+import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import EnvironmentSetupGenerator from "../EnvironmentSetupGenerator.js";
+
+function* variableDeclarationNodeEvaluator(
   node: VariableDeclaration,
-  context: NodeEvaluationContext,
-): null {
+  context: EvaluationContext,
+): EvaluationGenerator {
+  console.log("Variable Declaration", node);
   let variableInitializer: (name: string, value: StaticJsValue | null) => void;
   switch (node.kind) {
     case "const":
@@ -33,16 +38,21 @@ function variableDeclarationNodeEvaluator(
   }
 
   for (const declarator of node.declarations) {
-    declarationStatementEvaluator(declarator, context, variableInitializer);
+    yield* declarationStatementEvaluator(
+      declarator,
+      context,
+      variableInitializer,
+    );
   }
 
   return null;
 }
 
-function variableDeclarationEnvironmentSetup(
+function* variableDeclarationEnvironmentSetup(
   node: VariableDeclaration,
-  context: NodeEvaluationContext,
-): boolean {
+  context: EvaluationContext,
+): EnvironmentSetupGenerator {
+  console.log("Variable Declaration Setup", node);
   let variableCreator: (name: string) => void;
   switch (node.kind) {
     case "const":
@@ -57,6 +67,7 @@ function variableDeclarationEnvironmentSetup(
       break;
     case "var":
       variableCreator = (name) => {
+        debugger;
         const varScope = context.env.getVarScope() ?? context.env;
         if (varScope.canDeclareGlobalVar(name)) {
           varScope.createGlobalVarBinding(name, true);
@@ -70,7 +81,12 @@ function variableDeclarationEnvironmentSetup(
   }
 
   for (const declarator of node.declarations) {
-    setLVal(declarator.id, StaticJsUndefined(), context, variableCreator);
+    yield* setLVal(
+      declarator.id,
+      StaticJsUndefined(),
+      context,
+      variableCreator,
+    );
   }
 
   return false;
@@ -80,15 +96,17 @@ export default typedMerge(variableDeclarationNodeEvaluator, {
   environmentSetup: variableDeclarationEnvironmentSetup,
 });
 
-function declarationStatementEvaluator(
+function* declarationStatementEvaluator(
   declarator: VariableDeclarator,
-  context: NodeEvaluationContext,
+  context: EvaluationContext,
   variableCreator: (name: string, value: StaticJsValue | null) => void,
-): void {
+): EvaluationGenerator {
   let value: StaticJsValue | null = null;
   if (declarator.init) {
-    value = evaluateNodeAssertValue(declarator.init, context);
+    value = yield* EvaluateNodeAssertValueCommand(declarator.init, context);
   }
 
-  setLVal(declarator.id, value, context, variableCreator);
+  yield* setLVal(declarator.id, value, context, variableCreator);
+
+  return null;
 }

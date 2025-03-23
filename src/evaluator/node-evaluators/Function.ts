@@ -3,12 +3,12 @@ import { Function } from "@babel/types";
 import StaticJsAstFunction, {
   StaticJsAstFunctionArgumentDeclaration,
 } from "../../runtime/primitives/implementation/StaticJsAstFunction.js";
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
+import EvaluationContext from "../EvaluationContext.js";
 
-export default function functionNodeEvaluator(
+export default function createFunction(
   name: string | null,
   node: Function,
-  functionContext: NodeEvaluationContext,
+  functionContext: EvaluationContext,
 ) {
   if (node.async) {
     // TODO: Support these when the Promise primitive is in.

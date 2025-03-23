@@ -1,18 +1,13 @@
-import { CatchClause } from "@babel/types";
-
 import typedMerge from "../../internal/typed-merge.js";
 
-import { StaticJsValue } from "../../runtime/index.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
 
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
-
-function catchClauseNodeEvaluator(
-  node: CatchClause,
-  context: NodeEvaluationContext,
-): StaticJsValue {
+function* catchClauseNodeEvaluator(): EvaluationGenerator {
   throw new Error("CatchClause node evaluator not implemented");
 }
 
 export default typedMerge(catchClauseNodeEvaluator, {
-  environmentSetup: () => false,
+  environmentSetup: function* () {
+    return false;
+  },
 });

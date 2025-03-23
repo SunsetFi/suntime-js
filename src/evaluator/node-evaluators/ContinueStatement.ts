@@ -1,8 +1,6 @@
-import {
-  ContinueEvaluation,
-  NodeEvaluationResult,
-} from "./node-evaluation-result.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
+import { ContinueEvaluationResult } from "../EvaluationResult.js";
 
-export default function continueStatementNodeEvaluator(): NodeEvaluationResult {
-  return ContinueEvaluation;
+export default function* continueStatementNodeEvaluator(): EvaluationGenerator {
+  return ContinueEvaluationResult;
 }

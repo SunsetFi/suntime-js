@@ -7,13 +7,14 @@ import {
   StaticJsArrayItem,
 } from "../../runtime/index.js";
 
-import { evaluateNodeAssertValue } from "./nodes.js";
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
+import EvaluationContext from "../EvaluationContext.js";
+import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
 
-export default function arrayExpressionNodeEvaluator(
+export default function* arrayExpressionNodeEvaluator(
   node: ArrayExpression,
-  context: NodeEvaluationContext,
-) {
+  context: EvaluationContext,
+): EvaluationGenerator {
   const items: StaticJsArrayItem[] = [];
   for (const element of node.elements) {
     if (element == null) {
@@ -22,7 +23,10 @@ export default function arrayExpressionNodeEvaluator(
     }
 
     if (element.type === "SpreadElement") {
-      const resolved = evaluateNodeAssertValue(element.argument, context);
+      const resolved = yield* EvaluateNodeAssertValueCommand(
+        element.argument,
+        context,
+      );
       if (!isStaticJsArray(resolved)) {
         const elementName =
           element.argument.type === "Identifier"
@@ -39,7 +43,7 @@ export default function arrayExpressionNodeEvaluator(
       continue;
     }
 
-    const value = evaluateNodeAssertValue(element, context);
+    const value = yield* EvaluateNodeAssertValueCommand(element, context);
     items.push(value);
   }
 

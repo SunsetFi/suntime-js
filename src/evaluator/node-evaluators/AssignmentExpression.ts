@@ -2,25 +2,23 @@ import { AssignmentExpression } from "@babel/types";
 
 import {
   isStaticJsScalar,
-  isStaticJsValue,
   StaticJsString,
   StaticJsNumber,
 } from "../../runtime/index.js";
 
-import setLVal from "./LVal.js";
-import { evaluateNode } from "./nodes.js";
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
+import EvaluationContext from "../EvaluationContext.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
+import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
 
-export default function assignmentExpressionNodeEvaluator(
+import setLVal from "./LVal.js";
+
+export default function* assignmentExpressionNodeEvaluator(
   node: AssignmentExpression,
-  context: NodeEvaluationContext,
-) {
+  context: EvaluationContext,
+): EvaluationGenerator {
   const { left, right } = node;
 
-  let value = evaluateNode(right, context);
-  if (!isStaticJsValue(value)) {
-    throw new Error("Assignment value expression did not return a value.");
-  }
+  let value = yield* EvaluateNodeAssertValueCommand(right, context);
 
   if (left.type === "OptionalMemberExpression") {
     // Throw the same error typescript throws.
@@ -61,9 +59,42 @@ export default function assignmentExpressionNodeEvaluator(
         value = StaticJsNumber(leftValue.toNumber() - value.toNumber());
       }
       break;
+    case "<<=":
+      {
+        if (left.type !== "Identifier") {
+          throw new SyntaxError("Invalid left-hand side in assignment");
+        }
+
+        const leftValue = context.env.getBindingValue(left.name, true);
+
+        value = StaticJsNumber(leftValue.toNumber() << value.toNumber());
+      }
+      break;
+    case ">>=":
+      {
+        if (left.type !== "Identifier") {
+          throw new SyntaxError("Invalid left-hand side in assignment");
+        }
+
+        const leftValue = context.env.getBindingValue(left.name, true);
+
+        value = StaticJsNumber(leftValue.toNumber() >> value.toNumber());
+      }
+      break;
+    case ">>>=":
+      {
+        if (left.type !== "Identifier") {
+          throw new SyntaxError("Invalid left-hand side in assignment");
+        }
+
+        const leftValue = context.env.getBindingValue(left.name, true);
+
+        value = StaticJsNumber(leftValue.toNumber() >>> value.toNumber());
+      }
+      break;
   }
 
-  setLVal(left, value, context, (name, value) =>
+  yield* setLVal(left, value, context, (name, value) =>
     context.env.setMutableBinding(name, value, context.realm.strict),
   );
 

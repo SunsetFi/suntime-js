@@ -6,16 +6,18 @@ import {
   StaticJsString,
   toStaticJsValue,
   isStaticJsScalar,
+  isStaticJsObjectLike,
+  isStaticJsString,
 } from "../../runtime/index.js";
 import { staticJsInstanceOf } from "../../runtime/primitives/StaticJsTypeSymbol.js";
-
-import { evaluateNodeAssertValue } from "./nodes.js";
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
+import EvaluationContext from "../EvaluationContext.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
+import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
 
 export default function binaryExpressionNodeEvaluator(
   node: BinaryExpression,
-  context: NodeEvaluationContext,
-): StaticJsValue {
+  context: EvaluationContext,
+): EvaluationGenerator {
   switch (node.operator) {
     case "+":
       return binaryExpressionAdd(node, context);
@@ -71,6 +73,10 @@ export default function binaryExpressionNodeEvaluator(
         node,
         context,
       );
+    case ">>>":
+      return numericComputation((a, b) => a >>> b, node, context);
+    case "in":
+      return inOperator(node, context);
     default:
       throw new Error(
         `BinaryExpression operator ${node.operator} is not supported`,
@@ -78,13 +84,13 @@ export default function binaryExpressionNodeEvaluator(
   }
 }
 
-function binaryExpressionDoubleEquals(
+function* binaryExpressionDoubleEquals(
   node: BinaryExpression,
-  context: NodeEvaluationContext,
+  context: EvaluationContext,
   negate: boolean,
-): StaticJsBoolean {
-  const left = evaluateNodeAssertValue(node.left, context);
-  const right = evaluateNodeAssertValue(node.right, context);
+): EvaluationGenerator {
+  const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
+  const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
 
   const leftType = staticJsInstanceOf(left);
   const rightType = staticJsInstanceOf(right);
@@ -121,13 +127,13 @@ function binaryExpressionDoubleEquals(
   );
 }
 
-function binaryExpressionTrippleEquals(
+function* binaryExpressionTrippleEquals(
   node: BinaryExpression,
-  context: NodeEvaluationContext,
+  context: EvaluationContext,
   negate: boolean,
-): StaticJsBoolean {
-  const left = evaluateNodeAssertValue(node.left, context);
-  const right = evaluateNodeAssertValue(node.right, context);
+): EvaluationGenerator {
+  const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
+  const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
 
   if (staticJsInstanceOf(left) !== staticJsInstanceOf(right)) {
     return StaticJsBoolean(false);
@@ -142,12 +148,12 @@ function binaryExpressionTrippleEquals(
   return StaticJsBoolean(negate ? left === right : left !== right);
 }
 
-function binaryExpressionAdd(
+function* binaryExpressionAdd(
   node: BinaryExpression,
-  context: NodeEvaluationContext,
-): StaticJsValue {
-  const left = evaluateNodeAssertValue(node.left, context);
-  const right = evaluateNodeAssertValue(node.right, context);
+  context: EvaluationContext,
+): EvaluationGenerator {
+  const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
+  const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
 
   if (!isStaticJsScalar(left) || !isStaticJsScalar(right)) {
     // One will become a string so both become a string.
@@ -158,17 +164,35 @@ function binaryExpressionAdd(
   return toStaticJsValue(left.toJs() + right.toJs());
 }
 
-function numericComputation(
+function* numericComputation(
   func: (left: number, right: number) => any,
   node: BinaryExpression,
-  context: NodeEvaluationContext,
-): StaticJsValue {
-  const left = evaluateNodeAssertValue(node.left, context);
-  const right = evaluateNodeAssertValue(node.right, context);
+  context: EvaluationContext,
+): EvaluationGenerator {
+  const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
+  const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
 
   return toStaticJsValue(func(left.toNumber(), right.toNumber()));
 }
 
 function isStaticJsNullOrUndefined(value: StaticJsValue) {
   return ["null", "undefined"].includes(staticJsInstanceOf(value)!);
+}
+
+function* inOperator(
+  node: BinaryExpression,
+  context: EvaluationContext,
+): EvaluationGenerator {
+  const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
+  const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
+
+  if (!isStaticJsObjectLike(right)) {
+    throw new Error("Right side of in operator must be an object");
+  }
+
+  if (!isStaticJsString(left)) {
+    throw new Error("Left side of in operator must be a string");
+  }
+
+  return StaticJsBoolean(right.hasProperty(left.toString()));
 }

@@ -1,19 +1,22 @@
 import { FunctionExpression } from "@babel/types";
 
-import { StaticJsValue } from "../../runtime/index.js";
-
-import functionNodeEvaluator from "./Function.js";
-import { NodeEvaluationContext } from "./node-evaluation-context.js";
 import typedMerge from "../../internal/typed-merge.js";
 
-function expressionStatementNodeEvaluator(
+import EvaluationContext from "../EvaluationContext.js";
+
+import createFunction from "./Function.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
+
+function* expressionStatementNodeEvaluator(
   node: FunctionExpression,
-  context: NodeEvaluationContext,
-): StaticJsValue {
+  context: EvaluationContext,
+): EvaluationGenerator {
   const functionName = node.id?.name ?? null;
-  return functionNodeEvaluator(functionName, node, context);
+  return createFunction(functionName, node, context);
 }
 
 export default typedMerge(expressionStatementNodeEvaluator, {
-  environmentSetup: () => false,
+  environmentSetup: function* () {
+    return false;
+  },
 });

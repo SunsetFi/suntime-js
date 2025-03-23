@@ -1,5 +1,6 @@
-import { StaticJsNull, StaticJsValue } from "../../runtime/index.js";
+import { StaticJsNull } from "../../runtime/index.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
 
-export default function nullLiteralNodeEvaluator(): StaticJsValue {
+export default function* nullLiteralNodeEvaluator(): EvaluationGenerator {
   return StaticJsNull();
 }
