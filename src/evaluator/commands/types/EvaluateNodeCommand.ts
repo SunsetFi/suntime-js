@@ -3,8 +3,9 @@ import { Node } from "@babel/types";
 import { assertStaticJsValue, StaticJsValue } from "../../../runtime/index.js";
 
 import EvaluationContext from "../../EvaluationContext.js";
-
 import EvaluationResult from "../../EvaluationResult.js";
+import EvaluationGenerator from "../../EvaluationGenerator.js";
+
 import EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 
 export interface EvaluateNodeCommand
@@ -17,7 +18,7 @@ export interface EvaluateNodeCommand
 export function* EvaluateNodeCommand(
   node: Node,
   context: EvaluationContext,
-): Generator<EvaluateNodeCommand, EvaluationResult, EvaluationResult> {
+): EvaluationGenerator {
   const result = yield {
     kind: "evalute-node",
     node,
@@ -26,10 +27,10 @@ export function* EvaluateNodeCommand(
   return result;
 }
 
-export function* EvaluateNodeAssertValueCommand(
+export function* EvaluateNodeValueCommand(
   node: Node,
   context: EvaluationContext,
-): Generator<EvaluateNodeCommand, StaticJsValue, EvaluationResult> {
+): EvaluationGenerator<StaticJsValue> {
   const result = yield* EvaluateNodeCommand(node, context);
   assertStaticJsValue(
     result,

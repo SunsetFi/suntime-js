@@ -24,5 +24,6 @@ export default function* callExpressionNodeEvaluator(
   for (let i = 0; i < node.arguments.length; i++) {
     args[i] = yield* EvaluateNodeCommand(node.arguments[i], context);
   }
-  return callee.call(context.env.getThisBinding(), ...args);
+  const result = yield* callee.call(context.env.getThisBinding(), ...args);
+  return result;
 }

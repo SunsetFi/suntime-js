@@ -3,7 +3,7 @@ import { parse, parseExpression } from "@babel/parser";
 import { isStaticJsValue, StaticJsRealm } from "../runtime/index.js";
 
 import EvaluationContext from "./EvaluationContext.js";
-import { runUntilCompletion } from "./evaluator-runtime.js";
+import { runEvaluatorUntilCompletion } from "./evaluator-runtime.js";
 import { evaluateNode } from "./node-evaluators/index.js";
 
 export function evaluateString(string: string, realm?: StaticJsRealm): any {
@@ -20,7 +20,9 @@ export function evaluateString(string: string, realm?: StaticJsRealm): any {
     env: realm.globalEnv,
   };
 
-  const result = runUntilCompletion(evaluateNode(ast.program, context));
+  const result = runEvaluatorUntilCompletion(
+    evaluateNode(ast.program, context),
+  );
 
   if (isStaticJsValue(result)) {
     return result.toJs();
@@ -50,7 +52,7 @@ export function evaluateExpressionString(
     env: realm.globalEnv,
   };
 
-  const result = runUntilCompletion(evaluateNode(ast, context));
+  const result = runEvaluatorUntilCompletion(evaluateNode(ast, context));
 
   if (isStaticJsValue(result)) {
     return result.toJs();

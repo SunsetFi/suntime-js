@@ -18,25 +18,26 @@ import {
 
 import EvaluationResult from "../EvaluationResult.js";
 import EvaluationContext from "../EvaluationContext.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
 
 export default function setLVal(
   lval: LVal,
   value: StaticJsValue,
   context: EvaluationContext,
   setNamedVariable: (name: string, value: StaticJsValue) => void,
-): Generator<EvaluatorCommand, void, EvaluationResult>;
+): EvaluationGenerator<void>;
 export default function setLVal(
   lval: LVal,
   value: StaticJsValue | null,
   context: EvaluationContext,
   setNamedVariable: (name: string, value: StaticJsValue | null) => void,
-): Generator<EvaluatorCommand, void, EvaluationResult>;
+): EvaluationGenerator<void>;
 export default function* setLVal(
   lval: LVal,
   value: StaticJsValue | null,
   context: EvaluationContext,
   setNamedVariable: (name: string, value: any) => void,
-): Generator<EvaluatorCommand, void, EvaluationResult> {
+): EvaluationGenerator<void> {
   if (value && !isStaticJsValue(value)) {
     throw new Error("Cannot set LVal to non-StaticJsValue");
   }

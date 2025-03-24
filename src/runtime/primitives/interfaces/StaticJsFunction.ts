@@ -1,11 +1,17 @@
+import { EvaluationGenerator } from "../../../evaluator/index.js";
+
+import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
+
 import { StaticJsObject } from "./StaticJsObject.js";
 import { StaticJsValue } from "./StaticJsValue.js";
-import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
 
 export interface StaticJsFunction<
   TArgs extends StaticJsValue[] = StaticJsValue[],
 > extends StaticJsObject<"function"> {
-  call(thisArg: StaticJsValue, ...args: TArgs): StaticJsValue;
+  call(
+    thisArg: StaticJsValue,
+    ...args: TArgs
+  ): EvaluationGenerator<StaticJsValue>;
 }
 export function isStaticJsFunction(value: any): value is StaticJsFunction {
   return staticJsInstanceOf(value) === "function";
