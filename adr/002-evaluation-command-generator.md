@@ -21,4 +21,12 @@ All of this can be accomplished if:
 - The evaluation loop uses generators, which can be paused and aborted
 - The generators yield requests for further execution, instead of directly invoking the execution
 
-This may have some consiquences for performance, but the ability to control and introspect the execution provides a significant value, and execution performance is secondary to that.
+## Drawbacks
+
+The following drawbacks do exist for generators:
+
+- Performance may be worse than simple recursion in some cases
+  However, the ability to control and introspect the execution provides a significant value, and execution performance is secondary to that.
+- Debugging the engine is more difficult
+  Developers will need to make heavy use of step-over and placing breakpoints, as the abstraction of commands instead of direct invocation makes it difficult
+  to follow the execution of the evaluator.

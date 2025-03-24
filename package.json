@@ -11,6 +11,9 @@
       "require": "./dist/index.js"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "prepare": "husky",
     "build": "tsc -p tsconfig.lib.json",
