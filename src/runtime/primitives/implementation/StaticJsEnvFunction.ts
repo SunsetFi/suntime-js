@@ -1,5 +1,5 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { runEvaluatorUntilCompletion } from "../../../evaluator/index.js";
+import { runEvaluatorUntilCompletion } from "../../../evaluator/internal.js";
 
 import { StaticJsString, StaticJsValue } from "../factories/index.js";
 import StaticJsUndefined from "../factories/StaticJsUndefined.js";

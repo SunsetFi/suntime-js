@@ -15,7 +15,7 @@ import StaticJsEnvUndefined from "./StaticJsEnvUndefined.js";
 import {
   EvaluationContext,
   EvaluationGenerator,
-} from "../../../evaluator/index.js";
+} from "../../../evaluator/internal.js";
 
 import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";

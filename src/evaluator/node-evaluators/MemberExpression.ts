@@ -1,6 +1,9 @@
 import { MemberExpression } from "@babel/types";
 
-import { isStaticJsObjectLike, StaticJsObject } from "../../runtime/index.js";
+import {
+  isStaticJsObjectLike,
+  StaticJsObject,
+} from "../../runtime/internal.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";

@@ -1,6 +1,6 @@
 import { BooleanLiteral } from "@babel/types";
 
-import { StaticJsBoolean } from "../../runtime/index.js";
+import { StaticJsBoolean } from "../../runtime/internal.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
 

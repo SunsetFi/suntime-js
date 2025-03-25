@@ -1,6 +1,6 @@
 import { VariableDeclaration, VariableDeclarator } from "@babel/types";
 
-import { StaticJsValue, StaticJsUndefined } from "../../runtime/index.js";
+import { StaticJsValue, StaticJsUndefined } from "../../runtime/internal.js";
 
 import typedMerge from "../../internal/typed-merge.js";
 

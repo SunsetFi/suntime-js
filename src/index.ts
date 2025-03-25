@@ -1,2 +1,5 @@
-export { StaticJsRealm } from "./runtime/index.js";
-export { evaluateExpressionString, evaluateString } from "./evaluator/index.js";
+export * from "./runtime/internal.js";
+export {
+  evaluateExpressionString,
+  evaluateString,
+} from "./evaluator/internal.js";

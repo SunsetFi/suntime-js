@@ -1,6 +1,6 @@
 import { CallExpression } from "@babel/types";
 
-import { isStaticJsFunction } from "../../runtime/index.js";
+import { isStaticJsFunction } from "../../runtime/internal.js";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeCommand } from "../commands/index.js";

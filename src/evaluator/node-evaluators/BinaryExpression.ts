@@ -7,7 +7,7 @@ import {
   isStaticJsScalar,
   isStaticJsObjectLike,
   isStaticJsString,
-} from "../../runtime/index.js";
+} from "../../runtime/internal.js";
 import { staticJsInstanceOf } from "../../runtime/primitives/StaticJsTypeSymbol.js";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";

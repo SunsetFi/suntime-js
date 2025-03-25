@@ -1,6 +1,9 @@
 import { Node } from "@babel/types";
 
-import { assertStaticJsValue, StaticJsValue } from "../../../runtime/index.js";
+import {
+  assertStaticJsValue,
+  StaticJsValue,
+} from "../../../runtime/internal.js";
 
 import EvaluationContext from "../../EvaluationContext.js";
 import EvaluationResult from "../../EvaluationResult.js";

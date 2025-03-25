@@ -10,7 +10,7 @@ import {
   StaticJsObject,
   StaticJsUndefined,
   StaticJsValue,
-} from "../../runtime/index.js";
+} from "../../runtime/internal.js";
 
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
 

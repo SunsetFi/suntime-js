@@ -1,6 +1,6 @@
 import { parse, parseExpression } from "@babel/parser";
 
-import { isStaticJsValue, StaticJsRealm } from "../runtime/index.js";
+import { isStaticJsValue, StaticJsRealm } from "../runtime/internal.js";
 
 import EvaluationContext from "./EvaluationContext.js";
 import { runEvaluatorUntilCompletion } from "./evaluator-runtime.js";

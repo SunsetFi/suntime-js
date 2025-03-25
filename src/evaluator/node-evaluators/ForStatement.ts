@@ -5,7 +5,7 @@ import typedMerge from "../../internal/typed-merge.js";
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
-import { StaticJsEnvironment } from "../../runtime/index.js";
+import { StaticJsEnvironment } from "../../runtime/internal.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";

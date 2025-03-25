@@ -1,4 +1,4 @@
-import { EvaluationGenerator } from "../../../evaluator/index.js";
+import { EvaluationGenerator } from "../../../evaluator/internal.js";
 
 import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
 

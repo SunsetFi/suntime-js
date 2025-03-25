@@ -5,7 +5,7 @@ import {
   SpreadElement,
 } from "@babel/types";
 
-import { isStaticJsObject, StaticJsObject } from "../../runtime/index.js";
+import { isStaticJsObject, StaticJsObject } from "../../runtime/internal.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";

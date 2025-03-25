@@ -4,7 +4,7 @@ import {
   isStaticJsScalar,
   StaticJsString,
   StaticJsNumber,
-} from "../../runtime/index.js";
+} from "../../runtime/internal.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";

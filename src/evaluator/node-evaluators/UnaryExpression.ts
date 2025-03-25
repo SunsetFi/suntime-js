@@ -4,7 +4,7 @@ import {
   StaticJsNumber,
   StaticJsString,
   StaticJsUndefined,
-} from "../../runtime/index.js";
+} from "../../runtime/internal.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";

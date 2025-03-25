@@ -1,4 +1,4 @@
-import { isStaticJsValue, StaticJsValue } from "../runtime/index.js";
+import { isStaticJsValue, StaticJsValue } from "../runtime/internal.js";
 
 const ContinueEvaluationResult: unique symbol = Symbol(
   "static-js::ContinueEvaluationResult",

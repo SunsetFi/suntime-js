@@ -5,7 +5,7 @@ import {
   isStaticJsArray,
   StaticJsUndefined,
   StaticJsArrayItem,
-} from "../../runtime/index.js";
+} from "../../runtime/internal.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";

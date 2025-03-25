@@ -1,5 +1,5 @@
 import { NumericLiteral } from "@babel/types";
-import { StaticJsNumber } from "../../runtime/index.js";
+import { StaticJsNumber } from "../../runtime/internal.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
 export default function* numericLiteralNodeEvaluator(
