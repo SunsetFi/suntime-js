@@ -1,27 +1,25 @@
-import { mapValues } from "lodash-es";
+import typedMerge from "../../../internal/typed-merge.js";
 
 import StaticJsEnvObject from "../implementation/StaticJsEnvObject.js";
-import StaticJsExternalObject, {
-  StaticJsRuntimeObjectValue,
-} from "../implementation/StaticJsExternalObject.js";
-import toStaticJsValue from "../utils/to-static-js-value.js";
+import StaticJsExternalObject from "../implementation/StaticJsExternalObject.js";
+
 import {
-  StaticJsValue,
   StaticJsObject as IStaticJsObject,
   isStaticJsValue,
 } from "../interfaces/index.js";
+
 import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
-import typedMerge from "../../../internal/typed-merge.js";
 
 export interface StaticJsObjectConfig {
   static?: boolean;
-  writable?: boolean;
-  mutatable?: boolean;
+  // TODO: More fine-grained control.
+  // Pass array of writable properties, and per-property env-only vs writeback.
+  writable?: boolean | "env-only" | "writeback";
 }
 
 function StaticJsObject(
   obj?: Record<string, any>,
-  { static: isStatic, writable, mutatable }: StaticJsObjectConfig = {},
+  { static: isStatic, writable }: StaticJsObjectConfig = {},
 ): IStaticJsObject {
   if (obj === undefined) {
     return new StaticJsEnvObject();
@@ -39,33 +37,47 @@ function StaticJsObject(
     throw new Error("Cannot be both static and writable");
   }
 
-  if (writable) {
-    // TODO: We need to unwrap the value for writeback
-    throw new Error("Writable not implemented");
+  if (writable === true) {
+    writable = "env-only";
+  } else if (writable !== "writeback") {
+    obj = new Proxy(obj, {
+      isExtensible(target) {
+        return false;
+      },
+      defineProperty(target, prop, descriptor) {
+        // Eat the operation.
+        return true;
+      },
+      deleteProperty(target, prop) {
+        // Eat the operation.
+        return true;
+      },
+      setPrototypeOf(target, v) {
+        // Eat the operation.
+        return true;
+      },
+      apply(target, thisArg, argArray) {
+        // Eat the operation.
+        return target;
+      },
+      preventExtensions(target) {
+        // Eat the operation.
+        return true;
+      },
+      set(target, p, newValue, receiver) {
+        // Eat the operation.
+        return true;
+      },
+    });
   }
 
   // By default allow mutations.
-  return new StaticJsExternalObject(
-    mapValues(obj, (key, value) => {
-      let getter: () => StaticJsValue;
-      if (isStatic) {
-        const resolved = toStaticJsValue(value);
-        getter = () => resolved;
-      } else {
-        getter = () => toStaticJsValue(obj[key]);
-      }
-
-      return {
-        get: () => toStaticJsValue(obj[key]),
-        set: writable
-          ? (value: StaticJsValue) => {
-              obj[key] = value.toJs();
-            }
-          : undefined,
-      } as StaticJsRuntimeObjectValue;
-    }),
-    mutatable ? new StaticJsEnvObject() : undefined,
-  );
+  return new StaticJsExternalObject(obj, {
+    mutationTarget:
+      writable === "env-only" ? new StaticJsEnvObject() : undefined,
+    // TODO: Option to let the script env extend the global object
+    extensible: writable === "env-only" || false,
+  });
 }
 
 export default typedMerge(StaticJsObject, {

@@ -1,8 +1,7 @@
 import { StaticJsEnvArray } from "../implementation/index.js";
 import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
 import { StaticJsArray as IStaticJsArray } from "../interfaces/index.js";
-
-import toStaticJsValue from "../utils/to-static-js-value.js";
+import { StaticJsValue as fStaticJsValue } from "../factories/index.js";
 
 export default function StaticJsArray(value: any[]): IStaticJsArray {
   if (staticJsInstanceOf(value) === "array") {
@@ -13,6 +12,6 @@ export default function StaticJsArray(value: any[]): IStaticJsArray {
     throw new Error("Not an array");
   }
 
-  const items = value.map(toStaticJsValue);
+  const items = value.map(fStaticJsValue);
   return new StaticJsEnvArray(items);
 }

@@ -3,21 +3,23 @@
   "version": "0.0.1",
   "description": "An AST-based javascript evaluator in a sandboxed environment.",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.js"
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js",
+      "require": "./lib/index.js"
     }
   },
   "files": [
-    "dist"
+    "lib"
   ],
   "scripts": {
     "prepare": "husky",
     "build": "tsc -p tsconfig.lib.json",
-    "test": "vitest"
+    "test": "vitest",
+    "preextract-api": "pnpm build",
+    "extract-api": "api-extractor run --local && rimraf temp"
   },
   "keywords": [],
   "author": "SunsetFi",
@@ -25,6 +27,7 @@
   "packageManager": "pnpm@10.6.2",
   "devDependencies": {
     "@babel/types": "^7.26.10",
+    "@microsoft/api-extractor": "^7.52.1",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.13.10",
     "@vitest/coverage-v8": "^3.0.9",

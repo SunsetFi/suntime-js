@@ -1,5 +1,3 @@
-export * from "./utils/index.js";
-
 export {
   StaticJsEmptyArrayItem,
   type StaticJsArrayItem,
@@ -46,6 +44,7 @@ import {
   StaticJsNumber as fStaticJsNumber,
   StaticJsUndefined as fStaticJsUndefined,
   StaticJsString as fStaticJsString,
+  StaticJsValue as fStaticJsValue,
 } from "./factories/index.js";
 
 type StaticJsArray = IStaticJsArray;
@@ -75,7 +74,9 @@ const StaticJsString = fStaticJsString;
 
 type StaticJsScalar = IStaticJsScalar;
 type StaticJsPrimitive = IStaticJsPrimitive;
+
 type StaticJsValue = IStaticJsValue;
+const StaticJsValue = fStaticJsValue;
 
 export {
   StaticJsArray,
@@ -88,5 +89,5 @@ export {
   StaticJsString,
   type StaticJsScalar,
   type StaticJsPrimitive,
-  type StaticJsValue,
+  StaticJsValue,
 };

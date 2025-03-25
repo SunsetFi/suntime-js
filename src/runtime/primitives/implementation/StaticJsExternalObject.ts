@@ -1,143 +1,184 @@
-import { uniq } from "lodash-es";
+import { uniq, filter } from "lodash-es";
 
 import {
-  StaticJsObject,
+  StaticJsObject as IStaticJsObject,
   StaticJsObjectPropertyDescriptor,
-} from "../interfaces/StaticJsObject.js";
-import { StaticJsValue } from "../interfaces/StaticJsValue.js";
+  StaticJsValue as IStaticJsValue,
+  getStaticJsObjectPropertyDescriptorValue,
+} from "../interfaces/index.js";
+import {
+  StaticJsObject,
+  StaticJsUndefined,
+  StaticJsValue,
+} from "../factories/index.js";
+import StaticJsObjectBase from "./StaticJsObjectBase.js";
 
-import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
-
-import StaticJsEnvUndefined from "./StaticJsEnvUndefined.js";
-
-export interface StaticJsRuntimeObjectValue {
-  get?(): StaticJsValue;
-  set?(value: StaticJsValue): void;
+export interface StaticJsRuntimeObjectOptions {
+  extensible?: boolean;
+  mutationTarget?: IStaticJsObject;
 }
 
-export default class StaticJsExternalObject implements StaticJsObject {
-  private readonly _mutationTarget: StaticJsObject | undefined;
-  private readonly _properties = new Map<string, StaticJsRuntimeObjectValue>();
+export default class StaticJsExternalObject extends StaticJsObjectBase<"object"> {
+  private readonly _extensible: boolean;
+  private readonly _mutationTarget: IStaticJsObject | undefined;
+  private readonly _deletedKeys = new Set<string>();
 
   constructor(
-    properties: Record<string, StaticJsRuntimeObjectValue>,
-    mutationTarget?: StaticJsObject,
+    private readonly _obj: Record<string, any>,
+    { mutationTarget, extensible }: StaticJsRuntimeObjectOptions = {},
   ) {
+    super("object");
     this._mutationTarget = mutationTarget;
 
-    // Enumerate the object; this shouldn't pick up prototypes.
-    for (const [propertyName, propertyValue] of Object.entries(properties)) {
-      this._properties.set(propertyName, propertyValue);
+    this._extensible = extensible ?? mutationTarget != null;
+    if (this._extensible && !mutationTarget) {
+      this._mutationTarget = StaticJsObject();
     }
   }
 
-  get [StaticJsTypeSymbol]() {
-    return "object" as const;
+  enumerateKeys(): string[] {
+    return filter(
+      uniq([
+        ...Object.keys(this._obj),
+        ...(this._mutationTarget?.enumerateKeys() ?? []),
+      ]),
+      (x) => !this._deletedKeys.has(x),
+    );
   }
 
-  get typeOf() {
-    return "object" as const;
-  }
-
-  toJs() {
-    const result: Record<string, unknown> = {};
-    // TODO: Inherit from mutationTarget
-    for (const [key, value] of this._properties) {
-      result[key] = value.get?.()?.toJs();
-    }
-    return result;
-  }
-
-  toString(): string {
-    return "[object Object]";
-  }
-
-  toNumber(): number {
-    return Number.NaN;
-  }
-
-  toBoolean(): boolean {
-    return true;
-  }
-
-  hasProperty(name: string): boolean {
-    if (this._mutationTarget?.hasProperty(name)) {
-      return true;
+  toJs(): Record<string, any> {
+    if (this._mutationTarget) {
+      const result: Record<string, any> = {};
+      for (const key of this.enumerateKeys()) {
+        result[key] =
+          this._mutationTarget.getProperty(key).toJs() ??
+          this.getProperty(key).toJs();
+      }
+      return result;
     }
 
-    return this._properties.has(name);
-  }
-
-  getProperty(name: string): StaticJsValue {
-    if (this._mutationTarget?.hasProperty(name)) {
-      return this._mutationTarget.getProperty(name);
-    }
-
-    return this._properties.get(name)?.get?.() ?? StaticJsEnvUndefined.Instance;
+    // Not mutatable, return the same reference.
+    // FIXME: By default for non-writables we proxy them, so this will be different than the original.
+    // This is unintuitive.  We should instead make this class handle immutability.
+    return this._obj;
   }
 
   getPropertyDescriptor(
     name: string,
   ): StaticJsObjectPropertyDescriptor | undefined {
-    if (this._mutationTarget?.hasProperty(name)) {
-      return this._mutationTarget.getPropertyDescriptor(name);
+    const descr = this._mutationTarget?.getPropertyDescriptor(name);
+    if (descr) {
+      return descr;
     }
 
-    const value = this._properties.get(name);
-    if (!value) {
+    const objDescr = Object.getOwnPropertyDescriptor(this._obj, name);
+    if (!objDescr) {
       return undefined;
     }
 
+    const {
+      writable,
+      enumerable,
+      configurable,
+      value,
+      get: descrGet,
+      set: descrSet,
+    } = objDescr;
+
+    let get = () => {
+      const mutatorDescr = this._mutationTarget?.getPropertyDescriptor(name);
+      if (mutatorDescr) {
+        return (
+          getStaticJsObjectPropertyDescriptorValue(mutatorDescr) ??
+          StaticJsUndefined()
+        );
+      }
+
+      return StaticJsValue(descrGet?.call(this._obj) ?? value);
+    };
+    let set = (value: IStaticJsValue) => {
+      if (this._mutationTarget) {
+        this._mutationTarget.setProperty(name, value);
+        return;
+      }
+
+      if (!writable) {
+        return;
+      }
+
+      const jsValue = value.toJs();
+      if (descrSet) {
+        descrSet.call(this._obj, jsValue);
+      } else {
+        this._obj[name] = jsValue;
+      }
+    };
+
     return {
-      configurable: false,
-      writable: true,
-      enumerable: true,
-      get: value.get,
-      set: value.set,
+      writable: this._mutationTarget != null || writable,
+      enumerable,
+      configurable,
+      get,
+      set,
     };
   }
 
-  getIsReadOnlyProperty(name: string): boolean {
-    if (this._mutationTarget) {
-      return this._mutationTarget.getIsReadOnlyProperty(name);
-    }
-
-    return true;
-  }
-
-  setProperty(name: string, value: StaticJsValue): void {
+  protected _setWritablePropertyByValue(
+    name: string,
+    value: IStaticJsValue,
+  ): void {
     if (this._mutationTarget) {
       this._mutationTarget.setProperty(name, value);
       return;
     }
 
-    // TODO: Do something with source maps for the runtime.
-    throw new Error("Object is not writable.");
+    // Trust that our descriptor is correct for our writability.
+    this._obj[name] = value.toJs();
   }
 
-  defineProperty(
+  protected _defineNewProperty(
     name: string,
     descriptor: StaticJsObjectPropertyDescriptor,
   ): void {
-    if (this._mutationTarget) {
-      this._mutationTarget.defineProperty(name, descriptor);
-      return;
+    if (!this._extensible) {
+      // FIXME: Throw real error.
+      throw new Error("Cannot define new property on non-extensible object.");
     }
 
-    throw new Error("Object is not writable.");
+    if (!this._mutationTarget) {
+      // FIXME: Throw real error.
+      throw new Error("Cannot define new property on non-extensible object.");
+    }
+
+    this._mutationTarget.defineProperty(name, descriptor);
   }
 
-  deleteProperty(name: string): boolean {
-    // FIXME: Just deleting from mutationTarget will make us fall back to our own property.
-    // We need to save the deletions if we want to support that.
+  protected _reconfigureProperty(
+    name: string,
+    descriptor: StaticJsObjectPropertyDescriptor,
+  ): void {
+    if (!this._mutationTarget) {
+      // FIXME: Throw real error.
+      throw new Error("Cannot redefine property on non-extensible object.");
+    }
 
-    return false;
+    this._mutationTarget.defineProperty(name, descriptor);
   }
 
-  getKeys(): string[] {
-    return uniq([
-      ...Array.from(this._properties.keys()),
-      ...(this._mutationTarget?.getKeys?.() ?? []),
-    ]);
+  protected _deleteConfigurableProperty(name: string): boolean {
+    if (!this._mutationTarget) {
+      return false;
+    }
+
+    if (this._deletedKeys.has(name)) {
+      return false;
+    }
+
+    if (!this.hasProperty(name)) {
+      return false;
+    }
+
+    this._deletedKeys.add(name);
+    return true;
   }
 }

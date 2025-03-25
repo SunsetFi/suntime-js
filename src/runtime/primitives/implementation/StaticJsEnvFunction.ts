@@ -1,17 +1,15 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { runEvaluatorUntilCompletion } from "../../../evaluator/index.js";
 
-import { StaticJsString } from "../factories/index.js";
+import { StaticJsString, StaticJsValue } from "../factories/index.js";
 import StaticJsUndefined from "../factories/StaticJsUndefined.js";
 
 import {
   isStaticJsValue,
   StaticJsFunction,
-  StaticJsValue,
+  StaticJsValue as IStaticJsValue,
 } from "../interfaces/index.js";
 import { StaticJsObjectPropertyDescriptor } from "../interfaces/StaticJsObject.js";
-
-import toStaticJsValue from "../utils/to-static-js-value.js";
 
 import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
 
@@ -19,7 +17,7 @@ import StaticJsEnvNumber from "./StaticJsEnvNumber.js";
 import StaticJsEnvUndefined from "./StaticJsEnvUndefined.js";
 
 export default abstract class StaticJsEnvFunction<
-  TArgs extends StaticJsValue[] = StaticJsValue[],
+  TArgs extends IStaticJsValue[] = IStaticJsValue[],
 > implements StaticJsFunction<TArgs>
 {
   private readonly _name: string | null;
@@ -27,9 +25,9 @@ export default abstract class StaticJsEnvFunction<
   constructor(
     name: string | null,
     private readonly _call: (
-      thisArg: StaticJsValue,
+      thisArg: IStaticJsValue,
       ...args: TArgs
-    ) => EvaluationGenerator<StaticJsValue>,
+    ) => EvaluationGenerator<IStaticJsValue>,
   ) {
     this._name = name;
   }
@@ -44,12 +42,12 @@ export default abstract class StaticJsEnvFunction<
 
   toJs() {
     return (...args: any[]) => {
-      const argValues = args.map(toStaticJsValue) as TArgs;
-      // TODO: This absolutely probably does not work right.
+      const argValues = args.map(StaticJsValue) as TArgs;
+      // FIXME: This absolutely probably does not work right.
       // We should at least try to look up if we have a StaticJsValue representation of the global object.
       // At the very least, this is dangerous, and might inadvertently leak stuff from the runtime into the scripting engine.
       // They won't be able to grab prototypes, but...
-      const thisArg = toStaticJsValue(this);
+      const thisArg = StaticJsValue(this);
       const result = runEvaluatorUntilCompletion(
         this._call(thisArg, ...argValues),
       );
@@ -70,9 +68,9 @@ export default abstract class StaticJsEnvFunction<
   }
 
   call(
-    thisArg: StaticJsValue,
+    thisArg: IStaticJsValue,
     ...args: TArgs
-  ): EvaluationGenerator<StaticJsValue> {
+  ): EvaluationGenerator<IStaticJsValue> {
     if (!isStaticJsValue(thisArg)) {
       throw new Error("thisArg must be a StaticJsValue instance.");
     }
@@ -94,7 +92,7 @@ export default abstract class StaticJsEnvFunction<
     }
   }
 
-  getProperty(name: string): StaticJsValue {
+  getProperty(name: string): IStaticJsValue {
     switch (name) {
       case "name":
         return this._name ? StaticJsString(this._name) : StaticJsUndefined();
@@ -143,11 +141,11 @@ export default abstract class StaticJsEnvFunction<
     return false;
   }
 
-  setProperty(name: string, value: StaticJsValue): void {
+  setProperty(name: string, value: IStaticJsValue): void {
     throw new Error("Functions are read-only.");
   }
 
-  getKeys(): string[] {
-    return ["name", "length"];
+  enumerateKeys(): string[] {
+    return [];
   }
 }

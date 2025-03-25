@@ -12,3 +12,4 @@ export {
 } from "./StaticJsObject.js";
 export { default as StaticJsString } from "./StaticJsString.js";
 export { default as StaticJsUndefined } from "./StaticJsUndefined.js";
+export { default as StaticJsValue } from "./StaticJsValue.js";

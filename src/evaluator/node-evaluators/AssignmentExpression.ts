@@ -99,5 +99,6 @@ export default function* assignmentExpressionNodeEvaluator(
   );
 
   // Pass the value for chaining.
+  // It is proper to pass the resolved value, even if the binding set didn't change the value.
   return value;
 }

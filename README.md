@@ -28,10 +28,10 @@ TODO
   Stupid pnpm typescript resolution jank.
 - Preprocess the AST tree and generate an AST + setup tree instead of mutating the AST nodes.
   This is required if we want to accept external AST instead of parsing it ourselves.
-- Switch to a generator-like function for execution:
-  - Line by line evaluation / debugging
-  - Arbitrarily halting and resuming execution
-  - Lets a parent control whether to keep running or to quit.
 - Report code coverage in repo
   coveralls.io?
   [vitest-coverage-report-action](https://github.com/marketplace/actions/vitest-coverage-report)?
+- Investigate making StaticJsObject() objects into external objects that wrap their target so that
+  the runtime can set properties on it.
+  - Or maybe use a cached proxy in StaticJsEnvObject's toJs(), if that is faster?
+    This would cause a lot of redundancy with ExternalObject. Simpler is better?

@@ -6,8 +6,11 @@ import StaticJsEnvFunction from "./StaticJsEnvFunction.js";
 export default class StaticJsExternalFunction<
   TArgs extends StaticJsValue[] = StaticJsValue[],
 > extends StaticJsEnvFunction<TArgs> {
-  constructor(func: (thisArg: StaticJsValue, ...args: TArgs) => StaticJsValue) {
-    super(null, function* (thisArg, ...args) {
+  constructor(
+    name: string | null,
+    func: (thisArg: StaticJsValue, ...args: TArgs) => StaticJsValue,
+  ) {
+    super(name, function* (thisArg, ...args) {
       return func(thisArg, ...args);
     });
   }

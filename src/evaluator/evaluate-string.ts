@@ -6,6 +6,13 @@ import EvaluationContext from "./EvaluationContext.js";
 import { runEvaluatorUntilCompletion } from "./evaluator-runtime.js";
 import { evaluateNode } from "./node-evaluators/index.js";
 
+/**
+ * Evaluates a string as a javascript program, and returns the result.
+ * @param string - The string containing javascript code to evaluate.
+ * @param realm - The realm in which to evaluate the code.
+ * @returns The native javascript result of evaluating the code.
+ * @public
+ */
 export function evaluateString(string: string, realm?: StaticJsRealm): any {
   const ast = parse(string);
 
@@ -13,7 +20,7 @@ export function evaluateString(string: string, realm?: StaticJsRealm): any {
     throw new Error(`Error parsing expression: ${ast.errors[0].code}.`);
   }
 
-  realm ??= new StaticJsRealm();
+  realm ??= StaticJsRealm();
 
   const context: EvaluationContext = {
     realm,
@@ -35,6 +42,13 @@ export function evaluateString(string: string, realm?: StaticJsRealm): any {
   return undefined;
 }
 
+/**
+ * Evaluates a string as a javascript expression, and returns the result.
+ * @param string - The string containing javascript expression to evaluate.
+ * @param realm - The realm in which to evaluate the expression.
+ * @returns The native javascript result of evaluating the code.
+ * @public
+ */
 export function evaluateExpressionString(
   string: string,
   realm?: StaticJsRealm,
@@ -45,7 +59,7 @@ export function evaluateExpressionString(
     throw new Error(`Error parsing expression: ${ast.errors[0].code}.`);
   }
 
-  realm ??= new StaticJsRealm();
+  realm ??= StaticJsRealm();
 
   const context: EvaluationContext = {
     realm,

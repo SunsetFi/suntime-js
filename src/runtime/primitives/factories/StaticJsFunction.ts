@@ -27,7 +27,7 @@ export default function StaticJsFunction(
   }
 
   if (typeof nameOrFunc === "function") {
-    return new StaticJsRuntimeFunction("f", nameOrFunc);
+    return new StaticJsRuntimeFunction(null, nameOrFunc);
   }
 
   if (typeof nameOrFunc !== "string") {

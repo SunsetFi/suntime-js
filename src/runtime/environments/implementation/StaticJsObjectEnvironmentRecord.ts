@@ -75,11 +75,14 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
         return obj.getProperty(name);
       },
       set value(value: StaticJsValue) {
-        if (descriptor.writable) {
+        if (descriptor.set && descriptor.writable !== false) {
+          descriptor.set(value);
+        } else if (descriptor.writable) {
           obj.setProperty(name, value);
-        } else {
-          throw new TypeError("Cannot set value of non-writable binding.");
         }
+
+        // Object's no-op without errors when setting an unsettable binding,
+        // even for global
       },
       isInitialized: true,
       isDeletable: true,

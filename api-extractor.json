@@ -1,0 +1,89 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "projectFolder": "./",
+
+  "mainEntryPointFilePath": "<projectFolder>/lib/index.d.ts",
+
+  "bundledPackages": [],
+
+  "compiler": {
+    "tsconfigFilePath": "<projectFolder>/tsconfig.lib.json"
+  },
+
+  /**
+   * Configures how the API report file (*.api.md) will be generated.
+   */
+  "apiReport": {
+    "enabled": true,
+    "reportFolder": "<projectFolder>"
+  },
+
+  /**
+   * Configures how the doc model file (*.api.json) will be generated.
+   */
+  "docModel": {
+    /**
+     * (REQUIRED) Whether to generate a doc model file.
+     */
+    "enabled": true,
+    "projectFolderUrl": "http://github.com/SunsetFi/static-js/tree/main"
+  },
+
+  /**
+   * Configures how the .d.ts rollup file will be generated.
+   */
+  "dtsRollup": {
+    "enabled": false
+  },
+
+  /**
+   * Configures how API Extractor reports error and warning messages produced during analysis.
+   *
+   * There are three sources of messages:  compiler messages, API Extractor messages, and TSDoc messages.
+   */
+  "messages": {
+    /**
+     * Configures handling of diagnostic messages reported by the TypeScript compiler engine while analyzing
+     * the input .d.ts files.
+     *
+     * TypeScript message identifiers start with "TS" followed by an integer.  For example: "TS2551"
+     *
+     * DEFAULT VALUE:  A single "default" entry with logLevel=warning.
+     */
+    "compilerMessageReporting": {
+      "default": {
+        // TODO: Change all warnings, then change this to error.
+        "logLevel": "warning"
+      }
+    },
+
+    /**
+     * Configures handling of messages reported by API Extractor during its analysis.
+     *
+     * API Extractor message identifiers start with "ae-".  For example: "ae-extra-release-tag"
+     *
+     * DEFAULT VALUE: See api-extractor-defaults.json for the complete table of extractorMessageReporting mappings
+     */
+    "extractorMessageReporting": {
+      "default": {
+        // TODO: Change all warnings, then change this to error.
+        "logLevel": "warning"
+      }
+    },
+
+    /**
+     * Configures handling of messages reported by the TSDoc parser when analyzing code comments.
+     *
+     * TSDoc message identifiers start with "tsdoc-".  For example: "tsdoc-link-tag-unescaped-text"
+     *
+     * DEFAULT VALUE:  A single "default" entry with logLevel=warning.
+     */
+    "tsdocMessageReporting": {
+      "default": {
+        // TODO: Change all warnings, then change this to error.
+        "logLevel": "warning"
+        // "addToApiReportFile": false
+      }
+    }
+  }
+}

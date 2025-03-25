@@ -3,6 +3,7 @@ import { LVal, isLVal } from "@babel/types";
 import {
   isStaticJsArray,
   isStaticJsObject,
+  isStaticJsScalar,
   isStaticJsUndefined,
   isStaticJsValue,
   StaticJsArray,
@@ -11,27 +12,11 @@ import {
   StaticJsValue,
 } from "../../runtime/index.js";
 
-import {
-  EvaluateNodeAssertValueCommand,
-  EvaluatorCommand,
-} from "../commands/index.js";
+import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
 
-import EvaluationResult from "../EvaluationResult.js";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
-export default function setLVal(
-  lval: LVal,
-  value: StaticJsValue,
-  context: EvaluationContext,
-  setNamedVariable: (name: string, value: StaticJsValue) => void,
-): EvaluationGenerator<void>;
-export default function setLVal(
-  lval: LVal,
-  value: StaticJsValue | null,
-  context: EvaluationContext,
-  setNamedVariable: (name: string, value: StaticJsValue | null) => void,
-): EvaluationGenerator<void>;
 export default function* setLVal(
   lval: LVal,
   value: StaticJsValue | null,
@@ -113,7 +98,7 @@ export default function* setLVal(
             ? value.getProperty(keyName)
             : StaticJsUndefined();
 
-          if (property.value.type === "Identifier") {
+          if (!property.computed && property.value.type === "Identifier") {
             setNamedVariable(property.value.name, propertyValue);
           } else if (isLVal(property.value)) {
             yield* setLVal(
@@ -139,6 +124,41 @@ export default function* setLVal(
       }
 
       yield* setLVal(lval.left, value, context, setNamedVariable);
+      return;
+    }
+    case "MemberExpression": {
+      if (!value) {
+        // FIXME: Is this correct???
+        // We certainly don't handle this in environmentSetupLVal.
+        throw new Error("Cannot use MemberExpression as LVal without value.");
+      }
+
+      const object = yield* EvaluateNodeAssertValueCommand(
+        lval.object,
+        context,
+      );
+      if (!isStaticJsObject(object)) {
+        // FIXME: throw real error
+        throw new Error("Cannot set property on non-object");
+      }
+
+      let propertyKey: string;
+      if (!lval.computed && lval.property.type === "Identifier") {
+        propertyKey = lval.property.name;
+      } else {
+        const resolved = yield* EvaluateNodeAssertValueCommand(
+          lval.property,
+          context,
+        );
+        if (!isStaticJsScalar(resolved)) {
+          // FIXME: throw real error.
+          throw new Error("Computed property key must be a scalar");
+        }
+        propertyKey = StaticJsObject.toPropertyKey(resolved);
+      }
+
+      // FIXME: Is this correct?  We set the object directly???
+      object.setProperty(propertyKey, value);
       return;
     }
   }

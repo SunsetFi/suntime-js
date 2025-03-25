@@ -1,3 +1,4 @@
+import hasOwnProperty from "../../../internal/has-own-property.js";
 import {
   StaticJsObject,
   assertStaticJsValue,
@@ -146,34 +147,38 @@ export default class StaticJsEnvArray implements StaticJsObject<"array"> {
     descriptor: StaticJsObjectPropertyDescriptor,
   ): void {
     const index = parseIndex(name);
-    if (index != null && index >= 0 && index < this._items.length) {
-      if (descriptor.get) {
-        throw new Error("Cannot set getter on array item");
-      }
-
-      if (descriptor.set) {
-        throw new Error("Cannot set setter on array item");
-      }
-
-      if (
-        descriptor.configurable ||
-        descriptor.enumerable ||
-        descriptor.writable
-      ) {
-        // This is probably wrong for real arrays.
-        throw new Error(
-          "Cannot set configurable, enumerable, or writable on array",
-        );
-      }
-
-      if (descriptor.value) {
-        this._items[index] = descriptor.value;
-      }
-
-      return;
+    if (index == null || index < 0 || index >= this._items.length) {
+      throw new Error(`Cannot set property descriptor for ${name}`);
     }
 
-    throw new Error(`Cannot set property descriptor for ${name}`);
+    if (
+      descriptor.configurable ||
+      descriptor.enumerable ||
+      descriptor.writable
+    ) {
+      // This is probably wrong for real arrays.
+      throw new Error(
+        "Cannot set configurable, enumerable, or writable on array",
+      );
+    }
+
+    if (hasOwnProperty(descriptor, "get")) {
+      throw new Error("Cannot set getter on array item");
+    }
+
+    if (hasOwnProperty(descriptor, "set")) {
+      throw new Error("Cannot set setter on array item");
+    }
+
+    if (hasOwnProperty(descriptor, "value")) {
+      const value = descriptor.value;
+      // Another probably-unnecessary check.
+      if (!isStaticJsValue(value)) {
+        throw new Error("Property descriptor value must be a StaticJsValue");
+      }
+
+      this._items[index] = value;
+    }
   }
 
   getIsReadOnlyProperty(name: string): boolean {
@@ -215,7 +220,7 @@ export default class StaticJsEnvArray implements StaticJsObject<"array"> {
     return false;
   }
 
-  getKeys(): string[] {
+  enumerateKeys(): string[] {
     return this._items.map((_, index) => index.toString());
   }
 

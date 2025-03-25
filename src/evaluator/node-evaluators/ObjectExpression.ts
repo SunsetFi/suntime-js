@@ -115,7 +115,7 @@ function* objectExpressionPropertySpreadElementEvaluator(
     throw new Error("Cannot spread non-object value");
   }
 
-  for (const key of value.getKeys()) {
+  for (const key of value.enumerateKeys()) {
     target.setProperty(key, value.getProperty(key));
   }
 }

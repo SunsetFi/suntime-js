@@ -2,5 +2,9 @@
   "references": [
     { "path": "./tsconfig.lib.json" },
     { "path": "./tsconfig.spec.json" }
-  ]
+  ],
+  // Stop the root system from handling anything.
+  // This defaults to include everything, and causes issues when
+  // the IDE tries to scan the lib folder after compilation.
+  "include": []
 }

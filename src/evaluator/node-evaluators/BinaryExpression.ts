@@ -4,7 +4,6 @@ import {
   StaticJsValue,
   StaticJsBoolean,
   StaticJsString,
-  toStaticJsValue,
   isStaticJsScalar,
   isStaticJsObjectLike,
   isStaticJsString,
@@ -161,7 +160,7 @@ function* binaryExpressionAdd(
   }
 
   // Fall back to the primitive addition.
-  return toStaticJsValue(left.toJs() + right.toJs());
+  return StaticJsValue(left.toJs() + right.toJs());
 }
 
 function* numericComputation(
@@ -172,7 +171,7 @@ function* numericComputation(
   const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
   const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
 
-  return toStaticJsValue(func(left.toNumber(), right.toNumber()));
+  return StaticJsValue(func(left.toNumber(), right.toNumber()));
 }
 
 function isStaticJsNullOrUndefined(value: StaticJsValue) {

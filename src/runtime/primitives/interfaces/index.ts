@@ -13,6 +13,10 @@ export {
   type StaticJsObjectPropertyDescriptor,
   isStaticJsObject,
   isStaticJsObjectLike,
+  isStaticJsObjectPropertyDescriptorGetter,
+  isStaticJsObjectPropertyDescriptorValue,
+  validateStaticJsObjectPropertyDescriptor,
+  getStaticJsObjectPropertyDescriptorValue,
 } from "./StaticJsObject.js";
 export { type StaticJsPrimitive } from "./StaticJsPrimitive.js";
 export {

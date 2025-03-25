@@ -25,12 +25,6 @@ export default class StaticJsGlobalEnvironmentRecord
     globalObject: StaticJsObject,
   ) {
     this._objectRecord = new StaticJsObjectEnvironmentRecord(globalObject);
-
-    this._objectRecord.createImmutableBinding("globalThis");
-    this._objectRecord.initializeBinding("globalThis", this._globalThis);
-
-    this._objectRecord.createImmutableBinding("global");
-    this._objectRecord.initializeBinding("global", globalObject);
   }
 
   // TODO: `var` declarations are handled specially, probably hoist, and should go on the globalObject

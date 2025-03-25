@@ -73,7 +73,6 @@ export default class StaticJsEnvString implements StaticJsString {
   }
 
   getProperty(name: string): StaticJsValue {
-    // Might want to cache or lazy evaluate these, once we start caring about performance.
     switch (name) {
       case "length":
         return new StaticJsEnvNumber(this._value.length);
@@ -140,8 +139,9 @@ export default class StaticJsEnvString implements StaticJsString {
     return false;
   }
 
-  getKeys(): string[] {
-    throw new Error("Method not implemented.");
+  enumerateKeys(): string[] {
+    // In practice, this is an array of stringified numbers for how many characters are in the string.
+    return Object.keys(this._value);
   }
 }
 
