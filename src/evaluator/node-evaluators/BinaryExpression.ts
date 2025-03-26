@@ -7,11 +7,13 @@ import {
   isStaticJsScalar,
   isStaticJsObjectLike,
   isStaticJsString,
-} from "../../runtime/internal.js";
+} from "../../runtime/index.js";
 import { staticJsInstanceOf } from "../../runtime/primitives/StaticJsTypeSymbol.js";
+
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import { NormalCompletion } from "../completions/index.js";
 
 export default function binaryExpressionNodeEvaluator(
   node: BinaryExpression,
@@ -121,8 +123,8 @@ function* binaryExpressionDoubleEquals(
   }
 
   // One of them is a reference.
-  return StaticJsBoolean(
-    negate ? leftValue != rightValue : leftValue == rightValue,
+  return NormalCompletion(
+    StaticJsBoolean(negate ? leftValue != rightValue : leftValue == rightValue),
   );
 }
 
@@ -135,16 +137,20 @@ function* binaryExpressionTrippleEquals(
   const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
 
   if (staticJsInstanceOf(left) !== staticJsInstanceOf(right)) {
-    return StaticJsBoolean(false);
+    return NormalCompletion(StaticJsBoolean(false));
   }
 
   if (isStaticJsScalar(left)) {
-    return StaticJsBoolean(
-      negate ? left.toJs() !== right.toJs() : left.toJs() === right.toJs(),
+    return NormalCompletion(
+      StaticJsBoolean(
+        negate ? left.toJs() !== right.toJs() : left.toJs() === right.toJs(),
+      ),
     );
   }
 
-  return StaticJsBoolean(negate ? left === right : left !== right);
+  return NormalCompletion(
+    StaticJsBoolean(negate ? left === right : left !== right),
+  );
 }
 
 function* binaryExpressionAdd(
@@ -156,11 +162,11 @@ function* binaryExpressionAdd(
 
   if (!isStaticJsScalar(left) || !isStaticJsScalar(right)) {
     // One will become a string so both become a string.
-    return StaticJsString(left.toString() + right.toString());
+    return NormalCompletion(StaticJsString(left.toString() + right.toString()));
   }
 
   // Fall back to the primitive addition.
-  return StaticJsValue(left.toJs() + right.toJs());
+  return NormalCompletion(StaticJsValue(left.toJs() + right.toJs()));
 }
 
 function* numericComputation(
@@ -171,7 +177,9 @@ function* numericComputation(
   const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
   const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
 
-  return StaticJsValue(func(left.toNumber(), right.toNumber()));
+  return NormalCompletion(
+    StaticJsValue(func(left.toNumber(), right.toNumber())),
+  );
 }
 
 function isStaticJsNullOrUndefined(value: StaticJsValue) {
@@ -193,5 +201,5 @@ function* inOperator(
     throw new Error("Left side of in operator must be a string");
   }
 
-  return StaticJsBoolean(right.hasProperty(left.toString()));
+  return NormalCompletion(StaticJsBoolean(right.hasProperty(left.toString())));
 }

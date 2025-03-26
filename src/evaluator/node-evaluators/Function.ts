@@ -3,6 +3,7 @@ import { Function } from "@babel/types";
 import StaticJsAstFunction, {
   StaticJsAstFunctionArgumentDeclaration,
 } from "../../runtime/primitives/implementation/StaticJsAstFunction.js";
+
 import EvaluationContext from "../EvaluationContext.js";
 
 export default function createFunction(

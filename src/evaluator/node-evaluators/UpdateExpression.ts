@@ -1,8 +1,10 @@
 import { UpdateExpression } from "@babel/types";
 
-import { isStaticJsNumber, StaticJsNumber } from "../../runtime/internal.js";
+import { isStaticJsNumber, StaticJsNumber } from "../../runtime/index.js";
+
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
+import { NormalCompletion } from "../completions/index.js";
 
 export default function* updateExpressionNodeEvaluator(
   node: UpdateExpression,
@@ -21,7 +23,7 @@ export default function* updateExpressionNodeEvaluator(
   );
 
   if (!isStaticJsNumber(originalValue)) {
-    return StaticJsNumber.NaN;
+    return NormalCompletion(StaticJsNumber.NaN);
   }
 
   let targetValue = originalValue.toJs() as number;
@@ -44,5 +46,7 @@ export default function* updateExpressionNodeEvaluator(
     context.realm.strict,
   );
 
-  return node.prefix ? StaticJsNumber(targetValue) : originalValue;
+  return NormalCompletion(
+    node.prefix ? StaticJsNumber(targetValue) : originalValue,
+  );
 }

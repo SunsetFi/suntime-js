@@ -8,13 +8,11 @@ import {
 
 import setLVal from "../../../evaluator/node-evaluators/LVal.js";
 
-import { isStaticJsValue, StaticJsValue } from "../interfaces/index.js";
-import StaticJsEnvArray from "./StaticJsEnvArray.js";
-import StaticJsEnvUndefined from "./StaticJsEnvUndefined.js";
-
 import {
+  Completion,
   EvaluationContext,
   EvaluationGenerator,
+  NormalCompletion,
 } from "../../../evaluator/internal.js";
 
 import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
@@ -23,6 +21,10 @@ import StaticJsFunctionEnvironmentRecord from "../../environments/implementation
 import { setupEnvironment } from "../../../evaluator/node-evaluators/index.js";
 import { EvaluateNodeCommand } from "../../../evaluator/commands/index.js";
 
+import { StaticJsValue } from "../interfaces/index.js";
+
+import StaticJsEnvArray from "./StaticJsEnvArray.js";
+import StaticJsEnvUndefined from "./StaticJsEnvUndefined.js";
 import StaticJsEnvFunction from "./StaticJsEnvFunction.js";
 
 export type StaticJsAstFunctionArgumentDeclaration =
@@ -39,44 +41,38 @@ export default class StaticJsAstFunction extends StaticJsEnvFunction {
     bound?: StaticJsValue,
   ) {
     let self: StaticJsAstFunction;
-    super(
-      name,
-      function* (thisArg, ...args): EvaluationGenerator<StaticJsValue> {
-        const functionEnv = new StaticJsLexicalEnvironment(
-          new StaticJsFunctionEnvironmentRecord(bound ?? thisArg, args),
-          context.env,
-        );
+    super(name, function* (thisArg, ...args): EvaluationGenerator<Completion> {
+      const functionEnv = new StaticJsLexicalEnvironment(
+        new StaticJsFunctionEnvironmentRecord(bound ?? thisArg, args),
+        context.env,
+      );
 
-        const functionContext: EvaluationContext = {
-          realm: context.realm,
-          env: functionEnv,
-        };
+      const functionContext: EvaluationContext = {
+        realm: context.realm,
+        env: functionEnv,
+        label: null,
+      };
 
-        yield* self._declareArguments(args, functionContext);
+      yield* self._declareArguments(args, functionContext);
 
-        setupEnvironment(body, functionContext);
+      setupEnvironment(body, functionContext);
 
-        const evaluationResult = yield* EvaluateNodeCommand(
-          body,
-          functionContext,
-        );
+      const evaluationCompletion = yield* EvaluateNodeCommand(
+        body,
+        functionContext,
+      );
 
-        if (evaluationResult == null) {
-          if (body.type === "BlockStatement") {
-            // Block had no return statement.
-            return StaticJsEnvUndefined.Instance;
-          } else {
-            throw new Error("Expression did not evaluate to a value");
-          }
-        }
+      switch (evaluationCompletion.type) {
+        case "break":
+        case "continue":
+          throw new Error("Unexpected break/continue in function");
+        case "return":
+        case "throw":
+          return evaluationCompletion;
+      }
 
-        if (!isStaticJsValue(evaluationResult)) {
-          throw new Error("Evaluation result was not a static JS value");
-        }
-
-        return evaluationResult;
-      },
-    );
+      return NormalCompletion();
+    });
 
     self = this;
   }

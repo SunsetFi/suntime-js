@@ -4,16 +4,13 @@ import typedMerge from "../../internal/typed-merge.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
-import {
-  StaticJsEnvironment,
-  StaticJsUndefined,
-} from "../../runtime/internal.js";
+import { StaticJsEnvironment } from "../../runtime/environments/index.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
-import { isControlFlowEvaluationResult } from "../EvaluationResult.js";
 
 import { EvaluateNodeCommand } from "../commands/index.js";
+import { NormalCompletion } from "../completions/index.js";
 
 import setupEnvironment from "./setup-environment.js";
 
@@ -32,29 +29,17 @@ function* blockStatementNodeEvaluator(
   };
 
   for (const statement of node.body) {
-    if (statement.type === "ReturnStatement") {
-      if (statement.argument) {
-        const returnValue = yield* EvaluateNodeCommand(
-          statement.argument,
-          blockContext,
-        );
-        if (!returnValue) {
-          throw new Error("Return statement did not evaluate to a value");
-        }
-
-        return returnValue;
-      }
-
-      return StaticJsUndefined();
-    }
-
     const statementResult = yield* EvaluateNodeCommand(statement, blockContext);
-    if (statementResult && isControlFlowEvaluationResult(statementResult)) {
-      return statementResult;
+    switch (statementResult.type) {
+      case "throw":
+      case "return":
+      case "break":
+      case "continue":
+        return statementResult;
     }
   }
 
-  return null;
+  return NormalCompletion();
 }
 
 function blockStatementEnvironmentSetup(

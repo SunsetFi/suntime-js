@@ -3,6 +3,7 @@ import { ExpressionStatement } from "@babel/types";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import { NormalCompletion } from "../completions/index.js";
 
 export default function* expressionStatementNodeEvaluator(
   node: ExpressionStatement,
@@ -12,5 +13,5 @@ export default function* expressionStatementNodeEvaluator(
     node.expression,
     context,
   );
-  return result;
+  return NormalCompletion(result);
 }

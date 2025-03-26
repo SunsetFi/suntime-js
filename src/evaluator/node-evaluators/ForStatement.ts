@@ -4,17 +4,16 @@ import typedMerge from "../../internal/typed-merge.js";
 
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-
-import { StaticJsEnvironment } from "../../runtime/internal.js";
+import { StaticJsEnvironment } from "../../runtime/environments/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { BreakEvaluationResult } from "../EvaluationResult.js";
 
 import {
   EvaluateNodeAssertValueCommand,
   EvaluateNodeCommand,
 } from "../commands/index.js";
+import { NormalCompletion } from "../completions/index.js";
 
 import setupEnvironment from "./setup-environment.js";
 
@@ -41,7 +40,7 @@ function* forStatementNodeEvaluator(
         forContext,
       );
       if (!testResult.toBoolean()) {
-        break;
+        return NormalCompletion();
       }
     }
 
@@ -58,17 +57,25 @@ function* forStatementNodeEvaluator(
     setupEnvironment(node.body, bodyContext);
 
     const result = yield* EvaluateNodeCommand(node.body, bodyContext);
+    switch (result.type) {
+      case "continue":
+      case "break": {
+        if (result.target !== null && result.target !== context.label) {
+          // Not for us.  Pass it up
+          return result;
+        }
 
-    if (result === BreakEvaluationResult) {
-      break;
+        // It was for us.  Break if that's what the request is.
+        if (result.type === "break") {
+          return NormalCompletion();
+        }
+      }
     }
 
     if (node.update) {
       yield* EvaluateNodeCommand(node.update, forContext);
     }
   } while (true);
-
-  return null;
 }
 
 function forStatementEnvironmentSetup(

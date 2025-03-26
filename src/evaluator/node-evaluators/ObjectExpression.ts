@@ -5,11 +5,12 @@ import {
   SpreadElement,
 } from "@babel/types";
 
-import { isStaticJsObject, StaticJsObject } from "../../runtime/internal.js";
+import { isStaticJsObject, StaticJsObject } from "../../runtime/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import { NormalCompletion } from "../completions/index.js";
 
 import createFunction from "./Function.js";
 
@@ -50,14 +51,14 @@ export default function* objectExpressionNodeEvaluator(
     }
   }
 
-  return target;
+  return NormalCompletion(target);
 }
 
 function* objectExpressionPropertyObjectMethodEvaluator(
   target: StaticJsObject,
   property: ObjectMethod,
   context: EvaluationContext,
-): EvaluationGenerator {
+): EvaluationGenerator<void> {
   const propertyKey = property.key;
   let propertyName: string;
   if (!property.computed && propertyKey.type === "Identifier") {
@@ -73,15 +74,13 @@ function* objectExpressionPropertyObjectMethodEvaluator(
 
   const value = createFunction(propertyName, property, context);
   target.setProperty(propertyName, value);
-
-  return null;
 }
 
 function* objectExpressionPropertyObjectPropertyEvaluator(
   target: StaticJsObject,
   property: ObjectProperty,
   context: EvaluationContext,
-): EvaluationGenerator {
+): EvaluationGenerator<void> {
   const propertyKey = property.key;
   let propertyName: string;
   if (!property.computed && propertyKey.type === "Identifier") {
@@ -98,15 +97,13 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
 
   const value = yield* EvaluateNodeAssertValueCommand(property.value, context);
   target.setProperty(propertyName, value);
-
-  return null;
 }
 
 function* objectExpressionPropertySpreadElementEvaluator(
   target: StaticJsObject,
   property: SpreadElement,
   context: EvaluationContext,
-) {
+): EvaluationGenerator<void> {
   const value = yield* EvaluateNodeAssertValueCommand(
     property.argument,
     context,

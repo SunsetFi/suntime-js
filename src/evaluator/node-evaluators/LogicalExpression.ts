@@ -4,6 +4,7 @@ import { staticJsInstanceOf } from "../../runtime/primitives/StaticJsTypeSymbol.
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import { NormalCompletion } from "../completions/index.js";
 
 export default function logicalExpressionNodeEvaluator(
   node: LogicalExpression,
@@ -29,10 +30,12 @@ function* logicalExpressionAnd(
 ): EvaluationGenerator {
   const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
   if (left.toBoolean()) {
-    return yield* EvaluateNodeAssertValueCommand(node.right, context);
+    return NormalCompletion(
+      yield* EvaluateNodeAssertValueCommand(node.right, context),
+    );
   }
 
-  return left;
+  return NormalCompletion(left);
 }
 
 function* logicalExpressionOr(
@@ -41,10 +44,12 @@ function* logicalExpressionOr(
 ): EvaluationGenerator {
   const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
   if (left.toBoolean()) {
-    return left;
+    return NormalCompletion(left);
   }
 
-  return yield* EvaluateNodeAssertValueCommand(node.right, context);
+  return NormalCompletion(
+    yield* EvaluateNodeAssertValueCommand(node.right, context),
+  );
 }
 
 function* logicalExpressionNullishCoalescing(
@@ -53,8 +58,10 @@ function* logicalExpressionNullishCoalescing(
 ): EvaluationGenerator {
   const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
   if (["null", "undefined"].includes(staticJsInstanceOf(left)!)) {
-    return yield* EvaluateNodeAssertValueCommand(node.right, context);
+    return NormalCompletion(
+      yield* EvaluateNodeAssertValueCommand(node.right, context),
+    );
   }
 
-  return left;
+  return NormalCompletion(left);
 }

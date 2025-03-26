@@ -29,6 +29,10 @@ import continueStatementNodeEvaluator from "./ContinueStatement.js";
 import fileNodeEvaluator from "./File.js";
 import programNodeEvaluator from "./Program.js";
 import emptyStatementNodeEvaluator from "./EmptyStatement.js";
+import returnStatementNodeEvaluator from "./ReturnStatement.js";
+import labeledStatementNodeEvaluator from "./LabelStatement.js";
+import tryStatementNodeEvaluator from "./TryStatement.js";
+import throwStatementNodeEvaluator from "./ThrowStatement.js";
 
 type NodeEvaluators = {
   [key in Node["type"]]?: NodeEvaluator<key>;
@@ -52,12 +56,16 @@ const nodeEvaluators: NodeEvaluators = {
   FunctionExpression: functionExpressionNodeEvaluator,
   IfStatement: ifStatementNodeEvaluator,
   Identifier: identifierNodeEvaluator,
+  LabeledStatement: labeledStatementNodeEvaluator,
   MemberExpression: memberExpressionNodeEvaluator,
   NullLiteral: nullLiteralNodeEvaluator,
   NumericLiteral: numericLiteralNodeEvaluator,
   ObjectExpression: objectExpressionNodeEvaluator,
   Program: programNodeEvaluator,
+  ReturnStatement: returnStatementNodeEvaluator,
   StringLiteral: stringLiteralNodeEvaluator,
+  ThrowStatement: throwStatementNodeEvaluator,
+  TryStatement: tryStatementNodeEvaluator,
   UnaryExpression: unaryExpressionNodeEvaluator,
   UpdateExpression: updateExpressionNodeEvaluator,
   VariableDeclaration: variableDeclarationNodeEvaluator,

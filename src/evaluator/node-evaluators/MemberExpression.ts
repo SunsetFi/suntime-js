@@ -1,13 +1,11 @@
 import { MemberExpression } from "@babel/types";
 
-import {
-  isStaticJsObjectLike,
-  StaticJsObject,
-} from "../../runtime/internal.js";
+import { isStaticJsObjectLike, StaticJsObject } from "../../runtime/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import { NormalCompletion } from "../completions/index.js";
 
 export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,
@@ -42,5 +40,5 @@ export default function* memberExpressionNodeEvaluator(
     propertyName = StaticJsObject.toPropertyKey(resolved);
   }
 
-  return target.getProperty(propertyName);
+  return NormalCompletion(target.getProperty(propertyName));
 }

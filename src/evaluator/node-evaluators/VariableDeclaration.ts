@@ -1,6 +1,6 @@
 import { VariableDeclaration, VariableDeclarator } from "@babel/types";
 
-import { StaticJsValue, StaticJsUndefined } from "../../runtime/internal.js";
+import { StaticJsValue, StaticJsUndefined } from "../../runtime/index.js";
 
 import typedMerge from "../../internal/typed-merge.js";
 
@@ -8,6 +8,7 @@ import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import { NormalCompletion } from "../completions/index.js";
 
 import setLVal, { environmentSetupLVal } from "./LVal.js";
 
@@ -44,7 +45,7 @@ function* variableDeclarationNodeEvaluator(
     );
   }
 
-  return null;
+  return NormalCompletion();
 }
 
 function variableDeclarationEnvironmentSetup(
@@ -93,13 +94,11 @@ function* declarationStatementEvaluator(
   declarator: VariableDeclarator,
   context: EvaluationContext,
   variableCreator: (name: string, value: StaticJsValue | null) => void,
-): EvaluationGenerator {
+): EvaluationGenerator<void> {
   let value: StaticJsValue | null = null;
   if (declarator.init) {
     value = yield* EvaluateNodeAssertValueCommand(declarator.init, context);
   }
 
   yield* setLVal(declarator.id, value, context, variableCreator);
-
-  return null;
 }

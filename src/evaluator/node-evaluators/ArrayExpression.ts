@@ -5,10 +5,11 @@ import {
   isStaticJsArray,
   StaticJsUndefined,
   StaticJsArrayItem,
-} from "../../runtime/internal.js";
+} from "../../runtime/index.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
+import { NormalCompletion } from "../completions/index.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
 
 export default function* arrayExpressionNodeEvaluator(
@@ -47,5 +48,5 @@ export default function* arrayExpressionNodeEvaluator(
     items.push(value);
   }
 
-  return StaticJsArray(items);
+  return NormalCompletion(StaticJsArray(items));
 }

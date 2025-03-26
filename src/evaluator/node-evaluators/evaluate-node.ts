@@ -5,15 +5,25 @@ import { getEvaluator } from "./nodes.js";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
+export interface EvaluateNodeOptions {
+  label?: string;
+}
 export default function* evaluateNode(
   node: Node,
   context: EvaluationContext,
+  { label }: EvaluateNodeOptions = {},
 ): EvaluationGenerator {
   const evaluator = getEvaluator(node);
   if (evaluator == null) {
     throw new Error(`No evaluator for node type ${node.type}`);
   }
 
+  // Always reset the label when drilling into a node,
+  // unless we have explicitly been given one.
+  context = {
+    ...context,
+    label: label ?? null,
+  };
   const result = yield* evaluator(node, context);
 
   return result;

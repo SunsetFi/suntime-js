@@ -4,11 +4,12 @@ import {
   StaticJsNumber,
   StaticJsString,
   StaticJsUndefined,
-} from "../../runtime/internal.js";
+} from "../../runtime/index.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
 import EvaluationContext from "../EvaluationContext.js";
+import { NormalCompletion } from "../completions/index.js";
 
 export default function* unaryExpressionNodeEvaluator(
   node: UnaryExpression,
@@ -20,17 +21,17 @@ export default function* unaryExpressionNodeEvaluator(
 
   switch (node.operator) {
     case "!":
-      return StaticJsBoolean(!value.toJs());
+      return NormalCompletion(StaticJsBoolean(!value.toJs()));
     case "-":
-      return StaticJsNumber(-value.toJs());
+      return NormalCompletion(StaticJsNumber(-value.toJs()));
     case "+":
-      return StaticJsNumber(+value.toJs());
+      return NormalCompletion(StaticJsNumber(+value.toJs()));
     case "~":
-      return StaticJsNumber(~value.toJs());
+      return NormalCompletion(StaticJsNumber(~value.toJs()));
     case "void":
-      return StaticJsUndefined();
+      return NormalCompletion(StaticJsUndefined());
     case "typeof":
-      return StaticJsString(value.typeOf);
+      return NormalCompletion(StaticJsString(value.typeOf));
     default:
       throw new Error(`Unknown unary operator: ${node.operator}.`);
   }

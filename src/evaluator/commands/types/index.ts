@@ -1,6 +1,6 @@
 export {
   EvaluateNodeCommand,
-  EvaluateNodeValueCommand as EvaluateNodeAssertValueCommand,
+  EvaluateNodeNormalValueCommand as EvaluateNodeAssertValueCommand,
 } from "./EvaluateNodeCommand.js";
 
 import type { EvaluateNodeCommand } from "./EvaluateNodeCommand.js";

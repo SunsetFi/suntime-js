@@ -1,9 +1,9 @@
 import { EvaluatorCommand } from "./commands/types/index.js";
-import EvaluationResult from "./EvaluationResult.js";
+import { Completion } from "./completions/index.js";
 
-type EvaluationGenerator<TReturn = EvaluationResult> = Generator<
+type EvaluationGenerator<TReturn = Completion> = Generator<
   EvaluatorCommand,
   TReturn,
-  EvaluationResult
+  Completion
 >;
 export default EvaluationGenerator;

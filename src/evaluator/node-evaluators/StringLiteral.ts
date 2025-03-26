@@ -1,9 +1,12 @@
 import { StringLiteral } from "@babel/types";
-import { StaticJsString } from "../../runtime/internal.js";
+
+import { StaticJsString } from "../../runtime/index.js";
+
 import EvaluationGenerator from "../EvaluationGenerator.js";
+import { NormalCompletion } from "../completions/index.js";
 
 export default function* stringLiteralNodeEvaluator(
   node: StringLiteral,
 ): EvaluationGenerator {
-  return StaticJsString(node.value);
+  return NormalCompletion(StaticJsString(node.value));
 }

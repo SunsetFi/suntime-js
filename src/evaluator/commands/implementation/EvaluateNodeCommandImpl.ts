@@ -6,6 +6,10 @@ import { EvaluateNodeCommand } from "../types/index.js";
 export default function* executeEvaluateNodeCommand(
   command: EvaluateNodeCommand,
 ): EvaluationGenerator {
-  const result = yield* evaluateNode(command.node, command.context);
+  const result = yield* evaluateNode(
+    command.node,
+    command.context,
+    command.options,
+  );
   return result;
 }

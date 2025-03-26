@@ -20,3 +20,4 @@ const StaticJsRealm = fStaticJsRealm;
 type StaticJsRealm = IStaticJsRealm;
 
 export { StaticJsRealm };
+export { isStaticJsRealm } from "./interfaces/index.js";

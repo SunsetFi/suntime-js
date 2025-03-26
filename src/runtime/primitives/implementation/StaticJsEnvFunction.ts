@@ -1,5 +1,9 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { runEvaluatorUntilCompletion } from "../../../evaluator/internal.js";
+import {
+  Completion,
+  NormalCompletion,
+  runEvaluatorUntilCompletion,
+} from "../../../evaluator/internal.js";
 
 import { StaticJsString, StaticJsValue } from "../factories/index.js";
 import StaticJsUndefined from "../factories/StaticJsUndefined.js";
@@ -27,7 +31,7 @@ export default abstract class StaticJsEnvFunction<
     private readonly _call: (
       thisArg: IStaticJsValue,
       ...args: TArgs
-    ) => EvaluationGenerator<IStaticJsValue>,
+    ) => EvaluationGenerator<Completion>,
   ) {
     this._name = name;
   }
@@ -51,7 +55,15 @@ export default abstract class StaticJsEnvFunction<
       const result = runEvaluatorUntilCompletion(
         this._call(thisArg, ...argValues),
       );
-      return result.toJs();
+      switch (result.type) {
+        case "throw":
+          // FIXME: wrap the error
+          throw result.value.toJs();
+        case "return":
+          return result.value.toJs();
+      }
+
+      return NormalCompletion();
     };
   }
 
@@ -70,7 +82,7 @@ export default abstract class StaticJsEnvFunction<
   call(
     thisArg: IStaticJsValue,
     ...args: TArgs
-  ): EvaluationGenerator<IStaticJsValue> {
+  ): EvaluationGenerator<Completion> {
     if (!isStaticJsValue(thisArg)) {
       throw new Error("thisArg must be a StaticJsValue instance.");
     }
@@ -79,7 +91,8 @@ export default abstract class StaticJsEnvFunction<
       throw new Error("Arguments must be StaticJsValue instances.");
     }
 
-    return this._call(thisArg, ...args);
+    const callResult = this._call(thisArg, ...args);
+    return callResult;
   }
 
   hasProperty(name: string): boolean {

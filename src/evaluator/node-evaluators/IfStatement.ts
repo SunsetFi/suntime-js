@@ -5,9 +5,7 @@ import {
   EvaluateNodeCommand,
 } from "../commands/index.js";
 import EvaluationContext from "../EvaluationContext.js";
-import EvaluationResult, {
-  isControlFlowEvaluationResult,
-} from "../EvaluationResult.js";
+import { Completion, NormalCompletion } from "../completions/index.js";
 
 export default function* ifStatementNodeEvaluator(
   node: IfStatement,
@@ -15,16 +13,19 @@ export default function* ifStatementNodeEvaluator(
 ) {
   const testResult = yield* EvaluateNodeAssertValueCommand(node.test, context);
 
-  let result: EvaluationResult | null = null;
+  let result: Completion = NormalCompletion();
   if (testResult.toBoolean()) {
     result = yield* EvaluateNodeCommand(node.consequent, context);
   } else if (node.alternate) {
     result = yield* EvaluateNodeCommand(node.alternate, context);
   }
 
-  if (isControlFlowEvaluationResult(result)) {
-    return result;
+  switch (result.type) {
+    case "break":
+    case "continue":
+    case "return":
+      return result;
   }
 
-  return null;
+  return NormalCompletion();
 }

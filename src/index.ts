@@ -1,5 +1,2 @@
-export * from "./runtime/internal.js";
-export {
-  evaluateExpressionString,
-  evaluateString,
-} from "./evaluator/internal.js";
+export * from "./runtime/index.js";
+export * from "./evaluator/index.js";

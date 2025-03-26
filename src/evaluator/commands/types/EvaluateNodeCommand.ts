@@ -1,43 +1,47 @@
 import { Node } from "@babel/types";
 
-import {
-  assertStaticJsValue,
-  StaticJsValue,
-} from "../../../runtime/internal.js";
+import { StaticJsValue } from "../../../runtime/index.js";
 
+import { Completion } from "../../completions/index.js";
 import EvaluationContext from "../../EvaluationContext.js";
-import EvaluationResult from "../../EvaluationResult.js";
 import EvaluationGenerator from "../../EvaluationGenerator.js";
+import { EvaluateNodeOptions } from "../../node-evaluators/index.js";
 
 import EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 
-export interface EvaluateNodeCommand
-  extends EvaluatorCommandBase<EvaluationResult> {
+export interface EvaluateNodeCommand extends EvaluatorCommandBase<Completion> {
   kind: "evalute-node";
   node: Node;
   context: EvaluationContext;
+  options?: EvaluateNodeOptions;
 }
 
 export function* EvaluateNodeCommand(
   node: Node,
   context: EvaluationContext,
+  options?: EvaluateNodeOptions,
 ): EvaluationGenerator {
   const result = yield {
     kind: "evalute-node",
     node,
     context,
+    options,
   };
   return result;
 }
 
-export function* EvaluateNodeValueCommand(
+export function* EvaluateNodeNormalValueCommand(
   node: Node,
   context: EvaluationContext,
 ): EvaluationGenerator<StaticJsValue> {
   const result = yield* EvaluateNodeCommand(node, context);
-  assertStaticJsValue(
-    result,
-    `Expected node type ${node.type} to return a StaticJsValue.`,
-  );
-  return result;
+  if (result.type !== "normal") {
+    throw new Error(`Expected node type ${node.type} to return a value.`);
+  }
+
+  if (!result.value) {
+    throw new Error(`Expected node type ${node.type} to return a value.`);
+  }
+
+  return result.value;
 }

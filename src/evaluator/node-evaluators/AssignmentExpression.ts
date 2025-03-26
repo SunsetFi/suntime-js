@@ -4,11 +4,12 @@ import {
   isStaticJsScalar,
   StaticJsString,
   StaticJsNumber,
-} from "../../runtime/internal.js";
+} from "../../runtime/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import { NormalCompletion } from "../completions/index.js";
 
 import setLVal from "./LVal.js";
 
@@ -100,5 +101,5 @@ export default function* assignmentExpressionNodeEvaluator(
 
   // Pass the value for chaining.
   // It is proper to pass the resolved value, even if the binding set didn't change the value.
-  return value;
+  return NormalCompletion(value);
 }
