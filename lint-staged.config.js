@@ -1,3 +1,3 @@
 export default {
-  "*.ts": ["prettier --write"],
+  "*.ts": ["prettier --write", "eslint"],
 };
