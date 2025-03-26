@@ -1,3 +1,4 @@
+import typedEntries from "../../../internal/typed-entries.js";
 import {
   StaticJsObject,
   StaticJsObjectPropertyDescriptor,
@@ -7,14 +8,6 @@ import {
 import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
 
 import StaticJsObjectBase from "./StaticJsObjectBase.js";
-
-export interface StaticJsImplObjectProperty {
-  writable?: boolean;
-  enumerable?: boolean;
-  configurable?: boolean;
-  get?(): StaticJsValue;
-  set?(value: StaticJsValue): void;
-}
 
 export default class StaticJsImplObject<
   TTypeSymbol extends StaticJsObject[typeof StaticJsTypeSymbol],
@@ -26,10 +19,10 @@ export default class StaticJsImplObject<
 
   constructor(
     typeSymbol: TTypeSymbol,
-    properties: Record<string, StaticJsImplObjectProperty>,
+    properties: Record<string, StaticJsObjectPropertyDescriptor>,
   ) {
     super(typeSymbol);
-    for (const [name, property] of Object.entries(properties)) {
+    for (const [name, property] of typedEntries(properties)) {
       this._properties.set(name, property);
     }
   }
@@ -45,30 +38,30 @@ export default class StaticJsImplObject<
   }
 
   protected _setWritablePropertyByValue(
-    name: string,
-    value: StaticJsValue,
+    _name: string,
+    _value: StaticJsValue,
   ): void {
     // Should never get here; we never use decl.value
     throw new Error("Method not implemented.");
   }
 
   protected _defineNewProperty(
-    name: string,
-    descriptor: StaticJsObjectPropertyDescriptor,
+    _name: string,
+    _descriptor: StaticJsObjectPropertyDescriptor,
   ): void {
     // FIXME: Throw real error
     throw new Error("Object is not extensible.");
   }
 
   protected _reconfigureProperty(
-    name: string,
-    descriptor: StaticJsObjectPropertyDescriptor,
+    _name: string,
+    _descriptor: StaticJsObjectPropertyDescriptor,
   ): void {
     // FIXME: Throw real error
     throw new Error("Object is not extensible.");
   }
 
-  protected _deleteConfigurableProperty(name: string): void {
+  protected _deleteConfigurableProperty(_name: string): void {
     // FIXME: Throw real error
     throw new Error("Object is not extensible.");
   }

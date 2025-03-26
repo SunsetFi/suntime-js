@@ -17,7 +17,7 @@ import {
 } from "../../primitives/index.js";
 
 export interface StaticJsEnvGlobalPropertyDecl {
-  value: any;
+  value: unknown;
   // TODO:
   // writable?: boolean;
   // enumerable?: boolean;
@@ -31,7 +31,7 @@ export interface StaticJsEnvGlobalValue {
 }
 
 export interface StaticJsEnvRealmOptions {
-  globalThis?: { value: any };
+  globalThis?: { value: unknown };
   globalObject?: StaticJsEnvGlobalDecl | StaticJsEnvGlobalValue;
 }
 

@@ -18,7 +18,7 @@ export interface StaticJsObjectConfig {
 }
 
 function StaticJsObject(
-  obj?: Record<string, any>,
+  obj?: object,
   { static: isStatic, writable }: StaticJsObjectConfig = {},
 ): IStaticJsObject {
   if (obj === undefined) {
@@ -41,30 +41,30 @@ function StaticJsObject(
     writable = "env-only";
   } else if (writable !== "writeback") {
     obj = new Proxy(obj, {
-      isExtensible(target) {
+      isExtensible() {
         return false;
       },
-      defineProperty(target, prop, descriptor) {
+      defineProperty() {
         // Eat the operation.
         return true;
       },
-      deleteProperty(target, prop) {
+      deleteProperty() {
         // Eat the operation.
         return true;
       },
-      setPrototypeOf(target, v) {
+      setPrototypeOf() {
         // Eat the operation.
         return true;
       },
-      apply(target, thisArg, argArray) {
+      apply(target) {
         // Eat the operation.
         return target;
       },
-      preventExtensions(target) {
+      preventExtensions() {
         // Eat the operation.
         return true;
       },
-      set(target, p, newValue, receiver) {
+      set() {
         // Eat the operation.
         return true;
       },
@@ -81,7 +81,7 @@ function StaticJsObject(
 }
 
 export default typedMerge(StaticJsObject, {
-  toPropertyKey(value: any) {
+  toPropertyKey(value: unknown) {
     if (isStaticJsValue(value)) {
       value = value.toJs();
     }

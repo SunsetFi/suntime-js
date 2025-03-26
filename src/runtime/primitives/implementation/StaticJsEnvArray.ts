@@ -80,13 +80,14 @@ export default class StaticJsEnvArray implements StaticJsObject<"array"> {
     switch (name) {
       case "length":
         return true;
-      default:
+      default: {
         const index = parseIndex(name);
         if (index === null) {
           return false;
         }
 
         return index >= 0 && index < this._items.length;
+      }
     }
   }
 
@@ -94,7 +95,7 @@ export default class StaticJsEnvArray implements StaticJsObject<"array"> {
     switch (name) {
       case "length":
         return new StaticJsEnvNumber(this._items.length);
-      default:
+      default: {
         const index = parseIndex(name);
         if (index === null || index < 0 || index >= this._items.length) {
           return StaticJsEnvUndefined.Instance;
@@ -106,6 +107,7 @@ export default class StaticJsEnvArray implements StaticJsObject<"array"> {
         }
 
         return item;
+      }
     }
   }
 
@@ -126,7 +128,7 @@ export default class StaticJsEnvArray implements StaticJsObject<"array"> {
 
     const index = parseIndex(name);
     if (index != null && index >= 0 && index < this._items.length) {
-      let value = this._items[index];
+      const value = this._items[index];
       if (value === StaticJsEmptyArrayItem) {
         return undefined;
       }
@@ -185,12 +187,13 @@ export default class StaticJsEnvArray implements StaticJsObject<"array"> {
     switch (name) {
       case "length":
         return true;
-      default:
+      default: {
         const index = parseIndex(name);
         if (index === null) {
           return true;
         }
         return false;
+      }
     }
   }
 
@@ -200,13 +203,14 @@ export default class StaticJsEnvArray implements StaticJsObject<"array"> {
       case "length":
         // You can actually do this in javascript...
         throw new Error("Cannot set length of array");
-      default:
+      default: {
         const index = parseIndex(name);
         if (index === null) {
           throw new Error("Invalid index");
         }
 
         this._items[index] = value;
+      }
     }
   }
 
@@ -241,10 +245,7 @@ export default class StaticJsEnvArray implements StaticJsObject<"array"> {
     this._items[index] = value;
   }
 
-  sliceNative(
-    start?: number,
-    end?: number,
-  ): (StaticJsValue | StaticJsEmptyArrayItem)[] {
+  sliceNative(start?: number, end?: number): StaticJsArrayItem[] {
     return this._items.slice(start, end);
   }
 }

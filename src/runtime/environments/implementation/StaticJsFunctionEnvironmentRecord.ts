@@ -7,7 +7,7 @@ import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironme
 export default class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnvironmentRecord {
   constructor(
     private readonly _thisArg: StaticJsValue,
-    args: StaticJsValue[],
+    _args: StaticJsValue[],
   ) {
     super();
     // TODO: add arguments array-not-array-object.

@@ -11,7 +11,7 @@ import {
 
 import { isStaticJsValue, StaticJsValue } from "../interfaces/index.js";
 
-export default function toStaticJsValue(value: any): StaticJsValue {
+export default function toStaticJsValue(value: unknown): StaticJsValue {
   if (isStaticJsValue(value)) {
     return value;
   }

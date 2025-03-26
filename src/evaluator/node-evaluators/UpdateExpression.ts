@@ -17,7 +17,7 @@ export default function* updateExpressionNodeEvaluator(
     throw new Error("Unsupported argument type for update expression");
   }
 
-  let originalValue = context.env.getBindingValue(
+  const originalValue = context.env.getBindingValue(
     bindingName,
     context.realm.strict,
   );

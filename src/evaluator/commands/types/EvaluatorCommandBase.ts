@@ -1,3 +1,3 @@
-export default interface EvaluatorCommandBase<TResult> {
+export default interface EvaluatorCommandBase {
   kind: string;
 }

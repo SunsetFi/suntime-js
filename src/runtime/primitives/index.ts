@@ -30,10 +30,7 @@ import type {
   StaticJsValue as IStaticJsValue,
 } from "./interfaces/index.js";
 
-export type {
-  StaticJsObjectConfig,
-  StaticJsRuntimeFunctionEvaluate,
-} from "./factories/index.js";
+export type { StaticJsObjectConfig } from "./factories/index.js";
 
 import {
   StaticJsArray as fStaticJsArray,

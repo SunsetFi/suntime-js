@@ -3,7 +3,7 @@ import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
 import { StaticJsArray as IStaticJsArray } from "../interfaces/index.js";
 import { StaticJsValue as fStaticJsValue } from "../factories/index.js";
 
-export default function StaticJsArray(value: any[]): IStaticJsArray {
+export default function StaticJsArray(value: unknown[]): IStaticJsArray {
   if (staticJsInstanceOf(value) === "array") {
     return value as unknown as StaticJsEnvArray;
   }

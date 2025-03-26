@@ -23,11 +23,11 @@ export default function* unaryExpressionNodeEvaluator(
     case "!":
       return NormalCompletion(StaticJsBoolean(!value.toJs()));
     case "-":
-      return NormalCompletion(StaticJsNumber(-value.toJs()));
+      return NormalCompletion(StaticJsNumber(-Number(value.toJs())));
     case "+":
-      return NormalCompletion(StaticJsNumber(+value.toJs()));
+      return NormalCompletion(StaticJsNumber(+Number(value.toJs())));
     case "~":
-      return NormalCompletion(StaticJsNumber(~value.toJs()));
+      return NormalCompletion(StaticJsNumber(~Number(value.toJs())));
     case "void":
       return NormalCompletion(StaticJsUndefined());
     case "typeof":

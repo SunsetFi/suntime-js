@@ -5,7 +5,7 @@ import StaticJsEnvRealm, {
 import { StaticJsRealm as IStaticJsRealm } from "../interfaces/index.js";
 
 export interface StaticJsRealmGlobalDeclProperty {
-  value: any;
+  value: unknown;
   // TODO:
   // writable?: boolean;
   // enumerable?: boolean;
@@ -16,7 +16,7 @@ export interface StaticJsRealmGlobalDeclExplicit {
 }
 
 export interface StaticJsRealmGlobalObjectDecl {
-  value: Record<string, any>;
+  value: Record<string, unknown>;
   static?: boolean;
   // TODO: More fine-grained control.
   // Pass array of writable properties, and per-property env-only vs writeback.
@@ -65,12 +65,12 @@ export default function StaticJsRealm({
       Object.entries(globalObjectDecl.properties).forEach(([name, prop]) => {
         if (!prop || typeof prop !== "object") {
           throw new Error(
-            `globalObjectDecl.properties[\"${name}\"] must be an object.`,
+            `globalObjectDecl.properties["${name}"] must be an object.`,
           );
         }
         if ("value" in prop === false) {
           throw new Error(
-            `globalObjectDecl.properties[\"${name}\"] must have a value.`,
+            `globalObjectDecl.properties["${name}"] must have a value.`,
           );
         }
       });

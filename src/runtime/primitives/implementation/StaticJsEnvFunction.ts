@@ -45,7 +45,7 @@ export default abstract class StaticJsEnvFunction<
   }
 
   toJs() {
-    return (...args: any[]) => {
+    return (...args: unknown[]) => {
       const argValues = args.map(StaticJsValue) as TArgs;
       // FIXME: This absolutely probably does not work right.
       // We should at least try to look up if we have a StaticJsValue representation of the global object.
@@ -116,7 +116,7 @@ export default abstract class StaticJsEnvFunction<
     }
   }
 
-  getIsReadOnlyProperty(name: string): boolean {
+  getIsReadOnlyProperty(_name: string): boolean {
     return true;
   }
 
@@ -144,17 +144,17 @@ export default abstract class StaticJsEnvFunction<
   }
 
   defineProperty(
-    name: string,
-    descriptor: StaticJsObjectPropertyDescriptor,
+    _name: string,
+    _descriptor: StaticJsObjectPropertyDescriptor,
   ): void {
     throw new Error("Functions are read-only.");
   }
 
-  deleteProperty(name: string): boolean {
+  deleteProperty(_name: string): boolean {
     return false;
   }
 
-  setProperty(name: string, value: IStaticJsValue): void {
+  setProperty(_name: string, _value: IStaticJsValue): void {
     throw new Error("Functions are read-only.");
   }
 

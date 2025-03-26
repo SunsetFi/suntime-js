@@ -3,11 +3,12 @@ import { Node, isNode } from "@babel/types";
 import EvaluationContext from "../EvaluationContext.js";
 
 import { getEvaluator } from "./nodes.js";
+import typedKeys from "../../internal/typed-keys.js";
 
 export default function setupEnvironment(
   node: Node,
   context: EvaluationContext,
-) {
+): void {
   // Recurse by default, there are only a few exceptions.
   let shouldRecurse = true;
   const evaluator = getEvaluator(node);
@@ -25,8 +26,8 @@ export default function setupEnvironment(
 
 function getChildNodes(node: Node): Node[] {
   const childNodes: Node[] = [];
-  for (const key in node) {
-    const value = (node as any)[key];
+  for (const key of typedKeys(node)) {
+    const value = node[key];
     if (value == null) {
       continue;
     }

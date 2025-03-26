@@ -11,7 +11,7 @@ import StaticJsCompilation from "./StaticJsCompilation.js";
 export default class StaticJsCompilationImpl implements StaticJsCompilation {
   constructor(private readonly _root: Node) {}
 
-  evaluate(realm: StaticJsRealm = StaticJsRealm()): any {
+  evaluate(realm: StaticJsRealm = StaticJsRealm()): unknown {
     if (!isStaticJsRealm(realm)) {
       throw new Error("Invalid realm");
     }

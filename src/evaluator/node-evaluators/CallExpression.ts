@@ -20,7 +20,7 @@ export default function* callExpressionNodeEvaluator(
   if (!isStaticJsFunction(callee)) {
     const calleeName =
       node.callee.type === "Identifier" ? node.callee.name : "<expression>";
-    throw new Error(`Cannot call \"${calleeName}\": Not a function`);
+    throw new Error(`Cannot call "${calleeName}": Not a function`);
   }
 
   const args = new Array(node.arguments.length);

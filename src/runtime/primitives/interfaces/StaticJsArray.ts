@@ -16,6 +16,6 @@ export interface StaticJsArray extends StaticJsObject<"array"> {
   sliceNative(start?: number, end?: number): StaticJsArrayItem[];
 }
 
-export function isStaticJsArray(value: any): value is StaticJsArray {
+export function isStaticJsArray(value: unknown): value is StaticJsArray {
   return staticJsInstanceOf(value) === "array";
 }

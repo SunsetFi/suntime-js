@@ -46,8 +46,11 @@ export default function* objectExpressionNodeEvaluator(
           context,
         );
         break;
-      default:
-        throw new Error("Unsupported property type: " + (property as any).type);
+      default: {
+        // @ts-expect-error: Normally we won't get here, but include it for malformed ASTs.
+        const type = property.type;
+        throw new Error("Unsupported property type: " + type);
+      }
     }
   }
 

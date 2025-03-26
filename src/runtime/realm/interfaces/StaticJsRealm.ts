@@ -25,8 +25,9 @@ export default interface StaticJsRealm {
    */
   readonly globalEnv: StaticJsEnvironment;
 }
-export function isStaticJsRealm(value: any): value is StaticJsRealm {
+export function isStaticJsRealm(value: unknown): value is StaticJsRealm {
   return (
+    value != null &&
     typeof value === "object" &&
     "strict" in value &&
     "globalObject" in value &&

@@ -35,3 +35,8 @@ TODO
   the runtime can set properties on it.
   - Or maybe use a cached proxy in StaticJsEnvObject's toJs(), if that is faster?
     This would cause a lot of redundancy with ExternalObject. Simpler is better?
+- Get api-extractor working. Currently, it hates the fact that we export factories and interfaces with the same names as merged, but the merger
+  happens down the line from their declarations.
+  - Re-think ban on exporting classes?
+  - Put factory and interface in the same class?
+    - This was avoided due to circular dependencies, but there is probably a way to do this safely.

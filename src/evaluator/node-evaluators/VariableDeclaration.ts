@@ -66,7 +66,6 @@ function variableDeclarationEnvironmentSetup(
       break;
     case "var":
       variableCreator = (name) => {
-        debugger;
         const varScope = context.env.getVarScope() ?? context.env;
         if (varScope.canDeclareGlobalVar(name)) {
           varScope.createGlobalVarBinding(name, true);

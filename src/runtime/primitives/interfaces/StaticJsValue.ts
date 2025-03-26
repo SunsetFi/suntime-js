@@ -1,23 +1,15 @@
 import { StaticJsScalar } from "./StaticJsScalar.js";
 import { StaticJsObject } from "./StaticJsObject.js";
-import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
+import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
 
 export type StaticJsValue = StaticJsScalar | StaticJsObject<string>;
 
-export function isStaticJsValue(value: any): value is StaticJsValue {
-  if (
-    value &&
-    typeof value === "object" &&
-    typeof value[StaticJsTypeSymbol] === "string"
-  ) {
-    return true;
-  }
-
-  return false;
+export function isStaticJsValue(value: unknown): value is StaticJsValue {
+  return staticJsInstanceOf(value) != null;
 }
 
 export function assertStaticJsValue(
-  value: any,
+  value: unknown,
   message?: string,
 ): asserts value is StaticJsValue {
   if (!isStaticJsValue(value)) {

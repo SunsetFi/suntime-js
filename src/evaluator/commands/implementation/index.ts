@@ -10,7 +10,10 @@ export function executeEvaluatorCommand(
   switch (command.kind) {
     case "evalute-node":
       return executeEvaluateNodeCommand(command);
-    default:
-      throw new Error(`Unknown command type: ${(command as any).type}`);
+    default: {
+      // @ts-expect-error: We want to ensure we handle all cases.
+      const type = command.type;
+      throw new Error(`Unknown command type: ${type}`);
+    }
   }
 }

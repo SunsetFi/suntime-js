@@ -1,6 +1,8 @@
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import {
+  isStaticJsObjectPropertyDescriptorGetter,
+  isStaticJsObjectPropertyDescriptorValue,
   isStaticJsValue,
   StaticJsObject,
   StaticJsObjectPropertyDescriptor,
@@ -47,16 +49,17 @@ export default abstract class StaticJsObjectBase<
 
     try {
       validateStaticJsObjectPropertyDescriptor(decl);
-    } catch (e: any) {
-      e = `Property ${name} has an invalid property descriptor: ${e.message}`;
-      throw e;
+    } catch (e: unknown) {
+      const err = e as Error;
+      err.message = `Property ${name} has an invalid property descriptor: ${(err as Error).message}`;
+      throw err;
     }
 
     let value: unknown;
-    if (hasOwnProperty(decl, "value")) {
+    if (isStaticJsObjectPropertyDescriptorValue(decl)) {
       value = decl.value;
-    } else if (hasOwnProperty(decl, "get")) {
-      value = (decl.get as Function)();
+    } else if (isStaticJsObjectPropertyDescriptorGetter(decl)) {
+      value = decl.get();
     } else {
       return StaticJsUndefined();
     }
@@ -140,11 +143,11 @@ export default abstract class StaticJsObjectBase<
     // TODO: Use a proxy object and support setting and defining values to it.
     // TODO: Would it be workable to just make the constructor always return an external object and just give it
     // a new object to wrap?
-    const result: Record<string, any> = {};
+    const result: Record<string, unknown> = {};
     for (const key of this.enumerateKeys()) {
       result[key] = this.getProperty(key).toJs();
     }
-    return result;
+    return result as object;
   }
 
   toString(): string {

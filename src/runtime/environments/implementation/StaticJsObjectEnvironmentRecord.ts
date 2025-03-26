@@ -22,7 +22,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
     this._obj.setProperty(name, StaticJsUndefined());
   }
 
-  createImmutableBinding(name: string): void {
+  createImmutableBinding(_name: string): void {
     // Do nothing; all the work is done in initializeBinding
     // this._obj.defineProperty(name, {
     //   writable: false,

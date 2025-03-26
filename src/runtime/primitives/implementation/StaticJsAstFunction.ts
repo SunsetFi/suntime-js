@@ -35,12 +35,11 @@ export type StaticJsAstFunctionArgumentDeclaration =
 export default class StaticJsAstFunction extends StaticJsEnvFunction {
   constructor(
     name: string | null,
-    private readonly _argumentDeclarations: StaticJsAstFunctionArgumentDeclaration[],
+    argumentDeclarations: StaticJsAstFunctionArgumentDeclaration[],
     context: EvaluationContext,
     body: BlockStatement | Expression,
     bound?: StaticJsValue,
   ) {
-    let self: StaticJsAstFunction;
     super(name, function* (thisArg, ...args): EvaluationGenerator<Completion> {
       const functionEnv = new StaticJsLexicalEnvironment(
         new StaticJsFunctionEnvironmentRecord(bound ?? thisArg, args),
@@ -53,7 +52,7 @@ export default class StaticJsAstFunction extends StaticJsEnvFunction {
         label: null,
       };
 
-      yield* self._declareArguments(args, functionContext);
+      yield* declareArguments(args, argumentDeclarations, functionContext);
 
       setupEnvironment(body, functionContext);
 
@@ -73,37 +72,36 @@ export default class StaticJsAstFunction extends StaticJsEnvFunction {
 
       return NormalCompletion();
     });
-
-    self = this;
   }
+}
 
-  private *_declareArguments(
-    args: StaticJsValue[],
-    context: EvaluationContext,
-  ): EvaluationGenerator<void> {
-    for (let i = 0; i < this._argumentDeclarations.length; i++) {
-      const decl = this._argumentDeclarations[i];
+function* declareArguments(
+  args: StaticJsValue[],
+  argumentDeclarations: StaticJsAstFunctionArgumentDeclaration[],
+  context: EvaluationContext,
+): EvaluationGenerator<void> {
+  for (let i = 0; i < argumentDeclarations.length; i++) {
+    const decl = argumentDeclarations[i];
 
-      if (decl.type === "RestElement") {
-        const value = new StaticJsEnvArray(args.slice(i));
-        yield* setLVal(decl.argument, value, context, (name, value) => {
-          context.env.createMutableBinding(name, false);
-
-          // Strict mode is whatever; our binding is created above.
-          context.env.setMutableBinding(name, value, true);
-        });
-        return;
-      }
-
-      // We might not get enough arguments, so fill in the rest with undefined.
-      const value: StaticJsValue = args[i] ?? StaticJsEnvUndefined.Instance;
-
-      yield* setLVal(decl, value, context, (name, value) => {
+    if (decl.type === "RestElement") {
+      const value = new StaticJsEnvArray(args.slice(i));
+      yield* setLVal(decl.argument, value, context, (name, value) => {
         context.env.createMutableBinding(name, false);
 
         // Strict mode is whatever; our binding is created above.
         context.env.setMutableBinding(name, value, true);
       });
+      return;
     }
+
+    // We might not get enough arguments, so fill in the rest with undefined.
+    const value: StaticJsValue = args[i] ?? StaticJsEnvUndefined.Instance;
+
+    yield* setLVal(decl, value, context, (name, value) => {
+      context.env.createMutableBinding(name, false);
+
+      // Strict mode is whatever; our binding is created above.
+      context.env.setMutableBinding(name, value, true);
+    });
   }
 }

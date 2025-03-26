@@ -34,7 +34,7 @@ function* tryStatementNodeEvaluator(
 
   if (node.finalizer) {
     const finalizerCompletion = yield* runBlock(node.finalizer, context);
-    // finalizerResult takes precedence over catch or try completions.
+    // finalizer takes precedence over catch or try completions.
     switch (finalizerCompletion.type) {
       case "return":
       case "throw":

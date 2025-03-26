@@ -3,13 +3,11 @@ import { describe, it, expect } from "vitest";
 import { evaluateString } from "../src/index.js";
 
 describe("E2E: Thrown Error Handling", () => {
-  describe("Scalar throws", () => {
-    it("Should throw an error", () => {
-      const code = `
-        throw 1;
+  it("Should throw the value", () => {
+    const code = `
+        throw {message: "Test Error"};
       `;
-      expect(() => evaluateString(code)).toThrow();
-    });
+    expect(() => evaluateString(code)).toThrow("Test Error");
   });
 
   describe("Try / Catch / Finally", () => {
@@ -27,20 +25,20 @@ describe("E2E: Thrown Error Handling", () => {
       expect(evaluateString(code)).toBe(1);
     });
 
-    it("Should return from finally", () => {
+    it("Should give precedence to finally over catch", () => {
       const code = `
         function test() {
           try {
             throw 1;
           } catch (e) {
-            return e;
+            return "c";
           } finally {
-            return 2;
+            return "f";
           }
         }
         test();
       `;
-      expect(evaluateString(code)).toBe(2);
+      expect(evaluateString(code)).toBe("f");
     });
   });
 });

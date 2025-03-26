@@ -9,7 +9,7 @@ export interface StaticJsPrimitive {
     | "function"
     | "undefined";
   readonly [StaticJsTypeSymbol]: string;
-  toJs(): any;
+  toJs(): unknown;
   toString(): string;
   toNumber(): number;
   toBoolean(): boolean;

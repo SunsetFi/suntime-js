@@ -9,7 +9,7 @@ export default interface StaticJsEnvironmentBindingProvider {
   ): StaticJsEnvironmentBinding | undefined;
 }
 export function isStaticJsEnvironmentBindingProvider(
-  value: any,
+  value: unknown,
 ): value is StaticJsEnvironmentBindingProvider {
   return (
     typeof value === "object" &&

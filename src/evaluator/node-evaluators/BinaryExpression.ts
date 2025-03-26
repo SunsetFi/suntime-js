@@ -100,7 +100,7 @@ function* binaryExpressionDoubleEquals(
     !isStaticJsNullOrUndefined(right) &&
     (leftType === "number" || rightType === "number");
 
-  let leftValue: any;
+  let leftValue: unknown;
   if (arithmatic) {
     // Coerce whatever it is to a number.
     leftValue = left.toNumber();
@@ -111,7 +111,7 @@ function* binaryExpressionDoubleEquals(
     leftValue = left;
   }
 
-  let rightValue: any;
+  let rightValue: unknown;
   if (arithmatic) {
     // Coerce whatever it is to a number.
     rightValue = right.toNumber();
@@ -166,11 +166,12 @@ function* binaryExpressionAdd(
   }
 
   // Fall back to the primitive addition.
+  // @ts-expect-error: Whatever this is, the addition operator behavior is what we want.
   return NormalCompletion(StaticJsValue(left.toJs() + right.toJs()));
 }
 
 function* numericComputation(
-  func: (left: number, right: number) => any,
+  func: (left: number, right: number) => unknown,
   node: BinaryExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {

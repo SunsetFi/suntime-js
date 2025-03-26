@@ -1,5 +1,7 @@
 import hasOwnProperty from "../../../internal/has-own-property.js";
-import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
+import StaticJsTypeSymbol, {
+  staticJsInstanceOf,
+} from "../StaticJsTypeSymbol.js";
 import { StaticJsPrimitive } from "./StaticJsPrimitive.js";
 import { StaticJsValue } from "./StaticJsValue.js";
 
@@ -29,20 +31,17 @@ export interface StaticJsObject<TTypeSymbol extends string = "object">
   enumerateKeys(): string[];
 }
 
-export function isStaticJsObject(value: any): value is StaticJsObject {
-  if (!value || typeof value !== "object") {
-    return false;
-  }
-
-  return value[StaticJsTypeSymbol] === "object";
+export function isStaticJsObject(value: unknown): value is StaticJsObject {
+  const type = staticJsInstanceOf(value);
+  return type === "object";
 }
 
-export function isStaticJsObjectLike(value: any): value is StaticJsObject {
-  if (!value || typeof value !== "object") {
+export function isStaticJsObjectLike(value: unknown): value is StaticJsObject {
+  const type = staticJsInstanceOf(value);
+  if (!type) {
     return false;
   }
-
-  return ["object", "array", "function"].includes(value[StaticJsTypeSymbol]);
+  return ["object", "array", "function"].includes(type);
 }
 
 export interface StaticJsObjectPropertyDescriptorBase {
@@ -51,22 +50,26 @@ export interface StaticJsObjectPropertyDescriptorBase {
   readonly writable?: boolean;
   set?(value: StaticJsValue): void;
 }
+
+export type StaticJsObjectPropertyDescriptorWriteOnly =
+  Required<StaticJsObjectPropertyDescriptorBase>;
 export interface StaticJsObjectPropertyDescriptorValue
   extends StaticJsObjectPropertyDescriptorBase {
-  readonly value?: StaticJsValue;
+  readonly value: StaticJsValue;
 }
 
 export interface StaticJsObjectPropertyDescriptorGetter
   extends StaticJsObjectPropertyDescriptorBase {
-  readonly get?: () => StaticJsValue;
+  readonly get: () => StaticJsValue;
 }
 
 export type StaticJsObjectPropertyDescriptor =
+  | StaticJsObjectPropertyDescriptorWriteOnly
   | StaticJsObjectPropertyDescriptorValue
   | StaticJsObjectPropertyDescriptorGetter;
 
 export function validateStaticJsObjectPropertyDescriptor(
-  value: any,
+  value: unknown,
 ): asserts value is StaticJsObjectPropertyDescriptor {
   if (!value || typeof value !== "object") {
     throw new Error("StaticJsObjectPropertyDescriptor must be an object.");
@@ -85,22 +88,30 @@ export function validateStaticJsObjectPropertyDescriptor(
 }
 
 export function isStaticJsObjectPropertyDescriptorValue(
-  value: any,
-): value is StaticJsObjectPropertyDescriptorValue {
+  value: unknown,
+): value is Required<StaticJsObjectPropertyDescriptorValue> {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
   return hasOwnProperty(value, "value");
 }
 
 export function isStaticJsObjectPropertyDescriptorGetter(
-  value: any,
-): value is StaticJsObjectPropertyDescriptorGetter {
+  value: unknown,
+): value is Required<StaticJsObjectPropertyDescriptorGetter> {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
   return hasOwnProperty(value, "get");
 }
 
 export function getStaticJsObjectPropertyDescriptorValue(
   descriptor: StaticJsObjectPropertyDescriptor,
 ): StaticJsValue | null {
-  const hasValue = hasOwnProperty(descriptor, "value");
-  const hasGet = hasOwnProperty(descriptor, "get");
+  const hasValue = isStaticJsObjectPropertyDescriptorValue(descriptor);
+  const hasGet = isStaticJsObjectPropertyDescriptorGetter(descriptor);
 
   if (hasValue && hasGet) {
     throw new Error(
@@ -111,7 +122,7 @@ export function getStaticJsObjectPropertyDescriptorValue(
   if (hasValue) {
     return descriptor.value as StaticJsValue;
   } else if (hasGet) {
-    return (descriptor as any).get();
+    return descriptor.get();
   }
 
   return null;

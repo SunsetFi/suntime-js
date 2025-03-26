@@ -24,7 +24,7 @@ export default class StaticJsExternalObject extends StaticJsObjectBase<"object">
   private readonly _deletedKeys = new Set<string>();
 
   constructor(
-    private readonly _obj: Record<string, any>,
+    private readonly _obj: object,
     { mutationTarget, extensible }: StaticJsRuntimeObjectOptions = {},
   ) {
     super("object");
@@ -46,9 +46,9 @@ export default class StaticJsExternalObject extends StaticJsObjectBase<"object">
     );
   }
 
-  toJs(): Record<string, any> {
+  toJs() {
     if (this._mutationTarget) {
-      const result: Record<string, any> = {};
+      const result: Record<string, unknown> = {};
       for (const key of this.enumerateKeys()) {
         result[key] =
           this._mutationTarget.getProperty(key).toJs() ??
@@ -85,7 +85,7 @@ export default class StaticJsExternalObject extends StaticJsObjectBase<"object">
       set: descrSet,
     } = objDescr;
 
-    let get = () => {
+    const get = () => {
       const mutatorDescr = this._mutationTarget?.getPropertyDescriptor(name);
       if (mutatorDescr) {
         return (
@@ -96,7 +96,7 @@ export default class StaticJsExternalObject extends StaticJsObjectBase<"object">
 
       return StaticJsValue(descrGet?.call(this._obj) ?? value);
     };
-    let set = (value: IStaticJsValue) => {
+    const set = (value: IStaticJsValue) => {
       if (this._mutationTarget) {
         this._mutationTarget.setProperty(name, value);
         return;
@@ -110,6 +110,7 @@ export default class StaticJsExternalObject extends StaticJsObjectBase<"object">
       if (descrSet) {
         descrSet.call(this._obj, jsValue);
       } else {
+        // @ts-expect-error: We know the name is a valid key of the object due to the Object.getOwnPropertyDescriptor call.
         this._obj[name] = jsValue;
       }
     };
@@ -132,8 +133,8 @@ export default class StaticJsExternalObject extends StaticJsObjectBase<"object">
       return;
     }
 
-    // Trust that our descriptor is correct for our writability.
-    this._obj[name] = value.toJs();
+    // @ts-expect-error: We can trust that this is a valid key due to the checks made by StaticJsObjectBase.
+    this._obj[typedName] = value.toJs();
   }
 
   protected _defineNewProperty(

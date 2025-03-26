@@ -17,15 +17,34 @@ import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
+export default function setLVal(
+  lval: LVal,
+  value: StaticJsValue,
+  context: EvaluationContext,
+  setNamedVariable: (name: string, value: StaticJsValue) => void,
+): EvaluationGenerator<void>;
+export default function setLVal(
+  lval: LVal,
+  value: StaticJsValue | null,
+  context: EvaluationContext,
+  setNamedVariable: (name: string, value: StaticJsValue | null) => void,
+): EvaluationGenerator<void>;
 export default function* setLVal(
   lval: LVal,
   value: StaticJsValue | null,
   context: EvaluationContext,
-  setNamedVariable: (name: string, value: any) => void,
+  _setNamedVariable: (name: string, value: StaticJsValue) => void,
 ): EvaluationGenerator<void> {
   if (value && !isStaticJsValue(value)) {
     throw new Error("Cannot set LVal to non-StaticJsValue");
   }
+
+  // Type hack: Our overloads force us to either be nullable or non-nullable,
+  // but the variance of the function doesn't actually let us have either-or.
+  const setNamedVariable = _setNamedVariable as (
+    name: string,
+    value: StaticJsValue | null,
+  ) => void;
 
   switch (lval.type) {
     case "Identifier":
@@ -65,7 +84,7 @@ export default function* setLVal(
       }
 
       const seenProperties = new Set<string>();
-      for (let property of lval.properties) {
+      for (const property of lval.properties) {
         if (property.type === "RestElement") {
           const restValue = StaticJsObject();
           for (const key in value) {
@@ -140,6 +159,11 @@ export default function* setLVal(
       if (!isStaticJsObject(object)) {
         // FIXME: throw real error
         throw new Error("Cannot set property on non-object");
+      }
+      if (!value) {
+        // FIXME: Does this ever come up in the syntax?
+        // null values are only used for declarations.
+        throw new Error("Cannot set property without value");
       }
 
       let propertyKey: string;

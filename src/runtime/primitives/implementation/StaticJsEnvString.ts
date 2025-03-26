@@ -4,9 +4,7 @@ import {
   StaticJsObjectPropertyDescriptor,
 } from "../interfaces/index.js";
 
-import StaticJsTypeSymbol, {
-  staticJsInstanceOf,
-} from "../StaticJsTypeSymbol.js";
+import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
 
 import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
 import StaticJsEnvNumber from "./StaticJsEnvNumber.js";
@@ -14,15 +12,15 @@ import StaticJsEnvUndefined from "./StaticJsEnvUndefined.js";
 
 const ConcatFunc = new StaticJsExternalFunction(
   "concat",
-  (thisArg, ...values) => {
-    if (staticJsInstanceOf(thisArg) !== "string") {
+  (...values: string[]) => {
+    if (typeof this !== "string") {
       throw new Error(
         "String.prototype.concat called with non-string thisArg.",
       );
     }
 
     return new StaticJsEnvString(
-      thisArg.toString() + values.map((value) => value.toString()).join(""),
+      this + values.map((value) => value.toString()).join(""),
     );
   },
 );
@@ -63,12 +61,13 @@ export default class StaticJsEnvString implements StaticJsString {
       case "length":
       case "concat":
         return true;
-      default:
+      default: {
         const index = parseIndex(name);
         if (index !== null && index < 0 && index >= this._value.length) {
           return true;
         }
         return false;
+      }
     }
   }
 
@@ -78,12 +77,13 @@ export default class StaticJsEnvString implements StaticJsString {
         return new StaticJsEnvNumber(this._value.length);
       case "concat":
         return ConcatFunc;
-      default:
+      default: {
         const index = parseIndex(name);
         if (index !== null && index >= 0 && index < this._value.length) {
           return new StaticJsEnvString(this._value[index]);
         }
         return StaticJsEnvUndefined.Instance;
+      }
     }
   }
 
@@ -105,7 +105,7 @@ export default class StaticJsEnvString implements StaticJsString {
           enumerable: false,
           configurable: false,
         };
-      default:
+      default: {
         const index = parseIndex(name);
         if (index !== null && index >= 0 && index < this._value.length) {
           return {
@@ -116,26 +116,27 @@ export default class StaticJsEnvString implements StaticJsString {
           };
         }
         return undefined;
+      }
     }
   }
 
   defineProperty(
-    name: string,
-    descriptor: StaticJsObjectPropertyDescriptor,
+    _name: string,
+    _descriptor: StaticJsObjectPropertyDescriptor,
   ): void {
     throw new Error("Cannot set properties of strings.");
   }
 
-  getIsReadOnlyProperty(name: string): boolean {
+  getIsReadOnlyProperty(_name: string): boolean {
     return true;
   }
 
-  setProperty(name: string, value: StaticJsValue): void {
+  setProperty(_name: string, _value: StaticJsValue): void {
     // This is probably wrong.  We can probably truncate by changing the length.
     throw new Error("Cannot set properties of strings.");
   }
 
-  deleteProperty(name: string): boolean {
+  deleteProperty(_name: string): boolean {
     return false;
   }
 
