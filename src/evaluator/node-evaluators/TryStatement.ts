@@ -64,8 +64,6 @@ function* runCatch(
 
   if (node.param) {
     yield* setLVal(node.param, value, catchContext, (name, value) => {
-      // FIXME: This will crash here for duplicate identifier, saying the issue is our param.
-      // It isn't.  The error should point to the block, which means our block setup env needs to set up the param.
       env.createMutableBinding(name, false);
       env.initializeBinding(name, value);
     });
