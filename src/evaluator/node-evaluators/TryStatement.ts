@@ -1,8 +1,8 @@
-import { TryStatement } from "@babel/types";
+import { BlockStatement, CatchClause, TryStatement } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import { StaticJsEnvironment } from "../../runtime/index.js";
+import { StaticJsValue } from "../../runtime/index.js";
 
 import {
   StaticJsDeclarativeEnvironmentRecord,
@@ -12,107 +12,88 @@ import {
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeCommand } from "../commands/index.js";
-import { Completion } from "../completions/index.js";
+import { NormalCompletion } from "../completions/index.js";
 
-import setupEnvironment from "./setup-environment.js";
 import setLVal from "./LVal.js";
 
 function* tryStatementNodeEvaluator(
   node: TryStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const completion = yield* EvaluateNodeCommand(node.block, context);
-  let result: Completion;
+  // Due to the way Environment Records are handled for try/catch/finally,
+  // we manually handle blocks ourselves instead of delegating to the BlockStatement node evaluator.
+
+  let completion = yield* runBlock(node.block, context);
   switch (completion.type) {
     case "throw":
       if (node.handler) {
-        const handler = node.handler;
-
-        const blockEnv = handler.body.extra?.environment as
-          | StaticJsEnvironment
-          | undefined;
-        if (!blockEnv) {
-          throw new Error("Block environment not found");
-        }
-
-        const env = new StaticJsLexicalEnvironment(
-          new StaticJsDeclarativeEnvironmentRecord(),
-          blockEnv,
-        );
-
-        const catchContext: EvaluationContext = {
-          ...context,
-          env,
-        };
-
-        if (handler.param) {
-          yield* setLVal(
-            handler.param,
-            completion.value,
-            catchContext,
-            (name, value) => {
-              // FIXME: This will crash here for duplicate identifier, saying the issue is our param.
-              // It isn't.  The error should point to the block, which means our block setup env needs to set up the param.
-              env.createMutableBinding(name, false);
-              env.initializeBinding(name, value);
-            },
-          );
-        }
-
-        // FIXME: FIXME FIXME FIXME: This is extremely hackish.  This feels really bad.
-        handler.body.extra!.environment = env;
-        try {
-          result = yield* EvaluateNodeCommand(handler.body, catchContext);
-        } finally {
-          handler.body.extra!.environment = blockEnv;
-        }
-      } else {
-        result = completion;
+        completion = yield* runCatch(node.handler, completion.value, context);
       }
-      break;
-    default:
-      result = completion;
       break;
   }
 
   if (node.finalizer) {
-    const finalizerResult = yield* EvaluateNodeCommand(node.finalizer, context);
-    switch (finalizerResult.type) {
+    const finalizerCompletion = yield* runBlock(node.finalizer, context);
+    // finalizerResult takes precedence over catch or try completions.
+    switch (finalizerCompletion.type) {
       case "return":
       case "throw":
       case "break":
       case "continue":
-        return finalizerResult;
+        completion = finalizerCompletion;
     }
   }
 
-  return result;
+  return completion;
 }
 
-function setupEnvironmentTryStatement(
-  node: TryStatement,
+function* runCatch(
+  node: CatchClause,
+  value: StaticJsValue,
   context: EvaluationContext,
-) {
-  const scope = new StaticJsLexicalEnvironment(
+): EvaluationGenerator {
+  const env = new StaticJsLexicalEnvironment(
     new StaticJsDeclarativeEnvironmentRecord(),
     context.env,
   );
-  const blockContext: EvaluationContext = {
+
+  const catchContext: EvaluationContext = {
     ...context,
-    env: scope,
+    env,
   };
 
-  setupEnvironment(node.block, blockContext);
-
-  if (node.handler) {
-    setupEnvironment(node.handler.body, context);
+  if (node.param) {
+    yield* setLVal(node.param, value, catchContext, (name, value) => {
+      // FIXME: This will crash here for duplicate identifier, saying the issue is our param.
+      // It isn't.  The error should point to the block, which means our block setup env needs to set up the param.
+      env.createMutableBinding(name, false);
+      env.initializeBinding(name, value);
+    });
   }
 
-  if (node.finalizer) {
-    setupEnvironment(node.finalizer, context);
+  return yield* runBlock(node.body, catchContext);
+}
+
+function* runBlock(
+  node: BlockStatement,
+  context: EvaluationContext,
+): EvaluationGenerator {
+  for (const statement of node.body) {
+    const statementResult = yield* EvaluateNodeCommand(statement, context);
+    switch (statementResult.type) {
+      case "throw":
+      case "return":
+      case "break":
+      case "continue":
+        return statementResult;
+    }
   }
+
+  return NormalCompletion();
 }
 
 export default typedMerge(tryStatementNodeEvaluator, {
-  environmentSetup: setupEnvironmentTryStatement,
+  // This is a bit surprising, but the only EnvironmentRecord we need to create is for catch,
+  // and that is only created at runtime.
+  environmentSetup: () => false,
 });
