@@ -2,14 +2,13 @@ import { Node } from "@babel/types";
 
 import { StaticJsValue } from "../../../runtime/index.js";
 
-import { Completion } from "../../completions/index.js";
 import EvaluationContext from "../../EvaluationContext.js";
 import EvaluationGenerator from "../../EvaluationGenerator.js";
 import { EvaluateNodeOptions } from "../../node-evaluators/index.js";
 
 import EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 
-export interface EvaluateNodeCommand extends EvaluatorCommandBase<Completion> {
+export interface EvaluateNodeCommand extends EvaluatorCommandBase {
   kind: "evalute-node";
   node: Node;
   context: EvaluationContext;
