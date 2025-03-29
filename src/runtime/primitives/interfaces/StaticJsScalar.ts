@@ -4,6 +4,14 @@ import StaticJsTypeSymbol, {
 import { StaticJsPrimitive } from "./StaticJsPrimitive.js";
 import { StaticJsValue } from "./StaticJsValue.js";
 
+export interface StaticJsString extends StaticJsPrimitive {
+  [StaticJsTypeSymbol]: "string";
+  value: string;
+}
+export function isStaticJsString(value: unknown): value is StaticJsString {
+  return staticJsInstanceOf(value) === "string";
+}
+
 export interface StaticJsNumber extends StaticJsPrimitive {
   [StaticJsTypeSymbol]: "number";
   value: number;
@@ -38,13 +46,19 @@ export function isStaticJsUndefined(
 }
 
 export type StaticJsScalar =
+  | StaticJsString
   | StaticJsNumber
   | StaticJsBoolean
   | StaticJsNull
   | StaticJsUndefined;
 
 export function isStaticJsScalar(value: StaticJsValue): boolean {
-  return ["number", "string", "boolean", "null", "undefined"].includes(
-    staticJsInstanceOf(value)!,
-  );
+  return [
+    "string",
+    "number",
+    "string",
+    "boolean",
+    "null",
+    "undefined",
+  ].includes(staticJsInstanceOf(value)!);
 }

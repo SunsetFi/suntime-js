@@ -1,9 +1,4 @@
-export {
-  type StaticJsArray,
-  StaticJsEmptyArrayItem,
-  type StaticJsArrayItem,
-  isStaticJsArray,
-} from "./StaticJsArray.js";
+export { type StaticJsArray, isStaticJsArray } from "./StaticJsArray.js";
 export {
   type StaticJsFunction,
   isStaticJsFunction,
@@ -20,6 +15,8 @@ export {
 } from "./StaticJsObject.js";
 export { type StaticJsPrimitive } from "./StaticJsPrimitive.js";
 export {
+  type StaticJsString,
+  isStaticJsString,
   type StaticJsScalar,
   isStaticJsScalar,
   type StaticJsBoolean,
@@ -31,7 +28,6 @@ export {
   type StaticJsUndefined,
   isStaticJsUndefined,
 } from "./StaticJsScalar.js";
-export { type StaticJsString, isStaticJsString } from "./StaticJsString.js";
 export {
   type StaticJsValue,
   isStaticJsValue,

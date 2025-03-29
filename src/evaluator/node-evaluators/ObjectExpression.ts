@@ -76,7 +76,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
   }
 
   const value = createFunction(propertyName, property, context);
-  target.setProperty(propertyName, value);
+  target.setProperty(propertyName, value, context.realm.strict);
 }
 
 function* objectExpressionPropertyObjectPropertyEvaluator(
@@ -99,7 +99,7 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
   }
 
   const value = yield* EvaluateNodeAssertValueCommand(property.value, context);
-  target.setProperty(propertyName, value);
+  target.setProperty(propertyName, value, context.realm.strict);
 }
 
 function* objectExpressionPropertySpreadElementEvaluator(
@@ -115,7 +115,7 @@ function* objectExpressionPropertySpreadElementEvaluator(
     throw new Error("Cannot spread non-object value");
   }
 
-  for (const key of value.enumerateKeys()) {
-    target.setProperty(key, value.getProperty(key));
+  for (const key of value.getOwnKeys()) {
+    target.setProperty(key, value.getProperty(key), context.realm.strict);
   }
 }

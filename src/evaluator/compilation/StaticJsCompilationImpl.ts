@@ -40,6 +40,8 @@ export default class StaticJsCompilationImpl implements StaticJsCompilation {
         return result.value?.toJs();
     }
 
-    throw new Error("Unknown completion type.");
+    // @ts-expect-error: We should never reach this point.
+    const type = result.type;
+    throw new Error("Unknown completion type: " + type);
   }
 }

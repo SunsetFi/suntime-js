@@ -1,6 +1,4 @@
 export {
-  StaticJsEmptyArrayItem,
-  type StaticJsArrayItem,
   type StaticJsObjectPropertyDescriptor,
   isStaticJsValue,
   isStaticJsScalar,

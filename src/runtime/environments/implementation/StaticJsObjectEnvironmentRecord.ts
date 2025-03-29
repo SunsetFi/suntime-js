@@ -19,16 +19,12 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
       );
     }
 
-    this._obj.setProperty(name, StaticJsUndefined());
+    // FIXME: What to use for strict?
+    this._obj.setProperty(name, StaticJsUndefined(), true);
   }
 
   createImmutableBinding(_name: string): void {
     // Do nothing; all the work is done in initializeBinding
-    // this._obj.defineProperty(name, {
-    //   writable: false,
-    //   enumerable: true,
-    //   configurable: false,
-    // });
   }
 
   initializeBinding(name: string, value: StaticJsValue): void {
@@ -75,14 +71,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
         return obj.getProperty(name);
       },
       set value(value: StaticJsValue) {
-        if (descriptor.set && descriptor.writable !== false) {
-          descriptor.set(value);
-        } else if (descriptor.writable) {
-          obj.setProperty(name, value);
-        }
-
-        // Object's no-op without errors when setting an unsettable binding,
-        // even for global
+        obj.setProperty(name, value, false);
       },
       isInitialized: true,
       isDeletable: true,
@@ -91,8 +80,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
         throw new Error("Cannot reinitialize binding.");
       },
       delete() {
-        // TODO: Actually delete it.
-        obj.setProperty(name, StaticJsUndefined());
+        obj.deleteProperty(name);
       },
     } satisfies StaticJsEnvironmentBinding;
   }

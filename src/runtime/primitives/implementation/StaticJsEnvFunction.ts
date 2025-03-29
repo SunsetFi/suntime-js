@@ -1,70 +1,96 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import {
   Completion,
-  NormalCompletion,
   runEvaluatorUntilCompletion,
 } from "../../../evaluator/internal.js";
 
 import { StaticJsString, StaticJsValue } from "../factories/index.js";
-import StaticJsUndefined from "../factories/StaticJsUndefined.js";
 
 import {
   isStaticJsValue,
   StaticJsFunction,
   StaticJsValue as IStaticJsValue,
 } from "../interfaces/index.js";
-import { StaticJsObjectPropertyDescriptor } from "../interfaces/StaticJsObject.js";
-
-import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
+import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
 
 import StaticJsEnvNumber from "./StaticJsEnvNumber.js";
-import StaticJsEnvUndefined from "./StaticJsEnvUndefined.js";
+import StaticJsEnvObject from "./StaticJsEnvObject.js";
 
-export default abstract class StaticJsEnvFunction<
-  TArgs extends IStaticJsValue[] = IStaticJsValue[],
-> implements StaticJsFunction<TArgs>
+export default abstract class StaticJsEnvFunction
+  extends StaticJsEnvObject<"function">
+  implements StaticJsFunction<IStaticJsValue[]>
 {
+  private _toJs: unknown | null = null;
   private readonly _name: string | null;
 
   constructor(
     name: string | null,
     private readonly _call: (
       thisArg: IStaticJsValue,
-      ...args: TArgs
+      ...args: IStaticJsValue[]
     ) => EvaluationGenerator<Completion>,
+    length?: number,
   ) {
+    // FIXME: function prototype.
+    super(null, "function");
     this._name = name;
-  }
-
-  get [StaticJsTypeSymbol]() {
-    return "function" as const;
+    this.defineProperty("name", {
+      value: StaticJsString(name ?? ""),
+      writable: false,
+      enumerable: false,
+      configurable: true,
+    });
+    this.defineProperty("length", {
+      value: new StaticJsEnvNumber(length ?? _call.length - 1),
+      writable: false,
+      enumerable: false,
+      configurable: true,
+    });
   }
 
   get typeOf() {
     return "function" as const;
   }
 
-  toJs() {
-    return (...args: unknown[]) => {
-      const argValues = args.map(StaticJsValue) as TArgs;
-      // FIXME: This absolutely probably does not work right.
-      // We should at least try to look up if we have a StaticJsValue representation of the global object.
-      // At the very least, this is dangerous, and might inadvertently leak stuff from the runtime into the scripting engine.
-      // They won't be able to grab prototypes, but...
-      const thisArg = StaticJsValue(this);
-      const result = runEvaluatorUntilCompletion(
-        this._call(thisArg, ...argValues),
-      );
-      switch (result.type) {
-        case "throw":
-          // FIXME: wrap the error
-          throw result.value.toJs();
-        case "return":
-          return result.value.toJs();
+  toJs(): unknown {
+    if (!this._toJs) {
+      this._toJs = (...args: unknown[]) => {
+        const argValues = args.map(StaticJsValue);
+        // FIXME: This absolutely probably does not work right.
+        // We should at least try to look up if we have a StaticJsValue representation of the global object.
+        // At the very least, this is dangerous, and might inadvertently leak stuff from the runtime into the scripting engine.
+        // They won't be able to grab prototypes, but...
+        const thisArg = StaticJsValue(this);
+        const result = runEvaluatorUntilCompletion(
+          this._call(thisArg, ...argValues),
+        );
+        switch (result.type) {
+          case "throw":
+            // FIXME: wrap the error
+            throw result.value.toJs();
+          case "return":
+            return result.value.toJs();
+          case "continue":
+          case "break":
+            throw new Error(
+              "Invalid completion type: Functions must end with return or throw.",
+            );
+        }
+
+        return undefined;
+      };
+
+      for (const key of this.getOwnKeys()) {
+        const descriptor = this.getOwnPropertyDescriptor(key)!;
+        const objDescriptor = staticJsDescriptorToObjectDescriptor(descriptor);
+        Object.defineProperty(this._toJs, key, objDescriptor);
       }
 
-      return NormalCompletion();
-    };
+      // FIXME: Set if not default Function.prototype
+      // Object.setPrototypeOf(this._toJs, this.prototype?.toJs() ?? null);
+    }
+
+    return this._toJs;
   }
 
   toString() {
@@ -81,7 +107,7 @@ export default abstract class StaticJsEnvFunction<
 
   call(
     thisArg: IStaticJsValue,
-    ...args: TArgs
+    ...args: IStaticJsValue[]
   ): EvaluationGenerator<Completion> {
     if (!isStaticJsValue(thisArg)) {
       throw new Error("thisArg must be a StaticJsValue instance.");
@@ -93,72 +119,5 @@ export default abstract class StaticJsEnvFunction<
 
     const callResult = this._call(thisArg, ...args);
     return callResult;
-  }
-
-  hasProperty(name: string): boolean {
-    switch (name) {
-      case "name":
-      case "length":
-        return true;
-      default:
-        return false;
-    }
-  }
-
-  getProperty(name: string): IStaticJsValue {
-    switch (name) {
-      case "name":
-        return this._name ? StaticJsString(this._name) : StaticJsUndefined();
-      case "length":
-        return new StaticJsEnvNumber(this._call.length);
-      default:
-        return StaticJsEnvUndefined.Instance;
-    }
-  }
-
-  getIsReadOnlyProperty(_name: string): boolean {
-    return true;
-  }
-
-  getPropertyDescriptor(
-    name: string,
-  ): StaticJsObjectPropertyDescriptor | undefined {
-    switch (name) {
-      case "name":
-        return {
-          value: this._name ? StaticJsString(this._name) : StaticJsUndefined(),
-          writable: false,
-          enumerable: false,
-          configurable: false,
-        };
-      case "length":
-        return {
-          value: new StaticJsEnvNumber(this._call.length),
-          writable: false,
-          enumerable: false,
-          configurable: false,
-        };
-      default:
-        return undefined;
-    }
-  }
-
-  defineProperty(
-    _name: string,
-    _descriptor: StaticJsObjectPropertyDescriptor,
-  ): void {
-    throw new Error("Functions are read-only.");
-  }
-
-  deleteProperty(_name: string): boolean {
-    return false;
-  }
-
-  setProperty(_name: string, _value: IStaticJsValue): void {
-    throw new Error("Functions are read-only.");
-  }
-
-  enumerateKeys(): string[] {
-    return [];
   }
 }

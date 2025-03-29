@@ -4,7 +4,7 @@ import {
   StaticJsArray,
   isStaticJsArray,
   StaticJsUndefined,
-  StaticJsArrayItem,
+  StaticJsValue,
 } from "../../runtime/index.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
@@ -16,7 +16,7 @@ export default function* arrayExpressionNodeEvaluator(
   node: ArrayExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const items: StaticJsArrayItem[] = [];
+  const items: StaticJsValue[] = [];
   for (const element of node.elements) {
     if (element == null) {
       items.push(StaticJsUndefined());

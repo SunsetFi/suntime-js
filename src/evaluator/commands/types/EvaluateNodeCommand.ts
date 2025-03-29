@@ -35,11 +35,15 @@ export function* EvaluateNodeNormalValueCommand(
 ): EvaluationGenerator<StaticJsValue> {
   const result = yield* EvaluateNodeCommand(node, context);
   if (result.type !== "normal") {
-    throw new Error(`Expected node type ${node.type} to return a value.`);
+    throw new Error(
+      `Expected node type ${node.type} to return a NormalCompletion.`,
+    );
   }
 
   if (!result.value) {
-    throw new Error(`Expected node type ${node.type} to return a value.`);
+    throw new Error(
+      `Expected node type ${node.type} to return a NormalCompletion with a StaticJsValue.`,
+    );
   }
 
   return result.value;

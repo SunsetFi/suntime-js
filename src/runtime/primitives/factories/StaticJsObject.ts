@@ -15,14 +15,15 @@ export interface StaticJsObjectConfig {
   // TODO: More fine-grained control.
   // Pass array of writable properties, and per-property env-only vs writeback.
   writable?: boolean | "env-only" | "writeback";
+  prototype?: object | IStaticJsObject | null;
 }
 
 function StaticJsObject(
-  obj?: object,
-  { static: isStatic, writable }: StaticJsObjectConfig = {},
+  obj?: object | IStaticJsObject | null | undefined,
+  { static: isStatic, writable, prototype }: StaticJsObjectConfig = {},
 ): IStaticJsObject {
-  if (obj === undefined) {
-    return new StaticJsEnvObject();
+  if (obj == null) {
+    return new StaticJsEnvObject(prototype ? StaticJsObject(prototype) : null);
   }
 
   if (staticJsInstanceOf(obj) === "object") {
@@ -71,13 +72,7 @@ function StaticJsObject(
     });
   }
 
-  // By default allow mutations.
-  return new StaticJsExternalObject(obj, {
-    mutationTarget:
-      writable === "env-only" ? new StaticJsEnvObject() : undefined,
-    // TODO: Option to let the script env extend the global object
-    extensible: writable === "env-only" || false,
-  });
+  return new StaticJsExternalObject(obj);
 }
 
 export default typedMerge(StaticJsObject, {

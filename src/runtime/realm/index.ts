@@ -1,6 +1,6 @@
 export type {
-  StaticJsRealmGlobalDeclExplicit,
-  StaticJsRealmGlobalDeclProperty,
+  StaticJsRealmGlobalDecl,
+  StaticJsRealmGlobalValue,
   StaticJsRealmOptions,
 } from "./factories/index.js";
 

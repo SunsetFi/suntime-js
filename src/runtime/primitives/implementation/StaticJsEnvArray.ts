@@ -1,260 +1,151 @@
-import hasOwnProperty from "../../../internal/has-own-property.js";
 import {
-  StaticJsObject,
-  assertStaticJsValue,
-  StaticJsValue,
-  isStaticJsValue,
-  StaticJsEmptyArrayItem,
-  StaticJsArrayItem,
+  StaticJsValue as IStaticJsValue,
+  isStaticJsObjectPropertyDescriptorValue,
+  isStaticJsObjectPropertyDescriptorGetter,
 } from "../interfaces/index.js";
-import { StaticJsObjectPropertyDescriptor } from "../interfaces/StaticJsObject.js";
 
-import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
+import StaticJsEnvObject from "./StaticJsEnvObject.js";
+import StaticJsValue from "../factories/StaticJsValue.js";
+import StaticJsUndefined from "../factories/StaticJsUndefined.js";
+import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
 
-import StaticJsEnvNumber from "./StaticJsEnvNumber.js";
-import StaticJsEnvUndefined from "./StaticJsEnvUndefined.js";
+export default class StaticJsEnvArray extends StaticJsEnvObject<"array"> {
+  constructor(items: IStaticJsValue[] = []) {
+    // FIXME: Use Object.prototype, whatever that will be.
+    super(null, "array");
+    for (let i = 0; i < items.length; i++) {
+      this.defineProperty(i.toString(), {
+        value: items[i],
+        writable: true,
+        enumerable: true,
+        configurable: true,
+      });
+    }
 
-export default class StaticJsEnvArray implements StaticJsObject<"array"> {
-  private _items: StaticJsArrayItem[] = [];
-
-  constructor(items: StaticJsArrayItem[] = []) {
-    this._items = [...items];
-  }
-
-  get [StaticJsTypeSymbol]() {
-    return "array" as const;
-  }
-
-  get typeOf() {
-    return "object" as const;
+    this._updateLength(items.length);
   }
 
   get length(): number {
-    return this._items.length;
+    const descr = this.getOwnPropertyDescriptor("length");
+    if (!descr) {
+      return 0;
+    }
+
+    if (isStaticJsObjectPropertyDescriptorValue(descr)) {
+      return descr.value.toNumber();
+    } else if (isStaticJsObjectPropertyDescriptorGetter(descr)) {
+      return descr.get().toNumber();
+    } else {
+      return 0;
+    }
   }
 
-  toJs() {
-    const array = this._items.map((value) =>
-      isStaticJsValue(value) ? value.toJs() : value,
-    );
-    for (let i = 0; i < array.length; i++) {
-      if (array[i] === StaticJsEmptyArrayItem) {
-        delete array[i];
-      }
+  get(index: number): IStaticJsValue {
+    const descr = this.getOwnPropertyDescriptor(String(index));
+    if (!descr) {
+      return StaticJsUndefined();
+    }
+
+    if (isStaticJsObjectPropertyDescriptorValue(descr)) {
+      return descr.value;
+    } else if (isStaticJsObjectPropertyDescriptorGetter(descr)) {
+      return descr.get();
+    } else {
+      return StaticJsUndefined();
+    }
+  }
+
+  set(index: number, value: IStaticJsValue): void {
+    this.setProperty(String(index), value, false);
+  }
+
+  slice(start = 0, end = this.length): StaticJsEnvArray {
+    const array = new StaticJsEnvArray();
+    for (let i = start; i < end; i++) {
+      array.set(i, this.get(i));
     }
     return array;
   }
 
+  sliceNative(start = 0, end = this.length): IStaticJsValue[] {
+    const array = new Array<IStaticJsValue>();
+    for (let i = start; i < end; i++) {
+      array.push(this.get(i));
+    }
+    return array;
+  }
+
+  toJs() {
+    const length = this.length;
+    const array = new Array(length);
+    for (const key of this.getOwnKeys()) {
+      const descriptor = this.getOwnPropertyDescriptor(key)!;
+      const objDescriptor = staticJsDescriptorToObjectDescriptor(descriptor);
+      Object.defineProperty(array, key, objDescriptor);
+    }
+
+    // TODO: Set prototype if not Array.prototype
+    return array;
+  }
+
   toString() {
-    return this._items
-      .filter((x) => x !== StaticJsEmptyArrayItem)
-      .map((value) => (isStaticJsValue(value) ? value.toString() : ""))
+    const length = this.length;
+    return Array(length)
+      .fill(undefined)
+      .map((_, i) => {
+        const item = this.get(i);
+        return item.toString();
+      })
       .join(",");
   }
 
   toNumber() {
+    const length = this.length;
     // Yes, really.
-    if (this._items.length === 0) {
+    if (length === 0) {
       return 0;
     }
 
     // Yes, really really.
-    if (this._items.length === 1) {
-      const item = this._items[0];
-      if (item === StaticJsEmptyArrayItem) {
+    if (length === 1) {
+      // Really really really.
+      if (!this.hasProperty("0")) {
         return 0;
       }
 
-      return item.toNumber();
+      // Really really really really.
+      return this.getProperty("0").toNumber();
     }
 
-    // Yes, really really really
+    // Really really really really really
     return Number.NaN;
   }
 
-  toBoolean(): boolean {
-    return true;
-  }
-
-  hasProperty(name: string): boolean {
-    switch (name) {
-      case "length":
-        return true;
-      default: {
-        const index = parseIndex(name);
-        if (index === null) {
-          return false;
-        }
-
-        return index >= 0 && index < this._items.length;
-      }
-    }
-  }
-
-  getProperty(name: string): StaticJsValue {
-    switch (name) {
-      case "length":
-        return new StaticJsEnvNumber(this._items.length);
-      default: {
-        const index = parseIndex(name);
-        if (index === null || index < 0 || index >= this._items.length) {
-          return StaticJsEnvUndefined.Instance;
-        }
-
-        const item = this._items[index];
-        if (item === StaticJsEmptyArrayItem) {
-          return StaticJsEnvUndefined.Instance;
-        }
-
-        return item;
-      }
-    }
-  }
-
-  getPropertyDescriptor(
+  protected _setWritableDataProperty(
     name: string,
-  ): StaticJsObjectPropertyDescriptor | undefined {
-    switch (name) {
-      case "length":
-        return {
-          configurable: false,
-          enumerable: false,
-          // TODO: In real arrays, this is writable.
-          // There is some weirdness about that, like items coming back if you expand the length again.
-          writable: false,
-          value: new StaticJsEnvNumber(this._items.length),
-        };
-    }
-
-    const index = parseIndex(name);
-    if (index != null && index >= 0 && index < this._items.length) {
-      const value = this._items[index];
-      if (value === StaticJsEmptyArrayItem) {
-        return undefined;
-      }
-
-      return {
-        configurable: false,
-        enumerable: true,
-        writable: true,
-        value,
-      };
-    }
-
-    return undefined;
-  }
-
-  defineProperty(
-    name: string,
-    descriptor: StaticJsObjectPropertyDescriptor,
+    value: IStaticJsValue,
   ): void {
-    const index = parseIndex(name);
-    if (index == null || index < 0 || index >= this._items.length) {
-      throw new Error(`Cannot set property descriptor for ${name}`);
-    }
-
-    if (
-      descriptor.configurable ||
-      descriptor.enumerable ||
-      descriptor.writable
-    ) {
-      // This is probably wrong for real arrays.
-      throw new Error(
-        "Cannot set configurable, enumerable, or writable on array",
-      );
-    }
-
-    if (hasOwnProperty(descriptor, "get")) {
-      throw new Error("Cannot set getter on array item");
-    }
-
-    if (hasOwnProperty(descriptor, "set")) {
-      throw new Error("Cannot set setter on array item");
-    }
-
-    if (hasOwnProperty(descriptor, "value")) {
-      const value = descriptor.value;
-      // Another probably-unnecessary check.
-      if (!isStaticJsValue(value)) {
-        throw new Error("Property descriptor value must be a StaticJsValue");
-      }
-
-      this._items[index] = value;
+    super._setWritableDataProperty(name, value);
+    const index = parseInt(name, 10);
+    if (!Number.isNaN(index) && index >= this.length) {
+      this._updateLength(index + 1);
     }
   }
 
-  getIsReadOnlyProperty(name: string): boolean {
-    switch (name) {
-      case "length":
-        return true;
-      default: {
-        const index = parseIndex(name);
-        if (index === null) {
-          return true;
-        }
-        return false;
+  private _updateLength(length: number) {
+    const currentLength = this.length;
+
+    this.defineProperty("length", {
+      value: StaticJsValue(length),
+      writable: true,
+      enumerable: false,
+      configurable: false,
+    });
+
+    if (length < currentLength) {
+      for (let i = length; i < currentLength; i++) {
+        this.deleteProperty(i.toString());
       }
     }
   }
-
-  setProperty(name: string, value: StaticJsValue): void {
-    assertStaticJsValue(value);
-    switch (name) {
-      case "length":
-        // You can actually do this in javascript...
-        throw new Error("Cannot set length of array");
-      default: {
-        const index = parseIndex(name);
-        if (index === null) {
-          throw new Error("Invalid index");
-        }
-
-        this._items[index] = value;
-      }
-    }
-  }
-
-  deleteProperty(name: string): boolean {
-    const index = parseIndex(name);
-    if (index && index >= 0 && index < this._items.length) {
-      this._items[index] = StaticJsEmptyArrayItem;
-      return true;
-    }
-
-    return false;
-  }
-
-  enumerateKeys(): string[] {
-    return this._items.map((_, index) => index.toString());
-  }
-
-  get(index: number): StaticJsValue {
-    if (index < 0 || index >= this._items.length) {
-      return StaticJsEnvUndefined.Instance;
-    }
-
-    const item = this._items[index];
-    if (item === StaticJsEmptyArrayItem) {
-      return StaticJsEnvUndefined.Instance;
-    }
-
-    return item;
-  }
-
-  set(index: number, value: StaticJsValue): void {
-    this._items[index] = value;
-  }
-
-  sliceNative(start?: number, end?: number): StaticJsArrayItem[] {
-    return this._items.slice(start, end);
-  }
-}
-
-function parseIndex(index: string): number | null {
-  const parsedIndex = parseInt(index, 10);
-  if (isNaN(parsedIndex)) {
-    return null;
-  }
-
-  return parsedIndex;
 }

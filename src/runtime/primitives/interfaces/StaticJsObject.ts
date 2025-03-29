@@ -5,15 +5,27 @@ import StaticJsTypeSymbol, {
 import { StaticJsPrimitive } from "./StaticJsPrimitive.js";
 import { StaticJsValue } from "./StaticJsValue.js";
 
-export interface StaticJsObject<TTypeSymbol extends string = "object">
+export interface StaticJsObject<TTypeSymbol extends string = string>
   extends StaticJsPrimitive {
   [StaticJsTypeSymbol]: TTypeSymbol;
+
+  get prototype(): StaticJsObject | null;
+
+  get extensible(): boolean;
+
+  getOwnKeys(): string[];
+
+  getOwnEnumerableKeys(): string[];
 
   hasProperty(name: string): boolean;
 
   getProperty(name: string): StaticJsValue;
 
   getPropertyDescriptor(
+    name: string,
+  ): StaticJsObjectPropertyDescriptor | undefined;
+
+  getOwnPropertyDescriptor(
     name: string,
   ): StaticJsObjectPropertyDescriptor | undefined;
 
@@ -24,11 +36,13 @@ export interface StaticJsObject<TTypeSymbol extends string = "object">
 
   getIsReadOnlyProperty(name: string): boolean;
 
-  setProperty(name: string, value: StaticJsValue): void;
+  setProperty(name: string, value: StaticJsValue, strict: boolean): void;
 
   deleteProperty(name: string): boolean;
 
-  enumerateKeys(): string[];
+  setPrototypeOf(prototype: StaticJsObject | null): void;
+
+  preventExtension(): void;
 }
 
 export function isStaticJsObject(value: unknown): value is StaticJsObject {
@@ -48,7 +62,7 @@ export interface StaticJsObjectPropertyDescriptorBase {
   readonly configurable?: boolean;
   readonly enumerable?: boolean;
   readonly writable?: boolean;
-  set?(value: StaticJsValue): void;
+  set?(value: StaticJsValue, strict: boolean): void;
 }
 
 export type StaticJsObjectPropertyDescriptorWriteOnly =

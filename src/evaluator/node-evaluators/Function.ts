@@ -5,12 +5,13 @@ import StaticJsAstFunction, {
 } from "../../runtime/primitives/implementation/StaticJsAstFunction.js";
 
 import EvaluationContext from "../EvaluationContext.js";
+import { StaticJsFunction } from "../../runtime/index.js";
 
 export default function createFunction(
   name: string | null,
   node: Function,
   functionContext: EvaluationContext,
-) {
+): StaticJsFunction {
   if (node.async) {
     // TODO: Support these when the Promise primitive is in.
     throw new Error("Async functions are not supported");

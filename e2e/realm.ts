@@ -14,7 +14,7 @@ describe("E2E: Realm", () => {
       expect(result).toEqual(42);
     });
 
-    it("Cannot modify a global value", () => {
+    it("Cannot modify a global data value", () => {
       const globalObjectValue = {
         x: 42,
       };
@@ -29,35 +29,22 @@ describe("E2E: Realm", () => {
       expect(globalObjectValue.x).toBe(42);
     });
 
-    it("Can modify a writeback global value", () => {
-      const globalObjValue = {
-        x: 42,
+    it("Can modify a global setter value", () => {
+      const globalObjectValue = {
+        set x(value: number) {
+          globalObjectValue._x = value;
+        },
+        _x: 42,
       };
-      const env = StaticJsRealm({
-        globalObject: {
-          value: globalObjValue,
-          writable: "writeback",
-        },
-      });
-      evaluateExpressionString("x = 43", env);
-      expect(env.globalObject.getProperty("x").toJs()).toEqual(43);
-      expect(globalObjValue.x).toBe(43);
-    });
 
-    it("Can modify a env-only writable global variable", () => {
-      const globalObjValue = Object.freeze({
-        x: 42,
-      });
       const env = StaticJsRealm({
         globalObject: {
-          value: globalObjValue,
-          writable: "env-only",
+          value: globalObjectValue,
         },
       });
-      const result = evaluateExpressionString("x = 43", env);
-      expect(result).toEqual(43);
-      expect(env.globalObject.getProperty("x").toJs()).toEqual(43);
-      expect(globalObjValue.x).toEqual(42);
+
+      evaluateExpressionString("x = 43", env);
+      expect(globalObjectValue._x).toBe(43);
     });
   });
 });

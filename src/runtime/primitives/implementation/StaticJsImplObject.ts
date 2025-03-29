@@ -7,11 +7,11 @@ import {
 
 import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
 
-import StaticJsObjectBase from "./StaticJsObjectBase.js";
+import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 
 export default class StaticJsImplObject<
   TTypeSymbol extends StaticJsObject[typeof StaticJsTypeSymbol],
-> extends StaticJsObjectBase<TTypeSymbol> {
+> extends StaticJsAbstractObject<TTypeSymbol> {
   private readonly _properties = new Map<
     string,
     StaticJsObjectPropertyDescriptor
@@ -20,24 +20,25 @@ export default class StaticJsImplObject<
   constructor(
     typeSymbol: TTypeSymbol,
     properties: Record<string, StaticJsObjectPropertyDescriptor>,
+    prototype: StaticJsObject | null = null,
   ) {
-    super(typeSymbol);
+    super(typeSymbol, prototype);
     for (const [name, property] of typedEntries(properties)) {
       this._properties.set(name, property);
     }
   }
 
-  enumerateKeys(): string[] {
+  getOwnKeys(): string[] {
     return Array.from(this._properties.keys());
   }
 
-  getPropertyDescriptor(
+  getOwnPropertyDescriptor(
     name: string,
   ): StaticJsObjectPropertyDescriptor | undefined {
     return this._properties.get(name);
   }
 
-  protected _setWritablePropertyByValue(
+  protected _setWritableDataProperty(
     _name: string,
     _value: StaticJsValue,
   ): void {
@@ -45,15 +46,7 @@ export default class StaticJsImplObject<
     throw new Error("Method not implemented.");
   }
 
-  protected _defineNewProperty(
-    _name: string,
-    _descriptor: StaticJsObjectPropertyDescriptor,
-  ): void {
-    // FIXME: Throw real error
-    throw new Error("Object is not extensible.");
-  }
-
-  protected _reconfigureProperty(
+  protected _defineProperty(
     _name: string,
     _descriptor: StaticJsObjectPropertyDescriptor,
   ): void {

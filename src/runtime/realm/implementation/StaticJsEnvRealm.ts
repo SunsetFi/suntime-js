@@ -1,12 +1,5 @@
-import hasOwnProperty from "../../../internal/has-own-property.js";
-
 import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/index.js";
 import { StaticJsEnvironment } from "../../environments/index.js";
-
-import {
-  StaticJsGlobalObject,
-  StaticJsGlobalObjectPropertyDecl,
-} from "../../primitives/implementation/index.js";
 
 // We have to import these directly to avoid circular refs.
 import {
@@ -14,25 +7,20 @@ import {
   StaticJsNumber,
   StaticJsUndefined,
   StaticJsValue,
+  StaticJsObjectPropertyDescriptor,
 } from "../../primitives/index.js";
 
-export interface StaticJsEnvGlobalPropertyDecl {
+export interface StaticJsEnvRealmGlobalDecl {
+  properties: Record<string, StaticJsObjectPropertyDescriptor>;
+  extensible?: boolean;
+}
+export interface StaticJsEnvRealmGlobalValue {
   value: unknown;
-  // TODO:
-  // writable?: boolean;
-  // enumerable?: boolean;
-  // configurable?: boolean;
-}
-export interface StaticJsEnvGlobalDecl {
-  properties: Record<string, StaticJsEnvGlobalPropertyDecl>;
-}
-export interface StaticJsEnvGlobalValue {
-  value: StaticJsObject;
 }
 
 export interface StaticJsEnvRealmOptions {
   globalThis?: { value: unknown };
-  globalObject?: StaticJsEnvGlobalDecl | StaticJsEnvGlobalValue;
+  globalObject?: StaticJsEnvRealmGlobalDecl | StaticJsEnvRealmGlobalValue;
 }
 
 export default class StaticJsEnvRealm {
@@ -41,7 +29,7 @@ export default class StaticJsEnvRealm {
 
   static getGlobalObjectProperties(): Record<
     string,
-    StaticJsEnvGlobalPropertyDecl
+    StaticJsObjectPropertyDescriptor
   > {
     return {
       Infinity: { value: StaticJsNumber(Infinity) },
@@ -51,59 +39,52 @@ export default class StaticJsEnvRealm {
   }
 
   constructor({ globalObject, globalThis }: StaticJsEnvRealmOptions = {}) {
-    let globalObjectResolved: StaticJsObject | null = null;
+    const globalThisResolved = globalThis
+      ? StaticJsValue(globalThis.value)
+      : StaticJsUndefined();
 
-    let globalObjectDecl: StaticJsEnvGlobalDecl = { properties: {} };
-    if (globalObject) {
-      if ("properties" in globalObject) {
-        globalObjectDecl = globalObject;
-      } else if ("value" in globalObject) {
-        globalObjectResolved = globalObject.value;
-      }
-    }
-
-    if (!globalObjectResolved) {
+    let globalObjectResolved: StaticJsObject;
+    if (!globalObject) {
       globalObjectResolved = StaticJsObject();
-    }
-
-    const resolvedGlobalObjectDecl = {
-      ...globalObjectDecl,
-      properties: {
-        ...StaticJsEnvRealm.getGlobalObjectProperties(),
-        ...globalObjectDecl?.properties,
-      },
-    };
-
-    const passives: Record<string, StaticJsGlobalObjectPropertyDecl> = {
-      global: { value: globalObjectResolved },
-    };
-
-    passives.globalThis = {
-      value: StaticJsValue(
-        globalThis ? globalThis.value : resolvedGlobalObjectDecl,
-      ),
-    };
-
-    for (const [name, { value }] of Object.entries(
-      resolvedGlobalObjectDecl.properties,
-    )) {
-      const staticJsValue = StaticJsValue(value);
-      passives[name] = { value: staticJsValue };
-    }
-
-    this._globalObject = globalObjectResolved = new StaticJsGlobalObject(
-      globalObjectResolved,
-      passives,
-    );
-
-    let globalThisResolved: StaticJsValue = this._globalObject;
-    if (globalThis) {
-      if (!hasOwnProperty(globalThis, "value")) {
-        throw new Error("globalThis.value must be a StaticJsValue");
+    } else if (globalObject && "value" in globalObject) {
+      globalObjectResolved = StaticJsObject(null, {
+        prototype: StaticJsValue(globalObject.value),
+      });
+    } else if (globalObject && "properties" in globalObject) {
+      globalObjectResolved = StaticJsObject();
+      for (const [name, descriptor] of Object.entries(
+        globalObject.properties,
+      )) {
+        globalObjectResolved.defineProperty(name, descriptor);
       }
-
-      globalThisResolved = StaticJsValue(globalThis.value);
+    } else {
+      throw new Error("Invalid globalObject");
     }
+
+    for (const [name, descriptor] of Object.entries(
+      StaticJsEnvRealm.getGlobalObjectProperties(),
+    )) {
+      globalObjectResolved.defineProperty(name, descriptor);
+    }
+
+    if (!globalObjectResolved.hasProperty("globalThis")) {
+      globalObjectResolved.defineProperty("globalThis", {
+        value: globalThisResolved,
+        writable: true,
+        enumerable: false,
+        configurable: true,
+      });
+    }
+    if (!globalObjectResolved.hasProperty("global")) {
+      globalObjectResolved.defineProperty("global", {
+        value: globalObjectResolved,
+        writable: true,
+        enumerable: false,
+        configurable: true,
+      });
+    }
+
+    this._globalObject = globalObjectResolved;
 
     this._environment = new StaticJsGlobalEnvironmentRecord(
       globalThisResolved,

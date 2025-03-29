@@ -6,7 +6,6 @@ import {
   isStaticJsScalar,
   isStaticJsUndefined,
   isStaticJsValue,
-  StaticJsArray,
   StaticJsObject,
   StaticJsUndefined,
   StaticJsValue,
@@ -63,7 +62,7 @@ export default function* setLVal(
 
         const property = String(index);
         if (element.type === "RestElement") {
-          const restValue = StaticJsArray(value.sliceNative(index));
+          const restValue = value.slice(index);
           yield* setLVal(
             element.argument,
             restValue,
@@ -89,7 +88,11 @@ export default function* setLVal(
           const restValue = StaticJsObject();
           for (const key in value) {
             if (!seenProperties.has(key)) {
-              restValue.setProperty(key, value.getProperty(key));
+              restValue.setProperty(
+                key,
+                value.getProperty(key),
+                context.realm.strict,
+              );
             }
           }
 
@@ -182,7 +185,7 @@ export default function* setLVal(
       }
 
       // FIXME: Is this correct?  We set the object directly???
-      object.setProperty(propertyKey, value);
+      object.setProperty(propertyKey, value, context.realm.strict);
       return;
     }
   }
