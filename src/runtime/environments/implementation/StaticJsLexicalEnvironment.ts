@@ -1,12 +1,12 @@
 import { EvaluationGenerator } from "../../../evaluator/internal.js";
-import { StaticJsValue } from "../../types/index.js";
+import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
 import { StaticJsEnvironment } from "../interfaces/index.js";
 
 import StaticJsBaseEnvironment from "./StaticJsBaseEnvironmentRecord.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 import StaticJsEnvironmentBindingProvider, {
-  isStaticJsEnvironmentBindingProvider,
+  environmentToBindingProvider,
   StaticJsEnvironmentGetBinding,
 } from "./StaticJsEnvironmentBindingProvider.js";
 
@@ -20,19 +20,8 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
   constructor(record: StaticJsEnvironment, parent: StaticJsEnvironment | null) {
     super();
 
-    // FIXME: We use getBinding as an implementation optimization but I don't want to expose it.
-    // I'm too overwhelmed to figure out what to do about this right now.
-
-    if (!isStaticJsEnvironmentBindingProvider(record)) {
-      throw new Error("Invalid record.");
-    }
-
-    if (!isStaticJsEnvironmentBindingProvider(parent)) {
-      throw new Error("Invalid parent.");
-    }
-
-    this._record = record;
-    this._parent = parent;
+    this._record = environmentToBindingProvider(record);
+    this._parent = parent ? environmentToBindingProvider(parent) : null;
   }
 
   *createMutableBindingEvaluator(
