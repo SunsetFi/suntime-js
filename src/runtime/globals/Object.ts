@@ -33,7 +33,7 @@ export default function createObject(): StaticJsValue {
         return ReturnCompletion(new StaticJsEnvBoolean(false));
       }
 
-      const hasProperty = yield* thisArg.hasPropertyEvaluator(key);
+      const hasProperty = yield* thisArg.hasPropertyEvaluator(key.toString());
       return ReturnCompletion(new StaticJsEnvBoolean(hasProperty));
     }),
   });
