@@ -1,3 +1,4 @@
+import { EvaluationGenerator } from "../../../evaluator/internal.js";
 import { StaticJsValue } from "../../types/index.js";
 
 import StaticJsEnvironment from "../interfaces/StaticJsEnvironment.js";
@@ -13,15 +14,15 @@ export default class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarati
     // TODO: add arguments array-not-array-object.
   }
 
-  hasThisBinding(): boolean {
+  *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {
     return true;
   }
 
-  getThisBinding(): StaticJsValue {
+  *getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this._thisArg;
   }
 
-  getVarScope(): StaticJsEnvironment | null {
+  *getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironment | null> {
     return this;
   }
 }

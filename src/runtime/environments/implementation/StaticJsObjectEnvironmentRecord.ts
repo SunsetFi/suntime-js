@@ -1,3 +1,4 @@
+import { EvaluationGenerator } from "../../../evaluator/internal.js";
 import {
   StaticJsObject,
   StaticJsUndefined,
@@ -12,7 +13,10 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
     super();
   }
 
-  createMutableBinding(name: string, deletable: boolean): void {
+  *createMutableBindingEvaluator(
+    name: string,
+    deletable: boolean,
+  ): EvaluationGenerator<void> {
     if (!deletable) {
       throw new Error(
         "Non-deletable bindings are not supported in object environments.",
@@ -20,40 +24,23 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
     }
 
     // FIXME: What to use for strict?
-    this._obj.setProperty(name, StaticJsUndefined(), true);
+    yield* this._obj.setPropertyEvaluator(name, StaticJsUndefined(), true);
   }
 
-  createImmutableBinding(_name: string): void {
+  *createImmutableBindingEvaluator(_name: string): EvaluationGenerator<void> {
     // Do nothing; all the work is done in initializeBinding
   }
 
-  initializeBinding(name: string, value: StaticJsValue): void {
-    this._obj.defineProperty(name, {
+  *initializeBindingEvaluator(
+    name: string,
+    value: StaticJsValue,
+  ): EvaluationGenerator<void> {
+    yield* this._obj.definePropertyEvaluator(name, {
       writable: false,
       enumerable: true,
       configurable: false,
       value,
     });
-  }
-
-  hasThisBinding(): boolean {
-    return false;
-  }
-
-  hasSuperBinding(): boolean {
-    return false;
-  }
-
-  withBaseObject(): StaticJsValue {
-    return StaticJsUndefined();
-  }
-
-  getThisBinding(): StaticJsValue {
-    return StaticJsUndefined();
-  }
-
-  getSuperBase(): StaticJsValue {
-    return StaticJsUndefined();
   }
 
   [StaticJsEnvironmentGetBinding](

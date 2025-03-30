@@ -56,7 +56,7 @@ function variableDeclarationEnvironmentSetup(
   switch (node.kind) {
     case "const":
       variableCreator = (name) => {
-        context.env.createImmutableBinding(name, context.realm.strict);
+        context.env.createImmutableBindingEvaluator(name, context.realm.strict);
       };
       break;
     case "let":

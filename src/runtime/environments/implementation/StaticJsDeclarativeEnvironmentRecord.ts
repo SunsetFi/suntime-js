@@ -1,4 +1,5 @@
-import { StaticJsValue, StaticJsUndefined } from "../../types/index.js";
+import { EvaluationGenerator } from "../../../evaluator/internal.js";
+import { StaticJsValue } from "../../types/index.js";
 
 import StaticJsBaseEnvironment from "./StaticJsBaseEnvironmentRecord.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
@@ -8,7 +9,10 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
   private readonly _bindings: Map<string, DeclarativeEnvironmentBinding> =
     new Map();
 
-  createMutableBinding(name: string, deletable: boolean): void {
+  *createMutableBindingEvaluator(
+    name: string,
+    deletable: boolean,
+  ): EvaluationGenerator<void> {
     if (deletable) {
       throw new Error(
         "Bindings in declarative environments cannot be deletable.",
@@ -25,7 +29,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
     );
   }
 
-  createImmutableBinding(name: string): void {
+  *createImmutableBindingEvaluator(name: string): EvaluationGenerator<void> {
     if (this._bindings.has(name)) {
       throw new Error(`Cannot create binding ${name}: Binding already exists.`);
     }
@@ -34,26 +38,6 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
       name,
       new DeclarativeEnvironmentBinding(name, false, null),
     );
-  }
-
-  hasThisBinding(): boolean {
-    return false;
-  }
-
-  hasSuperBinding(): boolean {
-    return false;
-  }
-
-  withBaseObject(): StaticJsValue {
-    return StaticJsUndefined();
-  }
-
-  getThisBinding(): StaticJsValue {
-    return StaticJsUndefined();
-  }
-
-  getSuperBase(): StaticJsValue {
-    return StaticJsUndefined();
   }
 
   [StaticJsEnvironmentGetBinding](
