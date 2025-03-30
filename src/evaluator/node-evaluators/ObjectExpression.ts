@@ -5,12 +5,23 @@ import {
   SpreadElement,
 } from "@babel/types";
 
-import { isStaticJsObject, StaticJsObject } from "../../runtime/index.js";
+import {
+  assertStaticJsValue,
+  StaticJsValue,
+} from "../../runtime/types/interfaces/StaticJsValue.js";
+
+import {
+  isStaticJsObject,
+  StaticJsObject as IStaticJsObject,
+} from "../../runtime/types/interfaces/StaticJsObject.js";
+
+import StaticJsObject from "../../runtime/types/factories/StaticJsObject.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
-import { NormalCompletion } from "../completions/index.js";
+
+import { EvaluateNodeNormalValueCommand } from "../commands/types/EvaluateNodeCommand.js";
+import NormalCompletion from "../completions/NormalCompletion.js";
 
 import createFunction from "./Function.js";
 
@@ -58,7 +69,7 @@ export default function* objectExpressionNodeEvaluator(
 }
 
 function* objectExpressionPropertyObjectMethodEvaluator(
-  target: StaticJsObject,
+  target: IStaticJsObject,
   property: ObjectMethod,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
@@ -68,19 +79,54 @@ function* objectExpressionPropertyObjectMethodEvaluator(
     // Identifiers evaluate to their values, but we want their name.
     propertyName = propertyKey.name;
   } else {
-    const resolved = yield* EvaluateNodeAssertValueCommand(
+    const resolved = yield* EvaluateNodeNormalValueCommand(
       propertyKey,
       context,
     );
     propertyName = StaticJsObject.toPropertyKey(resolved);
   }
 
-  const value = createFunction(propertyName, property, context);
-  yield* target.setPropertyEvaluator(propertyName, value, context.realm.strict);
+  const method = createFunction(propertyName, property, context);
+
+  switch (property.kind) {
+    case "method": {
+      yield* target.setPropertyEvaluator(
+        propertyName,
+        method,
+        context.realm.strict,
+      );
+      return;
+    }
+    case "get": {
+      yield* target.definePropertyEvaluator(propertyName, {
+        enumerable: true,
+        configurable: true,
+        *get() {
+          const result = yield* method.call(target);
+          assertStaticJsValue(result);
+          return result;
+        },
+      });
+      return;
+    }
+    case "set": {
+      yield* target.definePropertyEvaluator(propertyName, {
+        enumerable: true,
+        configurable: true,
+        *set(value: StaticJsValue) {
+          yield* method.call(target, value);
+        },
+      });
+      return;
+    }
+  }
+
+  const kind = property.kind;
+  throw new Error("Unsupported method kind: " + kind);
 }
 
 function* objectExpressionPropertyObjectPropertyEvaluator(
-  target: StaticJsObject,
+  target: IStaticJsObject,
   property: ObjectProperty,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
@@ -91,23 +137,23 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
   } else if (propertyKey.type === "PrivateName") {
     throw new Error("Private fields are not supported");
   } else {
-    const resolved = yield* EvaluateNodeAssertValueCommand(
+    const resolved = yield* EvaluateNodeNormalValueCommand(
       propertyKey,
       context,
     );
     propertyName = StaticJsObject.toPropertyKey(resolved);
   }
 
-  const value = yield* EvaluateNodeAssertValueCommand(property.value, context);
+  const value = yield* EvaluateNodeNormalValueCommand(property.value, context);
   yield* target.setPropertyEvaluator(propertyName, value, context.realm.strict);
 }
 
 function* objectExpressionPropertySpreadElementEvaluator(
-  target: StaticJsObject,
+  target: IStaticJsObject,
   property: SpreadElement,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
-  const value = yield* EvaluateNodeAssertValueCommand(
+  const value = yield* EvaluateNodeNormalValueCommand(
     property.argument,
     context,
   );

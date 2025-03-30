@@ -1,10 +1,14 @@
-import { EvaluationGenerator } from "../../../evaluator/internal.js";
+import {
+  EvaluationGenerator,
+  runEvaluatorUntilCompletion,
+} from "../../../evaluator/internal.js";
+
+import { StaticJsValue as IStaticJsValue } from "../interfaces/StaticJsValue.js";
 
 import {
-  StaticJsValue as IStaticJsValue,
   isStaticJsObjectPropertyDescriptorValue,
   isStaticJsObjectPropertyDescriptorGetter,
-} from "../interfaces/index.js";
+} from "../interfaces/StaticJsObject.js";
 
 import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
 
@@ -41,7 +45,8 @@ export default class StaticJsEnvArray extends StaticJsEnvObject {
     if (isStaticJsObjectPropertyDescriptorValue(descr)) {
       return descr.value.toNumber();
     } else if (isStaticJsObjectPropertyDescriptorGetter(descr)) {
-      return descr.get().toNumber();
+      // FIXME HACK: Make evaluator
+      return runEvaluatorUntilCompletion(descr.get()).toNumber();
     } else {
       return 0;
     }
@@ -56,7 +61,8 @@ export default class StaticJsEnvArray extends StaticJsEnvObject {
     if (isStaticJsObjectPropertyDescriptorValue(descr)) {
       return descr.value;
     } else if (isStaticJsObjectPropertyDescriptorGetter(descr)) {
-      return descr.get();
+      // FIXME HACK: Make evaluator
+      return runEvaluatorUntilCompletion(descr.get());
     } else {
       return StaticJsEnvUndefined.Instance;
     }

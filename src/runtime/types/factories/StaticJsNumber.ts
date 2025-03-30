@@ -3,7 +3,7 @@ import typedMerge from "../../../internal/typed-merge.js";
 import {
   isStaticJsNumber,
   StaticJsNumber as IStaticJsNumber,
-} from "../interfaces/index.js";
+} from "../interfaces/StaticJsScalar.js";
 
 import StaticJsEnvNumber from "../implementation/StaticJsEnvNumber.js";
 

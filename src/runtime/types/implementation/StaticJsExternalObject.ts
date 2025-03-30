@@ -4,11 +4,9 @@ import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import { EvaluationGenerator } from "../../../evaluator/internal.js";
 
+import { StaticJsValue as IStaticJsValue } from "../interfaces/StaticJsValue.js";
 import {
   StaticJsObjectPropertyDescriptor,
-  StaticJsValue as IStaticJsValue,
-} from "../interfaces/index.js";
-import {
   StaticJsObjectPropertyDescriptorGetter,
   StaticJsObjectPropertyDescriptorValue,
 } from "../interfaces/StaticJsObject.js";
@@ -67,14 +65,16 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
 
     // We need to maintain the semantics of getter vs data value, as it is material to how prototypes are resolved.
     if (descrGet) {
-      staticJsDescr.get = () => StaticJsValue(descrGet.call(this._obj));
+      staticJsDescr.get = function* () {
+        return StaticJsValue(descrGet());
+      };
     } else if (hasOwnProperty(objDescr, "value")) {
       staticJsDescr.value = StaticJsValue(value);
     }
 
     if (descrSet) {
-      staticJsDescr.set = (value: IStaticJsValue) => {
-        descrSet.call(this._obj, value.toJs());
+      staticJsDescr.set = function* (value: IStaticJsValue) {
+        descrSet(value.toJs());
       };
     }
 

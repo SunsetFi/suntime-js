@@ -198,7 +198,7 @@ export default abstract class StaticJsAbstractObject implements StaticJsObject {
     if (ownDecl) {
       // It's our own.  Set it.
       if (ownDecl.set) {
-        ownDecl.set(value, strict);
+        yield* ownDecl.set(value, strict);
         return;
       } else if (ownDecl.writable) {
         yield* this._setWritableDataPropertyEvaluator(name, value);
@@ -216,7 +216,7 @@ export default abstract class StaticJsAbstractObject implements StaticJsObject {
 
         // only set if we have a setter.
         if (decl.set) {
-          decl.set(value, strict);
+          yield* decl.set(value, strict);
         }
 
         // If no setter but a property, it's a data property.

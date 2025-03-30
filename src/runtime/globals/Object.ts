@@ -1,3 +1,5 @@
+import { ReturnCompletion } from "../../evaluator/internal.js";
+
 import {
   isStaticJsObjectLike,
   StaticJsValue,
@@ -8,10 +10,34 @@ import StaticJsEnvArray from "../types/implementation/StaticJsEnvArray.js";
 import StaticJsEnvObject from "../types/implementation/StaticJsEnvObject.js";
 import StaticJsValueFunction from "../types/implementation/StaticJsValueFunction.js";
 import StaticJsEnvFunction from "../types/implementation/StaticJsEnvFunction.js";
-import { ReturnCompletion } from "../../evaluator/internal.js";
+import StaticJsEnvBoolean from "../types/implementation/StaticJsEnvBoolean.js";
 
 export default function createObject(): StaticJsValue {
   const proto = new StaticJsEnvObject(null);
+  proto.defineProperty("hasOwnProperty", {
+    configurable: true,
+    enumerable: false,
+    writable: true,
+    value: new StaticJsEnvFunction("hasOwnProperty", function* (
+      thisArg: StaticJsValue,
+      key: StaticJsValue,
+    ) {
+      if (!isStaticJsObjectLike(thisArg)) {
+        // FIXME: throw real error.
+        throw new TypeError(
+          "Object.prototype.hasOwnProperty called on non-object",
+        );
+      }
+
+      if (key.runtimeTypeOf !== "string") {
+        return ReturnCompletion(new StaticJsEnvBoolean(false));
+      }
+
+      const hasProperty = yield* thisArg.hasPropertyEvaluator(key);
+      return ReturnCompletion(new StaticJsEnvBoolean(hasProperty));
+    }),
+  });
+
   const ctor = new StaticJsEnvObject(null);
   ctor.defineProperty("prototype", {
     value: proto,

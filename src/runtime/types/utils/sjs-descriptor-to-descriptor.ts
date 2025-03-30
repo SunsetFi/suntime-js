@@ -1,3 +1,4 @@
+import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import StaticJsValue from "../factories/StaticJsValue.js";
 
 import {
@@ -23,7 +24,7 @@ export default function staticJsDescriptorToObjectDescriptor(
   if (set) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     objDescriptor.set = (value: any) => {
-      set!(StaticJsValue(value), false);
+      runEvaluatorUntilCompletion(set(StaticJsValue(value), false));
     };
   }
 

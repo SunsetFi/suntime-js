@@ -1,4 +1,5 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
@@ -93,23 +94,20 @@ export interface StaticJsObjectPropertyDescriptorBase {
   readonly configurable?: boolean;
   readonly enumerable?: boolean;
   readonly writable?: boolean;
-  set?(value: StaticJsValue, strict: boolean): void;
+  set?(value: StaticJsValue, strict: boolean): EvaluationGenerator<void>;
 }
 
-export type StaticJsObjectPropertyDescriptorWriteOnly =
-  Required<StaticJsObjectPropertyDescriptorBase>;
 export interface StaticJsObjectPropertyDescriptorValue
   extends StaticJsObjectPropertyDescriptorBase {
-  readonly value: StaticJsValue;
+  readonly value?: StaticJsValue;
 }
 
 export interface StaticJsObjectPropertyDescriptorGetter
   extends StaticJsObjectPropertyDescriptorBase {
-  readonly get: () => StaticJsValue;
+  get?(): EvaluationGenerator<StaticJsValue>;
 }
 
 export type StaticJsObjectPropertyDescriptor =
-  | StaticJsObjectPropertyDescriptorWriteOnly
   | StaticJsObjectPropertyDescriptorValue
   | StaticJsObjectPropertyDescriptorGetter;
 
@@ -167,7 +165,8 @@ export function getStaticJsObjectPropertyDescriptorValue(
   if (hasValue) {
     return descriptor.value as StaticJsValue;
   } else if (hasGet) {
-    return descriptor.get();
+    // FIXME HACK: Make evaluator
+    return runEvaluatorUntilCompletion(descriptor.get());
   }
 
   return null;

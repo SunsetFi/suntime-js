@@ -1,6 +1,7 @@
 import { parse, parseExpression } from "@babel/parser";
 
-import { StaticJsRealm } from "../runtime/index.js";
+import IStaticJsRealm from "../runtime/realm/interfaces/StaticJsRealm.js";
+import StaticJsRealm from "../runtime/realm/factories/StaticJsRealm.js";
 
 import { compileExpression, compileProgram } from "./compilation/factories.js";
 
@@ -11,7 +12,10 @@ import { compileExpression, compileProgram } from "./compilation/factories.js";
  * @returns The native javascript result of evaluating the code.
  * @public
  */
-export function evaluateString(string: string, realm?: StaticJsRealm): unknown {
+export function evaluateString(
+  string: string,
+  realm?: IStaticJsRealm,
+): unknown {
   const ast = parse(string);
 
   if (ast.errors && ast.errors.length) {
@@ -32,7 +36,7 @@ export function evaluateString(string: string, realm?: StaticJsRealm): unknown {
  */
 export function evaluateExpressionString(
   string: string,
-  realm?: StaticJsRealm,
+  realm?: IStaticJsRealm,
 ): unknown {
   const ast = parseExpression(string);
 
