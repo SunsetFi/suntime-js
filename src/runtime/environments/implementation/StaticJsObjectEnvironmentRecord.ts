@@ -54,21 +54,21 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
 
     return {
       name,
-      get value() {
-        return obj.getProperty(name);
-      },
-      set value(value: StaticJsValue) {
-        obj.setProperty(name, value, false);
-      },
       isInitialized: true,
       isDeletable: true,
       isMutable: true,
-      initialize() {
+      *initialize() {
         throw new Error("Cannot reinitialize binding.");
       },
-      delete() {
-        obj.deleteProperty(name);
+      *get() {
+        return yield* obj.getPropertyEvaluator(name);
       },
-    } satisfies StaticJsEnvironmentBinding;
+      *set(value: StaticJsValue) {
+        yield* obj.setPropertyEvaluator(name, value, false);
+      },
+      *delete() {
+        yield* obj.deletePropertyEvaluator(name);
+      },
+    } as StaticJsEnvironmentBinding;
   }
 }

@@ -85,7 +85,7 @@ export default abstract class StaticJsBaseEnvironment
         );
       }
 
-      binding.initialize(value);
+      yield* binding.initialize(value);
     } else {
       throw new Error(
         `Cannot initialize binding ${name}: Binding does not exist.`,
@@ -115,7 +115,7 @@ export default abstract class StaticJsBaseEnvironment
         return;
       }
 
-      binding.value = value;
+      yield* binding.set(value);
     } else {
       throw new ReferenceError(`Assignment to undeclared variable '${name}'.`);
     }
@@ -134,7 +134,7 @@ export default abstract class StaticJsBaseEnvironment
     const binding = this[StaticJsEnvironmentGetBinding](name);
 
     if (binding) {
-      return binding.value;
+      return yield* binding.get();
     } else {
       // TODO: Throw StaticJs ReferenceError
       throw new Error(`Cannot get binding ${name}: Binding does not exist.`);
@@ -149,7 +149,7 @@ export default abstract class StaticJsBaseEnvironment
     const binding = this[StaticJsEnvironmentGetBinding](name);
 
     if (binding) {
-      binding.delete();
+      yield* binding.delete();
     } else {
       throw new Error(`Cannot delete binding ${name}: Binding does not exist.`);
     }

@@ -1,3 +1,4 @@
+import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { StaticJsValue } from "../../types/index.js";
 
 export default interface StaticJsEnvironmentBinding {
@@ -5,7 +6,8 @@ export default interface StaticJsEnvironmentBinding {
   readonly isMutable: boolean;
   readonly isInitialized: boolean;
   readonly isDeletable: boolean;
-  initialize(value: StaticJsValue): void;
-  value: StaticJsValue;
-  delete(): void;
+  initialize(value: StaticJsValue): EvaluationGenerator<void>;
+  get(): EvaluationGenerator<StaticJsValue>;
+  set(value: StaticJsValue): EvaluationGenerator<void>;
+  delete(): EvaluationGenerator<void>;
 }

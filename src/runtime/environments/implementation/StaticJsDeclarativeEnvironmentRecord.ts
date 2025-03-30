@@ -66,24 +66,7 @@ class DeclarativeEnvironmentBinding implements StaticJsEnvironmentBinding {
     return false;
   }
 
-  get value(): StaticJsValue {
-    if (this._value == null) {
-      // TODO: Throw StaticJs ReferenceError
-      throw new Error(`Cannot get value of uninitialized binding ${this.name}`);
-    }
-
-    return this._value;
-  }
-
-  set value(value: StaticJsValue) {
-    if (!this.isMutable) {
-      throw new Error(`Cannot set value of immutable binding ${this.name}`);
-    }
-
-    this._value = value;
-  }
-
-  initialize(value: StaticJsValue) {
+  *initialize(value: StaticJsValue): EvaluationGenerator<void> {
     if (this.isInitialized) {
       throw new Error(
         `Cannot initialize binding ${this.name}: Already initialized`,
@@ -93,7 +76,24 @@ class DeclarativeEnvironmentBinding implements StaticJsEnvironmentBinding {
     this._value = value;
   }
 
-  delete(): void {
+  *get(): EvaluationGenerator<StaticJsValue> {
+    if (this._value == null) {
+      // TODO: Throw StaticJs ReferenceError
+      throw new Error(`Cannot get value of uninitialized binding ${this.name}`);
+    }
+
+    return this._value;
+  }
+
+  *set(value: StaticJsValue): EvaluationGenerator<void> {
+    if (!this.isMutable) {
+      throw new Error(`Cannot set value of immutable binding ${this.name}`);
+    }
+
+    this._value = value;
+  }
+
+  *delete(): EvaluationGenerator<void> {
     throw new Error("Cannot delete bindings in declarative environments");
   }
 }

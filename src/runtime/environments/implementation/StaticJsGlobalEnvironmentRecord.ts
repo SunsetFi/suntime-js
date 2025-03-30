@@ -137,7 +137,7 @@ export default class StaticJsGlobalEnvironmentRecord
       );
     }
 
-    binding.initialize(value);
+    yield* binding.initialize(value);
   }
 
   setMutableBinding(name: string, value: StaticJsValue, strict: boolean): void {
@@ -176,7 +176,7 @@ export default class StaticJsGlobalEnvironmentRecord
       return;
     }
 
-    binding.value = value;
+    yield* binding.set(value);
   }
 
   getBindingValue(name: string): StaticJsValue {
@@ -195,7 +195,7 @@ export default class StaticJsGlobalEnvironmentRecord
       throw new ReferenceError(`Cannot access '${name} before initialization.`);
     }
 
-    return binding.value;
+    return yield* binding.get();
   }
 
   deleteBinding(name: string): void {
@@ -210,7 +210,7 @@ export default class StaticJsGlobalEnvironmentRecord
       throw new Error(`Cannot delete binding ${name}: Binding does not exist.`);
     }
 
-    binding.delete();
+    yield* binding.delete();
   }
 
   hasThisBinding(): boolean {
