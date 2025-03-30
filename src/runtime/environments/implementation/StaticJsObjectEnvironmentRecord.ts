@@ -2,7 +2,7 @@ import {
   StaticJsObject,
   StaticJsUndefined,
   StaticJsValue,
-} from "../../primitives/index.js";
+} from "../../types/index.js";
 import StaticJsBaseEnvironment from "./StaticJsBaseEnvironmentRecord.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 import { StaticJsEnvironmentGetBinding } from "./StaticJsEnvironmentBindingProvider.js";

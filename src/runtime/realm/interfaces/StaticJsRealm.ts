@@ -1,5 +1,5 @@
 import { StaticJsEnvironment } from "../../environments/index.js";
-import { StaticJsObject } from "../../primitives/index.js";
+import { StaticJsObject } from "../../types/index.js";
 
 /**
  * A top-level construct describing the overall environment in which a javascript program is executed.

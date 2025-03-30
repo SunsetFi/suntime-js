@@ -2,7 +2,7 @@ import {
   StaticJsObject,
   StaticJsUndefined,
   StaticJsValue,
-} from "../../primitives/index.js";
+} from "../../types/index.js";
 
 import { StaticJsEnvironment } from "../interfaces/index.js";
 

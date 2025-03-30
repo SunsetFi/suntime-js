@@ -1,4 +1,7 @@
+import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+
 import hasOwnProperty from "../../../internal/has-own-property.js";
+
 import { StaticJsPrimitive } from "./StaticJsPrimitive.js";
 import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
 
@@ -7,36 +10,69 @@ export interface StaticJsObject extends StaticJsPrimitive {
 
   get extensible(): boolean;
 
+  setPrototypeOf(prototype: StaticJsObject | null): void;
+
+  setPrototypeOfEvaluator(
+    prototype: StaticJsObject | null,
+  ): EvaluationGenerator<void>;
+
+  preventExtension(): void;
+
+  preventExtensionEvaluator(): EvaluationGenerator<void>;
+
   getOwnKeys(): string[];
+
+  getOwnKeysEvaluator(): EvaluationGenerator<string[]>;
 
   getOwnEnumerableKeys(): string[];
 
+  getOwnEnumerableKeysEvaluator(): EvaluationGenerator<string[]>;
+
   hasProperty(name: string): boolean;
 
-  getProperty(name: string): StaticJsValue;
+  hasPropertyEvaluator(name: string): EvaluationGenerator<boolean>;
 
   getPropertyDescriptor(
     name: string,
   ): StaticJsObjectPropertyDescriptor | undefined;
 
+  getPropertyDescriptorEvaluator(
+    name: string,
+  ): EvaluationGenerator<StaticJsObjectPropertyDescriptor | undefined>;
+
   getOwnPropertyDescriptor(
     name: string,
   ): StaticJsObjectPropertyDescriptor | undefined;
+
+  getOwnPropertyDescriptorEvaluator(
+    name: string,
+  ): EvaluationGenerator<StaticJsObjectPropertyDescriptor | undefined>;
 
   defineProperty(
     name: string,
     descriptor: StaticJsObjectPropertyDescriptor,
   ): void;
 
-  getIsReadOnlyProperty(name: string): boolean;
+  definePropertyEvaluator(
+    name: string,
+    descriptor: StaticJsObjectPropertyDescriptor,
+  ): EvaluationGenerator<void>;
+
+  getProperty(name: string): StaticJsValue;
+
+  getPropertyEvaluator(name: string): EvaluationGenerator<StaticJsValue>;
 
   setProperty(name: string, value: StaticJsValue, strict: boolean): void;
 
+  setPropertyEvaluator(
+    name: string,
+    value: StaticJsValue,
+    strict: boolean,
+  ): EvaluationGenerator<void>;
+
   deleteProperty(name: string): boolean;
 
-  setPrototypeOf(prototype: StaticJsObject | null): void;
-
-  preventExtension(): void;
+  deletePropertyEvaluator(name: string): EvaluationGenerator<boolean>;
 }
 
 export function isStaticJsObject(value: unknown): value is StaticJsObject {

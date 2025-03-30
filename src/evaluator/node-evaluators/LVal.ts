@@ -7,7 +7,6 @@ import {
   isStaticJsUndefined,
   isStaticJsValue,
   StaticJsObject,
-  StaticJsUndefined,
   StaticJsValue,
 } from "../../runtime/index.js";
 
@@ -71,7 +70,7 @@ export default function* setLVal(
           );
           return;
         } else {
-          const elementValue = value.getProperty(property);
+          const elementValue = yield* value.getPropertyEvaluator(property);
           yield* setLVal(element, elementValue, context, setNamedVariable);
         }
       }
@@ -88,9 +87,10 @@ export default function* setLVal(
           const restValue = StaticJsObject();
           for (const key in value) {
             if (!seenProperties.has(key)) {
-              restValue.setProperty(
+              const propertyValue = yield* value.getPropertyEvaluator(key);
+              yield* restValue.setPropertyEvaluator(
                 key,
-                value.getProperty(key),
+                propertyValue,
                 context.realm.strict,
               );
             }
@@ -116,9 +116,7 @@ export default function* setLVal(
             keyName = StaticJsObject.toPropertyKey(resolved);
           }
 
-          const propertyValue = value.hasProperty(keyName)
-            ? value.getProperty(keyName)
-            : StaticJsUndefined();
+          const propertyValue = yield* value.getPropertyEvaluator(keyName);
 
           if (!property.computed && property.value.type === "Identifier") {
             setNamedVariable(property.value.name, propertyValue);
@@ -185,7 +183,11 @@ export default function* setLVal(
       }
 
       // FIXME: Is this correct?  We set the object directly???
-      object.setProperty(propertyKey, value, context.realm.strict);
+      yield* object.setPropertyEvaluator(
+        propertyKey,
+        value,
+        context.realm.strict,
+      );
       return;
     }
   }

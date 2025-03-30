@@ -1,3 +1,4 @@
+import { EvaluationGenerator } from "../../../evaluator/internal.js";
 import {
   StaticJsValue,
   StaticJsObjectPropertyDescriptor,
@@ -19,13 +20,13 @@ export default class StaticJsEnvObject extends StaticJsAbstractObject {
     super(prototype, type);
   }
 
-  getOwnKeys(): string[] {
+  *getOwnKeysEvaluator(): EvaluationGenerator<string[]> {
     return Array.from(this._contents.keys());
   }
 
-  getOwnPropertyDescriptor(
+  *getOwnPropertyDescriptorEvaluator(
     name: string,
-  ): StaticJsObjectPropertyDescriptor | undefined {
+  ): EvaluationGenerator<StaticJsObjectPropertyDescriptor | undefined> {
     return this._contents.get(name);
   }
 
@@ -42,24 +43,29 @@ export default class StaticJsEnvObject extends StaticJsAbstractObject {
     return this._contents.delete(name);
   }
 
-  protected _setWritableDataProperty(name: string, value: StaticJsValue): void {
+  protected *_setWritableDataPropertyEvaluator(
+    name: string,
+    value: StaticJsValue,
+  ): EvaluationGenerator<void> {
     this._contents.set(name, {
       ...this._contents.get(name),
       value,
     });
   }
 
-  protected _defineProperty(
+  protected *_definePropertyEvaluator(
     name: string,
     descriptor: StaticJsObjectPropertyDescriptor,
-  ): void {
+  ): EvaluationGenerator<void> {
     this._contents.set(name, {
       ...this._contents.get(name),
       ...descriptor,
     });
   }
 
-  protected _deleteConfigurableProperty(name: string): void {
-    this._contents.delete(name);
+  protected *_deleteConfigurablePropertyEvaluator(
+    name: string,
+  ): EvaluationGenerator<boolean> {
+    return this._contents.delete(name);
   }
 }

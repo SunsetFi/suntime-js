@@ -1,3 +1,5 @@
+import { EvaluationGenerator } from "../../../evaluator/internal.js";
+
 import {
   StaticJsValue as IStaticJsValue,
   isStaticJsObjectPropertyDescriptorValue,
@@ -126,11 +128,11 @@ export default class StaticJsEnvArray extends StaticJsEnvObject {
     return Number.NaN;
   }
 
-  protected _setWritableDataProperty(
+  protected *_setWritableDataPropertyEvaluator(
     name: string,
     value: IStaticJsValue,
-  ): void {
-    super._setWritableDataProperty(name, value);
+  ): EvaluationGenerator<void> {
+    yield* super._setWritableDataPropertyEvaluator(name, value);
     const index = parseInt(name, 10);
     if (!Number.isNaN(index) && index >= this.length) {
       this._updateLength(index + 1);

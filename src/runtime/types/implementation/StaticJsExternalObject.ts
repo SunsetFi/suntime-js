@@ -2,6 +2,8 @@ import { Writable } from "type-fest";
 
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
+import { EvaluationGenerator } from "../../../evaluator/internal.js";
+
 import {
   StaticJsObjectPropertyDescriptor,
   StaticJsValue as IStaticJsValue,
@@ -26,7 +28,7 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
     return Object.isExtensible(this._obj);
   }
 
-  getOwnKeys(): string[] {
+  *getOwnKeysEvaluator(): EvaluationGenerator<string[]> {
     // This only returns own keys that are enumerable (and not symbols).
     return Object.keys(this._obj);
   }
@@ -35,9 +37,9 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
     return this._obj;
   }
 
-  getOwnPropertyDescriptor(
+  *getOwnPropertyDescriptorEvaluator(
     name: string,
-  ): StaticJsObjectPropertyDescriptor | undefined {
+  ): EvaluationGenerator<StaticJsObjectPropertyDescriptor | undefined> {
     const objDescr = Object.getOwnPropertyDescriptor(this._obj, name);
     if (!objDescr) {
       return undefined;
@@ -79,23 +81,25 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
     return staticJsDescr as StaticJsObjectPropertyDescriptor;
   }
 
-  protected _setWritableDataProperty(
+  protected *_setWritableDataPropertyEvaluator(
     name: string,
     value: IStaticJsValue,
-  ): void {
+  ): EvaluationGenerator<void> {
     // @ts-expect-error: We can trust that this is a valid key due to the checks made by StaticJsObjectBase.
-    this._obj[typedName] = value.toJs();
+    this._obj[name] = value.toJs();
   }
 
-  protected _defineProperty(
+  protected *_definePropertyEvaluator(
     name: string,
     descriptor: StaticJsObjectPropertyDescriptor,
-  ): void {
+  ): EvaluationGenerator<void> {
     const objDescriptor = staticJsDescriptorToObjectDescriptor(descriptor);
     Object.defineProperty(this._obj, name, objDescriptor);
   }
 
-  protected _deleteConfigurableProperty(name: string): boolean {
+  protected *_deleteConfigurablePropertyEvaluator(
+    name: string,
+  ): EvaluationGenerator<boolean> {
     // @ts-expect-error: We can trust that this is a valid key due to the checks made by StaticJsObjectBase.
     return delete this._obj[name];
   }

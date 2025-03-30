@@ -40,5 +40,6 @@ export default function* memberExpressionNodeEvaluator(
     propertyName = StaticJsObject.toPropertyKey(resolved);
   }
 
-  return NormalCompletion(target.getProperty(propertyName));
+  const value = yield* target.getPropertyEvaluator(propertyName);
+  return NormalCompletion(value);
 }

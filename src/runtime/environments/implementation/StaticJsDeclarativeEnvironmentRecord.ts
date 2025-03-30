@@ -1,4 +1,4 @@
-import { StaticJsValue, StaticJsUndefined } from "../../primitives/index.js";
+import { StaticJsValue, StaticJsUndefined } from "../../types/index.js";
 
 import StaticJsBaseEnvironment from "./StaticJsBaseEnvironmentRecord.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";

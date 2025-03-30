@@ -201,5 +201,6 @@ function* inOperator(
     throw new Error("Left side of in operator must be a string");
   }
 
-  return NormalCompletion(StaticJsBoolean(right.hasProperty(left.toString())));
+  const hasProperty = yield* right.hasPropertyEvaluator(left.toString());
+  return NormalCompletion(StaticJsBoolean(hasProperty));
 }

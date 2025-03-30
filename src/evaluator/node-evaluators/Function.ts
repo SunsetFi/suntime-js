@@ -2,7 +2,7 @@ import { Function } from "@babel/types";
 
 import StaticJsAstFunction, {
   StaticJsAstFunctionArgumentDeclaration,
-} from "../../runtime/primitives/implementation/StaticJsAstFunction.js";
+} from "../../runtime/types/implementation/StaticJsAstFunction.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import { StaticJsFunction } from "../../runtime/index.js";

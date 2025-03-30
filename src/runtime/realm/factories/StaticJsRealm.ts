@@ -1,4 +1,4 @@
-import { StaticJsObjectPropertyDescriptor } from "../../primitives/index.js";
+import { StaticJsObjectPropertyDescriptor } from "../../types/index.js";
 
 import StaticJsEnvRealm from "../implementation/StaticJsEnvRealm.js";
 import { StaticJsRealm as IStaticJsRealm } from "../interfaces/index.js";

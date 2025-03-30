@@ -10,7 +10,7 @@ import {
   StaticJsUndefined,
   StaticJsValue,
   StaticJsObjectPropertyDescriptor,
-} from "../../primitives/index.js";
+} from "../../types/index.js";
 
 export interface StaticJsEnvRealmGlobalDecl {
   properties: Record<string, StaticJsObjectPropertyDescriptor>;

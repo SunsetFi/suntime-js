@@ -1,4 +1,4 @@
-import { StaticJsValue } from "../../primitives/index.js";
+import { StaticJsValue } from "../../types/index.js";
 
 export default interface StaticJsEnvironment {
   hasBinding(name: string): boolean;

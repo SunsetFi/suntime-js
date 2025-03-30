@@ -1,7 +1,7 @@
 import {
   StaticJsObjectPropertyDescriptor,
   StaticJsValue,
-} from "../primitives/index.js";
+} from "../types/index.js";
 import createObject from "./Object.js";
 
 export function createGlobals(): Record<
