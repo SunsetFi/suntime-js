@@ -13,7 +13,7 @@ function* fileNodeEvaluator(
   node: File,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  setupEnvironment(node.program, context);
+  yield* setupEnvironment(node.program, context);
 
   return yield* EvaluateNodeCommand(node.program, context);
 }
