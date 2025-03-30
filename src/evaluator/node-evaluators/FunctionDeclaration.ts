@@ -12,20 +12,20 @@ function* functionDeclarationNodeEvaluator(): EvaluationGenerator {
   return NormalCompletion();
 }
 
-function functionDeclarationEnvironmentSetup(
+function* functionDeclarationEnvironmentSetup(
   node: FunctionDeclaration,
   context: EvaluationContext,
-) {
+): EvaluationGenerator<boolean> {
   const functionName = node.id?.name ?? null;
   const func = createFunction(functionName, node, context);
 
   if (functionName) {
     // So apparently you can actually redeclare these in NodeJS.
-    context.env.createMutableBinding(functionName, false);
+    yield* context.env.createMutableBindingEvaluator(functionName, false);
 
     // Strict mode is whatever here; our binding will always exist, as it is
     // created above.
-    context.env.setMutableBinding(functionName, func, true);
+    yield* context.env.setMutableBindingEvaluator(functionName, func, true);
   }
 
   return false;

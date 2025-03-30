@@ -11,7 +11,7 @@ type NodeEvaluator<TKey extends Node["type"] = Node["type"]> = {
   environmentSetup?(
     node: Extract<Node, { type: TKey }>,
     context: EvaluationContext,
-  ): boolean;
+  ): EvaluationGenerator<boolean>;
 };
 
 export default NodeEvaluator;

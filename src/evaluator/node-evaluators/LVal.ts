@@ -19,19 +19,28 @@ export default function setLVal(
   lval: LVal,
   value: StaticJsValue,
   context: EvaluationContext,
-  setNamedVariable: (name: string, value: StaticJsValue) => void,
+  setNamedVariable: (
+    name: string,
+    value: StaticJsValue,
+  ) => EvaluationGenerator<void>,
 ): EvaluationGenerator<void>;
 export default function setLVal(
   lval: LVal,
   value: StaticJsValue | null,
   context: EvaluationContext,
-  setNamedVariable: (name: string, value: StaticJsValue | null) => void,
+  setNamedVariable: (
+    name: string,
+    value: StaticJsValue | null,
+  ) => EvaluationGenerator<void>,
 ): EvaluationGenerator<void>;
 export default function* setLVal(
   lval: LVal,
   value: StaticJsValue | null,
   context: EvaluationContext,
-  _setNamedVariable: (name: string, value: StaticJsValue) => void,
+  _setNamedVariable: (
+    name: string,
+    value: StaticJsValue,
+  ) => EvaluationGenerator<void>,
 ): EvaluationGenerator<void> {
   if (value && !isStaticJsValue(value)) {
     throw new Error("Cannot set LVal to non-StaticJsValue");
@@ -42,11 +51,11 @@ export default function* setLVal(
   const setNamedVariable = _setNamedVariable as (
     name: string,
     value: StaticJsValue | null,
-  ) => void;
+  ) => EvaluationGenerator<void>;
 
   switch (lval.type) {
     case "Identifier":
-      setNamedVariable(lval.name, value);
+      yield* setNamedVariable(lval.name, value);
       return;
     case "ArrayPattern": {
       if (!isStaticJsArray(value)) {
@@ -119,7 +128,7 @@ export default function* setLVal(
           const propertyValue = yield* value.getPropertyEvaluator(keyName);
 
           if (!property.computed && property.value.type === "Identifier") {
-            setNamedVariable(property.value.name, propertyValue);
+            yield* setNamedVariable(property.value.name, propertyValue);
           } else if (isLVal(property.value)) {
             yield* setLVal(
               property.value,
@@ -195,14 +204,14 @@ export default function* setLVal(
   throw new Error(`Unsupported LVal type: ${lval.type}`);
 }
 
-export function environmentSetupLVal(
+export function* environmentSetupLVal(
   lval: LVal,
   context: EvaluationContext,
-  bindVariable: (name: string) => void,
-) {
+  bindVariable: (name: string) => EvaluationGenerator<void>,
+): EvaluationGenerator<void> {
   switch (lval.type) {
     case "Identifier":
-      bindVariable(lval.name);
+      yield* bindVariable(lval.name);
       return;
     case "ArrayPattern":
       for (const element of lval.elements) {
@@ -211,20 +220,20 @@ export function environmentSetupLVal(
         }
 
         if (element.type === "RestElement") {
-          environmentSetupLVal(element.argument, context, bindVariable);
+          yield* environmentSetupLVal(element.argument, context, bindVariable);
           return;
         } else {
-          environmentSetupLVal(element, context, bindVariable);
+          yield* environmentSetupLVal(element, context, bindVariable);
         }
       }
       return;
     case "ObjectPattern":
       for (const property of lval.properties) {
         if (property.type === "RestElement") {
-          environmentSetupLVal(property.argument, context, bindVariable);
+          yield* environmentSetupLVal(property.argument, context, bindVariable);
           return;
         } else if (isLVal(property.value)) {
-          environmentSetupLVal(property.value, context, bindVariable);
+          yield* environmentSetupLVal(property.value, context, bindVariable);
         } else {
           throw new Error(
             `Unsupported ObjectPattern property target type: ${property.value.type}`,
@@ -233,7 +242,7 @@ export function environmentSetupLVal(
       }
       return;
     case "AssignmentPattern":
-      environmentSetupLVal(lval.left, context, bindVariable);
+      yield* environmentSetupLVal(lval.left, context, bindVariable);
       return;
   }
 

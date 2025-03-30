@@ -8,7 +8,9 @@ export default function* identifierNodeEvaluator(
   node: Identifier,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  return NormalCompletion(
-    context.env.getBindingValue(node.name, context.realm.strict),
+  const value = yield* context.env.getBindingValueEvaluator(
+    node.name,
+    context.realm.strict,
   );
+  return NormalCompletion(value);
 }

@@ -54,7 +54,7 @@ function* forStatementNodeEvaluator(
       env: bodyEnv,
     };
 
-    setupEnvironment(node.body, bodyContext);
+    yield* setupEnvironment(node.body, bodyContext);
 
     const result = yield* EvaluateNodeCommand(node.body, bodyContext);
     switch (result.type) {
@@ -78,10 +78,10 @@ function* forStatementNodeEvaluator(
   } while (true);
 }
 
-function forStatementEnvironmentSetup(
+function* forStatementEnvironmentSetup(
   node: ForStatement,
   context: EvaluationContext,
-) {
+): EvaluationGenerator<boolean> {
   // Set up the environment for the for statement initializer.
   if (!node.init && !node.update && !node.test) {
     return false;
@@ -102,15 +102,15 @@ function forStatementEnvironmentSetup(
   };
 
   if (node.init) {
-    setupEnvironment(node.init, forContext);
+    yield* setupEnvironment(node.init, forContext);
   }
 
   if (node.test) {
-    setupEnvironment(node.test, forContext);
+    yield* setupEnvironment(node.test, forContext);
   }
 
   if (node.update) {
-    setupEnvironment(node.update, forContext);
+    yield* setupEnvironment(node.update, forContext);
   }
 
   return false;

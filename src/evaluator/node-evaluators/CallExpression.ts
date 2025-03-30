@@ -28,10 +28,8 @@ export default function* callExpressionNodeEvaluator(
     args[i] = yield* EvaluateNodeAssertValueCommand(node.arguments[i], context);
   }
 
-  const callCompletion = yield* callee.call(
-    context.env.getThisBinding(),
-    ...args,
-  );
+  const thisValue = yield* context.env.getThisBindingEvaluator();
+  const callCompletion = yield* callee.call(thisValue, ...args);
 
   switch (callCompletion.type) {
     case "normal":

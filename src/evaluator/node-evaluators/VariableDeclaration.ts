@@ -16,17 +16,23 @@ function* variableDeclarationNodeEvaluator(
   node: VariableDeclaration,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  let variableInitializer: (name: string, value: StaticJsValue | null) => void;
+  let variableInitializer: (
+    name: string,
+    value: StaticJsValue | null,
+  ) => EvaluationGenerator<void>;
   switch (node.kind) {
     case "const":
     case "let":
-      variableInitializer = (name, value) => {
-        context.env.initializeBinding(name, value ?? StaticJsUndefined());
+      variableInitializer = function* (name, value) {
+        yield* context.env.initializeBindingEvaluator(
+          name,
+          value ?? StaticJsUndefined(),
+        );
       };
       break;
     case "var":
-      variableInitializer = (name, value) => {
-        context.env.setMutableBinding(
+      variableInitializer = function* (name, value) {
+        yield* context.env.setMutableBindingEvaluator(
           name,
           value ?? StaticJsUndefined(),
           context.realm.strict,
@@ -48,29 +54,35 @@ function* variableDeclarationNodeEvaluator(
   return NormalCompletion();
 }
 
-function variableDeclarationEnvironmentSetup(
+function* variableDeclarationEnvironmentSetup(
   node: VariableDeclaration,
   context: EvaluationContext,
-) {
-  let variableCreator: (name: string) => void;
+): EvaluationGenerator<boolean> {
+  let variableCreator: (name: string) => EvaluationGenerator<void>;
   switch (node.kind) {
     case "const":
-      variableCreator = (name) => {
-        context.env.createImmutableBindingEvaluator(name, context.realm.strict);
+      variableCreator = function* (name) {
+        yield* context.env.createImmutableBindingEvaluator(
+          name,
+          context.realm.strict,
+        );
       };
       break;
     case "let":
-      variableCreator = (name) => {
-        context.env.createMutableBinding(name, false);
+      variableCreator = function* (name) {
+        yield* context.env.createMutableBindingEvaluator(name, false);
       };
       break;
     case "var":
-      variableCreator = (name) => {
-        const varScope = context.env.getVarScope() ?? context.env;
-        if (varScope.canDeclareGlobalVar(name)) {
-          varScope.createGlobalVarBinding(name, true);
+      variableCreator = function* (name) {
+        let varScope = yield* context.env.getVarScopeEvaluator();
+        if (!varScope) {
+          varScope = context.env;
+        }
+        if (yield* varScope.canDeclareGlobalVarEvaluator(name)) {
+          yield* varScope.createGlobalVarBindingEvaluator(name, true);
         } else {
-          varScope.createMutableBinding(name, false);
+          yield* varScope.createMutableBindingEvaluator(name, false);
         }
       };
       break;
@@ -79,7 +91,7 @@ function variableDeclarationEnvironmentSetup(
   }
 
   for (const declarator of node.declarations) {
-    environmentSetupLVal(declarator.id, context, variableCreator);
+    yield* environmentSetupLVal(declarator.id, context, variableCreator);
   }
 
   return false;
@@ -92,7 +104,10 @@ export default typedMerge(variableDeclarationNodeEvaluator, {
 function* declarationStatementEvaluator(
   declarator: VariableDeclarator,
   context: EvaluationContext,
-  variableCreator: (name: string, value: StaticJsValue | null) => void,
+  variableCreator: (
+    name: string,
+    value: StaticJsValue | null,
+  ) => EvaluationGenerator<void>,
 ): EvaluationGenerator<void> {
   let value: StaticJsValue | null = null;
   if (declarator.init) {

@@ -54,7 +54,7 @@ export default class StaticJsAstFunction extends StaticJsEnvFunction {
 
       yield* declareArguments(args, argumentDeclarations, functionContext);
 
-      setupEnvironment(body, functionContext);
+      yield* setupEnvironment(body, functionContext);
 
       const evaluationCompletion = yield* EvaluateNodeCommand(
         body,
@@ -85,11 +85,11 @@ function* declareArguments(
 
     if (decl.type === "RestElement") {
       const value = new StaticJsEnvArray(args.slice(i));
-      yield* setLVal(decl.argument, value, context, (name, value) => {
-        context.env.createMutableBinding(name, false);
+      yield* setLVal(decl.argument, value, context, function* (name, value) {
+        yield* context.env.createMutableBindingEvaluator(name, false);
 
         // Strict mode is whatever; our binding is created above.
-        context.env.setMutableBinding(name, value, true);
+        yield* context.env.setMutableBindingEvaluator(name, value, true);
       });
       return;
     }
@@ -97,11 +97,11 @@ function* declareArguments(
     // We might not get enough arguments, so fill in the rest with undefined.
     const value: StaticJsValue = args[i] ?? StaticJsEnvUndefined.Instance;
 
-    yield* setLVal(decl, value, context, (name, value) => {
-      context.env.createMutableBinding(name, false);
+    yield* setLVal(decl, value, context, function* (name, value) {
+      yield* context.env.createMutableBindingEvaluator(name, false);
 
       // Strict mode is whatever; our binding is created above.
-      context.env.setMutableBinding(name, value, true);
+      yield* context.env.setMutableBindingEvaluator(name, value, true);
     });
   }
 }

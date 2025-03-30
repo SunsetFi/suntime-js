@@ -15,7 +15,7 @@ function* programNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   for (const statement of node.body) {
-    setupEnvironment(statement, context);
+    yield* setupEnvironment(statement, context);
   }
 
   if (node.sourceType !== "script") {
@@ -40,5 +40,7 @@ function* programNodeEvaluator(
 }
 
 export default typedMerge(programNodeEvaluator, {
-  environmentSetup: () => false,
+  environmentSetup: function* () {
+    return false;
+  },
 });

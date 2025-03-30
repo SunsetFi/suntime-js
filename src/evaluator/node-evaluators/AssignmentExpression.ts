@@ -38,7 +38,10 @@ export default function* assignmentExpressionNodeEvaluator(
           throw new SyntaxError("Invalid left-hand side in assignment");
         }
 
-        const leftValue = context.env.getBindingValue(left.name, true);
+        const leftValue = yield* context.env.getBindingValueEvaluator(
+          left.name,
+          true,
+        );
 
         if (!isStaticJsScalar(leftValue) || !isStaticJsScalar(value)) {
           // One will become a string so both become a string.
@@ -55,7 +58,10 @@ export default function* assignmentExpressionNodeEvaluator(
           throw new SyntaxError("Invalid left-hand side in assignment");
         }
 
-        const leftValue = context.env.getBindingValue(left.name, true);
+        const leftValue = yield* context.env.getBindingValueEvaluator(
+          left.name,
+          true,
+        );
 
         value = StaticJsNumber(leftValue.toNumber() - value.toNumber());
       }
@@ -66,7 +72,10 @@ export default function* assignmentExpressionNodeEvaluator(
           throw new SyntaxError("Invalid left-hand side in assignment");
         }
 
-        const leftValue = context.env.getBindingValue(left.name, true);
+        const leftValue = yield* context.env.getBindingValueEvaluator(
+          left.name,
+          true,
+        );
 
         value = StaticJsNumber(leftValue.toNumber() << value.toNumber());
       }
@@ -77,7 +86,10 @@ export default function* assignmentExpressionNodeEvaluator(
           throw new SyntaxError("Invalid left-hand side in assignment");
         }
 
-        const leftValue = context.env.getBindingValue(left.name, true);
+        const leftValue = yield* context.env.getBindingValueEvaluator(
+          left.name,
+          true,
+        );
 
         value = StaticJsNumber(leftValue.toNumber() >> value.toNumber());
       }
@@ -88,16 +100,23 @@ export default function* assignmentExpressionNodeEvaluator(
           throw new SyntaxError("Invalid left-hand side in assignment");
         }
 
-        const leftValue = context.env.getBindingValue(left.name, true);
+        const leftValue = yield* context.env.getBindingValueEvaluator(
+          left.name,
+          true,
+        );
 
         value = StaticJsNumber(leftValue.toNumber() >>> value.toNumber());
       }
       break;
   }
 
-  yield* setLVal(left, value, context, (name, value) =>
-    context.env.setMutableBinding(name, value, context.realm.strict),
-  );
+  yield* setLVal(left, value, context, function* (name, value) {
+    yield* context.env.setMutableBindingEvaluator(
+      name,
+      value,
+      context.realm.strict,
+    );
+  });
 
   // Pass the value for chaining.
   // It is proper to pass the resolved value, even if the binding set didn't change the value.

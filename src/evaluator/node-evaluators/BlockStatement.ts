@@ -42,10 +42,10 @@ function* blockStatementNodeEvaluator(
   return NormalCompletion();
 }
 
-function blockStatementEnvironmentSetup(
+function* blockStatementEnvironmentSetup(
   node: BlockStatement,
   context: EvaluationContext,
-) {
+): EvaluationGenerator<boolean> {
   const scope = new StaticJsLexicalEnvironment(
     new StaticJsDeclarativeEnvironmentRecord(),
     context.env,
@@ -56,7 +56,7 @@ function blockStatementEnvironmentSetup(
   };
 
   for (const child of node.body) {
-    setupEnvironment(child, blockContext);
+    yield* setupEnvironment(child, blockContext);
   }
 
   // FIXME: I don't like this mutating the node object.

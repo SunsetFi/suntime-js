@@ -63,9 +63,9 @@ function* runCatch(
   };
 
   if (node.param) {
-    yield* setLVal(node.param, value, catchContext, (name, value) => {
-      env.createMutableBinding(name, false);
-      env.initializeBinding(name, value);
+    yield* setLVal(node.param, value, catchContext, function* (name, value) {
+      yield* env.createMutableBindingEvaluator(name, false);
+      yield* env.initializeBindingEvaluator(name, value);
     });
   }
 
@@ -93,5 +93,7 @@ function* runBlock(
 export default typedMerge(tryStatementNodeEvaluator, {
   // This is a bit surprising, but the only EnvironmentRecord we need to create is for catch,
   // and that is only created at runtime.
-  environmentSetup: () => false,
+  environmentSetup: function* () {
+    return false;
+  },
 });

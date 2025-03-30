@@ -7,5 +7,7 @@ function* catchClauseNodeEvaluator(): EvaluationGenerator {
 }
 
 export default typedMerge(catchClauseNodeEvaluator, {
-  environmentSetup: () => false,
+  environmentSetup: function* () {
+    return false;
+  },
 });
