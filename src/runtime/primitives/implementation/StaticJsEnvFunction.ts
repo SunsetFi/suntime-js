@@ -4,8 +4,6 @@ import {
   runEvaluatorUntilCompletion,
 } from "../../../evaluator/internal.js";
 
-import { StaticJsString, StaticJsValue } from "../factories/index.js";
-
 import {
   isStaticJsValue,
   StaticJsFunction,
@@ -13,11 +11,14 @@ import {
 } from "../interfaces/index.js";
 import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
 
+import StaticJsValue from "../factories/StaticJsValue.js";
+
+import StaticJsEnvString from "./StaticJsEnvString.js";
 import StaticJsEnvNumber from "./StaticJsEnvNumber.js";
 import StaticJsEnvObject from "./StaticJsEnvObject.js";
 
-export default abstract class StaticJsEnvFunction
-  extends StaticJsEnvObject<"function">
+export default class StaticJsEnvFunction
+  extends StaticJsEnvObject
   implements StaticJsFunction<IStaticJsValue[]>
 {
   private _toJs: unknown | null = null;
@@ -35,7 +36,7 @@ export default abstract class StaticJsEnvFunction
     super(null, "function");
     this._name = name;
     this.defineProperty("name", {
-      value: StaticJsString(name ?? ""),
+      value: new StaticJsEnvString(name ?? ""),
       writable: false,
       enumerable: false,
       configurable: true,
@@ -50,6 +51,10 @@ export default abstract class StaticJsEnvFunction
 
   get typeOf() {
     return "function" as const;
+  }
+
+  get runtimeTypeOf() {
+    return "function";
   }
 
   toJs(): unknown {

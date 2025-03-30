@@ -1,20 +1,18 @@
-import { StaticJsString as IStaticJsString } from "../interfaces/index.js";
+import { StaticJsString } from "../interfaces/index.js";
 
-import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
-
-export default class StaticJsEnvString implements IStaticJsString {
+export default class StaticJsEnvString implements StaticJsString {
   private readonly _value: string;
 
   constructor(value: string) {
     this._value = value;
   }
 
-  get [StaticJsTypeSymbol]() {
-    return "string" as const;
-  }
-
   get typeOf() {
     return "boolean" as const;
+  }
+
+  get runtimeTypeOf() {
+    return "string";
   }
 
   get value() {

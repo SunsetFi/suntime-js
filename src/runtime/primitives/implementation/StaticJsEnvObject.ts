@@ -6,9 +6,7 @@ import {
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 
-export default class StaticJsEnvObject<
-  TTypeSymbol extends string = "object",
-> extends StaticJsAbstractObject<TTypeSymbol> {
+export default class StaticJsEnvObject extends StaticJsAbstractObject {
   private readonly _contents = new Map<
     string,
     StaticJsObjectPropertyDescriptor
@@ -16,9 +14,9 @@ export default class StaticJsEnvObject<
 
   constructor(
     prototype: StaticJsObject | null = null,
-    type: TTypeSymbol = "object" as TTypeSymbol,
+    type: string = "object",
   ) {
-    super(type, prototype);
+    super(prototype, type);
   }
 
   getOwnKeys(): string[] {

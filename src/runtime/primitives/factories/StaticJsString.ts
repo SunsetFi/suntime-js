@@ -1,10 +1,13 @@
-import { StaticJsEnvString } from "../implementation/index.js";
-import { StaticJsString as IStaticJsString } from "../interfaces/index.js";
-import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
+import {
+  isStaticJsString,
+  StaticJsString as IStaticJsString,
+} from "../interfaces/index.js";
+
+import StaticJsEnvString from "../implementation/StaticJsEnvString.js";
 
 export default function StaticJsString(value: string): IStaticJsString {
-  if (staticJsInstanceOf(value) === "string") {
-    return value as unknown as StaticJsEnvString;
+  if (isStaticJsString(value)) {
+    return value;
   }
 
   if (typeof value !== "string") {

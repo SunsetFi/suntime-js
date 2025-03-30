@@ -1,14 +1,8 @@
 import hasOwnProperty from "../../../internal/has-own-property.js";
-import StaticJsTypeSymbol, {
-  staticJsInstanceOf,
-} from "../StaticJsTypeSymbol.js";
 import { StaticJsPrimitive } from "./StaticJsPrimitive.js";
-import { StaticJsValue } from "./StaticJsValue.js";
+import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
 
-export interface StaticJsObject<TTypeSymbol extends string = string>
-  extends StaticJsPrimitive {
-  [StaticJsTypeSymbol]: TTypeSymbol;
-
+export interface StaticJsObject extends StaticJsPrimitive {
   get prototype(): StaticJsObject | null;
 
   get extensible(): boolean;
@@ -46,16 +40,17 @@ export interface StaticJsObject<TTypeSymbol extends string = string>
 }
 
 export function isStaticJsObject(value: unknown): value is StaticJsObject {
-  const type = staticJsInstanceOf(value);
-  return type === "object";
+  if (!isStaticJsValue(value)) {
+    return false;
+  }
+  return value.runtimeTypeOf === "object";
 }
 
 export function isStaticJsObjectLike(value: unknown): value is StaticJsObject {
-  const type = staticJsInstanceOf(value);
-  if (!type) {
+  if (!isStaticJsValue(value)) {
     return false;
   }
-  return ["object", "array", "function"].includes(type);
+  return ["object", "array", "function"].includes(value.runtimeTypeOf);
 }
 
 export interface StaticJsObjectPropertyDescriptorBase {

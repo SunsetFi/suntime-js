@@ -1,15 +1,13 @@
-import {
-  StaticJsBoolean,
-  StaticJsNumber,
-  StaticJsString,
-  StaticJsArray,
-  StaticJsFunction,
-  StaticJsObject,
-  StaticJsNull,
-  StaticJsUndefined,
-} from "../factories/index.js";
-
 import { isStaticJsValue, StaticJsValue } from "../interfaces/index.js";
+
+import StaticJsBoolean from "./StaticJsBoolean.js";
+import StaticJsNumber from "./StaticJsNumber.js";
+import StaticJsString from "./StaticJsString.js";
+import StaticJsArray from "./StaticJsArray.js";
+import StaticJsFunction from "./StaticJsFunction.js";
+import StaticJsObject from "./StaticJsObject.js";
+import StaticJsNull from "./StaticJsNull.js";
+import StaticJsUndefined from "./StaticJsUndefined.js";
 
 export default function toStaticJsValue(value: unknown): StaticJsValue {
   if (isStaticJsValue(value)) {

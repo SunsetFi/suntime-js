@@ -28,19 +28,17 @@ import type {
   StaticJsValue as IStaticJsValue,
 } from "./interfaces/index.js";
 
-export type { StaticJsObjectConfig } from "./factories/index.js";
+export type { StaticJsObjectConfig } from "./factories/StaticJsObject.js";
 
-import {
-  StaticJsArray as fStaticJsArray,
-  StaticJsFunction as fStaticJsFunction,
-  StaticJsObject as fStaticJsObject,
-  StaticJsBoolean as fStaticJsBoolean,
-  StaticJsNull as fStaticJsNull,
-  StaticJsNumber as fStaticJsNumber,
-  StaticJsUndefined as fStaticJsUndefined,
-  StaticJsString as fStaticJsString,
-  StaticJsValue as fStaticJsValue,
-} from "./factories/index.js";
+import fStaticJsArray from "./factories/StaticJsArray.js";
+import fStaticJsFunction from "./factories/StaticJsFunction.js";
+import fStaticJsObject from "./factories/StaticJsObject.js";
+import fStaticJsBoolean from "./factories/StaticJsBoolean.js";
+import fStaticJsNull from "./factories/StaticJsNull.js";
+import fStaticJsNumber from "./factories/StaticJsNumber.js";
+import fStaticJsUndefined from "./factories/StaticJsUndefined.js";
+import fStaticJsString from "./factories/StaticJsString.js";
+import fStaticJsValue from "./factories/StaticJsValue.js";
 
 type StaticJsArray = IStaticJsArray;
 const StaticJsArray = fStaticJsArray;

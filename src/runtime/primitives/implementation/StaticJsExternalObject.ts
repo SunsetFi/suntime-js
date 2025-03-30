@@ -6,19 +6,20 @@ import {
   StaticJsObjectPropertyDescriptor,
   StaticJsValue as IStaticJsValue,
 } from "../interfaces/index.js";
-import { StaticJsValue } from "../factories/index.js";
 import {
   StaticJsObjectPropertyDescriptorGetter,
   StaticJsObjectPropertyDescriptorValue,
 } from "../interfaces/StaticJsObject.js";
 import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
 
+import StaticJsValue from "../factories/StaticJsValue.js";
+
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 
-export default class StaticJsExternalObject extends StaticJsAbstractObject<"object"> {
+export default class StaticJsExternalObject extends StaticJsAbstractObject {
   constructor(private readonly _obj: object) {
     // FIXME: Use Object.prototype, whatever that will be.
-    super("object", null);
+    super(null, "object");
   }
 
   get extensible(): boolean {

@@ -1,10 +1,12 @@
+import typedEntries from "../../../internal/typed-entries.js";
 import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/index.js";
 import { StaticJsEnvironment } from "../../environments/index.js";
+
+import { createGlobals } from "../../globals/create-globals.js";
 
 // We have to import these directly to avoid circular refs.
 import {
   StaticJsObject,
-  StaticJsNumber,
   StaticJsUndefined,
   StaticJsValue,
   StaticJsObjectPropertyDescriptor,
@@ -26,17 +28,6 @@ export interface StaticJsEnvRealmOptions {
 export default class StaticJsEnvRealm {
   private readonly _globalObject: StaticJsObject;
   private readonly _environment: StaticJsEnvironment;
-
-  static getGlobalObjectProperties(): Record<
-    string,
-    StaticJsObjectPropertyDescriptor
-  > {
-    return {
-      Infinity: { value: StaticJsNumber(Infinity) },
-      NaN: { value: StaticJsNumber(NaN) },
-      undefined: { value: StaticJsUndefined() },
-    };
-  }
 
   constructor({ globalObject, globalThis }: StaticJsEnvRealmOptions = {}) {
     const globalThisResolved = globalThis
@@ -61,28 +52,7 @@ export default class StaticJsEnvRealm {
       throw new Error("Invalid globalObject");
     }
 
-    for (const [name, descriptor] of Object.entries(
-      StaticJsEnvRealm.getGlobalObjectProperties(),
-    )) {
-      globalObjectResolved.defineProperty(name, descriptor);
-    }
-
-    if (!globalObjectResolved.hasProperty("globalThis")) {
-      globalObjectResolved.defineProperty("globalThis", {
-        value: globalThisResolved,
-        writable: true,
-        enumerable: false,
-        configurable: true,
-      });
-    }
-    if (!globalObjectResolved.hasProperty("global")) {
-      globalObjectResolved.defineProperty("global", {
-        value: globalObjectResolved,
-        writable: true,
-        enumerable: false,
-        configurable: true,
-      });
-    }
+    this._setupGlobalObject(globalObjectResolved, globalThisResolved);
 
     this._globalObject = globalObjectResolved;
 
@@ -103,5 +73,33 @@ export default class StaticJsEnvRealm {
 
   get globalEnv() {
     return this._environment;
+  }
+
+  private _setupGlobalObject(
+    globalObject: StaticJsObject,
+    globalThis: StaticJsValue,
+  ) {
+    for (const [key, value] of typedEntries(createGlobals())) {
+      if (!globalObject.hasProperty(key)) {
+        globalObject.defineProperty(key, value);
+      }
+    }
+
+    if (!globalObject.hasProperty("globalThis")) {
+      globalObject.defineProperty("globalThis", {
+        value: globalThis,
+        writable: true,
+        enumerable: false,
+        configurable: true,
+      });
+    }
+    if (!globalObject.hasProperty("global")) {
+      globalObject.defineProperty("global", {
+        value: globalObject,
+        writable: true,
+        enumerable: false,
+        configurable: true,
+      });
+    }
   }
 }

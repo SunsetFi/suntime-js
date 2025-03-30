@@ -1,48 +1,53 @@
-import StaticJsTypeSymbol, {
-  staticJsInstanceOf,
-} from "../StaticJsTypeSymbol.js";
 import { StaticJsPrimitive } from "./StaticJsPrimitive.js";
-import { StaticJsValue } from "./StaticJsValue.js";
+import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsString extends StaticJsPrimitive {
-  [StaticJsTypeSymbol]: "string";
   value: string;
 }
 export function isStaticJsString(value: unknown): value is StaticJsString {
-  return staticJsInstanceOf(value) === "string";
+  if (!isStaticJsValue(value)) {
+    return false;
+  }
+  return value.runtimeTypeOf === "string";
 }
 
 export interface StaticJsNumber extends StaticJsPrimitive {
-  [StaticJsTypeSymbol]: "number";
   value: number;
 }
 export function isStaticJsNumber(value: unknown): value is StaticJsNumber {
-  return staticJsInstanceOf(value) === "number";
+  if (!isStaticJsValue(value)) {
+    return false;
+  }
+  return value.runtimeTypeOf === "number";
 }
 
 export interface StaticJsBoolean extends StaticJsPrimitive {
-  [StaticJsTypeSymbol]: "boolean";
   value: boolean;
   negate(): StaticJsBoolean;
 }
 export function isStaticJsBoolean(value: unknown): value is StaticJsBoolean {
-  return staticJsInstanceOf(value) === "boolean";
+  if (!isStaticJsValue(value)) {
+    return false;
+  }
+  return value.runtimeTypeOf === "boolean";
 }
 
-export interface StaticJsNull extends StaticJsPrimitive {
-  [StaticJsTypeSymbol]: "null";
-}
+export type StaticJsNull = StaticJsPrimitive;
 export function isStaticJsNull(value: unknown): value is StaticJsNull {
-  return staticJsInstanceOf(value) === "null";
+  if (!isStaticJsValue(value)) {
+    return false;
+  }
+  return value.runtimeTypeOf === "null";
 }
 
-export interface StaticJsUndefined extends StaticJsPrimitive {
-  [StaticJsTypeSymbol]: "undefined";
-}
+export type StaticJsUndefined = StaticJsPrimitive;
 export function isStaticJsUndefined(
   value: unknown,
 ): value is StaticJsUndefined {
-  return staticJsInstanceOf(value) === "undefined";
+  if (!isStaticJsValue(value)) {
+    return false;
+  }
+  return value.runtimeTypeOf === "undefined";
 }
 
 export type StaticJsScalar =
@@ -53,6 +58,9 @@ export type StaticJsScalar =
   | StaticJsUndefined;
 
 export function isStaticJsScalar(value: StaticJsValue): boolean {
+  if (!isStaticJsValue(value)) {
+    return false;
+  }
   return [
     "string",
     "number",
@@ -60,5 +68,5 @@ export function isStaticJsScalar(value: StaticJsValue): boolean {
     "boolean",
     "null",
     "undefined",
-  ].includes(staticJsInstanceOf(value)!);
+  ].includes(value.runtimeTypeOf);
 }

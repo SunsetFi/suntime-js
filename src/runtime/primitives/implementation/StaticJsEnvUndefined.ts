@@ -1,16 +1,14 @@
 import { StaticJsUndefined as IStaticJsUndefined } from "../interfaces/index.js";
 
-import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
-
 export default class StaticJsEnvUndefined implements IStaticJsUndefined {
   static readonly Instance = new StaticJsEnvUndefined();
 
-  get [StaticJsTypeSymbol]() {
+  get typeOf() {
     return "undefined" as const;
   }
 
-  get typeOf() {
-    return "undefined" as const;
+  get runtimeTypeOf() {
+    return "undefined";
   }
 
   toJs() {

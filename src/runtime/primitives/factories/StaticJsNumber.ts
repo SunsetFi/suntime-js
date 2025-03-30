@@ -1,13 +1,15 @@
 import typedMerge from "../../../internal/typed-merge.js";
 
-import { StaticJsEnvNumber } from "../implementation/index.js";
-import { StaticJsNumber as IStaticJsNumber } from "../interfaces/index.js";
+import {
+  isStaticJsNumber,
+  StaticJsNumber as IStaticJsNumber,
+} from "../interfaces/index.js";
 
-import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
+import StaticJsEnvNumber from "../implementation/StaticJsEnvNumber.js";
 
 function StaticJsNumber(value: number): IStaticJsNumber {
-  if (staticJsInstanceOf(value) === "number") {
-    return value as unknown as StaticJsEnvNumber;
+  if (isStaticJsNumber(value)) {
+    return value;
   }
 
   if (typeof value !== "number") {

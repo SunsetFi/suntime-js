@@ -5,10 +5,9 @@ import StaticJsExternalObject from "../implementation/StaticJsExternalObject.js"
 
 import {
   StaticJsObject as IStaticJsObject,
+  isStaticJsObject,
   isStaticJsValue,
 } from "../interfaces/index.js";
-
-import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
 
 export interface StaticJsObjectConfig {
   static?: boolean;
@@ -26,8 +25,8 @@ function StaticJsObject(
     return new StaticJsEnvObject(prototype ? StaticJsObject(prototype) : null);
   }
 
-  if (staticJsInstanceOf(obj) === "object") {
-    return obj as unknown as IStaticJsObject;
+  if (isStaticJsObject(obj)) {
+    return obj;
   }
 
   if (typeof obj !== "object" && !obj) {

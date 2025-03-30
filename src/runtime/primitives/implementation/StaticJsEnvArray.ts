@@ -4,12 +4,13 @@ import {
   isStaticJsObjectPropertyDescriptorGetter,
 } from "../interfaces/index.js";
 
-import StaticJsEnvObject from "./StaticJsEnvObject.js";
-import StaticJsValue from "../factories/StaticJsValue.js";
-import StaticJsUndefined from "../factories/StaticJsUndefined.js";
 import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
 
-export default class StaticJsEnvArray extends StaticJsEnvObject<"array"> {
+import StaticJsEnvNumber from "./StaticJsEnvNumber.js";
+import StaticJsEnvUndefined from "./StaticJsEnvUndefined.js";
+import StaticJsEnvObject from "./StaticJsEnvObject.js";
+
+export default class StaticJsEnvArray extends StaticJsEnvObject {
   constructor(items: IStaticJsValue[] = []) {
     // FIXME: Use Object.prototype, whatever that will be.
     super(null, "array");
@@ -23,6 +24,10 @@ export default class StaticJsEnvArray extends StaticJsEnvObject<"array"> {
     }
 
     this._updateLength(items.length);
+  }
+
+  get runtimeTypeOf() {
+    return "array";
   }
 
   get length(): number {
@@ -43,7 +48,7 @@ export default class StaticJsEnvArray extends StaticJsEnvObject<"array"> {
   get(index: number): IStaticJsValue {
     const descr = this.getOwnPropertyDescriptor(String(index));
     if (!descr) {
-      return StaticJsUndefined();
+      return StaticJsEnvUndefined.Instance;
     }
 
     if (isStaticJsObjectPropertyDescriptorValue(descr)) {
@@ -51,7 +56,7 @@ export default class StaticJsEnvArray extends StaticJsEnvObject<"array"> {
     } else if (isStaticJsObjectPropertyDescriptorGetter(descr)) {
       return descr.get();
     } else {
-      return StaticJsUndefined();
+      return StaticJsEnvUndefined.Instance;
     }
   }
 
@@ -136,7 +141,7 @@ export default class StaticJsEnvArray extends StaticJsEnvObject<"array"> {
     const currentLength = this.length;
 
     this.defineProperty("length", {
-      value: StaticJsValue(length),
+      value: new StaticJsEnvNumber(length),
       writable: true,
       enumerable: false,
       configurable: false,

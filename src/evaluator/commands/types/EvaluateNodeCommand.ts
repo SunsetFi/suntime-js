@@ -36,7 +36,7 @@ export function* EvaluateNodeNormalValueCommand(
   const result = yield* EvaluateNodeCommand(node, context);
   if (result.type !== "normal") {
     throw new Error(
-      `Expected node type ${node.type} to return a NormalCompletion.`,
+      `Expected node type ${node.type} to return a NormalCompletion, but got ${result.type}.`,
     );
   }
 

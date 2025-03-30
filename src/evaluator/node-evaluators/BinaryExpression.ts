@@ -8,7 +8,6 @@ import {
   isStaticJsObjectLike,
   isStaticJsString,
 } from "../../runtime/index.js";
-import { staticJsInstanceOf } from "../../runtime/primitives/StaticJsTypeSymbol.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
@@ -93,8 +92,8 @@ function* binaryExpressionDoubleEquals(
   const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
   const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
 
-  const leftType = staticJsInstanceOf(left);
-  const rightType = staticJsInstanceOf(right);
+  const leftType = left.runtimeTypeOf;
+  const rightType = right.runtimeTypeOf;
   const arithmatic =
     !isStaticJsNullOrUndefined(left) &&
     !isStaticJsNullOrUndefined(right) &&
@@ -136,7 +135,7 @@ function* binaryExpressionTrippleEquals(
   const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
   const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
 
-  if (staticJsInstanceOf(left) !== staticJsInstanceOf(right)) {
+  if (left.runtimeTypeOf !== right.runtimeTypeOf) {
     return NormalCompletion(StaticJsBoolean(false));
   }
 
@@ -184,7 +183,7 @@ function* numericComputation(
 }
 
 function isStaticJsNullOrUndefined(value: StaticJsValue) {
-  return ["null", "undefined"].includes(staticJsInstanceOf(value)!);
+  return ["null", "undefined"].includes(value.runtimeTypeOf);
 }
 
 function* inOperator(

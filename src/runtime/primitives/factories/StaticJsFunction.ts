@@ -1,7 +1,9 @@
-import { StaticJsRuntimeFunction } from "../implementation/index.js";
-import { StaticJsFunction as IStaticJsFunction } from "../interfaces/index.js";
+import {
+  isStaticJsFunction,
+  StaticJsFunction as IStaticJsFunction,
+} from "../interfaces/index.js";
 
-import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
+import StaticJsExternalFunction from "../implementation/StaticJsExternalFunction.js";
 
 export default function StaticJsFunction(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
@@ -18,12 +20,12 @@ export default function StaticJsFunction(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   evaluate?: Function,
 ): IStaticJsFunction {
-  if (staticJsInstanceOf(nameOrFunc) === "function") {
-    return nameOrFunc as unknown as IStaticJsFunction;
+  if (isStaticJsFunction(nameOrFunc)) {
+    return nameOrFunc;
   }
 
   if (typeof nameOrFunc === "function") {
-    return new StaticJsRuntimeFunction(null, nameOrFunc);
+    return new StaticJsExternalFunction(null, nameOrFunc);
   }
 
   if (typeof nameOrFunc !== "string") {
@@ -33,5 +35,5 @@ export default function StaticJsFunction(
     throw new Error("Invalid function evaluate");
   }
 
-  return new StaticJsRuntimeFunction(nameOrFunc, evaluate);
+  return new StaticJsExternalFunction(nameOrFunc, evaluate);
 }

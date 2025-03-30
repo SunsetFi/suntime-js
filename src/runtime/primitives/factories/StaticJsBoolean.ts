@@ -1,10 +1,13 @@
-import { StaticJsBoolean as IStaticJsBoolean } from "../interfaces/index.js";
-import { StaticJsEnvBoolean } from "../implementation/index.js";
-import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
+import {
+  isStaticJsBoolean,
+  StaticJsBoolean as IStaticJsBoolean,
+} from "../interfaces/index.js";
+
+import StaticJsEnvBoolean from "../implementation/StaticJsEnvBoolean.js";
 
 export default function StaticJsBoolean(value: boolean): IStaticJsBoolean {
-  if (staticJsInstanceOf(value) === "boolean") {
-    return value as unknown as StaticJsEnvBoolean;
+  if (isStaticJsBoolean(value)) {
+    return value;
   }
 
   if (typeof value !== "boolean") {

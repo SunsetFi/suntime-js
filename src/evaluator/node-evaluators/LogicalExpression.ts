@@ -1,6 +1,5 @@
 import { LogicalExpression } from "@babel/types";
 
-import { staticJsInstanceOf } from "../../runtime/primitives/StaticJsTypeSymbol.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
@@ -57,7 +56,7 @@ function* logicalExpressionNullishCoalescing(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
-  if (["null", "undefined"].includes(staticJsInstanceOf(left)!)) {
+  if (["null", "undefined"].includes(left.runtimeTypeOf)) {
     return NormalCompletion(
       yield* EvaluateNodeAssertValueCommand(node.right, context),
     );

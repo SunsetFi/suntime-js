@@ -1,7 +1,5 @@
 import { StaticJsBoolean as IStaticJsBoolean } from "../interfaces/index.js";
 
-import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
-
 export default class StaticJsEnvBoolean implements IStaticJsBoolean {
   private readonly _value: boolean;
 
@@ -9,8 +7,8 @@ export default class StaticJsEnvBoolean implements IStaticJsBoolean {
     this._value = value;
   }
 
-  get [StaticJsTypeSymbol]() {
-    return "boolean" as const;
+  get runtimeTypeOf() {
+    return "boolean";
   }
 
   get typeOf() {

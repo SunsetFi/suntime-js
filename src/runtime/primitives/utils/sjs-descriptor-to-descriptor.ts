@@ -1,4 +1,5 @@
-import { StaticJsValue } from "../factories/index.js";
+import StaticJsValue from "../factories/StaticJsValue.js";
+
 import {
   isStaticJsObjectPropertyDescriptorGetter,
   isStaticJsObjectPropertyDescriptorValue,

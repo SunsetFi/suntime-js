@@ -1,11 +1,15 @@
-import { StaticJsEnvArray } from "../implementation/index.js";
-import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
-import { StaticJsArray as IStaticJsArray } from "../interfaces/index.js";
-import { StaticJsValue as fStaticJsValue } from "../factories/index.js";
+import {
+  isStaticJsArray,
+  StaticJsArray as IStaticJsArray,
+} from "../interfaces/index.js";
+
+import StaticJsEnvArray from "../implementation/StaticJsEnvArray.js";
+
+import fStaticJsValue from "./StaticJsValue.js";
 
 export default function StaticJsArray(value: unknown[]): IStaticJsArray {
-  if (staticJsInstanceOf(value) === "array") {
-    return value as unknown as StaticJsEnvArray;
+  if (isStaticJsArray(value)) {
+    return value;
   }
 
   if (!Array.isArray(value)) {

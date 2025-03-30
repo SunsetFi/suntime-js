@@ -33,6 +33,7 @@ import returnStatementNodeEvaluator from "./ReturnStatement.js";
 import labeledStatementNodeEvaluator from "./LabelStatement.js";
 import tryStatementNodeEvaluator from "./TryStatement.js";
 import throwStatementNodeEvaluator from "./ThrowStatement.js";
+import logicalExpressionNodeEvaluator from "./LogicalExpression.js";
 
 type NodeEvaluators = {
   [key in Node["type"]]?: NodeEvaluator<key>;
@@ -57,6 +58,7 @@ const nodeEvaluators: NodeEvaluators = {
   IfStatement: ifStatementNodeEvaluator,
   Identifier: identifierNodeEvaluator,
   LabeledStatement: labeledStatementNodeEvaluator,
+  LogicalExpression: logicalExpressionNodeEvaluator,
   MemberExpression: memberExpressionNodeEvaluator,
   NullLiteral: nullLiteralNodeEvaluator,
   NumericLiteral: numericLiteralNodeEvaluator,

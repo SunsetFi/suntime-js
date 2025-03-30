@@ -8,26 +8,21 @@ import {
   validateStaticJsObjectPropertyDescriptor,
 } from "../interfaces/index.js";
 
-import StaticJsUndefined from "../factories/StaticJsUndefined.js";
+import StaticJsEnvUndefined from "./StaticJsEnvUndefined.js";
 
-import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
-import { StaticJsPrimitive } from "../index.js";
-
-export default abstract class StaticJsAbstractObject<TTypeSymbol extends string>
-  implements StaticJsObject<TTypeSymbol>
-{
+export default abstract class StaticJsAbstractObject implements StaticJsObject {
   private _extensible: boolean = true;
   constructor(
-    private readonly _typeSymbol: TTypeSymbol,
     private _prototype: StaticJsObject | null,
+    private readonly _runtimeTypeSymbol: string,
   ) {}
 
-  get [StaticJsTypeSymbol](): TTypeSymbol {
-    return this._typeSymbol;
+  get typeOf(): string {
+    return "object" as const;
   }
 
-  get typeOf(): StaticJsPrimitive["typeOf"] {
-    return "object" as const;
+  get runtimeTypeOf(): string {
+    return this._runtimeTypeSymbol;
   }
 
   get prototype(): StaticJsObject | null {
@@ -80,7 +75,7 @@ export default abstract class StaticJsAbstractObject<TTypeSymbol extends string>
   getProperty(name: string): StaticJsValue {
     const decl = this.getPropertyDescriptor(name);
     if (decl === undefined) {
-      return StaticJsUndefined();
+      return StaticJsEnvUndefined.Instance;
     }
 
     // This validation might be a bit heavy for performance...
@@ -99,7 +94,7 @@ export default abstract class StaticJsAbstractObject<TTypeSymbol extends string>
     } else if (isStaticJsObjectPropertyDescriptorGetter(decl)) {
       value = decl.get();
     } else {
-      return StaticJsUndefined();
+      return StaticJsEnvUndefined.Instance;
     }
 
     if (!isStaticJsValue(value)) {

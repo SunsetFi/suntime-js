@@ -1,7 +1,5 @@
 import type { StaticJsNumber as IStaticJsNumber } from "../interfaces/index.js";
 
-import StaticJsTypeSymbol from "../StaticJsTypeSymbol.js";
-
 export default class StaticJsEnvNumber implements IStaticJsNumber {
   private readonly _value: number;
 
@@ -9,12 +7,12 @@ export default class StaticJsEnvNumber implements IStaticJsNumber {
     this._value = value;
   }
 
-  get [StaticJsTypeSymbol]() {
+  get typeOf() {
     return "number" as const;
   }
 
-  get typeOf() {
-    return "number" as const;
+  get runtimeTypeOf() {
+    return "number";
   }
 
   toJs() {

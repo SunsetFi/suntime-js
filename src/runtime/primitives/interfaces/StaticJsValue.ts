@@ -1,11 +1,12 @@
 import { StaticJsScalar } from "./StaticJsScalar.js";
 import { StaticJsObject } from "./StaticJsObject.js";
-import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
 
-export type StaticJsValue = StaticJsScalar | StaticJsObject<string>;
+export type StaticJsValue = StaticJsScalar | StaticJsObject;
 
 export function isStaticJsValue(value: unknown): value is StaticJsValue {
-  return staticJsInstanceOf(value) != null;
+  // This is kinda nasty.
+  const type = (value as unknown as StaticJsValue)?.runtimeTypeOf;
+  return typeof type === "string";
 }
 
 export function assertStaticJsValue(

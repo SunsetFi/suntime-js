@@ -1,8 +1,7 @@
-import { staticJsInstanceOf } from "../StaticJsTypeSymbol.js";
 import { StaticJsObject } from "./StaticJsObject.js";
-import { StaticJsValue } from "./StaticJsValue.js";
+import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
 
-export interface StaticJsArray extends StaticJsObject<"array"> {
+export interface StaticJsArray extends StaticJsObject {
   readonly length: number;
   get(index: number): StaticJsValue;
   set(index: number, value: StaticJsValue): void;
@@ -11,5 +10,8 @@ export interface StaticJsArray extends StaticJsObject<"array"> {
 }
 
 export function isStaticJsArray(value: unknown): value is StaticJsArray {
-  return staticJsInstanceOf(value) === "array";
+  if (!isStaticJsValue(value)) {
+    return false;
+  }
+  return value.runtimeTypeOf === "array";
 }
