@@ -40,3 +40,6 @@ TODO
   - Re-think ban on exporting classes?
   - Put factory and interface in the same class?
     - This was avoided due to circular dependencies, but there is probably a way to do this safely.
+- Get more strict with public api
+  - Replace index.ts with public.ts
+  - Never import from public.ts except for other public.ts to stop circular refs.
