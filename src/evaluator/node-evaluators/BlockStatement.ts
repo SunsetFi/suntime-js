@@ -39,7 +39,7 @@ function* blockStatementNodeEvaluator(
     }
   }
 
-  return NormalCompletion();
+  return NormalCompletion(null);
 }
 
 function* blockStatementEnvironmentSetup(
@@ -47,7 +47,8 @@ function* blockStatementEnvironmentSetup(
   context: EvaluationContext,
 ): EvaluationGenerator<boolean> {
   const scope = new StaticJsLexicalEnvironment(
-    new StaticJsDeclarativeEnvironmentRecord(),
+    context.realm,
+    new StaticJsDeclarativeEnvironmentRecord(context.realm),
     context.env,
   );
   const blockContext: EvaluationContext = {

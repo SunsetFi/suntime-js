@@ -4,45 +4,48 @@ import {
   runEvaluatorUntilCompletion,
 } from "../../../evaluator/internal.js";
 
-import {
-  isStaticJsValue,
-  StaticJsFunction,
-  StaticJsValue as IStaticJsValue,
-} from "../interfaces/index.js";
+import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+
+import { StaticJsFunction } from "../interfaces/StaticJsFunction.js";
+import { isStaticJsValue, StaticJsValue } from "../interfaces/StaticJsValue.js";
+import { StaticJsObject } from "../interfaces/StaticJsObject.js";
+
 import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
 
-import StaticJsValue from "../factories/StaticJsValue.js";
+import StaticJsStringImpl from "./StaticJsStringImpl.js";
+import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
+import StaticJsObjectImpl from "./StaticJsObjectImpl.js";
 
-import StaticJsEnvString from "./StaticJsEnvString.js";
-import StaticJsEnvNumber from "./StaticJsEnvNumber.js";
-import StaticJsEnvObject from "./StaticJsEnvObject.js";
-
-export default class StaticJsEnvFunction
-  extends StaticJsEnvObject
-  implements StaticJsFunction<IStaticJsValue[]>
+export default class StaticJsFunctionImpl
+  extends StaticJsObjectImpl
+  implements StaticJsFunction
 {
   private _toJs: unknown | null = null;
   private readonly _name: string | null;
 
   constructor(
+    realm: StaticJsRealm,
     name: string | null,
     private readonly _call: (
-      thisArg: IStaticJsValue,
-      ...args: IStaticJsValue[]
+      thisArg: StaticJsValue,
+      ...args: StaticJsValue[]
     ) => EvaluationGenerator<Completion>,
     length?: number,
+    prototype?: StaticJsObject,
   ) {
-    // FIXME: function prototype.
-    super(null, "function");
+    super(realm, prototype ?? realm.types.functionProto, "function");
     this._name = name;
+
+    // FIXME: Suspicious use of non-eval defineProperty during construction.
+    // Invokes runEvaluatorUntilCompletion
     this.defineProperty("name", {
-      value: new StaticJsEnvString(name ?? ""),
+      value: new StaticJsStringImpl(name ?? ""),
       writable: false,
       enumerable: false,
       configurable: true,
     });
     this.defineProperty("length", {
-      value: new StaticJsEnvNumber(length ?? _call.length - 1),
+      value: new StaticJsNumberImpl(length ?? _call.length - 1),
       writable: false,
       enumerable: false,
       configurable: true,
@@ -60,12 +63,14 @@ export default class StaticJsEnvFunction
   toJs(): unknown {
     if (!this._toJs) {
       this._toJs = (...args: unknown[]) => {
-        const argValues = args.map(StaticJsValue);
+        const argValues = args.map((value) =>
+          this.realm.types.toStaticJsValue(value),
+        );
         // FIXME: This absolutely probably does not work right.
         // We should at least try to look up if we have a StaticJsValue representation of the global object.
         // At the very least, this is dangerous, and might inadvertently leak stuff from the runtime into the scripting engine.
         // They won't be able to grab prototypes, but...
-        const thisArg = StaticJsValue(this);
+        const thisArg = this.realm.types.toStaticJsValue(this);
         const result = runEvaluatorUntilCompletion(
           this._call(thisArg, ...argValues),
         );
@@ -87,7 +92,10 @@ export default class StaticJsEnvFunction
 
       for (const key of this.getOwnKeys()) {
         const descriptor = this.getOwnPropertyDescriptor(key)!;
-        const objDescriptor = staticJsDescriptorToObjectDescriptor(descriptor);
+        const objDescriptor = staticJsDescriptorToObjectDescriptor(
+          this.realm,
+          descriptor,
+        );
         Object.defineProperty(this._toJs, key, objDescriptor);
       }
 
@@ -111,8 +119,8 @@ export default class StaticJsEnvFunction
   }
 
   call(
-    thisArg: IStaticJsValue,
-    ...args: IStaticJsValue[]
+    thisArg: StaticJsValue,
+    ...args: StaticJsValue[]
   ): EvaluationGenerator<Completion> {
     if (!isStaticJsValue(thisArg)) {
       throw new Error("thisArg must be a StaticJsValue instance.");

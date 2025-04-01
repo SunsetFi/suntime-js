@@ -1,5 +1,6 @@
-import { StaticJsEnvironment } from "../../environments/index.js";
-import { StaticJsObject } from "../../types/index.js";
+import StaticJsEnvironment from "../../environments/interfaces/StaticJsEnvironment.js";
+import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
+import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
 
 /**
  * A top-level construct describing the overall environment in which a javascript program is executed.
@@ -24,13 +25,20 @@ export default interface StaticJsRealm {
    * The global-scope Environment of the realm.
    */
   readonly globalEnv: StaticJsEnvironment;
+
+  /**
+   * The type factory for the realm.
+   */
+  readonly types: StaticJsTypeFactory;
 }
+
 export function isStaticJsRealm(value: unknown): value is StaticJsRealm {
   return (
     value != null &&
     typeof value === "object" &&
     "strict" in value &&
     "globalObject" in value &&
-    "globalEnv" in value
+    "globalEnv" in value &&
+    "types" in value
   );
 }

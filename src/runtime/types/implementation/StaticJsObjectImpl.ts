@@ -1,4 +1,7 @@
 import { EvaluationGenerator } from "../../../evaluator/internal.js";
+
+import { StaticJsRealm } from "../../realm/index.js";
+
 import {
   StaticJsValue,
   StaticJsObjectPropertyDescriptor,
@@ -7,17 +10,18 @@ import {
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 
-export default class StaticJsEnvObject extends StaticJsAbstractObject {
+export default class StaticJsObjectImpl extends StaticJsAbstractObject {
   private readonly _contents = new Map<
     string,
     StaticJsObjectPropertyDescriptor
   >();
 
   constructor(
+    realm: StaticJsRealm,
     prototype: StaticJsObject | null = null,
     type: string = "object",
   ) {
-    super(prototype, type);
+    super(realm, prototype, type);
   }
 
   *getOwnKeysEvaluator(): EvaluationGenerator<string[]> {

@@ -6,7 +6,6 @@ import {
   isStaticJsScalar,
   isStaticJsUndefined,
   isStaticJsValue,
-  StaticJsObject,
   StaticJsValue,
 } from "../../runtime/index.js";
 
@@ -14,6 +13,7 @@ import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
+import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
 export default function setLVal(
   lval: LVal,
@@ -70,7 +70,7 @@ export default function* setLVal(
 
         const property = String(index);
         if (element.type === "RestElement") {
-          const restValue = value.slice(index);
+          const restValue = yield* value.sliceEvaluator(index);
           yield* setLVal(
             element.argument,
             restValue,
@@ -93,7 +93,7 @@ export default function* setLVal(
       const seenProperties = new Set<string>();
       for (const property of lval.properties) {
         if (property.type === "RestElement") {
-          const restValue = StaticJsObject();
+          const restValue = context.realm.types.createObject();
           for (const key in value) {
             if (!seenProperties.has(key)) {
               const propertyValue = yield* value.getPropertyEvaluator(key);
@@ -122,7 +122,7 @@ export default function* setLVal(
               propertyKey,
               context,
             );
-            keyName = StaticJsObject.toPropertyKey(resolved);
+            keyName = toPropertyKey(resolved);
           }
 
           const propertyValue = yield* value.getPropertyEvaluator(keyName);
@@ -188,7 +188,7 @@ export default function* setLVal(
           // FIXME: throw real error.
           throw new Error("Computed property key must be a scalar");
         }
-        propertyKey = StaticJsObject.toPropertyKey(resolved);
+        propertyKey = toPropertyKey(resolved);
       }
 
       // FIXME: Is this correct?  We set the object directly???

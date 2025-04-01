@@ -1,7 +1,7 @@
 import { parse, parseExpression } from "@babel/parser";
 
-import IStaticJsRealm from "../runtime/realm/interfaces/StaticJsRealm.js";
-import StaticJsRealm from "../runtime/realm/factories/StaticJsRealm.js";
+import StaticJsRealm from "../runtime/realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmFactory from "../runtime/realm/factories/StaticJsRealm.js";
 
 import { compileExpression, compileProgram } from "./compilation/factories.js";
 
@@ -12,17 +12,14 @@ import { compileExpression, compileProgram } from "./compilation/factories.js";
  * @returns The native javascript result of evaluating the code.
  * @public
  */
-export function evaluateString(
-  string: string,
-  realm?: IStaticJsRealm,
-): unknown {
+export function evaluateString(string: string, realm?: StaticJsRealm): unknown {
   const ast = parse(string);
 
   if (ast.errors && ast.errors.length) {
     throw new Error(`Error parsing expression: ${ast.errors[0].code}.`);
   }
 
-  realm ??= StaticJsRealm();
+  realm ??= StaticJsRealmFactory();
 
   return compileProgram(string).evaluate(realm);
 }
@@ -36,7 +33,7 @@ export function evaluateString(
  */
 export function evaluateExpressionString(
   string: string,
-  realm?: IStaticJsRealm,
+  realm?: StaticJsRealm,
 ): unknown {
   const ast = parseExpression(string);
 
@@ -44,7 +41,7 @@ export function evaluateExpressionString(
     throw new Error(`Error parsing expression: ${ast.errors[0].code}.`);
   }
 
-  realm ??= StaticJsRealm();
+  realm ??= StaticJsRealmFactory();
 
   return compileExpression(string).evaluate(realm);
 }

@@ -1,6 +1,6 @@
 import { VariableDeclaration, VariableDeclarator } from "@babel/types";
 
-import { StaticJsValue, StaticJsUndefined } from "../../runtime/index.js";
+import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
 
 import typedMerge from "../../internal/typed-merge.js";
 
@@ -26,7 +26,7 @@ function* variableDeclarationNodeEvaluator(
       variableInitializer = function* (name, value) {
         yield* context.env.initializeBindingEvaluator(
           name,
-          value ?? StaticJsUndefined(),
+          value ?? context.realm.types.undefined,
         );
       };
       break;
@@ -34,7 +34,7 @@ function* variableDeclarationNodeEvaluator(
       variableInitializer = function* (name, value) {
         yield* context.env.setMutableBindingEvaluator(
           name,
-          value ?? StaticJsUndefined(),
+          value ?? context.realm.types.undefined,
           context.realm.strict,
         );
       };
@@ -51,7 +51,7 @@ function* variableDeclarationNodeEvaluator(
     );
   }
 
-  return NormalCompletion();
+  return NormalCompletion(null);
 }
 
 function* variableDeclarationEnvironmentSetup(

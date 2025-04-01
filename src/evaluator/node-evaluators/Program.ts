@@ -22,7 +22,7 @@ function* programNodeEvaluator(
     throw new Error("Only script source types are supported.");
   }
 
-  let lastCompletion: Completion = NormalCompletion();
+  let lastCompletion: Completion = NormalCompletion(null);
   for (const statement of node.body) {
     lastCompletion = yield* EvaluateNodeCommand(statement, context);
     switch (lastCompletion.type) {

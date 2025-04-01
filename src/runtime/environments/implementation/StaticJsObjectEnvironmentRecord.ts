@@ -1,16 +1,16 @@
 import { EvaluationGenerator } from "../../../evaluator/internal.js";
-import {
-  StaticJsObject,
-  StaticJsUndefined,
-  StaticJsValue,
-} from "../../types/index.js";
+import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsObject, StaticJsValue } from "../../types/index.js";
 import StaticJsBaseEnvironment from "./StaticJsBaseEnvironmentRecord.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 import { StaticJsEnvironmentGetBinding } from "./StaticJsEnvironmentBindingProvider.js";
 
 export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnvironment {
-  constructor(private readonly _obj: StaticJsObject) {
-    super();
+  constructor(
+    realm: StaticJsRealm,
+    private readonly _obj: StaticJsObject,
+  ) {
+    super(realm);
   }
 
   *createMutableBindingEvaluator(
@@ -24,7 +24,11 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
     }
 
     // FIXME: What to use for strict?
-    yield* this._obj.setPropertyEvaluator(name, StaticJsUndefined(), true);
+    yield* this._obj.setPropertyEvaluator(
+      name,
+      this.realm.types.undefined,
+      true,
+    );
   }
 
   *createImmutableBindingEvaluator(_name: string): EvaluationGenerator<void> {

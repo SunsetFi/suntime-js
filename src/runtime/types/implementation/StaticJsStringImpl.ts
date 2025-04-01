@@ -1,6 +1,6 @@
 import { StaticJsString } from "../interfaces/index.js";
 
-export default class StaticJsEnvString implements StaticJsString {
+export default class StaticJsStringImpl implements StaticJsString {
   private readonly _value: string;
 
   constructor(value: string) {

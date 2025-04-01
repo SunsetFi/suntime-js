@@ -1,5 +1,6 @@
 import { EvaluationGenerator } from "../../../evaluator/internal.js";
-import { StaticJsValue } from "../../types/index.js";
+
+import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
 import StaticJsBaseEnvironment from "./StaticJsBaseEnvironmentRecord.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";

@@ -1,7 +1,8 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
-import StaticJsUndefined from "../../types/factories/StaticJsUndefined.js";
-import { StaticJsValue } from "../../types/index.js";
+
+import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
 import { StaticJsEnvironment } from "../interfaces/index.js";
 
@@ -13,7 +14,11 @@ import StaticJsEnvironmentBindingProvider, {
 export default abstract class StaticJsBaseEnvironment
   implements StaticJsEnvironment, StaticJsEnvironmentBindingProvider
 {
-  constructor() {}
+  constructor(private readonly _realm: StaticJsRealm) {}
+
+  get realm() {
+    return this._realm;
+  }
 
   hasBinding(name: string): boolean {
     return runEvaluatorUntilCompletion(this.hasBindingEvaluator(name));
@@ -176,7 +181,7 @@ export default abstract class StaticJsBaseEnvironment
   }
 
   *withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue> {
-    return StaticJsUndefined();
+    return this.realm.types.undefined;
   }
 
   getThisBinding(): StaticJsValue {
@@ -184,7 +189,7 @@ export default abstract class StaticJsBaseEnvironment
   }
 
   *getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue> {
-    return StaticJsUndefined();
+    return this.realm.types.undefined;
   }
 
   getSuperBase() {
@@ -192,7 +197,7 @@ export default abstract class StaticJsBaseEnvironment
   }
 
   *getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue> {
-    return StaticJsUndefined();
+    return this.realm.types.undefined;
   }
 
   getVarScope(): StaticJsEnvironment | null {

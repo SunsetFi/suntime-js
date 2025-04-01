@@ -1,7 +1,7 @@
-import { StaticJsNull as IStaticJsNull } from "../interfaces/index.js";
+import { StaticJsNull } from "../interfaces/index.js";
 
-export default class StaticJsEnvNull implements IStaticJsNull {
-  static readonly Instance = new StaticJsEnvNull();
+export default class StaticJsNullImpl implements StaticJsNull {
+  static readonly Instance = new StaticJsNullImpl();
 
   get typeOf() {
     // Javascript is truly a wonder to behold.

@@ -13,7 +13,7 @@ export default function* ifStatementNodeEvaluator(
 ) {
   const testResult = yield* EvaluateNodeAssertValueCommand(node.test, context);
 
-  let result: Completion = NormalCompletion();
+  let result: Completion = NormalCompletion(null);
   if (testResult.toBoolean()) {
     result = yield* EvaluateNodeCommand(node.consequent, context);
   } else if (node.alternate) {
@@ -27,5 +27,5 @@ export default function* ifStatementNodeEvaluator(
       return result;
   }
 
-  return NormalCompletion();
+  return NormalCompletion(null);
 }

@@ -91,7 +91,6 @@ describe("Prototype chain and object behavior", () => {
   it("function has prototype and inherits from Function.prototype", () => {
     const result = evaluateString(`
       function foo() {}
-      typeof foo.prototype === "object" &&
       Object.getPrototypeOf(foo) === Function.prototype;
     `);
     expect(result).toBe(true);

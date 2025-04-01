@@ -1,6 +1,6 @@
-import { StaticJsBoolean as IStaticJsBoolean } from "../interfaces/index.js";
+import { StaticJsBoolean } from "../interfaces/index.js";
 
-export default class StaticJsEnvBoolean implements IStaticJsBoolean {
+export default class StaticJsBooleanImpl implements StaticJsBoolean {
   private readonly _value: boolean;
 
   constructor(value: boolean) {
@@ -35,7 +35,7 @@ export default class StaticJsEnvBoolean implements IStaticJsBoolean {
     return this._value;
   }
 
-  negate(): IStaticJsBoolean {
-    return new StaticJsEnvBoolean(!this._value);
+  negate(): StaticJsBoolean {
+    return new StaticJsBooleanImpl(!this._value);
   }
 }

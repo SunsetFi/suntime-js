@@ -40,12 +40,13 @@ function* forStatementNodeEvaluator(
         forContext,
       );
       if (!testResult.toBoolean()) {
-        return NormalCompletion();
+        return NormalCompletion(null);
       }
     }
 
     const bodyEnv = new StaticJsLexicalEnvironment(
-      new StaticJsDeclarativeEnvironmentRecord(),
+      context.realm,
+      new StaticJsDeclarativeEnvironmentRecord(context.realm),
       forEnv,
     );
 
@@ -67,7 +68,7 @@ function* forStatementNodeEvaluator(
 
         // It was for us.  Break if that's what the request is.
         if (result.type === "break") {
-          return NormalCompletion();
+          return NormalCompletion(null);
         }
       }
     }
@@ -88,7 +89,8 @@ function* forStatementEnvironmentSetup(
   }
 
   const forEnvironment = new StaticJsLexicalEnvironment(
-    new StaticJsDeclarativeEnvironmentRecord(),
+    context.realm,
+    new StaticJsDeclarativeEnvironmentRecord(context.realm),
     context.env,
   );
   node.extra = {

@@ -1,10 +1,6 @@
 import { AssignmentExpression } from "@babel/types";
 
-import {
-  isStaticJsScalar,
-  StaticJsString,
-  StaticJsNumber,
-} from "../../runtime/index.js";
+import { isStaticJsScalar } from "../../runtime/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
@@ -45,10 +41,14 @@ export default function* assignmentExpressionNodeEvaluator(
 
         if (!isStaticJsScalar(leftValue) || !isStaticJsScalar(value)) {
           // One will become a string so both become a string.
-          value = StaticJsString(leftValue.toString() + value.toString());
+          value = context.realm.types.string(
+            leftValue.toString() + value.toString(),
+          );
         } else {
           // Use numbers
-          value = StaticJsNumber(leftValue.toNumber() + value.toNumber());
+          value = context.realm.types.number(
+            leftValue.toNumber() + value.toNumber(),
+          );
         }
       }
       break;
@@ -63,7 +63,9 @@ export default function* assignmentExpressionNodeEvaluator(
           true,
         );
 
-        value = StaticJsNumber(leftValue.toNumber() - value.toNumber());
+        value = context.realm.types.number(
+          leftValue.toNumber() - value.toNumber(),
+        );
       }
       break;
     case "<<=":
@@ -77,7 +79,9 @@ export default function* assignmentExpressionNodeEvaluator(
           true,
         );
 
-        value = StaticJsNumber(leftValue.toNumber() << value.toNumber());
+        value = context.realm.types.number(
+          leftValue.toNumber() << value.toNumber(),
+        );
       }
       break;
     case ">>=":
@@ -91,7 +95,9 @@ export default function* assignmentExpressionNodeEvaluator(
           true,
         );
 
-        value = StaticJsNumber(leftValue.toNumber() >> value.toNumber());
+        value = context.realm.types.number(
+          leftValue.toNumber() >> value.toNumber(),
+        );
       }
       break;
     case ">>>=":
@@ -105,7 +111,9 @@ export default function* assignmentExpressionNodeEvaluator(
           true,
         );
 
-        value = StaticJsNumber(leftValue.toNumber() >>> value.toNumber());
+        value = context.realm.types.number(
+          leftValue.toNumber() >>> value.toNumber(),
+        );
       }
       break;
   }

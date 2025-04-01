@@ -2,8 +2,6 @@ import { BinaryExpression } from "@babel/types";
 
 import {
   StaticJsValue,
-  StaticJsBoolean,
-  StaticJsString,
   isStaticJsScalar,
   isStaticJsObjectLike,
   isStaticJsString,
@@ -50,29 +48,13 @@ export default function binaryExpressionNodeEvaluator(
     case "!==":
       return binaryExpressionTrippleEquals(node, context, true);
     case "<":
-      return numericComputation(
-        (a, b) => StaticJsBoolean(a < b),
-        node,
-        context,
-      );
+      return numericComputation((a, b) => a < b, node, context);
     case "<=":
-      return numericComputation(
-        (a, b) => StaticJsBoolean(a <= b),
-        node,
-        context,
-      );
+      return numericComputation((a, b) => a <= b, node, context);
     case ">":
-      return numericComputation(
-        (a, b) => StaticJsBoolean(a > b),
-        node,
-        context,
-      );
+      return numericComputation((a, b) => a > b, node, context);
     case ">=":
-      return numericComputation(
-        (a, b) => StaticJsBoolean(a >= b),
-        node,
-        context,
-      );
+      return numericComputation((a, b) => a >= b, node, context);
     case ">>>":
       return numericComputation((a, b) => a >>> b, node, context);
     case "in":
@@ -123,7 +105,9 @@ function* binaryExpressionDoubleEquals(
 
   // One of them is a reference.
   return NormalCompletion(
-    StaticJsBoolean(negate ? leftValue != rightValue : leftValue == rightValue),
+    context.realm.types.boolean(
+      negate ? leftValue != rightValue : leftValue == rightValue,
+    ),
   );
 }
 
@@ -136,20 +120,19 @@ function* binaryExpressionTrippleEquals(
   const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
 
   if (left.runtimeTypeOf !== right.runtimeTypeOf) {
-    return NormalCompletion(StaticJsBoolean(false));
+    return NormalCompletion(context.realm.types.false);
   }
 
+  let comparisonResult: boolean;
   if (isStaticJsScalar(left)) {
-    return NormalCompletion(
-      StaticJsBoolean(
-        negate ? left.toJs() !== right.toJs() : left.toJs() === right.toJs(),
-      ),
-    );
+    comparisonResult = negate
+      ? left.toJs() !== right.toJs()
+      : left.toJs() === right.toJs();
+  } else {
+    comparisonResult = negate ? left !== right : left === right;
   }
 
-  return NormalCompletion(
-    StaticJsBoolean(negate ? left === right : left !== right),
-  );
+  return NormalCompletion(context.realm.types.boolean(comparisonResult));
 }
 
 function* binaryExpressionAdd(
@@ -161,12 +144,15 @@ function* binaryExpressionAdd(
 
   if (!isStaticJsScalar(left) || !isStaticJsScalar(right)) {
     // One will become a string so both become a string.
-    return NormalCompletion(StaticJsString(left.toString() + right.toString()));
+    return NormalCompletion(
+      context.realm.types.string(left.toString() + right.toString()),
+    );
   }
 
   // Fall back to the primitive addition.
-  // @ts-expect-error: Whatever this is, the addition operator behavior is what we want.
-  return NormalCompletion(StaticJsValue(left.toJs() + right.toJs()));
+  // @ts-expect-error - Whatever the value, addition does what we want.
+  const value = left.toJs() + right.toJs();
+  return NormalCompletion(context.realm.types.toStaticJsValue(value));
 }
 
 function* numericComputation(
@@ -178,7 +164,9 @@ function* numericComputation(
   const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
 
   return NormalCompletion(
-    StaticJsValue(func(left.toNumber(), right.toNumber())),
+    context.realm.types.toStaticJsValue(
+      func(left.toNumber(), right.toNumber()),
+    ),
   );
 }
 
@@ -202,5 +190,5 @@ function* inOperator(
   }
 
   const hasProperty = yield* right.hasPropertyEvaluator(left.toString());
-  return NormalCompletion(StaticJsBoolean(hasProperty));
+  return NormalCompletion(context.realm.types.boolean(hasProperty));
 }

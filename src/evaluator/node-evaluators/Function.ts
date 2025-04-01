@@ -27,6 +27,7 @@ export default function createFunction(
   }
 
   return new StaticJsAstFunction(
+    functionContext.realm,
     name,
     node.params as StaticJsAstFunctionArgumentDeclaration[],
     functionContext,

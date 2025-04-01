@@ -1,5 +1,6 @@
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
-import StaticJsValue from "../factories/StaticJsValue.js";
+
+import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
 import {
   isStaticJsObjectPropertyDescriptorGetter,
@@ -8,6 +9,8 @@ import {
 } from "../interfaces/index.js";
 
 export default function staticJsDescriptorToObjectDescriptor(
+  realm: StaticJsRealm,
+
   descriptor: StaticJsObjectPropertyDescriptor,
 ): PropertyDescriptor {
   const objDescriptor: PropertyDescriptor = {
@@ -24,7 +27,9 @@ export default function staticJsDescriptorToObjectDescriptor(
   if (set) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     objDescriptor.set = (value: any) => {
-      runEvaluatorUntilCompletion(set(StaticJsValue(value), false));
+      runEvaluatorUntilCompletion(
+        set(realm.types.toStaticJsValue(value), false),
+      );
     };
   }
 

@@ -1,7 +1,7 @@
-import { StaticJsUndefined as IStaticJsUndefined } from "../interfaces/index.js";
+import { StaticJsUndefined } from "../interfaces/index.js";
 
-export default class StaticJsEnvUndefined implements IStaticJsUndefined {
-  static readonly Instance = new StaticJsEnvUndefined();
+export default class StaticJsUndefinedImpl implements StaticJsUndefined {
+  static readonly Instance = new StaticJsUndefinedImpl();
 
   get typeOf() {
     return "undefined" as const;

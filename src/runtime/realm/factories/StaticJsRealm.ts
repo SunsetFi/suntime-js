@@ -1,6 +1,6 @@
 import { StaticJsObjectPropertyDescriptor } from "../../types/index.js";
 
-import StaticJsEnvRealm from "../implementation/StaticJsEnvRealm.js";
+import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
 import { StaticJsRealm as IStaticJsRealm } from "../interfaces/index.js";
 
 export interface StaticJsRealmGlobalDecl {
@@ -8,7 +8,7 @@ export interface StaticJsRealmGlobalDecl {
   extensible?: boolean;
 }
 export interface StaticJsRealmGlobalValue {
-  value: unknown;
+  value: object;
 }
 
 export interface StaticJsRealmOptions {
@@ -25,5 +25,5 @@ export interface StaticJsRealmOptions {
 export default function StaticJsRealm(
   opts: StaticJsRealmOptions = {},
 ): IStaticJsRealm {
-  return new StaticJsEnvRealm(opts);
+  return new StaticJsRealmImpl(opts);
 }

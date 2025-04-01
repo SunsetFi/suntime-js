@@ -1,6 +1,6 @@
-import type { StaticJsNumber as IStaticJsNumber } from "../interfaces/index.js";
+import type { StaticJsNumber } from "../interfaces/index.js";
 
-export default class StaticJsEnvNumber implements IStaticJsNumber {
+export default class StaticJsNumberImpl implements StaticJsNumber {
   private readonly _value: number;
 
   constructor(value: number) {

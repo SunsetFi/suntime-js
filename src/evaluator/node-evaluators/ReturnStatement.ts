@@ -1,6 +1,6 @@
 import { ReturnStatement } from "@babel/types";
 
-import { StaticJsValue, StaticJsUndefined } from "../../runtime/index.js";
+import { StaticJsValue } from "../../runtime/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
@@ -11,7 +11,7 @@ export default function* returnStatementNodeEvaluator(
   node: ReturnStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  let value: StaticJsValue = StaticJsUndefined();
+  let value: StaticJsValue = context.realm.types.undefined;
   if (node.argument) {
     value = yield* EvaluateNodeAssertValueCommand(node.argument, context);
   }

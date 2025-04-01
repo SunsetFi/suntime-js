@@ -13,14 +13,14 @@ describe("E2E: Assignment", () => {
     });
 
     it("Can be assigned with a method", () => {
-      const env = new StaticJsRealm();
+      const env = StaticJsRealm();
       const code = `
         const a = {x() { return 42; }};
         a;
       `;
-      const result = evaluateString(code, env);
+      const result = evaluateString(code, env) as { x: () => number };
       expect(result).toStrictEqual({ x: expect.any(Function) });
-      expect(result.x(env)).toBe(42);
+      expect(result.x()).toBe(42);
     });
 
     it("Can be assigned with a computed key", () => {
@@ -33,15 +33,15 @@ describe("E2E: Assignment", () => {
     });
 
     it("Can be assigned with a computed key and a method", () => {
-      const env = new StaticJsRealm();
+      const env = StaticJsRealm();
       const code = `
         const key = "x";
         const a = {[key]() { return 42; }};
         a;
       `;
-      const result = evaluateString(code, env);
+      const result = evaluateString(code, env) as { x: () => number };
       expect(result).toStrictEqual({ x: expect.any(Function) });
-      expect(result.x(env)).toBe(42);
+      expect(result.x()).toBe(42);
     });
 
     it("Can be assigned with a spread", () => {

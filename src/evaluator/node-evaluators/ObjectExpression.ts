@@ -12,10 +12,8 @@ import {
 
 import {
   isStaticJsObject,
-  StaticJsObject as IStaticJsObject,
+  StaticJsObject,
 } from "../../runtime/types/interfaces/StaticJsObject.js";
-
-import StaticJsObject from "../../runtime/types/factories/StaticJsObject.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
@@ -24,6 +22,7 @@ import { EvaluateNodeNormalValueCommand } from "../commands/types/EvaluateNodeCo
 import NormalCompletion from "../completions/NormalCompletion.js";
 
 import createFunction from "./Function.js";
+import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
 // Note: I tested the edge-case of having a computed property key that is an expression mutate the value used in the value,
 // and the result is each key is computed before its property, and the next property/value pair is computed after the previous property/value pair.
@@ -32,7 +31,7 @@ export default function* objectExpressionNodeEvaluator(
   node: ObjectExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const target = StaticJsObject();
+  const target = context.realm.types.createObject();
 
   for (const property of node.properties) {
     switch (property.type) {
@@ -69,7 +68,7 @@ export default function* objectExpressionNodeEvaluator(
 }
 
 function* objectExpressionPropertyObjectMethodEvaluator(
-  target: IStaticJsObject,
+  target: StaticJsObject,
   property: ObjectMethod,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
@@ -83,7 +82,8 @@ function* objectExpressionPropertyObjectMethodEvaluator(
       propertyKey,
       context,
     );
-    propertyName = StaticJsObject.toPropertyKey(resolved);
+
+    propertyName = toPropertyKey(resolved);
   }
 
   const method = createFunction(propertyName, property, context);
@@ -126,7 +126,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
 }
 
 function* objectExpressionPropertyObjectPropertyEvaluator(
-  target: IStaticJsObject,
+  target: StaticJsObject,
   property: ObjectProperty,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
@@ -141,7 +141,7 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
       propertyKey,
       context,
     );
-    propertyName = StaticJsObject.toPropertyKey(resolved);
+    propertyName = toPropertyKey(resolved);
   }
 
   const value = yield* EvaluateNodeNormalValueCommand(property.value, context);
@@ -149,7 +149,7 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
 }
 
 function* objectExpressionPropertySpreadElementEvaluator(
-  target: IStaticJsObject,
+  target: StaticJsObject,
   property: SpreadElement,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {

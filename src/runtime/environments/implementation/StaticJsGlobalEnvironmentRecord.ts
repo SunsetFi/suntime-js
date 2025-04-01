@@ -2,11 +2,8 @@ import {
   EvaluationGenerator,
   runEvaluatorUntilCompletion,
 } from "../../../evaluator/internal.js";
-import {
-  StaticJsObject,
-  StaticJsUndefined,
-  StaticJsValue,
-} from "../../types/index.js";
+import { StaticJsRealm } from "../../realm/index.js";
+import { StaticJsObject, StaticJsValue } from "../../types/index.js";
 
 import { StaticJsEnvironment } from "../interfaces/index.js";
 
@@ -20,15 +17,21 @@ import StaticJsObjectEnvironmentRecord from "./StaticJsObjectEnvironmentRecord.j
 export default class StaticJsGlobalEnvironmentRecord
   implements StaticJsEnvironment, StaticJsEnvironmentBindingProvider
 {
-  private readonly _declarativeRecord =
-    new StaticJsDeclarativeEnvironmentRecord();
+  private readonly _declarativeRecord;
   private readonly _objectRecord;
 
   constructor(
+    private readonly _realm: StaticJsRealm,
     private readonly _globalThis: StaticJsValue,
     private readonly _globalObject: StaticJsObject,
   ) {
-    this._objectRecord = new StaticJsObjectEnvironmentRecord(_globalObject);
+    this._declarativeRecord = new StaticJsDeclarativeEnvironmentRecord(
+      this._realm,
+    );
+    this._objectRecord = new StaticJsObjectEnvironmentRecord(
+      this._realm,
+      _globalObject,
+    );
   }
 
   // TODO: `var` declarations are handled specially, probably hoist, and should go on the globalObject
@@ -230,11 +233,11 @@ export default class StaticJsGlobalEnvironmentRecord
   }
 
   withBaseObject(): StaticJsValue {
-    return StaticJsUndefined();
+    return this._realm.types.undefined;
   }
 
   *withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue> {
-    return StaticJsUndefined();
+    return this._realm.types.undefined;
   }
 
   getThisBinding(): StaticJsValue {
@@ -246,11 +249,11 @@ export default class StaticJsGlobalEnvironmentRecord
   }
 
   getSuperBase(): StaticJsValue {
-    return StaticJsUndefined();
+    return this._realm.types.undefined;
   }
 
   *getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue> {
-    return StaticJsUndefined();
+    return this._realm.types.undefined;
   }
 
   getVarScope(): StaticJsEnvironment | null {

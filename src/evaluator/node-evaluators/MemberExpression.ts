@@ -1,6 +1,7 @@
 import { MemberExpression } from "@babel/types";
 
-import { isStaticJsObjectLike, StaticJsObject } from "../../runtime/index.js";
+import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
+import { isStaticJsObjectLike } from "../../runtime/types/interfaces/StaticJsObject.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
@@ -37,7 +38,7 @@ export default function* memberExpressionNodeEvaluator(
       propertyNode,
       context,
     );
-    propertyName = StaticJsObject.toPropertyKey(resolved);
+    propertyName = toPropertyKey(resolved);
   }
 
   const value = yield* target.getPropertyEvaluator(propertyName);

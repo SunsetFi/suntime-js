@@ -8,8 +8,10 @@ import { NormalCompletion } from "../completions/index.js";
 
 import createFunction from "./Function.js";
 
-function* functionDeclarationNodeEvaluator(): EvaluationGenerator {
-  return NormalCompletion();
+function* functionDeclarationNodeEvaluator(
+  _node: FunctionDeclaration,
+): EvaluationGenerator {
+  return NormalCompletion(null);
 }
 
 function* functionDeclarationEnvironmentSetup(

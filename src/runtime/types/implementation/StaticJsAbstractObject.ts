@@ -1,5 +1,8 @@
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import { EvaluationGenerator } from "../../../evaluator/internal.js";
+
+import { StaticJsRealm } from "../../realm/index.js";
+
 import {
   isStaticJsObjectPropertyDescriptorGetter,
   isStaticJsObjectPropertyDescriptorValue,
@@ -10,14 +13,21 @@ import {
   validateStaticJsObjectPropertyDescriptor,
 } from "../interfaces/index.js";
 
-import StaticJsEnvUndefined from "./StaticJsEnvUndefined.js";
+import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 
-export default abstract class StaticJsAbstractObject implements StaticJsObject {
+export default abstract class StaticJsAbstractObject
+  extends StaticJsAbstractPrimitive
+  implements StaticJsObject
+{
   private _extensible: boolean = true;
+
   constructor(
+    realm: StaticJsRealm,
     private _prototype: StaticJsObject | null,
     private readonly _runtimeTypeSymbol: string,
-  ) {}
+  ) {
+    super(realm);
+  }
 
   get typeOf(): string {
     return "object" as const;
@@ -128,6 +138,11 @@ export default abstract class StaticJsAbstractObject implements StaticJsObject {
     name: string,
     descriptor: StaticJsObjectPropertyDescriptor,
   ): EvaluationGenerator<void> {
+    if (!this.extensible) {
+      // FIXME: Throw real error
+      throw new Error("Object is not extensible.");
+    }
+
     const decl = yield* this.getOwnPropertyDescriptorEvaluator(name);
 
     if (!decl) {
@@ -154,7 +169,7 @@ export default abstract class StaticJsAbstractObject implements StaticJsObject {
   *getPropertyEvaluator(name: string): EvaluationGenerator<StaticJsValue> {
     const decl = yield* this.getPropertyDescriptorEvaluator(name);
     if (decl === undefined) {
-      return StaticJsEnvUndefined.Instance;
+      return this.realm.types.undefined;
     }
 
     // This validation might be a bit heavy for performance...
@@ -173,7 +188,7 @@ export default abstract class StaticJsAbstractObject implements StaticJsObject {
     } else if (isStaticJsObjectPropertyDescriptorGetter(decl)) {
       value = decl.get();
     } else {
-      return StaticJsEnvUndefined.Instance;
+      return this.realm.types.undefined;
     }
 
     if (!isStaticJsValue(value)) {
@@ -227,8 +242,10 @@ export default abstract class StaticJsAbstractObject implements StaticJsObject {
           writable: true,
           value,
         });
+
         return;
       }
+
       // We are not writable.
       if (strict) {
         // TODO: Throw real error
@@ -253,6 +270,10 @@ export default abstract class StaticJsAbstractObject implements StaticJsObject {
   }
 
   *deletePropertyEvaluator(name: string): EvaluationGenerator<boolean> {
+    if (!this.extensible) {
+      return false;
+    }
+
     const decl = yield* this.getOwnPropertyDescriptorEvaluator(name);
     if (decl === undefined || !decl.configurable) {
       return false;

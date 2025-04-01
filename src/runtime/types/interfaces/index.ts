@@ -33,3 +33,4 @@ export {
   isStaticJsValue,
   assertStaticJsValue as assertStaticJsValue,
 } from "./StaticJsValue.js";
+export type { default as StaticJsTypeFactory } from "./StaticJsTypeFactory.js";

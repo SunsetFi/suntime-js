@@ -53,7 +53,8 @@ function* runCatch(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const env = new StaticJsLexicalEnvironment(
-    new StaticJsDeclarativeEnvironmentRecord(),
+    context.realm,
+    new StaticJsDeclarativeEnvironmentRecord(context.realm),
     context.env,
   );
 
@@ -76,6 +77,7 @@ function* runBlock(
   node: BlockStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  let completionResult: StaticJsValue | null = null;
   for (const statement of node.body) {
     const statementResult = yield* EvaluateNodeCommand(statement, context);
     switch (statementResult.type) {
@@ -84,10 +86,12 @@ function* runBlock(
       case "break":
       case "continue":
         return statementResult;
+      case "normal":
+        completionResult = statementResult.value;
     }
   }
 
-  return NormalCompletion();
+  return NormalCompletion(completionResult);
 }
 
 export default typedMerge(tryStatementNodeEvaluator, {

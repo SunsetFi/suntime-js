@@ -1,8 +1,6 @@
-import {
-  StaticJsObjectPropertyDescriptor,
-  StaticJsValue,
-} from "../types/index.js";
-import createObject from "./Object.js";
+import StaticJsNumberImpl from "../types/implementation/StaticJsNumberImpl.js";
+import StaticJsUndefinedImpl from "../types/implementation/StaticJsUndefinedImpl.js";
+import { StaticJsObjectPropertyDescriptor } from "../types/interfaces/StaticJsObject.js";
 
 export function createGlobals(): Record<
   string,
@@ -10,28 +8,28 @@ export function createGlobals(): Record<
 > {
   return {
     undefined: {
-      value: StaticJsValue(undefined),
+      value: StaticJsUndefinedImpl.Instance,
       writable: false,
       enumerable: false,
       configurable: false,
     },
     Infinity: {
-      value: StaticJsValue(Infinity),
+      value: new StaticJsNumberImpl(Infinity),
       writable: false,
       enumerable: false,
       configurable: false,
     },
     NaN: {
-      value: StaticJsValue(NaN),
+      value: new StaticJsNumberImpl(NaN),
       writable: false,
       enumerable: false,
       configurable: false,
     },
-    Object: {
-      value: createObject(),
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    },
+    // Object: {
+    //   value: createObject(),
+    //   writable: true,
+    //   enumerable: false,
+    //   configurable: true,
+    // },
   };
 }

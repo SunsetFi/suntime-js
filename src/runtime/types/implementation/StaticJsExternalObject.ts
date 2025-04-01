@@ -4,7 +4,9 @@ import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import { EvaluationGenerator } from "../../../evaluator/internal.js";
 
-import { StaticJsValue as IStaticJsValue } from "../interfaces/StaticJsValue.js";
+import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+
+import { StaticJsValue } from "../interfaces/StaticJsValue.js";
 import {
   StaticJsObjectPropertyDescriptor,
   StaticJsObjectPropertyDescriptorGetter,
@@ -12,18 +14,27 @@ import {
 } from "../interfaces/StaticJsObject.js";
 import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
 
-import StaticJsValue from "../factories/StaticJsValue.js";
-
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 
+/**
+ * A static object that wraps a native javascript object.
+ *
+ * For security reasons:
+ * - The object is not extensible.
+ * - Only own setter properties are writable.
+ * - The object is not configurable.
+ * - Only enumerable properties are exposed.
+ */
 export default class StaticJsExternalObject extends StaticJsAbstractObject {
-  constructor(private readonly _obj: object) {
-    // FIXME: Use Object.prototype, whatever that will be.
-    super(null, "object");
+  constructor(
+    realm: StaticJsRealm,
+    private readonly _obj: object,
+  ) {
+    super(realm, realm.types.objectProto, "object");
   }
 
   get extensible(): boolean {
-    return Object.isExtensible(this._obj);
+    return false;
   }
 
   *getOwnKeysEvaluator(): EvaluationGenerator<string[]> {
@@ -43,14 +54,11 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
       return undefined;
     }
 
-    const {
-      writable,
-      enumerable,
-      configurable,
-      value,
-      get: descrGet,
-      set: descrSet,
-    } = objDescr;
+    const { enumerable, value, get: descrGet, set: descrSet } = objDescr;
+
+    if (!enumerable) {
+      return undefined;
+    }
 
     const staticJsDescr: Writable<
       Partial<
@@ -58,22 +66,23 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
           StaticJsObjectPropertyDescriptorGetter
       >
     > = {
-      writable,
+      writable: descrSet != null,
       enumerable,
-      configurable,
+      configurable: false,
     };
 
     // We need to maintain the semantics of getter vs data value, as it is material to how prototypes are resolved.
+    const realm = this.realm;
     if (descrGet) {
       staticJsDescr.get = function* () {
-        return StaticJsValue(descrGet());
+        return realm.types.toStaticJsValue(descrGet());
       };
     } else if (hasOwnProperty(objDescr, "value")) {
-      staticJsDescr.value = StaticJsValue(value);
+      staticJsDescr.value = realm.types.toStaticJsValue(value);
     }
 
     if (descrSet) {
-      staticJsDescr.set = function* (value: IStaticJsValue) {
+      staticJsDescr.set = function* (value: StaticJsValue) {
         descrSet(value.toJs());
       };
     }
@@ -81,26 +90,23 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
     return staticJsDescr as StaticJsObjectPropertyDescriptor;
   }
 
-  protected *_setWritableDataPropertyEvaluator(
-    name: string,
-    value: IStaticJsValue,
-  ): EvaluationGenerator<void> {
-    // @ts-expect-error: We can trust that this is a valid key due to the checks made by StaticJsObjectBase.
-    this._obj[name] = value.toJs();
+  protected *_setWritableDataPropertyEvaluator(): EvaluationGenerator<void> {
+    /* No-op.  Externals are not writable. */
   }
 
   protected *_definePropertyEvaluator(
     name: string,
     descriptor: StaticJsObjectPropertyDescriptor,
   ): EvaluationGenerator<void> {
-    const objDescriptor = staticJsDescriptorToObjectDescriptor(descriptor);
+    const objDescriptor = staticJsDescriptorToObjectDescriptor(
+      this.realm,
+      descriptor,
+    );
     Object.defineProperty(this._obj, name, objDescriptor);
   }
 
-  protected *_deleteConfigurablePropertyEvaluator(
-    name: string,
-  ): EvaluationGenerator<boolean> {
-    // @ts-expect-error: We can trust that this is a valid key due to the checks made by StaticJsObjectBase.
-    return delete this._obj[name];
+  protected *_deleteConfigurablePropertyEvaluator(): EvaluationGenerator<boolean> {
+    /* No-op.  Externals are not configurable. */
+    return false;
   }
 }

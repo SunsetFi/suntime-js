@@ -1,6 +1,9 @@
 import { EvaluationGenerator } from "../../../evaluator/internal.js";
+
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
+
 import StaticJsEnvironment from "../interfaces/StaticJsEnvironment.js";
+
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 
 export const StaticJsEnvironmentGetBinding: unique symbol = Symbol(
