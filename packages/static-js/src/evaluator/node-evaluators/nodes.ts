@@ -34,6 +34,8 @@ import labeledStatementNodeEvaluator from "./LabelStatement.js";
 import tryStatementNodeEvaluator from "./TryStatement.js";
 import throwStatementNodeEvaluator from "./ThrowStatement.js";
 import logicalExpressionNodeEvaluator from "./LogicalExpression.js";
+import whileStatementNodeEvaluator from "./WhileStatement.js";
+import doWhileStatementNodeEvaluator from "./DoWhileStatement.js";
 
 type NodeEvaluators = {
   [key in Node["type"]]?: NodeEvaluator<key>;
@@ -49,6 +51,7 @@ const nodeEvaluators: NodeEvaluators = {
   CallExpression: callExpressionNodeEvaluator,
   CatchClause: catchClauseNodeEvaluator,
   ContinueStatement: continueStatementNodeEvaluator,
+  DoWhileStatement: doWhileStatementNodeEvaluator,
   EmptyStatement: emptyStatementNodeEvaluator,
   ExpressionStatement: expressionStatementNodeEvaluator,
   File: fileNodeEvaluator,
@@ -71,6 +74,7 @@ const nodeEvaluators: NodeEvaluators = {
   UnaryExpression: unaryExpressionNodeEvaluator,
   UpdateExpression: updateExpressionNodeEvaluator,
   VariableDeclaration: variableDeclarationNodeEvaluator,
+  WhileStatement: whileStatementNodeEvaluator,
 };
 
 export function getEvaluator<TType extends Node["type"]>(

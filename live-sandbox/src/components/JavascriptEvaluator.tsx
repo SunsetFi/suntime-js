@@ -14,9 +14,11 @@ export interface JavascriptEvaluatorProps {
 
 const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
   const [logs, setLogs] = React.useState<string[]>([]);
-  const realm = React.useMemo(
-    () =>
-      StaticJsRealm({
+  const [generator, setGenerator] = React.useState<Generator | null>(null);
+  const [compileTime, setCompileTime] = React.useState(0);
+  const onCompile = React.useCallback(() => {
+    try {
+      const realm = StaticJsRealm({
         globalObject: {
           value: {
             console: {
@@ -28,14 +30,7 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
             },
           },
         },
-      }),
-    []
-  );
-
-  const [generator, setGenerator] = React.useState<Generator | null>(null);
-  const [compileTime, setCompileTime] = React.useState(0);
-  const onCompile = React.useCallback(() => {
-    try {
+      });
       const start = performance.now();
       const compilation = compileProgram(code);
       const generator = compilation.generator(realm);
@@ -65,7 +60,6 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
 
     let timeout: number | null = null;
     function process() {
-      console.log("Processing");
       for (let i = 0; i < 1000; i++) {
         if (haltRef.current) {
           setStatus("done");
@@ -98,7 +92,7 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
         clearTimeout(timeout);
       }
     };
-  }, [realm, generator]);
+  }, [generator]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", ...sx }}>
