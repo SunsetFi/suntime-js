@@ -4,6 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
+    "build": "vite build",
     "start": "vite"
   },
   "keywords": [],
