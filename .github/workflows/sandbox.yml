@@ -1,3 +1,5 @@
+name: Deploy Sandbox
+
 on:
   push:
     branches:
@@ -48,4 +50,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4 # or specific "vX.X.X" version tag for this action
         with:
-          artifact-name: sandbox
+          artifact_name: sandbox
