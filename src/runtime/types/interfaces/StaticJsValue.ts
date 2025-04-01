@@ -1,7 +1,13 @@
 import { StaticJsScalar } from "./StaticJsScalar.js";
 import { StaticJsObject } from "./StaticJsObject.js";
+import { StaticJsArray } from "./StaticJsArray.js";
+import { StaticJsFunction } from "./StaticJsFunction.js";
 
-export type StaticJsValue = StaticJsScalar | StaticJsObject;
+export type StaticJsValue =
+  | StaticJsScalar
+  | StaticJsObject
+  | StaticJsArray
+  | StaticJsFunction;
 
 export function isStaticJsValue(value: unknown): value is StaticJsValue {
   // This is kinda nasty.
