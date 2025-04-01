@@ -14,7 +14,7 @@ export function runEvaluatorUntilCompletion<TReturn>(
   return iteratorResult.value;
 }
 
-function* evaluateCommands<TReturn>(
+export function* evaluateCommands<TReturn>(
   generator: EvaluationGenerator<TReturn>,
 ): Generator<void, TReturn, void> {
   let result = generator.next();

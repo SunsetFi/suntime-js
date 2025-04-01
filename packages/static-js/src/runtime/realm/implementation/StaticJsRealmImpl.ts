@@ -31,7 +31,7 @@ export interface StaticJsEnvRealmOptions {
 
 export default class StaticJsRealmImpl {
   private readonly _globalObject: StaticJsObject;
-  private readonly _environment: StaticJsEnvironment;
+  private readonly _globalEnv: StaticJsEnvironment;
   private readonly _typeFactory: StaticJsTypeFactory;
 
   constructor({ globalObject, globalThis }: StaticJsEnvRealmOptions = {}) {
@@ -81,7 +81,7 @@ export default class StaticJsRealmImpl {
 
     this._globalObject = globalObjectResolved;
 
-    this._environment = new StaticJsGlobalEnvironmentRecord(
+    this._globalEnv = new StaticJsGlobalEnvironmentRecord(
       this,
       globalThisResolved,
       globalObjectResolved,
@@ -98,7 +98,7 @@ export default class StaticJsRealmImpl {
   }
 
   get globalEnv() {
-    return this._environment;
+    return this._globalEnv;
   }
 
   get types() {
