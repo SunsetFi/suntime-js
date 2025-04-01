@@ -3,6 +3,9 @@ import { StaticJsBoolean } from "../interfaces/index.js";
 export default class StaticJsBooleanImpl implements StaticJsBoolean {
   private readonly _value: boolean;
 
+  public static readonly true = new StaticJsBooleanImpl(true);
+  public static readonly false = new StaticJsBooleanImpl(false);
+
   constructor(value: boolean) {
     this._value = value;
   }
@@ -36,6 +39,10 @@ export default class StaticJsBooleanImpl implements StaticJsBoolean {
   }
 
   negate(): StaticJsBoolean {
-    return new StaticJsBooleanImpl(!this._value);
+    if (this._value) {
+      return StaticJsBooleanImpl.false;
+    }
+
+    return StaticJsBooleanImpl.true;
   }
 }

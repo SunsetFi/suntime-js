@@ -23,7 +23,7 @@ export default function* updateExpressionNodeEvaluator(
   );
 
   if (!isStaticJsNumber(originalValue)) {
-    return NormalCompletion(context.realm.types.number(NaN));
+    return NormalCompletion(context.realm.types.NaN);
   }
 
   let targetValue = originalValue.toJs() as number;

@@ -29,16 +29,10 @@ import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
 import StaticJsExternalObject from "./StaticJsExternalObject.js";
 
 export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
-  private _true: StaticJsBoolean;
-  private _false: StaticJsBoolean;
-
   constructor(
     private readonly _realm: StaticJsRealm,
     private readonly _prototypes: Prototypes,
-  ) {
-    this._true = new StaticJsBooleanImpl(true);
-    this._false = new StaticJsBooleanImpl(false);
-  }
+  ) {}
 
   get objectProto(): StaticJsObject {
     return this._prototypes.objectProto;
@@ -53,11 +47,11 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   get true(): StaticJsBoolean {
-    return this._true;
+    return StaticJsBooleanImpl.true;
   }
 
   get false(): StaticJsBoolean {
-    return this._false;
+    return StaticJsBooleanImpl.false;
   }
 
   get undefined(): StaticJsUndefined {
@@ -66,6 +60,18 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   get null(): StaticJsNull {
     return StaticJsNullImpl.Instance;
+  }
+
+  get zero(): StaticJsNumber {
+    return StaticJsNumberImpl.zero;
+  }
+
+  get NaN(): StaticJsNumber {
+    return StaticJsNumberImpl.NaN;
+  }
+
+  get Infinity(): StaticJsNumber {
+    return StaticJsNumberImpl.Infinity;
   }
 
   createObject(

@@ -24,6 +24,10 @@ export default interface StaticJsTypeFactory {
   readonly true: StaticJsBoolean;
   readonly false: StaticJsBoolean;
 
+  readonly zero: StaticJsNumber;
+  readonly NaN: StaticJsNumber;
+  readonly Infinity: StaticJsNumber;
+
   boolean(value: boolean): StaticJsBoolean;
   number(value: number): StaticJsNumber;
   string(value: string): StaticJsString;

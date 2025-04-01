@@ -1,8 +1,6 @@
-import typedEntries from "../../../internal/typed-entries.js";
 import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/index.js";
 import { StaticJsEnvironment } from "../../environments/index.js";
 
-import { createGlobals } from "../../globals/create-globals.js";
 import {
   createConstructors,
   createPrototypes,
@@ -37,6 +35,8 @@ export default class StaticJsRealmImpl {
   private readonly _typeFactory: StaticJsTypeFactory;
 
   constructor({ globalObject, globalThis }: StaticJsEnvRealmOptions = {}) {
+    // Note: We could check to see if globalObject has factories or prototypes and use them
+    // instead of these.
     const protos = createPrototypes(this);
     const ctors = createConstructors(this, protos);
     this._typeFactory = new StaticJsTypeFactoryImpl(this, protos);
@@ -110,12 +110,6 @@ export default class StaticJsRealmImpl {
     globalThis: StaticJsValue,
     constructors: Constructors,
   ) {
-    for (const [key, value] of typedEntries(createGlobals())) {
-      if (!globalObject.hasProperty(key)) {
-        globalObject.defineProperty(key, value);
-      }
-    }
-
     if (!globalObject.hasProperty("globalThis")) {
       globalObject.defineProperty("globalThis", {
         value: globalThis,
@@ -131,6 +125,24 @@ export default class StaticJsRealmImpl {
         writable: true,
         enumerable: false,
         configurable: true,
+      });
+    }
+
+    if (!globalObject.hasProperty("NaN")) {
+      globalObject.defineProperty("NaN", {
+        value: this._typeFactory.NaN,
+        writable: false,
+        enumerable: false,
+        configurable: false,
+      });
+    }
+
+    if (!globalObject.hasProperty("Infinity")) {
+      globalObject.defineProperty("Infinity", {
+        value: this._typeFactory.Infinity,
+        writable: false,
+        enumerable: false,
+        configurable: false,
       });
     }
 
