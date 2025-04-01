@@ -1,17 +1,15 @@
-import { StaticJsNull } from "../index.js";
 import { StaticJsArray } from "./StaticJsArray.js";
 import { StaticJsFunction } from "./StaticJsFunction.js";
+import { StaticJsBoolean } from "./StaticJsBoolean.js";
+import { StaticJsNull } from "./StaticJsNull.js";
+import { StaticJsNumber } from "./StaticJsNumber.js";
 import {
   StaticJsObject,
   StaticJsObjectPropertyDescriptor,
 } from "./StaticJsObject.js";
-import {
-  StaticJsBoolean,
-  StaticJsNumber,
-  StaticJsString,
-  StaticJsUndefined,
-} from "./StaticJsScalar.js";
 import { StaticJsValue } from "./StaticJsValue.js";
+import { StaticJsString } from "./StaticJsString.js";
+import { StaticJsUndefined } from "./StaticJsUndefined.js";
 
 export default interface StaticJsTypeFactory {
   readonly objectProto: StaticJsObject;

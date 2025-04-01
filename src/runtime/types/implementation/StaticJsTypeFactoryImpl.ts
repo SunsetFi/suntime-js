@@ -8,15 +8,13 @@ import {
   StaticJsObject,
   StaticJsObjectPropertyDescriptor,
 } from "../interfaces/StaticJsObject.js";
-import {
-  StaticJsBoolean,
-  StaticJsNull,
-  StaticJsNumber,
-  StaticJsString,
-  StaticJsUndefined,
-} from "../interfaces/StaticJsScalar.js";
 import StaticJsTypeFactory from "../interfaces/StaticJsTypeFactory.js";
 import { isStaticJsValue, StaticJsValue } from "../interfaces/StaticJsValue.js";
+import { StaticJsBoolean } from "../interfaces/StaticJsBoolean.js";
+import { StaticJsUndefined } from "../interfaces/StaticJsUndefined.js";
+import { StaticJsNull } from "../interfaces/StaticJsNull.js";
+import { StaticJsNumber } from "../interfaces/StaticJsNumber.js";
+import { StaticJsString } from "../interfaces/StaticJsString.js";
 
 import StaticJsArrayImpl from "./StaticJsArrayImpl.js";
 import StaticJsBooleanImpl from "./StaticJsBooleanImpl.js";

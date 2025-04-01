@@ -1,6 +1,6 @@
 import { UpdateExpression } from "@babel/types";
 
-import { isStaticJsNumber } from "../../runtime/types/interfaces/StaticJsScalar.js";
+import { isStaticJsNumber } from "../../runtime/types/interfaces/StaticJsNumber.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
