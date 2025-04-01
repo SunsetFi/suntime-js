@@ -26,6 +26,7 @@ jobs:
         id: deployment
         uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
         with:
+          name: sandbox
           path: live-sandbox/dist
 
   # Deploy job
