@@ -74,8 +74,10 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
     // We need to maintain the semantics of getter vs data value, as it is material to how prototypes are resolved.
     const realm = this.realm;
     if (descrGet) {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const self = this;
       staticJsDescr.get = function* () {
-        return realm.types.toStaticJsValue(descrGet());
+        return realm.types.toStaticJsValue(descrGet.call(self));
       };
     } else if (hasOwnProperty(objDescr, "value")) {
       staticJsDescr.value = realm.types.toStaticJsValue(value);

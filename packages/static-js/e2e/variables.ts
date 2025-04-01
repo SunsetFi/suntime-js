@@ -35,7 +35,7 @@ describe("E2E: Variables", () => {
       const code = `
         const a = 1;
       `;
-      const env = new StaticJsRealm();
+      const env = StaticJsRealm();
       evaluateString(code, env);
       expect(env.globalObject.hasProperty("a")).toBe(false);
     });
@@ -89,7 +89,7 @@ describe("E2E: Variables", () => {
       const code = `
         let a = 1;
       `;
-      const env = new StaticJsRealm();
+      const env = StaticJsRealm();
       evaluateString(code, env);
       expect(env.globalObject.hasProperty("a")).toBe(false);
     });
@@ -128,7 +128,7 @@ describe("E2E: Variables", () => {
       const code = `
         var a = 1;
       `;
-      const env = new StaticJsRealm();
+      const env = StaticJsRealm();
       evaluateString(code, env);
       expect(env.globalObject.hasProperty("a")).toBe(true);
     });
@@ -139,7 +139,7 @@ describe("E2E: Variables", () => {
           var a = 1;
         }
       `;
-      const env = new StaticJsRealm();
+      const env = StaticJsRealm();
       evaluateString(code, env);
       expect(env.globalObject.hasProperty("a")).toBe(true);
     });
@@ -150,7 +150,7 @@ describe("E2E: Variables", () => {
           var a = 1;
         }
       `;
-      const env = new StaticJsRealm();
+      const env = StaticJsRealm();
       evaluateString(code, env);
       expect(env.globalObject.hasProperty("a")).toBe(false);
     });

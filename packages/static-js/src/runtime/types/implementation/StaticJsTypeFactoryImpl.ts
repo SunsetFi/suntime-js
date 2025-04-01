@@ -25,12 +25,17 @@ import StaticJsStringImpl from "./StaticJsStringImpl.js";
 import StaticJsUndefinedImpl from "./StaticJsUndefinedImpl.js";
 import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
 import StaticJsExternalObject from "./StaticJsExternalObject.js";
+import StaticJsStringBoxed from "./StaticJsStringBoxed.js";
 
 export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   constructor(
     private readonly _realm: StaticJsRealm,
     private readonly _prototypes: Prototypes,
   ) {}
+
+  get stringProto(): StaticJsObject {
+    return this._prototypes.stringProto;
+  }
 
   get objectProto(): StaticJsObject {
     return this._prototypes.objectProto;
@@ -92,6 +97,31 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   createArray(items?: StaticJsValue[]): StaticJsArray {
     return new StaticJsArrayImpl(this._realm, items);
+  }
+
+  box(
+    value:
+      | StaticJsString
+      | StaticJsNumber
+      | StaticJsBoolean
+      | string
+      | number
+      | boolean,
+  ): StaticJsObject {
+    if (isStaticJsValue(value)) {
+      if (["string", "number", "boolean"].includes(value.runtimeTypeOf)) {
+        value = value.toJs() as string | number | boolean;
+      } else {
+        throw new Error(`Cannot box ${value}.`);
+      }
+    }
+
+    switch (typeof value) {
+      case "string":
+        return new StaticJsStringBoxed(this._realm, value);
+    }
+
+    throw new Error(`Cannot box ${value}: Unknown type.`);
   }
 
   toStaticJsValue(value: boolean): StaticJsBoolean;

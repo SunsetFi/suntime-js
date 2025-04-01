@@ -2,17 +2,27 @@ import { MemberExpression } from "@babel/types";
 
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 import { isStaticJsObjectLike } from "../../runtime/types/interfaces/StaticJsObject.js";
+import { isStaticJsString } from "../../runtime/types/interfaces/StaticJsString.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
 import { NormalCompletion } from "../completions/index.js";
+import { isStaticJsBoolean, isStaticJsNumber } from "../../runtime/index.js";
 
 export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const target = yield* EvaluateNodeAssertValueCommand(node.object, context);
+  let target = yield* EvaluateNodeAssertValueCommand(node.object, context);
+  if (
+    isStaticJsString(target) ||
+    isStaticJsNumber(target) ||
+    isStaticJsBoolean(target)
+  ) {
+    target = context.realm.types.box(target);
+  }
+
   if (!isStaticJsObjectLike(target)) {
     let postfix: string = "";
     if (node.object.type === "Identifier") {

@@ -104,7 +104,7 @@ export interface StaticJsObjectPropertyDescriptorValue
 
 export interface StaticJsObjectPropertyDescriptorGetter
   extends StaticJsObjectPropertyDescriptorBase {
-  get?(): EvaluationGenerator<StaticJsValue>;
+  get?(this: StaticJsValue): EvaluationGenerator<StaticJsValue>;
 }
 
 export type StaticJsObjectPropertyDescriptor =
@@ -151,6 +151,7 @@ export function isStaticJsObjectPropertyDescriptorGetter(
 }
 
 export function getStaticJsObjectPropertyDescriptorValue(
+  thisArg: StaticJsObject,
   descriptor: StaticJsObjectPropertyDescriptor,
 ): StaticJsValue | null {
   const hasValue = isStaticJsObjectPropertyDescriptorValue(descriptor);
@@ -166,7 +167,7 @@ export function getStaticJsObjectPropertyDescriptorValue(
     return descriptor.value as StaticJsValue;
   } else if (hasGet) {
     // FIXME HACK: Make evaluator
-    return runEvaluatorUntilCompletion(descriptor.get());
+    return runEvaluatorUntilCompletion(descriptor.get.call(thisArg));
   }
 
   return null;

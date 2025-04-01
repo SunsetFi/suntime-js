@@ -1,0 +1,36 @@
+import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsString } from "../interfaces/StaticJsString.js";
+
+import StaticJsObjectImpl from "./StaticJsObjectImpl.js";
+
+export default class StaticJsStringBoxed
+  extends StaticJsObjectImpl
+  implements StaticJsString
+{
+  constructor(
+    realm: StaticJsRealm,
+    private readonly _value: string,
+  ) {
+    super(realm, realm.types.stringProto);
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  toString(): string {
+    return this._value;
+  }
+
+  toNumber(): number {
+    return Number(this._value);
+  }
+
+  toBoolean(): boolean {
+    return Boolean(this._value);
+  }
+
+  toJs(): unknown {
+    return this._value;
+  }
+}

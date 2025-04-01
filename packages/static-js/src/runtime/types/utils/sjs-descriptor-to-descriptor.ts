@@ -10,7 +10,6 @@ import {
 
 export default function staticJsDescriptorToObjectDescriptor(
   realm: StaticJsRealm,
-
   descriptor: StaticJsObjectPropertyDescriptor,
 ): PropertyDescriptor {
   const objDescriptor: PropertyDescriptor = {

@@ -46,6 +46,8 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
   const [status, setStatus] = React.useState<"running" | "done" | "error">(
     "done"
   );
+  const [runStart, setRunStart] = React.useState(0);
+  const [runEnd, setRunEnd] = React.useState(0);
   const [ops, setOps] = React.useState(0);
 
   React.useEffect(() => {
@@ -58,12 +60,19 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
     setOps(0);
     setLogs([]);
 
+    setRunEnd(0);
+    setRunStart(performance.now());
+
+    function onDone() {
+      setRunEnd(performance.now());
+      setStatus("done");
+    }
+
     let timeout: number | null = null;
     function process() {
       for (let i = 0; i < 1000; i++) {
         if (haltRef.current) {
-          setStatus("done");
-          haltRef.current = false;
+          onDone();
           return;
         }
 
@@ -71,11 +80,12 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
           const { done } = generator!.next();
           if (done) {
             setOps((ops) => ops + i + 1);
-            setStatus("done");
+            onDone();
             return;
           }
         } catch (e: any) {
           setLogs((logs) => [...logs, e.message]);
+          setRunEnd(performance.now());
           setStatus("error");
           return;
         }
@@ -101,14 +111,15 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
         <button onClick={() => (haltRef.current = true)}>Halt</button>
       )}
       {compileTime > 0 && (
-        <Typography>{`Compiled in ${compileTime.toFixed(2)}ms`}</Typography>
+        <Typography>{`Compiled in ${compileTime}ms`}</Typography>
       )}
       <Typography>
         {status === "running" && (
           <CircularProgress size="1rem" sx={{ mr: 1 }} />
         )}
-        {status === "running" ? "Running" : "Done"}
-        {` (${ops} ops)`}
+        {status === "running"
+          ? `Running (${ops} ops)`
+          : `Done (${ops} ops, ${runEnd - runStart}ms)`}
       </Typography>
       {logs.map((log, i) => (
         <Typography key={i} variant="body2">

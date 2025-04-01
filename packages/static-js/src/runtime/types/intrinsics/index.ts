@@ -9,8 +9,10 @@ import {
   populateFunctionPrototype,
 } from "./Function.js";
 import StaticJsObjectImpl from "../implementation/StaticJsObjectImpl.js";
+import { populateStringPrototype } from "./String.js";
 
 export interface Prototypes {
+  stringProto: StaticJsObject;
   objectProto: StaticJsObject;
   arrayProto: StaticJsObject;
   functionProto: StaticJsObject;
@@ -25,15 +27,19 @@ export interface Constructors {
 export function createPrototypes(realm: StaticJsRealm): Prototypes {
   // There are some circular references around these, particularly with
   // instantiating functions for properties, so establish them ahead of time.
+  const stringProto = new StaticJsObjectImpl(realm, null);
   const objectProto = new StaticJsObjectImpl(realm, null);
   const arrayProto = new StaticJsObjectImpl(realm, objectProto);
   const functionProto = new StaticJsObjectImpl(realm, objectProto);
+
+  populateStringPrototype(realm, stringProto, functionProto);
 
   populateObjectPrototype(realm, objectProto, functionProto);
   populateArrayPrototype(realm, arrayProto, objectProto);
   populateFunctionPrototype(realm, functionProto);
 
   return {
+    stringProto,
     objectProto,
     arrayProto,
     functionProto,

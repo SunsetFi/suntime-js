@@ -12,6 +12,8 @@ import { StaticJsString } from "./StaticJsString.js";
 import { StaticJsUndefined } from "./StaticJsUndefined.js";
 
 export default interface StaticJsTypeFactory {
+  readonly stringProto: StaticJsObject;
+
   readonly objectProto: StaticJsObject;
   readonly arrayProto: StaticJsObject;
   readonly functionProto: StaticJsObject;
@@ -36,6 +38,16 @@ export default interface StaticJsTypeFactory {
   ): StaticJsObject;
 
   createArray(items?: StaticJsValue[]): StaticJsArray;
+
+  box(
+    value:
+      | StaticJsString
+      | StaticJsNumber
+      | StaticJsBoolean
+      | string
+      | number
+      | boolean,
+  ): StaticJsObject;
 
   toStaticJsValue(value: boolean): StaticJsBoolean;
   toStaticJsValue(value: number): StaticJsNumber;

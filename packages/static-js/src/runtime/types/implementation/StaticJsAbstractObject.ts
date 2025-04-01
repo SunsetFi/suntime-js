@@ -186,7 +186,7 @@ export default abstract class StaticJsAbstractObject
     if (isStaticJsObjectPropertyDescriptorValue(decl)) {
       value = decl.value;
     } else if (isStaticJsObjectPropertyDescriptorGetter(decl)) {
-      value = decl.get();
+      value = yield* decl.get.call(this);
     } else {
       return this.realm.types.undefined;
     }

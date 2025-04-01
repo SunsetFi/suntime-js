@@ -52,7 +52,7 @@ export default class StaticJsArrayImpl
     if (isStaticJsObjectPropertyDescriptorValue(descr)) {
       return descr.value.toNumber();
     } else if (isStaticJsObjectPropertyDescriptorGetter(descr)) {
-      const getValue = yield* descr.get();
+      const getValue = yield* descr.get.call(this);
       return getValue.toNumber();
     } else {
       return 0;
@@ -68,7 +68,7 @@ export default class StaticJsArrayImpl
     if (isStaticJsObjectPropertyDescriptorValue(descr)) {
       return descr.value;
     } else if (isStaticJsObjectPropertyDescriptorGetter(descr)) {
-      return yield* descr.get();
+      return yield* descr.get.call(this);
     } else {
       return StaticJsUndefinedImpl.Instance;
     }
