@@ -20,7 +20,7 @@ jobs:
       - name: Build Sandbox
         run: pnpm run --filter live-sandbox build
       - name: Upload sandbox
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: sandbox
           path: live-sandbox/dist
