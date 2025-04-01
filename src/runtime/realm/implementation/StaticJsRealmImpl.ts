@@ -128,6 +128,15 @@ export default class StaticJsRealmImpl {
       });
     }
 
+    if (!globalObject.hasProperty("undefined")) {
+      globalObject.defineProperty("undefined", {
+        value: this._typeFactory.undefined,
+        writable: false,
+        enumerable: false,
+        configurable: false,
+      });
+    }
+
     if (!globalObject.hasProperty("NaN")) {
       globalObject.defineProperty("NaN", {
         value: this._typeFactory.NaN,
