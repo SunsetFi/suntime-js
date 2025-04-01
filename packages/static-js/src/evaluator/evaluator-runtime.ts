@@ -1,5 +1,6 @@
 import { executeEvaluatorCommand } from "./commands/index.js";
 import EvaluationGenerator from "./EvaluationGenerator.js";
+import { Completion } from "./internal.js";
 
 export function runEvaluatorUntilCompletion<TReturn>(
   generator: EvaluationGenerator<TReturn>,
@@ -17,14 +18,22 @@ export function runEvaluatorUntilCompletion<TReturn>(
 export function* evaluateCommands<TReturn>(
   generator: EvaluationGenerator<TReturn>,
 ): Generator<void, TReturn, void> {
-  let result = generator.next();
-  while (!result.done) {
-    const command = result.value;
-    const commandResult = yield* evaluateCommands(
-      executeEvaluatorCommand(command),
-    );
-    result = generator.next(commandResult);
+  const stack: EvaluationGenerator<unknown>[] = [generator];
+  let lastValue: unknown = undefined;
+  while (stack.length > 0) {
+    const current = stack[stack.length - 1];
+    const { value, done } = current.next(lastValue as Completion);
+
+    if (done) {
+      stack.pop();
+      lastValue = value;
+      continue;
+    }
+
+    const nextGen = executeEvaluatorCommand(value);
+    stack.push(nextGen);
+    yield;
   }
 
-  return result.value as TReturn;
+  return lastValue as TReturn;
 }
