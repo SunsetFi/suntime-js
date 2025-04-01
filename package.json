@@ -3,7 +3,8 @@
   "private": true,
   "packageManager": "pnpm@10.6.2",
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "lint-staged": "lint-staged"
   },
   "devDependencies": {
     "husky": "^9.1.7",
