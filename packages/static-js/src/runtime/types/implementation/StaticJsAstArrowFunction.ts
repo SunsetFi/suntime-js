@@ -43,20 +43,6 @@ export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
   ) {
     // FIXME: What is the name?
     super(realm, "<arrow>", (thisArg, ...args) => this._invoke(thisArg, args));
-
-    this.defineProperty("prototype", {
-      value: realm.types.createObject({
-        constructor: {
-          value: this,
-          writable: true,
-          enumerable: false,
-          configurable: true,
-        },
-      }),
-      writable: true,
-      enumerable: false,
-      configurable: false,
-    });
   }
 
   construct(): EvaluationGenerator<StaticJsObject> {

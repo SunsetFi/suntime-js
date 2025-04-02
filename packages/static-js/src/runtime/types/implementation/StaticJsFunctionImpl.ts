@@ -163,8 +163,8 @@ export default class StaticJsFunctionImpl
 
     const thisObj = this.realm.types.createObject(undefined, proto);
     const result = yield* this.call(thisObj, ...args);
-    if (isStaticJsObjectLike(result)) {
-      return result;
+    if (result.type === "return" && isStaticJsObjectLike(result.value)) {
+      return result.value;
     }
 
     return thisObj;
