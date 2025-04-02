@@ -13,6 +13,7 @@ import {
   EvaluationContext,
   EvaluationGenerator,
   NormalCompletion,
+  ReturnCompletion,
 } from "../../../evaluator/internal.js";
 
 import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
@@ -23,25 +24,44 @@ import { EvaluateNodeCommand } from "../../../evaluator/commands/index.js";
 
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
-import { StaticJsValue } from "../interfaces/index.js";
+import { StaticJsObject, StaticJsValue } from "../interfaces/index.js";
 
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
 
-export type StaticJsAstFunctionArgumentDeclaration =
+export type StaticJsAstArrowFunctionArgumentDeclaration =
   | Identifier
   | Pattern
   | RestElement;
 
-export default class StaticJsAstFunction extends StaticJsFunctionImpl {
+export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
   constructor(
     realm: StaticJsRealm,
-    name: string | null,
-    private readonly _argumentDeclarations: StaticJsAstFunctionArgumentDeclaration[],
+    private readonly _argumentDeclarations: StaticJsAstArrowFunctionArgumentDeclaration[],
     private readonly _context: EvaluationContext,
     private readonly _body: BlockStatement | Expression,
     private readonly _bound?: StaticJsValue,
   ) {
-    super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args));
+    // FIXME: What is the name?
+    super(realm, "<arrow>", (thisArg, ...args) => this._invoke(thisArg, args));
+
+    this.defineProperty("prototype", {
+      value: realm.types.createObject({
+        constructor: {
+          value: this,
+          writable: true,
+          enumerable: false,
+          configurable: true,
+        },
+      }),
+      writable: true,
+      enumerable: false,
+      configurable: false,
+    });
+  }
+
+  construct(): EvaluationGenerator<StaticJsObject> {
+    // FIXME: Use real error.
+    throw new Error("Arrow functions cannot be constructed");
   }
 
   private *_invoke(
@@ -80,6 +100,11 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
       case "return":
       case "throw":
         return evaluationCompletion;
+      // FIXME: Functions probably shouldn't be required to return ReturnCompletions?  Should they return NormalCompletions?.
+      case "normal":
+        return ReturnCompletion(
+          evaluationCompletion.value ?? this.realm.types.undefined,
+        );
     }
 
     return NormalCompletion(null);

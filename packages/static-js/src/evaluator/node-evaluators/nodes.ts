@@ -38,6 +38,7 @@ import whileStatementNodeEvaluator from "./WhileStatement.js";
 import doWhileStatementNodeEvaluator from "./DoWhileStatement.js";
 import newExpressionNodeEvaluator from "./NewExpression.js";
 import thisExpressionNodeEvaluator from "./ThisExpression.js";
+import arrowFunctionExpressionNodeEvaluator from "./ArrowFunctionExpression.js";
 
 type NodeEvaluators = {
   [key in Node["type"]]?: NodeEvaluator<key>;
@@ -45,6 +46,7 @@ type NodeEvaluators = {
 
 const nodeEvaluators: NodeEvaluators = {
   ArrayExpression: arrayExpressionNodeEvaluator,
+  ArrowFunctionExpression: arrowFunctionExpressionNodeEvaluator,
   AssignmentExpression: assignmentExpressionNodeEvaluator,
   BinaryExpression: binaryExpressionNodeEvaluator,
   BlockStatement: blockStatementNodeEvaluator,
