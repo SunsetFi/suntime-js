@@ -191,3 +191,5 @@ function evaluateCancellableProgram(
   - Readme examples for how to use that to implement timesharing and timeouts.
 - Reveal information about the current line and character number the generator is at.
   - Also reveal scopes and variables.
+- Investigate debugger for monaco
+  [Example implementation?](https://github.com/polylith/monaco-debugger)
