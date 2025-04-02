@@ -30,6 +30,7 @@ No idea. I haven't had this security tested or reviewed. While this approach giv
   - array
   - function
   - Boxed versions of string / number / boolean
+- Constructors
 - Prototypes and factories for the intrinsic types
 - (Most?) Unary and Binary operators
 - for / while / do
@@ -43,7 +44,6 @@ No idea. I haven't had this security tested or reviewed. While this approach giv
 - Symbols
 - Iterators and Generators
 - Classes
-- Constructors
 - Error intrinsics
 - Date
 - Regex
