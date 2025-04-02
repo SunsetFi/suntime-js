@@ -2,6 +2,7 @@ import { StaticJsPrimitive } from "./StaticJsPrimitive.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsBoolean extends StaticJsPrimitive {
+  readonly runtimeTypeOf: "boolean";
   value: boolean;
   negate(): StaticJsBoolean;
 }

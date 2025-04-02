@@ -2,20 +2,20 @@ import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
 import StaticJsObjectImpl from "./StaticJsObjectImpl.js";
 
-export default class StaticJsStringBoxed extends StaticJsObjectImpl {
+export default class StaticJsNumberBoxed extends StaticJsObjectImpl {
   constructor(
     realm: StaticJsRealm,
-    private readonly _value: string,
+    private readonly _value: number,
   ) {
-    super(realm, realm.types.stringProto);
+    super(realm, realm.types.numberProto);
   }
 
   toString(): string {
-    return this._value;
+    return String(this._value);
   }
 
   toNumber(): number {
-    return Number(this._value);
+    return this._value;
   }
 
   toBoolean(): boolean {

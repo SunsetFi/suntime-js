@@ -12,7 +12,7 @@ import StaticJsTypeFactory from "../interfaces/StaticJsTypeFactory.js";
 import { isStaticJsValue, StaticJsValue } from "../interfaces/StaticJsValue.js";
 import { StaticJsBoolean } from "../interfaces/StaticJsBoolean.js";
 import { StaticJsUndefined } from "../interfaces/StaticJsUndefined.js";
-import { StaticJsNull } from "../interfaces/StaticJsNull.js";
+import { isStaticJsNull, StaticJsNull } from "../interfaces/StaticJsNull.js";
 import { StaticJsNumber } from "../interfaces/StaticJsNumber.js";
 import { StaticJsString } from "../interfaces/StaticJsString.js";
 
@@ -25,16 +25,27 @@ import StaticJsStringImpl from "./StaticJsStringImpl.js";
 import StaticJsUndefinedImpl from "./StaticJsUndefinedImpl.js";
 import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
 import StaticJsExternalObject from "./StaticJsExternalObject.js";
-import StaticJsStringBoxed from "./StaticJsStringBoxed.js";
 
 export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
+  private _zero: StaticJsNumber;
+  private _NaN: StaticJsNumber;
+  private _Infinity: StaticJsNumber;
+
   constructor(
     private readonly _realm: StaticJsRealm,
     private readonly _prototypes: Prototypes,
-  ) {}
+  ) {
+    this._zero = new StaticJsNumberImpl(_realm, 0);
+    this._NaN = new StaticJsNumberImpl(_realm, NaN);
+    this._Infinity = new StaticJsNumberImpl(_realm, Infinity);
+  }
 
   get stringProto(): StaticJsObject {
     return this._prototypes.stringProto;
+  }
+
+  get numberProto(): StaticJsObject {
+    return this._prototypes.numberProto;
   }
 
   get objectProto(): StaticJsObject {
@@ -66,25 +77,28 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   get zero(): StaticJsNumber {
-    return StaticJsNumberImpl.zero;
+    return this._zero;
   }
 
   get NaN(): StaticJsNumber {
-    return StaticJsNumberImpl.NaN;
+    return this._NaN;
   }
 
   get Infinity(): StaticJsNumber {
-    return StaticJsNumberImpl.Infinity;
+    return this._Infinity;
   }
 
   createObject(
     properties?: Record<string, StaticJsObjectPropertyDescriptor>,
-    prototype?: StaticJsObject | null,
+    prototype?: StaticJsObject | StaticJsNull | null,
   ): StaticJsObject {
     if (prototype === undefined) {
       prototype = this.objectProto;
     }
-    const obj = new StaticJsObjectImpl(this._realm, prototype);
+    const obj = new StaticJsObjectImpl(
+      this._realm,
+      isStaticJsNull(prototype) ? null : prototype,
+    );
 
     if (properties) {
       for (const [key, value] of Object.entries(properties)) {
@@ -97,31 +111,6 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   createArray(items?: StaticJsValue[]): StaticJsArray {
     return new StaticJsArrayImpl(this._realm, items);
-  }
-
-  box(
-    value:
-      | StaticJsString
-      | StaticJsNumber
-      | StaticJsBoolean
-      | string
-      | number
-      | boolean,
-  ): StaticJsObject {
-    if (isStaticJsValue(value)) {
-      if (["string", "number", "boolean"].includes(value.runtimeTypeOf)) {
-        value = value.toJs() as string | number | boolean;
-      } else {
-        throw new Error(`Cannot box ${value}.`);
-      }
-    }
-
-    switch (typeof value) {
-      case "string":
-        return new StaticJsStringBoxed(this._realm, value);
-    }
-
-    throw new Error(`Cannot box ${value}: Unknown type.`);
   }
 
   toStaticJsValue(value: boolean): StaticJsBoolean;
@@ -172,11 +161,11 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   number(value: number): StaticJsNumber {
-    return new StaticJsNumberImpl(value);
+    return new StaticJsNumberImpl(this._realm, value);
   }
 
   string(value: string): StaticJsString {
-    return new StaticJsStringImpl(value);
+    return new StaticJsStringImpl(this._realm, value);
   }
 
   private _toStaticJsValueArray(value: unknown[]): StaticJsArray {

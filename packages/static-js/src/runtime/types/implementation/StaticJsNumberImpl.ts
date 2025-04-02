@@ -1,22 +1,32 @@
-import type { StaticJsNumber } from "../interfaces/index.js";
+import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
-export default class StaticJsNumberImpl implements StaticJsNumber {
+import { StaticJsNumber } from "../interfaces/StaticJsNumber.js";
+import { StaticJsObject } from "../interfaces/StaticJsObject.js";
+
+import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
+import StaticJsNumberBoxed from "./StaticJsNumberBoxed.js";
+
+export default class StaticJsNumberImpl
+  extends StaticJsAbstractPrimitive
+  implements StaticJsNumber
+{
   private readonly _value: number;
 
-  public static readonly zero = new StaticJsNumberImpl(0);
-  public static readonly Infinity = new StaticJsNumberImpl(Infinity);
-  public static readonly NaN = new StaticJsNumberImpl(NaN);
-
-  constructor(value: number) {
+  constructor(realm: StaticJsRealm, value: number) {
+    super(realm);
     this._value = value;
+  }
+
+  get runtimeTypeOf() {
+    return "number" as const;
   }
 
   get typeOf() {
     return "number" as const;
   }
 
-  get runtimeTypeOf() {
-    return "number";
+  get value() {
+    return this._value;
   }
 
   toJs() {
@@ -35,7 +45,7 @@ export default class StaticJsNumberImpl implements StaticJsNumber {
     return Boolean(this._value);
   }
 
-  get value() {
-    return this._value;
+  toObject(): StaticJsObject {
+    return new StaticJsNumberBoxed(this.realm, this._value);
   }
 }

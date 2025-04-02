@@ -7,7 +7,6 @@ import StaticJsObjectImpl from "../implementation/StaticJsObjectImpl.js";
 export function populateArrayPrototype(
   _realm: StaticJsRealm,
   arrayProto: StaticJsObject,
-  _objectProto: StaticJsObject,
 ) {
   return arrayProto;
 }

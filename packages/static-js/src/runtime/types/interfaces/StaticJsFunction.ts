@@ -7,6 +7,7 @@ import { StaticJsObject } from "./StaticJsObject.js";
 import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsFunction extends StaticJsObject {
+  readonly runtimeTypeOf: "function";
   call(
     thisArg: StaticJsValue,
     ...args: StaticJsValue[]

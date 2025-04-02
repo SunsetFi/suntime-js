@@ -19,6 +19,21 @@ export function populateStringPrototype(
     },
   });
 
+  proto.defineProperty("toString", {
+    configurable: true,
+    enumerable: false,
+    writable: true,
+    value: new StaticJsFunctionImpl(
+      realm,
+      "toString",
+      function* (thisArg: StaticJsValue) {
+        return ReturnCompletion(realm.types.string(thisArg.toString()));
+      },
+      undefined,
+      functionProto,
+    ),
+  });
+
   proto.defineProperty("concat", {
     configurable: true,
     enumerable: false,
@@ -443,4 +458,35 @@ export function populateStringPrototype(
       functionProto,
     ),
   });
+}
+
+export function createStringConstructor(
+  realm: StaticJsRealm,
+  stringProto: StaticJsObject,
+  functionProto: StaticJsObject,
+) {
+  // FIXME: This is the casting function, but if it's invoked with 'new', we should
+  // return the boxed version.
+  const stringConstructor = new StaticJsFunctionImpl(
+    realm,
+    "String",
+    function* (_thisArg: StaticJsValue, value?: StaticJsValue) {
+      if (value === undefined) {
+        return ReturnCompletion(realm.types.string(""));
+      }
+
+      return ReturnCompletion(realm.types.string(value.toString()));
+    },
+    undefined,
+    functionProto,
+  );
+
+  stringConstructor.defineProperty("prototype", {
+    configurable: false,
+    enumerable: false,
+    writable: false,
+    value: stringProto,
+  });
+
+  return stringConstructor;
 }

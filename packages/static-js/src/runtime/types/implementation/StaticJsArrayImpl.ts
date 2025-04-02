@@ -40,7 +40,7 @@ export default class StaticJsArrayImpl
   }
 
   get runtimeTypeOf() {
-    return "array";
+    return "array" as const;
   }
 
   *getLengthEvaluator(): EvaluationGenerator<number> {
@@ -174,7 +174,7 @@ export default class StaticJsArrayImpl
     const currentLength = yield* this.getLengthEvaluator();
 
     yield* this.definePropertyEvaluator("length", {
-      value: new StaticJsNumberImpl(length),
+      value: new StaticJsNumberImpl(this.realm, length),
       writable: true,
       enumerable: false,
       configurable: false,

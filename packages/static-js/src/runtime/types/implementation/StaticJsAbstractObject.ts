@@ -4,9 +4,11 @@ import { EvaluationGenerator } from "../../../evaluator/internal.js";
 import { StaticJsRealm } from "../../realm/index.js";
 
 import {
+  isStaticJsNull,
   isStaticJsObjectPropertyDescriptorGetter,
   isStaticJsObjectPropertyDescriptorValue,
   isStaticJsValue,
+  StaticJsNull,
   StaticJsObject,
   StaticJsObjectPropertyDescriptor,
   StaticJsValue,
@@ -19,22 +21,28 @@ export default abstract class StaticJsAbstractObject
   extends StaticJsAbstractPrimitive
   implements StaticJsObject
 {
+  private _prototype: StaticJsObject | null = null;
   private _extensible: boolean = true;
 
   constructor(
     realm: StaticJsRealm,
-    private _prototype: StaticJsObject | null,
-    private readonly _runtimeTypeSymbol: string,
+    prototype: StaticJsObject | StaticJsNull | null,
+    private readonly _runtimeTypeOf: StaticJsObject["runtimeTypeOf"],
   ) {
     super(realm);
+    if (isStaticJsNull(prototype)) {
+      this._prototype = null;
+    } else {
+      this._prototype = prototype;
+    }
   }
 
   get typeOf(): string {
     return "object" as const;
   }
 
-  get runtimeTypeOf(): string {
-    return this._runtimeTypeSymbol;
+  get runtimeTypeOf(): StaticJsObject["runtimeTypeOf"] {
+    return this._runtimeTypeOf;
   }
 
   get prototype(): StaticJsObject | null {
@@ -305,6 +313,10 @@ export default abstract class StaticJsAbstractObject
 
   toBoolean(): boolean {
     return true;
+  }
+
+  toObject(): StaticJsObject {
+    return this;
   }
 
   protected abstract _setWritableDataPropertyEvaluator(

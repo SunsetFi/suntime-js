@@ -10,17 +10,42 @@ import {
   StaticJsObject,
   isStaticJsObjectLike,
 } from "../interfaces/StaticJsObject.js";
+import { isStaticJsNull } from "../interfaces/StaticJsNull.js";
 
-import StaticJsStringImpl from "../implementation/StaticJsStringImpl.js";
 import StaticJsObjectImpl from "../implementation/StaticJsObjectImpl.js";
 import StaticJsFunctionImpl from "../implementation/StaticJsFunctionImpl.js";
 import StaticJsBooleanImpl from "../implementation/StaticJsBooleanImpl.js";
+import { isStaticJsUndefined } from "../interfaces/StaticJsUndefined.js";
 
 export function populateObjectPrototype(
   realm: StaticJsRealm,
   objectProto: StaticJsObject,
   functionProto: StaticJsObject,
 ) {
+  objectProto.defineProperty("toString", {
+    configurable: true,
+    enumerable: false,
+    writable: true,
+    value: new StaticJsFunctionImpl(
+      realm,
+      "toString",
+      function* (thisArg: StaticJsValue) {
+        if (isStaticJsNull(thisArg)) {
+          return ReturnCompletion(realm.types.string("[object Null]"));
+        }
+
+        if (isStaticJsUndefined(thisArg)) {
+          return ReturnCompletion(realm.types.string("[object Undefined]"));
+        }
+
+        return ReturnCompletion(
+          realm.types.string(`[object ${thisArg.runtimeTypeOf}]`),
+        );
+      },
+      undefined,
+      functionProto,
+    ),
+  });
   objectProto.defineProperty("hasOwnProperty", {
     configurable: true,
     enumerable: false,
@@ -70,14 +95,18 @@ export function createObjectConstructor(
     value: new StaticJsFunctionImpl(
       realm,
       "keys",
-      function* (_thisArg: StaticJsValue, obj: StaticJsValue) {
-        if (!isStaticJsObjectLike(obj)) {
+      function* (_thisArg: StaticJsValue, value?: StaticJsValue) {
+        if (!value) {
           // FIXME: throw real error.
-          throw new TypeError("Object.keys called on non-object");
+          // FIXME: What is the real wording for this?
+          throw new TypeError("Object.keys requires one argument.");
         }
+
+        const obj = value.toObject();
+
         const ownKeys = yield* obj.getOwnKeysEvaluator();
         const result = realm.types.createArray(
-          ownKeys.map((value) => new StaticJsStringImpl(value)),
+          ownKeys.map((value) => realm.types.string(value)),
         );
         return ReturnCompletion(result);
       },
@@ -92,17 +121,22 @@ export function createObjectConstructor(
     value: new StaticJsFunctionImpl(
       realm,
       "values",
-      function* (_thisArg: StaticJsValue, obj: StaticJsValue) {
-        if (!isStaticJsObjectLike(obj)) {
+      function* (_thisArg: StaticJsValue, value?: StaticJsValue) {
+        if (!value) {
           // FIXME: throw real error.
-          throw new TypeError("Object.values called on non-object");
+          // FIXME: What is the real wording for this?
+          throw new TypeError("Object.values requires one argument.");
         }
 
+        const obj = value.toObject();
+
         const ownKeys = yield* obj.getOwnKeysEvaluator();
+
         const values = new Array<StaticJsValue>(ownKeys.length);
         for (let i = 0; i < ownKeys.length; i++) {
           values[i] = yield* obj.getPropertyEvaluator(ownKeys[i]);
         }
+
         return ReturnCompletion(realm.types.createArray(values));
       },
       undefined,
@@ -116,19 +150,24 @@ export function createObjectConstructor(
     value: new StaticJsFunctionImpl(
       realm,
       "entries",
-      function* (_thisArg: StaticJsValue, obj: StaticJsValue) {
-        if (!isStaticJsObjectLike(obj)) {
+      function* (_thisArg: StaticJsValue, value?: StaticJsValue) {
+        if (!value) {
           // FIXME: throw real error.
-          throw new TypeError("Object.entries called on non-object");
+          // FIXME: What is the real wording for this?
+          throw new TypeError("Object.entries requires one argument.");
         }
 
+        const obj = value.toObject();
+
         const ownKeys = yield* obj.getOwnKeysEvaluator();
+
         const entries = new Array<StaticJsValue>(ownKeys.length);
         for (let i = 0; i < ownKeys.length; i++) {
-          const key = new StaticJsStringImpl(ownKeys[i]);
+          const key = realm.types.string(ownKeys[i]);
           const value = yield* obj.getPropertyEvaluator(ownKeys[i]);
           entries[i] = realm.types.createArray([key, value]);
         }
+
         return ReturnCompletion(realm.types.createArray(entries));
       },
       undefined,
@@ -144,13 +183,16 @@ export function createObjectConstructor(
       "hasOwn",
       function* (
         _thisArg: StaticJsValue,
-        obj: StaticJsValue,
-        property: StaticJsValue,
+        value?: StaticJsValue,
+        property?: StaticJsValue,
       ) {
-        if (!isStaticJsObjectLike(obj)) {
+        if (!value || !property) {
           // FIXME: throw real error.
-          throw new TypeError("Object.hasOwn called on non-object");
+          // FIXME: What is the real wording for this?
+          throw new TypeError("Object.hasOwn requires two arguments.");
         }
+
+        const obj = value.toObject();
 
         if (property.runtimeTypeOf !== "string") {
           return ReturnCompletion(new StaticJsBooleanImpl(false));
@@ -172,13 +214,21 @@ export function createObjectConstructor(
     value: new StaticJsFunctionImpl(
       realm,
       "create",
-      function* (_thisArg: StaticJsValue, proto: StaticJsValue) {
-        if (!isStaticJsObjectLike(proto)) {
+      function* (
+        _thisArg: StaticJsValue,
+        proto: StaticJsValue = realm.types.undefined,
+      ) {
+        if (!isStaticJsNull(proto) && !isStaticJsObjectLike(proto)) {
           // FIXME: throw real error.
-          throw new TypeError("Object.create called on non-object");
+          throw new TypeError("Object prototype may only be an Object or null");
         }
 
-        return ReturnCompletion(realm.types.createObject(undefined, proto));
+        return ReturnCompletion(
+          realm.types.createObject(
+            undefined,
+            proto.runtimeTypeOf === "null" ? null : proto,
+          ),
+        );
       },
       undefined,
       functionPrototype,
@@ -191,13 +241,21 @@ export function createObjectConstructor(
     value: new StaticJsFunctionImpl(
       realm,
       "freeze",
-      function* (_thisArg: StaticJsValue, obj: StaticJsValue) {
-        if (!isStaticJsObjectLike(obj)) {
-          // FIXME: throw real error.
-          throw new TypeError("Object.freeze called on non-object");
+      function* (
+        _thisArg: StaticJsValue,
+        value: StaticJsValue = realm.types.undefined,
+      ) {
+        // Weirdly, this one returns just fine with weird values.
+        // It even returns them.
+        if (isStaticJsNull(value) || isStaticJsUndefined(value)) {
+          return ReturnCompletion(value);
         }
 
+        const obj = value.toObject();
+
         yield* obj.preventExtensionEvaluator();
+
+        // FIXME: I think the spec expects us to unbox this before returning it.
         return ReturnCompletion(obj);
       },
       undefined,
@@ -207,15 +265,16 @@ export function createObjectConstructor(
     enumerable: false,
     configurable: true,
   });
+
   ctor.defineProperty("getPrototypeOf", {
     value: new StaticJsFunctionImpl(
       realm,
       "getPrototypeOf",
-      function* (_thisArg: StaticJsValue, obj: StaticJsValue) {
-        if (!isStaticJsObjectLike(obj)) {
-          // FIXME: throw real error.
-          throw new TypeError("Object.setPrototypeOf called on non-object");
-        }
+      function* (
+        _thisArg: StaticJsValue,
+        value: StaticJsValue = realm.types.undefined,
+      ) {
+        const obj = value.toObject();
 
         const proto = obj.prototype;
         if (proto == null) {
@@ -237,12 +296,14 @@ export function createObjectConstructor(
       "freeze",
       function* (
         _thisArg: StaticJsValue,
-        obj: StaticJsValue,
-        proto: StaticJsValue,
+        value: StaticJsValue = realm.types.undefined,
+        proto: StaticJsValue = realm.types.undefined,
       ) {
-        if (!isStaticJsObjectLike(obj)) {
+        const obj = value.toObject();
+
+        if (!isStaticJsObjectLike(value) && !isStaticJsNull(value)) {
           // FIXME: throw real error.
-          throw new TypeError("Object.setPrototypeOf called on non-object");
+          throw new TypeError("Object prototype may only be an Object or null");
         }
 
         // FIXME: This is weird.  We should make setPrototypeOf accept StaticJsNull
@@ -261,9 +322,10 @@ export function createObjectConstructor(
         if (!obj.extensible) {
           // FIXME: throw real error.
           return ThrowCompletion(
-            new StaticJsStringImpl("Object is not extensible"),
+            realm.types.string("Object is not extensible"),
           );
         }
+
         yield* obj.setPrototypeOfEvaluator(resolvedProto);
 
         return ReturnCompletion(obj);

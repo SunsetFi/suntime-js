@@ -1,4 +1,5 @@
-import { StaticJsUndefined } from "../interfaces/index.js";
+import { StaticJsUndefined } from "../interfaces/StaticJsUndefined.js";
+import { StaticJsObject } from "../interfaces/StaticJsObject.js";
 
 export default class StaticJsUndefinedImpl implements StaticJsUndefined {
   static readonly Instance = new StaticJsUndefinedImpl();
@@ -8,7 +9,7 @@ export default class StaticJsUndefinedImpl implements StaticJsUndefined {
   }
 
   get runtimeTypeOf() {
-    return "undefined";
+    return "undefined" as const;
   }
 
   toJs() {
@@ -25,5 +26,10 @@ export default class StaticJsUndefinedImpl implements StaticJsUndefined {
 
   toBoolean(): boolean {
     return false;
+  }
+
+  toObject(): StaticJsObject {
+    // TODO: Throw real error
+    throw new Error("TypeError: Cannot convert undefined to object");
   }
 }

@@ -10,6 +10,29 @@ describe("E2E: Strings", () => {
     expect(evaluateString(code)).toBe("ab");
   });
 
+  describe("Casting", () => {
+    it("Supports casting a number to string", () => {
+      const code = `
+        String(1);
+      `;
+      expect(evaluateString(code)).toBe("1");
+    });
+
+    it("Supports casting a boolean to string", () => {
+      const code = `
+        String(true);
+      `;
+      expect(evaluateString(code)).toBe("true");
+    });
+
+    it("Supports casting a string to string", () => {
+      const code = `
+        String("abc");
+      `;
+      expect(evaluateString(code)).toBe("abc");
+    });
+  });
+
   describe("Boxing", () => {
     it("Supports length", () => {
       const code = `

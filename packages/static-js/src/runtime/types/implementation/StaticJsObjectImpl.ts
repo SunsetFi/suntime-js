@@ -6,6 +6,7 @@ import {
   StaticJsValue,
   StaticJsObjectPropertyDescriptor,
   StaticJsObject,
+  StaticJsNull,
 } from "../interfaces/index.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
@@ -18,10 +19,10 @@ export default class StaticJsObjectImpl extends StaticJsAbstractObject {
 
   constructor(
     realm: StaticJsRealm,
-    prototype: StaticJsObject | null = null,
-    type: string = "object",
+    prototype: StaticJsObject | StaticJsNull | null = null,
+    runtimeTypeOf: StaticJsObject["runtimeTypeOf"] = "object",
   ) {
-    super(realm, prototype, type);
+    super(realm, prototype, runtimeTypeOf);
   }
 
   *getOwnKeysEvaluator(): EvaluationGenerator<string[]> {

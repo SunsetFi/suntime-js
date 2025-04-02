@@ -1,4 +1,4 @@
-import { StaticJsNull } from "../interfaces/index.js";
+import { StaticJsNull, StaticJsObject } from "../interfaces/index.js";
 
 export default class StaticJsNullImpl implements StaticJsNull {
   static readonly Instance = new StaticJsNullImpl();
@@ -9,7 +9,7 @@ export default class StaticJsNullImpl implements StaticJsNull {
   }
 
   get runtimeTypeOf() {
-    return "null";
+    return "null" as const;
   }
 
   toJs() {
@@ -26,5 +26,10 @@ export default class StaticJsNullImpl implements StaticJsNull {
 
   toBoolean(): boolean {
     return false;
+  }
+
+  toObject(): StaticJsObject {
+    // TODO: Throw real error
+    throw new Error("TypeError: Cannot convert undefined to object");
   }
 }

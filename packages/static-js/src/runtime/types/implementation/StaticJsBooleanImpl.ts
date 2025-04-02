@@ -1,4 +1,4 @@
-import { StaticJsBoolean } from "../interfaces/index.js";
+import { StaticJsBoolean, StaticJsObject } from "../interfaces/index.js";
 
 export default class StaticJsBooleanImpl implements StaticJsBoolean {
   private readonly _value: boolean;
@@ -11,7 +11,7 @@ export default class StaticJsBooleanImpl implements StaticJsBoolean {
   }
 
   get runtimeTypeOf() {
-    return "boolean";
+    return "boolean" as const;
   }
 
   get typeOf() {
@@ -44,5 +44,9 @@ export default class StaticJsBooleanImpl implements StaticJsBoolean {
     }
 
     return StaticJsBooleanImpl.true;
+  }
+
+  toObject(): StaticJsObject {
+    throw new Error("Not implemented");
   }
 }

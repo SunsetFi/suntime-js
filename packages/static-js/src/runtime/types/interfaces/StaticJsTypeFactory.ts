@@ -13,7 +13,7 @@ import { StaticJsUndefined } from "./StaticJsUndefined.js";
 
 export default interface StaticJsTypeFactory {
   readonly stringProto: StaticJsObject;
-
+  readonly numberProto: StaticJsObject;
   readonly objectProto: StaticJsObject;
   readonly arrayProto: StaticJsObject;
   readonly functionProto: StaticJsObject;
@@ -34,20 +34,10 @@ export default interface StaticJsTypeFactory {
 
   createObject(
     properties?: Record<string, StaticJsObjectPropertyDescriptor>,
-    prototype?: StaticJsObject | null,
+    prototype?: StaticJsObject | StaticJsNull | null,
   ): StaticJsObject;
 
   createArray(items?: StaticJsValue[]): StaticJsArray;
-
-  box(
-    value:
-      | StaticJsString
-      | StaticJsNumber
-      | StaticJsBoolean
-      | string
-      | number
-      | boolean,
-  ): StaticJsObject;
 
   toStaticJsValue(value: boolean): StaticJsBoolean;
   toStaticJsValue(value: number): StaticJsNumber;

@@ -7,6 +7,8 @@ import { StaticJsPrimitive } from "./StaticJsPrimitive.js";
 import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsObject extends StaticJsPrimitive {
+  readonly runtimeTypeOf: "object" | "function" | "array";
+
   get prototype(): StaticJsObject | null;
 
   get extensible(): boolean;

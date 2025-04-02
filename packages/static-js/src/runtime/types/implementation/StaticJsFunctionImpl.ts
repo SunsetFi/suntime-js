@@ -39,13 +39,13 @@ export default class StaticJsFunctionImpl
     // FIXME: Suspicious use of non-eval defineProperty during construction.
     // Invokes runEvaluatorUntilCompletion
     this.defineProperty("name", {
-      value: new StaticJsStringImpl(name ?? ""),
+      value: new StaticJsStringImpl(realm, name ?? ""),
       writable: false,
       enumerable: false,
       configurable: true,
     });
     this.defineProperty("length", {
-      value: new StaticJsNumberImpl(length ?? _call.length - 1),
+      value: new StaticJsNumberImpl(this.realm, length ?? _call.length - 1),
       writable: false,
       enumerable: false,
       configurable: true,
@@ -57,7 +57,7 @@ export default class StaticJsFunctionImpl
   }
 
   get runtimeTypeOf() {
-    return "function";
+    return "function" as const;
   }
 
   toJs(): unknown {

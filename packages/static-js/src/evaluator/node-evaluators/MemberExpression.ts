@@ -1,39 +1,41 @@
 import { MemberExpression } from "@babel/types";
 
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
-import { isStaticJsObjectLike } from "../../runtime/types/interfaces/StaticJsObject.js";
-import { isStaticJsString } from "../../runtime/types/interfaces/StaticJsString.js";
+import { isStaticJsNull } from "../../runtime/types/interfaces/StaticJsNull.js";
+import { isStaticJsUndefined } from "../../runtime/types/interfaces/StaticJsUndefined.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
 import { NormalCompletion } from "../completions/index.js";
-import { isStaticJsBoolean, isStaticJsNumber } from "../../runtime/index.js";
+
+import nameNode from "./name-node.js";
 
 export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  let target = yield* EvaluateNodeAssertValueCommand(node.object, context);
-  if (
-    isStaticJsString(target) ||
-    isStaticJsNumber(target) ||
-    isStaticJsBoolean(target)
-  ) {
-    target = context.realm.types.box(target);
-  }
-
-  if (!isStaticJsObjectLike(target)) {
-    let postfix: string = "";
-    if (node.object.type === "Identifier") {
-      postfix = ` (Accessing ${node.object.name})`;
-    }
-    throw new Error(`Cannot access property of non-object value` + postfix);
-  }
-
   const propertyNode = node.property;
-  let propertyName: string;
+  let target = yield* EvaluateNodeAssertValueCommand(node.object, context);
 
+  if (isStaticJsNull(target)) {
+    // FIXME: throw real error
+    throw new TypeError(
+      `Cannot read properties of null (reading '${nameNode(propertyNode)}')`,
+    );
+  }
+
+  if (isStaticJsUndefined(target)) {
+    // FIXME: throw real error
+    throw new TypeError(
+      `Cannot read properties of undefined (reading '${nameNode(propertyNode)}')`,
+    );
+  }
+
+  // Perform boxing if needed.
+  target = target.toObject();
+
+  let propertyName: string;
   if (propertyNode.type === "PrivateName") {
     // TODO: Support private fields
     // We just need to know if the target is a 'this' and we are inside the class.

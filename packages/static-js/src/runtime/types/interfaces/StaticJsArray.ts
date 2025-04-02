@@ -3,6 +3,8 @@ import { StaticJsObject } from "./StaticJsObject.js";
 import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsArray extends StaticJsObject {
+  readonly runtimeTypeOf: "array";
+
   getLengthEvaluator(): EvaluationGenerator<number>;
   getEvaluator(index: number): EvaluationGenerator<StaticJsValue>;
   setEvaluator(index: number, value: StaticJsValue): EvaluationGenerator<void>;

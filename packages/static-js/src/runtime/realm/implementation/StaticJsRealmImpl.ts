@@ -155,6 +155,20 @@ export default class StaticJsRealmImpl {
       });
     }
 
+    globalObject.defineProperty("String", {
+      value: constructors.stringCtor,
+      writable: true,
+      enumerable: false,
+      configurable: true,
+    });
+
+    globalObject.defineProperty("Number", {
+      value: constructors.numberCtor,
+      writable: true,
+      enumerable: false,
+      configurable: true,
+    });
+
     globalObject.defineProperty("Object", {
       value: constructors.objectCtor,
       writable: true,

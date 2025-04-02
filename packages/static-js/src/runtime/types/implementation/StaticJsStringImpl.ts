@@ -1,9 +1,19 @@
-import { StaticJsString } from "../interfaces/index.js";
+import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
-export default class StaticJsStringImpl implements StaticJsString {
+import { StaticJsObject } from "../interfaces/StaticJsObject.js";
+import { StaticJsString } from "../interfaces/StaticJsString.js";
+
+import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
+import StaticJsStringBoxed from "./StaticJsStringBoxed.js";
+
+export default class StaticJsStringImpl
+  extends StaticJsAbstractPrimitive
+  implements StaticJsString
+{
   private readonly _value: string;
 
-  constructor(value: string) {
+  constructor(realm: StaticJsRealm, value: string) {
+    super(realm);
     this._value = value;
   }
 
@@ -12,7 +22,7 @@ export default class StaticJsStringImpl implements StaticJsString {
   }
 
   get runtimeTypeOf() {
-    return "string";
+    return "string" as const;
   }
 
   get value() {
@@ -33,5 +43,9 @@ export default class StaticJsStringImpl implements StaticJsString {
 
   toBoolean(): boolean {
     return Boolean(this._value);
+  }
+
+  toObject(): StaticJsObject {
+    return new StaticJsStringBoxed(this.realm, this._value);
   }
 }
