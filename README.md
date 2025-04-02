@@ -171,7 +171,7 @@ function evaluateCancellableProgram(
 
 ## TODO:
 
-- Testing with https://github.com/tc39/test262/blob/main/INTERPRETING.md
+- **Testing with https://github.com/tc39/test262**
 - Switch to sub-imports for lodash-es for tree-shaking
   Not sure why this isnt working. Identical tsconfig and setup to other projects where this works fine.
   Stupid pnpm typescript resolution jank.
@@ -185,9 +185,9 @@ function evaluateCancellableProgram(
 - Get more strict with public api
   - Replace index.ts with public.ts
   - Never import from public.ts except for other public.ts to stop circular refs.
-- Allow controlled generator gating of spontanious runs (toJs proxies and such).
+- Allow controlled generator oversight of spontanious runs (toJs proxies and such).
   - Replace runEvaluatorUntilCompletion with a direct link to the realm
-  - Allow StaticJsRealm to take a function for gating and controlling the evaluation loop.
+  - Allow StaticJsRealm to take a function for controlling the evaluation loop.
   - Readme examples for how to use that to implement timesharing and timeouts.
 - Reveal information about the current line and character number the generator is at.
   - Also reveal scopes and variables.
