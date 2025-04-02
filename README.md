@@ -2,15 +2,15 @@
 
 A javascript interpreter built on the TC39 ECMAScript 2025 standard, supporting modern language features.
 
-A spiritual successor to [static-eval](https://www.npmjs.com/package/static-eval), made to avoid the security pitfalls of the former.
+A spiritual successor to [static-eval](https://www.npmjs.com/package/static-eval).
 
-## How is security provided?
+## Sandboxing and Security
 
-The main shortcomming of static-eval is its direct usage of javascript objects inside the engine. This ultimately allows the script to gain access to an object prototype, which allows access to a Function instance, which then allows arbitrary code execution.
+Unlike static-eval, this project has ambitions of providing a secure sandbox from which untrusted code can be safely ran.
 
-This project instead provides an entire sandboxed and isolated implementation of all primitives, including objects. The scripts inside the engine are never able to obtain raw references to objects from the underlying javascript engine, and can only ever perform controlled manipulations into the scripting engine's own object classes.
+The fundimental difference with static-eval is that static-js operates entirely against its own implementation of the intrinsic javascript types, complete with its own prototype chain. This seeks to ensure that the code being ran is never able to manipulate the system into accessing the native properties of the underlying native objects, which would allow it to eventually reach a function constructor and therefor gain arbitrary code execution.
 
-Because of this, interoping with the runtime is not as simple as in static-eval, as all inputs must be converted and wrapped for the static-js to access. However, this ensures a much more intentional exposure of your API surface to the scripting engine.
+Instead, while the code in the sandbox **will** have access to eval() and the function constructor, such functons instead run their code inside the sandbox, preserving the integrity of the host system.
 
 ### Is this actually secure?
 
@@ -18,7 +18,152 @@ No idea. I haven't had this security tested or reviewed. While this approach giv
 
 ## What is supported
 
-TODO
+- Some intrinsic types
+  - null
+  - undefined
+  - string
+  - number
+  - boolean
+  - object
+  - array
+  - function
+  - Boxed versions of string / number / boolean
+- Prototypes and factories for the intrinsic types
+- (Most?) Unary and Binary operators
+- for / while / do
+- try / catch / finally
+- Spread operators
+- Destructuring
+
+### Notable things not (yet) supported
+
+- Promises
+- Symbols
+- Iterators and Generators
+- Classes
+- Constructors
+- Error intrinsics
+- for-of
+- ES Modules (import and export statements)
+
+## Usage
+
+There are two ways to evaluate scripts, depending on your needs:
+
+### Direct Evaluation
+
+The API functions `evaluateProgram(string, realm?)` and `evaluateExpression(string, realm?)` will execute the script until completion, and return the runtime-native result.
+
+### Compiled usage
+
+If multiple runs are desired, or for more advanced use cases, the script can be 'compiled' (read: tokenized) with `compileProgram` or `compileExpression`. This returns a compilation unit with the following methods:
+
+#### evaluate(realm?)
+
+Evaluates the script and returns the result.
+
+#### generator(realm?)
+
+Returns an iterator that will perform one operation per invocation, until the script is completed.
+
+This is useful when you want to timeshare the evaluation or keep a way for the user to abort the script.
+
+## Type coersion between the native runtime and the script evaluation
+
+Some attempt has been made to create a transparent shim between the values returned by the evaluation and the native js runtime:
+
+- Functions returned by the script will be converted to the runtime native functions, which invoke the script function when executed.
+  Note: These will be ran-to-completion without using the original generator
+- Objects returned by the script will be converted to runtime native objects, with getters / setters that invoke the script code when called.
+  Note: These will be ran-to-completion without using the original generator.
+- Arrays are copied over to the native array type.
+  **Mutations to the returned array will not mutate the script array**
+- All primitive types are converted to their runtime native primitive.
+
+## Realms
+
+To define the global environment in which scripts are ran, you can create a realm using `StaticJsRealm(opts?)`.
+
+Available options:
+
+### globalThis
+
+Sets the global `this` arg for the realm.
+
+- `globalThis.value`: Sets the this arg to the given value. If the value is not a StaticJsValue, it will be converted to one.
+
+### globalObj
+
+Sets the global object or its properties for the realm.
+
+- `globalObj.value`: Sets the this arg to the given value. The value must be an object-like. If the value is not a StaticJsValue, it will be converted to one.
+- `globalObj: {properties?, extensible?}`: Specifies the properties of the global object, and whether or not it is extensible.
+  properties: A record matching string keys to ObjectPropertyDescriptors for each property.
+  **Note that `get` and `set` must be `EvaluationGenerator<StaticJsValue>` generator functions.**
+
+## Recipes
+
+### Creating a timesharing, time-bound, cancellable script invocation:
+
+Using generator mode, you can control the timings of when each AST node is evaluated. This can be used to both spread out the execution over time to allow other tasks to still operate, as well as to put guardrails on how long the script is executing.
+
+Here is an example of a function that will evaluate the script over time, limiting itself to 1000 AST nodes per stretch, and interspersing that with 10ms deferrals for other code in the environment to execute. It also throws in a cancellation function for good measure.
+
+```ts
+import { compileProgram, StaticJsRealm } from "static-js";
+
+function evaluateCancellableProgram(
+  code: string,
+  timeout: number,
+  realm?: StaticJsRealm
+): { promise: Promise<unknown>; cancel: () => void } {
+  const compiled = compileProgram(code);
+  const gen = compiled.generator(realm);
+
+  let nextInvocation: number | null = null;
+
+  const start = Date.now();
+  const promise = new Promise<unknown>((accept, reject) => {
+    function schedule() {
+      nextInvocation = setTimeout(process, 10);
+    }
+
+    function process() {
+      for (let i = 0; i < 1000; i++) {
+        try {
+          const { value, done } = gen.next();
+          if (done) {
+            accept(value);
+            return;
+          }
+        } catch (e: unknown) {
+          reject(e);
+          return;
+        }
+      }
+
+      if (Date.now() - start >= timeout) {
+        reject(new Error("Evaluation timed out."));
+        return;
+      }
+
+      schedule();
+    }
+
+    schedule();
+  });
+
+  function cancel() {
+    clearTimeout(nextInvocation);
+    nextInvocation = null;
+  }
+
+  return {
+    promise,
+    cancel,
+  };
+}
+```
 
 ## TODO:
 
@@ -31,15 +176,14 @@ TODO
 - Report code coverage in repo
   coveralls.io?
   [vitest-coverage-report-action](https://github.com/marketplace/actions/vitest-coverage-report)?
-- Investigate making StaticJsObject() objects into external objects that wrap their target so that
-  the runtime can set properties on it.
-  - Or maybe use a cached proxy in StaticJsEnvObject's toJs(), if that is faster?
-    This would cause a lot of redundancy with ExternalObject. Simpler is better?
-- Get api-extractor working. Currently, it hates the fact that we export factories and interfaces with the same names as merged, but the merger
-  happens down the line from their declarations.
-  - Re-think ban on exporting classes?
-  - Put factory and interface in the same class?
-    - This was avoided due to circular dependencies, but there is probably a way to do this safely.
+- Get api-extractor working. The only holdup right now is the combine and re-export of the interface and factory function of StaticJsRealm
+  - Combine these into one file to make this work?
 - Get more strict with public api
   - Replace index.ts with public.ts
   - Never import from public.ts except for other public.ts to stop circular refs.
+- Allow controlled generator gating of spontanious runs (toJs proxies and such).
+  - Replace runEvaluatorUntilCompletion with a direct link to the realm
+  - Allow StaticJsRealm to take a function for gating and controlling the evaluation loop.
+  - Readme examples for how to use that to implement timesharing and timeouts.
+- Reveal information about the current line and character number the generator is at.
+  - Also reveal scopes and variables.
