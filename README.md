@@ -4,13 +4,15 @@ A javascript interpreter built on the TC39 ECMAScript 2025 standard, supporting 
 
 A spiritual successor to [static-eval](https://www.npmjs.com/package/static-eval).
 
+Try it out in [the sandbox](https://sunsetfi.github.io/static-js)!
+
 ## Sandboxing and Security
 
 Unlike static-eval, this project has ambitions of providing a secure sandbox from which untrusted code can be safely ran.
 
 The fundimental difference with static-eval is that static-js operates entirely against its own implementation of the intrinsic javascript types, complete with its own prototype chain. This seeks to ensure that the code being ran is never able to manipulate the system into accessing the native properties of the underlying native objects, which would allow it to eventually reach a function constructor and therefor gain arbitrary code execution.
 
-Instead, while the code in the sandbox **will** have access to eval() and the function constructor, such functons instead run their code inside the sandbox, preserving the integrity of the host system.
+Instead, while the code in the sandbox **will** have access to eval() and the function constructor, those functions will instead run their code inside the sandbox, preserving the integrity of the host system.
 
 ### Is this actually secure?
 
@@ -43,6 +45,8 @@ No idea. I haven't had this security tested or reviewed. While this approach giv
 - Classes
 - Constructors
 - Error intrinsics
+- Date
+- Regex
 - for-of
 - ES Modules (import and export statements)
 
@@ -56,7 +60,7 @@ The API functions `evaluateProgram(string, realm?)` and `evaluateExpression(stri
 
 ### Compiled usage
 
-If multiple runs are desired, or for more advanced use cases, the script can be 'compiled' (read: tokenized) with `compileProgram` or `compileExpression`. This returns a compilation unit with the following methods:
+If multiple runs are desired, or for more advanced use cases, the script can be 'compiled' (parsed into AST) with `compileProgram` or `compileExpression`. This returns a compilation unit with the following methods:
 
 #### evaluate(realm?)
 
