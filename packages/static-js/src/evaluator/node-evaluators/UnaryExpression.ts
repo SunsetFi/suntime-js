@@ -6,7 +6,7 @@ import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
 import EvaluationContext from "../EvaluationContext.js";
-import { NormalCompletion } from "../completions/index.js";
+import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 export default function* unaryExpressionNodeEvaluator(
   node: UnaryExpression,
@@ -39,8 +39,7 @@ export default function* unaryExpressionNodeEvaluator(
     case "void":
       return NormalCompletion(types.undefined);
     case "throw":
-      // TODO: Wrap the error
-      throw new Error("Not implemented: throw");
+      return ThrowCompletion(value);
   }
 
   throw new Error(`Unknown unary operator: ${node.operator}.`);
@@ -59,7 +58,11 @@ function* deleteExpressionNodeEvaluator(
       context,
     );
     if (!isStaticJsObjectLike(object)) {
-      throw new Error("Cannot delete property of non-object.");
+      // FIXME: Use real error.
+      // FIXME: This might actualy be allowed... Delete is weird.
+      return ThrowCompletion(
+        context.realm.types.string("Cannot delete property of non-object."),
+      );
     }
 
     const property = argument.property;

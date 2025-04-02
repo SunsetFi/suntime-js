@@ -1,7 +1,9 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import {
   Completion,
+  ReturnCompletion,
   runEvaluatorUntilCompletion,
+  ThrowCompletion,
 } from "../../../evaluator/internal.js";
 
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
@@ -139,10 +141,7 @@ export default class StaticJsFunctionImpl
     return true;
   }
 
-  call(
-    thisArg: StaticJsValue,
-    ...args: StaticJsValue[]
-  ): EvaluationGenerator<Completion> {
+  call(thisArg: StaticJsValue, ...args: StaticJsValue[]): EvaluationGenerator {
     if (!isStaticJsValue(thisArg)) {
       throw new Error("thisArg must be a StaticJsValue instance.");
     }
@@ -155,18 +154,20 @@ export default class StaticJsFunctionImpl
     return callResult;
   }
 
-  *construct(...args: StaticJsValue[]): EvaluationGenerator<StaticJsObject> {
+  *construct(...args: StaticJsValue[]): EvaluationGenerator {
     const proto = yield* this.getPropertyEvaluator("prototype");
     if (!proto || !isStaticJsObjectLike(proto)) {
-      throw new Error("Function.prototype is not an object.");
+      // FIXME: Use real error.
+      return ThrowCompletion(this.realm.types.string("Invalid prototype"));
     }
 
     const thisObj = this.realm.types.createObject(undefined, proto);
     const result = yield* this.call(thisObj, ...args);
     if (result.type === "return" && isStaticJsObjectLike(result.value)) {
-      return result.value;
+      // FIXME JANK: Functions should return normal completions?
+      return ReturnCompletion(result.value);
     }
 
-    return thisObj;
+    return ReturnCompletion(thisObj);
   }
 }

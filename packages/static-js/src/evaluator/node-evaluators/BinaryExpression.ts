@@ -10,7 +10,7 @@ import {
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
-import { NormalCompletion } from "../completions/index.js";
+import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 export default function binaryExpressionNodeEvaluator(
   node: BinaryExpression,
@@ -182,11 +182,17 @@ function* inOperator(
   const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
 
   if (!isStaticJsObjectLike(right)) {
-    throw new Error("Right side of in operator must be an object");
+    // FIXME: Use real error.
+    return ThrowCompletion(
+      context.realm.types.string("Right side of in operator must be an object"),
+    );
   }
 
   if (!isStaticJsString(left)) {
-    throw new Error("Left side of in operator must be a string");
+    // FIXME: Use real error.
+    return ThrowCompletion(
+      context.realm.types.string("Left side of in operator must be a string"),
+    );
   }
 
   const hasProperty = yield* right.hasPropertyEvaluator(left.toString());

@@ -7,7 +7,7 @@ import { isStaticJsUndefined } from "../../runtime/types/interfaces/StaticJsUnde
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
-import { NormalCompletion } from "../completions/index.js";
+import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 import nameNode from "./name-node.js";
 
@@ -19,16 +19,20 @@ export default function* memberExpressionNodeEvaluator(
   let target = yield* EvaluateNodeAssertValueCommand(node.object, context);
 
   if (isStaticJsNull(target)) {
-    // FIXME: throw real error
-    throw new TypeError(
-      `Cannot read properties of null (reading '${nameNode(propertyNode)}')`,
+    // FIXME: Use real error.
+    return ThrowCompletion(
+      context.realm.types.string(
+        `Cannot read properties of null (reading '${nameNode(propertyNode)}')`,
+      ),
     );
   }
 
   if (isStaticJsUndefined(target)) {
-    // FIXME: throw real error
-    throw new TypeError(
-      `Cannot read properties of undefined (reading '${nameNode(propertyNode)}')`,
+    // FIXME: Use real error.
+    return ThrowCompletion(
+      context.realm.types.string(
+        `Cannot read properties of undefined (reading '${nameNode(propertyNode)}')`,
+      ),
     );
   }
 

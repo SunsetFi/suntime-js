@@ -15,6 +15,7 @@ import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion } from "../completions/index.js";
 
 import setLVal from "./LVal.js";
+import setupEnvironment from "./setup-environment.js";
 
 function* tryStatementNodeEvaluator(
   node: TryStatement,
@@ -64,10 +65,19 @@ function* runCatch(
   };
 
   if (node.param) {
-    yield* setLVal(node.param, value, catchContext, function* (name, value) {
-      yield* env.createMutableBindingEvaluator(name, false);
-      yield* env.initializeBindingEvaluator(name, value);
-    });
+    const setCompletion = yield* setLVal(
+      node.param,
+      value,
+      catchContext,
+      function* (name, value) {
+        yield* env.createMutableBindingEvaluator(name, false);
+        yield* env.initializeBindingEvaluator(name, value);
+      },
+    );
+
+    if (setCompletion.type === "throw") {
+      return setCompletion;
+    }
   }
 
   return yield* runBlock(node.body, catchContext);
@@ -77,9 +87,22 @@ function* runBlock(
   node: BlockStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  const blockContext = {
+    ...context,
+    env: new StaticJsLexicalEnvironment(
+      context.realm,
+      new StaticJsDeclarativeEnvironmentRecord(context.realm),
+      context.env,
+    ),
+  };
+
+  for (const statement of node.body) {
+    yield* setupEnvironment(statement, blockContext);
+  }
+
   let completionResult: StaticJsValue | null = null;
   for (const statement of node.body) {
-    const statementResult = yield* EvaluateNodeCommand(statement, context);
+    const statementResult = yield* EvaluateNodeCommand(statement, blockContext);
     switch (statementResult.type) {
       case "throw":
       case "return":

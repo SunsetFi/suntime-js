@@ -10,6 +10,17 @@ describe("E2E: Thrown Error Handling", () => {
     expect(() => evaluateProgram(code)).toThrow("Test Error");
   });
 
+  it("Should support declarative enviroments", () => {
+    const code = `
+      try {
+        let test = 1;
+        test;
+      }
+      catch (e) {}
+      `;
+    expect(evaluateProgram(code)).toBe(1);
+  });
+
   describe("Try / Catch / Finally", () => {
     it("Should catch an error", () => {
       const code = `

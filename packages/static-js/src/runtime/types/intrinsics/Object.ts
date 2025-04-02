@@ -54,8 +54,10 @@ export function populateObjectPrototype(
       function* (thisArg: StaticJsValue, key: StaticJsValue) {
         if (!isStaticJsObjectLike(thisArg)) {
           // FIXME: throw real error.
-          throw new TypeError(
-            "Object.prototype.hasOwnProperty called on non-object",
+          return ThrowCompletion(
+            realm.types.string(
+              "Object.prototype.hasOwnProperty called on non-object",
+            ),
           );
         }
 
@@ -96,7 +98,9 @@ export function createObjectConstructor(
         if (!value) {
           // FIXME: throw real error.
           // FIXME: What is the real wording for this?
-          throw new TypeError("Object.keys requires one argument.");
+          return ThrowCompletion(
+            realm.types.string("Object.keys requires one argument."),
+          );
         }
 
         const obj = value.toObject();
@@ -121,7 +125,9 @@ export function createObjectConstructor(
         if (!value) {
           // FIXME: throw real error.
           // FIXME: What is the real wording for this?
-          throw new TypeError("Object.values requires one argument.");
+          return ThrowCompletion(
+            realm.types.string("Object.values requires one argument."),
+          );
         }
 
         const obj = value.toObject();
@@ -149,7 +155,9 @@ export function createObjectConstructor(
         if (!value) {
           // FIXME: throw real error.
           // FIXME: What is the real wording for this?
-          throw new TypeError("Object.entries requires one argument.");
+          return ThrowCompletion(
+            realm.types.string("Object.entries requires one argument."),
+          );
         }
 
         const obj = value.toObject();
@@ -183,7 +191,9 @@ export function createObjectConstructor(
         if (!value || !property) {
           // FIXME: throw real error.
           // FIXME: What is the real wording for this?
-          throw new TypeError("Object.hasOwn requires two arguments.");
+          return ThrowCompletion(
+            realm.types.string("Object.hasOwn requires two arguments."),
+          );
         }
 
         const obj = value.toObject();
@@ -213,7 +223,11 @@ export function createObjectConstructor(
       ) {
         if (!isStaticJsNull(proto) && !isStaticJsObjectLike(proto)) {
           // FIXME: throw real error.
-          throw new TypeError("Object prototype may only be an Object or null");
+          return ThrowCompletion(
+            realm.types.string(
+              "Object prototype may only be an Object or null",
+            ),
+          );
         }
 
         return ReturnCompletion(
@@ -293,7 +307,11 @@ export function createObjectConstructor(
 
         if (!isStaticJsObjectLike(value) && !isStaticJsNull(value)) {
           // FIXME: throw real error.
-          throw new TypeError("Object prototype may only be an Object or null");
+          return ThrowCompletion(
+            realm.types.string(
+              "Object prototype may only be an Object or null",
+            ),
+          );
         }
 
         // FIXME: This is weird.  We should make setPrototypeOf accept StaticJsNull
@@ -302,8 +320,10 @@ export function createObjectConstructor(
           resolvedProto = null;
         } else if (!isStaticJsObjectLike(proto)) {
           // FIXME: throw real error.
-          throw new TypeError(
-            "Object.setPrototypeOf called with non-object prototype",
+          return ThrowCompletion(
+            realm.types.string(
+              "Object.setPrototypeOf called with non-object prototype",
+            ),
           );
         } else {
           resolvedProto = proto;

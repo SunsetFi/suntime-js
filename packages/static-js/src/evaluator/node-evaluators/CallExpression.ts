@@ -5,7 +5,8 @@ import { isStaticJsFunction } from "../../runtime/index.js";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
-import { NormalCompletion } from "../internal.js";
+import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
+
 import nameNode from "./name-node.js";
 
 export default function* callExpressionNodeEvaluator(
@@ -29,7 +30,12 @@ export default function* callExpressionNodeEvaluator(
 
   const callee = yield* EvaluateNodeAssertValueCommand(node.callee, context);
   if (!isStaticJsFunction(callee)) {
-    throw new Error(`Cannot call "${nameNode(node.callee)}": Not a function`);
+    // FIXME: Use real error.
+    return ThrowCompletion(
+      context.realm.types.string(
+        `Cannot call "${nameNode(node.callee)}": Not a function`,
+      ),
+    );
   }
 
   const args = new Array(node.arguments.length);

@@ -78,7 +78,10 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
       label: null,
     };
 
-    yield* this._declareArguments(args, functionContext);
+    const completion = yield* this._declareArguments(args, functionContext);
+    if (completion.type !== "normal") {
+      return completion;
+    }
 
     yield* setupEnvironment(this._body, functionContext);
 
@@ -102,30 +105,51 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
   private *_declareArguments(
     args: StaticJsValue[],
     context: EvaluationContext,
-  ): EvaluationGenerator<void> {
+  ): EvaluationGenerator {
     for (let i = 0; i < this._argumentDeclarations.length; i++) {
       const decl = this._argumentDeclarations[i];
 
       if (decl.type === "RestElement") {
         const value = this.realm.types.createArray(args.slice(i));
-        yield* setLVal(decl.argument, value, context, function* (name, value) {
-          yield* context.env.createMutableBindingEvaluator(name, false);
+        const completion = yield* setLVal(
+          decl.argument,
+          value,
+          context,
+          function* (name, value) {
+            yield* context.env.createMutableBindingEvaluator(name, false);
 
-          // Strict mode is whatever; our binding is created above.
-          yield* context.env.setMutableBindingEvaluator(name, value, true);
-        });
-        return;
+            // Strict mode is whatever; our binding is created above.
+            yield* context.env.setMutableBindingEvaluator(name, value, true);
+          },
+        );
+
+        if (completion.type !== "normal") {
+          return completion;
+        }
+
+        break;
       }
 
       // We might not get enough arguments, so fill in the rest with undefined.
       const value: StaticJsValue = args[i] ?? this.realm.types.undefined;
 
-      yield* setLVal(decl, value, context, function* (name, value) {
-        yield* context.env.createMutableBindingEvaluator(name, false);
+      const completion = yield* setLVal(
+        decl,
+        value,
+        context,
+        function* (name, value) {
+          yield* context.env.createMutableBindingEvaluator(name, false);
 
-        // Strict mode is whatever; our binding is created above.
-        yield* context.env.setMutableBindingEvaluator(name, value, true);
-      });
+          // Strict mode is whatever; our binding is created above.
+          yield* context.env.setMutableBindingEvaluator(name, value, true);
+        },
+      );
+
+      if (completion.type !== "normal") {
+        return completion;
+      }
     }
+
+    return NormalCompletion(null);
   }
 }

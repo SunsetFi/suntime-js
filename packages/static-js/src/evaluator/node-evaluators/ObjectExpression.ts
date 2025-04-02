@@ -23,6 +23,7 @@ import NormalCompletion from "../completions/NormalCompletion.js";
 
 import createFunction from "./Function.js";
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
+import { ThrowCompletion } from "../completions/index.js";
 
 // Note: I tested the edge-case of having a computed property key that is an expression mutate the value used in the value,
 // and the result is each key is computed before its property, and the next property/value pair is computed after the previous property/value pair.
@@ -49,13 +50,20 @@ export default function* objectExpressionNodeEvaluator(
           context,
         );
         break;
-      case "SpreadElement":
-        yield* objectExpressionPropertySpreadElementEvaluator(
-          target,
-          property,
-          context,
-        );
+      case "SpreadElement": {
+        const completion =
+          yield* objectExpressionPropertySpreadElementEvaluator(
+            target,
+            property,
+            context,
+          );
+
+        if (completion.type !== "normal") {
+          return completion;
+        }
+
         break;
+      }
       default: {
         // @ts-expect-error: Normally we won't get here, but include it for malformed ASTs.
         const type = property.type;
@@ -152,13 +160,16 @@ function* objectExpressionPropertySpreadElementEvaluator(
   target: StaticJsObject,
   property: SpreadElement,
   context: EvaluationContext,
-): EvaluationGenerator<void> {
+): EvaluationGenerator {
   const value = yield* EvaluateNodeNormalValueCommand(
     property.argument,
     context,
   );
   if (!isStaticJsObject(value)) {
-    throw new Error("Cannot spread non-object value");
+    // FIXME: Use real error.
+    return ThrowCompletion(
+      context.realm.types.string("Cannot spread non-object value"),
+    );
   }
 
   const ownKeys = yield* value.getOwnKeysEvaluator();
@@ -170,4 +181,6 @@ function* objectExpressionPropertySpreadElementEvaluator(
       context.realm.strict,
     );
   }
+
+  return NormalCompletion(null);
 }

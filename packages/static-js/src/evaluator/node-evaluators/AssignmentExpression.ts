@@ -5,7 +5,7 @@ import { isStaticJsScalar } from "../../runtime/index.js";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
-import { NormalCompletion } from "../completions/index.js";
+import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 import setLVal from "./LVal.js";
 
@@ -19,9 +19,11 @@ export default function* assignmentExpressionNodeEvaluator(
 
   if (left.type === "OptionalMemberExpression") {
     // Throw the same error typescript throws.
-    // Not sure why this is allowed by babel... New ES feature?
-    throw new Error(
-      "The left-hand side of an assignment expression cannot be an optional member expression.",
+    // FIXME: Use real error.
+    return ThrowCompletion(
+      context.realm.types.string(
+        "The left-hand side of an assignment expression cannot be an optional member expression.",
+      ),
     );
   }
 
@@ -31,7 +33,10 @@ export default function* assignmentExpressionNodeEvaluator(
     case "+=":
       {
         if (left.type !== "Identifier") {
-          throw new SyntaxError("Invalid left-hand side in assignment");
+          // FIXME: Use real error.
+          return ThrowCompletion(
+            context.realm.types.string("Invalid left-hand side in assignment"),
+          );
         }
 
         const leftValue = yield* context.env.getBindingValueEvaluator(
@@ -55,7 +60,10 @@ export default function* assignmentExpressionNodeEvaluator(
     case "-=":
       {
         if (left.type !== "Identifier") {
-          throw new SyntaxError("Invalid left-hand side in assignment");
+          // FIXME: Use real error.
+          return ThrowCompletion(
+            context.realm.types.string("Invalid left-hand side in assignment"),
+          );
         }
 
         const leftValue = yield* context.env.getBindingValueEvaluator(
@@ -71,7 +79,10 @@ export default function* assignmentExpressionNodeEvaluator(
     case "<<=":
       {
         if (left.type !== "Identifier") {
-          throw new SyntaxError("Invalid left-hand side in assignment");
+          // FIXME: Use real error.
+          return ThrowCompletion(
+            context.realm.types.string("Invalid left-hand side in assignment"),
+          );
         }
 
         const leftValue = yield* context.env.getBindingValueEvaluator(
@@ -87,7 +98,10 @@ export default function* assignmentExpressionNodeEvaluator(
     case ">>=":
       {
         if (left.type !== "Identifier") {
-          throw new SyntaxError("Invalid left-hand side in assignment");
+          // FIXME: Use real error.
+          return ThrowCompletion(
+            context.realm.types.string("Invalid left-hand side in assignment"),
+          );
         }
 
         const leftValue = yield* context.env.getBindingValueEvaluator(
@@ -103,7 +117,10 @@ export default function* assignmentExpressionNodeEvaluator(
     case ">>>=":
       {
         if (left.type !== "Identifier") {
-          throw new SyntaxError("Invalid left-hand side in assignment");
+          // FIXME: Use real error.
+          return ThrowCompletion(
+            context.realm.types.string("Invalid left-hand side in assignment"),
+          );
         }
 
         const leftValue = yield* context.env.getBindingValueEvaluator(

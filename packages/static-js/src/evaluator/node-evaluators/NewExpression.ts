@@ -2,7 +2,7 @@ import { NewExpression } from "@babel/types";
 
 import { isStaticJsFunction, StaticJsValue } from "../../runtime/index.js";
 
-import { NormalCompletion } from "../completions/index.js";
+import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
@@ -13,7 +13,8 @@ export default function* newExpressionNodeEvaluator(
 ): EvaluationGenerator {
   const callee = yield* EvaluateNodeAssertValueCommand(node.callee, context);
   if (!isStaticJsFunction(callee)) {
-    throw new Error("Not a function");
+    // FIXME: Use real error.
+    return ThrowCompletion(context.realm.types.string("Not a function"));
   }
 
   const args = new Array<StaticJsValue>(node.arguments.length);
@@ -22,5 +23,14 @@ export default function* newExpressionNodeEvaluator(
   }
 
   const result = yield* callee.construct(...args);
-  return NormalCompletion(result);
+  switch (result.type) {
+    // FIXME: WHich one should this return?
+    case "normal":
+    case "return":
+      return NormalCompletion(result.value);
+    case "throw":
+      return result;
+    default:
+      throw new Error("Unexpected completion type " + result.type);
+  }
 }

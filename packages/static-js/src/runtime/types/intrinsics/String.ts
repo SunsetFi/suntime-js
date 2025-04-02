@@ -2,7 +2,10 @@ import { StaticJsObject } from "../interfaces/StaticJsObject.js";
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 import StaticJsFunctionImpl from "../implementation/StaticJsFunctionImpl.js";
 import { isStaticJsValue, StaticJsValue } from "../interfaces/StaticJsValue.js";
-import { ReturnCompletion } from "../../../evaluator/internal.js";
+import {
+  ReturnCompletion,
+  ThrowCompletion,
+} from "../../../evaluator/internal.js";
 
 export function populateStringPrototype(
   realm: StaticJsRealm,
@@ -137,7 +140,7 @@ export function populateStringPrototype(
       function* (thisArg: StaticJsValue, value: StaticJsValue) {
         if (!isStaticJsValue(value)) {
           // FIXME: throw real error.
-          throw new TypeError("Value must be a string");
+          return ThrowCompletion(realm.types.string("Value must be a string"));
         }
 
         const result = thisArg.toString().startsWith(value.toString());
@@ -157,7 +160,7 @@ export function populateStringPrototype(
       function* (thisArg: StaticJsValue, value: StaticJsValue) {
         if (!isStaticJsValue(value)) {
           // FIXME: throw real error.
-          throw new TypeError("Value must be a string");
+          return ThrowCompletion(realm.types.string("Value must be a string"));
         }
 
         const result = thisArg.toString().endsWith(value.toString());
@@ -177,7 +180,7 @@ export function populateStringPrototype(
       function* (thisArg: StaticJsValue, value: StaticJsValue) {
         if (!isStaticJsValue(value)) {
           // FIXME: throw real error.
-          throw new TypeError("Value must be a string");
+          return ThrowCompletion(realm.types.string("Value must be a string"));
         }
 
         const result = thisArg.toString().includes(value.toString());
@@ -197,7 +200,7 @@ export function populateStringPrototype(
       function* (thisArg: StaticJsValue, value: StaticJsValue) {
         if (!isStaticJsValue(value)) {
           // FIXME: throw real error.
-          throw new TypeError("Value must be a string");
+          return ThrowCompletion(realm.types.string("Value must be a string"));
         }
 
         const result = thisArg.toString().repeat(value.toNumber());

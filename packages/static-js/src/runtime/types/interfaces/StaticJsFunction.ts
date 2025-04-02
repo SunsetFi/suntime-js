@@ -1,7 +1,4 @@
-import {
-  Completion,
-  EvaluationGenerator,
-} from "../../../evaluator/internal.js";
+import { EvaluationGenerator } from "../../../evaluator/internal.js";
 
 import { StaticJsObject } from "./StaticJsObject.js";
 import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
@@ -11,12 +8,9 @@ export interface StaticJsFunction extends StaticJsObject {
 
   readonly isConstructor: boolean;
 
-  call(
-    thisArg: StaticJsValue,
-    ...args: StaticJsValue[]
-  ): EvaluationGenerator<Completion>;
+  call(thisArg: StaticJsValue, ...args: StaticJsValue[]): EvaluationGenerator;
 
-  construct(...args: StaticJsValue[]): EvaluationGenerator<StaticJsObject>;
+  construct(...args: StaticJsValue[]): EvaluationGenerator;
 }
 
 export function isStaticJsFunction(value: unknown): value is StaticJsFunction {

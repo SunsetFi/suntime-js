@@ -44,11 +44,15 @@ function* variableDeclarationNodeEvaluator(
   }
 
   for (const declarator of node.declarations) {
-    yield* declarationStatementEvaluator(
+    const completion = yield* declarationStatementEvaluator(
       declarator,
       context,
       variableInitializer,
     );
+
+    if (completion.type !== "normal") {
+      return completion;
+    }
   }
 
   return NormalCompletion(null);
@@ -108,11 +112,11 @@ function* declarationStatementEvaluator(
     name: string,
     value: StaticJsValue | null,
   ) => EvaluationGenerator<void>,
-): EvaluationGenerator<void> {
+): EvaluationGenerator {
   let value: StaticJsValue | null = null;
   if (declarator.init) {
     value = yield* EvaluateNodeAssertValueCommand(declarator.init, context);
   }
 
-  yield* setLVal(declarator.id, value, context, variableCreator);
+  return yield* setLVal(declarator.id, value, context, variableCreator);
 }

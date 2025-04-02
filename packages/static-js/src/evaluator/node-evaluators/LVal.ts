@@ -8,12 +8,13 @@ import {
   isStaticJsValue,
   StaticJsValue,
 } from "../../runtime/index.js";
+import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
 export default function setLVal(
   lval: LVal,
@@ -23,7 +24,7 @@ export default function setLVal(
     name: string,
     value: StaticJsValue,
   ) => EvaluationGenerator<void>,
-): EvaluationGenerator<void>;
+): EvaluationGenerator;
 export default function setLVal(
   lval: LVal,
   value: StaticJsValue | null,
@@ -32,7 +33,7 @@ export default function setLVal(
     name: string,
     value: StaticJsValue | null,
   ) => EvaluationGenerator<void>,
-): EvaluationGenerator<void>;
+): EvaluationGenerator;
 export default function* setLVal(
   lval: LVal,
   value: StaticJsValue | null,
@@ -41,7 +42,7 @@ export default function* setLVal(
     name: string,
     value: StaticJsValue,
   ) => EvaluationGenerator<void>,
-): EvaluationGenerator<void> {
+): EvaluationGenerator {
   if (value && !isStaticJsValue(value)) {
     throw new Error("Cannot set LVal to non-StaticJsValue");
   }
@@ -56,10 +57,13 @@ export default function* setLVal(
   switch (lval.type) {
     case "Identifier":
       yield* setNamedVariable(lval.name, value);
-      return;
+      return NormalCompletion(null);
     case "ArrayPattern": {
       if (!isStaticJsArray(value)) {
-        throw new Error("Cannot destructure non-array value");
+        // FIXME: Use real error.
+        return ThrowCompletion(
+          context.realm.types.string("Cannot destructure non-array value"),
+        );
       }
 
       for (let index = 0; index < lval.elements.length; index++) {
@@ -71,23 +75,31 @@ export default function* setLVal(
         const property = String(index);
         if (element.type === "RestElement") {
           const restValue = yield* value.sliceEvaluator(index);
-          yield* setLVal(
+          return yield* setLVal(
             element.argument,
             restValue,
             context,
             setNamedVariable,
           );
-          return;
         } else {
           const elementValue = yield* value.getPropertyEvaluator(property);
-          yield* setLVal(element, elementValue, context, setNamedVariable);
+          return yield* setLVal(
+            element,
+            elementValue,
+            context,
+            setNamedVariable,
+          );
         }
       }
-      return;
+
+      return NormalCompletion(null);
     }
     case "ObjectPattern": {
       if (!isStaticJsObject(value)) {
-        throw new Error("Cannot destructure non-object value");
+        // FIXME: Use real error.
+        return ThrowCompletion(
+          context.realm.types.string("Cannot destructure non-object value"),
+        );
       }
 
       const seenProperties = new Set<string>();
@@ -105,13 +117,12 @@ export default function* setLVal(
             }
           }
 
-          yield* setLVal(
+          return yield* setLVal(
             property.argument,
             restValue,
             context,
             setNamedVariable,
           );
-          return;
         } else {
           const propertyKey = property.key;
           let keyName: string;
@@ -130,12 +141,16 @@ export default function* setLVal(
           if (!property.computed && property.value.type === "Identifier") {
             yield* setNamedVariable(property.value.name, propertyValue);
           } else if (isLVal(property.value)) {
-            yield* setLVal(
+            const completion = yield* setLVal(
               property.value,
               propertyValue,
               context,
               setNamedVariable,
             );
+
+            if (completion.type !== "normal") {
+              return completion;
+            }
           } else {
             // FIXME: What else can this be?  How do these come up?
             throw new Error(
@@ -145,15 +160,14 @@ export default function* setLVal(
         }
       }
 
-      return;
+      return NormalCompletion(null);
     }
     case "AssignmentPattern": {
       if (!value || isStaticJsUndefined(value)) {
         value = yield* EvaluateNodeAssertValueCommand(lval.right, context);
       }
 
-      yield* setLVal(lval.left, value, context, setNamedVariable);
-      return;
+      return yield* setLVal(lval.left, value, context, setNamedVariable);
     }
     case "MemberExpression": {
       if (!value) {
@@ -167,12 +181,15 @@ export default function* setLVal(
         context,
       );
       if (!isStaticJsObject(object)) {
-        // FIXME: throw real error
-        throw new Error("Cannot set property on non-object");
+        // FIXME: Use real error.
+        return ThrowCompletion(
+          context.realm.types.string("Cannot set property on non-object"),
+        );
       }
       if (!value) {
         // FIXME: Does this ever come up in the syntax?
         // null values are only used for declarations.
+        // FIXME: Use real error.
         throw new Error("Cannot set property without value");
       }
 
@@ -185,8 +202,12 @@ export default function* setLVal(
           context,
         );
         if (!isStaticJsScalar(resolved)) {
-          // FIXME: throw real error.
-          throw new Error("Computed property key must be a scalar");
+          // FIXME: Use real error.
+          return ThrowCompletion(
+            context.realm.types.string(
+              "Computed property key must be a scalar",
+            ),
+          );
         }
         propertyKey = toPropertyKey(resolved);
       }
@@ -197,7 +218,8 @@ export default function* setLVal(
         value,
         context.realm.strict,
       );
-      return;
+
+      return NormalCompletion(null);
     }
   }
 

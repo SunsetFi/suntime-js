@@ -4,7 +4,7 @@ import { isStaticJsArray, StaticJsValue } from "../../runtime/index.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
-import { NormalCompletion } from "../completions/index.js";
+import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
 import nameNode from "./name-node.js";
 
@@ -25,8 +25,11 @@ export default function* arrayExpressionNodeEvaluator(
         context,
       );
       if (!isStaticJsArray(resolved)) {
-        throw new Error(
-          `Cannot spread non-array value (spreading ${nameNode(element)}).`,
+        // FIXME: Use real error.
+        return ThrowCompletion(
+          context.realm.types.string(
+            `Cannot spread non-array value (spreading ${nameNode(element)}).`,
+          ),
         );
       }
 
