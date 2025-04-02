@@ -7,14 +7,12 @@ import {
   Constructors,
 } from "../../types/intrinsics/index.js";
 import StaticJsTypeFactoryImpl from "../../types/implementation/StaticJsTypeFactoryImpl.js";
-
-// We have to import these directly to avoid circular refs.
+import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
 import {
   StaticJsObject,
-  StaticJsValue,
   StaticJsObjectPropertyDescriptor,
-} from "../../types/index.js";
-import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
+} from "../../types/interfaces/StaticJsObject.js";
+import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
 export interface StaticJsEnvRealmGlobalDecl {
   properties: Record<string, StaticJsObjectPropertyDescriptor>;
@@ -128,32 +126,26 @@ export default class StaticJsRealmImpl {
       });
     }
 
-    if (!globalObject.hasProperty("undefined")) {
-      globalObject.defineProperty("undefined", {
-        value: this._typeFactory.undefined,
-        writable: false,
-        enumerable: false,
-        configurable: false,
-      });
-    }
+    globalObject.defineProperty("undefined", {
+      value: this._typeFactory.undefined,
+      writable: false,
+      enumerable: false,
+      configurable: false,
+    });
 
-    if (!globalObject.hasProperty("NaN")) {
-      globalObject.defineProperty("NaN", {
-        value: this._typeFactory.NaN,
-        writable: false,
-        enumerable: false,
-        configurable: false,
-      });
-    }
+    globalObject.defineProperty("NaN", {
+      value: this._typeFactory.NaN,
+      writable: false,
+      enumerable: false,
+      configurable: false,
+    });
 
-    if (!globalObject.hasProperty("Infinity")) {
-      globalObject.defineProperty("Infinity", {
-        value: this._typeFactory.Infinity,
-        writable: false,
-        enumerable: false,
-        configurable: false,
-      });
-    }
+    globalObject.defineProperty("Infinity", {
+      value: this._typeFactory.Infinity,
+      writable: false,
+      enumerable: false,
+      configurable: false,
+    });
 
     globalObject.defineProperty("String", {
       value: constructors.stringCtor,
