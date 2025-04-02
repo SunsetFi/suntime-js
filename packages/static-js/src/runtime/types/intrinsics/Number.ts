@@ -24,8 +24,7 @@ export function populateNumberPrototype(
           realm.types.string(thisArg.toNumber().toString()),
         );
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -41,8 +40,7 @@ export function populateNumberPrototype(
           realm.types.string(thisArg.toNumber().toLocaleString()),
         );
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -57,8 +55,7 @@ export function populateNumberPrototype(
         // Unbox.
         return ReturnCompletion(realm.types.number(thisArg.toNumber()));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -74,8 +71,7 @@ export function populateNumberPrototype(
           realm.types.string(thisArg.toNumber().toFixed(digits.toNumber())),
         );
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -93,8 +89,7 @@ export function populateNumberPrototype(
           ),
         );
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -112,8 +107,7 @@ export function populateNumberPrototype(
           ),
         );
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 }
@@ -135,8 +129,7 @@ export function createNumberConstructor(
 
       return ReturnCompletion(realm.types.number(value.toNumber()));
     },
-    undefined,
-    functionProto,
+    { prototype: functionProto },
   );
 
   numberConstructor.defineProperty("prototype", {

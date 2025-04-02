@@ -41,8 +41,7 @@ export function populateObjectPrototype(
           realm.types.string(`[object ${thisArg.runtimeTypeOf}]`),
         );
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
   objectProto.defineProperty("hasOwnProperty", {
@@ -69,8 +68,7 @@ export function populateObjectPrototype(
         );
         return ReturnCompletion(realm.types.boolean(descr != null));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -79,13 +77,13 @@ export function populateObjectPrototype(
 
 export function createObjectConstructor(
   realm: StaticJsRealm,
-  objectPrototype: StaticJsObject,
-  functionPrototype: StaticJsObject,
+  objectProto: StaticJsObject,
+  functionProto: StaticJsObject,
 ) {
   // FIXME: This should be a function.
-  const ctor = new StaticJsObjectImpl(realm, functionPrototype);
+  const ctor = new StaticJsObjectImpl(realm, functionProto);
   ctor.defineProperty("prototype", {
-    value: objectPrototype,
+    value: objectProto,
     writable: false,
     enumerable: false,
     configurable: false,
@@ -109,8 +107,7 @@ export function createObjectConstructor(
         );
         return ReturnCompletion(result);
       },
-      undefined,
-      functionPrototype,
+      { prototype: functionProto },
     ),
     writable: true,
     enumerable: false,
@@ -138,8 +135,7 @@ export function createObjectConstructor(
 
         return ReturnCompletion(realm.types.createArray(values));
       },
-      undefined,
-      functionPrototype,
+      { prototype: functionProto },
     ),
     writable: true,
     enumerable: false,
@@ -169,8 +165,7 @@ export function createObjectConstructor(
 
         return ReturnCompletion(realm.types.createArray(entries));
       },
-      undefined,
-      functionPrototype,
+      { prototype: functionProto },
     ),
     writable: true,
     enumerable: false,
@@ -202,8 +197,7 @@ export function createObjectConstructor(
         );
         return ReturnCompletion(realm.types.boolean(descr != null));
       },
-      undefined,
-      functionPrototype,
+      { prototype: functionProto },
     ),
     writable: true,
     enumerable: false,
@@ -229,8 +223,7 @@ export function createObjectConstructor(
           ),
         );
       },
-      undefined,
-      functionPrototype,
+      { prototype: functionProto },
     ),
     writable: true,
     enumerable: false,
@@ -257,8 +250,7 @@ export function createObjectConstructor(
         // FIXME: I think the spec expects us to unbox this before returning it.
         return ReturnCompletion(obj);
       },
-      undefined,
-      functionPrototype,
+      { prototype: functionProto },
     ),
     writable: true,
     enumerable: false,
@@ -282,8 +274,7 @@ export function createObjectConstructor(
 
         return ReturnCompletion(proto);
       },
-      undefined,
-      functionPrototype,
+      { prototype: functionProto },
     ),
     writable: true,
     enumerable: false,
@@ -329,8 +320,7 @@ export function createObjectConstructor(
 
         return ReturnCompletion(obj);
       },
-      undefined,
-      functionPrototype,
+      { prototype: functionProto },
     ),
     writable: true,
     enumerable: false,

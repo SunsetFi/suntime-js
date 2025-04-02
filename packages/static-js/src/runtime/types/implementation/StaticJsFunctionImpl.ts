@@ -8,7 +8,10 @@ import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
 import { StaticJsFunction } from "../interfaces/StaticJsFunction.js";
 import { isStaticJsValue, StaticJsValue } from "../interfaces/StaticJsValue.js";
-import { StaticJsObject } from "../interfaces/StaticJsObject.js";
+import {
+  isStaticJsObjectLike,
+  StaticJsObject,
+} from "../interfaces/StaticJsObject.js";
 
 import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
 
@@ -16,10 +19,22 @@ import StaticJsStringImpl from "./StaticJsStringImpl.js";
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectImpl from "./StaticJsObjectImpl.js";
 
+export interface StaticJsFunctionImplOptions {
+  length?: number;
+  prototype?: StaticJsObject;
+  isConstructor?: boolean;
+}
+
+// FIXME:
+// Class constructors MUST be called with construct(), not call()
+// Lambdas MUST NOT BE called with construct(), only call()
+
 export default class StaticJsFunctionImpl
   extends StaticJsObjectImpl
   implements StaticJsFunction
 {
+  private _isConstructor: boolean;
+
   private _toJs: unknown | null = null;
   private readonly _name: string | null;
 
@@ -30,11 +45,12 @@ export default class StaticJsFunctionImpl
       thisArg: StaticJsValue,
       ...args: StaticJsValue[]
     ) => EvaluationGenerator<Completion>,
-    length?: number,
-    prototype?: StaticJsObject,
+    { isConstructor, length, prototype }: StaticJsFunctionImplOptions = {},
   ) {
     super(realm, prototype ?? realm.types.functionProto, "function");
     this._name = name;
+
+    this._isConstructor = isConstructor ?? false;
 
     // FIXME: Suspicious use of non-eval defineProperty during construction.
     // Invokes runEvaluatorUntilCompletion
@@ -44,6 +60,7 @@ export default class StaticJsFunctionImpl
       enumerable: false,
       configurable: true,
     });
+
     this.defineProperty("length", {
       value: new StaticJsNumberImpl(this.realm, length ?? _call.length - 1),
       writable: false,
@@ -58,6 +75,10 @@ export default class StaticJsFunctionImpl
 
   get runtimeTypeOf() {
     return "function" as const;
+  }
+
+  get isConstructor() {
+    return this._isConstructor;
   }
 
   toJs(): unknown {
@@ -132,5 +153,20 @@ export default class StaticJsFunctionImpl
 
     const callResult = this._call(thisArg, ...args);
     return callResult;
+  }
+
+  *construct(...args: StaticJsValue[]): EvaluationGenerator<StaticJsObject> {
+    const proto = yield* this.getPropertyEvaluator("prototype");
+    if (!proto || !isStaticJsObjectLike(proto)) {
+      throw new Error("Function.prototype is not an object.");
+    }
+
+    const thisObj = this.realm.types.createObject(undefined, proto);
+    const result = yield* this.call(thisObj, ...args);
+    if (isStaticJsObjectLike(result)) {
+      return result;
+    }
+
+    return thisObj;
   }
 }

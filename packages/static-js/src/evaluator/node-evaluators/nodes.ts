@@ -36,6 +36,8 @@ import throwStatementNodeEvaluator from "./ThrowStatement.js";
 import logicalExpressionNodeEvaluator from "./LogicalExpression.js";
 import whileStatementNodeEvaluator from "./WhileStatement.js";
 import doWhileStatementNodeEvaluator from "./DoWhileStatement.js";
+import newExpressionNodeEvaluator from "./NewExpression.js";
+import thisExpressionNodeEvaluator from "./ThisExpression.js";
 
 type NodeEvaluators = {
   [key in Node["type"]]?: NodeEvaluator<key>;
@@ -63,12 +65,14 @@ const nodeEvaluators: NodeEvaluators = {
   LabeledStatement: labeledStatementNodeEvaluator,
   LogicalExpression: logicalExpressionNodeEvaluator,
   MemberExpression: memberExpressionNodeEvaluator,
+  NewExpression: newExpressionNodeEvaluator,
   NullLiteral: nullLiteralNodeEvaluator,
   NumericLiteral: numericLiteralNodeEvaluator,
   ObjectExpression: objectExpressionNodeEvaluator,
   Program: programNodeEvaluator,
   ReturnStatement: returnStatementNodeEvaluator,
   StringLiteral: stringLiteralNodeEvaluator,
+  ThisExpression: thisExpressionNodeEvaluator,
   ThrowStatement: throwStatementNodeEvaluator,
   TryStatement: tryStatementNodeEvaluator,
   UnaryExpression: unaryExpressionNodeEvaluator,

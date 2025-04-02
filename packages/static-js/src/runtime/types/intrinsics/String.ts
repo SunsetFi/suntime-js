@@ -30,8 +30,7 @@ export function populateStringPrototype(
         // Unbox.
         return ReturnCompletion(realm.types.string(thisArg.toString()));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -45,8 +44,7 @@ export function populateStringPrototype(
       function* (thisArg: StaticJsValue) {
         return ReturnCompletion(realm.types.string(thisArg.toString()));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -62,8 +60,7 @@ export function populateStringPrototype(
           thisArg.toString() + args.map((arg) => arg.toString()).join("");
         return ReturnCompletion(realm.types.string(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -84,8 +81,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().substr(startVal, lengthVal);
         return ReturnCompletion(realm.types.string(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -106,8 +102,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().substring(startVal, lengthVal);
         return ReturnCompletion(realm.types.string(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -128,8 +123,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().slice(startVal, lengthVal);
         return ReturnCompletion(realm.types.string(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -149,8 +143,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().startsWith(value.toString());
         return ReturnCompletion(realm.types.boolean(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -170,8 +163,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().endsWith(value.toString());
         return ReturnCompletion(realm.types.boolean(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -191,8 +183,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().includes(value.toString());
         return ReturnCompletion(realm.types.boolean(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -212,8 +203,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().repeat(value.toNumber());
         return ReturnCompletion(realm.types.string(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -228,8 +218,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().toLowerCase();
         return ReturnCompletion(realm.types.string(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -244,8 +233,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().toUpperCase();
         return ReturnCompletion(realm.types.string(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -260,8 +248,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().trim();
         return ReturnCompletion(realm.types.string(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -276,8 +263,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().trimStart();
         return ReturnCompletion(realm.types.string(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -292,8 +278,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().trimEnd();
         return ReturnCompletion(realm.types.string(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -308,8 +293,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().charAt(index.toNumber());
         return ReturnCompletion(realm.types.string(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -324,8 +308,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().charCodeAt(index.toNumber());
         return ReturnCompletion(realm.types.number(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -342,8 +325,7 @@ export function populateStringPrototype(
           realm.types.createArray(result.map((s) => realm.types.string(s))),
         );
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -358,8 +340,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().indexOf(searchValue.toString());
         return ReturnCompletion(realm.types.number(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -374,8 +355,7 @@ export function populateStringPrototype(
         const result = thisArg.toString().lastIndexOf(searchValue.toString());
         return ReturnCompletion(realm.types.number(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -396,8 +376,7 @@ export function populateStringPrototype(
           .padStart(targetLength.toNumber(), padString?.toString());
         return ReturnCompletion(realm.types.string(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -418,8 +397,7 @@ export function populateStringPrototype(
           .padEnd(targetLength.toNumber(), padString?.toString());
         return ReturnCompletion(realm.types.string(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -433,8 +411,7 @@ export function populateStringPrototype(
       function* (_thisArg: StaticJsValue, _regexp: StaticJsValue) {
         throw new Error("String.match is not implemented.");
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -455,8 +432,7 @@ export function populateStringPrototype(
           .replace(searchValue.toString(), replaceValue.toString());
         return ReturnCompletion(realm.types.string(result));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -470,8 +446,7 @@ export function populateStringPrototype(
       function* (_thisArg: StaticJsValue, _regexp: StaticJsValue) {
         throw new Error("String.search is not implemented.");
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 }
@@ -493,8 +468,7 @@ export function createStringConstructor(
 
       return ReturnCompletion(realm.types.string(value.toString()));
     },
-    undefined,
-    functionProto,
+    { prototype: functionProto },
   );
 
   stringConstructor.defineProperty("prototype", {

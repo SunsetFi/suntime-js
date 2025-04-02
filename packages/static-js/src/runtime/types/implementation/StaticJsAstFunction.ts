@@ -43,6 +43,13 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
   ) {
     // No eslint... You cant make a variable const if its assigned late...
     super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args));
+
+    this.defineProperty("prototype", {
+      value: realm.types.createObject(),
+      writable: true,
+      enumerable: false,
+      configurable: false,
+    });
   }
 
   private *_invoke(

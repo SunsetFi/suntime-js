@@ -45,7 +45,15 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
   }
 
   *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {
-    return yield* this._record.hasThisBindingEvaluator();
+    if (yield* this._record.hasThisBindingEvaluator()) {
+      return true;
+    }
+
+    if (this._parent) {
+      return yield* this._parent.hasThisBindingEvaluator();
+    }
+
+    return false;
   }
 
   *hasSuperBindingEvaluator(): EvaluationGenerator<boolean> {
@@ -57,7 +65,15 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
   }
 
   *getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue> {
-    return yield* this._record.getThisBindingEvaluator();
+    if (yield* this._record.hasThisBindingEvaluator()) {
+      return yield* this._record.getThisBindingEvaluator();
+    }
+
+    if (this._parent) {
+      return yield* this._parent.getThisBindingEvaluator();
+    }
+
+    return this.realm.types.undefined;
   }
 
   *getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue> {

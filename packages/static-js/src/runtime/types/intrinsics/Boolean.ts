@@ -20,8 +20,7 @@ export function populateBooleanPrototype(
           realm.types.string(thisArg.toBoolean() ? "true" : "false"),
         );
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -36,8 +35,7 @@ export function populateBooleanPrototype(
         // Unbox.
         return ReturnCompletion(realm.types.boolean(thisArg.toBoolean()));
       },
-      undefined,
-      functionProto,
+      { prototype: functionProto },
     ),
   });
 
@@ -59,8 +57,7 @@ export function createBooleanConstructor(
 
       return ReturnCompletion(realm.types.boolean(value.toBoolean()));
     },
-    undefined,
-    functionProto,
+    { prototype: functionProto },
   );
 
   ctor.defineProperty("prototype", {
