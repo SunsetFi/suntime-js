@@ -13,10 +13,15 @@ import {
 } from "./Function.js";
 import { populateStringPrototype, createStringConstructor } from "./String.js";
 import { createNumberConstructor, populateNumberPrototype } from "./Number.js";
+import {
+  createBooleanConstructor,
+  populateBooleanPrototype,
+} from "./Boolean.js";
 
 export interface Prototypes {
   stringProto: StaticJsObject;
   numberProto: StaticJsObject;
+  booleanProto: StaticJsObject;
   objectProto: StaticJsObject;
   arrayProto: StaticJsObject;
   functionProto: StaticJsObject;
@@ -25,6 +30,7 @@ export interface Prototypes {
 export interface Constructors {
   stringCtor: StaticJsFunction;
   numberCtor: StaticJsFunction;
+  booleanCtor: StaticJsFunction;
   objectCtor: StaticJsObject;
   arrayCtor: StaticJsObject;
   functionCtor: StaticJsObject;
@@ -37,6 +43,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
 
   const stringProto = new StaticJsObjectImpl(realm, objectProto);
   const numberProto = new StaticJsObjectImpl(realm, objectProto);
+  const booleanProto = new StaticJsObjectImpl(realm, objectProto);
   const arrayProto = new StaticJsObjectImpl(realm, objectProto);
   const functionProto = new StaticJsObjectImpl(realm, objectProto);
 
@@ -44,6 +51,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
 
   populateStringPrototype(realm, stringProto, functionProto);
   populateNumberPrototype(realm, numberProto, functionProto);
+  populateBooleanPrototype(realm, booleanProto, functionProto);
 
   populateArrayPrototype(realm, arrayProto);
   populateFunctionPrototype(realm, functionProto);
@@ -51,6 +59,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
   return {
     stringProto,
     numberProto,
+    booleanProto,
     objectProto,
     arrayProto,
     functionProto,
@@ -62,19 +71,68 @@ export function createConstructors(
   {
     stringProto,
     numberProto,
+    booleanProto,
     objectProto,
     functionProto,
     arrayProto,
   }: Prototypes,
 ): Constructors {
   const stringCtor = createStringConstructor(realm, stringProto, functionProto);
+  stringProto.defineProperty("constructor", {
+    value: stringCtor,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
+
   const numberCtor = createNumberConstructor(realm, numberProto, functionProto);
+  numberProto.defineProperty("constructor", {
+    value: numberCtor,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
+
+  const booleanCtor = createBooleanConstructor(
+    realm,
+    booleanProto,
+    functionProto,
+  );
+  booleanProto.defineProperty("constructor", {
+    value: booleanCtor,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
+
   const objectCtor = createObjectConstructor(realm, objectProto, functionProto);
+  objectProto.defineProperty("constructor", {
+    value: objectCtor,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
+
   const arrayCtor = createArrayConstructor(realm, arrayProto);
+  arrayProto.defineProperty("constructor", {
+    value: arrayCtor,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
+
   const functionCtor = createFunctionConstructor(realm, functionProto);
+  functionProto.defineProperty("constructor", {
+    value: functionCtor,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
+
   return {
     stringCtor,
     numberCtor,
+    booleanCtor,
     objectCtor,
     arrayCtor,
     functionCtor,

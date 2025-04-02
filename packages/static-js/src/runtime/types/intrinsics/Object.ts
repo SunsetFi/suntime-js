@@ -11,11 +11,10 @@ import {
   isStaticJsObjectLike,
 } from "../interfaces/StaticJsObject.js";
 import { isStaticJsNull } from "../interfaces/StaticJsNull.js";
+import { isStaticJsUndefined } from "../interfaces/StaticJsUndefined.js";
 
 import StaticJsObjectImpl from "../implementation/StaticJsObjectImpl.js";
 import StaticJsFunctionImpl from "../implementation/StaticJsFunctionImpl.js";
-import StaticJsBooleanImpl from "../implementation/StaticJsBooleanImpl.js";
-import { isStaticJsUndefined } from "../interfaces/StaticJsUndefined.js";
 
 export function populateObjectPrototype(
   realm: StaticJsRealm,
@@ -62,13 +61,13 @@ export function populateObjectPrototype(
         }
 
         if (key.runtimeTypeOf !== "string") {
-          return ReturnCompletion(new StaticJsBooleanImpl(false));
+          return ReturnCompletion(realm.types.false);
         }
 
         const descr = yield* thisArg.getOwnPropertyDescriptorEvaluator(
           key.toString(),
         );
-        return ReturnCompletion(new StaticJsBooleanImpl(descr != null));
+        return ReturnCompletion(realm.types.boolean(descr != null));
       },
       undefined,
       functionProto,
@@ -195,13 +194,13 @@ export function createObjectConstructor(
         const obj = value.toObject();
 
         if (property.runtimeTypeOf !== "string") {
-          return ReturnCompletion(new StaticJsBooleanImpl(false));
+          return ReturnCompletion(realm.types.false);
         }
 
         const descr = yield* obj.getOwnPropertyDescriptorEvaluator(
           property.toString(),
         );
-        return ReturnCompletion(new StaticJsBooleanImpl(descr != null));
+        return ReturnCompletion(realm.types.boolean(descr != null));
       },
       undefined,
       functionPrototype,

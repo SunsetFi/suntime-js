@@ -54,7 +54,8 @@ export function populateNumberPrototype(
       realm,
       "valueOf",
       function* (thisArg: StaticJsValue) {
-        return ReturnCompletion(thisArg);
+        // Unbox.
+        return ReturnCompletion(realm.types.number(thisArg.toNumber()));
       },
       undefined,
       functionProto,

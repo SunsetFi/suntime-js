@@ -31,6 +31,9 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private _NaN: StaticJsNumber;
   private _Infinity: StaticJsNumber;
 
+  private _false: StaticJsBoolean;
+  private _true: StaticJsBoolean;
+
   constructor(
     private readonly _realm: StaticJsRealm,
     private readonly _prototypes: Prototypes,
@@ -38,6 +41,9 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     this._zero = new StaticJsNumberImpl(_realm, 0);
     this._NaN = new StaticJsNumberImpl(_realm, NaN);
     this._Infinity = new StaticJsNumberImpl(_realm, Infinity);
+
+    this._false = new StaticJsBooleanImpl(_realm, false);
+    this._true = new StaticJsBooleanImpl(_realm, true);
   }
 
   get stringProto(): StaticJsObject {
@@ -46,6 +52,10 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   get numberProto(): StaticJsObject {
     return this._prototypes.numberProto;
+  }
+
+  get booleanProto(): StaticJsObject {
+    return this._prototypes.booleanProto;
   }
 
   get objectProto(): StaticJsObject {
@@ -61,11 +71,11 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   get true(): StaticJsBoolean {
-    return StaticJsBooleanImpl.true;
+    return this._true;
   }
 
   get false(): StaticJsBoolean {
-    return StaticJsBooleanImpl.false;
+    return this._false;
   }
 
   get undefined(): StaticJsUndefined {

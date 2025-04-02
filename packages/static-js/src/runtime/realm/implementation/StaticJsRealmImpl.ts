@@ -169,6 +169,13 @@ export default class StaticJsRealmImpl {
       configurable: true,
     });
 
+    globalObject.defineProperty("Boolean", {
+      value: constructors.booleanCtor,
+      writable: true,
+      enumerable: false,
+      configurable: true,
+    });
+
     globalObject.defineProperty("Object", {
       value: constructors.objectCtor,
       writable: true,

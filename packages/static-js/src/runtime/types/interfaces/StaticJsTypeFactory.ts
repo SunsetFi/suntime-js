@@ -14,6 +14,7 @@ import { StaticJsUndefined } from "./StaticJsUndefined.js";
 export default interface StaticJsTypeFactory {
   readonly stringProto: StaticJsObject;
   readonly numberProto: StaticJsObject;
+  readonly booleanProto: StaticJsObject;
   readonly objectProto: StaticJsObject;
   readonly arrayProto: StaticJsObject;
   readonly functionProto: StaticJsObject;

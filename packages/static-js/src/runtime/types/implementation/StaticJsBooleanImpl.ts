@@ -1,12 +1,16 @@
+import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 import { StaticJsBoolean, StaticJsObject } from "../interfaces/index.js";
+import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
+import StaticJsBooleanBoxed from "./StaticJsBooleanBoxed.js";
 
-export default class StaticJsBooleanImpl implements StaticJsBoolean {
+export default class StaticJsBooleanImpl
+  extends StaticJsAbstractPrimitive
+  implements StaticJsBoolean
+{
   private readonly _value: boolean;
 
-  public static readonly true = new StaticJsBooleanImpl(true);
-  public static readonly false = new StaticJsBooleanImpl(false);
-
-  constructor(value: boolean) {
+  constructor(realm: StaticJsRealm, value: boolean) {
+    super(realm);
     this._value = value;
   }
 
@@ -40,13 +44,13 @@ export default class StaticJsBooleanImpl implements StaticJsBoolean {
 
   negate(): StaticJsBoolean {
     if (this._value) {
-      return StaticJsBooleanImpl.false;
+      return this.realm.types.false;
     }
 
-    return StaticJsBooleanImpl.true;
+    return this.realm.types.true;
   }
 
   toObject(): StaticJsObject {
-    throw new Error("Not implemented");
+    return new StaticJsBooleanBoxed(this.realm, this._value);
   }
 }

@@ -19,6 +19,22 @@ export function populateStringPrototype(
     },
   });
 
+  proto.defineProperty("valueOf", {
+    configurable: true,
+    enumerable: false,
+    writable: true,
+    value: new StaticJsFunctionImpl(
+      realm,
+      "valueOf",
+      function* (thisArg: StaticJsValue) {
+        // Unbox.
+        return ReturnCompletion(realm.types.string(thisArg.toString()));
+      },
+      undefined,
+      functionProto,
+    ),
+  });
+
   proto.defineProperty("toString", {
     configurable: true,
     enumerable: false,
