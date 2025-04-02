@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateString, StaticJsRealm } from "../src/index.js";
+import { evaluateProgram, StaticJsRealm } from "../src/index.js";
 
 describe("E2E: Functions", () => {
   describe("Declaration", () => {
@@ -11,7 +11,7 @@ describe("E2E: Functions", () => {
         }
         a;
       `;
-      expect(evaluateString(code)).toBeInstanceOf(Function);
+      expect(evaluateProgram(code)).toBeInstanceOf(Function);
     });
 
     it("Can be invoked by the engine", () => {
@@ -21,7 +21,7 @@ describe("E2E: Functions", () => {
         }
         a();
       `;
-      expect(evaluateString(code)).toBe(42);
+      expect(evaluateProgram(code)).toBe(42);
     });
 
     it("Can be invoked by the runtime", () => {
@@ -33,7 +33,7 @@ describe("E2E: Functions", () => {
       `;
 
       const env = new StaticJsRealm();
-      const func = evaluateString(code, env);
+      const func = evaluateProgram(code, env);
       if (typeof func !== "function") {
         throw new Error("Expected a function");
       }
@@ -48,7 +48,7 @@ describe("E2E: Functions", () => {
         }
         a();
       `;
-      expect(evaluateString(code)).toBe(42);
+      expect(evaluateProgram(code)).toBe(42);
     });
   });
 
@@ -60,7 +60,7 @@ describe("E2E: Functions", () => {
         };
         a;
       `;
-      expect(evaluateString(code)).toBeInstanceOf(Function);
+      expect(evaluateProgram(code)).toBeInstanceOf(Function);
     });
 
     it("Does not appear in the global scope", () => {
@@ -70,7 +70,7 @@ describe("E2E: Functions", () => {
         };
       `;
       const env = new StaticJsRealm();
-      evaluateString(code, env);
+      evaluateProgram(code, env);
       expect(env.globalObject.hasProperty("foo")).toBe(false);
     });
 
@@ -81,7 +81,7 @@ describe("E2E: Functions", () => {
         };
         a();
       `;
-      expect(evaluateString(code)).toBe(42);
+      expect(evaluateProgram(code)).toBe(42);
     });
 
     it("Can be invoked by the runtime", () => {
@@ -93,7 +93,7 @@ describe("E2E: Functions", () => {
       `;
 
       const env = new StaticJsRealm();
-      const func = evaluateString(code, env);
+      const func = evaluateProgram(code, env);
       if (typeof func !== "function") {
         throw new Error("Expected a function");
       }
@@ -109,7 +109,7 @@ describe("E2E: Functions", () => {
         }
         a();
       `;
-      expect(evaluateString(code)).toBe(42);
+      expect(evaluateProgram(code)).toBe(42);
     });
   });
 
@@ -122,7 +122,7 @@ describe("E2E: Functions", () => {
         }
         a(42);
       `;
-      expect(evaluateString(code)).toBe(42);
+      expect(evaluateProgram(code)).toBe(42);
     });
 
     it("Supports rest arguments", () => {
@@ -132,7 +132,7 @@ describe("E2E: Functions", () => {
         }
         a(1, 2, 3);
       `;
-      expect(evaluateString(code)).toEqual({ first: 1, rest: [2, 3] });
+      expect(evaluateProgram(code)).toEqual({ first: 1, rest: [2, 3] });
     });
 
     describe("Object Destructuring", () => {
@@ -143,7 +143,7 @@ describe("E2E: Functions", () => {
           }
           a({ x: 42 });
         `;
-        expect(evaluateString(code)).toBe(42);
+        expect(evaluateProgram(code)).toBe(42);
       });
 
       it("Supports renaming descructured object arguments", () => {
@@ -153,7 +153,7 @@ describe("E2E: Functions", () => {
           }
           a({ x: 42 });
         `;
-        expect(evaluateString(code)).toBe(42);
+        expect(evaluateProgram(code)).toBe(42);
       });
 
       it("Supports default values for destructured object arguments", () => {
@@ -163,7 +163,7 @@ describe("E2E: Functions", () => {
           }
           a({});
         `;
-        expect(evaluateString(code)).toBe(42);
+        expect(evaluateProgram(code)).toBe(42);
       });
     });
 
@@ -175,7 +175,7 @@ describe("E2E: Functions", () => {
         }
         a([42]);
       `;
-        expect(evaluateString(code)).toBe(42);
+        expect(evaluateProgram(code)).toBe(42);
       });
 
       it("Supports default values for destructured array arguments", () => {
@@ -185,7 +185,7 @@ describe("E2E: Functions", () => {
         }
         a([]);
       `;
-        expect(evaluateString(code)).toBe(42);
+        expect(evaluateProgram(code)).toBe(42);
       });
     });
 
@@ -196,7 +196,7 @@ describe("E2E: Functions", () => {
         }
         a();
       `;
-      expect(evaluateString(code)).toBe(42);
+      expect(evaluateProgram(code)).toBe(42);
     });
   });
 
@@ -209,7 +209,7 @@ describe("E2E: Functions", () => {
         }
         a();
       `;
-      expect(evaluateString(code)).toBe(42);
+      expect(evaluateProgram(code)).toBe(42);
     });
 
     it("Can mutate outer scope", () => {
@@ -221,7 +221,7 @@ describe("E2E: Functions", () => {
         a();
         x;
       `;
-      expect(evaluateString(code)).toBe(43);
+      expect(evaluateProgram(code)).toBe(43);
     });
 
     it("Targets the correct scope", () => {
@@ -241,7 +241,7 @@ describe("E2E: Functions", () => {
         [mutator1(), mutator2(), x];
       `;
 
-      expect(evaluateString(code)).toEqual([2, 2, "outer"]);
+      expect(evaluateProgram(code)).toEqual([2, 2, "outer"]);
     });
   });
 });

@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { evaluateString } from "../src/index.js";
+import { evaluateProgram } from "../src/index.js";
 
 describe("Prototype chain and object behavior", () => {
   it("inherits properties from prototype", () => {
-    const result = evaluateString(`
+    const result = evaluateProgram(`
       const proto = { x: 10 };
       const obj = Object.create(proto);
       obj.y = 20;
@@ -13,7 +13,7 @@ describe("Prototype chain and object behavior", () => {
   });
 
   it("sets own property instead of modifying prototype", () => {
-    const result = evaluateString(`
+    const result = evaluateProgram(`
       const proto = { x: 1 };
       const obj = Object.create(proto);
       obj.x = 5;
@@ -23,7 +23,7 @@ describe("Prototype chain and object behavior", () => {
   });
 
   it("calls inherited setter instead of creating own property", () => {
-    const result = evaluateString(`
+    const result = evaluateProgram(`
       let called = false;
       const proto = { 
         set foo(v) { called = v === 42; } 
@@ -36,7 +36,7 @@ describe("Prototype chain and object behavior", () => {
   });
 
   it("does not overwrite inherited data properties", () => {
-    const result = evaluateString(`
+    const result = evaluateProgram(`
       const proto = { x: 100 };
       const obj = Object.create(proto);
       obj.hasOwnProperty("x");
@@ -45,7 +45,7 @@ describe("Prototype chain and object behavior", () => {
   });
 
   it("Object.keys only includes own enumerable properties", () => {
-    const result = evaluateString(`
+    const result = evaluateProgram(`
       const proto = { inherited: 1 };
       const obj = Object.create(proto);
       obj.own = 2;
@@ -55,7 +55,7 @@ describe("Prototype chain and object behavior", () => {
   });
 
   it("delete only affects own properties", () => {
-    const result = evaluateString(`
+    const result = evaluateProgram(`
       const proto = { foo: 1 };
       const obj = Object.create(proto);
       obj.foo = 2;
@@ -66,7 +66,7 @@ describe("Prototype chain and object behavior", () => {
   });
 
   it("Object.freeze prevents prototype mutation", () => {
-    const result = evaluateString(`
+    const result = evaluateProgram(`
       const obj = {};
       Object.freeze(obj);
       try {
@@ -80,7 +80,7 @@ describe("Prototype chain and object behavior", () => {
   });
 
   it("global constants are own properties on the global object", () => {
-    const result = evaluateString(`
+    const result = evaluateProgram(`
       Object.hasOwn(globalThis, "Infinity") &&
       Object.hasOwn(globalThis, "NaN") &&
       Object.hasOwn(globalThis, "undefined");
@@ -89,7 +89,7 @@ describe("Prototype chain and object behavior", () => {
   });
 
   it("function has prototype and inherits from Function.prototype", () => {
-    const result = evaluateString(`
+    const result = evaluateProgram(`
       function foo() {}
       Object.getPrototypeOf(foo) === Function.prototype;
     `);
@@ -97,7 +97,7 @@ describe("Prototype chain and object behavior", () => {
   });
 
   it("array inherits from Array.prototype", () => {
-    const result = evaluateString(`
+    const result = evaluateProgram(`
       const arr = [1, 2, 3];
       Object.getPrototypeOf(arr) === Array.prototype;
     `);

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateString, StaticJsRealm } from "../src/index.js";
+import { evaluateProgram, StaticJsRealm } from "../src/index.js";
 
 describe("E2E: Variables", () => {
   describe("const", () => {
@@ -9,14 +9,14 @@ describe("E2E: Variables", () => {
         const a = 1;
         a;
       `;
-      expect(evaluateString(code)).toBe(1);
+      expect(evaluateProgram(code)).toBe(1);
     });
 
     it("Cannot be declared uninitialized", () => {
       const code = `
         const a;
       `;
-      expect(() => evaluateString(code)).toThrow(
+      expect(() => evaluateProgram(code)).toThrow(
         /Missing initializer in const declaration/,
       );
     });
@@ -26,7 +26,7 @@ describe("E2E: Variables", () => {
         const a = 1;
         a = 2;
       `;
-      expect(() => evaluateString(code)).toThrow(
+      expect(() => evaluateProgram(code)).toThrow(
         /Assignment to constant variable./,
       );
     });
@@ -36,7 +36,7 @@ describe("E2E: Variables", () => {
         const a = 1;
       `;
       const env = StaticJsRealm();
-      evaluateString(code, env);
+      evaluateProgram(code, env);
       expect(env.globalObject.hasProperty("a")).toBe(false);
     });
 
@@ -48,7 +48,7 @@ describe("E2E: Variables", () => {
         }
         a;
       `;
-      expect(evaluateString(code)).toBe(1);
+      expect(evaluateProgram(code)).toBe(1);
     });
   });
 
@@ -58,14 +58,14 @@ describe("E2E: Variables", () => {
         let a = 1;
         a;
       `;
-      expect(evaluateString(code)).toBe(1);
+      expect(evaluateProgram(code)).toBe(1);
     });
 
     it("Can be declared uninitialized", () => {
       const code = `
         let a;
       `;
-      expect(evaluateString(code)).toBe(undefined);
+      expect(evaluateProgram(code)).toBe(undefined);
     });
 
     it("Can be accessed uninitialized", () => {
@@ -73,7 +73,7 @@ describe("E2E: Variables", () => {
         let a;
         a;
       `;
-      expect(evaluateString(code)).toBe(undefined);
+      expect(evaluateProgram(code)).toBe(undefined);
     });
 
     it("Can be reassigned", () => {
@@ -82,7 +82,7 @@ describe("E2E: Variables", () => {
         a = 2;
         a;
       `;
-      expect(evaluateString(code)).toBe(2);
+      expect(evaluateProgram(code)).toBe(2);
     });
 
     it("Does not appear on the global object", () => {
@@ -90,7 +90,7 @@ describe("E2E: Variables", () => {
         let a = 1;
       `;
       const env = StaticJsRealm();
-      evaluateString(code, env);
+      evaluateProgram(code, env);
       expect(env.globalObject.hasProperty("a")).toBe(false);
     });
 
@@ -102,7 +102,7 @@ describe("E2E: Variables", () => {
         }
         a;
       `;
-      expect(evaluateString(code)).toBe(1);
+      expect(evaluateProgram(code)).toBe(1);
     });
   });
 
@@ -112,7 +112,7 @@ describe("E2E: Variables", () => {
         var a = 1;
         a;
       `;
-      expect(evaluateString(code)).toBe(1);
+      expect(evaluateProgram(code)).toBe(1);
     });
 
     it("Can be reassigned", () => {
@@ -121,7 +121,7 @@ describe("E2E: Variables", () => {
         a = 2;
         a;
       `;
-      expect(evaluateString(code)).toBe(2);
+      expect(evaluateProgram(code)).toBe(2);
     });
 
     it("Appears on the global object in the global scope", () => {
@@ -129,7 +129,7 @@ describe("E2E: Variables", () => {
         var a = 1;
       `;
       const env = StaticJsRealm();
-      evaluateString(code, env);
+      evaluateProgram(code, env);
       expect(env.globalObject.hasProperty("a")).toBe(true);
     });
 
@@ -140,7 +140,7 @@ describe("E2E: Variables", () => {
         }
       `;
       const env = StaticJsRealm();
-      evaluateString(code, env);
+      evaluateProgram(code, env);
       expect(env.globalObject.hasProperty("a")).toBe(true);
     });
 
@@ -151,7 +151,7 @@ describe("E2E: Variables", () => {
         }
       `;
       const env = StaticJsRealm();
-      evaluateString(code, env);
+      evaluateProgram(code, env);
       expect(env.globalObject.hasProperty("a")).toBe(false);
     });
   });

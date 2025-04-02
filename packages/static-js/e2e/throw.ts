@@ -1,13 +1,13 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateString } from "../src/index.js";
+import { evaluateProgram } from "../src/index.js";
 
 describe("E2E: Thrown Error Handling", () => {
   it("Should throw the value", () => {
     const code = `
         throw {message: "Test Error"};
       `;
-    expect(() => evaluateString(code)).toThrow("Test Error");
+    expect(() => evaluateProgram(code)).toThrow("Test Error");
   });
 
   describe("Try / Catch / Finally", () => {
@@ -22,7 +22,7 @@ describe("E2E: Thrown Error Handling", () => {
         }
         test();
       `;
-      expect(evaluateString(code)).toBe(1);
+      expect(evaluateProgram(code)).toBe(1);
     });
 
     it("Should give precedence to finally over catch", () => {
@@ -38,7 +38,7 @@ describe("E2E: Thrown Error Handling", () => {
         }
         test();
       `;
-      expect(evaluateString(code)).toBe("f");
+      expect(evaluateProgram(code)).toBe("f");
     });
   });
 });

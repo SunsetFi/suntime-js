@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateString } from "../src/index.js";
+import { evaluateProgram } from "../src/index.js";
 
 describe("E2E: Booleans", () => {
   describe("Casting", () => {
@@ -8,21 +8,21 @@ describe("E2E: Booleans", () => {
       const code = `
         Boolean(1);
       `;
-      expect(evaluateString(code)).toBe(true);
+      expect(evaluateProgram(code)).toBe(true);
     });
 
     it("Supports casting a boolean to boolean", () => {
       const code = `
         Boolean(true);
       `;
-      expect(evaluateString(code)).toBe(true);
+      expect(evaluateProgram(code)).toBe(true);
     });
 
     it("Supports casting a string to boolean", () => {
       const code = `
         Boolean("abc");
       `;
-      expect(evaluateString(code)).toBe(true);
+      expect(evaluateProgram(code)).toBe(true);
     });
   });
 
@@ -31,14 +31,14 @@ describe("E2E: Booleans", () => {
       const code = `
         !true;
       `;
-      expect(evaluateString(code)).toBe(false);
+      expect(evaluateProgram(code)).toBe(false);
     });
 
     it("Supports double negation", () => {
       const code = `
         !!true;
       `;
-      expect(evaluateString(code)).toBe(true);
+      expect(evaluateProgram(code)).toBe(true);
     });
   });
 
@@ -47,14 +47,14 @@ describe("E2E: Booleans", () => {
       const code = `
         true.toString();
       `;
-      expect(evaluateString(code)).toBe("true");
+      expect(evaluateProgram(code)).toBe("true");
     });
 
     it("Supports valueOf", () => {
       const code = `
         true.valueOf();
       `;
-      expect(evaluateString(code)).toBe(true);
+      expect(evaluateProgram(code)).toBe(true);
     });
   });
 });

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateString } from "../src/index.js";
+import { evaluateProgram } from "../src/index.js";
 
 describe("E2E: If", () => {
   it("Evaluates true statements", () => {
@@ -11,7 +11,7 @@ describe("E2E: If", () => {
       }
       a;
     `;
-    expect(evaluateString(code)).toBe(1);
+    expect(evaluateProgram(code)).toBe(1);
   });
 
   it("Does not evaluate false statements", () => {
@@ -22,7 +22,7 @@ describe("E2E: If", () => {
       }
       a;
     `;
-    expect(evaluateString(code)).toBe(0);
+    expect(evaluateProgram(code)).toBe(0);
   });
 
   it("Does not evaluate elses for true statements", () => {
@@ -35,7 +35,7 @@ describe("E2E: If", () => {
       }
       a;
     `;
-    expect(evaluateString(code)).toBe(1);
+    expect(evaluateProgram(code)).toBe(1);
   });
 
   it("Evaluates elses for false statements", () => {
@@ -48,6 +48,6 @@ describe("E2E: If", () => {
       }
       a;
     `;
-    expect(evaluateString(code)).toBe(2);
+    expect(evaluateProgram(code)).toBe(2);
   });
 });

@@ -12,7 +12,10 @@ import { compileExpression, compileProgram } from "./compilation/factories.js";
  * @returns The native javascript result of evaluating the code.
  * @public
  */
-export function evaluateString(string: string, realm?: StaticJsRealm): unknown {
+export function evaluateProgram(
+  string: string,
+  realm?: StaticJsRealm,
+): unknown {
   const ast = parse(string);
 
   if (ast.errors && ast.errors.length) {

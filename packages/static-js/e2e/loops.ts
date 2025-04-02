@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateString } from "../src/index.js";
+import { evaluateProgram } from "../src/index.js";
 
 describe("E2E: Loops", () => {
   describe("For", () => {
@@ -12,7 +12,7 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateString(code)).toBe(45);
+      expect(evaluateProgram(code)).toBe(45);
     });
 
     it("Can break out of a for loop", () => {
@@ -26,7 +26,7 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateString(code)).toBe(15);
+      expect(evaluateProgram(code)).toBe(15);
     });
 
     it("Breaks out of the closest for loop", () => {
@@ -42,7 +42,7 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateString(code)).toBe(150);
+      expect(evaluateProgram(code)).toBe(150);
     });
 
     it("Can break out of a labeled for loop", () => {
@@ -58,7 +58,7 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateString(code)).toBe(15);
+      expect(evaluateProgram(code)).toBe(15);
     });
 
     it("Can continue to the next iteration of a for loop", () => {
@@ -72,7 +72,7 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateString(code)).toBe(40);
+      expect(evaluateProgram(code)).toBe(40);
     });
 
     it("Continues from the closest for loop", () => {
@@ -88,7 +88,7 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateString(code)).toBe(400);
+      expect(evaluateProgram(code)).toBe(400);
     });
 
     it("Can continue from a labeled for loop", () => {
@@ -104,7 +104,7 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateString(code)).toBe(100);
+      expect(evaluateProgram(code)).toBe(100);
     });
 
     it("Can loop with an empty for loop", () => {
@@ -118,7 +118,7 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateString(code)).toBe(10);
+      expect(evaluateProgram(code)).toBe(10);
     });
 
     it("Does not conflict init with outer scope", () => {
@@ -130,7 +130,7 @@ describe("E2E: Loops", () => {
         }
         [i, sum];
       `;
-      expect(evaluateString(code)).toStrictEqual([-1, 45]);
+      expect(evaluateProgram(code)).toStrictEqual([-1, 45]);
     });
   });
 
@@ -145,7 +145,7 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateString(code)).toBe(45);
+      expect(evaluateProgram(code)).toBe(45);
     });
 
     it("Can break out of a while loop", () => {
@@ -161,7 +161,7 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateString(code)).toBe(15);
+      expect(evaluateProgram(code)).toBe(15);
     });
 
     it("Can continue to the next iteration of a while loop", () => {
@@ -177,7 +177,7 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateString(code)).toBe(50);
+      expect(evaluateProgram(code)).toBe(50);
     });
   });
 
@@ -192,7 +192,7 @@ describe("E2E: Loops", () => {
         } while (i < 10);
         sum;
       `;
-      expect(evaluateString(code)).toBe(45);
+      expect(evaluateProgram(code)).toBe(45);
     });
 
     it("Can break out of a do while loop", () => {
@@ -208,7 +208,7 @@ describe("E2E: Loops", () => {
         } while (i < 10);
         sum;
       `;
-      expect(evaluateString(code)).toBe(15);
+      expect(evaluateProgram(code)).toBe(15);
     });
 
     it("Can continue to the next iteration of a do while loop", () => {
@@ -224,7 +224,7 @@ describe("E2E: Loops", () => {
         } while (i < 10);
         sum;
       `;
-      expect(evaluateString(code)).toBe(50);
+      expect(evaluateProgram(code)).toBe(50);
     });
   });
 });
