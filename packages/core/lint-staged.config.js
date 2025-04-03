@@ -1,7 +1,7 @@
 export default {
   "*.ts": [
-    "pnpm run --filter static-js format",
-    "pnpm run --filter static-js lint",
-    () => "pnpm run --filter static-js check",
+    "pnpm run --filter @suntime-js/core format",
+    "pnpm run --filter @suntime-js/core lint",
+    () => "pnpm run --filter @suntime-js/core check",
   ],
 };

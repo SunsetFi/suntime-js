@@ -28,4 +28,4 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
       - name: Run Tests
-        run: pnpm run --filter static-js test --coverage.enabled true
+        run: pnpm run --filter @suntime-js/core test --coverage.enabled true
