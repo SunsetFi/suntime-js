@@ -1,6 +1,6 @@
 {
   "name": "js-engine",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An AST-based javascript evaluator in a sandboxed environment.",
   "type": "module",
   "main": "lib/index.js",
