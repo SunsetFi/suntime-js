@@ -1,6 +1,6 @@
 {
-  "name": "js-engine",
-  "version": "0.0.2",
+  "name": "@suntime/core",
+  "version": "0.0.1",
   "description": "An AST-based javascript evaluator in a sandboxed environment.",
   "type": "module",
   "main": "lib/index.js",
