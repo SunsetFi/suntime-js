@@ -1,5 +1,5 @@
 {
-  "name": "static-js",
+  "name": "@sunsetfi/static-js",
   "version": "0.0.1",
   "description": "An AST-based javascript evaluator in a sandboxed environment.",
   "type": "module",
