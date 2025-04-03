@@ -4,6 +4,9 @@
   "description": "An AST-based javascript evaluator in a sandboxed environment.",
   "type": "module",
   "main": "lib/index.js",
+  "repository": {
+    "url": "https://github.com/SunsetFi/static-js"
+  },
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
