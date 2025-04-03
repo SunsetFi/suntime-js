@@ -1,4 +1,6 @@
-# static-js
+# @suntime/core
+
+(static-js was taken (So was js-engine))
 
 A javascript interpreter built on the TC39 ECMAScript 2025 standard, seeking to implement modern language features.
 
