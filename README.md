@@ -1,6 +1,6 @@
 # static-js
 
-A javascript interpreter built on the TC39 ECMAScript 2025 standard, supporting modern language features.
+A javascript interpreter built on the TC39 ECMAScript 2025 standard, seeking to implement modern language features.
 
 A spiritual successor to [static-eval](https://www.npmjs.com/package/static-eval).
 
@@ -102,8 +102,7 @@ Sets the global object or its properties for the realm.
 
 - `globalObj.value`: Sets the this arg to the given value. The value must be an object-like. If the value is not a StaticJsValue, it will be converted to one.
 - `globalObj: {properties?, extensible?}`: Specifies the properties of the global object, and whether or not it is extensible.
-  properties: A record matching string keys to ObjectPropertyDescriptors for each property.
-  **Note that `get` and `set` must be `EvaluationGenerator<StaticJsValue>` generator functions.**
+  properties: A record matching string keys to ObjectPropertyDescriptor objects for each property.
 
 ## Recipes
 

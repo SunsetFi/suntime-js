@@ -10,21 +10,21 @@ import StaticJsTypeFactoryImpl from "../../types/implementation/StaticJsTypeFact
 import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
 import {
   StaticJsObject,
-  StaticJsObjectPropertyDescriptor,
+  StaticJsObjectPropertyDescriptorGetter,
+  StaticJsObjectPropertyDescriptorValue,
 } from "../../types/interfaces/StaticJsObject.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
-export interface StaticJsEnvRealmGlobalDecl {
-  properties: Record<string, StaticJsObjectPropertyDescriptor>;
-  extensible?: boolean;
-}
-export interface StaticJsEnvRealmGlobalValue {
-  value: object;
-}
+import {
+  StaticJsRealmGlobalDecl,
+  StaticJsRealmGlobalValue,
+} from "../factories/StaticJsRealm.js";
+import { Writable } from "type-fest";
+import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 export interface StaticJsEnvRealmOptions {
   globalThis?: { value: unknown };
-  globalObject?: StaticJsEnvRealmGlobalDecl | StaticJsEnvRealmGlobalValue;
+  globalObject?: StaticJsRealmGlobalDecl | StaticJsRealmGlobalValue;
 }
 
 export default class StaticJsRealmImpl {
@@ -62,7 +62,52 @@ export default class StaticJsRealmImpl {
       for (const [name, descriptor] of Object.entries(
         globalObject.properties,
       )) {
-        globalObjectResolved.defineProperty(name, descriptor);
+        const descr: Writable<
+          StaticJsObjectPropertyDescriptorGetter &
+            StaticJsObjectPropertyDescriptorValue
+        > = {
+          configurable: descriptor.configurable ?? false,
+          enumerable: descriptor.enumerable ?? false,
+          writable: descriptor.writable ?? false,
+        };
+        if (descriptor.value) {
+          descr.value = this._typeFactory.toStaticJsValue(descriptor.value);
+        } else {
+          const types = this._typeFactory;
+          const { get, set } = descriptor;
+
+          if (get) {
+            descr.get = function* () {
+              let value = get();
+              if (
+                value &&
+                typeof value === "object" &&
+                "next" in value &&
+                typeof value.next === "function"
+              ) {
+                value = yield* value as EvaluationGenerator<unknown>;
+              }
+
+              return types.toStaticJsValue(value);
+            };
+          }
+
+          if (set) {
+            descr.set = function* (value: StaticJsValue) {
+              const setResult = set(value);
+              if (
+                setResult &&
+                typeof setResult === "object" &&
+                "next" in setResult &&
+                typeof setResult.next === "function"
+              ) {
+                yield* setResult as EvaluationGenerator<void>;
+              }
+            };
+          }
+        }
+
+        globalObjectResolved.defineProperty(name, descr);
       }
     } else {
       throw new Error("Invalid globalObject");

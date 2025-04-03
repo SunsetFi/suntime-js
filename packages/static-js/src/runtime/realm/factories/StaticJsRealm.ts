@@ -1,10 +1,18 @@
-import { StaticJsObjectPropertyDescriptor } from "../../types/index.js";
+import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
 import { StaticJsRealm as IStaticJsRealm } from "../interfaces/index.js";
 
+export interface StaticJsRealmGlobalDeclProperty {
+  readonly configurable?: boolean;
+  readonly enumerable?: boolean;
+  readonly writable?: boolean;
+  readonly value?: unknown;
+  readonly get?: () => unknown | EvaluationGenerator<unknown>;
+  readonly set?: (value: unknown) => void | EvaluationGenerator<void>;
+}
 export interface StaticJsRealmGlobalDecl {
-  properties: Record<string, StaticJsObjectPropertyDescriptor>;
+  properties: Record<string, StaticJsRealmGlobalDeclProperty>;
   extensible?: boolean;
 }
 export interface StaticJsRealmGlobalValue {
