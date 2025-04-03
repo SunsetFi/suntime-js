@@ -1,3 +1,3 @@
 packages:
-  - packages/static-js
+  - packages/core
   - live-sandbox

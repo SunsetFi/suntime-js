@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StaticJsRealm, compileProgram } from "static-js";
+import { StaticJsRealm, compileProgram } from "@suntime-js/core";
 
 import { SxProps } from "@mui/material/styles";
 import Box from "@mui/material/Box";
