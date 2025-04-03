@@ -7,14 +7,14 @@
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
-      "import": "./lib/index.js",
-      "require": "./lib/index.js"
+      "import": "./lib/index.js"
     }
   },
   "files": [
     "lib"
   ],
   "scripts": {
+    "clean": "rimraf lib tsconfig.lib.tsbuildinfo",
     "build": "tsc -p tsconfig.lib.json",
     "check": "tsc -p tsconfig.lib.json --noEmit",
     "test": "vitest",
