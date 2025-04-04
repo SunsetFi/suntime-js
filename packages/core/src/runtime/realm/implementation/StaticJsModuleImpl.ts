@@ -9,13 +9,12 @@ const NoDependencies: readonly string[] = Object.freeze([]);
 
 export default class StaticJsExternalModuleImpl implements StaticJsModule {
   private readonly _exportKeys: readonly string[];
-  private readonly _exportRefs = new Map<string, StaticJsValue>();
 
-  constructor(realm: StaticJsRealm, obj: Record<string, unknown>) {
-    for (const [name, value] of Object.entries(obj)) {
-      this._exportRefs.set(name, realm.types.toStaticJsValue(value));
-    }
-    this._exportKeys = Object.freeze([...this._exportRefs.keys()]);
+  constructor(
+    private _realm: StaticJsRealm,
+    private _obj: Record<string, unknown>,
+  ) {
+    this._exportKeys = Object.freeze([...Object.keys(_obj)]);
   }
 
   get dependencies(): readonly string[] {
@@ -25,16 +24,15 @@ export default class StaticJsExternalModuleImpl implements StaticJsModule {
   *execute(): EvaluationGenerator<void> {}
 
   hasExport(name: string): boolean {
-    return this._exportRefs.has(name);
+    return this._exportKeys.includes(name);
   }
 
   getExport(name: string): StaticJsValue {
-    const value = this._exportRefs.get(name);
-    if (value) {
-      return value;
-    } else {
+    if (!this._exportKeys.includes(name)) {
       throw new Error(`Module <external> has no export "${name}".`);
     }
+
+    return this._realm.types.toStaticJsValue(this._obj[name]);
   }
 
   getExportNames(): readonly string[] {
