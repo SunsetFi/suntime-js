@@ -32,12 +32,92 @@ describe("E2E: Functions", () => {
         a;
       `;
 
-      const env = new StaticJsRealm();
-      const func = evaluateProgram(code, env);
+      const func = evaluateProgram(code);
       if (typeof func !== "function") {
         throw new Error("Expected a function");
       }
-      expect(func(env)).toBe(42);
+      expect(func()).toBe(42);
+    });
+
+    it("Cascades throws", () => {
+      const code = `
+        function a() {
+          throw "test";
+        }
+        a();
+      `;
+      expect(() => evaluateProgram(code)).toThrow("test");
+    });
+
+    it("Is hoisted", () => {
+      const code = `
+        let result = a();
+        function a() {
+          return 42;
+        }
+        a();
+      `;
+      expect(evaluateProgram(code)).toBe(42);
+    });
+  });
+
+  describe("External", () => {
+    it("Can be invoked by the engine", () => {
+      const realm = StaticJsRealm({
+        globalObject: {
+          value: {
+            a: function () {
+              return 42;
+            },
+          },
+        },
+      });
+      const code = `
+        a();
+      `;
+      expect(evaluateProgram(code, realm)).toBe(42);
+    });
+
+    it("Can be invoked by the runtime", () => {
+      const realm = StaticJsRealm({
+        globalObject: {
+          value: {
+            a: function () {
+              return 42;
+            },
+          },
+        },
+      });
+      const code = `
+        a;
+      `;
+
+      const func = evaluateProgram(code, realm);
+      if (typeof func !== "function") {
+        throw new Error("Expected a function");
+      }
+      expect(func()).toBe(42);
+    });
+
+    it("Cascades throws", () => {
+      const realm = StaticJsRealm({
+        globalObject: {
+          value: {
+            a: function () {
+              throw 42;
+            },
+          },
+        },
+      });
+      const code = `
+        a();
+      `;
+      try {
+        evaluateProgram(code, realm);
+        throw new Error("Expected to throw");
+      } catch (e) {
+        expect(e).toEqual(42);
+      }
     });
 
     it("Is hoisted", () => {
@@ -69,7 +149,7 @@ describe("E2E: Functions", () => {
           return 42;
         };
       `;
-      const env = new StaticJsRealm();
+      const env = StaticJsRealm();
       evaluateProgram(code, env);
       expect(env.globalObject.hasProperty("foo")).toBe(false);
     });
@@ -92,7 +172,7 @@ describe("E2E: Functions", () => {
         a;
       `;
 
-      const env = new StaticJsRealm();
+      const env = StaticJsRealm();
       const func = evaluateProgram(code, env);
       if (typeof func !== "function") {
         throw new Error("Expected a function");

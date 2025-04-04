@@ -26,6 +26,8 @@ function* programNodeEvaluator(
   for (const statement of node.body) {
     lastCompletion = yield* EvaluateNodeCommand(statement, context);
     switch (lastCompletion.type) {
+      case "throw":
+        return lastCompletion;
       case "return":
       case "break":
       case "continue":

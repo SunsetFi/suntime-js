@@ -70,7 +70,10 @@ function* forStatementNodeEvaluator(
         if (result.type === "break") {
           return NormalCompletion(null);
         }
+        break;
       }
+      case "throw":
+        return result;
     }
 
     if (node.update) {

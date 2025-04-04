@@ -132,6 +132,17 @@ describe("E2E: Loops", () => {
       `;
       expect(evaluateProgram(code)).toStrictEqual([-1, 45]);
     });
+
+    it("Propagates thrown errors", () => {
+      const code = `
+        let sum = 0;
+        for (let i = 0; i < 10; i++) {
+          throw "Error";
+        }
+        sum;
+      `;
+      expect(() => evaluateProgram(code)).toThrow("Error");
+    });
   });
 
   describe("While", () => {
@@ -179,6 +190,17 @@ describe("E2E: Loops", () => {
       `;
       expect(evaluateProgram(code)).toBe(50);
     });
+
+    it("Propagates thrown errors", () => {
+      const code = `
+        let sum = 0;
+        while (true) {
+          throw "Error";
+        }
+        sum;
+      `;
+      expect(() => evaluateProgram(code)).toThrow("Error");
+    });
   });
 
   describe("Do While", () => {
@@ -225,6 +247,17 @@ describe("E2E: Loops", () => {
         sum;
       `;
       expect(evaluateProgram(code)).toBe(50);
+    });
+
+    it("Propagates thrown errors", () => {
+      const code = `
+        let sum = 0;
+        do {
+          throw "Error";
+        } while (true);
+        sum;
+      `;
+      expect(() => evaluateProgram(code)).toThrow("Error");
     });
   });
 });
