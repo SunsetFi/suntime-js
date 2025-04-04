@@ -2,7 +2,10 @@ import { LogicalExpression } from "@babel/types";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
-import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import {
+  EvaluateNodeAssertValueCommand,
+  EvaluateNodeCommand,
+} from "../commands/index.js";
 import { NormalCompletion } from "../completions/index.js";
 
 export default function logicalExpressionNodeEvaluator(
@@ -41,25 +44,64 @@ function* logicalExpressionOr(
   node: LogicalExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
+  const leftCompletion = yield* EvaluateNodeCommand(node.left, context);
+  if (leftCompletion.type === "throw") {
+    return leftCompletion;
+  }
+  if (leftCompletion.type !== "normal" || !leftCompletion.value) {
+    throw new Error(
+      "Expected logical expression left completion to be normal and have a value",
+    );
+  }
+  const left = leftCompletion.value;
+
   if (left.toBoolean()) {
     return NormalCompletion(left);
   }
 
-  return NormalCompletion(
-    yield* EvaluateNodeAssertValueCommand(node.right, context),
-  );
+  const rightCompletion = yield* EvaluateNodeCommand(node.right, context);
+  if (rightCompletion.type === "throw") {
+    return rightCompletion;
+  }
+  if (rightCompletion.type !== "normal" || !rightCompletion.value) {
+    throw new Error(
+      "Expected logical expression right completion to be normal and have a value",
+    );
+  }
+
+  const right = rightCompletion.value;
+
+  return NormalCompletion(right);
 }
 
 function* logicalExpressionNullishCoalescing(
   node: LogicalExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
-  if (["null", "undefined"].includes(left.runtimeTypeOf)) {
-    return NormalCompletion(
-      yield* EvaluateNodeAssertValueCommand(node.right, context),
+  const leftCompletion = yield* EvaluateNodeCommand(node.left, context);
+  if (leftCompletion.type === "throw") {
+    return leftCompletion;
+  }
+  if (leftCompletion.type !== "normal" || !leftCompletion.value) {
+    throw new Error(
+      "Expected logical expression left completion to be normal and have a value",
     );
+  }
+  const left = leftCompletion.value;
+
+  if (["null", "undefined"].includes(left.runtimeTypeOf)) {
+    const rightCompletion = yield* EvaluateNodeCommand(node.right, context);
+    if (rightCompletion.type === "throw") {
+      return rightCompletion;
+    }
+    if (rightCompletion.type !== "normal" || !rightCompletion.value) {
+      throw new Error(
+        "Expected logical expression right completion to be normal and have a value",
+      );
+    }
+
+    const right = rightCompletion.value;
+    return NormalCompletion(right);
   }
 
   return NormalCompletion(left);

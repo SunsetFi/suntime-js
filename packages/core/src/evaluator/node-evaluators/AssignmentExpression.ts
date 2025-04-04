@@ -4,7 +4,7 @@ import { isStaticJsScalar } from "../../runtime/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 import setLVal from "./LVal.js";
@@ -15,7 +15,16 @@ export default function* assignmentExpressionNodeEvaluator(
 ): EvaluationGenerator {
   const { left, right } = node;
 
-  let value = yield* EvaluateNodeAssertValueCommand(right, context);
+  const valueCompletion = yield* EvaluateNodeCommand(right, context);
+  if (valueCompletion.type === "throw") {
+    return valueCompletion;
+  }
+  if (valueCompletion.type !== "normal" || !valueCompletion.value) {
+    throw new Error(
+      "Expected assignment expression right completion to be normal and have a value",
+    );
+  }
+  let value = valueCompletion.value;
 
   if (left.type === "OptionalMemberExpression") {
     // Throw the same error typescript throws.

@@ -72,6 +72,7 @@ function* forStatementNodeEvaluator(
         }
         break;
       }
+      case "return":
       case "throw":
         return result;
     }

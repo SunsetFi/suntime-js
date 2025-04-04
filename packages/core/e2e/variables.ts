@@ -128,9 +128,9 @@ describe("E2E: Variables", () => {
       const code = `
         var a = 1;
       `;
-      const env = StaticJsRealm();
-      evaluateProgram(code, env);
-      expect(env.globalObject.hasProperty("a")).toBe(true);
+      const realm = StaticJsRealm();
+      evaluateProgram(code, { realm });
+      expect(realm.globalObject.hasProperty("a")).toBe(true);
     });
 
     it("Appears on the global scope in a block scope", () => {
@@ -139,9 +139,9 @@ describe("E2E: Variables", () => {
           var a = 1;
         }
       `;
-      const env = StaticJsRealm();
-      evaluateProgram(code, env);
-      expect(env.globalObject.hasProperty("a")).toBe(true);
+      const realm = StaticJsRealm();
+      evaluateProgram(code, { realm });
+      expect(realm.globalObject.hasProperty("a")).toBe(true);
     });
 
     it("Does not appear on the global scope in a function scope", () => {
@@ -150,9 +150,9 @@ describe("E2E: Variables", () => {
           var a = 1;
         }
       `;
-      const env = StaticJsRealm();
-      evaluateProgram(code, env);
-      expect(env.globalObject.hasProperty("a")).toBe(false);
+      const realm = StaticJsRealm();
+      evaluateProgram(code, { realm });
+      expect(realm.globalObject.hasProperty("a")).toBe(false);
     });
   });
 });

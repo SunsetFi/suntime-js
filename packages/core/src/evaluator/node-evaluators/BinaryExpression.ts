@@ -9,7 +9,7 @@ import {
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 export default function binaryExpressionNodeEvaluator(
@@ -71,8 +71,28 @@ function* binaryExpressionDoubleEquals(
   context: EvaluationContext,
   negate: boolean,
 ): EvaluationGenerator {
-  const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
-  const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
+  const leftCompletion = yield* EvaluateNodeCommand(node.left, context);
+  if (leftCompletion.type === "throw") {
+    return leftCompletion;
+  }
+  if (leftCompletion.type !== "normal" || !leftCompletion.value) {
+    throw new Error(
+      "Expected left completion to return a value, but got undefined",
+    );
+  }
+
+  const left = leftCompletion.value;
+
+  const rightCompletion = yield* EvaluateNodeCommand(node.right, context);
+  if (rightCompletion.type === "throw") {
+    return rightCompletion;
+  }
+  if (rightCompletion.type !== "normal" || !rightCompletion.value) {
+    throw new Error(
+      "Expected right completion to return a value, but got undefined",
+    );
+  }
+  const right = rightCompletion.value;
 
   const leftType = left.runtimeTypeOf;
   const rightType = right.runtimeTypeOf;
@@ -116,8 +136,28 @@ function* binaryExpressionTrippleEquals(
   context: EvaluationContext,
   negate: boolean,
 ): EvaluationGenerator {
-  const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
-  const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
+  const leftCompletion = yield* EvaluateNodeCommand(node.left, context);
+  if (leftCompletion.type === "throw") {
+    return leftCompletion;
+  }
+  if (leftCompletion.type !== "normal" || !leftCompletion.value) {
+    throw new Error(
+      "Expected left completion to return a value, but got undefined",
+    );
+  }
+
+  const left = leftCompletion.value;
+
+  const rightCompletion = yield* EvaluateNodeCommand(node.right, context);
+  if (rightCompletion.type === "throw") {
+    return rightCompletion;
+  }
+  if (rightCompletion.type !== "normal" || !rightCompletion.value) {
+    throw new Error(
+      "Expected right completion to return a value, but got undefined",
+    );
+  }
+  const right = rightCompletion.value;
 
   if (left.runtimeTypeOf !== right.runtimeTypeOf) {
     return NormalCompletion(context.realm.types.false);
@@ -139,8 +179,28 @@ function* binaryExpressionAdd(
   node: BinaryExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
-  const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
+  const leftCompletion = yield* EvaluateNodeCommand(node.left, context);
+  if (leftCompletion.type === "throw") {
+    return leftCompletion;
+  }
+  if (leftCompletion.type !== "normal" || !leftCompletion.value) {
+    throw new Error(
+      "Expected left completion to return a value, but got undefined",
+    );
+  }
+
+  const left = leftCompletion.value;
+
+  const rightCompletion = yield* EvaluateNodeCommand(node.right, context);
+  if (rightCompletion.type === "throw") {
+    return rightCompletion;
+  }
+  if (rightCompletion.type !== "normal" || !rightCompletion.value) {
+    throw new Error(
+      "Expected right completion to return a value, but got undefined",
+    );
+  }
+  const right = rightCompletion.value;
 
   if (!isStaticJsScalar(left) || !isStaticJsScalar(right)) {
     // One will become a string so both become a string.
@@ -160,8 +220,28 @@ function* numericComputation(
   node: BinaryExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
-  const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
+  const leftCompletion = yield* EvaluateNodeCommand(node.left, context);
+  if (leftCompletion.type === "throw") {
+    return leftCompletion;
+  }
+  if (leftCompletion.type !== "normal" || !leftCompletion.value) {
+    throw new Error(
+      "Expected left completion to return a value, but got undefined",
+    );
+  }
+
+  const left = leftCompletion.value;
+
+  const rightCompletion = yield* EvaluateNodeCommand(node.right, context);
+  if (rightCompletion.type === "throw") {
+    return rightCompletion;
+  }
+  if (rightCompletion.type !== "normal" || !rightCompletion.value) {
+    throw new Error(
+      "Expected right completion to return a value, but got undefined",
+    );
+  }
+  const right = rightCompletion.value;
 
   return NormalCompletion(
     context.realm.types.toStaticJsValue(
@@ -178,8 +258,28 @@ function* inOperator(
   node: BinaryExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
-  const right = yield* EvaluateNodeAssertValueCommand(node.right, context);
+  const leftCompletion = yield* EvaluateNodeCommand(node.left, context);
+  if (leftCompletion.type === "throw") {
+    return leftCompletion;
+  }
+  if (leftCompletion.type !== "normal" || !leftCompletion.value) {
+    throw new Error(
+      "Expected left completion to return a value, but got undefined",
+    );
+  }
+
+  const left = leftCompletion.value;
+
+  const rightCompletion = yield* EvaluateNodeCommand(node.right, context);
+  if (rightCompletion.type === "throw") {
+    return rightCompletion;
+  }
+  if (rightCompletion.type !== "normal" || !rightCompletion.value) {
+    throw new Error(
+      "Expected right completion to return a value, but got undefined",
+    );
+  }
+  const right = rightCompletion.value;
 
   if (!isStaticJsObjectLike(right)) {
     // FIXME: Use real error.

@@ -4,7 +4,10 @@ import { isStaticJsObjectLike } from "../../runtime/types/interfaces/StaticJsObj
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import {
+  EvaluateNodeAssertValueCommand,
+  EvaluateNodeCommand,
+} from "../commands/index.js";
 import EvaluationContext from "../EvaluationContext.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
@@ -53,10 +56,20 @@ function* deleteExpressionNodeEvaluator(
 
   const argument = node.argument;
   if (argument.type === "MemberExpression") {
-    const object = yield* EvaluateNodeAssertValueCommand(
+    const objectCompletion = yield* EvaluateNodeCommand(
       argument.object,
       context,
     );
+    if (objectCompletion.type === "throw") {
+      return objectCompletion;
+    }
+    if (objectCompletion.type !== "normal" || !objectCompletion.value) {
+      throw new Error(
+        "Expected object completion to return a value, but got undefined",
+      );
+    }
+    const object = objectCompletion.value;
+
     if (!isStaticJsObjectLike(object)) {
       // FIXME: Use real error.
       // FIXME: This might actualy be allowed... Delete is weird.
@@ -70,8 +83,17 @@ function* deleteExpressionNodeEvaluator(
     if (!argument.computed && property.type === "Identifier") {
       propertyName = property.name;
     } else {
-      const resolved = yield* EvaluateNodeAssertValueCommand(property, context);
-      propertyName = toPropertyKey(resolved);
+      const resolved = yield* EvaluateNodeCommand(property, context);
+      if (resolved.type === "throw") {
+        return resolved;
+      }
+      if (resolved.type !== "normal" || !resolved.value) {
+        throw new Error(
+          "Expected property completion to return a value, but got undefined",
+        );
+      }
+
+      propertyName = toPropertyKey(resolved.value);
     }
 
     const result = yield* object.deletePropertyEvaluator(propertyName);
