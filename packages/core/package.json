@@ -1,6 +1,6 @@
 {
   "name": "@suntime-js/core",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "An AST-based javascript evaluator in a sandboxed environment.",
   "type": "module",
   "main": "lib/index.js",
@@ -18,6 +18,7 @@
     "lib"
   ],
   "scripts": {
+    "prepublish": "npm run clean && npm run build",
     "clean": "rimraf lib tsconfig.lib.tsbuildinfo",
     "build": "tsc -p tsconfig.lib.json",
     "check": "tsc -p tsconfig.lib.json --noEmit",
