@@ -1,6 +1,10 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateExpressionString, StaticJsRealm } from "../src/index.js";
+import {
+  evaluateExpressionString,
+  evaluateProgram,
+  StaticJsRealm,
+} from "../src/index.js";
 
 describe("E2E: Realm", () => {
   describe("Globals", () => {
@@ -45,6 +49,40 @@ describe("E2E: Realm", () => {
 
       evaluateExpressionString("x = 43", env);
       expect(globalObjectValue._x).toBe(43);
+    });
+
+    it("Can call a global function", () => {
+      const globalObjectValue = {
+        fn: function () {
+          return 42;
+        },
+      };
+
+      const env = StaticJsRealm({
+        globalObject: {
+          value: globalObjectValue,
+        },
+      });
+
+      const result = evaluateProgram("fn()", env);
+      expect(result).toEqual(42);
+    });
+
+    it("Preserves the global this reference", () => {
+      const globalObjectValue = {
+        fn: function () {
+          return this;
+        },
+      };
+
+      const env = StaticJsRealm({
+        globalObject: {
+          value: globalObjectValue,
+        },
+      });
+
+      const result = evaluateProgram("fn()", env);
+      expect(result).toBe(globalObjectValue);
     });
   });
 });

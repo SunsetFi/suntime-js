@@ -24,6 +24,8 @@ export default abstract class StaticJsAbstractObject
   private _prototype: StaticJsObject | null = null;
   private _extensible: boolean = true;
 
+  private _cachedJsObject: unknown | null = null;
+
   constructor(
     realm: StaticJsRealm,
     prototype: StaticJsObject | StaticJsNull | null,
@@ -291,11 +293,14 @@ export default abstract class StaticJsAbstractObject
   }
 
   toJs(): unknown {
-    // TODO: Cache this?
-    // TODO: Use a proxy object and support setting and defining values to it.
-    // TODO: Would it be workable to just make the constructor always return an external object and just give it
-    // a new object to wrap?
+    if (this._cachedJsObject) {
+      return this._cachedJsObject;
+    }
+
     const result: Record<string, unknown> = {};
+    // Set this now in case of circular references.
+    this._cachedJsObject = result;
+
     for (const key of this.getOwnKeys()) {
       result[key] = this.getProperty(key).toJs();
     }
