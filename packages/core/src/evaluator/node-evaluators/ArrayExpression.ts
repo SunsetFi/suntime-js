@@ -5,7 +5,7 @@ import { isStaticJsArray, StaticJsValue } from "../../runtime/index.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
-import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/index.js";
 import nameNode from "./name-node.js";
 
 export default function* arrayExpressionNodeEvaluator(
@@ -20,10 +20,23 @@ export default function* arrayExpressionNodeEvaluator(
     }
 
     if (element.type === "SpreadElement") {
-      const resolved = yield* EvaluateNodeAssertValueCommand(
+      const resolvedCompletion = yield* EvaluateNodeCommand(
         element.argument,
         context,
       );
+      if (resolvedCompletion.type === "throw") {
+        return resolvedCompletion;
+      }
+      if (resolvedCompletion.type !== "normal" || !resolvedCompletion.value) {
+        // FIXME: Use real error.
+        return ThrowCompletion(
+          context.realm.types.string(
+            `Cannot spread non-array value (spreading ${nameNode(element)}).`,
+          ),
+        );
+      }
+
+      const resolved = resolvedCompletion.value;
       if (!isStaticJsArray(resolved)) {
         // FIXME: Use real error.
         return ThrowCompletion(
@@ -40,8 +53,20 @@ export default function* arrayExpressionNodeEvaluator(
       continue;
     }
 
-    const value = yield* EvaluateNodeAssertValueCommand(element, context);
-    items.push(value);
+    const valueCompletion = yield* EvaluateNodeCommand(element, context);
+    if (valueCompletion.type === "throw") {
+      return valueCompletion;
+    }
+    if (valueCompletion.type !== "normal" || !valueCompletion.value) {
+      // FIXME: Use real error.
+      return ThrowCompletion(
+        context.realm.types.string(
+          `Cannot resolve value (resolving ${nameNode(element)}).`,
+        ),
+      );
+    }
+
+    items.push(valueCompletion.value);
   }
 
   return NormalCompletion(context.realm.types.createArray(items));

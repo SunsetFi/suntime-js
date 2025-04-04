@@ -4,10 +4,7 @@ import { isStaticJsObjectLike } from "../../runtime/types/interfaces/StaticJsObj
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import {
-  EvaluateNodeAssertValueCommand,
-  EvaluateNodeCommand,
-} from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/index.js";
 import EvaluationContext from "../EvaluationContext.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
@@ -25,7 +22,16 @@ export default function* unaryExpressionNodeEvaluator(
 
   // Note: In the case of 'void', this is never used.
   // But it still can have side-effects.
-  const value = yield* EvaluateNodeAssertValueCommand(node.argument, context);
+  const valueCompletion = yield* EvaluateNodeCommand(node.argument, context);
+  if (valueCompletion.type === "throw") {
+    return valueCompletion;
+  }
+  if (valueCompletion.type !== "normal" || !valueCompletion.value) {
+    throw new Error(
+      "Expected unary expression argument to be normal completion, but got undefined",
+    );
+  }
+  const value = valueCompletion.value;
 
   const types = context.realm.types;
   switch (node.operator) {
@@ -127,7 +133,16 @@ function* typeofExpressionNodeEvaluator(
     }
     return NormalCompletion(context.realm.types.string("undefined"));
   } else {
-    const value = yield* EvaluateNodeAssertValueCommand(argument, context);
+    const valueCompletion = yield* EvaluateNodeCommand(argument, context);
+    if (valueCompletion.type === "throw") {
+      return valueCompletion;
+    }
+    if (valueCompletion.type !== "normal" || !valueCompletion.value) {
+      throw new Error(
+        "Expected typeof expression argument to be normal completion, but got undefined",
+      );
+    }
+    const value = valueCompletion.value;
     return NormalCompletion(context.realm.types.string(value.typeOf));
   }
 }

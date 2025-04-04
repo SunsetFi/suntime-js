@@ -1,9 +1,6 @@
 import { IfStatement } from "@babel/types";
 
-import {
-  EvaluateNodeAssertValueCommand,
-  EvaluateNodeCommand,
-} from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/index.js";
 import EvaluationContext from "../EvaluationContext.js";
 import { Completion, NormalCompletion } from "../completions/index.js";
 
@@ -11,7 +8,16 @@ export default function* ifStatementNodeEvaluator(
   node: IfStatement,
   context: EvaluationContext,
 ) {
-  const testResult = yield* EvaluateNodeAssertValueCommand(node.test, context);
+  const testResultCompletion = yield* EvaluateNodeCommand(node.test, context);
+  if (testResultCompletion.type === "throw") {
+    return testResultCompletion;
+  }
+  if (testResultCompletion.type !== "normal" || !testResultCompletion.value) {
+    throw new Error(
+      `Expected test result to be normal completion, but got ${testResultCompletion.type}`,
+    );
+  }
+  const testResult = testResultCompletion.value;
 
   let result: Completion = NormalCompletion(null);
   if (testResult.toBoolean()) {

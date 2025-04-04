@@ -7,7 +7,7 @@ import typedMerge from "../../internal/typed-merge.js";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
-import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion } from "../completions/index.js";
 
 import setLVal, { environmentSetupLVal } from "./LVal.js";
@@ -115,7 +115,14 @@ function* declarationStatementEvaluator(
 ): EvaluationGenerator {
   let value: StaticJsValue | null = null;
   if (declarator.init) {
-    value = yield* EvaluateNodeAssertValueCommand(declarator.init, context);
+    const completion = yield* EvaluateNodeCommand(declarator.init, context);
+    if (completion.type === "throw") {
+      return completion;
+    }
+    if (completion.type !== "normal" || !completion.value) {
+      throw new Error(`Expected normal completion, got ${completion.type}`);
+    }
+    value = completion.value;
   }
 
   return yield* setLVal(declarator.id, value, context, variableCreator);

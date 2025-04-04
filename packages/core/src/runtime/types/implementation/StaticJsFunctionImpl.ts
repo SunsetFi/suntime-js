@@ -1,7 +1,7 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import {
   Completion,
-  ReturnCompletion,
+  NormalCompletion,
   runEvaluatorUntilCompletion,
   ThrowCompletion,
 } from "../../../evaluator/internal.js";
@@ -141,7 +141,7 @@ export default class StaticJsFunctionImpl
     return true;
   }
 
-  call(thisArg: StaticJsValue, ...args: StaticJsValue[]): EvaluationGenerator {
+  *call(thisArg: StaticJsValue, ...args: StaticJsValue[]): EvaluationGenerator {
     if (!isStaticJsValue(thisArg)) {
       throw new Error("thisArg must be a StaticJsValue instance.");
     }
@@ -150,8 +150,21 @@ export default class StaticJsFunctionImpl
       throw new Error("Arguments must be StaticJsValue instances.");
     }
 
-    const callResult = this._call(thisArg, ...args);
-    return callResult;
+    const callResult = yield* this._call(thisArg, ...args);
+    switch (callResult.type) {
+      // This is jank... We have some functions returning Normal, others returning Return.
+      // FIXME: Find out which completion functions should resolve to.
+      case "normal":
+      case "return":
+        return NormalCompletion(callResult.value ?? this.realm.types.undefined);
+      case "throw":
+        return callResult;
+
+      default:
+        throw new Error(
+          `Invalid function completion type: ${callResult.type}. Expected normal, throw, or return.`,
+        );
+    }
   }
 
   *construct(...args: StaticJsValue[]): EvaluationGenerator {
@@ -164,10 +177,9 @@ export default class StaticJsFunctionImpl
     const thisObj = this.realm.types.createObject(undefined, proto);
     const result = yield* this.call(thisObj, ...args);
     if (result.type === "return" && isStaticJsObjectLike(result.value)) {
-      // FIXME JANK: Functions should return normal completions?
-      return ReturnCompletion(result.value);
+      return NormalCompletion(result.value);
     }
 
-    return ReturnCompletion(thisObj);
+    return NormalCompletion(thisObj);
   }
 }

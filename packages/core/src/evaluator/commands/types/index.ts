@@ -1,7 +1,4 @@
-export {
-  EvaluateNodeCommand,
-  EvaluateNodeNormalValueCommand as EvaluateNodeAssertValueCommand,
-} from "./EvaluateNodeCommand.js";
+export { EvaluateNodeCommand } from "./EvaluateNodeCommand.js";
 
 import type { EvaluateNodeCommand } from "./EvaluateNodeCommand.js";
 

@@ -10,7 +10,7 @@ import {
 } from "../../runtime/index.js";
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
-import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
@@ -129,11 +129,22 @@ export default function* setLVal(
           if (!property.computed && propertyKey.type === "Identifier") {
             keyName = propertyKey.name;
           } else {
-            const resolved = yield* EvaluateNodeAssertValueCommand(
+            const resolvedCompletion = yield* EvaluateNodeCommand(
               propertyKey,
               context,
             );
-            keyName = toPropertyKey(resolved);
+            if (resolvedCompletion.type === "throw") {
+              return resolvedCompletion;
+            }
+            if (
+              resolvedCompletion.type !== "normal" ||
+              !resolvedCompletion.value
+            ) {
+              throw new Error(
+                `ObjectPattern: Expected normal completion, got ${resolvedCompletion.type}`,
+              );
+            }
+            keyName = toPropertyKey(resolvedCompletion.value);
           }
 
           const propertyValue = yield* value.getPropertyEvaluator(keyName);
@@ -164,7 +175,16 @@ export default function* setLVal(
     }
     case "AssignmentPattern": {
       if (!value || isStaticJsUndefined(value)) {
-        value = yield* EvaluateNodeAssertValueCommand(lval.right, context);
+        const valueCompletion = yield* EvaluateNodeCommand(lval.right, context);
+        if (valueCompletion.type === "throw") {
+          return valueCompletion;
+        }
+        if (valueCompletion.type !== "normal" || !valueCompletion.value) {
+          throw new Error(
+            `AssignmentPattern: Expected normal completion, got ${valueCompletion.type}`,
+          );
+        }
+        value = valueCompletion.value;
       }
 
       return yield* setLVal(lval.left, value, context, setNamedVariable);
@@ -176,10 +196,18 @@ export default function* setLVal(
         throw new Error("Cannot use MemberExpression as LVal without value.");
       }
 
-      const object = yield* EvaluateNodeAssertValueCommand(
-        lval.object,
-        context,
-      );
+      const objectCompletion = yield* EvaluateNodeCommand(lval.object, context);
+      if (objectCompletion.type === "throw") {
+        return objectCompletion;
+      }
+      if (objectCompletion.type !== "normal" || !objectCompletion.value) {
+        throw new Error(
+          `MemberExpression: Expected normal completion, got ${objectCompletion.type}`,
+        );
+      }
+
+      const object = objectCompletion.value;
+
       if (!isStaticJsObject(object)) {
         // FIXME: Use real error.
         return ThrowCompletion(
@@ -197,10 +225,19 @@ export default function* setLVal(
       if (!lval.computed && lval.property.type === "Identifier") {
         propertyKey = lval.property.name;
       } else {
-        const resolved = yield* EvaluateNodeAssertValueCommand(
+        const resolvedCompletion = yield* EvaluateNodeCommand(
           lval.property,
           context,
         );
+        if (resolvedCompletion.type === "throw") {
+          return resolvedCompletion;
+        }
+        if (resolvedCompletion.type !== "normal" || !resolvedCompletion.value) {
+          throw new Error(
+            `MemberExpression: Expected normal completion, got ${resolvedCompletion.type}`,
+          );
+        }
+        const resolved = resolvedCompletion.value;
         if (!isStaticJsScalar(resolved)) {
           // FIXME: Use real error.
           return ThrowCompletion(

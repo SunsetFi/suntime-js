@@ -4,10 +4,7 @@ import { isStaticJsFunction, StaticJsValue } from "../../runtime/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import {
-  EvaluateNodeAssertValueCommand,
-  EvaluateNodeCommand,
-} from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 import nameNode from "./name-node.js";
@@ -77,16 +74,28 @@ export default function* callExpressionNodeEvaluator(
 
   const args = new Array(node.arguments.length);
   for (let i = 0; i < node.arguments.length; i++) {
-    args[i] = yield* EvaluateNodeAssertValueCommand(node.arguments[i], context);
+    const argCompletion = yield* EvaluateNodeCommand(
+      node.arguments[i],
+      context,
+    );
+    if (argCompletion.type === "throw") {
+      return argCompletion;
+    }
+    if (argCompletion.type !== "normal" || !argCompletion.value) {
+      throw new Error(
+        `Expected argument completion to return a value, but got ${argCompletion.type}`,
+      );
+    }
+    args[i] = argCompletion.value;
   }
 
   const callCompletion = yield* callee.call(thisArg, ...args);
 
   switch (callCompletion.type) {
     case "normal":
-      return NormalCompletion(null);
-    case "return":
-      return NormalCompletion(callCompletion.value);
+      return NormalCompletion(
+        callCompletion.value ?? context.realm.types.undefined,
+      );
     case "throw":
       return callCompletion;
     default:

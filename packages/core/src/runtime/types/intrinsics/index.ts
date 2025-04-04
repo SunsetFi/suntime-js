@@ -53,7 +53,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
   populateNumberPrototype(realm, numberProto, functionProto);
   populateBooleanPrototype(realm, booleanProto, functionProto);
 
-  populateArrayPrototype(realm, arrayProto);
+  populateArrayPrototype(realm, arrayProto, functionProto);
   populateFunctionPrototype(realm, functionProto);
 
   return {

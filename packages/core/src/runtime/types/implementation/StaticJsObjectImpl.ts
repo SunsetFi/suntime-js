@@ -26,26 +26,15 @@ export default class StaticJsObjectImpl extends StaticJsAbstractObject {
   }
 
   *getOwnKeysEvaluator(): EvaluationGenerator<string[]> {
-    return Array.from(this._contents.keys());
+    return Array.from(this._contents.keys()).filter(
+      (x) => this._contents.get(x)?.enumerable,
+    );
   }
 
   *getOwnPropertyDescriptorEvaluator(
     name: string,
   ): EvaluationGenerator<StaticJsObjectPropertyDescriptor | undefined> {
     return this._contents.get(name);
-  }
-
-  deleteProperty(name: string): boolean {
-    if (!this.extensible) {
-      return false;
-    }
-
-    const decl = this._contents.get(name);
-    if (!decl || !decl.configurable) {
-      return false;
-    }
-
-    return this._contents.delete(name);
   }
 
   protected *_setWritableDataPropertyEvaluator(

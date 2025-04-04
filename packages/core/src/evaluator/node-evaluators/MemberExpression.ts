@@ -6,7 +6,7 @@ import { isStaticJsUndefined } from "../../runtime/types/interfaces/StaticJsUnde
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 import nameNode from "./name-node.js";
@@ -16,7 +16,16 @@ export default function* memberExpressionNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const propertyNode = node.property;
-  let target = yield* EvaluateNodeAssertValueCommand(node.object, context);
+  const targetCompletion = yield* EvaluateNodeCommand(node.object, context);
+  if (targetCompletion.type === "throw") {
+    return targetCompletion;
+  }
+  if (targetCompletion.type !== "normal" || !targetCompletion.value) {
+    throw new Error(
+      `MemberExpression: Expected normal completion, got ${targetCompletion.type}`,
+    );
+  }
+  let target = targetCompletion.value;
 
   if (isStaticJsNull(target)) {
     // FIXME: Use real error.
@@ -50,11 +59,20 @@ export default function* memberExpressionNodeEvaluator(
   if (!node.computed && propertyNode.type === "Identifier") {
     propertyName = propertyNode.name;
   } else {
-    const resolved = yield* EvaluateNodeAssertValueCommand(
+    const resolvedCompletion = yield* EvaluateNodeCommand(
       propertyNode,
       context,
     );
-    propertyName = toPropertyKey(resolved);
+    if (resolvedCompletion.type === "throw") {
+      return resolvedCompletion;
+    }
+    if (resolvedCompletion.type !== "normal" || !resolvedCompletion.value) {
+      throw new Error(
+        `MemberExpression: Expected normal completion, got ${resolvedCompletion.type}`,
+      );
+    }
+
+    propertyName = toPropertyKey(resolvedCompletion.value);
   }
 
   const value = yield* target.getPropertyEvaluator(propertyName);

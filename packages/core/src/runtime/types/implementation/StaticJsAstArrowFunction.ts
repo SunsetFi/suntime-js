@@ -13,7 +13,6 @@ import {
   EvaluationContext,
   EvaluationGenerator,
   NormalCompletion,
-  ReturnCompletion,
   ThrowCompletion,
 } from "../../../evaluator/internal.js";
 
@@ -89,12 +88,15 @@ export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
       case "break":
       case "continue":
         throw new Error("Unexpected break/continue in function");
-      case "return":
       case "throw":
         return evaluationCompletion;
-      // FIXME: Functions probably shouldn't be required to return ReturnCompletions?  Should they return NormalCompletions?.
+      case "return":
+        return NormalCompletion(
+          evaluationCompletion.value ?? this.realm.types.undefined,
+        );
+
       case "normal":
-        return ReturnCompletion(
+        return NormalCompletion(
           evaluationCompletion.value ?? this.realm.types.undefined,
         );
     }

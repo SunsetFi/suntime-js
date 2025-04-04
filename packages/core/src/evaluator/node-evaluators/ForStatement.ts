@@ -9,10 +9,7 @@ import { StaticJsEnvironment } from "../../runtime/environments/index.js";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
-import {
-  EvaluateNodeAssertValueCommand,
-  EvaluateNodeCommand,
-} from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion } from "../completions/index.js";
 
 import setupEnvironment from "./setup-environment.js";
@@ -35,11 +32,23 @@ function* forStatementNodeEvaluator(
 
   do {
     if (node.test) {
-      const testResult = yield* EvaluateNodeAssertValueCommand(
+      const testResultCompletion = yield* EvaluateNodeCommand(
         node.test,
         forContext,
       );
-      if (!testResult.toBoolean()) {
+      if (testResultCompletion.type === "throw") {
+        return testResultCompletion;
+      }
+      if (
+        testResultCompletion.type !== "normal" ||
+        !testResultCompletion.value
+      ) {
+        throw new Error(
+          `Expected test result to be normal completion, but got ${testResultCompletion.type}`,
+        );
+      }
+
+      if (!testResultCompletion.value.toBoolean()) {
         return NormalCompletion(null);
       }
     }

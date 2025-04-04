@@ -18,12 +18,12 @@ import {
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
-import { EvaluateNodeNormalValueCommand } from "../commands/types/EvaluateNodeCommand.js";
+import { EvaluateNodeCommand } from "../commands/types/EvaluateNodeCommand.js";
 import NormalCompletion from "../completions/NormalCompletion.js";
 
 import createFunction from "./Function.js";
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
-import { ThrowCompletion } from "../completions/index.js";
+import { Completion } from "../completions/index.js";
 
 // Note: I tested the edge-case of having a computed property key that is an expression mutate the value used in the value,
 // and the result is each key is computed before its property, and the next property/value pair is computed after the previous property/value pair.
@@ -35,33 +35,28 @@ export default function* objectExpressionNodeEvaluator(
   const target = context.realm.types.createObject();
 
   for (const property of node.properties) {
+    let completion: Completion;
     switch (property.type) {
       case "ObjectMethod":
-        yield* objectExpressionPropertyObjectMethodEvaluator(
+        completion = yield* objectExpressionPropertyObjectMethodEvaluator(
           target,
           property,
           context,
         );
         break;
       case "ObjectProperty":
-        yield* objectExpressionPropertyObjectPropertyEvaluator(
+        completion = yield* objectExpressionPropertyObjectPropertyEvaluator(
           target,
           property,
           context,
         );
         break;
       case "SpreadElement": {
-        const completion =
-          yield* objectExpressionPropertySpreadElementEvaluator(
-            target,
-            property,
-            context,
-          );
-
-        if (completion.type !== "normal") {
-          return completion;
-        }
-
+        completion = yield* objectExpressionPropertySpreadElementEvaluator(
+          target,
+          property,
+          context,
+        );
         break;
       }
       default: {
@@ -69,6 +64,10 @@ export default function* objectExpressionNodeEvaluator(
         const type = property.type;
         throw new Error("Unsupported property type: " + type);
       }
+    }
+
+    if (completion.type === "throw") {
+      return completion;
     }
   }
 
@@ -79,17 +78,23 @@ function* objectExpressionPropertyObjectMethodEvaluator(
   target: StaticJsObject,
   property: ObjectMethod,
   context: EvaluationContext,
-): EvaluationGenerator<void> {
+): EvaluationGenerator {
   const propertyKey = property.key;
   let propertyName: string;
   if (!property.computed && propertyKey.type === "Identifier") {
     // Identifiers evaluate to their values, but we want their name.
     propertyName = propertyKey.name;
   } else {
-    const resolved = yield* EvaluateNodeNormalValueCommand(
-      propertyKey,
-      context,
-    );
+    const resolvedCompletion = yield* EvaluateNodeCommand(propertyKey, context);
+    if (resolvedCompletion.type === "throw") {
+      return resolvedCompletion;
+    }
+    if (resolvedCompletion.type !== "normal" || !resolvedCompletion.value) {
+      throw new Error(
+        `ObjectMethod: Expected normal completion, got ${resolvedCompletion.type}`,
+      );
+    }
+    const resolved = resolvedCompletion.value;
 
     propertyName = toPropertyKey(resolved);
   }
@@ -103,7 +108,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
         method,
         context.realm.strict,
       );
-      return;
+      return NormalCompletion(null);
     }
     case "get": {
       yield* target.definePropertyEvaluator(propertyName, {
@@ -115,7 +120,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
           return result;
         },
       });
-      return;
+      return NormalCompletion(null);
     }
     case "set": {
       yield* target.definePropertyEvaluator(propertyName, {
@@ -125,7 +130,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
           yield* method.call(target, value);
         },
       });
-      return;
+      return NormalCompletion(null);
     }
   }
 
@@ -137,7 +142,7 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
   target: StaticJsObject,
   property: ObjectProperty,
   context: EvaluationContext,
-): EvaluationGenerator<void> {
+): EvaluationGenerator {
   const propertyKey = property.key;
   let propertyName: string;
   if (!property.computed && propertyKey.type === "Identifier") {
@@ -145,15 +150,32 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
   } else if (propertyKey.type === "PrivateName") {
     throw new Error("Private fields are not supported");
   } else {
-    const resolved = yield* EvaluateNodeNormalValueCommand(
-      propertyKey,
-      context,
-    );
+    const resolvedCompletion = yield* EvaluateNodeCommand(propertyKey, context);
+    if (resolvedCompletion.type === "throw") {
+      return resolvedCompletion;
+    }
+    if (resolvedCompletion.type !== "normal" || !resolvedCompletion.value) {
+      throw new Error(
+        `ObjectProperty: Expected normal completion, got ${resolvedCompletion.type}`,
+      );
+    }
+    const resolved = resolvedCompletion.value;
     propertyName = toPropertyKey(resolved);
   }
 
-  const value = yield* EvaluateNodeNormalValueCommand(property.value, context);
+  const valueCompletion = yield* EvaluateNodeCommand(property.value, context);
+  if (valueCompletion.type === "throw") {
+    return valueCompletion;
+  }
+  if (valueCompletion.type !== "normal" || !valueCompletion.value) {
+    throw new Error(
+      `ObjectProperty: Expected normal completion, got ${valueCompletion.type}`,
+    );
+  }
+
+  const value = valueCompletion.value;
   yield* target.setPropertyEvaluator(propertyName, value, context.realm.strict);
+  return NormalCompletion(null);
 }
 
 function* objectExpressionPropertySpreadElementEvaluator(
@@ -161,15 +183,23 @@ function* objectExpressionPropertySpreadElementEvaluator(
   property: SpreadElement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const value = yield* EvaluateNodeNormalValueCommand(
+  const valueCompletion = yield* EvaluateNodeCommand(
     property.argument,
     context,
   );
-  if (!isStaticJsObject(value)) {
-    // FIXME: Use real error.
-    return ThrowCompletion(
-      context.realm.types.string("Cannot spread non-object value"),
+  if (valueCompletion.type === "throw") {
+    return valueCompletion;
+  }
+  if (valueCompletion.type !== "normal" || !valueCompletion.value) {
+    throw new Error(
+      `SpreadElement: Expected normal completion, got ${valueCompletion.type}`,
     );
+  }
+
+  const value = valueCompletion.value;
+  if (!isStaticJsObject(value)) {
+    // Apparently we just ignore these
+    return NormalCompletion(null);
   }
 
   const ownKeys = yield* value.getOwnKeysEvaluator();

@@ -8,10 +8,7 @@ import StaticJsEnvironment from "../../runtime/environments/interfaces/StaticJsE
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import {
-  EvaluateNodeAssertValueCommand,
-  EvaluateNodeCommand,
-} from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/index.js";
 
 import { NormalCompletion } from "../completions/index.js";
 
@@ -67,12 +64,20 @@ function* doWhileStatementNodeEvaluator(
         return bodyResult;
     }
 
-    const testResult = yield* EvaluateNodeAssertValueCommand(
+    const testResultCompletion = yield* EvaluateNodeCommand(
       node.test,
       whileContext,
     );
+    if (testResultCompletion.type === "throw") {
+      return testResultCompletion;
+    }
+    if (testResultCompletion.type !== "normal" || !testResultCompletion.value) {
+      throw new Error(
+        `Expected normal completion, got ${testResultCompletion.type}`,
+      );
+    }
 
-    if (!testResult.toBoolean()) {
+    if (!testResultCompletion.value.toBoolean()) {
       break;
     }
   }

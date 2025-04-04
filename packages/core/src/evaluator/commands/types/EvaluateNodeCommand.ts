@@ -1,7 +1,5 @@
 import { Node } from "@babel/types";
 
-import { StaticJsValue } from "../../../runtime/index.js";
-
 import EvaluationContext from "../../EvaluationContext.js";
 import EvaluationGenerator from "../../EvaluationGenerator.js";
 import { EvaluateNodeOptions } from "../../node-evaluators/index.js";
@@ -27,24 +25,4 @@ export function* EvaluateNodeCommand(
     options,
   };
   return result;
-}
-
-export function* EvaluateNodeNormalValueCommand(
-  node: Node,
-  context: EvaluationContext,
-): EvaluationGenerator<StaticJsValue> {
-  const result = yield* EvaluateNodeCommand(node, context);
-  if (result.type !== "normal") {
-    throw new Error(
-      `Expected node type ${node.type} to return a NormalCompletion, but got ${result.type}.`,
-    );
-  }
-
-  if (!result.value) {
-    throw new Error(
-      `Expected node type ${node.type} to return a NormalCompletion with a StaticJsValue.`,
-    );
-  }
-
-  return result.value;
 }

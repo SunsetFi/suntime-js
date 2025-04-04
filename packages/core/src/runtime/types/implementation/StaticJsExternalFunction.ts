@@ -29,7 +29,6 @@ export default class StaticJsExternalFunction extends StaticJsFunctionImpl {
     const valueArgsResolved = args.map((arg) => arg.toJs());
     try {
       const result = this._func.call(thisArgResolved, ...valueArgsResolved);
-      // FIXME: Function invocation should probably return NormalCompletion
       return ReturnCompletion(this.realm.types.toStaticJsValue(result));
     } catch (error) {
       // FIXME: Wrap error.  Do we really want to pass errors?

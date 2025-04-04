@@ -2,10 +2,7 @@ import { LogicalExpression } from "@babel/types";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
-import {
-  EvaluateNodeAssertValueCommand,
-  EvaluateNodeCommand,
-} from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion } from "../completions/index.js";
 
 export default function logicalExpressionNodeEvaluator(
@@ -30,11 +27,29 @@ function* logicalExpressionAnd(
   node: LogicalExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const left = yield* EvaluateNodeAssertValueCommand(node.left, context);
-  if (left.toBoolean()) {
-    return NormalCompletion(
-      yield* EvaluateNodeAssertValueCommand(node.right, context),
+  const leftCompletion = yield* EvaluateNodeCommand(node.left, context);
+  if (leftCompletion.type === "throw") {
+    return leftCompletion;
+  }
+  if (leftCompletion.type !== "normal" || !leftCompletion.value) {
+    throw new Error(
+      "Expected logical expression left completion to be normal and have a value",
     );
+  }
+
+  const left = leftCompletion.value;
+  if (left.toBoolean()) {
+    const rightCompletion = yield* EvaluateNodeCommand(node.right, context);
+    if (rightCompletion.type === "throw") {
+      return rightCompletion;
+    }
+    if (rightCompletion.type !== "normal" || !rightCompletion.value) {
+      throw new Error(
+        "Expected logical expression right completion to be normal and have a value",
+      );
+    }
+
+    return NormalCompletion(rightCompletion.value);
   }
 
   return NormalCompletion(left);
