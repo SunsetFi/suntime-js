@@ -162,5 +162,34 @@ describe("E2E: Arrays", () => {
         [1, 2, 3, 4, 5],
       ]);
     });
+
+    it("Can call Array.prototype.includes with primitives", () => {
+      const code = `
+        const a = [1, 2, 3];
+        a.includes(2);
+      `;
+      const result = evaluateProgram(code);
+      expect(result).toEqual(true);
+    });
+
+    // Apparently equality internal to javascript is not the same as the equality operator.
+    it("Can call Array.prototype.includes with NaN", () => {
+      const code = `
+        const a = [1, 2, 3, NaN];
+        a.includes(NaN);
+      `;
+      const result = evaluateProgram(code);
+      expect(result).toEqual(true);
+    });
+
+    it("Can call Array.prototype.includes with am object", () => {
+      const code = `
+        const search = {}
+        const a = ["1", search, "3"];
+        a.includes(search);
+      `;
+      const result = evaluateProgram(code);
+      expect(result).toEqual(true);
+    });
   });
 });

@@ -36,13 +36,13 @@ export type StaticJsAstArrowFunctionArgumentDeclaration =
 export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
   constructor(
     realm: StaticJsRealm,
+    name: string,
     private readonly _argumentDeclarations: StaticJsAstArrowFunctionArgumentDeclaration[],
     private readonly _context: EvaluationContext,
     private readonly _body: BlockStatement | Expression,
     private readonly _bound?: StaticJsValue,
   ) {
-    // FIXME: What is the name?
-    super(realm, "<arrow>", (thisArg, ...args) => this._invoke(thisArg, args));
+    super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args));
   }
 
   *construct(): EvaluationGenerator {

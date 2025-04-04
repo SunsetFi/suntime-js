@@ -1,6 +1,9 @@
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
-import { StaticJsObject } from "../interfaces/StaticJsObject.js";
+import {
+  isStaticJsObjectLike,
+  StaticJsObject,
+} from "../interfaces/StaticJsObject.js";
 
 import StaticJsObjectImpl from "../implementation/StaticJsObjectImpl.js";
 import StaticJsFunctionImpl from "../implementation/StaticJsFunctionImpl.js";
@@ -576,6 +579,55 @@ export function populateArrayPrototype(
         }
 
         return ReturnCompletion(realm.types.createArray(values));
+      },
+      { prototype: functionProto },
+    ),
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
+
+  arrayProto.defineProperty("includes", {
+    value: new StaticJsFunctionImpl(
+      realm,
+      "includes",
+      function* (thisArg: StaticJsValue, searchElement: StaticJsValue) {
+        if (!isStaticJsArray(thisArg)) {
+          // FIXME: Use real error.
+          return ThrowCompletion(
+            realm.types.string("Array.prototype.includes called on non-array"),
+          );
+        }
+
+        if (!searchElement) {
+          return ReturnCompletion(realm.types.true);
+        }
+
+        const length = yield* thisArg.getLengthEvaluator();
+
+        for (let i = 0; i < length; i++) {
+          const elementValue = yield* thisArg.getPropertyEvaluator(String(i));
+
+          // From experimentation. it seems that this uses strict equality.
+          // Even NaN equality returns true...
+          if (searchElement.runtimeTypeOf !== elementValue.runtimeTypeOf) {
+            continue;
+          }
+
+          if (isStaticJsObjectLike(searchElement)) {
+            if (searchElement === elementValue) {
+              return ReturnCompletion(realm.types.true);
+            }
+
+            continue;
+          }
+
+          // Primitives.
+          if (Object.is(searchElement.toJs(), elementValue.toJs())) {
+            return ReturnCompletion(realm.types.true);
+          }
+        }
+        return ReturnCompletion(realm.types.false);
       },
       { prototype: functionProto },
     ),

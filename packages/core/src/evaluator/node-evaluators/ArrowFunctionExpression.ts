@@ -24,6 +24,8 @@ function* arrowFunctionExpressionNodeEvaluator(
 
   const func = new StaticJsAstArrowFunction(
     context.realm,
+    // TODO: v8 uses the name of the variable the function is assigned to.
+    "",
     node.params,
     context,
     node.body,
