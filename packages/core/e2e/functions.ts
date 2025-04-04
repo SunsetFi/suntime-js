@@ -61,6 +61,30 @@ describe("E2E: Functions", () => {
     });
   });
 
+  describe("Invalid Calls", () => {
+    it("Throws the proper error for null functions", () => {
+      const code = `
+        function a() {
+          return 42;
+        }
+        a = null;
+        a();
+      `;
+      expect(() => evaluateProgram(code)).toThrow(
+        "TypeError: a is not a function",
+      );
+    });
+
+    it("Throws the proper error for undefined functions", () => {
+      const code = `
+        a();
+      `;
+      expect(() => evaluateProgram(code)).toThrow(
+        "ReferenceError: a is not defined",
+      );
+    });
+  });
+
   describe("External", () => {
     it("Can be invoked by the engine", () => {
       const realm = StaticJsRealm({
@@ -75,7 +99,7 @@ describe("E2E: Functions", () => {
       const code = `
         a();
       `;
-      expect(evaluateProgram(code, realm)).toBe(42);
+      expect(evaluateProgram(code, { realm })).toBe(42);
     });
 
     it("Can be invoked by the runtime", () => {
@@ -92,7 +116,7 @@ describe("E2E: Functions", () => {
         a;
       `;
 
-      const func = evaluateProgram(code, realm);
+      const func = evaluateProgram(code, { realm });
       if (typeof func !== "function") {
         throw new Error("Expected a function");
       }
@@ -113,7 +137,7 @@ describe("E2E: Functions", () => {
         a();
       `;
       try {
-        evaluateProgram(code, realm);
+        evaluateProgram(code, { realm });
         throw new Error("Expected to throw");
       } catch (e) {
         expect(e).toEqual(42);
@@ -149,9 +173,9 @@ describe("E2E: Functions", () => {
           return 42;
         };
       `;
-      const env = StaticJsRealm();
-      evaluateProgram(code, env);
-      expect(env.globalObject.hasProperty("foo")).toBe(false);
+      const realm = StaticJsRealm();
+      evaluateProgram(code, { realm });
+      expect(realm.globalObject.hasProperty("foo")).toBe(false);
     });
 
     it("Can be invoked by the engine", () => {
@@ -172,12 +196,11 @@ describe("E2E: Functions", () => {
         a;
       `;
 
-      const env = StaticJsRealm();
-      const func = evaluateProgram(code, env);
+      const func = evaluateProgram(code);
       if (typeof func !== "function") {
         throw new Error("Expected a function");
       }
-      expect(func(env)).toBe(42);
+      expect(func()).toBe(42);
     });
   });
 

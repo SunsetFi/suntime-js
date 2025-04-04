@@ -1,20 +1,16 @@
 import { describe, it, expect } from "vitest";
 
-import {
-  evaluateExpressionString,
-  evaluateProgram,
-  StaticJsRealm,
-} from "../src/index.js";
+import { evaluateProgram, StaticJsRealm } from "../src/index.js";
 
 describe("E2E: Realm", () => {
   describe("Globals", () => {
     it("Sets a global value", () => {
-      const env = StaticJsRealm({
+      const realm = StaticJsRealm({
         globalObject: {
           value: { x: 42 },
         },
       });
-      const result = evaluateExpressionString("x", env);
+      const result = evaluateProgram("x", { realm });
       expect(result).toEqual(42);
     });
 
@@ -23,13 +19,13 @@ describe("E2E: Realm", () => {
         x: 42,
       };
 
-      const env = StaticJsRealm({
+      const realm = StaticJsRealm({
         globalObject: {
           value: globalObjectValue,
         },
       });
 
-      evaluateExpressionString("x = 43", env);
+      evaluateProgram("x = 43", { realm });
       expect(globalObjectValue.x).toBe(42);
     });
 
@@ -41,13 +37,13 @@ describe("E2E: Realm", () => {
         _x: 42,
       };
 
-      const env = StaticJsRealm({
+      const realm = StaticJsRealm({
         globalObject: {
           value: globalObjectValue,
         },
       });
 
-      evaluateExpressionString("x = 43", env);
+      evaluateProgram("x = 43", { realm });
       expect(globalObjectValue._x).toBe(43);
     });
 
@@ -58,13 +54,13 @@ describe("E2E: Realm", () => {
         },
       };
 
-      const env = StaticJsRealm({
+      const realm = StaticJsRealm({
         globalObject: {
           value: globalObjectValue,
         },
       });
 
-      const result = evaluateProgram("fn()", env);
+      const result = evaluateProgram("fn()", { realm });
       expect(result).toEqual(42);
     });
 
@@ -75,13 +71,13 @@ describe("E2E: Realm", () => {
         },
       };
 
-      const env = StaticJsRealm({
+      const realm = StaticJsRealm({
         globalObject: {
           value: globalObjectValue,
         },
       });
 
-      const result = evaluateProgram("fn()", env);
+      const result = evaluateProgram("fn()", { realm });
       expect(result).toBe(globalObjectValue);
     });
   });

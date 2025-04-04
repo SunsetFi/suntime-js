@@ -4,9 +4,17 @@ import StaticJsRealm from "../runtime/realm/interfaces/StaticJsRealm.js";
 import StaticJsRealmFactory from "../runtime/realm/factories/StaticJsRealm.js";
 
 import { compileExpression, compileProgram } from "./compilation/factories.js";
-import { ProgramCompilationOptions } from "./compilation/options.js";
+import {
+  ExpressionCompilationOptions,
+  ProgramCompilationOptions,
+} from "./compilation/options.js";
 
 export interface EvaluateProgramOptions extends ProgramCompilationOptions {
+  realm?: StaticJsRealm;
+}
+
+export interface EvaluateExpressionOptions
+  extends ExpressionCompilationOptions {
   realm?: StaticJsRealm;
 }
 /**
@@ -36,17 +44,19 @@ export function evaluateProgram(
  * @returns The native javascript result of evaluating the code.
  * @public
  */
-export function evaluateExpressionString(
+export function evaluateExpression(
   string: string,
-  realm?: StaticJsRealm,
+  opts?: EvaluateExpressionOptions,
 ): unknown {
+  const { realm } = opts ?? {};
+
   const ast = parseExpression(string);
 
   if (ast.errors && ast.errors.length) {
     throw new Error(`Error parsing expression: ${ast.errors[0].code}.`);
   }
 
-  realm ??= StaticJsRealmFactory();
+  const resolvedRealm = realm ?? StaticJsRealmFactory();
 
-  return compileExpression(string).evaluate(realm);
+  return compileExpression(string).evaluate(resolvedRealm);
 }

@@ -1,10 +1,13 @@
 import { CallExpression } from "@babel/types";
 
-import { isStaticJsFunction } from "../../runtime/index.js";
+import { isStaticJsFunction, StaticJsValue } from "../../runtime/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeAssertValueCommand } from "../commands/index.js";
+import {
+  EvaluateNodeAssertValueCommand,
+  EvaluateNodeCommand,
+} from "../commands/index.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 import nameNode from "./name-node.js";
@@ -21,19 +24,53 @@ export default function* callExpressionNodeEvaluator(
   let thisArg = yield* context.env.getThisBindingEvaluator();
 
   if (node.callee.type === "MemberExpression") {
-    const object = yield* EvaluateNodeAssertValueCommand(
+    const calleeObjectResult = yield* EvaluateNodeCommand(
       node.callee.object,
       context,
     );
-    thisArg = object;
+    switch (calleeObjectResult.type) {
+      case "throw":
+        return calleeObjectResult;
+      case "normal":
+        if (!calleeObjectResult.value) {
+          throw new Error(
+            "Expected callee member expression normal completion to return a value, but got undefined",
+          );
+        }
+        thisArg = calleeObjectResult.value;
+        break;
+      default:
+        throw new Error(
+          "Expected callee memebr expression object to return throw or normal completion, but got " +
+            calleeObjectResult.type,
+        );
+    }
   }
 
-  const callee = yield* EvaluateNodeAssertValueCommand(node.callee, context);
+  const calleeCompletion = yield* EvaluateNodeCommand(node.callee, context);
+  let callee: StaticJsValue;
+  switch (calleeCompletion.type) {
+    case "throw":
+      return calleeCompletion;
+    case "normal":
+      if (!calleeCompletion.value) {
+        throw new Error(
+          "Expected callee completion to return a value, but got undefined",
+        );
+      }
+      callee = calleeCompletion.value;
+      break;
+    default:
+      throw new Error(
+        "Expected callee completion to return throw or normal completion, but got " +
+          calleeCompletion.type,
+      );
+  }
   if (!isStaticJsFunction(callee)) {
     // FIXME: Use real error.
     return ThrowCompletion(
       context.realm.types.string(
-        `Cannot call "${nameNode(node.callee)}": Not a function`,
+        `TypeError: ${nameNode(node.callee)} is not a function`,
       ),
     );
   }
