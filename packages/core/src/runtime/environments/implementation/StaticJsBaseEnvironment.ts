@@ -11,7 +11,7 @@ import StaticJsEnvironmentBindingProvider, {
   StaticJsEnvironmentGetBinding,
 } from "./StaticJsEnvironmentBindingProvider.js";
 
-export default abstract class StaticJsBaseEnvironment
+export default abstract class StaticJsBaseEnvironmentRecord
   implements StaticJsEnvironment, StaticJsEnvironmentBindingProvider
 {
   constructor(private readonly _realm: StaticJsRealm) {}

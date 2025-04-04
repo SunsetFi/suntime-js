@@ -1,10 +1,14 @@
-import { parse, parseExpression } from "@babel/parser";
+import { parseExpression } from "@babel/parser";
 
 import StaticJsRealm from "../runtime/realm/interfaces/StaticJsRealm.js";
 import StaticJsRealmFactory from "../runtime/realm/factories/StaticJsRealm.js";
 
 import { compileExpression, compileProgram } from "./compilation/factories.js";
+import { ProgramCompilationOptions } from "./compilation/options.js";
 
+export interface EvaluateProgramOptions extends ProgramCompilationOptions {
+  realm?: StaticJsRealm;
+}
 /**
  * Evaluates a string as a javascript program, and returns the result.
  * @param string - The string containing javascript code to evaluate.
@@ -14,17 +18,15 @@ import { compileExpression, compileProgram } from "./compilation/factories.js";
  */
 export function evaluateProgram(
   string: string,
-  realm?: StaticJsRealm,
+  opts?: EvaluateProgramOptions,
 ): unknown {
-  const ast = parse(string);
+  const { realm, ...compilationOpts } = opts ?? {};
 
-  if (ast.errors && ast.errors.length) {
-    throw new Error(`Error parsing expression: ${ast.errors[0].code}.`);
-  }
+  const compilation = compileProgram(string, compilationOpts);
 
-  realm ??= StaticJsRealmFactory();
+  const resolvedRealm = realm ?? StaticJsRealmFactory();
 
-  return compileProgram(string).evaluate(realm);
+  return compilation.evaluate(resolvedRealm);
 }
 
 /**

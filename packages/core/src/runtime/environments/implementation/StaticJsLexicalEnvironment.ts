@@ -5,7 +5,7 @@ import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
 import { StaticJsEnvironment } from "../interfaces/index.js";
 
-import StaticJsBaseEnvironment from "./StaticJsBaseEnvironmentRecord.js";
+import StaticJsBaseEnvironment from "./StaticJsBaseEnvironment.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 import StaticJsEnvironmentBindingProvider, {
   environmentToBindingProvider,

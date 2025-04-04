@@ -39,6 +39,7 @@ import doWhileStatementNodeEvaluator from "./DoWhileStatement.js";
 import newExpressionNodeEvaluator from "./NewExpression.js";
 import thisExpressionNodeEvaluator from "./ThisExpression.js";
 import arrowFunctionExpressionNodeEvaluator from "./ArrowFunctionExpression.js";
+import importDeclarationNodeEvaluator from "./ImportDeclaration.js";
 
 type NodeEvaluators = {
   [key in Node["type"]]?: NodeEvaluator<key>;
@@ -63,6 +64,7 @@ const nodeEvaluators: NodeEvaluators = {
   FunctionDeclaration: functionDeclarationNodeEvaluator,
   FunctionExpression: functionExpressionNodeEvaluator,
   IfStatement: ifStatementNodeEvaluator,
+  ImportDeclaration: importDeclarationNodeEvaluator,
   Identifier: identifierNodeEvaluator,
   LabeledStatement: labeledStatementNodeEvaluator,
   LogicalExpression: logicalExpressionNodeEvaluator,

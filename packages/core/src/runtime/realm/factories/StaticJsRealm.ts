@@ -19,9 +19,15 @@ export interface StaticJsRealmGlobalValue {
   value: object;
 }
 
+export interface StaticJsRealmModuleExports {
+  exports: Record<string, unknown>;
+}
+
+export type StaticJsRealmModule = StaticJsRealmModuleExports;
 export interface StaticJsRealmOptions {
   globalThis?: { value: unknown };
   globalObject?: StaticJsRealmGlobalDecl | StaticJsRealmGlobalValue;
+  modules?: Record<string, StaticJsRealmModule>;
 }
 
 /**

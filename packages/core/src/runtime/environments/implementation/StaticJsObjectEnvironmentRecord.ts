@@ -1,11 +1,11 @@
 import { EvaluationGenerator } from "../../../evaluator/internal.js";
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 import { StaticJsObject, StaticJsValue } from "../../types/index.js";
-import StaticJsBaseEnvironment from "./StaticJsBaseEnvironmentRecord.js";
+import StaticJsBaseEnvironmentRecord from "./StaticJsBaseEnvironment.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 import { StaticJsEnvironmentGetBinding } from "./StaticJsEnvironmentBindingProvider.js";
 
-export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnvironment {
+export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnvironmentRecord {
   constructor(
     realm: StaticJsRealm,
     private readonly _obj: StaticJsObject,

@@ -3,9 +3,13 @@ import { File, Expression } from "@babel/types";
 
 import StaticJsCompilation from "./StaticJsCompilation.js";
 import StaticJsCompilationImpl from "./StaticJsCompilationImpl.js";
+import { ProgramCompilationOptions } from "./options.js";
 
-export function compileProgram(program: string): StaticJsCompilation {
-  const ast = parse(program);
+export function compileProgram(
+  program: string,
+  opts?: ProgramCompilationOptions,
+): StaticJsCompilation {
+  const ast = parse(program, { sourceType: opts?.sourceType ?? "script" });
   verifyNoErrorsOrThrow(ast);
   return new StaticJsCompilationImpl(ast);
 }

@@ -2,6 +2,8 @@ import StaticJsEnvironment from "../../environments/interfaces/StaticJsEnvironme
 import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
 import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
 
+import StaticJsModule from "./StaticJsModule.js";
+
 /**
  * A top-level construct describing the overall environment in which a javascript program is executed.
  * This is not to be confused with an Environment, or Environment Record, which is a lower-level
@@ -30,6 +32,11 @@ export default interface StaticJsRealm {
    * The type factory for the realm.
    */
   readonly types: StaticJsTypeFactory;
+
+  /**
+   * The modules that have been loaded into the realm.
+   */
+  readonly modules: ReadonlyMap<string, StaticJsModule>;
 }
 
 export function isStaticJsRealm(value: unknown): value is StaticJsRealm {

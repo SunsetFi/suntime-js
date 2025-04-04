@@ -39,6 +39,7 @@ No idea. I haven't had this security tested or reviewed. While this approach giv
 - try / catch / finally
 - Spread operators
 - Destructuring
+- Imports ( preset external modules only )
 
 ### Notable things not (yet) supported
 
@@ -50,7 +51,8 @@ No idea. I haven't had this security tested or reviewed. While this approach giv
 - Date
 - Regex
 - for-of
-- ES Modules (import and export statements)
+- Exporting modules
+- Importing other script modules
 
 ## Usage
 

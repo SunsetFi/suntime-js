@@ -2,11 +2,11 @@ import { EvaluationGenerator } from "../../../evaluator/internal.js";
 
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
-import StaticJsBaseEnvironment from "./StaticJsBaseEnvironmentRecord.js";
+import StaticJsBaseEnvironmentRecord from "./StaticJsBaseEnvironment.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 import { StaticJsEnvironmentGetBinding } from "./StaticJsEnvironmentBindingProvider.js";
 
-export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEnvironment {
+export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEnvironmentRecord {
   private readonly _bindings: Map<string, DeclarativeEnvironmentBinding> =
     new Map();
 
