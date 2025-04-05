@@ -12,6 +12,10 @@ export default class StaticJsNullImpl implements StaticJsNull {
     return "null" as const;
   }
 
+  get value() {
+    return null;
+  }
+
   toJs() {
     return null;
   }

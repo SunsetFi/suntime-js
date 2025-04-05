@@ -12,7 +12,7 @@ export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
       lengthValue = realm.types.zero;
     }
 
-    const length = lengthValue.toNumber();
+    const length = Math.floor(lengthValue.toNumber());
     const newLengthValue = realm.types.number(length + args.length);
     yield* thisObj.setPropertyEvaluator("length", newLengthValue, true);
 

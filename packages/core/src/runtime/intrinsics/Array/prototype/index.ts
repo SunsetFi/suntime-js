@@ -6,9 +6,11 @@ import {
   IntrinsicPropertyDeclaration,
 } from "../../utils.js";
 
+import arrayProtoConcatDeclaration from "./concat.js";
 import arrayProtoEveryDeclaration from "./every.js";
 import arrayProtoFilterDeclaration from "./filter.js";
 import arrayProtoForEachDeclaration from "./forEach.js";
+import arrayProtoIncludesDeclaration from "./includes.js";
 import arrayProtoMapDeclaration from "./map.js";
 import arrayProtoPopDeclaration from "./pop.js";
 import arrayProtoPushDeclaration from "./push.js";
@@ -18,9 +20,11 @@ import arrayProtoSomeDeclaration from "./some.js";
 import arrayProtoUnshiftDeclaration from "./unshift.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
+  arrayProtoConcatDeclaration,
   arrayProtoEveryDeclaration,
   arrayProtoFilterDeclaration,
   arrayProtoForEachDeclaration,
+  arrayProtoIncludesDeclaration,
   arrayProtoMapDeclaration,
   arrayProtoPopDeclaration,
   arrayProtoPushDeclaration,

@@ -14,7 +14,7 @@ const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
       lengthValue = realm.types.zero;
     }
 
-    const length = lengthValue.toNumber();
+    const length = Math.floor(lengthValue.toNumber());
 
     yield* thisObj.setPropertyEvaluator(
       "length",

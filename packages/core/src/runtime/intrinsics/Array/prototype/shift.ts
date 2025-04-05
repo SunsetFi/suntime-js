@@ -11,7 +11,7 @@ const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
       lengthValue = realm.types.zero;
     }
 
-    const length = lengthValue.toNumber();
+    const length = Math.floor(lengthValue.toNumber());
     if (length <= 0) {
       yield* thisObj.setPropertyEvaluator("length", realm.types.zero, true);
       return NormalCompletion(realm.types.undefined);

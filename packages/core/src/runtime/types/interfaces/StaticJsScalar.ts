@@ -12,7 +12,9 @@ export type StaticJsScalar =
   | StaticJsNull
   | StaticJsUndefined;
 
-export function isStaticJsScalar(value: StaticJsValue): boolean {
+export function isStaticJsScalar(
+  value: StaticJsValue,
+): value is StaticJsScalar {
   if (!isStaticJsValue(value)) {
     return false;
   }

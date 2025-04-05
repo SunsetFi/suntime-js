@@ -134,7 +134,15 @@ export function validateStaticJsObjectPropertyDescriptor(
     );
   }
 
-  // We could go even further and ensure get is a function but /shrug.
+  if (hasValue && !isStaticJsValue(value.value)) {
+    throw new Error(
+      "StaticJsObjectPropertyDescriptor value must be a StaticJsValue.",
+    );
+  }
+
+  if (hasGet && typeof value.get !== "function") {
+    throw new Error("StaticJsObjectPropertyDescriptor get must be a function.");
+  }
 }
 
 export function isStaticJsObjectPropertyDescriptorValue(

@@ -147,6 +147,8 @@ export default abstract class StaticJsAbstractObject
     name: string,
     descriptor: StaticJsObjectPropertyDescriptor,
   ): EvaluationGenerator<void> {
+    validateStaticJsObjectPropertyDescriptor(descriptor);
+
     if (!this.extensible) {
       // FIXME: Throw real error
       throw new Error("Object is not extensible.");

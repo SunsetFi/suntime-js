@@ -1,3 +1,5 @@
+import hasOwnProperty from "../../../internal/has-own-property.js";
+
 import {
   EvaluationGenerator,
   runEvaluatorUntilCompletion,
@@ -16,7 +18,6 @@ import { StaticJsArray } from "../interfaces/StaticJsArray.js";
 import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
 
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
-import StaticJsUndefinedImpl from "./StaticJsUndefinedImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
 export default class StaticJsArrayImpl
@@ -29,6 +30,11 @@ export default class StaticJsArrayImpl
     // This is a little suspect... We are using runEvaluatorUntilCompletion for these...
 
     for (let i = 0; i < items.length; i++) {
+      if (!hasOwnProperty(items, String(i))) {
+        // Skip deletions.
+        continue;
+      }
+
       this.defineProperty(i.toString(), {
         value: items[i],
         writable: true,
@@ -43,8 +49,6 @@ export default class StaticJsArrayImpl
       enumerable: false,
       configurable: false,
     });
-
-    runEvaluatorUntilCompletion(this._updateLength(items.length));
   }
 
   get runtimeTypeOf() {
@@ -68,18 +72,7 @@ export default class StaticJsArrayImpl
   }
 
   *getEvaluator(index: number): EvaluationGenerator<StaticJsValue> {
-    const descr = yield* this.getOwnPropertyDescriptorEvaluator(String(index));
-    if (!descr) {
-      return StaticJsUndefinedImpl.Instance;
-    }
-
-    if (isStaticJsObjectPropertyDescriptorValue(descr)) {
-      return descr.value;
-    } else if (isStaticJsObjectPropertyDescriptorGetter(descr)) {
-      return yield* descr.get.call(this);
-    } else {
-      return StaticJsUndefinedImpl.Instance;
-    }
+    return yield* this.getPropertyEvaluator(String(index));
   }
 
   *setEvaluator(
@@ -111,9 +104,18 @@ export default class StaticJsArrayImpl
 
     const array = new Array<StaticJsValue>();
     for (let i = start; i < end; i++) {
+      // Reproduce gaps.
+      const hasProperty = yield* this.hasPropertyEvaluator(i.toString());
+      if (!hasProperty) {
+        const length = array.push(this.realm.types.undefined);
+        delete array[length - 1];
+        continue;
+      }
+
       const value = yield* this.getEvaluator(i);
       array.push(value);
     }
+
     return array;
   }
 

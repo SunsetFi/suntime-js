@@ -80,87 +80,105 @@ describe("E2E: Arrays", () => {
       expect(result).toEqual([[0, 1, 2, 3], 4]);
     });
 
-    it("Can call Array.prototype.splice with no arguments", () => {
-      const code = `
+    describe("Array.prototype.splice", () => {
+      it("Can call with no arguments", () => {
+        const code = `
         const a = [1, 2, 3];
         const b = a.splice();
         [a, b];
       `;
-      const result = evaluateProgram(code);
-      expect(result).toEqual([[1, 2, 3], []]);
-    });
+        const result = evaluateProgram(code);
+        expect(result).toEqual([[1, 2, 3], []]);
+      });
 
-    it("Can call Array.prototype.splice with a start value", () => {
-      const code = `
+      it("Can call with a start value", () => {
+        const code = `
         const a = [1, 2, 3];
         const b = a.splice(1);
         [a, b];
       `;
-      const result = evaluateProgram(code);
-      expect(result).toEqual([[1], [2, 3]]);
-    });
+        const result = evaluateProgram(code);
+        expect(result).toEqual([[1], [2, 3]]);
+      });
 
-    it("Can call Array.prototype.splice with a negative start value", () => {
-      const code = `
+      it("Can call with a negative start value", () => {
+        const code = `
         const a = [1, 2, 3];
         const b = a.splice(-1);
         [a, b];
       `;
-      const result = evaluateProgram(code);
-      expect(result).toEqual([[1, 2], [3]]);
-    });
+        const result = evaluateProgram(code);
+        expect(result).toEqual([[1, 2], [3]]);
+      });
 
-    it("Can call Array.prototype.splice with a start and deleteCount", () => {
-      const code = `
+      it("Can call with a start and deleteCount", () => {
+        const code = `
         const a = [1, 2, 3];
         const b = a.splice(1, 1);
         [a, b];
       `;
-      const result = evaluateProgram(code);
-      expect(result).toEqual([[1, 3], [2]]);
-    });
+        const result = evaluateProgram(code);
+        expect(result).toEqual([[1, 3], [2]]);
+      });
 
-    it("Can call Array.prototype.splice with a negative start and positive deleteCount", () => {
-      const code = `
+      it("Can call with a negative start and positive deleteCount", () => {
+        const code = `
         const a = [1, 2, 3];
         const b = a.splice(-2, 1);
         [a, b];
       `;
-      const result = evaluateProgram(code);
-      expect(result).toEqual([[1, 3], [2]]);
-    });
+        const result = evaluateProgram(code);
+        expect(result).toEqual([[1, 3], [2]]);
+      });
 
-    it("Can call array.prototype.slice removing 1 element with one new value", () => {
-      const code = `
+      it("Can call removing 1 element with one new value", () => {
+        const code = `
         const a = [1, 2, 3];
         const b = a.splice(1, 1, 4);
         [a, b];
       `;
-      const result = evaluateProgram(code);
-      expect(result).toEqual([[1, 4, 3], [2]]);
-    });
+        const result = evaluateProgram(code);
+        expect(result).toEqual([[1, 4, 3], [2]]);
+      });
 
-    it("Can call array.prototype.splice with two new values", () => {
-      const code = `
+      it("Can call with two new values", () => {
+        const code = `
         const a = [1, 2, 3];
         const b = a.splice(1, 1, 4, 5);
         [a, b];
       `;
-      const result = evaluateProgram(code);
-      expect(result).toEqual([[1, 4, 5, 3], [2]]);
+        const result = evaluateProgram(code);
+        expect(result).toEqual([[1, 4, 5, 3], [2]]);
+      });
     });
 
-    it("Can call Array.prototype.concat", () => {
-      const code = `
+    describe("Array.prototype.concat", () => {
+      it("Can call with two arrays", () => {
+        const code = `
         const a = [1, 2, 3];
         const b = a.concat([4, 5]);
         [a, b];
       `;
-      const result = evaluateProgram(code);
-      expect(result).toEqual([
-        [1, 2, 3],
-        [1, 2, 3, 4, 5],
-      ]);
+        const result = evaluateProgram(code);
+        expect(result).toEqual([
+          [1, 2, 3],
+          [1, 2, 3, 4, 5],
+        ]);
+      });
+
+      it("Can call with gap arrays", () => {
+        const code = `
+        const a = [1, 2, 3];
+        delete a[1];
+        const b = a.concat([4, 5]);
+        [a, b];
+      `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([
+          [1, undefined, 3],
+          [1, undefined, 3, 4, 5],
+        ]);
+      });
     });
 
     it("Can call Array.prototype.includes with primitives", () => {
@@ -172,7 +190,6 @@ describe("E2E: Arrays", () => {
       expect(result).toEqual(true);
     });
 
-    // Apparently equality internal to javascript is not the same as the equality operator.
     it("Can call Array.prototype.includes with NaN", () => {
       const code = `
         const a = [1, 2, 3, NaN];

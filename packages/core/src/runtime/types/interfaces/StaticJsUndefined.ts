@@ -3,6 +3,8 @@ import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsUndefined extends StaticJsPrimitive {
   readonly runtimeTypeOf: "undefined";
+
+  readonly value: undefined;
 }
 
 export function isStaticJsUndefined(

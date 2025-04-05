@@ -12,6 +12,10 @@ export default class StaticJsUndefinedImpl implements StaticJsUndefined {
     return "undefined" as const;
   }
 
+  get value() {
+    return undefined;
+  }
+
   toJs() {
     return undefined;
   }

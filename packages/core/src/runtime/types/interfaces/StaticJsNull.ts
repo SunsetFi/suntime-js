@@ -3,6 +3,8 @@ import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsNull extends StaticJsPrimitive {
   readonly runtimeTypeOf: "null";
+
+  readonly value: null;
 }
 
 export function isStaticJsNull(value: unknown): value is StaticJsNull {
