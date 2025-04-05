@@ -225,6 +225,223 @@ describe("E2E: Arrays", () => {
       });
     });
 
+    describe("Array.prototype.filter", () => {
+      it("Errors if called with no value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.filter();
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Errors if called with a non-function", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.filter(1);
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Returns the matching properties", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.filter((v) => v > 1);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([2, 3]);
+      });
+
+      it("Does not mutate the array", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.filter((v) => v > 1);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2, 3]);
+      });
+    });
+
+    describe("Array.prototype.find", () => {
+      it("Errors if called with no value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.find();
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Errors if called with a non-function", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.find(1);
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Returns the first matching item", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.find((v) => v > 1);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(2);
+      });
+
+      it("Returns undefined if no match is found", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.find((v) => v > 3);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(undefined);
+      });
+
+      it("Returns undefined for an empty array", () => {
+        const code = `
+          const a = [];
+          a.find((v) => v > 3);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(undefined);
+      });
+    });
+
+    describe("Array.prototype.findIndex", () => {
+      it("Errors if called with no value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.findIndex();
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Errors if called with a non-function", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.findIndex(1);
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Returns the first matching item", () => {
+        const code = `
+          const a = ["a", "b", "c"];
+          a.findIndex((v) => v == "b");
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(1);
+      });
+
+      it("Returns -1 if no match is found", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.findIndex((v) => v > 3);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(-1);
+      });
+
+      it("Returns -1 for an empty array", () => {
+        const code = `
+          const a = [];
+          a.findIndex((v) => v > 3);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(-1);
+      });
+    });
+
+    describe("Array.prototype.findLast", () => {
+      it("Errors if called with no value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.findLast();
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Errors if called with a non-function", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.findLast(1);
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Returns the last matching item", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.findLast((v) => v > 1);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(3);
+      });
+
+      it("Returns undefined if no match is found", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.findLast((v) => v > 3);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(undefined);
+      });
+
+      it("Returns undefined for an empty array", () => {
+        const code = `
+          const a = [];
+          a.findLast((v) => v > 3);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(undefined);
+      });
+    });
+
+    describe("Array.prototype.findLastIndex", () => {
+      it("Errors if called with no value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.findLastIndex();
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Errors if called with a non-function", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.findLastIndex(1);
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Returns the last matching item", () => {
+        const code = `
+          const a = [4, 5, 6];
+          a.findLastIndex((v) => v > 1);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(2);
+      });
+
+      it("Returns -1 if no match is found", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.findLastIndex((v) => v > 3);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(-1);
+      });
+
+      it("Returns -1 for an empty array", () => {
+        const code = `
+          const a = [];
+          a.findLastIndex((v) => v > 3);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(-1);
+      });
+    });
+
     it("Can call Array.prototype.push", () => {
       const code = `
         const a = [];

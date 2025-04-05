@@ -11,6 +11,10 @@ import arrayProtoConcatDeclaration from "./concat.js";
 import arrayProtoEveryDeclaration from "./every.js";
 import arrayProtoFillDeclaration from "./fill.js";
 import arrayProtoFilterDeclaration from "./filter.js";
+import arrayProtoFindDeclaration from "./find.js";
+import arrayProtoFindIndexDeclaration from "./findIndex.js";
+import arrayProtoFindLastDeclaration from "./findLast.js";
+import arrayProtoFindLastIndexDeclaration from "./findLastIndex.js";
 import arrayProtoForEachDeclaration from "./forEach.js";
 import arrayProtoIncludesDeclaration from "./includes.js";
 import arrayProtoMapDeclaration from "./map.js";
@@ -29,6 +33,10 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoEveryDeclaration,
   arrayProtoFillDeclaration,
   arrayProtoFilterDeclaration,
+  arrayProtoFindDeclaration,
+  arrayProtoFindIndexDeclaration,
+  arrayProtoFindLastDeclaration,
+  arrayProtoFindLastIndexDeclaration,
   arrayProtoForEachDeclaration,
   arrayProtoIncludesDeclaration,
   arrayProtoMapDeclaration,
