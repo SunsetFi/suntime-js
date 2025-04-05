@@ -1,22 +1,17 @@
 import { NormalCompletion } from "../../../../evaluator/internal.js";
+import toInteger from "../../../algorithms/to-integer.js";
 import {
   isStaticJsArray,
   isStaticJsFunction,
-  isStaticJsNull,
-  isStaticJsUndefined,
+  StaticJsValue,
 } from "../../../types/index.js";
 import createTypeErrorCompletion from "../../errors/TypeError.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
   name: "map",
-  *func(realm, thisArg, callback) {
-    if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
-      return createTypeErrorCompletion(
-        "Array.prototype.map called on null or undefined",
-        realm,
-      );
-    }
+  *func(realm, thisArg, callback, providedThisArg) {
+    const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
     if (!isStaticJsArray(thisArg)) {
       // Seems to do nothing in NodeJs.
@@ -34,44 +29,41 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const length = yield* thisArg.getLengthEvaluator();
-    if (length === 0) {
-      return NormalCompletion(realm.types.createArray([]));
-    }
+    const lengthValue = yield* thisObj.getPropertyEvaluator("length");
+    const length = toInteger(lengthValue);
 
-    const resultArray = realm.types.createArray(new Array(length));
+    const resultArray: StaticJsValue[] = new Array(length);
     for (let i = 0; i < length; i++) {
-      const elementValue = yield* thisArg.getPropertyEvaluator(String(i));
+      const property = String(i);
+      const hasProperty = yield* thisObj.hasPropertyEvaluator(property);
+      if (!hasProperty) {
+        // map does not invoke for, and preserves, empties.
+        continue;
+      }
+
+      const elementValue = yield* thisArg.getPropertyEvaluator(property);
       const resultCompletion = yield* callback.call(
-        thisArg,
+        providedThisArg ?? thisArg,
         elementValue,
         realm.types.number(i),
         thisArg,
       );
-      switch (resultCompletion.type) {
-        case "normal":
-          if (!resultCompletion.value) {
-            throw new Error(
-              "Expected result completion to return a value, but got undefined",
-            );
-          }
-          yield* resultArray.setPropertyEvaluator(
-            String(i),
-            resultCompletion.value,
-            false,
-          );
-          break;
-        case "throw":
-          return resultCompletion;
-        default:
-          throw new Error(
-            "Expected result completion to return normal or throw, but got " +
-              resultCompletion.type,
-          );
+      if (resultCompletion.type === "throw") {
+        return resultCompletion;
       }
+      if (
+        resultCompletion.type !== "normal" ||
+        resultCompletion.value == null
+      ) {
+        throw new Error(
+          "Expected result completion to return a value, but got undefined",
+        );
+      }
+
+      resultArray[i] = resultCompletion.value;
     }
 
-    return NormalCompletion(resultArray);
+    return NormalCompletion(realm.types.createArray(resultArray));
   },
 };
 

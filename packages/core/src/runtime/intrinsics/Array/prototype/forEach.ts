@@ -10,7 +10,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   name: "forEach",
-  *func(realm, thisArg, callback) {
+  *func(realm, thisArg, callback, providedThisArg) {
     if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
       return createTypeErrorCompletion(
         "Array.prototype.forEach called on null or undefined",
@@ -41,21 +41,19 @@ const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
     for (let i = 0; i < length; i++) {
       const elementValue = yield* thisArg.getPropertyEvaluator(String(i));
       const resultCompletion = yield* callback.call(
-        thisArg,
+        providedThisArg ?? thisArg,
         elementValue,
         realm.types.number(i),
         thisArg,
       );
-      switch (resultCompletion.type) {
-        case "normal":
-          break;
-        case "throw":
-          return resultCompletion;
-        default:
-          throw new Error(
-            "Expected result completion to return normal or throw, but got " +
-              resultCompletion.type,
-          );
+      if (resultCompletion.type === "throw") {
+        return resultCompletion;
+      }
+      if (resultCompletion.type !== "normal") {
+        throw new Error(
+          "Expected result completion to return normal or throw, but got " +
+            resultCompletion.type,
+        );
       }
     }
 

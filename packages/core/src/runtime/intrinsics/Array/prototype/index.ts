@@ -15,8 +15,13 @@ import arrayProtoFindDeclaration from "./find.js";
 import arrayProtoFindIndexDeclaration from "./findIndex.js";
 import arrayProtoFindLastDeclaration from "./findLast.js";
 import arrayProtoFindLastIndexDeclaration from "./findLastIndex.js";
+import arrayProtoFlatDeclaration from "./flat.js";
+import arrayProtoFlatMapDeclaration from "./flatMap.js";
 import arrayProtoForEachDeclaration from "./forEach.js";
 import arrayProtoIncludesDeclaration from "./includes.js";
+import arrayProtoIndexOfDeclaration from "./indexOf.js";
+import arrayProtoJoinDeclaration from "./join.js";
+import arrayProtoLastIndexOfDeclaration from "./lastIndexOf.js";
 import arrayProtoMapDeclaration from "./map.js";
 import arrayProtoPopDeclaration from "./pop.js";
 import arrayProtoPushDeclaration from "./push.js";
@@ -35,10 +40,16 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoFilterDeclaration,
   arrayProtoFindDeclaration,
   arrayProtoFindIndexDeclaration,
+  arrayProtoFlatDeclaration,
+  arrayProtoFlatMapDeclaration,
   arrayProtoFindLastDeclaration,
   arrayProtoFindLastIndexDeclaration,
   arrayProtoForEachDeclaration,
   arrayProtoIncludesDeclaration,
+  arrayProtoIndexOfDeclaration,
+  arrayProtoJoinDeclaration,
+  // TODO: Array.prototype.keys
+  arrayProtoLastIndexOfDeclaration,
   arrayProtoMapDeclaration,
   arrayProtoPopDeclaration,
   arrayProtoPushDeclaration,

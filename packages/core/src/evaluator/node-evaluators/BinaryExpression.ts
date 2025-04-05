@@ -11,6 +11,7 @@ import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
+import strictEquality from "../../runtime/algorithms/strict-equality.js";
 
 export default function binaryExpressionNodeEvaluator(
   node: BinaryExpression,
@@ -44,9 +45,9 @@ export default function binaryExpressionNodeEvaluator(
     case "!=":
       return binaryExpressionDoubleEquals(node, context, true);
     case "===":
-      return binaryExpressionTrippleEquals(node, context, false);
+      return binaryExpressionStrictEquals(node, context, false);
     case "!==":
-      return binaryExpressionTrippleEquals(node, context, true);
+      return binaryExpressionStrictEquals(node, context, true);
     case "<":
       return numericComputation((a, b) => a < b, node, context);
     case "<=":
@@ -131,7 +132,7 @@ function* binaryExpressionDoubleEquals(
   );
 }
 
-function* binaryExpressionTrippleEquals(
+function* binaryExpressionStrictEquals(
   node: BinaryExpression,
   context: EvaluationContext,
   negate: boolean,
@@ -159,20 +160,10 @@ function* binaryExpressionTrippleEquals(
   }
   const right = rightCompletion.value;
 
-  if (left.runtimeTypeOf !== right.runtimeTypeOf) {
-    return NormalCompletion(context.realm.types.false);
-  }
-
-  let comparisonResult: boolean;
-  if (isStaticJsScalar(left)) {
-    comparisonResult = negate
-      ? left.toJs() !== right.toJs()
-      : left.toJs() === right.toJs();
-  } else {
-    comparisonResult = negate ? left !== right : left === right;
-  }
-
-  return NormalCompletion(context.realm.types.boolean(comparisonResult));
+  const result = strictEquality(left, right);
+  return NormalCompletion(
+    context.realm.types.boolean(negate ? !result : result),
+  );
 }
 
 function* binaryExpressionAdd(

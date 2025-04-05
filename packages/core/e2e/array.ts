@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { evaluateProgram } from "../src/index.js";
+import hasOwnProperty from "../src/internal/has-own-property.js";
 
 describe("E2E: Arrays", () => {
   it("Can declare an array", () => {
@@ -19,6 +20,7 @@ describe("E2E: Arrays", () => {
     `;
     const result = evaluateProgram(code);
     expect(result).toEqual([1, undefined, 3]);
+    expect(hasOwnProperty(result, "1")).toEqual(false);
   });
 
   it("Can declare an array with a single element", () => {
@@ -442,6 +444,537 @@ describe("E2E: Arrays", () => {
       });
     });
 
+    describe("Array.prototype.flat", () => {
+      it("Flattens with a depth of 1 when no depth is specified", () => {
+        const code = `
+          const a = [1, 2, [3, 4, [5, 6]]];
+          a.flat();
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2, 3, 4, [5, 6]]);
+      });
+
+      it("Flattens with a depth of 2 when specified", () => {
+        const code = `
+          const a = [1, 2, [3, 4, [5, 6, [7, 8]]]];
+          a.flat(2);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2, 3, 4, 5, 6, [7, 8]]);
+      });
+
+      it("Flattens with a depth of infinity", () => {
+        const code = `
+          const a = [1, 2, [3, 4, [5, 6, [7, 8]]]];
+          a.flat(Infinity);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+      });
+
+      it("Does not flatten with a depth of zero", () => {
+        const code = `
+          const a = [1, 2, [3, 4, [5, 6]]];
+          a.flat(0);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2, [3, 4, [5, 6]]]);
+      });
+
+      it("Flattens with a depth of 1 when depth is explicitly undefined", () => {
+        const code = `
+          const a = [1, 2, [3, 4, [5, 6]]];
+          a.flat(undefined);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2, 3, 4, [5, 6]]);
+      });
+
+      it("Does not flatten when depth is null", () => {
+        const code = `
+          const a = [1, 2, [3, 4, [5, 6]]];
+          a.flat(null);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2, [3, 4, [5, 6]]]);
+      });
+    });
+
+    describe("Array.prototype.flatMap", () => {
+      it("Errors if no callback is provided", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.flatMap();
+        `;
+
+        // Yes, this is a different error message than the rest of them.
+        expect(() => evaluateProgram(code)).toThrow("is not callable");
+      });
+
+      it("Errors if the callback is a non-function", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.flatMap(1);
+        `;
+
+        // Yes, this is a different error message than the rest of them.
+        expect(() => evaluateProgram(code)).toThrow("is not callable");
+      });
+
+      it("Passes through non-array return values", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.flatMap((v) => v);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2, 3]);
+      });
+
+      it("Flattens array return values", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.flatMap((v) => [v, v]);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 1, 2, 2, 3, 3]);
+      });
+
+      it("Does not flatten double nested return values", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.flatMap((v) => [[v], [v]]);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([[1], [1], [2], [2], [3], [3]]);
+      });
+
+      it("Does not flatten array-likes", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.flatMap((v) => ({ length: 1, 0: v }));
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([
+          { length: 1, 0: 1 },
+          { length: 1, 0: 2 },
+          { length: 1, 0: 3 },
+        ]);
+      });
+    });
+
+    describe("Array.prototype.forEach", () => {
+      it("Errors if called with no value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.forEach();
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Errors if called with a non-function", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.forEach(1);
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Processes each item", () => {
+        const code = `
+          const a = [1, 2, 3];
+          let sum = 0;
+          a.forEach((v) => sum += v);
+          sum;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(6);
+      });
+
+      it("Is provided with an index", () => {
+        const code = `
+          const a = [1, 2, 3];
+          let sum = 0;
+          a.forEach((v, i) => sum += i);
+          sum;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(3);
+      });
+
+      it("Is provided with the array as this", () => {
+        const code = `
+          const a = [1, 2, 3];
+          let sum = 0;
+          a.forEach(function(v) { sum += this.length; });
+          sum;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(9);
+      });
+
+      it("Uses a provided this arg", () => {
+        const code = `
+          const a = [1, 2, 3];
+          let sum = 0;
+          a.forEach(function(v) { sum += this.length; }, { length: 4 });
+          sum;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(12);
+      });
+
+      it("Is provided with the array", () => {
+        const code = `
+          const a = [1, 2, 3];
+          let sum = 0;
+          a.forEach(function(v, i, arr) { sum += arr[i]; });
+          sum;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(6);
+      });
+    });
+
+    describe("Array.prototype.includes", () => {
+      it("Can find a primitive", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.includes(2);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(true);
+      });
+
+      it("Can find NaN", () => {
+        const code = `
+          const a = [1, 2, 3, NaN];
+          a.includes(NaN);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(true);
+      });
+
+      it("Can find an object", () => {
+        const code = `
+          const search = {}
+          const a = ["1", search, "3"];
+          a.includes(search);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(true);
+      });
+
+      it("Find a value with fromIndex", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.includes(2, 1);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(true);
+      });
+
+      it("Excludes a value with fromIndex", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.includes(2, 2);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(false);
+      });
+
+      it("Finds a value with a negative fromIndex", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.includes(2, -2);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(true);
+      });
+
+      it("Excludes a value with a negative fromIndex", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.includes(2, -1);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(false);
+      });
+    });
+
+    describe("Array.prototype.indexOf", () => {
+      it("Can be called with no value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.indexOf();
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toBe(-1);
+      });
+
+      it("Finds undefined when called with no value", () => {
+        const code = `
+          const a = [1, 2, undefined, 3];
+          a.indexOf(undefined);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toBe(2);
+      });
+
+      it("Finds a value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.indexOf(2);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(1);
+      });
+
+      it("Finds an object reference", () => {
+        const code = `
+          const search = {}
+          const a = ["1", search, "3"];
+          a.indexOf(search);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(1);
+      });
+
+      it("Does not find NaN", () => {
+        const code = `
+          const a = [1, 2, 3, NaN];
+          a.indexOf(NaN);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(-1);
+      });
+
+      it("Finds the first index", () => {
+        const code = `
+          const a = [1, 2, 3, 2];
+          a.indexOf(2);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(1);
+      });
+    });
+
+    describe("Array.prototype.join", () => {
+      it("Joins with commas by default", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.join();
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual("1,2,3");
+      });
+
+      it("Joins with the provided strings", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.join(" ");
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual("1 2 3");
+      });
+
+      it("Treats null and undefined as empty strings", () => {
+        const code = `
+          const a = [1, null, 3, undefined, 4];
+          a.join();
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual("1,,3,,4");
+      });
+
+      it("Treats array gaps as empty strings", () => {
+        const code = `
+          const a = [1, 2, 3];
+          delete a[1];
+          a.join();
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual("1,,3");
+      });
+    });
+
+    describe("Array.prototype.lastIndexOf", () => {
+      it("Can be called with no value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.lastIndexOf();
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toBe(-1);
+      });
+
+      it("Finds undefined when called with no value", () => {
+        const code = `
+          const a = [1, 2, undefined, 3];
+          a.lastIndexOf(undefined);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toBe(2);
+      });
+
+      it("Finds a value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.lastIndexOf(2);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(1);
+      });
+
+      it("Finds an object reference", () => {
+        const code = `
+          const search = {}
+          const a = ["1", search, "3"];
+          a.lastIndexOf(search);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(1);
+      });
+
+      it("Does not find NaN", () => {
+        const code = `
+          const a = [1, 2, 3, NaN];
+          a.lastIndexOf(NaN);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(-1);
+      });
+
+      it("Finds the last index", () => {
+        const code = `
+          const a = [1, 2, 3, 2];
+          a.lastIndexOf(2);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(3);
+      });
+    });
+
+    describe("Array.prototype.map", () => {
+      it("Errors if called with no value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.map();
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Errors if called with a non-function", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.map(1);
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Returns the mapped values", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.map((v) => v + 1);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([2, 3, 4]);
+      });
+
+      it("Does not mutate the array", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.map((v) => v + 1);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2, 3]);
+      });
+
+      it("Skips empties", () => {
+        const code = `
+          const a = [1, 2, 3];
+          delete a[1];
+          a.map((v) => v + 1);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([2, undefined, 4]);
+        expect(hasOwnProperty(result, "1")).toEqual(false);
+      });
+    });
+
+    describe("Array.prototype.pop", () => {
+      it("Returns the last value of the array", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.pop();
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(3);
+      });
+
+      it("Removes the last value from the array", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.pop();
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2]);
+      });
+
+      it("Updates the array length", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.pop();
+          a.length;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(2);
+      });
+
+      it("Returns undefined for empty arrays", () => {
+        const code = `
+          const a = [];
+          a.pop();
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(undefined);
+      });
+
+      it("Does not modify an empty array", () => {
+        const code = `
+          const a = [];
+          a.pop();
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([]);
+      });
+
+      it("Returns undefined for empty items", () => {
+        const code = `
+          const a = [1, 2, 3];
+          delete a[1];
+          a.pop();
+          a.pop();
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(undefined);
+      });
+
+      it("Reduces the length for empty items", () => {
+        const code = `
+          const a = [1, 2, 3];
+          delete a[1];
+          a.pop();
+          a.pop();
+          a.length;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(1);
+      });
+    });
+
     it("Can call Array.prototype.push", () => {
       const code = `
         const a = [];
@@ -450,16 +983,6 @@ describe("E2E: Arrays", () => {
       `;
       const result = evaluateProgram(code);
       expect(result).toEqual([1]);
-    });
-
-    it("Can call Array.prototype.pop", () => {
-      const code = `
-        const a = [1, 2, 3];
-        const b = a.pop();
-        a;
-      `;
-      const result = evaluateProgram(code);
-      expect(result).toEqual([1, 2]);
     });
 
     it("Can call Array.prototype.shift", () => {
@@ -552,34 +1075,6 @@ describe("E2E: Arrays", () => {
         const result = evaluateProgram(code);
         expect(result).toEqual([[1, 4, 5, 3], [2]]);
       });
-    });
-
-    it("Can call Array.prototype.includes with primitives", () => {
-      const code = `
-        const a = [1, 2, 3];
-        a.includes(2);
-      `;
-      const result = evaluateProgram(code);
-      expect(result).toEqual(true);
-    });
-
-    it("Can call Array.prototype.includes with NaN", () => {
-      const code = `
-        const a = [1, 2, 3, NaN];
-        a.includes(NaN);
-      `;
-      const result = evaluateProgram(code);
-      expect(result).toEqual(true);
-    });
-
-    it("Can call Array.prototype.includes with am object", () => {
-      const code = `
-        const search = {}
-        const a = ["1", search, "3"];
-        a.includes(search);
-      `;
-      const result = evaluateProgram(code);
-      expect(result).toEqual(true);
     });
   });
 });

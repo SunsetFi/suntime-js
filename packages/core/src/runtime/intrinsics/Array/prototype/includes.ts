@@ -15,12 +15,14 @@ const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
     const lengthValue = yield* thisObj.getPropertyEvaluator("length");
     const length = toInteger(lengthValue);
 
-    if (!startFromValue) {
-      startFromValue = realm.types.zero;
+    let startFrom = 0;
+    if (startFromValue) {
+      startFrom = toInteger(startFromValue);
     }
 
-    // Yay edge cases
-    const startFrom = toInteger(startFromValue);
+    if (startFrom < 0) {
+      startFrom = Math.max(0, length + startFrom);
+    }
 
     for (let i = startFrom; i < length; i++) {
       const elementValue = yield* thisObj.getPropertyEvaluator(String(i));

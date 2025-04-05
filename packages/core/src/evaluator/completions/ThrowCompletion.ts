@@ -12,4 +12,13 @@ function ThrowCompletion(value: StaticJsValue): ThrowCompletion {
     value,
   };
 }
+
+export function isThrowCompletion(value: unknown): value is ThrowCompletion {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    (value as CompletionBase).type === "throw"
+  );
+}
+
 export default ThrowCompletion;
