@@ -12,7 +12,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
   name: "every",
-  func: function* (realm, thisArg, callback) {
+  *func(realm, thisArg, callback) {
     if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
       return createTypeErrorCompletion(
         "Array.prototype.every called on null or undefined",

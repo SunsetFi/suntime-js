@@ -3,7 +3,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
   name: "unshift",
-  func: function* (realm, thisArg, ...args) {
+  *func(realm, thisArg, ...args) {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
     // Set the new length

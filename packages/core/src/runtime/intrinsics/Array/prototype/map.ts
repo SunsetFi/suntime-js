@@ -10,7 +10,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
   name: "map",
-  func: function* (realm, thisArg, callback) {
+  *func(realm, thisArg, callback) {
     if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
       return createTypeErrorCompletion(
         "Array.prototype.map called on null or undefined",

@@ -21,7 +21,7 @@ export function* evaluateCommands<TReturn>(
   const stack: EvaluationGenerator<unknown>[] = [generator];
   let lastValue: unknown = undefined;
   while (stack.length > 0) {
-    const current = stack[stack.length - 1];
+    const current = stack.at(-1)!;
     const { value, done } = current.next(lastValue as Completion);
 
     if (done) {

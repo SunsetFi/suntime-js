@@ -6,6 +6,7 @@ import {
   IntrinsicPropertyDeclaration,
 } from "../../utils.js";
 
+import arrayProtoAtDeclaration from "./at.js";
 import arrayProtoConcatDeclaration from "./concat.js";
 import arrayProtoEveryDeclaration from "./every.js";
 import arrayProtoFilterDeclaration from "./filter.js";
@@ -20,6 +21,7 @@ import arrayProtoSomeDeclaration from "./some.js";
 import arrayProtoUnshiftDeclaration from "./unshift.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
+  arrayProtoAtDeclaration,
   arrayProtoConcatDeclaration,
   arrayProtoEveryDeclaration,
   arrayProtoFilterDeclaration,

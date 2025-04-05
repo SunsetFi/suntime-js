@@ -10,7 +10,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   name: "forEach",
-  func: function* (realm, thisArg, callback) {
+  *func(realm, thisArg, callback) {
     if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
       return createTypeErrorCompletion(
         "Array.prototype.forEach called on null or undefined",

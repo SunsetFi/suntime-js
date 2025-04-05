@@ -40,6 +40,52 @@ describe("E2E: Arrays", () => {
   });
 
   describe("Array.prototype methods", () => {
+    describe("Array.prototype.at", () => {
+      it("Can call with a positive index", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.at(1);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(2);
+      });
+
+      it("Can call with a negative index", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.at(-1);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(3);
+      });
+
+      it("Can call with an out of bounds index", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.at(5);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(undefined);
+      });
+      it("Can call with a negative out of bounds index", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.at(-5);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(undefined);
+      });
+
+      it("Can be called with a fraction", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.at(1.5);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(2);
+      });
+    });
+
     it("Can call Array.prototype.push", () => {
       const code = `
         const a = [];

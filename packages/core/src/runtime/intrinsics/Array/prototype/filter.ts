@@ -11,7 +11,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
   name: "filter",
-  func: function* (realm, thisArg, callback) {
+  *func(realm, thisArg, callback) {
     if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
       return createTypeErrorCompletion(
         "Array.prototype.filter called on null or undefined",

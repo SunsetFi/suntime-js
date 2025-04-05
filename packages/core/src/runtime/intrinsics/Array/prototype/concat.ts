@@ -4,7 +4,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
   name: "concat",
-  func: function* (realm, ...args) {
+  *func(realm, ...args) {
     // Unique among array methods, concat does not cast thisArg to an array.
 
     let values: StaticJsValue[] = [];

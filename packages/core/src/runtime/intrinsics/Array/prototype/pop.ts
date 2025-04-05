@@ -3,7 +3,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 export const arrayProtoPopDeclaration: IntrinsicPropertyDeclaration = {
   name: "pop",
-  func: function* (realm, thisArg) {
+  *func(realm, thisArg) {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
     // Pop works independently of the underlying type and

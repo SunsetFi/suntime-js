@@ -3,7 +3,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
   name: "shift",
-  func: function* (realm, thisArg) {
+  *func(realm, thisArg) {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
     let lengthValue = yield* thisObj.getPropertyEvaluator("length");

@@ -12,7 +12,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
   name: "reduce",
-  func: function* (realm, thisArg, callback, initialValue) {
+  *func(realm, thisArg, callback, initialValue) {
     if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
       return createTypeErrorCompletion(
         "Array.prototype.reduce called on null or undefined",

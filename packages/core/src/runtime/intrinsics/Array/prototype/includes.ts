@@ -4,7 +4,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
   name: "includes",
-  func: function* (realm, thisArg, value, startFromValue) {
+  *func(realm, thisArg, value, startFromValue) {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
     if (!value) {

@@ -3,7 +3,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
   name: "push",
-  func: function* (realm, thisArg, ...args) {
+  *func(realm, thisArg, ...args) {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
     // Push works independently of the underlying type and
