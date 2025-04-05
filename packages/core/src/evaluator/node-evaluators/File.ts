@@ -19,7 +19,5 @@ function* fileNodeEvaluator(
 }
 
 export default typedMerge(fileNodeEvaluator, {
-  environmentSetup: function* () {
-    return false;
-  },
+  environmentSetup: false,
 });

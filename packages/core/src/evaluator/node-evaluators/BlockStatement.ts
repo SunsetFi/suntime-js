@@ -47,7 +47,5 @@ function* blockStatementNodeEvaluator(
 }
 
 export default typedMerge(blockStatementNodeEvaluator, {
-  environmentSetup: function* () {
-    return false;
-  },
+  environmentSetup: false,
 });

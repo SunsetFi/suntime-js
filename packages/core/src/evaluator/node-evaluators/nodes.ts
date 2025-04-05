@@ -25,7 +25,6 @@ import forStatementNodeEvaluator from "./ForStatement.js";
 import ifStatementNodeEvaluator from "./IfStatement.js";
 import breakStatementNodeEvaluator from "./BreakStatement.js";
 import continueStatementNodeEvaluator from "./ContinueStatement.js";
-
 import fileNodeEvaluator from "./File.js";
 import programNodeEvaluator from "./Program.js";
 import emptyStatementNodeEvaluator from "./EmptyStatement.js";

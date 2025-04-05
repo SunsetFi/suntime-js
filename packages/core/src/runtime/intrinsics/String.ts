@@ -1,11 +1,11 @@
-import { StaticJsObject } from "../interfaces/StaticJsObject.js";
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
-import StaticJsFunctionImpl from "../implementation/StaticJsFunctionImpl.js";
-import { isStaticJsValue, StaticJsValue } from "../interfaces/StaticJsValue.js";
+import { StaticJsObject } from "../types/interfaces/StaticJsObject.js";
+import StaticJsRealm from "../realm/interfaces/StaticJsRealm.js";
+import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 import {
-  ReturnCompletion,
-  ThrowCompletion,
-} from "../../../evaluator/internal.js";
+  isStaticJsValue,
+  StaticJsValue,
+} from "../types/interfaces/StaticJsValue.js";
+import { ReturnCompletion, ThrowCompletion } from "../../evaluator/internal.js";
 
 export function populateStringPrototype(
   realm: StaticJsRealm,

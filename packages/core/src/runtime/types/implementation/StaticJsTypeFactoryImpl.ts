@@ -1,6 +1,6 @@
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
-import { Prototypes } from "../intrinsics/index.js";
+import { Prototypes } from "../../intrinsics/index.js";
 
 import { StaticJsArray } from "../interfaces/StaticJsArray.js";
 import { StaticJsFunction } from "../interfaces/StaticJsFunction.js";

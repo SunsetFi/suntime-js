@@ -4,7 +4,6 @@ import typedMerge from "../../internal/typed-merge.js";
 
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import StaticJsEnvironment from "../../runtime/environments/interfaces/StaticJsEnvironment.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
@@ -18,8 +17,11 @@ function* doWhileStatementNodeEvaluator(
   node: DoWhileStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const whileEnv =
-    (node.extra?.environment as StaticJsEnvironment | undefined) ?? context.env;
+  const whileEnv = new StaticJsLexicalEnvironment(
+    context.realm,
+    new StaticJsDeclarativeEnvironmentRecord(context.realm),
+    context.env,
+  );
 
   const whileContext = {
     ...context,
@@ -85,23 +87,6 @@ function* doWhileStatementNodeEvaluator(
   return NormalCompletion(null);
 }
 
-function* doWhileStatementEnvironmentSetup(
-  node: DoWhileStatement,
-  context: EvaluationContext,
-): EvaluationGenerator<boolean> {
-  const env = new StaticJsLexicalEnvironment(
-    context.realm,
-    new StaticJsDeclarativeEnvironmentRecord(context.realm),
-    context.env,
-  );
-  node.extra = {
-    ...node.extra,
-    environment: env,
-  };
-
-  return false;
-}
-
 export default typedMerge(doWhileStatementNodeEvaluator, {
-  environmentSetup: doWhileStatementEnvironmentSetup,
+  environmentSetup: false,
 });

@@ -13,13 +13,15 @@ import {
   StaticJsObjectPropertyDescriptor,
   StaticJsValue,
   validateStaticJsObjectPropertyDescriptor,
+  StaticJsObjectLike,
 } from "../interfaces/index.js";
+import {} from "../interfaces/StaticJsObject.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 
 export default abstract class StaticJsAbstractObject
   extends StaticJsAbstractPrimitive
-  implements StaticJsObject
+  implements StaticJsObjectLike
 {
   private _prototype: StaticJsObject | null = null;
   private _extensible: boolean = true;
@@ -29,7 +31,6 @@ export default abstract class StaticJsAbstractObject
   constructor(
     realm: StaticJsRealm,
     prototype: StaticJsObject | StaticJsNull | null,
-    private readonly _runtimeTypeOf: StaticJsObject["runtimeTypeOf"],
   ) {
     super(realm);
     if (isStaticJsNull(prototype)) {
@@ -43,9 +44,7 @@ export default abstract class StaticJsAbstractObject
     return "object" as const;
   }
 
-  get runtimeTypeOf(): StaticJsObject["runtimeTypeOf"] {
-    return this._runtimeTypeOf;
-  }
+  abstract readonly runtimeTypeOf: StaticJsObjectLike["runtimeTypeOf"];
 
   get prototype(): StaticJsObject | null {
     return this._prototype;
@@ -121,7 +120,7 @@ export default abstract class StaticJsAbstractObject
     name: string,
   ): EvaluationGenerator<StaticJsObjectPropertyDescriptor | undefined> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
-    let target: StaticJsObject | null = this;
+    let target: StaticJsObjectLike | null = this;
     let descr: StaticJsObjectPropertyDescriptor | undefined;
     do {
       descr = yield* target!.getOwnPropertyDescriptorEvaluator(name);
@@ -181,8 +180,6 @@ export default abstract class StaticJsAbstractObject
     if (decl === undefined) {
       return this.realm.types.undefined;
     }
-
-    // This validation might be a bit heavy for performance...
 
     try {
       validateStaticJsObjectPropertyDescriptor(decl);
@@ -320,7 +317,7 @@ export default abstract class StaticJsAbstractObject
     return true;
   }
 
-  toObject(): StaticJsObject {
+  toObject() {
     return this;
   }
 

@@ -1,65 +1,16 @@
-import { EvaluationGenerator } from "../../../evaluator/internal.js";
+import { StaticJsRealm } from "../../realm/interfaces/index.js";
+import { StaticJsNull, StaticJsObject } from "../interfaces/index.js";
+import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
-import { StaticJsRealm } from "../../realm/index.js";
-
-import {
-  StaticJsValue,
-  StaticJsObjectPropertyDescriptor,
-  StaticJsObject,
-  StaticJsNull,
-} from "../interfaces/index.js";
-
-import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
-
-export default class StaticJsObjectImpl extends StaticJsAbstractObject {
-  private readonly _contents = new Map<
-    string,
-    StaticJsObjectPropertyDescriptor
-  >();
-
+export default class StaticJsObjectImpl extends StaticJsObjectLikeImpl {
   constructor(
     realm: StaticJsRealm,
     prototype: StaticJsObject | StaticJsNull | null = null,
-    runtimeTypeOf: StaticJsObject["runtimeTypeOf"] = "object",
   ) {
-    super(realm, prototype, runtimeTypeOf);
+    super(realm, prototype);
   }
 
-  *getOwnKeysEvaluator(): EvaluationGenerator<string[]> {
-    return Array.from(this._contents.keys()).filter(
-      (x) => this._contents.get(x)?.enumerable,
-    );
-  }
-
-  *getOwnPropertyDescriptorEvaluator(
-    name: string,
-  ): EvaluationGenerator<StaticJsObjectPropertyDescriptor | undefined> {
-    return this._contents.get(name);
-  }
-
-  protected *_setWritableDataPropertyEvaluator(
-    name: string,
-    value: StaticJsValue,
-  ): EvaluationGenerator<void> {
-    this._contents.set(name, {
-      ...this._contents.get(name),
-      value,
-    });
-  }
-
-  protected *_definePropertyEvaluator(
-    name: string,
-    descriptor: StaticJsObjectPropertyDescriptor,
-  ): EvaluationGenerator<void> {
-    this._contents.set(name, {
-      ...this._contents.get(name),
-      ...descriptor,
-    });
-  }
-
-  protected *_deleteConfigurablePropertyEvaluator(
-    name: string,
-  ): EvaluationGenerator<boolean> {
-    return this._contents.delete(name);
+  get runtimeTypeOf() {
+    return "object" as const;
   }
 }

@@ -1,4 +1,4 @@
-import { StaticJsObject } from "./StaticJsObject.js";
+import { StaticJsObjectLike } from "./StaticJsObject.js";
 
 export interface StaticJsPrimitive {
   readonly typeOf: string;
@@ -9,5 +9,5 @@ export interface StaticJsPrimitive {
   toString(): string;
   toNumber(): number;
   toBoolean(): boolean;
-  toObject(): StaticJsObject;
+  toObject(): StaticJsObjectLike;
 }

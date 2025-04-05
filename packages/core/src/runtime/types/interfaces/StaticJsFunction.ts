@@ -1,9 +1,9 @@
 import { EvaluationGenerator } from "../../../evaluator/internal.js";
 
-import { StaticJsObject } from "./StaticJsObject.js";
+import { StaticJsObjectLike } from "./StaticJsObject.js";
 import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
 
-export interface StaticJsFunction extends StaticJsObject {
+export interface StaticJsFunction extends StaticJsObjectLike {
   readonly runtimeTypeOf: "function";
 
   readonly isConstructor: boolean;

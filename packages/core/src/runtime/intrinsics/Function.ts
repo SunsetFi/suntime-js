@@ -1,8 +1,8 @@
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealm from "../realm/interfaces/StaticJsRealm.js";
 
-import { StaticJsObject } from "../interfaces/StaticJsObject.js";
+import { StaticJsObject } from "../types/interfaces/StaticJsObject.js";
 
-import StaticJsObjectImpl from "../implementation/StaticJsObjectImpl.js";
+import StaticJsObjectImpl from "../types/implementation/StaticJsObjectImpl.js";
 
 export function populateFunctionPrototype(
   realm: StaticJsRealm,

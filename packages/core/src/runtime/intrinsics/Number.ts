@@ -1,11 +1,11 @@
-import { ReturnCompletion } from "../../../evaluator/completions/index.js";
+import { ReturnCompletion } from "../../evaluator/completions/index.js";
 
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealm from "../realm/interfaces/StaticJsRealm.js";
 
-import { StaticJsObject } from "../interfaces/StaticJsObject.js";
-import { StaticJsValue } from "../interfaces/StaticJsValue.js";
+import { StaticJsObject } from "../types/interfaces/StaticJsObject.js";
+import { StaticJsValue } from "../types/interfaces/StaticJsValue.js";
 
-import StaticJsFunctionImpl from "../implementation/StaticJsFunctionImpl.js";
+import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
 export function populateNumberPrototype(
   realm: StaticJsRealm,

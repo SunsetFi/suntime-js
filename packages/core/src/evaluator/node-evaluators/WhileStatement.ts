@@ -4,12 +4,10 @@ import typedMerge from "../../internal/typed-merge.js";
 
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import StaticJsEnvironment from "../../runtime/environments/interfaces/StaticJsEnvironment.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeCommand } from "../commands/index.js";
-
 import { NormalCompletion } from "../completions/index.js";
 
 import setupEnvironment from "./setup-environment.js";
@@ -18,8 +16,11 @@ function* whileStatementNodeEvaluator(
   node: WhileStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const whileEnv =
-    (node.extra?.environment as StaticJsEnvironment | undefined) ?? context.env;
+  const whileEnv = new StaticJsLexicalEnvironment(
+    context.realm,
+    new StaticJsDeclarativeEnvironmentRecord(context.realm),
+    context.env,
+  );
 
   const whileContext = {
     ...context,
@@ -86,23 +87,6 @@ function* whileStatementNodeEvaluator(
   return NormalCompletion(null);
 }
 
-function* whileStatementEnvironmentSetup(
-  node: WhileStatement,
-  context: EvaluationContext,
-): EvaluationGenerator<boolean> {
-  const env = new StaticJsLexicalEnvironment(
-    context.realm,
-    new StaticJsDeclarativeEnvironmentRecord(context.realm),
-    context.env,
-  );
-  node.extra = {
-    ...node.extra,
-    environment: env,
-  };
-
-  return false;
-}
-
 export default typedMerge(whileStatementNodeEvaluator, {
-  environmentSetup: whileStatementEnvironmentSetup,
+  environmentSetup: false,
 });

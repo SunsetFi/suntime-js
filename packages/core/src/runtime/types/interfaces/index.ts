@@ -9,6 +9,7 @@ export { type StaticJsNumber, isStaticJsNumber } from "./StaticJsNumber.js";
 export {
   type StaticJsObject,
   type StaticJsObjectPropertyDescriptor,
+  type StaticJsObjectLike,
   isStaticJsObject,
   isStaticJsObjectLike,
   isStaticJsObjectPropertyDescriptorGetter,

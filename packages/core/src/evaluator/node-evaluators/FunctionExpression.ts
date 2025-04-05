@@ -18,7 +18,5 @@ function* expressionStatementNodeEvaluator(
 }
 
 export default typedMerge(expressionStatementNodeEvaluator, {
-  environmentSetup: function* () {
-    return false;
-  },
+  environmentSetup: false,
 });

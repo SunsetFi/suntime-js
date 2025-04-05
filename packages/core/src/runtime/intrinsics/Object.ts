@@ -1,20 +1,17 @@
-import {
-  ReturnCompletion,
-  ThrowCompletion,
-} from "../../../evaluator/internal.js";
+import { ReturnCompletion, ThrowCompletion } from "../../evaluator/internal.js";
 
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealm from "../realm/interfaces/StaticJsRealm.js";
 
-import { StaticJsValue } from "../interfaces/StaticJsValue.js";
+import { StaticJsValue } from "../types/interfaces/StaticJsValue.js";
 import {
   StaticJsObject,
   isStaticJsObjectLike,
-} from "../interfaces/StaticJsObject.js";
-import { isStaticJsNull } from "../interfaces/StaticJsNull.js";
-import { isStaticJsUndefined } from "../interfaces/StaticJsUndefined.js";
+} from "../types/interfaces/StaticJsObject.js";
+import { isStaticJsNull } from "../types/interfaces/StaticJsNull.js";
+import { isStaticJsUndefined } from "../types/interfaces/StaticJsUndefined.js";
 
-import StaticJsObjectImpl from "../implementation/StaticJsObjectImpl.js";
-import StaticJsFunctionImpl from "../implementation/StaticJsFunctionImpl.js";
+import StaticJsObjectImpl from "../types/implementation/StaticJsObjectImpl.js";
+import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
 export function populateObjectPrototype(
   realm: StaticJsRealm,

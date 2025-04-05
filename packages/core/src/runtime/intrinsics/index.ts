@@ -1,12 +1,15 @@
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealm from "../realm/interfaces/StaticJsRealm.js";
 
-import StaticJsObjectImpl from "../implementation/StaticJsObjectImpl.js";
+import StaticJsObjectImpl from "../types/implementation/StaticJsObjectImpl.js";
 
-import { StaticJsObject } from "../interfaces/StaticJsObject.js";
-import { StaticJsFunction } from "../interfaces/StaticJsFunction.js";
+import { StaticJsObject } from "../types/interfaces/StaticJsObject.js";
+import { StaticJsFunction } from "../types/interfaces/StaticJsFunction.js";
 
 import { createObjectConstructor, populateObjectPrototype } from "./Object.js";
-import { createArrayConstructor, populateArrayPrototype } from "./Array.js";
+import {
+  createArrayConstructor,
+  populateArrayPrototype,
+} from "./Array/index.js";
 import {
   createFunctionConstructor,
   populateFunctionPrototype,

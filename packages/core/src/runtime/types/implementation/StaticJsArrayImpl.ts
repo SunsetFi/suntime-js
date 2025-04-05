@@ -17,14 +17,14 @@ import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-des
 
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsUndefinedImpl from "./StaticJsUndefinedImpl.js";
-import StaticJsObjectImpl from "./StaticJsObjectImpl.js";
+import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
 export default class StaticJsArrayImpl
-  extends StaticJsObjectImpl
+  extends StaticJsObjectLikeImpl
   implements StaticJsArray
 {
   constructor(realm: StaticJsRealm, items: StaticJsValue[] = []) {
-    super(realm, realm.types.arrayProto, "array");
+    super(realm, realm.types.arrayProto);
 
     // This is a little suspect... We are using runEvaluatorUntilCompletion for these...
 
@@ -114,101 +114,6 @@ export default class StaticJsArrayImpl
       const value = yield* this.getEvaluator(i);
       array.push(value);
     }
-    return array;
-  }
-
-  *pushEvaluator(value: StaticJsValue): EvaluationGenerator<number> {
-    const length = yield* this.getLengthEvaluator();
-    yield* this.setEvaluator(length, value);
-    return yield* this.getLengthEvaluator();
-  }
-
-  *popEvaluator(): EvaluationGenerator<StaticJsValue> {
-    const length = yield* this.getLengthEvaluator();
-    if (length === 0) {
-      return StaticJsUndefinedImpl.Instance;
-    }
-
-    const value = yield* this.getEvaluator(length - 1);
-    yield* this._updateLength(length - 1);
-    return value;
-  }
-
-  *shiftEvaluator(): EvaluationGenerator<StaticJsValue> {
-    const length = yield* this.getLengthEvaluator();
-    if (length === 0) {
-      return StaticJsUndefinedImpl.Instance;
-    }
-
-    const value = yield* this.getEvaluator(0);
-    yield* this.deletePropertyEvaluator("0");
-    for (let i = 1; i < length; i++) {
-      const item = yield* this.getEvaluator(i);
-      yield* this.setEvaluator(i - 1, item);
-    }
-    yield* this._updateLength(length - 1);
-    return value;
-  }
-
-  *unshiftEvaluator(value: StaticJsValue): EvaluationGenerator<number> {
-    const length = yield* this.getLengthEvaluator();
-    for (let i = length - 1; i >= 0; i--) {
-      const item = yield* this.getEvaluator(i);
-      yield* this.setEvaluator(i + 1, item);
-    }
-
-    yield* this.setEvaluator(0, value);
-
-    // Length is updated automatically by the set property.
-    return yield* this.getLengthEvaluator();
-  }
-
-  *spliceEvaluator(
-    start: number,
-    deleteCount: number,
-    ...items: StaticJsValue[]
-  ): EvaluationGenerator<StaticJsArray> {
-    const length = yield* this.getLengthEvaluator();
-    const array = this.realm.types.createArray();
-
-    if (start < -length) {
-      start = 0;
-    } else if (start > length) {
-      start = length;
-    } else if (start < 0) {
-      start = length + start;
-    }
-
-    if (deleteCount < 0) {
-      deleteCount = 0;
-    } else if (deleteCount > length - start) {
-      deleteCount = length - start;
-    }
-
-    // Copy the removed items to the new array.
-    const deleteLimit = Math.min(length, start + deleteCount);
-    for (let i = start; i < deleteLimit; i++) {
-      const value = yield* this.getEvaluator(i);
-      yield* array.setEvaluator(i - start, value);
-    }
-
-    // Shift the items as appropriate.
-    const offset = deleteCount - items.length;
-    if (offset !== 0) {
-      for (let i = length - 1; i >= start + offset; i--) {
-        const item = yield* this.getEvaluator(i);
-        // We shift items left if we are deleting, but
-        // shift them right for new items
-        yield* this.setEvaluator(i - offset, item);
-      }
-    }
-
-    // Write the new items.
-    for (let i = 0; i < items.length; i++) {
-      yield* this.setEvaluator(i + start, items[i]);
-    }
-
-    yield* this._updateLength(length - deleteCount + items.length);
     return array;
   }
 

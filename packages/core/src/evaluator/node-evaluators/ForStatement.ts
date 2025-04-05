@@ -4,7 +4,6 @@ import typedMerge from "../../internal/typed-merge.js";
 
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import { StaticJsEnvironment } from "../../runtime/environments/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
@@ -18,13 +17,32 @@ function* forStatementNodeEvaluator(
   node: ForStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const forEnv =
-    (node.extra?.environment as StaticJsEnvironment | undefined) ?? context.env;
+  let forContext = context;
 
-  const forContext = {
-    ...context,
-    env: forEnv,
-  };
+  if (node.init || node.update || node.test) {
+    const forEnv = new StaticJsLexicalEnvironment(
+      context.realm,
+      new StaticJsDeclarativeEnvironmentRecord(context.realm),
+      context.env,
+    );
+
+    forContext = {
+      ...context,
+      env: forEnv,
+    };
+
+    if (node.init) {
+      yield* setupEnvironment(node.init, forContext);
+    }
+
+    if (node.test) {
+      yield* setupEnvironment(node.test, forContext);
+    }
+
+    if (node.update) {
+      yield* setupEnvironment(node.update, forContext);
+    }
+  }
 
   if (node.init) {
     yield* EvaluateNodeCommand(node.init, forContext);
@@ -56,7 +74,7 @@ function* forStatementNodeEvaluator(
     const bodyEnv = new StaticJsLexicalEnvironment(
       context.realm,
       new StaticJsDeclarativeEnvironmentRecord(context.realm),
-      forEnv,
+      forContext.env,
     );
 
     const bodyContext = {
@@ -92,45 +110,6 @@ function* forStatementNodeEvaluator(
   } while (true);
 }
 
-function* forStatementEnvironmentSetup(
-  node: ForStatement,
-  context: EvaluationContext,
-): EvaluationGenerator<boolean> {
-  // Set up the environment for the for statement initializer.
-  if (!node.init && !node.update && !node.test) {
-    return false;
-  }
-
-  const forEnvironment = new StaticJsLexicalEnvironment(
-    context.realm,
-    new StaticJsDeclarativeEnvironmentRecord(context.realm),
-    context.env,
-  );
-  node.extra = {
-    ...node.extra,
-    environment: forEnvironment,
-  };
-
-  const forContext: EvaluationContext = {
-    ...context,
-    env: forEnvironment,
-  };
-
-  if (node.init) {
-    yield* setupEnvironment(node.init, forContext);
-  }
-
-  if (node.test) {
-    yield* setupEnvironment(node.test, forContext);
-  }
-
-  if (node.update) {
-    yield* setupEnvironment(node.update, forContext);
-  }
-
-  return false;
-}
-
 export default typedMerge(forStatementNodeEvaluator, {
-  environmentSetup: forStatementEnvironmentSetup,
+  environmentSetup: false,
 });

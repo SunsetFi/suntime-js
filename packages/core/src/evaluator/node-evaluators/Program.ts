@@ -72,9 +72,7 @@ function* programNodeEvaluator(
 }
 
 export default typedMerge(programNodeEvaluator, {
-  environmentSetup: function* () {
-    return false;
-  },
+  environmentSetup: false,
 });
 
 function extractImports(

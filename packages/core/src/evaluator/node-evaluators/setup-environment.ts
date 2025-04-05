@@ -15,8 +15,12 @@ export default function* setupEnvironment(
   let shouldRecurse = true;
   const evaluator = getEvaluator(node);
 
-  if (evaluator && evaluator.environmentSetup) {
-    shouldRecurse = yield* evaluator.environmentSetup(node, context);
+  if (evaluator) {
+    if (typeof evaluator.environmentSetup === "boolean") {
+      shouldRecurse = evaluator.environmentSetup;
+    } else if (evaluator.environmentSetup) {
+      shouldRecurse = yield* evaluator.environmentSetup(node, context);
+    }
   }
 
   if (shouldRecurse) {
@@ -27,6 +31,10 @@ export default function* setupEnvironment(
 }
 
 function getChildNodes(node: Node): Node[] {
+  // There might be some stuff in @babel/types that can collect these more efficiently,
+  // but I've only found tree-walking stuff that requires specific visitor types.
+  // ...Actually, that might work, if we make shouldRecurse opt-in and collect the node types
+  // ahead of time.
   const childNodes: Node[] = [];
   for (const key of typedKeys(node)) {
     const value = node[key];

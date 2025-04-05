@@ -1,11 +1,12 @@
 import { StaticJsScalar } from "./StaticJsScalar.js";
-import { StaticJsObject } from "./StaticJsObject.js";
+import { StaticJsObject, StaticJsObjectLike } from "./StaticJsObject.js";
 import { StaticJsArray } from "./StaticJsArray.js";
 import { StaticJsFunction } from "./StaticJsFunction.js";
 
 export type StaticJsValue =
   | StaticJsScalar
   | StaticJsObject
+  | StaticJsObjectLike
   | StaticJsArray
   | StaticJsFunction;
 

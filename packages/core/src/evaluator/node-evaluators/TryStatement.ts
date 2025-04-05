@@ -118,9 +118,5 @@ function* runBlock(
 }
 
 export default typedMerge(tryStatementNodeEvaluator, {
-  // This is a bit surprising, but the only EnvironmentRecord we need to create is for catch,
-  // and that is only created at runtime.
-  environmentSetup: function* () {
-    return false;
-  },
+  environmentSetup: false,
 });

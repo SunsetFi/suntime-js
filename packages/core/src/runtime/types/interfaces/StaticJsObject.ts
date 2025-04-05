@@ -6,8 +6,10 @@ import hasOwnProperty from "../../../internal/has-own-property.js";
 import { StaticJsPrimitive } from "./StaticJsPrimitive.js";
 import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
 
-export interface StaticJsObject extends StaticJsPrimitive {
-  readonly runtimeTypeOf: "object" | "function" | "array";
+export interface StaticJsObjectLike extends StaticJsPrimitive {
+  // We MUST NOT RESTRICT THIS to "object" | "array" | "function", or else
+  // type guards for those specific types will include this.
+  readonly runtimeTypeOf: string;
 
   get prototype(): StaticJsObject | null;
 
@@ -78,18 +80,21 @@ export interface StaticJsObject extends StaticJsPrimitive {
   deletePropertyEvaluator(name: string): EvaluationGenerator<boolean>;
 }
 
-export function isStaticJsObject(value: unknown): value is StaticJsObject {
-  if (!isStaticJsValue(value)) {
-    return false;
-  }
-  return value.runtimeTypeOf === "object";
-}
-
 export function isStaticJsObjectLike(value: unknown): value is StaticJsObject {
   if (!isStaticJsValue(value)) {
     return false;
   }
   return ["object", "array", "function"].includes(value.runtimeTypeOf);
+}
+
+export interface StaticJsObject extends StaticJsObjectLike {
+  readonly runtimeTypeOf: "object";
+}
+export function isStaticJsObject(value: unknown): value is StaticJsObject {
+  if (!isStaticJsValue(value)) {
+    return false;
+  }
+  return value.runtimeTypeOf === "object";
 }
 
 export interface StaticJsObjectPropertyDescriptorBase {

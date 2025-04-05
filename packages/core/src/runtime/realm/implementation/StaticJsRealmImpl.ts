@@ -9,7 +9,7 @@ import {
   createConstructors,
   createPrototypes,
   Constructors,
-} from "../../types/intrinsics/index.js";
+} from "../../intrinsics/index.js";
 import StaticJsTypeFactoryImpl from "../../types/implementation/StaticJsTypeFactoryImpl.js";
 import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
 import {

@@ -19,7 +19,7 @@ import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-des
 
 import StaticJsStringImpl from "./StaticJsStringImpl.js";
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
-import StaticJsObjectImpl from "./StaticJsObjectImpl.js";
+import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
 export interface StaticJsFunctionImplOptions {
   length?: number;
@@ -32,7 +32,7 @@ export interface StaticJsFunctionImplOptions {
 // Lambdas MUST NOT BE called with construct(), only call()
 
 export default class StaticJsFunctionImpl
-  extends StaticJsObjectImpl
+  extends StaticJsObjectLikeImpl
   implements StaticJsFunction
 {
   private _isConstructor: boolean;
@@ -49,7 +49,7 @@ export default class StaticJsFunctionImpl
     ) => EvaluationGenerator<Completion>,
     { isConstructor, length, prototype }: StaticJsFunctionImplOptions = {},
   ) {
-    super(realm, prototype ?? realm.types.functionProto, "function");
+    super(realm, prototype ?? realm.types.functionProto);
     this._name = name;
 
     this._isConstructor = isConstructor ?? false;
