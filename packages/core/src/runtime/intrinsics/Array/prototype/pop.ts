@@ -1,4 +1,5 @@
 import { NormalCompletion } from "../../../../evaluator/completions/index.js";
+import toInteger from "../../../algorithms/to-integer.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 export const arrayProtoPopDeclaration: IntrinsicPropertyDeclaration = {
@@ -14,7 +15,7 @@ export const arrayProtoPopDeclaration: IntrinsicPropertyDeclaration = {
       lengthValue = realm.types.zero;
     }
 
-    const length = Math.floor(lengthValue.toNumber());
+    const length = toInteger(lengthValue);
 
     if (length <= 0) {
       // This seems to re-set length to 0 even if it wasn't an array.

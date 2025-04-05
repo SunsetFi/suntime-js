@@ -1,4 +1,5 @@
 import { NormalCompletion } from "../../../../evaluator/completions/index.js";
+import toInteger from "../../../algorithms/to-integer.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
@@ -11,7 +12,7 @@ const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
       lengthValue = realm.types.zero;
     }
 
-    const length = Math.floor(lengthValue.toNumber());
+    const length = toInteger(lengthValue);
     if (length <= 0) {
       yield* thisObj.setPropertyEvaluator("length", realm.types.zero, true);
       return NormalCompletion(realm.types.undefined);

@@ -1,4 +1,5 @@
 import { NormalCompletion } from "../../../../evaluator/internal.js";
+import toInteger from "../../../algorithms/to-integer.js";
 import { isStaticJsArray } from "../../../types/index.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -16,7 +17,7 @@ const arrayProtoAtDeclaration: IntrinsicPropertyDeclaration = {
 
     const length = yield* thisArg.getLengthEvaluator();
 
-    let index = Math.floor(indexValue.toNumber());
+    let index = toInteger(indexValue);
     if (index < 0) {
       index = length + index;
     }

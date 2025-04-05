@@ -1,5 +1,6 @@
 import { NormalCompletion } from "../../../../evaluator/internal.js";
 import sameValueZero from "../../../algorithms/same-value-zero.js";
+import toInteger from "../../../algorithms/to-integer.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
@@ -12,14 +13,14 @@ const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const lengthValue = yield* thisObj.getPropertyEvaluator("length");
-    const length = Math.floor(lengthValue.toNumber());
+    const length = toInteger(lengthValue);
 
     if (!startFromValue) {
       startFromValue = realm.types.zero;
     }
 
     // Yay edge cases
-    const startFrom = Math.floor(startFromValue.toNumber());
+    const startFrom = toInteger(startFromValue);
 
     for (let i = startFrom; i < length; i++) {
       const elementValue = yield* thisObj.getPropertyEvaluator(String(i));

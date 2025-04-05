@@ -1,4 +1,5 @@
 import { NormalCompletion } from "../../../../evaluator/internal.js";
+import toInteger from "../../../algorithms/to-integer.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
@@ -14,7 +15,7 @@ const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
       lengthValue = realm.types.zero;
     }
 
-    const length = Math.floor(lengthValue.toNumber());
+    const length = toInteger(lengthValue);
 
     yield* thisObj.setPropertyEvaluator(
       "length",
