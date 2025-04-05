@@ -9,6 +9,7 @@ import {
 import arrayProtoAtDeclaration from "./at.js";
 import arrayProtoConcatDeclaration from "./concat.js";
 import arrayProtoEveryDeclaration from "./every.js";
+import arrayProtoFillDeclaration from "./fill.js";
 import arrayProtoFilterDeclaration from "./filter.js";
 import arrayProtoForEachDeclaration from "./forEach.js";
 import arrayProtoIncludesDeclaration from "./includes.js";
@@ -23,7 +24,10 @@ import arrayProtoUnshiftDeclaration from "./unshift.js";
 const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoAtDeclaration,
   arrayProtoConcatDeclaration,
+  // TODO: Array.prototype.copyWithin
+  // TODO: Array.prototype.entries
   arrayProtoEveryDeclaration,
+  arrayProtoFillDeclaration,
   arrayProtoFilterDeclaration,
   arrayProtoForEachDeclaration,
   arrayProtoIncludesDeclaration,
