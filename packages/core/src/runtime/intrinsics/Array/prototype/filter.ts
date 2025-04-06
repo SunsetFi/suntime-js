@@ -1,27 +1,14 @@
+import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { NormalCompletion } from "../../../../evaluator/internal.js";
-import {
-  isStaticJsArray,
-  isStaticJsFunction,
-  isStaticJsNull,
-  isStaticJsUndefined,
-  StaticJsValue,
-} from "../../../types/index.js";
+import { isStaticJsFunction, StaticJsValue } from "../../../types/index.js";
 import createTypeErrorCompletion from "../../errors/TypeError.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import getLength from "./utils/get-length.js";
 
 const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
   name: "filter",
   *func(realm, thisArg, callback) {
-    if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
-      return createTypeErrorCompletion(
-        "Array.prototype.filter called on null or undefined",
-        realm,
-      );
-    }
-    if (!isStaticJsArray(thisArg)) {
-      // Seems to do nothing in NodeJs.
-      return NormalCompletion(realm.types.createArray([]));
-    }
+    const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
     if (!callback) {
       callback = realm.types.undefined;
@@ -34,38 +21,37 @@ const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const length = yield* thisArg.getLengthEvaluator();
-    if (length === 0) {
-      return NormalCompletion(realm.types.createArray([]));
+    const length = yield* getLength(realm, thisObj);
+    if (isThrowCompletion(length)) {
+      return length;
     }
 
     const resultItems: StaticJsValue[] = [];
     for (let i = 0; i < length; i++) {
-      const elementValue = yield* thisArg.getPropertyEvaluator(String(i));
+      const property = String(i);
+      const hasProperty = yield* thisObj.hasPropertyEvaluator(property);
+      if (!hasProperty) {
+        continue;
+      }
+
+      const elementValue = yield* thisObj.getPropertyEvaluator(property);
       const resultCompletion = yield* callback.call(
-        thisArg,
+        thisObj,
         elementValue,
         realm.types.number(i),
-        thisArg,
+        thisObj,
       );
-      switch (resultCompletion.type) {
-        case "normal":
-          if (!resultCompletion.value) {
-            throw new Error(
-              "Expected result completion to return a value, but got undefined",
-            );
-          }
-          if (resultCompletion.value.toBoolean()) {
-            resultItems.push(elementValue);
-          }
-          break;
-        case "throw":
-          return resultCompletion;
-        default:
-          throw new Error(
-            "Expected result completion to return normal or throw, but got " +
-              resultCompletion.type,
-          );
+      if (resultCompletion.type === "throw") {
+        return resultCompletion;
+      }
+      if (resultCompletion.type !== "normal" || !resultCompletion.value) {
+        throw new Error(
+          "Expected result completion to return a value, but got undefined",
+        );
+      }
+
+      if (resultCompletion.value.toBoolean()) {
+        resultItems.push(elementValue);
       }
     }
 

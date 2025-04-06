@@ -1,15 +1,18 @@
+import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { NormalCompletion } from "../../../../evaluator/internal.js";
 import strictEquality from "../../../algorithms/strict-equality.js";
-import toInteger from "../../../algorithms/to-integer.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import getLength from "./utils/get-length.js";
 
 const arrayProtoLastIndexOfDeclaration: IntrinsicPropertyDeclaration = {
   name: "lastIndexOf",
   *func(realm, thisArg, value) {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
-    const lengthValue = yield* thisObj.getPropertyEvaluator("length");
-    const length = toInteger(lengthValue);
+    const length = yield* getLength(realm, thisObj);
+    if (isThrowCompletion(length)) {
+      return length;
+    }
 
     if (!value) {
       value = realm.types.undefined;

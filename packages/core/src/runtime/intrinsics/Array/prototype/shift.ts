@@ -1,18 +1,18 @@
 import { NormalCompletion } from "../../../../evaluator/completions/index.js";
-import toInteger from "../../../algorithms/to-integer.js";
+import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import getLength from "./utils/get-length.js";
 
 const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
   name: "shift",
   *func(realm, thisArg) {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
-    let lengthValue = yield* thisObj.getPropertyEvaluator("length");
-    if (!lengthValue) {
-      lengthValue = realm.types.zero;
+    const length = yield* getLength(realm, thisObj);
+    if (isThrowCompletion(length)) {
+      return length;
     }
 
-    const length = toInteger(lengthValue);
     if (length <= 0) {
       yield* thisObj.setPropertyEvaluator("length", realm.types.zero, true);
       return NormalCompletion(realm.types.undefined);
@@ -21,8 +21,18 @@ const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
     const value = yield* thisObj.getPropertyEvaluator("0");
 
     for (let i = 0; i < length - 1; i++) {
-      const nextValue = yield* thisObj.getPropertyEvaluator(String(i + 1));
-      yield* thisObj.setPropertyEvaluator(String(i), nextValue, true);
+      const fromProperty = String(i + 1);
+      const toProperty = String(i);
+
+      const hasFromProperty = yield* thisObj.hasPropertyEvaluator(fromProperty);
+
+      if (!hasFromProperty) {
+        yield* thisObj.deletePropertyEvaluator(toProperty);
+        continue;
+      }
+
+      const fromValue = yield* thisObj.getPropertyEvaluator(fromProperty);
+      yield* thisObj.setPropertyEvaluator(toProperty, fromValue, true);
     }
 
     yield* thisObj.deletePropertyEvaluator(String(length - 1));

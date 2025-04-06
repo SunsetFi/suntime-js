@@ -1,14 +1,15 @@
+import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import {
   NormalCompletion,
   ThrowCompletion,
 } from "../../../../evaluator/internal.js";
-import toInteger from "../../../algorithms/to-integer.js";
 import {
   isStaticJsArray,
   isStaticJsFunction,
   StaticJsValue,
 } from "../../../types/index.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import getLength from "./utils/get-length.js";
 
 const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
   name: "flatMap",
@@ -25,8 +26,10 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const lengthValue = yield* thisObj.getPropertyEvaluator("length");
-    const length = toInteger(lengthValue);
+    const length = yield* getLength(realm, thisObj);
+    if (isThrowCompletion(length)) {
+      return length;
+    }
 
     const items: StaticJsValue[] = [];
     for (let i = 0; i < length; i++) {

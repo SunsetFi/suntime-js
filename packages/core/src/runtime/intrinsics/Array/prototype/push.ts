@@ -1,27 +1,29 @@
-import { NormalCompletion } from "../../../../evaluator/internal.js";
-import toInteger from "../../../algorithms/to-integer.js";
+import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import {
+  NormalCompletion,
+  ThrowCompletion,
+} from "../../../../evaluator/internal.js";
+import { MAX_ARRAY_LENGTH } from "../../../types/interfaces/index.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import getLength from "./utils/get-length.js";
 
 const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
   name: "push",
   *func(realm, thisArg, ...args) {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
-    // Push works independently of the underlying type and
-    // messes with the properties manually.
-
-    let lengthValue = yield* thisObj.getPropertyEvaluator("length");
-    if (!lengthValue) {
-      lengthValue = realm.types.zero;
+    const length = yield* getLength(realm, thisObj);
+    if (isThrowCompletion(length)) {
+      return length;
     }
 
-    const length = toInteger(lengthValue);
-
-    yield* thisObj.setPropertyEvaluator(
-      "length",
-      realm.types.number(length + args.length),
-      true,
-    );
+    if (args.length + length > MAX_ARRAY_LENGTH) {
+      return ThrowCompletion(
+        realm.types.string(
+          `TypeError: Pushing ${args.length} elements on an array-like of length ${length} is disallowed, as the total surpasses the maximum array length.`,
+        ),
+      );
+    }
 
     for (let i = 0; i < args.length; i++) {
       const index = length + i;
@@ -29,7 +31,11 @@ const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
       yield* thisObj.setPropertyEvaluator(String(index), value, true);
     }
 
-    return NormalCompletion(realm.types.number(length + args.length));
+    // Might be relevant that some docs say this should be called after the items are set.
+    const newLengthValue = realm.types.number(length + args.length);
+    yield* thisObj.setPropertyEvaluator("length", newLengthValue, true);
+
+    return NormalCompletion(newLengthValue);
   },
 };
 

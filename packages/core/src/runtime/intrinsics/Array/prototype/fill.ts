@@ -1,7 +1,9 @@
 import { NormalCompletion } from "../../../../evaluator/completions/index.js";
+import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import toInteger from "../../../algorithms/to-integer.js";
 import { isStaticJsUndefined } from "../../../types/index.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import getLength from "./utils/get-length.js";
 
 const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
   name: "fill",
@@ -12,12 +14,10 @@ const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
       value = realm.types.undefined;
     }
 
-    let lengthValue = yield* thisObj.getPropertyEvaluator("length");
-    if (!lengthValue) {
-      lengthValue = realm.types.zero;
+    const length = yield* getLength(realm, thisObj);
+    if (isThrowCompletion(length)) {
+      return length;
     }
-
-    const length = toInteger(lengthValue);
     if (length <= 0) {
       return NormalCompletion(thisObj);
     }
@@ -26,9 +26,11 @@ const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
     if (startValue && !isStaticJsUndefined(startValue)) {
       start = toInteger(startValue);
       if (start < 0) {
-        start = Math.max(0, length + start);
+        start = length + start;
       }
     }
+
+    start = Math.max(0, start);
 
     if (start >= length) {
       return NormalCompletion(thisObj);
@@ -38,9 +40,11 @@ const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
     if (endValue && !isStaticJsUndefined(endValue)) {
       end = toInteger(endValue);
       if (end < 0) {
-        end = Math.max(0, length + end);
+        end = length + end;
       }
     }
+
+    end = Math.max(0, end);
 
     if (end > length) {
       end = length;

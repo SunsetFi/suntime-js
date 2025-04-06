@@ -1,7 +1,9 @@
+import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { NormalCompletion } from "../../../../evaluator/internal.js";
 import sameValueZero from "../../../algorithms/same-value-zero.js";
 import toInteger from "../../../algorithms/to-integer.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import getLength from "./utils/get-length.js";
 
 const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
   name: "includes",
@@ -12,8 +14,13 @@ const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
       return NormalCompletion(realm.types.false);
     }
 
-    const lengthValue = yield* thisObj.getPropertyEvaluator("length");
-    const length = toInteger(lengthValue);
+    const length = yield* getLength(realm, thisObj);
+    if (isThrowCompletion(length)) {
+      return length;
+    }
+    if (length === 0) {
+      return NormalCompletion(realm.types.false);
+    }
 
     let startFrom = 0;
     if (startFromValue) {
@@ -21,8 +28,10 @@ const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (startFrom < 0) {
-      startFrom = Math.max(0, length + startFrom);
+      startFrom = length + startFrom;
     }
+
+    startFrom = Math.max(0, startFrom);
 
     for (let i = startFrom; i < length; i++) {
       const elementValue = yield* thisObj.getPropertyEvaluator(String(i));

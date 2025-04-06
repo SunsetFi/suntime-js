@@ -1,10 +1,11 @@
+import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import {
   NormalCompletion,
   ThrowCompletion,
 } from "../../../../evaluator/internal.js";
-import toInteger from "../../../algorithms/to-integer.js";
 import { isStaticJsFunction } from "../../../types/index.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import getLength from "./utils/get-length.js";
 
 const arrayProtoFindDeclaration: IntrinsicPropertyDeclaration = {
   name: "find",
@@ -21,8 +22,10 @@ const arrayProtoFindDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const lengthValue = yield* thisObj.getPropertyEvaluator("length");
-    const length = toInteger(lengthValue);
+    const length = yield* getLength(realm, thisObj);
+    if (isThrowCompletion(length)) {
+      return length;
+    }
 
     for (let i = 0; i < length; i++) {
       const value = yield* thisObj.getPropertyEvaluator(String(i));

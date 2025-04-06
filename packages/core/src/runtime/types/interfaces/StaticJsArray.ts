@@ -2,6 +2,8 @@ import { EvaluationGenerator } from "../../../evaluator/internal.js";
 import { StaticJsObjectLike } from "./StaticJsObject.js";
 import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
 
+export const MAX_ARRAY_LENGTH = 2 ** 53 - 1;
+
 export interface StaticJsArray extends StaticJsObjectLike {
   readonly runtimeTypeOf: "array";
 

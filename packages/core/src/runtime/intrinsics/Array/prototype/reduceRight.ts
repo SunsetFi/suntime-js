@@ -10,8 +10,8 @@ import {
 import createTypeErrorCompletion from "../../errors/TypeError.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
-  name: "reduce",
+const arrayProtoReduceRightDeclaration: IntrinsicPropertyDeclaration = {
+  name: "reduceRight",
   *func(realm, thisArg, callback, initialValue) {
     if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
       return createTypeErrorCompletion(
@@ -60,13 +60,13 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
     let startIndex;
     if (initialValue) {
       value = initialValue;
-      startIndex = 0;
+      startIndex = length - 1;
     } else {
-      value = yield* thisArray.getPropertyEvaluator("0");
-      startIndex = 1;
+      value = yield* thisArray.getPropertyEvaluator(String(length - 1));
+      startIndex = length - 2;
     }
 
-    for (let i = startIndex; i < length; i++) {
+    for (let i = startIndex; i >= 0; i--) {
       const elementValue = yield* thisArray.getPropertyEvaluator(String(i));
       const resultCompletion = yield* callback.call(
         thisArray,
@@ -96,4 +96,4 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
   },
 };
 
-export default arrayProtoReduceDeclaration;
+export default arrayProtoReduceRightDeclaration;

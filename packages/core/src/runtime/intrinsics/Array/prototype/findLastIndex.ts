@@ -1,10 +1,11 @@
+import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import {
   NormalCompletion,
   ThrowCompletion,
 } from "../../../../evaluator/internal.js";
-import toInteger from "../../../algorithms/to-integer.js";
 import { isStaticJsFunction } from "../../../types/index.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import getLength from "./utils/get-length.js";
 
 const arrayProtoFindLastIndexDeclaration: IntrinsicPropertyDeclaration = {
   name: "findLastIndex",
@@ -21,8 +22,10 @@ const arrayProtoFindLastIndexDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const lengthValue = yield* thisObj.getPropertyEvaluator("length");
-    const length = toInteger(lengthValue);
+    const length = yield* getLength(realm, thisObj);
+    if (isThrowCompletion(length)) {
+      return length;
+    }
 
     for (let i = length - 1; i >= 0; i--) {
       const value = yield* thisObj.getPropertyEvaluator(String(i));

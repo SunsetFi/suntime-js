@@ -975,24 +975,353 @@ describe("E2E: Arrays", () => {
       });
     });
 
-    it("Can call Array.prototype.push", () => {
-      const code = `
-        const a = [];
-        a.push(1);
-        a;
-      `;
-      const result = evaluateProgram(code);
-      expect(result).toEqual([1]);
+    describe("Array.prototype.push", () => {
+      it("Pushes a single value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.push(4);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2, 3, 4]);
+      });
+
+      it("Pushes multiple values", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.push(4, 5);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2, 3, 4, 5]);
+      });
+
+      it("Preserves empties", () => {
+        const code = `
+          const a = [1, 2, 3];
+          delete a[2];
+          a.push(4);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2, undefined, 4]);
+        expect(hasOwnProperty(result, "2")).toEqual(false);
+      });
+
+      it("Pushes arrays", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.push([4, 5]);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2, 3, [4, 5]]);
+      });
     });
 
-    it("Can call Array.prototype.shift", () => {
-      const code = `
-        const a = [1, 2, 3];
-        const b = a.shift();
-        [a, b];
-      `;
-      const result = evaluateProgram(code);
-      expect(result).toEqual([[2, 3], 1]);
+    describe("Array.prototype.reduce", () => {
+      it("Reduces with no initializer", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.reduce((acc, v) => acc + v);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(6);
+      });
+
+      it("Reduces with an initializer", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.reduce((acc, v) => acc + v, 10);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(16);
+      });
+
+      it("Throws when no initializer is used with an empty array", () => {
+        const code = `
+          const a = [];
+          a.reduce((acc, v) => acc + v);
+        `;
+        expect(() => evaluateProgram(code)).toThrow(
+          "Reduce of empty array with no initial value",
+        );
+      });
+
+      it("Returns the initializer with an empty array", () => {
+        const code = `
+          const a = [];
+          a.reduce((acc, v) => acc + v, 10);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(10);
+      });
+
+      it("Throws if the callback is not a function", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.reduce(1);
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Reduces from left to right", () => {
+        const code = `
+          const a = ["a", "b", "c"];
+          a.reduce((acc, v) => acc + v);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual("abc");
+      });
+    });
+
+    describe("Array.prototype.reduceRight", () => {
+      it("Reduces with no initializer", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.reduceRight((acc, v) => acc + v);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(6);
+      });
+
+      it("Reduces with an initializer", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.reduceRight((acc, v) => acc + v, 10);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(16);
+      });
+
+      it("Throws when no initializer is used with an empty array", () => {
+        const code = `
+          const a = [];
+          a.reduceRight((acc, v) => acc + v);
+        `;
+        expect(() => evaluateProgram(code)).toThrow(
+          "Reduce of empty array with no initial value",
+        );
+      });
+
+      it("Returns the initializer with an empty array", () => {
+        const code = `
+          const a = [];
+          a.reduceRight((acc, v) => acc + v, 10);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(10);
+      });
+
+      it("Throws if the callback is not a function", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.reduceRight(1);
+        `;
+        expect(() => evaluateProgram(code)).toThrow("is not a function");
+      });
+
+      it("Reduces from right to left", () => {
+        const code = `
+          const a = ["a", "b", "c"];
+          a.reduceRight((acc, v) => acc + v);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual("cba");
+      });
+    });
+
+    describe("Array.prototype.reverse", () => {
+      it("Returns itself", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.reverse();
+          a === a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(true);
+      });
+
+      it("Preserves 1 item", () => {
+        const code = `
+          const a = [1];
+          a.reverse();
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1]);
+      });
+
+      it("Reverses 2 items", () => {
+        const code = `
+          const a = [1, 2];
+          a.reverse();
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([2, 1]);
+      });
+
+      it("Reverses 3 items", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.reverse();
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([3, 2, 1]);
+      });
+
+      it("Reverses empty items", () => {
+        const code = `
+          const a = [1, 2, 3];
+          delete a[2];
+          a.reverse();
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([undefined, 2, 1]);
+        expect(hasOwnProperty(result, "0")).toEqual(false);
+      });
+    });
+
+    describe("Array.prototype.shift", () => {
+      it("Shifts the array", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.shift();
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([2, 3]);
+      });
+
+      it("Returns the shifted item", () => {
+        const code = `
+          const a = [1, 2, 3];
+          const result = a.shift();
+          [a, result];
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([[2, 3], 1]);
+      });
+
+      it("Shifts empty items", () => {
+        const code = `
+          const a = [1, 2, 3];
+          delete a[1];
+          a.shift();
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([undefined, 3]);
+        expect(hasOwnProperty(result, "0")).toEqual(false);
+      });
+
+      it("Returns undefined for empty items", () => {
+        const code = `
+          const a = [1, 2, 3];
+          delete a[0];
+          a.shift();
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(undefined);
+      });
+    });
+
+    describe("Array.prototype.slice", () => {
+      it("Can be called with no arguments", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.slice();
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2, 3]);
+      });
+
+      it("Returns a copy of the array", () => {
+        const code = `
+          const a = [1, 2, 3];
+          const b = a.slice();
+          a === b;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(false);
+      });
+
+      it("Can be called with a start value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.slice(1);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([2, 3]);
+      });
+
+      it("Can be called with a negative start value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.slice(-1);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([3]);
+      });
+
+      it("Can be called with a start value past the end", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.slice(3);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([]);
+      });
+
+      it("Can be called with an end value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.slice(0, 2);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2]);
+      });
+
+      it("Can be called with a negative end value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.slice(0, -1);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2]);
+      });
+
+      it("Can be called with an end value before the start", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.slice(2, 1);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([]);
+      });
+
+      it("Can be called with an end value past the end", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.slice(1, 5);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([2, 3]);
+      });
+
+      it("Preserves empty items", () => {
+        const code = `
+          const a = [1, 2, 3];
+          delete a[1];
+          a.slice(0, 2);
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, undefined]);
+        expect(hasOwnProperty(result, "1")).toEqual(false);
+      });
     });
 
     it("Can call Array.prototype.unshift", () => {

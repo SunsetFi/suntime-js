@@ -1,5 +1,5 @@
+import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { NormalCompletion } from "../../../../evaluator/internal.js";
-import toInteger from "../../../algorithms/to-integer.js";
 import {
   isStaticJsArray,
   isStaticJsFunction,
@@ -7,6 +7,7 @@ import {
 } from "../../../types/index.js";
 import createTypeErrorCompletion from "../../errors/TypeError.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import getLength from "./utils/get-length.js";
 
 const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
   name: "map",
@@ -29,8 +30,10 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const lengthValue = yield* thisObj.getPropertyEvaluator("length");
-    const length = toInteger(lengthValue);
+    const length = yield* getLength(realm, thisObj);
+    if (isThrowCompletion(length)) {
+      return length;
+    }
 
     const resultArray: StaticJsValue[] = new Array(length);
     for (let i = 0; i < length; i++) {

@@ -26,7 +26,10 @@ import arrayProtoMapDeclaration from "./map.js";
 import arrayProtoPopDeclaration from "./pop.js";
 import arrayProtoPushDeclaration from "./push.js";
 import arrayProtoReduceDeclaration from "./reduce.js";
+import arrayProtoReduceRightDeclaration from "./reduceRight.js";
+import arrayProtoReverseDeclaration from "./reverse.js";
 import arrayProtoShiftDeclaration from "./shift.js";
+import arrayProtoSliceDeclaration from "./slice.js";
 import arrayProtoSomeDeclaration from "./some.js";
 import arrayProtoUnshiftDeclaration from "./unshift.js";
 
@@ -54,7 +57,10 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoPopDeclaration,
   arrayProtoPushDeclaration,
   arrayProtoReduceDeclaration,
+  arrayProtoReduceRightDeclaration,
+  arrayProtoReverseDeclaration,
   arrayProtoShiftDeclaration,
+  arrayProtoSliceDeclaration,
   arrayProtoSomeDeclaration,
   arrayProtoUnshiftDeclaration,
 ];

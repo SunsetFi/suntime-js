@@ -1,21 +1,17 @@
 import { NormalCompletion } from "../../../../evaluator/completions/index.js";
-import toInteger from "../../../algorithms/to-integer.js";
+import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import getLength from "./utils/get-length.js";
 
 export const arrayProtoPopDeclaration: IntrinsicPropertyDeclaration = {
   name: "pop",
   *func(realm, thisArg) {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
-    // Pop works independently of the underlying type and
-    // messes with the properties manually.
-
-    let lengthValue = yield* thisObj.getPropertyEvaluator("length");
-    if (!lengthValue) {
-      lengthValue = realm.types.zero;
+    const length = yield* getLength(realm, thisObj);
+    if (isThrowCompletion(length)) {
+      return length;
     }
-
-    const length = toInteger(lengthValue);
 
     if (length <= 0) {
       // This seems to re-set length to 0 even if it wasn't an array.

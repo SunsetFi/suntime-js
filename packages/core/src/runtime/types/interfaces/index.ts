@@ -1,4 +1,8 @@
-export { type StaticJsArray, isStaticJsArray } from "./StaticJsArray.js";
+export {
+  type StaticJsArray,
+  isStaticJsArray,
+  MAX_ARRAY_LENGTH,
+} from "./StaticJsArray.js";
 export { type StaticJsBoolean, isStaticJsBoolean } from "./StaticJsBoolean.js";
 export {
   type StaticJsFunction,

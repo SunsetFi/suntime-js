@@ -1,27 +1,14 @@
 import { NormalCompletion } from "../../../../evaluator/completions/index.js";
-import {
-  isStaticJsArray,
-  isStaticJsFunction,
-  isStaticJsNull,
-  isStaticJsUndefined,
-} from "../../../types/index.js";
+import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { isStaticJsFunction } from "../../../types/index.js";
 import createTypeErrorCompletion from "../../errors/TypeError.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import getLength from "./utils/get-length.js";
 
 const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   name: "forEach",
   *func(realm, thisArg, callback, providedThisArg) {
-    if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
-      return createTypeErrorCompletion(
-        "Array.prototype.forEach called on null or undefined",
-        realm,
-      );
-    }
-
-    if (!isStaticJsArray(thisArg)) {
-      // Seems to do nothing in NodeJs.
-      return NormalCompletion(realm.types.undefined);
-    }
+    const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
     if (!callback) {
       callback = realm.types.undefined;
@@ -34,17 +21,24 @@ const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const length = yield* thisArg.getLengthEvaluator();
-    if (length === 0) {
-      return NormalCompletion(realm.types.undefined);
+    const length = yield* getLength(realm, thisObj);
+    if (isThrowCompletion(length)) {
+      return length;
     }
+
     for (let i = 0; i < length; i++) {
-      const elementValue = yield* thisArg.getPropertyEvaluator(String(i));
+      const property = String(i);
+      const hasProperty = yield* thisObj.hasPropertyEvaluator(property);
+      if (!hasProperty) {
+        continue;
+      }
+
+      const elementValue = yield* thisObj.getPropertyEvaluator(property);
       const resultCompletion = yield* callback.call(
-        providedThisArg ?? thisArg,
+        providedThisArg ?? thisObj,
         elementValue,
         realm.types.number(i),
-        thisArg,
+        thisObj,
       );
       if (resultCompletion.type === "throw") {
         return resultCompletion;
