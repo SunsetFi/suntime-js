@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateExpressionString } from "../../src/index.js";
+import { evaluateExpression } from "../../src/index.js";
 
 describe("E2E: Equality Expressions", () => {
   // This motly collection of weird values includes a lot of odd pairings that represent
@@ -115,7 +115,7 @@ describe("E2E: Equality Expressions", () => {
         const left = suspiciousValues[leftI];
         const right = suspiciousValues[rightI];
 
-        const result = evaluateExpressionString(`${left} == ${right}`);
+        const result = evaluateExpression(`${left} == ${right}`);
         expect(result).toBe(isTrue);
       });
     }

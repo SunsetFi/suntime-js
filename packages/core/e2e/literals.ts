@@ -1,43 +1,43 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateExpressionString } from "../src/index.js";
+import { evaluateExpression } from "../src/index.js";
 
 describe("E2E: Literals", () => {
   describe("Number", () => {
     it("returns a number", () => {
-      const result = evaluateExpressionString("42");
+      const result = evaluateExpression("42");
       expect(result).toEqual(42);
     });
   });
 
   describe("String", () => {
     it("returns a string", () => {
-      const result = evaluateExpressionString(`"hello"`);
+      const result = evaluateExpression(`"hello"`);
       expect(result).toEqual("hello");
     });
   });
 
   describe("Boolean", () => {
     it("returns a boolean", () => {
-      const result = evaluateExpressionString("true");
+      const result = evaluateExpression("true");
       expect(result).toEqual(true);
     });
     it("returns a false boolean", () => {
-      const result = evaluateExpressionString("false");
+      const result = evaluateExpression("false");
       expect(result).toEqual(false);
     });
   });
 
   describe("Null", () => {
     it("returns null", () => {
-      const result = evaluateExpressionString("null");
+      const result = evaluateExpression("null");
       expect(result).toEqual(null);
     });
   });
 
   describe("Undefined", () => {
     it("returns undefined", () => {
-      const result = evaluateExpressionString("undefined");
+      const result = evaluateExpression("undefined");
       expect(result).toEqual(undefined);
     });
   });
