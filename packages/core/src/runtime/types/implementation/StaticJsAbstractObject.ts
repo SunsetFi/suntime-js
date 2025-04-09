@@ -23,14 +23,14 @@ export default abstract class StaticJsAbstractObject
   extends StaticJsAbstractPrimitive
   implements StaticJsObjectLike
 {
-  private _prototype: StaticJsObject | null = null;
+  private _prototype: StaticJsObjectLike | null = null;
   private _extensible: boolean = true;
 
   private _cachedJsObject: unknown | null = null;
 
   constructor(
     realm: StaticJsRealm,
-    prototype: StaticJsObject | StaticJsNull | null,
+    prototype: StaticJsObjectLike | StaticJsNull | null,
   ) {
     super(realm);
     if (isStaticJsNull(prototype)) {
@@ -46,7 +46,7 @@ export default abstract class StaticJsAbstractObject
 
   abstract readonly runtimeTypeOf: StaticJsObjectLike["runtimeTypeOf"];
 
-  get prototype(): StaticJsObject | null {
+  get prototype(): StaticJsObjectLike | null {
     return this._prototype;
   }
 
@@ -59,7 +59,7 @@ export default abstract class StaticJsAbstractObject
   }
 
   *setPrototypeOfEvaluator(
-    proto: StaticJsObject | null,
+    proto: StaticJsObjectLike | null,
   ): EvaluationGenerator<void> {
     if (!this._extensible) {
       // TODO: Use a real error

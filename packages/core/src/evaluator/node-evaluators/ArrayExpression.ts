@@ -14,8 +14,8 @@ export default function* arrayExpressionNodeEvaluator(
 ): EvaluationGenerator {
   const items: StaticJsValue[] = [];
   for (const element of node.elements) {
-    if (element == null) {
-      items.push(context.realm.types.undefined);
+    if (!element) {
+      items.length++;
       continue;
     }
 

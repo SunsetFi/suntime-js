@@ -172,12 +172,25 @@ export default class StaticJsArrayImpl
     name: string,
     value: StaticJsValue,
   ): EvaluationGenerator<void> {
-    yield* super._setWritableDataPropertyEvaluator(name, value);
-    const index = parseInt(name, 10);
-    const length = yield* this.getLengthEvaluator();
-    if (!Number.isNaN(index) && index >= length) {
-      yield* this._updateLength(index + 1);
+    if (name === "length") {
+      const length = yield* this.getLengthEvaluator();
+      const newLength = value.toNumber();
+      if (newLength < length) {
+        for (let i = newLength; i < length; i++) {
+          yield* this.deletePropertyEvaluator(i.toString());
+        }
+      }
+    } else {
+      const index = parseInt(name, 10);
+      if (!Number.isNaN(index)) {
+        const length = yield* this.getLengthEvaluator();
+        if (index >= length) {
+          yield* this._updateLength(index + 1);
+        }
+      }
     }
+
+    yield* super._setWritableDataPropertyEvaluator(name, value);
   }
 
   protected *_definePropertyEvaluator(

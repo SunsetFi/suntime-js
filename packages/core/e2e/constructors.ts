@@ -57,15 +57,13 @@ describe("E2E: Constructors", () => {
   });
 
   it("throws if trying to use `new` with arrow function", () => {
-    const result = evaluateProgram(`
-      try {
-        const f = () => {};
-        new f();
-      } catch (e) {
-        e instanceof TypeError;
-      }
-    `);
-    expect(result).toBe(true);
+    const code = `
+      const f = () => {};
+      new f();
+    `;
+    expect(() => evaluateProgram(code)).toThrow(
+      "Arrow functions cannot be constructed",
+    );
   });
 
   it("uses constructor property on prototype", () => {

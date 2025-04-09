@@ -1324,85 +1324,225 @@ describe("E2E: Arrays", () => {
       });
     });
 
-    it("Can call Array.prototype.unshift", () => {
-      const code = `
-        const a = [1, 2, 3];
-        const result = a.unshift(0);
-        [a, result];
-      `;
-      const result = evaluateProgram(code);
-      expect(result).toEqual([[0, 1, 2, 3], 4]);
+    describe("Array.prototype.sort", () => {
+      it("Sorts numbers ascending", () => {
+        const code = `
+          const a = [3, 1, 2];
+          a.sort();
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 2, 3]);
+      });
+
+      it("Floats missing items to the end", () => {
+        const code = `
+          const a = [3, 1, 2];
+          delete a[1];
+          a.sort();
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([2, 3, undefined]);
+        expect(hasOwnProperty(result, "2")).toEqual(false);
+      });
+
+      it("Supports a comparison function", () => {
+        const code = `
+          const a = [3, 1, 2];
+          a.sort((a, b) => b - a);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([3, 2, 1]);
+      });
+
+      it("Floats missing items to the end with reverse comparison", () => {
+        const code = `
+          const a = [3, 1, 2];
+          delete a[1];
+          a.sort((a, b) => b - a);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([3, 2, undefined]);
+        expect(hasOwnProperty(result, "2")).toEqual(false);
+      });
+
+      it("returns the mutated array", () => {
+        const code = `
+          const a = [3, 1, 2];
+          const b = a.sort();
+          a === b
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual(true);
+      });
     });
 
     describe("Array.prototype.splice", () => {
-      it("Can call with no arguments", () => {
+      it("Removes no items when called with no args", () => {
         const code = `
-        const a = [1, 2, 3];
-        const b = a.splice();
-        [a, b];
-      `;
+          const a = [1, 2, 3];
+          a.splice();
+          a;
+        `;
         const result = evaluateProgram(code);
-        expect(result).toEqual([[1, 2, 3], []]);
+        expect(result).toEqual([1, 2, 3]);
       });
 
-      it("Can call with a start value", () => {
+      it("Returns a new array when called with no args", () => {
         const code = `
-        const a = [1, 2, 3];
-        const b = a.splice(1);
-        [a, b];
-      `;
+          const a = [1, 2, 3];
+          const b = a.splice();
+          b;
+        `;
         const result = evaluateProgram(code);
-        expect(result).toEqual([[1], [2, 3]]);
+        expect(result).toEqual([]);
       });
 
-      it("Can call with a negative start value", () => {
+      it("Removes items past the start value", () => {
         const code = `
-        const a = [1, 2, 3];
-        const b = a.splice(-1);
-        [a, b];
-      `;
+          const a = [1, 2, 3];
+          a.splice(1);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1]);
+      });
+
+      it("Returns the removed items", () => {
+        const code = `
+          const a = [1, 2, 3];
+          const b = a.splice(1);
+          b;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([2, 3]);
+      });
+
+      it("Handles negative start values", () => {
+        const code = `
+          const a = [1, 2, 3];
+          const b = a.splice(-1);
+          [a, b];
+        `;
         const result = evaluateProgram(code);
         expect(result).toEqual([[1, 2], [3]]);
       });
 
-      it("Can call with a start and deleteCount", () => {
+      it("Handles negative start values beyond the length", () => {
         const code = `
-        const a = [1, 2, 3];
-        const b = a.splice(1, 1);
-        [a, b];
-      `;
+          const a = [1, 2, 3];
+          const b = a.splice(-4);
+          [a, b];
+        `;
         const result = evaluateProgram(code);
-        expect(result).toEqual([[1, 3], [2]]);
+        expect(result).toEqual([[], [1, 2, 3]]);
       });
 
-      it("Can call with a negative start and positive deleteCount", () => {
+      it("Handles start values beyond the length", () => {
         const code = `
-        const a = [1, 2, 3];
-        const b = a.splice(-2, 1);
-        [a, b];
-      `;
+          const a = [1, 2, 3];
+          const b = a.splice(4);
+          [a, b];
+        `;
         const result = evaluateProgram(code);
-        expect(result).toEqual([[1, 3], [2]]);
+        expect(result).toEqual([[1, 2, 3], []]);
       });
 
-      it("Can call removing 1 element with one new value", () => {
+      it("Handles a zero delete count", () => {
         const code = `
-        const a = [1, 2, 3];
-        const b = a.splice(1, 1, 4);
-        [a, b];
-      `;
+          const a = [1, 2, 3];
+          a.splice(1, 0);
+          a;
+        `;
         const result = evaluateProgram(code);
-        expect(result).toEqual([[1, 4, 3], [2]]);
+        expect(result).toEqual([1, 2, 3]);
       });
 
-      it("Can call with two new values", () => {
+      it("Handles a negative delete count", () => {
         const code = `
-        const a = [1, 2, 3];
-        const b = a.splice(1, 1, 4, 5);
-        [a, b];
-      `;
+          const a = [1, 2, 3];
+          a.splice(1, -1);
+          a;
+        `;
         const result = evaluateProgram(code);
-        expect(result).toEqual([[1, 4, 5, 3], [2]]);
+        expect(result).toEqual([1, 2, 3]);
+      });
+
+      it("Handles an infinity delete count", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.splice(1, Infinity);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1]);
+      });
+
+      it("Adds new items", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.splice(1, 0, 4, 5);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 4, 5, 2, 3]);
+      });
+
+      it("Adds new items while deleting when there are less new items than deleted", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.splice(1, 1, 4);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 4, 3]);
+      });
+
+      it("Adds new items while deleting when there are more new items than deleted", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.splice(1, 1, 4, 5);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([1, 4, 5, 3]);
+      });
+    });
+
+    describe("Array.prototype.unshift", () => {
+      it("Unshifts a single value", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.unshift(0);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([0, 1, 2, 3]);
+      });
+
+      it("Unshifts multiple values", () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.unshift(0, -1);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([0, -1, 1, 2, 3]);
+      });
+
+      it("Preserves empty items", () => {
+        const code = `
+          const a = [1, 2, 3];
+          delete a[1];
+          a.unshift(0);
+          a;
+        `;
+        const result = evaluateProgram(code);
+        expect(result).toEqual([0, 1, undefined, 3]);
+        expect(hasOwnProperty(result, "2")).toEqual(false);
       });
     });
   });

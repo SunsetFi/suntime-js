@@ -27,19 +27,19 @@ export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const newLengthValue = realm.types.number(length + args.length);
-    yield* thisObj.setPropertyEvaluator("length", newLengthValue, true);
-
     // Shift the elements to the right
     for (let i = length - 1; i >= 0; i--) {
-      // Don't actually do this if the property doesn't exist.
-      // Kinda nasty
-      const hasProperty = yield* thisObj.hasPropertyEvaluator(String(i));
+      const property = String(i);
+      const nextProperty = String(i + args.length);
+
+      const hasProperty = yield* thisObj.hasPropertyEvaluator(property);
       if (!hasProperty) {
+        yield* thisObj.deletePropertyEvaluator(nextProperty);
         continue;
       }
-      const value = yield* thisObj.getPropertyEvaluator(String(i));
-      yield* thisObj.setPropertyEvaluator(String(i + args.length), value, true);
+
+      const value = yield* thisObj.getPropertyEvaluator(property);
+      yield* thisObj.setPropertyEvaluator(nextProperty, value, true);
     }
 
     // Set the new values
@@ -47,6 +47,10 @@ export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
       const value = args[i]!;
       yield* thisObj.setPropertyEvaluator(String(i), value, true);
     }
+
+    const newLengthValue = realm.types.number(length + args.length);
+
+    yield* thisObj.setPropertyEvaluator("length", newLengthValue, true);
 
     // Return the new length
     // This returns our computed length, even if the object has a getter

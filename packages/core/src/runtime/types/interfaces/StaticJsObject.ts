@@ -11,14 +11,14 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   // type guards for those specific types will include this.
   readonly runtimeTypeOf: string;
 
-  get prototype(): StaticJsObject | null;
+  get prototype(): StaticJsObjectLike | null;
 
   get extensible(): boolean;
 
   setPrototypeOf(prototype: StaticJsObject | null): void;
 
   setPrototypeOfEvaluator(
-    prototype: StaticJsObject | null,
+    prototype: StaticJsObjectLike | null,
   ): EvaluationGenerator<void>;
 
   preventExtension(): void;

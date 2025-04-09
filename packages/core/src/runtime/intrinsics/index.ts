@@ -5,7 +5,10 @@ import StaticJsObjectImpl from "../types/implementation/StaticJsObjectImpl.js";
 import { StaticJsObject } from "../types/interfaces/StaticJsObject.js";
 import { StaticJsFunction } from "../types/interfaces/StaticJsFunction.js";
 
-import { createObjectConstructor, populateObjectPrototype } from "./Object.js";
+import {
+  createObjectConstructor,
+  populateObjectPrototype,
+} from "./Object/index.js";
 import {
   createArrayConstructor,
   populateArrayPrototype,

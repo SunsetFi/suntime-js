@@ -14,5 +14,5 @@ export default function hasOwnProperty<
   TObj extends object,
   TKey extends string | number | symbol,
 >(obj: TObj, key: TKey): boolean {
-  return Object.prototype.hasOwnProperty.call(obj, key);
+  return Object.hasOwn(obj, key);
 }

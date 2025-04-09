@@ -16,7 +16,7 @@ export interface FunctioinIntrinsicPropertyDeclaration
   extends IntrinsicPropertyDeclarationBase {
   func: (
     realm: StaticJsRealm,
-    thisArg: StaticJsValue | undefined,
+    thisArg: StaticJsValue,
     ...args: (StaticJsValue | undefined)[]
   ) => EvaluationGenerator;
 }

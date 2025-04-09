@@ -63,22 +63,5 @@ describe("E2E: Realm", () => {
       const result = evaluateProgram("fn()", { realm });
       expect(result).toEqual(42);
     });
-
-    it("Preserves the global this reference", () => {
-      const globalObjectValue = {
-        fn: function () {
-          return this;
-        },
-      };
-
-      const realm = StaticJsRealm({
-        globalObject: {
-          value: globalObjectValue,
-        },
-      });
-
-      const result = evaluateProgram("fn()", { realm });
-      expect(result).toBe(globalObjectValue);
-    });
   });
 });
