@@ -6,7 +6,7 @@ A javascript interpreter built on the TC39 ECMAScript 2025 standard, seeking to 
 
 A spiritual successor to [static-eval](https://www.npmjs.com/package/static-eval).
 
-Try it out in [the sandbox](https://sunsetfi.github.io/static-js)!
+Try it out in [the sandbox](https://sunsetfi.github.io/suntime-js)!
 
 ## Sandboxing and Security
 
