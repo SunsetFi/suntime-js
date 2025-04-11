@@ -50,23 +50,12 @@ function* forStatementNodeEvaluator(
 
   do {
     if (node.test) {
-      const testResultCompletion = yield* EvaluateNodeCommand(
-        node.test,
-        forContext,
-      );
-      if (testResultCompletion.type === "throw") {
-        return testResultCompletion;
-      }
-      if (
-        testResultCompletion.type !== "normal" ||
-        !testResultCompletion.value
-      ) {
-        throw new Error(
-          `Expected test result to be normal completion, but got ${testResultCompletion.type}`,
-        );
-      }
+      const testResult = yield* EvaluateNodeCommand(node.test, forContext, {
+        rethrow: true,
+        forNormalValue: "ForStatement.test",
+      });
 
-      if (!testResultCompletion.value.toBoolean()) {
+      if (!testResult.toBoolean()) {
         return NormalCompletion(null);
       }
     }

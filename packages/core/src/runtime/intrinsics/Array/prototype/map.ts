@@ -1,5 +1,6 @@
 import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { NormalCompletion } from "../../../../evaluator/internal.js";
+import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
 import {
   isStaticJsArray,
   isStaticJsFunction,
@@ -58,15 +59,15 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
         resultCompletion.type !== "normal" ||
         resultCompletion.value == null
       ) {
-        throw new Error(
-          "Expected result completion to return a value, but got undefined",
+        throw new StaticJsEngineError(
+          "Expected Array.prototype.map callback to return a normal completion",
         );
       }
 
       resultArray[i] = resultCompletion.value;
     }
 
-    return NormalCompletion(realm.types.createArray(resultArray));
+    return NormalCompletion(realm.types.array(resultArray));
   },
 };
 

@@ -1,7 +1,7 @@
 import {
   Completion,
   EvaluationGenerator,
-  ReturnCompletion,
+  NormalCompletion,
   ThrowCompletion,
 } from "../../../evaluator/internal.js";
 
@@ -29,7 +29,7 @@ export default class StaticJsExternalFunction extends StaticJsFunctionImpl {
     const valueArgsResolved = args.map((arg) => arg.toJs());
     try {
       const result = this._func.call(thisArgResolved, ...valueArgsResolved);
-      return ReturnCompletion(this.realm.types.toStaticJsValue(result));
+      return NormalCompletion(this.realm.types.toStaticJsValue(result));
     } catch (error) {
       // FIXME: Wrap error.  Do we really want to pass errors?
       // Should probably filter to ensure the throw is deliberate.

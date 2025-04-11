@@ -1,5 +1,6 @@
 import { NormalCompletion } from "../../../../evaluator/completions/index.js";
 import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
 import { isStaticJsFunction } from "../../../types/index.js";
 import createTypeErrorCompletion from "../../errors/TypeError.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
@@ -44,9 +45,8 @@ const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
         return resultCompletion;
       }
       if (resultCompletion.type !== "normal") {
-        throw new Error(
-          "Expected result completion to return normal or throw, but got " +
-            resultCompletion.type,
+        throw new StaticJsEngineError(
+          "Expected Array.prototype.forEach callback return normal or throw completion",
         );
       }
     }

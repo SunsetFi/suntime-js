@@ -20,24 +20,13 @@ export default function* arrayExpressionNodeEvaluator(
     }
 
     if (element.type === "SpreadElement") {
-      const resolvedCompletion = yield* EvaluateNodeCommand(
-        element.argument,
-        context,
-      );
-      if (resolvedCompletion.type === "throw") {
-        return resolvedCompletion;
-      }
-      if (resolvedCompletion.type !== "normal" || !resolvedCompletion.value) {
-        // FIXME: Use real error.
-        return ThrowCompletion(
-          context.realm.types.string(
-            `Cannot spread non-array value (spreading ${nameNode(element)}).`,
-          ),
-        );
-      }
+      const resolved = yield* EvaluateNodeCommand(element.argument, context, {
+        rethrow: true,
+        forNormalValue: "ArrayExpression.elements[].argument",
+      });
 
-      const resolved = resolvedCompletion.value;
       if (!isStaticJsArray(resolved)) {
+        // FIXME: This is allowed if there is an Iterator.
         // FIXME: Use real error.
         return ThrowCompletion(
           context.realm.types.string(
@@ -53,21 +42,12 @@ export default function* arrayExpressionNodeEvaluator(
       continue;
     }
 
-    const valueCompletion = yield* EvaluateNodeCommand(element, context);
-    if (valueCompletion.type === "throw") {
-      return valueCompletion;
-    }
-    if (valueCompletion.type !== "normal" || !valueCompletion.value) {
-      // FIXME: Use real error.
-      return ThrowCompletion(
-        context.realm.types.string(
-          `Cannot resolve value (resolving ${nameNode(element)}).`,
-        ),
-      );
-    }
-
-    items.push(valueCompletion.value);
+    const value = yield* EvaluateNodeCommand(element, context, {
+      rethrow: true,
+      forNormalValue: "ArrayExpression.elements[]",
+    });
+    items.push(value);
   }
 
-  return NormalCompletion(context.realm.types.createArray(items));
+  return NormalCompletion(context.realm.types.array(items));
 }

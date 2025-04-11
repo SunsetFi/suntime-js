@@ -7,6 +7,7 @@ import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeCommand } from "../commands/index.js";
 import EvaluationContext from "../EvaluationContext.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
+import StaticJsEngineError from "../StaticJsEngineError.js";
 
 export default function* unaryExpressionNodeEvaluator(
   node: UnaryExpression,
@@ -22,16 +23,10 @@ export default function* unaryExpressionNodeEvaluator(
 
   // Note: In the case of 'void', this is never used.
   // But it still can have side-effects.
-  const valueCompletion = yield* EvaluateNodeCommand(node.argument, context);
-  if (valueCompletion.type === "throw") {
-    return valueCompletion;
-  }
-  if (valueCompletion.type !== "normal" || !valueCompletion.value) {
-    throw new Error(
-      "Expected unary expression argument to be normal completion, but got undefined",
-    );
-  }
-  const value = valueCompletion.value;
+  const value = yield* EvaluateNodeCommand(node.argument, context, {
+    rethrow: true,
+    forNormalValue: "UnaryExpression.argument",
+  });
 
   const types = context.realm.types;
   switch (node.operator) {
@@ -51,7 +46,7 @@ export default function* unaryExpressionNodeEvaluator(
       return ThrowCompletion(value);
   }
 
-  throw new Error(`Unknown unary operator: ${node.operator}.`);
+  throw new StaticJsEngineError(`Unknown unary operator: ${node.operator}.`);
 }
 
 function* deleteExpressionNodeEvaluator(
@@ -62,19 +57,10 @@ function* deleteExpressionNodeEvaluator(
 
   const argument = node.argument;
   if (argument.type === "MemberExpression") {
-    const objectCompletion = yield* EvaluateNodeCommand(
-      argument.object,
-      context,
-    );
-    if (objectCompletion.type === "throw") {
-      return objectCompletion;
-    }
-    if (objectCompletion.type !== "normal" || !objectCompletion.value) {
-      throw new Error(
-        "Expected object completion to return a value, but got undefined",
-      );
-    }
-    const object = objectCompletion.value;
+    const object = yield* EvaluateNodeCommand(argument.object, context, {
+      rethrow: true,
+      forNormalValue: "UnaryExpression.argument<MemberExpression>.object",
+    });
 
     if (!isStaticJsObjectLike(object)) {
       // FIXME: Use real error.
@@ -89,17 +75,12 @@ function* deleteExpressionNodeEvaluator(
     if (!argument.computed && property.type === "Identifier") {
       propertyName = property.name;
     } else {
-      const resolved = yield* EvaluateNodeCommand(property, context);
-      if (resolved.type === "throw") {
-        return resolved;
-      }
-      if (resolved.type !== "normal" || !resolved.value) {
-        throw new Error(
-          "Expected property completion to return a value, but got undefined",
-        );
-      }
+      const propertyValue = yield* EvaluateNodeCommand(property, context, {
+        rethrow: true,
+        forNormalValue: "UnaryExpression.argument<MemberExpression>.property",
+      });
 
-      propertyName = toPropertyKey(resolved.value);
+      propertyName = toPropertyKey(propertyValue);
     }
 
     const result = yield* object.deletePropertyEvaluator(propertyName);
@@ -133,16 +114,10 @@ function* typeofExpressionNodeEvaluator(
     }
     return NormalCompletion(context.realm.types.string("undefined"));
   } else {
-    const valueCompletion = yield* EvaluateNodeCommand(argument, context);
-    if (valueCompletion.type === "throw") {
-      return valueCompletion;
-    }
-    if (valueCompletion.type !== "normal" || !valueCompletion.value) {
-      throw new Error(
-        "Expected typeof expression argument to be normal completion, but got undefined",
-      );
-    }
-    const value = valueCompletion.value;
+    const value = yield* EvaluateNodeCommand(argument, context, {
+      rethrow: true,
+      forNormalValue: "UnaryExpression<typeof>.argument",
+    });
     return NormalCompletion(context.realm.types.string(value.typeOf));
   }
 }

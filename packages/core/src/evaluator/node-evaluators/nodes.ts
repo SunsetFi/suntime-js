@@ -39,6 +39,7 @@ import newExpressionNodeEvaluator from "./NewExpression.js";
 import thisExpressionNodeEvaluator from "./ThisExpression.js";
 import arrowFunctionExpressionNodeEvaluator from "./ArrowFunctionExpression.js";
 import importDeclarationNodeEvaluator from "./ImportDeclaration.js";
+import forInStatementNodeEvaluator from "./ForInStatement.js";
 
 type NodeEvaluators = {
   [key in Node["type"]]?: NodeEvaluator<key>;
@@ -59,6 +60,7 @@ const nodeEvaluators: NodeEvaluators = {
   EmptyStatement: emptyStatementNodeEvaluator,
   ExpressionStatement: expressionStatementNodeEvaluator,
   File: fileNodeEvaluator,
+  ForInStatement: forInStatementNodeEvaluator,
   ForStatement: forStatementNodeEvaluator,
   FunctionDeclaration: functionDeclarationNodeEvaluator,
   FunctionExpression: functionExpressionNodeEvaluator,

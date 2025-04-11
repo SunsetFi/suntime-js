@@ -8,16 +8,10 @@ export default function* ifStatementNodeEvaluator(
   node: IfStatement,
   context: EvaluationContext,
 ) {
-  const testResultCompletion = yield* EvaluateNodeCommand(node.test, context);
-  if (testResultCompletion.type === "throw") {
-    return testResultCompletion;
-  }
-  if (testResultCompletion.type !== "normal" || !testResultCompletion.value) {
-    throw new Error(
-      `Expected test result to be normal completion, but got ${testResultCompletion.type}`,
-    );
-  }
-  const testResult = testResultCompletion.value;
+  const testResult = yield* EvaluateNodeCommand(node.test, context, {
+    rethrow: true,
+    forNormalValue: "IfStatement.test",
+  });
 
   let result: Completion = NormalCompletion(null);
   if (testResult.toBoolean()) {

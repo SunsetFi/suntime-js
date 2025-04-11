@@ -1,4 +1,5 @@
 import { NormalCompletion } from "../../../../evaluator/internal.js";
+import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
 import {
   isStaticJsArray,
   isStaticJsFunction,
@@ -30,7 +31,7 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
     if (isStaticJsArray(thisArg)) {
       thisArray = thisArg;
     } else {
-      thisArray = realm.types.createArray();
+      thisArray = realm.types.array();
     }
 
     if (!callback) {
@@ -84,8 +85,8 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
         resultCompletion.type !== "normal" ||
         resultCompletion.value == null
       ) {
-        throw new Error(
-          "Expected result completion to return a value, but got undefined",
+        throw new StaticJsEngineError(
+          "Expected Array.prototype.reduce callback to return a normal completion",
         );
       }
 

@@ -31,7 +31,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
       values.push(arg);
     }
 
-    return NormalCompletion(realm.types.createArray(values));
+    return NormalCompletion(realm.types.array(values));
   },
 };
 

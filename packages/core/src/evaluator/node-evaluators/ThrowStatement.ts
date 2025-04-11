@@ -9,16 +9,9 @@ export default function* throwStatementNodeEvaluator(
   node: ThrowStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const valueCompletion = yield* EvaluateNodeCommand(node.argument, context);
-  if (valueCompletion.type === "throw") {
-    return valueCompletion;
-  }
-  if (valueCompletion.type !== "normal" || !valueCompletion.value) {
-    throw new Error(
-      `Expected throw statement argument to be normal completion, but got ${valueCompletion.type}`,
-    );
-  }
-
-  const value = valueCompletion.value;
+  const value = yield* EvaluateNodeCommand(node.argument, context, {
+    rethrow: true,
+    forNormalValue: "ThrowStatement.argument",
+  });
   return ThrowCompletion(value);
 }

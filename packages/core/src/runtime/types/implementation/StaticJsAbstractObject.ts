@@ -1,21 +1,22 @@
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import { EvaluationGenerator } from "../../../evaluator/internal.js";
+import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
+import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import { StaticJsRealm } from "../../realm/index.js";
 
 import {
   isStaticJsNull,
-  isStaticJsObjectPropertyDescriptorGetter,
-  isStaticJsObjectPropertyDescriptorValue,
+  isStaticJsAccessorPropertyDescriptor,
+  isStaticJsDataPropertyDescriptor,
   isStaticJsValue,
   StaticJsNull,
   StaticJsObject,
-  StaticJsObjectPropertyDescriptor,
+  StaticJsPropertyDescriptor,
   StaticJsValue,
-  validateStaticJsObjectPropertyDescriptor,
+  validateStaticJsPropertyDescriptor,
   StaticJsObjectLike,
 } from "../interfaces/index.js";
-import {} from "../interfaces/StaticJsObject.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 
@@ -69,12 +70,46 @@ export default abstract class StaticJsAbstractObject
     this._prototype = proto;
   }
 
-  preventExtension(): void {
-    runEvaluatorUntilCompletion(this.preventExtensionEvaluator());
+  preventExtensions(): void {
+    runEvaluatorUntilCompletion(this.preventExtensionsEvaluator());
   }
 
-  *preventExtensionEvaluator(): EvaluationGenerator<void> {
+  *preventExtensionsEvaluator(): EvaluationGenerator<void> {
     this._extensible = false;
+  }
+
+  getKeys(): string[] {
+    return runEvaluatorUntilCompletion(this.getKeysEvaluator());
+  }
+
+  *getKeysEvaluator(): EvaluationGenerator<string[]> {
+    const keys: string[] = [];
+
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    let target: StaticJsObjectLike | null = this;
+    do {
+      const targetKeys = yield* target!.getOwnKeysEvaluator();
+      keys.push(...targetKeys);
+    } while ((target = target!.prototype));
+
+    return keys;
+  }
+
+  getEnumerableKeys(): string[] {
+    return runEvaluatorUntilCompletion(this.getEnumerableKeysEvaluator());
+  }
+
+  *getEnumerableKeysEvaluator(): EvaluationGenerator<string[]> {
+    const keys: string[] = [];
+
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    let target: StaticJsObjectLike | null = this;
+    do {
+      const targetKeys = yield* target!.getOwnEnumerableKeysEvaluator();
+      keys.push(...targetKeys);
+    } while ((target = target!.prototype));
+
+    return keys;
   }
 
   getOwnKeys(): string[] {
@@ -108,9 +143,7 @@ export default abstract class StaticJsAbstractObject
     return decl !== undefined;
   }
 
-  getPropertyDescriptor(
-    name: string,
-  ): StaticJsObjectPropertyDescriptor | undefined {
+  getPropertyDescriptor(name: string): StaticJsPropertyDescriptor | undefined {
     return runEvaluatorUntilCompletion(
       this.getPropertyDescriptorEvaluator(name),
     );
@@ -118,10 +151,10 @@ export default abstract class StaticJsAbstractObject
 
   *getPropertyDescriptorEvaluator(
     name: string,
-  ): EvaluationGenerator<StaticJsObjectPropertyDescriptor | undefined> {
+  ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     let target: StaticJsObjectLike | null = this;
-    let descr: StaticJsObjectPropertyDescriptor | undefined;
+    let descr: StaticJsPropertyDescriptor | undefined;
     do {
       descr = yield* target!.getOwnPropertyDescriptorEvaluator(name);
     } while (descr === undefined && (target = target!.prototype));
@@ -130,40 +163,62 @@ export default abstract class StaticJsAbstractObject
 
   getOwnPropertyDescriptor(
     name: string,
-  ): StaticJsObjectPropertyDescriptor | undefined {
+  ): StaticJsPropertyDescriptor | undefined {
     return runEvaluatorUntilCompletion(
       this.getOwnPropertyDescriptorEvaluator(name),
     );
   }
 
-  defineProperty(
-    name: string,
-    descriptor: StaticJsObjectPropertyDescriptor,
-  ): void {
+  defineProperty(name: string, descriptor: StaticJsPropertyDescriptor): void {
     runEvaluatorUntilCompletion(this.definePropertyEvaluator(name, descriptor));
   }
 
   *definePropertyEvaluator(
     name: string,
-    descriptor: StaticJsObjectPropertyDescriptor,
+    descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<void> {
-    validateStaticJsObjectPropertyDescriptor(descriptor);
+    // FIXME: Return throw completion?
+    validateStaticJsPropertyDescriptor(descriptor);
 
-    if (!this.extensible) {
-      // FIXME: Throw real error
-      throw new Error("Object is not extensible.");
-    }
+    const currentDescriptor =
+      yield* this.getOwnPropertyDescriptorEvaluator(name);
 
-    const decl = yield* this.getOwnPropertyDescriptorEvaluator(name);
+    if (!currentDescriptor) {
+      if (!this.extensible) {
+        // FIXME: Throw real error
+        throw new Error("Object is not extensible.");
+      }
 
-    if (!decl) {
+      // Apply
       yield* this._definePropertyEvaluator(name, descriptor);
       return;
     }
 
-    if (!decl.configurable) {
-      // FIXME: Throw real error
-      throw new Error(`Cannot redefine property ${name}`);
+    if (!currentDescriptor.configurable) {
+      // This is okay if we are making the value more strict.
+      const isNonStrictWritable =
+        hasOwnProperty(descriptor, "writable") && descriptor.writable == true;
+      const isNonStrictEnumerable =
+        hasOwnProperty(descriptor, "enumerable") &&
+        descriptor.enumerable == true;
+      const isNonStrictConfigurable =
+        hasOwnProperty(descriptor, "configurable") &&
+        descriptor.configurable == true;
+      const isNonStrictValue = hasOwnProperty(descriptor, "value");
+      const isNonStrictAccessor =
+        hasOwnProperty(descriptor, "get") || hasOwnProperty(descriptor, "set");
+
+      const isNonStrict =
+        isNonStrictWritable ||
+        isNonStrictEnumerable ||
+        isNonStrictConfigurable ||
+        isNonStrictValue ||
+        isNonStrictAccessor;
+
+      if (isNonStrict) {
+        // FIXME: Throw real error
+        throw new Error(`TypeError: Cannot redefine property ${name}`);
+      }
     }
 
     yield* this._definePropertyEvaluator(name, descriptor);
@@ -171,7 +226,7 @@ export default abstract class StaticJsAbstractObject
 
   abstract getOwnPropertyDescriptorEvaluator(
     name: string,
-  ): EvaluationGenerator<StaticJsObjectPropertyDescriptor | undefined>;
+  ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
   getProperty(name: string): StaticJsValue {
     return runEvaluatorUntilCompletion(this.getPropertyEvaluator(name));
@@ -184,24 +239,38 @@ export default abstract class StaticJsAbstractObject
     }
 
     try {
-      validateStaticJsObjectPropertyDescriptor(decl);
-    } catch (e: unknown) {
-      const err = e as Error;
-      err.message = `Property ${name} has an invalid property descriptor: ${(err as Error).message}`;
-      throw err;
+      validateStaticJsPropertyDescriptor(decl);
+    } catch (err: unknown) {
+      throw new StaticJsEngineError(
+        `Property ${name} has an invalid property descriptor: ${(err as Error).message}`,
+      );
     }
 
     let value: unknown;
-    if (isStaticJsObjectPropertyDescriptorValue(decl)) {
+    if (isStaticJsDataPropertyDescriptor(decl)) {
       value = decl.value;
-    } else if (isStaticJsObjectPropertyDescriptorGetter(decl)) {
-      value = yield* decl.get.call(this);
+    } else if (isStaticJsAccessorPropertyDescriptor(decl)) {
+      const completion = yield* decl.get.call(this);
+      if (completion.type === "throw") {
+        // FIXME: Handle this; these functions should return completions
+        // instead of throwing.
+        throw new Error(
+          `Accessor property ${name} getter threw an error: ${completion.value}`,
+        );
+      }
+      if (completion.type !== "normal" || !completion.value) {
+        throw new StaticJsEngineError(
+          `Accessor property ${name} getter did not return a normal completion with a value`,
+        );
+      }
+
+      value = completion.value;
     } else {
       return this.realm.types.undefined;
     }
 
     if (!isStaticJsValue(value)) {
-      throw new Error(
+      throw new StaticJsEngineError(
         `Property ${name} descriptor returned an invalid value: ${value}`,
       );
     }
@@ -221,51 +290,81 @@ export default abstract class StaticJsAbstractObject
     const ownDecl = yield* this.getOwnPropertyDescriptorEvaluator(name);
     if (ownDecl) {
       // It's our own.  Set it.
-      if (ownDecl.set) {
-        yield* ownDecl.set(value, strict);
-        return;
-      } else if (ownDecl.writable) {
-        yield* this._setWritableDataPropertyEvaluator(name, value);
-        return;
+      if (isStaticJsAccessorPropertyDescriptor(ownDecl)) {
+        if (ownDecl.set) {
+          const completion = yield* ownDecl.set.call(this, value);
+          if (completion.type === "throw") {
+            // FIXME: Evaluator should return completions
+            throw new Error(
+              `Accessor property ${name} setter threw an error: ${completion.value}`,
+            );
+          }
+          if (completion.type !== "normal") {
+            throw new StaticJsEngineError(
+              `Accessor property ${name} setter did not return a normal completion`,
+            );
+          }
+          return;
+        }
+      } else if (isStaticJsDataPropertyDescriptor(ownDecl)) {
+        if (ownDecl.writable) {
+          yield* this._setWritableDataPropertyEvaluator(name, value);
+          return;
+        }
       }
 
-      // Fail silently.
+      if (strict) {
+        // FIXME: Use real error.  Return ThrowCompletion
+        throw new Error(
+          `TypeError: Cannot set property ${name} of ${this.toString()}`,
+        );
+      }
+
       return;
     }
 
     const decl = yield* this.getPropertyDescriptorEvaluator(name);
     if (decl) {
-      if (decl.writable === true || (decl.writable !== false && decl.set)) {
-        // It's an inherited writable property.
-
-        // only set if we have a setter.
+      if (isStaticJsAccessorPropertyDescriptor(decl)) {
+        // Its an inherited accessor property, invoke the accessor
         if (decl.set) {
-          yield* decl.set(value, strict);
+          const completion = yield* decl.set.call(this, value);
+          if (completion.type === "throw") {
+            // FIXME: Evaluator should return completions
+            throw new Error(
+              `Accessor property ${name} setter threw an error: ${completion.value}`,
+            );
+          }
+          if (completion.type !== "normal") {
+            throw new StaticJsEngineError(
+              `Accessor property ${name} setter did not return a normal completion`,
+            );
+          }
+          return;
         }
 
-        // If no setter but a property, it's a data property.
-        // Create a new property on us.
-        yield* this._definePropertyEvaluator(name, {
-          configurable: true,
-          enumerable: true,
-          writable: true,
-          value,
-        });
-
+        if (strict) {
+          throw new Error(
+            `TypeError: Cannot set property ${name} of ${this.toString()}`,
+          );
+        }
         return;
       }
 
-      // We are not writable.
-      if (strict) {
-        // TODO: Throw real error
-        throw new Error(`Property ${name} is not writable.`);
-      }
+      // Inherited value is not an accessor, fall through to creating a new property on us.
+    }
 
-      // Fail silently.
+    // Doesn't exist anywhere.  Create it on us if we can.
+
+    if (!this.extensible) {
+      if (strict) {
+        throw new Error(
+          `TypeError: Cannot set property ${name} of ${this.toString()}`,
+        );
+      }
       return;
     }
 
-    // Doesn't exist anywhere.  Create it on us.
     yield* this._definePropertyEvaluator(name, {
       configurable: true,
       enumerable: true,
@@ -330,7 +429,7 @@ export default abstract class StaticJsAbstractObject
 
   protected abstract _definePropertyEvaluator(
     name: string,
-    descriptor: StaticJsObjectPropertyDescriptor,
+    descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<void>;
 
   protected abstract _deleteConfigurablePropertyEvaluator(

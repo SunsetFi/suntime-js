@@ -4,6 +4,7 @@ import { getEvaluator } from "./nodes.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
+import StaticJsEngineError from "../StaticJsEngineError.js";
 
 export interface EvaluateNodeOptions {
   label?: string;
@@ -15,7 +16,7 @@ export default function* evaluateNode(
 ): EvaluationGenerator {
   const evaluator = getEvaluator(node);
   if (evaluator == null) {
-    throw new Error(`No evaluator for node type ${node.type}`);
+    throw new StaticJsEngineError(`No evaluator for node type ${node.type}`);
   }
 
   // Always reset the label when drilling into a node,

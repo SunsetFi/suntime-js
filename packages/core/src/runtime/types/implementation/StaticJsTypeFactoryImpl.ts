@@ -4,10 +4,8 @@ import { Prototypes } from "../../intrinsics/index.js";
 
 import { StaticJsArray } from "../interfaces/StaticJsArray.js";
 import { StaticJsFunction } from "../interfaces/StaticJsFunction.js";
-import {
-  StaticJsObject,
-  StaticJsObjectPropertyDescriptor,
-} from "../interfaces/StaticJsObject.js";
+import { StaticJsObject } from "../interfaces/StaticJsObject.js";
+import { StaticJsPropertyDescriptor } from "../interfaces/StaticJsPropertyDescriptor.js";
 import StaticJsTypeFactory from "../interfaces/StaticJsTypeFactory.js";
 import { isStaticJsValue, StaticJsValue } from "../interfaces/StaticJsValue.js";
 import { StaticJsBoolean } from "../interfaces/StaticJsBoolean.js";
@@ -70,6 +68,10 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     return this._prototypes.functionProto;
   }
 
+  get errorProto(): StaticJsObject {
+    return this._prototypes.errorProto;
+  }
+
   get true(): StaticJsBoolean {
     return this._true;
   }
@@ -98,8 +100,8 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     return this._Infinity;
   }
 
-  createObject(
-    properties?: Record<string, StaticJsObjectPropertyDescriptor>,
+  object(
+    properties?: Record<string, StaticJsPropertyDescriptor>,
     prototype?: StaticJsObject | StaticJsNull | null,
   ): StaticJsObject {
     if (prototype === undefined) {
@@ -119,8 +121,38 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     return obj;
   }
 
-  createArray(items?: StaticJsValue[]): StaticJsArray {
+  array(items?: StaticJsValue[]): StaticJsArray {
     return new StaticJsArrayImpl(this._realm, items);
+  }
+
+  error(message: string): StaticJsObject;
+  error(name: string, message: string): StaticJsObject;
+  error(nameOrMessage: string, message?: string): StaticJsObject {
+    let name = "Error";
+    if (message !== undefined) {
+      name = nameOrMessage;
+    } else {
+      message = nameOrMessage;
+    }
+
+    const error = this.object(
+      {
+        name: {
+          enumerable: false,
+          writable: true,
+          configurable: true,
+          value: this.string(name),
+        },
+        message: {
+          enumerable: false,
+          writable: true,
+          configurable: true,
+          value: this.string(message),
+        },
+      },
+      this._prototypes.errorProto,
+    );
+    return error;
   }
 
   toStaticJsValue(value: boolean): StaticJsBoolean;
@@ -138,6 +170,8 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     if (isStaticJsValue(value)) {
       return value;
     }
+
+    // TODO: Resolve to same instance if this is a toJs() value from an existing object.
 
     if (value === null) {
       return this._toStaticJsValueNull();
@@ -189,9 +223,9 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   private _toStaticJsValueObject(value: object): StaticJsObject {
-    // TODO: Options to control mutatability of the object.
-    // IMPORTANT: There are security risks here.  Make sure we can't get access to the underlying object or
-    // change its prototype unless opted in.
+    if (value instanceof Error) {
+      return this.error(value.name, value.message);
+    }
 
     return new StaticJsExternalObject(this._realm, value);
   }

@@ -15,12 +15,3 @@ export function isStaticJsValue(value: unknown): value is StaticJsValue {
   const type = (value as unknown as StaticJsValue)?.runtimeTypeOf;
   return typeof type === "string";
 }
-
-export function assertStaticJsValue(
-  value: unknown,
-  message?: string,
-): asserts value is StaticJsValue {
-  if (!isStaticJsValue(value)) {
-    throw new Error(message ?? `Invalid StaticJsValue`);
-  }
-}

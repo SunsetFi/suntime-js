@@ -3,7 +3,6 @@ import { LVal, isLVal } from "@babel/types";
 import {
   isStaticJsArray,
   isStaticJsObject,
-  isStaticJsScalar,
   isStaticJsUndefined,
   isStaticJsValue,
   StaticJsValue,
@@ -15,6 +14,7 @@ import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
+import StaticJsEngineError from "../StaticJsEngineError.js";
 
 export default function setLVal(
   lval: LVal,
@@ -44,7 +44,7 @@ export default function* setLVal(
   ) => EvaluationGenerator<void>,
 ): EvaluationGenerator {
   if (value && !isStaticJsValue(value)) {
-    throw new Error("Cannot set LVal to non-StaticJsValue");
+    throw new StaticJsEngineError("Cannot set LVal to non-StaticJsValue");
   }
 
   // Type hack: Our overloads force us to either be nullable or non-nullable,
@@ -105,7 +105,7 @@ export default function* setLVal(
       const seenProperties = new Set<string>();
       for (const property of lval.properties) {
         if (property.type === "RestElement") {
-          const restValue = context.realm.types.createObject();
+          const restValue = context.realm.types.object();
           for (const key in value) {
             if (!seenProperties.has(key)) {
               const propertyValue = yield* value.getPropertyEvaluator(key);
@@ -129,22 +129,11 @@ export default function* setLVal(
           if (!property.computed && propertyKey.type === "Identifier") {
             keyName = propertyKey.name;
           } else {
-            const resolvedCompletion = yield* EvaluateNodeCommand(
-              propertyKey,
-              context,
-            );
-            if (resolvedCompletion.type === "throw") {
-              return resolvedCompletion;
-            }
-            if (
-              resolvedCompletion.type !== "normal" ||
-              !resolvedCompletion.value
-            ) {
-              throw new Error(
-                `ObjectPattern: Expected normal completion, got ${resolvedCompletion.type}`,
-              );
-            }
-            keyName = toPropertyKey(resolvedCompletion.value);
+            const value = yield* EvaluateNodeCommand(propertyKey, context, {
+              rethrow: true,
+              forNormalValue: "ObjectPattern.properties[].key",
+            });
+            keyName = toPropertyKey(value);
           }
 
           const propertyValue = yield* value.getPropertyEvaluator(keyName);
@@ -164,7 +153,7 @@ export default function* setLVal(
             }
           } else {
             // FIXME: What else can this be?  How do these come up?
-            throw new Error(
+            throw new StaticJsEngineError(
               `Unsupported ObjectPattern property target type: ${property.value.type}`,
             );
           }
@@ -175,16 +164,10 @@ export default function* setLVal(
     }
     case "AssignmentPattern": {
       if (!value || isStaticJsUndefined(value)) {
-        const valueCompletion = yield* EvaluateNodeCommand(lval.right, context);
-        if (valueCompletion.type === "throw") {
-          return valueCompletion;
-        }
-        if (valueCompletion.type !== "normal" || !valueCompletion.value) {
-          throw new Error(
-            `AssignmentPattern: Expected normal completion, got ${valueCompletion.type}`,
-          );
-        }
-        value = valueCompletion.value;
+        value = yield* EvaluateNodeCommand(lval.right, context, {
+          rethrow: true,
+          forNormalValue: "AssignmentPattern.right",
+        });
       }
 
       return yield* setLVal(lval.left, value, context, setNamedVariable);
@@ -193,20 +176,15 @@ export default function* setLVal(
       if (!value) {
         // FIXME: Is this correct???
         // We certainly don't handle this in environmentSetupLVal.
-        throw new Error("Cannot use MemberExpression as LVal without value.");
-      }
-
-      const objectCompletion = yield* EvaluateNodeCommand(lval.object, context);
-      if (objectCompletion.type === "throw") {
-        return objectCompletion;
-      }
-      if (objectCompletion.type !== "normal" || !objectCompletion.value) {
-        throw new Error(
-          `MemberExpression: Expected normal completion, got ${objectCompletion.type}`,
+        throw new StaticJsEngineError(
+          "Cannot use MemberExpression as LVal without value.",
         );
       }
 
-      const object = objectCompletion.value;
+      const object = yield* EvaluateNodeCommand(lval.object, context, {
+        rethrow: true,
+        forNormalValue: "MemberExpression.object",
+      });
 
       if (!isStaticJsObject(object)) {
         // FIXME: Use real error.
@@ -215,38 +193,20 @@ export default function* setLVal(
         );
       }
       if (!value) {
-        // FIXME: Does this ever come up in the syntax?
         // null values are only used for declarations.
-        // FIXME: Use real error.
-        throw new Error("Cannot set property without value");
+        // Does this ever come up in the syntax?
+        throw new StaticJsEngineError("Cannot set property without value");
       }
 
       let propertyKey: string;
       if (!lval.computed && lval.property.type === "Identifier") {
         propertyKey = lval.property.name;
       } else {
-        const resolvedCompletion = yield* EvaluateNodeCommand(
-          lval.property,
-          context,
-        );
-        if (resolvedCompletion.type === "throw") {
-          return resolvedCompletion;
-        }
-        if (resolvedCompletion.type !== "normal" || !resolvedCompletion.value) {
-          throw new Error(
-            `MemberExpression: Expected normal completion, got ${resolvedCompletion.type}`,
-          );
-        }
-        const resolved = resolvedCompletion.value;
-        if (!isStaticJsScalar(resolved)) {
-          // FIXME: Use real error.
-          return ThrowCompletion(
-            context.realm.types.string(
-              "Computed property key must be a scalar",
-            ),
-          );
-        }
-        propertyKey = toPropertyKey(resolved);
+        const property = yield* EvaluateNodeCommand(lval.property, context, {
+          rethrow: true,
+          forNormalValue: "MemberExpression.property",
+        });
+        propertyKey = toPropertyKey(property);
       }
 
       // FIXME: Is this correct?  We set the object directly???
@@ -260,7 +220,7 @@ export default function* setLVal(
     }
   }
 
-  throw new Error(`Unsupported LVal type: ${lval.type}`);
+  throw new StaticJsEngineError(`Unsupported LVal type: ${lval.type}`);
 }
 
 export function* environmentSetupLVal(
@@ -294,7 +254,7 @@ export function* environmentSetupLVal(
         } else if (isLVal(property.value)) {
           yield* environmentSetupLVal(property.value, context, bindVariable);
         } else {
-          throw new Error(
+          throw new StaticJsEngineError(
             `Unsupported ObjectPattern property target type: ${property.value.type}`,
           );
         }
@@ -305,5 +265,5 @@ export function* environmentSetupLVal(
       return;
   }
 
-  throw new Error(`Unsupported LVal type: ${lval.type}`);
+  throw new StaticJsEngineError(`Unsupported LVal type: ${lval.type}`);
 }

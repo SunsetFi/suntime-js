@@ -7,6 +7,7 @@ import typedMerge from "../../internal/typed-merge.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
 import { NormalCompletion } from "../completions/index.js";
+import StaticJsEngineError from "../StaticJsEngineError.js";
 
 function* arrowFunctionExpressionNodeEvaluator(
   node: ArrowFunctionExpression,
@@ -14,12 +15,12 @@ function* arrowFunctionExpressionNodeEvaluator(
 ): EvaluationGenerator {
   if (node.async) {
     // TODO: Support these when the Promise primitive is in.
-    throw new Error("Async functions are not supported");
+    throw new StaticJsEngineError("Async functions are not supported");
   }
 
   if (node.generator) {
     // TODO: Support these when an Iterator primitive is in.
-    throw new Error("Generator functions are not supported");
+    throw new StaticJsEngineError("Generator functions are not supported");
   }
 
   const func = new StaticJsAstArrowFunction(

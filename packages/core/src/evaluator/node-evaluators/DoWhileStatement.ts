@@ -66,20 +66,11 @@ function* doWhileStatementNodeEvaluator(
         return bodyResult;
     }
 
-    const testResultCompletion = yield* EvaluateNodeCommand(
-      node.test,
-      whileContext,
-    );
-    if (testResultCompletion.type === "throw") {
-      return testResultCompletion;
-    }
-    if (testResultCompletion.type !== "normal" || !testResultCompletion.value) {
-      throw new Error(
-        `Expected normal completion, got ${testResultCompletion.type}`,
-      );
-    }
-
-    if (!testResultCompletion.value.toBoolean()) {
+    const testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
+      rethrow: true,
+      forNormalValue: "DoWhileStatement.test",
+    });
+    if (!testResult.toBoolean()) {
       break;
     }
   }

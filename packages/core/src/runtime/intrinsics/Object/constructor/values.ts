@@ -15,7 +15,7 @@ const objectCtorValuesDeclaration: IntrinsicPropertyDeclaration = {
       values[i] = yield* thisObj.getPropertyEvaluator(ownKeys[i]);
     }
 
-    const result = realm.types.createArray(values);
+    const result = realm.types.array(values);
     return NormalCompletion(result);
   },
 };

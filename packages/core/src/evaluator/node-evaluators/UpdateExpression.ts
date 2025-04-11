@@ -5,6 +5,7 @@ import { isStaticJsNumber } from "../../runtime/types/interfaces/StaticJsNumber.
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { NormalCompletion } from "../completions/index.js";
+import StaticJsEngineError from "../StaticJsEngineError.js";
 
 export default function* updateExpressionNodeEvaluator(
   node: UpdateExpression,
@@ -14,7 +15,9 @@ export default function* updateExpressionNodeEvaluator(
   if (node.argument.type === "Identifier") {
     bindingName = node.argument.name;
   } else {
-    throw new Error("Unsupported argument type for update expression");
+    throw new StaticJsEngineError(
+      `Unsupported argument type for update expression ${node.argument.type}`,
+    );
   }
 
   const originalValue = yield* context.env.getBindingValueEvaluator(
@@ -35,7 +38,7 @@ export default function* updateExpressionNodeEvaluator(
       targetValue--;
       break;
     default:
-      throw new Error(
+      throw new StaticJsEngineError(
         `Unsupported operator for update expression ${node.operator}.`,
       );
   }

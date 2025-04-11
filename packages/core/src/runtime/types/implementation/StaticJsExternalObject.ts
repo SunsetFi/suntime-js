@@ -1,20 +1,17 @@
 import { Writable } from "type-fest";
 
-import hasOwnProperty from "../../../internal/has-own-property.js";
-
 import { EvaluationGenerator } from "../../../evaluator/internal.js";
 
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
-import { StaticJsValue } from "../interfaces/StaticJsValue.js";
 import {
-  StaticJsObjectPropertyDescriptor,
-  StaticJsObjectPropertyDescriptorGetter,
-  StaticJsObjectPropertyDescriptorValue,
-} from "../interfaces/StaticJsObject.js";
-import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
+  StaticJsPropertyDescriptor,
+  StaticJsAccessorPropertyDescriptor,
+  StaticJsDataPropertyDescriptor,
+} from "../interfaces/StaticJsPropertyDescriptor.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
+import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
 
 /**
  * A static object that wraps a native javascript object.
@@ -52,7 +49,7 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
 
   *getOwnPropertyDescriptorEvaluator(
     name: string,
-  ): EvaluationGenerator<StaticJsObjectPropertyDescriptor | undefined> {
+  ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
     const objDescr = Object.getOwnPropertyDescriptor(this._obj, name);
     if (!objDescr) {
       return undefined;
@@ -66,49 +63,45 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
 
     const staticJsDescr: Writable<
       Partial<
-        StaticJsObjectPropertyDescriptorValue &
-          StaticJsObjectPropertyDescriptorGetter
+        StaticJsDataPropertyDescriptor & StaticJsAccessorPropertyDescriptor
       >
     > = {
-      writable: descrSet != null,
       enumerable,
       configurable: false,
     };
 
-    // We need to maintain the semantics of getter vs data value, as it is material to how prototypes are resolved.
-    const realm = this.realm;
+    // Do we want to cache these?  The object can be changed from underneath us...
+
     if (descrGet) {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this;
-      staticJsDescr.get = function* () {
-        return realm.types.toStaticJsValue(descrGet.call(self));
-      };
-    } else if (hasOwnProperty(objDescr, "value")) {
-      staticJsDescr.value = realm.types.toStaticJsValue(value);
+      staticJsDescr.get = new StaticJsExternalFunction(
+        this.realm,
+        "get",
+        descrGet,
+      );
     }
 
     if (descrSet) {
-      staticJsDescr.set = function* (value: StaticJsValue) {
-        descrSet(value.toJs());
-      };
+      staticJsDescr.set = new StaticJsExternalFunction(
+        this.realm,
+        "set",
+        descrSet,
+      );
     }
 
-    return staticJsDescr as StaticJsObjectPropertyDescriptor;
+    if (value) {
+      staticJsDescr.value = this.realm.types.toStaticJsValue(value);
+      staticJsDescr.writable = false;
+    }
+
+    return staticJsDescr as StaticJsPropertyDescriptor;
   }
 
   protected *_setWritableDataPropertyEvaluator(): EvaluationGenerator<void> {
     /* No-op.  Externals are not writable. */
   }
 
-  protected *_definePropertyEvaluator(
-    name: string,
-    descriptor: StaticJsObjectPropertyDescriptor,
-  ): EvaluationGenerator<void> {
-    const objDescriptor = staticJsDescriptorToObjectDescriptor(
-      this.realm,
-      descriptor,
-    );
-    Object.defineProperty(this._obj, name, objDescriptor);
+  protected *_definePropertyEvaluator(): EvaluationGenerator<void> {
+    /* No-op.  Externals are not writable. */
   }
 
   protected *_deleteConfigurablePropertyEvaluator(): EvaluationGenerator<boolean> {

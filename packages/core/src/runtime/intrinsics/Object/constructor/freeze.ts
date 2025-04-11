@@ -13,7 +13,16 @@ const objectCtorFreezeDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const obj = targetValue.toObject();
-    yield* obj.preventExtensionEvaluator();
+
+    const keys = yield* obj.getOwnKeysEvaluator();
+    for (const key of keys) {
+      yield* obj.definePropertyEvaluator(key, {
+        writable: false,
+        configurable: false,
+      });
+    }
+
+    yield* obj.preventExtensionsEvaluator();
 
     return NormalCompletion(targetValue);
   },

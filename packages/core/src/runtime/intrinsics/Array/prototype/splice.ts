@@ -13,7 +13,7 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
     const length = toInteger(lengthValue);
 
     if (!startValue) {
-      return NormalCompletion(realm.types.createArray());
+      return NormalCompletion(realm.types.array());
     }
 
     let start = 0;
@@ -50,7 +50,7 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
     );
 
     yield* setArray(realm, thisObj, oldItems);
-    return NormalCompletion(realm.types.createArray(result));
+    return NormalCompletion(realm.types.array(result));
   },
 };
 

@@ -5,7 +5,11 @@ import {
   isStaticJsValue,
   StaticJsValue,
 } from "../types/interfaces/StaticJsValue.js";
-import { ReturnCompletion, ThrowCompletion } from "../../evaluator/internal.js";
+import {
+  NormalCompletion,
+  ReturnCompletion,
+  ThrowCompletion,
+} from "../../evaluator/internal.js";
 
 export function populateStringPrototype(
   realm: StaticJsRealm,
@@ -17,9 +21,14 @@ export function populateStringPrototype(
   proto.defineProperty("length", {
     configurable: false,
     enumerable: false,
-    *get() {
-      return realm.types.number(this.toString().length);
-    },
+    get: new StaticJsFunctionImpl(
+      realm,
+      "length",
+      function* (thisArg: StaticJsValue) {
+        return NormalCompletion(realm.types.number(thisArg.toString().length));
+      },
+      { prototype: functionProto },
+    ),
   });
 
   proto.defineProperty("valueOf", {
@@ -325,7 +334,7 @@ export function populateStringPrototype(
       function* (thisArg: StaticJsValue, separator: StaticJsValue) {
         const result = thisArg.toString().split(separator.toString());
         return ReturnCompletion(
-          realm.types.createArray(result.map((s) => realm.types.string(s))),
+          realm.types.array(result.map((s) => realm.types.string(s))),
         );
       },
       { prototype: functionProto },
@@ -404,20 +413,6 @@ export function populateStringPrototype(
     ),
   });
 
-  proto.defineProperty("match", {
-    configurable: true,
-    enumerable: false,
-    writable: true,
-    value: new StaticJsFunctionImpl(
-      realm,
-      "match",
-      function* (_thisArg: StaticJsValue, _regexp: StaticJsValue) {
-        throw new Error("String.match is not implemented.");
-      },
-      { prototype: functionProto },
-    ),
-  });
-
   proto.defineProperty("replace", {
     configurable: true,
     enumerable: false,
@@ -434,20 +429,6 @@ export function populateStringPrototype(
           .toString()
           .replace(searchValue.toString(), replaceValue.toString());
         return ReturnCompletion(realm.types.string(result));
-      },
-      { prototype: functionProto },
-    ),
-  });
-
-  proto.defineProperty("search", {
-    configurable: true,
-    enumerable: false,
-    writable: true,
-    value: new StaticJsFunctionImpl(
-      realm,
-      "search",
-      function* (_thisArg: StaticJsValue, _regexp: StaticJsValue) {
-        throw new Error("String.search is not implemented.");
       },
       { prototype: functionProto },
     ),

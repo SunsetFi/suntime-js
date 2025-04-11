@@ -15,6 +15,7 @@ import { Completion, NormalCompletion } from "../completions/index.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setupEnvironment from "./setup-environment.js";
+import StaticJsEngineError from "../StaticJsEngineError.js";
 
 function* programNodeEvaluator(
   node: Program,
@@ -62,7 +63,7 @@ function* programNodeEvaluator(
       case "break":
       case "continue":
         // TODO: Real error type
-        throw new Error(
+        throw new StaticJsEngineError(
           "Illegal control flow completion type in Program node.",
         );
     }
@@ -93,7 +94,9 @@ function extractImports(
             default: {
               // @ts-expect-error - We want to catch values the typings don't know about.
               const type = specifier.imported.type;
-              throw new Error(`Unsupported import specifier ${type}`);
+              throw new StaticJsEngineError(
+                `Unsupported import specifier imported type ${type}`,
+              );
             }
           }
         }
@@ -106,6 +109,8 @@ function extractImports(
       }
     }
 
-    throw new Error(`Unsupported import specifier ${specifier.type}`);
+    throw new StaticJsEngineError(
+      `Unsupported import specifier ${specifier.type}`,
+    );
   });
 }

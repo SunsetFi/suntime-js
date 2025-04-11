@@ -28,19 +28,10 @@ function* whileStatementNodeEvaluator(
   };
 
   while (true) {
-    const testResultCompletion = yield* EvaluateNodeCommand(
-      node.test,
-      whileContext,
-    );
-    if (testResultCompletion.type === "throw") {
-      return testResultCompletion;
-    }
-    if (testResultCompletion.type !== "normal" || !testResultCompletion.value) {
-      throw new Error(
-        `Expected test result to be normal completion, but got ${testResultCompletion.type}`,
-      );
-    }
-    const testResult = testResultCompletion.value;
+    const testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
+      rethrow: true,
+      forNormalValue: "WhileStatement.test",
+    });
 
     if (!testResult.toBoolean()) {
       break;

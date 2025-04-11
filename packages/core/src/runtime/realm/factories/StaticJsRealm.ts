@@ -3,14 +3,22 @@ import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
 import { StaticJsRealm as IStaticJsRealm } from "../interfaces/index.js";
 
-export interface StaticJsRealmGlobalDeclProperty {
+export interface StaticJsRealmGlobalDataPropertyDecl {
   readonly configurable?: boolean;
   readonly enumerable?: boolean;
   readonly writable?: boolean;
-  readonly value?: unknown;
-  readonly get?: () => unknown | EvaluationGenerator<unknown>;
-  readonly set?: (value: unknown) => void | EvaluationGenerator<void>;
+  readonly value: unknown;
 }
+
+export interface StaticJsRealmGlobalAccessorPropertyDecl {
+  readonly configurable?: boolean;
+  readonly enumerable?: boolean;
+  get?(): unknown | EvaluationGenerator<unknown>;
+  set?(value: unknown): void | EvaluationGenerator<void>;
+}
+export type StaticJsRealmGlobalDeclProperty =
+  | StaticJsRealmGlobalDataPropertyDecl
+  | StaticJsRealmGlobalAccessorPropertyDecl;
 export interface StaticJsRealmGlobalDecl {
   properties: Record<string, StaticJsRealmGlobalDeclProperty>;
   extensible?: boolean;

@@ -1,6 +1,5 @@
 import { executeEvaluatorCommand } from "./commands/index.js";
 import EvaluationGenerator from "./EvaluationGenerator.js";
-import { Completion } from "./internal.js";
 
 export function runEvaluatorUntilCompletion<TReturn>(
   generator: EvaluationGenerator<TReturn>,
@@ -19,20 +18,35 @@ export function* evaluateCommands<TReturn>(
   generator: EvaluationGenerator<TReturn>,
 ): Generator<void, TReturn, void> {
   const stack: EvaluationGenerator<unknown>[] = [generator];
+  let lastValueType: "next" | "throw" = "next";
   let lastValue: unknown = undefined;
   while (stack.length > 0) {
     const current = stack.at(-1)!;
-    const { value, done } = current.next(lastValue as Completion);
 
-    if (done) {
+    try {
+      const { value, done } = current[lastValueType](lastValue);
+      yield;
+
+      lastValueType = "next";
+
+      if (done) {
+        stack.pop();
+        lastValue = value;
+        continue;
+      }
+
+      const nextGen = executeEvaluatorCommand(value);
+      stack.push(nextGen);
+    } catch (e: unknown) {
+      yield;
+      lastValueType = "throw";
+      lastValue = e;
       stack.pop();
-      lastValue = value;
-      continue;
     }
+  }
 
-    const nextGen = executeEvaluatorCommand(value);
-    stack.push(nextGen);
-    yield;
+  if (lastValueType === "throw") {
+    throw lastValue;
   }
 
   return lastValue as TReturn;

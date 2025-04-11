@@ -36,7 +36,7 @@ const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
       return result;
     }
 
-    return NormalCompletion(realm.types.createArray(result));
+    return NormalCompletion(realm.types.array(result));
   },
 };
 

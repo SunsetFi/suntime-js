@@ -13,14 +13,11 @@ const objectCtorEntriesDeclaration: IntrinsicPropertyDeclaration = {
     const values: StaticJsValue[] = new Array(ownKeys.length);
     for (let i = 0; i < ownKeys.length; i++) {
       const value = yield* thisObj.getPropertyEvaluator(ownKeys[i]);
-      const item = realm.types.createArray([
-        realm.types.string(ownKeys[i]),
-        value,
-      ]);
+      const item = realm.types.array([realm.types.string(ownKeys[i]), value]);
       values[i] = item;
     }
 
-    const result = realm.types.createArray(values);
+    const result = realm.types.array(values);
     return NormalCompletion(result);
   },
 };

@@ -12,18 +12,25 @@ import {
 } from "../../intrinsics/index.js";
 import StaticJsTypeFactoryImpl from "../../types/implementation/StaticJsTypeFactoryImpl.js";
 import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
+import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
 import {
-  StaticJsObject,
-  StaticJsObjectPropertyDescriptorGetter,
-  StaticJsObjectPropertyDescriptorValue,
-} from "../../types/interfaces/StaticJsObject.js";
+  StaticJsAccessorPropertyDescriptor,
+  StaticJsDataPropertyDescriptor,
+  StaticJsPropertyDescriptor,
+  validateStaticJsPropertyDescriptor,
+} from "../../types/interfaces/StaticJsPropertyDescriptor.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
-import { StaticJsRealmOptions } from "../factories/StaticJsRealm.js";
+import {
+  StaticJsRealmGlobalDeclProperty,
+  StaticJsRealmOptions,
+} from "../factories/StaticJsRealm.js";
 
 import StaticJsRealm from "../interfaces/StaticJsRealm.js";
 import StaticJsModule from "../interfaces/StaticJsModule.js";
 import StaticJsExternalModuleImpl from "./StaticJsModuleImpl.js";
+import hasOwnProperty from "../../../internal/has-own-property.js";
+import StaticJsExternalFunction from "../../types/implementation/StaticJsExternalFunction.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;
@@ -48,7 +55,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
     let globalObjectResolved: StaticJsObject;
     if (!globalObject) {
-      globalObjectResolved = this._typeFactory.createObject();
+      globalObjectResolved = this._typeFactory.object();
     } else if (globalObject && "value" in globalObject) {
       const value = globalObject.value;
       if (!value || typeof value !== "object") {
@@ -60,60 +67,13 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       // Make our object be the prototype, so we can freely attach our globals.
       // FIXME: This is suprising from the user's perspective, since it has an appreciable effect on the runtime.
       // We used to have a special global that passively adds the objects.  Reconsider doing that again.
-      globalObjectResolved = this._typeFactory.createObject(
-        undefined,
-        staticJsValue,
-      );
+      globalObjectResolved = this._typeFactory.object(undefined, staticJsValue);
     } else if (globalObject && "properties" in globalObject) {
-      globalObjectResolved = this._typeFactory.createObject();
+      globalObjectResolved = this._typeFactory.object();
       for (const [name, descriptor] of Object.entries(
         globalObject.properties,
       )) {
-        const descr: Writable<
-          StaticJsObjectPropertyDescriptorGetter &
-            StaticJsObjectPropertyDescriptorValue
-        > = {
-          configurable: descriptor.configurable ?? false,
-          enumerable: descriptor.enumerable ?? false,
-          writable: descriptor.writable ?? false,
-        };
-
-        if (descriptor.value) {
-          descr.value = this._typeFactory.toStaticJsValue(descriptor.value);
-        } else {
-          const types = this._typeFactory;
-          const { get, set } = descriptor;
-
-          if (get) {
-            descr.get = function* () {
-              let value = get();
-              if (
-                value &&
-                typeof value === "object" &&
-                "next" in value &&
-                typeof value.next === "function"
-              ) {
-                value = yield* value as EvaluationGenerator<unknown>;
-              }
-
-              return types.toStaticJsValue(value);
-            };
-          }
-
-          if (set) {
-            descr.set = function* (value: StaticJsValue) {
-              const setResult = set(value);
-              if (
-                setResult &&
-                typeof setResult === "object" &&
-                "next" in setResult &&
-                typeof setResult.next === "function"
-              ) {
-                yield* setResult as EvaluationGenerator<void>;
-              }
-            };
-          }
-        }
+        const descr = globalDeclToDescriptor(this, descriptor);
 
         globalObjectResolved.defineProperty(name, descr);
       }
@@ -261,5 +221,73 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       enumerable: false,
       configurable: true,
     });
+
+    globalObject.defineProperty("Error", {
+      value: constructors.errorCtor,
+      writable: true,
+      enumerable: false,
+      configurable: true,
+    });
   }
+}
+
+function globalDeclToDescriptor(
+  realm: StaticJsRealm,
+  descriptor: StaticJsRealmGlobalDeclProperty,
+) {
+  const descr: Writable<
+    Partial<StaticJsAccessorPropertyDescriptor & StaticJsDataPropertyDescriptor>
+  > = {
+    configurable: descriptor.configurable ?? false,
+    enumerable: descriptor.enumerable ?? false,
+  };
+
+  if (hasOwnProperty(descriptor, "value")) {
+    descr.value = realm.types.toStaticJsValue(descriptor.value);
+    descr.writable = hasOwnProperty(descriptor, "writable")
+      ? Boolean(descriptor.writable)
+      : false;
+  } else if (
+    hasOwnProperty(descriptor, "get") ||
+    hasOwnProperty(descriptor, "set")
+  ) {
+    const { get, set } = descriptor as {
+      get?: () => unknown | EvaluationGenerator<unknown>;
+      set?: (value: unknown) => void | EvaluationGenerator<void>;
+    };
+
+    if (typeof get === "function") {
+      descr.get = new StaticJsExternalFunction(realm, "get", function* () {
+        let value = get();
+        if (isIterator(value)) {
+          value = yield* value;
+        }
+
+        // ExternalFunction wraps this for us.
+        return value;
+      });
+    }
+
+    if (typeof set === "function") {
+      descr.set = new StaticJsExternalFunction(realm, "set", function* (
+        value: unknown,
+      ) {
+        const setResult = set(value);
+        if (isIterator(setResult)) {
+          yield* setResult;
+        }
+      });
+    }
+  }
+
+  validateStaticJsPropertyDescriptor(descr);
+  return descr as StaticJsPropertyDescriptor;
+}
+
+function isIterator<T>(obj: unknown): obj is Generator<T, unknown, unknown> {
+  return (
+    typeof obj === "object" &&
+    obj !== null &&
+    typeof (obj as Generator<T>).next === "function"
+  );
 }

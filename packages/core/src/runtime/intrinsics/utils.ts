@@ -3,7 +3,7 @@ import EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsRealm } from "../realm/index.js";
 
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
-import { StaticJsObject } from "../types/interfaces/StaticJsObject.js";
+import { StaticJsObjectLike } from "../types/interfaces/StaticJsObject.js";
 import { StaticJsValue } from "../types/interfaces/StaticJsValue.js";
 
 export interface IntrinsicPropertyDeclarationBase {
@@ -26,9 +26,9 @@ export type IntrinsicPropertyDeclaration =
 
 export function applyIntrinsicProperties(
   realm: StaticJsRealm,
-  obj: StaticJsObject,
+  obj: StaticJsObjectLike,
   properties: IntrinsicPropertyDeclaration[],
-  functionProto: StaticJsObject,
+  functionProto: StaticJsObjectLike,
 ) {
   for (const prop of properties) {
     if (prop.func) {

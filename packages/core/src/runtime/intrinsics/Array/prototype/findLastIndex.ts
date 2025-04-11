@@ -3,6 +3,7 @@ import {
   NormalCompletion,
   ThrowCompletion,
 } from "../../../../evaluator/internal.js";
+import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
 import { isStaticJsFunction } from "../../../types/index.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";
@@ -39,7 +40,9 @@ const arrayProtoFindLastIndexDeclaration: IntrinsicPropertyDeclaration = {
         return resultCompletion;
       }
       if (resultCompletion.type !== "normal" || !resultCompletion.value) {
-        throw new Error("Expected a normal completion");
+        throw new StaticJsEngineError(
+          "Expected Array.prototype.findLastIndex callback invocation to return a normal completion",
+        );
       }
 
       const result = resultCompletion.value;

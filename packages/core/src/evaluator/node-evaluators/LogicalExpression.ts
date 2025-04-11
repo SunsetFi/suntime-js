@@ -4,6 +4,7 @@ import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
 import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion } from "../completions/index.js";
+import StaticJsEngineError from "../StaticJsEngineError.js";
 
 export default function logicalExpressionNodeEvaluator(
   node: LogicalExpression,
@@ -17,7 +18,7 @@ export default function logicalExpressionNodeEvaluator(
     case "??":
       return logicalExpressionNullishCoalescing(node, context);
     default:
-      throw new Error(
+      throw new StaticJsEngineError(
         `LogicalExpression operator ${node.operator} is not supported`,
       );
   }
@@ -27,29 +28,17 @@ function* logicalExpressionAnd(
   node: LogicalExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const leftCompletion = yield* EvaluateNodeCommand(node.left, context);
-  if (leftCompletion.type === "throw") {
-    return leftCompletion;
-  }
-  if (leftCompletion.type !== "normal" || !leftCompletion.value) {
-    throw new Error(
-      "Expected logical expression left completion to be normal and have a value",
-    );
-  }
-
-  const left = leftCompletion.value;
+  const left = yield* EvaluateNodeCommand(node.left, context, {
+    rethrow: true,
+    forNormalValue: "LogicalExpression.left",
+  });
   if (left.toBoolean()) {
-    const rightCompletion = yield* EvaluateNodeCommand(node.right, context);
-    if (rightCompletion.type === "throw") {
-      return rightCompletion;
-    }
-    if (rightCompletion.type !== "normal" || !rightCompletion.value) {
-      throw new Error(
-        "Expected logical expression right completion to be normal and have a value",
-      );
-    }
+    const right = yield* EvaluateNodeCommand(node.right, context, {
+      rethrow: true,
+      forNormalValue: "LogicalExpression.right",
+    });
 
-    return NormalCompletion(rightCompletion.value);
+    return NormalCompletion(right);
   }
 
   return NormalCompletion(left);
@@ -59,32 +48,19 @@ function* logicalExpressionOr(
   node: LogicalExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const leftCompletion = yield* EvaluateNodeCommand(node.left, context);
-  if (leftCompletion.type === "throw") {
-    return leftCompletion;
-  }
-  if (leftCompletion.type !== "normal" || !leftCompletion.value) {
-    throw new Error(
-      "Expected logical expression left completion to be normal and have a value",
-    );
-  }
-  const left = leftCompletion.value;
+  const left = yield* EvaluateNodeCommand(node.left, context, {
+    rethrow: true,
+    forNormalValue: "LogicalExpression.left",
+  });
 
   if (left.toBoolean()) {
     return NormalCompletion(left);
   }
 
-  const rightCompletion = yield* EvaluateNodeCommand(node.right, context);
-  if (rightCompletion.type === "throw") {
-    return rightCompletion;
-  }
-  if (rightCompletion.type !== "normal" || !rightCompletion.value) {
-    throw new Error(
-      "Expected logical expression right completion to be normal and have a value",
-    );
-  }
-
-  const right = rightCompletion.value;
+  const right = yield* EvaluateNodeCommand(node.right, context, {
+    rethrow: true,
+    forNormalValue: "LogicalExpression.right",
+  });
 
   return NormalCompletion(right);
 }
@@ -93,29 +69,16 @@ function* logicalExpressionNullishCoalescing(
   node: LogicalExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const leftCompletion = yield* EvaluateNodeCommand(node.left, context);
-  if (leftCompletion.type === "throw") {
-    return leftCompletion;
-  }
-  if (leftCompletion.type !== "normal" || !leftCompletion.value) {
-    throw new Error(
-      "Expected logical expression left completion to be normal and have a value",
-    );
-  }
-  const left = leftCompletion.value;
+  const left = yield* EvaluateNodeCommand(node.left, context, {
+    rethrow: true,
+    forNormalValue: "LogicalExpression.left",
+  });
 
   if (["null", "undefined"].includes(left.runtimeTypeOf)) {
-    const rightCompletion = yield* EvaluateNodeCommand(node.right, context);
-    if (rightCompletion.type === "throw") {
-      return rightCompletion;
-    }
-    if (rightCompletion.type !== "normal" || !rightCompletion.value) {
-      throw new Error(
-        "Expected logical expression right completion to be normal and have a value",
-      );
-    }
-
-    const right = rightCompletion.value;
+    const right = yield* EvaluateNodeCommand(node.right, context, {
+      rethrow: true,
+      forNormalValue: "LogicalExpression.right",
+    });
     return NormalCompletion(right);
   }
 

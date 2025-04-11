@@ -12,7 +12,7 @@ import { StaticJsFunction } from "../interfaces/StaticJsFunction.js";
 import { isStaticJsValue, StaticJsValue } from "../interfaces/StaticJsValue.js";
 import {
   isStaticJsObjectLike,
-  StaticJsObject,
+  StaticJsObjectLike,
 } from "../interfaces/StaticJsObject.js";
 
 import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
@@ -20,10 +20,11 @@ import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-des
 import StaticJsStringImpl from "./StaticJsStringImpl.js";
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
 
 export interface StaticJsFunctionImplOptions {
   length?: number;
-  prototype?: StaticJsObject;
+  prototype?: StaticJsObjectLike;
   isConstructor?: boolean;
 }
 
@@ -161,7 +162,7 @@ export default class StaticJsFunctionImpl
         return callResult;
 
       default:
-        throw new Error(
+        throw new StaticJsEngineError(
           `Invalid function completion type: ${callResult.type}. Expected normal, throw, or return.`,
         );
     }
@@ -174,7 +175,7 @@ export default class StaticJsFunctionImpl
       return ThrowCompletion(this.realm.types.string("Invalid prototype"));
     }
 
-    const thisObj = this.realm.types.createObject(undefined, proto);
+    const thisObj = this.realm.types.object(undefined, proto);
     const result = yield* this.call(thisObj, ...args);
     if (result.type === "normal" && isStaticJsObjectLike(result.value)) {
       return NormalCompletion(result.value);

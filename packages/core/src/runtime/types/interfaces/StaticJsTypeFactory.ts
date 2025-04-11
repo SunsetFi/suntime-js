@@ -3,10 +3,8 @@ import { StaticJsFunction } from "./StaticJsFunction.js";
 import { StaticJsBoolean } from "./StaticJsBoolean.js";
 import { StaticJsNull } from "./StaticJsNull.js";
 import { StaticJsNumber } from "./StaticJsNumber.js";
-import {
-  StaticJsObject,
-  StaticJsObjectPropertyDescriptor,
-} from "./StaticJsObject.js";
+import { StaticJsObject } from "./StaticJsObject.js";
+import { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js";
 import { StaticJsValue } from "./StaticJsValue.js";
 import { StaticJsString } from "./StaticJsString.js";
 import { StaticJsUndefined } from "./StaticJsUndefined.js";
@@ -18,6 +16,7 @@ export default interface StaticJsTypeFactory {
   readonly objectProto: StaticJsObject;
   readonly arrayProto: StaticJsObject;
   readonly functionProto: StaticJsObject;
+  readonly errorProto: StaticJsObject;
 
   readonly undefined: StaticJsUndefined;
   readonly null: StaticJsNull;
@@ -33,12 +32,15 @@ export default interface StaticJsTypeFactory {
   number(value: number): StaticJsNumber;
   string(value: string): StaticJsString;
 
-  createObject(
-    properties?: Record<string, StaticJsObjectPropertyDescriptor>,
+  object(
+    properties?: Record<string, StaticJsPropertyDescriptor>,
     prototype?: StaticJsObject | StaticJsNull | null,
   ): StaticJsObject;
 
-  createArray(items?: StaticJsValue[]): StaticJsArray;
+  array(items?: StaticJsValue[]): StaticJsArray;
+
+  error(name: string, message: string): StaticJsObject;
+  error(message: string): StaticJsObject;
 
   toStaticJsValue(value: boolean): StaticJsBoolean;
   toStaticJsValue(value: number): StaticJsNumber;

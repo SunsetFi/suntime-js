@@ -13,6 +13,7 @@ import {
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 import hasOwnProperty from "../../../../internal/has-own-property.js";
 import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
 
 const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
   name: "sort",
@@ -57,7 +58,9 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
           return result;
         }
         if (result.type !== "normal" || !result.value) {
-          throw new Error("Invalid comparison function result");
+          throw new StaticJsEngineError(
+            "Expected Array.prototype.sort callback to return a normal completion",
+          );
         }
 
         return result.value.toNumber();

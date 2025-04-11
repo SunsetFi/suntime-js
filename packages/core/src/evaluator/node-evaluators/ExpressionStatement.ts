@@ -3,6 +3,7 @@ import { ExpressionStatement } from "@babel/types";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeCommand } from "../commands/index.js";
+import StaticJsEngineError from "../StaticJsEngineError.js";
 
 export default function* expressionStatementNodeEvaluator(
   node: ExpressionStatement,
@@ -11,7 +12,7 @@ export default function* expressionStatementNodeEvaluator(
   const result = yield* EvaluateNodeCommand(node.expression, context);
 
   if (result.type !== "throw" && result.type !== "normal") {
-    throw new Error(
+    throw new StaticJsEngineError(
       `Expected node type ${node.type} to return a NormalCompletion or ThrowCompletion, but got ${result.type}.`,
     );
   }

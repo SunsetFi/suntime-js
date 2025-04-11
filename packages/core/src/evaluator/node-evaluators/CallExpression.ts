@@ -1,6 +1,6 @@
 import { CallExpression } from "@babel/types";
 
-import { isStaticJsFunction, StaticJsValue } from "../../runtime/index.js";
+import { isStaticJsFunction } from "../../runtime/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
@@ -8,6 +8,7 @@ import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 import nameNode from "./name-node.js";
+import StaticJsEngineError from "../StaticJsEngineError.js";
 
 export default function* callExpressionNodeEvaluator(
   node: CallExpression,
@@ -15,7 +16,7 @@ export default function* callExpressionNodeEvaluator(
 ): EvaluationGenerator {
   if (node.callee.type === "V8IntrinsicIdentifier") {
     // TODO: We can absolutely support these with the generator command stuff.
-    throw new Error("Intrinsics are not supported");
+    throw new StaticJsEngineError("Intrinsics are not supported");
   }
 
   let thisArg = yield* context.env.getThisBindingEvaluator();
@@ -30,39 +31,25 @@ export default function* callExpressionNodeEvaluator(
         return calleeObjectResult;
       case "normal":
         if (!calleeObjectResult.value) {
-          throw new Error(
+          throw new StaticJsEngineError(
             "Expected callee member expression normal completion to return a value, but got undefined",
           );
         }
         thisArg = calleeObjectResult.value;
         break;
       default:
-        throw new Error(
+        throw new StaticJsEngineError(
           "Expected callee memebr expression object to return throw or normal completion, but got " +
             calleeObjectResult.type,
         );
     }
   }
 
-  const calleeCompletion = yield* EvaluateNodeCommand(node.callee, context);
-  let callee: StaticJsValue;
-  switch (calleeCompletion.type) {
-    case "throw":
-      return calleeCompletion;
-    case "normal":
-      if (!calleeCompletion.value) {
-        throw new Error(
-          "Expected callee completion to return a value, but got undefined",
-        );
-      }
-      callee = calleeCompletion.value;
-      break;
-    default:
-      throw new Error(
-        "Expected callee completion to return throw or normal completion, but got " +
-          calleeCompletion.type,
-      );
-  }
+  const callee = yield* EvaluateNodeCommand(node.callee, context, {
+    rethrow: true,
+    forNormalValue: "CallExpression.callee",
+  });
+
   if (!isStaticJsFunction(callee)) {
     // FIXME: Use real error.
     return ThrowCompletion(
@@ -74,31 +61,24 @@ export default function* callExpressionNodeEvaluator(
 
   const args = new Array(node.arguments.length);
   for (let i = 0; i < node.arguments.length; i++) {
-    const argCompletion = yield* EvaluateNodeCommand(
-      node.arguments[i],
-      context,
-    );
-    if (argCompletion.type === "throw") {
-      return argCompletion;
-    }
-    if (argCompletion.type !== "normal" || !argCompletion.value) {
-      throw new Error(
-        `Expected argument completion to return a value, but got ${argCompletion.type}`,
-      );
-    }
-    args[i] = argCompletion.value;
+    const arg = yield* EvaluateNodeCommand(node.arguments[i], context, {
+      rethrow: true,
+      forNormalValue: "CallExpression.arguments[]",
+    });
+    args[i] = arg;
   }
 
   const callCompletion = yield* callee.call(thisArg, ...args);
-
-  switch (callCompletion.type) {
-    case "normal":
-      return NormalCompletion(
-        callCompletion.value ?? context.realm.types.undefined,
-      );
-    case "throw":
-      return callCompletion;
-    default:
-      throw new Error("Unexpected completion type " + callCompletion.type);
+  if (callCompletion.type === "throw") {
+    return callCompletion;
   }
+  if (callCompletion.type !== "normal") {
+    throw new StaticJsEngineError(
+      `Expected call completion to return normal completion, but got ${callCompletion.type}`,
+    );
+  }
+
+  return NormalCompletion(
+    callCompletion.value ?? context.realm.types.undefined,
+  );
 }

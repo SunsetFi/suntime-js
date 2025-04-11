@@ -8,6 +8,7 @@ import {
   ExpressionCompilationOptions,
   ProgramCompilationOptions,
 } from "./compilation/options.js";
+import StaticJsParseError from "./StaticJsParseError.js";
 
 export interface EvaluateProgramOptions extends ProgramCompilationOptions {
   realm?: StaticJsRealm;
@@ -53,7 +54,9 @@ export function evaluateExpression(
   const ast = parseExpression(string);
 
   if (ast.errors && ast.errors.length) {
-    throw new Error(`Error parsing expression: ${ast.errors[0].code}.`);
+    throw new StaticJsParseError(
+      `Error parsing expression: ${ast.errors[0].code}.`,
+    );
   }
 
   const resolvedRealm = realm ?? StaticJsRealmFactory();

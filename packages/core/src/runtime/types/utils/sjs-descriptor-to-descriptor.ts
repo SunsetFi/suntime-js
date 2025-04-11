@@ -1,38 +1,58 @@
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
+import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
 
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
 import {
-  isStaticJsObjectPropertyDescriptorGetter,
-  isStaticJsObjectPropertyDescriptorValue,
-  StaticJsObjectPropertyDescriptor,
+  isStaticJsAccessorPropertyDescriptor,
+  isStaticJsDataPropertyDescriptor,
+  StaticJsPropertyDescriptor,
 } from "../interfaces/index.js";
 
 export default function staticJsDescriptorToObjectDescriptor(
   realm: StaticJsRealm,
-  descriptor: StaticJsObjectPropertyDescriptor,
+  descriptor: StaticJsPropertyDescriptor,
 ): PropertyDescriptor {
   const objDescriptor: PropertyDescriptor = {
-    writable: descriptor.writable,
     enumerable: descriptor.enumerable,
     configurable: descriptor.configurable,
   };
 
-  if (isStaticJsObjectPropertyDescriptorGetter(descriptor)) {
-    objDescriptor.get = descriptor.get;
-  }
-
-  const set = descriptor.set;
-  if (set) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    objDescriptor.set = (value: any) => {
-      runEvaluatorUntilCompletion(
-        set(realm.types.toStaticJsValue(value), false),
-      );
-    };
-  }
-
-  if (isStaticJsObjectPropertyDescriptorValue(descriptor)) {
+  if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
+    if (descriptor.get) {
+      objDescriptor.get = function () {
+        const completion = runEvaluatorUntilCompletion(
+          descriptor.get.call(realm.types.toStaticJsValue(this)),
+        );
+        if (completion.type === "throw") {
+          throw realm.types.toStaticJsValue(completion.value);
+        }
+        if (completion.type !== "normal" || !completion.value) {
+          throw new StaticJsEngineError(
+            "Accessor property getter did not return a NormalCompletion with a value",
+          );
+        }
+        return completion.value.toJs();
+      };
+    }
+    if (descriptor.set) {
+      objDescriptor.value = function (value: unknown) {
+        const thisValue = realm.types.toStaticJsValue(this);
+        const staticJsValue = realm.types.toStaticJsValue(value);
+        const completion = runEvaluatorUntilCompletion(
+          descriptor.set.call(thisValue, staticJsValue),
+        );
+        if (completion.type === "throw") {
+          throw realm.types.toStaticJsValue(completion.value);
+        }
+        if (completion.type !== "normal") {
+          throw new StaticJsEngineError(
+            "Accessor property setter did not return a NormalCompletion",
+          );
+        }
+      };
+    }
+  } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
     objDescriptor.value = descriptor.value.toJs();
   }
 

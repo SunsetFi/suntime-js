@@ -26,6 +26,7 @@ import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 import { StaticJsValue } from "../interfaces/index.js";
 
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
+import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
 
 export type StaticJsAstFunctionArgumentDeclaration =
   | Identifier
@@ -44,7 +45,7 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
     super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args));
 
     this.defineProperty("prototype", {
-      value: realm.types.createObject({
+      value: realm.types.object({
         constructor: {
           value: this,
           writable: true,
@@ -93,7 +94,7 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
     switch (evaluationCompletion.type) {
       case "break":
       case "continue":
-        throw new Error("Unexpected break/continue in function");
+        throw new StaticJsEngineError("Unexpected break/continue in function");
       case "return":
       case "throw":
         return evaluationCompletion;
@@ -110,7 +111,7 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
       const decl = this._argumentDeclarations[i];
 
       if (decl.type === "RestElement") {
-        const value = this.realm.types.createArray(args.slice(i));
+        const value = this.realm.types.array(args.slice(i));
         const completion = yield* setLVal(
           decl.argument,
           value,

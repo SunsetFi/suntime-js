@@ -1,4 +1,5 @@
 import EvaluationGenerator from "../../EvaluationGenerator.js";
+import StaticJsEngineError from "../../StaticJsEngineError.js";
 
 import { EvaluatorCommand } from "../types/index.js";
 
@@ -13,7 +14,7 @@ export function executeEvaluatorCommand(
     default: {
       // @ts-expect-error: We want to ensure we handle all cases.
       const type = command.type;
-      throw new Error(`Unknown command type: ${type}`);
+      throw new StaticJsEngineError(`Unknown command type: ${type}`);
     }
   }
 }

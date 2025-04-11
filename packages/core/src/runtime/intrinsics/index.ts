@@ -23,6 +23,10 @@ import {
   createBooleanConstructor,
   populateBooleanPrototype,
 } from "./Boolean.js";
+import {
+  createErrorConstructor,
+  populateErrorPrototype,
+} from "./Error/index.js";
 
 export interface Prototypes {
   stringProto: StaticJsObject;
@@ -31,36 +35,42 @@ export interface Prototypes {
   objectProto: StaticJsObject;
   arrayProto: StaticJsObject;
   functionProto: StaticJsObject;
+  errorProto: StaticJsObject;
 }
 
 export interface Constructors {
   stringCtor: StaticJsFunction;
   numberCtor: StaticJsFunction;
   booleanCtor: StaticJsFunction;
-  objectCtor: StaticJsObject;
+  objectCtor: StaticJsFunction;
   arrayCtor: StaticJsObject;
   functionCtor: StaticJsObject;
+  errorCtor: StaticJsFunction;
 }
 
 export function createPrototypes(realm: StaticJsRealm): Prototypes {
   // There are some circular references around these, particularly with
   // instantiating functions for properties, so establish them ahead of time.
   const objectProto = new StaticJsObjectImpl(realm, null);
+  const functionProto = new StaticJsObjectImpl(realm, objectProto);
 
   const stringProto = new StaticJsObjectImpl(realm, objectProto);
   const numberProto = new StaticJsObjectImpl(realm, objectProto);
   const booleanProto = new StaticJsObjectImpl(realm, objectProto);
   const arrayProto = new StaticJsObjectImpl(realm, objectProto);
-  const functionProto = new StaticJsObjectImpl(realm, objectProto);
+
+  const errorProto = new StaticJsObjectImpl(realm, objectProto);
 
   populateObjectPrototype(realm, objectProto, functionProto);
+  populateFunctionPrototype(realm, functionProto);
 
   populateStringPrototype(realm, stringProto, functionProto);
   populateNumberPrototype(realm, numberProto, functionProto);
   populateBooleanPrototype(realm, booleanProto, functionProto);
 
   populateArrayPrototype(realm, arrayProto, functionProto);
-  populateFunctionPrototype(realm, functionProto);
+
+  populateErrorPrototype(realm, errorProto, functionProto);
 
   return {
     stringProto,
@@ -69,6 +79,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
     objectProto,
     arrayProto,
     functionProto,
+    errorProto,
   };
 }
 
@@ -81,6 +92,7 @@ export function createConstructors(
     objectProto,
     functionProto,
     arrayProto,
+    errorProto,
   }: Prototypes,
 ): Constructors {
   const stringCtor = createStringConstructor(realm, stringProto, functionProto);
@@ -135,6 +147,14 @@ export function createConstructors(
     configurable: true,
   });
 
+  const errorCtor = createErrorConstructor(realm, errorProto, functionProto);
+  errorProto.defineProperty("constructor", {
+    value: errorCtor,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
+
   return {
     stringCtor,
     numberCtor,
@@ -142,5 +162,6 @@ export function createConstructors(
     objectCtor,
     arrayCtor,
     functionCtor,
+    errorCtor,
   };
 }

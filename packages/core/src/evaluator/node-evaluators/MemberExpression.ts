@@ -10,22 +10,17 @@ import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 import nameNode from "./name-node.js";
+import StaticJsEngineError from "../StaticJsEngineError.js";
 
 export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
   const propertyNode = node.property;
-  const targetCompletion = yield* EvaluateNodeCommand(node.object, context);
-  if (targetCompletion.type === "throw") {
-    return targetCompletion;
-  }
-  if (targetCompletion.type !== "normal" || !targetCompletion.value) {
-    throw new Error(
-      `MemberExpression: Expected normal completion, got ${targetCompletion.type}`,
-    );
-  }
-  let target = targetCompletion.value;
+  let target = yield* EvaluateNodeCommand(node.object, context, {
+    rethrow: true,
+    forNormalValue: "MemberExpression.object",
+  });
 
   if (isStaticJsNull(target)) {
     // FIXME: Use real error.
@@ -53,26 +48,17 @@ export default function* memberExpressionNodeEvaluator(
     // TODO: Support private fields
     // We just need to know if the target is a 'this' and we are inside the class.
     // We don't even support classes yet.
-    throw new Error("Private fields are not supported");
+    throw new StaticJsEngineError("Private fields are not supported");
   }
 
   if (!node.computed && propertyNode.type === "Identifier") {
     propertyName = propertyNode.name;
   } else {
-    const resolvedCompletion = yield* EvaluateNodeCommand(
-      propertyNode,
-      context,
-    );
-    if (resolvedCompletion.type === "throw") {
-      return resolvedCompletion;
-    }
-    if (resolvedCompletion.type !== "normal" || !resolvedCompletion.value) {
-      throw new Error(
-        `MemberExpression: Expected normal completion, got ${resolvedCompletion.type}`,
-      );
-    }
-
-    propertyName = toPropertyKey(resolvedCompletion.value);
+    const property = yield* EvaluateNodeCommand(propertyNode, context, {
+      rethrow: true,
+      forNormalValue: "MemberExpression.property",
+    });
+    propertyName = toPropertyKey(property);
   }
 
   const value = yield* target.getPropertyEvaluator(propertyName);

@@ -27,6 +27,7 @@ import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 import { StaticJsValue } from "../interfaces/index.js";
 
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
+import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
 
 export type StaticJsAstArrowFunctionArgumentDeclaration =
   | Identifier
@@ -87,7 +88,9 @@ export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
     switch (evaluationCompletion.type) {
       case "break":
       case "continue":
-        throw new Error("Unexpected break/continue in function");
+        throw new StaticJsEngineError(
+          "Unexpected break/continue in arrow function",
+        );
       case "throw":
         return evaluationCompletion;
       case "return":
@@ -112,7 +115,7 @@ export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
       const decl = this._argumentDeclarations[i];
 
       if (decl.type === "RestElement") {
-        const value = this.realm.types.createArray(args.slice(i));
+        const value = this.realm.types.array(args.slice(i));
         const completion = yield* setLVal(
           decl.argument,
           value,

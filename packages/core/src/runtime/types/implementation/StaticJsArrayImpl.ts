@@ -9,16 +9,17 @@ import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
 import { StaticJsValue } from "../interfaces/StaticJsValue.js";
 import {
-  isStaticJsObjectPropertyDescriptorValue,
-  isStaticJsObjectPropertyDescriptorGetter,
-  StaticJsObjectPropertyDescriptor,
-} from "../interfaces/StaticJsObject.js";
+  isStaticJsDataPropertyDescriptor,
+  isStaticJsAccessorPropertyDescriptor,
+  StaticJsPropertyDescriptor,
+} from "../interfaces/StaticJsPropertyDescriptor.js";
 import { StaticJsArray } from "../interfaces/StaticJsArray.js";
 
 import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
 
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
 
 export default class StaticJsArrayImpl
   extends StaticJsObjectLikeImpl
@@ -61,11 +62,23 @@ export default class StaticJsArrayImpl
       return 0;
     }
 
-    if (isStaticJsObjectPropertyDescriptorValue(descr)) {
+    if (isStaticJsDataPropertyDescriptor(descr)) {
       return descr.value.toNumber();
-    } else if (isStaticJsObjectPropertyDescriptorGetter(descr)) {
-      const getValue = yield* descr.get.call(this);
-      return getValue.toNumber();
+    } else if (isStaticJsAccessorPropertyDescriptor(descr)) {
+      const getCompletion = yield* descr.get.call(this);
+      if (getCompletion.type === "throw") {
+        // FIXME: Untangle throw completions from non completion functions
+        throw new Error(
+          `Error getting length of array: ${getCompletion.value}`,
+        );
+      }
+      if (getCompletion.type !== "normal" || !getCompletion.value) {
+        throw new StaticJsEngineError(
+          `Expected number completion for length, got ${getCompletion.type}`,
+        );
+      }
+
+      return getCompletion.value.toNumber();
     } else {
       return 0;
     }
@@ -86,7 +99,7 @@ export default class StaticJsArrayImpl
     if (end == null) {
       end = yield* this.getLengthEvaluator();
     }
-    const array = this.realm.types.createArray();
+    const array = this.realm.types.array();
     for (let i = start; i < end; i++) {
       const value = yield* this.getEvaluator(i);
       yield* array.setEvaluator(i, value);
@@ -195,7 +208,7 @@ export default class StaticJsArrayImpl
 
   protected *_definePropertyEvaluator(
     name: string,
-    descriptor: StaticJsObjectPropertyDescriptor,
+    descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<void> {
     yield* super._definePropertyEvaluator(name, descriptor);
     const index = parseInt(name, 10);

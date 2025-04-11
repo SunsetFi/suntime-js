@@ -15,16 +15,10 @@ export default function* assignmentExpressionNodeEvaluator(
 ): EvaluationGenerator {
   const { left, right } = node;
 
-  const valueCompletion = yield* EvaluateNodeCommand(right, context);
-  if (valueCompletion.type === "throw") {
-    return valueCompletion;
-  }
-  if (valueCompletion.type !== "normal" || !valueCompletion.value) {
-    throw new Error(
-      "Expected assignment expression right completion to be normal and have a value",
-    );
-  }
-  let value = valueCompletion.value;
+  let value = yield* EvaluateNodeCommand(right, context, {
+    rethrow: true,
+    forNormalValue: "AssignmentExpression.right",
+  });
 
   if (left.type === "OptionalMemberExpression") {
     // Throw the same error typescript throws.

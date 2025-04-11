@@ -1,5 +1,6 @@
 import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { NormalCompletion } from "../../../../evaluator/internal.js";
+import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
 import { isStaticJsFunction, StaticJsValue } from "../../../types/index.js";
 import createTypeErrorCompletion from "../../errors/TypeError.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
@@ -45,8 +46,8 @@ const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
         return resultCompletion;
       }
       if (resultCompletion.type !== "normal" || !resultCompletion.value) {
-        throw new Error(
-          "Expected result completion to return a value, but got undefined",
+        throw new StaticJsEngineError(
+          "Expected Array.prototype.filter invocation completion to return a value, but got undefined",
         );
       }
 
@@ -55,7 +56,7 @@ const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
       }
     }
 
-    return NormalCompletion(realm.types.createArray(resultItems));
+    return NormalCompletion(realm.types.array(resultItems));
   },
 };
 

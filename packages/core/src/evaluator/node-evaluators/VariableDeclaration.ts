@@ -11,6 +11,7 @@ import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion } from "../completions/index.js";
 
 import setLVal, { environmentSetupLVal } from "./LVal.js";
+import StaticJsEngineError from "../StaticJsEngineError.js";
 
 function* variableDeclarationNodeEvaluator(
   node: VariableDeclaration,
@@ -40,7 +41,9 @@ function* variableDeclarationNodeEvaluator(
       };
       break;
     default:
-      throw new Error(`Unsupported variable declaration kind: ${node.kind}`);
+      throw new StaticJsEngineError(
+        `Unsupported variable declaration kind: ${node.kind}`,
+      );
   }
 
   for (const declarator of node.declarations) {
@@ -91,7 +94,9 @@ function* variableDeclarationEnvironmentSetup(
       };
       break;
     default:
-      throw new Error(`Unsupported variable declaration kind: ${node.kind}`);
+      throw new StaticJsEngineError(
+        `Unsupported variable declaration kind: ${node.kind}`,
+      );
   }
 
   for (const declarator of node.declarations) {
@@ -115,14 +120,10 @@ function* declarationStatementEvaluator(
 ): EvaluationGenerator {
   let value: StaticJsValue | null = null;
   if (declarator.init) {
-    const completion = yield* EvaluateNodeCommand(declarator.init, context);
-    if (completion.type === "throw") {
-      return completion;
-    }
-    if (completion.type !== "normal" || !completion.value) {
-      throw new Error(`Expected normal completion, got ${completion.type}`);
-    }
-    value = completion.value;
+    value = yield* EvaluateNodeCommand(declarator.init, context, {
+      rethrow: true,
+      forNormalValue: "VariableDeclarator.init",
+    });
   }
 
   return yield* setLVal(declarator.id, value, context, variableCreator);

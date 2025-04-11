@@ -15,7 +15,7 @@ const objectCtorCreateDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const proto = protoValue.runtimeTypeOf === "null" ? null : protoValue;
-    const obj = realm.types.createObject(undefined, proto);
+    const obj = realm.types.object(undefined, proto);
     return NormalCompletion(obj);
   },
 };

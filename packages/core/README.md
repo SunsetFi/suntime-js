@@ -178,8 +178,6 @@ function evaluateCancellableProgram(
 - Switch to sub-imports for lodash-es for tree-shaking
   Not sure why this isnt working. Identical tsconfig and setup to other projects where this works fine.
   Stupid pnpm typescript resolution jank.
-- Preprocess the AST tree and generate an AST + setup tree instead of mutating the AST nodes.
-  This is required if we want to accept external AST instead of parsing it ourselves.
 - Report code coverage in repo
   coveralls.io?
   [vitest-coverage-report-action](https://github.com/marketplace/actions/vitest-coverage-report)?
@@ -188,10 +186,9 @@ function evaluateCancellableProgram(
 - Get more strict with public api
   - Replace index.ts with public.ts
   - Never import from public.ts except for other public.ts to stop circular refs.
-- Allow controlled generator oversight of spontanious runs (toJs proxies and such).
-  - Replace runEvaluatorUntilCompletion with a direct link to the realm
-  - Allow StaticJsRealm to take a function for controlling the evaluation loop.
-  - Readme examples for how to use that to implement timesharing and timeouts.
+- Make all internal usages of toX be generators; Eliminate runEvaluatorToCompletion in codebase aside from evaluteX
+- Make StaticJsObject property getters and setters able to return ThrowCompletion and propogate throws up the chain.
+- Turn the value of ObjectLike.toJs() back into the same instance of StaticJsObjectLike in TypeFactory.toStaticJsValue()
 - Reveal information about the current line and character number the generator is at.
   - Also reveal scopes and variables.
 - Investigate debugger for monaco

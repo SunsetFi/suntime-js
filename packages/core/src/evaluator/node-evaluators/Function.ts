@@ -6,6 +6,7 @@ import StaticJsAstFunction, {
 
 import EvaluationContext from "../EvaluationContext.js";
 import { StaticJsFunction } from "../../runtime/index.js";
+import StaticJsEngineError from "../StaticJsEngineError.js";
 
 export default function createFunction(
   name: string | null,
@@ -14,16 +15,18 @@ export default function createFunction(
 ): StaticJsFunction {
   if (node.async) {
     // TODO: Support these when the Promise primitive is in.
-    throw new Error("Async functions are not supported");
+    throw new StaticJsEngineError("Async functions are not supported");
   }
 
   if (node.generator) {
     // TODO: Support these when an Iterator primitive is in.
-    throw new Error("Generator functions are not supported");
+    throw new StaticJsEngineError("Generator functions are not supported");
   }
 
   if (node.params.some((x) => x.type === "TSParameterProperty")) {
-    throw new Error("TypeScript parameter properties are not supported");
+    throw new StaticJsEngineError(
+      "TypeScript parameter properties are not supported",
+    );
   }
 
   return new StaticJsAstFunction(

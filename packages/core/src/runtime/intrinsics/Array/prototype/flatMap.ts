@@ -3,6 +3,7 @@ import {
   NormalCompletion,
   ThrowCompletion,
 } from "../../../../evaluator/internal.js";
+import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
 import {
   isStaticJsArray,
   isStaticJsFunction,
@@ -50,7 +51,9 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
         return callCompletion;
       }
       if (callCompletion.type !== "normal" || !callCompletion.value) {
-        throw new Error("flatMap callback must return a normal value");
+        throw new StaticJsEngineError(
+          "Expected Array.prototype.flatMap callback to return a normal completion",
+        );
       }
 
       const result = callCompletion.value;
@@ -64,7 +67,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       }
     }
 
-    return NormalCompletion(realm.types.createArray(items));
+    return NormalCompletion(realm.types.array(items));
   },
 };
 

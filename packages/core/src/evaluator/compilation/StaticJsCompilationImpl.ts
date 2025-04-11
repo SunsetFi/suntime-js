@@ -11,6 +11,7 @@ import {
 import evaluateNode from "../node-evaluators/evaluate-node.js";
 
 import StaticJsCompilation from "./StaticJsCompilation.js";
+import StaticJsEngineError from "../StaticJsEngineError.js";
 
 export default class StaticJsCompilationImpl implements StaticJsCompilation {
   constructor(private readonly _root: Node) {}
@@ -46,7 +47,7 @@ export default class StaticJsCompilationImpl implements StaticJsCompilation {
 
     // @ts-expect-error: We should never reach this point.
     const type = result.type;
-    throw new Error("Unknown completion type: " + type);
+    throw new StaticJsEngineError("Unknown completion type: " + type);
   }
 
   *generator(
