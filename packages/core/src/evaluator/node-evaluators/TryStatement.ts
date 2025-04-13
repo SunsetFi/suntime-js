@@ -25,12 +25,10 @@ function* tryStatementNodeEvaluator(
   // we manually handle blocks ourselves instead of delegating to the BlockStatement node evaluator.
 
   let completion = yield* runBlock(node.block, context);
-  switch (completion.type) {
-    case "throw":
-      if (node.handler) {
-        completion = yield* runCatch(node.handler, completion.value, context);
-      }
-      break;
+  if (completion.type === "throw") {
+    if (node.handler) {
+      completion = yield* runCatch(node.handler, completion.value, context);
+    }
   }
 
   if (node.finalizer) {
