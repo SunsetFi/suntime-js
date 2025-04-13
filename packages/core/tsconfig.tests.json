@@ -4,6 +4,6 @@
     "rootDir": "./",
     "inlineSourceMap": true
   },
-  "include": ["./src", "./e2e"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["./src", "./tests"],
+  "exclude": ["./tests/test262/repo", "node_modules", "dist"]
 }
