@@ -47,9 +47,15 @@ export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
   }
 
   *construct(): EvaluationGenerator {
+    const nameValue = yield* this.getPropertyEvaluator("name");
+    let name = nameValue.toString();
+    if (name === "") {
+      name = "anonymous";
+    }
+
     // FIXME: Use real error.
     return ThrowCompletion(
-      this.realm.types.string("Arrow functions cannot be constructed"),
+      this.realm.types.error("TypeError", `${name} is not a constructor`),
     );
   }
 

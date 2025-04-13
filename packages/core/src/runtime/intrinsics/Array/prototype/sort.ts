@@ -26,7 +26,8 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
 
     if (compareFnValue && !isStaticJsFunction(compareFnValue)) {
       return ThrowCompletion(
-        realm.types.string(
+        realm.types.error(
+          "TypeError",
           "The comparison function must be either a function or undefined",
         ),
       );

@@ -17,7 +17,7 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
 
   setPrototypeOfEvaluator(
     prototype: StaticJsObjectLike | null,
-  ): EvaluationGenerator<void>;
+  ): EvaluationGenerator;
 
   preventExtensions(): void;
 

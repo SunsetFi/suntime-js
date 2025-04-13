@@ -22,9 +22,9 @@ export default function* assignmentExpressionNodeEvaluator(
 
   if (left.type === "OptionalMemberExpression") {
     // Throw the same error typescript throws.
-    // FIXME: Use real error.
     return ThrowCompletion(
-      context.realm.types.string(
+      context.realm.types.error(
+        "SyntaxError",
         "The left-hand side of an assignment expression cannot be an optional member expression.",
       ),
     );
@@ -36,9 +36,11 @@ export default function* assignmentExpressionNodeEvaluator(
     case "+=":
       {
         if (left.type !== "Identifier") {
-          // FIXME: Use real error.
           return ThrowCompletion(
-            context.realm.types.string("Invalid left-hand side in assignment"),
+            context.realm.types.error(
+              "SyntaxError",
+              "Invalid left-hand side in assignment",
+            ),
           );
         }
 
@@ -63,9 +65,11 @@ export default function* assignmentExpressionNodeEvaluator(
     case "-=":
       {
         if (left.type !== "Identifier") {
-          // FIXME: Use real error.
           return ThrowCompletion(
-            context.realm.types.string("Invalid left-hand side in assignment"),
+            context.realm.types.error(
+              "SyntaxError",
+              "Invalid left-hand side in assignment",
+            ),
           );
         }
 
@@ -82,9 +86,11 @@ export default function* assignmentExpressionNodeEvaluator(
     case "<<=":
       {
         if (left.type !== "Identifier") {
-          // FIXME: Use real error.
           return ThrowCompletion(
-            context.realm.types.string("Invalid left-hand side in assignment"),
+            context.realm.types.error(
+              "SyntaxError",
+              "Invalid left-hand side in assignment",
+            ),
           );
         }
 
@@ -101,9 +107,11 @@ export default function* assignmentExpressionNodeEvaluator(
     case ">>=":
       {
         if (left.type !== "Identifier") {
-          // FIXME: Use real error.
           return ThrowCompletion(
-            context.realm.types.string("Invalid left-hand side in assignment"),
+            context.realm.types.error(
+              "SyntaxError",
+              "Invalid left-hand side in assignment",
+            ),
           );
         }
 
@@ -120,9 +128,11 @@ export default function* assignmentExpressionNodeEvaluator(
     case ">>>=":
       {
         if (left.type !== "Identifier") {
-          // FIXME: Use real error.
           return ThrowCompletion(
-            context.realm.types.string("Invalid left-hand side in assignment"),
+            context.realm.types.error(
+              "SyntaxError",
+              "Invalid left-hand side in assignment",
+            ),
           );
         }
 

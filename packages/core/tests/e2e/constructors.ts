@@ -61,9 +61,7 @@ describe("E2E: Constructors", () => {
       const f = () => {};
       new f();
     `;
-    expect(() => evaluateProgram(code)).toThrow(
-      "Arrow functions cannot be constructed",
-    );
+    expect(() => evaluateProgram(code)).toThrow("is not a constructor");
   });
 
   it("uses constructor property on prototype", () => {

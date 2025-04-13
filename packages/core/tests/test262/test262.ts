@@ -39,6 +39,7 @@ function describeCategory(category: string) {
 }
 
 function defineTest(test: string) {
+  const testName = basename(test);
   const testContents = readFileSync(test, "utf-8");
   const testMeta = parseTest262(testContents);
   if (!testMeta.isATest) {
@@ -49,16 +50,16 @@ function defineTest(test: string) {
   if (
     testMeta.attrs.features?.some((feature) => ignoreFeatures.includes(feature))
   ) {
-    it.skip("Ignored feature: " + test, () => {});
+    it.skip("Ignored feature: " + testName, () => {});
     return;
   }
 
   if (testMeta.async) {
-    it.skip("Ignored async test: " + test, () => {});
+    it.skip("Ignored async test: " + testName, () => {});
     return;
   }
 
-  it(basename(test), () => {
+  it(testName, () => {
     const realm = StaticJsRealm();
     bootstrapTest262(realm);
 

@@ -3,7 +3,6 @@ import {
   Completion,
   NormalCompletion,
   runEvaluatorUntilCompletion,
-  ThrowCompletion,
 } from "../../../evaluator/internal.js";
 
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
@@ -39,7 +38,6 @@ export default class StaticJsFunctionImpl
   private _isConstructor: boolean;
 
   private _toJs: unknown | null = null;
-  private readonly _name: string | null;
 
   constructor(
     realm: StaticJsRealm,
@@ -51,7 +49,6 @@ export default class StaticJsFunctionImpl
     { isConstructor, length, prototype }: StaticJsFunctionImplOptions = {},
   ) {
     super(realm, prototype ?? realm.types.functionProto);
-    this._name = name;
 
     this._isConstructor = isConstructor ?? false;
 
@@ -131,7 +128,12 @@ export default class StaticJsFunctionImpl
   }
 
   toString() {
-    return `function ${this._name ?? ""}() { [native code] }`;
+    const nameValue = runEvaluatorUntilCompletion(
+      this.getPropertyEvaluator("name"),
+    );
+    const name = nameValue.toString();
+
+    return `function ${name ?? ""}() { [native code] }`;
   }
 
   toNumber(): number {
@@ -169,10 +171,10 @@ export default class StaticJsFunctionImpl
   }
 
   *construct(...args: StaticJsValue[]): EvaluationGenerator {
-    const proto = yield* this.getPropertyEvaluator("prototype");
+    let proto = yield* this.getPropertyEvaluator("prototype");
     if (!proto || !isStaticJsObjectLike(proto)) {
-      // FIXME: Use real error.
-      return ThrowCompletion(this.realm.types.string("Invalid prototype"));
+      // This appears to be what node does
+      proto = this.realm.types.null;
     }
 
     const thisObj = this.realm.types.object(undefined, proto);

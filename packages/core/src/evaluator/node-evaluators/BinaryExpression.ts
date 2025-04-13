@@ -205,16 +205,20 @@ function* inOperator(
   });
 
   if (!isStaticJsObjectLike(right)) {
-    // FIXME: Use real error.
     return ThrowCompletion(
-      context.realm.types.string("Right side of in operator must be an object"),
+      context.realm.types.error(
+        "TypeError",
+        "Right side of in operator must be an object",
+      ),
     );
   }
 
   if (!isStaticJsString(left)) {
-    // FIXME: Use real error.
     return ThrowCompletion(
-      context.realm.types.string("Left side of in operator must be a string"),
+      context.realm.types.error(
+        "TypeError",
+        "Left side of in operator must be a string",
+      ),
     );
   }
 

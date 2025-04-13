@@ -23,7 +23,10 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
     if (!isStaticJsFunction(callback)) {
       // Yes, this error message is different from all the others!
       return ThrowCompletion(
-        realm.types.string("flatMap mapper function is not callable"),
+        realm.types.error(
+          "TypeError",
+          "flatMap mapper function is not callable",
+        ),
       );
     }
 

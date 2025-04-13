@@ -1,8 +1,9 @@
-import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import ThrowCompletion, {
+  isThrowCompletion,
+} from "../../../../evaluator/completions/ThrowCompletion.js";
 import { NormalCompletion } from "../../../../evaluator/internal.js";
 import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
 import { isStaticJsFunction, StaticJsValue } from "../../../types/index.js";
-import createTypeErrorCompletion from "../../errors/TypeError.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";
 
@@ -16,9 +17,11 @@ const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (!isStaticJsFunction(callback)) {
-      return createTypeErrorCompletion(
-        `${callback.toString()} is not a function`,
-        realm,
+      return ThrowCompletion(
+        realm.types.error(
+          "TypeError",
+          `${callback.toString()} is not a function`,
+        ),
       );
     }
 

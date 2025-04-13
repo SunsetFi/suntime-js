@@ -59,10 +59,13 @@ export default function* setLVal(
       yield* setNamedVariable(lval.name, value);
       return NormalCompletion(null);
     case "ArrayPattern": {
+      // FIXME: This should use iterators.
       if (!isStaticJsArray(value)) {
-        // FIXME: Use real error.
         return ThrowCompletion(
-          context.realm.types.string("Cannot destructure non-array value"),
+          context.realm.types.error(
+            "TypeError",
+            "Cannot destructure non-array value",
+          ),
         );
       }
 

@@ -19,7 +19,10 @@ const arrayProtoFindDeclaration: IntrinsicPropertyDeclaration = {
 
     if (!isStaticJsFunction(callback)) {
       return ThrowCompletion(
-        realm.types.string(`${callback.toString()} is not a function`),
+        realm.types.error(
+          "TypeError",
+          `${callback.toString()} is not a function`,
+        ),
       );
     }
 

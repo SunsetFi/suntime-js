@@ -12,7 +12,10 @@ export default function* identifierNodeEvaluator(
   if (!hasBinding) {
     // FIXME: Use real error.
     return ThrowCompletion(
-      context.realm.types.string(`ReferenceError: ${node.name} is not defined`),
+      context.realm.types.error(
+        "ReferenceError",
+        `${node.name} is not defined`,
+      ),
     );
   }
 

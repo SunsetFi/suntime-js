@@ -106,9 +106,7 @@ describe("E2E: Functions", () => {
       const code = `
         a();
       `;
-      expect(() => evaluateProgram(code)).toThrow(
-        "ReferenceError: a is not defined",
-      );
+      expect(() => evaluateProgram(code)).toThrow("a is not defined");
     });
   });
 

@@ -29,7 +29,8 @@ export default function* arrayExpressionNodeEvaluator(
         // FIXME: This is allowed if there is an Iterator.
         // FIXME: Use real error.
         return ThrowCompletion(
-          context.realm.types.string(
+          context.realm.types.error(
+            "TypeError",
             `Cannot spread non-array value (spreading ${nameNode(element)}).`,
           ),
         );

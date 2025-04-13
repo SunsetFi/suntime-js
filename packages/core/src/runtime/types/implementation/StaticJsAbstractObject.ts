@@ -1,5 +1,9 @@
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
-import { EvaluationGenerator } from "../../../evaluator/internal.js";
+import {
+  EvaluationGenerator,
+  NormalCompletion,
+  ThrowCompletion,
+} from "../../../evaluator/internal.js";
 import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
@@ -61,13 +65,15 @@ export default abstract class StaticJsAbstractObject
 
   *setPrototypeOfEvaluator(
     proto: StaticJsObjectLike | null,
-  ): EvaluationGenerator<void> {
+  ): EvaluationGenerator {
     if (!this._extensible) {
-      // TODO: Use a real error
-      throw new Error("Object is not extensible.");
+      return ThrowCompletion(
+        this.realm.types.error("TypeError", "Object is not extensible."),
+      );
     }
 
     this._prototype = proto;
+    return NormalCompletion(null);
   }
 
   preventExtensions(): void {

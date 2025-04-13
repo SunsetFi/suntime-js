@@ -15,8 +15,9 @@ const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, _thisArg, targetValue, propertiesValue) {
     if (!isStaticJsObjectLike(targetValue)) {
       return ThrowCompletion(
-        realm.types.string(
-          "TypeError: Object.defineProperties called on non-object",
+        realm.types.error(
+          "TypeError",
+          "Object.defineProperties called on non-object",
         ),
       );
     }
@@ -29,8 +30,9 @@ const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
       const descriptorObj = yield* propertiesObj.getPropertyEvaluator(key);
       if (!isStaticJsObjectLike(descriptorObj)) {
         return ThrowCompletion(
-          realm.types.string(
-            "TypeError: Property description must be an object",
+          realm.types.error(
+            "TypeError",
+            "Property description must be an object",
           ),
         );
       }

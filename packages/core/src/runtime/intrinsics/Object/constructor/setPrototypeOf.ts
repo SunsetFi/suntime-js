@@ -1,7 +1,4 @@
-import {
-  NormalCompletion,
-  ThrowCompletion,
-} from "../../../../evaluator/internal.js";
+import { ThrowCompletion } from "../../../../evaluator/internal.js";
 import {
   isStaticJsNull,
   isStaticJsObjectLike,
@@ -21,19 +18,14 @@ const objectCtorSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
       proto = null;
     } else {
       return ThrowCompletion(
-        realm.types.string("Object prototype may only be an Object or null"),
+        realm.types.error(
+          "TypeError",
+          "Object prototype may only be an Object or null",
+        ),
       );
     }
 
-    if (!obj.extensible) {
-      return ThrowCompletion(
-        realm.types.string("Cannot set prototype of a non-extensible object"),
-      );
-    }
-
-    yield* obj.setPrototypeOfEvaluator(proto);
-
-    return NormalCompletion(obj);
+    return yield* obj.setPrototypeOfEvaluator(proto);
   },
 };
 

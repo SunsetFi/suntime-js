@@ -63,10 +63,12 @@ function* deleteExpressionNodeEvaluator(
     });
 
     if (!isStaticJsObjectLike(object)) {
-      // FIXME: Use real error.
       // FIXME: This might actualy be allowed... Delete is weird.
       return ThrowCompletion(
-        context.realm.types.string("Cannot delete property of non-object."),
+        context.realm.types.error(
+          "TypeError",
+          "Cannot delete property of non-object.",
+        ),
       );
     }
 

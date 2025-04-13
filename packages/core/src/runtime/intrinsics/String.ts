@@ -148,8 +148,9 @@ export function populateStringPrototype(
       "startsWith",
       function* (thisArg: StaticJsValue, value: StaticJsValue) {
         if (!isStaticJsValue(value)) {
-          // FIXME: throw real error.
-          return ThrowCompletion(realm.types.string("Value must be a string"));
+          return ThrowCompletion(
+            realm.types.error("TypeError", "Value must be a string"),
+          );
         }
 
         const result = thisArg.toString().startsWith(value.toString());
@@ -168,8 +169,9 @@ export function populateStringPrototype(
       "endsWith",
       function* (thisArg: StaticJsValue, value: StaticJsValue) {
         if (!isStaticJsValue(value)) {
-          // FIXME: throw real error.
-          return ThrowCompletion(realm.types.string("Value must be a string"));
+          return ThrowCompletion(
+            realm.types.error("TypeError", "Value must be a string"),
+          );
         }
 
         const result = thisArg.toString().endsWith(value.toString());
@@ -188,8 +190,9 @@ export function populateStringPrototype(
       "includes",
       function* (thisArg: StaticJsValue, value: StaticJsValue) {
         if (!isStaticJsValue(value)) {
-          // FIXME: throw real error.
-          return ThrowCompletion(realm.types.string("Value must be a string"));
+          return ThrowCompletion(
+            realm.types.error("TypeError", "Value must be a string"),
+          );
         }
 
         const result = thisArg.toString().includes(value.toString());
@@ -208,8 +211,9 @@ export function populateStringPrototype(
       "repeat",
       function* (thisArg: StaticJsValue, value: StaticJsValue) {
         if (!isStaticJsValue(value)) {
-          // FIXME: throw real error.
-          return ThrowCompletion(realm.types.string("Value must be a string"));
+          return ThrowCompletion(
+            realm.types.error("TypeError", "Value must be a string"),
+          );
         }
 
         const result = thisArg.toString().repeat(value.toNumber());

@@ -19,8 +19,9 @@ const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
 
     if (args.length + length > MAX_ARRAY_LENGTH) {
       return ThrowCompletion(
-        realm.types.string(
-          `TypeError: Pushing ${args.length} elements on an array-like of length ${length} is disallowed, as the total surpasses the maximum array length.`,
+        realm.types.error(
+          "TypeError",
+          `Pushing ${args.length} elements on an array-like of length ${length} is disallowed, as the total surpasses the maximum array length.`,
         ),
       );
     }

@@ -23,18 +23,18 @@ export default function* memberExpressionNodeEvaluator(
   });
 
   if (isStaticJsNull(target)) {
-    // FIXME: Use real error.
     return ThrowCompletion(
-      context.realm.types.string(
+      context.realm.types.error(
+        "TypeError",
         `Cannot read properties of null (reading '${nameNode(propertyNode)}')`,
       ),
     );
   }
 
   if (isStaticJsUndefined(target)) {
-    // FIXME: Use real error.
     return ThrowCompletion(
-      context.realm.types.string(
+      context.realm.types.error(
+        "TypeError",
         `Cannot read properties of undefined (reading '${nameNode(propertyNode)}')`,
       ),
     );

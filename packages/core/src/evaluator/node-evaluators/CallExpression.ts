@@ -34,9 +34,9 @@ export default function* callExpressionNodeEvaluator(
   });
 
   if (!isStaticJsFunction(callee)) {
-    // FIXME: Use real error.
     return ThrowCompletion(
-      context.realm.types.string(
+      context.realm.types.error(
+        "TypeError",
         `TypeError: ${nameNode(node.callee)} is not a function`,
       ),
     );

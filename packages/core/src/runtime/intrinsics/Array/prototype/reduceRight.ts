@@ -1,4 +1,7 @@
-import { NormalCompletion } from "../../../../evaluator/internal.js";
+import {
+  NormalCompletion,
+  ThrowCompletion,
+} from "../../../../evaluator/internal.js";
 import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
 import {
   isStaticJsArray,
@@ -8,16 +11,17 @@ import {
   StaticJsArray,
   StaticJsValue,
 } from "../../../types/index.js";
-import createTypeErrorCompletion from "../../errors/TypeError.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoReduceRightDeclaration: IntrinsicPropertyDeclaration = {
   name: "reduceRight",
   *func(realm, thisArg, callback, initialValue) {
     if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
-      return createTypeErrorCompletion(
-        "Array.prototype.reduce called on null or undefined",
-        realm,
+      return ThrowCompletion(
+        realm.types.error(
+          "TypeError",
+          "Array.prototype.reduce called on null or undefined",
+        ),
       );
     }
 
@@ -39,18 +43,22 @@ const arrayProtoReduceRightDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (!isStaticJsFunction(callback)) {
-      return createTypeErrorCompletion(
-        `${callback.toString()} is not a function`,
-        realm,
+      return ThrowCompletion(
+        realm.types.error(
+          "TypeError",
+          `${callback.toString()} is not a function`,
+        ),
       );
     }
 
     const length = yield* thisArray.getLengthEvaluator();
     if (length === 0) {
       if (initialValue == null) {
-        return createTypeErrorCompletion(
-          "Reduce of empty array with no initial value",
-          realm,
+        return ThrowCompletion(
+          realm.types.error(
+            "TypeError",
+            "Reduce of empty array with no initial value",
+          ),
         );
       }
 
