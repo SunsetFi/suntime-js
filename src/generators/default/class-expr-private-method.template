@@ -1,0 +1,65 @@
+// Copyright (C) 2018 Bloomberg LP. All rights reserved.
+// This code is governed by the BSD license found in the LICENSE file.
+/*---
+path: language/expressions/class/elements/gen-private-method/
+name: Generator private method as a ClassExpression element
+esid: prod-GeneratorPrivateMethod
+info: |
+  ClassElement :
+    PrivateMethodDefinition
+
+  MethodDefinition :
+    GeneratorMethod
+
+  14.4 Generator Function Definitions
+
+  GeneratorMethod :
+    * PropertyName ( UniqueFormalParameters ) { GeneratorBody }
+features: [generators, class-methods-private]
+---*/
+
+var callCount = 0;
+
+var C = class {
+    *#gen() {
+        callCount += 1;
+        /*{ body }*/
+    }
+    get gen() { return this.#gen; }
+}
+
+const c = new C();
+
+// Test the private fields do not appear as properties before set to value
+assert(
+  !Object.prototype.hasOwnProperty.call(C.prototype, "#gen"),
+  "Private field '#gen' does not appear as an own property on C prototype"
+);
+assert(
+  !Object.prototype.hasOwnProperty.call(C, "#gen"),
+  "Private field '#gen' does not appear as an own property on C constructor"
+);
+assert(
+  !Object.prototype.hasOwnProperty.call(c, "#gen"),
+  "Private field '#gen' does not appear as an own property on C instance"
+);
+
+var iter = c.gen();
+
+/*{ assertions }*/
+
+assert.sameValue(callCount, 1);
+
+// Test the private fields do not appear as properties after set to value
+assert(
+  !Object.prototype.hasOwnProperty.call(C.prototype, "#gen"),
+  "Private field '#gen' does not appear as an own property on C prototype"
+);
+assert(
+  !Object.prototype.hasOwnProperty.call(C, "#gen"),
+  "Private field '#gen' does not appear as an own property on C constructor"
+);
+assert(
+  !Object.prototype.hasOwnProperty.call(c, "#gen"),
+  "Private field '#gen' does not appear as an own property on C instance"
+);

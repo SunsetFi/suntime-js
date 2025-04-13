@@ -1,0 +1,84 @@
+// Copyright (C) 2017 the V8 project authors, 2017 Igalia S.L. All rights reserved.
+// This code is governed by the BSD license found in the LICENSE file.
+
+/*---
+desc: Computed property symbol names
+info: |
+  ClassElement:
+    ...
+    FieldDefinition ;
+
+  FieldDefinition:
+    ClassElementName Initializer_opt
+
+  ClassElementName:
+    PropertyName
+template: productions
+includes: [propertyHelper.js]
+features: [class-fields-public, Symbol, computed-property-names]
+---*/
+
+//- setup
+var x = Symbol();
+var y = Symbol();
+
+//- elements
+[x]; [y] = 42
+//- assertions
+assert(
+  !Object.prototype.hasOwnProperty.call(C.prototype, x),
+  "Symbol x doesn't appear as an own property on C prototype"
+);
+assert(
+  !Object.prototype.hasOwnProperty.call(C, x),
+  "Symbol x doesn't appear as an own property on C constructor"
+);
+
+verifyProperty(c, x, {
+  value: undefined,
+  enumerable: true,
+  writable: true,
+  configurable: true
+});
+
+assert(
+  !Object.prototype.hasOwnProperty.call(C.prototype, y),
+  "Symbol y doesn't appear as an own property on C prototype"
+);
+assert(
+  !Object.prototype.hasOwnProperty.call(C, y),
+  "Symbol y doesn't appear as an own property on C constructor"
+);
+
+verifyProperty(c, y, {
+  value: 42,
+  enumerable: true,
+  writable: true,
+  configurable: true
+});
+
+assert(
+  !Object.prototype.hasOwnProperty.call(C.prototype, "x"),
+  "x doesn't appear as an own property on C prototype"
+);
+assert(
+  !Object.prototype.hasOwnProperty.call(C, "x"),
+  "x doesn't appear as an own property on C constructor"
+);
+assert(
+  !Object.prototype.hasOwnProperty.call(c, "x"),
+  "x doesn't appear as an own property on C instance"
+);
+
+assert(
+  !Object.prototype.hasOwnProperty.call(C.prototype, "y"),
+  "y doesn't appear as an own property on C prototype"
+);
+assert(
+  !Object.prototype.hasOwnProperty.call(C, "y"),
+  "y doesn't appear as an own property on C constructor"
+);
+assert(
+  !Object.prototype.hasOwnProperty.call(c, "y"),
+  "y doesn't appear as an own property on C instance"
+);

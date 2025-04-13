@@ -1,0 +1,55 @@
+// Copyright (C) 2017 the V8 project authors, 2017 Igalia S.L. All rights reserved.
+// This code is governed by the BSD license found in the LICENSE file.
+
+/*---
+desc: Literal property names with ASI
+info: |
+  ClassElement:
+    ...
+    FieldDefinition ;
+
+  FieldDefinition:
+    ClassElementName Initializer_opt
+
+  ClassElementName:
+    PropertyName
+template: productions
+includes: [propertyHelper.js]
+features: [class-fields-public]
+---*/
+
+//- elements
+a
+b = 42;
+//- assertions
+assert(
+  !Object.prototype.hasOwnProperty.call(C.prototype, "a"),
+  "a doesn't appear as an own property on C prototype"
+);
+assert(
+  !Object.prototype.hasOwnProperty.call(C, "a"),
+  "a doesn't appear as an own property on C constructor"
+);
+
+verifyProperty(c, "a", {
+  value: undefined,
+  enumerable: true,
+  writable: true,
+  configurable: true
+});
+
+assert(
+  !Object.prototype.hasOwnProperty.call(C.prototype, "b"),
+  "b doesn't appear as an own property on C prototype"
+);
+assert(
+  !Object.prototype.hasOwnProperty.call(C, "b"),
+  "b doesn't appear as an own property on C constructor"
+);
+
+verifyProperty(c, "b", {
+  value: 42,
+  enumerable: true,
+  writable: true,
+  configurable: true
+});
