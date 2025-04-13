@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { evaluateProgram } from "../src/index.js";
+import { evaluateProgram } from "../../src/index.js";
 
 describe("Prototype chain and object behavior", () => {
   it("inherits properties from prototype", () => {

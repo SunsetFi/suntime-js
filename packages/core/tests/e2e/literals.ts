@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateExpression } from "../src/index.js";
+import { evaluateExpression } from "../../src/index.js";
 
 describe("E2E: Literals", () => {
   describe("Number", () => {

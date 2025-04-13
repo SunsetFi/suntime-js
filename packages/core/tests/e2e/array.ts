@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateProgram } from "../src/index.js";
-import hasOwnProperty from "../src/internal/has-own-property.js";
+import { evaluateProgram } from "../../src/index.js";
 
 describe("E2E: Arrays", () => {
   it("Can declare an array", () => {
@@ -20,7 +19,7 @@ describe("E2E: Arrays", () => {
     `;
     const result = evaluateProgram(code);
     expect(result).toEqual([1, undefined, 3]);
-    expect(hasOwnProperty(result, "1")).toEqual(false);
+    expect(Object.hasOwn(result, "1")).toEqual(false);
   });
 
   it("Can declare an array with a single element", () => {
@@ -898,7 +897,7 @@ describe("E2E: Arrays", () => {
         `;
         const result = evaluateProgram(code);
         expect(result).toEqual([2, undefined, 4]);
-        expect(hasOwnProperty(result, "1")).toEqual(false);
+        expect(Object.hasOwn(result, "1")).toEqual(false);
       });
     });
 
@@ -1005,7 +1004,7 @@ describe("E2E: Arrays", () => {
         `;
         const result = evaluateProgram(code);
         expect(result).toEqual([1, 2, undefined, 4]);
-        expect(hasOwnProperty(result, "2")).toEqual(false);
+        expect(Object.hasOwn(result, "2")).toEqual(false);
       });
 
       it("Pushes arrays", () => {
@@ -1181,7 +1180,7 @@ describe("E2E: Arrays", () => {
         `;
         const result = evaluateProgram(code);
         expect(result).toEqual([undefined, 2, 1]);
-        expect(hasOwnProperty(result, "0")).toEqual(false);
+        expect(Object.hasOwn(result, "0")).toEqual(false);
       });
     });
 
@@ -1215,7 +1214,7 @@ describe("E2E: Arrays", () => {
         `;
         const result = evaluateProgram(code);
         expect(result).toEqual([undefined, 3]);
-        expect(hasOwnProperty(result, "0")).toEqual(false);
+        expect(Object.hasOwn(result, "0")).toEqual(false);
       });
 
       it("Returns undefined for empty items", () => {
@@ -1320,7 +1319,7 @@ describe("E2E: Arrays", () => {
         `;
         const result = evaluateProgram(code);
         expect(result).toEqual([1, undefined]);
-        expect(hasOwnProperty(result, "1")).toEqual(false);
+        expect(Object.hasOwn(result, "1")).toEqual(false);
       });
     });
 
@@ -1344,7 +1343,7 @@ describe("E2E: Arrays", () => {
         `;
         const result = evaluateProgram(code);
         expect(result).toEqual([2, 3, undefined]);
-        expect(hasOwnProperty(result, "2")).toEqual(false);
+        expect(Object.hasOwn(result, "2")).toEqual(false);
       });
 
       it("Supports a comparison function", () => {
@@ -1366,7 +1365,7 @@ describe("E2E: Arrays", () => {
         `;
         const result = evaluateProgram(code);
         expect(result).toEqual([3, 2, undefined]);
-        expect(hasOwnProperty(result, "2")).toEqual(false);
+        expect(Object.hasOwn(result, "2")).toEqual(false);
       });
 
       it("returns the mutated array", () => {
@@ -1542,7 +1541,7 @@ describe("E2E: Arrays", () => {
         `;
         const result = evaluateProgram(code);
         expect(result).toEqual([0, 1, undefined, 3]);
-        expect(hasOwnProperty(result, "2")).toEqual(false);
+        expect(Object.hasOwn(result, "2")).toEqual(false);
       });
     });
   });

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateProgram } from "../src/index.js";
+import { evaluateProgram } from "../../src/index.js";
 
 describe("E2E: Booleans", () => {
   describe("Casting", () => {

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateProgram } from "../src/index.js";
+import { evaluateProgram } from "../../src/index.js";
 
 describe("E2E: Constructors", () => {
   it("calls a function with new and sets properties on `this`", () => {

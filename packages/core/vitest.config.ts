@@ -6,7 +6,7 @@ export default defineConfig({
     tsconfigRaw: readFileSync("./tsconfig.spec.json", "utf-8"),
   },
   test: {
-    include: ["./e2e/**/*.ts", "./src/**/*.spec.ts"],
+    include: ["./tests/**/*.ts", "./src/**/*.spec.ts"],
     coverage: {
       provider: "v8",
       reporter: ["text", "json-summary", "json"] as const,
