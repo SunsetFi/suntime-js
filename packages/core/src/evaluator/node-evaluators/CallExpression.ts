@@ -22,27 +22,10 @@ export default function* callExpressionNodeEvaluator(
   let thisArg = yield* context.env.getThisBindingEvaluator();
 
   if (node.callee.type === "MemberExpression") {
-    const calleeObjectResult = yield* EvaluateNodeCommand(
-      node.callee.object,
-      context,
-    );
-    switch (calleeObjectResult.type) {
-      case "throw":
-        return calleeObjectResult;
-      case "normal":
-        if (!calleeObjectResult.value) {
-          throw new StaticJsEngineError(
-            "Expected callee member expression normal completion to return a value, but got undefined",
-          );
-        }
-        thisArg = calleeObjectResult.value;
-        break;
-      default:
-        throw new StaticJsEngineError(
-          "Expected callee memebr expression object to return throw or normal completion, but got " +
-            calleeObjectResult.type,
-        );
-    }
+    thisArg = yield* EvaluateNodeCommand(node.callee.object, context, {
+      rethrow: true,
+      forNormalValue: "CallExpression.callee.object",
+    });
   }
 
   const callee = yield* EvaluateNodeCommand(node.callee, context, {

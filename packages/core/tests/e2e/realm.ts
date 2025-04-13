@@ -63,5 +63,12 @@ describe("E2E: Realm", () => {
       const result = evaluateProgram("fn()", { realm });
       expect(result).toEqual(42);
     });
+
+    it("Persists globals across invocations", () => {
+      const realm = StaticJsRealm();
+      evaluateProgram("global.x = 42;", { realm });
+      const result = evaluateProgram("x", { realm });
+      expect(result).toEqual(42);
+    });
   });
 });

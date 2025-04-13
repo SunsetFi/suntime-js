@@ -59,6 +59,33 @@ describe("E2E: Functions", () => {
       `;
       expect(evaluateProgram(code)).toBe(42);
     });
+
+    it("Keeps top-level functions on the global object", () => {
+      const code = `
+          function a() {
+            return 42;
+          }
+          global.a;  
+        `;
+      expect(evaluateProgram(code)).toBeInstanceOf(Function);
+    });
+
+    it("Can access a function from one evaluation in another", () => {
+      const realm = StaticJsRealm();
+      evaluateProgram("function x() { return 42; }", { realm });
+      expect(evaluateProgram("x()", { realm })).toEqual(42);
+    });
+
+    it("Can contain properties", () => {
+      const code = `
+        function a() {
+          return 42;
+        }
+        a.prop = 42;
+        a.prop;
+      `;
+      expect(evaluateProgram(code)).toBe(42);
+    });
   });
 
   describe("Invalid Calls", () => {

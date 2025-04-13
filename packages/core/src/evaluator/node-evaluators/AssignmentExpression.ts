@@ -138,13 +138,21 @@ export default function* assignmentExpressionNodeEvaluator(
       break;
   }
 
-  yield* setLVal(left, value, context, function* (name, value) {
-    yield* context.env.setMutableBindingEvaluator(
-      name,
-      value,
-      context.realm.strict,
-    );
-  });
+  const setResult = yield* setLVal(
+    left,
+    value,
+    context,
+    function* (name, value) {
+      yield* context.env.setMutableBindingEvaluator(
+        name,
+        value,
+        context.realm.strict,
+      );
+    },
+  );
+  if (setResult.type === "throw") {
+    return setResult;
+  }
 
   // Pass the value for chaining.
   // It is proper to pass the resolved value, even if the binding set didn't change the value.

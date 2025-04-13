@@ -17,6 +17,12 @@ export default interface StaticJsEnvironment {
     strict: boolean,
   ): EvaluationGenerator<void>;
 
+  createFunctionBinding(name: string, func: StaticJsValue): void;
+  createFunctionBindingEvaluator(
+    name: string,
+    func: StaticJsValue,
+  ): EvaluationGenerator<void>;
+
   canDeclareGlobalVar(name: string): boolean;
   canDeclareGlobalVarEvaluator(name: string): EvaluationGenerator<boolean>;
 

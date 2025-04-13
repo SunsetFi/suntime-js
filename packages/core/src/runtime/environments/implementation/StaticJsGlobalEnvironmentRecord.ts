@@ -85,6 +85,17 @@ export default class StaticJsGlobalEnvironmentRecord
     yield* this._declarativeRecord.createImmutableBindingEvaluator(name);
   }
 
+  createFunctionBinding(name: string, func: StaticJsValue): void {
+    return runEvaluatorUntilCompletion(
+      this.createFunctionBindingEvaluator(name, func),
+    );
+  }
+
+  *createFunctionBindingEvaluator(name: string, value: StaticJsValue) {
+    yield* this._objectRecord.createMutableBindingEvaluator(name, false);
+    yield* this._objectRecord.setMutableBindingEvaluator(name, value, true);
+  }
+
   canDeclareGlobalVar(name: string): boolean {
     return runEvaluatorUntilCompletion(this.canDeclareGlobalVarEvaluator(name));
   }

@@ -181,17 +181,11 @@ export default function* setLVal(
         );
       }
 
-      const object = yield* EvaluateNodeCommand(lval.object, context, {
+      const objectValue = yield* EvaluateNodeCommand(lval.object, context, {
         rethrow: true,
         forNormalValue: "MemberExpression.object",
       });
 
-      if (!isStaticJsObject(object)) {
-        // FIXME: Use real error.
-        return ThrowCompletion(
-          context.realm.types.string("Cannot set property on non-object"),
-        );
-      }
       if (!value) {
         // null values are only used for declarations.
         // Does this ever come up in the syntax?
@@ -208,6 +202,8 @@ export default function* setLVal(
         });
         propertyKey = toPropertyKey(property);
       }
+
+      const object = objectValue.toObject();
 
       // FIXME: Is this correct?  We set the object directly???
       yield* object.setPropertyEvaluator(

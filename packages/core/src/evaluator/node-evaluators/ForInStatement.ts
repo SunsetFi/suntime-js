@@ -61,7 +61,7 @@ export default function* forInStatementNodeEvaluator(
       lVal = node.left;
     }
 
-    yield* setLVal(
+    const setResult = yield* setLVal(
       lVal,
       context.realm.types.string(key),
       bodyContext,
@@ -69,6 +69,9 @@ export default function* forInStatementNodeEvaluator(
         yield* bodyEnv.initializeBindingEvaluator(name, value);
       },
     );
+    if (setResult.type === "throw") {
+      return setResult;
+    }
 
     const result = yield* EvaluateNodeCommand(node.body, bodyContext);
     switch (result.type) {

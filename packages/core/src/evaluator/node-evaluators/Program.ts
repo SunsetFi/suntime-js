@@ -33,21 +33,17 @@ function* programNodeEvaluator(
       new StaticJsModuleEnvironmentRecord(context.realm, imports),
       context.env,
     );
+
+    const env = new StaticJsLexicalEnvironment(
+      context.realm,
+      new StaticJsDeclarativeEnvironmentRecord(context.realm),
+      moduleEnv,
+    );
     context = {
       ...context,
-      env: moduleEnv,
+      env,
     };
   }
-
-  const env = new StaticJsLexicalEnvironment(
-    context.realm,
-    new StaticJsDeclarativeEnvironmentRecord(context.realm),
-    context.env,
-  );
-  context = {
-    ...context,
-    env,
-  };
 
   for (const statement of node.body) {
     yield* setupEnvironment(statement, context);

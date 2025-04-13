@@ -98,6 +98,17 @@ export default abstract class StaticJsBaseEnvironmentRecord
     }
   }
 
+  createFunctionBinding(name: string, value: StaticJsValue): void {
+    runEvaluatorUntilCompletion(
+      this.createFunctionBindingEvaluator(name, value),
+    );
+  }
+
+  *createFunctionBindingEvaluator(name: string, value: StaticJsValue) {
+    yield* this.createMutableBindingEvaluator(name, false);
+    yield* this.setMutableBindingEvaluator(name, value, true);
+  }
+
   setMutableBinding(name: string, value: StaticJsValue, strict: boolean): void {
     runEvaluatorUntilCompletion(
       this.setMutableBindingEvaluator(name, value, strict),

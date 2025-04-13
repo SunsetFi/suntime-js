@@ -58,6 +58,17 @@ export function environmentToBindingProvider(
       return env.createImmutableBindingEvaluator(name, strict);
     },
 
+    createFunctionBinding(name: string, value: StaticJsValue): void {
+      env.createFunctionBinding(name, value);
+    },
+
+    createFunctionBindingEvaluator(
+      name: string,
+      value: StaticJsValue,
+    ): EvaluationGenerator<void> {
+      return env.createFunctionBindingEvaluator(name, value);
+    },
+
     canDeclareGlobalVar(name: string): boolean {
       return env.canDeclareGlobalVar(name);
     },

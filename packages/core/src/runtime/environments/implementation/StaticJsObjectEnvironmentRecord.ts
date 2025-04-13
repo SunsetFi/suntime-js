@@ -17,18 +17,12 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
     name: string,
     deletable: boolean,
   ): EvaluationGenerator<void> {
-    if (!deletable) {
-      throw new Error(
-        "Non-deletable bindings are not supported in object environments.",
-      );
-    }
-
-    // FIXME: What to use for strict?
-    yield* this._obj.setPropertyEvaluator(
-      name,
-      this.realm.types.undefined,
-      true,
-    );
+    yield* this._obj.definePropertyEvaluator(name, {
+      value: this.realm.types.undefined,
+      writable: true,
+      enumerable: true,
+      configurable: deletable,
+    });
   }
 
   *createImmutableBindingEvaluator(_name: string): EvaluationGenerator<void> {
