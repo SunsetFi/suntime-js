@@ -3,10 +3,12 @@ import { readFileSync } from "fs";
 
 export default defineConfig({
   esbuild: {
-    tsconfigRaw: readFileSync("./tsconfig.spec.json", "utf-8"),
+    tsconfigRaw: readFileSync("../tsconfig.json", "utf-8"),
   },
   test: {
-    include: ["./tests/**/*.ts", "./src/**/*.spec.ts"],
+    name: "Test262",
+    include: ["./**/*.ts"],
+    exclude: ["./utils/*.ts"],
     coverage: {
       provider: "v8",
       reporter: ["text", "json-summary", "json"] as const,
