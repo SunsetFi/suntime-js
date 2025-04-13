@@ -1,0 +1,23 @@
+// Copyright (C) 2020 Rick Waldron. All rights reserved.
+// This code is governed by the BSD license found in the LICENSE file.
+
+/*---
+esid: sec-exp-operator-static-semantics-assignmenttargettype
+desc: >
+  Static Semantics AssignmentTargetType, Return invalid.
+info: |
+  UpdateExpression ** ExponentiationExpression
+  Static Semantics AssignmentTargetType, Return invalid.
+template: invalid
+features: [exponentiation]
+negative: 
+  phase: parse
+  type: SyntaxError
+---*/
+
+//- assignmenttarget
+1 ** 2
+//- operator
+=
+//- value
+1
