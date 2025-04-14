@@ -3,14 +3,19 @@ import { basename } from "node:path";
 
 import { parseFile as parseTest262 } from "test262-parser";
 
-import { describe, it } from "vitest";
-import test262Path from "./utils/test262-path";
-import getFilesSync from "./utils/get-files";
+import { describe, it, expect } from "vitest";
 
-import { compileProgram, StaticJsRealm } from "../../src/index.js";
-import bootstrapTest262 from "./utils/bootstrap";
+import test262Path from "./utils/test262-path.js";
+import getFilesSync from "./utils/get-files.js";
 
-const ignoreFeatures = ["async-functions"];
+import {
+  compileProgram,
+  StaticJsCompilation,
+  StaticJsRealm,
+} from "../../src/index.js";
+import bootstrapTest262 from "./utils/bootstrap.js";
+
+// const ignoreFeatures = ["async-functions"];
 
 const LanguageCategories = readdirSync(test262Path("test/language"));
 
@@ -47,34 +52,86 @@ function defineTest(test: string) {
     return;
   }
 
-  if (
-    testMeta.attrs.features?.some((feature) => ignoreFeatures.includes(feature))
-  ) {
-    it.skip("Ignored feature: " + testName, () => {});
-    return;
-  }
+  // if (
+  //   testMeta.attrs.features?.some((feature) => ignoreFeatures.includes(feature))
+  // ) {
+  //   it.skip("Ignored feature: " + testName, () => {});
+  //   return;
+  // }
 
   if (testMeta.async) {
     it.skip("Ignored async test: " + testName, () => {});
     return;
   }
 
+  if (testMeta.attrs.negative?.type === "resolution") {
+    it.skip("Ignored negative resolution test: " + testName, () => {});
+    return;
+  }
+
+  if (testMeta.attrs.flags.module) {
+    it.skip("Ignored module test: " + testName, () => {});
+    return;
+  }
+
+  // TODO: Run in strict and nostrict mode
+  // (Unless noStrict, onlyStrict, module, raw)
+  // See repo/INTERPRETING.md
   it(testName, () => {
     const realm = StaticJsRealm();
-    bootstrapTest262(realm);
+    createHostApi(realm);
+
+    const includes = testMeta.attrs.includes;
+    if (!testMeta.attrs.flags.raw) {
+      includes.unshift("sta.js", "assert.js");
+    }
+    bootstrapTest262(realm, includes);
+
+    let compiled: StaticJsCompilation;
+    try {
+      compiled = compileProgram(testMeta.contents);
+    } catch (e: unknown) {
+      if (e instanceof Error == false) {
+        throw e;
+      }
+
+      if (testMeta.attrs.negative?.phase === "parse") {
+        expect(e.name).toBe(testMeta.attrs.negative.type);
+        return;
+      }
+
+      throw e;
+    }
+
+    if (testMeta.attrs.negative?.phase === "parse") {
+      throw new Error("Test should have failed to parse, but it did not.");
+    }
 
     try {
-      const compiled = compileProgram(testMeta.contents);
-      runTimeBound(compiled.generator(realm), 3000);
+      runTimeBound(compiled.generator({ realm }), 3000);
       if (testMeta.attrs.negative) {
-        throw new Error("Test should have failed");
+        throw new Error("Test should have failed to run, but it did not.");
       }
     } catch (e) {
-      if (testMeta.attrs.negative) {
+      if (e instanceof Error == false) {
+        throw e;
+      }
+
+      if (testMeta.attrs.negative?.phase === "runtime") {
+        expect(e.name).toBe(testMeta.attrs.negative.type);
         return;
       }
       throw e;
     }
+  });
+}
+
+function createHostApi(realm: StaticJsRealm) {
+  realm.globalObject.defineProperty("print", {
+    writable: true,
+    configurable: true,
+    enumerable: false,
+    value: realm.types.toStaticJsValue((value: string) => console.log(value)),
   });
 }
 

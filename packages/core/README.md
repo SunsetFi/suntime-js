@@ -54,6 +54,12 @@ No idea. I haven't had this security tested or reviewed. While this approach giv
 - Exporting modules
 - Importing other script modules
 
+## Test262 coverage
+
+This project is slowly working its way through the [Test262](https://github.com/tc39/test262) suite of JavaScript tests.
+
+As of 4-13-2025, 24% of the 23605 tests are passing.
+
 ## Usage
 
 There are two ways to evaluate scripts, depending on your needs:

@@ -1,8 +1,12 @@
 import { StaticJsRealm } from "../../runtime/index.js";
 
+export interface EvaluationOptions {
+  realm?: StaticJsRealm;
+}
+
 export default interface StaticJsCompilation {
-  evaluate(realm?: StaticJsRealm): unknown;
+  evaluate(opts?: EvaluationOptions): unknown;
 
   // TODO: generator() to get a step-by-step evaluation generator supporting introspection for debugging.
-  generator(realm?: StaticJsRealm): Generator<void, unknown, void>;
+  generator(opts?: EvaluationOptions): Generator<void, unknown, void>;
 }

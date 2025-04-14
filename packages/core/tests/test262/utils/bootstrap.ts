@@ -3,22 +3,23 @@ import { evaluateProgram, StaticJsRealm } from "../../../src/index.js";
 
 import test262Path from "./test262-path.js";
 
-let harnessSta: string | null = null;
-let harnessAssert: string | null = null;
-
-export default function bootstrapTest262(realm: StaticJsRealm): StaticJsRealm {
-  if (!harnessSta) {
-    harnessSta = readFileSync(test262Path("harness/sta.js"), "utf-8");
+const harnessMap = new Map<string, string>();
+function getHarness(name: string): string {
+  if (!harnessMap.has(name)) {
+    const harness = readFileSync(test262Path("harness", name), "utf-8");
+    harnessMap.set(name, harness);
   }
-  if (!harnessAssert) {
-    harnessAssert = readFileSync(
-      new URL("../repo/harness/assert.js", import.meta.url),
-      "utf-8",
-    );
-  }
+  return harnessMap.get(name)!;
+}
 
-  evaluateProgram(harnessSta, { realm });
-  evaluateProgram(harnessAssert, { realm });
+export default function bootstrapTest262(
+  realm: StaticJsRealm,
+  includes: string[],
+): StaticJsRealm {
+  for (const include of includes) {
+    const content = getHarness(include);
+    evaluateProgram(content, { realm });
+  }
 
   return realm;
 }

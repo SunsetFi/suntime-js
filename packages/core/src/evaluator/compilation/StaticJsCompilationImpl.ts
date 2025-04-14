@@ -10,14 +10,18 @@ import {
 
 import evaluateNode from "../node-evaluators/evaluate-node.js";
 
-import StaticJsCompilation from "./StaticJsCompilation.js";
+import StaticJsCompilation, {
+  EvaluationOptions,
+} from "./StaticJsCompilation.js";
 import StaticJsEngineError from "../StaticJsEngineError.js";
 
 export default class StaticJsCompilationImpl implements StaticJsCompilation {
   constructor(private readonly _root: Node) {}
 
-  evaluate(realm: StaticJsRealm = StaticJsRealm()): unknown {
-    if (!isStaticJsRealm(realm)) {
+  evaluate({ realm }: EvaluationOptions = {}): unknown {
+    if (!realm) {
+      realm = StaticJsRealm();
+    } else if (!isStaticJsRealm(realm)) {
       throw new Error("Invalid realm");
     }
 
@@ -50,10 +54,14 @@ export default class StaticJsCompilationImpl implements StaticJsCompilation {
     throw new StaticJsEngineError("Unknown completion type: " + type);
   }
 
-  *generator(
-    realm: StaticJsRealm = StaticJsRealm(),
-  ): Generator<void, unknown, void> {
-    if (!isStaticJsRealm(realm)) {
+  *generator({ realm }: EvaluationOptions = {}): Generator<
+    void,
+    unknown,
+    void
+  > {
+    if (!realm) {
+      realm = StaticJsRealm();
+    } else if (!isStaticJsRealm(realm)) {
       throw new Error("Invalid realm");
     }
 
