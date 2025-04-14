@@ -33,7 +33,7 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
       });
       const start = performance.now();
       const compilation = compileProgram(code);
-      const generator = compilation.generator(realm);
+      const generator = compilation.generator({ realm });
       setCompileTime(performance.now() - start);
       setGenerator(generator);
     } catch (e: any) {
