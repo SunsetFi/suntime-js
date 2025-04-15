@@ -26,7 +26,7 @@ export default class StaticJsArrayImpl
   implements StaticJsArray
 {
   constructor(realm: StaticJsRealm, items: StaticJsValue[] = []) {
-    super(realm, realm.types.arrayProto);
+    super(realm, realm.types.prototypes.arrayProto);
 
     // This is a little suspect... We are using runEvaluatorUntilCompletion for these...
 

@@ -2,11 +2,12 @@ import { Node } from "@babel/types";
 
 import EvaluationContext from "./EvaluationContext.js";
 import EvaluationGenerator from "./EvaluationGenerator.js";
+import ThrowCompletion from "./completions/ThrowCompletion.js";
 
 type NodeEnvironmentSetupCallback<TNode extends Node> = (
   node: TNode,
   context: EvaluationContext,
-) => EvaluationGenerator<boolean>;
+) => EvaluationGenerator<ThrowCompletion | boolean>;
 type NodeEvaluator<TKey extends Node["type"] = Node["type"]> = {
   (
     node: Extract<Node, { type: TKey }>,

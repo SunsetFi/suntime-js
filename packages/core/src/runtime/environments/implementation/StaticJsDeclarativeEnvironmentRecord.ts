@@ -1,4 +1,7 @@
-import { EvaluationGenerator } from "../../../evaluator/internal.js";
+import {
+  EvaluationGenerator,
+  ThrowCompletion,
+} from "../../../evaluator/internal.js";
 
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
@@ -10,18 +13,21 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
   private readonly _bindings: Map<string, DeclarativeEnvironmentBinding> =
     new Map();
 
-  *createMutableBindingEvaluator(
-    name: string,
-    deletable: boolean,
-  ): EvaluationGenerator<void> {
+  *createMutableBindingEvaluator(name: string, deletable: boolean) {
     if (deletable) {
+      // FIXME: Use a throw completion?
       throw new Error(
         "Bindings in declarative environments cannot be deletable.",
       );
     }
 
     if (this._bindings.has(name)) {
-      throw new Error(`Cannot create binding ${name}: Binding already exists.`);
+      return ThrowCompletion(
+        this.realm.types.error(
+          "SyntaxError",
+          `Identifier ${name} has already been declared`,
+        ),
+      );
     }
 
     this._bindings.set(

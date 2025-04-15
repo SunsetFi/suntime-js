@@ -1,9 +1,11 @@
 import StaticJsRealm from "../realm/interfaces/StaticJsRealm.js";
 
 import StaticJsObjectImpl from "../types/implementation/StaticJsObjectImpl.js";
-
-import { StaticJsObject } from "../types/interfaces/StaticJsObject.js";
-import { StaticJsFunction } from "../types/interfaces/StaticJsFunction.js";
+import { StaticJsObjectLike } from "../types/interfaces/StaticJsObject.js";
+import {
+  Constructors,
+  Prototypes,
+} from "../types/interfaces/StaticJsTypeFactory.js";
 
 import {
   createObjectConstructor,
@@ -27,26 +29,15 @@ import {
   createErrorConstructor,
   populateErrorPrototype,
 } from "./Error/index.js";
-
-export interface Prototypes {
-  stringProto: StaticJsObject;
-  numberProto: StaticJsObject;
-  booleanProto: StaticJsObject;
-  objectProto: StaticJsObject;
-  arrayProto: StaticJsObject;
-  functionProto: StaticJsObject;
-  errorProto: StaticJsObject;
-}
-
-export interface Constructors {
-  stringCtor: StaticJsFunction;
-  numberCtor: StaticJsFunction;
-  booleanCtor: StaticJsFunction;
-  objectCtor: StaticJsFunction;
-  arrayCtor: StaticJsObject;
-  functionCtor: StaticJsObject;
-  errorCtor: StaticJsFunction;
-}
+import createTypeErrorConstructor, {
+  populateTypeErrorPrototype,
+} from "./TypeError.js";
+import createReferenceErrorConstructor, {
+  populateReferenceErrorPrototype,
+} from "./ReferenceError.js";
+import createSyntaxErrorConstructor, {
+  populateSyntaxErrorPrototype,
+} from "./SyntaxError.js";
 
 export function createPrototypes(realm: StaticJsRealm): Prototypes {
   // There are some circular references around these, particularly with
@@ -60,6 +51,9 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
   const arrayProto = new StaticJsObjectImpl(realm, objectProto);
 
   const errorProto = new StaticJsObjectImpl(realm, objectProto);
+  const typeErrorProto = new StaticJsObjectImpl(realm, errorProto);
+  const referenceErrorProto = new StaticJsObjectImpl(realm, errorProto);
+  const syntaxErrorProto = new StaticJsObjectImpl(realm, errorProto);
 
   populateObjectPrototype(realm, objectProto, functionProto);
   populateFunctionPrototype(realm, functionProto);
@@ -71,6 +65,9 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
   populateArrayPrototype(realm, arrayProto, functionProto);
 
   populateErrorPrototype(realm, errorProto, functionProto);
+  populateTypeErrorPrototype(realm, typeErrorProto, functionProto);
+  populateReferenceErrorPrototype(realm, referenceErrorProto, functionProto);
+  populateSyntaxErrorPrototype(realm, syntaxErrorProto, functionProto);
 
   return {
     stringProto,
@@ -80,6 +77,9 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
     arrayProto,
     functionProto,
     errorProto,
+    typeErrorProto,
+    referenceErrorProto,
+    syntaxErrorProto,
   };
 }
 
@@ -93,75 +93,80 @@ export function createConstructors(
     functionProto,
     arrayProto,
     errorProto,
+    typeErrorProto,
+    referenceErrorProto,
+    syntaxErrorProto,
   }: Prototypes,
 ): Constructors {
-  const stringCtor = createStringConstructor(realm, stringProto, functionProto);
-  stringProto.defineProperty("constructor", {
-    value: stringCtor,
-    writable: true,
-    enumerable: false,
-    configurable: true,
-  });
-
-  const numberCtor = createNumberConstructor(realm, numberProto, functionProto);
-  numberProto.defineProperty("constructor", {
-    value: numberCtor,
-    writable: true,
-    enumerable: false,
-    configurable: true,
-  });
-
-  const booleanCtor = createBooleanConstructor(
+  const String = createStringConstructor(realm, stringProto, functionProto);
+  const Number = createNumberConstructor(realm, numberProto, functionProto);
+  const Boolean = createBooleanConstructor(realm, booleanProto, functionProto);
+  const Object = createObjectConstructor(realm, objectProto, functionProto);
+  const Array = createArrayConstructor(realm, arrayProto);
+  const Function = createFunctionConstructor(realm, functionProto);
+  const Error = createErrorConstructor(realm, errorProto, functionProto);
+  const TypeError = createTypeErrorConstructor(
     realm,
-    booleanProto,
+    typeErrorProto,
     functionProto,
   );
-  booleanProto.defineProperty("constructor", {
-    value: booleanCtor,
-    writable: true,
-    enumerable: false,
-    configurable: true,
-  });
-
-  const objectCtor = createObjectConstructor(realm, objectProto, functionProto);
-  objectProto.defineProperty("constructor", {
-    value: objectCtor,
-    writable: true,
-    enumerable: false,
-    configurable: true,
-  });
-
-  const arrayCtor = createArrayConstructor(realm, arrayProto);
-  arrayProto.defineProperty("constructor", {
-    value: arrayCtor,
-    writable: true,
-    enumerable: false,
-    configurable: true,
-  });
-
-  const functionCtor = createFunctionConstructor(realm, functionProto);
-  functionProto.defineProperty("constructor", {
-    value: functionCtor,
-    writable: true,
-    enumerable: false,
-    configurable: true,
-  });
-
-  const errorCtor = createErrorConstructor(realm, errorProto, functionProto);
-  errorProto.defineProperty("constructor", {
-    value: errorCtor,
-    writable: true,
-    enumerable: false,
-    configurable: true,
-  });
+  const ReferenceError = createReferenceErrorConstructor(
+    realm,
+    referenceErrorProto,
+    functionProto,
+  );
+  const SyntaxError = createSyntaxErrorConstructor(
+    realm,
+    syntaxErrorProto,
+    functionProto,
+  );
 
   return {
-    stringCtor,
-    numberCtor,
-    booleanCtor,
-    objectCtor,
-    arrayCtor,
-    functionCtor,
-    errorCtor,
+    String,
+    Number,
+    Boolean,
+    Object,
+    Array,
+    Function,
+    Error,
+    TypeError,
+    ReferenceError,
+    SyntaxError,
   };
+}
+
+export function defineGlobalProperties(
+  realm: StaticJsRealm,
+  globalObject: StaticJsObjectLike,
+  constructors: Constructors,
+) {
+  globalObject.defineProperty("undefined", {
+    value: realm.types.undefined,
+    writable: false,
+    enumerable: false,
+    configurable: false,
+  });
+
+  globalObject.defineProperty("NaN", {
+    value: realm.types.NaN,
+    writable: false,
+    enumerable: false,
+    configurable: false,
+  });
+
+  globalObject.defineProperty("Infinity", {
+    value: realm.types.Infinity,
+    writable: false,
+    enumerable: false,
+    configurable: false,
+  });
+
+  for (const [key, value] of Object.entries(constructors)) {
+    globalObject.defineProperty(key, {
+      value,
+      writable: true,
+      enumerable: false,
+      configurable: true,
+    });
+  }
 }

@@ -12,6 +12,7 @@ import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion } from "../completions/index.js";
 
 import setupEnvironment from "./setup-environment.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 function* blockStatementNodeEvaluator(
   node: BlockStatement,
@@ -29,7 +30,10 @@ function* blockStatementNodeEvaluator(
   };
 
   for (const child of node.body) {
-    yield* setupEnvironment(child, blockContext);
+    const completion = yield* setupEnvironment(child, blockContext);
+    if (isThrowCompletion(completion)) {
+      return completion;
+    }
   }
 
   for (const statement of node.body) {

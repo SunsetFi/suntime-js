@@ -63,6 +63,12 @@ export default function createObjectConstructor(
     enumerable: false,
     configurable: false,
   });
+  objectProto.defineProperty("constructor", {
+    value: ctor,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
 
   applyIntrinsicProperties(realm, ctor, declarations, functionProto);
 

@@ -1,7 +1,11 @@
+import ThrowCompletion, {
+  isThrowCompletion,
+} from "../../../evaluator/completions/ThrowCompletion.js";
 import {
   EvaluationGenerator,
   runEvaluatorUntilCompletion,
 } from "../../../evaluator/internal.js";
+import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 import { StaticJsRealm } from "../../realm/index.js";
 import { StaticJsObject, StaticJsValue } from "../../types/index.js";
 
@@ -37,12 +41,22 @@ export default class StaticJsGlobalEnvironmentRecord
   // TODO: `var` declarations are handled specially, probably hoist, and should go on the globalObject
   // https://tc39.es/ecma262/#sec-createglobalvarbinding
 
-  hasBinding(name: string): boolean {
-    return runEvaluatorUntilCompletion(this.hasBindingEvaluator(name));
+  hasBinding(name: string) {
+    const result = runEvaluatorUntilCompletion(this.hasBindingEvaluator(name));
+    if (isThrowCompletion(result)) {
+      throw new StaticJsRuntimeError(result.value);
+    }
+    return result;
   }
 
-  *hasBindingEvaluator(name: string): EvaluationGenerator<boolean> {
-    if (yield* this._declarativeRecord.hasBindingEvaluator(name)) {
+  *hasBindingEvaluator(name: string) {
+    const declarativeHas =
+      yield* this._declarativeRecord.hasBindingEvaluator(name);
+    if (isThrowCompletion(declarativeHas)) {
+      return declarativeHas;
+    }
+
+    if (declarativeHas === true) {
       return true;
     }
 
@@ -50,21 +64,26 @@ export default class StaticJsGlobalEnvironmentRecord
   }
 
   createMutableBinding(name: string, deletable: boolean): void {
-    return runEvaluatorUntilCompletion(
+    const result = runEvaluatorUntilCompletion(
       this.createMutableBindingEvaluator(name, deletable),
     );
+    if (isThrowCompletion(result)) {
+      throw new StaticJsRuntimeError(result.value);
+    }
   }
 
-  *createMutableBindingEvaluator(
-    name: string,
-    deletable: boolean,
-  ): EvaluationGenerator<void> {
+  *createMutableBindingEvaluator(name: string, deletable: boolean) {
     // Both need to be checked first
     if (yield* this.hasBindingEvaluator(name)) {
-      throw new Error(`Cannot create binding ${name}: Binding already exists.`);
+      return ThrowCompletion(
+        this._realm.types.error(
+          "SyntaxError",
+          `Identifier ${name} has already been declared`,
+        ),
+      );
     }
 
-    yield* this._declarativeRecord.createMutableBindingEvaluator(
+    return yield* this._declarativeRecord.createMutableBindingEvaluator(
       name,
       deletable,
     );
@@ -92,7 +111,13 @@ export default class StaticJsGlobalEnvironmentRecord
   }
 
   *createFunctionBindingEvaluator(name: string, value: StaticJsValue) {
-    yield* this._objectRecord.createMutableBindingEvaluator(name, false);
+    const result = yield* this._objectRecord.createMutableBindingEvaluator(
+      name,
+      false,
+    );
+    if (isThrowCompletion(result)) {
+      throw new StaticJsRuntimeError(result.value);
+    }
     yield* this._objectRecord.setMutableBindingEvaluator(name, value, true);
   }
 
@@ -123,7 +148,13 @@ export default class StaticJsGlobalEnvironmentRecord
       return;
     }
 
-    yield* this._objectRecord.createMutableBindingEvaluator(name, deletable);
+    const result = yield* this._objectRecord.createMutableBindingEvaluator(
+      name,
+      deletable,
+    );
+    if (isThrowCompletion(result)) {
+      throw new StaticJsRuntimeError(result.value);
+    }
   }
 
   initializeBinding(name: string, value: StaticJsValue): void {
@@ -177,7 +208,13 @@ export default class StaticJsGlobalEnvironmentRecord
         );
       }
 
-      yield* this._objectRecord.createMutableBindingEvaluator(name, true);
+      const result = yield* this._objectRecord.createMutableBindingEvaluator(
+        name,
+        true,
+      );
+      if (isThrowCompletion(result)) {
+        throw new StaticJsRuntimeError(result.value);
+      }
       binding = this._objectRecord[StaticJsEnvironmentGetBinding](name)!;
     }
 

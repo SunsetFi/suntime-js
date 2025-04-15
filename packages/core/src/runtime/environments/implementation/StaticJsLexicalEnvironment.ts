@@ -30,11 +30,8 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
     this._parent = parent ? environmentToBindingProvider(parent) : null;
   }
 
-  *createMutableBindingEvaluator(
-    name: string,
-    deletable: boolean,
-  ): EvaluationGenerator<void> {
-    yield* this._record.createMutableBindingEvaluator(name, deletable);
+  *createMutableBindingEvaluator(name: string, deletable: boolean) {
+    return yield* this._record.createMutableBindingEvaluator(name, deletable);
   }
 
   *createImmutableBindingEvaluator(

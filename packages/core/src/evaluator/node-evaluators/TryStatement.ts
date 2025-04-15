@@ -16,6 +16,7 @@ import { NormalCompletion } from "../completions/index.js";
 
 import setLVal from "./LVal.js";
 import setupEnvironment from "./setup-environment.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 function* tryStatementNodeEvaluator(
   node: TryStatement,
@@ -68,7 +69,14 @@ function* runCatch(
       value,
       catchContext,
       function* (name, value) {
-        yield* env.createMutableBindingEvaluator(name, false);
+        const completion = yield* env.createMutableBindingEvaluator(
+          name,
+          false,
+        );
+        if (isThrowCompletion(completion)) {
+          return completion;
+        }
+
         yield* env.initializeBindingEvaluator(name, value);
       },
     );
@@ -95,7 +103,10 @@ function* runBlock(
   };
 
   for (const statement of node.body) {
-    yield* setupEnvironment(statement, blockContext);
+    const completion = yield* setupEnvironment(statement, blockContext);
+    if (isThrowCompletion(completion)) {
+      return completion;
+    }
   }
 
   let completionResult: StaticJsValue | null = null;

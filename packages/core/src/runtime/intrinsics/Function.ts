@@ -13,14 +13,20 @@ export function populateFunctionPrototype(
 
 export function createFunctionConstructor(
   realm: StaticJsRealm,
-  functionPrototype: StaticJsObject,
+  functionProto: StaticJsObject,
 ) {
   const ctor = new StaticJsObjectImpl(realm, null);
   ctor.defineProperty("prototype", {
-    value: functionPrototype,
+    value: functionProto,
     writable: false,
     enumerable: false,
     configurable: false,
+  });
+  functionProto.defineProperty("constructor", {
+    value: ctor,
+    writable: true,
+    enumerable: false,
+    configurable: true,
   });
 
   return ctor;

@@ -16,6 +16,7 @@ import EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setupEnvironment from "./setup-environment.js";
 import StaticJsEngineError from "../StaticJsEngineError.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 function* programNodeEvaluator(
   node: Program,
@@ -46,7 +47,10 @@ function* programNodeEvaluator(
   }
 
   for (const statement of node.body) {
-    yield* setupEnvironment(statement, context);
+    const completion = yield* setupEnvironment(statement, context);
+    if (isThrowCompletion(completion)) {
+      return completion;
+    }
   }
 
   let lastCompletion: Completion = NormalCompletion(null);

@@ -7,7 +7,7 @@ export default class StaticJsBooleanBoxed extends StaticJsObjectImpl {
     realm: StaticJsRealm,
     private readonly _value: boolean,
   ) {
-    super(realm, realm.types.booleanProto);
+    super(realm, realm.types.prototypes.booleanProto);
   }
 
   toString(): string {

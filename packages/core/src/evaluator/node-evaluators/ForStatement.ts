@@ -12,6 +12,7 @@ import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion } from "../completions/index.js";
 
 import setupEnvironment from "./setup-environment.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 function* forStatementNodeEvaluator(
   node: ForStatement,
@@ -32,15 +33,27 @@ function* forStatementNodeEvaluator(
     };
 
     if (node.init) {
-      yield* setupEnvironment(node.init, forContext);
+      const setupInitResult = yield* setupEnvironment(node.init, forContext);
+      if (isThrowCompletion(setupInitResult)) {
+        return setupInitResult;
+      }
     }
 
     if (node.test) {
-      yield* setupEnvironment(node.test, forContext);
+      const setupTestResult = yield* setupEnvironment(node.test, forContext);
+      if (isThrowCompletion(setupTestResult)) {
+        return setupTestResult;
+      }
     }
 
     if (node.update) {
-      yield* setupEnvironment(node.update, forContext);
+      const setupUpdateResult = yield* setupEnvironment(
+        node.update,
+        forContext,
+      );
+      if (isThrowCompletion(setupUpdateResult)) {
+        return setupUpdateResult;
+      }
     }
   }
 

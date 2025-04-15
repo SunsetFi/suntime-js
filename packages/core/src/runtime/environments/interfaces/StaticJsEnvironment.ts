@@ -1,15 +1,20 @@
-import { EvaluationGenerator } from "../../../evaluator/internal.js";
+import {
+  EvaluationGenerator,
+  ThrowCompletion,
+} from "../../../evaluator/internal.js";
 import { StaticJsValue } from "../../types/index.js";
 
 export default interface StaticJsEnvironment {
   hasBinding(name: string): boolean;
-  hasBindingEvaluator(name: string): EvaluationGenerator<boolean>;
+  hasBindingEvaluator(
+    name: string,
+  ): EvaluationGenerator<ThrowCompletion | boolean>;
 
   createMutableBinding(name: string, deletable: boolean): void;
   createMutableBindingEvaluator(
     name: string,
     deletable: boolean,
-  ): EvaluationGenerator<void>;
+  ): EvaluationGenerator<ThrowCompletion | void>;
 
   createImmutableBinding(name: string, strict: boolean): void;
   createImmutableBindingEvaluator(

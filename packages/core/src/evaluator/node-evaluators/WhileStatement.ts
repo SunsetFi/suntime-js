@@ -11,6 +11,7 @@ import { EvaluateNodeCommand } from "../commands/index.js";
 import { NormalCompletion } from "../completions/index.js";
 
 import setupEnvironment from "./setup-environment.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 function* whileStatementNodeEvaluator(
   node: WhileStatement,
@@ -48,7 +49,10 @@ function* whileStatementNodeEvaluator(
       env: bodyEnv,
     };
 
-    yield* setupEnvironment(node.body, bodyContext);
+    const setupBodyCompletion = yield* setupEnvironment(node.body, bodyContext);
+    if (isThrowCompletion(setupBodyCompletion)) {
+      return setupBodyCompletion;
+    }
 
     const bodyResult = yield* EvaluateNodeCommand(node.body, bodyContext);
 

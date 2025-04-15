@@ -48,7 +48,7 @@ export default class StaticJsFunctionImpl
     ) => EvaluationGenerator<Completion>,
     { isConstructor, length, prototype }: StaticJsFunctionImplOptions = {},
   ) {
-    super(realm, prototype ?? realm.types.functionProto);
+    super(realm, prototype ?? realm.types.prototypes.functionProto);
 
     this._isConstructor = isConstructor ?? false;
 

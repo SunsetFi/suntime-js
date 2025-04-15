@@ -8,10 +8,12 @@ import { StaticJsEnvironment } from "../../environments/index.js";
 import {
   createConstructors,
   createPrototypes,
-  Constructors,
+  defineGlobalProperties,
 } from "../../intrinsics/index.js";
 import StaticJsTypeFactoryImpl from "../../types/implementation/StaticJsTypeFactoryImpl.js";
-import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
+import StaticJsTypeFactory, {
+  Constructors,
+} from "../../types/interfaces/StaticJsTypeFactory.js";
 import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
 import {
   StaticJsAccessorPropertyDescriptor,
@@ -159,75 +161,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       });
     }
 
-    globalObject.defineProperty("undefined", {
-      value: this._typeFactory.undefined,
-      writable: false,
-      enumerable: false,
-      configurable: false,
-    });
-
-    globalObject.defineProperty("NaN", {
-      value: this._typeFactory.NaN,
-      writable: false,
-      enumerable: false,
-      configurable: false,
-    });
-
-    globalObject.defineProperty("Infinity", {
-      value: this._typeFactory.Infinity,
-      writable: false,
-      enumerable: false,
-      configurable: false,
-    });
-
-    globalObject.defineProperty("String", {
-      value: constructors.stringCtor,
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    });
-
-    globalObject.defineProperty("Number", {
-      value: constructors.numberCtor,
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    });
-
-    globalObject.defineProperty("Boolean", {
-      value: constructors.booleanCtor,
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    });
-
-    globalObject.defineProperty("Object", {
-      value: constructors.objectCtor,
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    });
-
-    globalObject.defineProperty("Array", {
-      value: constructors.arrayCtor,
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    });
-
-    globalObject.defineProperty("Function", {
-      value: constructors.functionCtor,
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    });
-
-    globalObject.defineProperty("Error", {
-      value: constructors.errorCtor,
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    });
+    defineGlobalProperties(this, globalObject, constructors);
   }
 }
 

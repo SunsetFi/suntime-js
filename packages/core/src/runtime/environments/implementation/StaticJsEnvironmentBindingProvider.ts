@@ -31,20 +31,17 @@ export function environmentToBindingProvider(
   }
 
   return {
-    hasBinding(name: string): boolean {
+    hasBinding(name: string) {
       return env.hasBinding(name);
     },
-    hasBindingEvaluator(name: string): EvaluationGenerator<boolean> {
+    hasBindingEvaluator(name: string) {
       return env.hasBindingEvaluator(name);
     },
 
     createMutableBinding(name: string, deletable: boolean): void {
       env.createMutableBinding(name, deletable);
     },
-    createMutableBindingEvaluator(
-      name: string,
-      deletable: boolean,
-    ): EvaluationGenerator<void> {
+    createMutableBindingEvaluator(name: string, deletable: boolean) {
       return env.createMutableBindingEvaluator(name, deletable);
     },
 

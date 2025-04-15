@@ -3,12 +3,17 @@ import { Identifier } from "@babel/types";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 export default function* identifierNodeEvaluator(
   node: Identifier,
   context: EvaluationContext,
 ): EvaluationGenerator {
   const hasBinding = yield* context.env.hasBindingEvaluator(node.name);
+  if (isThrowCompletion(hasBinding)) {
+    return hasBinding;
+  }
+
   if (!hasBinding) {
     // FIXME: Use real error.
     return ThrowCompletion(

@@ -28,7 +28,13 @@ export {
 } from "./StaticJsPropertyDescriptor.js";
 export { type StaticJsScalar, isStaticJsScalar } from "./StaticJsScalar.js";
 export { type StaticJsString, isStaticJsString } from "./StaticJsString.js";
-export type { default as StaticJsTypeFactory } from "./StaticJsTypeFactory.js";
+export {
+  type default as StaticJsTypeFactory,
+  type ErrorTypeName,
+  type Prototypes,
+  type Constructors,
+  isErrorTypeName,
+} from "./StaticJsTypeFactory.js";
 export {
   type StaticJsUndefined,
   isStaticJsUndefined,

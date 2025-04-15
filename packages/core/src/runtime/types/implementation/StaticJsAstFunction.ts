@@ -27,6 +27,7 @@ import { StaticJsValue } from "../interfaces/index.js";
 
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
 import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
+import { isThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
 export type StaticJsAstFunctionArgumentDeclaration =
   | Identifier
@@ -84,7 +85,13 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
       return completion;
     }
 
-    yield* setupEnvironment(this._body, functionContext);
+    const setupBodyResult = yield* setupEnvironment(
+      this._body,
+      functionContext,
+    );
+    if (isThrowCompletion(setupBodyResult)) {
+      return setupBodyResult;
+    }
 
     const evaluationCompletion = yield* EvaluateNodeCommand(
       this._body,
@@ -117,7 +124,13 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
           value,
           context,
           function* (name, value) {
-            yield* context.env.createMutableBindingEvaluator(name, false);
+            const result = yield* context.env.createMutableBindingEvaluator(
+              name,
+              false,
+            );
+            if (isThrowCompletion(result)) {
+              return result;
+            }
 
             // Strict mode is whatever; our binding is created above.
             yield* context.env.setMutableBindingEvaluator(name, value, true);
@@ -139,7 +152,13 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
         value,
         context,
         function* (name, value) {
-          yield* context.env.createMutableBindingEvaluator(name, false);
+          const result = yield* context.env.createMutableBindingEvaluator(
+            name,
+            false,
+          );
+          if (isThrowCompletion(result)) {
+            return result;
+          }
 
           // Strict mode is whatever; our binding is created above.
           yield* context.env.setMutableBindingEvaluator(name, value, true);

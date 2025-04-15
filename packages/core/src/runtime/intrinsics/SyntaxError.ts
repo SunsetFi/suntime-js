@@ -1,22 +1,22 @@
-import { NormalCompletion } from "../../../../evaluator/internal.js";
-import { StaticJsRealm } from "../../../realm/index.js";
-import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
-import { StaticJsObject } from "../../../types/index.js";
-import {
-  applyIntrinsicProperties,
-  IntrinsicPropertyDeclaration,
-} from "../../utils.js";
+import { NormalCompletion } from "../../evaluator/internal.js";
+import { StaticJsRealm } from "../realm/index.js";
+import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsObject } from "../types/index.js";
 
-const declarations: IntrinsicPropertyDeclaration[] = [];
+export function populateSyntaxErrorPrototype(
+  _realm: StaticJsRealm,
+  _errorProto: StaticJsObject,
+  _functionProto: StaticJsObject,
+) {}
 
-export default function createErrorConstructor(
+export default function createSyntaxErrorConstructor(
   realm: StaticJsRealm,
   errorProto: StaticJsObject,
   functionProto: StaticJsObject,
 ) {
   const ctor = new StaticJsFunctionImpl(
     realm,
-    "Error",
+    "SyntaxError",
     function* (_thisArg, messageValue) {
       // Error jank seems to indicate we make a new object ourselves and return it?
       const error = realm.types.object(
@@ -25,7 +25,7 @@ export default function createErrorConstructor(
             enumerable: false,
             writable: true,
             configurable: true,
-            value: realm.types.string("Error"),
+            value: realm.types.string("SyntaxError"),
           },
           message: {
             enumerable: false,
@@ -55,8 +55,6 @@ export default function createErrorConstructor(
     enumerable: false,
     configurable: true,
   });
-
-  applyIntrinsicProperties(realm, ctor, declarations, functionProto);
 
   return ctor;
 }

@@ -6,11 +6,14 @@ import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
 import { getEvaluator } from "./nodes.js";
+import ThrowCompletion, {
+  isThrowCompletion,
+} from "../completions/ThrowCompletion.js";
 
 export default function* setupEnvironment(
   node: Node,
   context: EvaluationContext,
-): EvaluationGenerator<void> {
+): EvaluationGenerator<ThrowCompletion | void> {
   // Recurse by default, there are only a few exceptions.
   let shouldRecurse = true;
   const evaluator = getEvaluator(node);
@@ -19,13 +22,20 @@ export default function* setupEnvironment(
     if (typeof evaluator.environmentSetup === "boolean") {
       shouldRecurse = evaluator.environmentSetup;
     } else if (evaluator.environmentSetup) {
-      shouldRecurse = yield* evaluator.environmentSetup(node, context);
+      const result = yield* evaluator.environmentSetup(node, context);
+      if (isThrowCompletion(result)) {
+        return result;
+      }
+      shouldRecurse = result;
     }
   }
 
   if (shouldRecurse) {
     for (const child of getChildNodes(node)) {
-      yield* setupEnvironment(child, context);
+      const completion = yield* setupEnvironment(child, context);
+      if (isThrowCompletion(completion)) {
+        return completion;
+      }
     }
   }
 }

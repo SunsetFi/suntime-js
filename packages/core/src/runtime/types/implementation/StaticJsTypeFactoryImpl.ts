@@ -1,12 +1,14 @@
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
-import { Prototypes } from "../../intrinsics/index.js";
-
 import { StaticJsArray } from "../interfaces/StaticJsArray.js";
 import { StaticJsFunction } from "../interfaces/StaticJsFunction.js";
 import { StaticJsObject } from "../interfaces/StaticJsObject.js";
 import { StaticJsPropertyDescriptor } from "../interfaces/StaticJsPropertyDescriptor.js";
-import StaticJsTypeFactory from "../interfaces/StaticJsTypeFactory.js";
+import StaticJsTypeFactory, {
+  ErrorTypeName,
+  isErrorTypeName,
+  Prototypes,
+} from "../interfaces/StaticJsTypeFactory.js";
 import { isStaticJsValue, StaticJsValue } from "../interfaces/StaticJsValue.js";
 import { StaticJsBoolean } from "../interfaces/StaticJsBoolean.js";
 import { StaticJsUndefined } from "../interfaces/StaticJsUndefined.js";
@@ -42,34 +44,12 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
     this._false = new StaticJsBooleanImpl(_realm, false);
     this._true = new StaticJsBooleanImpl(_realm, true);
+
+    this._prototypes = Object.freeze({ ..._prototypes });
   }
 
-  get stringProto(): StaticJsObject {
-    return this._prototypes.stringProto;
-  }
-
-  get numberProto(): StaticJsObject {
-    return this._prototypes.numberProto;
-  }
-
-  get booleanProto(): StaticJsObject {
-    return this._prototypes.booleanProto;
-  }
-
-  get objectProto(): StaticJsObject {
-    return this._prototypes.objectProto;
-  }
-
-  get arrayProto(): StaticJsObject {
-    return this._prototypes.arrayProto;
-  }
-
-  get functionProto(): StaticJsObject {
-    return this._prototypes.functionProto;
-  }
-
-  get errorProto(): StaticJsObject {
-    return this._prototypes.errorProto;
+  get prototypes(): Prototypes {
+    return this._prototypes;
   }
 
   get true(): StaticJsBoolean {
@@ -105,7 +85,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     prototype?: StaticJsObject | StaticJsNull | null,
   ): StaticJsObject {
     if (prototype === undefined) {
-      prototype = this.objectProto;
+      prototype = this._prototypes.objectProto;
     }
     const obj = new StaticJsObjectImpl(
       this._realm,
@@ -126,13 +106,30 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   error(message: string): StaticJsObject;
-  error(name: string, message: string): StaticJsObject;
+  error(name: ErrorTypeName, message: string): StaticJsObject;
   error(nameOrMessage: string, message?: string): StaticJsObject {
     let name = "Error";
     if (message !== undefined) {
       name = nameOrMessage;
     } else {
       message = nameOrMessage;
+    }
+
+    let proto: StaticJsObject;
+    switch (name) {
+      case "Error":
+      default:
+        proto = this._prototypes.errorProto;
+        break;
+      case "TypeError":
+        proto = this._prototypes.typeErrorProto;
+        break;
+      case "ReferenceError":
+        proto = this._prototypes.referenceErrorProto;
+        break;
+      case "SyntaxError":
+        proto = this._prototypes.syntaxErrorProto;
+        break;
     }
 
     const error = this.object(
@@ -150,7 +147,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
           value: this.string(message),
         },
       },
-      this._prototypes.errorProto,
+      proto,
     );
     return error;
   }
@@ -223,7 +220,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   private _toStaticJsValueObject(value: object): StaticJsObject {
-    if (value instanceof Error) {
+    if (value instanceof Error && isErrorTypeName(value.name)) {
       return this.error(value.name, value.message);
     }
 

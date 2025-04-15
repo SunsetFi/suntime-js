@@ -119,7 +119,7 @@ export function createNumberConstructor(
 ) {
   // FIXME: This is the casting function, but if it's invoked with 'new', we should
   // return the boxed version.
-  const numberConstructor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsFunctionImpl(
     realm,
     "Number",
     function* (_thisArg: StaticJsValue, value?: StaticJsValue) {
@@ -132,12 +132,18 @@ export function createNumberConstructor(
     { prototype: functionProto },
   );
 
-  numberConstructor.defineProperty("prototype", {
+  ctor.defineProperty("prototype", {
     configurable: false,
     enumerable: false,
     writable: false,
     value: numberProto,
   });
+  numberProto.defineProperty("constructor", {
+    value: ctor,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
 
-  return numberConstructor;
+  return ctor;
 }

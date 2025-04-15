@@ -12,6 +12,9 @@ import { NormalCompletion } from "../completions/index.js";
 
 import setLVal, { environmentSetupLVal } from "./LVal.js";
 import StaticJsEngineError from "../StaticJsEngineError.js";
+import ThrowCompletion, {
+  isThrowCompletion,
+} from "../completions/ThrowCompletion.js";
 
 function* variableDeclarationNodeEvaluator(
   node: VariableDeclaration,
@@ -64,8 +67,10 @@ function* variableDeclarationNodeEvaluator(
 function* variableDeclarationEnvironmentSetup(
   node: VariableDeclaration,
   context: EvaluationContext,
-): EvaluationGenerator<boolean> {
-  let variableCreator: (name: string) => EvaluationGenerator<void>;
+): EvaluationGenerator<ThrowCompletion | boolean> {
+  let variableCreator: (
+    name: string,
+  ) => EvaluationGenerator<ThrowCompletion | void>;
   switch (node.kind) {
     case "const":
       variableCreator = function* (name) {
@@ -77,7 +82,13 @@ function* variableDeclarationEnvironmentSetup(
       break;
     case "let":
       variableCreator = function* (name) {
-        yield* context.env.createMutableBindingEvaluator(name, false);
+        const completion = yield* context.env.createMutableBindingEvaluator(
+          name,
+          false,
+        );
+        if (isThrowCompletion(completion)) {
+          return completion;
+        }
       };
       break;
     case "var":
@@ -89,7 +100,13 @@ function* variableDeclarationEnvironmentSetup(
         if (yield* varScope.canDeclareGlobalVarEvaluator(name)) {
           yield* varScope.createGlobalVarBindingEvaluator(name, true);
         } else {
-          yield* varScope.createMutableBindingEvaluator(name, false);
+          const result = yield* varScope.createMutableBindingEvaluator(
+            name,
+            false,
+          );
+          if (isThrowCompletion(result)) {
+            return result;
+          }
         }
       };
       break;
@@ -100,7 +117,14 @@ function* variableDeclarationEnvironmentSetup(
   }
 
   for (const declarator of node.declarations) {
-    yield* environmentSetupLVal(declarator.id, context, variableCreator);
+    const completion = yield* environmentSetupLVal(
+      declarator.id,
+      context,
+      variableCreator,
+    );
+    if (isThrowCompletion(completion)) {
+      return completion;
+    }
   }
 
   return false;

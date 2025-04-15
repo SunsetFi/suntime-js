@@ -15,6 +15,7 @@ import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import StaticJsEngineError from "../StaticJsEngineError.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 export default function setLVal(
   lval: LVal,
@@ -23,7 +24,7 @@ export default function setLVal(
   setNamedVariable: (
     name: string,
     value: StaticJsValue,
-  ) => EvaluationGenerator<void>,
+  ) => EvaluationGenerator<ThrowCompletion | void>,
 ): EvaluationGenerator;
 export default function setLVal(
   lval: LVal,
@@ -32,7 +33,7 @@ export default function setLVal(
   setNamedVariable: (
     name: string,
     value: StaticJsValue | null,
-  ) => EvaluationGenerator<void>,
+  ) => EvaluationGenerator<ThrowCompletion | void>,
 ): EvaluationGenerator;
 export default function* setLVal(
   lval: LVal,
@@ -41,7 +42,7 @@ export default function* setLVal(
   _setNamedVariable: (
     name: string,
     value: StaticJsValue,
-  ) => EvaluationGenerator<void>,
+  ) => EvaluationGenerator<ThrowCompletion | void>,
 ): EvaluationGenerator {
   if (value && !isStaticJsValue(value)) {
     throw new StaticJsEngineError("Cannot set LVal to non-StaticJsValue");
@@ -52,12 +53,16 @@ export default function* setLVal(
   const setNamedVariable = _setNamedVariable as (
     name: string,
     value: StaticJsValue | null,
-  ) => EvaluationGenerator<void>;
+  ) => EvaluationGenerator<ThrowCompletion | void>;
 
   switch (lval.type) {
-    case "Identifier":
-      yield* setNamedVariable(lval.name, value);
+    case "Identifier": {
+      const result = yield* setNamedVariable(lval.name, value);
+      if (isThrowCompletion(result)) {
+        return result;
+      }
       return NormalCompletion(null);
+    }
     case "ArrayPattern": {
       // FIXME: This should use iterators.
       if (!isStaticJsArray(value)) {
@@ -142,7 +147,13 @@ export default function* setLVal(
           const propertyValue = yield* value.getPropertyEvaluator(keyName);
 
           if (!property.computed && property.value.type === "Identifier") {
-            yield* setNamedVariable(property.value.name, propertyValue);
+            const completion = yield* setNamedVariable(
+              property.value.name,
+              propertyValue,
+            );
+            if (isThrowCompletion(completion)) {
+              return completion;
+            }
           } else if (isLVal(property.value)) {
             const completion = yield* setLVal(
               property.value,
@@ -225,12 +236,11 @@ export default function* setLVal(
 export function* environmentSetupLVal(
   lval: LVal,
   context: EvaluationContext,
-  bindVariable: (name: string) => EvaluationGenerator<void>,
-): EvaluationGenerator<void> {
+  bindVariable: (name: string) => EvaluationGenerator<ThrowCompletion | void>,
+): EvaluationGenerator<ThrowCompletion | void> {
   switch (lval.type) {
     case "Identifier":
-      yield* bindVariable(lval.name);
-      return;
+      return yield* bindVariable(lval.name);
     case "ArrayPattern":
       for (const element of lval.elements) {
         if (element === null) {
@@ -238,20 +248,30 @@ export function* environmentSetupLVal(
         }
 
         if (element.type === "RestElement") {
-          yield* environmentSetupLVal(element.argument, context, bindVariable);
-          return;
+          return yield* environmentSetupLVal(
+            element.argument,
+            context,
+            bindVariable,
+          );
         } else {
-          yield* environmentSetupLVal(element, context, bindVariable);
+          return yield* environmentSetupLVal(element, context, bindVariable);
         }
       }
       return;
     case "ObjectPattern":
       for (const property of lval.properties) {
         if (property.type === "RestElement") {
-          yield* environmentSetupLVal(property.argument, context, bindVariable);
-          return;
+          return yield* environmentSetupLVal(
+            property.argument,
+            context,
+            bindVariable,
+          );
         } else if (isLVal(property.value)) {
-          yield* environmentSetupLVal(property.value, context, bindVariable);
+          return yield* environmentSetupLVal(
+            property.value,
+            context,
+            bindVariable,
+          );
         } else {
           throw new StaticJsEngineError(
             `Unsupported ObjectPattern property target type: ${property.value.type}`,
@@ -260,8 +280,7 @@ export function* environmentSetupLVal(
       }
       return;
     case "AssignmentPattern":
-      yield* environmentSetupLVal(lval.left, context, bindVariable);
-      return;
+      return yield* environmentSetupLVal(lval.left, context, bindVariable);
   }
 
   throw new StaticJsEngineError(`Unsupported LVal type: ${lval.type}`);

@@ -7,7 +7,7 @@ export default class StaticJsStringBoxed extends StaticJsObjectImpl {
     realm: StaticJsRealm,
     private readonly _value: string,
   ) {
-    super(realm, realm.types.stringProto);
+    super(realm, realm.types.prototypes.stringProto);
   }
 
   toString(): string {

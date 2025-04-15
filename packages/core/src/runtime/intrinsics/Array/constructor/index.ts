@@ -13,6 +13,11 @@ export default function createArrayConstructor(
     enumerable: false,
     configurable: false,
   });
-
+  arrayProto.defineProperty("constructor", {
+    value: ctor,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
   return ctor;
 }

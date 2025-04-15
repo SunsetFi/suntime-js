@@ -9,6 +9,7 @@ import { isStaticJsObjectLike } from "../../runtime/index.js";
 import NormalCompletion from "../completions/NormalCompletion.js";
 import { ThrowCompletion } from "../internal.js";
 import setLVal from "./LVal.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 export default function* forInStatementNodeEvaluator(
   node: ForInStatement,
@@ -51,8 +52,15 @@ export default function* forInStatementNodeEvaluator(
 
     // From testing NodeJs, the decl is in the body scope
     // (IE: const works and doesn't get upset about redecl)
-    yield* setupEnvironment(node.left, bodyContext);
-    yield* setupEnvironment(node.body, bodyContext);
+    const setupLeftCompletion = yield* setupEnvironment(node.left, bodyContext);
+    if (isThrowCompletion(setupLeftCompletion)) {
+      return setupLeftCompletion;
+    }
+
+    const setupBodyCompletion = yield* setupEnvironment(node.body, bodyContext);
+    if (isThrowCompletion(setupBodyCompletion)) {
+      return setupBodyCompletion;
+    }
 
     let lVal: LVal;
     if (node.left.type === "VariableDeclaration") {

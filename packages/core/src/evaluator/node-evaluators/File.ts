@@ -8,12 +8,16 @@ import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeCommand } from "../commands/index.js";
 
 import setupEnvironment from "./setup-environment.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 function* fileNodeEvaluator(
   node: File,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  yield* setupEnvironment(node.program, context);
+  const setupCompletion = yield* setupEnvironment(node.program, context);
+  if (isThrowCompletion(setupCompletion)) {
+    return setupCompletion;
+  }
 
   return yield* EvaluateNodeCommand(node.program, context);
 }

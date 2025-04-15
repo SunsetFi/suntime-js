@@ -446,7 +446,7 @@ export function createStringConstructor(
 ) {
   // FIXME: This is the casting function, but if it's invoked with 'new', we should
   // return the boxed version.
-  const stringConstructor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsFunctionImpl(
     realm,
     "String",
     function* (_thisArg: StaticJsValue, value?: StaticJsValue) {
@@ -459,12 +459,18 @@ export function createStringConstructor(
     { prototype: functionProto },
   );
 
-  stringConstructor.defineProperty("prototype", {
+  ctor.defineProperty("prototype", {
     configurable: false,
     enumerable: false,
     writable: false,
     value: stringProto,
   });
+  stringProto.defineProperty("constructor", {
+    value: ctor,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
 
-  return stringConstructor;
+  return ctor;
 }

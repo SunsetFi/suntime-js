@@ -8,6 +8,7 @@ import { EvaluateNodeCommand } from "../commands/index.js";
 import EvaluationContext from "../EvaluationContext.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 import StaticJsEngineError from "../StaticJsEngineError.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 export default function* unaryExpressionNodeEvaluator(
   node: UnaryExpression,
@@ -109,17 +110,24 @@ function* typeofExpressionNodeEvaluator(
   if (argument.type === "Identifier") {
     const name = argument.name;
     const env = context.env;
+
     const hasBinding = yield* env.hasBindingEvaluator(name);
+    if (isThrowCompletion(hasBinding)) {
+      return hasBinding;
+    }
+
     if (hasBinding) {
       const bindingValue = yield* env.getBindingValueEvaluator(name, false);
       return NormalCompletion(context.realm.types.string(bindingValue.typeOf));
     }
+
     return NormalCompletion(context.realm.types.string("undefined"));
   } else {
     const value = yield* EvaluateNodeCommand(argument, context, {
       rethrow: true,
       forNormalValue: "UnaryExpression<typeof>.argument",
     });
+
     return NormalCompletion(context.realm.types.string(value.typeOf));
   }
 }

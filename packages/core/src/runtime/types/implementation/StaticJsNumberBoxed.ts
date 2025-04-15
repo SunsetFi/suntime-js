@@ -7,7 +7,7 @@ export default class StaticJsNumberBoxed extends StaticJsObjectImpl {
     realm: StaticJsRealm,
     private readonly _value: number,
   ) {
-    super(realm, realm.types.numberProto);
+    super(realm, realm.types.prototypes.numberProto);
   }
 
   toString(): string {

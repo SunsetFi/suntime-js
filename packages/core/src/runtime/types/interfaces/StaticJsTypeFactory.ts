@@ -9,14 +9,44 @@ import { StaticJsValue } from "./StaticJsValue.js";
 import { StaticJsString } from "./StaticJsString.js";
 import { StaticJsUndefined } from "./StaticJsUndefined.js";
 
+export type ErrorTypeName =
+  | "TypeError"
+  | "ReferenceError"
+  | "SyntaxError"
+  | "Error";
+
+export function isErrorTypeName(name: string): name is ErrorTypeName {
+  return ["TypeError", "ReferenceError", "SyntaxError", "Error"].includes(name);
+}
+
+export interface Prototypes {
+  stringProto: StaticJsObject;
+  numberProto: StaticJsObject;
+  booleanProto: StaticJsObject;
+  objectProto: StaticJsObject;
+  arrayProto: StaticJsObject;
+  functionProto: StaticJsObject;
+  errorProto: StaticJsObject;
+  typeErrorProto: StaticJsObject;
+  referenceErrorProto: StaticJsObject;
+  syntaxErrorProto: StaticJsObject;
+}
+
+export interface Constructors {
+  String: StaticJsFunction;
+  Number: StaticJsFunction;
+  Boolean: StaticJsFunction;
+  Object: StaticJsFunction;
+  Array: StaticJsObject;
+  Function: StaticJsObject;
+  Error: StaticJsFunction;
+  TypeError: StaticJsFunction;
+  ReferenceError: StaticJsFunction;
+  SyntaxError: StaticJsFunction;
+}
+
 export default interface StaticJsTypeFactory {
-  readonly stringProto: StaticJsObject;
-  readonly numberProto: StaticJsObject;
-  readonly booleanProto: StaticJsObject;
-  readonly objectProto: StaticJsObject;
-  readonly arrayProto: StaticJsObject;
-  readonly functionProto: StaticJsObject;
-  readonly errorProto: StaticJsObject;
+  readonly prototypes: Prototypes;
 
   readonly undefined: StaticJsUndefined;
   readonly null: StaticJsNull;
@@ -39,7 +69,7 @@ export default interface StaticJsTypeFactory {
 
   array(items?: StaticJsValue[]): StaticJsArray;
 
-  error(name: string, message: string): StaticJsObject;
+  error(name: ErrorTypeName, message: string): StaticJsObject;
   error(message: string): StaticJsObject;
 
   toStaticJsValue(value: boolean): StaticJsBoolean;

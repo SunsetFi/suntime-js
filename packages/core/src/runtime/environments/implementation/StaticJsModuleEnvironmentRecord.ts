@@ -1,5 +1,3 @@
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
 import StaticJsBaseEnvironmentRecord from "./StaticJsBaseEnvironment.js";
@@ -69,11 +67,11 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsBaseEnviron
     }
   }
 
-  createMutableBindingEvaluator(): EvaluationGenerator<void> {
+  *createMutableBindingEvaluator() {
     throw new Error("Cannot create bindings in a module environment record.");
   }
 
-  createImmutableBindingEvaluator(): EvaluationGenerator<void> {
+  *createImmutableBindingEvaluator() {
     throw new Error("Cannot create bindings in a module environment record.");
   }
 

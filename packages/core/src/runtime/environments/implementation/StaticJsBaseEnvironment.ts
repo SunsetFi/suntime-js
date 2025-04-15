@@ -1,5 +1,9 @@
+import ThrowCompletion, {
+  isThrowCompletion,
+} from "../../../evaluator/completions/ThrowCompletion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
+import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
@@ -20,24 +24,31 @@ export default abstract class StaticJsBaseEnvironmentRecord
     return this._realm;
   }
 
-  hasBinding(name: string): boolean {
-    return runEvaluatorUntilCompletion(this.hasBindingEvaluator(name));
+  hasBinding(name: string) {
+    const result = runEvaluatorUntilCompletion(this.hasBindingEvaluator(name));
+    if (isThrowCompletion(result)) {
+      throw new StaticJsRuntimeError(result.value);
+    }
+    return result;
   }
 
-  *hasBindingEvaluator(name: string): EvaluationGenerator<boolean> {
+  *hasBindingEvaluator(name: string) {
     return this[StaticJsEnvironmentGetBinding](name) !== undefined;
   }
 
   createMutableBinding(name: string, deletable: boolean): void {
-    runEvaluatorUntilCompletion(
+    const result = runEvaluatorUntilCompletion(
       this.createMutableBindingEvaluator(name, deletable),
     );
+    if (isThrowCompletion(result)) {
+      throw new StaticJsRuntimeError(result.value);
+    }
   }
 
   abstract createMutableBindingEvaluator(
     name: string,
     deletable: boolean,
-  ): EvaluationGenerator<void>;
+  ): EvaluationGenerator<ThrowCompletion | void>;
 
   createImmutableBinding(name: string, strict: boolean): void {
     runEvaluatorUntilCompletion(
@@ -105,7 +116,10 @@ export default abstract class StaticJsBaseEnvironmentRecord
   }
 
   *createFunctionBindingEvaluator(name: string, value: StaticJsValue) {
-    yield* this.createMutableBindingEvaluator(name, false);
+    const completion = yield* this.createMutableBindingEvaluator(name, false);
+    if (isThrowCompletion(completion)) {
+      throw new StaticJsRuntimeError(completion.value);
+    }
     yield* this.setMutableBindingEvaluator(name, value, true);
   }
 

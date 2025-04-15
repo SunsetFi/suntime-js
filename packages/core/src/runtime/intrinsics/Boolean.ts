@@ -66,6 +66,12 @@ export function createBooleanConstructor(
     enumerable: false,
     configurable: false,
   });
+  booleanProto.defineProperty("constructor", {
+    value: ctor,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
 
   return ctor;
 }

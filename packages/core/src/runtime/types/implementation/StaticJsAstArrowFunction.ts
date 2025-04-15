@@ -28,6 +28,7 @@ import { StaticJsValue } from "../interfaces/index.js";
 
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
 import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
+import { isThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
 export type StaticJsAstArrowFunctionArgumentDeclaration =
   | Identifier
@@ -84,7 +85,13 @@ export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
       return completion;
     }
 
-    yield* setupEnvironment(this._body, functionContext);
+    const setupBodyCompletion = yield* setupEnvironment(
+      this._body,
+      functionContext,
+    );
+    if (isThrowCompletion(setupBodyCompletion)) {
+      return setupBodyCompletion;
+    }
 
     const evaluationCompletion = yield* EvaluateNodeCommand(
       this._body,
@@ -127,7 +134,13 @@ export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
           value,
           context,
           function* (name, value) {
-            yield* context.env.createMutableBindingEvaluator(name, false);
+            const result = yield* context.env.createMutableBindingEvaluator(
+              name,
+              false,
+            );
+            if (isThrowCompletion(result)) {
+              return result;
+            }
 
             // Strict mode is whatever; our binding is created above.
             yield* context.env.setMutableBindingEvaluator(name, value, true);
@@ -149,7 +162,13 @@ export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
         value,
         context,
         function* (name, value) {
-          yield* context.env.createMutableBindingEvaluator(name, false);
+          const result = yield* context.env.createMutableBindingEvaluator(
+            name,
+            false,
+          );
+          if (isThrowCompletion(result)) {
+            return result;
+          }
 
           // Strict mode is whatever; our binding is created above.
           yield* context.env.setMutableBindingEvaluator(name, value, true);
