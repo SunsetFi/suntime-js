@@ -272,13 +272,11 @@ describe("E2E: Object", () => {
             value: 1,
             configurable: false,
           });
-            Object.defineProperty(obj, "x", {
-              value: 2,
-            });
+          Object.defineProperty(obj, "x", {
+            value: 2,
+          });
         `;
-        expect(() => evaluateProgram(code)).toThrow(
-          "TypeError: Cannot redefine property",
-        );
+        expect(() => evaluateProgram(code)).toThrow(/Cannot redefine property/);
       });
 
       it("Can redefine a configurable property", () => {
@@ -308,9 +306,7 @@ describe("E2E: Object", () => {
             writable: true,
           });
         `;
-        expect(() => evaluateProgram(code)).toThrow(
-          "TypeError: Cannot redefine property",
-        );
+        expect(() => evaluateProgram(code)).toThrow(/Cannot redefine property/);
       });
 
       it("Cannot add property to non-extensible object", () => {

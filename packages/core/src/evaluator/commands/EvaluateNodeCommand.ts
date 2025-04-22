@@ -1,14 +1,19 @@
 import { Node } from "@babel/types";
 
-import EvaluationContext from "../../EvaluationContext.js";
-import EvaluationGenerator from "../../EvaluationGenerator.js";
-import { EvaluateNodeOptions } from "../../node-evaluators/index.js";
+import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
+
+import evaluateNode, {
+  EvaluateNodeOptions,
+} from "../node-evaluators/evaluate-node.js";
+
+import ThrowCompletion from "../completions/ThrowCompletion.js";
+
+import EvaluationContext from "../EvaluationContext.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
+import StaticJsRuntimeError from "../StaticJsRuntimeError.js";
+import StaticJsEngineError from "../StaticJsEngineError.js";
 
 import EvaluatorCommandBase from "./EvaluatorCommandBase.js";
-import StaticJsRuntimeError from "../../StaticJsRuntimeError.js";
-import { ThrowCompletion } from "../../internal.js";
-import { StaticJsValue } from "../../../runtime/index.js";
-import StaticJsEngineError from "../../StaticJsEngineError.js";
 
 export interface EvaluateNodeCommandOptions extends EvaluateNodeOptions {
   rethrow?: boolean;
@@ -76,4 +81,15 @@ export function* EvaluateNodeCommand(
 
     return ThrowCompletion(e.thrown);
   }
+}
+
+export function* executeEvaluateNodeCommand(
+  command: EvaluateNodeCommand,
+): EvaluationGenerator {
+  const result = yield* evaluateNode(
+    command.node,
+    command.context,
+    command.options,
+  );
+  return result;
 }

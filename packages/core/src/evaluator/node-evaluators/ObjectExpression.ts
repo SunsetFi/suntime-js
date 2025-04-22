@@ -13,7 +13,7 @@ import {
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
-import { EvaluateNodeCommand } from "../commands/types/EvaluateNodeCommand.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import NormalCompletion from "../completions/NormalCompletion.js";
 
 import createFunction from "./Function.js";

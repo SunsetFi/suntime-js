@@ -1,2 +1,8 @@
-export * from "./implementation/index.js";
-export * from "./types/index.js";
+export {
+  EvaluateNodeCommand,
+  type EvaluateNodeCommandOptions,
+} from "./EvaluateNodeCommand.js";
+
+import { EvaluateNodeCommand } from "./EvaluateNodeCommand.js";
+
+export type EvaluatorCommand = EvaluateNodeCommand;

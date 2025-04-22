@@ -1,4 +1,4 @@
-import { executeEvaluatorCommand } from "./commands/index.js";
+import executeEvaluatorCommand from "./commands/execute-command.js";
 import EvaluationGenerator from "./EvaluationGenerator.js";
 
 export function runEvaluatorUntilCompletion<TReturn>(

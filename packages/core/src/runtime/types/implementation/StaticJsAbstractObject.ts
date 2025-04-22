@@ -5,6 +5,7 @@ import {
   ThrowCompletion,
 } from "../../../evaluator/internal.js";
 import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
+import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import { StaticJsRealm } from "../../realm/index.js";
@@ -191,8 +192,9 @@ export default abstract class StaticJsAbstractObject
 
     if (!currentDescriptor) {
       if (!this.extensible) {
-        // FIXME: Throw real error
-        throw new Error("Object is not extensible.");
+        throw new StaticJsRuntimeError(
+          this.realm.types.error("TypeError", `Object is not extensible`),
+        );
       }
 
       // Apply
@@ -222,8 +224,12 @@ export default abstract class StaticJsAbstractObject
         isNonStrictAccessor;
 
       if (isNonStrict) {
-        // FIXME: Throw real error
-        throw new Error(`TypeError: Cannot redefine property ${name}`);
+        throw new StaticJsRuntimeError(
+          this.realm.types.error(
+            "TypeError",
+            `Cannot redefine property ${name}`,
+          ),
+        );
       }
     }
 
@@ -300,10 +306,7 @@ export default abstract class StaticJsAbstractObject
         if (ownDecl.set) {
           const completion = yield* ownDecl.set.call(this, value);
           if (completion.type === "throw") {
-            // FIXME: Evaluator should return completions
-            throw new Error(
-              `Accessor property ${name} setter threw an error: ${completion.value}`,
-            );
+            throw new StaticJsRuntimeError(completion.value);
           }
           if (completion.type !== "normal") {
             throw new StaticJsEngineError(
@@ -320,9 +323,11 @@ export default abstract class StaticJsAbstractObject
       }
 
       if (strict) {
-        // FIXME: Use real error.  Return ThrowCompletion
-        throw new Error(
-          `TypeError: Cannot set property ${name} of ${this.toString()}`,
+        throw new StaticJsRuntimeError(
+          this.realm.types.error(
+            "TypeError",
+            `Cannot set property ${name} of ${this.toString()}`,
+          ),
         );
       }
 
@@ -336,10 +341,7 @@ export default abstract class StaticJsAbstractObject
         if (decl.set) {
           const completion = yield* decl.set.call(this, value);
           if (completion.type === "throw") {
-            // FIXME: Evaluator should return completions
-            throw new Error(
-              `Accessor property ${name} setter threw an error: ${completion.value}`,
-            );
+            throw new StaticJsRuntimeError(completion.value);
           }
           if (completion.type !== "normal") {
             throw new StaticJsEngineError(
@@ -350,8 +352,11 @@ export default abstract class StaticJsAbstractObject
         }
 
         if (strict) {
-          throw new Error(
-            `TypeError: Cannot set property ${name} of ${this.toString()}`,
+          throw new StaticJsRuntimeError(
+            this.realm.types.error(
+              "TypeError",
+              `Cannot set property ${name} of ${this.toString()}`,
+            ),
           );
         }
         return;
@@ -364,8 +369,11 @@ export default abstract class StaticJsAbstractObject
 
     if (!this.extensible) {
       if (strict) {
-        throw new Error(
-          `TypeError: Cannot set property ${name} of ${this.toString()}`,
+        throw new StaticJsRuntimeError(
+          this.realm.types.error(
+            "TypeError",
+            `Cannot set property ${name} of ${this.toString()}`,
+          ),
         );
       }
       return;
