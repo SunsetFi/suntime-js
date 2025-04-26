@@ -202,9 +202,11 @@ export default class StaticJsGlobalEnvironmentRecord
 
     if (!binding) {
       if (strict) {
-        // TODO: throw StaticJs ReferenceError
-        throw new ReferenceError(
-          `Assignment to undeclared variable '${name}'.`,
+        throw new StaticJsRuntimeError(
+          this._realm.types.error(
+            "ReferenceError",
+            `Assignment to undeclared variable '${name}'.`,
+          ),
         );
       }
 
@@ -220,8 +222,12 @@ export default class StaticJsGlobalEnvironmentRecord
 
     if (!binding.isMutable) {
       if (strict) {
-        // TODO: throw StaticJs TypeError
-        throw new TypeError("Assignment to constant variable.");
+        throw new StaticJsRuntimeError(
+          this._realm.types.error(
+            "TypeError",
+            "Assignment to constant variable.",
+          ),
+        );
       }
 
       return;

@@ -2,6 +2,8 @@ import {
   EvaluationGenerator,
   ThrowCompletion,
 } from "../../../evaluator/internal.js";
+import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
+import { StaticJsRealm } from "../../realm/index.js";
 
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
@@ -32,7 +34,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
 
     this._bindings.set(
       name,
-      new DeclarativeEnvironmentBinding(name, true, null),
+      new DeclarativeEnvironmentBinding(name, true, null, this.realm),
     );
   }
 
@@ -43,7 +45,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
 
     this._bindings.set(
       name,
-      new DeclarativeEnvironmentBinding(name, false, null),
+      new DeclarativeEnvironmentBinding(name, false, null, this.realm),
     );
   }
 
@@ -61,6 +63,7 @@ class DeclarativeEnvironmentBinding implements StaticJsEnvironmentBinding {
     public readonly name: string,
     public readonly isMutable: boolean,
     value: StaticJsValue | null,
+    private readonly realm: StaticJsRealm,
   ) {
     this._value = value;
   }
@@ -85,8 +88,12 @@ class DeclarativeEnvironmentBinding implements StaticJsEnvironmentBinding {
 
   *get(): EvaluationGenerator<StaticJsValue> {
     if (this._value == null) {
-      // TODO: Throw StaticJs ReferenceError
-      throw new Error(`Cannot get value of uninitialized binding ${this.name}`);
+      throw new StaticJsRuntimeError(
+        this.realm.types.error(
+          "ReferenceError",
+          `Cannot get value of uninitialized binding ${this.name}`,
+        ),
+      );
     }
 
     return this._value;

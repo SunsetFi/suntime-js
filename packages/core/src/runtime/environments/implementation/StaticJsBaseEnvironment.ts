@@ -166,8 +166,12 @@ export default abstract class StaticJsBaseEnvironmentRecord
     if (binding) {
       return yield* binding.get();
     } else {
-      // TODO: Throw StaticJs ReferenceError
-      throw new Error(`Cannot get binding ${name}: Binding does not exist.`);
+      throw new StaticJsRuntimeError(
+        this.realm.types.error(
+          "ReferenceError",
+          `Cannot get binding ${name}: Binding does not exist.`,
+        ),
+      );
     }
   }
 
@@ -181,7 +185,12 @@ export default abstract class StaticJsBaseEnvironmentRecord
     if (binding) {
       yield* binding.delete();
     } else {
-      throw new Error(`Cannot delete binding ${name}: Binding does not exist.`);
+      throw new StaticJsRuntimeError(
+        this.realm.types.error(
+          "ReferenceError",
+          `Cannot delete binding ${name}: Binding does not exist.`,
+        ),
+      );
     }
   }
 

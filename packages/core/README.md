@@ -56,7 +56,7 @@ No idea. I haven't had this security tested or reviewed. While this approach giv
 
 This project is slowly working its way through the [Test262](https://github.com/tc39/test262) suite of JavaScript tests.
 
-As of 4-13-2025, 24% of the 23605 tests are passing.
+As of 4-26-2025, 6281 of the 23605 tests are passing, or 26%.
 
 ## Usage
 
@@ -190,8 +190,9 @@ function evaluateCancellableProgram(
 - Get more strict with public api
   - Replace index.ts with public.ts
   - Never import from public.ts except for other public.ts to stop circular refs.
-- Make all internal usages of toX be generators; Eliminate runEvaluatorToCompletion in codebase aside from evaluteX
-- Make StaticJsObject property getters and setters able to return ThrowCompletion and propogate throws up the chain.
+- Clean up ThrowCompletions on utility functions.
+  - Currently have a mix of some functions returning ThrowCompletions and some throwing StaticJsRuntimeErrors
+  - Decide on one and stick to it.
 - Turn the value of ObjectLike.toJs() back into the same instance of StaticJsObjectLike in TypeFactory.toStaticJsValue()
 - Reveal information about the current line and character number the generator is at.
   - Also reveal scopes and variables.
