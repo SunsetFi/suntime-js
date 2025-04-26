@@ -12,7 +12,8 @@ export interface IntrinsicPropertyDeclarationBase {
   configurable?: boolean;
   writable?: boolean;
 }
-export interface FunctioinIntrinsicPropertyDeclaration
+
+export interface FunctionIntrinsicPropertyDeclaration
   extends IntrinsicPropertyDeclarationBase {
   func: (
     realm: StaticJsRealm,
@@ -20,9 +21,25 @@ export interface FunctioinIntrinsicPropertyDeclaration
     ...args: (StaticJsValue | undefined)[]
   ) => EvaluationGenerator;
 }
+function isFunctionIntrinsicPropertyDeclaration(
+  prop: IntrinsicPropertyDeclaration,
+): prop is FunctionIntrinsicPropertyDeclaration {
+  return "func" in prop;
+}
+
+export interface DataIntrinsicPropertyDeclaration
+  extends IntrinsicPropertyDeclarationBase {
+  value: StaticJsValue;
+}
+function isDataIntrinsicPropertyDeclaration(
+  prop: IntrinsicPropertyDeclaration,
+): prop is DataIntrinsicPropertyDeclaration {
+  return "value" in prop;
+}
 
 export type IntrinsicPropertyDeclaration =
-  FunctioinIntrinsicPropertyDeclaration;
+  | FunctionIntrinsicPropertyDeclaration
+  | DataIntrinsicPropertyDeclaration;
 
 export function applyIntrinsicProperties(
   realm: StaticJsRealm,
@@ -31,7 +48,7 @@ export function applyIntrinsicProperties(
   functionProto: StaticJsObjectLike,
 ) {
   for (const prop of properties) {
-    if (prop.func) {
+    if (isFunctionIntrinsicPropertyDeclaration(prop)) {
       obj.defineProperty(prop.name, {
         value: new StaticJsFunctionImpl(
           realm,
@@ -44,6 +61,13 @@ export function applyIntrinsicProperties(
         enumerable: prop.enumerable ?? false,
         configurable: prop.configurable ?? true,
         writable: prop.writable ?? true,
+      });
+    } else if (isDataIntrinsicPropertyDeclaration(prop)) {
+      obj.defineProperty(prop.name, {
+        value: prop.value,
+        enumerable: prop.enumerable ?? false,
+        configurable: prop.configurable ?? false,
+        writable: prop.writable ?? false,
       });
     } else {
       throw new Error(

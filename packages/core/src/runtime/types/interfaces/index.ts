@@ -31,8 +31,6 @@ export { type StaticJsString, isStaticJsString } from "./StaticJsString.js";
 export {
   type default as StaticJsTypeFactory,
   type ErrorTypeName,
-  type Prototypes,
-  type Constructors,
   isErrorTypeName,
 } from "./StaticJsTypeFactory.js";
 export {

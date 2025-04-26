@@ -8,6 +8,7 @@ import { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js";
 import { StaticJsValue } from "./StaticJsValue.js";
 import { StaticJsString } from "./StaticJsString.js";
 import { StaticJsUndefined } from "./StaticJsUndefined.js";
+import { Prototypes } from "../../intrinsics/intrinsics.js";
 
 export type ErrorTypeName =
   | "TypeError"
@@ -17,32 +18,6 @@ export type ErrorTypeName =
 
 export function isErrorTypeName(name: string): name is ErrorTypeName {
   return ["TypeError", "ReferenceError", "SyntaxError", "Error"].includes(name);
-}
-
-export interface Prototypes {
-  stringProto: StaticJsObject;
-  numberProto: StaticJsObject;
-  booleanProto: StaticJsObject;
-  objectProto: StaticJsObject;
-  arrayProto: StaticJsObject;
-  functionProto: StaticJsObject;
-  errorProto: StaticJsObject;
-  typeErrorProto: StaticJsObject;
-  referenceErrorProto: StaticJsObject;
-  syntaxErrorProto: StaticJsObject;
-}
-
-export interface Constructors {
-  String: StaticJsFunction;
-  Number: StaticJsFunction;
-  Boolean: StaticJsFunction;
-  Object: StaticJsFunction;
-  Array: StaticJsObject;
-  Function: StaticJsObject;
-  Error: StaticJsFunction;
-  TypeError: StaticJsFunction;
-  ReferenceError: StaticJsFunction;
-  SyntaxError: StaticJsFunction;
 }
 
 export default interface StaticJsTypeFactory {

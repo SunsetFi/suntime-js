@@ -13,6 +13,12 @@ export default class StaticJsStringImpl
   private readonly _value: string;
 
   constructor(realm: StaticJsRealm, value: string) {
+    if (typeof value !== "string") {
+      throw new TypeError(
+        `Cannot convert ${value} to StaticJsString: Expected string.`,
+      );
+    }
+
     super(realm);
     this._value = value;
   }

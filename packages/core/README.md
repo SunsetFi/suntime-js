@@ -22,7 +22,7 @@ No idea. I haven't had this security tested or reviewed. While this approach giv
 
 ## What is supported
 
-- Some intrinsic types
+- Most primitives (including prototypes and constructors)
   - null
   - undefined
   - string
@@ -32,26 +32,24 @@ No idea. I haven't had this security tested or reviewed. While this approach giv
   - array
   - function
   - Boxed versions of string / number / boolean
-- Constructors
-- Prototypes and factories for the intrinsic types
+- Math
+- Error (and variants)
 - (Most?) Unary and Binary operators
 - for / while / do
 - try / catch / finally
-- Spread operators
 - Destructuring
 - Imports ( preset external modules only )
 
 ### Notable things not (yet) supported
 
-- Promises
 - Symbols
+- Promises
 - Iterators and Generators
 - Classes
-- Error intrinsics
 - Date
 - Regex
 - for-of
-- Exporting modules
+- Exporting from modules
 - Importing other script modules
 
 ## Test262 coverage

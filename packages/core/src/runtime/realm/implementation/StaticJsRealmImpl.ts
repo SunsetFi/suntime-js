@@ -6,14 +6,11 @@ import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementati
 import { StaticJsEnvironment } from "../../environments/index.js";
 
 import {
-  createConstructors,
-  createPrototypes,
+  createIntrinsics,
   defineGlobalProperties,
 } from "../../intrinsics/index.js";
 import StaticJsTypeFactoryImpl from "../../types/implementation/StaticJsTypeFactoryImpl.js";
-import StaticJsTypeFactory, {
-  Constructors,
-} from "../../types/interfaces/StaticJsTypeFactory.js";
+import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
 import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
 import {
   StaticJsAccessorPropertyDescriptor,
@@ -33,6 +30,7 @@ import StaticJsModule from "../interfaces/StaticJsModule.js";
 import StaticJsExternalModuleImpl from "./StaticJsModuleImpl.js";
 import hasOwnProperty from "../../../internal/has-own-property.js";
 import StaticJsExternalFunction from "../../types/implementation/StaticJsExternalFunction.js";
+import { Instrinsics } from "../../intrinsics/intrinsics.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;
@@ -48,9 +46,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }: StaticJsRealmOptions = {}) {
     // Note: We could check to see if globalObject has factories or prototypes and use them
     // instead of these.
-    const protos = createPrototypes(this);
-    const ctors = createConstructors(this, protos);
-    this._typeFactory = new StaticJsTypeFactoryImpl(this, protos);
+    const intrinsics = createIntrinsics(this);
+    this._typeFactory = new StaticJsTypeFactoryImpl(this, intrinsics);
 
     // It would be nice to compute these outside in the function, but most of these rely on the type factory,
     // and the type factory relies on having a reference to StaticJsRealm.
@@ -90,7 +87,11 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       globalThisResolved = globalObjectResolved;
     }
 
-    this._setupGlobalObject(globalObjectResolved, globalThisResolved, ctors);
+    this._setupGlobalObject(
+      globalObjectResolved,
+      globalThisResolved,
+      intrinsics,
+    );
 
     this._globalObject = globalObjectResolved;
 
@@ -141,7 +142,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private _setupGlobalObject(
     globalObject: StaticJsObject,
     globalThis: StaticJsValue,
-    constructors: Constructors,
+    intrinsics: Instrinsics,
   ) {
     if (!globalObject.hasProperty("globalThis")) {
       globalObject.defineProperty("globalThis", {
@@ -161,7 +162,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       });
     }
 
-    defineGlobalProperties(this, globalObject, constructors);
+    defineGlobalProperties(this, globalObject, intrinsics);
   }
 }
 

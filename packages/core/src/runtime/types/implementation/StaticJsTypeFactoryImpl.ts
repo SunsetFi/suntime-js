@@ -7,7 +7,6 @@ import { StaticJsPropertyDescriptor } from "../interfaces/StaticJsPropertyDescri
 import StaticJsTypeFactory, {
   ErrorTypeName,
   isErrorTypeName,
-  Prototypes,
 } from "../interfaces/StaticJsTypeFactory.js";
 import { isStaticJsValue, StaticJsValue } from "../interfaces/StaticJsValue.js";
 import { StaticJsBoolean } from "../interfaces/StaticJsBoolean.js";
@@ -15,6 +14,8 @@ import { StaticJsUndefined } from "../interfaces/StaticJsUndefined.js";
 import { isStaticJsNull, StaticJsNull } from "../interfaces/StaticJsNull.js";
 import { StaticJsNumber } from "../interfaces/StaticJsNumber.js";
 import { StaticJsString } from "../interfaces/StaticJsString.js";
+
+import { Prototypes } from "../../intrinsics/intrinsics.js";
 
 import StaticJsArrayImpl from "./StaticJsArrayImpl.js";
 import StaticJsBooleanImpl from "./StaticJsBooleanImpl.js";
@@ -194,6 +195,12 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   boolean(value: boolean): StaticJsBoolean {
+    if (typeof value !== "boolean") {
+      throw new TypeError(
+        `Cannot convert ${value} to StaticJsBoolean: Expected boolean.`,
+      );
+    }
+
     if (value) {
       return this.true;
     }

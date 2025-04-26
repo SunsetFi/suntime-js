@@ -13,6 +13,12 @@ export default class StaticJsNumberImpl
   private readonly _value: number;
 
   constructor(realm: StaticJsRealm, value: number) {
+    if (typeof value !== "number") {
+      throw new TypeError(
+        `StaticJsNumberImpl constructor expects a number, got ${typeof value}`,
+      );
+    }
+
     super(realm);
     this._value = value;
   }

@@ -2,10 +2,13 @@ import StaticJsRealm from "../realm/interfaces/StaticJsRealm.js";
 
 import StaticJsObjectImpl from "../types/implementation/StaticJsObjectImpl.js";
 import { StaticJsObjectLike } from "../types/interfaces/StaticJsObject.js";
+
 import {
   Constructors,
+  Instrinsics,
   Prototypes,
-} from "../types/interfaces/StaticJsTypeFactory.js";
+  Statics,
+} from "./intrinsics.js";
 
 import {
   createObjectConstructor,
@@ -38,8 +41,21 @@ import createReferenceErrorConstructor, {
 import createSyntaxErrorConstructor, {
   populateSyntaxErrorPrototype,
 } from "./SyntaxError.js";
+import { createMathStatic } from "./Math/index.js";
 
-export function createPrototypes(realm: StaticJsRealm): Prototypes {
+export function createIntrinsics(realm: StaticJsRealm): Instrinsics {
+  const protos = createPrototypes(realm);
+  const ctors = createConstructors(realm, protos);
+  const statics = createStatics(realm, protos);
+
+  return {
+    ...protos,
+    ...ctors,
+    ...statics,
+  };
+}
+
+function createPrototypes(realm: StaticJsRealm): Prototypes {
   // There are some circular references around these, particularly with
   // instantiating functions for properties, so establish them ahead of time.
   const objectProto = new StaticJsObjectImpl(realm, null);
@@ -83,7 +99,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
   };
 }
 
-export function createConstructors(
+function createConstructors(
   realm: StaticJsRealm,
   {
     stringProto,
@@ -169,4 +185,16 @@ export function defineGlobalProperties(
       configurable: true,
     });
   }
+}
+
+function createStatics(realm: StaticJsRealm, protos: Prototypes): Statics {
+  const Math = createMathStatic(
+    realm,
+    protos.objectProto,
+    protos.functionProto,
+  );
+
+  return {
+    Math,
+  };
 }
