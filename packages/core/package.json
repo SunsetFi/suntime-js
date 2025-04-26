@@ -18,7 +18,7 @@
     "lib"
   ],
   "scripts": {
-    "prepublish": "npm run clean && npm run build",
+    "prepublish": "pnpm run clean && pnpm run build",
     "clean": "rimraf lib tsconfig.lib.tsbuildinfo",
     "build": "tsc -p tsconfig.lib.json",
     "check": "tsc -p tsconfig.lib.json --noEmit",
