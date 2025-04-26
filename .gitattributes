@@ -1,2 +1,1 @@
 *.json linguist-language=JSON-with-Comments
-packages/core/tests/test262/repo/* linguist-vendored
