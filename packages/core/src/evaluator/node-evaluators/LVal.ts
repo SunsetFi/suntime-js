@@ -10,7 +10,11 @@ import {
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
 import { EvaluateNodeCommand } from "../commands/index.js";
-import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
+import {
+  Completion,
+  NormalCompletion,
+  ThrowCompletion,
+} from "../completions/index.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
@@ -81,9 +85,11 @@ export default function* setLVal(
         }
 
         const property = String(index);
+
+        let setResult: Completion;
         if (element.type === "RestElement") {
           const restValue = yield* value.sliceEvaluator(index);
-          return yield* setLVal(
+          setResult = yield* setLVal(
             element.argument,
             restValue,
             context,
@@ -91,12 +97,16 @@ export default function* setLVal(
           );
         } else {
           const elementValue = yield* value.getPropertyEvaluator(property);
-          return yield* setLVal(
+          setResult = yield* setLVal(
             element,
             elementValue,
             context,
             setNamedVariable,
           );
+        }
+
+        if (isThrowCompletion(setResult)) {
+          return setResult;
         }
       }
 
@@ -112,6 +122,7 @@ export default function* setLVal(
 
       const seenProperties = new Set<string>();
       for (const property of lval.properties) {
+        let setResult: Completion | void;
         if (property.type === "RestElement") {
           const restValue = context.realm.types.object();
           for (const key in value) {
@@ -125,7 +136,7 @@ export default function* setLVal(
             }
           }
 
-          return yield* setLVal(
+          setResult = yield* setLVal(
             property.argument,
             restValue,
             context,
@@ -147,30 +158,27 @@ export default function* setLVal(
           const propertyValue = yield* value.getPropertyEvaluator(keyName);
 
           if (!property.computed && property.value.type === "Identifier") {
-            const completion = yield* setNamedVariable(
+            setResult = yield* setNamedVariable(
               property.value.name,
               propertyValue,
             );
-            if (isThrowCompletion(completion)) {
-              return completion;
-            }
           } else if (isLVal(property.value)) {
-            const completion = yield* setLVal(
+            setResult = yield* setLVal(
               property.value,
               propertyValue,
               context,
               setNamedVariable,
             );
-
-            if (completion.type !== "normal") {
-              return completion;
-            }
           } else {
             // FIXME: What else can this be?  How do these come up?
             throw new StaticJsEngineError(
               `Unsupported ObjectPattern property target type: ${property.value.type}`,
             );
           }
+        }
+
+        if (isThrowCompletion(setResult)) {
+          return setResult;
         }
       }
 
@@ -247,27 +255,37 @@ export function* environmentSetupLVal(
           continue;
         }
 
+        let setupResult: ThrowCompletion | void;
         if (element.type === "RestElement") {
-          return yield* environmentSetupLVal(
+          setupResult = yield* environmentSetupLVal(
             element.argument,
             context,
             bindVariable,
           );
         } else {
-          return yield* environmentSetupLVal(element, context, bindVariable);
+          setupResult = yield* environmentSetupLVal(
+            element,
+            context,
+            bindVariable,
+          );
+        }
+
+        if (isThrowCompletion(setupResult)) {
+          return setupResult;
         }
       }
       return;
     case "ObjectPattern":
       for (const property of lval.properties) {
+        let setupResult: ThrowCompletion | void;
         if (property.type === "RestElement") {
-          return yield* environmentSetupLVal(
+          setupResult = yield* environmentSetupLVal(
             property.argument,
             context,
             bindVariable,
           );
         } else if (isLVal(property.value)) {
-          return yield* environmentSetupLVal(
+          setupResult = yield* environmentSetupLVal(
             property.value,
             context,
             bindVariable,
@@ -276,6 +294,10 @@ export function* environmentSetupLVal(
           throw new StaticJsEngineError(
             `Unsupported ObjectPattern property target type: ${property.value.type}`,
           );
+        }
+
+        if (isThrowCompletion(setupResult)) {
+          return setupResult;
         }
       }
       return;

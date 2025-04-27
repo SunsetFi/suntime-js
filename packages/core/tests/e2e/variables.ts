@@ -35,9 +35,9 @@ describe("E2E: Variables", () => {
       const code = `
         const a = 1;
       `;
-      const env = StaticJsRealm();
-      evaluateProgram(code, env);
-      expect(env.globalObject.hasProperty("a")).toBe(false);
+      const realm = StaticJsRealm();
+      evaluateProgram(code, { realm });
+      expect(realm.globalObject.hasProperty("a")).toBe(false);
     });
 
     it("Can be redeclared in block scopes", () => {
@@ -49,6 +49,24 @@ describe("E2E: Variables", () => {
         a;
       `;
       expect(evaluateProgram(code)).toBe(1);
+    });
+
+    it("Can be destructured with objects", () => {
+      const code = `
+        const a = { x: 1, y: 2 };
+        const { x, y } = a;
+        [x, y];
+      `;
+      expect(evaluateProgram(code)).toEqual([1, 2]);
+    });
+
+    it("Can be destructured with arrays", () => {
+      const code = `
+        const a = [1, 2];
+        const [ x, y ] = a;
+        [x, y];
+      `;
+      expect(evaluateProgram(code)).toEqual([1, 2]);
     });
   });
 
@@ -85,13 +103,31 @@ describe("E2E: Variables", () => {
       expect(evaluateProgram(code)).toBe(2);
     });
 
+    it("Can be destructured with objects", () => {
+      const code = `
+        let a = { x: 1, y: 2 };
+        let { x, y } = a;
+        [x, y];
+      `;
+      expect(evaluateProgram(code)).toEqual([1, 2]);
+    });
+
+    it("Can be destructured with arrays", () => {
+      const code = `
+        let a = [1, 2];
+        let [ x, y ] = a;
+        [x, y];
+      `;
+      expect(evaluateProgram(code)).toEqual([1, 2]);
+    });
+
     it("Does not appear on the global object", () => {
       const code = `
         let a = 1;
       `;
-      const env = StaticJsRealm();
-      evaluateProgram(code, env);
-      expect(env.globalObject.hasProperty("a")).toBe(false);
+      const realm = StaticJsRealm();
+      evaluateProgram(code, { realm });
+      expect(realm.globalObject.hasProperty("a")).toBe(false);
     });
 
     it("Can be redeclared in block scopes", () => {
