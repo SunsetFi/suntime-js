@@ -74,7 +74,7 @@ export default abstract class StaticJsAbstractObject
     }
 
     this._prototype = proto;
-    return NormalCompletion(null);
+    return NormalCompletion();
   }
 
   preventExtensions(): void {

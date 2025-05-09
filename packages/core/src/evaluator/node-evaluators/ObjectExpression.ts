@@ -97,7 +97,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
         method,
         context.realm.strict,
       );
-      return NormalCompletion(null);
+      return NormalCompletion();
     }
     case "get": {
       yield* target.definePropertyEvaluator(propertyName, {
@@ -105,7 +105,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
         configurable: true,
         get: method,
       });
-      return NormalCompletion(null);
+      return NormalCompletion();
     }
     case "set": {
       yield* target.definePropertyEvaluator(propertyName, {
@@ -113,7 +113,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
         configurable: true,
         set: method,
       });
-      return NormalCompletion(null);
+      return NormalCompletion();
     }
   }
 
@@ -145,7 +145,7 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
     forNormalValue: "ObjectProperty.value",
   });
   yield* target.setPropertyEvaluator(propertyName, value, context.realm.strict);
-  return NormalCompletion(null);
+  return NormalCompletion();
 }
 
 function* objectExpressionPropertySpreadElementEvaluator(
@@ -159,7 +159,7 @@ function* objectExpressionPropertySpreadElementEvaluator(
   });
   if (!isStaticJsObject(value)) {
     // Apparently we just ignore these
-    return NormalCompletion(null);
+    return NormalCompletion();
   }
 
   const ownKeys = yield* value.getOwnKeysEvaluator();
@@ -172,5 +172,5 @@ function* objectExpressionPropertySpreadElementEvaluator(
     );
   }
 
-  return NormalCompletion(null);
+  return NormalCompletion();
 }

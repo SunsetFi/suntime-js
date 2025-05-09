@@ -1,11 +1,13 @@
 export {
   evaluateProgram,
+  evaluateModule,
   evaluateExpression,
   type EvaluateExpressionOptions,
   type EvaluateProgramOptions,
 } from "./evaluate.js";
 export {
   compileProgram,
+  compileModule,
   compileExpression,
   type StaticJsCompilation,
   type EvaluationOptions,

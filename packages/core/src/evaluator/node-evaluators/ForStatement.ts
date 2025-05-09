@@ -69,7 +69,7 @@ function* forStatementNodeEvaluator(
       });
 
       if (!testResult.toBoolean()) {
-        return NormalCompletion(null);
+        return NormalCompletion();
       }
     }
 
@@ -97,7 +97,7 @@ function* forStatementNodeEvaluator(
 
         // It was for us.  Break if that's what the request is.
         if (result.type === "break") {
-          return NormalCompletion(null);
+          return NormalCompletion();
         }
         break;
       }

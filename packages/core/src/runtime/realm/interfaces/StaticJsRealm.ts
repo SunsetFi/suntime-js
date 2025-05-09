@@ -1,3 +1,4 @@
+import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import StaticJsEnvironment from "../../environments/interfaces/StaticJsEnvironment.js";
 import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
 import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
@@ -33,10 +34,7 @@ export default interface StaticJsRealm {
    */
   readonly types: StaticJsTypeFactory;
 
-  /**
-   * The modules that have been loaded into the realm.
-   */
-  readonly modules: ReadonlyMap<string, StaticJsModule>;
+  resolveModule(moduleName: string): EvaluationGenerator<StaticJsModule | null>;
 }
 
 export function isStaticJsRealm(value: unknown): value is StaticJsRealm {

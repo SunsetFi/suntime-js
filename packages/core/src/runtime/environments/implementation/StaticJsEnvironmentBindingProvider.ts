@@ -175,7 +175,6 @@ export function environmentToBindingProvider(
       }
 
       return {
-        name,
         // TODO: We don't know these.
         isInitialized: false,
         isMutable: false,

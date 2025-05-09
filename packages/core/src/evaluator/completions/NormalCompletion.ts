@@ -6,7 +6,9 @@ interface NormalCompletion extends CompletionBase {
   type: "normal";
   value: StaticJsValue | null;
 }
-function NormalCompletion(value: StaticJsValue | null): NormalCompletion {
+function NormalCompletion(
+  value: StaticJsValue | null = null,
+): NormalCompletion {
   return {
     type: "normal",
     value,

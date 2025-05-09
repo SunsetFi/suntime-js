@@ -5,5 +5,5 @@ import { NormalCompletion } from "../completions/index.js";
 export default function* emptyStatementNodeEvaluator(
   _node: EmptyStatement,
 ): EvaluationGenerator {
-  return NormalCompletion(null);
+  return NormalCompletion();
 }

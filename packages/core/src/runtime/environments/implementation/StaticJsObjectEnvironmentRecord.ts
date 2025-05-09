@@ -51,7 +51,6 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
     }
 
     return {
-      name,
       isInitialized: true,
       isDeletable: true,
       isMutable: true,

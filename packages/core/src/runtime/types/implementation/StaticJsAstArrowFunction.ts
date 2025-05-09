@@ -117,7 +117,7 @@ export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
         );
     }
 
-    return NormalCompletion(null);
+    return NormalCompletion();
   }
 
   private *_declareArguments(
@@ -180,6 +180,6 @@ export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
       }
     }
 
-    return NormalCompletion(null);
+    return NormalCompletion();
   }
 }

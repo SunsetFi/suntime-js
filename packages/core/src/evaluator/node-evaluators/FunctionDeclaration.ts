@@ -11,7 +11,7 @@ import createFunction from "./Function.js";
 function* functionDeclarationNodeEvaluator(
   _node: FunctionDeclaration,
 ): EvaluationGenerator {
-  return NormalCompletion(null);
+  return NormalCompletion();
 }
 
 function* functionDeclarationEnvironmentSetup(

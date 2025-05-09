@@ -65,7 +65,7 @@ export default function* setLVal(
       if (isThrowCompletion(result)) {
         return result;
       }
-      return NormalCompletion(null);
+      return NormalCompletion();
     }
     case "ArrayPattern": {
       // FIXME: This should use iterators.
@@ -110,7 +110,7 @@ export default function* setLVal(
         }
       }
 
-      return NormalCompletion(null);
+      return NormalCompletion();
     }
     case "ObjectPattern": {
       if (!isStaticJsObject(value)) {
@@ -182,7 +182,7 @@ export default function* setLVal(
         }
       }
 
-      return NormalCompletion(null);
+      return NormalCompletion();
     }
     case "AssignmentPattern": {
       if (!value || isStaticJsUndefined(value)) {
@@ -234,7 +234,7 @@ export default function* setLVal(
         context.realm.strict,
       );
 
-      return NormalCompletion(null);
+      return NormalCompletion();
     }
   }
 

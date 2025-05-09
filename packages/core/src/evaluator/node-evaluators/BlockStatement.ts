@@ -47,7 +47,7 @@ function* blockStatementNodeEvaluator(
     }
   }
 
-  return NormalCompletion(null);
+  return NormalCompletion();
 }
 
 export default typedMerge(blockStatementNodeEvaluator, {

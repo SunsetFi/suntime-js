@@ -34,7 +34,7 @@ export default function* forInStatementNodeEvaluator(
 
   // This appears to just return with nothing in this case.
   if (!isStaticJsObjectLike(right)) {
-    return NormalCompletion(null);
+    return NormalCompletion();
   }
 
   const keys = yield* right.getEnumerableKeysEvaluator();
@@ -92,7 +92,7 @@ export default function* forInStatementNodeEvaluator(
 
         // It was for us.  Break if that's what the request is.
         if (result.type === "break") {
-          return NormalCompletion(null);
+          return NormalCompletion();
         }
         break;
       }
@@ -102,5 +102,5 @@ export default function* forInStatementNodeEvaluator(
     }
   }
 
-  return NormalCompletion(null);
+  return NormalCompletion();
 }

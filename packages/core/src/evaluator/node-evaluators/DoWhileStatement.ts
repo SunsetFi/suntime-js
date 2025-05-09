@@ -79,7 +79,7 @@ function* doWhileStatementNodeEvaluator(
     }
   }
 
-  return NormalCompletion(null);
+  return NormalCompletion();
 }
 
 export default typedMerge(doWhileStatementNodeEvaluator, {

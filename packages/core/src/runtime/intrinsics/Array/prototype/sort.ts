@@ -123,7 +123,7 @@ function* topDownSplitMerge(
   ) => EvaluationGenerator<ThrowCompletion | number>,
 ): EvaluationGenerator {
   if (iEnd - iBegin <= 1) {
-    return NormalCompletion(null);
+    return NormalCompletion();
   }
 
   const iMiddle = Math.floor((iBegin + iEnd) / 2);
@@ -144,7 +144,7 @@ function* topDownSplitMerge(
     return result;
   }
 
-  return NormalCompletion(null);
+  return NormalCompletion();
 }
 
 function* topDownMerge(
@@ -193,7 +193,7 @@ function* topDownMerge(
     }
   }
 
-  return NormalCompletion(null);
+  return NormalCompletion();
 }
 
 export default arrayProtoSortDeclaration;

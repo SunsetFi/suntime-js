@@ -79,7 +79,7 @@ function* whileStatementNodeEvaluator(
     }
   }
 
-  return NormalCompletion(null);
+  return NormalCompletion();
 }
 
 export default typedMerge(whileStatementNodeEvaluator, {

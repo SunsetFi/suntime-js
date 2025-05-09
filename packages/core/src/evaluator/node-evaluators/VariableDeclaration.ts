@@ -61,7 +61,7 @@ function* variableDeclarationNodeEvaluator(
     }
   }
 
-  return NormalCompletion(null);
+  return NormalCompletion();
 }
 
 function* variableDeclarationEnvironmentSetup(

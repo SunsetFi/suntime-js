@@ -43,6 +43,8 @@ import createSyntaxErrorConstructor, {
 } from "./SyntaxError.js";
 import { createMathStatic } from "./Math/index.js";
 
+export type { Instrinsics, Prototypes };
+
 export function createIntrinsics(realm: StaticJsRealm): Instrinsics {
   const protos = createPrototypes(realm);
   const ctors = createConstructors(realm, protos);

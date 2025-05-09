@@ -107,7 +107,7 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
         return evaluationCompletion;
     }
 
-    return NormalCompletion(null);
+    return NormalCompletion();
   }
 
   private *_declareArguments(
@@ -170,6 +170,6 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
       }
     }
 
-    return NormalCompletion(null);
+    return NormalCompletion();
   }
 }

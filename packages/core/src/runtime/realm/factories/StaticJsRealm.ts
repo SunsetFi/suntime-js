@@ -1,7 +1,10 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
-import { StaticJsRealm as IStaticJsRealm } from "../interfaces/index.js";
+import {
+  StaticJsRealm as IStaticJsRealm,
+  StaticJsModule,
+} from "../interfaces/index.js";
 
 export interface StaticJsRealmGlobalDataPropertyDecl {
   readonly configurable?: boolean;
@@ -31,7 +34,7 @@ export interface StaticJsRealmModuleExports {
   exports: Record<string, unknown>;
 }
 
-export type StaticJsRealmModule = StaticJsRealmModuleExports;
+export type StaticJsRealmModule = StaticJsRealmModuleExports | StaticJsModule;
 export interface StaticJsRealmOptions {
   globalThis?: { value: unknown };
   globalObject?: StaticJsRealmGlobalDecl | StaticJsRealmGlobalValue;

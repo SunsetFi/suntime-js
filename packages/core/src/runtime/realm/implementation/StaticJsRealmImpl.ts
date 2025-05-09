@@ -1,14 +1,18 @@
 import { Writable } from "type-fest";
 
+import hasOwnProperty from "../../../internal/has-own-property.js";
+
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/index.js";
 import { StaticJsEnvironment } from "../../environments/index.js";
 
 import {
+  Instrinsics,
   createIntrinsics,
   defineGlobalProperties,
 } from "../../intrinsics/index.js";
+
 import StaticJsTypeFactoryImpl from "../../types/implementation/StaticJsTypeFactoryImpl.js";
 import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
 import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
@@ -26,11 +30,11 @@ import {
 } from "../factories/StaticJsRealm.js";
 
 import StaticJsRealm from "../interfaces/StaticJsRealm.js";
-import StaticJsModule from "../interfaces/StaticJsModule.js";
-import StaticJsExternalModuleImpl from "./StaticJsModuleImpl.js";
-import hasOwnProperty from "../../../internal/has-own-property.js";
+import StaticJsModule, {
+  isStaticJsModule,
+} from "../interfaces/StaticJsModule.js";
+import StaticJsExternalModuleImpl from "./StaticJsExternalModuleImpl.js";
 import StaticJsExternalFunction from "../../types/implementation/StaticJsExternalFunction.js";
-import { Instrinsics } from "../../intrinsics/intrinsics.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;
@@ -103,14 +107,17 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
     for (const [name, moduleDef] of Object.entries(modules ?? {})) {
       let moduleInstance: StaticJsModule;
-      if (moduleDef.exports) {
+      if (isStaticJsModule(moduleDef)) {
+        moduleInstance = moduleDef;
+      } else if (moduleDef.exports && typeof moduleDef.exports === "object") {
         moduleInstance = new StaticJsExternalModuleImpl(
+          name,
           this,
           moduleDef.exports,
         );
       } else {
-        throw new Error(
-          `Module ${name} does not have an exports object.  Cannot create module.`,
+        throw new TypeError(
+          `Module ${name} is not a StaticJsModule and does not have an exports object.  Cannot create module.`,
         );
       }
 
@@ -135,8 +142,15 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return this._typeFactory;
   }
 
-  get modules() {
-    return this._modules;
+  *resolveModule(
+    moduleName: string,
+  ): EvaluationGenerator<StaticJsModule | null> {
+    const module = this._modules.get(moduleName);
+    if (!module) {
+      return null;
+    }
+
+    return module;
   }
 
   private _setupGlobalObject(

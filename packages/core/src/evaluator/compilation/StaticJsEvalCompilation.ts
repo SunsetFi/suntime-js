@@ -10,12 +10,13 @@ import {
 
 import evaluateNode from "../node-evaluators/evaluate-node.js";
 
+import StaticJsEngineError from "../StaticJsEngineError.js";
+
 import StaticJsCompilation, {
   EvaluationOptions,
 } from "./StaticJsCompilation.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
 
-export default class StaticJsCompilationImpl implements StaticJsCompilation {
+export default class StaticJsEvalCompilation implements StaticJsCompilation {
   constructor(private readonly _root: Node) {}
 
   evaluate({ realm }: EvaluationOptions = {}): unknown {
