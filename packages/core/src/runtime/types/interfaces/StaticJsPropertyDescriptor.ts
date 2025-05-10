@@ -60,7 +60,7 @@ export function validateStaticJsPropertyDescriptor(
 
 export function isStaticJsDataPropertyDescriptor(
   value: unknown,
-): value is Required<StaticJsDataPropertyDescriptor> {
+): value is StaticJsDataPropertyDescriptor {
   if (!value || typeof value !== "object") {
     return false;
   }
@@ -70,7 +70,7 @@ export function isStaticJsDataPropertyDescriptor(
 
 export function isStaticJsAccessorPropertyDescriptor(
   value: unknown,
-): value is Required<StaticJsAccessorPropertyDescriptor> {
+): value is StaticJsAccessorPropertyDescriptor {
   if (!value || typeof value !== "object") {
     return false;
   }
@@ -95,7 +95,7 @@ export function getStaticJsPropertyDescriptorValue(
     return descriptor.value as StaticJsValue;
   } else if (hasGet) {
     // FIXME HACK: Make evaluator
-    const completion = runEvaluatorUntilCompletion(descriptor.get.call(obj));
+    const completion = runEvaluatorUntilCompletion(descriptor.get!.call(obj));
     if (completion.type === "throw") {
       // FIXME: Wrap error properly.
       const err = completion.value;

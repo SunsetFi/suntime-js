@@ -64,7 +64,7 @@ export default class StaticJsArrayImpl
 
     if (isStaticJsDataPropertyDescriptor(descr)) {
       return descr.value.toNumber();
-    } else if (isStaticJsAccessorPropertyDescriptor(descr)) {
+    } else if (isStaticJsAccessorPropertyDescriptor(descr) && descr.get) {
       const getCompletion = yield* descr.get.call(this);
       if (getCompletion.type === "throw") {
         // FIXME: Untangle throw completions from non completion functions

@@ -247,13 +247,18 @@ describe("E2E: Object", () => {
         const result = evaluateProgram(code) as { a: number; b: number };
 
         expect(Object.getOwnPropertyDescriptor(result, "a")).toEqual({
-          value: 1,
+          configurable: false,
+          enumerable: false,
           writable: true,
+          value: 1,
         });
         expect(result.a).toBe(1);
 
         expect(Object.getOwnPropertyDescriptor(result, "b")).toEqual({
+          configurable: false,
           enumerable: true,
+          writable: false,
+          value: 2,
         });
         expect(result.b).toBe(2);
       });

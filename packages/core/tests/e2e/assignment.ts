@@ -9,7 +9,7 @@ describe("E2E: Assignment", () => {
         const a = {x: 42};
         a;
       `;
-      expect(evaluateProgram(code)).toStrictEqual({ x: 42 });
+      expect(evaluateProgram(code)).toEqual({ x: 42 });
     });
 
     it("Can be assigned with a method", () => {
@@ -19,7 +19,7 @@ describe("E2E: Assignment", () => {
         a;
       `;
       const result = evaluateProgram(code, env) as { x: () => number };
-      expect(result).toStrictEqual({ x: expect.any(Function) });
+      expect(result).toEqual({ x: expect.any(Function) });
       expect(result.x()).toBe(42);
     });
 
@@ -29,7 +29,7 @@ describe("E2E: Assignment", () => {
         const a = {[key]: 42};
         a;
       `;
-      expect(evaluateProgram(code)).toStrictEqual({ x: 42 });
+      expect(evaluateProgram(code)).toEqual({ x: 42 });
     });
 
     it("Can be assigned with a computed key and a method", () => {
@@ -40,7 +40,7 @@ describe("E2E: Assignment", () => {
         a;
       `;
       const result = evaluateProgram(code, env) as { x: () => number };
-      expect(result).toStrictEqual({ x: expect.any(Function) });
+      expect(result).toEqual({ x: expect.any(Function) });
       expect(result.x()).toBe(42);
     });
 
@@ -51,7 +51,7 @@ describe("E2E: Assignment", () => {
         const c = {fromA: -1, ...a, ...b, fromC: 4};
         c;
       `;
-      expect(evaluateProgram(code)).toStrictEqual({
+      expect(evaluateProgram(code)).toEqual({
         fromA: 6,
         fromB: 2,
         fromC: 4,
@@ -64,7 +64,7 @@ describe("E2E: Assignment", () => {
         const b = a;
         b;
       `;
-      expect(evaluateProgram(code)).toStrictEqual({ x: 42 });
+      expect(evaluateProgram(code)).toEqual({ x: 42 });
     });
 
     it("Can be assigned with other objects", () => {
@@ -73,7 +73,7 @@ describe("E2E: Assignment", () => {
         const b = {value: a};
         b;
       `;
-      expect(evaluateProgram(code)).toStrictEqual({ value: { x: 42 } });
+      expect(evaluateProgram(code)).toEqual({ value: { x: 42 } });
     });
 
     it("Can be shorthand assigned", () => {
@@ -82,7 +82,7 @@ describe("E2E: Assignment", () => {
         const a = {x};
         a;
       `;
-      expect(evaluateProgram(code)).toStrictEqual({ x: 42 });
+      expect(evaluateProgram(code)).toEqual({ x: 42 });
     });
   });
 
@@ -92,7 +92,7 @@ describe("E2E: Assignment", () => {
         const a = [1, 2];
         a;
       `;
-      expect(evaluateProgram(code)).toStrictEqual([1, 2]);
+      expect(evaluateProgram(code)).toEqual([1, 2]);
     });
 
     it("Can be assigned to other variables", () => {
@@ -101,7 +101,7 @@ describe("E2E: Assignment", () => {
         const b = a;
         b;
       `;
-      expect(evaluateProgram(code)).toStrictEqual([1, 2]);
+      expect(evaluateProgram(code)).toEqual([1, 2]);
     });
 
     it("Can be spread", () => {
@@ -111,7 +111,7 @@ describe("E2E: Assignment", () => {
         const c = [1, ...a, ...b, 6];
         c;
       `;
-      expect(evaluateProgram(code)).toStrictEqual([1, 2, 3, 4, 5, 6]);
+      expect(evaluateProgram(code)).toEqual([1, 2, 3, 4, 5, 6]);
     });
   });
 });

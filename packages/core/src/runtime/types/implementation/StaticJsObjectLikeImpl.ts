@@ -1,4 +1,5 @@
 import { EvaluationGenerator } from "../../../evaluator/internal.js";
+import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
 
 import { StaticJsRealm } from "../../realm/index.js";
 
@@ -7,6 +8,8 @@ import {
   StaticJsPropertyDescriptor,
   StaticJsObjectLike,
   StaticJsNull,
+  isStaticJsAccessorPropertyDescriptor,
+  isStaticJsDataPropertyDescriptor,
 } from "../interfaces/index.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
@@ -30,7 +33,30 @@ export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObj
   *getOwnPropertyDescriptorEvaluator(
     name: string,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
-    return this._contents.get(name);
+    const descriptor = this._contents.get(name);
+    if (!descriptor) {
+      return undefined;
+    }
+
+    // FIXME: Where should the defaults be resolved?
+    if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
+      return {
+        configurable: false,
+        enumerable: false,
+        ...descriptor,
+      };
+    } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
+      return {
+        configurable: false,
+        enumerable: false,
+        writable: false,
+        ...descriptor,
+      };
+    } else {
+      throw new StaticJsEngineError(
+        `Unknown descriptor type in getOwnPropertyDescriptor for property ${name}.`,
+      );
+    }
   }
 
   protected *_setWritableDataPropertyEvaluator(

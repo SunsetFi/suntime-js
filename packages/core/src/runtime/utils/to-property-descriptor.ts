@@ -33,10 +33,15 @@ export default function* toPropertyDescriptor(
   // This will be checked and caught by StaticJsObjectLike.defineProperty when it is used.
   const descriptor: Writable<
     Partial<StaticJsAccessorPropertyDescriptor & StaticJsDataPropertyDescriptor>
-  > = {
-    enumerable,
-    configurable,
-  };
+  > = {};
+
+  if (configurable !== undefined) {
+    descriptor.configurable = configurable;
+  }
+
+  if (enumerable !== undefined) {
+    descriptor.enumerable = enumerable;
+  }
 
   const hasValue = yield* obj.hasPropertyEvaluator("value");
   if (hasValue) {

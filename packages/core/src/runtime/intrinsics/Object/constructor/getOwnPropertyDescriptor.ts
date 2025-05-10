@@ -35,9 +35,15 @@ const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaratio
 
       const result = realm.types.object({
         enumerable: {
+          enumerable: true,
+          writable: true,
+          configurable: true,
           value: realm.types.boolean(descriptor.enumerable ?? false),
         },
         configurable: {
+          enumerable: true,
+          writable: true,
+          configurable: true,
           value: realm.types.boolean(descriptor.configurable ?? false),
         },
       });
@@ -45,32 +51,32 @@ const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaratio
       if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
         if (descriptor.get) {
           result.defineProperty("get", {
-            value: descriptor.get,
             enumerable: true,
             writable: true,
             configurable: true,
+            value: descriptor.get,
           });
         }
         if (descriptor.set) {
           result.defineProperty("set", {
-            value: descriptor.set,
             enumerable: true,
             writable: true,
             configurable: true,
+            value: descriptor.set,
           });
         }
       } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
         result.defineProperty("value", {
-          value: descriptor.value,
           enumerable: true,
           writable: true,
           configurable: true,
+          value: descriptor.value,
         });
         result.defineProperty("writable", {
-          value: realm.types.boolean(descriptor.writable ?? false),
           enumerable: true,
           writable: true,
           configurable: true,
+          value: realm.types.boolean(descriptor.writable ?? false),
         });
       }
 

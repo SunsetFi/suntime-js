@@ -261,7 +261,7 @@ export default abstract class StaticJsAbstractObject
     let value: unknown;
     if (isStaticJsDataPropertyDescriptor(decl)) {
       value = decl.value;
-    } else if (isStaticJsAccessorPropertyDescriptor(decl)) {
+    } else if (isStaticJsAccessorPropertyDescriptor(decl) && decl.get) {
       const completion = yield* decl.get.call(this);
       if (completion.type === "throw") {
         // FIXME: Handle this; these functions should return completions
@@ -409,51 +409,117 @@ export default abstract class StaticJsAbstractObject
       return this._cachedJsObject;
     }
 
-    const target = {};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const target = {} as any;
+
+    const getOwnPropertyDescriptor = (propertyName: string) => {
+      if (typeof propertyName !== "string") {
+        // Dont yet support symbols.
+        return undefined;
+      }
+
+      const descriptor = this.getOwnPropertyDescriptor(propertyName);
+      if (!descriptor) {
+        return undefined;
+      }
+
+      // So apparently if we can't change this WE MUST RETURN THE SAME REFERENCE
+      // What even is the point of proxy objects!  They make the object have all the same values anyway!
+      // What the hell is Proxy even for!  Whose use case is this!  Why force me to mantain my object identically!!!
+      // The only use of this is that I can actually capture the events, and force my target up to date.
+      // This is so, so, so, so stupid.
+      const existingDef = Object.getOwnPropertyDescriptor(target, propertyName);
+      if (existingDef && !existingDef.configurable) {
+        // Well, the good news is if its not configrable, it wouldn't have been configurable
+        // on the 'real' runtime object, which means it can never change.
+        // HOWEVER
+        // we still need to update the value if its a value descriptor!
+        // SIGH.............
+        if (
+          isStaticJsDataPropertyDescriptor(descriptor) &&
+          descriptor.writable
+        ) {
+          target[propertyName] = this.getProperty(propertyName).toJs();
+          return Object.getOwnPropertyDescriptor(target, propertyName);
+        }
+        return existingDef;
+      }
+
+      const jsDescriptor: PropertyDescriptor = {};
+      if (descriptor.configurable !== undefined) {
+        jsDescriptor.configurable = descriptor.configurable;
+      }
+      if (descriptor.enumerable !== undefined) {
+        jsDescriptor.enumerable = descriptor.enumerable;
+      }
+
+      if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
+        if (descriptor.get) {
+          jsDescriptor.get = () => {
+            return this.getProperty(propertyName).toJs();
+          };
+        }
+        if (descriptor.set) {
+          jsDescriptor.set = (value: unknown) => {
+            const staticJsValue = this.realm.types.toStaticJsValue(value);
+            this.setProperty(propertyName, staticJsValue, false);
+          };
+        } else {
+          // Huh... This needs to be set apparently.
+          // FIXME: Should we define this explicity in our engine object get descriptor?
+          jsDescriptor.set = undefined;
+        }
+      } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
+        jsDescriptor.writable = descriptor.writable;
+        jsDescriptor.value = this.getProperty(propertyName).toJs();
+      }
+
+      // Proxy is incredibly stupid in that it forces you to have the target match.
+      // So like, what's the point...
+      // Just... set it now.  Whatever.
+      Object.defineProperty(target, propertyName, jsDescriptor);
+
+      return jsDescriptor;
+    };
+
+    const ownKeys = () => {
+      const keys = this.getOwnKeys();
+      for (const key of keys) {
+        // Do this to poke the descriptors...
+        // Sigh...
+        getOwnPropertyDescriptor(key);
+      }
+      return keys;
+    };
 
     this._cachedJsObject = new Proxy(target, {
-      getOwnPropertyDescriptor: (target, p) => {
+      get(_target, p) {
         if (typeof p !== "string") {
           // Dont yet support symbols.
           return undefined;
         }
 
-        const descriptor = this.getOwnPropertyDescriptor(p);
-        if (!descriptor) {
+        const descr = getOwnPropertyDescriptor(p);
+        if (!descr) {
           return undefined;
         }
 
-        const jsDescriptor: PropertyDescriptor = {};
-        if (descriptor.configurable !== undefined) {
-          jsDescriptor.configurable = descriptor.configurable;
-        }
-        if (descriptor.enumerable !== undefined) {
-          jsDescriptor.enumerable = descriptor.enumerable;
+        if (descr.value !== undefined) {
+          return descr.value;
+        } else if (descr.get) {
+          return descr.get();
         }
 
-        if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
-          if (descriptor.get) {
-            jsDescriptor.get = () => {
-              return this.getProperty(p).toJs();
-            };
-          }
-          if (descriptor.set) {
-            jsDescriptor.set = (value: unknown) => {
-              const staticJsValue = this.realm.types.toStaticJsValue(value);
-              this.setProperty(p, staticJsValue, false);
-            };
-          }
-        } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
-          jsDescriptor.writable = descriptor.writable;
-          jsDescriptor.value = this.getProperty(p).toJs();
+        return undefined;
+      },
+      ownKeys,
+      getOwnPropertyDescriptor: (_target, p) => {
+        if (typeof p !== "string") {
+          // Dont yet support symbols.
+          return undefined;
         }
 
-        // Proxy is incredibly stupid in that it forces you to have the target match.
-        // So like, what's the point...
-        // Just... set it now.  Whatever.
-        Object.defineProperty(target, p, jsDescriptor);
-
-        return jsDescriptor;
+        return getOwnPropertyDescriptor(p);
       },
     });
 
