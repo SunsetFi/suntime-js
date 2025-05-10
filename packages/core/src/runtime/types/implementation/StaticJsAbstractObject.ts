@@ -495,7 +495,7 @@ export default abstract class StaticJsAbstractObject
     this._cachedJsObject = new Proxy(target, {
       get(_target, p) {
         if (typeof p !== "string") {
-          // Dont yet support symbols.
+          // Don't yet support symbols.
           return undefined;
         }
 
@@ -515,11 +515,48 @@ export default abstract class StaticJsAbstractObject
       ownKeys,
       getOwnPropertyDescriptor: (_target, p) => {
         if (typeof p !== "string") {
-          // Dont yet support symbols.
+          // Don't yet support symbols.
           return undefined;
         }
 
         return getOwnPropertyDescriptor(p);
+      },
+      has(_target, p) {
+        if (typeof p !== "string") {
+          // Don't yet support symbols.
+          return false;
+        }
+        return getOwnPropertyDescriptor(p) !== undefined;
+      },
+      // TODO: Writable traps
+      defineProperty() {
+        return false;
+      },
+      deleteProperty() {
+        return false;
+      },
+      isExtensible() {
+        return false;
+      },
+      preventExtensions() {
+        return true;
+      },
+      set() {
+        return false;
+      },
+      setPrototypeOf() {
+        return false;
+      },
+      getPrototypeOf() {
+        return Object.prototype;
+      },
+      apply() {
+        // FIXME: It might be!!!
+        // We need to make Function ObjectLikes handle this!
+        throw new TypeError("Object is not a function.");
+      },
+      construct() {
+        throw new TypeError("Object is not a constructor.");
       },
     });
 
