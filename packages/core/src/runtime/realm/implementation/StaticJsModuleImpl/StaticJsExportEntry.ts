@@ -15,26 +15,22 @@ export function isStaticJsLocalExportEntry(
   );
 }
 
-export interface StaticJsReexportExportEntry {
+export interface StaticJsIndirectExportEntry {
   readonly exportName: string | null;
   readonly moduleRequest: string;
   readonly importName: string | null;
 }
-export function isStaticJsReexportExportEntry(
+export function isStaticJsIndirectExportEntry(
   x: unknown,
-): x is StaticJsReexportExportEntry {
+): x is StaticJsIndirectExportEntry {
   if (typeof x !== "object" || x === null) {
     return false;
   }
 
-  const entry = x as StaticJsReexportExportEntry;
-  return (
-    typeof entry.exportName === "string" &&
-    typeof entry.moduleRequest === "string" &&
-    typeof entry.importName === "string"
-  );
+  const entry = x as StaticJsIndirectExportEntry;
+  return typeof entry.moduleRequest === "string";
 }
 
 export type StaticJsExportEntry =
   | StaticJsLocalExportEntry
-  | StaticJsReexportExportEntry;
+  | StaticJsIndirectExportEntry;

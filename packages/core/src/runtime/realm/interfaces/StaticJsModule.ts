@@ -1,33 +1,23 @@
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { StaticJsValue } from "../../types/index.js";
-
-export type StaticJsModuleStatus =
-  | "uninstantiated"
-  | "instantiated"
-  | "evaluating"
-  | "evaluated";
-export default interface StaticJsModule {
+export interface StaticJsModule {
   readonly name: string;
-  readonly status: StaticJsModuleStatus;
+  readonly moduleSpecifier: string;
 
-  moduleDeclarationInstantiation(): EvaluationGenerator;
-  moduleEvaluation(): EvaluationGenerator;
+  getExportedNames(): string[];
 
-  hasExport(name: string): boolean;
-  resolveExport(name: string): StaticJsValue | undefined;
-  getExportedNames(): readonly string[];
+  getExport(exportName: string): unknown;
+
+  getModuleNamespace(): Record<string, unknown>;
 }
 
 export function isStaticJsModule(x: unknown): x is StaticJsModule {
-  if (typeof x !== "object" || x === null) {
-    return false;
-  }
-
   const module = x as StaticJsModule;
   return (
+    module &&
+    typeof module === "object" &&
     typeof module.name === "string" &&
-    typeof module.hasExport === "function" &&
-    typeof module.resolveExport === "function" &&
-    typeof module.getExportedNames === "function"
+    typeof module.moduleSpecifier === "string" &&
+    typeof module.getExportedNames === "function" &&
+    typeof module.getExport === "function" &&
+    typeof module.getModuleNamespace === "function"
   );
 }

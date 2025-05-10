@@ -7,7 +7,7 @@ import {
   evaluateCommands,
 } from "../evaluator-runtime.js";
 
-import StaticJsModule from "../../runtime/realm/interfaces/StaticJsModule.js";
+import { StaticJsModule } from "../../runtime/realm/interfaces/StaticJsModule.js";
 import { StaticJsModuleImpl } from "../../runtime/realm/implementation/StaticJsModuleImpl/StaticJsModuleImpl.js";
 
 import { isThrowCompletion } from "../completions/ThrowCompletion.js";
@@ -28,16 +28,18 @@ export default class StaticJsEvalCompilation
       throw new Error("Invalid realm");
     }
 
-    const mod = new StaticJsModuleImpl(realm, "<anonymous>", this._program);
+    const mod = new StaticJsModuleImpl("<anonymous>", this._program, realm);
 
     const initResult = runEvaluatorUntilCompletion(
-      mod.moduleDeclarationInstantiation(),
+      mod.moduleDeclarationInstantiationEvaluator(),
     );
     if (isThrowCompletion(initResult)) {
       throw initResult.value.toJs();
     }
 
-    const evalResult = runEvaluatorUntilCompletion(mod.moduleEvaluation());
+    const evalResult = runEvaluatorUntilCompletion(
+      mod.moduleEvaluationEvaluator(),
+    );
     if (isThrowCompletion(evalResult)) {
       throw evalResult.value.toJs();
     }
@@ -56,16 +58,16 @@ export default class StaticJsEvalCompilation
       throw new Error("Invalid realm");
     }
 
-    const mod = new StaticJsModuleImpl(realm, "<anonymous>", this._program);
+    const mod = new StaticJsModuleImpl("<anonymous>", this._program, realm);
 
     const initResult = yield* evaluateCommands(
-      mod.moduleDeclarationInstantiation(),
+      mod.moduleDeclarationInstantiationEvaluator(),
     );
     if (isThrowCompletion(initResult)) {
       throw initResult.value.toJs();
     }
 
-    const evalResult = yield* evaluateCommands(mod.moduleEvaluation());
+    const evalResult = yield* evaluateCommands(mod.moduleEvaluationEvaluator());
     if (isThrowCompletion(evalResult)) {
       throw evalResult.value.toJs();
     }

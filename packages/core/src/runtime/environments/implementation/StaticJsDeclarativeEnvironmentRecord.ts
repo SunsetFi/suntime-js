@@ -38,9 +38,18 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
     );
   }
 
-  *createImmutableBindingEvaluator(name: string): EvaluationGenerator<void> {
+  *createImmutableBindingEvaluator(
+    name: string,
+    _strict: boolean,
+  ): EvaluationGenerator<void> {
     if (this._bindings.has(name)) {
-      throw new Error(`Cannot create binding ${name}: Binding already exists.`);
+      // FIXME: Strict probably means we should or should not throw here.
+      throw new StaticJsRuntimeError(
+        this.realm.types.error(
+          "SyntaxError",
+          `Identifier ${name} has already been declared`,
+        ),
+      );
     }
 
     this._bindings.set(

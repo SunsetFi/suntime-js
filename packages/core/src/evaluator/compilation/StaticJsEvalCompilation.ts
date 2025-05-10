@@ -15,6 +15,8 @@ import StaticJsEngineError from "../StaticJsEngineError.js";
 import StaticJsCompilation, {
   EvaluationOptions,
 } from "./StaticJsCompilation.js";
+import setupEnvironment from "../node-evaluators/setup-environment.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 export default class StaticJsEvalCompilation implements StaticJsCompilation {
   constructor(private readonly _root: Node) {}
@@ -31,6 +33,13 @@ export default class StaticJsEvalCompilation implements StaticJsCompilation {
       env: realm.globalEnv,
       label: null,
     };
+
+    const setupResult = runEvaluatorUntilCompletion(
+      setupEnvironment(this._root, context),
+    );
+    if (isThrowCompletion(setupResult)) {
+      throw setupResult.value.toJs();
+    }
 
     const result = runEvaluatorUntilCompletion(
       evaluateNode(this._root, context),
@@ -72,9 +81,14 @@ export default class StaticJsEvalCompilation implements StaticJsCompilation {
       label: null,
     };
 
-    const nodeEvaluator = evaluateCommands(evaluateNode(this._root, context));
+    const setupResult = yield* evaluateCommands(
+      setupEnvironment(this._root, context),
+    );
+    if (isThrowCompletion(setupResult)) {
+      throw setupResult.value.toJs();
+    }
 
-    const result = yield* nodeEvaluator;
+    const result = yield* evaluateCommands(evaluateNode(this._root, context));
 
     switch (result.type) {
       case "return":

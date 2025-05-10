@@ -11,7 +11,7 @@ import {
 } from "./compilation/options.js";
 import StaticJsParseError from "./StaticJsParseError.js";
 import { EvaluationOptions } from "./compilation/StaticJsCompilation.js";
-import StaticJsModule from "../runtime/realm/interfaces/StaticJsModule.js";
+import { StaticJsModule } from "../runtime/realm/interfaces/StaticJsModule.js";
 
 export type EvaluateProgramOptions = EvaluationOptions &
   ProgramCompilationOptions;

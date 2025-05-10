@@ -1,9 +1,12 @@
+import ThrowCompletion from "../../../evaluator/completions/ThrowCompletion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+
 import StaticJsEnvironment from "../../environments/interfaces/StaticJsEnvironment.js";
+
 import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
 import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
 
-import StaticJsModule from "./StaticJsModule.js";
+import { StaticJsModuleImplementation } from "./StaticJsModuleImplementation.js";
 
 /**
  * A top-level construct describing the overall environment in which a javascript program is executed.
@@ -34,7 +37,9 @@ export default interface StaticJsRealm {
    */
   readonly types: StaticJsTypeFactory;
 
-  resolveModule(moduleName: string): EvaluationGenerator<StaticJsModule | null>;
+  resolveModuleEvaluator(
+    moduleName: string,
+  ): EvaluationGenerator<StaticJsModuleImplementation | ThrowCompletion | null>;
 }
 
 export function isStaticJsRealm(value: unknown): value is StaticJsRealm {

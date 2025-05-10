@@ -16,13 +16,6 @@ function* programNodeEvaluator(
   node: Program,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  for (const statement of node.body) {
-    const completion = yield* setupEnvironment(statement, context);
-    if (isThrowCompletion(completion)) {
-      return completion;
-    }
-  }
-
   let lastCompletion: Completion = NormalCompletion();
   for (const statement of node.body) {
     lastCompletion = yield* EvaluateNodeCommand(statement, context);
@@ -43,5 +36,14 @@ function* programNodeEvaluator(
 }
 
 export default typedMerge(programNodeEvaluator, {
-  environmentSetup: false,
+  environmentSetup: function* (node: Program, context: EvaluationContext) {
+    for (const statement of node.body) {
+      const completion = yield* setupEnvironment(statement, context);
+      if (isThrowCompletion(completion)) {
+        return completion;
+      }
+    }
+
+    return false;
+  },
 });

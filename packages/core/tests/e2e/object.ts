@@ -244,11 +244,18 @@ describe("E2E: Object", () => {
           });
           obj;
         `;
-        const result = evaluateProgram(code);
-        expect(result).toEqual({
-          a: 1,
-          b: 2,
+        const result = evaluateProgram(code) as { a: number; b: number };
+
+        expect(Object.getOwnPropertyDescriptor(result, "a")).toEqual({
+          value: 1,
+          writable: true,
         });
+        expect(result.a).toBe(1);
+
+        expect(Object.getOwnPropertyDescriptor(result, "b")).toEqual({
+          enumerable: true,
+        });
+        expect(result.b).toBe(2);
       });
 
       it("Should use defaults: non-writable, non-enumerable, non-configurable", () => {

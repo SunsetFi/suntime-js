@@ -40,6 +40,9 @@ import thisExpressionNodeEvaluator from "./ThisExpression.js";
 import arrowFunctionExpressionNodeEvaluator from "./ArrowFunctionExpression.js";
 import importDeclarationNodeEvaluator from "./ImportDeclaration.js";
 import forInStatementNodeEvaluator from "./ForInStatement.js";
+import exportAllDeclarationNodeEvaluator from "./ExportAllDeclaration.js";
+import exportDefaultDeclarationNodeEvaluator from "./ExportDefaultDeclaration.js";
+import exportNamedDeclarationNodeEvaluator from "./ExportNamedDeclaration.js";
 
 type NodeEvaluators = {
   [key in Node["type"]]?: NodeEvaluator<key>;
@@ -58,6 +61,9 @@ const nodeEvaluators: NodeEvaluators = {
   ContinueStatement: continueStatementNodeEvaluator,
   DoWhileStatement: doWhileStatementNodeEvaluator,
   EmptyStatement: emptyStatementNodeEvaluator,
+  ExportAllDeclaration: exportAllDeclarationNodeEvaluator,
+  ExportDefaultDeclaration: exportDefaultDeclarationNodeEvaluator,
+  ExportNamedDeclaration: exportNamedDeclarationNodeEvaluator,
   ExpressionStatement: expressionStatementNodeEvaluator,
   File: fileNodeEvaluator,
   ForInStatement: forInStatementNodeEvaluator,

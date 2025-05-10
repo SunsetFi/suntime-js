@@ -139,7 +139,12 @@ export default abstract class StaticJsBaseEnvironmentRecord
     if (binding) {
       if (!binding.isMutable) {
         if (strict) {
-          throw new ReferenceError("Assignment to constant variable.");
+          throw new StaticJsRuntimeError(
+            this._realm.types.error(
+              "ReferenceError",
+              `Assignment to constant variable '${name}'.`,
+            ),
+          );
         }
 
         return;
@@ -147,6 +152,12 @@ export default abstract class StaticJsBaseEnvironmentRecord
 
       yield* binding.set(value);
     } else {
+      throw new StaticJsRuntimeError(
+        this._realm.types.error(
+          "ReferenceError",
+          `Assignment to undeclared variable '${name}'.`,
+        ),
+      );
       throw new ReferenceError(`Assignment to undeclared variable '${name}'.`);
     }
   }

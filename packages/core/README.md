@@ -38,19 +38,24 @@ No idea. I haven't had this security tested or reviewed. While this approach giv
 - for / while / do
 - try / catch / finally
 - Destructuring
-- Imports ( preset external modules only )
+- Spread operators (internal array and object instances only).
+- ECMAScript Modules
+  - Importing from external APIs
+  - Importing from additional code string sources
+  - Importing from custom module instances.
+  - Exports
 
 ### Notable things not (yet) supported
 
 - Symbols
 - Promises
+- Async
+- Async Modules
 - Iterators and Generators
 - Classes
 - Date
 - Regex
 - for-of
-- Exporting from modules
-- Importing other script modules
 
 ## Test262 coverage
 

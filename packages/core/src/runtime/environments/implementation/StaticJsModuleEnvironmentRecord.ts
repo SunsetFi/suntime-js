@@ -1,12 +1,13 @@
+import { isThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import {
-  NormalCompletion,
-  ThrowCompletion,
-} from "../../../evaluator/internal.js";
-import StaticJsModule from "../../realm/interfaces/StaticJsModule.js";
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "./index.js";
+import { NormalCompletion } from "../../../evaluator/internal.js";
+import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
+import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 
+import { StaticJsModuleImplementation } from "../../realm/interfaces/StaticJsModuleImplementation.js";
+import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+
+import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 import { StaticJsEnvironmentGetBinding } from "./StaticJsEnvironmentBindingProvider.js";
 
@@ -22,18 +23,10 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsDeclarative
 
   *createImportBindingEvaluator(
     name: string,
-    module: StaticJsModule,
-    exportName: string,
+    module: StaticJsModuleImplementation,
+    bindingName: string,
   ): EvaluationGenerator {
-    if (!module.hasExport(exportName)) {
-      return ThrowCompletion(
-        this.realm.types.error(
-          "ReferenceError",
-          `Export ${exportName} not found in module ${module.name}.`,
-        ),
-      );
-    }
-
+    const realm = this.realm;
     this._moduleBindings.set(name, {
       // TODO: We link everything before we evaluate modules, so maybe have this reflect the module's evaluation status.
       // Currently, however, modules are only provided statically by the host.
@@ -46,20 +39,33 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsDeclarative
         );
       },
       *get() {
-        const value = module.resolveExport(exportName);
-        if (value === undefined) {
-          throw new Error(`Export ${exportName} not found in module ${name}.`);
+        const value = yield* module.getOwnBindingValueEvaluator(bindingName);
+        if (isThrowCompletion(value)) {
+          // FIXME: Make this return throw completions
+          throw new StaticJsRuntimeError(value.value);
+        }
+        if (value == null) {
+          throw new StaticJsEngineError(
+            `Export ${bindingName} not found in module ${name}.`,
+          );
         }
         return value;
       },
       *set(value) {
-        throw new Error(
-          `Cannot set binding ${name} to ${value}.  Module imports cannot be assigned.`,
+        // FIXME: Make set return throw completions.
+        throw new StaticJsRuntimeError(
+          realm.types.error(
+            "TypeError",
+            `Cannot set binding ${name} to ${value}.  Module imports cannot be assigned.`,
+          ),
         );
       },
       *delete() {
-        throw new Error(
-          `Cannot delete binding ${name}.  Module imports cannot be deleted.`,
+        throw new StaticJsRuntimeError(
+          realm.types.error(
+            "TypeError",
+            `Cannot delete binding ${name}.  Module imports cannot be deleted.`,
+          ),
         );
       },
     });

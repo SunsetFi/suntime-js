@@ -409,15 +409,55 @@ export default abstract class StaticJsAbstractObject
       return this._cachedJsObject;
     }
 
-    const result: Record<string, unknown> = {};
-    // Set this now in case of circular references.
-    this._cachedJsObject = result;
+    const target = {};
 
-    for (const key of this.getOwnKeys()) {
-      result[key] = this.getProperty(key).toJs();
-    }
+    this._cachedJsObject = new Proxy(target, {
+      getOwnPropertyDescriptor: (target, p) => {
+        if (typeof p !== "string") {
+          // Dont yet support symbols.
+          return undefined;
+        }
 
-    return result;
+        const descriptor = this.getOwnPropertyDescriptor(p);
+        if (!descriptor) {
+          return undefined;
+        }
+
+        const jsDescriptor: PropertyDescriptor = {};
+        if (descriptor.configurable !== undefined) {
+          jsDescriptor.configurable = descriptor.configurable;
+        }
+        if (descriptor.enumerable !== undefined) {
+          jsDescriptor.enumerable = descriptor.enumerable;
+        }
+
+        if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
+          if (descriptor.get) {
+            jsDescriptor.get = () => {
+              return this.getProperty(p).toJs();
+            };
+          }
+          if (descriptor.set) {
+            jsDescriptor.set = (value: unknown) => {
+              const staticJsValue = this.realm.types.toStaticJsValue(value);
+              this.setProperty(p, staticJsValue, false);
+            };
+          }
+        } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
+          jsDescriptor.writable = descriptor.writable;
+          jsDescriptor.value = this.getProperty(p).toJs();
+        }
+
+        // Proxy is incredibly stupid in that it forces you to have the target match.
+        // So like, what's the point...
+        // Just... set it now.  Whatever.
+        Object.defineProperty(target, p, jsDescriptor);
+
+        return jsDescriptor;
+      },
+    });
+
+    return this._cachedJsObject;
   }
 
   toString(): string {

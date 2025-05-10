@@ -89,19 +89,25 @@ export default class StaticJsGlobalEnvironmentRecord
     );
   }
 
-  createImmutableBinding(name: string): void {
+  createImmutableBinding(name: string, strict: boolean): void {
     return runEvaluatorUntilCompletion(
-      this.createImmutableBindingEvaluator(name),
+      this.createImmutableBindingEvaluator(name, strict),
     );
   }
 
-  *createImmutableBindingEvaluator(name: string): EvaluationGenerator<void> {
+  *createImmutableBindingEvaluator(
+    name: string,
+    strict: boolean,
+  ): EvaluationGenerator<void> {
     // Both need to be checked first
     if (yield* this.hasBindingEvaluator(name)) {
       throw new Error(`Cannot create binding ${name}: Binding already exists.`);
     }
 
-    yield* this._declarativeRecord.createImmutableBindingEvaluator(name);
+    yield* this._declarativeRecord.createImmutableBindingEvaluator(
+      name,
+      strict,
+    );
   }
 
   createFunctionBinding(name: string, func: StaticJsValue): void {
