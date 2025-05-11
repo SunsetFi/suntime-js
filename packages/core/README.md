@@ -159,6 +159,7 @@ Both 'modules' and 'resolveModule' can accept any of the following:
 
 - A string containing additional module-mode javascript.
 - The result of `evaluateModule`
+- An object with an 'exports' key, set to a key/value record of export names to values.
 - Your own custom implementation of a StaticJsModule.
 
 ### Async Modules

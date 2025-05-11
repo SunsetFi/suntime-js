@@ -59,12 +59,12 @@ export default class StaticJsExternalModuleImpl
 
     return {
       module: this,
-      bindingName: name,
+      bindingName: name === "default" ? "*default*" : name,
     };
   }
 
   *getExportedNamesEvaluator(): EvaluationGenerator<string[]> {
-    return [...this._exportKeys];
+    return [...this._exportKeys].filter((x) => x !== "default");
   }
 
   *getOwnBindingValueEvaluator(
@@ -74,7 +74,12 @@ export default class StaticJsExternalModuleImpl
       return null;
     }
 
-    const value = this._obj[bindingName];
+    let value: unknown;
+    if (bindingName === "*default*") {
+      value = this._obj["default"];
+    } else {
+      value = this._obj[bindingName];
+    }
 
     if (value == null) {
       return null;
