@@ -69,17 +69,19 @@ There are two ways to evaluate scripts, depending on your needs:
 
 ### Direct Evaluation
 
-The API functions `evaluateProgram(string, realm?)` and `evaluateExpression(string, realm?)` will execute the script until completion, and return the runtime-native result.
+The API functions `evaluateProgram(string, {realm?})`, `evaluateModule(string, {realm?})`, and `evaluateExpression(string, {realm?})`
+will execute the script until completion, and return the runtime-native result.
 
 ### Compiled usage
 
-If multiple runs are desired, or for more advanced use cases, the script can be 'compiled' (parsed into AST) with `compileProgram` or `compileExpression`. This returns a compilation unit with the following methods:
+If multiple runs are desired, or for more advanced use cases, the script can be 'compiled' (parsed into AST) with `compileProgram`, `compileModule`, or `compileExpression`.
+This returns a compilation unit with the following methods:
 
-#### evaluate(realm?)
+#### evaluate({realm?})
 
 Evaluates the script and returns the result.
 
-#### generator(realm?)
+#### generator({realm?})
 
 Returns an iterator that will perform one operation per invocation, until the script is completed.
 
@@ -91,10 +93,10 @@ Some attempt has been made to create a transparent shim between the values retur
 
 - Functions returned by the script will be converted to the runtime native functions, which invoke the script function when executed.
   Note: These will be ran-to-completion without using the original generator
-- Objects returned by the script will be converted to runtime native objects, with getters / setters that invoke the script code when called.
-  Note: These will be ran-to-completion without using the original generator.
+- Objects returned by the script will be converted to runtime native objects, which use Proxies to synchronize between themselves and the runtime object.
+  **Mutations to this object will be reflected in the runtime**
 - Arrays are copied over to the native array type.
-  **Mutations to the returned array will not mutate the script array**
+  **Currently, mutations to the returned array will not mutate the script array**
 - All primitive types are converted to their runtime native primitive.
 
 ## Realms
@@ -116,6 +118,52 @@ Sets the global object or its properties for the realm.
 - `globalObj.value`: Sets the this arg to the given value. The value must be an object-like. If the value is not a StaticJsValue, it will be converted to one.
 - `globalObj: {properties?, extensible?}`: Specifies the properties of the global object, and whether or not it is extensible.
   properties: A record matching string keys to ObjectPropertyDescriptor objects for each property.
+
+## Modules
+
+Module support is implemented through evaluateModule and compileModule. There are two sides to module evaluation:
+
+### Top-level modules
+
+When using the module variations, the returned object is a StaticJsModule instance that provides access to a few methods which can be used to access the exports:
+
+#### getExportedNames
+
+Returns an array of string names for all exports from the module, including star re-exports. The default export is not included in this list.
+
+#### getExport(exportName)
+
+Returns the current value of the export. The string "default" can be used to get the default export.
+
+#### getModuleNamespace
+
+Returns a namespace object for all (non-default) exports of the module. This object will reflect the current state of the module, including any changes made after its creation.
+
+### Dependency modules
+
+Providing modules available for import can be done in two ways:
+
+#### StaticJsRealm 'modules'
+
+The 'modules' key in the options object of StaticJsRealm can be set to any valid realm module, keyed by import name.
+
+#### StaticJsRealm 'resolveModule(moduleName)' function
+
+The 'resolveMOdule' option key can be specified as a function, accepting a valid StaticJsRealm module option result.
+
+Currently, this function does not accept promises.
+
+#### StaticJsRealmModule
+
+Both 'modules' and 'resolveModule' can accept any of the following:
+
+- A string containing additional module-mode javascript.
+- The result of `evaluateModule`
+- Your own custom implementation of a StaticJsModule.
+
+### Async Modules
+
+Currently, async modules are not supported, as async (and promises in general) are not yet implemented.
 
 ## Recipes
 
