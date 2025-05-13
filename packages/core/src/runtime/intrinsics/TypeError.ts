@@ -1,7 +1,9 @@
-import { NormalCompletion } from "../../evaluator/internal.js";
+import ReturnCompletion from "../../evaluator/completions/ReturnCompletion.js";
+
 import { StaticJsRealm } from "../realm/index.js";
+
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
-import { StaticJsObject } from "../types/index.js";
+import { StaticJsObject } from "../types/interfaces/StaticJsObject.js";
 
 export function populateTypeErrorPrototype(
   _realm: StaticJsRealm,
@@ -37,7 +39,7 @@ export default function createTypeErrorConstructor(
         realm.types.prototypes.errorProto,
       );
 
-      return NormalCompletion(error);
+      return ReturnCompletion(error);
     },
     { prototype: functionProto },
   );

@@ -1,4 +1,4 @@
-import { NormalCompletion } from "../../../../evaluator/completions/index.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
 import { isStaticJsArray, StaticJsValue } from "../../../types/index.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -31,7 +31,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
       values.push(arg);
     }
 
-    return NormalCompletion(realm.types.array(values));
+    return ReturnCompletion(realm.types.array(values));
   },
 };
 

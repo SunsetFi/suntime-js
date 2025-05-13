@@ -1,5 +1,7 @@
-import { NormalCompletion } from "../../evaluator/internal.js";
+import ReturnCompletion from "../../evaluator/completions/ReturnCompletion.js";
+
 import { StaticJsRealm } from "../realm/index.js";
+
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 import { StaticJsObject } from "../types/index.js";
 
@@ -37,7 +39,7 @@ export default function createSyntaxErrorConstructor(
         realm.types.prototypes.errorProto,
       );
 
-      return NormalCompletion(error);
+      return ReturnCompletion(error);
     },
     { prototype: functionProto },
   );

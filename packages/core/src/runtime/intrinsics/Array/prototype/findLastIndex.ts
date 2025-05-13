@@ -1,11 +1,13 @@
-import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import {
-  NormalCompletion,
-  ThrowCompletion,
-} from "../../../../evaluator/internal.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+import ThrowCompletion, {
+  isThrowCompletion,
+} from "../../../../evaluator/completions/ThrowCompletion.js";
 import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
+
 import { isStaticJsFunction } from "../../../types/index.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import getLength from "./utils/get-length.js";
 
 const arrayProtoFindLastIndexDeclaration: IntrinsicPropertyDeclaration = {
@@ -50,11 +52,11 @@ const arrayProtoFindLastIndexDeclaration: IntrinsicPropertyDeclaration = {
 
       const result = resultCompletion.value;
       if (result.toBoolean()) {
-        return NormalCompletion(realm.types.number(i));
+        return ReturnCompletion(realm.types.number(i));
       }
     }
 
-    return NormalCompletion(realm.types.number(-1));
+    return ReturnCompletion(realm.types.number(-1));
   },
 };
 

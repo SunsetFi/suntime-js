@@ -1,8 +1,11 @@
 import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import { NormalCompletion } from "../../../../evaluator/internal.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+
 import sameValueZero from "../../../algorithms/same-value-zero.js";
 import toInteger from "../../../algorithms/to-integer.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import getLength from "./utils/get-length.js";
 
 const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
@@ -11,7 +14,7 @@ const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
     if (!value) {
-      return NormalCompletion(realm.types.false);
+      return ReturnCompletion(realm.types.false);
     }
 
     const length = yield* getLength(realm, thisObj);
@@ -19,7 +22,7 @@ const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
       return length;
     }
     if (length === 0) {
-      return NormalCompletion(realm.types.false);
+      return ReturnCompletion(realm.types.false);
     }
 
     let startFrom = 0;
@@ -36,11 +39,11 @@ const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
     for (let i = startFrom; i < length; i++) {
       const elementValue = yield* thisObj.getPropertyEvaluator(String(i));
       if (sameValueZero(elementValue, value)) {
-        return NormalCompletion(realm.types.true);
+        return ReturnCompletion(realm.types.true);
       }
     }
 
-    return NormalCompletion(realm.types.false);
+    return ReturnCompletion(realm.types.false);
   },
 };
 

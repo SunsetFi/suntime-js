@@ -1,14 +1,17 @@
 import ThrowCompletion, {
   isThrowCompletion,
 } from "../../../../evaluator/completions/ThrowCompletion.js";
-import { NormalCompletion } from "../../../../evaluator/internal.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
 import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
+
 import {
   isStaticJsArray,
   isStaticJsFunction,
   StaticJsValue,
 } from "../../../types/index.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import getLength from "./utils/get-length.js";
 
 const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
@@ -18,7 +21,7 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
 
     if (!isStaticJsArray(thisArg)) {
       // Seems to do nothing in NodeJs.
-      return NormalCompletion(realm.types.undefined);
+      return ReturnCompletion(realm.types.undefined);
     }
 
     if (!callback) {
@@ -70,7 +73,7 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
       resultArray[i] = resultCompletion.value;
     }
 
-    return NormalCompletion(realm.types.array(resultArray));
+    return ReturnCompletion(realm.types.array(resultArray));
   },
 };
 

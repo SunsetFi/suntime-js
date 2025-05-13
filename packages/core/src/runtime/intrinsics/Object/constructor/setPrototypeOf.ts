@@ -1,9 +1,11 @@
-import { ThrowCompletion } from "../../../../evaluator/internal.js";
+import ThrowCompletion from "../../../../evaluator/completions/ThrowCompletion.js";
+
 import {
   isStaticJsNull,
   isStaticJsObjectLike,
   StaticJsObjectLike,
 } from "../../../types/index.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {

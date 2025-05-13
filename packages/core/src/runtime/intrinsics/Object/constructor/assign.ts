@@ -1,4 +1,5 @@
-import { NormalCompletion } from "../../../../evaluator/internal.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorAssignDeclaration: IntrinsicPropertyDeclaration = {
@@ -15,7 +16,7 @@ const objectCtorAssignDeclaration: IntrinsicPropertyDeclaration = {
       }
     }
 
-    return NormalCompletion(targetObj);
+    return ReturnCompletion(targetObj);
   },
 };
 

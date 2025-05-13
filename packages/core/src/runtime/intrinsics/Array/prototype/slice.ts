@@ -1,4 +1,4 @@
-import { NormalCompletion } from "../../../../evaluator/completions/index.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
 import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import toInteger from "../../../algorithms/to-integer.js";
 import { StaticJsValue } from "../../../types/index.js";
@@ -23,7 +23,7 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
     start = Math.max(0, start);
 
     if (start >= length) {
-      return NormalCompletion(realm.types.array([]));
+      return ReturnCompletion(realm.types.array([]));
     }
 
     let end = endValue ? toInteger(endValue) : length;
@@ -37,7 +37,7 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
     end = Math.max(0, end);
 
     if (end <= start) {
-      return NormalCompletion(realm.types.array([]));
+      return ReturnCompletion(realm.types.array([]));
     }
 
     const sliceLength = end - start;
@@ -54,7 +54,7 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
       items[i] = value;
     }
 
-    return NormalCompletion(realm.types.array(items));
+    return ReturnCompletion(realm.types.array(items));
   },
 };
 

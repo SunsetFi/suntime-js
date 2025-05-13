@@ -1,8 +1,8 @@
-import {
-  NormalCompletion,
-  ThrowCompletion,
-} from "../../../../evaluator/internal.js";
+import ThrowCompletion from "../../../../evaluator/completions/ThrowCompletion.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+
 import { isStaticJsNull, isStaticJsObjectLike } from "../../../types/index.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorCreateDeclaration: IntrinsicPropertyDeclaration = {
@@ -19,7 +19,7 @@ const objectCtorCreateDeclaration: IntrinsicPropertyDeclaration = {
 
     const proto = protoValue.runtimeTypeOf === "null" ? null : protoValue;
     const obj = realm.types.object(undefined, proto);
-    return NormalCompletion(obj);
+    return ReturnCompletion(obj);
   },
 };
 

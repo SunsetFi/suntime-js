@@ -1,6 +1,8 @@
 import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import { NormalCompletion } from "../../../../evaluator/internal.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import getLength from "./utils/get-length.js";
 
 const arrayProtoReverseDeclaration: IntrinsicPropertyDeclaration = {
@@ -40,7 +42,7 @@ const arrayProtoReverseDeclaration: IntrinsicPropertyDeclaration = {
       }
     }
 
-    return NormalCompletion(thisObj);
+    return ReturnCompletion(thisObj);
   },
 };
 

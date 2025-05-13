@@ -1,9 +1,7 @@
-import {
-  Completion,
-  EvaluationGenerator,
-  NormalCompletion,
-  ThrowCompletion,
-} from "../../../evaluator/internal.js";
+import Completion from "../../../evaluator/completions/Completion.js";
+import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import NormalCompletion from "../../../evaluator/completions/NormalCompletion.js";
+import ThrowCompletion from "../../../evaluator/completions/ThrowCompletion.js";
 
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 

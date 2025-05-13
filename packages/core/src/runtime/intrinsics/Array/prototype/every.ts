@@ -1,7 +1,7 @@
 import ThrowCompletion, {
   isThrowCompletion,
 } from "../../../../evaluator/completions/ThrowCompletion.js";
-import { NormalCompletion } from "../../../../evaluator/internal.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
 import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
 
 import { isStaticJsFunction } from "../../../types/index.js";
@@ -35,7 +35,7 @@ const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (length === 0) {
-      return NormalCompletion(realm.types.false);
+      return ReturnCompletion(realm.types.false);
     }
 
     for (let i = 0; i < length; i++) {
@@ -63,11 +63,11 @@ const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       if (!resultCompletion.value.toBoolean()) {
-        return NormalCompletion(realm.types.false);
+        return ReturnCompletion(realm.types.false);
       }
     }
 
-    return NormalCompletion(realm.types.true);
+    return ReturnCompletion(realm.types.true);
   },
 };
 

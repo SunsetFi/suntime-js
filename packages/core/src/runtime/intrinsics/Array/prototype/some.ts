@@ -1,12 +1,13 @@
 import ThrowCompletion, {
   isThrowCompletion,
 } from "../../../../evaluator/completions/ThrowCompletion.js";
-import { NormalCompletion } from "../../../../evaluator/internal.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
 import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
 
 import { isStaticJsFunction } from "../../../types/index.js";
 
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import getLength from "./utils/get-length.js";
 
 const arrayProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
@@ -57,11 +58,11 @@ const arrayProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       if (resultCompletion.value.toBoolean()) {
-        return NormalCompletion(realm.types.true);
+        return ReturnCompletion(realm.types.true);
       }
     }
 
-    return NormalCompletion(realm.types.false);
+    return ReturnCompletion(realm.types.false);
   },
 };
 

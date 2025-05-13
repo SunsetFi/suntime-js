@@ -1,14 +1,13 @@
-import { isThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import {
-  NormalCompletion,
-  runEvaluatorUntilCompletion,
-  ThrowCompletion,
-} from "../../../evaluator/internal.js";
+import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
+import NormalCompletion from "../../../evaluator/completions/NormalCompletion.js";
+import ThrowCompletion, {
+  isThrowCompletion,
+} from "../../../evaluator/completions/ThrowCompletion.js";
+
 import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
 
 import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
-
 import { StaticJsValue, StaticJsObjectLike } from "../../types/index.js";
 
 import { StaticJsModule } from "../interfaces/StaticJsModule.js";

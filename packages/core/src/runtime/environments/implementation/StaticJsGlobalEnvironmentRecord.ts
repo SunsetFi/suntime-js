@@ -1,10 +1,8 @@
 import ThrowCompletion, {
   isThrowCompletion,
 } from "../../../evaluator/completions/ThrowCompletion.js";
-import {
-  EvaluationGenerator,
-  runEvaluatorUntilCompletion,
-} from "../../../evaluator/internal.js";
+import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 import { StaticJsRealm } from "../../realm/index.js";
 import { StaticJsObject, StaticJsValue } from "../../types/index.js";

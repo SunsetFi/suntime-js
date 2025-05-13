@@ -1,4 +1,5 @@
-import { NormalCompletion } from "../../../../evaluator/internal.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+
 import {
   isStaticJsNull,
   isStaticJsObjectLike,
@@ -13,25 +14,25 @@ const objectCtorHasOwnDeclaration: IntrinsicPropertyDeclaration = {
     const obj = (objectValue ?? realm.types.undefined).toObject();
 
     if (!keyValue) {
-      return NormalCompletion(realm.types.false);
+      return ReturnCompletion(realm.types.false);
     }
 
     // This does not appear to box.
     if (!isStaticJsObjectLike(thisArg)) {
-      return NormalCompletion(realm.types.false);
+      return ReturnCompletion(realm.types.false);
     }
 
     if (isStaticJsNull(keyValue) || isStaticJsUndefined(keyValue)) {
-      return NormalCompletion(realm.types.false);
+      return ReturnCompletion(realm.types.false);
     }
 
     if (!isStaticJsScalar(keyValue)) {
-      return NormalCompletion(realm.types.false);
+      return ReturnCompletion(realm.types.false);
     }
 
     const hasProperty = yield* obj.hasPropertyEvaluator(String(keyValue.value));
 
-    return NormalCompletion(realm.types.boolean(hasProperty));
+    return ReturnCompletion(realm.types.boolean(hasProperty));
   },
 };
 

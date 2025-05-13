@@ -1,7 +1,10 @@
 import EvaluationGenerator from "../../../../../evaluator/EvaluationGenerator.js";
-import { ThrowCompletion } from "../../../../../evaluator/internal.js";
-import toInteger from "../../../../algorithms/to-integer.js";
+import ThrowCompletion from "../../../../../evaluator/completions/ThrowCompletion.js";
+
 import { StaticJsRealm } from "../../../../realm/index.js";
+
+import toInteger from "../../../../algorithms/to-integer.js";
+
 import {
   MAX_ARRAY_LENGTH,
   StaticJsObjectLike,

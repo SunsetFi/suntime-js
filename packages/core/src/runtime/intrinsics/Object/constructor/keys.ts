@@ -1,4 +1,5 @@
-import { NormalCompletion } from "../../../../evaluator/internal.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorKeysDeclaration: IntrinsicPropertyDeclaration = {
@@ -11,7 +12,7 @@ const objectCtorKeysDeclaration: IntrinsicPropertyDeclaration = {
     const result = realm.types.array(
       ownKeys.map((key) => realm.types.string(key)),
     );
-    return NormalCompletion(result);
+    return ReturnCompletion(result);
   },
 };
 

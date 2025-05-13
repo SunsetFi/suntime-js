@@ -1,6 +1,6 @@
 import { Writable } from "type-fest";
 
-import { EvaluationGenerator } from "../../../evaluator/internal.js";
+import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 

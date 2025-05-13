@@ -1,4 +1,4 @@
-import { NormalCompletion } from "../../../../evaluator/completions/index.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
 import ThrowCompletion, {
   isThrowCompletion,
 } from "../../../../evaluator/completions/ThrowCompletion.js";
@@ -56,7 +56,7 @@ export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
     // Return the new length
     // This returns our computed length, even if the object has a getter
     // that returns a different value.
-    return NormalCompletion(newLengthValue);
+    return ReturnCompletion(newLengthValue);
   },
 };
 

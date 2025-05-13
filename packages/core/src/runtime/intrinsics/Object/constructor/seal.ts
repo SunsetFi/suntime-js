@@ -1,4 +1,5 @@
-import { NormalCompletion } from "../../../../evaluator/internal.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+
 import { isStaticJsNull, isStaticJsUndefined } from "../../../types/index.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -9,7 +10,7 @@ const objectCtorSealDeclaration: IntrinsicPropertyDeclaration = {
       targetValue = realm.types.undefined;
     }
     if (isStaticJsNull(targetValue) || isStaticJsUndefined(targetValue)) {
-      return NormalCompletion(targetValue);
+      return ReturnCompletion(targetValue);
     }
 
     const obj = targetValue.toObject();
@@ -23,7 +24,7 @@ const objectCtorSealDeclaration: IntrinsicPropertyDeclaration = {
 
     yield* obj.preventExtensionsEvaluator();
 
-    return NormalCompletion(targetValue);
+    return ReturnCompletion(targetValue);
   },
 };
 

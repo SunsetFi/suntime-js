@@ -1,10 +1,13 @@
 import { ExportDefaultDeclaration } from "@babel/types";
 
+import typedMerge from "../../internal/typed-merge.js";
+
+import NormalCompletion from "../completions/NormalCompletion.js";
+
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import { NormalCompletion } from "../internal.js";
-import typedMerge from "../../internal/typed-merge.js";
 
 function* exportDefaultDeclarationNodeEvaluator(
   node: ExportDefaultDeclaration,

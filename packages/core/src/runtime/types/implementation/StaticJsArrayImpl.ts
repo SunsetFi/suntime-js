@@ -1,10 +1,7 @@
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
-import {
-  EvaluationGenerator,
-  runEvaluatorUntilCompletion,
-} from "../../../evaluator/internal.js";
-
+import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
 import { StaticJsValue } from "../interfaces/StaticJsValue.js";

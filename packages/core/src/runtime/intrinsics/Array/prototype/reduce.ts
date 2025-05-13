@@ -1,8 +1,7 @@
-import {
-  NormalCompletion,
-  ThrowCompletion,
-} from "../../../../evaluator/internal.js";
+import ThrowCompletion from "../../../../evaluator/completions/ThrowCompletion.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
 import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
+
 import {
   isStaticJsArray,
   isStaticJsFunction,
@@ -11,6 +10,7 @@ import {
   StaticJsArray,
   StaticJsValue,
 } from "../../../types/index.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
@@ -62,7 +62,7 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
         );
       }
 
-      return NormalCompletion(initialValue);
+      return ReturnCompletion(initialValue);
     }
 
     let value: StaticJsValue;
@@ -101,7 +101,7 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
       value = resultCompletion.value;
     }
 
-    return NormalCompletion(value);
+    return ReturnCompletion(value);
   },
 };
 

@@ -1,4 +1,4 @@
-import { EvaluationGenerator } from "../../../evaluator/internal.js";
+import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 

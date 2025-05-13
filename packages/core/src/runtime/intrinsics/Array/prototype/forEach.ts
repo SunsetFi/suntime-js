@@ -1,4 +1,4 @@
-import { NormalCompletion } from "../../../../evaluator/completions/index.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
 import ThrowCompletion, {
   isThrowCompletion,
 } from "../../../../evaluator/completions/ThrowCompletion.js";
@@ -54,7 +54,7 @@ const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
       }
     }
 
-    return NormalCompletion(realm.types.undefined);
+    return ReturnCompletion(realm.types.undefined);
   },
 };
 

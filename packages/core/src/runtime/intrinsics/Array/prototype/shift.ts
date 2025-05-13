@@ -1,4 +1,4 @@
-import { NormalCompletion } from "../../../../evaluator/completions/index.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
 import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";
@@ -15,7 +15,7 @@ const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
 
     if (length <= 0) {
       yield* thisObj.setPropertyEvaluator("length", realm.types.zero, true);
-      return NormalCompletion(realm.types.undefined);
+      return ReturnCompletion(realm.types.undefined);
     }
 
     const value = yield* thisObj.getPropertyEvaluator("0");
@@ -42,7 +42,7 @@ const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
       true,
     );
 
-    return NormalCompletion(value);
+    return ReturnCompletion(value);
   },
 };
 

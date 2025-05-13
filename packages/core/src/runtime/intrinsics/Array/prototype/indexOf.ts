@@ -1,7 +1,10 @@
 import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import { NormalCompletion } from "../../../../evaluator/internal.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+
 import strictEquality from "../../../algorithms/strict-equality.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import getLength from "./utils/get-length.js";
 
 const arrayProtoIndexOfDeclaration: IntrinsicPropertyDeclaration = {
@@ -25,11 +28,11 @@ const arrayProtoIndexOfDeclaration: IntrinsicPropertyDeclaration = {
       }
       const valueAtIndex = yield* thisObj.getPropertyEvaluator(String(i));
       if (strictEquality(valueAtIndex, value)) {
-        return NormalCompletion(realm.types.number(i));
+        return ReturnCompletion(realm.types.number(i));
       }
     }
 
-    return NormalCompletion(realm.types.number(-1));
+    return ReturnCompletion(realm.types.number(-1));
   },
 };
 

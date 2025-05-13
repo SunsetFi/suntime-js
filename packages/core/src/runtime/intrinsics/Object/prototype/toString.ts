@@ -1,8 +1,7 @@
-import {
-  NormalCompletion,
-  ReturnCompletion,
-} from "../../../../evaluator/internal.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+
 import { isStaticJsNull, isStaticJsUndefined } from "../../../types/index.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
@@ -11,7 +10,7 @@ const objectProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
     // I'm not too sure on the spec for this...
 
     if (isStaticJsNull(thisArg)) {
-      return NormalCompletion(realm.types.string("[object Null]"));
+      return ReturnCompletion(realm.types.string("[object Null]"));
     }
 
     if (isStaticJsUndefined(thisArg)) {

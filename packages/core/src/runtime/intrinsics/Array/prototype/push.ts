@@ -1,8 +1,7 @@
-import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import {
-  NormalCompletion,
-  ThrowCompletion,
-} from "../../../../evaluator/internal.js";
+import ThrowCompletion, {
+  isThrowCompletion,
+} from "../../../../evaluator/completions/ThrowCompletion.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
 import { MAX_ARRAY_LENGTH } from "../../../types/interfaces/index.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";
@@ -36,7 +35,7 @@ const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
     const newLengthValue = realm.types.number(length + args.length);
     yield* thisObj.setPropertyEvaluator("length", newLengthValue, true);
 
-    return NormalCompletion(newLengthValue);
+    return ReturnCompletion(newLengthValue);
   },
 };
 

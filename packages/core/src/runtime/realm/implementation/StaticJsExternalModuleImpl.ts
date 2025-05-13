@@ -1,8 +1,7 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import {
-  NormalCompletion,
-  ThrowCompletion,
-} from "../../../evaluator/internal.js";
+import NormalCompletion from "../../../evaluator/completions/NormalCompletion.js";
+import ThrowCompletion from "../../../evaluator/completions/ThrowCompletion.js";
+
 import { StaticJsObjectLike } from "../../types/index.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
@@ -70,22 +69,14 @@ export default class StaticJsExternalModuleImpl
   *getOwnBindingValueEvaluator(
     bindingName: string,
   ): EvaluationGenerator<StaticJsValue | ThrowCompletion | null> {
+    if (bindingName === "*default*") {
+      bindingName = "default";
+    }
     if (!this._exportKeys.includes(bindingName)) {
       return null;
     }
 
-    let value: unknown;
-    if (bindingName === "*default*") {
-      value = this._obj["default"];
-    } else {
-      value = this._obj[bindingName];
-    }
-
-    if (value == null) {
-      return null;
-    }
-
-    return this._realm.types.toStaticJsValue(value);
+    return this._realm.types.toStaticJsValue(this._obj[bindingName]);
   }
 
   getModuleNamespaceEvaluator(): EvaluationGenerator<

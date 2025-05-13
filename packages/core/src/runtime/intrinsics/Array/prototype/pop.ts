@@ -1,4 +1,4 @@
-import { NormalCompletion } from "../../../../evaluator/completions/index.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
 import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";
@@ -17,7 +17,7 @@ export const arrayProtoPopDeclaration: IntrinsicPropertyDeclaration = {
       // This seems to re-set length to 0 even if it wasn't an array.
       // Also sets it to 0 if it was a negative length.
       yield* thisObj.setPropertyEvaluator("length", realm.types.zero, true);
-      return NormalCompletion(realm.types.undefined);
+      return ReturnCompletion(realm.types.undefined);
     }
 
     const index = length - 1;
@@ -30,7 +30,7 @@ export const arrayProtoPopDeclaration: IntrinsicPropertyDeclaration = {
       true,
     );
 
-    return NormalCompletion(value);
+    return ReturnCompletion(value);
   },
 };
 

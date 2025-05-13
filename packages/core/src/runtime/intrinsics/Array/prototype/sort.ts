@@ -1,19 +1,23 @@
 import { toLength } from "lodash-es";
+
+import hasOwnProperty from "../../../../internal/has-own-property.js";
+
 import EvaluationGenerator from "../../../../evaluator/EvaluationGenerator.js";
-import {
-  Completion,
-  NormalCompletion,
-  ThrowCompletion,
-} from "../../../../evaluator/internal.js";
+import Completion from "../../../../evaluator/completions/Completion.js";
+import ThrowCompletion, {
+  isThrowCompletion,
+} from "../../../../evaluator/completions/ThrowCompletion.js";
+import NormalCompletion from "../../../../evaluator/completions/NormalCompletion.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
+
 import {
   isStaticJsFunction,
   isStaticJsUndefined,
   StaticJsValue,
 } from "../../../types/index.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
-import hasOwnProperty from "../../../../internal/has-own-property.js";
-import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
 
 const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
   name: "sort",
@@ -108,7 +112,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
       }
     }
 
-    return NormalCompletion(thisObj);
+    return ReturnCompletion(thisObj);
   },
 };
 

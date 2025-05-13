@@ -1,14 +1,15 @@
-import { NormalCompletion } from "../../../evaluator/internal.js";
+import ReturnCompletion from "../../../evaluator/completions/ReturnCompletion.js";
 
 import { StaticJsRealm } from "../../realm/index.js";
+
 import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
 import StaticJsObjectImpl from "../../types/implementation/StaticJsObjectImpl.js";
+import StaticJsNumberImpl from "../../types/implementation/StaticJsNumberImpl.js";
 
 import {
   applyIntrinsicProperties,
   IntrinsicPropertyDeclaration,
 } from "../utils.js";
-import StaticJsNumberImpl from "../../types/implementation/StaticJsNumberImpl.js";
 
 // Since math is quite predictable in its inputs and outputs, we can do this programatically.
 
@@ -93,7 +94,7 @@ function createMathNumericFunctionDeclaration(
       );
       const computed = func.call(null, ...asNumbers);
       const asRuntime = realm.types.number(computed);
-      return NormalCompletion(asRuntime);
+      return ReturnCompletion(asRuntime);
     },
   };
 }

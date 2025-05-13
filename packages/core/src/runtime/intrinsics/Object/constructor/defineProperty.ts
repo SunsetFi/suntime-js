@@ -1,8 +1,8 @@
-import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import {
-  NormalCompletion,
-  ThrowCompletion,
-} from "../../../../evaluator/internal.js";
+import ThrowCompletion, {
+  isThrowCompletion,
+} from "../../../../evaluator/completions/ThrowCompletion.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+
 import {
   isStaticJsNull,
   isStaticJsObjectLike,
@@ -10,7 +10,9 @@ import {
   isStaticJsUndefined,
   validateStaticJsPropertyDescriptor,
 } from "../../../types/index.js";
+
 import toPropertyDescriptor from "../../../utils/to-property-descriptor.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
@@ -64,7 +66,7 @@ const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
 
     yield* targetValue.definePropertyEvaluator(propertyName, descriptor);
 
-    return NormalCompletion(targetValue);
+    return ReturnCompletion(targetValue);
   },
 };
 

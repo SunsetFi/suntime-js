@@ -1,8 +1,9 @@
 import ThrowCompletion from "../../../evaluator/completions/ThrowCompletion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { NormalCompletion } from "../../../evaluator/internal.js";
+import NormalCompletion from "../../../evaluator/completions/NormalCompletion.js";
 import { StaticJsObjectLike } from "../../types/interfaces/StaticJsObject.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
+
 import { StaticJsModule } from "./StaticJsModule.js";
 import StaticJsRealm from "./StaticJsRealm.js";
 

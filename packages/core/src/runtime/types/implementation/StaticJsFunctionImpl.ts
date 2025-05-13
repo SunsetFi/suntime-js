@@ -1,9 +1,8 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import {
-  Completion,
-  NormalCompletion,
-  runEvaluatorUntilCompletion,
-} from "../../../evaluator/internal.js";
+
+import Completion from "../../../evaluator/completions/Completion.js";
+import NormalCompletion from "../../../evaluator/completions/NormalCompletion.js";
+import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
@@ -83,24 +82,27 @@ export default class StaticJsFunctionImpl
 
   toJs(): unknown {
     if (!this._toJs) {
-      this._toJs = (...args: unknown[]) => {
+      const realm = this.realm;
+      const _call = this._call;
+      this._toJs = function (...args: unknown[]) {
         const argValues = args.map((value) =>
-          this.realm.types.toStaticJsValue(value),
+          realm.types.toStaticJsValue(value),
         );
         // FIXME: This absolutely probably does not work right.
         // We should at least try to look up if we have a StaticJsValue representation of the global object.
         // At the very least, this is dangerous, and might inadvertently leak stuff from the runtime into the scripting engine.
         // They won't be able to grab prototypes, but...
-        const thisArg = this.realm.types.toStaticJsValue(this);
+        const thisArg = realm.types.toStaticJsValue(this);
         const result = runEvaluatorUntilCompletion(
-          this._call(thisArg, ...argValues),
+          _call(thisArg, ...argValues),
         );
         switch (result.type) {
           case "throw":
             // FIXME: wrap the error
             throw result.value.toJs();
           case "return":
-            return result.value.toJs();
+          case "normal":
+            return (result.value ?? realm.types.undefined).toJs();
           case "continue":
           case "break":
             throw new Error(
@@ -155,8 +157,6 @@ export default class StaticJsFunctionImpl
 
     const callResult = yield* this._call(thisArg, ...args);
     switch (callResult.type) {
-      // This is jank... We have some functions returning Normal, others returning Return.
-      // FIXME: Find out which completion functions should resolve to.
       case "normal":
       case "return":
         return NormalCompletion(callResult.value ?? this.realm.types.undefined);

@@ -1,6 +1,6 @@
 import { Writable } from "type-fest";
 import EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
-import { ThrowCompletion } from "../../evaluator/internal.js";
+import ThrowCompletion from "../../evaluator/completions/ThrowCompletion.js";
 import { StaticJsRealm } from "../realm/index.js";
 import {
   isStaticJsFunction,

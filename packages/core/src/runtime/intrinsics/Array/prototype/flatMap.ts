@@ -1,15 +1,17 @@
-import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import {
-  NormalCompletion,
-  ThrowCompletion,
-} from "../../../../evaluator/internal.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+import ThrowCompletion, {
+  isThrowCompletion,
+} from "../../../../evaluator/completions/ThrowCompletion.js";
 import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
+
 import {
   isStaticJsArray,
   isStaticJsFunction,
   StaticJsValue,
 } from "../../../types/index.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import getLength from "./utils/get-length.js";
 
 const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
@@ -70,7 +72,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       }
     }
 
-    return NormalCompletion(realm.types.array(items));
+    return ReturnCompletion(realm.types.array(items));
   },
 };
 

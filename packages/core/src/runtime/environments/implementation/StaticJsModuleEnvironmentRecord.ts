@@ -1,6 +1,6 @@
 import { isThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { NormalCompletion } from "../../../evaluator/internal.js";
+import NormalCompletion from "../../../evaluator/completions/NormalCompletion.js";
 import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
 import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 
@@ -46,7 +46,7 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsDeclarative
         }
         if (value == null) {
           throw new StaticJsEngineError(
-            `Export ${bindingName} not found in module ${name}.`,
+            `Export ${bindingName} not found in module ${module.name}.`,
           );
         }
         return value;

@@ -8,12 +8,10 @@ import {
 
 import setLVal from "../../../evaluator/node-evaluators/LVal.js";
 
-import {
-  Completion,
-  EvaluationContext,
-  EvaluationGenerator,
-  NormalCompletion,
-} from "../../../evaluator/internal.js";
+import Completion from "../../../evaluator/completions/Completion.js";
+import EvaluationContext from "../../../evaluator/EvaluationContext.js";
+import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import NormalCompletion from "../../../evaluator/completions/NormalCompletion.js";
 
 import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
@@ -103,6 +101,7 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
       case "continue":
         throw new StaticJsEngineError("Unexpected break/continue in function");
       case "return":
+        return NormalCompletion(evaluationCompletion.value);
       case "throw":
         return evaluationCompletion;
     }

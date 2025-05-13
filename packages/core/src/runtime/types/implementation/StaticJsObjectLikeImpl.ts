@@ -1,4 +1,4 @@
-import { EvaluationGenerator } from "../../../evaluator/internal.js";
+import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
 
 import { StaticJsRealm } from "../../realm/index.js";

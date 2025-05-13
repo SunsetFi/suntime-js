@@ -1,7 +1,10 @@
 import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import { NormalCompletion } from "../../../../evaluator/internal.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+
 import { isStaticJsNull, isStaticJsUndefined } from "../../../types/index.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import getLength from "./utils/get-length.js";
 
 const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
@@ -45,7 +48,7 @@ const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
       s.push(elementValue.toString());
     }
 
-    return NormalCompletion(realm.types.string(s.join(joiner)));
+    return ReturnCompletion(realm.types.string(s.join(joiner)));
   },
 };
 

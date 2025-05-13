@@ -1,4 +1,4 @@
-import { NormalCompletion } from "../../../../evaluator/completions/index.js";
+import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
 import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import toInteger from "../../../algorithms/to-integer.js";
 import { isStaticJsUndefined } from "../../../types/index.js";
@@ -19,7 +19,7 @@ const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
       return length;
     }
     if (length <= 0) {
-      return NormalCompletion(thisObj);
+      return ReturnCompletion(thisObj);
     }
 
     let start = 0;
@@ -33,7 +33,7 @@ const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
     start = Math.max(0, start);
 
     if (start >= length) {
-      return NormalCompletion(thisObj);
+      return ReturnCompletion(thisObj);
     }
 
     let end = length;
@@ -54,7 +54,7 @@ const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
       yield* thisObj.setPropertyEvaluator(String(i), value, true);
     }
 
-    return NormalCompletion(thisObj);
+    return ReturnCompletion(thisObj);
   },
 };
 
