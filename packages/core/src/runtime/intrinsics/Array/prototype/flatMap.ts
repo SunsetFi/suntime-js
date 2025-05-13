@@ -47,7 +47,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const currentItem = yield* thisObj.getPropertyEvaluator(String(i));
-      const callCompletion = yield* callback.call(
+      const callCompletion = yield* callback.callEvaluator(
         thisObj,
         currentItem,
         realm.types.number(i),

@@ -43,7 +43,7 @@ const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const elementValue = yield* thisObj.getPropertyEvaluator(property);
-      const resultCompletion = yield* callback.call(
+      const resultCompletion = yield* callback.callEvaluator(
         thisObj,
         elementValue,
         realm.types.number(i),

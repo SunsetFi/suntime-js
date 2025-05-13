@@ -36,7 +36,7 @@ const arrayProtoFindLastIndexDeclaration: IntrinsicPropertyDeclaration = {
 
     for (let i = length - 1; i >= 0; i--) {
       const value = yield* thisObj.getPropertyEvaluator(String(i));
-      const resultCompletion = yield* callback.call(
+      const resultCompletion = yield* callback.callEvaluator(
         thisObj,
         value,
         realm.types.number(i),

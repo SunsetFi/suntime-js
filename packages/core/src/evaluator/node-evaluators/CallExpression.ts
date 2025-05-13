@@ -51,7 +51,7 @@ export default function* callExpressionNodeEvaluator(
     args[i] = arg;
   }
 
-  const callCompletion = yield* callee.call(thisArg, ...args);
+  const callCompletion = yield* callee.callEvaluator(thisArg, ...args);
   if (callCompletion.type === "throw") {
     return callCompletion;
   }

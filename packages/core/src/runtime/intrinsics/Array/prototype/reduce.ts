@@ -77,7 +77,7 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
 
     for (let i = startIndex; i < length; i++) {
       const elementValue = yield* thisArray.getPropertyEvaluator(String(i));
-      const resultCompletion = yield* callback.call(
+      const resultCompletion = yield* callback.callEvaluator(
         thisArray,
         value,
         elementValue,

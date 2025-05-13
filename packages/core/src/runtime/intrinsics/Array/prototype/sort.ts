@@ -59,7 +59,11 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       if (compareFnValue) {
-        const result = yield* compareFnValue.call(realm.types.undefined, a, b);
+        const result = yield* compareFnValue.callEvaluator(
+          realm.types.undefined,
+          a,
+          b,
+        );
         if (result.type === "throw") {
           return result;
         }

@@ -260,7 +260,7 @@ export default abstract class StaticJsAbstractObject
     if (isStaticJsDataPropertyDescriptor(decl)) {
       value = decl.value;
     } else if (isStaticJsAccessorPropertyDescriptor(decl) && decl.get) {
-      const completion = yield* decl.get.call(this);
+      const completion = yield* decl.get.callEvaluator(this);
       if (completion.type === "throw") {
         // FIXME: Handle this; these functions should return completions
         // instead of throwing.
@@ -302,7 +302,7 @@ export default abstract class StaticJsAbstractObject
       // It's our own.  Set it.
       if (isStaticJsAccessorPropertyDescriptor(ownDecl)) {
         if (ownDecl.set) {
-          const completion = yield* ownDecl.set.call(this, value);
+          const completion = yield* ownDecl.set.callEvaluator(this, value);
           if (completion.type === "throw") {
             throw new StaticJsRuntimeError(completion.value);
           }
@@ -337,7 +337,7 @@ export default abstract class StaticJsAbstractObject
       if (isStaticJsAccessorPropertyDescriptor(decl)) {
         // Its an inherited accessor property, invoke the accessor
         if (decl.set) {
-          const completion = yield* decl.set.call(this, value);
+          const completion = yield* decl.set.callEvaluator(this, value);
           if (completion.type === "throw") {
             throw new StaticJsRuntimeError(completion.value);
           }

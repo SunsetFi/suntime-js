@@ -31,7 +31,7 @@ export default function* newExpressionNodeEvaluator(
     args[i] = arg;
   }
 
-  const result = yield* callee.construct(...args);
+  const result = yield* callee.constructEvaluator(...args);
   switch (result.type) {
     case "normal":
       return NormalCompletion(result.value);

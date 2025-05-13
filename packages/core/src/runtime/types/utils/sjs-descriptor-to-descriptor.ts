@@ -22,7 +22,7 @@ export default function staticJsDescriptorToObjectDescriptor(
     if (descriptor.get) {
       objDescriptor.get = function () {
         const completion = runEvaluatorUntilCompletion(
-          descriptor.get!.call(realm.types.toStaticJsValue(this)),
+          descriptor.get!.callEvaluator(realm.types.toStaticJsValue(this)),
         );
         if (completion.type === "throw") {
           throw realm.types.toStaticJsValue(completion.value);
@@ -40,7 +40,7 @@ export default function staticJsDescriptorToObjectDescriptor(
         const thisValue = realm.types.toStaticJsValue(this);
         const staticJsValue = realm.types.toStaticJsValue(value);
         const completion = runEvaluatorUntilCompletion(
-          descriptor.set!.call(thisValue, staticJsValue),
+          descriptor.set!.callEvaluator(thisValue, staticJsValue),
         );
         if (completion.type === "throw") {
           throw realm.types.toStaticJsValue(completion.value);

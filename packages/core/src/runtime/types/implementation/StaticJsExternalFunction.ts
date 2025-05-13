@@ -1,6 +1,5 @@
-import { Completion } from "../../../evaluator/completions/Completion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
+import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletion.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
 import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
@@ -21,12 +20,12 @@ export default class StaticJsExternalFunction extends StaticJsFunctionImpl {
   private *_invoke(
     thisArg: StaticJsValue,
     ...args: StaticJsValue[]
-  ): EvaluationGenerator<Completion> {
+  ): EvaluationGenerator {
     const thisArgResolved = thisArg.toJs();
     const valueArgsResolved = args.map((arg) => arg.toJs());
     try {
       const result = this._func.call(thisArgResolved, ...valueArgsResolved);
-      return NormalCompletion(this.realm.types.toStaticJsValue(result));
+      return ReturnCompletion(this.realm.types.toStaticJsValue(result));
     } catch (error) {
       return ThrowCompletion(this.realm.types.toStaticJsValue(error));
     }

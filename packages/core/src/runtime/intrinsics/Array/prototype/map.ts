@@ -53,7 +53,7 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const elementValue = yield* thisArg.getPropertyEvaluator(property);
-      const resultCompletion = yield* callback.call(
+      const resultCompletion = yield* callback.callEvaluator(
         providedThisArg ?? thisArg,
         elementValue,
         realm.types.number(i),

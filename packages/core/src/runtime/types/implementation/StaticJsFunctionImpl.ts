@@ -146,7 +146,10 @@ export default class StaticJsFunctionImpl
     return true;
   }
 
-  *call(thisArg: StaticJsValue, ...args: StaticJsValue[]): EvaluationGenerator {
+  *callEvaluator(
+    thisArg: StaticJsValue,
+    ...args: StaticJsValue[]
+  ): EvaluationGenerator {
     if (!isStaticJsValue(thisArg)) {
       throw new Error("thisArg must be a StaticJsValue instance.");
     }
@@ -170,7 +173,7 @@ export default class StaticJsFunctionImpl
     }
   }
 
-  *construct(...args: StaticJsValue[]): EvaluationGenerator {
+  *constructEvaluator(...args: StaticJsValue[]): EvaluationGenerator {
     let proto = yield* this.getPropertyEvaluator("prototype");
     if (!proto || !isStaticJsObjectLike(proto)) {
       // This appears to be what node does
@@ -178,7 +181,7 @@ export default class StaticJsFunctionImpl
     }
 
     const thisObj = this.realm.types.object(undefined, proto);
-    const result = yield* this.call(thisObj, ...args);
+    const result = yield* this.callEvaluator(thisObj, ...args);
     if (result.type === "normal" && isStaticJsObjectLike(result.value)) {
       return NormalCompletion(result.value);
     }

@@ -45,7 +45,7 @@ export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
     super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args));
   }
 
-  *construct(): EvaluationGenerator {
+  *constructEvaluator(): EvaluationGenerator {
     const nameValue = yield* this.getPropertyEvaluator("name");
     let name = nameValue.toString();
     if (name === "") {

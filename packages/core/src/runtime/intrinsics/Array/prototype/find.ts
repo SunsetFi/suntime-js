@@ -36,7 +36,7 @@ const arrayProtoFindDeclaration: IntrinsicPropertyDeclaration = {
 
     for (let i = 0; i < length; i++) {
       const value = yield* thisObj.getPropertyEvaluator(String(i));
-      const resultCompletion = yield* callback.call(
+      const resultCompletion = yield* callback.callEvaluator(
         thisObj,
         value,
         realm.types.number(i),

@@ -8,9 +8,12 @@ export interface StaticJsFunction extends StaticJsObjectLike {
 
   readonly isConstructor: boolean;
 
-  call(thisArg: StaticJsValue, ...args: StaticJsValue[]): EvaluationGenerator;
+  callEvaluator(
+    thisArg: StaticJsValue,
+    ...args: StaticJsValue[]
+  ): EvaluationGenerator;
 
-  construct(...args: StaticJsValue[]): EvaluationGenerator;
+  constructEvaluator(...args: StaticJsValue[]): EvaluationGenerator;
 }
 
 export function isStaticJsFunction(value: unknown): value is StaticJsFunction {
