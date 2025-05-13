@@ -7,10 +7,11 @@ import { isStaticJsObjectLike } from "../../runtime/index.js";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
-import ThrowCompletion, {
+import {
+  ThrowCompletion,
   isThrowCompletion,
 } from "../completions/ThrowCompletion.js";
-import NormalCompletion from "../completions/NormalCompletion.js";
+import { NormalCompletion } from "../completions/NormalCompletion.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 

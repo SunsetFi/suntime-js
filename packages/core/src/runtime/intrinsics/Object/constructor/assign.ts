@@ -1,4 +1,4 @@
-import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 

@@ -1,5 +1,6 @@
-import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
-import ThrowCompletion, {
+import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
+import {
+  ThrowCompletion,
   isThrowCompletion,
 } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { MAX_ARRAY_LENGTH } from "../../../types/index.js";

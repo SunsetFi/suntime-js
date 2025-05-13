@@ -1,5 +1,5 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import ThrowCompletion from "../../../evaluator/completions/ThrowCompletion.js";
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 import { StaticJsValue } from "../../types/index.js";
 
 export default interface StaticJsEnvironment {

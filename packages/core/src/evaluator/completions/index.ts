@@ -1,6 +1,6 @@
-export { default as BreakCompletion } from "./BreakCompletion.js";
-export { default as ContinueCompletion } from "./ContinueCompletion.js";
-export { default as NormalCompletion } from "./NormalCompletion.js";
-export { default as ReturnCompletion } from "./ReturnCompletion.js";
-export { default as ThrowCompletion } from "./ThrowCompletion.js";
+export { BreakCompletion } from "./BreakCompletion.js";
+export { ContinueCompletion } from "./ContinueCompletion.js";
+export { NormalCompletion } from "./NormalCompletion.js";
+export { ReturnCompletion } from "./ReturnCompletion.js";
+export { ThrowCompletion } from "./ThrowCompletion.js";
 export type { default as Completion } from "./Completion.js";

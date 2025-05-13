@@ -15,8 +15,9 @@ import EvaluationGenerator from "../../../../evaluator/EvaluationGenerator.js";
 import { evaluateNode } from "../../../../evaluator/node-evaluators/index.js";
 import setupEnvironment from "../../../../evaluator/node-evaluators/setup-environment.js";
 import EvaluationContext from "../../../../evaluator/EvaluationContext.js";
-import NormalCompletion from "../../../../evaluator/completions/NormalCompletion.js";
-import ThrowCompletion, {
+import { NormalCompletion } from "../../../../evaluator/completions/NormalCompletion.js";
+import {
+  ThrowCompletion,
   isThrowCompletion,
 } from "../../../../evaluator/completions/ThrowCompletion.js";
 

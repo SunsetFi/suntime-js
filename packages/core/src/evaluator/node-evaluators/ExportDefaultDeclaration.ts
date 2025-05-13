@@ -2,7 +2,7 @@ import { ExportDefaultDeclaration } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import NormalCompletion from "../completions/NormalCompletion.js";
+import { NormalCompletion } from "../completions/NormalCompletion.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 

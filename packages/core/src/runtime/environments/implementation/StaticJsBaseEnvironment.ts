@@ -1,4 +1,5 @@
-import ThrowCompletion, {
+import {
+  ThrowCompletion,
   isThrowCompletion,
 } from "../../../evaluator/completions/ThrowCompletion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";

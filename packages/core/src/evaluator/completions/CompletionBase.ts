@@ -1,3 +1,3 @@
-export default interface CompletionBase {
+export interface CompletionBase {
   readonly type: string;
 }

@@ -1,4 +1,4 @@
-import ReturnCompletion from "../../evaluator/completions/ReturnCompletion.js";
+import { ReturnCompletion } from "../../evaluator/completions/ReturnCompletion.js";
 
 import StaticJsRealm from "../realm/interfaces/StaticJsRealm.js";
 

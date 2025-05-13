@@ -1,4 +1,4 @@
-import ThrowCompletion from "../../../../evaluator/completions/ThrowCompletion.js";
+import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
 import {
   isStaticJsNull,

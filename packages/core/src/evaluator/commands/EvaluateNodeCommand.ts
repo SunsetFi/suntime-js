@@ -6,7 +6,7 @@ import evaluateNode, {
   EvaluateNodeOptions,
 } from "../node-evaluators/evaluate-node.js";
 
-import ThrowCompletion from "../completions/ThrowCompletion.js";
+import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";

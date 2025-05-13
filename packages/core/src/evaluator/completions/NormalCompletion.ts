@@ -1,12 +1,12 @@
 import { StaticJsValue } from "../../runtime/index.js";
 
-import CompletionBase from "./CompletionBase.js";
+import { CompletionBase } from "./CompletionBase.js";
 
-interface NormalCompletion extends CompletionBase {
+export interface NormalCompletion extends CompletionBase {
   type: "normal";
   value: StaticJsValue | null;
 }
-function NormalCompletion(
+export function NormalCompletion(
   value: StaticJsValue | null = null,
 ): NormalCompletion {
   return {
@@ -14,4 +14,3 @@ function NormalCompletion(
     value,
   };
 }
-export default NormalCompletion;

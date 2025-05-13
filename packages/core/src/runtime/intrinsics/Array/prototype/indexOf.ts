@@ -1,5 +1,5 @@
 import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 
 import strictEquality from "../../../algorithms/strict-equality.js";
 

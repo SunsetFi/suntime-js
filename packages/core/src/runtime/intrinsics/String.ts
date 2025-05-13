@@ -5,8 +5,8 @@ import {
   isStaticJsValue,
   StaticJsValue,
 } from "../types/interfaces/StaticJsValue.js";
-import ReturnCompletion from "../../evaluator/completions/ReturnCompletion.js";
-import ThrowCompletion from "../../evaluator/completions/ThrowCompletion.js";
+import { ReturnCompletion } from "../../evaluator/completions/ReturnCompletion.js";
+import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 
 export function populateStringPrototype(
   realm: StaticJsRealm,

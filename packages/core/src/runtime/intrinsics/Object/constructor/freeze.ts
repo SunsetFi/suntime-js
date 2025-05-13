@@ -1,4 +1,4 @@
-import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 
 import { isStaticJsNull, isStaticJsUndefined } from "../../../types/index.js";
 

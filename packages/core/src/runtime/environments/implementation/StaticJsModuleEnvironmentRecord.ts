@@ -1,6 +1,6 @@
 import { isThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import NormalCompletion from "../../../evaluator/completions/NormalCompletion.js";
+import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
 import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
 import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 

@@ -1,13 +1,14 @@
-import CompletionBase from "./CompletionBase.js";
+import { CompletionBase } from "./CompletionBase.js";
 
-interface ContinueCompletion extends CompletionBase {
+export interface ContinueCompletion extends CompletionBase {
   type: "continue";
   target: string | null;
 }
-function ContinueCompletion(target: string | null = null): ContinueCompletion {
+export function ContinueCompletion(
+  target: string | null = null,
+): ContinueCompletion {
   return {
     type: "continue",
     target,
   };
 }
-export default ContinueCompletion;

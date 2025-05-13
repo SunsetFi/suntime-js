@@ -12,7 +12,8 @@ import { NormalCompletion } from "../completions/index.js";
 
 import setLVal, { environmentSetupLVal } from "./LVal.js";
 import StaticJsEngineError from "../StaticJsEngineError.js";
-import ThrowCompletion, {
+import {
+  ThrowCompletion,
   isThrowCompletion,
 } from "../completions/ThrowCompletion.js";
 

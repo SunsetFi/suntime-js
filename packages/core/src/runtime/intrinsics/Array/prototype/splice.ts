@@ -1,4 +1,4 @@
-import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 
 import toInteger from "../../../algorithms/to-integer.js";
 

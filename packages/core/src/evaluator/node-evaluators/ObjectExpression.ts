@@ -14,7 +14,7 @@ import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import NormalCompletion from "../completions/NormalCompletion.js";
+import { NormalCompletion } from "../completions/NormalCompletion.js";
 
 import createFunction from "./Function.js";
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";

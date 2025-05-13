@@ -1,7 +1,7 @@
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import NormalCompletion from "../../../evaluator/completions/NormalCompletion.js";
-import ThrowCompletion from "../../../evaluator/completions/ThrowCompletion.js";
+import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
 import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 import hasOwnProperty from "../../../internal/has-own-property.js";

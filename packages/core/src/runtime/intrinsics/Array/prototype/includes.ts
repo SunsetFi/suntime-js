@@ -1,5 +1,5 @@
 import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import ReturnCompletion from "../../../../evaluator/completions/ReturnCompletion.js";
+import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 
 import sameValueZero from "../../../algorithms/same-value-zero.js";
 import toInteger from "../../../algorithms/to-integer.js";
