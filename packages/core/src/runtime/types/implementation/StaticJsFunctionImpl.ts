@@ -1,6 +1,6 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
-import Completion from "../../../evaluator/completions/Completion.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 

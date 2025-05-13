@@ -8,7 +8,7 @@ import {
 
 import setLVal from "../../../evaluator/node-evaluators/LVal.js";
 
-import Completion from "../../../evaluator/completions/Completion.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";

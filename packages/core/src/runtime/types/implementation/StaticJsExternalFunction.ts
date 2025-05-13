@@ -1,4 +1,4 @@
-import Completion from "../../../evaluator/completions/Completion.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";

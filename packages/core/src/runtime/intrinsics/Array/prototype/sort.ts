@@ -3,7 +3,7 @@ import { toLength } from "lodash-es";
 import hasOwnProperty from "../../../../internal/has-own-property.js";
 
 import EvaluationGenerator from "../../../../evaluator/EvaluationGenerator.js";
-import Completion from "../../../../evaluator/completions/Completion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 import {
   ThrowCompletion,
   isThrowCompletion,
