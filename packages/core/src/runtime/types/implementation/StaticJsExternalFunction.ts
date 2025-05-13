@@ -13,8 +13,7 @@ export default class StaticJsExternalFunction extends StaticJsFunctionImpl {
   constructor(
     realm: StaticJsRealm,
     name: string | null,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-    private readonly _func: Function,
+    private readonly _func: (...args: unknown[]) => unknown,
   ) {
     super(realm, name, (thisArg, ...args) => this._invoke(thisArg, ...args));
   }

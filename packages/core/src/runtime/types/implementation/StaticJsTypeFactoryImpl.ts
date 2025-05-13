@@ -183,7 +183,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       return this.string(value);
     } else if (Array.isArray(value)) {
       return this._toStaticJsValueArray(value);
-    } else if (typeof value === "function") {
+    } else if (isFunction(value)) {
       return this._toStaticJsValueFunction(value);
     } else if (typeof value === "object") {
       return this._toStaticJsValueObject(value);
@@ -221,8 +221,9 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     return new StaticJsArrayImpl(this._realm, values);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  private _toStaticJsValueFunction(value: Function): StaticJsFunction {
+  private _toStaticJsValueFunction(
+    value: (...args: unknown[]) => unknown,
+  ): StaticJsFunction {
     return new StaticJsExternalFunction(this._realm, value.name, value);
   }
 
@@ -241,4 +242,10 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private _toStaticJsValueUndefined(): StaticJsUndefined {
     return StaticJsUndefinedImpl.Instance;
   }
+}
+
+// Just "typeof f === 'function'" is not enough, because it will type it as Function.
+// There is nothing wrong with this, but the linter gets angry, and so this appeases it.
+function isFunction(f: unknown): f is (...args: unknown[]) => unknown {
+  return typeof f === "function";
 }
