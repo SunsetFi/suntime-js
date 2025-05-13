@@ -2,7 +2,10 @@ import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
 
 import { StaticJsArray } from "../interfaces/StaticJsArray.js";
 import { StaticJsFunction } from "../interfaces/StaticJsFunction.js";
-import { StaticJsObject } from "../interfaces/StaticJsObject.js";
+import {
+  StaticJsObject,
+  StaticJsObjectLike,
+} from "../interfaces/StaticJsObject.js";
 import { StaticJsPropertyDescriptor } from "../interfaces/StaticJsPropertyDescriptor.js";
 import StaticJsTypeFactory, {
   ErrorTypeName,
@@ -83,7 +86,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   object(
     properties?: Record<string, StaticJsPropertyDescriptor>,
-    prototype?: StaticJsObject | StaticJsNull | null,
+    prototype?: StaticJsObjectLike | StaticJsNull | null,
   ): StaticJsObject {
     if (prototype === undefined) {
       prototype = this._prototypes.objectProto;

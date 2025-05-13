@@ -80,7 +80,9 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   deletePropertyEvaluator(name: string): EvaluationGenerator<boolean>;
 }
 
-export function isStaticJsObjectLike(value: unknown): value is StaticJsObject {
+export function isStaticJsObjectLike(
+  value: unknown,
+): value is StaticJsObjectLike {
   if (!isStaticJsValue(value)) {
     return false;
   }

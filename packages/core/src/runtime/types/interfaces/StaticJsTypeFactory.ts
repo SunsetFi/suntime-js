@@ -3,7 +3,7 @@ import { StaticJsFunction } from "./StaticJsFunction.js";
 import { StaticJsBoolean } from "./StaticJsBoolean.js";
 import { StaticJsNull } from "./StaticJsNull.js";
 import { StaticJsNumber } from "./StaticJsNumber.js";
-import { StaticJsObject } from "./StaticJsObject.js";
+import { StaticJsObject, StaticJsObjectLike } from "./StaticJsObject.js";
 import { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js";
 import { StaticJsValue } from "./StaticJsValue.js";
 import { StaticJsString } from "./StaticJsString.js";
@@ -39,12 +39,12 @@ export default interface StaticJsTypeFactory {
 
   object(
     properties?: Record<string, StaticJsPropertyDescriptor>,
-    prototype?: StaticJsObject | StaticJsNull | null,
+    prototype?: StaticJsObjectLike | StaticJsNull | null,
   ): StaticJsObject;
 
   array(items?: StaticJsValue[]): StaticJsArray;
 
-  error(name: ErrorTypeName, message: string): StaticJsObject;
+  error(errorType: ErrorTypeName, message: string): StaticJsObject;
   error(message: string): StaticJsObject;
 
   toStaticJsValue(value: boolean): StaticJsBoolean;

@@ -28,8 +28,6 @@ export default class StaticJsExternalFunction extends StaticJsFunctionImpl {
       const result = this._func.call(thisArgResolved, ...valueArgsResolved);
       return NormalCompletion(this.realm.types.toStaticJsValue(result));
     } catch (error) {
-      // FIXME: Wrap error.  Do we really want to pass errors?
-      // Should probably filter to ensure the throw is deliberate.
       return ThrowCompletion(this.realm.types.toStaticJsValue(error));
     }
   }
