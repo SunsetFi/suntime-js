@@ -5,9 +5,16 @@ import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
+  globalIgnores([
+    "**/*",
+    "!src/",
+    "!src/**/*",
+    "!tests/",
+    "!tests/**/*",
+    "tests/test262/repo",
+  ]),
   eslint.configs.recommended,
   tseslint.configs.recommended,
-  globalIgnores(["lib", "tests/test262/repo"]),
   {
     rules: {
       // All of our node evaluators are generators, but they don't always need to send commands.
