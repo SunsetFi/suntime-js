@@ -3,6 +3,7 @@ import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
 import IStaticJsRealm from "../interfaces/StaticJsRealm.js";
 import { StaticJsModule } from "../interfaces/StaticJsModule.js";
+import { StaticJsModuleImplementation } from "../interfaces/StaticJsModuleImplementation.js";
 
 export interface StaticJsRealmGlobalDataPropertyDecl {
   readonly configurable?: boolean;
@@ -31,12 +32,35 @@ export interface StaticJsRealmModuleExports {
   exports: Record<string, unknown>;
 }
 
-export type StaticJsRealmModule = StaticJsRealmModuleExports | StaticJsModule;
+export type StaticJsRealmModule =
+  | StaticJsRealmModuleExports
+  | StaticJsModule
+  | StaticJsModuleImplementation
+  | string;
+export type StaticJsRealmModuleFactory = (
+  referencingModule: StaticJsModule,
+  specifier: string,
+) => Promise<StaticJsRealmModule>;
 export interface StaticJsRealmOptions {
+  /**
+   * Settings for the global 'this' object in the realm.
+   */
   globalThis?: { value: unknown };
+
+  /**
+   * Settings for the global object in the realm.
+   */
   globalObject?: StaticJsRealmGlobalDecl | StaticJsRealmGlobalValue;
+
+  /**
+   * Statically defined ECMA Modules.
+   */
   modules?: Record<string, StaticJsRealmModule>;
-  resolveModule?(moduleName: string): StaticJsRealmModule | string | null;
+
+  /**
+   * A resolver function to resolve imported ECMA Modules not found in @see modules
+   */
+  resolveImportedModule?: StaticJsRealmModuleFactory;
 }
 
 /**

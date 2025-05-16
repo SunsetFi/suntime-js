@@ -16,19 +16,25 @@ import StaticJsCompilation, {
   EvaluationOptions,
 } from "./StaticJsCompilation.js";
 
-export default class StaticJsEvalCompilation
-  implements StaticJsCompilation<StaticJsModule>
+export default class StaticJsModuleCompilation
+  implements
+    StaticJsCompilation<
+      Promise<StaticJsModule>,
+      Promise<Generator<void, StaticJsModule, void>>
+    >
 {
   constructor(private readonly _program: Program) {}
 
-  evaluate({ realm }: EvaluationOptions = {}): StaticJsModule {
+  async evaluate({ realm }: EvaluationOptions = {}): Promise<StaticJsModule> {
     if (!realm) {
       realm = StaticJsRealm();
     } else if (!isStaticJsRealm(realm)) {
-      throw new Error("Invalid realm");
+      throw new TypeError(`Invalid StaticJsRealm specified.`);
     }
 
     const mod = new StaticJsModuleImpl("<anonymous>", this._program, realm);
+
+    await mod.linkModules();
 
     const initResult = runEvaluatorUntilCompletion(
       mod.moduleDeclarationInstantiationEvaluator(),
@@ -47,31 +53,45 @@ export default class StaticJsEvalCompilation
     return mod;
   }
 
-  *generator({ realm }: EvaluationOptions = {}): Generator<
-    void,
-    StaticJsModule,
-    void
+  async generator({ realm }: EvaluationOptions = {}): Promise<
+    Generator<void, StaticJsModule, void>
   > {
+    if (!realm) {
+      realm = StaticJsRealm();
+    } else if (!isStaticJsRealm(realm)) {
+      throw new TypeError(`Invalid StaticJsRealm specified.`);
+    }
+
+    const module = new StaticJsModuleImpl("<anonymous>", this._program, realm);
+    await module.linkModules();
+
+    return this._generator(module, realm);
+  }
+
+  private *_generator(
+    module: StaticJsModuleImpl,
+    realm: StaticJsRealm,
+  ): Generator<void, StaticJsModule, void> {
     if (!realm) {
       realm = StaticJsRealm();
     } else if (!isStaticJsRealm(realm)) {
       throw new Error("Invalid realm");
     }
 
-    const mod = new StaticJsModuleImpl("<anonymous>", this._program, realm);
-
     const initResult = yield* evaluateCommands(
-      mod.moduleDeclarationInstantiationEvaluator(),
+      module.moduleDeclarationInstantiationEvaluator(),
     );
     if (isThrowCompletion(initResult)) {
       throw initResult.value.toJs();
     }
 
-    const evalResult = yield* evaluateCommands(mod.moduleEvaluationEvaluator());
+    const evalResult = yield* evaluateCommands(
+      module.moduleEvaluationEvaluator(),
+    );
     if (isThrowCompletion(evalResult)) {
       throw evalResult.value.toJs();
     }
 
-    return mod;
+    return module;
   }
 }

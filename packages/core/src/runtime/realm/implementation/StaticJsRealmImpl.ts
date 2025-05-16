@@ -4,7 +4,6 @@ import { parse as parseAst } from "@babel/parser";
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
 import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/index.js";
 import { StaticJsEnvironment } from "../../environments/index.js";
@@ -29,6 +28,7 @@ import StaticJsExternalFunction from "../../types/implementation/StaticJsExterna
 
 import {
   StaticJsRealmGlobalDeclProperty,
+  StaticJsRealmModule,
   StaticJsRealmOptions,
 } from "../factories/StaticJsRealm.js";
 
@@ -39,28 +39,35 @@ import {
   staticJsModuleToImplementation,
 } from "../interfaces/StaticJsModuleImplementation.js";
 
+import {
+  isStaticJsModule,
+  StaticJsModule,
+} from "../interfaces/StaticJsModule.js";
+
 import StaticJsExternalModuleImpl from "./StaticJsExternalModuleImpl.js";
 import { StaticJsModuleImpl } from "./StaticJsModuleImpl/StaticJsModuleImpl.js";
-import { isStaticJsModule } from "../interfaces/StaticJsModule.js";
+import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;
   private readonly _globalEnv: StaticJsEnvironment;
   private readonly _typeFactory: StaticJsTypeFactory;
 
-  private readonly _modules = new Map<
+  private readonly _staticModules = new Map<
     string,
     StaticJsModuleImplementation | null
   >();
-  private readonly _resolveModule: StaticJsRealmOptions["resolveModule"];
+  private readonly _externalResolveModule:
+    | StaticJsRealmOptions["resolveImportedModule"]
+    | undefined;
 
   constructor({
     globalObject,
     globalThis,
     modules,
-    resolveModule,
+    resolveImportedModule: resolveModule,
   }: StaticJsRealmOptions = {}) {
-    this._resolveModule = resolveModule;
+    this._externalResolveModule = resolveModule;
 
     // Note: We could check to see if globalObject has factories or prototypes and use them
     // instead of these.
@@ -120,28 +127,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     );
 
     for (const [name, moduleDef] of Object.entries(modules ?? {})) {
-      let moduleInstance: StaticJsModuleImplementation;
-      if (isStaticJsModuleImplementation(moduleDef)) {
-        // We might get re-passed our internal modules.
-        // Use as-is if so.
-        moduleInstance = moduleDef;
-      } else if (isStaticJsModule(moduleDef)) {
-        // A custom-defined module instance.  Convert it to use generators.
-        moduleInstance = staticJsModuleToImplementation(this, moduleDef);
-      } else if (moduleDef.exports && typeof moduleDef.exports === "object") {
-        // A static exports object.
-        moduleInstance = new StaticJsExternalModuleImpl(
-          name,
-          moduleDef.exports,
-          this,
-        );
-      } else {
-        throw new TypeError(
-          `Module ${name} is not a StaticJsModule and does not have an exports object.  Cannot create module.`,
-        );
-      }
-
-      this._modules.set(name, moduleInstance);
+      const module = realmModuleToModule(this, name, moduleDef);
+      this._staticModules.set(name, module);
     }
   }
 
@@ -162,55 +149,21 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return this._typeFactory;
   }
 
-  *resolveModuleEvaluator(
-    moduleName: string,
-  ): EvaluationGenerator<
-    StaticJsModuleImplementation | ThrowCompletion | null
-  > {
-    if (this._modules.has(moduleName)) {
-      return this._modules.get(moduleName)!;
+  async resolveImportedModule(
+    referencingModule: StaticJsModule,
+    specifier: string,
+  ): Promise<StaticJsModuleImplementation | null> {
+    let module = this._staticModules.get(specifier);
+
+    if (!module && this._externalResolveModule) {
+      const resolved = await this._externalResolveModule(
+        referencingModule,
+        specifier,
+      );
+      module = realmModuleToModule(this, specifier, resolved);
     }
 
-    let module: StaticJsModuleImplementation | null = null;
-
-    if (this._resolveModule) {
-      const resolver = this._resolveModule(moduleName);
-      if (typeof resolver === "string") {
-        try {
-          const parsed = parseAst(resolver, { sourceType: "module" });
-          module = new StaticJsModuleImpl(moduleName, parsed.program, this);
-        } catch (e: unknown) {
-          // FIXME: Only if actual syntax error
-          // FIXME: Do we even get thrown syntax errors when evaluating dependent modules?
-          return ThrowCompletion(
-            this.types.error("SyntaxError", (e as Error).message),
-          );
-        }
-      } else if (isStaticJsModuleImplementation(resolver)) {
-        module = resolver;
-      } else if (
-        resolver &&
-        typeof resolver === "object" &&
-        "exports" in resolver
-      ) {
-        module = new StaticJsExternalModuleImpl(
-          moduleName,
-          resolver.exports,
-          this,
-        );
-      } else {
-        throw new TypeError(
-          `StaticJsRealm resolveModule for module ${moduleName} did not a StaticJsModuleImplementation and does not have an exports object.`,
-        );
-      }
-    }
-
-    if (!module) {
-      return null;
-    }
-
-    this._modules.set(moduleName, module);
-    return module;
+    return module ?? null;
   }
 
   private _setupGlobalObject(
@@ -237,6 +190,36 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
 
     defineGlobalProperties(this, globalObject, intrinsics);
+  }
+}
+
+function realmModuleToModule(
+  realm: StaticJsRealm,
+  specifier: string,
+  module: StaticJsRealmModule,
+): StaticJsModuleImplementation {
+  if (typeof module === "string") {
+    // Could try to import the compileModule function but I fear circular references.
+    try {
+      const parsed = parseAst(module, { sourceType: "module" });
+      return new StaticJsModuleImpl(specifier, parsed.program, realm);
+    } catch (e: unknown) {
+      // FIXME: Only if actual syntax error
+      // FIXME: Do we even get thrown syntax errors when evaluating dependent modules?
+      throw new StaticJsRuntimeError(
+        realm.types.error("SyntaxError", (e as Error).message),
+      );
+    }
+  } else if (isStaticJsModuleImplementation(module)) {
+    return module;
+  } else if (isStaticJsModule(module)) {
+    return staticJsModuleToImplementation(realm, module);
+  } else if (module != null && "exports" in module) {
+    return new StaticJsExternalModuleImpl(specifier, module.exports, realm);
+  } else {
+    throw new TypeError(
+      `StaticJsRealm resolveModule for module ${specifier} did not return source code, a valid module, or an object with an exports property.`,
+    );
   }
 }
 

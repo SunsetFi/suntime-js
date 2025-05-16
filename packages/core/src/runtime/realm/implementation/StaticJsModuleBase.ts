@@ -34,9 +34,9 @@ export abstract class StaticJsModuleBase
     return this._name;
   }
 
-  abstract get moduleSpecifier(): string;
-
   abstract get status(): StaticJsModuleStatus;
+
+  abstract linkModules(): Promise<void>;
 
   abstract moduleDeclarationInstantiationEvaluator(): EvaluationGenerator;
 

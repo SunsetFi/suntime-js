@@ -1,5 +1,3 @@
-import { toLength } from "lodash-es";
-
 import hasOwnProperty from "../../../../internal/has-own-property.js";
 
 import EvaluationGenerator from "../../../../evaluator/EvaluationGenerator.js";
@@ -19,6 +17,7 @@ import {
 } from "../../../types/index.js";
 
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import getLength from "./utils/get-length.js";
 
 const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
   name: "sort",
@@ -87,8 +86,10 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
       }
     };
 
-    const lengthValue = yield* thisObj.getPropertyEvaluator("length");
-    const length = toLength(lengthValue);
+    const length = yield* getLength(realm, thisObj);
+    if (isThrowCompletion(length)) {
+      return length;
+    }
 
     const a: StaticJsValue[] = new Array(length);
     const b: StaticJsValue[] = new Array(length);

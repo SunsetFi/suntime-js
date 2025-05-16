@@ -1,6 +1,5 @@
 export interface StaticJsModule {
   readonly name: string;
-  readonly moduleSpecifier: string;
 
   getExportedNames(): string[];
 
@@ -15,7 +14,6 @@ export function isStaticJsModule(x: unknown): x is StaticJsModule {
     module &&
     typeof module === "object" &&
     typeof module.name === "string" &&
-    typeof module.moduleSpecifier === "string" &&
     typeof module.getExportedNames === "function" &&
     typeof module.getExport === "function" &&
     typeof module.getModuleNamespace === "function"

@@ -3,8 +3,26 @@ import { describe, it, expect, vitest } from "vitest";
 import { StaticJsRealm, evaluateModule } from "../../src/index.js";
 
 describe("E2E: Module", () => {
-  describe("External Modules", () => {
-    it("Can import a named export", () => {
+  it("Throws ReferenceError when a module is not found", async () => {
+    const realm = StaticJsRealm();
+    expect(
+      evaluateModule('import { foo } from "not-found";', { realm }),
+    ).rejects.toThrow(/not found/);
+  });
+
+  it("Throws ReferenceError when an indirect module is not found", async () => {
+    const realm = StaticJsRealm({
+      modules: {
+        "module-1": `import { foo } from "bar"; export const test = 42;`,
+      },
+    });
+    expect(
+      evaluateModule('import { test } from "module-1";', { realm }),
+    ).rejects.toThrow(/not found/);
+  });
+
+  describe("External Value Modules", () => {
+    it("Can import a named export", async () => {
       const receiver = vitest.fn();
       const realm = StaticJsRealm({
         globalObject: {
@@ -27,11 +45,11 @@ describe("E2E: Module", () => {
         setResult(result);
       `;
 
-      evaluateModule(program, { realm });
+      await evaluateModule(program, { realm });
       expect(receiver).toBeCalledWith(3);
     });
 
-    it("Can import a default export", () => {
+    it("Can import a default export", async () => {
       const receiver = vitest.fn();
       const realm = StaticJsRealm({
         globalObject: {
@@ -54,34 +72,34 @@ describe("E2E: Module", () => {
         setResult(result);
       `;
 
-      evaluateModule(program, { realm });
+      await evaluateModule(program, { realm });
       expect(receiver).toBeCalledWith(3);
     });
   });
 
-  describe("Internal Modules", () => {
-    it("Can export a named export", () => {
+  describe("AST Modules", () => {
+    it("Can export a named export", async () => {
       const moduleCode = `
         export const foo = 42;
       `;
       const realm = StaticJsRealm();
 
-      const module = evaluateModule(moduleCode, { realm });
+      const module = await evaluateModule(moduleCode, { realm });
       expect(module.getExport("foo")).toBe(42);
     });
 
-    it("Can export a default export", () => {
+    it("Can export a default export", async () => {
       const moduleCode = `
           const foo = 42;
           export default foo;
         `;
       const realm = StaticJsRealm();
 
-      const module = evaluateModule(moduleCode, { realm });
+      const module = await evaluateModule(moduleCode, { realm });
       expect(module.getExport("default")).toBe(42);
     });
 
-    it("Can obtain a namespace", () => {
+    it("Can obtain a namespace", async () => {
       const moduleCode = `
           const foo = 42;
           export default foo;
@@ -89,13 +107,13 @@ describe("E2E: Module", () => {
         `;
       const realm = StaticJsRealm();
 
-      const module = evaluateModule(moduleCode, { realm });
+      const module = await evaluateModule(moduleCode, { realm });
       expect(module.getModuleNamespace()).toEqual({
         bar: 64,
       });
     });
 
-    it("Obtains a live namespace", () => {
+    it("Obtains a live namespace", async () => {
       const moduleCode = `
           export let value = 0;
           export function setValue(x) {
@@ -104,7 +122,7 @@ describe("E2E: Module", () => {
         `;
       const realm = StaticJsRealm();
 
-      const module = evaluateModule(moduleCode, { realm });
+      const module = await evaluateModule(moduleCode, { realm });
       const ns = module.getModuleNamespace() as {
         value: number;
         setValue: (x: number) => void;
@@ -114,7 +132,7 @@ describe("E2E: Module", () => {
       expect(ns.value).toBe(42);
     });
 
-    it("Can import a named inline export", () => {
+    it("Can import a named inline export", async () => {
       const receiver = vitest.fn();
 
       const moduleCode = `
@@ -135,19 +153,16 @@ describe("E2E: Module", () => {
             setResult: receiver,
           },
         },
-        resolveModule(moduleName) {
-          if (moduleName === "my-module") {
-            return moduleCode;
-          }
-          return null;
+        modules: {
+          "my-module": moduleCode,
         },
       });
 
-      evaluateModule(programCode, { realm });
+      await evaluateModule(programCode, { realm });
       expect(receiver).toBeCalledWith(3);
     });
 
-    it("Can import an indirect export", () => {
+    it("Can import an indirect export", async () => {
       const receiver = vitest.fn();
 
       const moduleCode = `
@@ -170,19 +185,16 @@ describe("E2E: Module", () => {
             setResult: receiver,
           },
         },
-        resolveModule(moduleName) {
-          if (moduleName === "my-module") {
-            return moduleCode;
-          }
-          return null;
+        modules: {
+          "my-module": moduleCode,
         },
       });
 
-      evaluateModule(programCode, { realm });
+      await evaluateModule(programCode, { realm });
       expect(receiver).toBeCalledWith(3);
     });
 
-    it("Can import a default export", () => {
+    it("Can import a default export", async () => {
       const receiver = vitest.fn();
 
       const moduleCode = `
@@ -203,19 +215,16 @@ describe("E2E: Module", () => {
             setResult: receiver,
           },
         },
-        resolveModule(moduleName) {
-          if (moduleName === "my-module") {
-            return moduleCode;
-          }
-          return null;
+        modules: {
+          "my-module": moduleCode,
         },
       });
 
-      evaluateModule(programCode, { realm });
+      await evaluateModule(programCode, { realm });
       expect(receiver).toBeCalledWith(3);
     });
 
-    it("Can import a namespace export", () => {
+    it("Can import a namespace export", async () => {
       const receiver = vitest.fn();
 
       const moduleCode = `
@@ -236,19 +245,16 @@ describe("E2E: Module", () => {
             setResult: receiver,
           },
         },
-        resolveModule(moduleName) {
-          if (moduleName === "my-module") {
-            return moduleCode;
-          }
-          return null;
+        modules: {
+          "my-module": moduleCode,
         },
       });
 
-      evaluateModule(programCode, { realm });
+      await evaluateModule(programCode, { realm });
       expect(receiver).toBeCalledWith(3);
     });
 
-    it("Can import an all export", () => {
+    it("Can import an all export", async () => {
       const receiver = vitest.fn();
 
       const modOneCode = `
@@ -273,22 +279,17 @@ describe("E2E: Module", () => {
             setResult: receiver,
           },
         },
-        resolveModule(moduleName) {
-          switch (moduleName) {
-            case "module-1":
-              return modOneCode;
-            case "module-2":
-              return modTwoCode;
-          }
-          return null;
+        modules: {
+          "module-1": modOneCode,
+          "module-2": modTwoCode,
         },
       });
 
-      evaluateModule(programCode, { realm });
+      await evaluateModule(programCode, { realm });
       expect(receiver).toBeCalledWith(3);
     });
 
-    it("Imports a value as immutable", () => {
+    it("Imports a value as immutable", async () => {
       const moduleCode = `
         let value = 0;
         export { value }
@@ -300,20 +301,17 @@ describe("E2E: Module", () => {
       `;
 
       const realm = StaticJsRealm({
-        resolveModule(moduleName) {
-          if (moduleName === "my-module") {
-            return moduleCode;
-          }
-          return null;
+        modules: {
+          "my-module": moduleCode,
         },
       });
 
-      expect(() => evaluateModule(programCode, { realm })).toThrow(
+      await expect(evaluateModule(programCode, { realm })).rejects.toThrow(
         /Assignment to constant/,
       );
     });
 
-    it("Imports a value as live", () => {
+    it("Imports a value as live", async () => {
       const receiver = vitest.fn();
       const moduleCode = `
       export let value = 0;
@@ -335,16 +333,68 @@ describe("E2E: Module", () => {
             setResult: receiver,
           },
         },
-        resolveModule(moduleName) {
-          if (moduleName === "my-module") {
-            return moduleCode;
-          }
-          return null;
+        modules: {
+          "my-module": moduleCode,
         },
       });
 
-      evaluateModule(programCode, { realm });
+      await evaluateModule(programCode, { realm });
       expect(receiver).toBeCalledWith([0, 4]);
     });
   });
+
+  describe("resolveImportedModule", () => {
+    it("Supports strings", async () => {
+      const receiver = vitest.fn();
+      const moduleCode = `export const value = 42`;
+      const realm = StaticJsRealm({
+        globalObject: {
+          value: {
+            setValue: receiver,
+          },
+        },
+        async resolveImportedModule() {
+          await delay(100);
+          return moduleCode;
+        },
+      });
+
+      const code = `
+      import { value } from "module-1";
+      setValue(value);
+      `;
+      await evaluateModule(code, { realm });
+      await expect(receiver).toBeCalledWith(42);
+    });
+
+    it("Supports external objects", async () => {
+      const receiver = vitest.fn();
+      const realm = StaticJsRealm({
+        globalObject: {
+          value: {
+            setValue: receiver,
+          },
+        },
+        async resolveImportedModule() {
+          await delay(100);
+          return {
+            exports: {
+              value: 42,
+            },
+          };
+        },
+      });
+
+      const code = `
+      import { value } from "module-1";
+      setValue(value);
+      `;
+      await evaluateModule(code, { realm });
+      await expect(receiver).toBeCalledWith(42);
+    });
+  });
 });
+
+function delay(time: number): Promise<void> {
+  return new Promise((accept) => setTimeout(accept, time));
+}

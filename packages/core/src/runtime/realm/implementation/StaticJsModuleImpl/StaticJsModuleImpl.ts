@@ -31,32 +31,40 @@ import {
   StaticJsResolvedBinding,
 } from "../../interfaces/StaticJsResolvedBinding.js";
 
+import { StaticJsValue } from "../../../types/interfaces/StaticJsValue.js";
+import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
+
+import { StaticJsModuleBase } from "../StaticJsModuleBase.js";
+
+import { StaticJsImportEntry } from "./StaticJsImportEntry.js";
+
 import {
   isStaticJsLocalExportEntry,
   isStaticJsIndirectExportEntry,
   StaticJsExportEntry,
 } from "./StaticJsExportEntry.js";
 
-import { StaticJsImportEntry } from "./StaticJsImportEntry.js";
-import { StaticJsValue } from "../../../types/interfaces/StaticJsValue.js";
-import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
-import { StaticJsModuleBase } from "../StaticJsModuleBase.js";
-
 export class StaticJsModuleImpl extends StaticJsModuleBase {
+  private _linked = false;
+
   private _enviornment: StaticJsModuleEnvironmentRecord | undefined;
   private _lexicalEnv: StaticJsEnvironment | undefined;
 
   private _status: StaticJsModuleStatus = "uninstantiated";
 
-  private _importEntries: readonly StaticJsImportEntry[] = [];
-  private _importedModules: StaticJsModuleImplementation[] = [];
+  private readonly _importEntries: readonly StaticJsImportEntry[];
+  private readonly _exportEntries: readonly StaticJsExportEntry[];
 
-  private _exportEntries: readonly StaticJsExportEntry[];
-  private _indirectExports = new Map<
+  private readonly _linkedModules = new Map<
+    string,
+    StaticJsModuleImplementation | null
+  >();
+
+  private readonly _indirectExports = new Map<
     string,
     { module: StaticJsModuleImplementation; targetExportName: string }
   >();
-  private _starExportModules: StaticJsModuleImplementation[] = [];
+  private readonly _starExports: StaticJsModuleImplementation[] = [];
 
   constructor(
     name: string,
@@ -82,13 +90,38 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
     return this._name;
   }
 
-  get moduleSpecifier() {
-    // TODO: Figure out how to get an absolute value for this if we ever do relative imports.
-    return this._name;
-  }
-
   get status() {
     return this._status;
+  }
+
+  async linkModules(): Promise<void> {
+    if (this._linked) {
+      return;
+    }
+
+    this._linked = true;
+
+    const importNames = this._importEntries.map((x) => x.moduleRequest);
+    const exportNames = this._exportEntries
+      .filter(isStaticJsIndirectExportEntry)
+      .map((x) => x.moduleRequest);
+
+    const moduleSpecifiers = Array.from(
+      new Set<string>([...importNames, ...exportNames]),
+    );
+    const modules = await Promise.all(
+      moduleSpecifiers.map((moduleSpecifier) =>
+        this._realm.resolveImportedModule(this, moduleSpecifier),
+      ),
+    );
+
+    await Promise.all(modules.map((module) => module?.linkModules()));
+
+    for (let i = 0; i < moduleSpecifiers.length; i++) {
+      const moduleSpecifier = moduleSpecifiers[i];
+      const module = modules[i];
+      this._linkedModules.set(moduleSpecifier, module);
+    }
   }
 
   *moduleDeclarationInstantiationEvaluator(): EvaluationGenerator {
@@ -123,13 +156,8 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         continue;
       }
 
-      const mod = yield* this._realm.resolveModuleEvaluator(
-        entry.moduleRequest,
-      );
-      if (isThrowCompletion(mod)) {
-        return mod;
-      }
-      if (!mod) {
+      const module = this._linkedModules.get(entry.moduleRequest);
+      if (!module) {
         return ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
@@ -138,43 +166,16 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         );
       }
 
-      const result = yield* mod.moduleDeclarationInstantiationEvaluator();
+      const result = yield* module.moduleDeclarationInstantiationEvaluator();
       if (isThrowCompletion(result)) {
         return result;
       }
     }
 
     // Instantiate import modules
-    for (const entity of this._importEntries) {
-      const mod = yield* this._realm.resolveModuleEvaluator(
-        entity.moduleRequest,
-      );
-      if (isThrowCompletion(mod)) {
-        return mod;
-      }
-      if (!mod) {
-        return ThrowCompletion(
-          this._realm.types.error(
-            "ReferenceError",
-            `Module ${entity.moduleRequest} not found.`,
-          ),
-        );
-      }
-
-      const result = yield* mod.moduleDeclarationInstantiationEvaluator();
-      if (isThrowCompletion(result)) {
-        return result;
-      }
-    }
-
     for (const entry of this._importEntries) {
-      const mod = yield* this._realm.resolveModuleEvaluator(
-        entry.moduleRequest,
-      );
-      if (isThrowCompletion(mod)) {
-        return mod;
-      }
-      if (!mod) {
+      const module = this._linkedModules.get(entry.moduleRequest);
+      if (!module) {
         return ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
@@ -183,7 +184,22 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         );
       }
 
-      this._importedModules.push(mod);
+      const result = yield* module.moduleDeclarationInstantiationEvaluator();
+      if (isThrowCompletion(result)) {
+        return result;
+      }
+    }
+
+    for (const entry of this._importEntries) {
+      const module = this._linkedModules.get(entry.moduleRequest);
+      if (!module) {
+        return ThrowCompletion(
+          this._realm.types.error(
+            "ReferenceError",
+            `Module ${entry.moduleRequest} not found.`,
+          ),
+        );
+      }
 
       if (entry.importName === "namespace") {
         yield* this._enviornment.createImmutableBindingEvaluator(
@@ -191,7 +207,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
           false,
         );
 
-        const ns = yield* mod.getModuleNamespaceEvaluator();
+        const ns = yield* module.getModuleNamespaceEvaluator();
         if (isThrowCompletion(ns)) {
           return ns;
         }
@@ -201,7 +217,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
           ns,
         );
       } else {
-        const resolved = yield* mod.resolveExportEvaluator(entry.importName);
+        const resolved = yield* module.resolveExportEvaluator(entry.importName);
         if (isThrowCompletion(resolved)) {
           return resolved;
         }
@@ -260,13 +276,8 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         continue;
       }
 
-      const mod = yield* this._realm.resolveModuleEvaluator(
-        entry.moduleRequest,
-      );
-      if (isThrowCompletion(mod)) {
-        return mod;
-      }
-      if (!mod) {
+      const module = this._linkedModules.get(entry.moduleRequest);
+      if (!module) {
         return ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
@@ -278,18 +289,18 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       const { importName, exportName } = entry;
 
       if (exportName === null) {
-        this._starExportModules.push(mod);
+        this._starExports.push(module);
         continue;
       }
 
       if (!importName) {
-        throw new Error(
-          `Import name is null for named export from module ${mod.name} in module ${this._name}.`,
+        throw new StaticJsEngineError(
+          `Import name is null for named export from module ${module.name} in module ${this._name}.`,
         );
       }
 
       this._indirectExports.set(exportName, {
-        module: mod,
+        module,
         targetExportName: importName,
       });
     }
@@ -312,8 +323,13 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       label: null,
     };
 
-    for (const entry of this._importedModules) {
-      const result = yield* entry.moduleEvaluationEvaluator();
+    for (const module of this._linkedModules.values()) {
+      if (!module) {
+        // Oh well.  If we actually needed it we would have thrown by now.
+        continue;
+      }
+
+      const result = yield* module.moduleEvaluationEvaluator();
       if (isThrowCompletion(result)) {
         return result;
       }
@@ -362,12 +378,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         continue;
       }
 
-      const module = yield* this._realm.resolveModuleEvaluator(
-        entry.moduleRequest,
-      );
-      if (isThrowCompletion(module)) {
-        return module;
-      }
+      const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
         return ThrowCompletion(
           this._realm.types.error(
@@ -376,6 +387,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
           ),
         );
       }
+
       return yield* module.resolveExportEvaluator(entry.importName, resolveSet);
     }
 
@@ -388,13 +400,8 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         continue;
       }
 
-      const target = yield* this._realm.resolveModuleEvaluator(
-        entry.moduleRequest,
-      );
-      if (isThrowCompletion(target)) {
-        return target;
-      }
-      if (!target) {
+      const module = this._linkedModules.get(entry.moduleRequest);
+      if (!module) {
         return ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
@@ -403,7 +410,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         );
       }
 
-      const resolution = yield* target.resolveExportEvaluator(
+      const resolution = yield* module.resolveExportEvaluator(
         bindingName,
         resolveSet,
       );
@@ -433,7 +440,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
   *getExportedNamesEvaluator(
     exportStarSet = new Set<string>(),
   ): EvaluationGenerator<string[] | ThrowCompletion> {
-    const visitedKey = this.moduleSpecifier;
+    const visitedKey = this.name;
     if (exportStarSet.has(visitedKey)) {
       return [];
     }
@@ -461,9 +468,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         continue;
       }
 
-      const module = yield* this._realm.resolveModuleEvaluator(
-        entry.moduleRequest,
-      );
+      const module = this._linkedModules.get(entry.moduleRequest);
       if (isThrowCompletion(module)) {
         return module;
       }
@@ -526,7 +531,8 @@ function parseImportEntries(
   const seenImports = new Set<string>();
   function throwIfImportSeen(importName: string) {
     if (seenImports.has(importName)) {
-      throw new Error(
+      // It seems babel/parser gates this for us
+      throw new StaticJsEngineError(
         `Duplicate import name "${importName}" in module ${moduleName}.`,
       );
     }
@@ -542,12 +548,6 @@ function parseImportEntries(
       switch (specifier.type) {
         case "ImportDefaultSpecifier":
           {
-            if (!isIdentifier(specifier.local)) {
-              throw new Error(
-                `Imported variable ${specifier.type} is not an identifier.`,
-              );
-            }
-
             const localName = specifier.local.name;
             throwIfImportSeen(localName);
             importEntries.push({
@@ -559,12 +559,6 @@ function parseImportEntries(
           break;
         case "ImportNamespaceSpecifier":
           {
-            if (!isIdentifier(specifier.local)) {
-              throw new Error(
-                `Imported variable ${specifier.type} is not an identifier.`,
-              );
-            }
-
             const localName = specifier.local.name;
             throwIfImportSeen(localName);
             importEntries.push({
@@ -576,12 +570,11 @@ function parseImportEntries(
           break;
         case "ImportSpecifier":
           {
-            if (
-              !isIdentifier(specifier.local) ||
-              !isIdentifier(specifier.imported)
-            ) {
-              throw new Error(
-                `Imported variable ${specifier.type} is not an identifier.`,
+            if (!isIdentifier(specifier.imported)) {
+              // Not sure when this happens but might have something to do with specifier.importKind
+              // I was unable to get this to be anything using a sandbox of babel/parser.
+              throw new StaticJsEngineError(
+                `Import specifier is importing unknown node type ${specifier.imported.type}`,
               );
             }
 

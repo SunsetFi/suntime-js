@@ -1,6 +1,2 @@
-export {
-  default as StaticJsRealm,
-  type StaticJsRealmOptions,
-  type StaticJsRealmGlobalDecl,
-  type StaticJsRealmGlobalValue,
-} from "./StaticJsRealm.js";
+export * from "./StaticJsRealm.js";
+export { default as StaticJsRealm } from "./StaticJsRealm.js";

@@ -1,5 +1,7 @@
 import { parseExpression } from "@babel/parser";
 
+import { StaticJsModule } from "../runtime/realm/interfaces/StaticJsModule.js";
+
 import {
   compileExpression,
   compileModule,
@@ -11,7 +13,6 @@ import {
 } from "./compilation/options.js";
 import StaticJsParseError from "./StaticJsParseError.js";
 import { EvaluationOptions } from "./compilation/StaticJsCompilation.js";
-import { StaticJsModule } from "../runtime/realm/interfaces/StaticJsModule.js";
 
 export type EvaluateProgramOptions = EvaluationOptions &
   ProgramCompilationOptions;
@@ -46,7 +47,7 @@ export function evaluateProgram(
 export function evaluateModule(
   code: string,
   opts?: EvaluateProgramOptions,
-): StaticJsModule {
+): Promise<StaticJsModule> {
   const { realm } = opts ?? {};
 
   const compilation = compileModule(code);

@@ -1,10 +1,8 @@
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-
 import StaticJsEnvironment from "../../environments/interfaces/StaticJsEnvironment.js";
 
 import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
 import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
+import { StaticJsModule } from "./StaticJsModule.js";
 
 import { StaticJsModuleImplementation } from "./StaticJsModuleImplementation.js";
 
@@ -37,9 +35,16 @@ export default interface StaticJsRealm {
    */
   readonly types: StaticJsTypeFactory;
 
-  resolveModuleEvaluator(
-    moduleName: string,
-  ): EvaluationGenerator<StaticJsModuleImplementation | ThrowCompletion | null>;
+  /**
+   * A function to resolve an imported ECMAScript Module given a referencing module
+   * and a specifier.
+   * @param referencingModule
+   * @param specifier
+   */
+  resolveImportedModule(
+    referencingModule: StaticJsModule,
+    specifier: string,
+  ): Promise<StaticJsModuleImplementation | null>;
 }
 
 export function isStaticJsRealm(value: unknown): value is StaticJsRealm {

@@ -39,6 +39,10 @@ export default class StaticJsExternalModuleImpl
     return "instantiated" as const;
   }
 
+  linkModules() {
+    return Promise.resolve<void>(undefined);
+  }
+
   *moduleDeclarationInstantiationEvaluator(): EvaluationGenerator {
     // No-op for external modules.
     return NormalCompletion();

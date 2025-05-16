@@ -4,9 +4,12 @@ export interface EvaluationOptions {
   realm?: StaticJsRealm;
 }
 
-export default interface StaticJsCompilation<TResult = unknown> {
+export default interface StaticJsCompilation<
+  TResult = unknown,
+  TGeneratorResult = Generator<void, TResult, void>,
+> {
   evaluate(opts?: EvaluationOptions): TResult;
 
   // TODO: generator() to get a step-by-step evaluation generator supporting introspection for debugging.
-  generator(opts?: EvaluationOptions): Generator<void, TResult, void>;
+  generator(opts?: EvaluationOptions): TGeneratorResult;
 }
