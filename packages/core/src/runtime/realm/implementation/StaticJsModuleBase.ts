@@ -17,7 +17,7 @@ import {
   StaticJsModuleStatus,
 } from "../interfaces/StaticJsModuleImplementation.js";
 
-import StaticJsRealm from "../interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../interfaces/StaticJsRealmImplementation.js";
 import { StaticJsResolvedBinding } from "../interfaces/StaticJsResolvedBinding.js";
 
 export abstract class StaticJsModuleBase
@@ -27,7 +27,7 @@ export abstract class StaticJsModuleBase
 
   constructor(
     protected readonly _name: string,
-    protected readonly _realm: StaticJsRealm,
+    protected readonly _realm: StaticJsRealmImplementation,
   ) {}
 
   get name(): string {

@@ -1,4 +1,4 @@
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 
 import { StaticJsObject } from "../interfaces/StaticJsObject.js";
 import { StaticJsString } from "../interfaces/StaticJsString.js";
@@ -12,7 +12,7 @@ export default class StaticJsStringImpl
 {
   private readonly _value: string;
 
-  constructor(realm: StaticJsRealm, value: string) {
+  constructor(realm: StaticJsRealmImplementation, value: string) {
     if (typeof value !== "string") {
       throw new TypeError(
         `Cannot convert ${value} to StaticJsString: Expected string.`,

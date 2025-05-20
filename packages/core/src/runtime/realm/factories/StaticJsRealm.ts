@@ -1,7 +1,7 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
-import IStaticJsRealm from "../interfaces/StaticJsRealm.js";
+import IStaticJsRealm from "../interfaces/StaticJsRealmImplementation.js";
 import { StaticJsModule } from "../interfaces/StaticJsModule.js";
 import { StaticJsModuleImplementation } from "../interfaces/StaticJsModuleImplementation.js";
 
@@ -37,10 +37,12 @@ export type StaticJsRealmModule =
   | StaticJsModule
   | StaticJsModuleImplementation
   | string;
+
 export type StaticJsRealmModuleFactory = (
   referencingModule: StaticJsModule,
   specifier: string,
 ) => Promise<StaticJsRealmModule>;
+
 export interface StaticJsRealmOptions {
   /**
    * Settings for the global 'this' object in the realm.

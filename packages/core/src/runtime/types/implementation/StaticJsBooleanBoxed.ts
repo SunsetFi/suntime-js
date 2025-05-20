@@ -1,10 +1,10 @@
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 
 import StaticJsObjectImpl from "./StaticJsObjectImpl.js";
 
 export default class StaticJsBooleanBoxed extends StaticJsObjectImpl {
   constructor(
-    realm: StaticJsRealm,
+    realm: StaticJsRealmImplementation,
     private readonly _value: boolean,
   ) {
     super(realm, realm.types.prototypes.booleanProto);

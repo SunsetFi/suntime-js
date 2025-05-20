@@ -1,4 +1,4 @@
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 import { StaticJsBoolean, StaticJsObject } from "../interfaces/index.js";
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 import StaticJsBooleanBoxed from "./StaticJsBooleanBoxed.js";
@@ -9,7 +9,7 @@ export default class StaticJsBooleanImpl
 {
   private readonly _value: boolean;
 
-  constructor(realm: StaticJsRealm, value: boolean) {
+  constructor(realm: StaticJsRealmImplementation, value: boolean) {
     super(realm);
     this._value = value;
   }

@@ -1,7 +1,7 @@
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
 
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 
 import {
   isStaticJsAccessorPropertyDescriptor,
@@ -10,7 +10,7 @@ import {
 } from "../interfaces/index.js";
 
 export default function staticJsDescriptorToObjectDescriptor(
-  realm: StaticJsRealm,
+  realm: StaticJsRealmImplementation,
   descriptor: StaticJsPropertyDescriptor,
 ): PropertyDescriptor {
   const objDescriptor: PropertyDescriptor = {

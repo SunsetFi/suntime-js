@@ -5,7 +5,7 @@ import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
 import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 
 import { StaticJsModuleImplementation } from "../../realm/interfaces/StaticJsModuleImplementation.js";
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
@@ -17,7 +17,7 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsDeclarative
     StaticJsEnvironmentBinding
   >();
 
-  constructor(realm: StaticJsRealm) {
+  constructor(realm: StaticJsRealmImplementation) {
     super(realm);
   }
 

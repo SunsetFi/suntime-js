@@ -1,10 +1,10 @@
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 
 import StaticJsObjectImpl from "./StaticJsObjectImpl.js";
 
 export default class StaticJsNumberBoxed extends StaticJsObjectImpl {
   constructor(
-    realm: StaticJsRealm,
+    realm: StaticJsRealmImplementation,
     private readonly _value: number,
   ) {
     super(realm, realm.types.prototypes.numberProto);

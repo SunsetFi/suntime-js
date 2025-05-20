@@ -25,7 +25,7 @@ import {
   StaticJsModuleStatus,
   StaticJsModuleImplementation,
 } from "../../interfaces/StaticJsModuleImplementation.js";
-import StaticJsRealm from "../../interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../../interfaces/StaticJsRealmImplementation.js";
 import {
   StaticJsModuleResolvedBinding,
   StaticJsResolvedBinding,
@@ -69,7 +69,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
   constructor(
     name: string,
     private readonly _ast: Program,
-    realm: StaticJsRealm,
+    realm: StaticJsRealmImplementation,
   ) {
     super(name, realm);
     if (_ast.sourceType !== "module") {

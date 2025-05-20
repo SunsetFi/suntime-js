@@ -32,7 +32,7 @@ import {
   StaticJsRealmOptions,
 } from "../factories/StaticJsRealm.js";
 
-import StaticJsRealm from "../interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../interfaces/StaticJsRealmImplementation.js";
 import {
   StaticJsModuleImplementation,
   isStaticJsModuleImplementation,
@@ -48,7 +48,7 @@ import StaticJsExternalModuleImpl from "./StaticJsExternalModuleImpl.js";
 import { StaticJsModuleImpl } from "./StaticJsModuleImpl/StaticJsModuleImpl.js";
 import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 
-export default class StaticJsRealmImpl implements StaticJsRealm {
+export default class StaticJsRealmImpl implements StaticJsRealmImplementation {
   private readonly _globalObject: StaticJsObject;
   private readonly _globalEnv: StaticJsEnvironment;
   private readonly _typeFactory: StaticJsTypeFactory;
@@ -194,7 +194,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 }
 
 function realmModuleToModule(
-  realm: StaticJsRealm,
+  realm: StaticJsRealmImplementation,
   specifier: string,
   module: StaticJsRealmModule,
 ): StaticJsModuleImplementation {
@@ -224,7 +224,7 @@ function realmModuleToModule(
 }
 
 function globalDeclToDescriptor(
-  realm: StaticJsRealm,
+  realm: StaticJsRealmImplementation,
   descriptor: StaticJsRealmGlobalDeclProperty,
 ) {
   const descr: Writable<

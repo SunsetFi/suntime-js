@@ -6,7 +6,7 @@ import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
 import { StaticJsEnvironment } from "../interfaces/index.js";
@@ -19,7 +19,7 @@ import StaticJsEnvironmentBindingProvider, {
 export default abstract class StaticJsBaseEnvironmentRecord
   implements StaticJsEnvironment, StaticJsEnvironmentBindingProvider
 {
-  constructor(private readonly _realm: StaticJsRealm) {}
+  constructor(private readonly _realm: StaticJsRealmImplementation) {}
 
   get realm() {
     return this._realm;

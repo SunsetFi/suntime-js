@@ -1,5 +1,5 @@
 import { StaticJsObject } from "../types/interfaces/StaticJsObject.js";
-import StaticJsRealm from "../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../realm/interfaces/StaticJsRealmImplementation.js";
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 import {
   isStaticJsValue,
@@ -9,7 +9,7 @@ import { ReturnCompletion } from "../../evaluator/completions/ReturnCompletion.j
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 
 export function populateStringPrototype(
-  realm: StaticJsRealm,
+  realm: StaticJsRealmImplementation,
   proto: StaticJsObject,
   functionProto: StaticJsObject,
 ) {
@@ -437,7 +437,7 @@ export function populateStringPrototype(
 }
 
 export function createStringConstructor(
-  realm: StaticJsRealm,
+  realm: StaticJsRealmImplementation,
   stringProto: StaticJsObject,
   functionProto: StaticJsObject,
 ) {

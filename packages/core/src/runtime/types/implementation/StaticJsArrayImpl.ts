@@ -2,7 +2,7 @@ import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 
 import { StaticJsValue } from "../interfaces/StaticJsValue.js";
 import {
@@ -22,7 +22,7 @@ export default class StaticJsArrayImpl
   extends StaticJsObjectLikeImpl
   implements StaticJsArray
 {
-  constructor(realm: StaticJsRealm, items: StaticJsValue[] = []) {
+  constructor(realm: StaticJsRealmImplementation, items: StaticJsValue[] = []) {
     super(realm, realm.types.prototypes.arrayProto);
 
     // This is a little suspect... We are using runEvaluatorUntilCompletion for these...

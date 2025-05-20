@@ -5,7 +5,7 @@ import { StaticJsObjectLike } from "../../types/interfaces/StaticJsObject.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
 import { StaticJsModule } from "./StaticJsModule.js";
-import StaticJsRealm from "./StaticJsRealm.js";
+import StaticJsRealmImplementation from "./StaticJsRealmImplementation.js";
 
 import { StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
 
@@ -63,7 +63,7 @@ export function isStaticJsModuleImplementation(
 }
 
 export function staticJsModuleToImplementation(
-  realm: StaticJsRealm,
+  realm: StaticJsRealmImplementation,
   module: StaticJsModule,
 ): StaticJsModuleImplementation {
   if (isStaticJsModuleImplementation(module)) {

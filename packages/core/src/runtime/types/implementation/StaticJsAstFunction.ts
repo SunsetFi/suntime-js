@@ -19,7 +19,7 @@ import StaticJsFunctionEnvironmentRecord from "../../environments/implementation
 import { setupEnvironment } from "../../../evaluator/node-evaluators/index.js";
 import { EvaluateNodeCommand } from "../../../evaluator/commands/index.js";
 
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 
 import { StaticJsValue } from "../interfaces/index.js";
 
@@ -34,7 +34,7 @@ export type StaticJsAstFunctionArgumentDeclaration =
 
 export default class StaticJsAstFunction extends StaticJsFunctionImpl {
   constructor(
-    realm: StaticJsRealm,
+    realm: StaticJsRealmImplementation,
     name: string | null,
     private readonly _argumentDeclarations: StaticJsAstFunctionArgumentDeclaration[],
     private readonly _context: EvaluationContext,

@@ -1,12 +1,12 @@
 import { ReturnCompletion } from "../../evaluator/completions/ReturnCompletion.js";
 
-import StaticJsRealm from "../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../realm/interfaces/StaticJsRealmImplementation.js";
 
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 import { StaticJsObject } from "../types/interfaces/StaticJsObject.js";
 
 export function populateBooleanPrototype(
-  realm: StaticJsRealm,
+  realm: StaticJsRealmImplementation,
   booleanProto: StaticJsObject,
   functionProto: StaticJsObject,
 ) {
@@ -45,7 +45,7 @@ export function populateBooleanPrototype(
 }
 
 export function createBooleanConstructor(
-  realm: StaticJsRealm,
+  realm: StaticJsRealmImplementation,
   booleanProto: StaticJsObject,
   functionProto: StaticJsObject,
 ) {

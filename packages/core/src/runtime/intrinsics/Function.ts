@@ -1,18 +1,18 @@
-import StaticJsRealm from "../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../realm/interfaces/StaticJsRealmImplementation.js";
 
 import { StaticJsObject } from "../types/interfaces/StaticJsObject.js";
 
 import StaticJsObjectImpl from "../types/implementation/StaticJsObjectImpl.js";
 
 export function populateFunctionPrototype(
-  realm: StaticJsRealm,
+  realm: StaticJsRealmImplementation,
   functionPrototype: StaticJsObject,
 ) {
   return functionPrototype;
 }
 
 export function createFunctionConstructor(
-  realm: StaticJsRealm,
+  realm: StaticJsRealmImplementation,
   functionProto: StaticJsObject,
 ) {
   const ctor = new StaticJsObjectImpl(realm, null);

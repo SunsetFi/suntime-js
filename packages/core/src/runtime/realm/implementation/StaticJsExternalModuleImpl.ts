@@ -6,7 +6,7 @@ import { StaticJsObjectLike } from "../../types/index.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
 import { StaticJsModule } from "../interfaces/StaticJsModule.js";
-import StaticJsRealm from "../interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../interfaces/StaticJsRealmImplementation.js";
 import { StaticJsResolvedBinding } from "../interfaces/StaticJsResolvedBinding.js";
 
 import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
@@ -20,7 +20,7 @@ export default class StaticJsExternalModuleImpl
   constructor(
     name: string,
     private _obj: Record<string, unknown>,
-    realm: StaticJsRealm,
+    realm: StaticJsRealmImplementation,
   ) {
     super(name, realm);
     this._exportKeys = Object.freeze([...Object.keys(_obj)]);

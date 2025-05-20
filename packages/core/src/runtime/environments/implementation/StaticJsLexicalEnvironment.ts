@@ -1,6 +1,6 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
-import StaticJsRealm from "../../realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
 import { StaticJsEnvironment } from "../interfaces/index.js";
@@ -20,7 +20,7 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
     | null;
 
   constructor(
-    realm: StaticJsRealm,
+    realm: StaticJsRealmImplementation,
     record: StaticJsEnvironment,
     parent: StaticJsEnvironment | null,
   ) {
