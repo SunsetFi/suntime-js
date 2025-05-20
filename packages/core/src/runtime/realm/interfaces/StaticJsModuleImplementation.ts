@@ -15,7 +15,7 @@ export type StaticJsModuleStatus =
   | "evaluating"
   | "evaluated";
 
-export interface StaticJsModuleImplementation {
+export interface StaticJsModuleImplementation extends StaticJsModule {
   readonly name: string;
   readonly status: StaticJsModuleStatus;
 
@@ -66,9 +66,21 @@ export function staticJsModuleToImplementation(
   realm: StaticJsRealm,
   module: StaticJsModule,
 ): StaticJsModuleImplementation {
+  if (isStaticJsModuleImplementation(module)) {
+    return module;
+  }
   return {
     name: module.name,
     status: "evaluated",
+    getExport(exportName) {
+      return module.getExport(exportName);
+    },
+    getExportedNames() {
+      return module.getExportedNames();
+    },
+    getModuleNamespace() {
+      return module.getModuleNamespace();
+    },
     linkModules() {
       return Promise.resolve<void>(undefined);
     },
