@@ -1,8 +1,6 @@
-import {
-  isStaticJsObjectLike,
-  isStaticJsScalar,
-  StaticJsValue,
-} from "../runtime/index.js";
+import { isStaticJsObjectLike } from "../runtime/types/interfaces/StaticJsObject.js";
+import { isStaticJsScalar } from "../runtime/types/interfaces/StaticJsScalar.js";
+import { StaticJsValue } from "../runtime/types/interfaces/StaticJsValue.js";
 
 export default class StaticJsRuntimeError extends Error {
   constructor(private readonly _thrown: StaticJsValue) {

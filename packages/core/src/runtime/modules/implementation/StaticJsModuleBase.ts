@@ -17,7 +17,7 @@ import {
   StaticJsModuleStatus,
 } from "../interfaces/StaticJsModuleImplementation.js";
 
-import StaticJsRealmImplementation from "../interfaces/StaticJsRealmImplementation.js";
+import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 import { StaticJsResolvedBinding } from "../interfaces/StaticJsResolvedBinding.js";
 
 export abstract class StaticJsModuleBase

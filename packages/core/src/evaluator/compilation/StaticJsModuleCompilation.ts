@@ -1,16 +1,20 @@
 import { Program } from "@babel/types";
 
-import { isStaticJsRealm, StaticJsRealm } from "../../runtime/index.js";
+import {
+  isStaticJsRealm,
+  StaticJsRealm,
+} from "../../runtime/realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmFactory from "../../runtime/realm/factories/StaticJsRealm.js";
+
+import { StaticJsModule } from "../../runtime/modules/interfaces/StaticJsModule.js";
+import { StaticJsModuleImpl } from "../../runtime/modules/implementation/StaticJsModuleImpl.js";
+
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import {
   runEvaluatorUntilCompletion,
   evaluateCommands,
 } from "../evaluator-runtime.js";
-
-import { StaticJsModule } from "../../runtime/realm/interfaces/StaticJsModule.js";
-import { StaticJsModuleImpl } from "../../runtime/realm/implementation/StaticJsModuleImpl/StaticJsModuleImpl.js";
-
-import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import StaticJsCompilation, {
   EvaluationOptions,
@@ -27,7 +31,7 @@ export default class StaticJsModuleCompilation
 
   async evaluate({ realm }: EvaluationOptions = {}): Promise<StaticJsModule> {
     if (!realm) {
-      realm = StaticJsRealm();
+      realm = StaticJsRealmFactory();
     } else if (!isStaticJsRealm(realm)) {
       throw new TypeError(`Invalid StaticJsRealm specified.`);
     }
@@ -57,7 +61,7 @@ export default class StaticJsModuleCompilation
     Generator<void, StaticJsModule, void>
   > {
     if (!realm) {
-      realm = StaticJsRealm();
+      realm = StaticJsRealmFactory();
     } else if (!isStaticJsRealm(realm)) {
       throw new TypeError(`Invalid StaticJsRealm specified.`);
     }
@@ -73,7 +77,7 @@ export default class StaticJsModuleCompilation
     realm: StaticJsRealm,
   ): Generator<void, StaticJsModule, void> {
     if (!realm) {
-      realm = StaticJsRealm();
+      realm = StaticJsRealmFactory();
     } else if (!isStaticJsRealm(realm)) {
       throw new Error("Invalid realm");
     }

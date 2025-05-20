@@ -1,7 +1,7 @@
-import { StaticJsModule } from "./StaticJsModule.js";
+import { StaticJsModule } from "../../modules/interfaces/StaticJsModule.js";
+import { StaticJsModuleImplementation } from "../../modules/interfaces/StaticJsModuleImplementation.js";
 
-import { StaticJsModuleImplementation } from "./StaticJsModuleImplementation.js";
-import StaticJsRealm, { isStaticJsRealm } from "./StaticJsRealm.js";
+import { StaticJsRealm, isStaticJsRealm } from "./StaticJsRealm.js";
 
 export default interface StaticJsRealmImplementation extends StaticJsRealm {
   /**

@@ -1,10 +1,12 @@
 import { AssignmentExpression } from "@babel/types";
 
-import { isStaticJsScalar } from "../../runtime/index.js";
+import { isStaticJsScalar } from "../../runtime/types/interfaces/StaticJsScalar.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeCommand } from "../commands/index.js";
+
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 import setLVal from "./LVal.js";

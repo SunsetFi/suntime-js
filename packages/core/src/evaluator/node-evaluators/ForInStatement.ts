@@ -1,11 +1,9 @@
 import { ForInStatement, LVal } from "@babel/types";
 
+import { isStaticJsObjectLike } from "../../runtime/types/interfaces/StaticJsObject.js";
+
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import { isStaticJsObjectLike } from "../../runtime/index.js";
-
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
 
 import {
   ThrowCompletion,
@@ -14,6 +12,9 @@ import {
 import { NormalCompletion } from "../completions/NormalCompletion.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+
+import EvaluationContext from "../EvaluationContext.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setLVal from "./LVal.js";
 import setupEnvironment from "./setup-environment.js";

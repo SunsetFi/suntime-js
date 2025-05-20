@@ -1,5 +1,8 @@
-import { StaticJsRealm } from "../../realm/interfaces/index.js";
-import { StaticJsNull, StaticJsObjectLike } from "../interfaces/index.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
+
+import { StaticJsNull } from "../interfaces/StaticJsNull.js";
+import { StaticJsObjectLike } from "../interfaces/StaticJsObject.js";
+
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
 export default class StaticJsObjectImpl extends StaticJsObjectLikeImpl {

@@ -1,9 +1,11 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
-import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
+import { StaticJsModule } from "../../modules/interfaces/StaticJsModule.js";
+import { StaticJsModuleImplementation } from "../../modules/interfaces/StaticJsModuleImplementation.js";
+
 import IStaticJsRealm from "../interfaces/StaticJsRealmImplementation.js";
-import { StaticJsModule } from "../interfaces/StaticJsModule.js";
-import { StaticJsModuleImplementation } from "../interfaces/StaticJsModuleImplementation.js";
+
+import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
 
 export interface StaticJsRealmGlobalDataPropertyDecl {
   readonly configurable?: boolean;

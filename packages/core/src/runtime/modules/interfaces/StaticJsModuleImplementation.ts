@@ -4,8 +4,9 @@ import { NormalCompletion } from "../../../evaluator/completions/NormalCompletio
 import { StaticJsObjectLike } from "../../types/interfaces/StaticJsObject.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
+import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
+
 import { StaticJsModule } from "./StaticJsModule.js";
-import StaticJsRealmImplementation from "./StaticJsRealmImplementation.js";
 
 import { StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
 

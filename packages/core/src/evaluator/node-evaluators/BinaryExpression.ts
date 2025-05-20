@@ -1,11 +1,10 @@
 import { BinaryExpression } from "@babel/types";
 
-import {
-  StaticJsValue,
-  isStaticJsScalar,
-  isStaticJsObjectLike,
-  isStaticJsString,
-} from "../../runtime/index.js";
+import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
+import { isStaticJsScalar } from "../../runtime/types/interfaces/StaticJsScalar.js";
+import { isStaticJsObjectLike } from "../../runtime/types/interfaces/StaticJsObject.js";
+
+import { isStaticJsString } from "../../runtime/types/interfaces/StaticJsString.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";

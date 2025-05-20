@@ -3,9 +3,9 @@ import { Function } from "@babel/types";
 import StaticJsAstFunction, {
   StaticJsAstFunctionArgumentDeclaration,
 } from "../../runtime/types/implementation/StaticJsAstFunction.js";
+import { StaticJsFunction } from "../../runtime/types/interfaces/StaticJsFunction.js";
 
 import EvaluationContext from "../EvaluationContext.js";
-import { StaticJsFunction } from "../../runtime/index.js";
 import StaticJsEngineError from "../StaticJsEngineError.js";
 
 export default function createFunction(

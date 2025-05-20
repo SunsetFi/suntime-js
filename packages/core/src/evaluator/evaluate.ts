@@ -1,6 +1,6 @@
 import { parseExpression } from "@babel/parser";
 
-import { StaticJsModule } from "../runtime/realm/interfaces/StaticJsModule.js";
+import { StaticJsModule } from "../runtime/modules/interfaces/StaticJsModule.js";
 
 import {
   compileExpression,

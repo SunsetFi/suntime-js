@@ -1,11 +1,13 @@
 import { ReturnStatement } from "@babel/types";
 
-import { StaticJsValue } from "../../runtime/index.js";
+import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
+
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+
+import { ReturnCompletion } from "../completions/ReturnCompletion.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeCommand } from "../commands/index.js";
-import { ReturnCompletion } from "../completions/index.js";
 
 export default function* returnStatementNodeEvaluator(
   node: ReturnStatement,

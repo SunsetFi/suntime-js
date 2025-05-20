@@ -2,21 +2,21 @@ import { BlockStatement, CatchClause, TryStatement } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import { StaticJsValue } from "../../runtime/index.js";
+import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
 
-import {
-  StaticJsDeclarativeEnvironmentRecord,
-  StaticJsLexicalEnvironment,
-} from "../../runtime/environments/implementation/index.js";
+import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeCommand } from "../commands/index.js";
-import { NormalCompletion } from "../completions/index.js";
+
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+
+import { NormalCompletion } from "../completions/NormalCompletion.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import setLVal from "./LVal.js";
 import setupEnvironment from "./setup-environment.js";
-import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 function* tryStatementNodeEvaluator(
   node: TryStatement,

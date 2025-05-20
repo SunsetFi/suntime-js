@@ -1,6 +1,7 @@
 import { Node } from "@babel/types";
 
-import { isStaticJsRealm, StaticJsRealm } from "../../runtime/index.js";
+import { isStaticJsRealm } from "../../runtime/realm/interfaces/StaticJsRealm.js";
+import StaticJsRealmFactory from "../../runtime/realm/factories/StaticJsRealm.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import {
@@ -23,7 +24,7 @@ export default class StaticJsEvalCompilation implements StaticJsCompilation {
 
   evaluate({ realm }: EvaluationOptions = {}): unknown {
     if (!realm) {
-      realm = StaticJsRealm();
+      realm = StaticJsRealmFactory();
     } else if (!isStaticJsRealm(realm)) {
       throw new Error("Invalid realm");
     }
@@ -70,7 +71,7 @@ export default class StaticJsEvalCompilation implements StaticJsCompilation {
     void
   > {
     if (!realm) {
-      realm = StaticJsRealm();
+      realm = StaticJsRealmFactory();
     } else if (!isStaticJsRealm(realm)) {
       throw new Error("Invalid realm");
     }

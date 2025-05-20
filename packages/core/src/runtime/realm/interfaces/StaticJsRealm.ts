@@ -2,9 +2,9 @@ import StaticJsEnvironment from "../../environments/interfaces/StaticJsEnvironme
 
 import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
 import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
-import { StaticJsModule } from "./StaticJsModule.js";
+import { StaticJsModule } from "../../modules/interfaces/StaticJsModule.js";
 
-import { StaticJsModuleImplementation } from "./StaticJsModuleImplementation.js";
+import { StaticJsModuleImplementation } from "../../modules/interfaces/StaticJsModuleImplementation.js";
 
 /**
  * A top-level construct describing the overall environment in which a javascript program is executed.
@@ -14,7 +14,7 @@ import { StaticJsModuleImplementation } from "./StaticJsModuleImplementation.js"
  * This class is analogous to a [Realm](https://tc39.es/ecma262/#sec-code-realms) in the ECMAScript specification.
  * @public
  */
-export default interface StaticJsRealm {
+export interface StaticJsRealm {
   /**
    * Whether the realm is in strict mode.
    */

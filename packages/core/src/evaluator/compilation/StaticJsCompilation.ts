@@ -1,4 +1,4 @@
-import { StaticJsRealm } from "../../runtime/index.js";
+import { StaticJsRealm } from "../../runtime/realm/interfaces/StaticJsRealm.js";
 
 export interface EvaluationOptions {
   realm?: StaticJsRealm;

@@ -4,6 +4,7 @@ import { parse as parseAst } from "@babel/parser";
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 
 import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/index.js";
 import { StaticJsEnvironment } from "../../environments/index.js";
@@ -27,26 +28,25 @@ import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 import StaticJsExternalFunction from "../../types/implementation/StaticJsExternalFunction.js";
 
 import {
+  StaticJsModuleImplementation,
+  isStaticJsModuleImplementation,
+  staticJsModuleToImplementation,
+} from "../../modules/interfaces/StaticJsModuleImplementation.js";
+import {
+  isStaticJsModule,
+  StaticJsModule,
+} from "../../modules/interfaces/StaticJsModule.js";
+
+import StaticJsExternalModuleImpl from "../../modules/implementation/StaticJsExternalModuleImpl.js";
+import { StaticJsModuleImpl } from "../../modules/implementation/StaticJsModuleImpl.js";
+
+import {
   StaticJsRealmGlobalDeclProperty,
   StaticJsRealmModule,
   StaticJsRealmOptions,
 } from "../factories/StaticJsRealm.js";
 
 import StaticJsRealmImplementation from "../interfaces/StaticJsRealmImplementation.js";
-import {
-  StaticJsModuleImplementation,
-  isStaticJsModuleImplementation,
-  staticJsModuleToImplementation,
-} from "../interfaces/StaticJsModuleImplementation.js";
-
-import {
-  isStaticJsModule,
-  StaticJsModule,
-} from "../interfaces/StaticJsModule.js";
-
-import StaticJsExternalModuleImpl from "./StaticJsExternalModuleImpl.js";
-import { StaticJsModuleImpl } from "./StaticJsModuleImpl/StaticJsModuleImpl.js";
-import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealmImplementation {
   private readonly _globalObject: StaticJsObject;

@@ -1,25 +1,27 @@
 import { LVal, isLVal } from "@babel/types";
 
+import { isStaticJsArray } from "../../runtime/types/interfaces/StaticJsArray.js";
+import { isStaticJsObject } from "../../runtime/types/interfaces/StaticJsObject.js";
+import { isStaticJsUndefined } from "../../runtime/types/interfaces/StaticJsUndefined.js";
 import {
-  isStaticJsArray,
-  isStaticJsObject,
-  isStaticJsUndefined,
-  isStaticJsValue,
   StaticJsValue,
-} from "../../runtime/index.js";
+  isStaticJsValue,
+} from "../../runtime/types/interfaces/StaticJsValue.js";
+
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
 import { EvaluateNodeCommand } from "../commands/index.js";
+
+import { Completion } from "../completions/Completion.js";
+import { NormalCompletion } from "../completions/NormalCompletion.js";
 import {
-  Completion,
-  NormalCompletion,
   ThrowCompletion,
-} from "../completions/index.js";
+  isThrowCompletion,
+} from "../completions/ThrowCompletion.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import StaticJsEngineError from "../StaticJsEngineError.js";
-import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 export default function setLVal(
   lval: LVal,

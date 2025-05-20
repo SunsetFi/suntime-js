@@ -2,10 +2,10 @@ export type {
   StaticJsRealmGlobalDecl,
   StaticJsRealmGlobalValue,
   StaticJsRealmOptions,
-} from "./factories/index.js";
+} from "./factories/StaticJsRealm.js";
 
-import { StaticJsRealm as fStaticJsRealm } from "./factories/index.js";
-import { StaticJsRealm as IStaticJsRealm } from "./interfaces/index.js";
+import fStaticJsRealm from "./factories/StaticJsRealm.js";
+import { StaticJsRealm as IStaticJsRealm } from "./interfaces/StaticJsRealm.js";
 
 /**
  * {@inheritdoc fStaticJsRealm}
@@ -20,4 +20,3 @@ const StaticJsRealm = fStaticJsRealm;
 type StaticJsRealm = IStaticJsRealm;
 
 export { StaticJsRealm };
-export { isStaticJsRealm, type StaticJsModule } from "./interfaces/index.js";

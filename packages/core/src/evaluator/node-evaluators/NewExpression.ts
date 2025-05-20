@@ -1,11 +1,15 @@
 import { NewExpression } from "@babel/types";
 
-import { isStaticJsFunction, StaticJsValue } from "../../runtime/index.js";
+import { isStaticJsFunction } from "../../runtime/types/interfaces/StaticJsFunction.js";
+import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
 
-import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+
+import { NormalCompletion } from "../completions/NormalCompletion.js";
+import { ThrowCompletion } from "../completions/ThrowCompletion.js";
+
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeCommand } from "../commands/index.js";
 import StaticJsEngineError from "../StaticJsEngineError.js";
 
 export default function* newExpressionNodeEvaluator(
