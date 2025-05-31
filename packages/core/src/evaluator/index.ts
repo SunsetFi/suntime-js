@@ -14,4 +14,4 @@ export {
   type ExpressionCompilationOptions,
   type ProgramCompilationOptions,
 } from "./compilation/index.js";
-export { default as StaticJsParseError } from "./StaticJsParseError.js";
+export { default as StaticJsParseError } from "../errors/StaticJsParseError.js";

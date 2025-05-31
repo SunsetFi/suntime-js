@@ -3,13 +3,13 @@ import { Program } from "@babel/types";
 import typedMerge from "../../internal/typed-merge.js";
 
 import EvaluationContext from "../EvaluationContext.js";
-import { EvaluateNodeCommand } from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion, NormalCompletion } from "../completions/index.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setupEnvironment from "./setup-environment.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 function* programNodeEvaluator(

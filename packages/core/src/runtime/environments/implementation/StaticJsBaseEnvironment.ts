@@ -4,7 +4,7 @@ import {
 } from "../../../evaluator/completions/ThrowCompletion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
-import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
+import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
 import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";

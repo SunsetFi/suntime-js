@@ -11,7 +11,7 @@ import {
   ExpressionCompilationOptions,
   ProgramCompilationOptions,
 } from "./compilation/options.js";
-import StaticJsParseError from "./StaticJsParseError.js";
+import StaticJsParseError from "../errors/StaticJsParseError.js";
 import { EvaluationOptions } from "./compilation/StaticJsCompilation.js";
 
 export type EvaluateProgramOptions = EvaluationOptions &

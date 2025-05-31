@@ -1,8 +1,8 @@
 import { isThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
-import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
-import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
 import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 

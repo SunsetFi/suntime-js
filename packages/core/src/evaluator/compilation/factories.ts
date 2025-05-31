@@ -4,7 +4,7 @@ import { File, Expression } from "@babel/types";
 import StaticJsCompilation from "./StaticJsCompilation.js";
 import StaticJsEvalCompilation from "./StaticJsEvalCompilation.js";
 import { ProgramCompilationOptions } from "./options.js";
-import StaticJsParseError from "../StaticJsParseError.js";
+import StaticJsParseError from "../../errors/StaticJsParseError.js";
 import StaticJsModuleCompilation from "./StaticJsModuleCompilation.js";
 
 export function compileProgram(

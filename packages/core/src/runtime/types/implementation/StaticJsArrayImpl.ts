@@ -16,7 +16,7 @@ import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-des
 
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
-import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 export default class StaticJsArrayImpl
   extends StaticJsObjectLikeImpl

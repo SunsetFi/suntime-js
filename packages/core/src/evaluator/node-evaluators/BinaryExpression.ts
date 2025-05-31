@@ -8,10 +8,10 @@ import { isStaticJsString } from "../../runtime/types/interfaces/StaticJsString.
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeCommand } from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 import strictEquality from "../../runtime/algorithms/strict-equality.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 export default function binaryExpressionNodeEvaluator(
   node: BinaryExpression,

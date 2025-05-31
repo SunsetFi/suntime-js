@@ -10,8 +10,8 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import StaticJsRuntimeError from "../StaticJsRuntimeError.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 

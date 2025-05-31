@@ -4,7 +4,7 @@ import { getEvaluator } from "./nodes.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 export interface EvaluateNodeOptions {
   label?: string;

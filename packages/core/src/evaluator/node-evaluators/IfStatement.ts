@@ -1,6 +1,6 @@
 import { IfStatement } from "@babel/types";
 
-import { EvaluateNodeCommand } from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import EvaluationContext from "../EvaluationContext.js";
 import { Completion, NormalCompletion } from "../completions/index.js";
 

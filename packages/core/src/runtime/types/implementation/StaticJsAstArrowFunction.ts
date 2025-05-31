@@ -18,14 +18,14 @@ import StaticJsLexicalEnvironment from "../../environments/implementation/Static
 import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 
 import { setupEnvironment } from "../../../evaluator/node-evaluators/index.js";
-import { EvaluateNodeCommand } from "../../../evaluator/commands/index.js";
+import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 
 import { StaticJsValue } from "../interfaces/index.js";
 
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
-import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 import { isThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
 export type StaticJsAstArrowFunctionArgumentDeclaration =

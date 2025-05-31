@@ -1,5 +1,5 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import { StaticJsRealm } from "../../realm/index.js";
 

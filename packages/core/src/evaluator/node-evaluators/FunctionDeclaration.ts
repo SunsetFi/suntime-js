@@ -9,7 +9,7 @@ import EvaluationContext from "../EvaluationContext.js";
 import { NormalCompletion } from "../completions/index.js";
 
 import createFunction from "./Function.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 function* functionDeclarationNodeEvaluator(
   node: FunctionDeclaration,

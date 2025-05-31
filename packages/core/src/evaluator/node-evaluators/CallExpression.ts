@@ -10,7 +10,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 import nameNode from "./name-node.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 export default function* callExpressionNodeEvaluator(
   node: CallExpression,

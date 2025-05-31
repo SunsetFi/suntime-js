@@ -8,7 +8,7 @@ import StaticJsLexicalEnvironment from "../../runtime/environments/implementatio
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
 
-import { EvaluateNodeCommand } from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { NormalCompletion } from "../completions/index.js";
 
 import setupEnvironment from "./setup-environment.js";

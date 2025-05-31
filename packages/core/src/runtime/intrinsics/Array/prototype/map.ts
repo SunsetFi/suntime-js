@@ -3,7 +3,7 @@ import {
   isThrowCompletion,
 } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-import StaticJsEngineError from "../../../../evaluator/StaticJsEngineError.js";
+import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
 
 import {
   isStaticJsArray,

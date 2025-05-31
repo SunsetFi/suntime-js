@@ -10,7 +10,7 @@ import {
 
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
-import { EvaluateNodeCommand } from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../completions/Completion.js";
 import { NormalCompletion } from "../completions/NormalCompletion.js";
@@ -21,7 +21,7 @@ import {
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 export default function setLVal(
   lval: LVal,

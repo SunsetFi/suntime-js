@@ -7,7 +7,7 @@ import typedMerge from "../../internal/typed-merge.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
 import { NormalCompletion } from "../completions/index.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 function* arrowFunctionExpressionNodeEvaluator(
   node: ArrowFunctionExpression,

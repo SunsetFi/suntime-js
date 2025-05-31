@@ -11,7 +11,7 @@ import {
 
 import evaluateNode from "../node-evaluators/evaluate-node.js";
 
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import StaticJsCompilation, {
   EvaluationOptions,

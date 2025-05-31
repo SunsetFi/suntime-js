@@ -7,11 +7,11 @@ import typedMerge from "../../internal/typed-merge.js";
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
-import { EvaluateNodeCommand } from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { NormalCompletion } from "../completions/index.js";
 
 import setLVal, { environmentSetupLVal } from "./LVal.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import {
   ThrowCompletion,
   isThrowCompletion,

@@ -4,7 +4,7 @@ import { parse as parseAst } from "@babel/parser";
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
+import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
 import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/index.js";
 import { StaticJsEnvironment } from "../../environments/index.js";

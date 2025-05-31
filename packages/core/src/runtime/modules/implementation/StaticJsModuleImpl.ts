@@ -20,7 +20,7 @@ import {
   ThrowCompletion,
   isThrowCompletion,
 } from "../../../evaluator/completions/ThrowCompletion.js";
-import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 

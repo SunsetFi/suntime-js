@@ -6,7 +6,7 @@ import {
   isThrowCompletion,
 } from "../../../evaluator/completions/ThrowCompletion.js";
 
-import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
 import { StaticJsValue, StaticJsObjectLike } from "../../types/index.js";

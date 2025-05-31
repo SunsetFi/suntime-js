@@ -7,7 +7,7 @@ import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/imp
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeCommand } from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { NormalCompletion } from "../completions/index.js";
 

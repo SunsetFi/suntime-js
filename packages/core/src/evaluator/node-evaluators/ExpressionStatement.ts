@@ -2,8 +2,8 @@ import { ExpressionStatement } from "@babel/types";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeCommand } from "../commands/index.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 export default function* expressionStatementNodeEvaluator(
   node: ExpressionStatement,

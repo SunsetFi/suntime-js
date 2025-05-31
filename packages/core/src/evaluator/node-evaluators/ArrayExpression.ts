@@ -4,7 +4,7 @@ import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
 import { isStaticJsArray } from "../../runtime/types/interfaces/StaticJsArray.js";
 
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
-import { EvaluateNodeCommand } from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";

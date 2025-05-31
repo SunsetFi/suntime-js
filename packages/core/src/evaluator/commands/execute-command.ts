@@ -1,6 +1,5 @@
 import { executeEvaluateNodeCommand } from "./EvaluateNodeCommand.js";
-
-import { EvaluatorCommand } from "./index.js";
+import { EvaluatorCommand } from "./EvaluatorCommand.js";
 
 export default function executeEvaluatorCommand(command: EvaluatorCommand) {
   switch (command.kind) {

@@ -6,7 +6,7 @@ import StaticJsAstFunction, {
 import { StaticJsFunction } from "../../runtime/types/interfaces/StaticJsFunction.js";
 
 import EvaluationContext from "../EvaluationContext.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 export default function createFunction(
   name: string | null,

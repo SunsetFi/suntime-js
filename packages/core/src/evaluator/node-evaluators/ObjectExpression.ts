@@ -19,7 +19,7 @@ import { NormalCompletion } from "../completions/NormalCompletion.js";
 import createFunction from "./Function.js";
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 import { Completion } from "../completions/index.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 // Note: I tested the edge-case of having a computed property key that is an expression mutate the value used in the value,
 // and the result is each key is computed before its property, and the next property/value pair is computed after the previous property/value pair.

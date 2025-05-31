@@ -4,10 +4,10 @@ import { isStaticJsObjectLike } from "../../runtime/types/interfaces/StaticJsObj
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeCommand } from "../commands/index.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import EvaluationContext from "../EvaluationContext.js";
 import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 export default function* unaryExpressionNodeEvaluator(

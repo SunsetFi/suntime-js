@@ -5,7 +5,7 @@ import { isStaticJsNumber } from "../../runtime/types/interfaces/StaticJsNumber.
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import { NormalCompletion } from "../completions/index.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 export default function* updateExpressionNodeEvaluator(
   node: UpdateExpression,

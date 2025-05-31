@@ -10,7 +10,7 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import StaticJsEngineError from "../StaticJsEngineError.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 export default function* newExpressionNodeEvaluator(
   node: NewExpression,
