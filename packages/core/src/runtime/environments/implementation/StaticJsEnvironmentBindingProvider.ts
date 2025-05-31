@@ -2,7 +2,7 @@ import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
-import StaticJsEnvironment from "../interfaces/StaticJsEnvironment.js";
+import StaticJsEnvironmentImplementation from "../interfaces/StaticJsEnvironmentImplementation.js";
 
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 
@@ -24,8 +24,8 @@ export function isStaticJsEnvironmentBindingProvider(
   );
 }
 export function environmentToBindingProvider(
-  env: StaticJsEnvironment,
-): StaticJsEnvironment & StaticJsEnvironmentBindingProvider {
+  env: StaticJsEnvironmentImplementation,
+): StaticJsEnvironmentImplementation & StaticJsEnvironmentBindingProvider {
   if (isStaticJsEnvironmentBindingProvider(env)) {
     return env;
   }
@@ -160,10 +160,10 @@ export function environmentToBindingProvider(
       return env.getSuperBaseEvaluator();
     },
 
-    getVarScope(): StaticJsEnvironment | null {
+    getVarScope(): StaticJsEnvironmentImplementation | null {
       return env.getVarScope();
     },
-    getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironment | null> {
+    getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironmentImplementation | null> {
       return env.getVarScopeEvaluator();
     },
 

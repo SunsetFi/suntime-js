@@ -1,19 +1,6 @@
 import executeEvaluatorCommand from "./commands/execute-command.js";
 import EvaluationGenerator from "./EvaluationGenerator.js";
 
-export function runEvaluatorUntilCompletion<TReturn>(
-  generator: EvaluationGenerator<TReturn>,
-): TReturn {
-  const iterator = evaluateCommands(generator);
-
-  let iteratorResult = iterator.next();
-  while (!iteratorResult.done) {
-    iteratorResult = iterator.next();
-  }
-
-  return iteratorResult.value;
-}
-
 export function* evaluateCommands<TReturn>(
   generator: EvaluationGenerator<TReturn>,
 ): Generator<void, TReturn, void> {

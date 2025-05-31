@@ -3,13 +3,13 @@ import {
   isThrowCompletion,
 } from "../../../evaluator/completions/ThrowCompletion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 
 import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
-import { StaticJsEnvironment } from "../interfaces/index.js";
+import StaticJsEnvironment from "../interfaces/StaticJsEnvironment.js";
+import StaticJsEnvironmentImplementation from "../interfaces/StaticJsEnvironmentImplementation.js";
 
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 import StaticJsEnvironmentBindingProvider, {
@@ -17,7 +17,10 @@ import StaticJsEnvironmentBindingProvider, {
 } from "./StaticJsEnvironmentBindingProvider.js";
 
 export default abstract class StaticJsBaseEnvironmentRecord
-  implements StaticJsEnvironment, StaticJsEnvironmentBindingProvider
+  implements
+    StaticJsEnvironment,
+    StaticJsEnvironmentImplementation,
+    StaticJsEnvironmentBindingProvider
 {
   constructor(private readonly _realm: StaticJsRealmImplementation) {}
 
@@ -25,8 +28,10 @@ export default abstract class StaticJsBaseEnvironmentRecord
     return this._realm;
   }
 
-  hasBinding(name: string) {
-    const result = runEvaluatorUntilCompletion(this.hasBindingEvaluator(name));
+  async hasBinding(name: string) {
+    const result = await this._realm.invokeEvaluator(
+      this.hasBindingEvaluator(name),
+    );
     if (isThrowCompletion(result)) {
       throw new StaticJsRuntimeError(result.value);
     }
@@ -37,8 +42,8 @@ export default abstract class StaticJsBaseEnvironmentRecord
     return this[StaticJsEnvironmentGetBinding](name) !== undefined;
   }
 
-  createMutableBinding(name: string, deletable: boolean): void {
-    const result = runEvaluatorUntilCompletion(
+  async createMutableBinding(name: string, deletable: boolean) {
+    const result = await this._realm.invokeEvaluator(
       this.createMutableBindingEvaluator(name, deletable),
     );
     if (isThrowCompletion(result)) {
@@ -51,8 +56,8 @@ export default abstract class StaticJsBaseEnvironmentRecord
     deletable: boolean,
   ): EvaluationGenerator<ThrowCompletion | void>;
 
-  createImmutableBinding(name: string, strict: boolean): void {
-    runEvaluatorUntilCompletion(
+  async createImmutableBinding(name: string, strict: boolean) {
+    await this._realm.invokeEvaluator(
       this.createImmutableBindingEvaluator(name, strict),
     );
   }
@@ -62,18 +67,8 @@ export default abstract class StaticJsBaseEnvironmentRecord
     strict: boolean,
   ): EvaluationGenerator<void>;
 
-  canDeclareGlobalVar(name: string): boolean {
-    return runEvaluatorUntilCompletion(this.canDeclareGlobalVarEvaluator(name));
-  }
-
   *canDeclareGlobalVarEvaluator(_name: string): EvaluationGenerator<boolean> {
     return false;
-  }
-
-  createGlobalVarBinding(name: string, deletable: boolean): void {
-    runEvaluatorUntilCompletion(
-      this.createGlobalVarBindingEvaluator(name, deletable),
-    );
   }
 
   *createGlobalVarBindingEvaluator(
@@ -85,8 +80,10 @@ export default abstract class StaticJsBaseEnvironmentRecord
     );
   }
 
-  initializeBinding(name: string, value: StaticJsValue): void {
-    runEvaluatorUntilCompletion(this.initializeBindingEvaluator(name, value));
+  async initializeBinding(name: string, value: StaticJsValue) {
+    await this._realm.invokeEvaluator(
+      this.initializeBindingEvaluator(name, value),
+    );
   }
 
   *initializeBindingEvaluator(
@@ -110,12 +107,6 @@ export default abstract class StaticJsBaseEnvironmentRecord
     }
   }
 
-  createFunctionBinding(name: string, value: StaticJsValue): void {
-    runEvaluatorUntilCompletion(
-      this.createFunctionBindingEvaluator(name, value),
-    );
-  }
-
   *createFunctionBindingEvaluator(name: string, value: StaticJsValue) {
     const completion = yield* this.createMutableBindingEvaluator(name, false);
     if (isThrowCompletion(completion)) {
@@ -124,8 +115,8 @@ export default abstract class StaticJsBaseEnvironmentRecord
     yield* this.setMutableBindingEvaluator(name, value, true);
   }
 
-  setMutableBinding(name: string, value: StaticJsValue, strict: boolean): void {
-    runEvaluatorUntilCompletion(
+  async setMutableBinding(name: string, value: StaticJsValue, strict: boolean) {
+    await this._realm.invokeEvaluator(
       this.setMutableBindingEvaluator(name, value, strict),
     );
   }
@@ -163,8 +154,8 @@ export default abstract class StaticJsBaseEnvironmentRecord
     }
   }
 
-  getBindingValue(name: string, strict: boolean): StaticJsValue {
-    return runEvaluatorUntilCompletion(
+  async getBindingValue(name: string, strict: boolean) {
+    return await this._realm.invokeEvaluator(
       this.getBindingValueEvaluator(name, strict),
     );
   }
@@ -187,8 +178,8 @@ export default abstract class StaticJsBaseEnvironmentRecord
     }
   }
 
-  deleteBinding(name: string): void {
-    runEvaluatorUntilCompletion(this.deleteBindingEvaluator(name));
+  async deleteBinding(name: string) {
+    await this._realm.invokeEvaluator(this.deleteBindingEvaluator(name));
   }
 
   *deleteBindingEvaluator(name: string): EvaluationGenerator<void> {
@@ -206,51 +197,47 @@ export default abstract class StaticJsBaseEnvironmentRecord
     }
   }
 
-  hasThisBinding(): boolean {
-    return runEvaluatorUntilCompletion(this.hasThisBindingEvaluator());
+  async hasThisBinding() {
+    return await this._realm.invokeEvaluator(this.hasThisBindingEvaluator());
   }
 
   *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {
     return false;
   }
 
-  hasSuperBinding(): boolean {
-    return runEvaluatorUntilCompletion(this.hasSuperBindingEvaluator());
+  async hasSuperBinding() {
+    return await this._realm.invokeEvaluator(this.hasSuperBindingEvaluator());
   }
 
   *hasSuperBindingEvaluator(): EvaluationGenerator<boolean> {
     return false;
   }
 
-  withBaseObject(): StaticJsValue {
-    return runEvaluatorUntilCompletion(this.withBaseObjectEvaluator());
+  async withBaseObject() {
+    return await this._realm.invokeEvaluator(this.withBaseObjectEvaluator());
   }
 
   *withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this.realm.types.undefined;
   }
 
-  getThisBinding(): StaticJsValue {
-    return runEvaluatorUntilCompletion(this.getThisBindingEvaluator());
+  async getThisBinding() {
+    return this._realm.invokeEvaluator(this.getThisBindingEvaluator());
   }
 
   *getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this.realm.types.undefined;
   }
 
-  getSuperBase() {
-    return runEvaluatorUntilCompletion(this.getSuperBaseEvaluator());
+  async getSuperBase() {
+    return await this._realm.invokeEvaluator(this.getSuperBaseEvaluator());
   }
 
   *getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this.realm.types.undefined;
   }
 
-  getVarScope(): StaticJsEnvironment | null {
-    return runEvaluatorUntilCompletion(this.getVarScopeEvaluator());
-  }
-
-  *getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironment | null> {
+  *getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironmentImplementation | null> {
     return null;
   }
 

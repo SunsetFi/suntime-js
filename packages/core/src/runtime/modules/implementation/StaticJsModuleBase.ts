@@ -1,5 +1,4 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
 import {
   ThrowCompletion,
@@ -19,6 +18,7 @@ import {
 
 import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 import { StaticJsResolvedBinding } from "../interfaces/StaticJsResolvedBinding.js";
+import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 
 export abstract class StaticJsModuleBase
   implements StaticJsModule, StaticJsModuleImplementation
@@ -27,7 +27,7 @@ export abstract class StaticJsModuleBase
 
   constructor(
     protected readonly _name: string,
-    protected readonly _realm: StaticJsRealmImplementation,
+    protected readonly _realm: StaticJsRealmImplementation
   ) {}
 
   get name(): string {
@@ -42,66 +42,39 @@ export abstract class StaticJsModuleBase
 
   abstract moduleEvaluationEvaluator(): EvaluationGenerator;
 
-  resolveExport(exportName: string): StaticJsResolvedBinding {
-    const result = runEvaluatorUntilCompletion(
-      this.resolveExportEvaluator(exportName),
-    );
-    if (isThrowCompletion(result)) {
-      throw result.value.toJs();
-    }
-
-    return result;
-  }
-
-  abstract resolveExportEvaluator(
+  abstract resolveExport(
     name: string,
-    resolveSet?: Set<string>,
-  ): EvaluationGenerator<StaticJsResolvedBinding | ThrowCompletion>;
+    resolveSet?: Set<string>
+  ): StaticJsResolvedBinding;
 
-  getExportedNames() {
-    const result = runEvaluatorUntilCompletion(
-      this.getExportedNamesEvaluator(),
-    );
-    if (isThrowCompletion(result)) {
-      throw result.value.toJs();
-    }
-
-    return result;
-  }
-
-  abstract getExportedNamesEvaluator(): EvaluationGenerator<
-    string[] | ThrowCompletion
-  >;
+  abstract getExportedNames(): string[];
 
   abstract getOwnBindingValueEvaluator(
-    bindingName: string,
+    bindingName: string
   ): EvaluationGenerator<StaticJsValue | ThrowCompletion | null>;
 
-  getExport(exportName: string): unknown {
+  async getExport(exportName: string): Promise<unknown> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     function* getExport() {
-      const resolution = yield* self.resolveExportEvaluator(exportName);
-      if (isThrowCompletion(resolution)) {
-        return resolution;
-      }
+      const resolution = self.resolveExport(exportName);
       if (resolution === null) {
         return null;
       }
       if (resolution === "ambiguous") {
-        return ThrowCompletion(
+        throw new StaticJsRuntimeError(
           self._realm.types.error(
             "ReferenceError",
-            `Ambiguous binding ${exportName} in module ${self._name}.`,
-          ),
+            `Ambiguous binding ${exportName} in module ${self._name}.`
+          )
         );
       }
 
       return yield* resolution.module.getOwnBindingValueEvaluator(
-        resolution.bindingName,
+        resolution.bindingName
       );
     }
-    const result = runEvaluatorUntilCompletion(getExport());
+    const result = await this._realm.invokeEvaluator(getExport());
     if (isThrowCompletion(result)) {
       throw result.value.toJs();
     }
@@ -113,9 +86,9 @@ export abstract class StaticJsModuleBase
     return result.toJs();
   }
 
-  getModuleNamespace(): Record<string, unknown> {
-    const result = runEvaluatorUntilCompletion(
-      this.getModuleNamespaceEvaluator(),
+  async getModuleNamespace(): Promise<Record<string, unknown>> {
+    const result = await this._realm.invokeEvaluator(
+      this.getModuleNamespaceEvaluator()
     );
     if (isThrowCompletion(result)) {
       throw result.value.toJs();
@@ -132,16 +105,13 @@ export abstract class StaticJsModuleBase
     }
 
     const ns = this._realm.types.object();
-    const exportedNames = yield* this.getExportedNamesEvaluator();
+    const exportedNames = this.getExportedNames();
     if (isThrowCompletion(exportedNames)) {
       return exportedNames;
     }
 
     for (const exportName of exportedNames) {
-      const resolution = yield* this.resolveExportEvaluator(exportName);
-      if (isThrowCompletion(resolution)) {
-        return resolution;
-      }
+      const resolution = this.resolveExport(exportName);
       if (resolution === null || resolution === "ambiguous") {
         continue;
       }
@@ -160,7 +130,7 @@ export abstract class StaticJsModuleBase
 
           if (!result) {
             throw new StaticJsEngineError(
-              `Module ${module.name} binding ${bindingName} for export ${exportName} not returned by getOwnBindingValueEvaluator.`,
+              `Module ${module.name} binding ${bindingName} for export ${exportName} not returned by getOwnBindingValueEvaluator.`
             );
           }
 

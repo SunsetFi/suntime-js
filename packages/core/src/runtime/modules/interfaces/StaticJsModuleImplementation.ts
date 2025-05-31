@@ -25,17 +25,16 @@ export interface StaticJsModuleImplementation extends StaticJsModule {
   moduleDeclarationInstantiationEvaluator(): EvaluationGenerator;
   moduleEvaluationEvaluator(): EvaluationGenerator;
 
-  resolveExportEvaluator(
+  resolveExport(
     exportName: string,
-    resolveSet?: Set<string>,
-  ): EvaluationGenerator<StaticJsResolvedBinding | ThrowCompletion>;
+    resolveSet?: Set<string>
+  ): StaticJsResolvedBinding;
 
-  getExportedNamesEvaluator(
-    exportStarSet?: Set<string>,
-  ): EvaluationGenerator<string[] | ThrowCompletion>;
+  getExportedNames(exportStarSet?: Set<string>): string[];
 
+  // FIXME: Just expose the environment.
   getOwnBindingValueEvaluator(
-    bindingName: string,
+    bindingName: string
   ): EvaluationGenerator<StaticJsValue | ThrowCompletion | null>;
 
   getModuleNamespaceEvaluator(): EvaluationGenerator<
@@ -44,7 +43,7 @@ export interface StaticJsModuleImplementation extends StaticJsModule {
 }
 
 export function isStaticJsModuleImplementation(
-  x: unknown,
+  x: unknown
 ): x is StaticJsModuleImplementation {
   if (typeof x !== "object" || x === null) {
     return false;
@@ -56,8 +55,8 @@ export function isStaticJsModuleImplementation(
     typeof module.status === "string" &&
     typeof module.moduleDeclarationInstantiationEvaluator === "function" &&
     typeof module.moduleEvaluationEvaluator === "function" &&
-    typeof module.resolveExportEvaluator === "function" &&
-    typeof module.getExportedNamesEvaluator === "function" &&
+    typeof module.resolveExport === "function" &&
+    typeof module.getExportedNames === "function" &&
     typeof module.getOwnBindingValueEvaluator === "function" &&
     typeof module.getModuleNamespaceEvaluator === "function"
   );
@@ -65,22 +64,25 @@ export function isStaticJsModuleImplementation(
 
 export function staticJsModuleToImplementation(
   realm: StaticJsRealmImplementation,
-  module: StaticJsModule,
+  module: StaticJsModule
 ): StaticJsModuleImplementation {
   if (isStaticJsModuleImplementation(module)) {
     return module;
   }
   return {
-    name: module.name,
+    ...module,
     status: "evaluated",
-    getExport(exportName) {
-      return module.getExport(exportName);
-    },
-    getExportedNames() {
-      return module.getExportedNames();
-    },
-    getModuleNamespace() {
-      return module.getModuleNamespace();
+    *getModuleNamespaceEvaluator() {
+      // Can't use getModuleNamespace since that is async.
+      const exportedNames = module.getExportedNames();
+      const namespace: Record<string, StaticJsValue> = {};
+      for (const name of exportedNames) {
+        const value = module.getExport(name);
+        if (value != null) {
+          namespace[name] = realm.types.toStaticJsValue(value);
+        }
+      }
+      return realm.types.toStaticJsValue(namespace);
     },
     linkModules() {
       return Promise.resolve<void>(undefined);
@@ -91,7 +93,7 @@ export function staticJsModuleToImplementation(
     *moduleEvaluationEvaluator() {
       return NormalCompletion();
     },
-    *resolveExportEvaluator(name) {
+    resolveExport(name) {
       if (!module.getExportedNames().includes(name)) {
         return null;
       }
@@ -100,19 +102,12 @@ export function staticJsModuleToImplementation(
         bindingName: name,
       };
     },
-    *getExportedNamesEvaluator() {
-      return module.getExportedNames();
-    },
     *getOwnBindingValueEvaluator(name) {
       const value = module.getExport(name);
       if (value == null) {
         return null;
       }
       return realm.types.toStaticJsValue(value);
-    },
-    *getModuleNamespaceEvaluator() {
-      const ns = module.getModuleNamespace();
-      return realm.types.toStaticJsValue(ns);
     },
   };
 }

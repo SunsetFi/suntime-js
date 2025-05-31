@@ -2,32 +2,33 @@ import { Node } from "@babel/types";
 
 import { isStaticJsRealm } from "../../runtime/realm/interfaces/StaticJsRealm.js";
 import StaticJsRealmFactory from "../../runtime/realm/factories/StaticJsRealm.js";
+import { staticJsRealmToImplementation } from "../../runtime/realm/interfaces/StaticJsRealmImplementation.js";
 
 import EvaluationContext from "../EvaluationContext.js";
-import {
-  runEvaluatorUntilCompletion,
-  evaluateCommands,
-} from "../evaluator-runtime.js";
+import { evaluateCommands } from "../evaluator-runtime.js";
 
 import evaluateNode from "../node-evaluators/evaluate-node.js";
+import setupEnvironment from "../node-evaluators/setup-environment.js";
+
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import StaticJsEngineError from "../StaticJsEngineError.js";
 
 import StaticJsCompilation, {
   EvaluationOptions,
 } from "./StaticJsCompilation.js";
-import setupEnvironment from "../node-evaluators/setup-environment.js";
-import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 export default class StaticJsEvalCompilation implements StaticJsCompilation {
   constructor(private readonly _root: Node) {}
 
-  evaluate({ realm }: EvaluationOptions = {}): unknown {
+  async evaluate({ realm }: EvaluationOptions = {}): Promise<unknown> {
     if (!realm) {
       realm = StaticJsRealmFactory();
     } else if (!isStaticJsRealm(realm)) {
       throw new Error("Invalid realm");
     }
+
+    const realmImpl = staticJsRealmToImplementation(realm);
 
     const context: EvaluationContext = {
       realm,
@@ -35,14 +36,14 @@ export default class StaticJsEvalCompilation implements StaticJsCompilation {
       label: null,
     };
 
-    const setupResult = runEvaluatorUntilCompletion(
+    const setupResult = await realmImpl.invokeEvaluator(
       setupEnvironment(this._root, context),
     );
     if (isThrowCompletion(setupResult)) {
       throw setupResult.value.toJs();
     }
 
-    const result = runEvaluatorUntilCompletion(
+    const result = await realmImpl.invokeEvaluator(
       evaluateNode(this._root, context),
     );
 

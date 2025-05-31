@@ -3,9 +3,9 @@ export interface StaticJsModule {
 
   getExportedNames(): string[];
 
-  getExport(exportName: string): unknown;
+  getExport(exportName: string): Promise<unknown>;
 
-  getModuleNamespace(): Record<string, unknown>;
+  getModuleNamespace(): Promise<Record<string, unknown>>;
 }
 
 export function isStaticJsModule(x: unknown): x is StaticJsModule {

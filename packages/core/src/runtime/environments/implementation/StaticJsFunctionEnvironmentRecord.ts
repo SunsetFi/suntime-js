@@ -2,7 +2,7 @@ import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
-import StaticJsEnvironment from "../interfaces/StaticJsEnvironment.js";
+import StaticJsEnvironmentImplementation from "../interfaces/StaticJsEnvironmentImplementation.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
 
@@ -24,7 +24,7 @@ export default class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarati
     return this._thisArg;
   }
 
-  *getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironment | null> {
+  *getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironmentImplementation | null> {
     return this;
   }
 }

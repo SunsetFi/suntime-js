@@ -1,4 +1,5 @@
 import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
+import StaticJsRuntimeError from "../StaticJsRuntimeError.js";
 
 import { CompletionBase } from "./CompletionBase.js";
 
@@ -19,4 +20,16 @@ export function isThrowCompletion(value: unknown): value is ThrowCompletion {
     value !== null &&
     (value as CompletionBase).type === "throw"
   );
+}
+
+export function catchThrowCompletion<TReturn>(
+  func: () => TReturn
+): TReturn | ThrowCompletion {
+  try {
+    return func();
+  } catch (error) {
+    if (error instanceof StaticJsRuntimeError)
+      return ThrowCompletion(error.thrown);
+    throw error;
+  }
 }

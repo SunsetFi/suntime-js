@@ -3,7 +3,7 @@ import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
-import { StaticJsEnvironment } from "../interfaces/index.js";
+import StaticJsEnvironmentImplementation from "../interfaces/StaticJsEnvironmentImplementation.js";
 
 import StaticJsBaseEnvironment from "./StaticJsBaseEnvironment.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
@@ -13,16 +13,16 @@ import StaticJsEnvironmentBindingProvider, {
 } from "./StaticJsEnvironmentBindingProvider.js";
 
 export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment {
-  private readonly _record: StaticJsEnvironment &
+  private readonly _record: StaticJsEnvironmentImplementation &
     StaticJsEnvironmentBindingProvider;
   private readonly _parent:
-    | (StaticJsEnvironment & StaticJsEnvironmentBindingProvider)
+    | (StaticJsEnvironmentImplementation & StaticJsEnvironmentBindingProvider)
     | null;
 
   constructor(
     realm: StaticJsRealmImplementation,
-    record: StaticJsEnvironment,
-    parent: StaticJsEnvironment | null,
+    record: StaticJsEnvironmentImplementation,
+    parent: StaticJsEnvironmentImplementation | null
   ) {
     super(realm);
 
@@ -36,7 +36,7 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
 
   *createImmutableBindingEvaluator(
     name: string,
-    strict: boolean,
+    strict: boolean
   ): EvaluationGenerator<void> {
     yield* this._record.createImmutableBindingEvaluator(name, strict);
   }
@@ -77,7 +77,7 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
     return yield* this._record.getSuperBaseEvaluator();
   }
 
-  *getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironment | null> {
+  *getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironmentImplementation | null> {
     const recordScope = yield* this._record.getVarScopeEvaluator();
     if (recordScope) {
       return recordScope;
@@ -90,7 +90,7 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
   }
 
   [StaticJsEnvironmentGetBinding](
-    name: string,
+    name: string
   ): StaticJsEnvironmentBinding | undefined {
     return (
       this._record[StaticJsEnvironmentGetBinding](name) ??

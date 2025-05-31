@@ -9,7 +9,7 @@ import {
 
 import StaticJsModuleEnvironmentRecord from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
-import StaticJsEnvironment from "../../environments/interfaces/StaticJsEnvironment.js";
+import StaticJsEnvironmentImplementation from "../../environments/interfaces/StaticJsEnvironmentImplementation.js";
 
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { evaluateNode } from "../../../evaluator/node-evaluators/index.js";
@@ -18,6 +18,7 @@ import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
 import {
   ThrowCompletion,
+  catchThrowCompletion,
   isThrowCompletion,
 } from "../../../evaluator/completions/ThrowCompletion.js";
 import StaticJsEngineError from "../../../evaluator/StaticJsEngineError.js";
@@ -44,12 +45,13 @@ import {
   isStaticJsIndirectExportEntry,
   StaticJsExportEntry,
 } from "./StaticJsExportEntry.js";
+import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
 
 export class StaticJsModuleImpl extends StaticJsModuleBase {
   private _linked = false;
 
   private _enviornment: StaticJsModuleEnvironmentRecord | undefined;
-  private _lexicalEnv: StaticJsEnvironment | undefined;
+  private _lexicalEnv: StaticJsEnvironmentImplementation | undefined;
 
   private _status: StaticJsModuleStatus = "uninstantiated";
 
@@ -70,20 +72,20 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
   constructor(
     name: string,
     private readonly _ast: Program,
-    realm: StaticJsRealmImplementation,
+    realm: StaticJsRealmImplementation
   ) {
     super(name, realm);
     if (_ast.sourceType !== "module") {
       throw new Error(
-        `Module ${name} is not a module.  Source type is ${_ast.sourceType}.`,
+        `Module ${name} is not a module.  Source type is ${_ast.sourceType}.`
       );
     }
 
     this._importEntries = cloneFreezeObjectArray(
-      parseImportEntries(name, _ast),
+      parseImportEntries(name, _ast)
     );
     this._exportEntries = cloneFreezeObjectArray(
-      parseExportEntries(name, _ast),
+      parseExportEntries(name, _ast)
     );
   }
 
@@ -108,12 +110,12 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       .map((x) => x.moduleRequest);
 
     const moduleSpecifiers = Array.from(
-      new Set<string>([...importNames, ...exportNames]),
+      new Set<string>([...importNames, ...exportNames])
     );
     const modules = await Promise.all(
       moduleSpecifiers.map((moduleSpecifier) =>
-        this._realm.resolveImportedModule(this, moduleSpecifier),
-      ),
+        this._realm.resolveImportedModule(this, moduleSpecifier)
+      )
     );
 
     await Promise.all(modules.map((module) => module?.linkModules()));
@@ -137,7 +139,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
     this._lexicalEnv = new StaticJsLexicalEnvironment(
       this._realm,
       this._enviornment,
-      this._realm.globalEnv,
+      this._realm.globalEnv
     );
 
     const context: EvaluationContext = {
@@ -162,8 +164,8 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         return ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
-            `Module ${entry.moduleRequest} not found.`,
-          ),
+            `Module ${entry.moduleRequest} not found.`
+          )
         );
       }
 
@@ -180,8 +182,8 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         return ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
-            `Module ${entry.moduleRequest} not found.`,
-          ),
+            `Module ${entry.moduleRequest} not found.`
+          )
         );
       }
 
@@ -197,15 +199,15 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         return ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
-            `Module ${entry.moduleRequest} not found.`,
-          ),
+            `Module ${entry.moduleRequest} not found.`
+          )
         );
       }
 
       if (entry.importName === "namespace") {
         yield* this._enviornment.createImmutableBindingEvaluator(
           entry.localName,
-          false,
+          false
         );
 
         const ns = yield* module.getModuleNamespaceEvaluator();
@@ -215,10 +217,12 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
         yield* this._enviornment.initializeBindingEvaluator(
           entry.localName,
-          ns,
+          ns
         );
       } else {
-        const resolved = yield* module.resolveExportEvaluator(entry.importName);
+        const resolved = catchThrowCompletion(() =>
+          module.resolveExport(entry.importName)
+        );
         if (isThrowCompletion(resolved)) {
           return resolved;
         }
@@ -227,8 +231,8 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
           return ThrowCompletion(
             this._realm.types.error(
               "SyntaxError",
-              `Module ${entry.moduleRequest} does not export ${entry.importName}.`,
-            ),
+              `Module ${entry.moduleRequest} does not export ${entry.importName}.`
+            )
           );
         }
 
@@ -236,15 +240,15 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
           return ThrowCompletion(
             this._realm.types.error(
               "SyntaxError",
-              `Ambiguous export ${entry.importName} in module ${entry.moduleRequest}.`,
-            ),
+              `Ambiguous export ${entry.importName} in module ${entry.moduleRequest}.`
+            )
           );
         }
 
         const result = yield* this._enviornment.createImportBindingEvaluator(
           entry.localName,
           resolved.module,
-          resolved.bindingName,
+          resolved.bindingName
         );
         if (isThrowCompletion(result)) {
           return result;
@@ -259,14 +263,14 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       }
 
       const hasBinding = yield* this._enviornment.hasBindingEvaluator(
-        entry.localName,
+        entry.localName
       );
       if (!hasBinding) {
         return ThrowCompletion(
           this._realm.types.error(
             "SyntaxError",
-            `Exported local name not declared: ${entry.localName}`,
-          ),
+            `Exported local name not declared: ${entry.localName}`
+          )
         );
       }
     }
@@ -282,8 +286,8 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         return ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
-            `Module ${entry.moduleRequest} not found.`,
-          ),
+            `Module ${entry.moduleRequest} not found.`
+          )
         );
       }
 
@@ -296,7 +300,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
       if (!importName) {
         throw new StaticJsEngineError(
-          `Import name is null for named export from module ${module.name} in module ${this._name}.`,
+          `Import name is null for named export from module ${module.name} in module ${this._name}.`
         );
       }
 
@@ -343,10 +347,10 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
     return result;
   }
 
-  *resolveExportEvaluator(
+  resolveExport(
     bindingName: string,
-    resolveSet = new Set<string>(),
-  ): EvaluationGenerator<StaticJsResolvedBinding | ThrowCompletion> {
+    resolveSet = new Set<string>()
+  ): StaticJsResolvedBinding {
     const key = `${this._name}::${bindingName}`;
     if (resolveSet.has(key)) {
       return null;
@@ -381,15 +385,15 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        return ThrowCompletion(
+        throw new StaticJsRuntimeError(
           this._realm.types.error(
             "ReferenceError",
-            `Module ${entry.moduleRequest} not found.`,
-          ),
+            `Module ${entry.moduleRequest} not found.`
+          )
         );
       }
 
-      return yield* module.resolveExportEvaluator(entry.importName, resolveSet);
+      return module.resolveExport(entry.importName, resolveSet);
     }
 
     // Star exports
@@ -403,22 +407,15 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        return ThrowCompletion(
+        throw new StaticJsRuntimeError(
           this._realm.types.error(
             "ReferenceError",
-            `Module ${entry.moduleRequest} not found.`,
-          ),
+            `Module ${entry.moduleRequest} not found.`
+          )
         );
       }
 
-      const resolution = yield* module.resolveExportEvaluator(
-        bindingName,
-        resolveSet,
-      );
-      if (isThrowCompletion(resolution)) {
-        return resolution;
-      }
-
+      const resolution = module.resolveExport(bindingName, resolveSet);
       if (resolution === "ambiguous") {
         return resolution;
       }
@@ -438,9 +435,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
     return starResolution;
   }
 
-  *getExportedNamesEvaluator(
-    exportStarSet = new Set<string>(),
-  ): EvaluationGenerator<string[] | ThrowCompletion> {
+  getExportedNames(exportStarSet = new Set<string>()): string[] {
     const visitedKey = this.name;
     if (exportStarSet.has(visitedKey)) {
       return [];
@@ -470,23 +465,17 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       }
 
       const module = this._linkedModules.get(entry.moduleRequest);
-      if (isThrowCompletion(module)) {
-        return module;
-      }
+
       if (!module) {
-        return ThrowCompletion(
+        throw new StaticJsRuntimeError(
           this._realm.types.error(
             "ReferenceError",
-            `Module ${entry.moduleRequest} not found.`,
-          ),
+            `Module ${entry.moduleRequest} not found.`
+          )
         );
       }
 
-      const starNames = yield* module.getExportedNamesEvaluator(exportStarSet);
-      if (isThrowCompletion(starNames)) {
-        return starNames;
-      }
-
+      const starNames = module.getExportedNames(exportStarSet);
       for (const name of starNames) {
         if (name === "default") {
           continue;
@@ -500,7 +489,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
   }
 
   *getOwnBindingValueEvaluator(
-    bindingName: string,
+    bindingName: string
   ): EvaluationGenerator<StaticJsValue | ThrowCompletion | null> {
     if (this._enviornment == null) {
       return null;
@@ -508,7 +497,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
     const value = yield* this._enviornment.getBindingValueEvaluator(
       bindingName,
-      false,
+      false
     );
     if (value == null) {
       return null;
@@ -520,13 +509,13 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
 function cloneFreezeObjectArray<T>(x: readonly T[]): readonly Readonly<T>[] {
   return Object.freeze(
-    x.map((value) => Object.freeze(Object.assign({}, value))),
+    x.map((value) => Object.freeze(Object.assign({}, value)))
   );
 }
 
 function parseImportEntries(
   moduleName: string,
-  ast: Program,
+  ast: Program
 ): StaticJsImportEntry[] {
   const importEntries: StaticJsImportEntry[] = [];
   const seenImports = new Set<string>();
@@ -534,7 +523,7 @@ function parseImportEntries(
     if (seenImports.has(importName)) {
       // It seems babel/parser gates this for us
       throw new StaticJsEngineError(
-        `Duplicate import name "${importName}" in module ${moduleName}.`,
+        `Duplicate import name "${importName}" in module ${moduleName}.`
       );
     }
     seenImports.add(importName);
@@ -575,7 +564,7 @@ function parseImportEntries(
               // Not sure when this happens but might have something to do with specifier.importKind
               // I was unable to get this to be anything using a sandbox of babel/parser.
               throw new StaticJsEngineError(
-                `Import specifier is importing unknown node type ${specifier.imported.type}`,
+                `Import specifier is importing unknown node type ${specifier.imported.type}`
               );
             }
 
@@ -598,14 +587,14 @@ function parseImportEntries(
 
 function parseExportEntries(
   moduleName: string,
-  ast: Program,
+  ast: Program
 ): StaticJsExportEntry[] {
   const exportEntries: StaticJsExportEntry[] = [];
   const seenExports = new Set<string>();
   function throwIfExportSeen(exportName: string) {
     if (seenExports.has(exportName)) {
       throw new Error(
-        `Duplicate export name "${exportName}" in module ${moduleName}.`,
+        `Duplicate export name "${exportName}" in module ${moduleName}.`
       );
     }
     seenExports.add(exportName);
@@ -626,7 +615,7 @@ function parseExportEntries(
           for (const decl of node.declaration.declarations) {
             if (!isIdentifier(decl.id)) {
               throw new Error(
-                `Exported variable ${node.declaration.type} does not have an identifier.`,
+                `Exported variable ${node.declaration.type} does not have an identifier.`
               );
             }
             const { name } = decl.id;
@@ -639,7 +628,7 @@ function parseExportEntries(
         } else if (isFunctionDeclaration(node.declaration)) {
           if (!isIdentifier(node.declaration.id)) {
             throw new Error(
-              `Exported variable ${node.declaration.type} does not have an identifier.`,
+              `Exported variable ${node.declaration.type} does not have an identifier.`
             );
           }
           const { name } = node.declaration.id;
@@ -650,7 +639,7 @@ function parseExportEntries(
           });
         } else if (node.declaration) {
           throw new StaticJsEngineError(
-            `Not implemented: Module export of type ${node.declaration.type}`,
+            `Not implemented: Module export of type ${node.declaration.type}`
           );
         }
 
@@ -661,7 +650,7 @@ function parseExportEntries(
               !isIdentifier(specifier.exported)
             ) {
               throw new Error(
-                `Exported variable ${specifier.type} is not an identifier.`,
+                `Exported variable ${specifier.type} is not an identifier.`
               );
             }
 

@@ -1,4 +1,3 @@
-import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
@@ -34,7 +33,7 @@ export default abstract class StaticJsAbstractObject
 
   constructor(
     realm: StaticJsRealm,
-    prototype: StaticJsObjectLike | StaticJsNull | null,
+    prototype: StaticJsObjectLike | StaticJsNull | null
   ) {
     super(realm);
     if (isStaticJsNull(prototype)) {
@@ -63,11 +62,11 @@ export default abstract class StaticJsAbstractObject
   }
 
   *setPrototypeOfEvaluator(
-    proto: StaticJsObjectLike | null,
+    proto: StaticJsObjectLike | null
   ): EvaluationGenerator {
     if (!this._extensible) {
       return ThrowCompletion(
-        this.realm.types.error("TypeError", "Object is not extensible."),
+        this.realm.types.error("TypeError", "Object is not extensible.")
       );
     }
 
@@ -150,12 +149,12 @@ export default abstract class StaticJsAbstractObject
 
   getPropertyDescriptor(name: string): StaticJsPropertyDescriptor | undefined {
     return runEvaluatorUntilCompletion(
-      this.getPropertyDescriptorEvaluator(name),
+      this.getPropertyDescriptorEvaluator(name)
     );
   }
 
   *getPropertyDescriptorEvaluator(
-    name: string,
+    name: string
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     let target: StaticJsObjectLike | null = this;
@@ -167,10 +166,10 @@ export default abstract class StaticJsAbstractObject
   }
 
   getOwnPropertyDescriptor(
-    name: string,
+    name: string
   ): StaticJsPropertyDescriptor | undefined {
     return runEvaluatorUntilCompletion(
-      this.getOwnPropertyDescriptorEvaluator(name),
+      this.getOwnPropertyDescriptorEvaluator(name)
     );
   }
 
@@ -180,7 +179,7 @@ export default abstract class StaticJsAbstractObject
 
   *definePropertyEvaluator(
     name: string,
-    descriptor: StaticJsPropertyDescriptor,
+    descriptor: StaticJsPropertyDescriptor
   ): EvaluationGenerator<void> {
     // FIXME: Return throw completion?
     validateStaticJsPropertyDescriptor(descriptor);
@@ -191,7 +190,7 @@ export default abstract class StaticJsAbstractObject
     if (!currentDescriptor) {
       if (!this.extensible) {
         throw new StaticJsRuntimeError(
-          this.realm.types.error("TypeError", `Object is not extensible`),
+          this.realm.types.error("TypeError", `Object is not extensible`)
         );
       }
 
@@ -225,8 +224,8 @@ export default abstract class StaticJsAbstractObject
         throw new StaticJsRuntimeError(
           this.realm.types.error(
             "TypeError",
-            `Cannot redefine property ${name}`,
-          ),
+            `Cannot redefine property ${name}`
+          )
         );
       }
     }
@@ -235,7 +234,7 @@ export default abstract class StaticJsAbstractObject
   }
 
   abstract getOwnPropertyDescriptorEvaluator(
-    name: string,
+    name: string
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
   getProperty(name: string): StaticJsValue {
@@ -252,7 +251,7 @@ export default abstract class StaticJsAbstractObject
       validateStaticJsPropertyDescriptor(decl);
     } catch (err: unknown) {
       throw new StaticJsEngineError(
-        `Property ${name} has an invalid property descriptor: ${(err as Error).message}`,
+        `Property ${name} has an invalid property descriptor: ${(err as Error).message}`
       );
     }
 
@@ -265,12 +264,12 @@ export default abstract class StaticJsAbstractObject
         // FIXME: Handle this; these functions should return completions
         // instead of throwing.
         throw new Error(
-          `Accessor property ${name} getter threw an error: ${completion.value}`,
+          `Accessor property ${name} getter threw an error: ${completion.value}`
         );
       }
       if (completion.type !== "normal" || !completion.value) {
         throw new StaticJsEngineError(
-          `Accessor property ${name} getter did not return a normal completion with a value`,
+          `Accessor property ${name} getter did not return a normal completion with a value`
         );
       }
 
@@ -281,7 +280,7 @@ export default abstract class StaticJsAbstractObject
 
     if (!isStaticJsValue(value)) {
       throw new StaticJsEngineError(
-        `Property ${name} descriptor returned an invalid value: ${value}`,
+        `Property ${name} descriptor returned an invalid value: ${value}`
       );
     }
 
@@ -295,7 +294,7 @@ export default abstract class StaticJsAbstractObject
   *setPropertyEvaluator(
     name: string,
     value: StaticJsValue,
-    strict: boolean,
+    strict: boolean
   ): EvaluationGenerator<void> {
     const ownDecl = yield* this.getOwnPropertyDescriptorEvaluator(name);
     if (ownDecl) {
@@ -308,7 +307,7 @@ export default abstract class StaticJsAbstractObject
           }
           if (completion.type !== "normal") {
             throw new StaticJsEngineError(
-              `Accessor property ${name} setter did not return a normal completion`,
+              `Accessor property ${name} setter did not return a normal completion`
             );
           }
           return;
@@ -324,8 +323,8 @@ export default abstract class StaticJsAbstractObject
         throw new StaticJsRuntimeError(
           this.realm.types.error(
             "TypeError",
-            `Cannot set property ${name} of ${this.toString()}`,
-          ),
+            `Cannot set property ${name} of ${this.toString()}`
+          )
         );
       }
 
@@ -343,7 +342,7 @@ export default abstract class StaticJsAbstractObject
           }
           if (completion.type !== "normal") {
             throw new StaticJsEngineError(
-              `Accessor property ${name} setter did not return a normal completion`,
+              `Accessor property ${name} setter did not return a normal completion`
             );
           }
           return;
@@ -353,8 +352,8 @@ export default abstract class StaticJsAbstractObject
           throw new StaticJsRuntimeError(
             this.realm.types.error(
               "TypeError",
-              `Cannot set property ${name} of ${this.toString()}`,
-            ),
+              `Cannot set property ${name} of ${this.toString()}`
+            )
           );
         }
         return;
@@ -370,8 +369,8 @@ export default abstract class StaticJsAbstractObject
         throw new StaticJsRuntimeError(
           this.realm.types.error(
             "TypeError",
-            `Cannot set property ${name} of ${this.toString()}`,
-          ),
+            `Cannot set property ${name} of ${this.toString()}`
+          )
         );
       }
       return;
@@ -579,15 +578,15 @@ export default abstract class StaticJsAbstractObject
 
   protected abstract _setWritableDataPropertyEvaluator(
     name: string,
-    value: StaticJsValue,
+    value: StaticJsValue
   ): EvaluationGenerator<void>;
 
   protected abstract _definePropertyEvaluator(
     name: string,
-    descriptor: StaticJsPropertyDescriptor,
+    descriptor: StaticJsPropertyDescriptor
   ): EvaluationGenerator<void>;
 
   protected abstract _deleteConfigurablePropertyEvaluator(
-    name: string,
+    name: string
   ): EvaluationGenerator<boolean>;
 }

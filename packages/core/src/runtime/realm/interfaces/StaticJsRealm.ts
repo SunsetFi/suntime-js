@@ -2,9 +2,8 @@ import StaticJsEnvironment from "../../environments/interfaces/StaticJsEnvironme
 
 import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
 import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
-import { StaticJsModule } from "../../modules/interfaces/StaticJsModule.js";
 
-import { StaticJsModuleImplementation } from "../../modules/interfaces/StaticJsModuleImplementation.js";
+import { StaticJsModule } from "../../modules/interfaces/StaticJsModule.js";
 
 /**
  * A top-level construct describing the overall environment in which a javascript program is executed.
@@ -43,8 +42,8 @@ export interface StaticJsRealm {
    */
   resolveImportedModule(
     referencingModule: StaticJsModule,
-    specifier: string,
-  ): Promise<StaticJsModuleImplementation | null>;
+    specifier: string
+  ): Promise<StaticJsModule | null>;
 }
 
 export function isStaticJsRealm(value: unknown): value is StaticJsRealm {

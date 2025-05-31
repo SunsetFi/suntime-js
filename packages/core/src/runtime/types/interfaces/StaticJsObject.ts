@@ -7,6 +7,7 @@ import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
 export interface StaticJsObjectLike extends StaticJsPrimitive {
   // We MUST NOT RESTRICT THIS to "object" | "array" | "function", or else
   // type guards for those specific types will include this.
+  // This happens even with explicit `x is foo` type guards!
   readonly runtimeTypeOf: string;
 
   get prototype(): StaticJsObjectLike | null;
@@ -16,7 +17,7 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   setPrototypeOf(prototype: StaticJsObject | null): void;
 
   setPrototypeOfEvaluator(
-    prototype: StaticJsObjectLike | null,
+    prototype: StaticJsObjectLike | null
   ): EvaluationGenerator;
 
   preventExtensions(): void;
@@ -45,22 +46,22 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   getPropertyDescriptor(name: string): StaticJsPropertyDescriptor | undefined;
 
   getPropertyDescriptorEvaluator(
-    name: string,
+    name: string
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
   getOwnPropertyDescriptor(
-    name: string,
+    name: string
   ): StaticJsPropertyDescriptor | undefined;
 
   getOwnPropertyDescriptorEvaluator(
-    name: string,
+    name: string
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
   defineProperty(name: string, descriptor: StaticJsPropertyDescriptor): void;
 
   definePropertyEvaluator(
     name: string,
-    descriptor: StaticJsPropertyDescriptor,
+    descriptor: StaticJsPropertyDescriptor
   ): EvaluationGenerator<void>;
 
   getProperty(name: string): StaticJsValue;
@@ -72,7 +73,7 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   setPropertyEvaluator(
     name: string,
     value: StaticJsValue,
-    strict: boolean,
+    strict: boolean
   ): EvaluationGenerator<void>;
 
   deleteProperty(name: string): boolean;
@@ -81,7 +82,7 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
 }
 
 export function isStaticJsObjectLike(
-  value: unknown,
+  value: unknown
 ): value is StaticJsObjectLike {
   if (!isStaticJsValue(value)) {
     return false;

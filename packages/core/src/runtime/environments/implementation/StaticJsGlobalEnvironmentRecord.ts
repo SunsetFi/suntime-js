@@ -3,12 +3,15 @@ import {
   isThrowCompletion,
 } from "../../../evaluator/completions/ThrowCompletion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import StaticJsRuntimeError from "../../../evaluator/StaticJsRuntimeError.js";
-import { StaticJsRealm } from "../../realm/index.js";
-import { StaticJsObject, StaticJsValue } from "../../types/index.js";
 
-import { StaticJsEnvironment } from "../interfaces/index.js";
+import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
+
+import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
+import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
+
+import StaticJsEnvironment from "../interfaces/StaticJsEnvironment.js";
+import StaticJsEnvironmentImplementation from "../interfaces/StaticJsEnvironmentImplementation.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
@@ -18,13 +21,16 @@ import StaticJsEnvironmentBindingProvider, {
 import StaticJsObjectEnvironmentRecord from "./StaticJsObjectEnvironmentRecord.js";
 
 export default class StaticJsGlobalEnvironmentRecord
-  implements StaticJsEnvironment, StaticJsEnvironmentBindingProvider
+  implements
+    StaticJsEnvironment,
+    StaticJsEnvironmentImplementation,
+    StaticJsEnvironmentBindingProvider
 {
   private readonly _declarativeRecord;
   private readonly _objectRecord;
 
   constructor(
-    private readonly _realm: StaticJsRealm,
+    private readonly _realm: StaticJsRealmImplementation,
     private readonly _globalThis: StaticJsValue,
     private readonly _globalObject: StaticJsObject,
   ) {
@@ -40,8 +46,8 @@ export default class StaticJsGlobalEnvironmentRecord
   // TODO: `var` declarations are handled specially, probably hoist, and should go on the globalObject
   // https://tc39.es/ecma262/#sec-createglobalvarbinding
 
-  hasBinding(name: string) {
-    const result = runEvaluatorUntilCompletion(this.hasBindingEvaluator(name));
+  async hasBinding(name: string) {
+    const result = await this._realm.invokeEvaluator(this.hasBindingEvaluator(name));
     if (isThrowCompletion(result)) {
       throw new StaticJsRuntimeError(result.value);
     }
@@ -62,8 +68,8 @@ export default class StaticJsGlobalEnvironmentRecord
     return yield* this._objectRecord.hasBindingEvaluator(name);
   }
 
-  createMutableBinding(name: string, deletable: boolean): void {
-    const result = runEvaluatorUntilCompletion(
+  async createMutableBinding(name: string, deletable: boolean) {
+    const result = await this._realm.invokeEvaluator(
       this.createMutableBindingEvaluator(name, deletable),
     );
     if (isThrowCompletion(result)) {
@@ -88,8 +94,8 @@ export default class StaticJsGlobalEnvironmentRecord
     );
   }
 
-  createImmutableBinding(name: string, strict: boolean): void {
-    return runEvaluatorUntilCompletion(
+  async createImmutableBinding(name: string, strict: boolean) {
+    return await this._realm.invokeEvaluator(
       this.createImmutableBindingEvaluator(name, strict),
     );
   }
@@ -109,12 +115,6 @@ export default class StaticJsGlobalEnvironmentRecord
     );
   }
 
-  createFunctionBinding(name: string, func: StaticJsValue): void {
-    return runEvaluatorUntilCompletion(
-      this.createFunctionBindingEvaluator(name, func),
-    );
-  }
-
   *createFunctionBindingEvaluator(name: string, value: StaticJsValue) {
     const result = yield* this._objectRecord.createMutableBindingEvaluator(
       name,
@@ -126,10 +126,6 @@ export default class StaticJsGlobalEnvironmentRecord
     yield* this._objectRecord.setMutableBindingEvaluator(name, value, true);
   }
 
-  canDeclareGlobalVar(name: string): boolean {
-    return runEvaluatorUntilCompletion(this.canDeclareGlobalVarEvaluator(name));
-  }
-
   *canDeclareGlobalVarEvaluator(name: string): EvaluationGenerator<boolean> {
     // TODO: Is our global object extensible?
     if (!this._globalObject.extensible) {
@@ -137,12 +133,6 @@ export default class StaticJsGlobalEnvironmentRecord
     }
 
     return !(yield* this._declarativeRecord.hasBindingEvaluator(name));
-  }
-
-  createGlobalVarBinding(name: string, deletable: boolean): void {
-    return runEvaluatorUntilCompletion(
-      this.createGlobalVarBindingEvaluator(name, deletable),
-    );
   }
 
   *createGlobalVarBindingEvaluator(
@@ -162,8 +152,8 @@ export default class StaticJsGlobalEnvironmentRecord
     }
   }
 
-  initializeBinding(name: string, value: StaticJsValue): void {
-    return runEvaluatorUntilCompletion(
+  async initializeBinding(name: string, value: StaticJsValue) {
+    return await this._realm.invokeEvaluator(
       this.initializeBindingEvaluator(name, value),
     );
   }
@@ -190,8 +180,8 @@ export default class StaticJsGlobalEnvironmentRecord
     yield* binding.initialize(value);
   }
 
-  setMutableBinding(name: string, value: StaticJsValue, strict: boolean): void {
-    return runEvaluatorUntilCompletion(
+  async setMutableBinding(name: string, value: StaticJsValue, strict: boolean) {
+    return await this._realm.invokeEvaluator(
       this.setMutableBindingEvaluator(name, value, strict),
     );
   }
@@ -241,8 +231,8 @@ export default class StaticJsGlobalEnvironmentRecord
     yield* binding.set(value);
   }
 
-  getBindingValue(name: string): StaticJsValue {
-    return runEvaluatorUntilCompletion(this.getBindingValueEvaluator(name));
+  async getBindingValue(name: string) {
+    return this._realm.invokeEvaluator(this.getBindingValueEvaluator(name));
   }
 
   *getBindingValueEvaluator(name: string): EvaluationGenerator<StaticJsValue> {
@@ -260,8 +250,8 @@ export default class StaticJsGlobalEnvironmentRecord
     return yield* binding.get();
   }
 
-  deleteBinding(name: string): void {
-    return runEvaluatorUntilCompletion(this.deleteBindingEvaluator(name));
+  async deleteBinding(name: string) {
+    return await this._realm.invokeEvaluator(this.deleteBindingEvaluator(name));
   }
 
   *deleteBindingEvaluator(name: string): EvaluationGenerator<void> {
@@ -275,7 +265,7 @@ export default class StaticJsGlobalEnvironmentRecord
     yield* binding.delete();
   }
 
-  hasThisBinding(): boolean {
+  async hasThisBinding() {
     return true;
   }
 
@@ -283,7 +273,7 @@ export default class StaticJsGlobalEnvironmentRecord
     return true;
   }
 
-  hasSuperBinding(): boolean {
+  async hasSuperBinding() {
     return false;
   }
 
@@ -291,7 +281,7 @@ export default class StaticJsGlobalEnvironmentRecord
     return false;
   }
 
-  withBaseObject(): StaticJsValue {
+  async withBaseObject() {
     return this._realm.types.undefined;
   }
 
@@ -299,7 +289,7 @@ export default class StaticJsGlobalEnvironmentRecord
     return this._realm.types.undefined;
   }
 
-  getThisBinding(): StaticJsValue {
+  async getThisBinding() {
     return this._globalThis;
   }
 
@@ -307,7 +297,7 @@ export default class StaticJsGlobalEnvironmentRecord
     return this._globalThis;
   }
 
-  getSuperBase(): StaticJsValue {
+  async getSuperBase() {
     return this._realm.types.undefined;
   }
 
@@ -315,11 +305,7 @@ export default class StaticJsGlobalEnvironmentRecord
     return this._realm.types.undefined;
   }
 
-  getVarScope(): StaticJsEnvironment | null {
-    return this;
-  }
-
-  *getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironment | null> {
+  *getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironmentImplementation | null> {
     return this;
   }
 

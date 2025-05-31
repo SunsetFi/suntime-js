@@ -8,7 +8,7 @@ export default interface StaticJsCompilation<
   TResult = unknown,
   TGeneratorResult = Generator<void, TResult, void>,
 > {
-  evaluate(opts?: EvaluationOptions): TResult;
+  evaluate(opts?: EvaluationOptions): Promise<TResult>;
 
   // TODO: generator() to get a step-by-step evaluation generator supporting introspection for debugging.
   generator(opts?: EvaluationOptions): TGeneratorResult;

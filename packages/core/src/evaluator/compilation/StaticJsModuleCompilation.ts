@@ -11,19 +11,17 @@ import { StaticJsModuleImpl } from "../../runtime/modules/implementation/StaticJ
 
 import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
-import {
-  runEvaluatorUntilCompletion,
-  evaluateCommands,
-} from "../evaluator-runtime.js";
+import { evaluateCommands } from "../evaluator-runtime.js";
 
 import StaticJsCompilation, {
   EvaluationOptions,
 } from "./StaticJsCompilation.js";
+import { staticJsRealmToImplementation } from "../../runtime/realm/interfaces/StaticJsRealmImplementation.js";
 
 export default class StaticJsModuleCompilation
   implements
     StaticJsCompilation<
-      Promise<StaticJsModule>,
+      StaticJsModule,
       Promise<Generator<void, StaticJsModule, void>>
     >
 {
@@ -36,18 +34,20 @@ export default class StaticJsModuleCompilation
       throw new TypeError(`Invalid StaticJsRealm specified.`);
     }
 
-    const mod = new StaticJsModuleImpl("<anonymous>", this._program, realm);
+    const realmImpl = staticJsRealmToImplementation(realm);
+
+    const mod = new StaticJsModuleImpl("<anonymous>", this._program, realmImpl);
 
     await mod.linkModules();
 
-    const initResult = runEvaluatorUntilCompletion(
+    const initResult = await realmImpl.invokeEvaluator(
       mod.moduleDeclarationInstantiationEvaluator(),
     );
     if (isThrowCompletion(initResult)) {
       throw initResult.value.toJs();
     }
 
-    const evalResult = runEvaluatorUntilCompletion(
+    const evalResult = await realmImpl.invokeEvaluator(
       mod.moduleEvaluationEvaluator(),
     );
     if (isThrowCompletion(evalResult)) {
