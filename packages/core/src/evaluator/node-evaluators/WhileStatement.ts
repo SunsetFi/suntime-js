@@ -54,17 +54,11 @@ function* whileStatementNodeEvaluator(
     try {
       yield* EvaluateNodeCommand(node.body, bodyContext);
     } catch (e) {
-      if (
-        e instanceof BreakCompletion &&
-        (!e.target || e.target === context.label)
-      ) {
+      if (BreakCompletion.isBreakForLabel(e, context.label)) {
         break;
       }
 
-      if (
-        e instanceof ContinueCompletion &&
-        (!e.target || e.target === context.label)
-      ) {
+      if (ContinueCompletion.isContinueForLabel(e, context.label)) {
         continue;
       }
 

@@ -80,19 +80,11 @@ export default function* forInStatementNodeEvaluator(
     try {
       yield* EvaluateNodeCommand(node.body, bodyContext);
     } catch (e) {
-      if (
-        e instanceof BreakCompletion &&
-        (e.target === null || e.target === context.label)
-      ) {
-        // Break is for us, so we stop the loop and return null
+      if (BreakCompletion.isBreakForLabel(e, context.label)) {
         return null;
       }
 
-      if (
-        e instanceof ContinueCompletion &&
-        (e.target === null || e.target === context.label)
-      ) {
-        // Continue is for us, so we skip the rest of the loop and continue
+      if (ContinueCompletion.isContinueForLabel(e, context.label)) {
         continue;
       }
 

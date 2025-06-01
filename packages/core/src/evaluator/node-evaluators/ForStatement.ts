@@ -76,18 +76,11 @@ function* forStatementNodeEvaluator(
     try {
       yield* EvaluateNodeCommand(node.body, bodyContext);
     } catch (e) {
-      if (
-        e instanceof BreakCompletion &&
-        (e.target === null || e.target === context.label)
-      ) {
-        // Break is for us, so we stop the loop and return null
+      if (BreakCompletion.isBreakForLabel(e, context.label)) {
         return null;
       }
 
-      if (
-        e instanceof ContinueCompletion &&
-        (e.target === null || e.target === context.label)
-      ) {
+      if (ContinueCompletion.isContinueForLabel(e, context.label)) {
         /* No-op, continue to the next iteration */
       } else {
         throw e; // Rethrow any other error
