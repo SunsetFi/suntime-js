@@ -2,13 +2,13 @@ import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
-import { StaticJsObjectLike } from "../../types/interfaces/StaticJsObject.js";
-import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
+import { StaticJsObjectLike } from "../../types/StaticJsObject.js";
+import { StaticJsValue } from "../../types/StaticJsValue.js";
 
-import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsResolvedBinding } from "../interfaces/StaticJsResolvedBinding.js";
-import { StaticJsModule } from "../interfaces/StaticJsModule.js";
+import { StaticJsResolvedBinding } from "../StaticJsResolvedBinding.js";
+import { StaticJsModule } from "../StaticJsModule.js";
 
 import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
 

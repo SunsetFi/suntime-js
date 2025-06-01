@@ -2,7 +2,7 @@ import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletio
 
 import { StaticJsRealm } from "../../realm/index.js";
 
-import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
+import { StaticJsObject } from "../../types/StaticJsObject.js";
 import StaticJsObjectImpl from "../../types/implementation/StaticJsObjectImpl.js";
 import StaticJsNumberImpl from "../../types/implementation/StaticJsNumberImpl.js";
 

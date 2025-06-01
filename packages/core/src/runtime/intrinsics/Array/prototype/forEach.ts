@@ -4,7 +4,7 @@ import {
   isThrowCompletion,
 } from "../../../../evaluator/completions/ThrowCompletion.js";
 import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
-import { isStaticJsFunction } from "../../../types/interfaces/StaticJsFunction.js";
+import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";
 

@@ -6,26 +6,17 @@ import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
-import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,
   validateStaticJsPropertyDescriptor,
-} from "../interfaces/StaticJsPropertyDescriptor.js";
-import {
-  StaticJsNull,
-  isStaticJsNull,
-} from "../../types/interfaces/StaticJsNull.js";
-import {
-  StaticJsObject,
-  StaticJsObjectLike,
-} from "../../types/interfaces/StaticJsObject.js";
-import {
-  StaticJsValue,
-  isStaticJsValue,
-} from "../../types/interfaces/StaticJsValue.js";
+} from "../StaticJsPropertyDescriptor.js";
+import { StaticJsNull, isStaticJsNull } from "../StaticJsNull.js";
+import { StaticJsObject, StaticJsObjectLike } from "../StaticJsObject.js";
+import { StaticJsValue, isStaticJsValue } from "../StaticJsValue.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 

@@ -24,9 +24,9 @@ import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCom
 import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 
-import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsValue } from "../interfaces/StaticJsValue.js";
+import { StaticJsValue } from "../StaticJsValue.js";
 
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
 

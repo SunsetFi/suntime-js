@@ -10,7 +10,7 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import {
   isStaticJsObject,
   StaticJsObject,
-} from "../../runtime/types/interfaces/StaticJsObject.js";
+} from "../../runtime/types/StaticJsObject.js";
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";

@@ -6,9 +6,9 @@ import {
 } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 
-import { isStaticJsArray } from "../../../types/interfaces/StaticJsArray.js";
-import { isStaticJsFunction } from "../../../types/interfaces/StaticJsFunction.js";
-import { StaticJsValue } from "../../../types/interfaces/StaticJsValue.js";
+import { isStaticJsArray } from "../../../types/StaticJsArray.js";
+import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
+import { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 

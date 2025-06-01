@@ -1,6 +1,6 @@
 import { AssignmentExpression } from "@babel/types";
 
-import { isStaticJsScalar } from "../../runtime/types/interfaces/StaticJsScalar.js";
+import { isStaticJsScalar } from "../../runtime/types/StaticJsScalar.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";

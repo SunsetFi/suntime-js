@@ -1,13 +1,13 @@
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
-import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,
-} from "../interfaces/StaticJsPropertyDescriptor.js";
+} from "../StaticJsPropertyDescriptor.js";
 
 export default function staticJsDescriptorToObjectDescriptor(
   realm: StaticJsRealm,

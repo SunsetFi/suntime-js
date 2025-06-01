@@ -1,10 +1,10 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
-import { isStaticJsNull } from "../../../types/interfaces/StaticJsNull.js";
+import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import {
   StaticJsObjectLike,
   isStaticJsObjectLike,
-} from "../../../types/interfaces/StaticJsObject.js";
+} from "../../../types/StaticJsObject.js";
 
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 

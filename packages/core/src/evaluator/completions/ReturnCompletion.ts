@@ -1,4 +1,4 @@
-import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
+import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { CompletionBase } from "./CompletionBase.js";
 

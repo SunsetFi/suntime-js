@@ -1,8 +1,8 @@
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
-import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
+import { StaticJsValue } from "../types/StaticJsValue.js";
 
 export interface StaticJsEnvironment {
   hasBinding(name: string): boolean;

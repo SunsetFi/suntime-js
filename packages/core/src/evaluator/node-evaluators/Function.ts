@@ -3,7 +3,7 @@ import { Function } from "@babel/types";
 import StaticJsAstFunction, {
   StaticJsAstFunctionArgumentDeclaration,
 } from "../../runtime/types/implementation/StaticJsAstFunction.js";
-import { StaticJsFunction } from "../../runtime/types/interfaces/StaticJsFunction.js";
+import { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";

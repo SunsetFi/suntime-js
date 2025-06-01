@@ -1,7 +1,7 @@
-import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsNull } from "../interfaces/StaticJsNull.js";
-import { StaticJsObjectLike } from "../interfaces/StaticJsObject.js";
+import { StaticJsNull } from "../StaticJsNull.js";
+import { StaticJsObjectLike } from "../StaticJsObject.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 

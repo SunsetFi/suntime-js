@@ -1,1 +1,1 @@
-export { type StaticJsModule } from "./interfaces/StaticJsModule.js";
+export * from "./StaticJsModule.js";

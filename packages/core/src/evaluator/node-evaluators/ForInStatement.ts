@@ -1,6 +1,6 @@
 import { ForInStatement, LVal } from "@babel/types";
 
-import { isStaticJsObjectLike } from "../../runtime/types/interfaces/StaticJsObject.js";
+import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObject.js";
 
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";

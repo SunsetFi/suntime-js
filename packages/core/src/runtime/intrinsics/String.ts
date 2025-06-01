@@ -1,10 +1,7 @@
-import { StaticJsObject } from "../types/interfaces/StaticJsObject.js";
-import { StaticJsRealm } from "../realm/interfaces/StaticJsRealm.js";
+import { StaticJsObject } from "../types/StaticJsObject.js";
+import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
-import {
-  isStaticJsValue,
-  StaticJsValue,
-} from "../types/interfaces/StaticJsValue.js";
+import { isStaticJsValue, StaticJsValue } from "../types/StaticJsValue.js";
 import { ReturnCompletion } from "../../evaluator/completions/ReturnCompletion.js";
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 

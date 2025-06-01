@@ -4,7 +4,7 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import { StaticJsFunction } from "../../runtime/types/interfaces/StaticJsFunction.js";
+import { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 
 import { NormalCompletion } from "../completions/NormalCompletion.js";
 

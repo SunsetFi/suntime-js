@@ -2,7 +2,7 @@ import { UpdateExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import { isStaticJsNumber } from "../../runtime/types/interfaces/StaticJsNumber.js";
+import { isStaticJsNumber } from "../../runtime/types/StaticJsNumber.js";
 
 import { NormalCompletion } from "../completions/NormalCompletion.js";
 

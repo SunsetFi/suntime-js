@@ -6,7 +6,7 @@ import {
 } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 
-import { isStaticJsFunction } from "../../../types/interfaces/StaticJsFunction.js";
+import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 

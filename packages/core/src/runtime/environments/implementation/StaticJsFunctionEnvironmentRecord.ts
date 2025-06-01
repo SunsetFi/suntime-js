@@ -1,8 +1,8 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
-import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import { StaticJsValue } from "../../types/StaticJsValue.js";
 
-import { StaticJsEnvironment } from "../interfaces/StaticJsEnvironment.js";
+import { StaticJsEnvironment } from "../StaticJsEnvironment.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
 

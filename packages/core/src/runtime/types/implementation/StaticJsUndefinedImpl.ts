@@ -1,5 +1,5 @@
-import { StaticJsUndefined } from "../interfaces/StaticJsUndefined.js";
-import { StaticJsObject } from "../interfaces/StaticJsObject.js";
+import { StaticJsUndefined } from "../StaticJsUndefined.js";
+import { StaticJsObject } from "../StaticJsObject.js";
 
 export default class StaticJsUndefinedImpl implements StaticJsUndefined {
   static readonly Instance = new StaticJsUndefinedImpl();

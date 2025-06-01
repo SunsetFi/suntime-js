@@ -8,19 +8,19 @@ import {
   isThrowCompletion,
 } from "../../../evaluator/completions/ThrowCompletion.js";
 
-import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsObjectLike } from "../../types/interfaces/StaticJsObject.js";
-import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
+import { StaticJsObjectLike } from "../../types/StaticJsObject.js";
+import { StaticJsValue } from "../../types/StaticJsValue.js";
 import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
 
-import { StaticJsModule } from "../interfaces/StaticJsModule.js";
+import { StaticJsModule } from "../StaticJsModule.js";
 import {
   StaticJsModuleImplementation,
   StaticJsModuleStatus,
-} from "../interfaces/StaticJsModuleImplementation.js";
+} from "../StaticJsModuleImplementation.js";
 
-import { StaticJsResolvedBinding } from "../interfaces/StaticJsResolvedBinding.js";
+import { StaticJsResolvedBinding } from "../StaticJsResolvedBinding.js";
 
 export abstract class StaticJsModuleBase
   implements StaticJsModule, StaticJsModuleImplementation

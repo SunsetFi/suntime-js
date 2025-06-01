@@ -1,5 +1,5 @@
-import { StaticJsFunction } from "../types/interfaces/StaticJsFunction.js";
-import { StaticJsObject } from "../types/interfaces/StaticJsObject.js";
+import { StaticJsFunction } from "../types/StaticJsFunction.js";
+import { StaticJsObject } from "../types/StaticJsObject.js";
 
 export interface Prototypes {
   stringProto: StaticJsObject;

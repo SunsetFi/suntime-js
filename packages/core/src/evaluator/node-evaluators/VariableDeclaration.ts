@@ -2,7 +2,7 @@ import { VariableDeclaration, VariableDeclarator } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
+import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import typedMerge from "../../internal/typed-merge.js";
 

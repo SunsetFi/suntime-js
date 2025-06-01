@@ -1,12 +1,12 @@
 import EvaluationGenerator from "../../../../../evaluator/EvaluationGenerator.js";
 import { ThrowCompletion } from "../../../../../evaluator/completions/ThrowCompletion.js";
 
-import { StaticJsRealm } from "../../../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../../../../realm/StaticJsRealm.js";
 
 import toInteger from "../../../../algorithms/to-integer.js";
 
-import { StaticJsObjectLike } from "../../../../types/interfaces/StaticJsObject.js";
-import { MAX_ARRAY_LENGTH } from "../../../../types/interfaces/StaticJsArray.js";
+import { StaticJsObjectLike } from "../../../../types/StaticJsObject.js";
+import { MAX_ARRAY_LENGTH } from "../../../../types/StaticJsArray.js";
 
 export default function* getLength(
   realm: StaticJsRealm,

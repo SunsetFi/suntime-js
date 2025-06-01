@@ -5,7 +5,7 @@ import {
 import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
 
-import { isStaticJsFunction } from "../../../types/interfaces/StaticJsFunction.js";
+import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 

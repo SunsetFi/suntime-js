@@ -3,10 +3,10 @@ import { Program } from "@babel/types";
 import {
   isStaticJsRealm,
   StaticJsRealm,
-} from "../../runtime/realm/interfaces/StaticJsRealm.js";
+} from "../../runtime/realm/StaticJsRealm.js";
 import StaticJsRealmFactory from "../../runtime/realm/factories/StaticJsRealm.js";
 
-import { StaticJsModule } from "../../runtime/modules/interfaces/StaticJsModule.js";
+import { StaticJsModule } from "../../runtime/modules/StaticJsModule.js";
 import { StaticJsModuleImpl } from "../../runtime/modules/implementation/StaticJsModuleImpl.js";
 
 import { isThrowCompletion } from "../completions/ThrowCompletion.js";

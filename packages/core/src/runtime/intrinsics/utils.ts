@@ -1,9 +1,9 @@
 import EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
-import { StaticJsRealm } from "../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import { StaticJsObjectLike } from "../types/interfaces/StaticJsObject.js";
-import { StaticJsValue } from "../types/interfaces/StaticJsValue.js";
+import { StaticJsObjectLike } from "../types/StaticJsObject.js";
+import { StaticJsValue } from "../types/StaticJsValue.js";
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
 export interface IntrinsicPropertyDeclarationBase {

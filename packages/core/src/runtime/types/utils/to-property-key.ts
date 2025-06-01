@@ -1,4 +1,4 @@
-import { isStaticJsValue } from "../interfaces/StaticJsValue.js";
+import { isStaticJsValue } from "../StaticJsValue.js";
 
 export default function toPropertyKey(value: unknown): string {
   if (!isStaticJsValue(value)) {

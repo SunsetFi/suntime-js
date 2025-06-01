@@ -2,10 +2,10 @@ import { BinaryExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
-import { isStaticJsScalar } from "../../runtime/types/interfaces/StaticJsScalar.js";
-import { isStaticJsObjectLike } from "../../runtime/types/interfaces/StaticJsObject.js";
-import { isStaticJsString } from "../../runtime/types/interfaces/StaticJsString.js";
+import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { isStaticJsScalar } from "../../runtime/types/StaticJsScalar.js";
+import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObject.js";
+import { isStaticJsString } from "../../runtime/types/StaticJsString.js";
 
 import strictEquality from "../../runtime/algorithms/strict-equality.js";
 

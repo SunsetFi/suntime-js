@@ -1,7 +1,7 @@
-import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsBoolean } from "../interfaces/StaticJsBoolean.js";
-import { StaticJsObject } from "../interfaces/StaticJsObject.js";
+import { StaticJsBoolean } from "../StaticJsBoolean.js";
+import { StaticJsObject } from "../StaticJsObject.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 import StaticJsBooleanBoxed from "./StaticJsBooleanBoxed.js";

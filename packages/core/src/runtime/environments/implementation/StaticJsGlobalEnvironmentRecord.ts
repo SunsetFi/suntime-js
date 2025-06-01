@@ -7,13 +7,12 @@ import {
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 
-import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
-import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
+import { StaticJsObject } from "../../types/StaticJsObject.js";
+import { StaticJsValue } from "../../types/StaticJsValue.js";
 
-import { StaticJsEnvironment } from "../interfaces/StaticJsEnvironment.js";
-
+import { StaticJsEnvironment } from "../StaticJsEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 import StaticJsEnvironmentBindingProvider, {

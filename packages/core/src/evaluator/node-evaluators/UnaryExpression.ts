@@ -1,7 +1,7 @@
 import { UnaryExpression } from "@babel/types";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import { isStaticJsObjectLike } from "../../runtime/types/interfaces/StaticJsObject.js";
+import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObject.js";
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";

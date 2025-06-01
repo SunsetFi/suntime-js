@@ -3,8 +3,8 @@ import { MemberExpression } from "@babel/types";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
-import { isStaticJsNull } from "../../runtime/types/interfaces/StaticJsNull.js";
-import { isStaticJsUndefined } from "../../runtime/types/interfaces/StaticJsUndefined.js";
+import { isStaticJsNull } from "../../runtime/types/StaticJsNull.js";
+import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 

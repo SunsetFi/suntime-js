@@ -3,15 +3,15 @@ import { Writable } from "type-fest";
 import EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 
-import { StaticJsRealm } from "../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import {
   StaticJsPropertyDescriptor,
   StaticJsAccessorPropertyDescriptor,
   StaticJsDataPropertyDescriptor,
-} from "../types/interfaces/StaticJsPropertyDescriptor.js";
-import { isStaticJsFunction } from "../types/interfaces/StaticJsFunction.js";
-import { StaticJsObjectLike } from "../types/interfaces/StaticJsObject.js";
+} from "../types/StaticJsPropertyDescriptor.js";
+import { isStaticJsFunction } from "../types/StaticJsFunction.js";
+import { StaticJsObjectLike } from "../types/StaticJsObject.js";
 
 export default function* toPropertyDescriptor(
   realm: StaticJsRealm,

@@ -2,7 +2,7 @@ import { CallExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import { isStaticJsFunction } from "../../runtime/types/interfaces/StaticJsFunction.js";
+import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";

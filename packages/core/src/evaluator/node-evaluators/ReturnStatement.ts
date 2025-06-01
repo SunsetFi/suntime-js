@@ -1,6 +1,6 @@
 import { ReturnStatement } from "@babel/types";
 
-import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
+import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 

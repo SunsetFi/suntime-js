@@ -1,4 +1,4 @@
-import { StaticJsModule } from "../../runtime/modules/interfaces/StaticJsModule.js";
+import { StaticJsModule } from "../../runtime/modules/StaticJsModule.js";
 
 import {
   EvaluationOptions,

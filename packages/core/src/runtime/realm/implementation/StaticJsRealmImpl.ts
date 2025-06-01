@@ -6,7 +6,7 @@ import hasOwnProperty from "../../../internal/has-own-property.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
-import { StaticJsEnvironment } from "../../environments/interfaces/StaticJsEnvironment.js";
+import { StaticJsEnvironment } from "../../environments/StaticJsEnvironment.js";
 import StaticJsGlobalEnvironmentRecord from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 
 import {
@@ -16,26 +16,26 @@ import {
 } from "../../intrinsics/create-intrinsics.js";
 
 import StaticJsTypeFactoryImpl from "../../types/implementation/StaticJsTypeFactoryImpl.js";
-import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
-import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
+import StaticJsTypeFactory from "../../types/StaticJsTypeFactory.js";
+import { StaticJsObject } from "../../types/StaticJsObject.js";
 import {
   StaticJsAccessorPropertyDescriptor,
   StaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,
   validateStaticJsPropertyDescriptor,
-} from "../../types/interfaces/StaticJsPropertyDescriptor.js";
-import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
+} from "../../types/StaticJsPropertyDescriptor.js";
+import { StaticJsValue } from "../../types/StaticJsValue.js";
 import StaticJsExternalFunction from "../../types/implementation/StaticJsExternalFunction.js";
 
 import {
   StaticJsModuleImplementation,
   isStaticJsModuleImplementation,
   staticJsModuleToImplementation,
-} from "../../modules/interfaces/StaticJsModuleImplementation.js";
+} from "../../modules/StaticJsModuleImplementation.js";
 import {
   isStaticJsModule,
   StaticJsModule,
-} from "../../modules/interfaces/StaticJsModule.js";
+} from "../../modules/StaticJsModule.js";
 
 import StaticJsExternalModuleImpl from "../../modules/implementation/StaticJsExternalModuleImpl.js";
 import { StaticJsModuleImpl } from "../../modules/implementation/StaticJsModuleImpl.js";
@@ -46,7 +46,7 @@ import {
   StaticJsRealmOptions,
 } from "../factories/StaticJsRealm.js";
 
-import { StaticJsRealm } from "../interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../StaticJsRealm.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;

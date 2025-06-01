@@ -1,6 +1,6 @@
 import { Node } from "@babel/types";
 
-import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
+import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import evaluateNode, {
   EvaluateNodeOptions,

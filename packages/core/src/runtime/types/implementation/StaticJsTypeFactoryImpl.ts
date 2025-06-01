@@ -1,22 +1,19 @@
-import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsArray } from "../interfaces/StaticJsArray.js";
-import { StaticJsFunction } from "../interfaces/StaticJsFunction.js";
-import {
-  StaticJsObject,
-  StaticJsObjectLike,
-} from "../interfaces/StaticJsObject.js";
-import { StaticJsPropertyDescriptor } from "../interfaces/StaticJsPropertyDescriptor.js";
+import { StaticJsArray } from "../StaticJsArray.js";
+import { StaticJsFunction } from "../StaticJsFunction.js";
+import { StaticJsObject, StaticJsObjectLike } from "../StaticJsObject.js";
+import { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 import StaticJsTypeFactory, {
   ErrorTypeName,
   isErrorTypeName,
-} from "../interfaces/StaticJsTypeFactory.js";
-import { isStaticJsValue, StaticJsValue } from "../interfaces/StaticJsValue.js";
-import { StaticJsBoolean } from "../interfaces/StaticJsBoolean.js";
-import { StaticJsUndefined } from "../interfaces/StaticJsUndefined.js";
-import { isStaticJsNull, StaticJsNull } from "../interfaces/StaticJsNull.js";
-import { StaticJsNumber } from "../interfaces/StaticJsNumber.js";
-import { StaticJsString } from "../interfaces/StaticJsString.js";
+} from "../StaticJsTypeFactory.js";
+import { isStaticJsValue, StaticJsValue } from "../StaticJsValue.js";
+import { StaticJsBoolean } from "../StaticJsBoolean.js";
+import { StaticJsUndefined } from "../StaticJsUndefined.js";
+import { isStaticJsNull, StaticJsNull } from "../StaticJsNull.js";
+import { StaticJsNumber } from "../StaticJsNumber.js";
+import { StaticJsString } from "../StaticJsString.js";
 
 import { Prototypes } from "../../intrinsics/intrinsics.js";
 

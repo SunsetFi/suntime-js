@@ -1,9 +1,9 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
-import { StaticJsModule } from "../../modules/interfaces/StaticJsModule.js";
-import { StaticJsModuleImplementation } from "../../modules/interfaces/StaticJsModuleImplementation.js";
+import { StaticJsModule } from "../../modules/StaticJsModule.js";
+import { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
 
-import { StaticJsRealm as IStaticJsRealm } from "../interfaces/StaticJsRealm.js";
+import { StaticJsRealm as IStaticJsRealm } from "../StaticJsRealm.js";
 
 import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
 

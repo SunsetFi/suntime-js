@@ -1,7 +1,7 @@
 import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 
-import { isStaticJsArray } from "../../../types/interfaces/StaticJsArray.js";
-import { StaticJsValue } from "../../../types/interfaces/StaticJsValue.js";
+import { isStaticJsArray } from "../../../types/StaticJsArray.js";
+import { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 

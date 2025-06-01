@@ -1,7 +1,7 @@
 import { ArrayExpression } from "@babel/types";
 
-import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
-import { isStaticJsArray } from "../../runtime/types/interfaces/StaticJsArray.js";
+import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { isStaticJsArray } from "../../runtime/types/StaticJsArray.js";
 
 import { NormalCompletion } from "../completions/NormalCompletion.js";
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";

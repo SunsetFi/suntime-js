@@ -1,9 +1,9 @@
 import hasOwnProperty from "../../internal/has-own-property.js";
 
-import { StaticJsRealm } from "../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import { StaticJsObjectLike } from "../types/interfaces/StaticJsObject.js";
-import { StaticJsValue } from "../types/interfaces/StaticJsValue.js";
+import { StaticJsObjectLike } from "../types/StaticJsObject.js";
+import { StaticJsValue } from "../types/StaticJsValue.js";
 
 export default function* setArray(
   realm: StaticJsRealm,

@@ -1,4 +1,4 @@
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
 import { StaticJsPrimitive } from "./StaticJsPrimitive.js";
 import { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js";

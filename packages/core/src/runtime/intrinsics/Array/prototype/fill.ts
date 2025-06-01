@@ -3,7 +3,7 @@ import { isThrowCompletion } from "../../../../evaluator/completions/ThrowComple
 
 import toInteger from "../../../algorithms/to-integer.js";
 
-import { isStaticJsUndefined } from "../../../types/interfaces/StaticJsUndefined.js";
+import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 

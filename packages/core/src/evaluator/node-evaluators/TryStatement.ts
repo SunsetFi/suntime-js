@@ -2,7 +2,7 @@ import { BlockStatement, CatchClause, TryStatement } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
+import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";

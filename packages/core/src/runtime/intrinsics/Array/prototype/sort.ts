@@ -11,9 +11,9 @@ import {
 import { NormalCompletion } from "../../../../evaluator/completions/NormalCompletion.js";
 import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 
-import { isStaticJsFunction } from "../../../types/interfaces/StaticJsFunction.js";
-import { isStaticJsUndefined } from "../../../types/interfaces/StaticJsUndefined.js";
-import { StaticJsValue } from "../../../types/interfaces/StaticJsValue.js";
+import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
+import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
+import { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";

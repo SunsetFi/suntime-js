@@ -1,3 +1,5 @@
+import { Prototypes } from "../intrinsics/intrinsics.js";
+
 import { StaticJsArray } from "./StaticJsArray.js";
 import { StaticJsFunction } from "./StaticJsFunction.js";
 import { StaticJsBoolean } from "./StaticJsBoolean.js";
@@ -8,7 +10,6 @@ import { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js";
 import { StaticJsValue } from "./StaticJsValue.js";
 import { StaticJsString } from "./StaticJsString.js";
 import { StaticJsUndefined } from "./StaticJsUndefined.js";
-import { Prototypes } from "../../intrinsics/intrinsics.js";
 
 export type ErrorTypeName =
   | "TypeError"

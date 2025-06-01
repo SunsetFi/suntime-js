@@ -1,12 +1,12 @@
 import { LVal, isLVal } from "@babel/types";
 
-import { isStaticJsArray } from "../../runtime/types/interfaces/StaticJsArray.js";
-import { isStaticJsObject } from "../../runtime/types/interfaces/StaticJsObject.js";
-import { isStaticJsUndefined } from "../../runtime/types/interfaces/StaticJsUndefined.js";
+import { isStaticJsArray } from "../../runtime/types/StaticJsArray.js";
+import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
+import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import {
   StaticJsValue,
   isStaticJsValue,
-} from "../../runtime/types/interfaces/StaticJsValue.js";
+} from "../../runtime/types/StaticJsValue.js";
 
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 

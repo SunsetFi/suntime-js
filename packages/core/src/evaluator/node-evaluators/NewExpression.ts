@@ -1,7 +1,7 @@
 import { NewExpression } from "@babel/types";
 
-import { isStaticJsFunction } from "../../runtime/types/interfaces/StaticJsFunction.js";
-import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
+import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
+import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 

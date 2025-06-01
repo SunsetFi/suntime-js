@@ -2,15 +2,15 @@ import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
-import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsValue } from "../interfaces/StaticJsValue.js";
+import { StaticJsValue } from "../StaticJsValue.js";
 import {
   isStaticJsDataPropertyDescriptor,
   isStaticJsAccessorPropertyDescriptor,
   StaticJsPropertyDescriptor,
-} from "../interfaces/StaticJsPropertyDescriptor.js";
-import { StaticJsArray } from "../interfaces/StaticJsArray.js";
+} from "../StaticJsPropertyDescriptor.js";
+import { StaticJsArray } from "../StaticJsArray.js";
 
 import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
 

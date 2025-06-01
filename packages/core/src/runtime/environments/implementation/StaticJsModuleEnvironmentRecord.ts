@@ -4,9 +4,9 @@ import { NormalCompletion } from "../../../evaluator/completions/NormalCompletio
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
-import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsModuleImplementation } from "../../modules/interfaces/StaticJsModuleImplementation.js";
+import { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";

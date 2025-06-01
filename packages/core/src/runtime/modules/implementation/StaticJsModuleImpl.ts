@@ -11,7 +11,7 @@ import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import StaticJsModuleEnvironmentRecord from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
-import { StaticJsEnvironment } from "../../environments/interfaces/StaticJsEnvironment.js";
+import { StaticJsEnvironment } from "../../environments/StaticJsEnvironment.js";
 
 import evaluateNode from "../../../evaluator/node-evaluators/evaluate-node.js";
 import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
@@ -25,18 +25,18 @@ import {
   isThrowCompletion,
 } from "../../../evaluator/completions/ThrowCompletion.js";
 
-import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
+import { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import {
   StaticJsModuleStatus,
   StaticJsModuleImplementation,
-} from "../interfaces/StaticJsModuleImplementation.js";
+} from "../StaticJsModuleImplementation.js";
 import {
   StaticJsModuleResolvedBinding,
   StaticJsResolvedBinding,
-} from "../interfaces/StaticJsResolvedBinding.js";
+} from "../StaticJsResolvedBinding.js";
 
 import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
 

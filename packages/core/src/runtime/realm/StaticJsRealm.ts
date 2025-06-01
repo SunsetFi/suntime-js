@@ -1,10 +1,10 @@
-import { StaticJsEnvironment } from "../../environments/interfaces/StaticJsEnvironment.js";
+import { StaticJsEnvironment } from "../environments/StaticJsEnvironment.js";
 
-import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
-import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
-import { StaticJsModule } from "../../modules/interfaces/StaticJsModule.js";
+import { StaticJsObject } from "../types/StaticJsObject.js";
+import StaticJsTypeFactory from "../types/StaticJsTypeFactory.js";
 
-import { StaticJsModuleImplementation } from "../../modules/interfaces/StaticJsModuleImplementation.js";
+import { StaticJsModule } from "../modules/StaticJsModule.js";
+import { StaticJsModuleImplementation } from "../modules/StaticJsModuleImplementation.js";
 
 /**
  * A top-level construct describing the overall environment in which a javascript program is executed.

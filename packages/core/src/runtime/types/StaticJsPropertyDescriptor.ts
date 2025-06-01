@@ -1,6 +1,7 @@
-import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
+import { runEvaluatorUntilCompletion } from "../../evaluator/evaluator-runtime.js";
 
-import hasOwnProperty from "../../../internal/has-own-property.js";
+import hasOwnProperty from "../../internal/has-own-property.js";
+
 import { isStaticJsFunction, StaticJsFunction } from "./StaticJsFunction.js";
 import { StaticJsObjectLike } from "./StaticJsObject.js";
 import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";

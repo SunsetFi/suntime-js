@@ -1,24 +1,22 @@
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
-import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 
-import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
-
-import { StaticJsFunction } from "../interfaces/StaticJsFunction.js";
-import { isStaticJsValue, StaticJsValue } from "../interfaces/StaticJsValue.js";
-import {
-  isStaticJsObjectLike,
-  StaticJsObjectLike,
-} from "../interfaces/StaticJsObject.js";
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
+
+import { StaticJsFunction } from "../StaticJsFunction.js";
+import { isStaticJsValue, StaticJsValue } from "../StaticJsValue.js";
+import { isStaticJsObjectLike, StaticJsObjectLike } from "../StaticJsObject.js";
 
 import StaticJsStringImpl from "./StaticJsStringImpl.js";
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 export interface StaticJsFunctionImplOptions {
   length?: number;

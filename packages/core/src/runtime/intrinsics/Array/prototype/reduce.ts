@@ -5,11 +5,11 @@ import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
 import {
   StaticJsArray,
   isStaticJsArray,
-} from "../../../types/interfaces/StaticJsArray.js";
-import { isStaticJsFunction } from "../../../types/interfaces/StaticJsFunction.js";
-import { isStaticJsNull } from "../../../types/interfaces/StaticJsNull.js";
-import { isStaticJsUndefined } from "../../../types/interfaces/StaticJsUndefined.js";
-import { StaticJsValue } from "../../../types/interfaces/StaticJsValue.js";
+} from "../../../types/StaticJsArray.js";
+import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
+import { isStaticJsNull } from "../../../types/StaticJsNull.js";
+import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
+import { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
