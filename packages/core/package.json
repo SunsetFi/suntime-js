@@ -24,6 +24,7 @@
     "check": "tsc -p tsconfig.lib.json --noEmit",
     "test": "vitest",
     "format": "prettier --write ./src",
+    "format:staged": "prettier --write",
     "lint": "eslint"
   },
   "keywords": [],
