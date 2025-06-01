@@ -1,16 +1,20 @@
 import { MemberExpression } from "@babel/types";
 
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 import { isStaticJsNull } from "../../runtime/types/interfaces/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../runtime/types/interfaces/StaticJsUndefined.js";
 
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+
+import { NormalCompletion } from "../completions/NormalCompletion.js";
+import { ThrowCompletion } from "../completions/ThrowCompletion.js";
+
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
 
 import nameNode from "./name-node.js";
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,

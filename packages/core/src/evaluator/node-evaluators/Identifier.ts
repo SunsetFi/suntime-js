@@ -2,8 +2,12 @@ import { Identifier } from "@babel/types";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
-import { isThrowCompletion } from "../completions/ThrowCompletion.js";
+
+import { NormalCompletion } from "../completions/NormalCompletion.js";
+import {
+  ThrowCompletion,
+  isThrowCompletion,
+} from "../completions/ThrowCompletion.js";
 
 export default function* identifierNodeEvaluator(
   node: Identifier,

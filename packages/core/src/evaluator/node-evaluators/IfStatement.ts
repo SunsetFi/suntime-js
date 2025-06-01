@@ -1,8 +1,11 @@
 import { IfStatement } from "@babel/types";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+
+import { Completion } from "../completions/Completion.js";
+import { NormalCompletion } from "../completions/NormalCompletion.js";
+
 import EvaluationContext from "../EvaluationContext.js";
-import { Completion, NormalCompletion } from "../completions/index.js";
 
 export default function* ifStatementNodeEvaluator(
   node: IfStatement,

@@ -1,14 +1,19 @@
 import { UnaryExpression } from "@babel/types";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import { isStaticJsObjectLike } from "../../runtime/types/interfaces/StaticJsObject.js";
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
-import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+
+import { NormalCompletion } from "../completions/NormalCompletion.js";
+import {
+  ThrowCompletion,
+  isThrowCompletion,
+} from "../completions/ThrowCompletion.js";
+
+import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
-import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
-import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 export default function* unaryExpressionNodeEvaluator(
   node: UnaryExpression,

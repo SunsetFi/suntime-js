@@ -2,10 +2,10 @@ import { FunctionExpression } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import EvaluationContext from "../EvaluationContext.js";
+import { NormalCompletion } from "../completions/NormalCompletion.js";
 
+import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { NormalCompletion } from "../completions/index.js";
 
 import createFunction from "./Function.js";
 

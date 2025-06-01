@@ -1,17 +1,21 @@
 import { BinaryExpression } from "@babel/types";
 
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+
 import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
 import { isStaticJsScalar } from "../../runtime/types/interfaces/StaticJsScalar.js";
 import { isStaticJsObjectLike } from "../../runtime/types/interfaces/StaticJsObject.js";
-
 import { isStaticJsString } from "../../runtime/types/interfaces/StaticJsString.js";
+
+import strictEquality from "../../runtime/algorithms/strict-equality.js";
+
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+
+import { NormalCompletion } from "../completions/NormalCompletion.js";
+import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
-import strictEquality from "../../runtime/algorithms/strict-equality.js";
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 export default function binaryExpressionNodeEvaluator(
   node: BinaryExpression,

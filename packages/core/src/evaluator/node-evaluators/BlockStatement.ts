@@ -9,10 +9,11 @@ import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import { NormalCompletion } from "../completions/index.js";
+
+import { NormalCompletion } from "../completions/NormalCompletion.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import setupEnvironment from "./setup-environment.js";
-import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 function* blockStatementNodeEvaluator(
   node: BlockStatement,

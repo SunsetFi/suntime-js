@@ -1,6 +1,8 @@
 import { BreakStatement } from "@babel/types";
+
+import { BreakCompletion } from "../completions/BreakCompletion.js";
+
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { BreakCompletion } from "../completions/index.js";
 
 export default function* breakStatementNodeEvaluator(
   node: BreakStatement,

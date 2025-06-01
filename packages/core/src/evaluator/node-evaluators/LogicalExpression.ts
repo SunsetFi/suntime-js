@@ -1,10 +1,13 @@
 import { LogicalExpression } from "@babel/types";
 
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+
+import { NormalCompletion } from "../completions/NormalCompletion.js";
+
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import { NormalCompletion } from "../completions/index.js";
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 export default function logicalExpressionNodeEvaluator(
   node: LogicalExpression,

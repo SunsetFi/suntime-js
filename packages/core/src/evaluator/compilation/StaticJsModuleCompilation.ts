@@ -16,9 +16,9 @@ import {
   evaluateCommands,
 } from "../evaluator-runtime.js";
 
-import StaticJsCompilation, {
-  EvaluationOptions,
-} from "./StaticJsCompilation.js";
+import { EvaluationOptions } from "./options.js";
+
+import StaticJsCompilation from "./StaticJsCompilation.js";
 
 export default class StaticJsModuleCompilation
   implements

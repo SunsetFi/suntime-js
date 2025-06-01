@@ -1,13 +1,15 @@
 import { ArrowFunctionExpression } from "@babel/types";
 
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+
 import StaticJsAstArrowFunction from "../../runtime/types/implementation/StaticJsAstArrowFunction.js";
 
 import typedMerge from "../../internal/typed-merge.js";
 
+import { NormalCompletion } from "../completions/NormalCompletion.js";
+
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
-import { NormalCompletion } from "../completions/index.js";
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 function* arrowFunctionExpressionNodeEvaluator(
   node: ArrowFunctionExpression,

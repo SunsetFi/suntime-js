@@ -1,11 +1,13 @@
 import { UpdateExpression } from "@babel/types";
 
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+
 import { isStaticJsNumber } from "../../runtime/types/interfaces/StaticJsNumber.js";
+
+import { NormalCompletion } from "../completions/NormalCompletion.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { NormalCompletion } from "../completions/index.js";
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 export default function* updateExpressionNodeEvaluator(
   node: UpdateExpression,

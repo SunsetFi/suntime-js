@@ -3,7 +3,9 @@ import { ArrayExpression } from "@babel/types";
 import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
 import { isStaticJsArray } from "../../runtime/types/interfaces/StaticJsArray.js";
 
-import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
+import { NormalCompletion } from "../completions/NormalCompletion.js";
+import { ThrowCompletion } from "../completions/ThrowCompletion.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";

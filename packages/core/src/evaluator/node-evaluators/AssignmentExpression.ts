@@ -7,7 +7,8 @@ import EvaluationGenerator from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { NormalCompletion, ThrowCompletion } from "../completions/index.js";
+import { NormalCompletion } from "../completions/NormalCompletion.js";
+import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import setLVal from "./LVal.js";
 

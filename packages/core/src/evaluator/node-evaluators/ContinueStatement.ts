@@ -1,6 +1,8 @@
 import { ContinueStatement } from "@babel/types";
+
+import { ContinueCompletion } from "../completions/ContinueCompletion.js";
+
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { ContinueCompletion } from "../completions/index.js";
 
 export default function* continueStatementNodeEvaluator(
   node: ContinueStatement,

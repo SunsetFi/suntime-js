@@ -1,10 +1,11 @@
 import { ExportNamedDeclaration } from "@babel/types";
 
-import { NormalCompletion } from "../completions/index.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+
+import { NormalCompletion } from "../completions/NormalCompletion.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 function* exportNamedDeclarationNodeEvaluator(
   node: ExportNamedDeclaration,

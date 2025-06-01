@@ -1,8 +1,4 @@
-import { StaticJsRealm } from "../../runtime/realm/interfaces/StaticJsRealm.js";
-
-export interface EvaluationOptions {
-  realm?: StaticJsRealm;
-}
+import { EvaluationOptions } from "./options.js";
 
 export default interface StaticJsCompilation<
   TResult = unknown,

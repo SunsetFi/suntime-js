@@ -1,8 +1,9 @@
 import { BooleanLiteral } from "@babel/types";
 
+import { NormalCompletion } from "../completions/NormalCompletion.js";
+
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
-import { NormalCompletion } from "../completions/index.js";
 
 export default function* booleanLiteralNodeEvaluator(
   node: BooleanLiteral,

@@ -1,5 +1,7 @@
 import { VariableDeclaration, VariableDeclarator } from "@babel/types";
 
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+
 import { StaticJsValue } from "../../runtime/types/interfaces/StaticJsValue.js";
 
 import typedMerge from "../../internal/typed-merge.js";
@@ -8,14 +10,14 @@ import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import { NormalCompletion } from "../completions/index.js";
 
-import setLVal, { environmentSetupLVal } from "./LVal.js";
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import { NormalCompletion } from "../completions/NormalCompletion.js";
 import {
   ThrowCompletion,
   isThrowCompletion,
 } from "../completions/ThrowCompletion.js";
+
+import setLVal, { environmentSetupLVal } from "./LVal.js";
 
 function* variableDeclarationNodeEvaluator(
   node: VariableDeclaration,

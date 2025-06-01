@@ -1,8 +1,9 @@
 import { ThisExpression } from "@babel/types";
 
+import { NormalCompletion } from "../completions/NormalCompletion.js";
+
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
-import { NormalCompletion } from "../completions/index.js";
 
 export default function* thisExpressionNodeEvaluator(
   _node: ThisExpression,

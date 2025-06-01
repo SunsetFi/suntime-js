@@ -1,23 +1,25 @@
 import { Node } from "@babel/types";
 
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+
 import { isStaticJsRealm } from "../../runtime/realm/interfaces/StaticJsRealm.js";
 import StaticJsRealmFactory from "../../runtime/realm/factories/StaticJsRealm.js";
 
-import EvaluationContext from "../EvaluationContext.js";
 import {
   runEvaluatorUntilCompletion,
   evaluateCommands,
 } from "../evaluator-runtime.js";
 
 import evaluateNode from "../node-evaluators/evaluate-node.js";
-
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
-
-import StaticJsCompilation, {
-  EvaluationOptions,
-} from "./StaticJsCompilation.js";
 import setupEnvironment from "../node-evaluators/setup-environment.js";
+
 import { isThrowCompletion } from "../completions/ThrowCompletion.js";
+
+import EvaluationContext from "../EvaluationContext.js";
+
+import { EvaluationOptions } from "./options.js";
+
+import StaticJsCompilation from "./StaticJsCompilation.js";
 
 export default class StaticJsEvalCompilation implements StaticJsCompilation {
   constructor(private readonly _root: Node) {}

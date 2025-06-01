@@ -5,14 +5,14 @@ import typedMerge from "../../internal/typed-merge.js";
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { NormalCompletion } from "../completions/index.js";
-
-import setupEnvironment from "./setup-environment.js";
+import { NormalCompletion } from "../completions/NormalCompletion.js";
 import { isThrowCompletion } from "../completions/ThrowCompletion.js";
+
+import EvaluationContext from "../EvaluationContext.js";
+import EvaluationGenerator from "../EvaluationGenerator.js";
+import setupEnvironment from "./setup-environment.js";
 
 function* doWhileStatementNodeEvaluator(
   node: DoWhileStatement,

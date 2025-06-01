@@ -1,5 +1,5 @@
 import { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
-import { Completion } from "./completions/index.js";
+import { Completion } from "./completions/Completion.js";
 
 type EvaluationGenerator<TReturn = Completion> = Generator<
   EvaluatorCommand,

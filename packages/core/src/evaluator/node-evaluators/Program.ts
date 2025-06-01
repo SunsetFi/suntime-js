@@ -1,16 +1,19 @@
 import { Program } from "@babel/types";
 
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+
 import typedMerge from "../../internal/typed-merge.js";
 
-import EvaluationContext from "../EvaluationContext.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import { Completion, NormalCompletion } from "../completions/index.js";
 
+import { Completion } from "../completions/Completion.js";
+import { NormalCompletion } from "../completions/NormalCompletion.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
+
+import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setupEnvironment from "./setup-environment.js";
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
-import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 function* programNodeEvaluator(
   node: Program,
