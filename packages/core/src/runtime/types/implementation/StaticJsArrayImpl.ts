@@ -1,7 +1,6 @@
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
@@ -117,7 +116,7 @@ export default class StaticJsArrayImpl
   }
 
   toJs() {
-    const length = runEvaluatorUntilCompletion(this.getLengthEvaluator());
+    const length = this.realm.invokeEvaluatorSync(this.getLengthEvaluator());
     const array = new Array(length);
     for (const key of this.getOwnKeys()) {
       const descriptor = this.getOwnPropertyDescriptor(key)!;
@@ -133,18 +132,18 @@ export default class StaticJsArrayImpl
   }
 
   toString() {
-    const length = runEvaluatorUntilCompletion(this.getLengthEvaluator());
+    const length = this.realm.invokeEvaluatorSync(this.getLengthEvaluator());
     return Array(length)
       .fill(undefined)
       .map((_, i) => {
-        const item = runEvaluatorUntilCompletion(this.getEvaluator(i));
+        const item = this.realm.invokeEvaluatorSync(this.getEvaluator(i));
         return item.toString();
       })
       .join(",");
   }
 
   toNumber() {
-    const length = runEvaluatorUntilCompletion(this.getLengthEvaluator());
+    const length = this.realm.invokeEvaluatorSync(this.getLengthEvaluator());
     // Yes, really.
     if (length === 0) {
       return 0;

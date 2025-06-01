@@ -1,7 +1,6 @@
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
@@ -43,7 +42,7 @@ export abstract class StaticJsModuleBase
 
   resolveExport(exportName: string): StaticJsResolvedBinding {
     try {
-      return runEvaluatorUntilCompletion(
+      return this._realm.invokeEvaluatorSync(
         this.resolveExportEvaluator(exportName),
       );
     } catch (e) {
@@ -58,7 +57,7 @@ export abstract class StaticJsModuleBase
 
   getExportedNames() {
     try {
-      return runEvaluatorUntilCompletion(this.getExportedNamesEvaluator());
+      return this._realm.invokeEvaluatorSync(this.getExportedNamesEvaluator());
     } catch (e) {
       AbnormalCompletion.handleToJs(e);
     }
@@ -93,7 +92,7 @@ export abstract class StaticJsModuleBase
     }
 
     try {
-      const result = runEvaluatorUntilCompletion(getExport());
+      const result = this._realm.invokeEvaluatorSync(getExport());
       return result ? result.toJs() : null;
     } catch (e) {
       AbnormalCompletion.handleToJs(e);
@@ -102,7 +101,7 @@ export abstract class StaticJsModuleBase
 
   getModuleNamespace(): Record<string, unknown> {
     try {
-      const result = runEvaluatorUntilCompletion(
+      const result = this._realm.invokeEvaluatorSync(
         this.getModuleNamespaceEvaluator(),
       );
       return result.toJs() as Record<string, unknown>;

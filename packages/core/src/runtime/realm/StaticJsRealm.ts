@@ -1,3 +1,5 @@
+import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+
 import type { StaticJsEnvironment } from "../environments/StaticJsEnvironment.js";
 
 import type { StaticJsObject } from "../types/StaticJsObject.js";
@@ -45,6 +47,14 @@ export interface StaticJsRealm {
     referencingModule: StaticJsModule,
     specifier: string,
   ): Promise<StaticJsModuleImplementation | null>;
+
+  /**
+   * Invoke the given evaluator synchronously, returning the result.
+   * @param evaluator The evaluator to invoke.
+   */
+  invokeEvaluatorSync<TReturn>(
+    evaluator: EvaluationGenerator<TReturn>,
+  ): TReturn;
 }
 
 export function isStaticJsRealm(value: unknown): value is StaticJsRealm {

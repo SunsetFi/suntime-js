@@ -45,6 +45,7 @@ import type {
 } from "../factories/StaticJsRealm.js";
 
 import type { StaticJsRealm } from "../StaticJsRealm.js";
+import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;
@@ -162,6 +163,19 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
 
     return module ?? null;
+  }
+
+  invokeEvaluatorSync<TReturn>(
+    evaluator: EvaluationGenerator<TReturn>,
+  ): TReturn {
+    const iterator = evaluateCommands(evaluator);
+
+    let iteratorResult = iterator.next();
+    while (!iteratorResult.done) {
+      iteratorResult = iterator.next();
+    }
+
+    return iteratorResult.value;
   }
 
   private _setupGlobalObject(

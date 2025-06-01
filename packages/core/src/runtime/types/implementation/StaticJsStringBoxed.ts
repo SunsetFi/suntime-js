@@ -2,7 +2,6 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import StaticJsObjectImpl from "./StaticJsObjectImpl.js";
 
-console.log("HELLO STRING BOXED", StaticJsObjectImpl);
 export default class StaticJsStringBoxed extends StaticJsObjectImpl {
   constructor(
     realm: StaticJsRealm,

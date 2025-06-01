@@ -1,10 +1,11 @@
 import type { Node } from "@babel/types";
 
-import { getEvaluator } from "./nodes.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+
+import { getEvaluator } from "./nodes.js";
 
 export interface EvaluateNodeOptions {
   label?: string;

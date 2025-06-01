@@ -3,10 +3,7 @@ import type { Node } from "@babel/types";
 import { isStaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
 import StaticJsRealmFactory from "../../runtime/realm/factories/StaticJsRealm.js";
 
-import {
-  runEvaluatorUntilCompletion,
-  evaluateCommands,
-} from "../evaluator-runtime.js";
+import { evaluateCommands } from "../evaluator-runtime.js";
 
 import { AbnormalCompletion } from "../completions/AbnormalCompletion.js";
 
@@ -36,7 +33,7 @@ export default class StaticJsEvalCompilation implements StaticJsCompilation {
     };
 
     try {
-      runEvaluatorUntilCompletion(setupEnvironment(this._root, context));
+      realm.invokeEvaluatorSync(setupEnvironment(this._root, context));
     } catch (e) {
       if (e instanceof AbnormalCompletion) {
         throw e.toJs();
@@ -45,7 +42,7 @@ export default class StaticJsEvalCompilation implements StaticJsCompilation {
     }
 
     try {
-      const result = runEvaluatorUntilCompletion(
+      const result = realm.invokeEvaluatorSync(
         evaluateNode(this._root, context),
       );
       return result?.toJs();

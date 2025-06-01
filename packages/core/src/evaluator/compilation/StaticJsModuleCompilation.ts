@@ -9,10 +9,7 @@ import { StaticJsModuleImpl } from "../../runtime/modules/implementation/StaticJ
 
 import { AbnormalCompletion } from "../completions/AbnormalCompletion.js";
 
-import {
-  runEvaluatorUntilCompletion,
-  evaluateCommands,
-} from "../evaluator-runtime.js";
+import { evaluateCommands } from "../evaluator-runtime.js";
 
 import type { EvaluationOptions } from "./options.js";
 
@@ -39,7 +36,7 @@ export default class StaticJsModuleCompilation
     await module.linkModules();
 
     try {
-      runEvaluatorUntilCompletion(
+      realm.invokeEvaluatorSync(
         module.moduleDeclarationInstantiationEvaluator(),
       );
     } catch (e) {
@@ -47,7 +44,7 @@ export default class StaticJsModuleCompilation
     }
 
     try {
-      runEvaluatorUntilCompletion(module.moduleEvaluationEvaluator());
+      realm.invokeEvaluatorSync(module.moduleEvaluationEvaluator());
     } catch (e) {
       AbnormalCompletion.handleToJs(e);
     }

@@ -5,7 +5,6 @@ import type { StaticJsObjectLike } from "../StaticJsObject.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
-console.log("HELLO OBJECT IMPL", StaticJsObjectLikeImpl);
 export default class StaticJsObjectImpl extends StaticJsObjectLikeImpl {
   constructor(
     realm: StaticJsRealm,

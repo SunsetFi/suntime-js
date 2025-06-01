@@ -1,7 +1,5 @@
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
-import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
-
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
@@ -60,7 +58,7 @@ export default abstract class StaticJsAbstractObject
   }
 
   setPrototypeOf(prototype: StaticJsObject | null): void {
-    runEvaluatorUntilCompletion(this.setPrototypeOfEvaluator(prototype));
+    this.realm.invokeEvaluatorSync(this.setPrototypeOfEvaluator(prototype));
   }
 
   *setPrototypeOfEvaluator(
@@ -77,7 +75,7 @@ export default abstract class StaticJsAbstractObject
   }
 
   preventExtensions(): void {
-    runEvaluatorUntilCompletion(this.preventExtensionsEvaluator());
+    this.realm.invokeEvaluatorSync(this.preventExtensionsEvaluator());
   }
 
   *preventExtensionsEvaluator(): EvaluationGenerator<void> {
@@ -85,7 +83,7 @@ export default abstract class StaticJsAbstractObject
   }
 
   getKeys(): string[] {
-    return runEvaluatorUntilCompletion(this.getKeysEvaluator());
+    return this.realm.invokeEvaluatorSync(this.getKeysEvaluator());
   }
 
   *getKeysEvaluator(): EvaluationGenerator<string[]> {
@@ -102,7 +100,7 @@ export default abstract class StaticJsAbstractObject
   }
 
   getEnumerableKeys(): string[] {
-    return runEvaluatorUntilCompletion(this.getEnumerableKeysEvaluator());
+    return this.realm.invokeEvaluatorSync(this.getEnumerableKeysEvaluator());
   }
 
   *getEnumerableKeysEvaluator(): EvaluationGenerator<string[]> {
@@ -119,13 +117,13 @@ export default abstract class StaticJsAbstractObject
   }
 
   getOwnKeys(): string[] {
-    return runEvaluatorUntilCompletion(this.getOwnKeysEvaluator());
+    return this.realm.invokeEvaluatorSync(this.getOwnKeysEvaluator());
   }
 
   abstract getOwnKeysEvaluator(): EvaluationGenerator<string[]>;
 
   getOwnEnumerableKeys(): string[] {
-    return runEvaluatorUntilCompletion(this.getOwnEnumerableKeysEvaluator());
+    return this.realm.invokeEvaluatorSync(this.getOwnEnumerableKeysEvaluator());
   }
 
   *getOwnEnumerableKeysEvaluator(): EvaluationGenerator<string[]> {
@@ -141,7 +139,7 @@ export default abstract class StaticJsAbstractObject
   }
 
   hasProperty(name: string): boolean {
-    return runEvaluatorUntilCompletion(this.hasPropertyEvaluator(name));
+    return this.realm.invokeEvaluatorSync(this.hasPropertyEvaluator(name));
   }
 
   *hasPropertyEvaluator(name: string): EvaluationGenerator<boolean> {
@@ -150,7 +148,7 @@ export default abstract class StaticJsAbstractObject
   }
 
   getPropertyDescriptor(name: string): StaticJsPropertyDescriptor | undefined {
-    return runEvaluatorUntilCompletion(
+    return this.realm.invokeEvaluatorSync(
       this.getPropertyDescriptorEvaluator(name),
     );
   }
@@ -170,13 +168,15 @@ export default abstract class StaticJsAbstractObject
   getOwnPropertyDescriptor(
     name: string,
   ): StaticJsPropertyDescriptor | undefined {
-    return runEvaluatorUntilCompletion(
+    return this.realm.invokeEvaluatorSync(
       this.getOwnPropertyDescriptorEvaluator(name),
     );
   }
 
   defineProperty(name: string, descriptor: StaticJsPropertyDescriptor): void {
-    runEvaluatorUntilCompletion(this.definePropertyEvaluator(name, descriptor));
+    this.realm.invokeEvaluatorSync(
+      this.definePropertyEvaluator(name, descriptor),
+    );
   }
 
   *definePropertyEvaluator(
@@ -240,7 +240,7 @@ export default abstract class StaticJsAbstractObject
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
   getProperty(name: string): StaticJsValue {
-    return runEvaluatorUntilCompletion(this.getPropertyEvaluator(name));
+    return this.realm.invokeEvaluatorSync(this.getPropertyEvaluator(name));
   }
 
   *getPropertyEvaluator(name: string): EvaluationGenerator<StaticJsValue> {
@@ -276,7 +276,9 @@ export default abstract class StaticJsAbstractObject
   }
 
   setProperty(name: string, value: StaticJsValue, strict: boolean): void {
-    runEvaluatorUntilCompletion(this.setPropertyEvaluator(name, value, strict));
+    this.realm.invokeEvaluatorSync(
+      this.setPropertyEvaluator(name, value, strict),
+    );
   }
 
   *setPropertyEvaluator(
@@ -357,7 +359,7 @@ export default abstract class StaticJsAbstractObject
   }
 
   deleteProperty(name: string): boolean {
-    return runEvaluatorUntilCompletion(this.deletePropertyEvaluator(name));
+    return this.realm.invokeEvaluatorSync(this.deletePropertyEvaluator(name));
   }
 
   *deletePropertyEvaluator(name: string): EvaluationGenerator<boolean> {

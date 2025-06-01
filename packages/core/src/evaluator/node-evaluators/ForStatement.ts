@@ -88,11 +88,10 @@ function* forStatementNodeEvaluator(
         e instanceof ContinueCompletion &&
         (e.target === null || e.target === context.label)
       ) {
-        // Continue is for us, so we skip to the next iteration
-        continue;
+        /* No-op, continue to the next iteration */
+      } else {
+        throw e; // Rethrow any other error
       }
-
-      throw e; // Rethrow any other error
     }
 
     if (node.update) {

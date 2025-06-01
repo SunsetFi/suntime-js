@@ -1,7 +1,6 @@
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 
 import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletion.js";
 import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
@@ -25,10 +24,6 @@ export interface StaticJsFunctionImplOptions {
   prototype?: StaticJsObjectLike;
   isConstructor?: boolean;
 }
-
-// FIXME:
-// Class constructors MUST be called with construct(), not call()
-// Lambdas MUST NOT BE called with construct(), only call()
 
 export default class StaticJsFunctionImpl
   extends StaticJsObjectLikeImpl
@@ -93,7 +88,7 @@ export default class StaticJsFunctionImpl
         // They won't be able to grab prototypes, but...
         const thisArg = realm.types.toStaticJsValue(this);
 
-        const result = runEvaluatorUntilCompletion(
+        const result = this.realm.invokeEvaluatorSync(
           this.callEvaluator(thisArg, ...argValues),
         );
         return result.toJs();
@@ -116,7 +111,7 @@ export default class StaticJsFunctionImpl
   }
 
   toString() {
-    const nameValue = runEvaluatorUntilCompletion(
+    const nameValue = this.realm.invokeEvaluatorSync(
       this.getPropertyEvaluator("name"),
     );
     const name = nameValue.toString();

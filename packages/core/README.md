@@ -252,3 +252,6 @@ function evaluateCancellableProgram(
   - Also reveal scopes and variables.
 - Investigate debugger for monaco
   [Example implementation?](https://github.com/polylith/monaco-debugger)
+- Stop .toX functions from using synchronous evaluation, use promises.
+  Probably should include a .toXSync
+  But don't use these internally!
