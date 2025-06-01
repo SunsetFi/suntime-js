@@ -3,8 +3,11 @@ import {
   isThrowCompletion,
 } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-import { MAX_ARRAY_LENGTH } from "../../../types/interfaces/index.js";
+
+import { MAX_ARRAY_LENGTH } from "../../../types/interfaces/StaticJsArray.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import getLength from "./utils/get-length.js";
 
 const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {

@@ -4,7 +4,7 @@ import { NormalCompletion } from "../../../evaluator/completions/NormalCompletio
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
-import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
 
 import { StaticJsModuleImplementation } from "../../modules/interfaces/StaticJsModuleImplementation.js";
 
@@ -18,7 +18,7 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsDeclarative
     StaticJsEnvironmentBinding
   >();
 
-  constructor(realm: StaticJsRealmImplementation) {
+  constructor(realm: StaticJsRealm) {
     super(realm);
   }
 

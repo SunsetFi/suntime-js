@@ -1,9 +1,9 @@
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
-import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
-import { StaticJsEnvironment } from "../interfaces/index.js";
+import { StaticJsEnvironment } from "../interfaces/StaticJsEnvironment.js";
 
 import StaticJsBaseEnvironment from "./StaticJsBaseEnvironment.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
@@ -20,7 +20,7 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
     | null;
 
   constructor(
-    realm: StaticJsRealmImplementation,
+    realm: StaticJsRealm,
     record: StaticJsEnvironment,
     parent: StaticJsEnvironment | null,
   ) {

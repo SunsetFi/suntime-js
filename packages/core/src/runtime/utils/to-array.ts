@@ -1,5 +1,5 @@
 import EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
-import { StaticJsValue } from "../types/index.js";
+import { StaticJsValue } from "../types/interfaces/StaticJsValue.js";
 
 export default function* toArray(
   val: StaticJsValue,

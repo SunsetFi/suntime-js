@@ -1,9 +1,9 @@
-import StaticJsRealmImplementation from "../../../realm/interfaces/StaticJsRealmImplementation.js";
+import { StaticJsRealm } from "../../../realm/interfaces/StaticJsRealm.js";
 import StaticJsObjectImpl from "../../../types/implementation/StaticJsObjectImpl.js";
 import { StaticJsObject } from "../../../types/interfaces/StaticJsObject.js";
 
 export default function createArrayConstructor(
-  realm: StaticJsRealmImplementation,
+  realm: StaticJsRealm,
   arrayProto: StaticJsObject,
 ) {
   const ctor = new StaticJsObjectImpl(realm, null);

@@ -1,14 +1,18 @@
+import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
+
 import {
   ThrowCompletion,
   isThrowCompletion,
 } from "../../../evaluator/completions/ThrowCompletion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
-import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
-import { StaticJsRealm } from "../../realm/index.js";
-import { StaticJsObject, StaticJsValue } from "../../types/index.js";
 
-import { StaticJsEnvironment } from "../interfaces/index.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
+
+import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
+import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
+
+import { StaticJsEnvironment } from "../interfaces/StaticJsEnvironment.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";

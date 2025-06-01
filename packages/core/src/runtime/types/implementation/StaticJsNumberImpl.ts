@@ -1,4 +1,4 @@
-import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
 
 import { StaticJsNumber } from "../interfaces/StaticJsNumber.js";
 import { StaticJsObject } from "../interfaces/StaticJsObject.js";
@@ -12,7 +12,7 @@ export default class StaticJsNumberImpl
 {
   private readonly _value: number;
 
-  constructor(realm: StaticJsRealmImplementation, value: number) {
+  constructor(realm: StaticJsRealm, value: number) {
     if (typeof value !== "number") {
       throw new TypeError(
         `StaticJsNumberImpl constructor expects a number, got ${typeof value}`,

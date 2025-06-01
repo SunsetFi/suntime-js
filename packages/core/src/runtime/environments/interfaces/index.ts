@@ -1,1 +1,1 @@
-export { type default as StaticJsEnvironment } from "./StaticJsEnvironment.js";
+export * from "./StaticJsEnvironment.js";

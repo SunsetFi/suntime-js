@@ -4,13 +4,11 @@ import {
 } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 
-import {
-  isStaticJsNull,
-  isStaticJsObjectLike,
-  isStaticJsScalar,
-  isStaticJsUndefined,
-  validateStaticJsPropertyDescriptor,
-} from "../../../types/index.js";
+import { isStaticJsNull } from "../../../types/interfaces/StaticJsNull.js";
+import { isStaticJsObjectLike } from "../../../types/interfaces/StaticJsObject.js";
+import { isStaticJsScalar } from "../../../types/interfaces/StaticJsScalar.js";
+import { validateStaticJsPropertyDescriptor } from "../../../types/interfaces/StaticJsPropertyDescriptor.js";
+import { isStaticJsUndefined } from "../../../types/interfaces/StaticJsUndefined.js";
 
 import toPropertyDescriptor from "../../../utils/to-property-descriptor.js";
 

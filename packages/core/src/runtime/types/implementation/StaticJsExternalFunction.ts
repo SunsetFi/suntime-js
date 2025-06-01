@@ -2,7 +2,7 @@ import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletion.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
-import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
 
 import { StaticJsValue } from "../interfaces/StaticJsValue.js";
 
@@ -10,7 +10,7 @@ import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
 
 export default class StaticJsExternalFunction extends StaticJsFunctionImpl {
   constructor(
-    realm: StaticJsRealmImplementation,
+    realm: StaticJsRealm,
     name: string | null,
     private readonly _func: (...args: unknown[]) => unknown,
   ) {

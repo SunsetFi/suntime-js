@@ -1,6 +1,6 @@
 import { ReturnCompletion } from "../../evaluator/completions/ReturnCompletion.js";
 
-import StaticJsRealmImplementation from "../realm/interfaces/StaticJsRealmImplementation.js";
+import { StaticJsRealm } from "../realm/interfaces/StaticJsRealm.js";
 
 import { StaticJsObject } from "../types/interfaces/StaticJsObject.js";
 import { StaticJsValue } from "../types/interfaces/StaticJsValue.js";
@@ -8,7 +8,7 @@ import { StaticJsValue } from "../types/interfaces/StaticJsValue.js";
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
 export function populateNumberPrototype(
-  realm: StaticJsRealmImplementation,
+  realm: StaticJsRealm,
   proto: StaticJsObject,
   functionProto: StaticJsObject,
 ) {
@@ -113,7 +113,7 @@ export function populateNumberPrototype(
 }
 
 export function createNumberConstructor(
-  realm: StaticJsRealmImplementation,
+  realm: StaticJsRealm,
   numberProto: StaticJsObject,
   functionProto: StaticJsObject,
 ) {

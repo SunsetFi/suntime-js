@@ -1,10 +1,10 @@
-import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
 
 import StaticJsObjectImpl from "./StaticJsObjectImpl.js";
 
 export default class StaticJsStringBoxed extends StaticJsObjectImpl {
   constructor(
-    realm: StaticJsRealmImplementation,
+    realm: StaticJsRealm,
     private readonly _value: string,
   ) {
     super(realm, realm.types.prototypes.stringProto);

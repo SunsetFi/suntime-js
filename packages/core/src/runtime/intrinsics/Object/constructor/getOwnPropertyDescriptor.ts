@@ -1,10 +1,8 @@
 import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 
-import {
-  isStaticJsNull,
-  isStaticJsScalar,
-  isStaticJsUndefined,
-} from "../../../types/index.js";
+import { isStaticJsNull } from "../../../types/interfaces/StaticJsNull.js";
+import { isStaticJsScalar } from "../../../types/interfaces/StaticJsScalar.js";
+import { isStaticJsUndefined } from "../../../types/interfaces/StaticJsUndefined.js";
 
 import {
   isStaticJsAccessorPropertyDescriptor,

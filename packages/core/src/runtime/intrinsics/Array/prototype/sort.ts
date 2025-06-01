@@ -1,3 +1,5 @@
+import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
+
 import hasOwnProperty from "../../../../internal/has-own-property.js";
 
 import EvaluationGenerator from "../../../../evaluator/EvaluationGenerator.js";
@@ -8,13 +10,10 @@ import {
 } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { NormalCompletion } from "../../../../evaluator/completions/NormalCompletion.js";
 import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
 
-import {
-  isStaticJsFunction,
-  isStaticJsUndefined,
-  StaticJsValue,
-} from "../../../types/index.js";
+import { isStaticJsFunction } from "../../../types/interfaces/StaticJsFunction.js";
+import { isStaticJsUndefined } from "../../../types/interfaces/StaticJsUndefined.js";
+import { StaticJsValue } from "../../../types/interfaces/StaticJsValue.js";
 
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";

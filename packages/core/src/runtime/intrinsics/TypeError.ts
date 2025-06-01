@@ -1,6 +1,6 @@
 import { ReturnCompletion } from "../../evaluator/completions/ReturnCompletion.js";
 
-import { StaticJsRealm } from "../realm/index.js";
+import { StaticJsRealm } from "../realm/interfaces/StaticJsRealm.js";
 
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 import { StaticJsObject } from "../types/interfaces/StaticJsObject.js";

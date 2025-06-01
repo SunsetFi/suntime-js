@@ -1,4 +1,5 @@
-import { isStaticJsObjectLike, StaticJsValue } from "../types/index.js";
+import { isStaticJsObjectLike } from "../types/interfaces/StaticJsObject.js";
+import { StaticJsValue } from "../types/interfaces/StaticJsValue.js";
 
 export default function strictEquality(a: StaticJsValue, b: StaticJsValue) {
   if (a.runtimeTypeOf !== b.runtimeTypeOf) {

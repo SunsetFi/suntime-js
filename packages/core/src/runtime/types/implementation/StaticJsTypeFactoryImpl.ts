@@ -1,4 +1,4 @@
-import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
 
 import { StaticJsArray } from "../interfaces/StaticJsArray.js";
 import { StaticJsFunction } from "../interfaces/StaticJsFunction.js";
@@ -39,7 +39,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private _true: StaticJsBoolean;
 
   constructor(
-    private readonly _realm: StaticJsRealmImplementation,
+    private readonly _realm: StaticJsRealm,
     private readonly _prototypes: Prototypes,
   ) {
     this._zero = new StaticJsNumberImpl(_realm, 0);

@@ -1,3 +1,5 @@
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
@@ -6,10 +8,11 @@ import {
   isThrowCompletion,
 } from "../../../evaluator/completions/ThrowCompletion.js";
 
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
 
+import { StaticJsObjectLike } from "../../types/interfaces/StaticJsObject.js";
+import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
-import { StaticJsValue, StaticJsObjectLike } from "../../types/index.js";
 
 import { StaticJsModule } from "../interfaces/StaticJsModule.js";
 import {
@@ -17,7 +20,6 @@ import {
   StaticJsModuleStatus,
 } from "../interfaces/StaticJsModuleImplementation.js";
 
-import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
 import { StaticJsResolvedBinding } from "../interfaces/StaticJsResolvedBinding.js";
 
 export abstract class StaticJsModuleBase
@@ -27,7 +29,7 @@ export abstract class StaticJsModuleBase
 
   constructor(
     protected readonly _name: string,
-    protected readonly _realm: StaticJsRealmImplementation,
+    protected readonly _realm: StaticJsRealm,
   ) {}
 
   get name(): string {

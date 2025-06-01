@@ -4,7 +4,7 @@ import { NormalCompletion } from "../../../evaluator/completions/NormalCompletio
 import { StaticJsObjectLike } from "../../types/interfaces/StaticJsObject.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
-import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
 
 import { StaticJsModule } from "./StaticJsModule.js";
 
@@ -64,7 +64,7 @@ export function isStaticJsModuleImplementation(
 }
 
 export function staticJsModuleToImplementation(
-  realm: StaticJsRealmImplementation,
+  realm: StaticJsRealm,
   module: StaticJsModule,
 ): StaticJsModuleImplementation {
   if (isStaticJsModuleImplementation(module)) {

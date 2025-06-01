@@ -1,11 +1,10 @@
 import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 
-import {
-  isStaticJsNull,
-  isStaticJsObjectLike,
-  isStaticJsScalar,
-  isStaticJsUndefined,
-} from "../../../types/index.js";
+import { isStaticJsNull } from "../../../types/interfaces/StaticJsNull.js";
+import { isStaticJsObjectLike } from "../../../types/interfaces/StaticJsObject.js";
+import { isStaticJsScalar } from "../../../types/interfaces/StaticJsScalar.js";
+import { isStaticJsUndefined } from "../../../types/interfaces/StaticJsUndefined.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorHasOwnDeclaration: IntrinsicPropertyDeclaration = {

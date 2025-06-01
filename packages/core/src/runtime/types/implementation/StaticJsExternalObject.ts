@@ -2,7 +2,7 @@ import { Writable } from "type-fest";
 
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
-import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
 
 import {
   StaticJsPropertyDescriptor,
@@ -24,7 +24,7 @@ import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
  */
 export default class StaticJsExternalObject extends StaticJsAbstractObject {
   constructor(
-    realm: StaticJsRealmImplementation,
+    realm: StaticJsRealm,
     private readonly _obj: object,
   ) {
     super(realm, realm.types.prototypes.objectProto);

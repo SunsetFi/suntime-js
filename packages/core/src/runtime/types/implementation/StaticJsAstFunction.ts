@@ -6,26 +6,28 @@ import {
   RestElement,
 } from "@babel/types";
 
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+
 import setLVal from "../../../evaluator/node-evaluators/LVal.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
+import { isThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
+
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
 
 import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 
-import { setupEnvironment } from "../../../evaluator/node-evaluators/index.js";
+import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
-import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
 
-import { StaticJsValue } from "../interfaces/index.js";
+import { StaticJsValue } from "../interfaces/StaticJsValue.js";
 
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-import { isThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
 export type StaticJsAstFunctionArgumentDeclaration =
   | Identifier
@@ -34,7 +36,7 @@ export type StaticJsAstFunctionArgumentDeclaration =
 
 export default class StaticJsAstFunction extends StaticJsFunctionImpl {
   constructor(
-    realm: StaticJsRealmImplementation,
+    realm: StaticJsRealm,
     name: string | null,
     private readonly _argumentDeclarations: StaticJsAstFunctionArgumentDeclaration[],
     private readonly _context: EvaluationContext,

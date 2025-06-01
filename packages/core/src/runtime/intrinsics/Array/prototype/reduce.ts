@@ -3,13 +3,13 @@ import { ReturnCompletion } from "../../../../evaluator/completions/ReturnComple
 import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
 
 import {
-  isStaticJsArray,
-  isStaticJsFunction,
-  isStaticJsNull,
-  isStaticJsUndefined,
   StaticJsArray,
-  StaticJsValue,
-} from "../../../types/index.js";
+  isStaticJsArray,
+} from "../../../types/interfaces/StaticJsArray.js";
+import { isStaticJsFunction } from "../../../types/interfaces/StaticJsFunction.js";
+import { isStaticJsNull } from "../../../types/interfaces/StaticJsNull.js";
+import { isStaticJsUndefined } from "../../../types/interfaces/StaticJsUndefined.js";
+import { StaticJsValue } from "../../../types/interfaces/StaticJsValue.js";
 
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 

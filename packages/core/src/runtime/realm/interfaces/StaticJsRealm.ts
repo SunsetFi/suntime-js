@@ -1,4 +1,4 @@
-import StaticJsEnvironment from "../../environments/interfaces/StaticJsEnvironment.js";
+import { StaticJsEnvironment } from "../../environments/interfaces/StaticJsEnvironment.js";
 
 import { StaticJsObject } from "../../types/interfaces/StaticJsObject.js";
 import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";

@@ -1,4 +1,5 @@
-import { StaticJsNull, StaticJsObject } from "../interfaces/index.js";
+import { StaticJsNull } from "../interfaces/StaticJsNull.js";
+import { StaticJsObject } from "../interfaces/StaticJsObject.js";
 
 export default class StaticJsNullImpl implements StaticJsNull {
   static readonly Instance = new StaticJsNullImpl();

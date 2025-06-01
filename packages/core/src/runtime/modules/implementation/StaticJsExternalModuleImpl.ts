@@ -2,12 +2,13 @@ import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
-import { StaticJsObjectLike } from "../../types/index.js";
+import { StaticJsObjectLike } from "../../types/interfaces/StaticJsObject.js";
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
-import { StaticJsModule } from "../interfaces/StaticJsModule.js";
-import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
+
 import { StaticJsResolvedBinding } from "../interfaces/StaticJsResolvedBinding.js";
+import { StaticJsModule } from "../interfaces/StaticJsModule.js";
 
 import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
 
@@ -20,7 +21,7 @@ export default class StaticJsExternalModuleImpl
   constructor(
     name: string,
     private _obj: Record<string, unknown>,
-    realm: StaticJsRealmImplementation,
+    realm: StaticJsRealm,
   ) {
     super(name, realm);
     this._exportKeys = Object.freeze([...Object.keys(_obj)]);

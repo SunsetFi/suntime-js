@@ -1,4 +1,4 @@
-import { StaticJsRealm } from "../../realm/index.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
 
 export default abstract class StaticJsAbstractPrimitive {
   constructor(private readonly _realm: StaticJsRealm) {}

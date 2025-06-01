@@ -1,8 +1,12 @@
 import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+
 import toInteger from "../../../algorithms/to-integer.js";
-import { isStaticJsUndefined } from "../../../types/index.js";
+
+import { isStaticJsUndefined } from "../../../types/interfaces/StaticJsUndefined.js";
+
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import getLength from "./utils/get-length.js";
 
 const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {

@@ -1,6 +1,6 @@
 import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 
-import { StaticJsValue } from "../../../types/index.js";
+import { StaticJsValue } from "../../../types/interfaces/StaticJsValue.js";
 
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 

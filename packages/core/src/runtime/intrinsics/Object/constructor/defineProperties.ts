@@ -4,10 +4,8 @@ import {
 } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
 
-import {
-  isStaticJsObjectLike,
-  validateStaticJsPropertyDescriptor,
-} from "../../../types/index.js";
+import { isStaticJsObjectLike } from "../../../types/interfaces/StaticJsObject.js";
+import { validateStaticJsPropertyDescriptor } from "../../../types/interfaces/StaticJsPropertyDescriptor.js";
 
 import toPropertyDescriptor from "../../../utils/to-property-descriptor.js";
 

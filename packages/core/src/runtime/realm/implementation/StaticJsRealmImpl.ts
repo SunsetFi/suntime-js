@@ -6,14 +6,14 @@ import hasOwnProperty from "../../../internal/has-own-property.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
-import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/index.js";
-import { StaticJsEnvironment } from "../../environments/index.js";
+import { StaticJsEnvironment } from "../../environments/interfaces/StaticJsEnvironment.js";
+import StaticJsGlobalEnvironmentRecord from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 
 import {
   Instrinsics,
   createIntrinsics,
   defineGlobalProperties,
-} from "../../intrinsics/index.js";
+} from "../../intrinsics/create-intrinsics.js";
 
 import StaticJsTypeFactoryImpl from "../../types/implementation/StaticJsTypeFactoryImpl.js";
 import StaticJsTypeFactory from "../../types/interfaces/StaticJsTypeFactory.js";
@@ -46,9 +46,9 @@ import {
   StaticJsRealmOptions,
 } from "../factories/StaticJsRealm.js";
 
-import StaticJsRealmImplementation from "../interfaces/StaticJsRealmImplementation.js";
+import { StaticJsRealm } from "../interfaces/StaticJsRealm.js";
 
-export default class StaticJsRealmImpl implements StaticJsRealmImplementation {
+export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;
   private readonly _globalEnv: StaticJsEnvironment;
   private readonly _typeFactory: StaticJsTypeFactory;
@@ -194,7 +194,7 @@ export default class StaticJsRealmImpl implements StaticJsRealmImplementation {
 }
 
 function realmModuleToModule(
-  realm: StaticJsRealmImplementation,
+  realm: StaticJsRealm,
   specifier: string,
   module: StaticJsRealmModule,
 ): StaticJsModuleImplementation {
@@ -224,7 +224,7 @@ function realmModuleToModule(
 }
 
 function globalDeclToDescriptor(
-  realm: StaticJsRealmImplementation,
+  realm: StaticJsRealm,
   descriptor: StaticJsRealmGlobalDeclProperty,
 ) {
   const descr: Writable<

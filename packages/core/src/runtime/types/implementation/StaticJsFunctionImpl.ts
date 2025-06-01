@@ -4,7 +4,7 @@ import { Completion } from "../../../evaluator/completions/Completion.js";
 import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 
-import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
 
 import { StaticJsFunction } from "../interfaces/StaticJsFunction.js";
 import { isStaticJsValue, StaticJsValue } from "../interfaces/StaticJsValue.js";
@@ -39,7 +39,7 @@ export default class StaticJsFunctionImpl
   private _toJs: unknown | null = null;
 
   constructor(
-    realm: StaticJsRealmImplementation,
+    realm: StaticJsRealm,
     name: string | null,
     private readonly _call: (
       thisArg: StaticJsValue,

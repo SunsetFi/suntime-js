@@ -1,13 +1,15 @@
+import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
+
 import {
   ThrowCompletion,
   isThrowCompletion,
 } from "../../../../evaluator/completions/ThrowCompletion.js";
 import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
 
-import { isStaticJsFunction } from "../../../types/index.js";
+import { isStaticJsFunction } from "../../../types/interfaces/StaticJsFunction.js";
 
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import getLength from "./utils/get-length.js";
 
 const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {

@@ -2,7 +2,7 @@ import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import { StaticJsValue } from "../../types/interfaces/StaticJsValue.js";
 
-import StaticJsEnvironment from "../interfaces/StaticJsEnvironment.js";
+import { StaticJsEnvironment } from "../interfaces/StaticJsEnvironment.js";
 
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 

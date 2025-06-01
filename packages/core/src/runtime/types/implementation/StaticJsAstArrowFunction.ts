@@ -6,6 +6,8 @@ import {
   RestElement,
 } from "@babel/types";
 
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+
 import setLVal from "../../../evaluator/node-evaluators/LVal.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
@@ -13,20 +15,20 @@ import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import { isThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+
+import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
+
+import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 
-import { setupEnvironment } from "../../../evaluator/node-evaluators/index.js";
-import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
+import { StaticJsRealm } from "../../realm/interfaces/StaticJsRealm.js";
 
-import StaticJsRealmImplementation from "../../realm/interfaces/StaticJsRealmImplementation.js";
-
-import { StaticJsValue } from "../interfaces/index.js";
+import { StaticJsValue } from "../interfaces/StaticJsValue.js";
 
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-import { isThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
 export type StaticJsAstArrowFunctionArgumentDeclaration =
   | Identifier
@@ -35,7 +37,7 @@ export type StaticJsAstArrowFunctionArgumentDeclaration =
 
 export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
   constructor(
-    realm: StaticJsRealmImplementation,
+    realm: StaticJsRealm,
     name: string,
     private readonly _argumentDeclarations: StaticJsAstArrowFunctionArgumentDeclaration[],
     private readonly _context: EvaluationContext,

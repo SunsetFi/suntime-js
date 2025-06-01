@@ -1,14 +1,17 @@
 import { Writable } from "type-fest";
+
 import EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
-import { StaticJsRealm } from "../realm/index.js";
+
+import { StaticJsRealm } from "../realm/interfaces/StaticJsRealm.js";
+
 import {
-  isStaticJsFunction,
-  StaticJsObjectLike,
   StaticJsPropertyDescriptor,
   StaticJsAccessorPropertyDescriptor,
   StaticJsDataPropertyDescriptor,
-} from "../types/index.js";
+} from "../types/interfaces/StaticJsPropertyDescriptor.js";
+import { isStaticJsFunction } from "../types/interfaces/StaticJsFunction.js";
+import { StaticJsObjectLike } from "../types/interfaces/StaticJsObject.js";
 
 export default function* toPropertyDescriptor(
   realm: StaticJsRealm,
