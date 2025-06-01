@@ -1,8 +1,6 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
-import { StaticJsValue } from "../../../types/StaticJsValue.js";
-
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorValuesDeclaration: IntrinsicPropertyDeclaration = {
   name: "values",
@@ -18,7 +16,7 @@ const objectCtorValuesDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const result = realm.types.array(values);
-    return ReturnCompletion(result);
+    return result;
   },
 };
 

@@ -1,18 +1,20 @@
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
 
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
+import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletion.js";
+import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
 
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
 
-import { StaticJsFunction } from "../StaticJsFunction.js";
-import { isStaticJsValue, StaticJsValue } from "../StaticJsValue.js";
-import { isStaticJsObjectLike, StaticJsObjectLike } from "../StaticJsObject.js";
+import type { StaticJsFunction } from "../StaticJsFunction.js";
+import type { StaticJsValue } from "../StaticJsValue.js";
+import { isStaticJsValue } from "../StaticJsValue.js";
+import type { StaticJsObjectLike } from "../StaticJsObject.js";
+import { isStaticJsObjectLike } from "../StaticJsObject.js";
 
 import StaticJsStringImpl from "./StaticJsStringImpl.js";
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
@@ -42,7 +44,7 @@ export default class StaticJsFunctionImpl
     private readonly _call: (
       thisArg: StaticJsValue,
       ...args: StaticJsValue[]
-    ) => EvaluationGenerator<Completion>,
+    ) => EvaluationGenerator,
     { isConstructor, length, prototype }: StaticJsFunctionImplOptions = {},
   ) {
     super(realm, prototype ?? realm.types.prototypes.functionProto);
@@ -81,7 +83,6 @@ export default class StaticJsFunctionImpl
   toJs(): unknown {
     if (!this._toJs) {
       const realm = this.realm;
-      const _call = this._call;
       this._toJs = function (...args: unknown[]) {
         const argValues = args.map((value) =>
           realm.types.toStaticJsValue(value),
@@ -91,24 +92,11 @@ export default class StaticJsFunctionImpl
         // At the very least, this is dangerous, and might inadvertently leak stuff from the runtime into the scripting engine.
         // They won't be able to grab prototypes, but...
         const thisArg = realm.types.toStaticJsValue(this);
-        const result = runEvaluatorUntilCompletion(
-          _call(thisArg, ...argValues),
-        );
-        switch (result.type) {
-          case "throw":
-            // FIXME: wrap the error
-            throw result.value.toJs();
-          case "return":
-          case "normal":
-            return (result.value ?? realm.types.undefined).toJs();
-          case "continue":
-          case "break":
-            throw new Error(
-              "Invalid completion type: Functions must end with return or throw.",
-            );
-        }
 
-        return undefined;
+        const result = runEvaluatorUntilCompletion(
+          this.callEvaluator(thisArg, ...argValues),
+        );
+        return result.toJs();
       };
 
       for (const key of this.getOwnKeys()) {
@@ -147,7 +135,7 @@ export default class StaticJsFunctionImpl
   *callEvaluator(
     thisArg: StaticJsValue,
     ...args: StaticJsValue[]
-  ): EvaluationGenerator {
+  ): EvaluationGenerator<StaticJsValue> {
     if (!isStaticJsValue(thisArg)) {
       throw new Error("thisArg must be a StaticJsValue instance.");
     }
@@ -156,18 +144,23 @@ export default class StaticJsFunctionImpl
       throw new Error("Arguments must be StaticJsValue instances.");
     }
 
-    const callResult = yield* this._call(thisArg, ...args);
-    switch (callResult.type) {
-      case "normal":
-      case "return":
-        return NormalCompletion(callResult.value ?? this.realm.types.undefined);
-      case "throw":
-        return callResult;
+    try {
+      // For convienence, we support returning normal completions
+      // as being equivalent to a return completion.
+      const result = yield* this._call(thisArg, ...args);
+      return result ?? this.realm.types.undefined;
+    } catch (e) {
+      if (e instanceof ReturnCompletion) {
+        return e.value ?? this.realm.types.undefined;
+      }
 
-      default:
+      if (e instanceof AbnormalCompletion) {
         throw new StaticJsEngineError(
-          `Invalid function completion type: ${callResult.type}. Expected normal, throw, or return.`,
+          `Unexpected completion in function: ${e.type}`,
         );
+      }
+
+      throw e;
     }
   }
 
@@ -180,10 +173,10 @@ export default class StaticJsFunctionImpl
 
     const thisObj = this.realm.types.object(undefined, proto);
     const result = yield* this.callEvaluator(thisObj, ...args);
-    if (result.type === "normal" && isStaticJsObjectLike(result.value)) {
-      return NormalCompletion(result.value);
+    if (result && isStaticJsObjectLike(result)) {
+      return result;
     }
 
-    return NormalCompletion(thisObj);
+    return thisObj;
   }
 }

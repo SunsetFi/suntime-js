@@ -1,12 +1,7 @@
-import { CompletionBase } from "./CompletionBase.js";
+import { AbnormalCompletion } from "./AbnormalCompletion.js";
 
-export interface BreakCompletion extends CompletionBase {
-  type: "break";
-  target: string | null;
-}
-export function BreakCompletion(target: string | null = null): BreakCompletion {
-  return {
-    type: "break",
-    target,
-  };
+export class BreakCompletion extends AbnormalCompletion {
+  constructor(public readonly target: string | null = null) {
+    super("break");
+  }
 }

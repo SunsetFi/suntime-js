@@ -1,22 +1,21 @@
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsValue } from "../StaticJsValue.js";
+import type { StaticJsValue } from "../StaticJsValue.js";
+import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 import {
   isStaticJsDataPropertyDescriptor,
   isStaticJsAccessorPropertyDescriptor,
-  StaticJsPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
-import { StaticJsArray } from "../StaticJsArray.js";
+import type { StaticJsArray } from "../StaticJsArray.js";
 
 import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
 
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 export default class StaticJsArrayImpl
   extends StaticJsObjectLikeImpl
@@ -62,20 +61,8 @@ export default class StaticJsArrayImpl
     if (isStaticJsDataPropertyDescriptor(descr)) {
       return descr.value.toNumber();
     } else if (isStaticJsAccessorPropertyDescriptor(descr) && descr.get) {
-      const getCompletion = yield* descr.get.callEvaluator(this);
-      if (getCompletion.type === "throw") {
-        // FIXME: Untangle throw completions from non completion functions
-        throw new Error(
-          `Error getting length of array: ${getCompletion.value}`,
-        );
-      }
-      if (getCompletion.type !== "normal" || !getCompletion.value) {
-        throw new StaticJsEngineError(
-          `Expected number completion for length, got ${getCompletion.type}`,
-        );
-      }
-
-      return getCompletion.value.toNumber();
+      const result = yield* descr.get.callEvaluator(this);
+      return result.toNumber();
     } else {
       return 0;
     }

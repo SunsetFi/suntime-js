@@ -1,11 +1,8 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-
 import toInteger from "../../../algorithms/to-integer.js";
 
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
 
@@ -19,11 +16,8 @@ const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const length = yield* getLength(realm, thisObj);
-    if (isThrowCompletion(length)) {
-      return length;
-    }
     if (length <= 0) {
-      return ReturnCompletion(thisObj);
+      return thisObj;
     }
 
     let start = 0;
@@ -37,7 +31,7 @@ const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
     start = Math.max(0, start);
 
     if (start >= length) {
-      return ReturnCompletion(thisObj);
+      return thisObj;
     }
 
     let end = length;
@@ -58,7 +52,7 @@ const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
       yield* thisObj.setPropertyEvaluator(String(i), value, true);
     }
 
-    return ReturnCompletion(thisObj);
+    return thisObj;
   },
 };
 

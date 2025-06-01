@@ -1,10 +1,8 @@
-import { StaticJsRealm } from "../../../realm/index.js";
-import { StaticJsObject } from "../../../types/index.js";
+import type { StaticJsRealm } from "../../../realm/index.js";
+import type { StaticJsObject } from "../../../types/index.js";
 
-import {
-  applyIntrinsicProperties,
-  IntrinsicPropertyDeclaration,
-} from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import { applyIntrinsicProperties } from "../../utils.js";
 
 import arrayProtoAtDeclaration from "./at.js";
 import arrayProtoConcatDeclaration from "./concat.js";

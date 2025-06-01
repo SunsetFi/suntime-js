@@ -1,14 +1,8 @@
-import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { AbnormalCompletion } from "./AbnormalCompletion.js";
 
-import { CompletionBase } from "./CompletionBase.js";
-
-export interface ReturnCompletion extends CompletionBase {
-  type: "return";
-  value: StaticJsValue;
-}
-export function ReturnCompletion(value: StaticJsValue): ReturnCompletion {
-  return {
-    type: "return",
-    value,
-  };
+export class ReturnCompletion extends AbnormalCompletion {
+  constructor(public readonly value: StaticJsValue | null = null) {
+    super("return");
+  }
 }

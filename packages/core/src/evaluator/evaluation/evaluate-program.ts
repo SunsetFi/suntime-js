@@ -1,4 +1,4 @@
-import {
+import type {
   ProgramCompilationOptions,
   EvaluationOptions,
 } from "../compilation/options.js";

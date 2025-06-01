@@ -1,6 +1,5 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import getLength from "./utils/get-length.js";
 
 const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
@@ -9,13 +8,10 @@ const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
     const length = yield* getLength(realm, thisObj);
-    if (isThrowCompletion(length)) {
-      return length;
-    }
 
     if (length <= 0) {
       yield* thisObj.setPropertyEvaluator("length", realm.types.zero, true);
-      return ReturnCompletion(realm.types.undefined);
+      return realm.types.undefined;
     }
 
     const value = yield* thisObj.getPropertyEvaluator("0");
@@ -42,7 +38,7 @@ const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
       true,
     );
 
-    return ReturnCompletion(value);
+    return value;
   },
 };
 

@@ -1,9 +1,7 @@
-import { ReturnCompletion } from "../../evaluator/completions/ReturnCompletion.js";
-
-import { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
-import { StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 export function populateReferenceErrorPrototype(
   _realm: StaticJsRealm,
@@ -39,7 +37,7 @@ export default function createReferenceErrorConstructor(
         realm.types.prototypes.errorProto,
       );
 
-      return ReturnCompletion(error);
+      return error;
     },
     { prototype: functionProto },
   );

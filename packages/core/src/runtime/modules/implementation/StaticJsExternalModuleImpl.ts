@@ -1,16 +1,16 @@
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
-import { StaticJsObjectLike } from "../../types/StaticJsObject.js";
-import { StaticJsValue } from "../../types/StaticJsValue.js";
+import type { StaticJsObjectLike } from "../../types/StaticJsObject.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsResolvedBinding } from "../StaticJsResolvedBinding.js";
-import { StaticJsModule } from "../StaticJsModule.js";
+import type { StaticJsResolvedBinding } from "../StaticJsResolvedBinding.js";
+import type { StaticJsModule } from "../StaticJsModule.js";
 
 import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
+import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
+import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
 
 export default class StaticJsExternalModuleImpl
   extends StaticJsModuleBase
@@ -46,12 +46,12 @@ export default class StaticJsExternalModuleImpl
 
   *moduleDeclarationInstantiationEvaluator(): EvaluationGenerator {
     // No-op for external modules.
-    return NormalCompletion();
+    return null;
   }
 
   *moduleEvaluationEvaluator(): EvaluationGenerator {
     // No-op for external modules.
-    return NormalCompletion();
+    return null;
   }
 
   *resolveExportEvaluator(
@@ -73,7 +73,7 @@ export default class StaticJsExternalModuleImpl
 
   *getOwnBindingValueEvaluator(
     bindingName: string,
-  ): EvaluationGenerator<StaticJsValue | ThrowCompletion | null> {
+  ): EvaluationGenerator<StaticJsValue | null> {
     if (bindingName === "*default*") {
       bindingName = "default";
     }
@@ -84,9 +84,22 @@ export default class StaticJsExternalModuleImpl
     return this._realm.types.toStaticJsValue(this._obj[bindingName]);
   }
 
-  getModuleNamespaceEvaluator(): EvaluationGenerator<
-    StaticJsObjectLike | ThrowCompletion
-  > {
-    throw new Error("Method not implemented.");
+  *getModuleNamespaceEvaluator(): EvaluationGenerator<StaticJsObjectLike> {
+    const types = this._realm.types;
+    const obj = this._obj;
+
+    const properties: Record<string, StaticJsPropertyDescriptor> = {};
+    for (const key of this._exportKeys) {
+      properties[key] = {
+        get: new StaticJsFunctionImpl(this._realm, key, function* () {
+          return types.toStaticJsValue(obj[key]);
+        }),
+        writable: false,
+        enumerable: true,
+        configurable: false,
+      };
+    }
+
+    return this._realm.types.object(properties);
   }
 }

@@ -1,15 +1,10 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../../../../evaluator/completions/ThrowCompletion.js";
-import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
+import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
-import { StaticJsValue } from "../../../types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
 
@@ -23,7 +18,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
     }
     if (!isStaticJsFunction(callback)) {
       // Yes, this error message is different from all the others!
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         realm.types.error(
           "TypeError",
           "flatMap mapper function is not callable",
@@ -32,9 +27,6 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const length = yield* getLength(realm, thisObj);
-    if (isThrowCompletion(length)) {
-      return length;
-    }
 
     const items: StaticJsValue[] = [];
     for (let i = 0; i < length; i++) {
@@ -45,22 +37,12 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const currentItem = yield* thisObj.getPropertyEvaluator(String(i));
-      const callCompletion = yield* callback.callEvaluator(
+      const result = yield* callback.callEvaluator(
         thisObj,
         currentItem,
         realm.types.number(i),
         thisObj,
       );
-      if (callCompletion.type === "throw") {
-        return callCompletion;
-      }
-      if (callCompletion.type !== "normal" || !callCompletion.value) {
-        throw new StaticJsEngineError(
-          "Expected Array.prototype.flatMap callback to return a normal completion",
-        );
-      }
-
-      const result = callCompletion.value;
       // flatMap does not flatten non-array array-likes.
       if (isStaticJsArray(result)) {
         const resultArray = yield* result.sliceNativeEvaluator();
@@ -71,7 +53,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       }
     }
 
-    return ReturnCompletion(realm.types.array(items));
+    return realm.types.array(items);
   },
 };
 

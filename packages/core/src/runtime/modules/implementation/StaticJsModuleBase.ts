@@ -1,26 +1,23 @@
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
-import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../../../evaluator/completions/ThrowCompletion.js";
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsObjectLike } from "../../types/StaticJsObject.js";
-import { StaticJsValue } from "../../types/StaticJsValue.js";
+import type { StaticJsObjectLike } from "../../types/StaticJsObject.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
 
-import { StaticJsModule } from "../StaticJsModule.js";
-import {
+import type { StaticJsModule } from "../StaticJsModule.js";
+import type {
   StaticJsModuleImplementation,
   StaticJsModuleStatus,
 } from "../StaticJsModuleImplementation.js";
 
-import { StaticJsResolvedBinding } from "../StaticJsResolvedBinding.js";
+import type { StaticJsResolvedBinding } from "../StaticJsResolvedBinding.js";
+import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
 
 export abstract class StaticJsModuleBase
   implements StaticJsModule, StaticJsModuleImplementation
@@ -45,53 +42,44 @@ export abstract class StaticJsModuleBase
   abstract moduleEvaluationEvaluator(): EvaluationGenerator;
 
   resolveExport(exportName: string): StaticJsResolvedBinding {
-    const result = runEvaluatorUntilCompletion(
-      this.resolveExportEvaluator(exportName),
-    );
-    if (isThrowCompletion(result)) {
-      throw result.value.toJs();
+    try {
+      return runEvaluatorUntilCompletion(
+        this.resolveExportEvaluator(exportName),
+      );
+    } catch (e) {
+      AbnormalCompletion.handleToJs(e);
     }
-
-    return result;
   }
 
   abstract resolveExportEvaluator(
     name: string,
     resolveSet?: Set<string>,
-  ): EvaluationGenerator<StaticJsResolvedBinding | ThrowCompletion>;
+  ): EvaluationGenerator<StaticJsResolvedBinding>;
 
   getExportedNames() {
-    const result = runEvaluatorUntilCompletion(
-      this.getExportedNamesEvaluator(),
-    );
-    if (isThrowCompletion(result)) {
-      throw result.value.toJs();
+    try {
+      return runEvaluatorUntilCompletion(this.getExportedNamesEvaluator());
+    } catch (e) {
+      AbnormalCompletion.handleToJs(e);
     }
-
-    return result;
   }
 
-  abstract getExportedNamesEvaluator(): EvaluationGenerator<
-    string[] | ThrowCompletion
-  >;
+  abstract getExportedNamesEvaluator(): EvaluationGenerator<string[]>;
 
   abstract getOwnBindingValueEvaluator(
     bindingName: string,
-  ): EvaluationGenerator<StaticJsValue | ThrowCompletion | null>;
+  ): EvaluationGenerator<StaticJsValue | null>;
 
   getExport(exportName: string): unknown {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     function* getExport() {
       const resolution = yield* self.resolveExportEvaluator(exportName);
-      if (isThrowCompletion(resolution)) {
-        return resolution;
-      }
       if (resolution === null) {
         return null;
       }
       if (resolution === "ambiguous") {
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           self._realm.types.error(
             "ReferenceError",
             `Ambiguous binding ${exportName} in module ${self._name}.`,
@@ -103,47 +91,36 @@ export abstract class StaticJsModuleBase
         resolution.bindingName,
       );
     }
-    const result = runEvaluatorUntilCompletion(getExport());
-    if (isThrowCompletion(result)) {
-      throw result.value.toJs();
-    }
 
-    if (!result) {
-      return null;
+    try {
+      const result = runEvaluatorUntilCompletion(getExport());
+      return result ? result.toJs() : null;
+    } catch (e) {
+      AbnormalCompletion.handleToJs(e);
     }
-
-    return result.toJs();
   }
 
   getModuleNamespace(): Record<string, unknown> {
-    const result = runEvaluatorUntilCompletion(
-      this.getModuleNamespaceEvaluator(),
-    );
-    if (isThrowCompletion(result)) {
-      throw result.value.toJs();
+    try {
+      const result = runEvaluatorUntilCompletion(
+        this.getModuleNamespaceEvaluator(),
+      );
+      return result.toJs() as Record<string, unknown>;
+    } catch (e) {
+      AbnormalCompletion.handleToJs(e);
     }
-
-    return result.toJs() as Record<string, unknown>;
   }
 
-  *getModuleNamespaceEvaluator(): EvaluationGenerator<
-    StaticJsObjectLike | ThrowCompletion
-  > {
+  *getModuleNamespaceEvaluator(): EvaluationGenerator<StaticJsObjectLike> {
     if (this._cachedNamespaceObject) {
       return this._cachedNamespaceObject;
     }
 
     const ns = this._realm.types.object();
     const exportedNames = yield* this.getExportedNamesEvaluator();
-    if (isThrowCompletion(exportedNames)) {
-      return exportedNames;
-    }
 
     for (const exportName of exportedNames) {
       const resolution = yield* this.resolveExportEvaluator(exportName);
-      if (isThrowCompletion(resolution)) {
-        return resolution;
-      }
       if (resolution === null || resolution === "ambiguous") {
         continue;
       }
@@ -156,9 +133,6 @@ export abstract class StaticJsModuleBase
         configurable: false,
         get: new StaticJsFunctionImpl(realm, "get", function* () {
           const result = yield* module.getOwnBindingValueEvaluator(bindingName);
-          if (isThrowCompletion(result)) {
-            return result;
-          }
 
           if (!result) {
             throw new StaticJsEngineError(
@@ -166,7 +140,7 @@ export abstract class StaticJsModuleBase
             );
           }
 
-          return NormalCompletion(result);
+          return result;
         }),
       });
     }

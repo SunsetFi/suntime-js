@@ -1,6 +1,6 @@
-import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import StaticJsObjectImpl from "../../../types/implementation/StaticJsObjectImpl.js";
-import { StaticJsObject } from "../../../types/StaticJsObject.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
 export default function createArrayConstructor(
   realm: StaticJsRealm,

@@ -1,4 +1,4 @@
-import { StaticJsPrimitive } from "./StaticJsPrimitive.js";
+import type { StaticJsPrimitive } from "./StaticJsPrimitive.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsNull extends StaticJsPrimitive {

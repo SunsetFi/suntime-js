@@ -1,20 +1,15 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../../../../evaluator/completions/ThrowCompletion.js";
-import EvaluationGenerator from "../../../../evaluator/EvaluationGenerator.js";
+import type EvaluationGenerator from "../../../../evaluator/EvaluationGenerator.js";
 
 import toInteger from "../../../algorithms/to-integer.js";
 
-import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import { StaticJsObjectLike } from "../../../types/StaticJsObject.js";
-import { StaticJsValue } from "../../../types/StaticJsValue.js";
+import type { StaticJsObjectLike } from "../../../types/StaticJsObject.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
 
@@ -35,11 +30,8 @@ const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const result = yield* performFlat(realm, thisObj, depth);
-    if (isThrowCompletion(result)) {
-      return result;
-    }
 
-    return ReturnCompletion(realm.types.array(result));
+    return realm.types.array(result);
   },
 };
 
@@ -50,11 +42,8 @@ function* performFlat(
   thisObj: StaticJsObjectLike,
   depth: number,
   target: StaticJsValue[] = [],
-): EvaluationGenerator<ThrowCompletion | StaticJsValue[]> {
+): EvaluationGenerator<StaticJsValue[]> {
   const length = yield* getLength(realm, thisObj);
-  if (isThrowCompletion(length)) {
-    return length;
-  }
 
   for (let i = 0; i < length; i++) {
     const hasProperty = yield* thisObj.hasPropertyEvaluator(String(i));
@@ -65,12 +54,7 @@ function* performFlat(
 
     const itemValue = yield* thisObj.getPropertyEvaluator(String(i));
     if (depth > 0 && isStaticJsArray(itemValue)) {
-      const result = yield* performFlat(realm, itemValue, depth - 1, target);
-      if (isThrowCompletion(result)) {
-        return result;
-      }
-
-      target = result;
+      target = yield* performFlat(realm, itemValue, depth - 1, target);
     } else {
       target.push(itemValue);
     }

@@ -1,50 +1,49 @@
-import { Program } from "@babel/types";
+import type { Program } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import typedMerge from "../../internal/typed-merge.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { Completion } from "../completions/Completion.js";
-import { NormalCompletion } from "../completions/NormalCompletion.js";
-import { isThrowCompletion } from "../completions/ThrowCompletion.js";
-
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setupEnvironment from "./setup-environment.js";
+import { ThrowCompletion } from "../completions/ThrowCompletion.js";
+import { AbnormalCompletion } from "../completions/AbnormalCompletion.js";
 
 function* programNodeEvaluator(
   node: Program,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  let lastCompletion: Completion = NormalCompletion();
+  let lastResult: StaticJsValue | null = null;
   for (const statement of node.body) {
-    lastCompletion = yield* EvaluateNodeCommand(statement, context);
-    switch (lastCompletion.type) {
-      case "throw":
-        return lastCompletion;
-      case "return":
-      case "break":
-      case "continue":
-        // TODO: Real error type
+    try {
+      lastResult = yield* EvaluateNodeCommand(statement, context);
+    } catch (e) {
+      if (e instanceof ThrowCompletion) {
+        throw e;
+      }
+
+      if (e instanceof AbnormalCompletion) {
+        // FIXME: What is the real error? SyntaxError?
         throw new StaticJsEngineError(
           "Illegal control flow completion type in Program node.",
         );
+      }
     }
   }
 
-  return lastCompletion;
+  return lastResult;
 }
 
 export default typedMerge(programNodeEvaluator, {
   environmentSetup: function* (node: Program, context: EvaluationContext) {
     for (const statement of node.body) {
-      const completion = yield* setupEnvironment(statement, context);
-      if (isThrowCompletion(completion)) {
-        return completion;
-      }
+      yield* setupEnvironment(statement, context);
     }
 
     return false;

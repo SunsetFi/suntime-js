@@ -1,4 +1,4 @@
-import { Node } from "@babel/types";
+import type { Node } from "@babel/types";
 
 export default function nameNode(node: Node): string {
   if (node.type === "Identifier") {

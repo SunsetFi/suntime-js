@@ -1,4 +1,4 @@
-import { StaticJsObjectLike } from "./StaticJsObject.js";
+import type { StaticJsObjectLike } from "./StaticJsObject.js";
 
 export interface StaticJsPrimitive {
   readonly typeOf: string;

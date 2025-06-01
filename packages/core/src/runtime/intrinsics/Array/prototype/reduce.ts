@@ -1,23 +1,19 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
 
-import {
-  StaticJsArray,
-  isStaticJsArray,
-} from "../../../types/StaticJsArray.js";
+import type { StaticJsArray } from "../../../types/StaticJsArray.js";
+import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import { StaticJsValue } from "../../../types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
   name: "reduce",
   *func(realm, thisArg, callback, initialValue) {
     if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         realm.types.error(
           "TypeError",
           "Array.prototype.reduce called on null or undefined",
@@ -43,7 +39,7 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (!isStaticJsFunction(callback)) {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         realm.types.error(
           "TypeError",
           `${callback.toString()} is not a function`,
@@ -54,7 +50,7 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
     const length = yield* thisArray.getLengthEvaluator();
     if (length === 0) {
       if (initialValue == null) {
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           realm.types.error(
             "TypeError",
             "Reduce of empty array with no initial value",
@@ -62,7 +58,7 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
         );
       }
 
-      return ReturnCompletion(initialValue);
+      return initialValue;
     }
 
     let value: StaticJsValue;
@@ -77,7 +73,7 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
 
     for (let i = startIndex; i < length; i++) {
       const elementValue = yield* thisArray.getPropertyEvaluator(String(i));
-      const resultCompletion = yield* callback.callEvaluator(
+      const result = yield* callback.callEvaluator(
         thisArray,
         value,
         elementValue,
@@ -85,23 +81,10 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
         thisArray,
       );
 
-      if (resultCompletion.type === "throw") {
-        return resultCompletion;
-      }
-
-      if (
-        resultCompletion.type !== "normal" ||
-        resultCompletion.value == null
-      ) {
-        throw new StaticJsEngineError(
-          "Expected Array.prototype.reduce callback to return a normal completion",
-        );
-      }
-
-      value = resultCompletion.value;
+      value = result;
     }
 
-    return ReturnCompletion(value);
+    return value;
   },
 };
 

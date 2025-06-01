@@ -1,9 +1,7 @@
-import { ReturnCompletion } from "../../evaluator/completions/ReturnCompletion.js";
-
-import { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
-import { StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 export function populateBooleanPrototype(
   realm: StaticJsRealm,
@@ -18,9 +16,7 @@ export function populateBooleanPrototype(
       realm,
       "toString",
       function* (thisArg) {
-        return ReturnCompletion(
-          realm.types.string(thisArg.toBoolean() ? "true" : "false"),
-        );
+        return realm.types.string(thisArg.toBoolean() ? "true" : "false");
       },
       { prototype: functionProto },
     ),
@@ -35,7 +31,7 @@ export function populateBooleanPrototype(
       "valueOf",
       function* (thisArg) {
         // Unbox.
-        return ReturnCompletion(realm.types.boolean(thisArg.toBoolean()));
+        return realm.types.boolean(thisArg.toBoolean());
       },
       { prototype: functionProto },
     ),
@@ -54,10 +50,10 @@ export function createBooleanConstructor(
     "Boolean",
     function* (thisArg, value) {
       if (thisArg === undefined) {
-        return ReturnCompletion(realm.types.boolean(false));
+        return realm.types.boolean(false);
       }
 
-      return ReturnCompletion(realm.types.boolean(value.toBoolean()));
+      return realm.types.boolean(value.toBoolean());
     },
     { prototype: functionProto },
   );

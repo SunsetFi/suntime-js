@@ -1,27 +1,22 @@
-import { LVal, isLVal } from "@babel/types";
+import type { LVal } from "@babel/types";
+import { isLVal } from "@babel/types";
+
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import { isStaticJsArray } from "../../runtime/types/StaticJsArray.js";
 import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
-import {
-  StaticJsValue,
-  isStaticJsValue,
-} from "../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { Completion } from "../completions/Completion.js";
-import { NormalCompletion } from "../completions/NormalCompletion.js";
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../completions/ThrowCompletion.js";
+import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 export default function setLVal(
   lval: LVal,
@@ -59,20 +54,17 @@ export default function* setLVal(
   const setNamedVariable = _setNamedVariable as (
     name: string,
     value: StaticJsValue | null,
-  ) => EvaluationGenerator<ThrowCompletion | void>;
+  ) => EvaluationGenerator<void>;
 
   switch (lval.type) {
     case "Identifier": {
-      const result = yield* setNamedVariable(lval.name, value);
-      if (isThrowCompletion(result)) {
-        return result;
-      }
-      return NormalCompletion();
+      yield* setNamedVariable(lval.name, value);
+      return null;
     }
     case "ArrayPattern": {
       // FIXME: This should use iterators.
       if (!isStaticJsArray(value)) {
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           context.realm.types.error(
             "TypeError",
             "Cannot destructure non-array value",
@@ -88,10 +80,9 @@ export default function* setLVal(
 
         const property = String(index);
 
-        let setResult: Completion;
         if (element.type === "RestElement") {
           const restValue = yield* value.sliceEvaluator(index);
-          setResult = yield* setLVal(
+          yield* setLVal(
             element.argument,
             restValue,
             context,
@@ -99,32 +90,22 @@ export default function* setLVal(
           );
         } else {
           const elementValue = yield* value.getPropertyEvaluator(property);
-          setResult = yield* setLVal(
-            element,
-            elementValue,
-            context,
-            setNamedVariable,
-          );
-        }
-
-        if (isThrowCompletion(setResult)) {
-          return setResult;
+          yield* setLVal(element, elementValue, context, setNamedVariable);
         }
       }
 
-      return NormalCompletion();
+      return null;
     }
     case "ObjectPattern": {
       if (!isStaticJsObject(value)) {
         // FIXME: Use real error.
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           context.realm.types.string("Cannot destructure non-object value"),
         );
       }
 
       const seenProperties = new Set<string>();
       for (const property of lval.properties) {
-        let setResult: Completion | void;
         if (property.type === "RestElement") {
           const restValue = context.realm.types.object();
           for (const key in value) {
@@ -138,7 +119,7 @@ export default function* setLVal(
             }
           }
 
-          setResult = yield* setLVal(
+          yield* setLVal(
             property.argument,
             restValue,
             context,
@@ -151,7 +132,6 @@ export default function* setLVal(
             keyName = propertyKey.name;
           } else {
             const value = yield* EvaluateNodeCommand(propertyKey, context, {
-              rethrow: true,
               forNormalValue: "ObjectPattern.properties[].key",
             });
             keyName = toPropertyKey(value);
@@ -160,12 +140,9 @@ export default function* setLVal(
           const propertyValue = yield* value.getPropertyEvaluator(keyName);
 
           if (!property.computed && property.value.type === "Identifier") {
-            setResult = yield* setNamedVariable(
-              property.value.name,
-              propertyValue,
-            );
+            yield* setNamedVariable(property.value.name, propertyValue);
           } else if (isLVal(property.value)) {
-            setResult = yield* setLVal(
+            yield* setLVal(
               property.value,
               propertyValue,
               context,
@@ -178,18 +155,13 @@ export default function* setLVal(
             );
           }
         }
-
-        if (isThrowCompletion(setResult)) {
-          return setResult;
-        }
       }
 
-      return NormalCompletion();
+      return null;
     }
     case "AssignmentPattern": {
       if (!value || isStaticJsUndefined(value)) {
         value = yield* EvaluateNodeCommand(lval.right, context, {
-          rethrow: true,
           forNormalValue: "AssignmentPattern.right",
         });
       }
@@ -206,7 +178,6 @@ export default function* setLVal(
       }
 
       const objectValue = yield* EvaluateNodeCommand(lval.object, context, {
-        rethrow: true,
         forNormalValue: "MemberExpression.object",
       });
 
@@ -221,7 +192,6 @@ export default function* setLVal(
         propertyKey = lval.property.name;
       } else {
         const property = yield* EvaluateNodeCommand(lval.property, context, {
-          rethrow: true,
           forNormalValue: "MemberExpression.property",
         });
         propertyKey = toPropertyKey(property);
@@ -236,7 +206,7 @@ export default function* setLVal(
         context.realm.strict,
       );
 
-      return NormalCompletion();
+      return null;
     }
   }
 
@@ -246,8 +216,8 @@ export default function* setLVal(
 export function* environmentSetupLVal(
   lval: LVal,
   context: EvaluationContext,
-  bindVariable: (name: string) => EvaluationGenerator<ThrowCompletion | void>,
-): EvaluationGenerator<ThrowCompletion | void> {
+  bindVariable: (name: string) => EvaluationGenerator<void>,
+): EvaluationGenerator<void> {
   switch (lval.type) {
     case "Identifier":
       return yield* bindVariable(lval.name);
@@ -257,49 +227,23 @@ export function* environmentSetupLVal(
           continue;
         }
 
-        let setupResult: ThrowCompletion | void;
         if (element.type === "RestElement") {
-          setupResult = yield* environmentSetupLVal(
-            element.argument,
-            context,
-            bindVariable,
-          );
+          yield* environmentSetupLVal(element.argument, context, bindVariable);
         } else {
-          setupResult = yield* environmentSetupLVal(
-            element,
-            context,
-            bindVariable,
-          );
-        }
-
-        if (isThrowCompletion(setupResult)) {
-          return setupResult;
+          yield* environmentSetupLVal(element, context, bindVariable);
         }
       }
       return;
     case "ObjectPattern":
       for (const property of lval.properties) {
-        let setupResult: ThrowCompletion | void;
         if (property.type === "RestElement") {
-          setupResult = yield* environmentSetupLVal(
-            property.argument,
-            context,
-            bindVariable,
-          );
+          yield* environmentSetupLVal(property.argument, context, bindVariable);
         } else if (isLVal(property.value)) {
-          setupResult = yield* environmentSetupLVal(
-            property.value,
-            context,
-            bindVariable,
-          );
+          yield* environmentSetupLVal(property.value, context, bindVariable);
         } else {
           throw new StaticJsEngineError(
             `Unsupported ObjectPattern property target type: ${property.value.type}`,
           );
-        }
-
-        if (isThrowCompletion(setupResult)) {
-          return setupResult;
         }
       }
       return;

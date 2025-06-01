@@ -1,9 +1,7 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorFreezeDeclaration: IntrinsicPropertyDeclaration = {
   name: "freeze",
@@ -12,7 +10,7 @@ const objectCtorFreezeDeclaration: IntrinsicPropertyDeclaration = {
       targetValue = realm.types.undefined;
     }
     if (isStaticJsNull(targetValue) || isStaticJsUndefined(targetValue)) {
-      return ReturnCompletion(targetValue);
+      return targetValue;
     }
 
     const obj = targetValue.toObject();
@@ -27,7 +25,7 @@ const objectCtorFreezeDeclaration: IntrinsicPropertyDeclaration = {
 
     yield* obj.preventExtensionsEvaluator();
 
-    return ReturnCompletion(targetValue);
+    return targetValue;
   },
 };
 

@@ -1,11 +1,9 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../../../../evaluator/completions/ThrowCompletion.js";
-import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
+import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import getLength from "./utils/get-length.js";
 
 const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
@@ -18,7 +16,7 @@ const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (!isStaticJsFunction(callback)) {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         realm.types.error(
           "TypeError",
           `${callback.toString()} is not a function`,
@@ -27,9 +25,6 @@ const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const length = yield* getLength(realm, thisObj);
-    if (isThrowCompletion(length)) {
-      return length;
-    }
 
     for (let i = 0; i < length; i++) {
       const property = String(i);
@@ -39,23 +34,15 @@ const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const elementValue = yield* thisObj.getPropertyEvaluator(property);
-      const resultCompletion = yield* callback.callEvaluator(
+      yield* callback.callEvaluator(
         providedThisArg ?? thisObj,
         elementValue,
         realm.types.number(i),
         thisObj,
       );
-      if (resultCompletion.type === "throw") {
-        return resultCompletion;
-      }
-      if (resultCompletion.type !== "normal") {
-        throw new StaticJsEngineError(
-          "Expected Array.prototype.forEach callback return normal or throw completion",
-        );
-      }
     }
 
-    return ReturnCompletion(realm.types.undefined);
+    return realm.types.undefined;
   },
 };
 

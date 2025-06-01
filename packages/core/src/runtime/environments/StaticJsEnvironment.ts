@@ -1,87 +1,65 @@
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
-import EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
-
-import { StaticJsValue } from "../types/StaticJsValue.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 export interface StaticJsEnvironment {
-  hasBinding(name: string): boolean;
-  hasBindingEvaluator(
-    name: string,
-  ): EvaluationGenerator<ThrowCompletion | boolean>;
+  hasBindingEvaluator(name: string): EvaluationGenerator<boolean>;
 
-  createMutableBinding(name: string, deletable: boolean): void;
   createMutableBindingEvaluator(
     name: string,
     deletable: boolean,
-  ): EvaluationGenerator<ThrowCompletion | void>;
+  ): EvaluationGenerator<void>;
 
-  createImmutableBinding(name: string, strict: boolean): void;
   createImmutableBindingEvaluator(
     name: string,
     strict: boolean,
-  ): EvaluationGenerator<ThrowCompletion | void>;
+  ): EvaluationGenerator<void>;
 
-  createFunctionBinding(name: string, func: StaticJsValue): void;
   createFunctionBindingEvaluator(
     name: string,
     func: StaticJsValue,
-  ): EvaluationGenerator<ThrowCompletion | void>;
+  ): EvaluationGenerator<void>;
 
-  canDeclareGlobalVar(name: string): boolean;
   canDeclareGlobalVarEvaluator(name: string): EvaluationGenerator<boolean>;
 
-  createGlobalVarBinding(name: string, deletable: boolean): void;
   createGlobalVarBindingEvaluator(
     name: string,
     deletable: boolean,
   ): EvaluationGenerator<void>;
 
-  initializeBinding(name: string, value: StaticJsValue): void;
   initializeBindingEvaluator(
     name: string,
     value: StaticJsValue,
-  ): EvaluationGenerator<ThrowCompletion | void>;
+  ): EvaluationGenerator<void>;
 
-  setMutableBinding(name: string, value: StaticJsValue, strict: boolean): void;
   setMutableBindingEvaluator(
     name: string,
     value: StaticJsValue,
     strict: boolean,
-  ): EvaluationGenerator<ThrowCompletion | void>;
+  ): EvaluationGenerator<void>;
 
-  getBindingValue(name: string, strict: boolean): StaticJsValue;
   getBindingValueEvaluator(
     name: string,
     strict: boolean,
-  ): EvaluationGenerator<StaticJsValue | ThrowCompletion>;
+  ): EvaluationGenerator<StaticJsValue>;
 
-  deleteBinding(name: string): void;
-  deleteBindingEvaluator(
-    name: string,
-  ): EvaluationGenerator<ThrowCompletion | void>;
+  deleteBindingEvaluator(name: string): EvaluationGenerator<void>;
 
-  hasThisBinding(): boolean;
   // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   hasThisBindingEvaluator(): EvaluationGenerator<boolean>;
 
-  hasSuperBinding(): boolean;
   // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   hasSuperBindingEvaluator(): EvaluationGenerator<boolean>;
 
-  withBaseObject(): StaticJsValue;
   // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue>;
 
-  getThisBinding(): StaticJsValue;
   // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue>;
 
-  getSuperBase(): StaticJsValue;
   // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue>;
 
-  getVarScope(): StaticJsEnvironment | null;
   // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironment | null>;
 }

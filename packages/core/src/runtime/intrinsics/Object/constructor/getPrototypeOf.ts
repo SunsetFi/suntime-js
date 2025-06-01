@@ -1,6 +1,4 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorGetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   name: "getPrototypeOf",
@@ -9,10 +7,10 @@ const objectCtorGetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
 
     const proto = obj.prototype;
     if (proto == null) {
-      return ReturnCompletion(realm.types.null);
+      return realm.types.null;
     }
 
-    return ReturnCompletion(proto);
+    return proto;
   },
 };
 

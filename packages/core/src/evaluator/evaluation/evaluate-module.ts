@@ -1,6 +1,6 @@
-import { StaticJsModule } from "../../runtime/modules/StaticJsModule.js";
+import type { StaticJsModule } from "../../runtime/modules/StaticJsModule.js";
 
-import {
+import type {
   EvaluationOptions,
   ProgramCompilationOptions,
 } from "../compilation/options.js";

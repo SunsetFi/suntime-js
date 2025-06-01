@@ -1,21 +1,22 @@
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsArray } from "../StaticJsArray.js";
-import { StaticJsFunction } from "../StaticJsFunction.js";
-import { StaticJsObject, StaticJsObjectLike } from "../StaticJsObject.js";
-import { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
-import StaticJsTypeFactory, {
-  ErrorTypeName,
-  isErrorTypeName,
-} from "../StaticJsTypeFactory.js";
-import { isStaticJsValue, StaticJsValue } from "../StaticJsValue.js";
-import { StaticJsBoolean } from "../StaticJsBoolean.js";
-import { StaticJsUndefined } from "../StaticJsUndefined.js";
-import { isStaticJsNull, StaticJsNull } from "../StaticJsNull.js";
-import { StaticJsNumber } from "../StaticJsNumber.js";
-import { StaticJsString } from "../StaticJsString.js";
+import type { StaticJsArray } from "../StaticJsArray.js";
+import type { StaticJsFunction } from "../StaticJsFunction.js";
+import type { StaticJsObject, StaticJsObjectLike } from "../StaticJsObject.js";
+import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
+import type { ErrorTypeName } from "../StaticJsTypeFactory.js";
+import type StaticJsTypeFactory from "../StaticJsTypeFactory.js";
+import { isErrorTypeName } from "../StaticJsTypeFactory.js";
+import type { StaticJsValue } from "../StaticJsValue.js";
+import { isStaticJsValue } from "../StaticJsValue.js";
+import type { StaticJsBoolean } from "../StaticJsBoolean.js";
+import type { StaticJsUndefined } from "../StaticJsUndefined.js";
+import type { StaticJsNull } from "../StaticJsNull.js";
+import { isStaticJsNull } from "../StaticJsNull.js";
+import type { StaticJsNumber } from "../StaticJsNumber.js";
+import type { StaticJsString } from "../StaticJsString.js";
 
-import { Prototypes } from "../../intrinsics/intrinsics.js";
+import type { Prototypes } from "../../intrinsics/intrinsics.js";
 
 import StaticJsArrayImpl from "./StaticJsArrayImpl.js";
 import StaticJsBooleanImpl from "./StaticJsBooleanImpl.js";

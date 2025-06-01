@@ -1,10 +1,9 @@
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletion.js";
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsValue } from "../StaticJsValue.js";
+import type { StaticJsValue } from "../StaticJsValue.js";
 
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
 
@@ -25,9 +24,9 @@ export default class StaticJsExternalFunction extends StaticJsFunctionImpl {
     const valueArgsResolved = args.map((arg) => arg.toJs());
     try {
       const result = this._func.call(thisArgResolved, ...valueArgsResolved);
-      return ReturnCompletion(this.realm.types.toStaticJsValue(result));
+      return this.realm.types.toStaticJsValue(result);
     } catch (error) {
-      return ThrowCompletion(this.realm.types.toStaticJsValue(error));
+      throw new ThrowCompletion(this.realm.types.toStaticJsValue(error));
     }
   }
 

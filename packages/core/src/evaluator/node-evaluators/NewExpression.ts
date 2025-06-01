@@ -1,27 +1,24 @@
-import { NewExpression } from "@babel/types";
+import type { NewExpression } from "@babel/types";
 
 import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
-import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { NormalCompletion } from "../completions/NormalCompletion.js";
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 export default function* newExpressionNodeEvaluator(
   node: NewExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
   const callee = yield* EvaluateNodeCommand(node.callee, context, {
-    rethrow: true,
     forNormalValue: "NewExpression.callee",
   });
   if (!isStaticJsFunction(callee)) {
-    return ThrowCompletion(
+    throw new ThrowCompletion(
       context.realm.types.error("TypeError", "Not a function"),
     );
   }
@@ -29,21 +26,10 @@ export default function* newExpressionNodeEvaluator(
   const args = new Array<StaticJsValue>(node.arguments.length);
   for (let i = 0; i < node.arguments.length; i++) {
     const arg = yield* EvaluateNodeCommand(node.arguments[i], context, {
-      rethrow: true,
       forNormalValue: `NewExpression.arguments[]`,
     });
     args[i] = arg;
   }
 
-  const result = yield* callee.constructEvaluator(...args);
-  switch (result.type) {
-    case "normal":
-      return NormalCompletion(result.value);
-    case "throw":
-      return result;
-    default:
-      throw new StaticJsEngineError(
-        "Unexpected completion type " + result.type,
-      );
-  }
+  return yield* callee.constructEvaluator(...args);
 }

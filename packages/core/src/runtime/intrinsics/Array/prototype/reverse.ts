@@ -1,7 +1,4 @@
-import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
 
@@ -11,9 +8,6 @@ const arrayProtoReverseDeclaration: IntrinsicPropertyDeclaration = {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
     const length = yield* getLength(realm, thisObj);
-    if (isThrowCompletion(length)) {
-      return length;
-    }
 
     for (let i = 0; i < length / 2; i++) {
       const leftProperty = String(i);
@@ -42,7 +36,7 @@ const arrayProtoReverseDeclaration: IntrinsicPropertyDeclaration = {
       }
     }
 
-    return ReturnCompletion(thisObj);
+    return thisObj;
   },
 };
 

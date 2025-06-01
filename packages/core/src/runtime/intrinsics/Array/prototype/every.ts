@@ -1,14 +1,8 @@
-import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
-
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../../../../evaluator/completions/ThrowCompletion.js";
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
+import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
 
@@ -24,7 +18,7 @@ const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
     if (!isStaticJsFunction(callback)) {
       // FIXME: NodeJs is doing something aside from casting it to string.
       // Object appears as "#<Object>"
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         realm.types.error(
           "TypeError",
           `${callback.toString()} is not a function`,
@@ -33,12 +27,9 @@ const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const length = yield* getLength(realm, thisObj);
-    if (isThrowCompletion(length)) {
-      return length;
-    }
 
     if (length === 0) {
-      return ReturnCompletion(realm.types.false);
+      return realm.types.false;
     }
 
     for (let i = 0; i < length; i++) {
@@ -50,27 +41,18 @@ const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
 
       const elementValue = yield* thisObj.getPropertyEvaluator(property);
 
-      const resultCompletion = yield* callback.callEvaluator(
+      const result = yield* callback.callEvaluator(
         thisObj,
         elementValue,
         realm.types.number(i),
         thisObj,
       );
-      if (resultCompletion.type === "throw") {
-        return resultCompletion;
-      }
-      if (resultCompletion.type !== "normal" || !resultCompletion.value) {
-        throw new StaticJsEngineError(
-          "Expected result completion to return a value, but got undefined",
-        );
-      }
-
-      if (!resultCompletion.value.toBoolean()) {
-        return ReturnCompletion(realm.types.false);
+      if (!result.toBoolean()) {
+        return realm.types.false;
       }
     }
 
-    return ReturnCompletion(realm.types.true);
+    return realm.types.true;
   },
 };
 

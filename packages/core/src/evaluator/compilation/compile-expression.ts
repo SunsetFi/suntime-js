@@ -1,5 +1,5 @@
 import { parseExpression } from "@babel/parser";
-import StaticJsCompilation from "./StaticJsCompilation.js";
+import type StaticJsCompilation from "./StaticJsCompilation.js";
 import { verifyNoErrorsOrThrow } from "./verify-parse-result.js";
 import StaticJsEvalCompilation from "./StaticJsEvalCompilation.js";
 

@@ -1,4 +1,4 @@
-import { StaticJsModuleImplementation } from "./StaticJsModuleImplementation.js";
+import type { StaticJsModuleImplementation } from "./StaticJsModuleImplementation.js";
 
 export interface StaticJsModuleResolvedBinding {
   module: StaticJsModuleImplementation;

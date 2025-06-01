@@ -1,22 +1,26 @@
-import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
+
+import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
+
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
+import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
-  StaticJsPropertyDescriptor,
   validateStaticJsPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
-import { StaticJsNull, isStaticJsNull } from "../StaticJsNull.js";
-import { StaticJsObject, StaticJsObjectLike } from "../StaticJsObject.js";
-import { StaticJsValue, isStaticJsValue } from "../StaticJsValue.js";
+import type { StaticJsNull } from "../StaticJsNull.js";
+import { isStaticJsNull } from "../StaticJsNull.js";
+import type { StaticJsObject, StaticJsObjectLike } from "../StaticJsObject.js";
+import type { StaticJsValue } from "../StaticJsValue.js";
+import { isStaticJsValue } from "../StaticJsValue.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 
@@ -63,13 +67,13 @@ export default abstract class StaticJsAbstractObject
     proto: StaticJsObjectLike | null,
   ): EvaluationGenerator {
     if (!this._extensible) {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         this.realm.types.error("TypeError", "Object is not extensible."),
       );
     }
 
     this._prototype = proto;
-    return NormalCompletion();
+    return null;
   }
 
   preventExtensions(): void {
@@ -187,7 +191,7 @@ export default abstract class StaticJsAbstractObject
 
     if (!currentDescriptor) {
       if (!this.extensible) {
-        throw new StaticJsRuntimeError(
+        throw new ThrowCompletion(
           this.realm.types.error("TypeError", `Object is not extensible`),
         );
       }
@@ -219,7 +223,7 @@ export default abstract class StaticJsAbstractObject
         isNonStrictAccessor;
 
       if (isNonStrict) {
-        throw new StaticJsRuntimeError(
+        throw new ThrowCompletion(
           this.realm.types.error(
             "TypeError",
             `Cannot redefine property ${name}`,
@@ -257,21 +261,7 @@ export default abstract class StaticJsAbstractObject
     if (isStaticJsDataPropertyDescriptor(decl)) {
       value = decl.value;
     } else if (isStaticJsAccessorPropertyDescriptor(decl) && decl.get) {
-      const completion = yield* decl.get.callEvaluator(this);
-      if (completion.type === "throw") {
-        // FIXME: Handle this; these functions should return completions
-        // instead of throwing.
-        throw new Error(
-          `Accessor property ${name} getter threw an error: ${completion.value}`,
-        );
-      }
-      if (completion.type !== "normal" || !completion.value) {
-        throw new StaticJsEngineError(
-          `Accessor property ${name} getter did not return a normal completion with a value`,
-        );
-      }
-
-      value = completion.value;
+      value = yield* decl.get.callEvaluator(this);
     } else {
       return this.realm.types.undefined;
     }
@@ -299,15 +289,7 @@ export default abstract class StaticJsAbstractObject
       // It's our own.  Set it.
       if (isStaticJsAccessorPropertyDescriptor(ownDecl)) {
         if (ownDecl.set) {
-          const completion = yield* ownDecl.set.callEvaluator(this, value);
-          if (completion.type === "throw") {
-            throw new StaticJsRuntimeError(completion.value);
-          }
-          if (completion.type !== "normal") {
-            throw new StaticJsEngineError(
-              `Accessor property ${name} setter did not return a normal completion`,
-            );
-          }
+          yield* ownDecl.set.callEvaluator(this, value);
           return;
         }
       } else if (isStaticJsDataPropertyDescriptor(ownDecl)) {
@@ -318,7 +300,7 @@ export default abstract class StaticJsAbstractObject
       }
 
       if (strict) {
-        throw new StaticJsRuntimeError(
+        throw new ThrowCompletion(
           this.realm.types.error(
             "TypeError",
             `Cannot set property ${name} of ${this.toString()}`,
@@ -334,20 +316,12 @@ export default abstract class StaticJsAbstractObject
       if (isStaticJsAccessorPropertyDescriptor(decl)) {
         // Its an inherited accessor property, invoke the accessor
         if (decl.set) {
-          const completion = yield* decl.set.callEvaluator(this, value);
-          if (completion.type === "throw") {
-            throw new StaticJsRuntimeError(completion.value);
-          }
-          if (completion.type !== "normal") {
-            throw new StaticJsEngineError(
-              `Accessor property ${name} setter did not return a normal completion`,
-            );
-          }
+          yield* decl.set.callEvaluator(this, value);
           return;
         }
 
         if (strict) {
-          throw new StaticJsRuntimeError(
+          throw new ThrowCompletion(
             this.realm.types.error(
               "TypeError",
               `Cannot set property ${name} of ${this.toString()}`,
@@ -364,7 +338,7 @@ export default abstract class StaticJsAbstractObject
 
     if (!this.extensible) {
       if (strict) {
-        throw new StaticJsRuntimeError(
+        throw new ThrowCompletion(
           this.realm.types.error(
             "TypeError",
             `Cannot set property ${name} of ${this.toString()}`,

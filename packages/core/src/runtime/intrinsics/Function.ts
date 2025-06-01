@@ -1,6 +1,6 @@
-import { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import { StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 import StaticJsObjectImpl from "../types/implementation/StaticJsObjectImpl.js";
 

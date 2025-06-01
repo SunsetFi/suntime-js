@@ -1,10 +1,10 @@
-import { Writable } from "type-fest";
+import type { Writable } from "type-fest";
 
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import {
+import type {
   StaticJsPropertyDescriptor,
   StaticJsAccessorPropertyDescriptor,
   StaticJsDataPropertyDescriptor,

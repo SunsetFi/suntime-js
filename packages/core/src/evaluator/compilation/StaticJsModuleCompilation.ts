@@ -1,24 +1,22 @@
-import { Program } from "@babel/types";
+import type { Program } from "@babel/types";
 
-import {
-  isStaticJsRealm,
-  StaticJsRealm,
-} from "../../runtime/realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
+import { isStaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
 import StaticJsRealmFactory from "../../runtime/realm/factories/StaticJsRealm.js";
 
-import { StaticJsModule } from "../../runtime/modules/StaticJsModule.js";
+import type { StaticJsModule } from "../../runtime/modules/StaticJsModule.js";
 import { StaticJsModuleImpl } from "../../runtime/modules/implementation/StaticJsModuleImpl.js";
 
-import { isThrowCompletion } from "../completions/ThrowCompletion.js";
+import { AbnormalCompletion } from "../completions/AbnormalCompletion.js";
 
 import {
   runEvaluatorUntilCompletion,
   evaluateCommands,
 } from "../evaluator-runtime.js";
 
-import { EvaluationOptions } from "./options.js";
+import type { EvaluationOptions } from "./options.js";
 
-import StaticJsCompilation from "./StaticJsCompilation.js";
+import type StaticJsCompilation from "./StaticJsCompilation.js";
 
 export default class StaticJsModuleCompilation
   implements
@@ -36,25 +34,25 @@ export default class StaticJsModuleCompilation
       throw new TypeError(`Invalid StaticJsRealm specified.`);
     }
 
-    const mod = new StaticJsModuleImpl("<anonymous>", this._program, realm);
+    const module = new StaticJsModuleImpl("<anonymous>", this._program, realm);
 
-    await mod.linkModules();
+    await module.linkModules();
 
-    const initResult = runEvaluatorUntilCompletion(
-      mod.moduleDeclarationInstantiationEvaluator(),
-    );
-    if (isThrowCompletion(initResult)) {
-      throw initResult.value.toJs();
+    try {
+      runEvaluatorUntilCompletion(
+        module.moduleDeclarationInstantiationEvaluator(),
+      );
+    } catch (e) {
+      AbnormalCompletion.handleToJs(e);
     }
 
-    const evalResult = runEvaluatorUntilCompletion(
-      mod.moduleEvaluationEvaluator(),
-    );
-    if (isThrowCompletion(evalResult)) {
-      throw evalResult.value.toJs();
+    try {
+      runEvaluatorUntilCompletion(module.moduleEvaluationEvaluator());
+    } catch (e) {
+      AbnormalCompletion.handleToJs(e);
     }
 
-    return mod;
+    return module;
   }
 
   async generator({ realm }: EvaluationOptions = {}): Promise<
@@ -82,18 +80,11 @@ export default class StaticJsModuleCompilation
       throw new Error("Invalid realm");
     }
 
-    const initResult = yield* evaluateCommands(
-      module.moduleDeclarationInstantiationEvaluator(),
-    );
-    if (isThrowCompletion(initResult)) {
-      throw initResult.value.toJs();
-    }
-
-    const evalResult = yield* evaluateCommands(
-      module.moduleEvaluationEvaluator(),
-    );
-    if (isThrowCompletion(evalResult)) {
-      throw evalResult.value.toJs();
+    try {
+      yield* evaluateCommands(module.moduleDeclarationInstantiationEvaluator());
+      yield* evaluateCommands(module.moduleEvaluationEvaluator());
+    } catch (e) {
+      AbnormalCompletion.handleToJs(e);
     }
 
     return module;

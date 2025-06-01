@@ -1,51 +1,47 @@
+import type { Program } from "@babel/types";
 import {
   isExportSpecifier,
   isFunctionDeclaration,
   isIdentifier,
   isImportDeclaration,
   isVariableDeclaration,
-  Program,
 } from "@babel/types";
 
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import StaticJsModuleEnvironmentRecord from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
-import { StaticJsEnvironment } from "../../environments/StaticJsEnvironment.js";
+import type { StaticJsEnvironment } from "../../environments/StaticJsEnvironment.js";
 
 import evaluateNode from "../../../evaluator/node-evaluators/evaluate-node.js";
 import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
 
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import EvaluationContext from "../../../evaluator/EvaluationContext.js";
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
-import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../../../evaluator/completions/ThrowCompletion.js";
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsValue } from "../../types/StaticJsValue.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
-import {
+import type {
   StaticJsModuleStatus,
   StaticJsModuleImplementation,
 } from "../StaticJsModuleImplementation.js";
-import {
+import type {
   StaticJsModuleResolvedBinding,
   StaticJsResolvedBinding,
 } from "../StaticJsResolvedBinding.js";
 
 import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
 
-import { StaticJsImportEntry } from "./StaticJsImportEntry.js";
+import type { StaticJsImportEntry } from "./StaticJsImportEntry.js";
 
+import type { StaticJsExportEntry } from "./StaticJsExportEntry.js";
 import {
   isStaticJsLocalExportEntry,
   isStaticJsIndirectExportEntry,
-  StaticJsExportEntry,
 } from "./StaticJsExportEntry.js";
 
 export class StaticJsModuleImpl extends StaticJsModuleBase {
@@ -130,7 +126,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
   *moduleDeclarationInstantiationEvaluator(): EvaluationGenerator {
     if (this._status !== "uninstantiated") {
-      return NormalCompletion();
+      return null;
     }
 
     // TODO: Recursive dependency instantiation
@@ -149,10 +145,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       label: null,
     };
 
-    const setupEnvResult = yield* setupEnvironment(this._ast, context);
-    if (isThrowCompletion(setupEnvResult)) {
-      return setupEnvResult;
-    }
+    yield* setupEnvironment(this._ast, context);
 
     // Instaniate export modules
     for (const entry of this._exportEntries) {
@@ -162,7 +155,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
             `Module ${entry.moduleRequest} not found.`,
@@ -170,17 +163,14 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         );
       }
 
-      const result = yield* module.moduleDeclarationInstantiationEvaluator();
-      if (isThrowCompletion(result)) {
-        return result;
-      }
+      yield* module.moduleDeclarationInstantiationEvaluator();
     }
 
     // Instantiate import modules
     for (const entry of this._importEntries) {
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
             `Module ${entry.moduleRequest} not found.`,
@@ -188,16 +178,13 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         );
       }
 
-      const result = yield* module.moduleDeclarationInstantiationEvaluator();
-      if (isThrowCompletion(result)) {
-        return result;
-      }
+      yield* module.moduleDeclarationInstantiationEvaluator();
     }
 
     for (const entry of this._importEntries) {
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
             `Module ${entry.moduleRequest} not found.`,
@@ -206,34 +193,22 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       }
 
       if (entry.importName === "namespace") {
-        const result = yield* this._enviornment.createImmutableBindingEvaluator(
+        yield* this._enviornment.createImmutableBindingEvaluator(
           entry.localName,
           false,
         );
-        if (isThrowCompletion(result)) {
-          return result;
-        }
 
         const ns = yield* module.getModuleNamespaceEvaluator();
-        if (isThrowCompletion(ns)) {
-          return ns;
-        }
 
-        const initResult = yield* this._enviornment.initializeBindingEvaluator(
+        yield* this._enviornment.initializeBindingEvaluator(
           entry.localName,
           ns,
         );
-        if (isThrowCompletion(initResult)) {
-          return initResult;
-        }
       } else {
         const resolved = yield* module.resolveExportEvaluator(entry.importName);
-        if (isThrowCompletion(resolved)) {
-          return resolved;
-        }
 
         if (!resolved) {
-          return ThrowCompletion(
+          throw new ThrowCompletion(
             this._realm.types.error(
               "SyntaxError",
               `Module ${entry.moduleRequest} does not export ${entry.importName}.`,
@@ -242,7 +217,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         }
 
         if (resolved === "ambiguous") {
-          return ThrowCompletion(
+          throw new ThrowCompletion(
             this._realm.types.error(
               "SyntaxError",
               `Ambiguous export ${entry.importName} in module ${entry.moduleRequest}.`,
@@ -250,14 +225,11 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
           );
         }
 
-        const result = yield* this._enviornment.createImportBindingEvaluator(
+        yield* this._enviornment.createImportBindingEvaluator(
           entry.localName,
           resolved.module,
           resolved.bindingName,
         );
-        if (isThrowCompletion(result)) {
-          return result;
-        }
       }
     }
 
@@ -271,7 +243,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         entry.localName,
       );
       if (!hasBinding) {
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           this._realm.types.error(
             "SyntaxError",
             `Exported local name not declared: ${entry.localName}`,
@@ -288,7 +260,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
             `Module ${entry.moduleRequest} not found.`,
@@ -317,12 +289,12 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
     this._status = "instantiated";
 
-    return NormalCompletion();
+    return null;
   }
 
   *moduleEvaluationEvaluator() {
     if (this._status !== "instantiated") {
-      return NormalCompletion();
+      return null;
     }
 
     this._status = "evaluating";
@@ -339,10 +311,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         continue;
       }
 
-      const result = yield* module.moduleEvaluationEvaluator();
-      if (isThrowCompletion(result)) {
-        return result;
-      }
+      yield* module.moduleEvaluationEvaluator();
     }
 
     const result = yield* evaluateNode(this._ast, context);
@@ -355,7 +324,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
   *resolveExportEvaluator(
     bindingName: string,
     resolveSet = new Set<string>(),
-  ): EvaluationGenerator<StaticJsResolvedBinding | ThrowCompletion> {
+  ): EvaluationGenerator<StaticJsResolvedBinding> {
     const key = `${this._name}::${bindingName}`;
     if (resolveSet.has(key)) {
       return null;
@@ -390,7 +359,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
             `Module ${entry.moduleRequest} not found.`,
@@ -412,7 +381,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
             `Module ${entry.moduleRequest} not found.`,
@@ -424,9 +393,6 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         bindingName,
         resolveSet,
       );
-      if (isThrowCompletion(resolution)) {
-        return resolution;
-      }
 
       if (resolution === "ambiguous") {
         return resolution;
@@ -449,7 +415,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
   *getExportedNamesEvaluator(
     exportStarSet = new Set<string>(),
-  ): EvaluationGenerator<string[] | ThrowCompletion> {
+  ): EvaluationGenerator<string[]> {
     const visitedKey = this.name;
     if (exportStarSet.has(visitedKey)) {
       return [];
@@ -479,11 +445,8 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       }
 
       const module = this._linkedModules.get(entry.moduleRequest);
-      if (isThrowCompletion(module)) {
-        return module;
-      }
       if (!module) {
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
             `Module ${entry.moduleRequest} not found.`,
@@ -492,10 +455,6 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       }
 
       const starNames = yield* module.getExportedNamesEvaluator(exportStarSet);
-      if (isThrowCompletion(starNames)) {
-        return starNames;
-      }
-
       for (const name of starNames) {
         if (name === "default") {
           continue;
@@ -510,7 +469,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
   *getOwnBindingValueEvaluator(
     bindingName: string,
-  ): EvaluationGenerator<StaticJsValue | ThrowCompletion | null> {
+  ): EvaluationGenerator<StaticJsValue | null> {
     if (this._enviornment == null) {
       return null;
     }
@@ -519,9 +478,6 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       bindingName,
       false,
     );
-    if (isThrowCompletion(value)) {
-      return value;
-    }
     if (value == null) {
       return null;
     }

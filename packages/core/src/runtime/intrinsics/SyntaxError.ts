@@ -1,8 +1,6 @@
-import { ReturnCompletion } from "../../evaluator/completions/ReturnCompletion.js";
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
-import { StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
 export function populateSyntaxErrorPrototype(
@@ -39,7 +37,7 @@ export default function createSyntaxErrorConstructor(
         realm.types.prototypes.errorProto,
       );
 
-      return ReturnCompletion(error);
+      return error;
     },
     { prototype: functionProto },
   );

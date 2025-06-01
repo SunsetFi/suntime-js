@@ -1,21 +1,17 @@
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../../../../evaluator/completions/ThrowCompletion.js";
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
+import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
 import { isStaticJsObjectLike } from "../../../types/StaticJsObject.js";
 import { validateStaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
 
 import toPropertyDescriptor from "../../../utils/to-property-descriptor.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
   name: "defineProperties",
   *func(realm, _thisArg, targetValue, propertiesValue) {
     if (!isStaticJsObjectLike(targetValue)) {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         realm.types.error(
           "TypeError",
           "Object.defineProperties called on non-object",
@@ -30,7 +26,7 @@ const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
     for (const key of keys) {
       const descriptorObj = yield* propertiesObj.getPropertyEvaluator(key);
       if (!isStaticJsObjectLike(descriptorObj)) {
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           realm.types.error(
             "TypeError",
             "Property description must be an object",
@@ -38,13 +34,10 @@ const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
         );
       }
       const descriptor = yield* toPropertyDescriptor(realm, descriptorObj);
-      if (isThrowCompletion(descriptor)) {
-        return descriptor;
-      }
       try {
         validateStaticJsPropertyDescriptor(descriptor);
       } catch (e: unknown) {
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           realm.types.error("TypeError", (e as Error).message),
         );
       }
@@ -52,7 +45,7 @@ const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
       yield* targetValue.definePropertyEvaluator(key, descriptor);
     }
 
-    return ReturnCompletion(targetValue);
+    return targetValue;
   },
 };
 

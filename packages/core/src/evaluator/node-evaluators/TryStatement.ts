@@ -1,19 +1,18 @@
-import { BlockStatement, CatchClause, TryStatement } from "@babel/types";
+import type { BlockStatement, CatchClause, TryStatement } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { NormalCompletion } from "../completions/NormalCompletion.js";
-import { isThrowCompletion } from "../completions/ThrowCompletion.js";
+import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import setLVal from "./LVal.js";
 import setupEnvironment from "./setup-environment.js";
@@ -25,26 +24,23 @@ function* tryStatementNodeEvaluator(
   // Due to the way Environment Records are handled for try/catch/finally,
   // we manually handle blocks ourselves instead of delegating to the BlockStatement node evaluator.
 
-  let completion = yield* runBlock(node.block, context);
-  if (completion.type === "throw") {
-    if (node.handler) {
-      completion = yield* runCatch(node.handler, completion.value, context);
+  try {
+    yield* runBlock(node.block, context);
+  } catch (e) {
+    if (e instanceof ThrowCompletion) {
+      if (node.handler) {
+        yield* runCatch(node.handler, e.value, context);
+      } else {
+        throw e;
+      }
+    }
+  } finally {
+    if (node.finalizer) {
+      yield* runBlock(node.finalizer, context);
     }
   }
 
-  if (node.finalizer) {
-    const finalizerCompletion = yield* runBlock(node.finalizer, context);
-    // finalizer takes precedence over catch or try completions.
-    switch (finalizerCompletion.type) {
-      case "return":
-      case "throw":
-      case "break":
-      case "continue":
-        completion = finalizerCompletion;
-    }
-  }
-
-  return completion;
+  return null;
 }
 
 function* runCatch(
@@ -64,29 +60,10 @@ function* runCatch(
   };
 
   if (node.param) {
-    const setCompletion = yield* setLVal(
-      node.param,
-      value,
-      catchContext,
-      function* (name, value) {
-        const completion = yield* env.createMutableBindingEvaluator(
-          name,
-          false,
-        );
-        if (isThrowCompletion(completion)) {
-          return completion;
-        }
-
-        const initResult = yield* env.initializeBindingEvaluator(name, value);
-        if (isThrowCompletion(initResult)) {
-          return initResult;
-        }
-      },
-    );
-
-    if (setCompletion.type === "throw") {
-      return setCompletion;
-    }
+    yield* setLVal(node.param, value, catchContext, function* (name, value) {
+      yield* env.createMutableBindingEvaluator(name, false);
+      yield* env.initializeBindingEvaluator(name, value);
+    });
   }
 
   return yield* runBlock(node.body, catchContext);
@@ -106,27 +83,15 @@ function* runBlock(
   };
 
   for (const statement of node.body) {
-    const completion = yield* setupEnvironment(statement, blockContext);
-    if (isThrowCompletion(completion)) {
-      return completion;
-    }
+    yield* setupEnvironment(statement, blockContext);
   }
 
   let completionResult: StaticJsValue | null = null;
   for (const statement of node.body) {
-    const statementResult = yield* EvaluateNodeCommand(statement, blockContext);
-    switch (statementResult.type) {
-      case "throw":
-      case "return":
-      case "break":
-      case "continue":
-        return statementResult;
-      case "normal":
-        completionResult = statementResult.value;
-    }
+    completionResult = yield* EvaluateNodeCommand(statement, blockContext);
   }
 
-  return NormalCompletion(completionResult);
+  return completionResult;
 }
 
 export default typedMerge(tryStatementNodeEvaluator, {

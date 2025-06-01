@@ -1,13 +1,11 @@
-import { NumericLiteral } from "@babel/types";
+import type { NumericLiteral } from "@babel/types";
 
-import { NormalCompletion } from "../completions/NormalCompletion.js";
-
-import EvaluationGenerator from "../EvaluationGenerator.js";
-import EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
 
 export default function* numericLiteralNodeEvaluator(
   node: NumericLiteral,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  return NormalCompletion(context.realm.types.number(node.value));
+  return context.realm.types.number(node.value);
 }

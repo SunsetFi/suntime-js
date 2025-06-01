@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
-import { evaluateProgram, StaticJsRealm } from "../../../src/index.js";
+import type { StaticJsRealm } from "../../../src/index.js";
+import { evaluateProgram } from "../../../src/index.js";
 
 import test262Path from "./test262-path.js";
 

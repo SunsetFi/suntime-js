@@ -1,7 +1,7 @@
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsNumber } from "../StaticJsNumber.js";
-import { StaticJsObject } from "../StaticJsObject.js";
+import type { StaticJsNumber } from "../StaticJsNumber.js";
+import type { StaticJsObject } from "../StaticJsObject.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 import StaticJsNumberBoxed from "./StaticJsNumberBoxed.js";

@@ -8,11 +8,8 @@ import { describe, it, expect } from "vitest";
 import test262Path from "./utils/test262-path.js";
 import getFilesSync from "./utils/get-files.js";
 
-import {
-  compileProgram,
-  StaticJsCompilation,
-  StaticJsRealm,
-} from "../../src/index.js";
+import type { StaticJsCompilation } from "../../src/index.js";
+import { compileProgram, StaticJsRealm } from "../../src/index.js";
 import bootstrapTest262 from "./utils/bootstrap.js";
 
 // const ignoreFeatures = ["async-functions"];

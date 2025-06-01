@@ -1,19 +1,14 @@
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../../../evaluator/completions/ThrowCompletion.js";
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
-import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { StaticJsValue } from "../../types/StaticJsValue.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsEnvironment } from "../StaticJsEnvironment.js";
-import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
-import StaticJsEnvironmentBindingProvider, {
-  StaticJsEnvironmentGetBinding,
-} from "./StaticJsEnvironmentBindingProvider.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
+
+import type { StaticJsEnvironment } from "../StaticJsEnvironment.js";
+import type StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
+import type StaticJsEnvironmentBindingProvider from "./StaticJsEnvironmentBindingProvider.js";
+import { StaticJsEnvironmentGetBinding } from "./StaticJsEnvironmentBindingProvider.js";
 
 export default abstract class StaticJsBaseEnvironmentRecord
   implements StaticJsEnvironment, StaticJsEnvironmentBindingProvider
@@ -24,55 +19,22 @@ export default abstract class StaticJsBaseEnvironmentRecord
     return this._realm;
   }
 
-  hasBinding(name: string) {
-    const result = runEvaluatorUntilCompletion(this.hasBindingEvaluator(name));
-    if (isThrowCompletion(result)) {
-      throw new StaticJsRuntimeError(result.value);
-    }
-    return result;
-  }
-
   *hasBindingEvaluator(name: string) {
     return this[StaticJsEnvironmentGetBinding](name) !== undefined;
-  }
-
-  createMutableBinding(name: string, deletable: boolean): void {
-    const result = runEvaluatorUntilCompletion(
-      this.createMutableBindingEvaluator(name, deletable),
-    );
-    if (isThrowCompletion(result)) {
-      throw new StaticJsRuntimeError(result.value);
-    }
   }
 
   abstract createMutableBindingEvaluator(
     name: string,
     deletable: boolean,
-  ): EvaluationGenerator<ThrowCompletion | void>;
-
-  createImmutableBinding(name: string, strict: boolean): void {
-    runEvaluatorUntilCompletion(
-      this.createImmutableBindingEvaluator(name, strict),
-    );
-  }
+  ): EvaluationGenerator<void>;
 
   abstract createImmutableBindingEvaluator(
     name: string,
     strict: boolean,
-  ): EvaluationGenerator<ThrowCompletion | void>;
-
-  canDeclareGlobalVar(name: string): boolean {
-    return runEvaluatorUntilCompletion(this.canDeclareGlobalVarEvaluator(name));
-  }
+  ): EvaluationGenerator<void>;
 
   *canDeclareGlobalVarEvaluator(_name: string): EvaluationGenerator<boolean> {
     return false;
-  }
-
-  createGlobalVarBinding(name: string, deletable: boolean): void {
-    runEvaluatorUntilCompletion(
-      this.createGlobalVarBindingEvaluator(name, deletable),
-    );
   }
 
   *createGlobalVarBindingEvaluator(
@@ -84,24 +46,15 @@ export default abstract class StaticJsBaseEnvironmentRecord
     );
   }
 
-  initializeBinding(name: string, value: StaticJsValue): void {
-    const result = runEvaluatorUntilCompletion(
-      this.initializeBindingEvaluator(name, value),
-    );
-    if (isThrowCompletion(result)) {
-      throw new StaticJsRuntimeError(result.value);
-    }
-  }
-
   *initializeBindingEvaluator(
     name: string,
     value: StaticJsValue,
-  ): EvaluationGenerator<ThrowCompletion | void> {
+  ): EvaluationGenerator<void> {
     const binding = this[StaticJsEnvironmentGetBinding](name);
 
     if (binding) {
       if (binding.isInitialized) {
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
             `Cannot initialize binding ${name}: Binding is already initialized.`,
@@ -111,7 +64,7 @@ export default abstract class StaticJsBaseEnvironmentRecord
 
       yield* binding.initialize(value);
     } else {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         this._realm.types.error(
           "ReferenceError",
           `Cannot initialize binding ${name}: Binding does not exist.`,
@@ -120,46 +73,25 @@ export default abstract class StaticJsBaseEnvironmentRecord
     }
   }
 
-  createFunctionBinding(name: string, value: StaticJsValue): void {
-    const result = runEvaluatorUntilCompletion(
-      this.createFunctionBindingEvaluator(name, value),
-    );
-    if (isThrowCompletion(result)) {
-      throw new StaticJsRuntimeError(result.value);
-    }
-  }
-
   *createFunctionBindingEvaluator(
     name: string,
     value: StaticJsValue,
-  ): EvaluationGenerator<ThrowCompletion | void> {
-    const completion = yield* this.createMutableBindingEvaluator(name, false);
-    if (isThrowCompletion(completion)) {
-      return completion;
-    }
+  ): EvaluationGenerator<void> {
+    yield* this.createMutableBindingEvaluator(name, false);
     yield* this.setMutableBindingEvaluator(name, value, true);
-  }
-
-  setMutableBinding(name: string, value: StaticJsValue, strict: boolean): void {
-    const result = runEvaluatorUntilCompletion(
-      this.setMutableBindingEvaluator(name, value, strict),
-    );
-    if (isThrowCompletion(result)) {
-      throw new StaticJsRuntimeError(result.value);
-    }
   }
 
   *setMutableBindingEvaluator(
     name: string,
     value: StaticJsValue,
     strict: boolean,
-  ): EvaluationGenerator<ThrowCompletion | void> {
+  ): EvaluationGenerator<void> {
     const binding = this[StaticJsEnvironmentGetBinding](name);
 
     if (binding) {
       if (!binding.isMutable) {
         if (strict) {
-          return ThrowCompletion(
+          throw new ThrowCompletion(
             this._realm.types.error(
               "ReferenceError",
               `Assignment to constant variable '${name}'.`,
@@ -172,7 +104,7 @@ export default abstract class StaticJsBaseEnvironmentRecord
 
       yield* binding.set(value);
     } else {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         this._realm.types.error(
           "ReferenceError",
           `Assignment to undeclared variable '${name}'.`,
@@ -181,26 +113,16 @@ export default abstract class StaticJsBaseEnvironmentRecord
     }
   }
 
-  getBindingValue(name: string, strict: boolean): StaticJsValue {
-    const result = runEvaluatorUntilCompletion(
-      this.getBindingValueEvaluator(name, strict),
-    );
-    if (isThrowCompletion(result)) {
-      throw new StaticJsRuntimeError(result.value);
-    }
-    return result;
-  }
-
   *getBindingValueEvaluator(
     name: string,
     _strict: boolean,
-  ): EvaluationGenerator<ThrowCompletion | StaticJsValue> {
+  ): EvaluationGenerator<StaticJsValue> {
     const binding = this[StaticJsEnvironmentGetBinding](name);
 
     if (binding) {
       return yield* binding.get();
     } else {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         this.realm.types.error(
           "ReferenceError",
           `Cannot get binding ${name}: Binding does not exist.`,
@@ -209,24 +131,13 @@ export default abstract class StaticJsBaseEnvironmentRecord
     }
   }
 
-  deleteBinding(name: string): void {
-    const result = runEvaluatorUntilCompletion(
-      this.deleteBindingEvaluator(name),
-    );
-    if (isThrowCompletion(result)) {
-      throw new StaticJsRuntimeError(result.value);
-    }
-  }
-
-  *deleteBindingEvaluator(
-    name: string,
-  ): EvaluationGenerator<ThrowCompletion | void> {
+  *deleteBindingEvaluator(name: string): EvaluationGenerator<void> {
     const binding = this[StaticJsEnvironmentGetBinding](name);
 
     if (binding) {
       yield* binding.delete();
     } else {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         this.realm.types.error(
           "ReferenceError",
           `Cannot delete binding ${name}: Binding does not exist.`,
@@ -235,48 +146,24 @@ export default abstract class StaticJsBaseEnvironmentRecord
     }
   }
 
-  hasThisBinding(): boolean {
-    return runEvaluatorUntilCompletion(this.hasThisBindingEvaluator());
-  }
-
   *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {
     return false;
-  }
-
-  hasSuperBinding(): boolean {
-    return runEvaluatorUntilCompletion(this.hasSuperBindingEvaluator());
   }
 
   *hasSuperBindingEvaluator(): EvaluationGenerator<boolean> {
     return false;
   }
 
-  withBaseObject(): StaticJsValue {
-    return runEvaluatorUntilCompletion(this.withBaseObjectEvaluator());
-  }
-
   *withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this.realm.types.undefined;
-  }
-
-  getThisBinding(): StaticJsValue {
-    return runEvaluatorUntilCompletion(this.getThisBindingEvaluator());
   }
 
   *getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this.realm.types.undefined;
   }
 
-  getSuperBase() {
-    return runEvaluatorUntilCompletion(this.getSuperBaseEvaluator());
-  }
-
   *getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this.realm.types.undefined;
-  }
-
-  getVarScope(): StaticJsEnvironment | null {
-    return runEvaluatorUntilCompletion(this.getVarScopeEvaluator());
   }
 
   *getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironment | null> {

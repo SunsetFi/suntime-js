@@ -1,6 +1,4 @@
-import { Node } from "@babel/types";
-
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import type { Node } from "@babel/types";
 
 import { isStaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
 import StaticJsRealmFactory from "../../runtime/realm/factories/StaticJsRealm.js";
@@ -10,16 +8,16 @@ import {
   evaluateCommands,
 } from "../evaluator-runtime.js";
 
+import { AbnormalCompletion } from "../completions/AbnormalCompletion.js";
+
 import evaluateNode from "../node-evaluators/evaluate-node.js";
 import setupEnvironment from "../node-evaluators/setup-environment.js";
 
-import { isThrowCompletion } from "../completions/ThrowCompletion.js";
+import type EvaluationContext from "../EvaluationContext.js";
 
-import EvaluationContext from "../EvaluationContext.js";
+import type { EvaluationOptions } from "./options.js";
 
-import { EvaluationOptions } from "./options.js";
-
-import StaticJsCompilation from "./StaticJsCompilation.js";
+import type StaticJsCompilation from "./StaticJsCompilation.js";
 
 export default class StaticJsEvalCompilation implements StaticJsCompilation {
   constructor(private readonly _root: Node) {}
@@ -37,34 +35,23 @@ export default class StaticJsEvalCompilation implements StaticJsCompilation {
       label: null,
     };
 
-    const setupResult = runEvaluatorUntilCompletion(
-      setupEnvironment(this._root, context),
-    );
-    if (isThrowCompletion(setupResult)) {
-      throw setupResult.value.toJs();
+    try {
+      runEvaluatorUntilCompletion(setupEnvironment(this._root, context));
+    } catch (e) {
+      if (e instanceof AbnormalCompletion) {
+        throw e.toJs();
+      }
+      throw e;
     }
 
-    const result = runEvaluatorUntilCompletion(
-      evaluateNode(this._root, context),
-    );
-
-    switch (result.type) {
-      case "return":
-      case "continue":
-      case "break":
-        throw new Error(
-          "Control flow statements are not allowed in expressions.",
-        );
-      case "throw":
-        // FIXME: Probably want to wrap the error.
-        throw result.value.toJs();
-      case "normal":
-        return result.value?.toJs();
+    try {
+      const result = runEvaluatorUntilCompletion(
+        evaluateNode(this._root, context),
+      );
+      return result?.toJs();
+    } catch (e) {
+      AbnormalCompletion.handleToJs(e);
     }
-
-    // @ts-expect-error: We should never reach this point.
-    const type = result.type;
-    throw new StaticJsEngineError("Unknown completion type: " + type);
   }
 
   *generator({ realm }: EvaluationOptions = {}): Generator<
@@ -84,27 +71,17 @@ export default class StaticJsEvalCompilation implements StaticJsCompilation {
       label: null,
     };
 
-    const setupResult = yield* evaluateCommands(
-      setupEnvironment(this._root, context),
-    );
-    if (isThrowCompletion(setupResult)) {
-      throw setupResult.value.toJs();
+    try {
+      yield* evaluateCommands(setupEnvironment(this._root, context));
+    } catch (e) {
+      AbnormalCompletion.handleToJs(e);
     }
 
-    const result = yield* evaluateCommands(evaluateNode(this._root, context));
-
-    switch (result.type) {
-      case "return":
-      case "continue":
-      case "break":
-        throw new Error(
-          "Control flow statements are not allowed in expressions.",
-        );
-      case "throw":
-        // FIXME: Probably want to wrap the error.
-        throw result.value.toJs();
-      case "normal":
-        return result.value?.toJs();
+    try {
+      const result = yield* evaluateCommands(evaluateNode(this._root, context));
+      return result?.toJs();
+    } catch (e) {
+      AbnormalCompletion.handleToJs(e);
     }
   }
 }

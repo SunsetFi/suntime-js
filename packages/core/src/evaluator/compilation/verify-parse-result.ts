@@ -1,5 +1,5 @@
-import { ParseResult } from "@babel/parser";
-import { File, Expression } from "@babel/types";
+import type { ParseResult } from "@babel/parser";
+import type { File, Expression } from "@babel/types";
 
 import StaticJsParseError from "../../errors/StaticJsParseError.js";
 

@@ -1,9 +1,10 @@
-import { StaticJsBoolean } from "./StaticJsBoolean.js";
-import { StaticJsNull } from "./StaticJsNull.js";
-import { StaticJsNumber } from "./StaticJsNumber.js";
-import { StaticJsString } from "./StaticJsString.js";
-import { StaticJsUndefined } from "./StaticJsUndefined.js";
-import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
+import type { StaticJsBoolean } from "./StaticJsBoolean.js";
+import type { StaticJsNull } from "./StaticJsNull.js";
+import type { StaticJsNumber } from "./StaticJsNumber.js";
+import type { StaticJsString } from "./StaticJsString.js";
+import type { StaticJsUndefined } from "./StaticJsUndefined.js";
+import type { StaticJsValue } from "./StaticJsValue.js";
+import { isStaticJsValue } from "./StaticJsValue.js";
 
 export type StaticJsScalar =
   | StaticJsString

@@ -1,14 +1,10 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-
-import { StaticJsRealm } from "../../../realm/index.js";
+import type { StaticJsRealm } from "../../../realm/index.js";
 
 import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
-import { StaticJsObject } from "../../../types/index.js";
+import type { StaticJsObject } from "../../../types/index.js";
 
-import {
-  applyIntrinsicProperties,
-  IntrinsicPropertyDeclaration,
-} from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import { applyIntrinsicProperties } from "../../utils.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [];
 
@@ -40,7 +36,7 @@ export default function createErrorConstructor(
         realm.types.prototypes.errorProto,
       );
 
-      return ReturnCompletion(error);
+      return error;
     },
     { prototype: functionProto },
   );

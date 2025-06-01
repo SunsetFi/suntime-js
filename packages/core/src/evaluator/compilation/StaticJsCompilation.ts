@@ -1,4 +1,4 @@
-import { EvaluationOptions } from "./options.js";
+import type { EvaluationOptions } from "./options.js";
 
 export default interface StaticJsCompilation<
   TResult = unknown,

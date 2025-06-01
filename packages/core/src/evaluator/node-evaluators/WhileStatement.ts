@@ -1,4 +1,4 @@
-import { WhileStatement } from "@babel/types";
+import type { WhileStatement } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
@@ -7,13 +7,12 @@ import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/imp
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { NormalCompletion } from "../completions/NormalCompletion.js";
-import { isThrowCompletion } from "../completions/ThrowCompletion.js";
-
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setupEnvironment from "./setup-environment.js";
+import { BreakCompletion } from "../completions/BreakCompletion.js";
+import { ContinueCompletion } from "../completions/ContinueCompletion.js";
 
 function* whileStatementNodeEvaluator(
   node: WhileStatement,
@@ -32,7 +31,6 @@ function* whileStatementNodeEvaluator(
 
   while (true) {
     const testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
-      rethrow: true,
       forNormalValue: "WhileStatement.test",
     });
 
@@ -51,37 +49,30 @@ function* whileStatementNodeEvaluator(
       env: bodyEnv,
     };
 
-    const setupBodyCompletion = yield* setupEnvironment(node.body, bodyContext);
-    if (isThrowCompletion(setupBodyCompletion)) {
-      return setupBodyCompletion;
-    }
+    yield* setupEnvironment(node.body, bodyContext);
 
-    const bodyResult = yield* EvaluateNodeCommand(node.body, bodyContext);
+    try {
+      yield* EvaluateNodeCommand(node.body, bodyContext);
+    } catch (e) {
+      if (
+        e instanceof BreakCompletion &&
+        (!e.target || e.target === context.label)
+      ) {
+        break;
+      }
 
-    if (
-      bodyResult.type === "break" &&
-      (!bodyResult.target || bodyResult.target === context.label)
-    ) {
-      break;
-    }
+      if (
+        e instanceof ContinueCompletion &&
+        (!e.target || e.target === context.label)
+      ) {
+        continue;
+      }
 
-    if (
-      bodyResult.type === "continue" &&
-      (!bodyResult.target || bodyResult.target === context.label)
-    ) {
-      continue;
-    }
-
-    switch (bodyResult.type) {
-      case "return":
-      case "throw":
-      case "break":
-      case "continue":
-        return bodyResult;
+      throw e;
     }
   }
 
-  return NormalCompletion();
+  return null;
 }
 
 export default typedMerge(whileStatementNodeEvaluator, {

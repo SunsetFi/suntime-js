@@ -1,4 +1,4 @@
-import {
+import type {
   ObjectExpression,
   ObjectMethod,
   ObjectProperty,
@@ -7,19 +7,14 @@ import {
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import {
-  isStaticJsObject,
-  StaticJsObject,
-} from "../../runtime/types/StaticJsObject.js";
+import type { StaticJsObject } from "../../runtime/types/StaticJsObject.js";
+import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { Completion } from "../completions/Completion.js";
-import { NormalCompletion } from "../completions/NormalCompletion.js";
-
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import createFunction from "./Function.js";
 
@@ -33,24 +28,23 @@ export default function* objectExpressionNodeEvaluator(
   const target = context.realm.types.object();
 
   for (const property of node.properties) {
-    let completion: Completion;
     switch (property.type) {
       case "ObjectMethod":
-        completion = yield* objectExpressionPropertyObjectMethodEvaluator(
+        yield* objectExpressionPropertyObjectMethodEvaluator(
           target,
           property,
           context,
         );
         break;
       case "ObjectProperty":
-        completion = yield* objectExpressionPropertyObjectPropertyEvaluator(
+        yield* objectExpressionPropertyObjectPropertyEvaluator(
           target,
           property,
           context,
         );
         break;
       case "SpreadElement": {
-        completion = yield* objectExpressionPropertySpreadElementEvaluator(
+        yield* objectExpressionPropertySpreadElementEvaluator(
           target,
           property,
           context,
@@ -63,13 +57,9 @@ export default function* objectExpressionNodeEvaluator(
         throw new StaticJsEngineError("Unsupported property type: " + type);
       }
     }
-
-    if (completion.type === "throw") {
-      return completion;
-    }
   }
 
-  return NormalCompletion(target);
+  return target;
 }
 
 function* objectExpressionPropertyObjectMethodEvaluator(
@@ -84,7 +74,6 @@ function* objectExpressionPropertyObjectMethodEvaluator(
     propertyName = propertyKey.name;
   } else {
     const property = yield* EvaluateNodeCommand(propertyKey, context, {
-      rethrow: true,
       forNormalValue: "ObjectMethod.key",
     });
     propertyName = toPropertyKey(property);
@@ -99,7 +88,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
         method,
         context.realm.strict,
       );
-      return NormalCompletion();
+      return null;
     }
     case "get": {
       yield* target.definePropertyEvaluator(propertyName, {
@@ -107,7 +96,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
         configurable: true,
         get: method,
       });
-      return NormalCompletion();
+      return null;
     }
     case "set": {
       yield* target.definePropertyEvaluator(propertyName, {
@@ -115,7 +104,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
         configurable: true,
         set: method,
       });
-      return NormalCompletion();
+      return null;
     }
   }
 
@@ -136,18 +125,16 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
     throw new StaticJsEngineError("Private fields are not supported");
   } else {
     const property = yield* EvaluateNodeCommand(propertyKey, context, {
-      rethrow: true,
       forNormalValue: "ObjectProperty.key",
     });
     propertyName = toPropertyKey(property);
   }
 
   const value = yield* EvaluateNodeCommand(property.value, context, {
-    rethrow: true,
     forNormalValue: "ObjectProperty.value",
   });
   yield* target.setPropertyEvaluator(propertyName, value, context.realm.strict);
-  return NormalCompletion();
+  return null;
 }
 
 function* objectExpressionPropertySpreadElementEvaluator(
@@ -156,12 +143,11 @@ function* objectExpressionPropertySpreadElementEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const value = yield* EvaluateNodeCommand(property.argument, context, {
-    rethrow: true,
     forNormalValue: "SpreadElement.argument",
   });
   if (!isStaticJsObject(value)) {
     // Apparently we just ignore these
-    return NormalCompletion();
+    return null;
   }
 
   const ownKeys = yield* value.getOwnKeysEvaluator();
@@ -174,5 +160,5 @@ function* objectExpressionPropertySpreadElementEvaluator(
     );
   }
 
-  return NormalCompletion();
+  return null;
 }

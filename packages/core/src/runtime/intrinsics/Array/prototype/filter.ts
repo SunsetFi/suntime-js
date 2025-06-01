@@ -1,14 +1,9 @@
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../../../../evaluator/completions/ThrowCompletion.js";
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
+import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
-import { StaticJsValue } from "../../../types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
 
@@ -22,7 +17,7 @@ const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (!isStaticJsFunction(callback)) {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         realm.types.error(
           "TypeError",
           `${callback.toString()} is not a function`,
@@ -31,9 +26,6 @@ const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const length = yield* getLength(realm, thisObj);
-    if (isThrowCompletion(length)) {
-      return length;
-    }
 
     const resultItems: StaticJsValue[] = [];
     for (let i = 0; i < length; i++) {
@@ -44,27 +36,19 @@ const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const elementValue = yield* thisObj.getPropertyEvaluator(property);
-      const resultCompletion = yield* callback.callEvaluator(
+      const result = yield* callback.callEvaluator(
         thisObj,
         elementValue,
         realm.types.number(i),
         thisObj,
       );
-      if (resultCompletion.type === "throw") {
-        return resultCompletion;
-      }
-      if (resultCompletion.type !== "normal" || !resultCompletion.value) {
-        throw new StaticJsEngineError(
-          "Expected Array.prototype.filter invocation completion to return a value, but got undefined",
-        );
-      }
 
-      if (resultCompletion.value.toBoolean()) {
+      if (result.toBoolean()) {
         resultItems.push(elementValue);
       }
     }
 
-    return ReturnCompletion(realm.types.array(resultItems));
+    return realm.types.array(resultItems);
   },
 };
 

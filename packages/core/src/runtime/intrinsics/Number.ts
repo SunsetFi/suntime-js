@@ -1,9 +1,7 @@
-import { ReturnCompletion } from "../../evaluator/completions/ReturnCompletion.js";
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
-import { StaticJsObject } from "../types/StaticJsObject.js";
-import { StaticJsValue } from "../types/StaticJsValue.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
@@ -20,9 +18,7 @@ export function populateNumberPrototype(
       realm,
       "toString",
       function* (thisArg: StaticJsValue) {
-        return ReturnCompletion(
-          realm.types.string(thisArg.toNumber().toString()),
-        );
+        return realm.types.string(thisArg.toNumber().toString());
       },
       { prototype: functionProto },
     ),
@@ -36,9 +32,7 @@ export function populateNumberPrototype(
       realm,
       "toLocaleString",
       function* (thisArg: StaticJsValue) {
-        return ReturnCompletion(
-          realm.types.string(thisArg.toNumber().toLocaleString()),
-        );
+        return realm.types.string(thisArg.toNumber().toLocaleString());
       },
       { prototype: functionProto },
     ),
@@ -53,7 +47,7 @@ export function populateNumberPrototype(
       "valueOf",
       function* (thisArg: StaticJsValue) {
         // Unbox.
-        return ReturnCompletion(realm.types.number(thisArg.toNumber()));
+        return realm.types.number(thisArg.toNumber());
       },
       { prototype: functionProto },
     ),
@@ -67,8 +61,8 @@ export function populateNumberPrototype(
       realm,
       "toFixed",
       function* (thisArg: StaticJsValue, digits: StaticJsValue) {
-        return ReturnCompletion(
-          realm.types.string(thisArg.toNumber().toFixed(digits.toNumber())),
+        return realm.types.string(
+          thisArg.toNumber().toFixed(digits.toNumber()),
         );
       },
       { prototype: functionProto },
@@ -83,10 +77,8 @@ export function populateNumberPrototype(
       realm,
       "toExponential",
       function* (thisArg: StaticJsValue, digits: StaticJsValue) {
-        return ReturnCompletion(
-          realm.types.string(
-            thisArg.toNumber().toExponential(digits.toNumber()),
-          ),
+        return realm.types.string(
+          thisArg.toNumber().toExponential(digits.toNumber()),
         );
       },
       { prototype: functionProto },
@@ -101,10 +93,8 @@ export function populateNumberPrototype(
       realm,
       "toPrecision",
       function* (thisArg: StaticJsValue, precision: StaticJsValue) {
-        return ReturnCompletion(
-          realm.types.string(
-            thisArg.toNumber().toPrecision(precision.toNumber()),
-          ),
+        return realm.types.string(
+          thisArg.toNumber().toPrecision(precision.toNumber()),
         );
       },
       { prototype: functionProto },
@@ -124,10 +114,10 @@ export function createNumberConstructor(
     "Number",
     function* (_thisArg: StaticJsValue, value?: StaticJsValue) {
       if (value === undefined) {
-        return ReturnCompletion(realm.types.number(0));
+        return realm.types.number(0);
       }
 
-      return ReturnCompletion(realm.types.number(value.toNumber()));
+      return realm.types.number(value.toNumber());
     },
     { prototype: functionProto },
   );

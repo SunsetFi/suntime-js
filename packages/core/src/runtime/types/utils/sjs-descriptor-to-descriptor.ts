@@ -1,12 +1,10 @@
 import { runEvaluatorUntilCompletion } from "../../../evaluator/evaluator-runtime.js";
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-
+import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
-  StaticJsPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
 
 export default function staticJsDescriptorToObjectDescriptor(
@@ -21,35 +19,19 @@ export default function staticJsDescriptorToObjectDescriptor(
   if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
     if (descriptor.get) {
       objDescriptor.get = function () {
-        const completion = runEvaluatorUntilCompletion(
+        const result = runEvaluatorUntilCompletion(
           descriptor.get!.callEvaluator(realm.types.toStaticJsValue(this)),
         );
-        if (completion.type === "throw") {
-          throw realm.types.toStaticJsValue(completion.value);
-        }
-        if (completion.type !== "normal" || !completion.value) {
-          throw new StaticJsEngineError(
-            "Accessor property getter did not return a NormalCompletion with a value",
-          );
-        }
-        return completion.value.toJs();
+        return result.toJs();
       };
     }
     if (descriptor.set) {
       objDescriptor.value = function (value: unknown) {
         const thisValue = realm.types.toStaticJsValue(this);
         const staticJsValue = realm.types.toStaticJsValue(value);
-        const completion = runEvaluatorUntilCompletion(
+        runEvaluatorUntilCompletion(
           descriptor.set!.callEvaluator(thisValue, staticJsValue),
         );
-        if (completion.type === "throw") {
-          throw realm.types.toStaticJsValue(completion.value);
-        }
-        if (completion.type !== "normal") {
-          throw new StaticJsEngineError(
-            "Accessor property setter did not return a NormalCompletion",
-          );
-        }
       };
     }
   } else if (isStaticJsDataPropertyDescriptor(descriptor)) {

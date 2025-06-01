@@ -1,14 +1,11 @@
-import { UpdateExpression } from "@babel/types";
+import type { UpdateExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import { isStaticJsNumber } from "../../runtime/types/StaticJsNumber.js";
 
-import { NormalCompletion } from "../completions/NormalCompletion.js";
-
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
-import { isThrowCompletion } from "../completions/ThrowCompletion.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 export default function* updateExpressionNodeEvaluator(
   node: UpdateExpression,
@@ -27,12 +24,9 @@ export default function* updateExpressionNodeEvaluator(
     bindingName,
     context.realm.strict,
   );
-  if (isThrowCompletion(originalValue)) {
-    return originalValue;
-  }
 
   if (!isStaticJsNumber(originalValue)) {
-    return NormalCompletion(context.realm.types.NaN);
+    return context.realm.types.NaN;
   }
 
   let targetValue = originalValue.toJs() as number;
@@ -50,14 +44,11 @@ export default function* updateExpressionNodeEvaluator(
   }
 
   const setValue = context.realm.types.number(targetValue);
-  const result = yield* context.env.setMutableBindingEvaluator(
+  yield* context.env.setMutableBindingEvaluator(
     bindingName,
     setValue,
     context.realm.strict,
   );
-  if (isThrowCompletion(result)) {
-    return result;
-  }
 
-  return NormalCompletion(node.prefix ? setValue : originalValue);
+  return node.prefix ? setValue : originalValue;
 }

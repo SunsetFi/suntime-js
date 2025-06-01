@@ -1,13 +1,13 @@
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { StaticJsValue } from "../../types/StaticJsValue.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
-import { StaticJsEnvironment } from "../StaticJsEnvironment.js";
+import type { StaticJsEnvironment } from "../StaticJsEnvironment.js";
 import StaticJsBaseEnvironment from "./StaticJsBaseEnvironmentRecord.js";
-import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
-import StaticJsEnvironmentBindingProvider, {
+import type StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
+import type StaticJsEnvironmentBindingProvider from "./StaticJsEnvironmentBindingProvider.js";
+import {
   environmentToBindingProvider,
   StaticJsEnvironmentGetBinding,
 } from "./StaticJsEnvironmentBindingProvider.js";
@@ -31,14 +31,14 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
   }
 
   *createMutableBindingEvaluator(name: string, deletable: boolean) {
-    return yield* this._record.createMutableBindingEvaluator(name, deletable);
+    yield* this._record.createMutableBindingEvaluator(name, deletable);
   }
 
   *createImmutableBindingEvaluator(
     name: string,
     strict: boolean,
-  ): EvaluationGenerator<ThrowCompletion | void> {
-    return yield* this._record.createImmutableBindingEvaluator(name, strict);
+  ): EvaluationGenerator<void> {
+    yield* this._record.createImmutableBindingEvaluator(name, strict);
   }
 
   *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {

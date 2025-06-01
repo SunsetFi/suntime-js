@@ -1,7 +1,8 @@
-import EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
-import { StaticJsObjectLike } from "./StaticJsObject.js";
-import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
+import type { StaticJsObjectLike } from "./StaticJsObject.js";
+import type { StaticJsValue } from "./StaticJsValue.js";
+import { isStaticJsValue } from "./StaticJsValue.js";
 
 export const MAX_ARRAY_LENGTH = 2 ** 53 - 1;
 

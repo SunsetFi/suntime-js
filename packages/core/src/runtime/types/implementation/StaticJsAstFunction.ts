@@ -1,4 +1,4 @@
-import {
+import type {
   BlockStatement,
   Expression,
   Identifier,
@@ -6,26 +6,21 @@ import {
   RestElement,
 } from "@babel/types";
 
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-
 import setLVal from "../../../evaluator/node-evaluators/LVal.js";
 
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import { isThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
-import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
-
-import EvaluationContext from "../../../evaluator/EvaluationContext.js";
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 
 import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
+
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsValue } from "../StaticJsValue.js";
+import type { StaticJsValue } from "../StaticJsValue.js";
 
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
 
@@ -63,7 +58,7 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
   private *_invoke(
     thisArg: StaticJsValue,
     args: StaticJsValue[],
-  ): EvaluationGenerator<Completion> {
+  ): EvaluationGenerator {
     const functionEnv = new StaticJsLexicalEnvironment(
       this.realm,
       new StaticJsFunctionEnvironmentRecord(
@@ -80,72 +75,28 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
       label: null,
     };
 
-    const completion = yield* this._declareArguments(args, functionContext);
-    if (completion.type !== "normal") {
-      return completion;
-    }
+    yield* this._declareArguments(args, functionContext);
 
-    const setupBodyResult = yield* setupEnvironment(
-      this._body,
-      functionContext,
-    );
-    if (isThrowCompletion(setupBodyResult)) {
-      return setupBodyResult;
-    }
+    yield* setupEnvironment(this._body, functionContext);
 
-    const evaluationCompletion = yield* EvaluateNodeCommand(
-      this._body,
-      functionContext,
-    );
-
-    switch (evaluationCompletion.type) {
-      case "break":
-      case "continue":
-        throw new StaticJsEngineError("Unexpected break/continue in function");
-      case "return":
-        return NormalCompletion(evaluationCompletion.value);
-      case "throw":
-        return evaluationCompletion;
-    }
-
-    return NormalCompletion();
+    return yield* EvaluateNodeCommand(this._body, functionContext);
   }
 
   private *_declareArguments(
     args: StaticJsValue[],
     context: EvaluationContext,
-  ): EvaluationGenerator {
+  ): EvaluationGenerator<void> {
     for (let i = 0; i < this._argumentDeclarations.length; i++) {
       const decl = this._argumentDeclarations[i];
 
       if (decl.type === "RestElement") {
         const value = this.realm.types.array(args.slice(i));
-        const completion = yield* setLVal(
-          decl.argument,
-          value,
-          context,
-          function* (name, value) {
-            const createResult =
-              yield* context.env.createMutableBindingEvaluator(name, false);
-            if (isThrowCompletion(createResult)) {
-              return createResult;
-            }
+        yield* setLVal(decl.argument, value, context, function* (name, value) {
+          yield* context.env.createMutableBindingEvaluator(name, false);
 
-            // Strict mode is whatever; our binding is created above.
-            const setResult = yield* context.env.setMutableBindingEvaluator(
-              name,
-              value,
-              true,
-            );
-            if (isThrowCompletion(setResult)) {
-              return setResult;
-            }
-          },
-        );
-
-        if (completion.type !== "normal") {
-          return completion;
-        }
+          // Strict mode is whatever; our binding is created above.
+          yield* context.env.setMutableBindingEvaluator(name, value, true);
+        });
 
         break;
       }
@@ -153,36 +104,12 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
       // We might not get enough arguments, so fill in the rest with undefined.
       const value: StaticJsValue = args[i] ?? this.realm.types.undefined;
 
-      const completion = yield* setLVal(
-        decl,
-        value,
-        context,
-        function* (name, value) {
-          const createResult = yield* context.env.createMutableBindingEvaluator(
-            name,
-            false,
-          );
-          if (isThrowCompletion(createResult)) {
-            return createResult;
-          }
+      yield* setLVal(decl, value, context, function* (name, value) {
+        yield* context.env.createMutableBindingEvaluator(name, false);
 
-          // Strict mode is whatever; our binding is created above.
-          const setResult = yield* context.env.setMutableBindingEvaluator(
-            name,
-            value,
-            true,
-          );
-          if (isThrowCompletion(setResult)) {
-            return setResult;
-          }
-        },
-      );
-
-      if (completion.type !== "normal") {
-        return completion;
-      }
+        // Strict mode is whatever; our binding is created above.
+        yield* context.env.setMutableBindingEvaluator(name, value, true);
+      });
     }
-
-    return NormalCompletion();
   }
 }

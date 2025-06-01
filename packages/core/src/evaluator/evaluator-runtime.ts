@@ -1,6 +1,7 @@
 import executeEvaluatorCommand from "./commands/execute-command.js";
-import EvaluationGenerator from "./EvaluationGenerator.js";
+import type EvaluationGenerator from "./EvaluationGenerator.js";
 
+console.log("HELLO EVALUATOR RUNTIME TO COMPL");
 export function runEvaluatorUntilCompletion<TReturn>(
   generator: EvaluationGenerator<TReturn>,
 ): TReturn {

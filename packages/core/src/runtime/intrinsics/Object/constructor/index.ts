@@ -1,14 +1,10 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-
-import { StaticJsRealm } from "../../../realm/index.js";
+import type { StaticJsRealm } from "../../../realm/index.js";
 
 import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
-import { StaticJsObject } from "../../../types/index.js";
+import type { StaticJsObject } from "../../../types/index.js";
 
-import {
-  applyIntrinsicProperties,
-  IntrinsicPropertyDeclaration,
-} from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import { applyIntrinsicProperties } from "../../utils.js";
 
 import objectCtorAssignDeclaration from "./assign.js";
 import objectCtorCreateDeclaration from "./create.js";
@@ -52,10 +48,10 @@ export default function createObjectConstructor(
     "Object",
     function* (_thisArg, arg) {
       if (!arg) {
-        return ReturnCompletion(realm.types.object());
+        return realm.types.object();
       }
 
-      return ReturnCompletion(arg.toObject());
+      return arg.toObject();
     },
     { prototype: functionProto },
   );

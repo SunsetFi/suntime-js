@@ -1,15 +1,14 @@
-import { ArrayExpression } from "@babel/types";
+import type { ArrayExpression } from "@babel/types";
 
-import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { isStaticJsArray } from "../../runtime/types/StaticJsArray.js";
 
-import { NormalCompletion } from "../completions/NormalCompletion.js";
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import EvaluationGenerator from "../EvaluationGenerator.js";
-import EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
 
 import nameNode from "./name-node.js";
 
@@ -26,14 +25,13 @@ export default function* arrayExpressionNodeEvaluator(
 
     if (element.type === "SpreadElement") {
       const resolved = yield* EvaluateNodeCommand(element.argument, context, {
-        rethrow: true,
         forNormalValue: "ArrayExpression.elements[].argument",
       });
 
       if (!isStaticJsArray(resolved)) {
         // FIXME: This is allowed if there is an Iterator.
         // FIXME: Use real error.
-        return ThrowCompletion(
+        throw new ThrowCompletion(
           context.realm.types.error(
             "TypeError",
             `Cannot spread non-array value (spreading ${nameNode(element)}).`,
@@ -49,11 +47,10 @@ export default function* arrayExpressionNodeEvaluator(
     }
 
     const value = yield* EvaluateNodeCommand(element, context, {
-      rethrow: true,
       forNormalValue: "ArrayExpression.elements[]",
     });
     items.push(value);
   }
 
-  return NormalCompletion(context.realm.types.array(items));
+  return context.realm.types.array(items);
 }

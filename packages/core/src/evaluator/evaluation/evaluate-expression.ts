@@ -2,7 +2,7 @@ import { parseExpression } from "@babel/parser";
 
 import StaticJsParseError from "../../errors/StaticJsParseError.js";
 
-import {
+import type {
   EvaluationOptions,
   ExpressionCompilationOptions,
 } from "../compilation/options.js";

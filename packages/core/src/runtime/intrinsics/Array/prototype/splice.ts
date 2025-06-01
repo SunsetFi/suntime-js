@@ -1,11 +1,9 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-
 import toInteger from "../../../algorithms/to-integer.js";
 
 import setArray from "../../../utils/set-array.js";
 import toArray from "../../../utils/to-array.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
   name: "splice",
@@ -16,7 +14,7 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
     const length = toInteger(lengthValue);
 
     if (!startValue) {
-      return ReturnCompletion(realm.types.array());
+      return realm.types.array();
     }
 
     let start = 0;
@@ -53,7 +51,7 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
     );
 
     yield* setArray(realm, thisObj, oldItems);
-    return ReturnCompletion(realm.types.array(result));
+    return realm.types.array(result);
   },
 };
 

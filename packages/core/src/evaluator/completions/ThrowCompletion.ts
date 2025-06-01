@@ -1,22 +1,12 @@
-import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { AbnormalCompletion } from "./AbnormalCompletion.js";
 
-import { CompletionBase } from "./CompletionBase.js";
+export class ThrowCompletion extends AbnormalCompletion {
+  constructor(public readonly value: StaticJsValue) {
+    super("throw");
+  }
 
-export interface ThrowCompletion extends CompletionBase {
-  type: "throw";
-  value: StaticJsValue;
-}
-export function ThrowCompletion(value: StaticJsValue): ThrowCompletion {
-  return {
-    type: "throw",
-    value,
-  };
-}
-
-export function isThrowCompletion(value: unknown): value is ThrowCompletion {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    (value as CompletionBase).type === "throw"
-  );
+  toJs(): unknown {
+    return this.value.toJs();
+  }
 }

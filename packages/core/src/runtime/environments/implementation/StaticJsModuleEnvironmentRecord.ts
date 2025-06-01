@@ -1,15 +1,14 @@
-import { isThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { NormalCompletion } from "../../../evaluator/completions/NormalCompletion.js";
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
-import { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+
+import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
-import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
+import type StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 import { StaticJsEnvironmentGetBinding } from "./StaticJsEnvironmentBindingProvider.js";
 
 export default class StaticJsModuleEnvironmentRecord extends StaticJsDeclarativeEnvironmentRecord {
@@ -39,10 +38,6 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsDeclarative
       },
       *get() {
         const value = yield* module.getOwnBindingValueEvaluator(bindingName);
-        if (isThrowCompletion(value)) {
-          // FIXME: Make this return throw completions
-          throw new StaticJsRuntimeError(value.value);
-        }
         if (value == null) {
           throw new StaticJsEngineError(
             `Export ${bindingName} not found in module ${module.name}.`,
@@ -51,8 +46,7 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsDeclarative
         return value;
       },
       *set(value) {
-        // FIXME: Make set return throw completions.
-        throw new StaticJsRuntimeError(
+        throw new ThrowCompletion(
           realm.types.error(
             "TypeError",
             `Cannot set binding ${name} to ${value}.  Module imports cannot be assigned.`,
@@ -60,7 +54,7 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsDeclarative
         );
       },
       *delete() {
-        throw new StaticJsRuntimeError(
+        throw new ThrowCompletion(
           realm.types.error(
             "TypeError",
             `Cannot delete binding ${name}.  Module imports cannot be deleted.`,
@@ -69,7 +63,7 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsDeclarative
       },
     });
 
-    return NormalCompletion();
+    return null;
   }
 
   [StaticJsEnvironmentGetBinding](

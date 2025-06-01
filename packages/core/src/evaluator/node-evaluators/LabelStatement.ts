@@ -1,7 +1,7 @@
-import { LabeledStatement } from "@babel/types";
+import type { LabeledStatement } from "@babel/types";
 
-import EvaluationGenerator from "../EvaluationGenerator.js";
-import EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 export default function* labeledStatementNodeEvaluator(

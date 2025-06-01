@@ -1,17 +1,17 @@
-import { Writable } from "type-fest";
+import type { Writable } from "type-fest";
 
-import EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 
-import { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import {
+import type {
   StaticJsPropertyDescriptor,
   StaticJsAccessorPropertyDescriptor,
   StaticJsDataPropertyDescriptor,
 } from "../types/StaticJsPropertyDescriptor.js";
 import { isStaticJsFunction } from "../types/StaticJsFunction.js";
-import { StaticJsObjectLike } from "../types/StaticJsObject.js";
+import type { StaticJsObjectLike } from "../types/StaticJsObject.js";
 
 export default function* toPropertyDescriptor(
   realm: StaticJsRealm,
@@ -62,7 +62,7 @@ export default function* toPropertyDescriptor(
   if (hasGetter) {
     const getter = yield* obj.getPropertyEvaluator("get");
     if (!isStaticJsFunction(getter)) {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         realm.types.error("TypeError", `get must be a function`),
       );
     }
@@ -74,7 +74,7 @@ export default function* toPropertyDescriptor(
   if (hasSetter) {
     const setter = yield* obj.getPropertyEvaluator("set");
     if (!isStaticJsFunction(setter)) {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         realm.types.error("TypeError", `set must be a function`),
       );
     }

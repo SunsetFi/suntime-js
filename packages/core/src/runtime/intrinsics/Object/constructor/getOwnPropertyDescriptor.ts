@@ -1,5 +1,3 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsScalar } from "../../../types/StaticJsScalar.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
@@ -9,7 +7,7 @@ import {
   isStaticJsDataPropertyDescriptor,
 } from "../../../types/StaticJsPropertyDescriptor.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaration =
   {
@@ -23,7 +21,7 @@ const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaratio
         isStaticJsNull(propValue) ||
         isStaticJsUndefined(propValue)
       ) {
-        return ReturnCompletion(realm.types.undefined);
+        return realm.types.undefined;
       }
 
       const descriptor = yield* obj.getOwnPropertyDescriptorEvaluator(
@@ -31,7 +29,7 @@ const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaratio
       );
 
       if (!descriptor) {
-        return ReturnCompletion(realm.types.undefined);
+        return realm.types.undefined;
       }
 
       const result = realm.types.object({
@@ -81,7 +79,7 @@ const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaratio
         });
       }
 
-      return ReturnCompletion(result);
+      return result;
     },
   };
 

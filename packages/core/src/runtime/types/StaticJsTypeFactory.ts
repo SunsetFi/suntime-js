@@ -1,15 +1,15 @@
-import { Prototypes } from "../intrinsics/intrinsics.js";
+import type { Prototypes } from "../intrinsics/intrinsics.js";
 
-import { StaticJsArray } from "./StaticJsArray.js";
-import { StaticJsFunction } from "./StaticJsFunction.js";
-import { StaticJsBoolean } from "./StaticJsBoolean.js";
-import { StaticJsNull } from "./StaticJsNull.js";
-import { StaticJsNumber } from "./StaticJsNumber.js";
-import { StaticJsObject, StaticJsObjectLike } from "./StaticJsObject.js";
-import { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js";
-import { StaticJsValue } from "./StaticJsValue.js";
-import { StaticJsString } from "./StaticJsString.js";
-import { StaticJsUndefined } from "./StaticJsUndefined.js";
+import type { StaticJsArray } from "./StaticJsArray.js";
+import type { StaticJsFunction } from "./StaticJsFunction.js";
+import type { StaticJsBoolean } from "./StaticJsBoolean.js";
+import type { StaticJsNull } from "./StaticJsNull.js";
+import type { StaticJsNumber } from "./StaticJsNumber.js";
+import type { StaticJsObject, StaticJsObjectLike } from "./StaticJsObject.js";
+import type { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js";
+import type { StaticJsValue } from "./StaticJsValue.js";
+import type { StaticJsString } from "./StaticJsString.js";
+import type { StaticJsUndefined } from "./StaticJsUndefined.js";
 
 export type ErrorTypeName =
   | "TypeError"

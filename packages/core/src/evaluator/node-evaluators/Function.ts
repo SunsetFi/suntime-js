@@ -1,11 +1,10 @@
-import { Function } from "@babel/types";
+import type { Function } from "@babel/types";
 
-import StaticJsAstFunction, {
-  StaticJsAstFunctionArgumentDeclaration,
-} from "../../runtime/types/implementation/StaticJsAstFunction.js";
-import { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
+import type { StaticJsAstFunctionArgumentDeclaration } from "../../runtime/types/implementation/StaticJsAstFunction.js";
+import StaticJsAstFunction from "../../runtime/types/implementation/StaticJsAstFunction.js";
+import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 
-import EvaluationContext from "../EvaluationContext.js";
+import type EvaluationContext from "../EvaluationContext.js";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 export default function createFunction(

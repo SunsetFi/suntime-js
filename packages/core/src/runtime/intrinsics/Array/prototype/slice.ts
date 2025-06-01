@@ -1,11 +1,8 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-
 import toInteger from "../../../algorithms/to-integer.js";
 
-import { StaticJsValue } from "../../../types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
 
@@ -15,9 +12,6 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
     const length = yield* getLength(realm, thisObj);
-    if (isThrowCompletion(length)) {
-      return length;
-    }
 
     let start = startValue ? toInteger(startValue) : 0;
     if (start < 0) {
@@ -27,7 +21,7 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
     start = Math.max(0, start);
 
     if (start >= length) {
-      return ReturnCompletion(realm.types.array([]));
+      return realm.types.array([]);
     }
 
     let end = endValue ? toInteger(endValue) : length;
@@ -41,7 +35,7 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
     end = Math.max(0, end);
 
     if (end <= start) {
-      return ReturnCompletion(realm.types.array([]));
+      return realm.types.array([]);
     }
 
     const sliceLength = end - start;
@@ -58,7 +52,7 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
       items[i] = value;
     }
 
-    return ReturnCompletion(realm.types.array(items));
+    return realm.types.array(items);
   },
 };
 

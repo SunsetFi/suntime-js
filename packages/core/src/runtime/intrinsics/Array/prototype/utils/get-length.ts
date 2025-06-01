@@ -1,17 +1,16 @@
-import EvaluationGenerator from "../../../../../evaluator/EvaluationGenerator.js";
-import { ThrowCompletion } from "../../../../../evaluator/completions/ThrowCompletion.js";
+import type EvaluationGenerator from "../../../../../evaluator/EvaluationGenerator.js";
 
-import { StaticJsRealm } from "../../../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../../../realm/StaticJsRealm.js";
 
 import toInteger from "../../../../algorithms/to-integer.js";
 
-import { StaticJsObjectLike } from "../../../../types/StaticJsObject.js";
+import type { StaticJsObjectLike } from "../../../../types/StaticJsObject.js";
 import { MAX_ARRAY_LENGTH } from "../../../../types/StaticJsArray.js";
 
 export default function* getLength(
   realm: StaticJsRealm,
   obj: StaticJsObjectLike,
-): EvaluationGenerator<number | ThrowCompletion> {
+): EvaluationGenerator<number> {
   const lengthValue = yield* obj.getPropertyEvaluator("length");
   let length = toInteger(lengthValue);
   if (Number.isNaN(length)) {

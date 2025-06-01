@@ -1,52 +1,50 @@
-import { Writable } from "type-fest";
+import type { Writable } from "type-fest";
 import { parse as parseAst } from "@babel/parser";
 
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
-import { StaticJsEnvironment } from "../../environments/StaticJsEnvironment.js";
+import type { StaticJsEnvironment } from "../../environments/StaticJsEnvironment.js";
 import StaticJsGlobalEnvironmentRecord from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 
+import type { Instrinsics } from "../../intrinsics/create-intrinsics.js";
 import {
-  Instrinsics,
   createIntrinsics,
   defineGlobalProperties,
 } from "../../intrinsics/create-intrinsics.js";
 
 import StaticJsTypeFactoryImpl from "../../types/implementation/StaticJsTypeFactoryImpl.js";
-import StaticJsTypeFactory from "../../types/StaticJsTypeFactory.js";
-import { StaticJsObject } from "../../types/StaticJsObject.js";
-import {
+import type StaticJsTypeFactory from "../../types/StaticJsTypeFactory.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
+import type {
   StaticJsAccessorPropertyDescriptor,
   StaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,
-  validateStaticJsPropertyDescriptor,
 } from "../../types/StaticJsPropertyDescriptor.js";
-import { StaticJsValue } from "../../types/StaticJsValue.js";
+import { validateStaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import StaticJsExternalFunction from "../../types/implementation/StaticJsExternalFunction.js";
 
+import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
 import {
-  StaticJsModuleImplementation,
   isStaticJsModuleImplementation,
   staticJsModuleToImplementation,
 } from "../../modules/StaticJsModuleImplementation.js";
-import {
-  isStaticJsModule,
-  StaticJsModule,
-} from "../../modules/StaticJsModule.js";
+import type { StaticJsModule } from "../../modules/StaticJsModule.js";
+import { isStaticJsModule } from "../../modules/StaticJsModule.js";
 
 import StaticJsExternalModuleImpl from "../../modules/implementation/StaticJsExternalModuleImpl.js";
 import { StaticJsModuleImpl } from "../../modules/implementation/StaticJsModuleImpl.js";
 
-import {
+import type {
   StaticJsRealmGlobalDeclProperty,
   StaticJsRealmModule,
   StaticJsRealmOptions,
 } from "../factories/StaticJsRealm.js";
 
-import { StaticJsRealm } from "../StaticJsRealm.js";
+import type { StaticJsRealm } from "../StaticJsRealm.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;

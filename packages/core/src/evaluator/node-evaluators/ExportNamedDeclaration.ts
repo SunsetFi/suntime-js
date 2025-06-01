@@ -1,11 +1,9 @@
-import { ExportNamedDeclaration } from "@babel/types";
+import type { ExportNamedDeclaration } from "@babel/types";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { NormalCompletion } from "../completions/NormalCompletion.js";
-
-import EvaluationGenerator from "../EvaluationGenerator.js";
-import EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
 
 function* exportNamedDeclarationNodeEvaluator(
   node: ExportNamedDeclaration,
@@ -14,7 +12,7 @@ function* exportNamedDeclarationNodeEvaluator(
   if (node.declaration) {
     return yield* EvaluateNodeCommand(node.declaration, context);
   }
-  return NormalCompletion();
+  return null;
 }
 
 export default exportNamedDeclarationNodeEvaluator;

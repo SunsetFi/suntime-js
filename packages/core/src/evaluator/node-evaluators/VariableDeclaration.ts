@@ -1,21 +1,15 @@
-import { VariableDeclaration, VariableDeclarator } from "@babel/types";
+import type { VariableDeclaration, VariableDeclarator } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-
-import { NormalCompletion } from "../completions/NormalCompletion.js";
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../completions/ThrowCompletion.js";
 
 import setLVal, { environmentSetupLVal } from "./LVal.js";
 
@@ -26,7 +20,7 @@ function* variableDeclarationNodeEvaluator(
   let variableInitializer: (
     name: string,
     value: StaticJsValue | null,
-  ) => EvaluationGenerator<ThrowCompletion | void>;
+  ) => EvaluationGenerator<void>;
   switch (node.kind) {
     case "const":
     case "let":
@@ -53,48 +47,33 @@ function* variableDeclarationNodeEvaluator(
   }
 
   for (const declarator of node.declarations) {
-    const completion = yield* declarationStatementEvaluator(
+    yield* declarationStatementEvaluator(
       declarator,
       context,
       variableInitializer,
     );
-
-    if (completion.type !== "normal") {
-      return completion;
-    }
   }
 
-  return NormalCompletion();
+  return null;
 }
 
 function* variableDeclarationEnvironmentSetup(
   node: VariableDeclaration,
   context: EvaluationContext,
-): EvaluationGenerator<ThrowCompletion | boolean> {
-  let variableCreator: (
-    name: string,
-  ) => EvaluationGenerator<ThrowCompletion | void>;
+): EvaluationGenerator<boolean> {
+  let variableCreator: (name: string) => EvaluationGenerator<void>;
   switch (node.kind) {
     case "const":
       variableCreator = function* (name) {
-        const result = yield* context.env.createImmutableBindingEvaluator(
+        yield* context.env.createImmutableBindingEvaluator(
           name,
           context.realm.strict,
         );
-        if (isThrowCompletion(result)) {
-          return result;
-        }
       };
       break;
     case "let":
       variableCreator = function* (name) {
-        const completion = yield* context.env.createMutableBindingEvaluator(
-          name,
-          false,
-        );
-        if (isThrowCompletion(completion)) {
-          return completion;
-        }
+        yield* context.env.createMutableBindingEvaluator(name, false);
       };
       break;
     case "var":
@@ -106,13 +85,7 @@ function* variableDeclarationEnvironmentSetup(
         if (yield* varScope.canDeclareGlobalVarEvaluator(name)) {
           yield* varScope.createGlobalVarBindingEvaluator(name, true);
         } else {
-          const result = yield* varScope.createMutableBindingEvaluator(
-            name,
-            false,
-          );
-          if (isThrowCompletion(result)) {
-            return result;
-          }
+          yield* varScope.createMutableBindingEvaluator(name, false);
         }
       };
       break;
@@ -123,14 +96,7 @@ function* variableDeclarationEnvironmentSetup(
   }
 
   for (const declarator of node.declarations) {
-    const completion = yield* environmentSetupLVal(
-      declarator.id,
-      context,
-      variableCreator,
-    );
-    if (isThrowCompletion(completion)) {
-      return completion;
-    }
+    yield* environmentSetupLVal(declarator.id, context, variableCreator);
   }
 
   return false;
@@ -146,12 +112,11 @@ function* declarationStatementEvaluator(
   variableCreator: (
     name: string,
     value: StaticJsValue | null,
-  ) => EvaluationGenerator<ThrowCompletion | void>,
+  ) => EvaluationGenerator<void>,
 ): EvaluationGenerator {
   let value: StaticJsValue | null = null;
   if (declarator.init) {
     value = yield* EvaluateNodeCommand(declarator.init, context, {
-      rethrow: true,
       forNormalValue: "VariableDeclarator.init",
     });
   }

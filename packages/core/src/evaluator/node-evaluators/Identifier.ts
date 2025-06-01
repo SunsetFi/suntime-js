@@ -1,26 +1,18 @@
-import { Identifier } from "@babel/types";
+import type { Identifier } from "@babel/types";
 
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
 
-import { NormalCompletion } from "../completions/NormalCompletion.js";
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../completions/ThrowCompletion.js";
+import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 export default function* identifierNodeEvaluator(
   node: Identifier,
   context: EvaluationContext,
 ): EvaluationGenerator {
   const hasBinding = yield* context.env.hasBindingEvaluator(node.name);
-  if (isThrowCompletion(hasBinding)) {
-    return hasBinding;
-  }
 
   if (!hasBinding) {
-    // FIXME: Use real error.
-    return ThrowCompletion(
+    throw new ThrowCompletion(
       context.realm.types.error(
         "ReferenceError",
         `${node.name} is not defined`,
@@ -32,8 +24,5 @@ export default function* identifierNodeEvaluator(
     node.name,
     context.realm.strict,
   );
-  if (isThrowCompletion(value)) {
-    return value;
-  }
-  return NormalCompletion(value);
+  return value;
 }

@@ -1,17 +1,13 @@
-import { AssignmentExpression } from "@babel/types";
+import type { AssignmentExpression } from "@babel/types";
 
 import { isStaticJsScalar } from "../../runtime/types/StaticJsScalar.js";
 
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { NormalCompletion } from "../completions/NormalCompletion.js";
-import {
-  isThrowCompletion,
-  ThrowCompletion,
-} from "../completions/ThrowCompletion.js";
+import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import setLVal from "./LVal.js";
 
@@ -22,13 +18,12 @@ export default function* assignmentExpressionNodeEvaluator(
   const { left, right } = node;
 
   let value = yield* EvaluateNodeCommand(right, context, {
-    rethrow: true,
     forNormalValue: "AssignmentExpression.right",
   });
 
   if (left.type === "OptionalMemberExpression") {
     // Throw the same error typescript throws.
-    return ThrowCompletion(
+    throw new ThrowCompletion(
       context.realm.types.error(
         "SyntaxError",
         "The left-hand side of an assignment expression cannot be an optional member expression.",
@@ -42,7 +37,7 @@ export default function* assignmentExpressionNodeEvaluator(
     case "+=":
       {
         if (left.type !== "Identifier") {
-          return ThrowCompletion(
+          throw new ThrowCompletion(
             context.realm.types.error(
               "SyntaxError",
               "Invalid left-hand side in assignment",
@@ -54,9 +49,6 @@ export default function* assignmentExpressionNodeEvaluator(
           left.name,
           true,
         );
-        if (isThrowCompletion(leftValue)) {
-          return leftValue;
-        }
 
         if (!isStaticJsScalar(leftValue) || !isStaticJsScalar(value)) {
           // One will become a string so both become a string.
@@ -74,7 +66,7 @@ export default function* assignmentExpressionNodeEvaluator(
     case "-=":
       {
         if (left.type !== "Identifier") {
-          return ThrowCompletion(
+          throw new ThrowCompletion(
             context.realm.types.error(
               "SyntaxError",
               "Invalid left-hand side in assignment",
@@ -86,9 +78,6 @@ export default function* assignmentExpressionNodeEvaluator(
           left.name,
           true,
         );
-        if (isThrowCompletion(leftValue)) {
-          return leftValue;
-        }
 
         value = context.realm.types.number(
           leftValue.toNumber() - value.toNumber(),
@@ -98,7 +87,7 @@ export default function* assignmentExpressionNodeEvaluator(
     case "<<=":
       {
         if (left.type !== "Identifier") {
-          return ThrowCompletion(
+          throw new ThrowCompletion(
             context.realm.types.error(
               "SyntaxError",
               "Invalid left-hand side in assignment",
@@ -110,9 +99,6 @@ export default function* assignmentExpressionNodeEvaluator(
           left.name,
           true,
         );
-        if (isThrowCompletion(leftValue)) {
-          return leftValue;
-        }
 
         value = context.realm.types.number(
           leftValue.toNumber() << value.toNumber(),
@@ -122,7 +108,7 @@ export default function* assignmentExpressionNodeEvaluator(
     case ">>=":
       {
         if (left.type !== "Identifier") {
-          return ThrowCompletion(
+          throw new ThrowCompletion(
             context.realm.types.error(
               "SyntaxError",
               "Invalid left-hand side in assignment",
@@ -134,9 +120,6 @@ export default function* assignmentExpressionNodeEvaluator(
           left.name,
           true,
         );
-        if (isThrowCompletion(leftValue)) {
-          return leftValue;
-        }
 
         value = context.realm.types.number(
           leftValue.toNumber() >> value.toNumber(),
@@ -146,7 +129,7 @@ export default function* assignmentExpressionNodeEvaluator(
     case ">>>=":
       {
         if (left.type !== "Identifier") {
-          return ThrowCompletion(
+          throw new ThrowCompletion(
             context.realm.types.error(
               "SyntaxError",
               "Invalid left-hand side in assignment",
@@ -158,9 +141,6 @@ export default function* assignmentExpressionNodeEvaluator(
           left.name,
           true,
         );
-        if (isThrowCompletion(leftValue)) {
-          return leftValue;
-        }
 
         value = context.realm.types.number(
           leftValue.toNumber() >>> value.toNumber(),
@@ -169,23 +149,15 @@ export default function* assignmentExpressionNodeEvaluator(
       break;
   }
 
-  const setResult = yield* setLVal(
-    left,
-    value,
-    context,
-    function* (name, value) {
-      return yield* context.env.setMutableBindingEvaluator(
-        name,
-        value,
-        context.realm.strict,
-      );
-    },
-  );
-  if (setResult.type === "throw") {
-    return setResult;
-  }
+  yield* setLVal(left, value, context, function* (name, value) {
+    return yield* context.env.setMutableBindingEvaluator(
+      name,
+      value,
+      context.realm.strict,
+    );
+  });
 
   // Pass the value for chaining.
   // It is proper to pass the resolved value, even if the binding set didn't change the value.
-  return NormalCompletion(value);
+  return value;
 }

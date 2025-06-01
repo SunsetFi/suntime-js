@@ -1,20 +1,17 @@
-import { Node, isNode } from "@babel/types";
+import type { Node } from "@babel/types";
+import { isNode } from "@babel/types";
 
 import typedKeys from "../../internal/typed-keys.js";
 
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import { getEvaluator } from "./nodes.js";
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../completions/ThrowCompletion.js";
 
 export default function* setupEnvironment(
   node: Node,
   context: EvaluationContext,
-): EvaluationGenerator<ThrowCompletion | void> {
+): EvaluationGenerator<void> {
   // Recurse by default, there are only a few exceptions.
   let shouldRecurse = true;
   const evaluator = getEvaluator(node);
@@ -23,20 +20,13 @@ export default function* setupEnvironment(
     if (typeof evaluator.environmentSetup === "boolean") {
       shouldRecurse = evaluator.environmentSetup;
     } else if (evaluator.environmentSetup) {
-      const result = yield* evaluator.environmentSetup(node, context);
-      if (isThrowCompletion(result)) {
-        return result;
-      }
-      shouldRecurse = result;
+      shouldRecurse = yield* evaluator.environmentSetup(node, context);
     }
   }
 
   if (shouldRecurse) {
     for (const child of getChildNodes(node)) {
-      const completion = yield* setupEnvironment(child, context);
-      if (isThrowCompletion(completion)) {
-        return completion;
-      }
+      yield* setupEnvironment(child, context);
     }
   }
 }

@@ -1,16 +1,16 @@
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
+import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 import {
-  StaticJsPropertyDescriptor,
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
-import { StaticJsValue } from "../StaticJsValue.js";
-import { StaticJsNull } from "../StaticJsNull.js";
-import { StaticJsObjectLike } from "../StaticJsObject.js";
+import type { StaticJsValue } from "../StaticJsValue.js";
+import type { StaticJsNull } from "../StaticJsNull.js";
+import type { StaticJsObjectLike } from "../StaticJsObject.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 

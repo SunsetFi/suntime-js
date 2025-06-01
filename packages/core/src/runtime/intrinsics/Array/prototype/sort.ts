@@ -1,21 +1,13 @@
-import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
-
 import hasOwnProperty from "../../../../internal/has-own-property.js";
 
-import EvaluationGenerator from "../../../../evaluator/EvaluationGenerator.js";
-import { Completion } from "../../../../evaluator/completions/Completion.js";
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../../../../evaluator/completions/ThrowCompletion.js";
-import { NormalCompletion } from "../../../../evaluator/completions/NormalCompletion.js";
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
+import type EvaluationGenerator from "../../../../evaluator/EvaluationGenerator.js";
+import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import { StaticJsValue } from "../../../types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";
 
 const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
@@ -28,7 +20,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (compareFnValue && !isStaticJsFunction(compareFnValue)) {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         realm.types.error(
           "TypeError",
           "The comparison function must be either a function or undefined",
@@ -43,7 +35,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
     const compareFn = function* (
       a: StaticJsValue | undefined,
       b: StaticJsValue | undefined,
-    ): EvaluationGenerator<ThrowCompletion | number> {
+    ): EvaluationGenerator<number> {
       const aIsUndefined = a === undefined || isStaticJsUndefined(a);
       const bIsUndefined = b === undefined || isStaticJsUndefined(b);
       if (aIsUndefined && bIsUndefined) {
@@ -62,16 +54,8 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
           a,
           b,
         );
-        if (result.type === "throw") {
-          return result;
-        }
-        if (result.type !== "normal" || !result.value) {
-          throw new StaticJsEngineError(
-            "Expected Array.prototype.sort callback to return a normal completion",
-          );
-        }
 
-        return result.value.toNumber();
+        return result.toNumber();
       } else {
         const aStr = a.toString();
         const bStr = b.toString();
@@ -86,9 +70,6 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
     };
 
     const length = yield* getLength(realm, thisObj);
-    if (isThrowCompletion(length)) {
-      return length;
-    }
 
     const a: StaticJsValue[] = new Array(length);
     const b: StaticJsValue[] = new Array(length);
@@ -102,10 +83,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
       }
     }
 
-    const result = yield* topDownSplitMerge(b, 0, length, a, compareFn);
-    if (result.type === "throw") {
-      return result;
-    }
+    yield* topDownSplitMerge(b, 0, length, a, compareFn);
 
     for (let i = 0; i < length; i++) {
       const property = String(i);
@@ -117,7 +95,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
       }
     }
 
-    return ReturnCompletion(thisObj);
+    return thisObj;
   },
 };
 
@@ -129,31 +107,19 @@ function* topDownSplitMerge(
   compareFn: (
     a: StaticJsValue | undefined,
     b: StaticJsValue | undefined,
-  ) => EvaluationGenerator<ThrowCompletion | number>,
-): EvaluationGenerator {
+  ) => EvaluationGenerator<number>,
+): EvaluationGenerator<void> {
   if (iEnd - iBegin <= 1) {
-    return NormalCompletion();
+    return;
   }
 
   const iMiddle = Math.floor((iBegin + iEnd) / 2);
 
-  let result: Completion;
+  yield* topDownSplitMerge(a, iBegin, iMiddle, b, compareFn);
+  yield* topDownSplitMerge(a, iMiddle, iEnd, b, compareFn);
+  yield* topDownMerge(b, iBegin, iMiddle, iEnd, a, compareFn);
 
-  result = yield* topDownSplitMerge(a, iBegin, iMiddle, b, compareFn);
-  if (result.type === "throw") {
-    return result;
-  }
-
-  result = yield* topDownSplitMerge(a, iMiddle, iEnd, b, compareFn);
-  if (result.type === "throw") {
-    return result;
-  }
-  result = yield* topDownMerge(b, iBegin, iMiddle, iEnd, a, compareFn);
-  if (result.type === "throw") {
-    return result;
-  }
-
-  return NormalCompletion();
+  return;
 }
 
 function* topDownMerge(
@@ -165,8 +131,8 @@ function* topDownMerge(
   compareFn: (
     a: StaticJsValue | undefined,
     b: StaticJsValue | undefined,
-  ) => EvaluationGenerator<ThrowCompletion | number>,
-): EvaluationGenerator {
+  ) => EvaluationGenerator<number>,
+): EvaluationGenerator<void> {
   let i = iBegin,
     j = iMiddle;
 
@@ -192,17 +158,12 @@ function* topDownMerge(
     }
 
     const comparison = yield* compareFn(a[i], a[j]);
-    if (isThrowCompletion(comparison)) {
-      return comparison;
-    }
     if (comparison <= 0) {
       set(k, i++);
     } else {
       set(k, j++);
     }
   }
-
-  return NormalCompletion();
 }
 
 export default arrayProtoSortDeclaration;

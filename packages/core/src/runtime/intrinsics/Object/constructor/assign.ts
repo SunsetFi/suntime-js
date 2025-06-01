@@ -1,6 +1,4 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorAssignDeclaration: IntrinsicPropertyDeclaration = {
   name: "assign",
@@ -16,7 +14,7 @@ const objectCtorAssignDeclaration: IntrinsicPropertyDeclaration = {
       }
     }
 
-    return ReturnCompletion(targetObj);
+    return targetObj;
   },
 };
 

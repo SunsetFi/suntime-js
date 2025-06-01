@@ -1,10 +1,9 @@
-import { runEvaluatorUntilCompletion } from "../../evaluator/evaluator-runtime.js";
-
 import hasOwnProperty from "../../internal/has-own-property.js";
 
-import { isStaticJsFunction, StaticJsFunction } from "./StaticJsFunction.js";
-import { StaticJsObjectLike } from "./StaticJsObject.js";
-import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
+import type { StaticJsFunction } from "./StaticJsFunction.js";
+import { isStaticJsFunction } from "./StaticJsFunction.js";
+import type { StaticJsValue } from "./StaticJsValue.js";
+import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsPropertyDescriptorBase {
   readonly configurable?: boolean;
@@ -78,42 +77,4 @@ export function isStaticJsAccessorPropertyDescriptor(
   }
 
   return hasOwnProperty(value, "get") || hasOwnProperty(value, "set");
-}
-
-export function getStaticJsPropertyDescriptorValue(
-  obj: StaticJsObjectLike,
-  descriptor: StaticJsPropertyDescriptor,
-): StaticJsValue | null {
-  const hasValue = isStaticJsDataPropertyDescriptor(descriptor);
-  const hasGet = isStaticJsAccessorPropertyDescriptor(descriptor);
-
-  if (hasValue && hasGet) {
-    throw new Error(
-      "StaticJsPropertyDescriptor cannot have both value and get.",
-    );
-  }
-
-  if (hasValue) {
-    return descriptor.value as StaticJsValue;
-  } else if (hasGet) {
-    // FIXME HACK: Make evaluator
-    const completion = runEvaluatorUntilCompletion(
-      descriptor.get!.callEvaluator(obj),
-    );
-    if (completion.type === "throw") {
-      // FIXME: Wrap error properly.
-      const err = completion.value;
-      throw new Error(
-        `Error evaluating property descriptor get: ${err.toString()}`,
-      );
-    }
-    if (completion.type !== "normal" || !completion.value) {
-      throw new Error(
-        `Property descriptor get did not return a normal completion.`,
-      );
-    }
-    return completion.value;
-  }
-
-  return null;
 }

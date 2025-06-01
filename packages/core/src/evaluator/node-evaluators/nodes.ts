@@ -1,6 +1,6 @@
-import { Node } from "@babel/types";
+import type { Node } from "@babel/types";
 
-import NodeEvaluator from "../NodeEvaluator.js";
+import type NodeEvaluator from "../NodeEvaluator.js";
 
 import variableDeclarationNodeEvaluator from "./VariableDeclaration.js";
 import numericLiteralNodeEvaluator from "./NumericLiteral.js";

@@ -1,9 +1,7 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
-import { StaticJsValue } from "../../../types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
   name: "concat",
@@ -34,7 +32,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
       values.push(arg);
     }
 
-    return ReturnCompletion(realm.types.array(values));
+    return realm.types.array(values);
   },
 };
 

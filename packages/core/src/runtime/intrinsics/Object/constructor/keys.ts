@@ -1,6 +1,4 @@
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorKeysDeclaration: IntrinsicPropertyDeclaration = {
   name: "keys",
@@ -12,7 +10,7 @@ const objectCtorKeysDeclaration: IntrinsicPropertyDeclaration = {
     const result = realm.types.array(
       ownKeys.map((key) => realm.types.string(key)),
     );
-    return ReturnCompletion(result);
+    return result;
   },
 };
 

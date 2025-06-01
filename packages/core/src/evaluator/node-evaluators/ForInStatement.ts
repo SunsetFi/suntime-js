@@ -1,23 +1,21 @@
-import { ForInStatement, LVal } from "@babel/types";
+import type { ForInStatement, LVal } from "@babel/types";
 
 import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObject.js";
 
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../completions/ThrowCompletion.js";
-import { NormalCompletion } from "../completions/NormalCompletion.js";
+import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setLVal from "./LVal.js";
 import setupEnvironment from "./setup-environment.js";
+import { ContinueCompletion } from "../completions/ContinueCompletion.js";
+import { BreakCompletion } from "../completions/BreakCompletion.js";
 
 export default function* forInStatementNodeEvaluator(
   node: ForInStatement,
@@ -27,7 +25,7 @@ export default function* forInStatementNodeEvaluator(
     node.left.type === "VariableDeclaration" &&
     node.left.declarations.length != 1
   ) {
-    return ThrowCompletion(
+    throw new ThrowCompletion(
       context.realm.types.error(
         "SyntaxError",
         "Invalid left-hand side in for-in loop: Must have single binding",
@@ -36,13 +34,12 @@ export default function* forInStatementNodeEvaluator(
   }
 
   const right = yield* EvaluateNodeCommand(node.right, context, {
-    rethrow: true,
     forNormalValue: "ForInStatement.right",
   });
 
   // This appears to just return with nothing in this case.
   if (!isStaticJsObjectLike(right)) {
-    return NormalCompletion();
+    return null;
   }
 
   const keys = yield* right.getEnumerableKeysEvaluator();
@@ -60,15 +57,9 @@ export default function* forInStatementNodeEvaluator(
 
     // From testing NodeJs, the decl is in the body scope
     // (IE: const works and doesn't get upset about redecl)
-    const setupLeftCompletion = yield* setupEnvironment(node.left, bodyContext);
-    if (isThrowCompletion(setupLeftCompletion)) {
-      return setupLeftCompletion;
-    }
+    yield* setupEnvironment(node.left, bodyContext);
 
-    const setupBodyCompletion = yield* setupEnvironment(node.body, bodyContext);
-    if (isThrowCompletion(setupBodyCompletion)) {
-      return setupBodyCompletion;
-    }
+    yield* setupEnvironment(node.body, bodyContext);
 
     let lVal: LVal;
     if (node.left.type === "VariableDeclaration") {
@@ -77,7 +68,7 @@ export default function* forInStatementNodeEvaluator(
       lVal = node.left;
     }
 
-    const setResult = yield* setLVal(
+    yield* setLVal(
       lVal,
       context.realm.types.string(key),
       bodyContext,
@@ -85,30 +76,29 @@ export default function* forInStatementNodeEvaluator(
         return yield* bodyEnv.initializeBindingEvaluator(name, value);
       },
     );
-    if (setResult.type === "throw") {
-      return setResult;
-    }
 
-    const result = yield* EvaluateNodeCommand(node.body, bodyContext);
-    switch (result.type) {
-      case "continue":
-      case "break": {
-        if (result.target !== null && result.target !== context.label) {
-          // Not for us.  Pass it up
-          return result;
-        }
-
-        // It was for us.  Break if that's what the request is.
-        if (result.type === "break") {
-          return NormalCompletion();
-        }
-        break;
+    try {
+      yield* EvaluateNodeCommand(node.body, bodyContext);
+    } catch (e) {
+      if (
+        e instanceof BreakCompletion &&
+        (e.target === null || e.target === context.label)
+      ) {
+        // Break is for us, so we stop the loop and return null
+        return null;
       }
-      case "return":
-      case "throw":
-        return result;
+
+      if (
+        e instanceof ContinueCompletion &&
+        (e.target === null || e.target === context.label)
+      ) {
+        // Continue is for us, so we skip the rest of the loop and continue
+        continue;
+      }
+
+      throw e;
     }
   }
 
-  return NormalCompletion();
+  return null;
 }

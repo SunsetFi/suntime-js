@@ -1,21 +1,15 @@
-import { FunctionDeclaration } from "@babel/types";
+import type { FunctionDeclaration } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
+import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 
-import { NormalCompletion } from "../completions/NormalCompletion.js";
-
-import EvaluationGenerator from "../EvaluationGenerator.js";
-import EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
 
 import createFunction from "./Function.js";
-import {
-  isThrowCompletion,
-  ThrowCompletion,
-} from "../completions/ThrowCompletion.js";
 
 function* functionDeclarationNodeEvaluator(
   node: FunctionDeclaration,
@@ -27,24 +21,18 @@ function* functionDeclarationNodeEvaluator(
     );
   }
 
-  return NormalCompletion(func as StaticJsFunction);
+  return func as StaticJsFunction;
 }
 
 function* functionDeclarationEnvironmentSetup(
   node: FunctionDeclaration,
   context: EvaluationContext,
-): EvaluationGenerator<ThrowCompletion | boolean> {
+): EvaluationGenerator<boolean> {
   const functionName = node.id?.name ?? null;
   const func = createFunction(functionName, node, context);
 
   if (functionName) {
-    const result = yield* context.env.createFunctionBindingEvaluator(
-      functionName,
-      func,
-    );
-    if (isThrowCompletion(result)) {
-      return result;
-    }
+    yield* context.env.createFunctionBindingEvaluator(functionName, func);
   }
 
   // FIXME: We have been so careful to get away with not mutating the node, but here

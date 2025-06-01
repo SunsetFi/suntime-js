@@ -1,6 +1,6 @@
 import { isStaticJsNumber } from "../types/StaticJsNumber.js";
 import { isStaticJsScalar } from "../types/StaticJsScalar.js";
-import { StaticJsValue } from "../types/StaticJsValue.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 export default function sameValueZero(
   a: StaticJsValue,

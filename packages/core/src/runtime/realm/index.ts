@@ -5,7 +5,7 @@ export type {
 } from "./factories/StaticJsRealm.js";
 
 import fStaticJsRealm from "./factories/StaticJsRealm.js";
-import { StaticJsRealm as IStaticJsRealm } from "./StaticJsRealm.js";
+import type { StaticJsRealm as IStaticJsRealm } from "./StaticJsRealm.js";
 
 /**
  * {@inheritdoc fStaticJsRealm}

@@ -1,5 +1,5 @@
-import { StaticJsEnvironment } from "../runtime/environments/StaticJsEnvironment.js";
-import { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
+import type { StaticJsEnvironment } from "../runtime/environments/StaticJsEnvironment.js";
+import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
 
 export default interface EvaluationContext {
   env: StaticJsEnvironment;

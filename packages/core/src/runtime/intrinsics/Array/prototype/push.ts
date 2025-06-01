@@ -1,12 +1,8 @@
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../../../../evaluator/completions/ThrowCompletion.js";
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
+import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
 import { MAX_ARRAY_LENGTH } from "../../../types/StaticJsArray.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
 
@@ -16,12 +12,9 @@ const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
     const length = yield* getLength(realm, thisObj);
-    if (isThrowCompletion(length)) {
-      return length;
-    }
 
     if (args.length + length > MAX_ARRAY_LENGTH) {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         realm.types.error(
           "TypeError",
           `Pushing ${args.length} elements on an array-like of length ${length} is disallowed, as the total surpasses the maximum array length.`,
@@ -39,7 +32,7 @@ const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
     const newLengthValue = realm.types.number(length + args.length);
     yield* thisObj.setPropertyEvaluator("length", newLengthValue, true);
 
-    return ReturnCompletion(newLengthValue);
+    return newLengthValue;
   },
 };
 

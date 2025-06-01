@@ -1,9 +1,11 @@
-import { StaticJsObject } from "../types/StaticJsObject.js";
-import { StaticJsRealm } from "../realm/StaticJsRealm.js";
-import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
-import { isStaticJsValue, StaticJsValue } from "../types/StaticJsValue.js";
-import { ReturnCompletion } from "../../evaluator/completions/ReturnCompletion.js";
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+
+import type { StaticJsObject } from "../types/StaticJsObject.js";
+import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { isStaticJsValue } from "../types/StaticJsValue.js";
+
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 export function populateStringPrototype(
   realm: StaticJsRealm,
@@ -19,7 +21,7 @@ export function populateStringPrototype(
       realm,
       "length",
       function* (thisArg: StaticJsValue) {
-        return ReturnCompletion(realm.types.number(thisArg.toString().length));
+        return realm.types.number(thisArg.toString().length);
       },
       { prototype: functionProto },
     ),
@@ -34,7 +36,7 @@ export function populateStringPrototype(
       "valueOf",
       function* (thisArg: StaticJsValue) {
         // Unbox.
-        return ReturnCompletion(realm.types.string(thisArg.toString()));
+        return realm.types.string(thisArg.toString());
       },
       { prototype: functionProto },
     ),
@@ -48,7 +50,7 @@ export function populateStringPrototype(
       realm,
       "toString",
       function* (thisArg: StaticJsValue) {
-        return ReturnCompletion(realm.types.string(thisArg.toString()));
+        return realm.types.string(thisArg.toString());
       },
       { prototype: functionProto },
     ),
@@ -64,7 +66,7 @@ export function populateStringPrototype(
       function* (thisArg: StaticJsValue, ...args: StaticJsValue[]) {
         const result =
           thisArg.toString() + args.map((arg) => arg.toString()).join("");
-        return ReturnCompletion(realm.types.string(result));
+        return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
@@ -85,7 +87,7 @@ export function populateStringPrototype(
         const startVal = start?.toNumber() ?? 0;
         const lengthVal = length?.toNumber() ?? undefined;
         const result = thisArg.toString().substr(startVal, lengthVal);
-        return ReturnCompletion(realm.types.string(result));
+        return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
@@ -106,7 +108,7 @@ export function populateStringPrototype(
         const startVal = start?.toNumber() ?? 0;
         const lengthVal = length?.toNumber() ?? undefined;
         const result = thisArg.toString().substring(startVal, lengthVal);
-        return ReturnCompletion(realm.types.string(result));
+        return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
@@ -127,7 +129,7 @@ export function populateStringPrototype(
         const startVal = start?.toNumber() ?? 0;
         const lengthVal = length?.toNumber() ?? undefined;
         const result = thisArg.toString().slice(startVal, lengthVal);
-        return ReturnCompletion(realm.types.string(result));
+        return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
@@ -142,13 +144,13 @@ export function populateStringPrototype(
       "startsWith",
       function* (thisArg: StaticJsValue, value: StaticJsValue) {
         if (!isStaticJsValue(value)) {
-          return ThrowCompletion(
+          throw new ThrowCompletion(
             realm.types.error("TypeError", "Value must be a string"),
           );
         }
 
         const result = thisArg.toString().startsWith(value.toString());
-        return ReturnCompletion(realm.types.boolean(result));
+        return realm.types.boolean(result);
       },
       { prototype: functionProto },
     ),
@@ -163,13 +165,13 @@ export function populateStringPrototype(
       "endsWith",
       function* (thisArg: StaticJsValue, value: StaticJsValue) {
         if (!isStaticJsValue(value)) {
-          return ThrowCompletion(
+          throw new ThrowCompletion(
             realm.types.error("TypeError", "Value must be a string"),
           );
         }
 
         const result = thisArg.toString().endsWith(value.toString());
-        return ReturnCompletion(realm.types.boolean(result));
+        return realm.types.boolean(result);
       },
       { prototype: functionProto },
     ),
@@ -184,13 +186,13 @@ export function populateStringPrototype(
       "includes",
       function* (thisArg: StaticJsValue, value: StaticJsValue) {
         if (!isStaticJsValue(value)) {
-          return ThrowCompletion(
+          throw new ThrowCompletion(
             realm.types.error("TypeError", "Value must be a string"),
           );
         }
 
         const result = thisArg.toString().includes(value.toString());
-        return ReturnCompletion(realm.types.boolean(result));
+        return realm.types.boolean(result);
       },
       { prototype: functionProto },
     ),
@@ -205,13 +207,13 @@ export function populateStringPrototype(
       "repeat",
       function* (thisArg: StaticJsValue, value: StaticJsValue) {
         if (!isStaticJsValue(value)) {
-          return ThrowCompletion(
+          throw new ThrowCompletion(
             realm.types.error("TypeError", "Value must be a string"),
           );
         }
 
         const result = thisArg.toString().repeat(value.toNumber());
-        return ReturnCompletion(realm.types.string(result));
+        return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
@@ -226,7 +228,7 @@ export function populateStringPrototype(
       "toLowerCase",
       function* (thisArg: StaticJsValue) {
         const result = thisArg.toString().toLowerCase();
-        return ReturnCompletion(realm.types.string(result));
+        return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
@@ -241,7 +243,7 @@ export function populateStringPrototype(
       "toUpperCase",
       function* (thisArg: StaticJsValue) {
         const result = thisArg.toString().toUpperCase();
-        return ReturnCompletion(realm.types.string(result));
+        return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
@@ -256,7 +258,7 @@ export function populateStringPrototype(
       "trim",
       function* (thisArg: StaticJsValue) {
         const result = thisArg.toString().trim();
-        return ReturnCompletion(realm.types.string(result));
+        return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
@@ -271,7 +273,7 @@ export function populateStringPrototype(
       "trimStart",
       function* (thisArg: StaticJsValue) {
         const result = thisArg.toString().trimStart();
-        return ReturnCompletion(realm.types.string(result));
+        return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
@@ -286,7 +288,7 @@ export function populateStringPrototype(
       "trimEnd",
       function* (thisArg: StaticJsValue) {
         const result = thisArg.toString().trimEnd();
-        return ReturnCompletion(realm.types.string(result));
+        return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
@@ -301,7 +303,7 @@ export function populateStringPrototype(
       "charAt",
       function* (thisArg: StaticJsValue, index: StaticJsValue) {
         const result = thisArg.toString().charAt(index.toNumber());
-        return ReturnCompletion(realm.types.string(result));
+        return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
@@ -316,7 +318,7 @@ export function populateStringPrototype(
       "charCodeAt",
       function* (thisArg: StaticJsValue, index: StaticJsValue) {
         const result = thisArg.toString().charCodeAt(index.toNumber());
-        return ReturnCompletion(realm.types.number(result));
+        return realm.types.number(result);
       },
       { prototype: functionProto },
     ),
@@ -331,9 +333,7 @@ export function populateStringPrototype(
       "split",
       function* (thisArg: StaticJsValue, separator: StaticJsValue) {
         const result = thisArg.toString().split(separator.toString());
-        return ReturnCompletion(
-          realm.types.array(result.map((s) => realm.types.string(s))),
-        );
+        return realm.types.array(result.map((s) => realm.types.string(s)));
       },
       { prototype: functionProto },
     ),
@@ -348,7 +348,7 @@ export function populateStringPrototype(
       "indexOf",
       function* (thisArg: StaticJsValue, searchValue: StaticJsValue) {
         const result = thisArg.toString().indexOf(searchValue.toString());
-        return ReturnCompletion(realm.types.number(result));
+        return realm.types.number(result);
       },
       { prototype: functionProto },
     ),
@@ -363,7 +363,7 @@ export function populateStringPrototype(
       "lastIndexOf",
       function* (thisArg: StaticJsValue, searchValue: StaticJsValue) {
         const result = thisArg.toString().lastIndexOf(searchValue.toString());
-        return ReturnCompletion(realm.types.number(result));
+        return realm.types.number(result);
       },
       { prototype: functionProto },
     ),
@@ -384,7 +384,7 @@ export function populateStringPrototype(
         const result = thisArg
           .toString()
           .padStart(targetLength.toNumber(), padString?.toString());
-        return ReturnCompletion(realm.types.string(result));
+        return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
@@ -405,7 +405,7 @@ export function populateStringPrototype(
         const result = thisArg
           .toString()
           .padEnd(targetLength.toNumber(), padString?.toString());
-        return ReturnCompletion(realm.types.string(result));
+        return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
@@ -426,7 +426,7 @@ export function populateStringPrototype(
         const result = thisArg
           .toString()
           .replace(searchValue.toString(), replaceValue.toString());
-        return ReturnCompletion(realm.types.string(result));
+        return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
@@ -445,10 +445,10 @@ export function createStringConstructor(
     "String",
     function* (_thisArg: StaticJsValue, value?: StaticJsValue) {
       if (value === undefined) {
-        return ReturnCompletion(realm.types.string(""));
+        return realm.types.string("");
       }
 
-      return ReturnCompletion(realm.types.string(value.toString()));
+      return realm.types.string(value.toString());
     },
     { prototype: functionProto },
   );

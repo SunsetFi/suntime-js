@@ -1,6 +1,6 @@
 import { parse } from "@babel/parser";
 
-import { ProgramCompilationOptions } from "./options.js";
+import type { ProgramCompilationOptions } from "./options.js";
 import { verifyNoErrorsOrThrow } from "./verify-parse-result.js";
 import StaticJsModuleCompilation from "./StaticJsModuleCompilation.js";
 

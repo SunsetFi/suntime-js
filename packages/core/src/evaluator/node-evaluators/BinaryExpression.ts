@@ -1,8 +1,8 @@
-import { BinaryExpression } from "@babel/types";
+import type { BinaryExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { isStaticJsScalar } from "../../runtime/types/StaticJsScalar.js";
 import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsString } from "../../runtime/types/StaticJsString.js";
@@ -11,11 +11,10 @@ import strictEquality from "../../runtime/algorithms/strict-equality.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { NormalCompletion } from "../completions/NormalCompletion.js";
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 export default function binaryExpressionNodeEvaluator(
   node: BinaryExpression,
@@ -77,12 +76,10 @@ function* binaryExpressionDoubleEquals(
   negate: boolean,
 ): EvaluationGenerator {
   const left = yield* EvaluateNodeCommand(node.left, context, {
-    rethrow: true,
     forNormalValue: "BinaryExpression.left",
   });
 
   const right = yield* EvaluateNodeCommand(node.right, context, {
-    rethrow: true,
     forNormalValue: "BinaryExpression.right",
   });
 
@@ -116,10 +113,8 @@ function* binaryExpressionDoubleEquals(
   }
 
   // One of them is a reference.
-  return NormalCompletion(
-    context.realm.types.boolean(
-      negate ? leftValue != rightValue : leftValue == rightValue,
-    ),
+  return context.realm.types.boolean(
+    negate ? leftValue != rightValue : leftValue == rightValue,
   );
 }
 
@@ -129,18 +124,14 @@ function* binaryExpressionStrictEquals(
   negate: boolean,
 ): EvaluationGenerator {
   const left = yield* EvaluateNodeCommand(node.left, context, {
-    rethrow: true,
     forNormalValue: "BinaryExpression.left",
   });
   const right = yield* EvaluateNodeCommand(node.right, context, {
-    rethrow: true,
     forNormalValue: "BinaryExpression.right",
   });
 
   const result = strictEquality(left, right);
-  return NormalCompletion(
-    context.realm.types.boolean(negate ? !result : result),
-  );
+  return context.realm.types.boolean(negate ? !result : result);
 }
 
 function* binaryExpressionAdd(
@@ -148,25 +139,21 @@ function* binaryExpressionAdd(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const left = yield* EvaluateNodeCommand(node.left, context, {
-    rethrow: true,
     forNormalValue: "BinaryExpression.left",
   });
   const right = yield* EvaluateNodeCommand(node.right, context, {
-    rethrow: true,
     forNormalValue: "BinaryExpression.right",
   });
 
   if (!isStaticJsScalar(left) || !isStaticJsScalar(right)) {
     // One will become a string so both become a string.
-    return NormalCompletion(
-      context.realm.types.string(left.toString() + right.toString()),
-    );
+    return context.realm.types.string(left.toString() + right.toString());
   }
 
   // Fall back to the primitive addition.
   // @ts-expect-error - Whatever the value, addition does what we want.
   const value = left.toJs() + right.toJs();
-  return NormalCompletion(context.realm.types.toStaticJsValue(value));
+  return context.realm.types.toStaticJsValue(value);
 }
 
 function* numericComputation(
@@ -175,18 +162,14 @@ function* numericComputation(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const left = yield* EvaluateNodeCommand(node.left, context, {
-    rethrow: true,
     forNormalValue: "BinaryExpression.left",
   });
   const right = yield* EvaluateNodeCommand(node.right, context, {
-    rethrow: true,
     forNormalValue: "BinaryExpression.right",
   });
 
-  return NormalCompletion(
-    context.realm.types.toStaticJsValue(
-      func(left.toNumber(), right.toNumber()),
-    ),
+  return context.realm.types.toStaticJsValue(
+    func(left.toNumber(), right.toNumber()),
   );
 }
 
@@ -199,16 +182,14 @@ function* inOperator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const left = yield* EvaluateNodeCommand(node.left, context, {
-    rethrow: true,
     forNormalValue: "BinaryExpression.left",
   });
   const right = yield* EvaluateNodeCommand(node.right, context, {
-    rethrow: true,
     forNormalValue: "BinaryExpression.right",
   });
 
   if (!isStaticJsObjectLike(right)) {
-    return ThrowCompletion(
+    throw new ThrowCompletion(
       context.realm.types.error(
         "TypeError",
         "Right side of in operator must be an object",
@@ -217,7 +198,7 @@ function* inOperator(
   }
 
   if (!isStaticJsString(left)) {
-    return ThrowCompletion(
+    throw new ThrowCompletion(
       context.realm.types.error(
         "TypeError",
         "Left side of in operator must be a string",
@@ -226,5 +207,5 @@ function* inOperator(
   }
 
   const hasProperty = yield* right.hasPropertyEvaluator(left.toString());
-  return NormalCompletion(context.realm.types.boolean(hasProperty));
+  return context.realm.types.boolean(hasProperty);
 }

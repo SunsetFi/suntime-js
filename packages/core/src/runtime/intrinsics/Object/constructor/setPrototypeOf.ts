@@ -1,12 +1,10 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
-import {
-  StaticJsObjectLike,
-  isStaticJsObjectLike,
-} from "../../../types/StaticJsObject.js";
+import type { StaticJsObjectLike } from "../../../types/StaticJsObject.js";
+import { isStaticJsObjectLike } from "../../../types/StaticJsObject.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   name: "setPrototypeOf",
@@ -19,7 +17,7 @@ const objectCtorSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
     } else if (isStaticJsNull(protoValue)) {
       proto = null;
     } else {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         realm.types.error(
           "TypeError",
           "Object prototype may only be an Object or null",

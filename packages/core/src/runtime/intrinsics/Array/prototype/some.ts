@@ -1,13 +1,8 @@
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../../../../evaluator/completions/ThrowCompletion.js";
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
+import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
 
@@ -22,7 +17,7 @@ const arrayProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
     if (!isStaticJsFunction(callback)) {
       // FIXME: NodeJs is doing something aside from casting it to string.
       // Object appears as "#<Object>"
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         realm.types.error(
           "TypeError",
           `${callback.toString()} is not a function`,
@@ -31,9 +26,6 @@ const arrayProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const length = yield* getLength(realm, thisObj);
-    if (isThrowCompletion(length)) {
-      return length;
-    }
 
     for (let i = 0; i < length; i++) {
       const property = String(i);
@@ -43,27 +35,19 @@ const arrayProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const elementValue = yield* thisObj.getPropertyEvaluator(property);
-      const resultCompletion = yield* callback.callEvaluator(
+      const result = yield* callback.callEvaluator(
         thisObj,
         elementValue,
         realm.types.number(i),
         thisObj,
       );
-      if (resultCompletion.type === "throw") {
-        return resultCompletion;
-      }
-      if (resultCompletion.type !== "normal" || !resultCompletion.value) {
-        throw new StaticJsEngineError(
-          "Expected Array.prototype.some callback to return a normal completion",
-        );
-      }
 
-      if (resultCompletion.value.toBoolean()) {
-        return ReturnCompletion(realm.types.true);
+      if (result.toBoolean()) {
+        return realm.types.true;
       }
     }
 
-    return ReturnCompletion(realm.types.false);
+    return realm.types.false;
   },
 };
 

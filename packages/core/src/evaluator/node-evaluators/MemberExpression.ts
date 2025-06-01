@@ -1,4 +1,4 @@
-import { MemberExpression } from "@babel/types";
+import type { MemberExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
@@ -8,11 +8,10 @@ import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { NormalCompletion } from "../completions/NormalCompletion.js";
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import nameNode from "./name-node.js";
 
@@ -22,12 +21,11 @@ export default function* memberExpressionNodeEvaluator(
 ): EvaluationGenerator {
   const propertyNode = node.property;
   let target = yield* EvaluateNodeCommand(node.object, context, {
-    rethrow: true,
     forNormalValue: "MemberExpression.object",
   });
 
   if (isStaticJsNull(target)) {
-    return ThrowCompletion(
+    throw new ThrowCompletion(
       context.realm.types.error(
         "TypeError",
         `Cannot read properties of null (reading '${nameNode(propertyNode)}')`,
@@ -36,7 +34,7 @@ export default function* memberExpressionNodeEvaluator(
   }
 
   if (isStaticJsUndefined(target)) {
-    return ThrowCompletion(
+    throw new ThrowCompletion(
       context.realm.types.error(
         "TypeError",
         `Cannot read properties of undefined (reading '${nameNode(propertyNode)}')`,
@@ -59,12 +57,11 @@ export default function* memberExpressionNodeEvaluator(
     propertyName = propertyNode.name;
   } else {
     const property = yield* EvaluateNodeCommand(propertyNode, context, {
-      rethrow: true,
       forNormalValue: "MemberExpression.property",
     });
     propertyName = toPropertyKey(property);
   }
 
   const value = yield* target.getPropertyEvaluator(propertyName);
-  return NormalCompletion(value);
+  return value;
 }

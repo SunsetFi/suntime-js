@@ -1,22 +1,18 @@
-import { Node } from "@babel/types";
+import type { Node } from "@babel/types";
 
-import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-
-import evaluateNode, {
-  EvaluateNodeOptions,
-} from "../node-evaluators/evaluate-node.js";
-
-import { ThrowCompletion } from "../completions/ThrowCompletion.js";
-
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
-import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import EvaluatorCommandBase from "./EvaluatorCommandBase.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+
+import type { EvaluateNodeOptions } from "../node-evaluators/evaluate-node.js";
+import evaluateNode from "../node-evaluators/evaluate-node.js";
+
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
+
+import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 
 export interface EvaluateNodeCommandOptions extends EvaluateNodeOptions {
-  rethrow?: boolean;
   forNormalValue?: string;
 }
 
@@ -40,47 +36,23 @@ export function EvaluateNodeCommand(
 export function* EvaluateNodeCommand(
   node: Node,
   context: EvaluationContext,
-  {
-    rethrow,
-    forNormalValue,
-    ...evaluateOptions
-  }: EvaluateNodeCommandOptions = {},
+  { forNormalValue, ...evaluateOptions }: EvaluateNodeCommandOptions = {},
 ): EvaluationGenerator<unknown> {
-  try {
-    const result = yield {
-      kind: "evalute-node",
-      node,
-      context,
-      options: evaluateOptions,
-    };
-    if (rethrow && result.type === "throw") {
-      throw new StaticJsRuntimeError(result.value);
+  const result = yield {
+    kind: "evalute-node",
+    node,
+    context,
+    options: evaluateOptions,
+  };
+  if (forNormalValue) {
+    if (result == null) {
+      throw new StaticJsEngineError(
+        `Expected ${forNormalValue} to return a normal value completion, but got an empty value.`,
+      );
     }
-
-    if (forNormalValue) {
-      if (result.type !== "normal") {
-        throw new StaticJsEngineError(
-          `Expected ${forNormalValue} to return a normal value completion, but got ${result.type}`,
-        );
-      }
-
-      if (!result.value) {
-        throw new StaticJsEngineError(
-          `Expected ${forNormalValue} to return a normal value completion, but got an empty value`,
-        );
-      }
-
-      return result.value;
-    }
-
-    return result;
-  } catch (e: unknown) {
-    if (rethrow || e instanceof StaticJsRuntimeError === false) {
-      throw e;
-    }
-
-    return ThrowCompletion(e.thrown);
   }
+
+  return result;
 }
 
 export function* executeEvaluateNodeCommand(

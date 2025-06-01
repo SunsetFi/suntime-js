@@ -1,8 +1,9 @@
-import EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
-import { StaticJsPrimitive } from "./StaticJsPrimitive.js";
-import { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js";
-import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
+import type { StaticJsPrimitive } from "./StaticJsPrimitive.js";
+import type { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js";
+import type { StaticJsValue } from "./StaticJsValue.js";
+import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsObjectLike extends StaticJsPrimitive {
   // We MUST NOT RESTRICT THIS to "object" | "array" | "function", or else

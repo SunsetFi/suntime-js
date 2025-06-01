@@ -1,13 +1,11 @@
-import { LogicalExpression } from "@babel/types";
+import type { LogicalExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { NormalCompletion } from "../completions/NormalCompletion.js";
-
-import EvaluationGenerator from "../EvaluationGenerator.js";
-import EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
 
 export default function logicalExpressionNodeEvaluator(
   node: LogicalExpression,
@@ -32,19 +30,17 @@ function* logicalExpressionAnd(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const left = yield* EvaluateNodeCommand(node.left, context, {
-    rethrow: true,
     forNormalValue: "LogicalExpression.left",
   });
   if (left.toBoolean()) {
     const right = yield* EvaluateNodeCommand(node.right, context, {
-      rethrow: true,
       forNormalValue: "LogicalExpression.right",
     });
 
-    return NormalCompletion(right);
+    return right;
   }
 
-  return NormalCompletion(left);
+  return left;
 }
 
 function* logicalExpressionOr(
@@ -52,20 +48,18 @@ function* logicalExpressionOr(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const left = yield* EvaluateNodeCommand(node.left, context, {
-    rethrow: true,
     forNormalValue: "LogicalExpression.left",
   });
 
   if (left.toBoolean()) {
-    return NormalCompletion(left);
+    return left;
   }
 
   const right = yield* EvaluateNodeCommand(node.right, context, {
-    rethrow: true,
     forNormalValue: "LogicalExpression.right",
   });
 
-  return NormalCompletion(right);
+  return right;
 }
 
 function* logicalExpressionNullishCoalescing(
@@ -73,17 +67,15 @@ function* logicalExpressionNullishCoalescing(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const left = yield* EvaluateNodeCommand(node.left, context, {
-    rethrow: true,
     forNormalValue: "LogicalExpression.left",
   });
 
   if (["null", "undefined"].includes(left.runtimeTypeOf)) {
     const right = yield* EvaluateNodeCommand(node.right, context, {
-      rethrow: true,
       forNormalValue: "LogicalExpression.right",
     });
-    return NormalCompletion(right);
+    return right;
   }
 
-  return NormalCompletion(left);
+  return left;
 }

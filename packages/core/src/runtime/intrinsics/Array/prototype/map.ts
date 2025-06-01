@@ -1,16 +1,10 @@
-import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
-
-import {
-  ThrowCompletion,
-  isThrowCompletion,
-} from "../../../../evaluator/completions/ThrowCompletion.js";
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
+import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
-import { StaticJsValue } from "../../../types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
 
@@ -21,7 +15,7 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
 
     if (!isStaticJsArray(thisArg)) {
       // Seems to do nothing in NodeJs.
-      return ReturnCompletion(realm.types.undefined);
+      return realm.types.undefined;
     }
 
     if (!callback) {
@@ -29,7 +23,7 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (!isStaticJsFunction(callback)) {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         realm.types.error(
           "TypeError",
           `${callback.toString()} is not a function`,
@@ -38,9 +32,6 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const length = yield* getLength(realm, thisObj);
-    if (isThrowCompletion(length)) {
-      return length;
-    }
 
     const resultArray: StaticJsValue[] = new Array(length);
     for (let i = 0; i < length; i++) {
@@ -52,28 +43,17 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const elementValue = yield* thisArg.getPropertyEvaluator(property);
-      const resultCompletion = yield* callback.callEvaluator(
+      const result = yield* callback.callEvaluator(
         providedThisArg ?? thisArg,
         elementValue,
         realm.types.number(i),
         thisArg,
       );
-      if (resultCompletion.type === "throw") {
-        return resultCompletion;
-      }
-      if (
-        resultCompletion.type !== "normal" ||
-        resultCompletion.value == null
-      ) {
-        throw new StaticJsEngineError(
-          "Expected Array.prototype.map callback to return a normal completion",
-        );
-      }
 
-      resultArray[i] = resultCompletion.value;
+      resultArray[i] = result;
     }
 
-    return ReturnCompletion(realm.types.array(resultArray));
+    return realm.types.array(resultArray);
   },
 };
 

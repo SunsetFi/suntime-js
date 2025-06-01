@@ -1,13 +1,12 @@
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
-import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsValue } from "../../types/StaticJsValue.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import StaticJsBaseEnvironmentRecord from "./StaticJsBaseEnvironmentRecord.js";
-import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
+import type StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 import { StaticJsEnvironmentGetBinding } from "./StaticJsEnvironmentBindingProvider.js";
 
 export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEnvironmentRecord {
@@ -16,7 +15,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
 
   *createMutableBindingEvaluator(name: string, deletable: boolean) {
     if (deletable) {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         this.realm.types.error(
           "TypeError",
           "Bindings in declarative environments cannot be deletable.",
@@ -25,7 +24,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
     }
 
     if (this._bindings.has(name)) {
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         this.realm.types.error(
           "SyntaxError",
           `Identifier ${name} has already been declared`,
@@ -42,10 +41,10 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
   *createImmutableBindingEvaluator(
     name: string,
     _strict: boolean,
-  ): EvaluationGenerator<ThrowCompletion | void> {
+  ): EvaluationGenerator<void> {
     if (this._bindings.has(name)) {
       // FIXME: Strict probably means we should or should not throw here.
-      return ThrowCompletion(
+      throw new ThrowCompletion(
         this.realm.types.error(
           "SyntaxError",
           `Identifier ${name} has already been declared`,
@@ -98,7 +97,7 @@ class DeclarativeEnvironmentBinding implements StaticJsEnvironmentBinding {
 
   *get(): EvaluationGenerator<StaticJsValue> {
     if (this._value == null) {
-      throw new StaticJsRuntimeError(
+      throw new ThrowCompletion(
         this.realm.types.error(
           "ReferenceError",
           `Cannot get value of uninitialized binding ${this.name}`,

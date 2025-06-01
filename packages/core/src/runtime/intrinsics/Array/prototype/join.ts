@@ -1,10 +1,7 @@
-import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
 
@@ -14,9 +11,6 @@ const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
     const length = yield* getLength(realm, thisObj);
-    if (isThrowCompletion(length)) {
-      return length;
-    }
 
     if (joinerValue == null) {
       joinerValue = realm.types.undefined;
@@ -49,7 +43,7 @@ const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
       s.push(elementValue.toString());
     }
 
-    return ReturnCompletion(realm.types.string(s.join(joiner)));
+    return realm.types.string(s.join(joiner));
   },
 };
 

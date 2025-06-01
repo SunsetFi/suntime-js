@@ -1,9 +1,6 @@
-import { isThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
-import { ReturnCompletion } from "../../../../evaluator/completions/ReturnCompletion.js";
-
 import toInteger from "../../../algorithms/to-integer.js";
 
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
 
@@ -17,9 +14,6 @@ const arrayProtoAtDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const length = yield* getLength(realm, thisObj);
-    if (isThrowCompletion(length)) {
-      return length;
-    }
 
     let index = toInteger(indexValue);
     if (index < 0) {
@@ -27,11 +21,11 @@ const arrayProtoAtDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (index < 0 || index > length) {
-      return ReturnCompletion(realm.types.undefined);
+      return realm.types.undefined;
     }
 
     const value = yield* thisObj.getPropertyEvaluator(String(index));
-    return ReturnCompletion(value);
+    return value;
   },
 };
 

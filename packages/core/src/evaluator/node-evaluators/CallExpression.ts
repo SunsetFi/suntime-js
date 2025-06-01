@@ -1,15 +1,14 @@
-import { CallExpression } from "@babel/types";
+import type { CallExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 
-import EvaluationContext from "../EvaluationContext.js";
-import EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { NormalCompletion } from "../completions/NormalCompletion.js";
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import nameNode from "./name-node.js";
@@ -27,18 +26,16 @@ export default function* callExpressionNodeEvaluator(
 
   if (node.callee.type === "MemberExpression") {
     thisArg = yield* EvaluateNodeCommand(node.callee.object, context, {
-      rethrow: true,
       forNormalValue: "CallExpression.callee.object",
     });
   }
 
   const callee = yield* EvaluateNodeCommand(node.callee, context, {
-    rethrow: true,
     forNormalValue: "CallExpression.callee",
   });
 
   if (!isStaticJsFunction(callee)) {
-    return ThrowCompletion(
+    throw new ThrowCompletion(
       context.realm.types.error(
         "TypeError",
         `TypeError: ${nameNode(node.callee)} is not a function`,
@@ -49,23 +46,12 @@ export default function* callExpressionNodeEvaluator(
   const args = new Array(node.arguments.length);
   for (let i = 0; i < node.arguments.length; i++) {
     const arg = yield* EvaluateNodeCommand(node.arguments[i], context, {
-      rethrow: true,
       forNormalValue: "CallExpression.arguments[]",
     });
     args[i] = arg;
   }
 
-  const callCompletion = yield* callee.callEvaluator(thisArg, ...args);
-  if (callCompletion.type === "throw") {
-    return callCompletion;
-  }
-  if (callCompletion.type !== "normal") {
-    throw new StaticJsEngineError(
-      `Expected call completion to return normal completion, but got ${callCompletion.type}`,
-    );
-  }
+  const callResult = yield* callee.callEvaluator(thisArg, ...args);
 
-  return NormalCompletion(
-    callCompletion.value ?? context.realm.types.undefined,
-  );
+  return callResult ?? context.realm.types.undefined;
 }

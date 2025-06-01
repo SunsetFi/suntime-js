@@ -1,14 +1,12 @@
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
-import EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
-import { NormalCompletion } from "../../evaluator/completions/NormalCompletion.js";
-import { StaticJsObjectLike } from "../types/StaticJsObject.js";
-import { StaticJsValue } from "../types/StaticJsValue.js";
+import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+import type { StaticJsObjectLike } from "../types/StaticJsObject.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import { StaticJsModule } from "./StaticJsModule.js";
+import type { StaticJsModule } from "./StaticJsModule.js";
 
-import { StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
+import type { StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
 
 export type StaticJsModuleStatus =
   | "uninstantiated"
@@ -26,27 +24,25 @@ export interface StaticJsModuleImplementation extends StaticJsModule {
   moduleEvaluationEvaluator(): EvaluationGenerator;
 
   // Note: This doesn't have to be an evaluator, except for the oddity that
-  // we still want to return ThrowCompletions.  Should we just throw the RuntimeError?
+  // we still want to throw new ThrowCompletions.  Should we just throw the RuntimeError?
   resolveExportEvaluator(
     exportName: string,
     resolveSet?: Set<string>,
-  ): EvaluationGenerator<StaticJsResolvedBinding | ThrowCompletion>;
+  ): EvaluationGenerator<StaticJsResolvedBinding>;
 
   // Note: This doesn't have to be an evaluator, except for the oddity that
-  // we still want to return ThrowCompletions.  Should we just throw the RuntimeError?
+  // we still want to throw new ThrowCompletions.  Should we just throw the RuntimeError?
   getExportedNamesEvaluator(
     exportStarSet?: Set<string>,
-  ): EvaluationGenerator<string[] | ThrowCompletion>;
+  ): EvaluationGenerator<string[]>;
 
   // TODO: Just expose the StaticJsEnvironment and
   // do this manually where needed.
   getOwnBindingValueEvaluator(
     bindingName: string,
-  ): EvaluationGenerator<StaticJsValue | ThrowCompletion | null>;
+  ): EvaluationGenerator<StaticJsValue | null>;
 
-  getModuleNamespaceEvaluator(): EvaluationGenerator<
-    StaticJsObjectLike | ThrowCompletion
-  >;
+  getModuleNamespaceEvaluator(): EvaluationGenerator<StaticJsObjectLike>;
 }
 
 export function isStaticJsModuleImplementation(
@@ -92,10 +88,10 @@ export function staticJsModuleToImplementation(
       return Promise.resolve<void>(undefined);
     },
     *moduleDeclarationInstantiationEvaluator() {
-      return NormalCompletion();
+      return null;
     },
     *moduleEvaluationEvaluator() {
-      return NormalCompletion();
+      return null;
     },
     *resolveExportEvaluator(name) {
       if (!module.getExportedNames().includes(name)) {

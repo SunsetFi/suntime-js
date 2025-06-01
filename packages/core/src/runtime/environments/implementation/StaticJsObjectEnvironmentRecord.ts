@@ -1,13 +1,12 @@
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
-import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { StaticJsObject } from "../../types/StaticJsObject.js";
-import { StaticJsValue } from "../../types/StaticJsValue.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import StaticJsBaseEnvironmentRecord from "./StaticJsBaseEnvironmentRecord.js";
-import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
+import type StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 import { StaticJsEnvironmentGetBinding } from "./StaticJsEnvironmentBindingProvider.js";
 
 export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnvironmentRecord {
@@ -30,16 +29,14 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
     });
   }
 
-  *createImmutableBindingEvaluator(
-    _name: string,
-  ): EvaluationGenerator<ThrowCompletion | void> {
+  *createImmutableBindingEvaluator(_name: string): EvaluationGenerator<void> {
     // Do nothing; all the work is done in initializeBinding
   }
 
   *initializeBindingEvaluator(
     name: string,
     value: StaticJsValue,
-  ): EvaluationGenerator<ThrowCompletion | void> {
+  ): EvaluationGenerator<void> {
     yield* this._obj.definePropertyEvaluator(name, {
       writable: false,
       enumerable: true,
