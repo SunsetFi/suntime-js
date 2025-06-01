@@ -13,7 +13,7 @@ describe("E2E: Thrown Error Handling", () => {
   it("Should support declarative enviroments", () => {
     const code = `
       try {
-        let test = 1;
+        var test = 1;
         test;
       }
       catch (e) {}

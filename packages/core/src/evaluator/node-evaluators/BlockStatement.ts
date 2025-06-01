@@ -2,6 +2,8 @@ import type { BlockStatement } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
+import type { StaticJsValue } from "../../runtime/index.js";
+
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 
@@ -31,11 +33,12 @@ function* blockStatementNodeEvaluator(
     yield* setupEnvironment(child, blockContext);
   }
 
+  let lastValue: StaticJsValue | null = null;
   for (const statement of node.body) {
-    yield* EvaluateNodeCommand(statement, blockContext);
+    lastValue = yield* EvaluateNodeCommand(statement, blockContext);
   }
 
-  return null;
+  return lastValue;
 }
 
 export default typedMerge(blockStatementNodeEvaluator, {

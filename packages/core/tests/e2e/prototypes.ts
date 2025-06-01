@@ -69,6 +69,7 @@ describe("Prototype chain and object behavior", () => {
     const result = evaluateProgram(`
       const obj = {};
       Object.freeze(obj);
+      let result;
       try {
         Object.setPrototypeOf(obj, {});
         false;

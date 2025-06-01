@@ -1,7 +1,5 @@
 import type { Program } from "@babel/types";
 
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
-
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import typedMerge from "../../internal/typed-merge.js";
@@ -12,8 +10,7 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setupEnvironment from "./setup-environment.js";
-import { ThrowCompletion } from "../completions/ThrowCompletion.js";
-import { AbnormalCompletion } from "../completions/AbnormalCompletion.js";
+import { ControlFlowCompletion } from "../completions/ControlFlowCompletion.js";
 
 function* programNodeEvaluator(
   node: Program,
@@ -24,16 +21,8 @@ function* programNodeEvaluator(
     try {
       lastResult = yield* EvaluateNodeCommand(statement, context);
     } catch (e) {
-      if (e instanceof ThrowCompletion) {
-        throw e;
-      }
-
-      if (e instanceof AbnormalCompletion) {
-        // FIXME: What is the real error? SyntaxError?
-        throw new StaticJsEngineError(
-          "Illegal control flow completion type in Program node.",
-        );
-      }
+      ControlFlowCompletion.handleUnexpected(context.realm, e);
+      throw e;
     }
   }
 

@@ -1,9 +1,6 @@
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletion.js";
-import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -18,6 +15,7 @@ import { isStaticJsObjectLike } from "../StaticJsObject.js";
 import StaticJsStringImpl from "./StaticJsStringImpl.js";
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import { ControlFlowCompletion } from "../../../evaluator/completions/ControlFlowCompletion.js";
 
 export interface StaticJsFunctionImplOptions {
   length?: number;
@@ -77,19 +75,20 @@ export default class StaticJsFunctionImpl
 
   toJs(): unknown {
     if (!this._toJs) {
-      const realm = this.realm;
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const self = this;
       this._toJs = function (...args: unknown[]) {
         const argValues = args.map((value) =>
-          realm.types.toStaticJsValue(value),
+          self.realm.types.toStaticJsValue(value),
         );
         // FIXME: This absolutely probably does not work right.
         // We should at least try to look up if we have a StaticJsValue representation of the global object.
         // At the very least, this is dangerous, and might inadvertently leak stuff from the runtime into the scripting engine.
         // They won't be able to grab prototypes, but...
-        const thisArg = realm.types.toStaticJsValue(this);
+        const thisArg = self.realm.types.toStaticJsValue(this);
 
-        const result = this.realm.invokeEvaluatorSync(
-          this.callEvaluator(thisArg, ...argValues),
+        const result = self.realm.invokeEvaluatorSync(
+          self.callEvaluator(thisArg, ...argValues),
         );
         return result.toJs();
       };
@@ -149,11 +148,7 @@ export default class StaticJsFunctionImpl
         return e.value ?? this.realm.types.undefined;
       }
 
-      if (e instanceof AbnormalCompletion) {
-        throw new StaticJsEngineError(
-          `Unexpected completion in function: ${e.type}`,
-        );
-      }
+      ControlFlowCompletion.handleUnexpected(this.realm, e);
 
       throw e;
     }

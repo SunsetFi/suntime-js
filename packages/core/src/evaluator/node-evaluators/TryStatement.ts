@@ -24,23 +24,27 @@ function* tryStatementNodeEvaluator(
   // Due to the way Environment Records are handled for try/catch/finally,
   // we manually handle blocks ourselves instead of delegating to the BlockStatement node evaluator.
 
+  let returnValue: StaticJsValue | null = null;
   try {
-    yield* runBlock(node.block, context);
+    returnValue = yield* runBlock(node.block, context);
   } catch (e) {
     if (e instanceof ThrowCompletion) {
       if (node.handler) {
-        yield* runCatch(node.handler, e.value, context);
+        returnValue = yield* runCatch(node.handler, e.value, context);
       } else {
         throw e;
       }
     }
   } finally {
     if (node.finalizer) {
-      yield* runBlock(node.finalizer, context);
+      const finalizerValue = yield* runBlock(node.finalizer, context);
+      if (finalizerValue !== null) {
+        returnValue = finalizerValue;
+      }
     }
   }
 
-  return null;
+  return returnValue;
 }
 
 function* runCatch(
