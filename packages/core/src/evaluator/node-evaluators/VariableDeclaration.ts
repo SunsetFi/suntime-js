@@ -26,12 +26,12 @@ function* variableDeclarationNodeEvaluator(
   let variableInitializer: (
     name: string,
     value: StaticJsValue | null,
-  ) => EvaluationGenerator<void>;
+  ) => EvaluationGenerator<ThrowCompletion | void>;
   switch (node.kind) {
     case "const":
     case "let":
       variableInitializer = function* (name, value) {
-        yield* context.env.initializeBindingEvaluator(
+        return yield* context.env.initializeBindingEvaluator(
           name,
           value ?? context.realm.types.undefined,
         );
@@ -39,7 +39,7 @@ function* variableDeclarationNodeEvaluator(
       break;
     case "var":
       variableInitializer = function* (name, value) {
-        yield* context.env.setMutableBindingEvaluator(
+        return yield* context.env.setMutableBindingEvaluator(
           name,
           value ?? context.realm.types.undefined,
           context.realm.strict,
@@ -77,10 +77,13 @@ function* variableDeclarationEnvironmentSetup(
   switch (node.kind) {
     case "const":
       variableCreator = function* (name) {
-        yield* context.env.createImmutableBindingEvaluator(
+        const result = yield* context.env.createImmutableBindingEvaluator(
           name,
           context.realm.strict,
         );
+        if (isThrowCompletion(result)) {
+          return result;
+        }
       };
       break;
     case "let":
@@ -143,7 +146,7 @@ function* declarationStatementEvaluator(
   variableCreator: (
     name: string,
     value: StaticJsValue | null,
-  ) => EvaluationGenerator<void>,
+  ) => EvaluationGenerator<ThrowCompletion | void>,
 ): EvaluationGenerator {
   let value: StaticJsValue | null = null;
   if (declarator.init) {

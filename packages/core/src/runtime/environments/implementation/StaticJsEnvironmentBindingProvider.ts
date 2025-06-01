@@ -1,3 +1,4 @@
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import { StaticJsValue } from "../../types/StaticJsValue.js";
@@ -51,7 +52,7 @@ export function environmentToBindingProvider(
     createImmutableBindingEvaluator(
       name: string,
       strict: boolean,
-    ): EvaluationGenerator<void> {
+    ): EvaluationGenerator<ThrowCompletion | void> {
       return env.createImmutableBindingEvaluator(name, strict);
     },
 
@@ -62,7 +63,7 @@ export function environmentToBindingProvider(
     createFunctionBindingEvaluator(
       name: string,
       value: StaticJsValue,
-    ): EvaluationGenerator<void> {
+    ): EvaluationGenerator<ThrowCompletion | void> {
       return env.createFunctionBindingEvaluator(name, value);
     },
 
@@ -89,7 +90,7 @@ export function environmentToBindingProvider(
     initializeBindingEvaluator(
       name: string,
       value: StaticJsValue,
-    ): EvaluationGenerator<void> {
+    ): EvaluationGenerator<ThrowCompletion | void> {
       return env.initializeBindingEvaluator(name, value);
     },
 
@@ -104,7 +105,7 @@ export function environmentToBindingProvider(
       name: string,
       value: StaticJsValue,
       strict: boolean,
-    ): EvaluationGenerator<void> {
+    ): EvaluationGenerator<ThrowCompletion | void> {
       return env.setMutableBindingEvaluator(name, value, strict);
     },
 
@@ -114,14 +115,16 @@ export function environmentToBindingProvider(
     getBindingValueEvaluator(
       name: string,
       strict: boolean,
-    ): EvaluationGenerator<StaticJsValue> {
+    ): EvaluationGenerator<StaticJsValue | ThrowCompletion> {
       return env.getBindingValueEvaluator(name, strict);
     },
 
     deleteBinding(name: string): void {
       env.deleteBinding(name);
     },
-    deleteBindingEvaluator(name: string): EvaluationGenerator<void> {
+    deleteBindingEvaluator(
+      name: string,
+    ): EvaluationGenerator<ThrowCompletion | void> {
       return env.deleteBindingEvaluator(name);
     },
 

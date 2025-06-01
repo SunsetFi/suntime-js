@@ -29,8 +29,6 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsDeclarative
   ): EvaluationGenerator {
     const realm = this.realm;
     this._moduleBindings.set(name, {
-      // TODO: We link everything before we evaluate modules, so maybe have this reflect the module's evaluation status.
-      // Currently, however, modules are only provided statically by the host.
       isInitialized: true,
       isMutable: false,
       isDeletable: false,

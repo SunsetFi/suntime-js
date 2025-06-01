@@ -96,7 +96,10 @@ function* deleteExpressionNodeEvaluator(
   } else if (argument.type === "Identifier") {
     const env = context.env;
     const name = argument.name;
-    yield* env.deleteBindingEvaluator(name);
+    const result = yield* env.deleteBindingEvaluator(name);
+    if (isThrowCompletion(result)) {
+      return result;
+    }
 
     // We just return true regardless apparently?
     return NormalCompletion(context.realm.types.true);
@@ -123,6 +126,9 @@ function* typeofExpressionNodeEvaluator(
 
     if (hasBinding) {
       const bindingValue = yield* env.getBindingValueEvaluator(name, false);
+      if (isThrowCompletion(bindingValue)) {
+        return bindingValue;
+      }
       return NormalCompletion(context.realm.types.string(bindingValue.typeOf));
     }
 

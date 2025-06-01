@@ -134,16 +134,21 @@ export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
           value,
           context,
           function* (name, value) {
-            const result = yield* context.env.createMutableBindingEvaluator(
-              name,
-              false,
-            );
-            if (isThrowCompletion(result)) {
-              return result;
+            const createResult =
+              yield* context.env.createMutableBindingEvaluator(name, false);
+            if (isThrowCompletion(createResult)) {
+              return createResult;
             }
 
             // Strict mode is whatever; our binding is created above.
-            yield* context.env.setMutableBindingEvaluator(name, value, true);
+            const setResult = yield* context.env.setMutableBindingEvaluator(
+              name,
+              value,
+              true,
+            );
+            if (isThrowCompletion(setResult)) {
+              return setResult;
+            }
           },
         );
 
@@ -162,16 +167,23 @@ export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
         value,
         context,
         function* (name, value) {
-          const result = yield* context.env.createMutableBindingEvaluator(
+          const createResult = yield* context.env.createMutableBindingEvaluator(
             name,
             false,
           );
-          if (isThrowCompletion(result)) {
-            return result;
+          if (isThrowCompletion(createResult)) {
+            return createResult;
           }
 
           // Strict mode is whatever; our binding is created above.
-          yield* context.env.setMutableBindingEvaluator(name, value, true);
+          const setResult = yield* context.env.setMutableBindingEvaluator(
+            name,
+            value,
+            true,
+          );
+          if (isThrowCompletion(setResult)) {
+            return setResult;
+          }
         },
       );
 

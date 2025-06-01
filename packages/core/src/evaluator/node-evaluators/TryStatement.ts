@@ -77,7 +77,10 @@ function* runCatch(
           return completion;
         }
 
-        yield* env.initializeBindingEvaluator(name, value);
+        const initResult = yield* env.initializeBindingEvaluator(name, value);
+        if (isThrowCompletion(initResult)) {
+          return initResult;
+        }
       },
     );
 

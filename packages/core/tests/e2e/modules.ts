@@ -5,7 +5,7 @@ import { StaticJsRealm, evaluateModule } from "../../src/index.js";
 describe("E2E: Module", () => {
   it("Throws ReferenceError when a module is not found", async () => {
     const realm = StaticJsRealm();
-    expect(
+    await expect(
       evaluateModule('import { foo } from "not-found";', { realm }),
     ).rejects.toThrow(/not found/);
   });
@@ -16,7 +16,7 @@ describe("E2E: Module", () => {
         "module-1": `import { foo } from "bar"; export const test = 42;`,
       },
     });
-    expect(
+    await expect(
       evaluateModule('import { test } from "module-1";', { realm }),
     ).rejects.toThrow(/not found/);
   });

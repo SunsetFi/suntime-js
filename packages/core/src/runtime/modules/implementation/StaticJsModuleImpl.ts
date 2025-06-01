@@ -206,20 +206,26 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       }
 
       if (entry.importName === "namespace") {
-        yield* this._enviornment.createImmutableBindingEvaluator(
+        const result = yield* this._enviornment.createImmutableBindingEvaluator(
           entry.localName,
           false,
         );
+        if (isThrowCompletion(result)) {
+          return result;
+        }
 
         const ns = yield* module.getModuleNamespaceEvaluator();
         if (isThrowCompletion(ns)) {
           return ns;
         }
 
-        yield* this._enviornment.initializeBindingEvaluator(
+        const initResult = yield* this._enviornment.initializeBindingEvaluator(
           entry.localName,
           ns,
         );
+        if (isThrowCompletion(initResult)) {
+          return initResult;
+        }
       } else {
         const resolved = yield* module.resolveExportEvaluator(entry.importName);
         if (isThrowCompletion(resolved)) {
@@ -513,6 +519,9 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       bindingName,
       false,
     );
+    if (isThrowCompletion(value)) {
+      return value;
+    }
     if (value == null) {
       return null;
     }

@@ -1,10 +1,11 @@
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 import EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import { StaticJsEnvironment } from "../StaticJsEnvironment.js";
-import StaticJsBaseEnvironment from "./StaticJsBaseEnvironment.js";
+import StaticJsBaseEnvironment from "./StaticJsBaseEnvironmentRecord.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 import StaticJsEnvironmentBindingProvider, {
   environmentToBindingProvider,
@@ -36,8 +37,8 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
   *createImmutableBindingEvaluator(
     name: string,
     strict: boolean,
-  ): EvaluationGenerator<void> {
-    yield* this._record.createImmutableBindingEvaluator(name, strict);
+  ): EvaluationGenerator<ThrowCompletion | void> {
+    return yield* this._record.createImmutableBindingEvaluator(name, strict);
   }
 
   *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {

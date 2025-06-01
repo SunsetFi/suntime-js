@@ -12,6 +12,10 @@ import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
 
 import createFunction from "./Function.js";
+import {
+  isThrowCompletion,
+  ThrowCompletion,
+} from "../completions/ThrowCompletion.js";
 
 function* functionDeclarationNodeEvaluator(
   node: FunctionDeclaration,
@@ -29,12 +33,18 @@ function* functionDeclarationNodeEvaluator(
 function* functionDeclarationEnvironmentSetup(
   node: FunctionDeclaration,
   context: EvaluationContext,
-): EvaluationGenerator<boolean> {
+): EvaluationGenerator<ThrowCompletion | boolean> {
   const functionName = node.id?.name ?? null;
   const func = createFunction(functionName, node, context);
 
   if (functionName) {
-    yield* context.env.createFunctionBindingEvaluator(functionName, func);
+    const result = yield* context.env.createFunctionBindingEvaluator(
+      functionName,
+      func,
+    );
+    if (isThrowCompletion(result)) {
+      return result;
+    }
   }
 
   // FIXME: We have been so careful to get away with not mutating the node, but here

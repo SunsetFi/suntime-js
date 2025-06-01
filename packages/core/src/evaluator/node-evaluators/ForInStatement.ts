@@ -82,7 +82,7 @@ export default function* forInStatementNodeEvaluator(
       context.realm.types.string(key),
       bodyContext,
       function* (name, value) {
-        yield* bodyEnv.initializeBindingEvaluator(name, value);
+        return yield* bodyEnv.initializeBindingEvaluator(name, value);
       },
     );
     if (setResult.type === "throw") {

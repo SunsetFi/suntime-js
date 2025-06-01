@@ -20,13 +20,13 @@ export interface StaticJsEnvironment {
   createImmutableBindingEvaluator(
     name: string,
     strict: boolean,
-  ): EvaluationGenerator<void>;
+  ): EvaluationGenerator<ThrowCompletion | void>;
 
   createFunctionBinding(name: string, func: StaticJsValue): void;
   createFunctionBindingEvaluator(
     name: string,
     func: StaticJsValue,
-  ): EvaluationGenerator<void>;
+  ): EvaluationGenerator<ThrowCompletion | void>;
 
   canDeclareGlobalVar(name: string): boolean;
   canDeclareGlobalVarEvaluator(name: string): EvaluationGenerator<boolean>;
@@ -41,39 +41,47 @@ export interface StaticJsEnvironment {
   initializeBindingEvaluator(
     name: string,
     value: StaticJsValue,
-  ): EvaluationGenerator<void>;
+  ): EvaluationGenerator<ThrowCompletion | void>;
 
   setMutableBinding(name: string, value: StaticJsValue, strict: boolean): void;
   setMutableBindingEvaluator(
     name: string,
     value: StaticJsValue,
     strict: boolean,
-  ): EvaluationGenerator<void>;
+  ): EvaluationGenerator<ThrowCompletion | void>;
 
   getBindingValue(name: string, strict: boolean): StaticJsValue;
   getBindingValueEvaluator(
     name: string,
     strict: boolean,
-  ): EvaluationGenerator<StaticJsValue>;
+  ): EvaluationGenerator<StaticJsValue | ThrowCompletion>;
 
   deleteBinding(name: string): void;
-  deleteBindingEvaluator(name: string): EvaluationGenerator<void>;
+  deleteBindingEvaluator(
+    name: string,
+  ): EvaluationGenerator<ThrowCompletion | void>;
 
   hasThisBinding(): boolean;
+  // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   hasThisBindingEvaluator(): EvaluationGenerator<boolean>;
 
   hasSuperBinding(): boolean;
+  // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   hasSuperBindingEvaluator(): EvaluationGenerator<boolean>;
 
   withBaseObject(): StaticJsValue;
+  // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue>;
 
   getThisBinding(): StaticJsValue;
+  // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue>;
 
   getSuperBase(): StaticJsValue;
+  // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue>;
 
   getVarScope(): StaticJsEnvironment | null;
+  // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironment | null>;
 }

@@ -8,6 +8,7 @@ import { NormalCompletion } from "../completions/NormalCompletion.js";
 
 import EvaluationContext from "../EvaluationContext.js";
 import EvaluationGenerator from "../EvaluationGenerator.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 export default function* updateExpressionNodeEvaluator(
   node: UpdateExpression,
@@ -26,6 +27,9 @@ export default function* updateExpressionNodeEvaluator(
     bindingName,
     context.realm.strict,
   );
+  if (isThrowCompletion(originalValue)) {
+    return originalValue;
+  }
 
   if (!isStaticJsNumber(originalValue)) {
     return NormalCompletion(context.realm.types.NaN);
@@ -46,11 +50,14 @@ export default function* updateExpressionNodeEvaluator(
   }
 
   const setValue = context.realm.types.number(targetValue);
-  yield* context.env.setMutableBindingEvaluator(
+  const result = yield* context.env.setMutableBindingEvaluator(
     bindingName,
     setValue,
     context.realm.strict,
   );
+  if (isThrowCompletion(result)) {
+    return result;
+  }
 
   return NormalCompletion(node.prefix ? setValue : originalValue);
 }

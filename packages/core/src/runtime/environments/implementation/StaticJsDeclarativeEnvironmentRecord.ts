@@ -6,7 +6,7 @@ import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import { StaticJsValue } from "../../types/StaticJsValue.js";
 
-import StaticJsBaseEnvironmentRecord from "./StaticJsBaseEnvironment.js";
+import StaticJsBaseEnvironmentRecord from "./StaticJsBaseEnvironmentRecord.js";
 import StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 import { StaticJsEnvironmentGetBinding } from "./StaticJsEnvironmentBindingProvider.js";
 
@@ -16,9 +16,11 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
 
   *createMutableBindingEvaluator(name: string, deletable: boolean) {
     if (deletable) {
-      // FIXME: Use a throw completion?
-      throw new Error(
-        "Bindings in declarative environments cannot be deletable.",
+      return ThrowCompletion(
+        this.realm.types.error(
+          "TypeError",
+          "Bindings in declarative environments cannot be deletable.",
+        ),
       );
     }
 
@@ -40,10 +42,10 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
   *createImmutableBindingEvaluator(
     name: string,
     _strict: boolean,
-  ): EvaluationGenerator<void> {
+  ): EvaluationGenerator<ThrowCompletion | void> {
     if (this._bindings.has(name)) {
       // FIXME: Strict probably means we should or should not throw here.
-      throw new StaticJsRuntimeError(
+      return ThrowCompletion(
         this.realm.types.error(
           "SyntaxError",
           `Identifier ${name} has already been declared`,

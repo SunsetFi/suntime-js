@@ -8,6 +8,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import EvaluationGenerator from "../EvaluationGenerator.js";
 import EvaluationContext from "../EvaluationContext.js";
+import { isThrowCompletion } from "../completions/ThrowCompletion.js";
 
 function* exportDefaultDeclarationNodeEvaluator(
   node: ExportDefaultDeclaration,
@@ -17,7 +18,13 @@ function* exportDefaultDeclarationNodeEvaluator(
     rethrow: true,
     forNormalValue: "default export",
   });
-  yield* context.env.initializeBindingEvaluator("*default*", value);
+  const initResult = yield* context.env.initializeBindingEvaluator(
+    "*default*",
+    value,
+  );
+  if (isThrowCompletion(initResult)) {
+    return initResult;
+  }
   return NormalCompletion();
 }
 
@@ -26,7 +33,13 @@ export default typedMerge(exportDefaultDeclarationNodeEvaluator, {
     node: ExportDefaultDeclaration,
     context: EvaluationContext,
   ) {
-    yield* context.env.createImmutableBindingEvaluator("*default*", true);
+    const result = yield* context.env.createImmutableBindingEvaluator(
+      "*default*",
+      true,
+    );
+    if (isThrowCompletion(result)) {
+      return result;
+    }
     return true;
   },
 });

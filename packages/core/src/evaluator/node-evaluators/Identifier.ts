@@ -32,5 +32,8 @@ export default function* identifierNodeEvaluator(
     node.name,
     context.realm.strict,
   );
+  if (isThrowCompletion(value)) {
+    return value;
+  }
   return NormalCompletion(value);
 }

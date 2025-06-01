@@ -8,7 +8,10 @@ import EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { NormalCompletion } from "../completions/NormalCompletion.js";
-import { ThrowCompletion } from "../completions/ThrowCompletion.js";
+import {
+  isThrowCompletion,
+  ThrowCompletion,
+} from "../completions/ThrowCompletion.js";
 
 import setLVal from "./LVal.js";
 
@@ -51,6 +54,9 @@ export default function* assignmentExpressionNodeEvaluator(
           left.name,
           true,
         );
+        if (isThrowCompletion(leftValue)) {
+          return leftValue;
+        }
 
         if (!isStaticJsScalar(leftValue) || !isStaticJsScalar(value)) {
           // One will become a string so both become a string.
@@ -80,6 +86,9 @@ export default function* assignmentExpressionNodeEvaluator(
           left.name,
           true,
         );
+        if (isThrowCompletion(leftValue)) {
+          return leftValue;
+        }
 
         value = context.realm.types.number(
           leftValue.toNumber() - value.toNumber(),
@@ -101,6 +110,9 @@ export default function* assignmentExpressionNodeEvaluator(
           left.name,
           true,
         );
+        if (isThrowCompletion(leftValue)) {
+          return leftValue;
+        }
 
         value = context.realm.types.number(
           leftValue.toNumber() << value.toNumber(),
@@ -122,6 +134,9 @@ export default function* assignmentExpressionNodeEvaluator(
           left.name,
           true,
         );
+        if (isThrowCompletion(leftValue)) {
+          return leftValue;
+        }
 
         value = context.realm.types.number(
           leftValue.toNumber() >> value.toNumber(),
@@ -143,6 +158,9 @@ export default function* assignmentExpressionNodeEvaluator(
           left.name,
           true,
         );
+        if (isThrowCompletion(leftValue)) {
+          return leftValue;
+        }
 
         value = context.realm.types.number(
           leftValue.toNumber() >>> value.toNumber(),
@@ -156,7 +174,7 @@ export default function* assignmentExpressionNodeEvaluator(
     value,
     context,
     function* (name, value) {
-      yield* context.env.setMutableBindingEvaluator(
+      return yield* context.env.setMutableBindingEvaluator(
         name,
         value,
         context.realm.strict,
