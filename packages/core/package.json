@@ -23,7 +23,7 @@
     "build": "tsc -p tsconfig.lib.json",
     "check": "tsc -p tsconfig.lib.json --noEmit",
     "test": "vitest",
-    "format": "prettier --write",
+    "format": "prettier --write ./src",
     "lint": "eslint"
   },
   "keywords": [],
