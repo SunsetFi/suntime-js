@@ -10,8 +10,9 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg, startValue, deleteCountValue, ...items) {
     const thisObj = (thisArg ?? realm.types.undefined).toObject();
 
-    const lengthValue = yield* thisObj.getPropertyEvaluator("length");
-    const length = toInteger(lengthValue);
+    let lengthValue = yield* thisObj.getPropertyEvaluator("length");
+    lengthValue = yield* toInteger(lengthValue, realm);
+    const length = lengthValue.value;
 
     if (!startValue) {
       return realm.types.array();
@@ -19,7 +20,8 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
 
     let start = 0;
     if (startValue) {
-      start = toInteger(startValue);
+      startValue = yield* toInteger(startValue, realm);
+      start = startValue.value;
     }
 
     if (start < 0) {
@@ -31,7 +33,8 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
 
     let deleteCount = length;
     if (deleteCountValue) {
-      deleteCount = toInteger(deleteCountValue);
+      deleteCountValue = yield* toInteger(deleteCountValue, realm);
+      deleteCount = deleteCountValue.value;
     }
 
     if (deleteCount < 0) {

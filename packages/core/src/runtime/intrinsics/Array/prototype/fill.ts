@@ -22,7 +22,8 @@ const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
 
     let start = 0;
     if (startValue && !isStaticJsUndefined(startValue)) {
-      start = toInteger(startValue);
+      startValue = yield* toInteger(startValue, realm);
+      start = startValue.value;
       if (start < 0) {
         start = length + start;
       }
@@ -36,7 +37,8 @@ const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
 
     let end = length;
     if (endValue && !isStaticJsUndefined(endValue)) {
-      end = toInteger(endValue);
+      endValue = yield* toInteger(endValue, realm);
+      end = endValue.value;
       if (end < 0) {
         end = length + end;
       }

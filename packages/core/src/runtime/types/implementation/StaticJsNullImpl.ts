@@ -1,8 +1,13 @@
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
 import type { StaticJsObject } from "../StaticJsObject.js";
 
 export default class StaticJsNullImpl implements StaticJsNull {
-  static readonly Instance = new StaticJsNullImpl();
+  constructor(private readonly _realm: StaticJsRealm) {}
+
+  get realm() {
+    return this._realm;
+  }
 
   get typeOf() {
     // Javascript is truly a wonder to behold.

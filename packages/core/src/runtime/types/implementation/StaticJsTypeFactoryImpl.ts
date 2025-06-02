@@ -36,6 +36,9 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private _false: StaticJsBoolean;
   private _true: StaticJsBoolean;
 
+  private _null: StaticJsNull;
+  private _undefined: StaticJsUndefined;
+
   constructor(
     private readonly _realm: StaticJsRealm,
     private readonly _prototypes: Prototypes,
@@ -46,6 +49,9 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
     this._false = new StaticJsBooleanImpl(_realm, false);
     this._true = new StaticJsBooleanImpl(_realm, true);
+
+    this._null = new StaticJsNullImpl(_realm);
+    this._undefined = new StaticJsUndefinedImpl(_realm);
 
     this._prototypes = Object.freeze({ ..._prototypes });
   }
@@ -63,11 +69,11 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   get undefined(): StaticJsUndefined {
-    return StaticJsUndefinedImpl.Instance;
+    return this._undefined;
   }
 
   get null(): StaticJsNull {
-    return StaticJsNullImpl.Instance;
+    return this._null;
   }
 
   get zero(): StaticJsNumber {
@@ -237,11 +243,11 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   private _toStaticJsValueNull(): StaticJsNull {
-    return StaticJsNullImpl.Instance;
+    return this._null;
   }
 
   private _toStaticJsValueUndefined(): StaticJsUndefined {
-    return StaticJsUndefinedImpl.Instance;
+    return this._undefined;
   }
 }
 

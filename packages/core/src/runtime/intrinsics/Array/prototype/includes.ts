@@ -21,7 +21,12 @@ const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
 
     let startFrom = 0;
     if (startFromValue) {
-      startFrom = toInteger(startFromValue);
+      // Passing undefined here actually does something different than not passing it.
+      startFromValue = yield* toInteger(
+        startFromValue ?? realm.types.undefined,
+        realm,
+      );
+      startFrom = startFromValue.value;
     }
 
     if (startFrom < 0) {
@@ -32,7 +37,8 @@ const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
 
     for (let i = startFrom; i < length; i++) {
       const elementValue = yield* thisObj.getPropertyEvaluator(String(i));
-      if (sameValueZero(elementValue, value)) {
+      const comparison = yield* sameValueZero(elementValue, value, realm);
+      if (comparison.value) {
         return realm.types.true;
       }
     }

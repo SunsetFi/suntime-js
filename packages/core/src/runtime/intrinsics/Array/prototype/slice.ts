@@ -13,9 +13,13 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
 
     const length = yield* getLength(realm, thisObj);
 
-    let start = startValue ? toInteger(startValue) : 0;
-    if (start < 0) {
-      start = length + start;
+    let start = 0;
+    if (startValue) {
+      startValue = yield* toInteger(startValue, realm);
+      start = startValue.value;
+      if (start < 0) {
+        start = length + start;
+      }
     }
 
     start = Math.max(0, start);
@@ -24,14 +28,19 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
       return realm.types.array([]);
     }
 
-    let end = endValue ? toInteger(endValue) : length;
-    if (end < 0) {
-      end = length + end;
-    }
-    if (end > length) {
-      end = length;
+    let end = length;
+    if (endValue) {
+      endValue = yield* toInteger(endValue, realm);
+      end = endValue.value;
+      if (end < 0) {
+        end = length + end;
+      }
+      if (end > length) {
+        end = length;
+      }
     }
 
+    // Always do this, in case array.length is negative.
     end = Math.max(0, end);
 
     if (end <= start) {

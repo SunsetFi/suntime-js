@@ -2,7 +2,6 @@ import type { BinaryExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { isStaticJsScalar } from "../../runtime/types/StaticJsScalar.js";
 import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsString } from "../../runtime/types/StaticJsString.js";
@@ -15,6 +14,7 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
+import abstractEquality from "../../runtime/algorithms/abstract-equality.js";
 
 export default function binaryExpressionNodeEvaluator(
   node: BinaryExpression,
@@ -83,39 +83,13 @@ function* binaryExpressionDoubleEquals(
     forNormalValue: "BinaryExpression.right",
   });
 
-  const leftType = left.runtimeTypeOf;
-  const rightType = right.runtimeTypeOf;
-  const arithmatic =
-    !isStaticJsNullOrUndefined(left) &&
-    !isStaticJsNullOrUndefined(right) &&
-    (leftType === "number" || rightType === "number");
+  const value = yield* abstractEquality(left, right, context.realm);
 
-  let leftValue: unknown;
-  if (arithmatic) {
-    // Coerce whatever it is to a number.
-    leftValue = left.toNumber();
-  } else if (isStaticJsScalar(left)) {
-    leftValue = left.toJs();
-  } else {
-    // By reference.
-    leftValue = left;
+  if (negate) {
+    return context.realm.types.boolean(!value.toBoolean());
   }
 
-  let rightValue: unknown;
-  if (arithmatic) {
-    // Coerce whatever it is to a number.
-    rightValue = right.toNumber();
-  } else if (isStaticJsScalar(right)) {
-    rightValue = right.toJs();
-  } else {
-    // By reference.
-    rightValue = right;
-  }
-
-  // One of them is a reference.
-  return context.realm.types.boolean(
-    negate ? leftValue != rightValue : leftValue == rightValue,
-  );
+  return value;
 }
 
 function* binaryExpressionStrictEquals(
@@ -130,8 +104,13 @@ function* binaryExpressionStrictEquals(
     forNormalValue: "BinaryExpression.right",
   });
 
-  const result = strictEquality(left, right);
-  return context.realm.types.boolean(negate ? !result : result);
+  const result = yield* strictEquality(left, right, context.realm);
+
+  if (negate) {
+    return context.realm.types.boolean(!result.toBoolean());
+  }
+
+  return result;
 }
 
 function* binaryExpressionAdd(
@@ -171,10 +150,6 @@ function* numericComputation(
   return context.realm.types.toStaticJsValue(
     func(left.toNumber(), right.toNumber()),
   );
-}
-
-function isStaticJsNullOrUndefined(value: StaticJsValue) {
-  return ["null", "undefined"].includes(value.runtimeTypeOf);
 }
 
 function* inOperator(

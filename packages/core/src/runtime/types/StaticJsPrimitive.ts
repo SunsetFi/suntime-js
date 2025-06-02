@@ -1,6 +1,9 @@
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsObjectLike } from "./StaticJsObject.js";
 
 export interface StaticJsPrimitive {
+  readonly realm: StaticJsRealm;
+
   readonly typeOf: string;
   readonly runtimeTypeOf: string;
 

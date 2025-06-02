@@ -11,8 +11,10 @@ export default function* getLength(
   realm: StaticJsRealm,
   obj: StaticJsObjectLike,
 ): EvaluationGenerator<number> {
-  const lengthValue = yield* obj.getPropertyEvaluator("length");
-  let length = toInteger(lengthValue);
+  let lengthValue = yield* obj.getPropertyEvaluator("length");
+  lengthValue = yield* toInteger(lengthValue, realm);
+  let length = lengthValue.value;
+
   if (Number.isNaN(length)) {
     length = 0;
   } else if (length < 0) {

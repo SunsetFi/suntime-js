@@ -31,6 +31,7 @@ import arrayProtoSliceDeclaration from "./slice.js";
 import arrayProtoSomeDeclaration from "./some.js";
 import arrayProtoSortDeclaration from "./sort.js";
 import arrayProtoSpliceDeclaration from "./splice.js";
+import arrayProtoToStringDeclaration from "./toString.js";
 import arrayProtoUnshiftDeclaration from "./unshift.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
@@ -64,6 +65,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoSomeDeclaration,
   arrayProtoSortDeclaration,
   arrayProtoSpliceDeclaration,
+  arrayProtoToStringDeclaration,
   arrayProtoUnshiftDeclaration,
 ];
 

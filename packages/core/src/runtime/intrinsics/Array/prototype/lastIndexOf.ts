@@ -21,7 +21,8 @@ const arrayProtoLastIndexOfDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
       const valueAtIndex = yield* thisObj.getPropertyEvaluator(String(i));
-      if (strictEquality(valueAtIndex, value)) {
+      const comparison = yield* strictEquality(valueAtIndex, value, realm);
+      if (comparison.value) {
         return realm.types.number(i);
       }
     }

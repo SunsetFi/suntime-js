@@ -35,10 +35,7 @@ export default class StaticJsEvalCompilation implements StaticJsCompilation {
     try {
       realm.invokeEvaluatorSync(setupEnvironment(this._root, context));
     } catch (e) {
-      if (e instanceof AbnormalCompletion) {
-        throw e.toJs();
-      }
-      throw e;
+      AbnormalCompletion.handleToJs(e);
     }
 
     try {

@@ -15,7 +15,9 @@ const arrayProtoAtDeclaration: IntrinsicPropertyDeclaration = {
 
     const length = yield* getLength(realm, thisObj);
 
-    let index = toInteger(indexValue);
+    indexValue = yield* toInteger(indexValue, realm);
+
+    let index = indexValue.value;
     if (index < 0) {
       index = length + index;
     }

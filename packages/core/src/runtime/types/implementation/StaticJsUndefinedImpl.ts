@@ -1,8 +1,13 @@
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsUndefined } from "../StaticJsUndefined.js";
 import type { StaticJsObject } from "../StaticJsObject.js";
 
 export default class StaticJsUndefinedImpl implements StaticJsUndefined {
-  static readonly Instance = new StaticJsUndefinedImpl();
+  constructor(private readonly _realm: StaticJsRealm) {}
+
+  get realm() {
+    return this._realm;
+  }
 
   get typeOf() {
     return "undefined" as const;

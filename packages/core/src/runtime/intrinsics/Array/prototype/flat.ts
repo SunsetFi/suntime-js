@@ -23,10 +23,11 @@ const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     let depth;
-    if (isStaticJsUndefined(depthValue)) {
-      depth = 1;
+    if (!isStaticJsUndefined(depthValue)) {
+      depthValue = yield* toInteger(depthValue, realm);
+      depth = depthValue.value;
     } else {
-      depth = toInteger(depthValue);
+      depth = 1;
     }
 
     const result = yield* performFlat(realm, thisObj, depth);
