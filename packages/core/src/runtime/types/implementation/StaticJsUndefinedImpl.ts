@@ -29,10 +29,6 @@ export default class StaticJsUndefinedImpl implements StaticJsUndefined {
     return "undefined";
   }
 
-  toBoolean(): boolean {
-    return false;
-  }
-
   toObject(): StaticJsObject {
     // TODO: Throw real error
     throw new Error("TypeError: Cannot convert undefined to object");

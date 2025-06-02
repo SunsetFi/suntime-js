@@ -14,6 +14,7 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setupEnvironment from "./setup-environment.js";
+import toBoolean from "../../runtime/algorithms/to-boolean.js";
 
 function* doWhileStatementNodeEvaluator(
   node: DoWhileStatement,
@@ -58,10 +59,11 @@ function* doWhileStatementNodeEvaluator(
       throw e;
     }
 
-    const testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
+    let testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
       forNormalValue: "DoWhileStatement.test",
     });
-    if (!testResult.toBoolean()) {
+    testResult = yield* toBoolean(testResult, context.realm);
+    if (!testResult.value) {
       break;
     }
   }

@@ -1,12 +1,18 @@
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
-import toNumber from "../algorithms/to-number.js";
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-import { isStaticJsNumber } from "../types/StaticJsNumber.js";
 
+import toNumber from "../algorithms/to-number.js";
+
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+
+import {
+  isStaticJsNumber,
+  type StaticJsNumber,
+} from "../types/StaticJsNumber.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
+import StaticJsNumberBoxed from "../types/implementation/StaticJsNumberBoxed.js";
 
 export function populateNumberPrototype(
   realm: StaticJsRealm,
@@ -21,7 +27,7 @@ export function populateNumberPrototype(
       realm,
       "toString",
       function* (thisArg: StaticJsValue) {
-        if (!isStaticJsNumber(thisArg)) {
+        if (!isNumberLike(thisArg)) {
           throw new ThrowCompletion(
             realm.types.error(
               "TypeError",
@@ -43,7 +49,7 @@ export function populateNumberPrototype(
       realm,
       "toLocaleString",
       function* (thisArg: StaticJsValue) {
-        if (!isStaticJsNumber(thisArg)) {
+        if (!isNumberLike(thisArg)) {
           throw new ThrowCompletion(
             realm.types.error(
               "TypeError",
@@ -65,7 +71,7 @@ export function populateNumberPrototype(
       realm,
       "valueOf",
       function* (thisArg: StaticJsValue) {
-        if (!isStaticJsNumber(thisArg)) {
+        if (!isNumberLike(thisArg)) {
           throw new ThrowCompletion(
             realm.types.error(
               "TypeError",
@@ -88,7 +94,7 @@ export function populateNumberPrototype(
       realm,
       "toFixed",
       function* (thisArg: StaticJsValue, digitsValue: StaticJsValue) {
-        if (!isStaticJsNumber(thisArg)) {
+        if (!isNumberLike(thisArg)) {
           throw new ThrowCompletion(
             realm.types.error(
               "TypeError",
@@ -117,7 +123,7 @@ export function populateNumberPrototype(
       realm,
       "toExponential",
       function* (thisArg: StaticJsValue, digitsValue: StaticJsValue) {
-        if (!isStaticJsNumber(thisArg)) {
+        if (!isNumberLike(thisArg)) {
           throw new ThrowCompletion(
             realm.types.error(
               "TypeError",
@@ -148,7 +154,7 @@ export function populateNumberPrototype(
       realm,
       "toPrecision",
       function* (thisArg: StaticJsValue, precisionValue: StaticJsValue) {
-        if (!isStaticJsNumber(thisArg)) {
+        if (!isNumberLike(thisArg)) {
           throw new ThrowCompletion(
             realm.types.error(
               "TypeError",
@@ -206,4 +212,11 @@ export function createNumberConstructor(
   });
 
   return ctor;
+}
+
+function isNumberLike(
+  value: StaticJsValue,
+): value is StaticJsNumberBoxed | StaticJsNumber {
+  // This is kinda gross...
+  return value instanceof StaticJsNumberBoxed || isStaticJsNumber(value);
 }

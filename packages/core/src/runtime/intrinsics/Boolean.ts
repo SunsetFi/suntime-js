@@ -1,7 +1,17 @@
+import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+
+import toBoolean from "../algorithms/to-boolean.js";
+
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
+import StaticJsBooleanBoxed from "../types/implementation/StaticJsBooleanBoxed.js";
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
+import {
+  isStaticJsBoolean,
+  type StaticJsBoolean,
+} from "../types/StaticJsBoolean.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 export function populateBooleanPrototype(
   realm: StaticJsRealm,
@@ -16,7 +26,8 @@ export function populateBooleanPrototype(
       realm,
       "toString",
       function* (thisArg) {
-        return realm.types.string(thisArg.toBoolean() ? "true" : "false");
+        thisArg = yield* toBoolean(thisArg, realm);
+        return realm.types.string(thisArg.value ? "true" : "false");
       },
       { prototype: functionProto },
     ),
@@ -30,8 +41,16 @@ export function populateBooleanPrototype(
       realm,
       "valueOf",
       function* (thisArg) {
-        // Unbox.
-        return realm.types.boolean(thisArg.toBoolean());
+        if (!isBooleanLike(thisArg)) {
+          throw new ThrowCompletion(
+            realm.types.error(
+              "TypeError",
+              "Boolean.prototype.valueOf requires that 'this' be a Boolean",
+            ),
+          );
+        }
+
+        return realm.types.boolean(thisArg.value);
       },
       { prototype: functionProto },
     ),
@@ -53,7 +72,7 @@ export function createBooleanConstructor(
         return realm.types.boolean(false);
       }
 
-      return realm.types.boolean(value.toBoolean());
+      return yield* toBoolean(value, realm);
     },
     { prototype: functionProto },
   );
@@ -72,4 +91,10 @@ export function createBooleanConstructor(
   });
 
   return ctor;
+}
+
+function isBooleanLike(
+  value: StaticJsValue,
+): value is StaticJsBooleanBoxed | StaticJsBoolean {
+  return isStaticJsBoolean(value) || value instanceof StaticJsBooleanBoxed;
 }

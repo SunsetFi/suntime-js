@@ -118,10 +118,6 @@ export default class StaticJsFunctionImpl
     return `function ${name ?? ""}() { [native code] }`;
   }
 
-  toBoolean(): boolean {
-    return true;
-  }
-
   *callEvaluator(
     thisArg: StaticJsValue,
     ...args: StaticJsValue[]

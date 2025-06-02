@@ -10,12 +10,12 @@ export default class StaticJsNumberBoxed extends StaticJsObjectImpl {
     super(realm, realm.types.prototypes.numberProto);
   }
 
-  toString(): string {
-    return String(this._value);
+  get value() {
+    return this._value;
   }
 
-  toBoolean(): boolean {
-    return Boolean(this._value);
+  toString(): string {
+    return String(this._value);
   }
 
   toJs(): unknown {

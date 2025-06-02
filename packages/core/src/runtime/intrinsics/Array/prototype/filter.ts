@@ -6,6 +6,7 @@ import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
+import toBoolean from "../../../algorithms/to-boolean.js";
 
 const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
   name: "filter",
@@ -36,14 +37,15 @@ const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const elementValue = yield* thisObj.getPropertyEvaluator(property);
-      const result = yield* callback.callEvaluator(
+      let result = yield* callback.callEvaluator(
         thisObj,
         elementValue,
         realm.types.number(i),
         thisObj,
       );
+      result = yield* toBoolean(result, realm);
 
-      if (result.toBoolean()) {
+      if (result.value) {
         resultItems.push(elementValue);
       }
     }

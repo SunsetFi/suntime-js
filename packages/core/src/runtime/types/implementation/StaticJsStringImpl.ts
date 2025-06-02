@@ -43,10 +43,6 @@ export default class StaticJsStringImpl
     return String(this._value);
   }
 
-  toBoolean(): boolean {
-    return Boolean(this._value);
-  }
-
   toObject(): StaticJsObject {
     return new StaticJsStringBoxed(this.realm, this._value);
   }

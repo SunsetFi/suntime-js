@@ -18,8 +18,6 @@ export default abstract class StaticJsAbstractPrimitive
 
   abstract toJs(): unknown;
 
-  abstract toBoolean(): boolean;
-
   abstract toObject(): StaticJsObjectLike;
 
   abstract toString(): string;

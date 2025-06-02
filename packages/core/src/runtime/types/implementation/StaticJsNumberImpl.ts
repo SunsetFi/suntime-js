@@ -43,10 +43,6 @@ export default class StaticJsNumberImpl
     return String(this._value);
   }
 
-  toBoolean(): boolean {
-    return Boolean(this._value);
-  }
-
   toObject(): StaticJsObject {
     return new StaticJsNumberBoxed(this.realm, this._value);
   }

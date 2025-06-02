@@ -6,6 +6,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
+import toBoolean from "../../runtime/algorithms/to-boolean.js";
 
 export default function logicalExpressionNodeEvaluator(
   node: LogicalExpression,
@@ -32,7 +33,9 @@ function* logicalExpressionAnd(
   const left = yield* EvaluateNodeCommand(node.left, context, {
     forNormalValue: "LogicalExpression.left",
   });
-  if (left.toBoolean()) {
+  const leftBoolean = yield* toBoolean(left, context.realm);
+
+  if (leftBoolean.value) {
     const right = yield* EvaluateNodeCommand(node.right, context, {
       forNormalValue: "LogicalExpression.right",
     });
@@ -50,8 +53,9 @@ function* logicalExpressionOr(
   const left = yield* EvaluateNodeCommand(node.left, context, {
     forNormalValue: "LogicalExpression.left",
   });
+  const leftBoolean = yield* toBoolean(left, context.realm);
 
-  if (left.toBoolean()) {
+  if (leftBoolean.value) {
     return left;
   }
 

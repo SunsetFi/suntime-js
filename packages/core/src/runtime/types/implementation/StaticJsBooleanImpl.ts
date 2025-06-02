@@ -37,10 +37,6 @@ export default class StaticJsBooleanImpl
     return String(this._value);
   }
 
-  toBoolean(): boolean {
-    return this._value;
-  }
-
   negate(): StaticJsBoolean {
     if (this._value) {
       return this.realm.types.false;

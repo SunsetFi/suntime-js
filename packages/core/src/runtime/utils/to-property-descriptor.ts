@@ -12,6 +12,7 @@ import type {
 } from "../types/StaticJsPropertyDescriptor.js";
 import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 import type { StaticJsObjectLike } from "../types/StaticJsObject.js";
+import toBoolean from "../algorithms/to-boolean.js";
 
 export default function* toPropertyDescriptor(
   realm: StaticJsRealm,
@@ -20,15 +21,17 @@ export default function* toPropertyDescriptor(
   let enumerable: boolean | undefined;
   const hasEnumerable = yield* obj.hasPropertyEvaluator("enumerable");
   if (hasEnumerable) {
-    const enumerableValue = yield* obj.getPropertyEvaluator("enumerable");
-    enumerable = enumerableValue.toBoolean();
+    let enumerableValue = yield* obj.getPropertyEvaluator("enumerable");
+    enumerableValue = yield* toBoolean(enumerableValue, realm);
+    enumerable = enumerableValue.value;
   }
 
   let configurable: boolean | undefined;
   const hasConfigurable = yield* obj.hasPropertyEvaluator("configurable");
   if (hasConfigurable) {
-    const configurableValue = yield* obj.getPropertyEvaluator("configurable");
-    configurable = configurableValue.toBoolean();
+    let configurableValue = yield* obj.getPropertyEvaluator("configurable");
+    configurableValue = yield* toBoolean(configurableValue, realm);
+    configurable = configurableValue.value;
   }
 
   // For the sake of not duplicating error handling, we will intentionally allow this to
@@ -54,8 +57,9 @@ export default function* toPropertyDescriptor(
 
   const hasWritable = yield* obj.hasPropertyEvaluator("writable");
   if (hasWritable) {
-    const writableValue = yield* obj.getPropertyEvaluator("writable");
-    descriptor.writable = writableValue.toBoolean();
+    let writableValue = yield* obj.getPropertyEvaluator("writable");
+    writableValue = yield* toBoolean(writableValue, realm);
+    descriptor.writable = writableValue.value;
   }
 
   const hasGetter = yield* obj.hasPropertyEvaluator("get");

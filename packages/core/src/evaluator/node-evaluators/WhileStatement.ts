@@ -13,6 +13,7 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 import setupEnvironment from "./setup-environment.js";
 import { BreakCompletion } from "../completions/BreakCompletion.js";
 import { ContinueCompletion } from "../completions/ContinueCompletion.js";
+import toBoolean from "../../runtime/algorithms/to-boolean.js";
 
 function* whileStatementNodeEvaluator(
   node: WhileStatement,
@@ -30,11 +31,12 @@ function* whileStatementNodeEvaluator(
   };
 
   while (true) {
-    const testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
+    let testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
       forNormalValue: "WhileStatement.test",
     });
+    testResult = yield* toBoolean(testResult, context.realm);
 
-    if (!testResult.toBoolean()) {
+    if (!testResult.value) {
       break;
     }
 

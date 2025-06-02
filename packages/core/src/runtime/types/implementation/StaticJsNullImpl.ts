@@ -30,10 +30,6 @@ export default class StaticJsNullImpl implements StaticJsNull {
     return "null";
   }
 
-  toBoolean(): boolean {
-    return false;
-  }
-
   toObject(): StaticJsObject {
     // TODO: Throw real error
     throw new Error("TypeError: Cannot convert undefined to object");

@@ -13,6 +13,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import setupEnvironment from "./setup-environment.js";
 import { ContinueCompletion } from "../completions/ContinueCompletion.js";
 import { BreakCompletion } from "../completions/BreakCompletion.js";
+import toBoolean from "../../runtime/algorithms/to-boolean.js";
 
 function* forStatementNodeEvaluator(
   node: ForStatement,
@@ -51,11 +52,11 @@ function* forStatementNodeEvaluator(
 
   do {
     if (node.test) {
-      const testResult = yield* EvaluateNodeCommand(node.test, forContext, {
+      let testResult = yield* EvaluateNodeCommand(node.test, forContext, {
         forNormalValue: "ForStatement.test",
       });
-
-      if (!testResult.toBoolean()) {
+      testResult = yield* toBoolean(testResult, context.realm);
+      if (!testResult.value) {
         return null;
       }
     }

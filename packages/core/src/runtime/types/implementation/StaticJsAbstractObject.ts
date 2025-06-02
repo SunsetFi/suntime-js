@@ -388,10 +388,6 @@ export default abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorSync(toString(this, this.realm)).value;
   }
 
-  toBoolean(): boolean {
-    return true;
-  }
-
   toObject() {
     return this;
   }

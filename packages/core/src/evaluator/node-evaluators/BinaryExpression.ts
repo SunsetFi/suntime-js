@@ -87,7 +87,7 @@ function* binaryExpressionDoubleEquals(
   const value = yield* abstractEquality(left, right, context.realm);
 
   if (negate) {
-    return context.realm.types.boolean(!value.toBoolean());
+    return context.realm.types.boolean(!value.value);
   }
 
   return value;
@@ -108,7 +108,7 @@ function* binaryExpressionStrictEquals(
   const result = yield* strictEquality(left, right, context.realm);
 
   if (negate) {
-    return context.realm.types.boolean(!result.toBoolean());
+    return context.realm.types.boolean(!result.value);
   }
 
   return result;

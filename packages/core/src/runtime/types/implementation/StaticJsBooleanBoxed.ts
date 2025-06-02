@@ -10,12 +10,12 @@ export default class StaticJsBooleanBoxed extends StaticJsObjectImpl {
     super(realm, realm.types.prototypes.booleanProto);
   }
 
-  toString(): string {
-    return String(this._value);
+  get value(): boolean {
+    return this._value;
   }
 
-  toBoolean(): boolean {
-    return this._value;
+  toString(): string {
+    return String(this._value);
   }
 
   toJs(): unknown {

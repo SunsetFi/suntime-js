@@ -1,4 +1,5 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import toBoolean from "../../../algorithms/to-boolean.js";
 
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
@@ -35,14 +36,15 @@ const arrayProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const elementValue = yield* thisObj.getPropertyEvaluator(property);
-      const result = yield* callback.callEvaluator(
+      let result = yield* callback.callEvaluator(
         thisObj,
         elementValue,
         realm.types.number(i),
         thisObj,
       );
+      result = yield* toBoolean(result, realm);
 
-      if (result.toBoolean()) {
+      if (result.value) {
         return realm.types.true;
       }
     }
