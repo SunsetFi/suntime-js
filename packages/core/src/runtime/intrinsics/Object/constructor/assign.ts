@@ -1,20 +1,22 @@
+import toObject from "../../../algorithms/to-object.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorAssignDeclaration: IntrinsicPropertyDeclaration = {
   name: "assign",
-  *func(realm, thisObj, target, ...sources) {
-    const targetObj = (target ?? realm.types.undefined).toObject();
+  *func(realm, thisArg, target, ...sources) {
+    thisArg = yield* toObject(thisArg ?? realm.types.undefined, realm);
+    target = yield* toObject(target ?? realm.types.undefined, realm);
 
     for (const source of sources) {
-      const sourceObj = source!.toObject();
+      const sourceObj = yield* toObject(source!, realm);
       const keys = yield* sourceObj.getOwnEnumerableKeysEvaluator();
       for (const key of keys) {
         const value = yield* sourceObj.getPropertyEvaluator(key);
-        yield* targetObj.setPropertyEvaluator(key, value, true);
+        yield* target.setPropertyEvaluator(key, value, true);
       }
     }
 
-    return targetObj;
+    return target;
   },
 };
 

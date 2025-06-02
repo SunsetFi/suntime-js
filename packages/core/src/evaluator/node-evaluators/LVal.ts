@@ -17,6 +17,7 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
+import toObject from "../../runtime/algorithms/to-object.js";
 
 export default function setLVal(
   lval: LVal,
@@ -197,7 +198,7 @@ export default function* setLVal(
         propertyKey = toPropertyKey(property);
       }
 
-      const object = objectValue.toObject();
+      const object = yield* toObject(objectValue, context.realm);
 
       // FIXME: Is this correct?  We set the object directly???
       yield* object.setPropertyEvaluator(

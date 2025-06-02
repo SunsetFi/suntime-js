@@ -8,12 +8,13 @@ import {
 } from "../../../types/StaticJsPropertyDescriptor.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import toObject from "../../../algorithms/to-object.js";
 
 const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaration =
   {
     name: "getOwnPropertyDescriptor",
     *func(realm, _thisArg, objValue, propValue) {
-      const obj = (objValue ?? realm.types.undefined).toObject();
+      const obj = yield* toObject(objValue ?? realm.types.undefined, realm);
 
       if (
         !propValue ||

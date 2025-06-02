@@ -1,5 +1,6 @@
 import sameValueZero from "../../../algorithms/same-value-zero.js";
 import toInteger from "../../../algorithms/to-integer.js";
+import toObject from "../../../algorithms/to-object.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -8,7 +9,7 @@ import getLength from "./utils/get-length.js";
 const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
   name: "includes",
   *func(realm, thisArg, value, startFromValue) {
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     if (!value) {
       return realm.types.false;

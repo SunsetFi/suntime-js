@@ -1,5 +1,4 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-import type { StaticJsObjectLike } from "./StaticJsObject.js";
 
 export interface StaticJsPrimitive {
   readonly realm: StaticJsRealm;
@@ -10,5 +9,4 @@ export interface StaticJsPrimitive {
   // FIXME: We use these in evaluation and need to make evaluator generators for them.
   toJs(): unknown;
   toString(): string;
-  toObject(): StaticJsObjectLike;
 }

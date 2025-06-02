@@ -1,3 +1,4 @@
+import toObject from "../../../algorithms/to-object.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
@@ -13,7 +14,7 @@ const objectCtorFreezeDeclaration: IntrinsicPropertyDeclaration = {
       return targetValue;
     }
 
-    const obj = targetValue.toObject();
+    const obj = yield* toObject(targetValue, realm);
 
     const keys = yield* obj.getOwnKeysEvaluator();
     for (const key of keys) {

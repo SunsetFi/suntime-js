@@ -1,4 +1,5 @@
 import toInteger from "../../../algorithms/to-integer.js";
+import toObject from "../../../algorithms/to-object.js";
 
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
@@ -9,7 +10,7 @@ import getLength from "./utils/get-length.js";
 const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
   name: "fill",
   *func(realm, thisArg, value, startValue, endValue) {
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     if (!value) {
       value = realm.types.undefined;

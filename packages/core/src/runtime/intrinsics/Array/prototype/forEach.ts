@@ -1,4 +1,5 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import toObject from "../../../algorithms/to-object.js";
 
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
@@ -9,7 +10,7 @@ import getLength from "./utils/get-length.js";
 const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   name: "forEach",
   *func(realm, thisArg, callback, providedThisArg) {
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     if (!callback) {
       callback = realm.types.undefined;

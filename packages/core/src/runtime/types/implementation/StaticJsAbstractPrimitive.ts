@@ -1,7 +1,6 @@
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsPrimitive } from "../StaticJsPrimitive.js";
-import type { StaticJsObjectLike } from "../index.js";
 
 export default abstract class StaticJsAbstractPrimitive
   implements StaticJsPrimitive
@@ -17,8 +16,6 @@ export default abstract class StaticJsAbstractPrimitive
   abstract get typeOf(): string;
 
   abstract toJs(): unknown;
-
-  abstract toObject(): StaticJsObjectLike;
 
   abstract toString(): string;
 

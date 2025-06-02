@@ -1,10 +1,8 @@
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsBoolean } from "../StaticJsBoolean.js";
-import type { StaticJsObject } from "../StaticJsObject.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
-import StaticJsBooleanBoxed from "./StaticJsBooleanBoxed.js";
 
 export default class StaticJsBooleanImpl
   extends StaticJsAbstractPrimitive
@@ -43,9 +41,5 @@ export default class StaticJsBooleanImpl
     }
 
     return this.realm.types.true;
-  }
-
-  toObject(): StaticJsObject {
-    return new StaticJsBooleanBoxed(this.realm, this._value);
   }
 }

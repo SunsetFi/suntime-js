@@ -1,10 +1,8 @@
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsNumber } from "../StaticJsNumber.js";
-import type { StaticJsObject } from "../StaticJsObject.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
-import StaticJsNumberBoxed from "./StaticJsNumberBoxed.js";
 
 export default class StaticJsNumberImpl
   extends StaticJsAbstractPrimitive
@@ -41,9 +39,5 @@ export default class StaticJsNumberImpl
 
   toString(): string {
     return String(this._value);
-  }
-
-  toObject(): StaticJsObject {
-    return new StaticJsNumberBoxed(this.realm, this._value);
   }
 }

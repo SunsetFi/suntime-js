@@ -1,5 +1,6 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import toBoolean from "../../../algorithms/to-boolean.js";
+import toObject from "../../../algorithms/to-object.js";
 
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
@@ -10,7 +11,7 @@ import getLength from "./utils/get-length.js";
 const arrayProtoFindIndexDeclaration: IntrinsicPropertyDeclaration = {
   name: "findIndex",
   *func(realm, thisArg, callback) {
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     if (callback == null) {
       callback = realm.types.undefined;

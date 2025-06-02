@@ -1,4 +1,5 @@
 import toInteger from "../../../algorithms/to-integer.js";
+import toObject from "../../../algorithms/to-object.js";
 
 import setArray from "../../../utils/set-array.js";
 import toArray from "../../../utils/to-array.js";
@@ -8,7 +9,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
   name: "splice",
   *func(realm, thisArg, startValue, deleteCountValue, ...items) {
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     let lengthValue = yield* thisObj.getPropertyEvaluator("length");
     lengthValue = yield* toInteger(lengthValue, realm);

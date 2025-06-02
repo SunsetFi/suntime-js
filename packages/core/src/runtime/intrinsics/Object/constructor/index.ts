@@ -1,3 +1,4 @@
+import toObject from "../../../algorithms/to-object.js";
 import type { StaticJsRealm } from "../../../realm/index.js";
 
 import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
@@ -51,7 +52,7 @@ export default function createObjectConstructor(
         return realm.types.object();
       }
 
-      return arg.toObject();
+      return yield* toObject(arg, realm);
     },
     { prototype: functionProto },
   );

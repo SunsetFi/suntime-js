@@ -1,10 +1,8 @@
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import type { StaticJsObject } from "../StaticJsObject.js";
 import type { StaticJsString } from "../StaticJsString.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
-import StaticJsStringBoxed from "./StaticJsStringBoxed.js";
 
 export default class StaticJsStringImpl
   extends StaticJsAbstractPrimitive
@@ -41,9 +39,5 @@ export default class StaticJsStringImpl
 
   toString(): string {
     return String(this._value);
-  }
-
-  toObject(): StaticJsObject {
-    return new StaticJsStringBoxed(this.realm, this._value);
   }
 }

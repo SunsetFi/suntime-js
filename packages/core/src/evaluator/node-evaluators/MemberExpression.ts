@@ -14,6 +14,7 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import nameNode from "./name-node.js";
+import toObject from "../../runtime/algorithms/to-object.js";
 
 export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,
@@ -43,7 +44,7 @@ export default function* memberExpressionNodeEvaluator(
   }
 
   // Perform boxing if needed.
-  target = target.toObject();
+  target = yield* toObject(target, context.realm);
 
   let propertyName: string;
   if (propertyNode.type === "PrivateName") {

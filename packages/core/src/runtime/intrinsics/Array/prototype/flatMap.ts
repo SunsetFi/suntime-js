@@ -1,4 +1,5 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import toObject from "../../../algorithms/to-object.js";
 
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
@@ -11,7 +12,7 @@ import getLength from "./utils/get-length.js";
 const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
   name: "flatMap",
   *func(realm, thisArg, callback) {
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     if (!callback) {
       callback = realm.types.undefined;

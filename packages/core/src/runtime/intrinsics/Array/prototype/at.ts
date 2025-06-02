@@ -1,4 +1,5 @@
 import toInteger from "../../../algorithms/to-integer.js";
+import toObject from "../../../algorithms/to-object.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -7,7 +8,7 @@ import getLength from "./utils/get-length.js";
 const arrayProtoAtDeclaration: IntrinsicPropertyDeclaration = {
   name: "at",
   *func(realm, thisArg, indexValue) {
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     if (!indexValue) {
       indexValue = realm.types.undefined;

@@ -1,3 +1,4 @@
+import toObject from "../../../algorithms/to-object.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
@@ -13,7 +14,7 @@ const objectCtorPreventExtensionsDeclaration: IntrinsicPropertyDeclaration = {
       return targetValue;
     }
 
-    const obj = targetValue.toObject();
+    const obj = yield* toObject(targetValue, realm);
     yield* obj.preventExtensionsEvaluator();
 
     return targetValue;

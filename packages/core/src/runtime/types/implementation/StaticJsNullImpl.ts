@@ -1,6 +1,5 @@
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
-import type { StaticJsObject } from "../StaticJsObject.js";
 
 export default class StaticJsNullImpl implements StaticJsNull {
   constructor(private readonly _realm: StaticJsRealm) {}
@@ -28,10 +27,5 @@ export default class StaticJsNullImpl implements StaticJsNull {
 
   toString() {
     return "null";
-  }
-
-  toObject(): StaticJsObject {
-    // TODO: Throw real error
-    throw new Error("TypeError: Cannot convert undefined to object");
   }
 }

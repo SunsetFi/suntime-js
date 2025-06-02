@@ -12,11 +12,12 @@ import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
+import toObject from "../../../algorithms/to-object.js";
 
 const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
   name: "flat",
   *func(realm, thisArg, depthValue) {
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     if (!depthValue) {
       depthValue = realm.types.number(1);

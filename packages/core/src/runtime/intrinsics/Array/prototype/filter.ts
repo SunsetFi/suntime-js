@@ -7,11 +7,12 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
 import toBoolean from "../../../algorithms/to-boolean.js";
+import toObject from "../../../algorithms/to-object.js";
 
 const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
   name: "filter",
   *func(realm, thisArg, callback) {
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     if (!callback) {
       callback = realm.types.undefined;

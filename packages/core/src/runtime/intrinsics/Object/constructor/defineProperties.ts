@@ -1,4 +1,5 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import toObject from "../../../algorithms/to-object.js";
 
 import { isStaticJsObjectLike } from "../../../types/StaticJsObject.js";
 import { validateStaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
@@ -19,7 +20,10 @@ const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const propertiesObj = (propertiesValue ?? realm.types.undefined).toObject();
+    const propertiesObj = yield* toObject(
+      propertiesValue ?? realm.types.undefined,
+      realm,
+    );
     // Don't see it defined whether this should be all keys or own keys and whether enumerable plays in,
     // but testing on NodeJs shows that this is own enumerable.
     const keys = yield* propertiesObj.getOwnEnumerableKeysEvaluator();

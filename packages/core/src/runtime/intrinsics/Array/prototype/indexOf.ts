@@ -1,4 +1,5 @@
 import strictEquality from "../../../algorithms/strict-equality.js";
+import toObject from "../../../algorithms/to-object.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -7,7 +8,7 @@ import getLength from "./utils/get-length.js";
 const arrayProtoIndexOfDeclaration: IntrinsicPropertyDeclaration = {
   name: "indexOf",
   *func(realm, thisArg, value) {
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     const length = yield* getLength(realm, thisObj);
 

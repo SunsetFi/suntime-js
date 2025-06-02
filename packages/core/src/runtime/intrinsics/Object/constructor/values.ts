@@ -1,3 +1,4 @@
+import toObject from "../../../algorithms/to-object.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
@@ -6,7 +7,7 @@ const objectCtorValuesDeclaration: IntrinsicPropertyDeclaration = {
   name: "values",
   *func(realm, thisArg) {
     // TODO: This should return an iterator.
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     const ownKeys = yield* thisObj.getOwnKeysEvaluator();
 

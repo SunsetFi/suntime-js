@@ -1,3 +1,4 @@
+import toObject from "../../../algorithms/to-object.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
@@ -8,7 +9,7 @@ import getLength from "./utils/get-length.js";
 const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
   name: "join",
   *func(realm, thisArg, joinerValue) {
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     const length = yield* getLength(realm, thisObj);
 

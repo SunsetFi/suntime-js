@@ -1,4 +1,5 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import toObject from "../../../algorithms/to-object.js";
 
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import type { StaticJsObjectLike } from "../../../types/StaticJsObject.js";
@@ -9,7 +10,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 const objectCtorSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   name: "setPrototypeOf",
   *func(realm, thisArg, targetValue, protoValue) {
-    const obj = (targetValue ?? realm.types.undefined).toObject();
+    const obj = yield* toObject(targetValue ?? realm.types.undefined, realm);
 
     let proto: StaticJsObjectLike | null;
     if (isStaticJsObjectLike(protoValue)) {

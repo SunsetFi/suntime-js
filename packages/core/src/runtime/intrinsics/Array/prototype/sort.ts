@@ -10,11 +10,12 @@ import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";
 import toNumber from "../../../algorithms/to-number.js";
+import toObject from "../../../algorithms/to-object.js";
 
 const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
   name: "sort",
   *func(realm, thisArg, compareFnValue) {
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     if (isStaticJsUndefined(compareFnValue)) {
       compareFnValue = undefined;

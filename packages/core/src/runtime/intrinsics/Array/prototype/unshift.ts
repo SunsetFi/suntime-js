@@ -1,4 +1,5 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import toObject from "../../../algorithms/to-object.js";
 
 import { MAX_ARRAY_LENGTH } from "../../../types/StaticJsArray.js";
 
@@ -9,7 +10,7 @@ import getLength from "./utils/get-length.js";
 export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
   name: "unshift",
   *func(realm, thisArg, ...args) {
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     // Set the new length
     const length = yield* getLength(realm, thisObj);

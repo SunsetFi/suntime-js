@@ -4,12 +4,13 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import toNumber from "../algorithms/to-number.js";
+import toObject from "../algorithms/to-object.js";
 
 export default function* toArray(
   val: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsValue[]> {
-  const obj = val.toObject();
+  const obj = yield* toObject(val, realm);
 
   let lengthValue = yield* obj.getPropertyEvaluator("length");
   lengthValue = yield* toNumber(lengthValue, realm);

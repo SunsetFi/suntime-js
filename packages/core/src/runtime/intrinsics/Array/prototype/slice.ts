@@ -1,4 +1,5 @@
 import toInteger from "../../../algorithms/to-integer.js";
+import toObject from "../../../algorithms/to-object.js";
 
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
@@ -9,7 +10,7 @@ import getLength from "./utils/get-length.js";
 const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
   name: "slice",
   *func(realm, thisArg, startValue, endValue) {
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     const length = yield* getLength(realm, thisObj);
 

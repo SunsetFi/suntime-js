@@ -1,3 +1,4 @@
+import toObject from "../../../algorithms/to-object.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
@@ -5,7 +6,7 @@ import getLength from "./utils/get-length.js";
 const arrayProtoReverseDeclaration: IntrinsicPropertyDeclaration = {
   name: "reverse",
   *func(realm, thisArg) {
-    const thisObj = (thisArg ?? realm.types.undefined).toObject();
+    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     const length = yield* getLength(realm, thisObj);
 

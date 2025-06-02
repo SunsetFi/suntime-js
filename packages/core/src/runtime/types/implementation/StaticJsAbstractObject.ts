@@ -388,10 +388,6 @@ export default abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorSync(toString(this, this.realm)).value;
   }
 
-  toObject() {
-    return this;
-  }
-
   protected abstract _setWritableDataPropertyEvaluator(
     name: string,
     value: StaticJsValue,
