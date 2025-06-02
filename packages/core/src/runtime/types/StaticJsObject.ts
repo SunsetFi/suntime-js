@@ -14,70 +14,65 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
 
   get extensible(): boolean;
 
-  setPrototypeOf(prototype: StaticJsObject | null): void;
+  setPrototypeOfSync(prototype: StaticJsObject | null): void;
 
   setPrototypeOfEvaluator(
     prototype: StaticJsObjectLike | null,
   ): EvaluationGenerator;
 
-  preventExtensions(): void;
+  preventExtensionsSync(): void;
 
   preventExtensionsEvaluator(): EvaluationGenerator<void>;
 
-  getKeys(): string[];
-
+  getKeysSync(): string[];
   getKeysEvaluator(): EvaluationGenerator<string[]>;
 
-  getEnumerableKeys(): string[];
+  getEnumerableKeysSync(): string[];
   getEnumerableKeysEvaluator(): EvaluationGenerator<string[]>;
 
-  getOwnKeys(): string[];
-
+  getOwnKeysSync(): string[];
   getOwnKeysEvaluator(): EvaluationGenerator<string[]>;
 
-  getOwnEnumerableKeys(): string[];
-
+  getOwnEnumerableKeysSync(): string[];
   getOwnEnumerableKeysEvaluator(): EvaluationGenerator<string[]>;
 
-  hasProperty(name: string): boolean;
-
+  hasPropertySync(name: string): boolean;
   hasPropertyEvaluator(name: string): EvaluationGenerator<boolean>;
 
-  getPropertyDescriptor(name: string): StaticJsPropertyDescriptor | undefined;
-
+  getPropertyDescriptorSync(
+    name: string,
+  ): StaticJsPropertyDescriptor | undefined;
   getPropertyDescriptorEvaluator(
     name: string,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
-  getOwnPropertyDescriptor(
+  getOwnPropertyDescriptorSync(
     name: string,
   ): StaticJsPropertyDescriptor | undefined;
-
   getOwnPropertyDescriptorEvaluator(
     name: string,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
-  defineProperty(name: string, descriptor: StaticJsPropertyDescriptor): void;
-
+  definePropertySync(
+    name: string,
+    descriptor: StaticJsPropertyDescriptor,
+  ): void;
   definePropertyEvaluator(
     name: string,
     descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<void>;
 
-  getProperty(name: string): StaticJsValue;
-
+  getPropertySync(name: string): StaticJsValue;
   getPropertyEvaluator(name: string): EvaluationGenerator<StaticJsValue>;
 
-  setProperty(name: string, value: StaticJsValue, strict: boolean): void;
-
+  setPropertySync(name: string, value: StaticJsValue, strict: boolean): void;
   setPropertyEvaluator(
     name: string,
     value: StaticJsValue,
     strict: boolean,
   ): EvaluationGenerator<void>;
 
-  deleteProperty(name: string): boolean;
-
+  deletePropertySync(name: string): boolean;
   deletePropertyEvaluator(name: string): EvaluationGenerator<boolean>;
 }
 

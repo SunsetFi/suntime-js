@@ -18,20 +18,20 @@ export function populateStringPrototype(
 ) {
   // I guess we can just assume this is only ever called on a boxed String object and use .toString() everywhere.
   // Still, might want to expose some internal details about what a box object is boxing.
-  proto.defineProperty("length", {
+  proto.definePropertySync("length", {
     configurable: false,
     enumerable: false,
     get: new StaticJsFunctionImpl(
       realm,
       "length",
       function* (thisArg: StaticJsValue) {
-        return realm.types.number(thisArg.toString().length);
+        return realm.types.number(thisArg.toStringSync().length);
       },
       { prototype: functionProto },
     ),
   });
 
-  proto.defineProperty("valueOf", {
+  proto.definePropertySync("valueOf", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -40,13 +40,13 @@ export function populateStringPrototype(
       "valueOf",
       function* (thisArg: StaticJsValue) {
         // Unbox.
-        return realm.types.string(thisArg.toString());
+        return realm.types.string(thisArg.toStringSync());
       },
       { prototype: functionProto },
     ),
   });
 
-  proto.defineProperty("toString", {
+  proto.definePropertySync("toString", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -54,13 +54,13 @@ export function populateStringPrototype(
       realm,
       "toString",
       function* (thisArg: StaticJsValue) {
-        return realm.types.string(thisArg.toString());
+        return realm.types.string(thisArg.toStringSync());
       },
       { prototype: functionProto },
     ),
   });
 
-  proto.defineProperty("concat", {
+  proto.definePropertySync("concat", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -69,14 +69,15 @@ export function populateStringPrototype(
       "concat",
       function* (thisArg: StaticJsValue, ...args: StaticJsValue[]) {
         const result =
-          thisArg.toString() + args.map((arg) => arg.toString()).join("");
+          thisArg.toStringSync() +
+          args.map((arg) => arg.toStringSync()).join("");
         return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
   });
 
-  proto.defineProperty("substr", {
+  proto.definePropertySync("substr", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -108,7 +109,7 @@ export function populateStringPrototype(
     ),
   });
 
-  proto.defineProperty("substring", {
+  proto.definePropertySync("substring", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -140,7 +141,7 @@ export function populateStringPrototype(
     ),
   });
 
-  proto.defineProperty("slice", {
+  proto.definePropertySync("slice", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -172,7 +173,7 @@ export function populateStringPrototype(
     ),
   });
 
-  proto.defineProperty("startsWith", {
+  proto.definePropertySync("startsWith", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -186,14 +187,14 @@ export function populateStringPrototype(
           );
         }
 
-        const result = thisArg.toString().startsWith(value.toString());
+        const result = thisArg.toStringSync().startsWith(value.toStringSync());
         return realm.types.boolean(result);
       },
       { prototype: functionProto },
     ),
   });
 
-  proto.defineProperty("endsWith", {
+  proto.definePropertySync("endsWith", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -207,14 +208,14 @@ export function populateStringPrototype(
           );
         }
 
-        const result = thisArg.toString().endsWith(value.toString());
+        const result = thisArg.toStringSync().endsWith(value.toStringSync());
         return realm.types.boolean(result);
       },
       { prototype: functionProto },
     ),
   });
 
-  proto.defineProperty("includes", {
+  proto.definePropertySync("includes", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -228,14 +229,14 @@ export function populateStringPrototype(
           );
         }
 
-        const result = thisArg.toString().includes(value.toString());
+        const result = thisArg.toStringSync().includes(value.toStringSync());
         return realm.types.boolean(result);
       },
       { prototype: functionProto },
     ),
   });
 
-  proto.defineProperty("repeat", {
+  proto.definePropertySync("repeat", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -253,7 +254,7 @@ export function populateStringPrototype(
     ),
   });
 
-  proto.defineProperty("toLowerCase", {
+  proto.definePropertySync("toLowerCase", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -261,14 +262,14 @@ export function populateStringPrototype(
       realm,
       "toLowerCase",
       function* (thisArg: StaticJsValue) {
-        const result = thisArg.toString().toLowerCase();
+        const result = thisArg.toStringSync().toLowerCase();
         return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
   });
 
-  proto.defineProperty("toUpperCase", {
+  proto.definePropertySync("toUpperCase", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -276,14 +277,14 @@ export function populateStringPrototype(
       realm,
       "toUpperCase",
       function* (thisArg: StaticJsValue) {
-        const result = thisArg.toString().toUpperCase();
+        const result = thisArg.toStringSync().toUpperCase();
         return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
   });
 
-  proto.defineProperty("trim", {
+  proto.definePropertySync("trim", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -291,14 +292,14 @@ export function populateStringPrototype(
       realm,
       "trim",
       function* (thisArg: StaticJsValue) {
-        const result = thisArg.toString().trim();
+        const result = thisArg.toStringSync().trim();
         return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
   });
 
-  proto.defineProperty("trimStart", {
+  proto.definePropertySync("trimStart", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -306,14 +307,14 @@ export function populateStringPrototype(
       realm,
       "trimStart",
       function* (thisArg: StaticJsValue) {
-        const result = thisArg.toString().trimStart();
+        const result = thisArg.toStringSync().trimStart();
         return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
   });
 
-  proto.defineProperty("trimEnd", {
+  proto.definePropertySync("trimEnd", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -321,14 +322,14 @@ export function populateStringPrototype(
       realm,
       "trimEnd",
       function* (thisArg: StaticJsValue) {
-        const result = thisArg.toString().trimEnd();
+        const result = thisArg.toStringSync().trimEnd();
         return realm.types.string(result);
       },
       { prototype: functionProto },
     ),
   });
 
-  proto.defineProperty("charAt", {
+  proto.definePropertySync("charAt", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -345,7 +346,7 @@ export function populateStringPrototype(
     ),
   });
 
-  proto.defineProperty("charCodeAt", {
+  proto.definePropertySync("charCodeAt", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -362,7 +363,7 @@ export function populateStringPrototype(
     ),
   });
 
-  proto.defineProperty("split", {
+  proto.definePropertySync("split", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -370,14 +371,14 @@ export function populateStringPrototype(
       realm,
       "split",
       function* (thisArg: StaticJsValue, separator: StaticJsValue) {
-        const result = thisArg.toString().split(separator.toString());
+        const result = thisArg.toStringSync().split(separator.toStringSync());
         return realm.types.array(result.map((s) => realm.types.string(s)));
       },
       { prototype: functionProto },
     ),
   });
 
-  proto.defineProperty("indexOf", {
+  proto.definePropertySync("indexOf", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -385,14 +386,16 @@ export function populateStringPrototype(
       realm,
       "indexOf",
       function* (thisArg: StaticJsValue, searchValue: StaticJsValue) {
-        const result = thisArg.toString().indexOf(searchValue.toString());
+        const result = thisArg
+          .toStringSync()
+          .indexOf(searchValue.toStringSync());
         return realm.types.number(result);
       },
       { prototype: functionProto },
     ),
   });
 
-  proto.defineProperty("lastIndexOf", {
+  proto.definePropertySync("lastIndexOf", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -400,14 +403,16 @@ export function populateStringPrototype(
       realm,
       "lastIndexOf",
       function* (thisArg: StaticJsValue, searchValue: StaticJsValue) {
-        const result = thisArg.toString().lastIndexOf(searchValue.toString());
+        const result = thisArg
+          .toStringSync()
+          .lastIndexOf(searchValue.toStringSync());
         return realm.types.number(result);
       },
       { prototype: functionProto },
     ),
   });
 
-  proto.defineProperty("padStart", {
+  proto.definePropertySync("padStart", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -450,7 +455,7 @@ export function populateStringPrototype(
     ),
   });
 
-  proto.defineProperty("padEnd", {
+  proto.definePropertySync("padEnd", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -493,7 +498,7 @@ export function populateStringPrototype(
     ),
   });
 
-  proto.defineProperty("replace", {
+  proto.definePropertySync("replace", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -506,8 +511,8 @@ export function populateStringPrototype(
         replaceValue: StaticJsValue,
       ) {
         const result = thisArg
-          .toString()
-          .replace(searchValue.toString(), replaceValue.toString());
+          .toStringSync()
+          .replace(searchValue.toStringSync(), replaceValue.toStringSync());
         return realm.types.string(result);
       },
       { prototype: functionProto },
@@ -530,18 +535,18 @@ export function createStringConstructor(
         return realm.types.string("");
       }
 
-      return realm.types.string(value.toString());
+      return realm.types.string(value.toStringSync());
     },
     { prototype: functionProto },
   );
 
-  ctor.defineProperty("prototype", {
+  ctor.definePropertySync("prototype", {
     configurable: false,
     enumerable: false,
     writable: false,
     value: stringProto,
   });
-  stringProto.defineProperty("constructor", {
+  stringProto.definePropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

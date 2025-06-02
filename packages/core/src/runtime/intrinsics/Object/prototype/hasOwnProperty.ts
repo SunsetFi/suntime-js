@@ -26,7 +26,7 @@ const objectProtoHasOwnPropertyDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const hasProperty =
-      thisArg.getOwnPropertyDescriptor(String(keyValue.value)) != null;
+      thisArg.getOwnPropertyDescriptorSync(String(keyValue.value)) != null;
 
     return realm.types.boolean(hasProperty);
   },

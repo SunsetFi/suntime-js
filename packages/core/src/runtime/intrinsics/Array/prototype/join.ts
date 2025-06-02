@@ -21,7 +21,7 @@ const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
     if (isStaticJsUndefined(joinerValue)) {
       joiner = ",";
     } else {
-      joiner = joinerValue.toString();
+      joiner = joinerValue.toStringSync();
     }
 
     const s: string[] = [];
@@ -41,7 +41,7 @@ const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
 
-      s.push(elementValue.toString());
+      s.push(elementValue.toStringSync());
     }
 
     return realm.types.string(s.join(joiner));

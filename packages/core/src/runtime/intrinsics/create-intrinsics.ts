@@ -158,21 +158,21 @@ export function defineGlobalProperties(
   globalObject: StaticJsObjectLike,
   constructors: Constructors,
 ) {
-  globalObject.defineProperty("undefined", {
+  globalObject.definePropertySync("undefined", {
     value: realm.types.undefined,
     writable: false,
     enumerable: false,
     configurable: false,
   });
 
-  globalObject.defineProperty("NaN", {
+  globalObject.definePropertySync("NaN", {
     value: realm.types.NaN,
     writable: false,
     enumerable: false,
     configurable: false,
   });
 
-  globalObject.defineProperty("Infinity", {
+  globalObject.definePropertySync("Infinity", {
     value: realm.types.Infinity,
     writable: false,
     enumerable: false,
@@ -180,7 +180,7 @@ export function defineGlobalProperties(
   });
 
   for (const [key, value] of Object.entries(constructors)) {
-    globalObject.defineProperty(key, {
+    globalObject.definePropertySync(key, {
       value,
       writable: true,
       enumerable: false,

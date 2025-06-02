@@ -15,11 +15,11 @@ export default abstract class StaticJsAbstractPrimitive
 
   abstract get typeOf(): string;
 
-  abstract toJs(): unknown;
+  abstract toJsSync(): unknown;
 
-  abstract toString(): string;
+  abstract toStringSync(): string;
 
   [Symbol.toStringTag](): string {
-    return `StaticJsValue ${this.runtimeTypeOf} [${this.toString()}]`;
+    return `StaticJsValue ${this.runtimeTypeOf} [${this.toStringSync()}]`;
   }
 }

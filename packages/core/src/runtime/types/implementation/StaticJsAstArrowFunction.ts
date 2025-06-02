@@ -44,7 +44,7 @@ export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
 
   *constructEvaluator(): EvaluationGenerator {
     const nameValue = yield* this.getPropertyEvaluator("name");
-    let name = nameValue.toString();
+    let name = nameValue.toStringSync();
     if (name === "") {
       name = "anonymous";
     }

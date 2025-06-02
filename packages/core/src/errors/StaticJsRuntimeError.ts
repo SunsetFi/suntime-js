@@ -12,14 +12,14 @@ export default class StaticJsRuntimeError extends Error {
       return `StaticJsRuntimeError: [${this._thrown.runtimeTypeOf}]`;
     }
 
-    const hasName = this._thrown.hasProperty("name");
+    const hasName = this._thrown.hasPropertySync("name");
     if (hasName) {
-      const name = this._thrown.getProperty("name");
+      const name = this._thrown.getPropertySync("name");
       if (!isStaticJsScalar(name)) {
         return `StaticJsRuntimeError: [${this._thrown.runtimeTypeOf}]`;
       }
 
-      return `StaticJsRuntimeError: [${name.toString()}]`;
+      return `StaticJsRuntimeError: [${name.toStringSync()}]`;
     }
 
     return `StaticJsRuntimeError: [${this._thrown.runtimeTypeOf}]`;
@@ -30,11 +30,11 @@ export default class StaticJsRuntimeError extends Error {
       return ``;
     }
 
-    const hasMessage = this._thrown.hasProperty("message");
+    const hasMessage = this._thrown.hasPropertySync("message");
     if (hasMessage) {
-      const message = this._thrown.getProperty("message");
+      const message = this._thrown.getPropertySync("message");
       if (!isStaticJsScalar(message)) {
-        return message.toString();
+        return message.toStringSync();
       }
     }
 

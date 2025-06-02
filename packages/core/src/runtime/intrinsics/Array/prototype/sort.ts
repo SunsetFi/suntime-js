@@ -61,8 +61,8 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
 
         return result.value;
       } else {
-        const aStr = a.toString();
-        const bStr = b.toString();
+        const aStr = a.toStringSync();
+        const bStr = b.toStringSync();
         if (bStr < aStr) {
           return 1;
         }

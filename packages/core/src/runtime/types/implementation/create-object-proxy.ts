@@ -15,7 +15,7 @@ export default function createStaticJsObjectLikeProxy(
       return undefined;
     }
 
-    const descriptor = obj.getOwnPropertyDescriptor(propertyName);
+    const descriptor = obj.getOwnPropertyDescriptorSync(propertyName);
     if (!descriptor) {
       return undefined;
     }
@@ -34,7 +34,9 @@ export default function createStaticJsObjectLikeProxy(
       // SIGH.............
       if (isStaticJsDataPropertyDescriptor(descriptor) && descriptor.writable) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (target as any)[propertyName] = obj.getProperty(propertyName).toJs();
+        (target as any)[propertyName] = obj
+          .getPropertySync(propertyName)
+          .toJsSync();
         return Object.getOwnPropertyDescriptor(target, propertyName);
       }
       return existingDef;
@@ -51,13 +53,13 @@ export default function createStaticJsObjectLikeProxy(
     if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
       if (descriptor.get) {
         jsDescriptor.get = () => {
-          return obj.getProperty(propertyName).toJs();
+          return obj.getPropertySync(propertyName).toJsSync();
         };
       }
       if (descriptor.set) {
         jsDescriptor.set = (value: unknown) => {
           const staticJsValue = obj.realm.types.toStaticJsValue(value);
-          obj.setProperty(propertyName, staticJsValue, false);
+          obj.setPropertySync(propertyName, staticJsValue, false);
         };
       } else {
         // Huh... This needs to be set apparently.
@@ -66,7 +68,7 @@ export default function createStaticJsObjectLikeProxy(
       }
     } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
       jsDescriptor.writable = descriptor.writable;
-      jsDescriptor.value = obj.getProperty(propertyName).toJs();
+      jsDescriptor.value = obj.getPropertySync(propertyName).toJsSync();
     }
 
     // Proxy is incredibly stupid in that it forces you to have the target match.
@@ -78,7 +80,7 @@ export default function createStaticJsObjectLikeProxy(
   };
 
   const ownKeys = () => {
-    const keys = obj.getOwnKeys();
+    const keys = obj.getOwnKeysSync();
     for (const key of keys) {
       // Do this to poke the descriptors...
       // Sigh...

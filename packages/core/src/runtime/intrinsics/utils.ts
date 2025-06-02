@@ -49,7 +49,7 @@ export function applyIntrinsicProperties(
 ) {
   for (const prop of properties) {
     if (isFunctionIntrinsicPropertyDeclaration(prop)) {
-      obj.defineProperty(prop.name, {
+      obj.definePropertySync(prop.name, {
         value: new StaticJsFunctionImpl(
           realm,
           prop.name,
@@ -63,7 +63,7 @@ export function applyIntrinsicProperties(
         writable: prop.writable ?? true,
       });
     } else if (isDataIntrinsicPropertyDeclaration(prop)) {
-      obj.defineProperty(prop.name, {
+      obj.definePropertySync(prop.name, {
         value: prop.value,
         enumerable: prop.enumerable ?? false,
         configurable: prop.configurable ?? false,

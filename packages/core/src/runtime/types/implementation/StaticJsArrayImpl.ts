@@ -30,7 +30,7 @@ export default class StaticJsArrayImpl
         continue;
       }
 
-      this.defineProperty(i.toString(), {
+      this.definePropertySync(i.toString(), {
         value: items[i],
         writable: true,
         enumerable: true,
@@ -38,7 +38,7 @@ export default class StaticJsArrayImpl
       });
     }
 
-    this.defineProperty("length", {
+    this.definePropertySync("length", {
       value: new StaticJsNumberImpl(realm, items.length),
       writable: true,
       enumerable: false,

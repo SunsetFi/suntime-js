@@ -21,7 +21,7 @@ export default function staticJsDescriptorToObjectDescriptor(
         const result = realm.invokeEvaluatorSync(
           descriptor.get!.callEvaluator(realm.types.toStaticJsValue(this)),
         );
-        return result.toJs();
+        return result.toJsSync();
       };
     }
     if (descriptor.set) {
@@ -34,7 +34,7 @@ export default function staticJsDescriptorToObjectDescriptor(
       };
     }
   } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
-    objDescriptor.value = descriptor.value.toJs();
+    objDescriptor.value = descriptor.value.toJsSync();
   }
 
   return objDescriptor;

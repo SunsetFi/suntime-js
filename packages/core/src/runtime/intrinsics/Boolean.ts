@@ -18,7 +18,7 @@ export function populateBooleanPrototype(
   booleanProto: StaticJsObject,
   functionProto: StaticJsObject,
 ) {
-  booleanProto.defineProperty("toString", {
+  booleanProto.definePropertySync("toString", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -33,7 +33,7 @@ export function populateBooleanPrototype(
     ),
   });
 
-  booleanProto.defineProperty("valueOf", {
+  booleanProto.definePropertySync("valueOf", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -77,13 +77,13 @@ export function createBooleanConstructor(
     { prototype: functionProto },
   );
 
-  ctor.defineProperty("prototype", {
+  ctor.definePropertySync("prototype", {
     value: booleanProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
-  booleanProto.defineProperty("constructor", {
+  booleanProto.definePropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

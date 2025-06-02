@@ -42,7 +42,7 @@ export default class StaticJsEvalCompilation implements StaticJsCompilation {
       const result = realm.invokeEvaluatorSync(
         evaluateNode(this._root, context),
       );
-      return result?.toJs();
+      return result?.toJsSync();
     } catch (e) {
       AbnormalCompletion.handleToJs(e);
     }
@@ -73,7 +73,7 @@ export default class StaticJsEvalCompilation implements StaticJsCompilation {
 
     try {
       const result = yield* evaluateCommands(evaluateNode(this._root, context));
-      return result?.toJs();
+      return result?.toJsSync();
     } catch (e) {
       AbnormalCompletion.handleToJs(e);
     }

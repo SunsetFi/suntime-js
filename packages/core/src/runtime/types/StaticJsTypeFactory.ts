@@ -21,6 +21,17 @@ export function isErrorTypeName(name: string): name is ErrorTypeName {
   return ["TypeError", "ReferenceError", "SyntaxError", "Error"].includes(name);
 }
 
+export type StaticJsTypeCreationPrototype =
+  | StaticJsObjectLike
+  | StaticJsNull
+  | null;
+
+export interface StaticJsFunctionTypeCreationOptions {
+  isConstructor?: boolean;
+  length?: number;
+  prototype?: StaticJsTypeCreationPrototype;
+}
+
 export default interface StaticJsTypeFactory {
   readonly prototypes: Prototypes;
 
@@ -40,10 +51,16 @@ export default interface StaticJsTypeFactory {
 
   object(
     properties?: Record<string, StaticJsPropertyDescriptor>,
-    prototype?: StaticJsObjectLike | StaticJsNull | null,
+    prototype?: StaticJsTypeCreationPrototype,
   ): StaticJsObject;
 
   array(items?: StaticJsValue[]): StaticJsArray;
+
+  function(
+    name: string,
+    func: (this: StaticJsValue, ...args: StaticJsValue[]) => StaticJsValue,
+    opts?: StaticJsFunctionTypeCreationOptions,
+  ): StaticJsFunction;
 
   error(errorType: ErrorTypeName, message: string): StaticJsObject;
   error(message: string): StaticJsObject;

@@ -19,7 +19,7 @@ export function populateNumberPrototype(
   proto: StaticJsObject,
   functionProto: StaticJsObject,
 ) {
-  proto.defineProperty("toString", {
+  proto.definePropertySync("toString", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -41,7 +41,7 @@ export function populateNumberPrototype(
     ),
   });
 
-  proto.defineProperty("toLocaleString", {
+  proto.definePropertySync("toLocaleString", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -63,7 +63,7 @@ export function populateNumberPrototype(
     ),
   });
 
-  proto.defineProperty("valueOf", {
+  proto.definePropertySync("valueOf", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -86,7 +86,7 @@ export function populateNumberPrototype(
     ),
   });
 
-  proto.defineProperty("toFixed", {
+  proto.definePropertySync("toFixed", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -115,7 +115,7 @@ export function populateNumberPrototype(
     ),
   });
 
-  proto.defineProperty("toExponential", {
+  proto.definePropertySync("toExponential", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -146,7 +146,7 @@ export function populateNumberPrototype(
     ),
   });
 
-  proto.defineProperty("toPrecision", {
+  proto.definePropertySync("toPrecision", {
     configurable: true,
     enumerable: false,
     writable: true,
@@ -198,13 +198,13 @@ export function createNumberConstructor(
     { prototype: functionProto },
   );
 
-  ctor.defineProperty("prototype", {
+  ctor.definePropertySync("prototype", {
     configurable: false,
     enumerable: false,
     writable: false,
     value: numberProto,
   });
-  numberProto.defineProperty("constructor", {
+  numberProto.definePropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

@@ -20,7 +20,7 @@ const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
       throw new ThrowCompletion(
         realm.types.error(
           "TypeError",
-          `${callback.toString()} is not a function`,
+          `${callback.toStringSync()} is not a function`,
         ),
       );
     }

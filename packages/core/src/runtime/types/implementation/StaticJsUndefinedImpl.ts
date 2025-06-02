@@ -20,11 +20,11 @@ export default class StaticJsUndefinedImpl implements StaticJsUndefined {
     return undefined;
   }
 
-  toJs() {
+  toJsSync() {
     return undefined;
   }
 
-  toString(): string {
+  toStringSync(): string {
     return "undefined";
   }
 }

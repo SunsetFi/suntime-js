@@ -42,7 +42,7 @@ export default function* toPrimitive(
   throw new ThrowCompletion(
     realm.types.error(
       "TypeError",
-      `Cannot convert object to primitive value: ${value.toString()}`,
+      `Cannot convert object to primitive value: ${value.toStringSync()}`,
     ),
   );
 }

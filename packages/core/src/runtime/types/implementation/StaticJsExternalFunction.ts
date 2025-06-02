@@ -20,8 +20,8 @@ export default class StaticJsExternalFunction extends StaticJsFunctionImpl {
     thisArg: StaticJsValue,
     ...args: StaticJsValue[]
   ): EvaluationGenerator {
-    const thisArgResolved = thisArg.toJs();
-    const valueArgsResolved = args.map((arg) => arg.toJs());
+    const thisArgResolved = thisArg.toJsSync();
+    const valueArgsResolved = args.map((arg) => arg.toJsSync());
     try {
       const result = this._func.call(thisArgResolved, ...valueArgsResolved);
       return this.realm.types.toStaticJsValue(result);
@@ -30,7 +30,7 @@ export default class StaticJsExternalFunction extends StaticJsFunctionImpl {
     }
   }
 
-  toJs(): unknown {
+  toJsSync(): unknown {
     return this._func;
   }
 }

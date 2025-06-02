@@ -40,7 +40,7 @@ export default class StaticJsAstFunction extends StaticJsFunctionImpl {
   ) {
     super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args));
 
-    this.defineProperty("prototype", {
+    this.definePropertySync("prototype", {
       value: realm.types.object({
         constructor: {
           value: this,

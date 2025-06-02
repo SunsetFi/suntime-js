@@ -5,5 +5,5 @@ export default function toPropertyKey(value: unknown): string {
     return String(value);
   }
 
-  return value.toString();
+  return value.toStringSync();
 }

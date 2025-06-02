@@ -37,7 +37,7 @@ describe("E2E: Variables", () => {
       `;
       const realm = StaticJsRealm();
       evaluateProgram(code, { realm });
-      expect(realm.globalObject.hasProperty("a")).toBe(false);
+      expect(realm.globalObject.hasPropertySync("a")).toBe(false);
     });
 
     it("Can be redeclared in block scopes", () => {
@@ -127,7 +127,7 @@ describe("E2E: Variables", () => {
       `;
       const realm = StaticJsRealm();
       evaluateProgram(code, { realm });
-      expect(realm.globalObject.hasProperty("a")).toBe(false);
+      expect(realm.globalObject.hasPropertySync("a")).toBe(false);
     });
 
     it("Can be redeclared in block scopes", () => {
@@ -166,7 +166,7 @@ describe("E2E: Variables", () => {
       `;
       const realm = StaticJsRealm();
       evaluateProgram(code, { realm });
-      expect(realm.globalObject.hasProperty("a")).toBe(true);
+      expect(realm.globalObject.hasPropertySync("a")).toBe(true);
     });
 
     it("Appears on the global scope in a block scope", () => {
@@ -177,7 +177,7 @@ describe("E2E: Variables", () => {
       `;
       const realm = StaticJsRealm();
       evaluateProgram(code, { realm });
-      expect(realm.globalObject.hasProperty("a")).toBe(true);
+      expect(realm.globalObject.hasPropertySync("a")).toBe(true);
     });
 
     it("Does not appear on the global scope in a function scope", () => {
@@ -188,7 +188,7 @@ describe("E2E: Variables", () => {
       `;
       const realm = StaticJsRealm();
       evaluateProgram(code, { realm });
-      expect(realm.globalObject.hasProperty("a")).toBe(false);
+      expect(realm.globalObject.hasPropertySync("a")).toBe(false);
     });
   });
 });

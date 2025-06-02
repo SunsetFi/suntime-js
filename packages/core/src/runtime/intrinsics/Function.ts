@@ -16,13 +16,13 @@ export function createFunctionConstructor(
   functionProto: StaticJsObject,
 ) {
   const ctor = new StaticJsObjectImpl(realm, null);
-  ctor.defineProperty("prototype", {
+  ctor.definePropertySync("prototype", {
     value: functionProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
-  functionProto.defineProperty("constructor", {
+  functionProto.definePropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

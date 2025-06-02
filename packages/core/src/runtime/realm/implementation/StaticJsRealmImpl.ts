@@ -98,7 +98,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       )) {
         const descr = globalDeclToDescriptor(this, descriptor);
 
-        globalObjectResolved.defineProperty(name, descr);
+        globalObjectResolved.definePropertySync(name, descr);
       }
     } else {
       throw new Error("Invalid globalObject");
@@ -183,8 +183,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     globalThis: StaticJsValue,
     intrinsics: Instrinsics,
   ) {
-    if (!globalObject.hasProperty("globalThis")) {
-      globalObject.defineProperty("globalThis", {
+    if (!globalObject.hasPropertySync("globalThis")) {
+      globalObject.definePropertySync("globalThis", {
         value: globalThis,
         writable: true,
         enumerable: false,
@@ -192,8 +192,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       });
     }
 
-    if (!globalObject.hasProperty("global")) {
-      globalObject.defineProperty("global", {
+    if (!globalObject.hasPropertySync("global")) {
+      globalObject.definePropertySync("global", {
         value: globalObject,
         writable: true,
         enumerable: false,

@@ -5,6 +5,7 @@ import { ControlFlowCompletion } from "../../../evaluator/completions/ControlFlo
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
+import type { StaticJsNull } from "../StaticJsNull.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
@@ -17,7 +18,7 @@ import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
 export interface StaticJsFunctionImplOptions {
   length?: number;
-  prototype?: StaticJsObjectLike;
+  prototype?: StaticJsObjectLike | StaticJsNull | null;
   isConstructor?: boolean;
 }
 
@@ -42,14 +43,14 @@ export default class StaticJsFunctionImpl
 
     // FIXME: Suspicious use of non-eval defineProperty during construction.
     // Invokes runEvaluatorUntilCompletion
-    this.defineProperty("name", {
+    this.definePropertySync("name", {
       value: new StaticJsStringImpl(realm, name ?? ""),
       writable: false,
       enumerable: false,
       configurable: true,
     });
 
-    this.defineProperty("length", {
+    this.definePropertySync("length", {
       value: new StaticJsNumberImpl(this.realm, length ?? _call.length - 1),
       writable: false,
       enumerable: false,
@@ -69,11 +70,11 @@ export default class StaticJsFunctionImpl
     return this._isConstructor;
   }
 
-  toString() {
+  toStringSync() {
     const nameValue = this.realm.invokeEvaluatorSync(
       this.getPropertyEvaluator("name"),
     );
-    const name = nameValue.toString();
+    const name = nameValue.toStringSync();
 
     return `function ${name ?? ""}() { [native code] }`;
   }
@@ -141,7 +142,7 @@ export default class StaticJsFunctionImpl
         this.callEvaluator(thisArgValue, ...argValues),
       );
 
-      return result.toJs();
+      return result.toJsSync();
     };
   }
 }

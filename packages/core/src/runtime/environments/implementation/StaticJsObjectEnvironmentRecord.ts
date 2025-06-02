@@ -49,7 +49,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
     name: string,
   ): StaticJsEnvironmentBinding | undefined {
     const obj = this._obj;
-    const descriptor = obj.getPropertyDescriptor(name);
+    const descriptor = obj.getPropertyDescriptorSync(name);
     if (!descriptor) {
       return undefined;
     }

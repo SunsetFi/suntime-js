@@ -14,11 +14,11 @@ export default class StaticJsBooleanBoxed extends StaticJsObjectImpl {
     return this._value;
   }
 
-  toString(): string {
+  toStringSync(): string {
     return String(this._value);
   }
 
-  toJs(): unknown {
+  toJsSync(): unknown {
     return this._value;
   }
 }

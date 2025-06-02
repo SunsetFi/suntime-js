@@ -7,13 +7,13 @@ export default function createArrayConstructor(
   arrayProto: StaticJsObject,
 ) {
   const ctor = new StaticJsObjectImpl(realm, null);
-  ctor.defineProperty("prototype", {
+  ctor.definePropertySync("prototype", {
     value: arrayProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
-  arrayProto.defineProperty("constructor", {
+  arrayProto.definePropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

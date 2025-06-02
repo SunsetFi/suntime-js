@@ -21,11 +21,11 @@ export default class StaticJsNullImpl implements StaticJsNull {
     return null;
   }
 
-  toJs() {
+  toJsSync() {
     return null;
   }
 
-  toString() {
+  toStringSync() {
     return "null";
   }
 }

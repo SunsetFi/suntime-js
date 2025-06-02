@@ -42,7 +42,7 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
     return Object.keys(this._obj);
   }
 
-  toJs() {
+  toJsSync() {
     return this._obj;
   }
 

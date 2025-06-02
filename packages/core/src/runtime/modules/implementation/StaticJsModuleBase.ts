@@ -93,7 +93,7 @@ export abstract class StaticJsModuleBase
 
     try {
       const result = this._realm.invokeEvaluatorSync(getExport());
-      return result ? result.toJs() : null;
+      return result ? result.toJsSync() : null;
     } catch (e) {
       AbnormalCompletion.handleToJs(e);
     }
@@ -104,7 +104,7 @@ export abstract class StaticJsModuleBase
       const result = this._realm.invokeEvaluatorSync(
         this.getModuleNamespaceEvaluator(),
       );
-      return result.toJs() as Record<string, unknown>;
+      return result.toJsSync() as Record<string, unknown>;
     } catch (e) {
       AbnormalCompletion.handleToJs(e);
     }

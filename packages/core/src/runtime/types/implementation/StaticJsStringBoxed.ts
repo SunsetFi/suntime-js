@@ -10,11 +10,11 @@ export default class StaticJsStringBoxed extends StaticJsObjectImpl {
     super(realm, realm.types.prototypes.stringProto);
   }
 
-  toString(): string {
+  toStringSync(): string {
     return this._value;
   }
 
-  toJs(): unknown {
+  toJsSync(): unknown {
     return this._value;
   }
 }

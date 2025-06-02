@@ -7,6 +7,6 @@ export class ThrowCompletion extends AbnormalCompletion {
   }
 
   toJs(): unknown {
-    return this.value.toJs();
+    return this.value.toJsSync();
   }
 }

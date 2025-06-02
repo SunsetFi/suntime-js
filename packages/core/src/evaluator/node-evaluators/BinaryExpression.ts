@@ -175,6 +175,6 @@ function* inOperator(
     );
   }
 
-  const hasProperty = yield* right.hasPropertyEvaluator(left.toString());
+  const hasProperty = yield* right.hasPropertyEvaluator(left.toStringSync());
   return context.realm.types.boolean(hasProperty);
 }

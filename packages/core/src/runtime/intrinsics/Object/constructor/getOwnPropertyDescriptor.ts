@@ -26,7 +26,7 @@ const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaratio
       }
 
       const descriptor = yield* obj.getOwnPropertyDescriptorEvaluator(
-        propValue.toString(),
+        propValue.toStringSync(),
       );
 
       if (!descriptor) {
@@ -50,7 +50,7 @@ const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaratio
 
       if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
         if (descriptor.get) {
-          result.defineProperty("get", {
+          result.definePropertySync("get", {
             enumerable: true,
             writable: true,
             configurable: true,
@@ -58,7 +58,7 @@ const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaratio
           });
         }
         if (descriptor.set) {
-          result.defineProperty("set", {
+          result.definePropertySync("set", {
             enumerable: true,
             writable: true,
             configurable: true,
@@ -66,13 +66,13 @@ const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaratio
           });
         }
       } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
-        result.defineProperty("value", {
+        result.definePropertySync("value", {
           enumerable: true,
           writable: true,
           configurable: true,
           value: descriptor.value,
         });
-        result.defineProperty("writable", {
+        result.definePropertySync("writable", {
           enumerable: true,
           writable: true,
           configurable: true,

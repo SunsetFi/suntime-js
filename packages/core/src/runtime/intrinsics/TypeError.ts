@@ -42,14 +42,14 @@ export default function createTypeErrorConstructor(
     { prototype: functionProto },
   );
 
-  ctor.defineProperty("prototype", {
+  ctor.definePropertySync("prototype", {
     value: errorProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
 
-  errorProto.defineProperty("constructor", {
+  errorProto.definePropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

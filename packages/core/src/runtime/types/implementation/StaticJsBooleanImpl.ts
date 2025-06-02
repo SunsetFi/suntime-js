@@ -27,11 +27,11 @@ export default class StaticJsBooleanImpl
     return this._value;
   }
 
-  toJs() {
+  toJsSync() {
     return this._value;
   }
 
-  toString(): string {
+  toStringSync(): string {
     return String(this._value);
   }
 

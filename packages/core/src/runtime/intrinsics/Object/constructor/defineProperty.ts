@@ -36,7 +36,7 @@ const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const propertyName = propertyNameValue.toString();
+    const propertyName = propertyNameValue.toStringSync();
 
     if (!isStaticJsObjectLike(propertyDescriptor)) {
       throw new ThrowCompletion(

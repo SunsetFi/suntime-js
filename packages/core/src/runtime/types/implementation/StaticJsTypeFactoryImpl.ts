@@ -4,7 +4,10 @@ import type { StaticJsArray } from "../StaticJsArray.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
 import type { StaticJsObject, StaticJsObjectLike } from "../StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
-import type { ErrorTypeName } from "../StaticJsTypeFactory.js";
+import type {
+  ErrorTypeName,
+  StaticJsFunctionTypeCreationOptions,
+} from "../StaticJsTypeFactory.js";
 import type StaticJsTypeFactory from "../StaticJsTypeFactory.js";
 import { isErrorTypeName } from "../StaticJsTypeFactory.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
@@ -27,6 +30,7 @@ import StaticJsStringImpl from "./StaticJsStringImpl.js";
 import StaticJsUndefinedImpl from "./StaticJsUndefinedImpl.js";
 import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
 import StaticJsExternalObject from "./StaticJsExternalObject.js";
+import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
 
 export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private _zero: StaticJsNumber;
@@ -102,7 +106,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
     if (properties) {
       for (const [key, value] of Object.entries(properties)) {
-        obj.defineProperty(key, value);
+        obj.definePropertySync(key, value);
       }
     }
 
@@ -111,6 +115,31 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   array(items?: StaticJsValue[]): StaticJsArray {
     return new StaticJsArrayImpl(this._realm, items);
+  }
+
+  function(
+    name: string,
+    func: (this: StaticJsValue, ...args: StaticJsValue[]) => StaticJsValue,
+    opts: StaticJsFunctionTypeCreationOptions = {},
+  ): StaticJsFunction {
+    return new StaticJsFunctionImpl(
+      this._realm,
+      name,
+      function* (thisArg: StaticJsValue, ...args: StaticJsValue[]) {
+        const result = func.apply(thisArg, args);
+        if (!isStaticJsValue(result)) {
+          throw new TypeError(
+            `Function ${name} returned non-StaticJsValue: ${result}`,
+          );
+        }
+        return result;
+      },
+      {
+        isConstructor: opts.isConstructor ?? false,
+        length: opts.length ?? func.length,
+        prototype: opts.prototype ?? this._prototypes.functionProto,
+      },
+    );
   }
 
   error(message: string): StaticJsObject;
@@ -171,9 +200,13 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   toStaticJsValue(value: undefined): StaticJsUndefined;
   toStaticJsValue(value: unknown): StaticJsValue;
   toStaticJsValue(value: unknown): StaticJsValue {
-    // TODO: Still wrap if its from a different realm.
     if (isStaticJsValue(value)) {
-      return value;
+      if (value.realm === this._realm) {
+        return value;
+      }
+
+      // Unwrap it to re-wrap with our own realm.
+      value = value.toJsSync();
     }
 
     // TODO: Resolve to same instance if this is a toJs() value from an existing object.
