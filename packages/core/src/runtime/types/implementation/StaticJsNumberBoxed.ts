@@ -14,10 +14,6 @@ export default class StaticJsNumberBoxed extends StaticJsObjectImpl {
     return String(this._value);
   }
 
-  toNumber(): number {
-    return this._value;
-  }
-
   toBoolean(): boolean {
     return Boolean(this._value);
   }

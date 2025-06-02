@@ -9,6 +9,7 @@ import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";
+import toNumber from "../../../algorithms/to-number.js";
 
 const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
   name: "sort",
@@ -49,13 +50,15 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       if (compareFnValue) {
-        const result = yield* compareFnValue.callEvaluator(
+        let result = yield* compareFnValue.callEvaluator(
           realm.types.undefined,
           a,
           b,
         );
 
-        return result.toNumber();
+        result = yield* toNumber(result, realm);
+
+        return result.value;
       } else {
         const aStr = a.toString();
         const bStr = b.toString();

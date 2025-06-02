@@ -10,6 +10,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import setLVal from "./LVal.js";
+import toNumber from "../../runtime/algorithms/to-number.js";
 
 export default function* assignmentExpressionNodeEvaluator(
   node: AssignmentExpression,
@@ -45,7 +46,7 @@ export default function* assignmentExpressionNodeEvaluator(
           );
         }
 
-        const leftValue = yield* context.env.getBindingValueEvaluator(
+        let leftValue = yield* context.env.getBindingValueEvaluator(
           left.name,
           true,
         );
@@ -57,9 +58,10 @@ export default function* assignmentExpressionNodeEvaluator(
           );
         } else {
           // Use numbers
-          value = context.realm.types.number(
-            leftValue.toNumber() + value.toNumber(),
-          );
+          leftValue = yield* toNumber(leftValue, context.realm);
+          value = yield* toNumber(value, context.realm);
+
+          value = context.realm.types.number(leftValue.value + value.value);
         }
       }
       break;
@@ -74,14 +76,14 @@ export default function* assignmentExpressionNodeEvaluator(
           );
         }
 
-        const leftValue = yield* context.env.getBindingValueEvaluator(
+        let leftValue = yield* context.env.getBindingValueEvaluator(
           left.name,
           true,
         );
+        leftValue = yield* toNumber(leftValue, context.realm);
+        value = yield* toNumber(value, context.realm);
 
-        value = context.realm.types.number(
-          leftValue.toNumber() - value.toNumber(),
-        );
+        value = context.realm.types.number(leftValue.value - value.value);
       }
       break;
     case "<<=":
@@ -95,14 +97,15 @@ export default function* assignmentExpressionNodeEvaluator(
           );
         }
 
-        const leftValue = yield* context.env.getBindingValueEvaluator(
+        let leftValue = yield* context.env.getBindingValueEvaluator(
           left.name,
           true,
         );
 
-        value = context.realm.types.number(
-          leftValue.toNumber() << value.toNumber(),
-        );
+        leftValue = yield* toNumber(leftValue, context.realm);
+        value = yield* toNumber(value, context.realm);
+
+        value = context.realm.types.number(leftValue.value << value.value);
       }
       break;
     case ">>=":
@@ -116,14 +119,15 @@ export default function* assignmentExpressionNodeEvaluator(
           );
         }
 
-        const leftValue = yield* context.env.getBindingValueEvaluator(
+        let leftValue = yield* context.env.getBindingValueEvaluator(
           left.name,
           true,
         );
 
-        value = context.realm.types.number(
-          leftValue.toNumber() >> value.toNumber(),
-        );
+        leftValue = yield* toNumber(leftValue, context.realm);
+        value = yield* toNumber(value, context.realm);
+
+        value = context.realm.types.number(leftValue.value >> value.value);
       }
       break;
     case ">>>=":
@@ -137,14 +141,15 @@ export default function* assignmentExpressionNodeEvaluator(
           );
         }
 
-        const leftValue = yield* context.env.getBindingValueEvaluator(
+        let leftValue = yield* context.env.getBindingValueEvaluator(
           left.name,
           true,
         );
 
-        value = context.realm.types.number(
-          leftValue.toNumber() >>> value.toNumber(),
-        );
+        leftValue = yield* toNumber(leftValue, context.realm);
+        value = yield* toNumber(value, context.realm);
+
+        value = context.realm.types.number(leftValue.value >>> value.value);
       }
       break;
   }

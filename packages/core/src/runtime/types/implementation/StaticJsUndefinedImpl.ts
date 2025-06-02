@@ -29,10 +29,6 @@ export default class StaticJsUndefinedImpl implements StaticJsUndefined {
     return "undefined";
   }
 
-  toNumber(): number {
-    return Number.NaN;
-  }
-
   toBoolean(): boolean {
     return false;
   }

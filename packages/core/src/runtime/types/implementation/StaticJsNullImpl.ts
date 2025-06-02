@@ -30,10 +30,6 @@ export default class StaticJsNullImpl implements StaticJsNull {
     return "null";
   }
 
-  toNumber(): number {
-    return 0;
-  }
-
   toBoolean(): boolean {
     return false;
   }

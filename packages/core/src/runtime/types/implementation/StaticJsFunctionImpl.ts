@@ -118,10 +118,6 @@ export default class StaticJsFunctionImpl
     return `function ${name ?? ""}() { [native code] }`;
   }
 
-  toNumber(): number {
-    return Number.NaN;
-  }
-
   toBoolean(): boolean {
     return true;
   }

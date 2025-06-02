@@ -6,6 +6,7 @@ import StaticJsNumberImpl from "../../types/implementation/StaticJsNumberImpl.js
 
 import type { IntrinsicPropertyDeclaration } from "../utils.js";
 import { applyIntrinsicProperties } from "../utils.js";
+import toNumber from "../../algorithms/to-number.js";
 
 // Since math is quite predictable in its inputs and outputs, we can do this programatically.
 
@@ -85,9 +86,12 @@ function createMathNumericFunctionDeclaration(
   return {
     name: key,
     *func(realm, _thisObj, ...args) {
-      const asNumbers = args.map((arg) =>
-        (arg ?? realm.types.undefined).toNumber(),
-      );
+      const asNumbers = new Array<number>(args.length);
+      for (let i = 0; i < args.length; i++) {
+        const arg = args[i] ?? realm.types.undefined;
+        const asNumber = yield* toNumber(arg, realm);
+        asNumbers[i] = asNumber.value;
+      }
       const computed = func.call(null, ...asNumbers);
       const asRuntime = realm.types.number(computed);
       return asRuntime;

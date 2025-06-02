@@ -29,7 +29,7 @@ export default function* updateExpressionNodeEvaluator(
     return context.realm.types.NaN;
   }
 
-  let targetValue = originalValue.toJs() as number;
+  let targetValue = originalValue.value;
   switch (node.operator) {
     case "++":
       targetValue++;

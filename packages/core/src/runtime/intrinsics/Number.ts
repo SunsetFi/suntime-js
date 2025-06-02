@@ -1,4 +1,7 @@
+import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import toNumber from "../algorithms/to-number.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import { isStaticJsNumber } from "../types/StaticJsNumber.js";
 
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
@@ -18,7 +21,15 @@ export function populateNumberPrototype(
       realm,
       "toString",
       function* (thisArg: StaticJsValue) {
-        return realm.types.string(thisArg.toNumber().toString());
+        if (!isStaticJsNumber(thisArg)) {
+          throw new ThrowCompletion(
+            realm.types.error(
+              "TypeError",
+              "Number.prototype.toString requires that 'this' be a Number",
+            ),
+          );
+        }
+        return realm.types.string(thisArg.value.toString());
       },
       { prototype: functionProto },
     ),
@@ -32,7 +43,15 @@ export function populateNumberPrototype(
       realm,
       "toLocaleString",
       function* (thisArg: StaticJsValue) {
-        return realm.types.string(thisArg.toNumber().toLocaleString());
+        if (!isStaticJsNumber(thisArg)) {
+          throw new ThrowCompletion(
+            realm.types.error(
+              "TypeError",
+              "Number.prototype.toLocaleString requires that 'this' be a Number",
+            ),
+          );
+        }
+        return realm.types.string(thisArg.value.toLocaleString());
       },
       { prototype: functionProto },
     ),
@@ -46,8 +65,16 @@ export function populateNumberPrototype(
       realm,
       "valueOf",
       function* (thisArg: StaticJsValue) {
+        if (!isStaticJsNumber(thisArg)) {
+          throw new ThrowCompletion(
+            realm.types.error(
+              "TypeError",
+              "Number.prototype.valueOf requires that 'this' be a Number",
+            ),
+          );
+        }
         // Unbox.
-        return realm.types.number(thisArg.toNumber());
+        return realm.types.number(thisArg.value);
       },
       { prototype: functionProto },
     ),
@@ -60,10 +87,23 @@ export function populateNumberPrototype(
     value: new StaticJsFunctionImpl(
       realm,
       "toFixed",
-      function* (thisArg: StaticJsValue, digits: StaticJsValue) {
-        return realm.types.string(
-          thisArg.toNumber().toFixed(digits.toNumber()),
-        );
+      function* (thisArg: StaticJsValue, digitsValue: StaticJsValue) {
+        if (!isStaticJsNumber(thisArg)) {
+          throw new ThrowCompletion(
+            realm.types.error(
+              "TypeError",
+              "Number.prototype.toFixed requires that 'this' be a Number",
+            ),
+          );
+        }
+
+        if (!digitsValue) {
+          digitsValue = realm.types.undefined;
+        }
+
+        digitsValue = yield* toNumber(digitsValue, realm);
+
+        return realm.types.string(thisArg.value.toFixed(digitsValue.value));
       },
       { prototype: functionProto },
     ),
@@ -76,9 +116,24 @@ export function populateNumberPrototype(
     value: new StaticJsFunctionImpl(
       realm,
       "toExponential",
-      function* (thisArg: StaticJsValue, digits: StaticJsValue) {
+      function* (thisArg: StaticJsValue, digitsValue: StaticJsValue) {
+        if (!isStaticJsNumber(thisArg)) {
+          throw new ThrowCompletion(
+            realm.types.error(
+              "TypeError",
+              "Number.prototype.toExponential requires that 'this' be a Number",
+            ),
+          );
+        }
+
+        if (!digitsValue) {
+          digitsValue = realm.types.undefined;
+        }
+
+        digitsValue = yield* toNumber(digitsValue, realm);
+
         return realm.types.string(
-          thisArg.toNumber().toExponential(digits.toNumber()),
+          thisArg.value.toExponential(digitsValue.value),
         );
       },
       { prototype: functionProto },
@@ -92,9 +147,24 @@ export function populateNumberPrototype(
     value: new StaticJsFunctionImpl(
       realm,
       "toPrecision",
-      function* (thisArg: StaticJsValue, precision: StaticJsValue) {
+      function* (thisArg: StaticJsValue, precisionValue: StaticJsValue) {
+        if (!isStaticJsNumber(thisArg)) {
+          throw new ThrowCompletion(
+            realm.types.error(
+              "TypeError",
+              "Number.prototype.toExponential requires that 'this' be a Number",
+            ),
+          );
+        }
+
+        if (!precisionValue) {
+          precisionValue = realm.types.undefined;
+        }
+
+        precisionValue = yield* toNumber(precisionValue, realm);
+
         return realm.types.string(
-          thisArg.toNumber().toPrecision(precision.toNumber()),
+          thisArg.value.toPrecision(precisionValue.value),
         );
       },
       { prototype: functionProto },
@@ -117,7 +187,7 @@ export function createNumberConstructor(
         return realm.types.number(0);
       }
 
-      return realm.types.number(value.toNumber());
+      return yield* toNumber(value, realm);
     },
     { prototype: functionProto },
   );

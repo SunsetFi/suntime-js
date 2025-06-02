@@ -15,6 +15,7 @@ import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-des
 
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import toNumber from "../../algorithms/to-number.js";
 
 export default class StaticJsArrayImpl
   extends StaticJsObjectLikeImpl
@@ -58,10 +59,12 @@ export default class StaticJsArrayImpl
     }
 
     if (isStaticJsDataPropertyDescriptor(descr)) {
-      return descr.value.toNumber();
+      const value = yield* toNumber(descr.value, this.realm);
+      return value.value;
     } else if (isStaticJsAccessorPropertyDescriptor(descr) && descr.get) {
-      const result = yield* descr.get.callEvaluator(this);
-      return result.toNumber();
+      let result = yield* descr.get.callEvaluator(this);
+      result = yield* toNumber(result, this.realm);
+      return result.value;
     } else {
       return 0;
     }
@@ -131,46 +134,14 @@ export default class StaticJsArrayImpl
     return array;
   }
 
-  toString() {
-    const length = this.realm.invokeEvaluatorSync(this.getLengthEvaluator());
-    return Array(length)
-      .fill(undefined)
-      .map((_, i) => {
-        const item = this.realm.invokeEvaluatorSync(this.getEvaluator(i));
-        return item.toString();
-      })
-      .join(",");
-  }
-
-  toNumber() {
-    const length = this.realm.invokeEvaluatorSync(this.getLengthEvaluator());
-    // Yes, really.
-    if (length === 0) {
-      return 0;
-    }
-
-    // Yes, really really.
-    if (length === 1) {
-      // Really really really.
-      if (!this.hasProperty("0")) {
-        return 0;
-      }
-
-      // Really really really really.
-      return this.getProperty("0").toNumber();
-    }
-
-    // Really really really really really
-    return Number.NaN;
-  }
-
   protected *_setWritableDataPropertyEvaluator(
     name: string,
     value: StaticJsValue,
   ): EvaluationGenerator<void> {
     if (name === "length") {
+      value = yield* toNumber(value, this.realm);
+      const newLength = value.value;
       const length = yield* this.getLengthEvaluator();
-      const newLength = value.toNumber();
       if (newLength < length) {
         for (let i = newLength; i < length; i++) {
           yield* this.deletePropertyEvaluator(i.toString());

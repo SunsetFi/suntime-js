@@ -10,6 +10,8 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
+import toBoolean from "../../runtime/algorithms/to-boolean.js";
+import toNumber from "../../runtime/algorithms/to-number.js";
 
 export default function* unaryExpressionNodeEvaluator(
   node: UnaryExpression,
@@ -31,16 +33,23 @@ export default function* unaryExpressionNodeEvaluator(
 
   const types = context.realm.types;
   switch (node.operator) {
-    case "!":
-      return types.boolean(!value.toJs());
+    case "!": {
+      const boolVal = yield* toBoolean(value, context.realm);
+      return types.boolean(!boolVal.value);
+    }
     // I'm reasonably sure native javascript converts these to number for these operations.
     // Typescript doesn't like it though, so let's cast it ourselves.
-    case "-":
-      return types.number(-value.toNumber());
-    case "+":
-      return types.number(+value.toNumber());
-    case "~":
-      return types.number(~value.toNumber());
+    case "-": {
+      const numberValue = yield* toNumber(value, context.realm);
+      return types.number(-numberValue.value);
+    }
+    case "+": {
+      return yield* toNumber(value, context.realm);
+    }
+    case "~": {
+      const numberValue = yield* toNumber(value, context.realm);
+      return types.number(~numberValue.value);
+    }
     case "void":
       return types.undefined;
     case "throw":

@@ -15,6 +15,7 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import abstractEquality from "../../runtime/algorithms/abstract-equality.js";
+import toNumber from "../../runtime/algorithms/to-number.js";
 
 export default function binaryExpressionNodeEvaluator(
   node: BinaryExpression,
@@ -140,16 +141,17 @@ function* numericComputation(
   node: BinaryExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const left = yield* EvaluateNodeCommand(node.left, context, {
+  let left = yield* EvaluateNodeCommand(node.left, context, {
     forNormalValue: "BinaryExpression.left",
   });
-  const right = yield* EvaluateNodeCommand(node.right, context, {
+  let right = yield* EvaluateNodeCommand(node.right, context, {
     forNormalValue: "BinaryExpression.right",
   });
 
-  return context.realm.types.toStaticJsValue(
-    func(left.toNumber(), right.toNumber()),
-  );
+  left = yield* toNumber(left, context.realm);
+  right = yield* toNumber(right, context.realm);
+
+  return context.realm.types.toStaticJsValue(func(left.value, right.value));
 }
 
 function* inOperator(

@@ -46,7 +46,7 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
     // Splice is quite complicated, so just hand it off to native.
     // Note: We might want to do this manually eventually, as this might have weird compatibility issues
     // around when getters and setters are invoked.
-    const oldItems = yield* toArray(thisObj);
+    const oldItems = yield* toArray(thisObj, realm);
     const result = oldItems.splice(
       start,
       deleteCount,

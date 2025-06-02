@@ -37,10 +37,6 @@ export default class StaticJsBooleanImpl
     return String(this._value);
   }
 
-  toNumber(): number {
-    return Number(this._value);
-  }
-
   toBoolean(): boolean {
     return this._value;
   }

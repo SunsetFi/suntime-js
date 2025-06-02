@@ -14,10 +14,6 @@ export default class StaticJsStringBoxed extends StaticJsObjectImpl {
     return this._value;
   }
 
-  toNumber(): number {
-    return Number(this._value);
-  }
-
   toBoolean(): boolean {
     return Boolean(this._value);
   }

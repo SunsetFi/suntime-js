@@ -6,6 +6,10 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsValue } from "../types/StaticJsValue.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import toNumber from "../algorithms/to-number.js";
+import toString from "../algorithms/to-string.js";
+import { isStaticJsNull } from "../types/StaticJsNull.js";
+import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 
 export function populateStringPrototype(
   realm: StaticJsRealm,
@@ -81,12 +85,23 @@ export function populateStringPrototype(
       "substr",
       function* (
         thisArg: StaticJsValue,
-        start?: StaticJsValue,
-        length?: StaticJsValue,
+        startValue?: StaticJsValue,
+        lengthValue?: StaticJsValue,
       ) {
-        const startVal = start?.toNumber() ?? 0;
-        const lengthVal = length?.toNumber() ?? undefined;
-        const result = thisArg.toString().substr(startVal, lengthVal);
+        let start = 0;
+        if (startValue) {
+          startValue = yield* toNumber(startValue, realm);
+          start = startValue.value;
+        }
+
+        let length: number | undefined = undefined;
+        if (lengthValue) {
+          lengthValue = yield* toNumber(lengthValue, realm);
+          length = lengthValue.value;
+        }
+
+        thisArg = yield* toString(thisArg, realm);
+        const result = thisArg.value.substr(start, length);
         return realm.types.string(result);
       },
       { prototype: functionProto },
@@ -102,12 +117,23 @@ export function populateStringPrototype(
       "substring",
       function* (
         thisArg: StaticJsValue,
-        start?: StaticJsValue,
-        length?: StaticJsValue,
+        startValue?: StaticJsValue,
+        lengthValue?: StaticJsValue,
       ) {
-        const startVal = start?.toNumber() ?? 0;
-        const lengthVal = length?.toNumber() ?? undefined;
-        const result = thisArg.toString().substring(startVal, lengthVal);
+        let start = 0;
+        if (startValue) {
+          startValue = yield* toNumber(startValue, realm);
+          start = startValue.value;
+        }
+
+        let length: number | undefined = undefined;
+        if (lengthValue) {
+          lengthValue = yield* toNumber(lengthValue, realm);
+          length = lengthValue.value;
+        }
+
+        thisArg = yield* toString(thisArg, realm);
+        const result = thisArg.value.substring(start, length);
         return realm.types.string(result);
       },
       { prototype: functionProto },
@@ -123,12 +149,23 @@ export function populateStringPrototype(
       "slice",
       function* (
         thisArg: StaticJsValue,
-        start?: StaticJsValue,
-        length?: StaticJsValue,
+        startValue?: StaticJsValue,
+        lengthValue?: StaticJsValue,
       ) {
-        const startVal = start?.toNumber() ?? 0;
-        const lengthVal = length?.toNumber() ?? undefined;
-        const result = thisArg.toString().slice(startVal, lengthVal);
+        let start = 0;
+        if (startValue) {
+          startValue = yield* toNumber(startValue, realm);
+          start = startValue.value;
+        }
+
+        let length: number | undefined = undefined;
+        if (lengthValue) {
+          lengthValue = yield* toNumber(lengthValue, realm);
+          length = lengthValue.value;
+        }
+
+        thisArg = yield* toString(thisArg, realm);
+        const result = thisArg.value.slice(start, length);
         return realm.types.string(result);
       },
       { prototype: functionProto },
@@ -205,14 +242,11 @@ export function populateStringPrototype(
     value: new StaticJsFunctionImpl(
       realm,
       "repeat",
-      function* (thisArg: StaticJsValue, value: StaticJsValue) {
-        if (!isStaticJsValue(value)) {
-          throw new ThrowCompletion(
-            realm.types.error("TypeError", "Value must be a string"),
-          );
-        }
+      function* (thisArg: StaticJsValue, countValue: StaticJsValue) {
+        thisArg = yield* toString(thisArg, realm);
+        countValue = yield* toNumber(countValue, realm);
 
-        const result = thisArg.toString().repeat(value.toNumber());
+        const result = thisArg.value.repeat(countValue.value);
         return realm.types.string(result);
       },
       { prototype: functionProto },
@@ -301,8 +335,10 @@ export function populateStringPrototype(
     value: new StaticJsFunctionImpl(
       realm,
       "charAt",
-      function* (thisArg: StaticJsValue, index: StaticJsValue) {
-        const result = thisArg.toString().charAt(index.toNumber());
+      function* (thisArg: StaticJsValue, indexValue: StaticJsValue) {
+        thisArg = yield* toString(thisArg, realm);
+        indexValue = yield* toNumber(indexValue, realm);
+        const result = thisArg.value.charAt(indexValue.value);
         return realm.types.string(result);
       },
       { prototype: functionProto },
@@ -316,8 +352,10 @@ export function populateStringPrototype(
     value: new StaticJsFunctionImpl(
       realm,
       "charCodeAt",
-      function* (thisArg: StaticJsValue, index: StaticJsValue) {
-        const result = thisArg.toString().charCodeAt(index.toNumber());
+      function* (thisArg: StaticJsValue, indexValue: StaticJsValue) {
+        thisArg = yield* toString(thisArg, realm);
+        indexValue = yield* toNumber(indexValue, realm);
+        const result = thisArg.value.charCodeAt(indexValue.value);
         return realm.types.number(result);
       },
       { prototype: functionProto },
@@ -378,12 +416,34 @@ export function populateStringPrototype(
       "padStart",
       function* (
         thisArg: StaticJsValue,
-        targetLength: StaticJsValue,
-        padString?: StaticJsValue,
+        targetLengthValue: StaticJsValue,
+        padStringValue?: StaticJsValue,
       ) {
-        const result = thisArg
-          .toString()
-          .padStart(targetLength.toNumber(), padString?.toString());
+        if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
+          throw new ThrowCompletion(
+            realm.types.error(
+              "TypeError",
+              "String.prototype.padStart called on null or undefined",
+            ),
+          );
+        }
+
+        thisArg = yield* toString(thisArg, realm);
+
+        if (!targetLengthValue) {
+          targetLengthValue = realm.types.undefined;
+        }
+
+        targetLengthValue = yield* toNumber(targetLengthValue, realm);
+
+        if (padStringValue) {
+          padStringValue = yield* toString(padStringValue, realm);
+        }
+
+        const result = thisArg.value.padStart(
+          targetLengthValue.value,
+          padStringValue?.value,
+        );
         return realm.types.string(result);
       },
       { prototype: functionProto },
@@ -399,12 +459,34 @@ export function populateStringPrototype(
       "padEnd",
       function* (
         thisArg: StaticJsValue,
-        targetLength: StaticJsValue,
-        padString?: StaticJsValue,
+        targetLengthValue: StaticJsValue,
+        padStringValue?: StaticJsValue,
       ) {
-        const result = thisArg
-          .toString()
-          .padEnd(targetLength.toNumber(), padString?.toString());
+        if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
+          throw new ThrowCompletion(
+            realm.types.error(
+              "TypeError",
+              "String.prototype.padStart called on null or undefined",
+            ),
+          );
+        }
+
+        thisArg = yield* toString(thisArg, realm);
+
+        if (!targetLengthValue) {
+          targetLengthValue = realm.types.undefined;
+        }
+
+        targetLengthValue = yield* toNumber(targetLengthValue, realm);
+
+        if (padStringValue) {
+          padStringValue = yield* toString(padStringValue, realm);
+        }
+
+        const result = thisArg.value.padEnd(
+          targetLengthValue.value,
+          padStringValue?.value,
+        );
         return realm.types.string(result);
       },
       { prototype: functionProto },
