@@ -8,7 +8,7 @@ describe("E2E: Arrow Functions", () => {
       const a = () => 42;
       a;
     `);
-    expect(result).toBeInstanceOf(Function);
+    expect(result).toBeTypeOf("function");
   });
 
   it("can be invoked", () => {

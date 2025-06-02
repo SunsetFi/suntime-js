@@ -11,7 +11,7 @@ describe("E2E: Functions", () => {
         }
         a;
       `;
-      expect(evaluateProgram(code)).toBeInstanceOf(Function);
+      expect(evaluateProgram(code)).toBeTypeOf("function");
     });
 
     it("Can be invoked by the engine", () => {
@@ -67,7 +67,7 @@ describe("E2E: Functions", () => {
           }
           global.a;  
         `;
-      expect(evaluateProgram(code)).toBeInstanceOf(Function);
+      expect(evaluateProgram(code)).toBeTypeOf("function");
     });
 
     it("Can access a function from one evaluation in another", () => {
@@ -189,7 +189,7 @@ describe("E2E: Functions", () => {
         };
         a;
       `;
-      expect(evaluateProgram(code)).toBeInstanceOf(Function);
+      expect(evaluateProgram(code)).toBeTypeOf("function");
     });
 
     it("Does not appear in the global scope", () => {

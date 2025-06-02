@@ -1,10 +1,9 @@
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletion.js";
+import { ControlFlowCompletion } from "../../../evaluator/completions/ControlFlowCompletion.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-
-import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
 
 import type { StaticJsFunction } from "../StaticJsFunction.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
@@ -15,7 +14,6 @@ import { isStaticJsObjectLike } from "../StaticJsObject.js";
 import StaticJsStringImpl from "./StaticJsStringImpl.js";
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
-import { ControlFlowCompletion } from "../../../evaluator/completions/ControlFlowCompletion.js";
 
 export interface StaticJsFunctionImplOptions {
   length?: number;
@@ -28,8 +26,6 @@ export default class StaticJsFunctionImpl
   implements StaticJsFunction
 {
   private _isConstructor: boolean;
-
-  private _toJs: unknown | null = null;
 
   constructor(
     realm: StaticJsRealm,
@@ -71,42 +67,6 @@ export default class StaticJsFunctionImpl
 
   get isConstructor() {
     return this._isConstructor;
-  }
-
-  toJs(): unknown {
-    if (!this._toJs) {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this;
-      this._toJs = function (...args: unknown[]) {
-        const argValues = args.map((value) =>
-          self.realm.types.toStaticJsValue(value),
-        );
-        // FIXME: This absolutely probably does not work right.
-        // We should at least try to look up if we have a StaticJsValue representation of the global object.
-        // At the very least, this is dangerous, and might inadvertently leak stuff from the runtime into the scripting engine.
-        // They won't be able to grab prototypes, but...
-        const thisArg = self.realm.types.toStaticJsValue(this);
-
-        const result = self.realm.invokeEvaluatorSync(
-          self.callEvaluator(thisArg, ...argValues),
-        );
-        return result.toJs();
-      };
-
-      for (const key of this.getOwnKeys()) {
-        const descriptor = this.getOwnPropertyDescriptor(key)!;
-        const objDescriptor = staticJsDescriptorToObjectDescriptor(
-          this.realm,
-          descriptor,
-        );
-        Object.defineProperty(this._toJs, key, objDescriptor);
-      }
-
-      // FIXME: Set if not default Function.prototype
-      // Object.setPrototypeOf(this._toJs, this.prototype?.toJs() ?? null);
-    }
-
-    return this._toJs;
   }
 
   toString() {
@@ -160,5 +120,28 @@ export default class StaticJsFunctionImpl
     }
 
     return thisObj;
+  }
+
+  protected _createToJsProxyTarget(): object {
+    return () => {};
+  }
+
+  protected _configureToJsProxy(_traps: ProxyHandler<object>): void {
+    _traps.apply = (target: unknown, thisArg: unknown, args: unknown[]) => {
+      const argValues = args.map((value) =>
+        this.realm.types.toStaticJsValue(value),
+      );
+      // FIXME: This absolutely probably does not work right.
+      // We should at least try to look up if we have a StaticJsValue representation of the global object.
+      // At the very least, this is dangerous, and might inadvertently leak stuff from the runtime into the scripting engine.
+      // They won't be able to grab prototypes, but...
+      const thisArgValue = this.realm.types.toStaticJsValue(thisArg);
+
+      const result = this.realm.invokeEvaluatorSync(
+        this.callEvaluator(thisArgValue, ...argValues),
+      );
+
+      return result.toJs();
+    };
   }
 }

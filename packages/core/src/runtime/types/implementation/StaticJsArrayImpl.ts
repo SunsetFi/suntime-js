@@ -11,8 +11,6 @@ import {
 } from "../StaticJsPropertyDescriptor.js";
 import type { StaticJsArray } from "../StaticJsArray.js";
 
-import staticJsDescriptorToObjectDescriptor from "../utils/sjs-descriptor-to-descriptor.js";
-
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 import toNumber from "../../algorithms/to-number.js";
@@ -118,20 +116,8 @@ export default class StaticJsArrayImpl
     return array;
   }
 
-  toJs() {
-    const length = this.realm.invokeEvaluatorSync(this.getLengthEvaluator());
-    const array = new Array(length);
-    for (const key of this.getOwnKeys()) {
-      const descriptor = this.getOwnPropertyDescriptor(key)!;
-      const objDescriptor = staticJsDescriptorToObjectDescriptor(
-        this.realm,
-        descriptor,
-      );
-      Object.defineProperty(array, key, objDescriptor);
-    }
-
-    // FIXME: Set prototype if not Array.prototype
-    return array;
+  protected _createToJsProxyTarget(): object {
+    return [];
   }
 
   protected *_setWritableDataPropertyEvaluator(

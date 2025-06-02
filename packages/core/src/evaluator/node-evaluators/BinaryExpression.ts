@@ -2,7 +2,6 @@ import type { BinaryExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import { isStaticJsScalar } from "../../runtime/types/StaticJsScalar.js";
 import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsString } from "../../runtime/types/StaticJsString.js";
 
@@ -16,6 +15,7 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import abstractEquality from "../../runtime/algorithms/abstract-equality.js";
 import toNumber from "../../runtime/algorithms/to-number.js";
+import addition from "../../runtime/algorithms/addition.js";
 
 export default function binaryExpressionNodeEvaluator(
   node: BinaryExpression,
@@ -125,15 +125,7 @@ function* binaryExpressionAdd(
     forNormalValue: "BinaryExpression.right",
   });
 
-  if (!isStaticJsScalar(left) || !isStaticJsScalar(right)) {
-    // One will become a string so both become a string.
-    return context.realm.types.string(left.toString() + right.toString());
-  }
-
-  // Fall back to the primitive addition.
-  // @ts-expect-error - Whatever the value, addition does what we want.
-  const value = left.toJs() + right.toJs();
-  return context.realm.types.toStaticJsValue(value);
+  return yield* addition(left, right, context.realm);
 }
 
 function* numericComputation(

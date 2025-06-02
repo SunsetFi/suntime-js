@@ -1,7 +1,5 @@
 import type { AssignmentExpression } from "@babel/types";
 
-import { isStaticJsScalar } from "../../runtime/types/StaticJsScalar.js";
-
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
@@ -11,6 +9,7 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import setLVal from "./LVal.js";
 import toNumber from "../../runtime/algorithms/to-number.js";
+import addition from "../../runtime/algorithms/addition.js";
 
 export default function* assignmentExpressionNodeEvaluator(
   node: AssignmentExpression,
@@ -46,23 +45,12 @@ export default function* assignmentExpressionNodeEvaluator(
           );
         }
 
-        let leftValue = yield* context.env.getBindingValueEvaluator(
+        const leftValue = yield* context.env.getBindingValueEvaluator(
           left.name,
           true,
         );
 
-        if (!isStaticJsScalar(leftValue) || !isStaticJsScalar(value)) {
-          // One will become a string so both become a string.
-          value = context.realm.types.string(
-            leftValue.toString() + value.toString(),
-          );
-        } else {
-          // Use numbers
-          leftValue = yield* toNumber(leftValue, context.realm);
-          value = yield* toNumber(value, context.realm);
-
-          value = context.realm.types.number(leftValue.value + value.value);
-        }
+        value = yield* addition(leftValue, value, context.realm);
       }
       break;
     case "-=":

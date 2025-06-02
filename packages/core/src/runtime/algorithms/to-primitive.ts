@@ -10,19 +10,20 @@ import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 
 export default function* toPrimitive(
   value: StaticJsValue,
-  preferredType: "string" | "number",
+  preferredType: "string" | "number" | "default",
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsScalar> {
   if (!isStaticJsObjectLike(value)) {
     return value;
   }
 
-  // TODO: Spec @@exoticToPrimitive
+  // TODO: Spec @@exoticToPrimitive, Symbol.toPrimitive
 
   let methodNames: string[];
   if (preferredType === "string") {
     methodNames = ["toString", "valueOf"];
   } else {
+    // "number" or "default"
     methodNames = ["valueOf", "toString"];
   }
 

@@ -150,7 +150,7 @@ describe("E2E: Strings", () => {
       const code = `
         "a,b,c".split(",");
       `;
-      expect(evaluateProgram(code)).toStrictEqual(["a", "b", "c"]);
+      expect(evaluateProgram(code)).toEqual(["a", "b", "c"]);
     });
 
     it("Supports indexOf", () => {

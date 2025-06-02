@@ -130,7 +130,8 @@ describe("E2E: Loops", () => {
         }
         [i, sum];
       `;
-      expect(evaluateProgram(code)).toStrictEqual([-1, 45]);
+
+      expect(evaluateProgram(code)).toEqual([-1, 45]);
     });
 
     it("Propagates thrown errors", () => {
