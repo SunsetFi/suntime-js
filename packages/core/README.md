@@ -446,13 +446,11 @@ globalObj.api = myApi;
 evaluateProgram("api.callback(`Program got message: ${api.message}`);");
 ```
 
-### Sandbox Types
-
 All sandbox types are extended from the `StaticJsPrimitive` interface. The `StaticJsValue` interface represents any possible sandboxed value.
 
 You may get instances of these values using the various factories on the `realm.types` object, after a realm is created.
 
-#### StaticJsPrimitive
+### StaticJsPrimitive
 
 The properties of `StaticJsPrimitive` that are shared by all types are:
 
@@ -464,7 +462,7 @@ The properties of `StaticJsPrimitive` that are shared by all types are:
 - `toStringSync()`: Synchronously returns a string representation of this value
   **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
 
-#### string
+### string
 
 Factory:
 
@@ -480,7 +478,7 @@ Instance Properties:
 - `runtimeTypeOf`: `string`
 - `value`: The value of the string.
 
-#### number
+### number
 
 Factory:
 
@@ -502,7 +500,7 @@ Instance Properties:
 - `runtimeTypeOf`: `number`
 - `value`: The value of the number
 
-#### boolean
+### boolean
 
 Factory:
 
@@ -526,7 +524,7 @@ Instance Properties:
 - `runtimeTypeOf`: `boolean`
 - `value`: The value of the boolean
 
-#### null
+### null
 
 Factory:
 
@@ -541,7 +539,7 @@ Instance Properties:
 - `typeOf`: `object`
 - `runtimeTypeOf`: `null`
 
-#### undefined
+### undefined
 
 Factory:
 
@@ -556,7 +554,7 @@ Instance Properties:
 - `typeOf`: `undefined`
 - `runtimeTypeOf`: `undefined`
 
-#### object
+### object
 
 Factory:
 
@@ -642,7 +640,7 @@ const myObject = realm.types.object(
 );
 ```
 
-#### array
+### array
 
 Factory:
 
@@ -679,7 +677,7 @@ myArray.defineProperty("message", {
 
 The suntime-js prototype of the array will be `realm.types.prototypes.arrayProto`.
 
-#### function
+### function
 
 Factory:
 
