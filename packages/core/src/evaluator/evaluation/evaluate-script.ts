@@ -19,7 +19,7 @@ export async function evaluateScript(
   realm ??= StaticJsRealm();
 
   try {
-    const value = await realm.runScript(code);
+    const value = await realm.evaluateScript(code);
     return value.toJsSync();
   } catch (e) {
     if (e instanceof StaticJsRuntimeError) {

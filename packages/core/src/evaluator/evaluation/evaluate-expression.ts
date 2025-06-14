@@ -17,6 +17,6 @@ export async function evaluateExpression(
 
   realm ??= StaticJsRealm();
 
-  const value = await realm.evaluate(code);
+  const value = await realm.evaluateExpression(code);
   return value.toJsSync();
 }

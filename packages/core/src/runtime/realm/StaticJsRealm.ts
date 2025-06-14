@@ -56,15 +56,15 @@ export interface StaticJsRealm {
 
   /**
    * Evaluates the expression in the realm, returning a promise that resolves to the result.
-   * @param code The code to evaluate.
+   * @param expression The expression to evaluate.
    */
-  evaluate(code: string): Promise<StaticJsValue>;
+  evaluateExpression(expression: string): Promise<StaticJsValue>;
 
   /**
    * Runs the given script in the realm, returning a promise that resolves to the result.
-   * @param code The code to run.
+   * @param script The script to run.
    */
-  runScript(code: string): Promise<StaticJsValue>;
+  evaluateScript(script: string): Promise<StaticJsValue>;
 
   /**
    * Evaluates a module in the realm, returning a promise that resolves to the module.

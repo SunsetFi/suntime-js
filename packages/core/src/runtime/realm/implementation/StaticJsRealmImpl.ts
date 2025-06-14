@@ -192,12 +192,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return this._typeFactory;
   }
 
-  evaluate(code: string): Promise<StaticJsValue> {
+  evaluateExpression(code: string): Promise<StaticJsValue> {
     const parsed = parseExpressionAst(code, { sourceType: "script" });
     return this.enqueueMacrotask(doEvaluateNode(parsed, this));
   }
 
-  async runScript(code: string): Promise<StaticJsValue> {
+  async evaluateScript(code: string): Promise<StaticJsValue> {
     const parsed = parseAst(code, { sourceType: "script" });
     return this.enqueueMacrotask(doEvaluateNode(parsed.program, this));
   }
