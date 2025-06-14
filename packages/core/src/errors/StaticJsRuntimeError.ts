@@ -41,9 +41,7 @@ function getMessage(value: StaticJsValue): string {
   const hasMessage = value.hasPropertySync("message");
   if (hasMessage) {
     const message = value.getPropertySync("message");
-    if (!isStaticJsScalar(message)) {
-      return message.toStringSync();
-    }
+    return message.toStringSync();
   }
 
   return ``;

@@ -25,5 +25,6 @@ export async function evaluateScript(
     if (e instanceof StaticJsRuntimeError) {
       throw e.thrown.toJsSync();
     }
+    throw e;
   }
 }

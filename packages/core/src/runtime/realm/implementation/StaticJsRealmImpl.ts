@@ -210,6 +210,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       this,
     );
 
+    // Bit weird that we link immediately instead of when we are ready to perform the task?
+    await module.linkModules();
+
     return await this.enqueueMacrotask(doEvaluateModule(module));
   }
 
@@ -440,15 +443,31 @@ function* doEvaluateNode(
     env: realm.globalEnv,
     label: null,
   };
-  yield* setupEnvironment(node, context);
-  const result = yield* evaluateNode(node, context);
-  return result ?? realm.types.undefined;
+  try {
+    yield* setupEnvironment(node, context);
+    const result = yield* evaluateNode(node, context);
+    return result ?? realm.types.undefined;
+  } catch (e) {
+    if (e instanceof AbnormalCompletion) {
+      throw e.toRuntime();
+    }
+
+    throw e;
+  }
 }
 
 function* doEvaluateModule(
   module: StaticJsModuleImpl,
 ): EvaluationGenerator<StaticJsModule> {
-  yield* module.moduleDeclarationInstantiationEvaluator();
-  yield* module.moduleEvaluationEvaluator();
-  return module;
+  try {
+    yield* module.moduleDeclarationInstantiationEvaluator();
+    yield* module.moduleEvaluationEvaluator();
+    return module;
+  } catch (e) {
+    if (e instanceof AbnormalCompletion) {
+      throw e.toRuntime();
+    }
+
+    throw e;
+  }
 }

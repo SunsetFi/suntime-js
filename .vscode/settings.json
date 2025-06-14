@@ -4,6 +4,6 @@
   "files.associations": {
     "*.json": "jsonc"
   },
-  "vitest.shellType": "terminal",
+  "vitest.shellType": "child_process",
   "vitest.logLevel": "verbose"
 }
