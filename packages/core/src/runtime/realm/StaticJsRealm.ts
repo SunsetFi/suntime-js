@@ -82,7 +82,6 @@ export interface StaticJsRealm {
 
   /*
   The below is all internal.  We could isolate this from the public API using a different interface.
-  Using stripInternal for now.
   */
 
   /**

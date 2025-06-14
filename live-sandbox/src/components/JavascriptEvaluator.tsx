@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StaticJsRealm, compileProgram } from "@suntime-js/core";
+import { StaticJsRealm, type StaticJsTask } from "@suntime-js/core";
 
 import { SxProps } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -14,9 +14,9 @@ export interface JavascriptEvaluatorProps {
 
 const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
   const [logs, setLogs] = React.useState<string[]>([]);
-  const [generator, setGenerator] = React.useState<Generator | null>(null);
+  const [task, setTask] = React.useState<StaticJsTask | null>(null);
   const [compileTime, setCompileTime] = React.useState(0);
-  const onCompile = React.useCallback(() => {
+  const onCompile = React.useCallback(async () => {
     try {
       const realm = StaticJsRealm({
         globalObject: {
@@ -32,10 +32,9 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
         },
       });
       const start = performance.now();
-      const compilation = compileProgram(code);
-      const generator = compilation.generator({ realm });
+      const task = await realm.createScriptTask(code);
       setCompileTime(performance.now() - start);
-      setGenerator(generator);
+      setTask(task);
     } catch (e: any) {
       setLogs([e.message]);
       setStatus("error");
@@ -51,7 +50,7 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
   const [ops, setOps] = React.useState(0);
 
   React.useEffect(() => {
-    if (generator == null) {
+    if (task == null) {
       return;
     }
 
@@ -77,7 +76,7 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
         }
 
         try {
-          const { done } = generator!.next();
+          const { done } = task!.next();
           if (done) {
             setOps((ops) => ops + i + 1);
             onDone();
@@ -102,7 +101,7 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
         clearTimeout(timeout);
       }
     };
-  }, [generator]);
+  }, [task]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", ...sx }}>

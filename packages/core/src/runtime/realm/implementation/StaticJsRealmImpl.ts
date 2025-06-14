@@ -219,7 +219,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   createScriptTask(expression: string): Promise<StaticJsTask<StaticJsValue>> {
     return new Promise<StaticJsTask<StaticJsValue>>((resolve, reject) => {
       try {
-        const parsed = parseExpressionAst(expression, { sourceType: "script" });
+        const parsed = parseAst(expression, { sourceType: "script" });
         const [queuedTask] = createQueuedTask(
           doEvaluateNode(parsed, this),
           // Instead of activating the realm's runTask,
