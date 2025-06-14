@@ -323,7 +323,7 @@ evaluateExpression(attackStr, { realm });
 
 To prevent this from happening, suntime-js proxies all incoming objects and object-likes as **surface-level proxies**. These proxies will have the appropriate sandbox-defined prototypes, and only expose **read-only copies** of **own enumerable properties** of the object. As a consequence, more complicated objects that rely on prototypes, such as classes, cannot (currently) be passed into the system.
 
-## Realms
+## Creating Realms
 
 To define the global environment in which scripts are ran, you can create a realm using `StaticJsRealm(opts?)`.
 
@@ -348,7 +348,29 @@ Only one of these two properties may be used at a time.
 
 If any value specified by either of these is not a StaticJsValue, [it will be converted to one](#type-coersion-between-the-native-runtime-and-the-script-evaluation).
 
-## Modules
+## Realm properties
+
+### `evaluateExpression(code)`
+
+Queues an expression evaluation into the realm's task queue.
+
+Returns a promise that resolves to the [StaticJsValue](#staticjsvalue) result of the evaluation.
+
+### `evaluateScript(code)`
+
+Queues a script evaluation in the realm's task queue.
+
+Returns a promise that resolves to the [StaticJsValue](#staticjsvalue) result of the evaluation.
+
+### `evaluateModule(code)`
+
+Queues a module evaluation in the realm's task queue.
+
+Returns a promise that resolves to the [StaticJsModule](#staticjsmodule).
+
+Note that module linking will be done ASAP, while the declaration and evaluation steps will wait for the task queue.
+
+## StaticJsModule
 
 Module support is implemented through evaluateModule and compileModule. There are two sides to module evaluation:
 
@@ -450,17 +472,17 @@ All sandbox types are extended from the `StaticJsPrimitive` interface. The `Stat
 
 You may get instances of these values using the various factories on the `realm.types` object, after a realm is created.
 
-### StaticJsPrimitive
+### StaticJsValue
 
-The properties of `StaticJsPrimitive` that are shared by all types are:
+All StaticJsValue objects implement a common `StaticJsPrimitive` interface:
 
 - `realm`: The realm this value was created on.
 - `typeOf`: The javascript 'typeof' operator return value.
 - `runtimeTypeOf`: The realm's interpretation of this value.
 - `toJsSync()`: Synchronously builds and returns a host-proxied value from the runtime value
-  **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
+  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `toStringSync()`: Synchronously returns a string representation of this value
-  **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
+  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 
 ### string
 
@@ -578,36 +600,36 @@ Instance Properties:
 - `prototype`: The read-only StaticJsValue prototype of this object.
 - `extensible`: A read-only value indicating whether this object is extensible.
 - `setPrototypeOfSync()`: Synchronously sets the prototype of this object.
-  **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
+  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `preventExtensionsSync()`: Synchronously prevents extensions on this object.
-  **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
+  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `getKeysSync()`: Synchronously gets the keys (enumerable and not, own and inherited) of this object.
-  **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
+  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `getEnumerableKeysSync()`: Synchronously gets all enumerable keys (own and inherited) of this object.
-  **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
+  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `getOwnKeysSync()`: Synchronously gets all own keys (enumerable and not) of this object.
-  **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
+  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `getOwnEnumerableKeysSync()`: Synchronously gets all own enumerable keys of this object.
-  **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
+  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `hasPropertySync(property)`: Synchronously returns a value indicating if the object has the given property.
-  **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
+  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `getPropertyDescriptorSync(property)`: Synchronously gets the property descriptor for the given property, either from this object or down the prototype chain.
   This returns a StaticJsObjectPropertyDescriptor, so the value and accessors will be StaticJsValues
-  **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
+  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `getOwnPropertyDescriptorSync(property)`: Synchronously gets this object's property descriptor for the given property.
   This returns a StaticJsObjectPropertyDescriptor, so the value and accessors will be StaticJsValues
-  **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
+  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `definePropertySync(property, descriptor)`: Synchronously defines a property on this object.
   This accepts a StaticJsObjectPropertyDescriptor, so the value and accessors must be StaticJsValues
-  **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
+  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `getPropertySync(property)`: Synchronously gets the value of a property, either for this object or down the prototype chain.
   The value will be a StaticJsValue.
-  **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
+  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `setPropertySync(property, value, strict)`: Synchronously sets the value of a property.
   The value must be a StaticJsValue
-  **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
+  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `deletePropertySync(property)`: Synchronously deletes a property.
-  **WARNING**: This executes synchronously, bypasses generators, and is vulnurable to infinite loops.
+  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 
 Examples:
 
@@ -723,6 +745,17 @@ const add = realm.types.function(
   }
 );
 ```
+
+## Using synchonous functions
+
+Various elements of StaticJs implement synchronous functions. However, using them should be done with care, as they include several caveats:
+
+1. Synchronous functions are unprotected against loops.
+   Infinite loops implemented in the input code will deadlock the host when evaluated with a synchronous function.
+2. Synchronous functions ignore `runTask`.
+   Synchronous functions will not invoke the StaticJsRealm `runTask` option, and cannot be monitored, stepped through, iterated, or aborted.
+3. Synchronous functions ignore task queuing.
+   Synchronous functions evaluate runtime code immediately regardless of the current stack or microtask queue.
 
 ## Recipes
 

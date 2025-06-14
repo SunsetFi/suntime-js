@@ -93,8 +93,8 @@ describe("E2E: Tasks", () => {
 
     await delay(0);
 
-    expect(task2Resolved).toBe(true);
     expect(runTask).toBeCalledTimes(0);
+    expect(task2Resolved).toBe(true);
 
     const task2 = await task2Promise;
     let result2: ReturnType<typeof task2.next>;
