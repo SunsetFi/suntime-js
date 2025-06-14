@@ -8,6 +8,23 @@ import type StaticJsTypeFactory from "../types/StaticJsTypeFactory.js";
 import type { StaticJsModule } from "../modules/StaticJsModule.js";
 import type { StaticJsModuleImplementation } from "../modules/StaticJsModuleImplementation.js";
 
+import type { StaticJsValue } from "../types/StaticJsValue.js";
+
+import type { StaticJsTaskRunner } from "./StaticJsTask.js";
+
+/**
+ * Options for running a macrotask in the StaticJs runtime.
+ */
+export interface StaticJsRunMacrotaskOptions {
+  /**
+   * The task runner to use.
+   *
+   * If specified, this will be used instead of {@link import('./factories/StaticJsRealm').StaticJsRealmOptions.runTask}.
+   * @param task The task to run.
+   */
+  taskRunner?: StaticJsTaskRunner;
+}
+
 /**
  * A top-level construct describing the overall environment in which a javascript program is executed.
  * This is not to be confused with an Environment, or Environment Record, which is a lower-level
@@ -38,8 +55,32 @@ export interface StaticJsRealm {
   readonly types: StaticJsTypeFactory;
 
   /**
+   * Evaluates the expression in the realm, returning a promise that resolves to the result.
+   * @param code The code to evaluate.
+   */
+  evaluate(code: string): Promise<StaticJsValue>;
+
+  /**
+   * Runs the given script in the realm, returning a promise that resolves to the result.
+   * @param code The code to run.
+   */
+  runScript(code: string): Promise<StaticJsValue>;
+
+  /**
+   * Evaluates a module in the realm, returning a promise that resolves to the module.
+   * @param code The code of the module to evaluate.
+   */
+  evaluateModule(code: string): Promise<StaticJsModule>;
+
+  /*
+  The below is all internal.  We could isolate this from the public API using a different interface.
+  Using stripInternal for now.
+  */
+
+  /**
    * A function to resolve an imported ECMAScript Module given a referencing module
    * and a specifier.
+   * @internal
    * @param referencingModule
    * @param specifier
    */
@@ -49,7 +90,25 @@ export interface StaticJsRealm {
   ): Promise<StaticJsModuleImplementation | null>;
 
   /**
+   * Enqueues a microtask to be executed in the next event loop tick.
+   * @internal
+   * @param evaluator The evaluator to enqueue.
+   */
+  enqueueMicrotask(evaluator: EvaluationGenerator<void>): void;
+
+  /**
+   * Enqueues a macrotask to be executed in the next event loop tick.
+   * @internal
+   * @param evaluator The evaluator to enqueue.
+   */
+  enqueueMacrotask<TReturn>(
+    evaluator: EvaluationGenerator<TReturn>,
+    opts?: StaticJsRunMacrotaskOptions,
+  ): Promise<TReturn>;
+
+  /**
    * Invoke the given evaluator synchronously, returning the result.
+   * @internal
    * @param evaluator The evaluator to invoke.
    */
   invokeEvaluatorSync<TReturn>(

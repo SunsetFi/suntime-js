@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateProgram } from "../../src/index.js";
+import { evaluateScript } from "../../src/index.js";
 
 describe("E2E: Loops", () => {
   describe("For", () => {
-    it("Can loop with a for loop", () => {
+    it("Can loop with a for loop", async () => {
       const code = `
         let sum = 0;
         for (let i = 0; i < 10; i++) {
@@ -12,10 +12,10 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateProgram(code)).toBe(45);
+      expect(await evaluateScript(code)).toBe(45);
     });
 
-    it("Can break out of a for loop", () => {
+    it("Can break out of a for loop", async () => {
       const code = `
         let sum = 0;
         for (let i = 0; i < 10; i++) {
@@ -26,10 +26,10 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateProgram(code)).toBe(15);
+      expect(await evaluateScript(code)).toBe(15);
     });
 
-    it("Breaks out of the closest for loop", () => {
+    it("Breaks out of the closest for loop", async () => {
       const code = `
         let sum = 0;
         outer: for (let i = 0; i < 10; i++) {
@@ -42,10 +42,10 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateProgram(code)).toBe(150);
+      expect(await evaluateScript(code)).toBe(150);
     });
 
-    it("Can break out of a labeled for loop", () => {
+    it("Can break out of a labeled for loop", async () => {
       const code = `
         let sum = 0;
         outer: for (let i = 0; i < 10; i++) {
@@ -58,10 +58,10 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateProgram(code)).toBe(15);
+      expect(await evaluateScript(code)).toBe(15);
     });
 
-    it("Can continue to the next iteration of a for loop", () => {
+    it("Can continue to the next iteration of a for loop", async () => {
       const code = `
         let sum = 0;
         for (let i = 0; i < 10; i++) {
@@ -72,10 +72,10 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateProgram(code)).toBe(40);
+      expect(await evaluateScript(code)).toBe(40);
     });
 
-    it("Continues from the closest for loop", () => {
+    it("Continues from the closest for loop", async () => {
       const code = `
         let sum = 0;
         outer: for (let i = 0; i < 10; i++) {
@@ -88,10 +88,10 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateProgram(code)).toBe(400);
+      expect(await evaluateScript(code)).toBe(400);
     });
 
-    it("Can continue from a labeled for loop", () => {
+    it("Can continue from a labeled for loop", async () => {
       const code = `
         let sum = 0;
         outer: for (let i = 0; i < 10; i++) {
@@ -104,10 +104,10 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateProgram(code)).toBe(100);
+      expect(await evaluateScript(code)).toBe(100);
     });
 
-    it("Can loop with an empty for loop", () => {
+    it("Can loop with an empty for loop", async () => {
       const code = `
         let sum = 0;
         for (;;) {
@@ -118,10 +118,10 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateProgram(code)).toBe(10);
+      expect(await evaluateScript(code)).toBe(10);
     });
 
-    it("Does not conflict init with outer scope", () => {
+    it("Does not conflict init with outer scope", async () => {
       const code = `
         let i = -1;
         let sum = 0;
@@ -131,10 +131,10 @@ describe("E2E: Loops", () => {
         [i, sum];
       `;
 
-      expect(evaluateProgram(code)).toEqual([-1, 45]);
+      expect(await evaluateScript(code)).toEqual([-1, 45]);
     });
 
-    it("Propagates thrown errors", () => {
+    it("Propagates thrown errors", async () => {
       const code = `
         let sum = 0;
         for (let i = 0; i < 10; i++) {
@@ -142,12 +142,12 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(() => evaluateProgram(code)).toThrow("Error");
+      await expect(evaluateScript(code)).rejects.toThrow("Error");
     });
   });
 
   describe("While", () => {
-    it("Can loop with a while loop", () => {
+    it("Can loop with a while loop", async () => {
       const code = `
         let sum = 0;
         let i = 0;
@@ -157,10 +157,10 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateProgram(code)).toBe(45);
+      expect(await evaluateScript(code)).toBe(45);
     });
 
-    it("Can break out of a while loop", () => {
+    it("Can break out of a while loop", async () => {
       const code = `
         let sum = 0;
         let i = 0;
@@ -173,10 +173,10 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateProgram(code)).toBe(15);
+      expect(await evaluateScript(code)).toBe(15);
     });
 
-    it("Can continue to the next iteration of a while loop", () => {
+    it("Can continue to the next iteration of a while loop", async () => {
       const code = `
         let sum = 0;
         let i = 0;
@@ -189,10 +189,10 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(evaluateProgram(code)).toBe(50);
+      expect(await evaluateScript(code)).toBe(50);
     });
 
-    it("Propagates thrown errors", () => {
+    it("Propagates thrown errors", async () => {
       const code = `
         let sum = 0;
         while (true) {
@@ -200,12 +200,12 @@ describe("E2E: Loops", () => {
         }
         sum;
       `;
-      expect(() => evaluateProgram(code)).toThrow("Error");
+      await expect(evaluateScript(code)).rejects.toThrow("Error");
     });
   });
 
   describe("Do While", () => {
-    it("Can loop with a do while loop", () => {
+    it("Can loop with a do while loop", async () => {
       const code = `
         let sum = 0;
         let i = 0;
@@ -215,10 +215,10 @@ describe("E2E: Loops", () => {
         } while (i < 10);
         sum;
       `;
-      expect(evaluateProgram(code)).toBe(45);
+      expect(await evaluateScript(code)).toBe(45);
     });
 
-    it("Can break out of a do while loop", () => {
+    it("Can break out of a do while loop", async () => {
       const code = `
         let sum = 0;
         let i = 0;
@@ -231,10 +231,10 @@ describe("E2E: Loops", () => {
         } while (i < 10);
         sum;
       `;
-      expect(evaluateProgram(code)).toBe(15);
+      expect(await evaluateScript(code)).toBe(15);
     });
 
-    it("Can continue to the next iteration of a do while loop", () => {
+    it("Can continue to the next iteration of a do while loop", async () => {
       const code = `
         let sum = 0;
         let i = 0;
@@ -247,10 +247,10 @@ describe("E2E: Loops", () => {
         } while (i < 10);
         sum;
       `;
-      expect(evaluateProgram(code)).toBe(50);
+      expect(await evaluateScript(code)).toBe(50);
     });
 
-    it("Propagates thrown errors", () => {
+    it("Propagates thrown errors", async () => {
       const code = `
         let sum = 0;
         do {
@@ -258,7 +258,7 @@ describe("E2E: Loops", () => {
         } while (true);
         sum;
       `;
-      expect(() => evaluateProgram(code)).toThrow("Error");
+      await expect(evaluateScript(code)).rejects.toThrow("Error");
     });
   });
 });

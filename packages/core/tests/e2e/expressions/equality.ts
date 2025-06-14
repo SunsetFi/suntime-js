@@ -111,11 +111,11 @@ describe("E2E: Equality Expressions", () => {
           truthy.right === suspiciousValues[rightI],
       );
 
-      it(`${suspiciousValues[leftI]} == ${suspiciousValues[rightI]} should be ${isTrue}`, () => {
+      it(`${suspiciousValues[leftI]} == ${suspiciousValues[rightI]} should be ${isTrue}`, async () => {
         const left = suspiciousValues[leftI];
         const right = suspiciousValues[rightI];
 
-        const result = evaluateExpression(`${left} == ${right}`);
+        const result = await evaluateExpression(`${left} == ${right}`);
         expect(result).toBe(isTrue);
       });
     }

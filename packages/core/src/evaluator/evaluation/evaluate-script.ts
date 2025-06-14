@@ -1,7 +1,7 @@
 import type { EvaluationOptions } from "./options.js";
 
 import StaticJsRealm from "../../runtime/realm/factories/StaticJsRealm.js";
-import type { StaticJsModule } from "../../runtime/modules/StaticJsModule.js";
+import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
 
 /**
  * Evaluates a string as a javascript program, and returns the result.
@@ -10,13 +10,20 @@ import type { StaticJsModule } from "../../runtime/modules/StaticJsModule.js";
  * @returns The native javascript result of evaluating the code.
  * @public
  */
-export function evaluateModule(
+export async function evaluateScript(
   code: string,
   opts?: EvaluationOptions,
-): Promise<StaticJsModule> {
+): Promise<unknown> {
   let { realm } = opts ?? {};
 
   realm ??= StaticJsRealm();
 
-  return realm.evaluateModule(code);
+  try {
+    const value = await realm.runScript(code);
+    return value.toJsSync();
+  } catch (e) {
+    if (e instanceof StaticJsRuntimeError) {
+      throw e.thrown.toJsSync();
+    }
+  }
 }

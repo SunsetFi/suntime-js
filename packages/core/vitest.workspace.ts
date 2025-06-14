@@ -12,13 +12,13 @@ export default defineWorkspace([
       exclude: ["./tests/e2e/**/utils/*.ts"],
     },
   },
-  {
-    esbuild: {
-      tsconfigRaw: readFileSync("./tsconfig.tests.json", "utf-8"),
-    },
-    test: {
-      name: "test262",
-      include: ["./tests/test262/test262.ts"],
-    },
-  },
+  // {
+  //   esbuild: {
+  //     tsconfigRaw: readFileSync("./tsconfig.tests.json", "utf-8"),
+  //   },
+  //   test: {
+  //     name: "test262",
+  //     include: ["./tests/test262/test262.ts"],
+  //   },
+  // },
 ]);

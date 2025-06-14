@@ -1,20 +1,20 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateProgram, StaticJsRealm } from "../../src/index.js";
+import { evaluateScript, StaticJsRealm } from "../../src/index.js";
 
 describe("E2E: Realm", () => {
   describe("Globals", () => {
-    it("Sets a global value", () => {
+    it("Sets a global value", async () => {
       const realm = StaticJsRealm({
         globalObject: {
           value: { x: 42 },
         },
       });
-      const result = evaluateProgram("x", { realm });
+      const result = await evaluateScript("x", { realm });
       expect(result).toEqual(42);
     });
 
-    it("Cannot modify a global data value", () => {
+    it("Cannot modify a global data value", async () => {
       const globalObjectValue = {
         x: 42,
       };
@@ -25,11 +25,11 @@ describe("E2E: Realm", () => {
         },
       });
 
-      evaluateProgram("x = 43", { realm });
+      await evaluateScript("x = 43", { realm });
       expect(globalObjectValue.x).toBe(42);
     });
 
-    it("Can modify a global setter value", () => {
+    it("Can modify a global setter value", async () => {
       const globalObjectValue = {
         set x(value: number) {
           globalObjectValue._x = value;
@@ -43,11 +43,11 @@ describe("E2E: Realm", () => {
         },
       });
 
-      evaluateProgram("x = 43", { realm });
+      await evaluateScript("x = 43", { realm });
       expect(globalObjectValue._x).toBe(43);
     });
 
-    it("Can call a global function", () => {
+    it("Can call a global function", async () => {
       const globalObjectValue = {
         fn: function () {
           return 42;
@@ -60,14 +60,14 @@ describe("E2E: Realm", () => {
         },
       });
 
-      const result = evaluateProgram("fn()", { realm });
+      const result = await evaluateScript("fn()", { realm });
       expect(result).toEqual(42);
     });
 
-    it("Persists globals across invocations", () => {
+    it("Persists globals across invocations", async () => {
       const realm = StaticJsRealm();
-      evaluateProgram("global.x = 42;", { realm });
-      const result = evaluateProgram("x", { realm });
+      await evaluateScript("global.x = 42;", { realm });
+      const result = await evaluateScript("x", { realm });
       expect(result).toEqual(42);
     });
   });

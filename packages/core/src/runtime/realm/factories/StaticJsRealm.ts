@@ -5,6 +5,8 @@ import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleI
 
 import type { StaticJsRealm as IStaticJsRealm } from "../StaticJsRealm.js";
 
+import type { StaticJsTaskRunner } from "../StaticJsTask.js";
+
 import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
 
 export interface StaticJsRealmGlobalDataPropertyDecl {
@@ -34,17 +36,26 @@ export interface StaticJsRealmModuleExports {
   exports: Record<string, unknown>;
 }
 
-export type StaticJsRealmModule =
+/**
+ * Valid types for an ECMAScript Module resolution.
+ */
+export type StaticJsModuleResolution =
   | StaticJsRealmModuleExports
   | StaticJsModule
   | StaticJsModuleImplementation
   | string;
 
-export type StaticJsRealmModuleFactory = (
+/**
+ * A factory function to resolve an imported ECMAScript Module.
+ */
+export type StaticJsModuleResolver = (
   referencingModule: StaticJsModule,
   specifier: string,
-) => Promise<StaticJsRealmModule>;
+) => Promise<StaticJsModuleResolution>;
 
+/**
+ * Options for creating a StaticJsRealm.
+ */
 export interface StaticJsRealmOptions {
   /**
    * Settings for the global 'this' object in the realm.
@@ -59,12 +70,20 @@ export interface StaticJsRealmOptions {
   /**
    * Statically defined ECMA Modules.
    */
-  modules?: Record<string, StaticJsRealmModule>;
+  modules?: Record<string, StaticJsModuleResolution>;
 
   /**
    * A resolver function to resolve imported ECMA Modules not found in @see modules
    */
-  resolveImportedModule?: StaticJsRealmModuleFactory;
+  resolveImportedModule?: StaticJsModuleResolver;
+
+  /**
+   * Invoked when the realm wants to run a task.
+   *
+   * The implementation should call .next() on the evaluator until it is done.
+   * This may be done synchronously or asynchronously.
+   */
+  runTask?: StaticJsTaskRunner;
 }
 
 /**

@@ -1,207 +1,207 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateProgram } from "../../src/index.js";
+import { evaluateScript } from "../../src/index.js";
 
 describe("E2E: Strings", () => {
-  it("Supports concatenation", () => {
+  it("Supports concatenation", async () => {
     const code = `
         "a" + "b";
       `;
-    expect(evaluateProgram(code)).toBe("ab");
+    expect(await evaluateScript(code)).toBe("ab");
   });
 
   describe("Casting", () => {
-    it("Supports casting a number to string", () => {
+    it("Supports casting a number to string", async () => {
       const code = `
         String(1);
       `;
-      expect(evaluateProgram(code)).toBe("1");
+      expect(await evaluateScript(code)).toBe("1");
     });
 
-    it("Supports casting a boolean to string", () => {
+    it("Supports casting a boolean to string", async () => {
       const code = `
         String(true);
       `;
-      expect(evaluateProgram(code)).toBe("true");
+      expect(await evaluateScript(code)).toBe("true");
     });
 
-    it("Supports casting a string to string", () => {
+    it("Supports casting a string to string", async () => {
       const code = `
         String("abc");
       `;
-      expect(evaluateProgram(code)).toBe("abc");
+      expect(await evaluateScript(code)).toBe("abc");
     });
   });
 
   describe("Boxing", () => {
-    it("Supports length", () => {
+    it("Supports length", async () => {
       const code = `
         "abc".length;
       `;
-      expect(evaluateProgram(code)).toBe(3);
+      expect(await evaluateScript(code)).toBe(3);
     });
 
-    it("Supports concat", () => {
+    it("Supports concat", async () => {
       const code = `
         "a".concat("b");
       `;
-      expect(evaluateProgram(code)).toBe("ab");
+      expect(await evaluateScript(code)).toBe("ab");
     });
 
-    it("Supports substr", () => {
+    it("Supports substr", async () => {
       const code = `
         "abc".substr(1);
       `;
-      expect(evaluateProgram(code)).toBe("bc");
+      expect(await evaluateScript(code)).toBe("bc");
     });
 
-    it("Supports substring", () => {
+    it("Supports substring", async () => {
       const code = `
         "abc".substring(1);
       `;
-      expect(evaluateProgram(code)).toBe("bc");
+      expect(await evaluateScript(code)).toBe("bc");
     });
 
-    it("Supports slice", () => {
+    it("Supports slice", async () => {
       const code = `
         "abc".slice(1);
       `;
-      expect(evaluateProgram(code)).toBe("bc");
+      expect(await evaluateScript(code)).toBe("bc");
     });
 
-    it("Supports startsWith", () => {
+    it("Supports startsWith", async () => {
       const code = `
         "abc".startsWith("a");
       `;
-      expect(evaluateProgram(code)).toBe(true);
+      expect(await evaluateScript(code)).toBe(true);
     });
 
-    it("Supports endsWith", () => {
+    it("Supports endsWith", async () => {
       const code = `
         "abc".endsWith("c");
       `;
-      expect(evaluateProgram(code)).toBe(true);
+      expect(await evaluateScript(code)).toBe(true);
     });
 
-    it("Supports includes", () => {
+    it("Supports includes", async () => {
       const code = `
         "abc".includes("b");
       `;
-      expect(evaluateProgram(code)).toBe(true);
+      expect(await evaluateScript(code)).toBe(true);
     });
 
-    it("Supports repeat", () => {
+    it("Supports repeat", async () => {
       const code = `
         "a".repeat(3);
       `;
-      expect(evaluateProgram(code)).toBe("aaa");
+      expect(await evaluateScript(code)).toBe("aaa");
     });
 
-    it("Supports toLowerCase", () => {
+    it("Supports toLowerCase", async () => {
       const code = `
         "ABC".toLowerCase();
       `;
-      expect(evaluateProgram(code)).toBe("abc");
+      expect(await evaluateScript(code)).toBe("abc");
     });
 
-    it("Supports toUpperCase", () => {
+    it("Supports toUpperCase", async () => {
       const code = `
         "abc".toUpperCase();
       `;
-      expect(evaluateProgram(code)).toBe("ABC");
+      expect(await evaluateScript(code)).toBe("ABC");
     });
 
-    it("Supports trim", () => {
+    it("Supports trim", async () => {
       const code = `
         " abc ".trim();
       `;
-      expect(evaluateProgram(code)).toBe("abc");
+      expect(await evaluateScript(code)).toBe("abc");
     });
 
-    it("Supports trimStart", () => {
+    it("Supports trimStart", async () => {
       const code = `
         " abc ".trimStart();
         `;
-      expect(evaluateProgram(code)).toBe("abc ");
+      expect(await evaluateScript(code)).toBe("abc ");
     });
 
-    it("Supports trimEnd", () => {
+    it("Supports trimEnd", async () => {
       const code = `
         " abc ".trimEnd();
       `;
-      expect(evaluateProgram(code)).toBe(" abc");
+      expect(await evaluateScript(code)).toBe(" abc");
     });
 
-    it("Supports charAt", () => {
+    it("Supports charAt", async () => {
       const code = `
         "abc".charAt(1);
       `;
-      expect(evaluateProgram(code)).toBe("b");
+      expect(await evaluateScript(code)).toBe("b");
     });
 
-    it("Supports charCodeAt", () => {
+    it("Supports charCodeAt", async () => {
       const code = `
         "abc".charCodeAt(1);
       `;
-      expect(evaluateProgram(code)).toBe(98);
+      expect(await evaluateScript(code)).toBe(98);
     });
 
-    it("Supports split", () => {
+    it("Supports split", async () => {
       const code = `
         "a,b,c".split(",");
       `;
-      expect(evaluateProgram(code)).toEqual(["a", "b", "c"]);
+      expect(await evaluateScript(code)).toEqual(["a", "b", "c"]);
     });
 
-    it("Supports indexOf", () => {
+    it("Supports indexOf", async () => {
       const code = `
         "abc".indexOf("b");
       `;
-      expect(evaluateProgram(code)).toBe(1);
+      expect(await evaluateScript(code)).toBe(1);
     });
 
-    it("Supports lastIndexOf", () => {
+    it("Supports lastIndexOf", async () => {
       const code = `
         "abc".lastIndexOf("b");
       `;
-      expect(evaluateProgram(code)).toBe(1);
+      expect(await evaluateScript(code)).toBe(1);
     });
 
-    it("Supports padStart", () => {
+    it("Supports padStart", async () => {
       const code = `
         "abc".padStart(5, "x");
       `;
-      expect(evaluateProgram(code)).toBe("xxabc");
+      expect(await evaluateScript(code)).toBe("xxabc");
     });
 
-    it("Supports padEnd", () => {
+    it("Supports padEnd", async () => {
       const code = `
         "abc".padEnd(5, "x");
       `;
-      expect(evaluateProgram(code)).toBe("abcxx");
+      expect(await evaluateScript(code)).toBe("abcxx");
     });
 
     // Implementing regex seems complex, and risky if we were to just proxy it to native
     // Skipping for now.
-    it.skip("Supports match", () => {
+    it.skip("Supports match", async () => {
       const code = `
         "abc".match(/b/);
       `;
-      expect(evaluateProgram(code)).toStrictEqual(["b"]);
+      expect(await evaluateScript(code)).toStrictEqual(["b"]);
     });
 
-    it.skip("Supports search", () => {
+    it.skip("Supports search", async () => {
       const code = `
         "abc".match(/b/);
       `;
-      expect(evaluateProgram(code)).toStrictEqual(["b"]);
+      expect(await evaluateScript(code)).toStrictEqual(["b"]);
     });
 
-    it("Supports replace", () => {
+    it("Supports replace", async () => {
       const code = `
         "abc".replace("b", "d");
       `;
-      expect(evaluateProgram(code)).toBe("adc");
+      expect(await evaluateScript(code)).toBe("adc");
     });
 
     // TODO: All the rest

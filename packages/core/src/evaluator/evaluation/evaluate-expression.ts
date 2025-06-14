@@ -1,36 +1,22 @@
-import { parseExpression } from "@babel/parser";
+import type { EvaluationOptions } from "./options.js";
 
-import StaticJsParseError from "../../errors/StaticJsParseError.js";
-
-import type {
-  EvaluationOptions,
-  ExpressionCompilationOptions,
-} from "../compilation/options.js";
-import { compileExpression } from "../compilation/compile-expression.js";
-
-export type EvaluateExpressionOptions = EvaluationOptions &
-  ExpressionCompilationOptions;
+import StaticJsRealm from "../../runtime/realm/factories/StaticJsRealm.js";
 
 /**
- * Evaluates a string as a javascript expression, and returns the result.
- * @param string - The string containing javascript expression to evaluate.
- * @param realm - The realm in which to evaluate the expression.
+ * Evaluates a string as a javascript program, and returns the result.
+ * @param code - The string containing javascript code to evaluate.
+ * @param opts - The options for the evaluation.
  * @returns The native javascript result of evaluating the code.
  * @public
  */
-export function evaluateExpression(
-  string: string,
-  opts?: EvaluateExpressionOptions,
-): unknown {
-  const { realm } = opts ?? {};
+export async function evaluateExpression(
+  code: string,
+  opts?: EvaluationOptions,
+): Promise<unknown> {
+  let { realm } = opts ?? {};
 
-  const ast = parseExpression(string);
+  realm ??= StaticJsRealm();
 
-  if (ast.errors && ast.errors.length) {
-    throw new StaticJsParseError(
-      `Error parsing expression: ${ast.errors[0].code}.`,
-    );
-  }
-
-  return compileExpression(string).evaluate({ realm });
+  const value = await realm.evaluate(code);
+  return value.toJsSync();
 }

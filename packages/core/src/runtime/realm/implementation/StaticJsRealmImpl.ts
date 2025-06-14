@@ -1,10 +1,20 @@
 import type { Writable } from "type-fest";
-import { parse as parseAst } from "@babel/parser";
+import {
+  parse as parseAst,
+  parseExpression as parseExpressionAst,
+} from "@babel/parser";
+import type { Node } from "@babel/types";
 
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
+
+import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
+import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
+import evaluateNode from "../../../evaluator/node-evaluators/evaluate-node.js";
+import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
+import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
 
 import type { StaticJsEnvironment } from "../../environments/StaticJsEnvironment.js";
 import StaticJsGlobalEnvironmentRecord from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
@@ -40,12 +50,37 @@ import { StaticJsModuleImpl } from "../../modules/implementation/StaticJsModuleI
 
 import type {
   StaticJsRealmGlobalDeclProperty,
-  StaticJsRealmModule,
+  StaticJsModuleResolution,
+  StaticJsModuleResolver,
   StaticJsRealmOptions,
 } from "../factories/StaticJsRealm.js";
 
+import type { StaticJsTask, StaticJsTaskRunner } from "../StaticJsTask.js";
+
 import type { StaticJsRealm } from "../StaticJsRealm.js";
-import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
+
+interface QueuedTask {
+  evaluator: EvaluationGenerator<unknown>;
+  resolve: (value: unknown) => void;
+  reject: (reason?: unknown) => void;
+  runTask: StaticJsTaskRunner;
+}
+
+function createQueuedTask(
+  evaluator: EvaluationGenerator<unknown>,
+  runTask: StaticJsTaskRunner,
+) {
+  let task!: QueuedTask;
+  const promise = new Promise<unknown>((resolve, reject) => {
+    task = {
+      evaluator,
+      resolve,
+      reject,
+      runTask,
+    };
+  });
+  return [task, promise] as const;
+}
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;
@@ -56,17 +91,26 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     string,
     StaticJsModuleImplementation | null
   >();
-  private readonly _externalResolveModule:
-    | StaticJsRealmOptions["resolveImportedModule"]
-    | undefined;
+  private readonly _externalResolveModule: StaticJsModuleResolver | undefined;
+
+  private readonly _taskQueues: [
+    microtask: QueuedTask[],
+    macrotask: QueuedTask[],
+  ] = [[], []];
+
+  private _currentTask: QueuedTask | null = null;
+
+  private readonly _runTask: StaticJsTaskRunner;
 
   constructor({
     globalObject,
     globalThis,
     modules,
     resolveImportedModule: resolveModule,
+    runTask,
   }: StaticJsRealmOptions = {}) {
     this._externalResolveModule = resolveModule;
+    this._runTask = runTask ?? defaultTaskRunner;
 
     // Note: We could check to see if globalObject has factories or prototypes and use them
     // instead of these.
@@ -148,6 +192,27 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return this._typeFactory;
   }
 
+  evaluate(code: string): Promise<StaticJsValue> {
+    const parsed = parseExpressionAst(code, { sourceType: "script" });
+    return this.enqueueMacrotask(doEvaluateNode(parsed, this));
+  }
+
+  async runScript(code: string): Promise<StaticJsValue> {
+    const parsed = parseAst(code, { sourceType: "script" });
+    return this.enqueueMacrotask(doEvaluateNode(parsed.program, this));
+  }
+
+  async evaluateModule(code: string): Promise<StaticJsModule> {
+    const parsed = parseAst(code, { sourceType: "module" });
+    const module = new StaticJsModuleImpl(
+      `inline-module?${Date.now()}`,
+      parsed.program,
+      this,
+    );
+
+    return await this.enqueueMacrotask(doEvaluateModule(module));
+  }
+
   async resolveImportedModule(
     referencingModule: StaticJsModule,
     specifier: string,
@@ -165,6 +230,22 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return module ?? null;
   }
 
+  enqueueMicrotask(evaluator: EvaluationGenerator<void>): void {
+    const [task] = createQueuedTask(evaluator, this._runTask);
+    this._taskQueues[0].push(task);
+    this._tryDrainCurrentTask();
+  }
+
+  enqueueMacrotask<TReturn>(
+    evaluator: EvaluationGenerator<TReturn>,
+    { taskRunner = this._runTask } = {},
+  ): Promise<TReturn> {
+    const [task, promise] = createQueuedTask(evaluator, taskRunner);
+    this._taskQueues[1].push(task);
+    this._tryDrainCurrentTask();
+    return promise as Promise<TReturn>;
+  }
+
   invokeEvaluatorSync<TReturn>(
     evaluator: EvaluationGenerator<TReturn>,
   ): TReturn {
@@ -176,6 +257,51 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
 
     return iteratorResult.value;
+  }
+
+  private _tryDrainCurrentTask() {
+    if (this._currentTask !== null) {
+      // Already running a task.
+      return;
+    }
+
+    for (const taskQueue of this._taskQueues) {
+      if (taskQueue.length === 0) {
+        continue;
+      }
+
+      const newTask = taskQueue.shift();
+      if (newTask) {
+        this._currentTask = newTask;
+        const iterator = this._createTask(this._currentTask);
+        this._runTask(iterator);
+        break;
+      }
+    }
+  }
+
+  private *_createTask(task: QueuedTask): StaticJsTask {
+    const iterator = evaluateCommands(task.evaluator);
+    try {
+      let result: ReturnType<typeof iterator.next>;
+      do {
+        yield;
+        result = iterator.next();
+      } while (!result.done);
+      task.resolve(result.value);
+    } catch (e: unknown) {
+      // Nominally we would pass to iterator.throw, but
+      // evaluateCommands is handling that for us, and we will
+      // only get final throws here.
+      if (e instanceof AbnormalCompletion) {
+        task.reject(e.toRuntime());
+      } else {
+        task.reject(e);
+      }
+    } finally {
+      this._currentTask = null;
+      this._tryDrainCurrentTask();
+    }
   }
 
   private _setupGlobalObject(
@@ -208,7 +334,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 function realmModuleToModule(
   realm: StaticJsRealm,
   specifier: string,
-  module: StaticJsRealmModule,
+  module: StaticJsModuleResolution,
 ): StaticJsModuleImplementation {
   if (typeof module === "string") {
     // Could try to import the compileModule function but I fear circular references.
@@ -294,4 +420,35 @@ function isIterator<T>(obj: unknown): obj is Generator<T, unknown, unknown> {
     obj !== null &&
     typeof (obj as Generator<T>).next === "function"
   );
+}
+
+function defaultTaskRunner(task: StaticJsTask) {
+  // This is a default task runner that runs the generator synchronously.
+  // It can be replaced by the user to run tasks asynchronously.
+  let result = task.next();
+  while (!result.done) {
+    result = task.next();
+  }
+}
+
+function* doEvaluateNode(
+  node: Node,
+  realm: StaticJsRealm,
+): EvaluationGenerator<StaticJsValue> {
+  const context: EvaluationContext = {
+    realm,
+    env: realm.globalEnv,
+    label: null,
+  };
+  yield* setupEnvironment(node, context);
+  const result = yield* evaluateNode(node, context);
+  return result ?? realm.types.undefined;
+}
+
+function* doEvaluateModule(
+  module: StaticJsModuleImpl,
+): EvaluationGenerator<StaticJsModule> {
+  yield* module.moduleDeclarationInstantiationEvaluator();
+  yield* module.moduleEvaluationEvaluator();
+  return module;
 }

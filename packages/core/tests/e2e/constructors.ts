@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateProgram } from "../../src/index.js";
+import { evaluateScript } from "../../src/index.js";
 
 describe("E2E: Constructors", () => {
-  it("calls a function with new and sets properties on `this`", () => {
-    const result = evaluateProgram(`
+  it("calls a function with new and sets properties on `this`", async () => {
+    const result = await evaluateScript(`
       function Box(x) {
         this.value = x;
       }
@@ -14,8 +14,8 @@ describe("E2E: Constructors", () => {
     expect(result).toBe(42);
   });
 
-  it("uses prototype for newly constructed object", () => {
-    const result = evaluateProgram(`
+  it("uses prototype for newly constructed object", async () => {
+    const result = await evaluateScript(`
       function Thing() {}
       Thing.prototype.say = () => "hi";
       const obj = new Thing();
@@ -24,8 +24,8 @@ describe("E2E: Constructors", () => {
     expect(result).toBe("hi");
   });
 
-  it("returns explicit object from constructor", () => {
-    const result = evaluateProgram(`
+  it("returns explicit object from constructor", async () => {
+    const result = await evaluateScript(`
       function Factory() {
         return { name: "override" };
       }
@@ -35,8 +35,8 @@ describe("E2E: Constructors", () => {
     expect(result).toBe("override");
   });
 
-  it("ignores primitive return from constructor", () => {
-    const result = evaluateProgram(`
+  it("ignores primitive return from constructor", async () => {
+    const result = await evaluateScript(`
       function NoEscape() {
         this.name = "kept";
         return 123;
@@ -47,8 +47,8 @@ describe("E2E: Constructors", () => {
     expect(result).toBe("kept");
   });
 
-  it("correctly links prototype chain", () => {
-    const result = evaluateProgram(`
+  it("correctly links prototype chain", async () => {
+    const result = await evaluateScript(`
       function Animal() {}
       const a = new Animal();
       Object.getPrototypeOf(a) === Animal.prototype;
@@ -56,16 +56,16 @@ describe("E2E: Constructors", () => {
     expect(result).toBe(true);
   });
 
-  it("throws if trying to use `new` with arrow function", () => {
+  it("throws if trying to use `new` with arrow function", async () => {
     const code = `
       const f = () => {};
       new f();
     `;
-    expect(() => evaluateProgram(code)).toThrow("is not a constructor");
+    await expect(evaluateScript(code)).rejects.toThrow("is not a constructor");
   });
 
-  it("uses constructor property on prototype", () => {
-    const result = evaluateProgram(`
+  it("uses constructor property on prototype", async () => {
+    const result = await evaluateScript(`
       function A() {}
       const a = new A();
       a.constructor === A;
@@ -73,8 +73,8 @@ describe("E2E: Constructors", () => {
     expect(result).toBe(true);
   });
 
-  it.skip("class constructor requires new", () => {
-    const result = evaluateProgram(`
+  it.skip("class constructor requires new", async () => {
+    const result = await evaluateScript(`
       class Foo {
         constructor() {
           this.ok = true;
@@ -90,8 +90,8 @@ describe("E2E: Constructors", () => {
     expect(result).toBe(true);
   });
 
-  it.skip("class with new sets this properly", () => {
-    const result = evaluateProgram(`
+  it.skip("class with new sets this properly", async () => {
+    const result = await evaluateScript(`
       class Box {
         constructor(x) {
           this.value = x;
@@ -103,8 +103,8 @@ describe("E2E: Constructors", () => {
     expect(result).toBe(100);
   });
 
-  it.skip("class constructor ignores return of primitive", () => {
-    const result = evaluateProgram(`
+  it.skip("class constructor ignores return of primitive", async () => {
+    const result = await evaluateScript(`
       class Example {
         constructor() {
           this.name = "kept";

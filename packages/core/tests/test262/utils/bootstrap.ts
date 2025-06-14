@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import type { StaticJsRealm } from "../../../src/index.js";
-import { evaluateProgram } from "../../../src/index.js";
+import { evaluateScript } from "../../../src/index.js";
 
 import test262Path from "./test262-path.js";
 
@@ -13,13 +13,13 @@ function getHarness(name: string): string {
   return harnessMap.get(name)!;
 }
 
-export default function bootstrapTest262(
+export default async function bootstrapTest262(
   realm: StaticJsRealm,
   includes: string[],
-): StaticJsRealm {
+): Promise<StaticJsRealm> {
   for (const include of includes) {
     const content = getHarness(include);
-    evaluateProgram(content, { realm });
+    await evaluateScript(content, { realm });
   }
 
   return realm;

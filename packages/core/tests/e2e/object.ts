@@ -1,20 +1,20 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateProgram } from "../../src/index.js";
+import { evaluateScript } from "../../src/index.js";
 
 describe("E2E: Object", () => {
   describe("Properties", () => {
     describe("Getting", () => {
-      it("Can get properties", () => {
+      it("Can get properties", async () => {
         const code = `
             const obj = { a: 1, b: 2 };
             obj.a;
           `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toBe(1);
       });
 
-      it("Calls the get accessor", () => {
+      it("Calls the get accessor", async () => {
         const code = `
             let called = false;
             const obj = {
@@ -23,42 +23,42 @@ describe("E2E: Object", () => {
             obj.a;
             called;
           `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toBe(true);
       });
 
-      it("Can get a property from an accessor", () => {
+      it("Can get a property from an accessor", async () => {
         const code = `
             const obj = {
               get a() { return 1; },
             };
             obj.a;
           `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toBe(1);
       });
 
-      it("Can get non-enumerated properties", () => {
+      it("Can get non-enumerated properties", async () => {
         const code = `
             const obj = {};
             Object.defineProperty(obj, 'a', { value: 1, enumerable: false });
             obj.a;
           `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toBe(1);
       });
 
-      it("Can get properties from the prototype", () => {
+      it("Can get properties from the prototype", async () => {
         const code = `
             const proto = { a: 1 };
             const obj = Object.create(proto);
             obj.a;
           `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toBe(1);
       });
 
-      it("Can get accessor properties from the prototype", () => {
+      it("Can get accessor properties from the prototype", async () => {
         const code = `
             const proto = {
               get a() { return 1; },
@@ -66,27 +66,27 @@ describe("E2E: Object", () => {
             const obj = Object.create(proto);
             obj.a;
           `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toBe(1);
       });
     });
 
     describe("Setting", () => {
-      it("Can set properties", () => {
+      it("Can set properties", async () => {
         const code = `
           const obj = {};
           obj.a = 1;
           obj.b = 2;
           obj;
         `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toEqual({
           a: 1,
           b: 2,
         });
       });
 
-      it("Calls set accessors", () => {
+      it("Calls set accessors", async () => {
         const code = `
           let called = false;
           const obj = {
@@ -95,11 +95,11 @@ describe("E2E: Object", () => {
           obj.a = 1;
           called;
         `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toBe(true);
       });
 
-      it("Can set accessor properties", () => {
+      it("Can set accessor properties", async () => {
         const code = `
           let setValue;
           const obj = {
@@ -108,22 +108,22 @@ describe("E2E: Object", () => {
           obj.a = 1;
           setValue;
         `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toBe(1);
       });
 
-      it("Creates new data properties over the prototype", () => {
+      it("Creates new data properties over the prototype", async () => {
         const code = `
           const proto = { a: 1 };
           const obj = Object.create(proto);
           obj.a = 2;
           [obj.a, proto.a];
         `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toEqual([2, 1]);
       });
 
-      it("Calls accesssor properties on the prototype", () => {
+      it("Calls accesssor properties on the prototype", async () => {
         const code = `
           let setValue;
           const proto = {
@@ -133,22 +133,22 @@ describe("E2E: Object", () => {
           obj.a = 1;
           setValue;
         `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toBe(1);
       });
     });
 
     describe("Enumeration", () => {
-      it("Can enumerate own properties", () => {
+      it("Can enumerate own properties", async () => {
         const code = `
           const obj = { a: 1, b: 2 };
           Object.keys(obj);
         `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toEqual(["a", "b"]);
       });
 
-      it("Can enumerate own properties with for..in", () => {
+      it("Can enumerate own properties with for..in", async () => {
         const code = `
           const obj = { a: 1, b: 2 };
           let keys = [];
@@ -157,11 +157,11 @@ describe("E2E: Object", () => {
           }
           keys;
         `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toEqual(["a", "b"]);
       });
 
-      it("Can enumerate prototype properties with for..in", () => {
+      it("Can enumerate prototype properties with for..in", async () => {
         const code = `
           const proto = { a: 1 };
           const obj = Object.create(proto);
@@ -172,7 +172,7 @@ describe("E2E: Object", () => {
           }
           keys;
         `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toEqual(["b", "a"]);
       });
     });
@@ -180,14 +180,14 @@ describe("E2E: Object", () => {
 
   describe("Statics", () => {
     describe("Object.assign", () => {
-      it("Should assign properties from source to target", () => {
+      it("Should assign properties from source to target", async () => {
         const code = `
           const target = { a: 1 };
           const source = { b: 2, c: 3 };
           Object.assign(target, source);
           target;
         `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toEqual({
           a: 1,
           b: 2,
@@ -195,31 +195,31 @@ describe("E2E: Object", () => {
         });
       });
 
-      it("Returns the target", () => {
+      it("Returns the target", async () => {
         const code = `
           const target = { a: 1 };
           const source = { b: 2, c: 3 };
           const result = Object.assign(target, source);
           result === target;
         `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toBe(true);
       });
 
-      it("Does not assign enumerable properties from an input's prototype", () => {
+      it("Does not assign enumerable properties from an input's prototype", async () => {
         const code = `
           const target = { a: 1 };
           const source = Object.create({ b: 2 });
           Object.assign(target, source);
           target;
         `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toEqual({
           a: 1,
         });
       });
 
-      it("Does not assign non-enumerable properties", () => {
+      it("Does not assign non-enumerable properties", async () => {
         const code = `
           const target = { a: 1 };
           const source = { b: 2 };
@@ -227,7 +227,7 @@ describe("E2E: Object", () => {
           Object.assign(target, source);
           target;
         `;
-        const result = evaluateProgram(code);
+        const result = await evaluateScript(code);
         expect(result).toEqual({
           a: 1,
         });
@@ -235,7 +235,7 @@ describe("E2E: Object", () => {
     });
 
     describe("Object.defineProperties", () => {
-      it("Should define multiple properties on an object", () => {
+      it("Should define multiple properties on an object", async () => {
         const code = `
           const obj = {};
           Object.defineProperties(obj, {
@@ -244,7 +244,7 @@ describe("E2E: Object", () => {
           });
           obj;
         `;
-        const result = evaluateProgram(code) as { a: number; b: number };
+        const result = (await evaluateScript(code)) as { a: number; b: number };
 
         expect(Object.getOwnPropertyDescriptor(result, "a")).toEqual({
           configurable: false,
@@ -263,8 +263,8 @@ describe("E2E: Object", () => {
         expect(result.b).toBe(2);
       });
 
-      it("Should use defaults: non-writable, non-enumerable, non-configurable", () => {
-        const result = evaluateProgram(`
+      it("Should use defaults: non-writable, non-enumerable, non-configurable", async () => {
+        const result = await evaluateScript(`
           const obj = {};
           Object.defineProperty(obj, "x", { value: 42 });
           Object.getOwnPropertyDescriptor(obj, "x");
@@ -277,7 +277,7 @@ describe("E2E: Object", () => {
         });
       });
 
-      it("Cannot re-define a non-configurable property", () => {
+      it("Cannot re-define a non-configurable property", async () => {
         const code = `
           const obj = {};
           Object.defineProperty(obj, "x", {
@@ -288,11 +288,13 @@ describe("E2E: Object", () => {
             value: 2,
           });
         `;
-        expect(() => evaluateProgram(code)).toThrow(/Cannot redefine property/);
+        await expect(evaluateScript(code)).rejects.toThrow(
+          /Cannot redefine property/,
+        );
       });
 
-      it("Can redefine a configurable property", () => {
-        const result = evaluateProgram(`
+      it("Can redefine a configurable property", async () => {
+        const result = await evaluateScript(`
           const obj = {};
           Object.defineProperty(obj, "x", {
             value: 1,
@@ -306,7 +308,7 @@ describe("E2E: Object", () => {
         expect(result).toBe(2);
       });
 
-      it("Cannot redefine a non-writable, non-configurable property", () => {
+      it("Cannot redefine a non-writable, non-configurable property", async () => {
         const code = `
           const obj = {};
           Object.defineProperty(obj, "x", {
@@ -318,20 +320,24 @@ describe("E2E: Object", () => {
             writable: true,
           });
         `;
-        expect(() => evaluateProgram(code)).toThrow(/Cannot redefine property/);
+        await expect(evaluateScript(code)).rejects.toThrow(
+          /Cannot redefine property/,
+        );
       });
 
-      it("Cannot add property to non-extensible object", () => {
+      it("Cannot add property to non-extensible object", async () => {
         const code = `
           const obj = {};
           Object.preventExtensions(obj);
           Object.defineProperty(obj, "x", { value: 1 });
         `;
-        expect(() => evaluateProgram(code)).toThrow("Object is not extensible");
+        await expect(evaluateScript(code)).rejects.toThrow(
+          "Object is not extensible",
+        );
       });
 
-      it("Can modify existing configurable property on non-extensible object", () => {
-        const result = evaluateProgram(`
+      it("Can modify existing configurable property on non-extensible object", async () => {
+        const result = await evaluateScript(`
           const obj = {};
           Object.defineProperty(obj, "x", {
             value: 1,
@@ -346,8 +352,8 @@ describe("E2E: Object", () => {
         expect(result).toBe(2);
       });
 
-      it("Can define accessor properties", () => {
-        const result = evaluateProgram(`
+      it("Can define accessor properties", async () => {
+        const result = await evaluateScript(`
           const obj = {};
           let backing = 0;
           Object.defineProperty(obj, "x", {
@@ -361,8 +367,8 @@ describe("E2E: Object", () => {
         expect(result).toBe(42);
       });
 
-      it("Defines accessors with defaults", () => {
-        const result = evaluateProgram(`
+      it("Defines accessors with defaults", async () => {
+        const result = await evaluateScript(`
           const obj = {};
           Object.defineProperty(obj, "x", {
             get: () => 5
@@ -377,7 +383,7 @@ describe("E2E: Object", () => {
         });
       });
 
-      it("Throws when mixing data and accessor descriptors", () => {
+      it("Throws when mixing data and accessor descriptors", async () => {
         const code = `
           const obj = {};
             Object.defineProperty(obj, "x", {
@@ -385,7 +391,7 @@ describe("E2E: Object", () => {
               get() { return 2; }
             });
         `;
-        expect(() => evaluateProgram(code)).toThrow(
+        await expect(evaluateScript(code)).rejects.toThrow(
           "Invalid property descriptor.  Cannot both specify accessors and a value or writable",
         );
       });

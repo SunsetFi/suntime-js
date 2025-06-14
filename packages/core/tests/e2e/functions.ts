@@ -1,30 +1,30 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateProgram, StaticJsRealm } from "../../src/index.js";
+import { evaluateScript, StaticJsRealm } from "../../src/index.js";
 
 describe("E2E: Functions", () => {
   describe("Declaration", () => {
-    it("Can be declared", () => {
+    it("Can be declared", async () => {
       const code = `
         function a() {
           return 42;
         }
         a;
       `;
-      expect(evaluateProgram(code)).toBeTypeOf("function");
+      expect(await evaluateScript(code)).toBeTypeOf("function");
     });
 
-    it("Can be invoked by the engine", () => {
+    it("Can be invoked by the engine", async () => {
       const code = `
         function a() {
           return 42;
         }
         a();
       `;
-      expect(evaluateProgram(code)).toBe(42);
+      expect(await evaluateScript(code)).toBe(42);
     });
 
-    it("Can be invoked by the runtime", () => {
+    it("Can be invoked by the runtime", async () => {
       const code = `
         function a() {
           return 42;
@@ -32,24 +32,24 @@ describe("E2E: Functions", () => {
         a;
       `;
 
-      const func = evaluateProgram(code);
+      const func = await evaluateScript(code);
       if (typeof func !== "function") {
         throw new Error("Expected a function");
       }
       expect(func()).toBe(42);
     });
 
-    it("Cascades throws", () => {
+    it("Cascades throws", async () => {
       const code = `
         function a() {
           throw "test";
         }
         a();
       `;
-      expect(() => evaluateProgram(code)).toThrow("test");
+      await expect(evaluateScript(code)).rejects.toThrow("test");
     });
 
-    it("Is hoisted", () => {
+    it("Is hoisted", async () => {
       const code = `
         let result = a();
         function a() {
@@ -57,26 +57,26 @@ describe("E2E: Functions", () => {
         }
         a();
       `;
-      expect(evaluateProgram(code)).toBe(42);
+      expect(await evaluateScript(code)).toBe(42);
     });
 
-    it("Keeps top-level functions on the global object", () => {
+    it("Keeps top-level functions on the global object", async () => {
       const code = `
           function a() {
             return 42;
           }
           global.a;  
         `;
-      expect(evaluateProgram(code)).toBeTypeOf("function");
+      expect(await evaluateScript(code)).toBeTypeOf("function");
     });
 
-    it("Can access a function from one evaluation in another", () => {
+    it("Can access a function from one evaluation in another", async () => {
       const realm = StaticJsRealm();
-      evaluateProgram("function x() { return 42; }", { realm });
-      expect(evaluateProgram("x()", { realm })).toEqual(42);
+      await evaluateScript("function x() { return 42; }", { realm });
+      expect(await evaluateScript("x()", { realm })).toEqual(42);
     });
 
-    it("Can contain properties", () => {
+    it("Can contain properties", async () => {
       const code = `
         function a() {
           return 42;
@@ -84,12 +84,12 @@ describe("E2E: Functions", () => {
         a.prop = 42;
         a.prop;
       `;
-      expect(evaluateProgram(code)).toBe(42);
+      expect(await evaluateScript(code)).toBe(42);
     });
   });
 
   describe("Invalid Calls", () => {
-    it("Throws the proper error for null functions", () => {
+    it("Throws the proper error for null functions", async () => {
       const code = `
         function a() {
           return 42;
@@ -97,21 +97,21 @@ describe("E2E: Functions", () => {
         a = null;
         a();
       `;
-      expect(() => evaluateProgram(code)).toThrow(
+      await expect(evaluateScript(code)).rejects.toThrow(
         "TypeError: a is not a function",
       );
     });
 
-    it("Throws the proper error for undefined functions", () => {
+    it("Throws the proper error for undefined functions", async () => {
       const code = `
         a();
       `;
-      expect(() => evaluateProgram(code)).toThrow("a is not defined");
+      await expect(evaluateScript(code)).rejects.toThrow("a is not defined");
     });
   });
 
   describe("External", () => {
-    it("Can be invoked by the engine", () => {
+    it("Can be invoked by the engine", async () => {
       const realm = StaticJsRealm({
         globalObject: {
           value: {
@@ -124,10 +124,10 @@ describe("E2E: Functions", () => {
       const code = `
         a();
       `;
-      expect(evaluateProgram(code, { realm })).toBe(42);
+      expect(await evaluateScript(code, { realm })).toBe(42);
     });
 
-    it("Can be invoked by the runtime", () => {
+    it("Can be invoked by the runtime", async () => {
       const realm = StaticJsRealm({
         globalObject: {
           value: {
@@ -141,14 +141,14 @@ describe("E2E: Functions", () => {
         a;
       `;
 
-      const func = evaluateProgram(code, { realm });
+      const func = await evaluateScript(code, { realm });
       if (typeof func !== "function") {
         throw new Error("Expected a function");
       }
       expect(func()).toBe(42);
     });
 
-    it("Cascades throws", () => {
+    it("Cascades throws", async () => {
       const realm = StaticJsRealm({
         globalObject: {
           value: {
@@ -162,14 +162,14 @@ describe("E2E: Functions", () => {
         a();
       `;
       try {
-        evaluateProgram(code, { realm });
+        await evaluateScript(code, { realm });
         throw new Error("Expected to throw");
       } catch (e) {
         expect(e).toEqual(42);
       }
     });
 
-    it("Is hoisted", () => {
+    it("Is hoisted", async () => {
       const code = `
         let result = a();
         function a() {
@@ -177,43 +177,43 @@ describe("E2E: Functions", () => {
         }
         a();
       `;
-      expect(evaluateProgram(code)).toBe(42);
+      expect(await evaluateScript(code)).toBe(42);
     });
   });
 
   describe("Expression", () => {
-    it("Can be declared", () => {
+    it("Can be declared", async () => {
       const code = `
         const a = function() {
           return 42;
         };
         a;
       `;
-      expect(evaluateProgram(code)).toBeTypeOf("function");
+      expect(await evaluateScript(code)).toBeTypeOf("function");
     });
 
-    it("Does not appear in the global scope", () => {
+    it("Does not appear in the global scope", async () => {
       const code = `
         const a = function foo() {
           return 42;
         };
       `;
       const realm = StaticJsRealm();
-      evaluateProgram(code, { realm });
+      await evaluateScript(code, { realm });
       expect(realm.globalObject.hasPropertySync("foo")).toBe(false);
     });
 
-    it("Can be invoked by the engine", () => {
+    it("Can be invoked by the engine", async () => {
       const code = `
         const a = function() {
           return 42;
         };
         a();
       `;
-      expect(evaluateProgram(code)).toBe(42);
+      expect(await evaluateScript(code)).toBe(42);
     });
 
-    it("Can be invoked by the runtime", () => {
+    it("Can be invoked by the runtime", async () => {
       const code = `
         const a = function() {
           return 42;
@@ -221,7 +221,7 @@ describe("E2E: Functions", () => {
         a;
       `;
 
-      const func = evaluateProgram(code);
+      const func = await evaluateScript(code);
       if (typeof func !== "function") {
         throw new Error("Expected a function");
       }
@@ -230,106 +230,106 @@ describe("E2E: Functions", () => {
   });
 
   describe("Return values", () => {
-    it("Can return a value", () => {
+    it("Can return a value", async () => {
       const code = `
         function a() {
           return 42;
         }
         a();
       `;
-      expect(evaluateProgram(code)).toBe(42);
+      expect(await evaluateScript(code)).toBe(42);
     });
   });
 
   describe("Arguments", () => {
     // TODO: We want to test LVals in a lot of places, so let's code-gen this.
-    it("Supports identifier arguments", () => {
+    it("Supports identifier arguments", async () => {
       const code = `
         function a(x) {
           return x;
         }
         a(42);
       `;
-      expect(evaluateProgram(code)).toBe(42);
+      expect(await evaluateScript(code)).toBe(42);
     });
 
-    it("Supports rest arguments", () => {
+    it("Supports rest arguments", async () => {
       const code = `
         function a(first, ...rest) {
           return {first, rest};
         }
         a(1, 2, 3);
       `;
-      expect(evaluateProgram(code)).toEqual({ first: 1, rest: [2, 3] });
+      expect(await evaluateScript(code)).toEqual({ first: 1, rest: [2, 3] });
     });
 
     describe("Object Destructuring", () => {
-      it("Supports destructuring object arguments", () => {
+      it("Supports destructuring object arguments", async () => {
         const code = `
           function a({ x }) {
             return x;
           }
           a({ x: 42 });
         `;
-        expect(evaluateProgram(code)).toBe(42);
+        expect(await evaluateScript(code)).toBe(42);
       });
 
-      it("Supports renaming descructured object arguments", () => {
+      it("Supports renaming descructured object arguments", async () => {
         const code = `
           function a({ x: y }) {
             return y;
           }
           a({ x: 42 });
         `;
-        expect(evaluateProgram(code)).toBe(42);
+        expect(await evaluateScript(code)).toBe(42);
       });
 
-      it("Supports default values for destructured object arguments", () => {
+      it("Supports default values for destructured object arguments", async () => {
         const code = `
           function a({ x: y = 42 }) {
             return y;
           }
           a({});
         `;
-        expect(evaluateProgram(code)).toBe(42);
+        expect(await evaluateScript(code)).toBe(42);
       });
     });
 
     describe("Array Destructuring", () => {
-      it("Supports destructuring array arguments", () => {
+      it("Supports destructuring array arguments", async () => {
         const code = `
         function a([x]) {
           return x;
         }
         a([42]);
       `;
-        expect(evaluateProgram(code)).toBe(42);
+        expect(await evaluateScript(code)).toBe(42);
       });
 
-      it("Supports default values for destructured array arguments", () => {
+      it("Supports default values for destructured array arguments", async () => {
         const code = `
         function a([x = 42]) {
           return x;
         }
         a([]);
       `;
-        expect(evaluateProgram(code)).toBe(42);
+        expect(await evaluateScript(code)).toBe(42);
       });
     });
 
-    it("supports default arguments", () => {
+    it("supports default arguments", async () => {
       const code = `
         function a(x = 42) {
           return x;
         }
         a();
       `;
-      expect(evaluateProgram(code)).toBe(42);
+      expect(await evaluateScript(code)).toBe(42);
     });
   });
 
   describe("Scopes", () => {
-    it("Can access outer scope", () => {
+    it("Can access outer scope", async () => {
       const code = `
         const x = 42;
         function a() {
@@ -337,10 +337,10 @@ describe("E2E: Functions", () => {
         }
         a();
       `;
-      expect(evaluateProgram(code)).toBe(42);
+      expect(await evaluateScript(code)).toBe(42);
     });
 
-    it("Can mutate outer scope", () => {
+    it("Can mutate outer scope", async () => {
       const code = `
         let x = 42;
         function a() {
@@ -349,10 +349,10 @@ describe("E2E: Functions", () => {
         a();
         x;
       `;
-      expect(evaluateProgram(code)).toBe(43);
+      expect(await evaluateScript(code)).toBe(43);
     });
 
-    it("Targets the correct scope", () => {
+    it("Targets the correct scope", async () => {
       const code = `
         let x = "outer";
         function createMutator() {
@@ -369,7 +369,7 @@ describe("E2E: Functions", () => {
         [mutator1(), mutator2(), x];
       `;
 
-      expect(evaluateProgram(code)).toEqual([2, 2, "outer"]);
+      expect(await evaluateScript(code)).toEqual([2, 2, "outer"]);
     });
   });
 });

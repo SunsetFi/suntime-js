@@ -1,60 +1,60 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateProgram } from "../../src/index.js";
+import { evaluateScript } from "../../src/index.js";
 
 describe("E2E: Booleans", () => {
   describe("Casting", () => {
-    it("Supports casting a number to boolean", () => {
+    it("Supports casting a number to boolean", async () => {
       const code = `
         Boolean(1);
       `;
-      expect(evaluateProgram(code)).toBe(true);
+      expect(await evaluateScript(code)).toBe(true);
     });
 
-    it("Supports casting a boolean to boolean", () => {
+    it("Supports casting a boolean to boolean", async () => {
       const code = `
         Boolean(true);
       `;
-      expect(evaluateProgram(code)).toBe(true);
+      expect(await evaluateScript(code)).toBe(true);
     });
 
-    it("Supports casting a string to boolean", () => {
+    it("Supports casting a string to boolean", async () => {
       const code = `
         Boolean("abc");
       `;
-      expect(evaluateProgram(code)).toBe(true);
+      expect(await evaluateScript(code)).toBe(true);
     });
   });
 
   describe("Unary operators", () => {
-    it("Supports negation", () => {
+    it("Supports negation", async () => {
       const code = `
         !true;
       `;
-      expect(evaluateProgram(code)).toBe(false);
+      expect(await evaluateScript(code)).toBe(false);
     });
 
-    it("Supports double negation", () => {
+    it("Supports double negation", async () => {
       const code = `
         !!true;
       `;
-      expect(evaluateProgram(code)).toBe(true);
+      expect(await evaluateScript(code)).toBe(true);
     });
   });
 
   describe("Boxing", () => {
-    it("Supports toString", () => {
+    it("Supports toString", async () => {
       const code = `
         true.toString();
       `;
-      expect(evaluateProgram(code)).toBe("true");
+      expect(await evaluateScript(code)).toBe("true");
     });
 
-    it("Supports valueOf", () => {
+    it("Supports valueOf", async () => {
       const code = `
         true.valueOf();
       `;
-      expect(evaluateProgram(code)).toBe(true);
+      expect(await evaluateScript(code)).toBe(true);
     });
   });
 });

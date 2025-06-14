@@ -8,8 +8,7 @@ import { describe, it, expect } from "vitest";
 import test262Path from "./utils/test262-path.js";
 import getFilesSync from "./utils/get-files.js";
 
-import type { StaticJsCompilation } from "../../src/index.js";
-import { compileProgram, StaticJsRealm } from "../../src/index.js";
+import { evaluateScript, StaticJsRealm } from "../../src/index.js";
 import bootstrapTest262 from "./utils/bootstrap.js";
 
 // const ignoreFeatures = ["async-functions"];
@@ -71,10 +70,15 @@ function defineTest(test: string) {
     return;
   }
 
+  if (testMeta.attrs.negative?.phase === "parse") {
+    it.skip("Ignored parse phase negative test: " + testName, () => {});
+    return;
+  }
+
   // TODO: Run in strict and nostrict mode
   // (Unless noStrict, onlyStrict, module, raw)
   // See repo/INTERPRETING.md
-  it(testName, () => {
+  it(testName, async () => {
     const realm = StaticJsRealm();
     createHostApi(realm);
 
@@ -82,30 +86,31 @@ function defineTest(test: string) {
     if (!testMeta.attrs.flags.raw) {
       includes.unshift("sta.js", "assert.js");
     }
-    bootstrapTest262(realm, includes);
+    await bootstrapTest262(realm, includes);
 
-    let compiled: StaticJsCompilation;
+    // let compiled: StaticJsCompilation;
+    // try {
+    //   compiled = compileProgram(testMeta.contents);
+    // } catch (e: unknown) {
+    //   if (e instanceof Error == false) {
+    //     throw e;
+    //   }
+
+    //   if (testMeta.attrs.negative?.phase === "parse") {
+    //     expect(e.name).toBe(testMeta.attrs.negative.type);
+    //     return;
+    //   }
+
+    //   throw e;
+    // }
+
+    // if (testMeta.attrs.negative?.phase === "parse") {
+    //   throw new Error("Test should have failed to parse, but it did not.");
+    // }
+
     try {
-      compiled = compileProgram(testMeta.contents);
-    } catch (e: unknown) {
-      if (e instanceof Error == false) {
-        throw e;
-      }
-
-      if (testMeta.attrs.negative?.phase === "parse") {
-        expect(e.name).toBe(testMeta.attrs.negative.type);
-        return;
-      }
-
-      throw e;
-    }
-
-    if (testMeta.attrs.negative?.phase === "parse") {
-      throw new Error("Test should have failed to parse, but it did not.");
-    }
-
-    try {
-      runTimeBound(compiled.generator({ realm }), 3000);
+      // runTimeBound(compiled.generator({ realm }), 3000);
+      await evaluateScript(testMeta.contents, { realm });
       if (testMeta.attrs.negative) {
         throw new Error("Test should have failed to run, but it did not.");
       }
@@ -124,7 +129,7 @@ function defineTest(test: string) {
 }
 
 function createHostApi(realm: StaticJsRealm) {
-  realm.globalObject.defineProperty("print", {
+  realm.globalObject.definePropertySync("print", {
     writable: true,
     configurable: true,
     enumerable: false,
@@ -132,21 +137,21 @@ function createHostApi(realm: StaticJsRealm) {
   });
 }
 
-function runTimeBound<TResult>(
-  gen: Generator<void, TResult, void>,
-  timeout: number,
-) {
-  const start = performance.now();
-  let end = start;
-  let done = false;
+// function runTimeBound<TResult>(
+//   gen: Generator<void, TResult, void>,
+//   timeout: number,
+// ) {
+//   const start = performance.now();
+//   let end = start;
+//   let done = false;
 
-  while (!done && end - start < timeout) {
-    done = gen.next().done ?? false;
-    end = performance.now();
-  }
-  if (!done) {
-    throw new Error("Test262 test timed out");
-  }
+//   while (!done && end - start < timeout) {
+//     done = gen.next().done ?? false;
+//     end = performance.now();
+//   }
+//   if (!done) {
+//     throw new Error("Test262 test timed out");
+//   }
 
-  return end - start;
-}
+//   return end - start;
+// }

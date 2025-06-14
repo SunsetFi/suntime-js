@@ -14,4 +14,8 @@ export class AbnormalCompletion {
 
     throw e;
   }
+
+  toRuntime(): Error {
+    return new StaticJsEngineError("Unexpected completion type: " + this.type);
+  }
 }

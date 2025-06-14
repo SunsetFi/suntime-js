@@ -1,16 +1,16 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateProgram } from "../../src/index.js";
+import { evaluateScript } from "../../src/index.js";
 
 describe("E2E: Thrown Error Handling", () => {
-  it("Should throw the value", () => {
+  it("Should throw the value", async () => {
     const code = `
         throw {message: "Test Error"};
       `;
-    expect(() => evaluateProgram(code)).toThrow("Test Error");
+    await expect(evaluateScript(code)).rejects.toThrow("Test Error");
   });
 
-  it("Should support declarative enviroments", () => {
+  it("Should support declarative enviroments", async () => {
     const code = `
       try {
         var test = 1;
@@ -18,11 +18,11 @@ describe("E2E: Thrown Error Handling", () => {
       }
       catch (e) {}
       `;
-    expect(evaluateProgram(code)).toBe(1);
+    expect(await evaluateScript(code)).toBe(1);
   });
 
   describe("Try / Catch / Finally", () => {
-    it("Should catch an error", () => {
+    it("Should catch an error", async () => {
       const code = `
         function test() {
           try {
@@ -33,10 +33,10 @@ describe("E2E: Thrown Error Handling", () => {
         }
         test();
       `;
-      expect(evaluateProgram(code)).toBe(1);
+      expect(await evaluateScript(code)).toBe(1);
     });
 
-    it("Should give precedence to finally over catch", () => {
+    it("Should give precedence to finally over catch", async () => {
       const code = `
         function test() {
           try {
@@ -49,7 +49,7 @@ describe("E2E: Thrown Error Handling", () => {
         }
         test();
       `;
-      expect(evaluateProgram(code)).toBe("f");
+      expect(await evaluateScript(code)).toBe("f");
     });
   });
 });

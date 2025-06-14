@@ -20,3 +20,9 @@ const StaticJsRealm = fStaticJsRealm;
 type StaticJsRealm = IStaticJsRealm;
 
 export { StaticJsRealm };
+
+export type {
+  StaticJsRunMacrotaskOptions,
+  isStaticJsRealm,
+} from "./StaticJsRealm.js";
+export * from "./StaticJsTask.js";

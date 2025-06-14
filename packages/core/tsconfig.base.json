@@ -9,6 +9,7 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "baseUrl": "./node_modules",
-    "composite": true
+    "composite": true,
+    "stripInternal": true
   }
 }

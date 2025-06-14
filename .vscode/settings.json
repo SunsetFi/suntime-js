@@ -3,5 +3,7 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "files.associations": {
     "*.json": "jsonc"
-  }
+  },
+  "vitest.shellType": "terminal",
+  "vitest.logLevel": "verbose"
 }

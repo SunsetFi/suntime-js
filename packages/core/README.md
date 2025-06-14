@@ -69,7 +69,7 @@ There are two ways to evaluate scripts, depending on your needs:
 
 ### Direct Evaluation
 
-The API functions `evaluateProgram(string, {realm?})`, `evaluateModule(string, {realm?})`, and `evaluateExpression(string, {realm?})`
+The API functions `evaluateScript(string, {realm?})`, `evaluateModule(string, {realm?})`, and `evaluateExpression(string, {realm?})`
 will execute the script until completion, and return the runtime-native result.
 
 ```ts
@@ -128,7 +128,7 @@ You can supply external data to the sandbox in a few ways:
 You can define properties on the global object with [Realm globalObj](#globalobj)
 
 ```ts
-import { StaticJsRealm, evaluateProgram } from "@suntime-js/core";
+import { StaticJsRealm, evaluateScript } from "@suntime-js/core";
 
 const realm = StaticJsRealm({
   globalObj: {
@@ -138,7 +138,7 @@ const realm = StaticJsRealm({
   },
 });
 
-evaluateProgram("myCallback(2 + 2)", { realm });
+evaluateScript("myCallback(2 + 2)", { realm });
 ```
 
 #### External modules
@@ -176,9 +176,9 @@ Data can be retrieved from the sandbox in many ways, depending on your needs.
 When using the expression or program evaluation modes, the last statement (or expression) will be returned from the evaluation function.
 
 ```ts
-import { evaluateProgram } from "@static-js/core";
+import { evaluateScript } from "@static-js/core";
 
-const result = evaluateProgram("{message: 'Hello World'}))
+const result = evaluateScript("{message: 'Hello World'}))
 console.log("The message is", result.message);
 ```
 
@@ -187,7 +187,7 @@ console.log("The message is", result.message);
 Any sandbox value that passes its way into the host's world is wrapped into native values that remain synced with the sandbox:
 
 ```ts
-import { StaticJsRealm, evaluateProgram } from "@suntime-js/core";
+import { StaticJsRealm, evaluateScript } from "@suntime-js/core";
 
 function myApiCallback(obj) {
   console.log("Message is", obj.message);
@@ -203,7 +203,7 @@ const realm = StaticJsRealm({
   },
 });
 
-evaluateProgram("callback({message: 'Hello World'})");
+evaluateScript("callback({message: 'Hello World'})");
 ```
 
 #### Retrieving functions
@@ -211,14 +211,14 @@ evaluateProgram("callback({message: 'Hello World'})");
 Functions that make their way out of the sandbox are proxied appropriately. They will invoke the sandbox function, automatically proxying their inputs (both arguments and `this` binding), and proxy their return value.
 
 ```ts
-import { evaluateProgram } from "@suntime-js/core";
+import { evaluateScript } from "@suntime-js/core";
 
 const code = `function length(v) {
   return Math.sqrt(v.x ** 2 + v.y ** 2);
 }
 `;
 
-const computeLength = evaluateProgram(code);
+const computeLength = evaluateScript(code);
 
 const length = computeLength({ x: 2, y: 4 });
 console.log("Length is", length);
@@ -403,7 +403,7 @@ Note that there is a chicken-and-egg problem when wanting to set these objects t
 set the sandboxed object as a property to that global. The proxy system will identify that the value is a sandbox value and use it directly.
 
 ```ts
-import { StaticJsRealm, evaluateProgram } from "@suntime-js/core";
+import { StaticJsRealm, evaluateScript } from "@suntime-js/core";
 
 // Create the empty global objects.
 const globalObj = {};
@@ -443,7 +443,7 @@ const myApi = realm.types.object({
 // suntime-js will identify the value as its own runtime object and use it directly.
 globalObj.api = myApi;
 
-evaluateProgram("api.callback(`Program got message: ${api.message}`);");
+evaluateScript("api.callback(`Program got message: ${api.message}`);");
 ```
 
 All sandbox types are extended from the `StaticJsPrimitive` interface. The `StaticJsValue` interface represents any possible sandboxed value.
