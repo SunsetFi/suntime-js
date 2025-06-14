@@ -59,19 +59,19 @@ import type { StaticJsTask, StaticJsTaskRunner } from "../StaticJsTask.js";
 
 import type { StaticJsRealm } from "../StaticJsRealm.js";
 
-interface QueuedTask {
+interface QueuedTask<TResult = unknown> {
   evaluator: EvaluationGenerator<unknown>;
-  resolve: (value: unknown) => void;
+  resolve: (value: TResult) => void;
   reject: (reason?: unknown) => void;
-  runTask: StaticJsTaskRunner;
+  runTask: StaticJsTaskRunner<TResult>;
 }
 
-function createQueuedTask(
-  evaluator: EvaluationGenerator<unknown>,
-  runTask: StaticJsTaskRunner,
+function createQueuedTask<TResult>(
+  evaluator: EvaluationGenerator<TResult>,
+  runTask: StaticJsTaskRunner<TResult>,
 ) {
-  let task!: QueuedTask;
-  const promise = new Promise<unknown>((resolve, reject) => {
+  let task!: QueuedTask<TResult>;
+  const promise = new Promise<TResult>((resolve, reject) => {
     task = {
       evaluator,
       resolve,
@@ -216,6 +216,25 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return await this.enqueueMacrotask(doEvaluateModule(module));
   }
 
+  createScriptTask(expression: string): Promise<StaticJsTask<StaticJsValue>> {
+    return new Promise<StaticJsTask<StaticJsValue>>((resolve, reject) => {
+      try {
+        const parsed = parseExpressionAst(expression, { sourceType: "script" });
+        const [queuedTask] = createQueuedTask(
+          doEvaluateNode(parsed, this),
+          // Instead of activating the realm's runTask,
+          // we resolve the promise to the task and let the caller
+          // run the task as they see fit.
+          resolve,
+        );
+        this._taskQueues[0].push(queuedTask as QueuedTask<unknown>);
+        this._tryDrainCurrentTask();
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
   async resolveImportedModule(
     referencingModule: StaticJsModule,
     specifier: string,
@@ -235,7 +254,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   enqueueMicrotask(evaluator: EvaluationGenerator<void>): void {
     const [task] = createQueuedTask(evaluator, this._runTask);
-    this._taskQueues[0].push(task);
+    this._taskQueues[0].push(task as QueuedTask<unknown>);
     this._tryDrainCurrentTask();
   }
 
@@ -243,8 +262,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     evaluator: EvaluationGenerator<TReturn>,
     { taskRunner = this._runTask } = {},
   ): Promise<TReturn> {
-    const [task, promise] = createQueuedTask(evaluator, taskRunner);
-    this._taskQueues[1].push(task);
+    const [queuedTask, promise] = createQueuedTask(evaluator, taskRunner);
+    this._taskQueues[1].push(queuedTask as QueuedTask<unknown>);
     this._tryDrainCurrentTask();
     return promise as Promise<TReturn>;
   }
@@ -273,11 +292,11 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         continue;
       }
 
-      const newTask = taskQueue.shift();
-      if (newTask) {
-        this._currentTask = newTask;
+      const queuedTask = taskQueue.shift();
+      if (queuedTask) {
+        this._currentTask = queuedTask;
         const iterator = this._createTask(this._currentTask);
-        this._runTask(iterator);
+        queuedTask.runTask(iterator);
         break;
       }
     }
@@ -289,9 +308,16 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       let result: ReturnType<typeof iterator.next>;
       do {
         yield;
+
+        if (this._currentTask !== task) {
+          throw new Error("Current task is not the one we are draining.");
+        }
+
         result = iterator.next();
       } while (!result.done);
+
       task.resolve(result.value);
+      return result.value;
     } catch (e: unknown) {
       // Nominally we would pass to iterator.throw, but
       // evaluateCommands is handling that for us, and we will
@@ -302,7 +328,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         task.reject(e);
       }
     } finally {
-      this._currentTask = null;
+      if (this._currentTask === task) {
+        this._currentTask = null;
+      }
       this._tryDrainCurrentTask();
     }
   }

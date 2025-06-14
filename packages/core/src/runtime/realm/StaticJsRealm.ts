@@ -10,7 +10,7 @@ import type { StaticJsModuleImplementation } from "../modules/StaticJsModuleImpl
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import type { StaticJsTaskRunner } from "./StaticJsTask.js";
+import type { StaticJsTask, StaticJsTaskRunner } from "./StaticJsTask.js";
 
 /**
  * Options for running a macrotask in the StaticJs runtime.
@@ -71,6 +71,14 @@ export interface StaticJsRealm {
    * @param code The code of the module to evaluate.
    */
   evaluateModule(code: string): Promise<StaticJsModule>;
+
+  /**
+   * Creates a task that evaluates a script.
+   * This will not invoke the realm runTask handler.  Instead, the callee is expected
+   * to iterate the task until completion.
+   * @param expression The expression to evaluate as a script.
+   */
+  createScriptTask(expression: string): Promise<StaticJsTask<StaticJsValue>>;
 
   /*
   The below is all internal.  We could isolate this from the public API using a different interface.
