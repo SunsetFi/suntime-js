@@ -1,6 +1,10 @@
 import { describe, it, expect, vitest } from "vitest";
 
-import { StaticJsRealm, type StaticJsTask } from "../../src/index.js";
+import {
+  StaticJsRealm,
+  StaticJsTaskAbortedError,
+  type StaticJsTask,
+} from "../../src/index.js";
 
 describe("E2E: Tasks", () => {
   describe("StaticJsRealm.evaluateScript", () => {
@@ -80,6 +84,78 @@ describe("E2E: Tasks", () => {
 
       const result2 = await promise2;
       expect(result2.toJsSync()).toBe(6);
+    });
+
+    it("Allows tasks to be aborted", async () => {
+      let iterations = 0;
+      const runTask = vitest.fn((task: StaticJsTask) => {
+        let result: ReturnType<typeof task.next>;
+        do {
+          result = task.next();
+          iterations++;
+          if (iterations > 10) {
+            task.abort();
+          }
+        } while (!result.done);
+      });
+
+      const realm = StaticJsRealm({
+        runTask,
+      });
+
+      await expect(() =>
+        realm.evaluateScript("for(let i = 0; i < 10000; i++) {  }"),
+      ).rejects.toThrow(StaticJsTaskAbortedError);
+    });
+
+    it("Resumes the next task after an aborted task", async () => {
+      let queuedTask: StaticJsTask | undefined;
+      function drainTask() {
+        if (!queuedTask) {
+          throw new Error("No queued task to drain");
+        }
+        const task = queuedTask;
+        let result: ReturnType<typeof task.next>;
+        do {
+          result = task.next();
+        } while (!result.done);
+        if (queuedTask !== task) {
+          throw new Error("Queued task changed while draining previous task.");
+        }
+        queuedTask = undefined;
+      }
+      function abortTask() {
+        if (!queuedTask) {
+          throw new Error("No queued task to abort");
+        }
+        queuedTask.abort();
+      }
+      const runTask = vitest.fn((task: StaticJsTask) => {
+        queuedTask = task;
+      });
+      const realm = StaticJsRealm({
+        runTask,
+      });
+
+      let promise1Error: unknown | undefined;
+      const promise1 = realm
+        .evaluateScript("for(let i = 0; i < 10000; i++) {  }")
+        .catch((e) => {
+          promise1Error = e;
+        });
+      const promise2 = realm.evaluateScript("2 + 2");
+
+      await delay(0); // Allow the first task to be queued
+      expect(runTask).toBeCalledTimes(1);
+      abortTask();
+
+      await promise1;
+      expect(promise1Error).toBeInstanceOf(StaticJsTaskAbortedError);
+
+      expect(runTask).toBeCalledTimes(2);
+      drainTask();
+      const result2 = await promise2;
+      expect(result2.toJsSync()).toBe(4);
     });
 
     describe("With taskRunner option", () => {
