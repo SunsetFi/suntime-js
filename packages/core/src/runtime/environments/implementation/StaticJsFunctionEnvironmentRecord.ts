@@ -14,6 +14,7 @@ export default class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarati
   ) {
     super(realm);
     // TODO: add arguments array-not-array-object.
+    // Should be alias to real values in non-strict mode.
   }
 
   *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {

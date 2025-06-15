@@ -98,7 +98,7 @@ function* deleteExpressionNodeEvaluator(
   } else if (argument.type === "Identifier") {
     const env = context.env;
     const name = argument.name;
-    yield* env.deleteBindingEvaluator(name);
+    yield* env.deleteBindingEvaluator(name, context.strict);
 
     // We just return true regardless apparently?
     return context.realm.types.true;

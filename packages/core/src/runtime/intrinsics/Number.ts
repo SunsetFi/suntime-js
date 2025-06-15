@@ -11,7 +11,7 @@ import {
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
+import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionBase.js";
 import StaticJsNumberBoxed from "../types/implementation/StaticJsNumberBoxed.js";
 
 export function populateNumberPrototype(

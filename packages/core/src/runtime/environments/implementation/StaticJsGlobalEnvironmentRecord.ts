@@ -97,11 +97,11 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
     yield* this._objectRecord.createMutableBindingEvaluator(name, deletable);
   }
 
-  hasThisBinding(): boolean {
+  *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {
     return true;
   }
 
-  getThisBinding(): StaticJsValue {
+  *getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this._globalThis;
   }
 

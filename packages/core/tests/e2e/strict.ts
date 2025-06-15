@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { evaluateScript } from "../../src/index.js";
 
-describe.skip("E2E: Strict mode", () => {
+describe("E2E: Strict mode", () => {
   describe("Non-strict mode behavior", () => {
     it("should allow assigning to undeclared variables", async () => {
       const code = `
@@ -37,6 +37,7 @@ describe.skip("E2E: Strict mode", () => {
       const code = `
         const x = 10;
         x = 20;
+        x;
       `;
       await expect(evaluateScript(code)).resolves.toBe(10);
     });

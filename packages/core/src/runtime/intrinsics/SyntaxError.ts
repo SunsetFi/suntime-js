@@ -1,7 +1,7 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsObject } from "../types/StaticJsObject.js";
-import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
+import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionBase.js";
 
 export function populateSyntaxErrorPrototype(
   _realm: StaticJsRealm,

@@ -103,13 +103,22 @@ export default abstract class StaticJsBaseEnvironmentRecord
       }
 
       yield* binding.set(value);
-    } else {
+      return;
+    }
+
+    if (strict) {
       throw new ThrowCompletion(
         this._realm.types.error(
           "ReferenceError",
           `Assignment to undeclared variable '${name}'.`,
         ),
       );
+    }
+
+    yield* this.createMutableBindingEvaluator(name, false);
+    const newBinding = this[StaticJsEnvironmentGetBinding](name);
+    if (newBinding) {
+      yield* newBinding.set(value);
     }
   }
 
@@ -131,12 +140,15 @@ export default abstract class StaticJsBaseEnvironmentRecord
     }
   }
 
-  *deleteBindingEvaluator(name: string): EvaluationGenerator<void> {
+  *deleteBindingEvaluator(
+    name: string,
+    strict: boolean,
+  ): EvaluationGenerator<void> {
     const binding = this[StaticJsEnvironmentGetBinding](name);
 
     if (binding) {
       yield* binding.delete();
-    } else {
+    } else if (strict) {
       throw new ThrowCompletion(
         this.realm.types.error(
           "ReferenceError",

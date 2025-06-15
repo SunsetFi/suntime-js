@@ -3,7 +3,7 @@ import {
   parse as parseAst,
   parseExpression as parseExpressionAst,
 } from "@babel/parser";
-import type { Node } from "@babel/types";
+import { type Node } from "@babel/types";
 
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
@@ -215,7 +215,13 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsValue> {
     const parsed = parseAst(code, { sourceType: "script" });
-    return this.enqueueMacrotask(doEvaluateNode(parsed.program, this), opts);
+    const strict = parsed.program.directives.some(
+      (directive) => directive.value.value === "use strict",
+    );
+    return this.enqueueMacrotask(
+      doEvaluateNode(parsed.program, this, strict),
+      opts,
+    );
   }
 
   async evaluateModule(
@@ -518,12 +524,11 @@ function defaultTaskRunner(task: StaticJsTask) {
 function* doEvaluateNode(
   node: Node,
   realm: StaticJsRealm,
+  strict?: boolean,
 ): EvaluationGenerator<StaticJsValue> {
   const context: EvaluationContext = {
     realm,
-    // Babel parser seems to ignore the use strict directive and
-    // I currently don't care enough to get this right.
-    strict: false,
+    strict: strict ?? false,
     env: realm.globalEnv,
     label: null,
   };

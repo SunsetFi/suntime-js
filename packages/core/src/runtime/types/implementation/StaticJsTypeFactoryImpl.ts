@@ -30,7 +30,7 @@ import StaticJsStringImpl from "./StaticJsStringImpl.js";
 import StaticJsUndefinedImpl from "./StaticJsUndefinedImpl.js";
 import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
 import StaticJsExternalObject from "./StaticJsExternalObject.js";
-import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
+import StaticJsFunctionImpl from "./StaticJsFunctionBase.js";
 
 export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private _zero: StaticJsNumber;

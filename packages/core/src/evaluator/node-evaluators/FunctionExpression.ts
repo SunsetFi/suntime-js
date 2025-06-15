@@ -12,7 +12,12 @@ function* expressionStatementNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const functionName = node.id?.name ?? null;
-  return createFunction(functionName, node, context);
+  return createFunction(
+    functionName,
+    node,
+    context.strict ? "strict" : "lexical",
+    context,
+  );
 }
 
 export default typedMerge(expressionStatementNodeEvaluator, {

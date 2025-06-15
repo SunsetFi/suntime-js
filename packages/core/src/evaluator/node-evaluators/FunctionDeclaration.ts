@@ -29,7 +29,12 @@ function* functionDeclarationEnvironmentSetup(
   context: EvaluationContext,
 ): EvaluationGenerator<boolean> {
   const functionName = node.id?.name ?? null;
-  const func = createFunction(functionName, node, context);
+  const func = createFunction(
+    functionName,
+    node,
+    context.strict ? "strict" : "lexical",
+    context,
+  );
 
   if (functionName) {
     yield* context.env.createFunctionBindingEvaluator(functionName, func);

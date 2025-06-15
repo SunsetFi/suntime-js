@@ -11,6 +11,7 @@ import type EvaluationContext from "../EvaluationContext.js";
 export default function createFunction(
   name: string | null,
   node: Function,
+  thisMode: "lexical" | "strict",
   functionContext: EvaluationContext,
 ): StaticJsFunction {
   if (node.async) {
@@ -32,6 +33,7 @@ export default function createFunction(
   return new StaticJsAstFunction(
     functionContext.realm,
     name,
+    thisMode,
     node.params as StaticJsAstFunctionArgumentDeclaration[],
     functionContext,
     node.body,

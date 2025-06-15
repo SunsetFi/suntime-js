@@ -3,6 +3,7 @@ import type { CallExpression } from "@babel/types";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
@@ -22,7 +23,9 @@ export default function* callExpressionNodeEvaluator(
     throw new StaticJsEngineError("Intrinsics are not supported");
   }
 
-  let thisArg = yield* context.env.getThisBindingEvaluator();
+  // This is suprising, but we pass undefined if we have none.
+  // The function itself decides what to and (maybe) inherits globalThis when undefined is passed.
+  let thisArg: StaticJsValue = context.realm.types.undefined;
 
   if (node.callee.type === "MemberExpression") {
     thisArg = yield* EvaluateNodeCommand(node.callee.object, context, {
