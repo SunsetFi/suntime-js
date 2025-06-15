@@ -32,7 +32,9 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
         },
       });
       const start = performance.now();
-      const task = await new Promise<StaticJsTask>(resolve => realm.evaluateScript(code, {taskRunner: resolve}));
+      const task = await new Promise<StaticJsTask>((resolve) =>
+        realm.evaluateScript(code, { taskRunner: resolve })
+      );
       setCompileTime(performance.now() - start);
       setTask(task);
     } catch (e: any) {
@@ -116,9 +118,7 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", ...sx }}>
       {status !== "running" && <button onClick={onCompile}>Run</button>}
-      {status === "running" && (
-        <button onClick={onAbort}>Abort</button>
-      )}
+      {status === "running" && <button onClick={onAbort}>Abort</button>}
       {compileTime > 0 && (
         <Typography>{`Compiled in ${compileTime}ms`}</Typography>
       )}
