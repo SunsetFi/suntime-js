@@ -22,7 +22,7 @@ export default function* identifierNodeEvaluator(
 
   const value = yield* context.env.getBindingValueEvaluator(
     node.name,
-    context.realm.strict,
+    context.strict,
   );
   return value;
 }

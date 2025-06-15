@@ -115,7 +115,7 @@ export default function* setLVal(
               yield* restValue.setPropertyEvaluator(
                 key,
                 propertyValue,
-                context.realm.strict,
+                context.strict,
               );
             }
           }
@@ -201,11 +201,7 @@ export default function* setLVal(
       const object = yield* toObject(objectValue, context.realm);
 
       // FIXME: Is this correct?  We set the object directly???
-      yield* object.setPropertyEvaluator(
-        propertyKey,
-        value,
-        context.realm.strict,
-      );
+      yield* object.setPropertyEvaluator(propertyKey, value, context.strict);
 
       return null;
     }

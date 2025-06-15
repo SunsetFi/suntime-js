@@ -37,11 +37,6 @@ export interface StaticJsRunTaskOptions {
  */
 export interface StaticJsRealm {
   /**
-   * Whether the realm is in strict mode.
-   */
-  readonly strict: boolean;
-
-  /**
    * The global-scope global object of the realm.
    */
   readonly globalObject: StaticJsObject;

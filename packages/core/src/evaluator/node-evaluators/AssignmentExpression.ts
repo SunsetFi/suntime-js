@@ -146,7 +146,7 @@ export default function* assignmentExpressionNodeEvaluator(
     return yield* context.env.setMutableBindingEvaluator(
       name,
       value,
-      context.realm.strict,
+      context.strict,
     );
   });
 

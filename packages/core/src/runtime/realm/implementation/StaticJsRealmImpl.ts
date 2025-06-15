@@ -190,11 +190,6 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
   }
 
-  get strict() {
-    // TODO: Support "use strict";
-    return true;
-  }
-
   get globalObject() {
     return this._globalObject;
   }
@@ -526,6 +521,9 @@ function* doEvaluateNode(
 ): EvaluationGenerator<StaticJsValue> {
   const context: EvaluationContext = {
     realm,
+    // Babel parser seems to ignore the use strict directive and
+    // I currently don't care enough to get this right.
+    strict: false,
     env: realm.globalEnv,
     label: null,
   };

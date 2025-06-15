@@ -70,7 +70,7 @@ export default class StaticJsAstArrowFunction extends StaticJsFunctionImpl {
     );
 
     const functionContext: EvaluationContext = {
-      realm: this._context.realm,
+      ...this._context,
       env: functionEnv,
       label: null,
     };

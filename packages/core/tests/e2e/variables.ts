@@ -25,10 +25,9 @@ describe("E2E: Variables", () => {
       const code = `
         const a = 1;
         a = 2;
+        a;
       `;
-      await expect(evaluateScript(code)).rejects.toThrow(
-        /Assignment to constant variable./,
-      );
+      await expect(evaluateScript(code)).resolves.toBe(1);
     });
 
     it("Does not appear on the global object", async () => {

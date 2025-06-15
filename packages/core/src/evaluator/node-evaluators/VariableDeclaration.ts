@@ -36,7 +36,7 @@ function* variableDeclarationNodeEvaluator(
         return yield* context.env.setMutableBindingEvaluator(
           name,
           value ?? context.realm.types.undefined,
-          context.realm.strict,
+          context.strict,
         );
       };
       break;
@@ -67,7 +67,7 @@ function* variableDeclarationEnvironmentSetup(
       variableCreator = function* (name) {
         yield* context.env.createImmutableBindingEvaluator(
           name,
-          context.realm.strict,
+          context.strict,
         );
       };
       break;

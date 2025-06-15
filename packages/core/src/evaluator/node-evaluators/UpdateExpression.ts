@@ -22,7 +22,7 @@ export default function* updateExpressionNodeEvaluator(
 
   const originalValue = yield* context.env.getBindingValueEvaluator(
     bindingName,
-    context.realm.strict,
+    context.strict,
   );
 
   if (!isStaticJsNumber(originalValue)) {
@@ -47,7 +47,7 @@ export default function* updateExpressionNodeEvaluator(
   yield* context.env.setMutableBindingEvaluator(
     bindingName,
     setValue,
-    context.realm.strict,
+    context.strict,
   );
 
   return node.prefix ? setValue : originalValue;

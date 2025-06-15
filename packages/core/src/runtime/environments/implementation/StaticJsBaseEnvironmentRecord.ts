@@ -93,7 +93,7 @@ export default abstract class StaticJsBaseEnvironmentRecord
         if (strict) {
           throw new ThrowCompletion(
             this._realm.types.error(
-              "ReferenceError",
+              "TypeError",
               `Assignment to constant variable '${name}'.`,
             ),
           );

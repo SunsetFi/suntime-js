@@ -141,6 +141,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
     const context: EvaluationContext = {
       realm: this._realm,
+      strict: true,
       env: this._lexicalEnv,
       label: null,
     };
@@ -301,6 +302,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
     const context: EvaluationContext = {
       realm: this._realm,
+      strict: true,
       env: this._lexicalEnv!,
       label: null,
     };

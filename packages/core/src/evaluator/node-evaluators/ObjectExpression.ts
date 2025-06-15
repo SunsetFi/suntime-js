@@ -83,11 +83,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
 
   switch (property.kind) {
     case "method": {
-      yield* target.setPropertyEvaluator(
-        propertyName,
-        method,
-        context.realm.strict,
-      );
+      yield* target.setPropertyEvaluator(propertyName, method, context.strict);
       return null;
     }
     case "get": {
@@ -133,7 +129,7 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
   const value = yield* EvaluateNodeCommand(property.value, context, {
     forNormalValue: "ObjectProperty.value",
   });
-  yield* target.setPropertyEvaluator(propertyName, value, context.realm.strict);
+  yield* target.setPropertyEvaluator(propertyName, value, context.strict);
   return null;
 }
 
@@ -153,11 +149,7 @@ function* objectExpressionPropertySpreadElementEvaluator(
   const ownKeys = yield* value.getOwnKeysEvaluator();
   for (const key of ownKeys) {
     const propertyValue = yield* value.getPropertyEvaluator(key);
-    yield* target.setPropertyEvaluator(
-      key,
-      propertyValue,
-      context.realm.strict,
-    );
+    yield* target.setPropertyEvaluator(key, propertyValue, context.strict);
   }
 
   return null;

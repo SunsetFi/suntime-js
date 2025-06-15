@@ -2,7 +2,8 @@ import type { StaticJsEnvironment } from "../runtime/environments/StaticJsEnviro
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
 
 export default interface EvaluationContext {
-  env: StaticJsEnvironment;
   realm: StaticJsRealm;
+  env: StaticJsEnvironment;
+  strict: boolean;
   label: string | null;
 }
