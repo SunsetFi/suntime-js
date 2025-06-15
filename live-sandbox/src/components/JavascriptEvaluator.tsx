@@ -41,7 +41,16 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
     }
   }, [code]);
 
-  const haltRef = React.useRef(false);
+  const onAbort = React.useCallback(() => {
+    if (task == null) {
+      return;
+    }
+    task.abort();
+    setTask(null);
+    setStatus("done");
+    setRunEnd(performance.now());
+  }, [task]);
+
   const [status, setStatus] = React.useState<"running" | "done" | "error">(
     "done"
   );
@@ -54,7 +63,8 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
       return;
     }
 
-    haltRef.current = false;
+    const caturedTask = task;
+
     setStatus("running");
     setOps(0);
     setLogs([]);
@@ -70,8 +80,8 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
     let timeout: number | null = null;
     function process() {
       for (let i = 0; i < 1000; i++) {
-        if (haltRef.current) {
-          onDone();
+        if (caturedTask.aborted) {
+          // We may have aborted externally.
           return;
         }
 
@@ -107,7 +117,7 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
     <Box sx={{ display: "flex", flexDirection: "column", ...sx }}>
       {status !== "running" && <button onClick={onCompile}>Run</button>}
       {status === "running" && (
-        <button onClick={() => (haltRef.current = true)}>Halt</button>
+        <button onClick={onAbort}>Abort</button>
       )}
       {compileTime > 0 && (
         <Typography>{`Compiled in ${compileTime}ms`}</Typography>
