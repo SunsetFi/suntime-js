@@ -32,7 +32,7 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
         },
       });
       const start = performance.now();
-      const task = await realm.createScriptTask(code);
+      const task = await new Promise<StaticJsTask>(resolve => realm.evaluateScript(code, {taskRunner: resolve}));
       setCompileTime(performance.now() - start);
       setTask(task);
     } catch (e: any) {
