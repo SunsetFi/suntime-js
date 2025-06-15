@@ -57,26 +57,41 @@ import type {
 
 import type { StaticJsTask, StaticJsTaskRunner } from "../StaticJsTask.js";
 
-import type { StaticJsRealm } from "../StaticJsRealm.js";
+import type {
+  StaticJsRealm,
+  StaticJsRunTaskOptions,
+} from "../StaticJsRealm.js";
+import { StaticJsTaskAbortedError } from "../../../errors/StaticJsTaskAbortedError.js";
 
-interface QueuedTask<TResult = unknown> {
+interface QueuedTask {
   evaluator: EvaluationGenerator<unknown>;
-  resolve: (value: TResult) => void;
+  resolve: (value: unknown) => void;
   reject: (reason?: unknown) => void;
-  runTask: StaticJsTaskRunner<TResult>;
+  runTask: StaticJsTaskRunner;
+  get done(): boolean;
 }
 
-function createQueuedTask<TResult>(
-  evaluator: EvaluationGenerator<TResult>,
-  runTask: StaticJsTaskRunner<TResult>,
+function createQueuedTask(
+  evaluator: EvaluationGenerator<unknown>,
+  runTask: StaticJsTaskRunner,
 ) {
-  let task!: QueuedTask<TResult>;
-  const promise = new Promise<TResult>((resolve, reject) => {
+  let task!: QueuedTask;
+  let done = false;
+  const promise = new Promise<unknown>((resolve, reject) => {
     task = {
       evaluator,
-      resolve,
-      reject,
+      resolve: (value: unknown) => {
+        done = true;
+        resolve(value);
+      },
+      reject: (reason?: unknown) => {
+        done = true;
+        reject(reason);
+      },
       runTask,
+      get done() {
+        return done;
+      },
     };
   });
   return [task, promise] as const;
@@ -192,17 +207,26 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return this._typeFactory;
   }
 
-  evaluateExpression(code: string): Promise<StaticJsValue> {
+  evaluateExpression(
+    code: string,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsValue> {
     const parsed = parseExpressionAst(code, { sourceType: "script" });
-    return this.enqueueMacrotask(doEvaluateNode(parsed, this));
+    return this.enqueueMacrotask(doEvaluateNode(parsed, this), opts);
   }
 
-  async evaluateScript(code: string): Promise<StaticJsValue> {
+  async evaluateScript(
+    code: string,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsValue> {
     const parsed = parseAst(code, { sourceType: "script" });
-    return this.enqueueMacrotask(doEvaluateNode(parsed.program, this));
+    return this.enqueueMacrotask(doEvaluateNode(parsed.program, this), opts);
   }
 
-  async evaluateModule(code: string): Promise<StaticJsModule> {
+  async evaluateModule(
+    code: string,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsModule> {
     const parsed = parseAst(code, { sourceType: "module" });
     const module = new StaticJsModuleImpl(
       `inline-module?${Date.now()}`,
@@ -213,26 +237,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     // Bit weird that we link immediately instead of when we are ready to perform the task?
     await module.linkModules();
 
-    return await this.enqueueMacrotask(doEvaluateModule(module));
-  }
-
-  createScriptTask(expression: string): Promise<StaticJsTask<StaticJsValue>> {
-    return new Promise<StaticJsTask<StaticJsValue>>((resolve, reject) => {
-      try {
-        const parsed = parseAst(expression, { sourceType: "script" });
-        const [queuedTask] = createQueuedTask(
-          doEvaluateNode(parsed, this),
-          // Instead of activating the realm's runTask,
-          // we resolve the promise to the task and let the caller
-          // run the task as they see fit.
-          resolve,
-        );
-        this._taskQueues[0].push(queuedTask as QueuedTask<unknown>);
-        this._tryDrainCurrentTask();
-      } catch (e) {
-        reject(e);
-      }
-    });
+    return await this.enqueueMacrotask(doEvaluateModule(module), opts);
   }
 
   async resolveImportedModule(
@@ -254,8 +259,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   enqueueMicrotask(evaluator: EvaluationGenerator<void>): void {
     const [task] = createQueuedTask(evaluator, this._runTask);
-    this._taskQueues[0].push(task as QueuedTask<unknown>);
-    this._tryDrainCurrentTask();
+    this._taskQueues[0].push(task);
+    this._tryDrainTaskQueue();
   }
 
   enqueueMacrotask<TReturn>(
@@ -263,8 +268,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     { taskRunner = this._runTask } = {},
   ): Promise<TReturn> {
     const [queuedTask, promise] = createQueuedTask(evaluator, taskRunner);
-    this._taskQueues[1].push(queuedTask as QueuedTask<unknown>);
-    this._tryDrainCurrentTask();
+    this._taskQueues[1].push(queuedTask);
+    this._tryDrainTaskQueue();
     return promise as Promise<TReturn>;
   }
 
@@ -281,7 +286,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return iteratorResult.value;
   }
 
-  private _tryDrainCurrentTask() {
+  private _tryDrainTaskQueue() {
     if (this._currentTask !== null) {
       // Already running a task.
       return;
@@ -294,45 +299,98 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
       const queuedTask = taskQueue.shift();
       if (queuedTask) {
-        this._currentTask = queuedTask;
-        const iterator = this._createTask(this._currentTask);
-        queuedTask.runTask(iterator);
+        this._invokeQueuedTask(queuedTask);
         break;
       }
     }
   }
 
-  private *_createTask(task: QueuedTask): StaticJsTask {
-    const iterator = evaluateCommands(task.evaluator);
-    try {
-      let result: ReturnType<typeof iterator.next>;
-      do {
-        yield;
+  private _invokeQueuedTask(queuedTask: QueuedTask) {
+    if (this._currentTask !== null) {
+      throw new Error("Cannot invoke a task while another task is running.");
+    }
 
+    this._currentTask = queuedTask;
+
+    // Invoke on the microtask queue, so that
+    // we do not end up calling another task runner inside the
+    // .next() call of a previous task runner.
+    Promise.resolve().then(() => {
+      const iterator = this._createTask(queuedTask);
+      try {
+        queuedTask.runTask(iterator);
+      } catch (e) {
+        // If the task runner throws, we need to reject the task
+        // and clean up if its still pending.
+        if (!queuedTask.done) {
+          queuedTask.reject(e);
+        }
+        if (this._currentTask === queuedTask) {
+          this._currentTask = null;
+          this._tryDrainTaskQueue();
+        }
+      }
+    });
+  }
+
+  private _createTask(task: QueuedTask): StaticJsTask {
+    const iterator = evaluateCommands(task.evaluator);
+    let done = false;
+    let aborted = false;
+    return {
+      get done() {
+        return done;
+      },
+      get aborted() {
+        return aborted;
+      },
+      next: () => {
         if (this._currentTask !== task) {
-          throw new Error("Current task is not the one we are draining.");
+          throw new Error("Cannot call next() on an inactive task.");
         }
 
-        result = iterator.next();
-      } while (!result.done);
+        if (aborted) {
+          throw new StaticJsTaskAbortedError(
+            "Cannot call next() on an aborted task.",
+          );
+        }
 
-      task.resolve(result.value);
-      return result.value;
-    } catch (e: unknown) {
-      // Nominally we would pass to iterator.throw, but
-      // evaluateCommands is handling that for us, and we will
-      // only get final throws here.
-      if (e instanceof AbnormalCompletion) {
-        task.reject(e.toRuntime());
-      } else {
-        task.reject(e);
-      }
-    } finally {
-      if (this._currentTask === task) {
+        try {
+          const result = iterator.next();
+          if (result.done) {
+            done = true;
+            this._currentTask = null;
+            this._tryDrainTaskQueue();
+            task.resolve(result.value);
+          }
+          return {
+            value: undefined,
+            done: result.done,
+          };
+        } catch (e) {
+          // Normally we should pass this to the generator's throw method,
+          // but we are passed generators that handle all of that for us, so the only
+          // throws we should be getting here are final throws.
+          task.reject(e);
+          this._currentTask = null;
+          this._tryDrainTaskQueue();
+          return {
+            value: undefined,
+            done: true,
+          };
+        }
+      },
+
+      abort: () => {
+        if (this._currentTask !== task) {
+          throw new Error("Cannot call abort() on an inactive task.");
+        }
+        aborted = true;
         this._currentTask = null;
-      }
-      this._tryDrainCurrentTask();
-    }
+        task.reject(new StaticJsTaskAbortedError("Task was aborted."));
+        this._tryDrainTaskQueue();
+      },
+    };
   }
 
   private _setupGlobalObject(

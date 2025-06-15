@@ -3,106 +3,123 @@ import { describe, it, expect, vitest } from "vitest";
 import { StaticJsRealm, type StaticJsTask } from "../../src/index.js";
 
 describe("E2E: Tasks", () => {
-  it("Handles evaluation without a runTask option", async () => {
-    const realm = StaticJsRealm({});
+  describe("StaticJsRealm.evaluateScript", () => {
+    it("Handles evaluation without a StaticJsRealm runTask option", async () => {
+      const realm = StaticJsRealm({});
 
-    const result = await realm.evaluateExpression("2 + 2");
-    expect(result.toJsSync()).toBe(4);
-  });
-
-  it("Handles evaluation with a runTask option", async () => {
-    const runTask = vitest.fn((task: StaticJsTask) => {
-      let result: ReturnType<typeof task.next>;
-      do {
-        result = task.next();
-      } while (!result.done);
+      const result = await realm.evaluateScript("2 + 2");
+      expect(result.toJsSync()).toBe(4);
     });
 
-    const realm = StaticJsRealm({
-      runTask,
+    it("Handles evaluation with a StaticJsRealm runTask option", async () => {
+      const runTask = vitest.fn((task: StaticJsTask) => {
+        let result: ReturnType<typeof task.next>;
+        do {
+          result = task.next();
+        } while (!result.done);
+      });
+
+      const realm = StaticJsRealm({
+        runTask,
+      });
+
+      const promise = realm.evaluateScript("2 + 2");
+
+      await delay(0); // Allow the task to be queued
+
+      expect(runTask).toBeCalledTimes(1);
+
+      const result = await promise;
+      expect(result.toJsSync()).toBe(4);
     });
 
-    const promise = realm.evaluateExpression("2 + 2");
+    it("Queues evaluations when called synchronously", async () => {
+      let queuedTask: StaticJsTask | undefined;
+      function drainTask() {
+        if (!queuedTask) {
+          throw new Error("No queued task to drain");
+        }
 
-    expect(runTask).toBeCalledTimes(1);
+        const task = queuedTask;
+        let result: ReturnType<typeof task.next>;
+        do {
+          result = task.next();
+        } while (!result.done);
 
-    const result = await promise;
-    expect(result.toJsSync()).toBe(4);
-  });
+        if (queuedTask !== task) {
+          throw new Error("Queued task changed while draining previous task.");
+        }
+        queuedTask = undefined;
+      }
+      const runTask = vitest.fn((task: StaticJsTask) => {
+        queuedTask = task;
+      });
 
-  it("Handles createScriptTask", async () => {
-    const runTask = vitest.fn((task: StaticJsTask) => {
-      let result: ReturnType<typeof task.next>;
-      do {
-        result = task.next();
-      } while (!result.done);
+      const realm = StaticJsRealm({
+        runTask,
+      });
+
+      const promise1 = realm.evaluateScript("2 + 2");
+
+      const promise2 = realm.evaluateScript("3 + 3");
+
+      await delay(0); // Allow the first task to be queued
+
+      expect(runTask).toBeCalledTimes(1);
+
+      drainTask();
+
+      // This will provide the microtask pump to queue the second task
+      const result1 = await promise1;
+
+      expect(result1.toJsSync()).toBe(4);
+
+      expect(runTask).toBeCalledTimes(2);
+
+      drainTask();
+
+      const result2 = await promise2;
+      expect(result2.toJsSync()).toBe(6);
     });
 
-    const realm = StaticJsRealm({
-      runTask,
+    describe("With taskRunner option", () => {
+      it("Is invoked to run the task", async () => {
+        const taskRunner = vitest.fn((task: StaticJsTask) => {
+          let result: ReturnType<typeof task.next>;
+          do {
+            result = task.next();
+          } while (!result.done);
+        });
+        const realm = StaticJsRealm({});
+
+        const result = await realm.evaluateScript("2 + 2", {
+          taskRunner,
+        });
+        expect(taskRunner).toBeCalledTimes(1);
+        expect(result.toJsSync()).toBe(4);
+      });
+
+      it("Does not invoke the realm runTask handler", async () => {
+        const runTask = vitest.fn();
+        const taskRunner = vitest.fn((task: StaticJsTask) => {
+          let result: ReturnType<typeof task.next>;
+          do {
+            result = task.next();
+          } while (!result.done);
+        });
+
+        const realm = StaticJsRealm({
+          runTask,
+        });
+
+        const result = await realm.evaluateScript("2 + 2", {
+          taskRunner,
+        });
+        expect(runTask).toBeCalledTimes(0);
+        expect(taskRunner).toBeCalledTimes(1);
+        expect(result.toJsSync()).toBe(4);
+      });
     });
-
-    const task = await realm.createScriptTask("2 + 2");
-    expect(runTask).toBeCalledTimes(0);
-
-    let result: ReturnType<typeof task.next>;
-    do {
-      result = task.next();
-    } while (!result.done);
-
-    expect(result.value.toJsSync()).toBe(4);
-  });
-
-  it("Handles sequential createScriptTask calls", async () => {
-    const runTask = vitest.fn((task: StaticJsTask) => {
-      let result: ReturnType<typeof task.next>;
-      do {
-        result = task.next();
-      } while (!result.done);
-    });
-
-    const realm = StaticJsRealm({
-      runTask,
-    });
-
-    let task1Resolved = false;
-    const task1Promise = realm.createScriptTask("2 + 2").then((task) => {
-      task1Resolved = true;
-      return task;
-    });
-
-    let task2Resolved = false;
-    const task2Promise = realm.createScriptTask("3 + 3").then((task) => {
-      task2Resolved = true;
-      return task;
-    });
-
-    await delay(0);
-
-    expect(runTask).toBeCalledTimes(0);
-    expect(task1Resolved).toBe(true);
-    expect(task2Resolved).toBe(false);
-
-    const task1 = await task1Promise;
-    let result1: ReturnType<typeof task1.next>;
-    do {
-      result1 = task1.next();
-    } while (!result1.done);
-
-    expect(result1.value.toJsSync()).toBe(4);
-
-    await delay(0);
-
-    expect(runTask).toBeCalledTimes(0);
-    expect(task2Resolved).toBe(true);
-
-    const task2 = await task2Promise;
-    let result2: ReturnType<typeof task2.next>;
-    do {
-      result2 = task2.next();
-    } while (!result2.done);
-
-    expect(result2.value.toJsSync()).toBe(6);
   });
 });
 

@@ -7,8 +7,13 @@
  * Task execution can be done asynchronously, with pauses between operations,
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface StaticJsTask<TResult = unknown>
-  extends Generator<void, TResult, void> {}
+export interface StaticJsTask {
+  get done(): boolean;
+  get aborted(): boolean;
+
+  next(): IteratorResult<void, void>;
+  abort(): void;
+}
 
 /**
  * A function to run a task in the realm.
@@ -16,6 +21,4 @@ export interface StaticJsTask<TResult = unknown>
  * The implementation should call .next() on the generator until it is done.
  * This may be done synchronously or asynchronously.
  */
-export type StaticJsTaskRunner<TResult = unknown> = (
-  task: StaticJsTask<TResult>,
-) => void;
+export type StaticJsTaskRunner = (task: StaticJsTask) => void;

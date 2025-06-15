@@ -11,8 +11,8 @@ export function* evaluateCommands<TReturn>(
     const current = stack.at(-1)!;
 
     try {
-      const { value, done } = current[lastValueType](lastValue);
       yield;
+      const { value, done } = current[lastValueType](lastValue);
 
       lastValueType = "next";
 
