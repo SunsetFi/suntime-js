@@ -19,10 +19,18 @@ export default defineConfig({
       //     tsconfigRaw: readFileSync("./tsconfig.tests.json", "utf-8"),
       //   },
       //   test: {
-      //     name: "test262",
+      //     name: "Test262",
       //     include: ["./tests/test262/test262.ts"],
       //   },
       // },
     ],
   },
 });
+
+// coverage: {
+//             provider: "v8",
+//             reporter: ["text", "json-summary", "json"] as const,
+//             reportOnFailure: true,
+//             include: ["src/**/*.ts"],
+//             exclude: ["**/*.spec.ts"],
+//           },

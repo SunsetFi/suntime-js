@@ -8,8 +8,9 @@ import { describe, it, expect } from "vitest";
 import test262Path from "./utils/test262-path.js";
 import getFilesSync from "./utils/get-files.js";
 
-import { evaluateScript, StaticJsRealm } from "../../src/index.js";
 import bootstrapTest262 from "./utils/bootstrap.js";
+
+import { evaluateScript, StaticJsRealm } from "../../src/index.js";
 
 // const ignoreFeatures = ["async-functions"];
 
@@ -18,7 +19,7 @@ const LanguageCategories = readdirSync(test262Path("test/language"));
 describe("Test262", () => {
   describe("Language", () => {
     for (const category of LanguageCategories) {
-      describe(category, () => {
+      describe.concurrent(category, () => {
         describeCategory(category);
       });
     }

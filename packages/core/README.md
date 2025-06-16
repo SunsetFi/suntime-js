@@ -32,9 +32,10 @@ No idea. I haven't had this security tested or reviewed. While this approach giv
   - array
   - function
   - Boxed versions of string / number / boolean
+- Strict directive
 - Math
 - Error (and variants)
-- (Most?) Unary and Binary operators
+- Unary and Binary operators
 - for / while / do
 - try / catch / finally
 - Destructuring
@@ -42,7 +43,6 @@ No idea. I haven't had this security tested or reviewed. While this approach giv
 - ECMAScript Modules
   - Importing from external APIs
   - Importing from additional code string sources
-  - Importing from custom module instances.
   - Exports
 
 ### Notable things not (yet) supported
@@ -756,70 +756,6 @@ Various elements of StaticJs implement synchronous functions. However, using the
    Synchronous functions will not invoke the StaticJsRealm `runTask` option, and cannot be monitored, stepped through, iterated, or aborted.
 3. Synchronous functions ignore task queuing.
    Synchronous functions evaluate runtime code immediately regardless of the current stack or microtask queue.
-
-## Recipes
-
-### Creating a timesharing, time-bound, cancellable script invocation
-
-Using generator mode, you can control the timings of when each AST node is evaluated. This can be used to both spread out the execution over time to allow other tasks to still operate, as well as to put guardrails on how long the script is executing.
-
-Here is an example of a function that will evaluate the script over time, limiting itself to 1000 AST nodes per stretch, and interspersing that with 10ms deferrals for other code in the environment to execute. It also throws in a cancellation function for good measure.
-
-```ts
-import { compileProgram, StaticJsRealm } from "static-js";
-
-function evaluateCancellableProgram(
-  code: string,
-  timeout: number,
-  realm?: StaticJsRealm
-): { promise: Promise<unknown>; cancel: () => void } {
-  const compiled = compileProgram(code);
-  const gen = compiled.generator(realm);
-
-  let nextInvocation: number | null = null;
-
-  const start = Date.now();
-  const promise = new Promise<unknown>((accept, reject) => {
-    function schedule() {
-      nextInvocation = setTimeout(process, 10);
-    }
-
-    function process() {
-      for (let i = 0; i < 1000; i++) {
-        try {
-          const { value, done } = gen.next();
-          if (done) {
-            accept(value);
-            return;
-          }
-        } catch (e: unknown) {
-          reject(e);
-          return;
-        }
-      }
-
-      if (Date.now() - start >= timeout) {
-        reject(new Error("Evaluation timed out."));
-        return;
-      }
-
-      schedule();
-    }
-
-    schedule();
-  });
-
-  function cancel() {
-    clearTimeout(nextInvocation);
-    nextInvocation = null;
-  }
-
-  return {
-    promise,
-    cancel,
-  };
-}
-```
 
 ## TODO:
 

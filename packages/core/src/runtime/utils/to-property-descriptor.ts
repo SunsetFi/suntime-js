@@ -17,7 +17,7 @@ import toBoolean from "../algorithms/to-boolean.js";
 export default function* toPropertyDescriptor(
   realm: StaticJsRealm,
   obj: StaticJsObjectLike,
-): EvaluationGenerator<StaticJsPropertyDescriptor | ThrowCompletion> {
+): EvaluationGenerator<StaticJsPropertyDescriptor> {
   let enumerable: boolean | undefined;
   const hasEnumerable = yield* obj.hasPropertyEvaluator("enumerable");
   if (hasEnumerable) {
