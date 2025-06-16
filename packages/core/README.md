@@ -33,6 +33,7 @@ No idea. I haven't had this security tested or reviewed. While this approach giv
   - function
   - Boxed versions of string / number / boolean
 - Strict directive
+- Promises
 - Math
 - Error (and variants)
 - Unary and Binary operators
@@ -48,11 +49,10 @@ No idea. I haven't had this security tested or reviewed. While this approach giv
 ### Notable things not (yet) supported
 
 - Symbols
-- Promises
 - Async
 - Async Modules
 - Iterators and Generators
-- Classes
+- Class syntax
 - Date
 - Regex
 - for-of

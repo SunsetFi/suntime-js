@@ -8,24 +8,55 @@ export interface Prototypes {
   objectProto: StaticJsObject;
   arrayProto: StaticJsObject;
   functionProto: StaticJsObject;
+  promiseProto: StaticJsObject;
+
   errorProto: StaticJsObject;
   typeErrorProto: StaticJsObject;
   referenceErrorProto: StaticJsObject;
   syntaxErrorProto: StaticJsObject;
 }
 
+export const prototypeKeys = [
+  "stringProto",
+  "numberProto",
+  "booleanProto",
+  "objectProto",
+  "arrayProto",
+  "functionProto",
+  "promiseProto",
+  "errorProto",
+  "typeErrorProto",
+  "referenceErrorProto",
+  "syntaxErrorProto",
+] as const;
+
 export interface Constructors {
   String: StaticJsFunction;
   Number: StaticJsFunction;
   Boolean: StaticJsFunction;
   Object: StaticJsFunction;
-  Array: StaticJsObject;
-  Function: StaticJsObject;
+  Array: StaticJsFunction;
+  Function: StaticJsFunction;
+  Promise: StaticJsFunction;
   Error: StaticJsFunction;
   TypeError: StaticJsFunction;
   ReferenceError: StaticJsFunction;
   SyntaxError: StaticJsFunction;
 }
+
+export const constructorKeys = [
+  "String",
+  "Number",
+  "Boolean",
+  "Object",
+  "Array",
+  "Function",
+  "Promise",
+  "Error",
+  "TypeError",
+  "ReferenceError",
+  "SyntaxError",
+] as const;
 
 export interface Statics {
   Math: StaticJsObject;

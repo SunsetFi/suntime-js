@@ -64,15 +64,17 @@ import type {
 import { StaticJsTaskAbortedError } from "../../../errors/StaticJsTaskAbortedError.js";
 
 interface QueuedTask {
-  evaluator: EvaluationGenerator<unknown>;
+  evaluator: () => EvaluationGenerator<unknown>;
   resolve: (value: unknown) => void;
   reject: (reason?: unknown) => void;
   runTask: StaticJsTaskRunner;
+  get microtask(): boolean;
   get done(): boolean;
 }
 
 function createQueuedTask(
-  evaluator: EvaluationGenerator<unknown>,
+  microtask: boolean,
+  evaluator: () => EvaluationGenerator<unknown>,
   runTask: StaticJsTaskRunner,
 ) {
   let task!: QueuedTask;
@@ -89,6 +91,9 @@ function createQueuedTask(
         reject(reason);
       },
       runTask,
+      get microtask() {
+        return microtask;
+      },
       get done() {
         return done;
       },
@@ -114,6 +119,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   ] = [[], []];
 
   private _currentTask: QueuedTask | null = null;
+
+  private _microtasksDrainedCallbacks: ((err?: unknown) => void)[] = [];
 
   private readonly _runTask: StaticJsTaskRunner;
 
@@ -258,20 +265,49 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return module ?? null;
   }
 
-  enqueueMicrotask(evaluator: EvaluationGenerator<void>): void {
-    const [task] = createQueuedTask(evaluator, this._runTask);
+  enqueueMicrotask(evaluator: EvaluationGenerator<void>): void;
+  enqueueMicrotask(evaluator: () => EvaluationGenerator<void>): void;
+  enqueueMicrotask(
+    evaluator: (() => EvaluationGenerator<void>) | EvaluationGenerator<void>,
+  ): void {
+    let evaluatorFn: () => EvaluationGenerator<void>;
+    if (typeof evaluator === "function") {
+      evaluatorFn = evaluator;
+    } else {
+      evaluatorFn = () => evaluator;
+    }
+
+    const [task, promise] = createQueuedTask(true, evaluatorFn, this._runTask);
     this._taskQueues[0].push(task);
     this._tryDrainTaskQueue();
+
+    // These errors will be trapped and handled by the task logic.
+    // They will bubble up to the macrotask that caused them.
+    promise.catch(() => {});
   }
 
   enqueueMacrotask<TReturn>(
     evaluator: EvaluationGenerator<TReturn>,
     { taskRunner = this._runTask } = {},
   ): Promise<TReturn> {
-    const [queuedTask, promise] = createQueuedTask(evaluator, taskRunner);
-    this._taskQueues[1].push(queuedTask);
-    this._tryDrainTaskQueue();
-    return promise as Promise<TReturn>;
+    return new Promise<TReturn>((accept, reject) => {
+      const evaluatorFn = () => evaluator;
+      const [queuedTask, promise] = createQueuedTask(
+        false,
+        evaluatorFn,
+        taskRunner,
+      );
+      this._taskQueues[1].push(queuedTask);
+      this._tryDrainTaskQueue();
+
+      this._microtasksDrainedCallbacks.push((err) => {
+        if (err) {
+          reject(err);
+        } else {
+          accept(promise as Promise<TReturn>);
+        }
+      });
+    });
   }
 
   invokeEvaluatorSync<TReturn>(
@@ -287,21 +323,25 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return iteratorResult.value;
   }
 
+  private _onTaskCompleted() {
+    if (this._taskQueues[0].length === 0) {
+      this._onMicrotasksDrained(null);
+    }
+
+    this._tryDrainTaskQueue();
+  }
+
   private _tryDrainTaskQueue() {
     if (this._currentTask !== null) {
       // Already running a task.
       return;
     }
 
-    for (const taskQueue of this._taskQueues) {
-      if (taskQueue.length === 0) {
-        continue;
-      }
-
-      const queuedTask = taskQueue.shift();
+    for (const queue of this._taskQueues) {
+      const queuedTask = queue.shift();
       if (queuedTask) {
         this._invokeQueuedTask(queuedTask);
-        break;
+        return;
       }
     }
   }
@@ -328,14 +368,14 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         }
         if (this._currentTask === queuedTask) {
           this._currentTask = null;
-          this._tryDrainTaskQueue();
+          this._onTaskCompleted();
         }
       }
     });
   }
 
   private _createTask(task: QueuedTask): StaticJsTask {
-    const iterator = evaluateCommands(task.evaluator);
+    const iterator = evaluateCommands(task.evaluator());
     let done = false;
     let aborted = false;
     return {
@@ -361,7 +401,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
           if (result.done) {
             done = true;
             this._currentTask = null;
-            this._tryDrainTaskQueue();
+            this._onTaskCompleted();
             task.resolve(result.value);
           }
           return {
@@ -374,7 +414,14 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
           // throws we should be getting here are final throws.
           task.reject(e);
           this._currentTask = null;
-          this._tryDrainTaskQueue();
+          if (task.microtask) {
+            // Kill all remaining microtasks and resolve with the error.
+            // Probably not spec compliant...
+            // TODO: Implement a handler for uncaught errors.
+            this._taskQueues[0] = [];
+            this._onMicrotasksDrained(e);
+          }
+          this._onTaskCompleted();
           return {
             value: undefined,
             done: true,
@@ -392,6 +439,13 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         this._tryDrainTaskQueue();
       },
     };
+  }
+
+  private _onMicrotasksDrained(err: unknown | null) {
+    for (const callback of this._microtasksDrainedCallbacks) {
+      callback(err);
+    }
+    this._microtasksDrainedCallbacks = [];
   }
 
   private _setupGlobalObject(

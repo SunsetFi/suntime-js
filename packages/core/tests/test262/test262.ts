@@ -19,7 +19,7 @@ const LanguageCategories = readdirSync(test262Path("test/language"));
 describe("Test262", () => {
   describe("Language", () => {
     for (const category of LanguageCategories) {
-      describe.concurrent(category, () => {
+      describe(category, () => {
         describeCategory(category);
       });
     }

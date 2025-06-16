@@ -105,6 +105,7 @@ export interface StaticJsRealm {
    * @param evaluator The evaluator to enqueue.
    */
   enqueueMicrotask(evaluator: EvaluationGenerator<void>): void;
+  enqueueMicrotask(evaluator: () => EvaluationGenerator<void>): void;
 
   /**
    * Enqueues a macrotask to be executed in the next event loop tick.

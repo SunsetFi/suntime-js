@@ -84,11 +84,11 @@ export default class StaticJsFunctionImpl
     ...args: StaticJsValue[]
   ): EvaluationGenerator<StaticJsValue> {
     if (!isStaticJsValue(thisArg)) {
-      throw new Error("thisArg must be a StaticJsValue instance.");
+      throw new TypeError("thisArg must be a StaticJsValue instance.");
     }
 
     if (args.some((arg) => !isStaticJsValue(arg))) {
-      throw new Error("Arguments must be StaticJsValue instances.");
+      throw new TypeError("Arguments must be StaticJsValue instances.");
     }
 
     try {

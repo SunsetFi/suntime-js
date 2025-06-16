@@ -82,7 +82,9 @@ export function isStaticJsObjectLike(
   if (!isStaticJsValue(value)) {
     return false;
   }
-  return ["object", "array", "function"].includes(value.runtimeTypeOf);
+  return ["object", "array", "function", "promise"].includes(
+    value.runtimeTypeOf,
+  );
 }
 
 export interface StaticJsObject extends StaticJsObjectLike {

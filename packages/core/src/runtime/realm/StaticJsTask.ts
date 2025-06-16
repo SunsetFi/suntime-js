@@ -6,7 +6,7 @@
  *
  * Task execution can be done asynchronously, with pauses between operations,
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+
 export interface StaticJsTask {
   get done(): boolean;
   get aborted(): boolean;

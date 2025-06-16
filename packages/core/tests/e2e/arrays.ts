@@ -12,6 +12,15 @@ describe("E2E: Arrays", () => {
     expect(result).toEqual([1, 2, 3]);
   });
 
+  it("Is an array instance", async () => {
+    const code = `
+      const a = [];
+      a instanceof Array
+    `;
+    const result = await evaluateScript(code);
+    expect(result).toEqual(true);
+  });
+
   it("Can declare an array with holes", async () => {
     const code = `
       const a = [1, , 3];

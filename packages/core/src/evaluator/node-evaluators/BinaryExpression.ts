@@ -2,7 +2,6 @@ import type { BinaryExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsString } from "../../runtime/types/StaticJsString.js";
 
 import strictEquality from "../../runtime/algorithms/strict-equality.js";
@@ -16,6 +15,8 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 import abstractEquality from "../../runtime/algorithms/abstract-equality.js";
 import toNumber from "../../runtime/algorithms/to-number.js";
 import addition from "../../runtime/algorithms/addition.js";
+import toObject from "../../runtime/algorithms/to-object.js";
+import ordinaryHasInstance from "../../runtime/algorithms/ordinary-has-instance.js";
 
 export default function binaryExpressionNodeEvaluator(
   node: BinaryExpression,
@@ -64,6 +65,8 @@ export default function binaryExpressionNodeEvaluator(
       return numericComputation((a, b) => a >>> b, node, context);
     case "in":
       return inOperator(node, context);
+    case "instanceof":
+      return instanceOfOperator(node, context);
     default:
       throw new StaticJsEngineError(
         `BinaryExpression operator ${node.operator} is not supported`,
@@ -157,14 +160,7 @@ function* inOperator(
     forNormalValue: "BinaryExpression.right",
   });
 
-  if (!isStaticJsObjectLike(right)) {
-    throw new ThrowCompletion(
-      context.realm.types.error(
-        "TypeError",
-        "Right side of in operator must be an object",
-      ),
-    );
-  }
+  const rightObj = yield* toObject(right, context.realm);
 
   if (!isStaticJsString(left)) {
     throw new ThrowCompletion(
@@ -175,6 +171,22 @@ function* inOperator(
     );
   }
 
-  const hasProperty = yield* right.hasPropertyEvaluator(left.toStringSync());
+  const hasProperty = yield* rightObj.hasPropertyEvaluator(left.toStringSync());
   return context.realm.types.boolean(hasProperty);
+}
+
+function* instanceOfOperator(
+  node: BinaryExpression,
+  context: EvaluationContext,
+) {
+  const left = yield* EvaluateNodeCommand(node.left, context, {
+    forNormalValue: "BinaryExpression.left",
+  });
+  const right = yield* EvaluateNodeCommand(node.right, context, {
+    forNormalValue: "BinaryExpression.right",
+  });
+
+  const result = yield* ordinaryHasInstance(right, left, context.realm);
+
+  return context.realm.types.boolean(result);
 }

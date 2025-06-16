@@ -29,6 +29,10 @@ import {
   populateBooleanPrototype,
 } from "./Boolean.js";
 import {
+  createPromiseConstructor,
+  populatePromisePrototype,
+} from "./Promise/index.js";
+import {
   createErrorConstructor,
   populateErrorPrototype,
 } from "./Error/index.js";
@@ -68,6 +72,8 @@ function createPrototypes(realm: StaticJsRealm): Prototypes {
   const booleanProto = new StaticJsObjectImpl(realm, objectProto);
   const arrayProto = new StaticJsObjectImpl(realm, objectProto);
 
+  const promiseProto = new StaticJsObjectImpl(realm, objectProto);
+
   const errorProto = new StaticJsObjectImpl(realm, objectProto);
   const typeErrorProto = new StaticJsObjectImpl(realm, errorProto);
   const referenceErrorProto = new StaticJsObjectImpl(realm, errorProto);
@@ -82,6 +88,8 @@ function createPrototypes(realm: StaticJsRealm): Prototypes {
 
   populateArrayPrototype(realm, arrayProto, functionProto);
 
+  populatePromisePrototype(realm, promiseProto, functionProto);
+
   populateErrorPrototype(realm, errorProto, functionProto);
   populateTypeErrorPrototype(realm, typeErrorProto, functionProto);
   populateReferenceErrorPrototype(realm, referenceErrorProto, functionProto);
@@ -94,6 +102,7 @@ function createPrototypes(realm: StaticJsRealm): Prototypes {
     objectProto,
     arrayProto,
     functionProto,
+    promiseProto,
     errorProto,
     typeErrorProto,
     referenceErrorProto,
@@ -110,6 +119,7 @@ function createConstructors(
     objectProto,
     functionProto,
     arrayProto,
+    promiseProto,
     errorProto,
     typeErrorProto,
     referenceErrorProto,
@@ -120,8 +130,9 @@ function createConstructors(
   const Number = createNumberConstructor(realm, numberProto, functionProto);
   const Boolean = createBooleanConstructor(realm, booleanProto, functionProto);
   const Object = createObjectConstructor(realm, objectProto, functionProto);
-  const Array = createArrayConstructor(realm, arrayProto);
+  const Array = createArrayConstructor(realm, arrayProto, functionProto);
   const Function = createFunctionConstructor(realm, functionProto);
+  const Promise = createPromiseConstructor(realm, promiseProto, functionProto);
   const Error = createErrorConstructor(realm, errorProto, functionProto);
   const TypeError = createTypeErrorConstructor(
     realm,
@@ -146,6 +157,7 @@ function createConstructors(
     Object,
     Array,
     Function,
+    Promise,
     Error,
     TypeError,
     ReferenceError,

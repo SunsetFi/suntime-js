@@ -19,7 +19,13 @@ import { isStaticJsNull } from "../StaticJsNull.js";
 import type { StaticJsNumber } from "../StaticJsNumber.js";
 import type { StaticJsString } from "../StaticJsString.js";
 
-import type { Prototypes } from "../../intrinsics/intrinsics.js";
+import {
+  constructorKeys,
+  prototypeKeys,
+  type Constructors,
+  type Instrinsics,
+  type Prototypes,
+} from "../../intrinsics/intrinsics.js";
 
 import StaticJsArrayImpl from "./StaticJsArrayImpl.js";
 import StaticJsBooleanImpl from "./StaticJsBooleanImpl.js";
@@ -33,6 +39,9 @@ import StaticJsExternalObject from "./StaticJsExternalObject.js";
 import StaticJsFunctionImpl from "./StaticJsFunctionBase.js";
 
 export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
+  private _prototypes: Prototypes;
+  private _constructors: Constructors;
+
   private _zero: StaticJsNumber;
   private _NaN: StaticJsNumber;
   private _Infinity: StaticJsNumber;
@@ -45,7 +54,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   constructor(
     private readonly _realm: StaticJsRealm,
-    private readonly _prototypes: Prototypes,
+    private readonly _instrinsics: Instrinsics,
   ) {
     this._zero = new StaticJsNumberImpl(_realm, 0);
     this._NaN = new StaticJsNumberImpl(_realm, NaN);
@@ -57,11 +66,27 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     this._null = new StaticJsNullImpl(_realm);
     this._undefined = new StaticJsUndefinedImpl(_realm);
 
-    this._prototypes = Object.freeze({ ..._prototypes });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this._prototypes = {} as any;
+    for (const key of prototypeKeys) {
+      this._prototypes[key] = this._instrinsics[key];
+    }
+    Object.freeze(this._prototypes);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this._constructors = {} as any;
+    for (const key of constructorKeys) {
+      this._constructors[key] = this._instrinsics[key];
+    }
+    Object.freeze(this._constructors);
   }
 
   get prototypes(): Prototypes {
     return this._prototypes;
+  }
+
+  get constructors(): Constructors {
+    return this._constructors;
   }
 
   get true(): StaticJsBoolean {
