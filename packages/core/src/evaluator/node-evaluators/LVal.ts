@@ -18,6 +18,7 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import toObject from "../../runtime/algorithms/to-object.js";
+import sliceArrayNative from "../../runtime/types/utils/slice-array-native.js";
 
 export default function setLVal(
   lval: LVal,
@@ -82,7 +83,8 @@ export default function* setLVal(
         const property = String(index);
 
         if (element.type === "RestElement") {
-          const restValue = yield* value.sliceEvaluator(index);
+          const restValueNative = yield* sliceArrayNative(value);
+          const restValue = context.realm.types.array(restValueNative);
           yield* setLVal(
             element.argument,
             restValue,

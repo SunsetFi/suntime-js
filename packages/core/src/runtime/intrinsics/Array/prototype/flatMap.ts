@@ -4,6 +4,7 @@ import toObject from "../../../algorithms/to-object.js";
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import sliceArrayNative from "../../../types/utils/slice-array-native.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -46,7 +47,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       );
       // flatMap does not flatten non-array array-likes.
       if (isStaticJsArray(result)) {
-        const resultArray = yield* result.sliceNativeEvaluator();
+        const resultArray = yield* sliceArrayNative(result);
         // flatMap does not preserve missing items in sub-arrays.
         items.push(...resultArray);
       } else {

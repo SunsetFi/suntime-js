@@ -12,15 +12,6 @@ export interface StaticJsArray extends StaticJsObjectLike {
   getLengthEvaluator(): EvaluationGenerator<number>;
   getEvaluator(index: number): EvaluationGenerator<StaticJsValue>;
   setEvaluator(index: number, value: StaticJsValue): EvaluationGenerator<void>;
-
-  sliceEvaluator(
-    start?: number,
-    end?: number,
-  ): EvaluationGenerator<StaticJsArray>;
-  sliceNativeEvaluator(
-    start?: number,
-    end?: number,
-  ): EvaluationGenerator<StaticJsValue[]>;
 }
 
 export function isStaticJsArray(value: unknown): value is StaticJsArray {

@@ -79,43 +79,6 @@ export default class StaticJsArrayImpl
     yield* this.setPropertyEvaluator(String(index), value, false);
   }
 
-  *sliceEvaluator(start = 0, end?: number): EvaluationGenerator<StaticJsArray> {
-    if (end == null) {
-      end = yield* this.getLengthEvaluator();
-    }
-    const array = this.realm.types.array();
-    for (let i = start; i < end; i++) {
-      const value = yield* this.getEvaluator(i);
-      yield* array.setEvaluator(i, value);
-    }
-    return array;
-  }
-
-  *sliceNativeEvaluator(
-    start = 0,
-    end?: number,
-  ): EvaluationGenerator<StaticJsValue[]> {
-    if (end == null) {
-      end = yield* this.getLengthEvaluator();
-    }
-
-    const array = new Array<StaticJsValue>();
-    for (let i = start; i < end; i++) {
-      // Reproduce gaps.
-      const hasProperty = yield* this.hasPropertyEvaluator(i.toString());
-      if (!hasProperty) {
-        const length = array.push(this.realm.types.undefined);
-        delete array[length - 1];
-        continue;
-      }
-
-      const value = yield* this.getEvaluator(i);
-      array.push(value);
-    }
-
-    return array;
-  }
-
   protected _createToJsProxyTarget(): object {
     return [];
   }

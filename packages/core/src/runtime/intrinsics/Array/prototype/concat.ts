@@ -1,5 +1,6 @@
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import sliceArrayNative from "../../../types/utils/slice-array-native.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -19,7 +20,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
       // Objects with length properties are NOT treated as arrays!
       // FIXME: Is this an iterator thing?
       if (isStaticJsArray(arg)) {
-        const argValues = yield* arg.sliceNativeEvaluator();
+        const argValues = yield* sliceArrayNative(arg);
 
         // CANT DO THIS!  It actualizes unset values!
         // values.push(...argValues);

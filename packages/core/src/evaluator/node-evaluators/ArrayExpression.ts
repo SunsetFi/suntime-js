@@ -11,6 +11,7 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 
 import nameNode from "./name-node.js";
+import sliceArrayNative from "../../runtime/types/utils/slice-array-native.js";
 
 export default function* arrayExpressionNodeEvaluator(
   node: ArrayExpression,
@@ -39,9 +40,7 @@ export default function* arrayExpressionNodeEvaluator(
         );
       }
 
-      // No reason to slice here, could just get the direct array for a performance improvement.
-      // However, we don't want to let the user mutate the array, and these are public APIs.
-      const resolvedValues = yield* resolved.sliceNativeEvaluator();
+      const resolvedValues = yield* sliceArrayNative(resolved);
       items.push(...resolvedValues);
       continue;
     }
