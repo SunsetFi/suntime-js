@@ -83,6 +83,13 @@ export interface StaticJsRealm {
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsModule>;
 
+  /**
+   * Returns a promise that resolves when the current task, and all resulting microtasks, have completed.
+   *
+   * The promise will reject if a task or microtask throws an exception or encounters an evaluation error.
+   */
+  awaitCurrentTask(): Promise<void>;
+
   /*
   The below is all internal.  We could isolate this from the public API using a different interface.
   */

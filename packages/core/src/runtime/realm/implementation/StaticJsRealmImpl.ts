@@ -248,6 +248,23 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return await this.enqueueMacrotask(doEvaluateModule(module), opts);
   }
 
+  async awaitCurrentTask() {
+    return new Promise<void>((accept, reject) => {
+      if (!this._currentTask) {
+        accept();
+        return;
+      }
+
+      this._microtasksDrainedCallbacks.push((err) => {
+        if (err) {
+          reject(err);
+        } else {
+          accept();
+        }
+      });
+    });
+  }
+
   async resolveImportedModule(
     referencingModule: StaticJsModule,
     specifier: string,

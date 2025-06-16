@@ -3,7 +3,7 @@ import toInteger from "../../../algorithms/to-integer.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import StaticJsArrayImpl from "../../../types/implementation/StaticJsArrayImpl.js";
-import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionBase.js";
+import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
 export default function createArrayConstructor(

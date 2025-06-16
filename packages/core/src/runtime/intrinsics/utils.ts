@@ -4,7 +4,7 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsObjectLike } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
-import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionBase.js";
+import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
 export interface IntrinsicPropertyDeclarationBase {
   name: string;

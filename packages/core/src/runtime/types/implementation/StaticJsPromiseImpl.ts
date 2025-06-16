@@ -1,5 +1,3 @@
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { ThrowCompletion } from "../../../evaluator/index.js";
 
@@ -13,9 +11,10 @@ import {
 } from "../StaticJsFunction.js";
 import { isStaticJsPromise, type StaticJsPromise } from "../StaticJsPromise.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
+import type { StaticJsObjectLike } from "../StaticJsObject.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
-import StaticJsFunctionImpl from "./StaticJsFunctionBase.js";
+import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
 
 interface PromiseCapabilityRecord {
   promise: StaticJsPromise;
@@ -37,10 +36,12 @@ export default class StaticJsPromiseImpl
   private _result: StaticJsValue | null = null;
   private _fulfullReactions: ReactionRecord[] = [];
   private _rejectReactions: ReactionRecord[] = [];
-  private _isHandled: boolean = false;
 
-  constructor(realm: StaticJsRealm) {
-    super(realm, realm.types.prototypes.promiseProto);
+  constructor(
+    realm: StaticJsRealm,
+    prototype: StaticJsObjectLike | null = null,
+  ) {
+    super(realm, prototype ?? realm.types.prototypes.promiseProto);
   }
 
   get runtimeTypeOf() {
@@ -118,8 +119,6 @@ export default class StaticJsPromiseImpl
         break;
     }
 
-    this._isHandled = true;
-
     return resultCapability.promise;
   }
 
@@ -134,11 +133,6 @@ function* newPromiseCapability(
   constructor: StaticJsFunction,
   realm: StaticJsRealm,
 ): EvaluationGenerator<PromiseCapabilityRecord> {
-  // FIXME: Support promise subclassing.
-  // The majority of this is spec compliant.
-  // However, we still enforce that we get a StaticJsPromise at the end of it,
-  // which prevents any subclassing.
-
   if (!constructor.isConstructor) {
     throw new ThrowCompletion(
       realm.types.error(
@@ -152,7 +146,7 @@ function* newPromiseCapability(
   let rejectFunc: StaticJsFunction | null = null;
 
   const resolver = new StaticJsFunctionImpl(realm, "resolver", function* (
-    thisArg,
+    _thisArg,
     resolve,
     reject,
   ) {
@@ -183,6 +177,8 @@ function* newPromiseCapability(
     );
   }
 
+  // Our 'regular' constructor replaces the object instance with itself,
+  // but still maintains the object prototype chain.
   if (!isStaticJsPromise(promise)) {
     throw new ThrowCompletion(
       realm.types.error(
@@ -209,20 +205,8 @@ function queuePromiseReactionJob(
 
     try {
       if (!handler) {
-        // This can only be two values but it's cleaner to write it out
-        // this way.
-        let capabilityFunc: StaticJsFunction;
-        switch (reaction.type) {
-          case "fulfill":
-            capabilityFunc = capability.resolve;
-            break;
-          case "reject":
-            capabilityFunc = capability.reject;
-            break;
-          default:
-            throw new StaticJsEngineError("Unknown promise reaction type.");
-        }
-
+        const capabilityFunc =
+          reaction.type === "fulfill" ? capability.resolve : capability.reject;
         yield* capabilityFunc.callEvaluator(realm.types.undefined, argument);
       } else {
         const result = yield* handler.callEvaluator(

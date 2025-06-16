@@ -1,6 +1,6 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionBase.js";
+import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 export function populateTypeErrorPrototype(

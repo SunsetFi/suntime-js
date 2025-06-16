@@ -26,7 +26,7 @@ import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsUndefined } from "../StaticJsUndefined.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 
-import StaticJsFunctionBase from "./StaticJsFunctionBase.js";
+import StaticJsFunctionBase from "./StaticJsFunctionImpl.js";
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 export type StaticJsAstFunctionArgumentDeclaration =

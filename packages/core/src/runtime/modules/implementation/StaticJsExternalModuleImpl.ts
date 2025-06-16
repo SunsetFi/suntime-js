@@ -10,7 +10,7 @@ import type { StaticJsModule } from "../StaticJsModule.js";
 
 import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
 import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
-import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionBase.js";
+import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
 
 export default class StaticJsExternalModuleImpl
   extends StaticJsModuleBase

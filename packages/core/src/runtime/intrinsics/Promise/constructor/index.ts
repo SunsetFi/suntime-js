@@ -1,7 +1,7 @@
 import { ThrowCompletion } from "../../../../evaluator/index.js";
 import type { StaticJsRealm } from "../../../realm/index.js";
 
-import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionBase.js";
+import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
 import StaticJsPromiseImpl from "../../../types/implementation/StaticJsPromiseImpl.js";
 import {
   isStaticJsFunction,
@@ -23,17 +23,30 @@ export default function createPromiseConstructor(
   const ctor = new StaticJsFunctionImpl(
     realm,
     "Promise",
-    function* (_thisArg, func) {
+    function* (thisArg, func) {
+      if (!isStaticJsObjectLike(thisArg)) {
+        throw new ThrowCompletion(
+          realm.types.error(
+            "TypeError",
+            "Promise constructor called on a non-object",
+          ),
+        );
+      }
+
       if (!isStaticJsFunction(func)) {
         throw new ThrowCompletion(
           realm.types.error("TypeError", "Promise resolver is not a function."),
         );
       }
 
-      // FIXME: Support inheriting from promises.
-      // That means we need to use our real prototype here instead of creating
-      // and returning a new instance.
-      const promise = new StaticJsPromiseImpl(realm);
+      // Our implementation requires us to take over the object instance,
+      // but still obey the prototype in case someone subclasses us.
+      let proto = yield* thisArg.getPropertyEvaluator("prototype");
+      if (!isStaticJsObjectLike(proto)) {
+        proto = realm.types.prototypes.promiseProto;
+      }
+
+      const promise = new StaticJsPromiseImpl(realm, proto);
 
       const resolve = createPromiseResolveFunction(promise, realm);
       const reject = createPromiseRejectFunction(promise, realm);

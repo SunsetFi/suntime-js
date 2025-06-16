@@ -1,6 +1,6 @@
 import type { StaticJsRealm } from "../../../realm/index.js";
 
-import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionBase.js";
+import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
 import type { StaticJsObject } from "../../../types/index.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";

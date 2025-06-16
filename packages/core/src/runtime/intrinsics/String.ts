@@ -1,7 +1,7 @@
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 
 import type { StaticJsObject } from "../types/StaticJsObject.js";
-import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionBase.js";
+import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsValue } from "../types/StaticJsValue.js";
 

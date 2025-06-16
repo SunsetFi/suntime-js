@@ -5,7 +5,7 @@ import toBoolean from "../algorithms/to-boolean.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import StaticJsBooleanBoxed from "../types/implementation/StaticJsBooleanBoxed.js";
-import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionBase.js";
+import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 import {
   isStaticJsBoolean,
   type StaticJsBoolean,
