@@ -294,6 +294,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       evaluatorFn = () => evaluator;
     }
 
+    // FIXME: Use the task runner from the macro task!
     const [task, promise] = createQueuedTask(true, evaluatorFn, this._runTask);
     this._taskQueues[0].push(task);
     this._tryDrainTaskQueue();
@@ -314,7 +315,6 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         evaluatorFn,
         (gen) => {
           // Only start listening to this when the task is actually run.
-          // Is this jank?  Are we certain that this will be our microtasks and not a previous task?
           this._microtasksDrainedCallbacks.push((err) => {
             if (err) {
               reject(err);
