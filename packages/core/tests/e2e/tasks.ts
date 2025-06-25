@@ -138,24 +138,30 @@ describe("E2E: Tasks", () => {
         runTask,
       });
 
-      let promise1Error: unknown | undefined;
-      const promise1 = realm
-        .evaluateScript("for(let i = 0; i < 10000; i++) {  }")
-        .catch((e) => {
-          promise1Error = e;
-        });
+      const promise1 = realm.evaluateScript(
+        "for(let i = 0; i < 10000; i++) {  }",
+      );
       const promise2 = realm.evaluateScript("2 + 2");
 
       await delay(0); // Allow the first task to be queued
       expect(runTask).toBeCalledTimes(1);
+
+      console.log("Aborting task");
       abortTask();
 
-      await promise1;
-      expect(promise1Error).toBeInstanceOf(StaticJsTaskAbortedError);
+      console.log("Waiting for promise1 to reject");
+      await expect(promise1).rejects.toThrow(StaticJsTaskAbortedError);
+      console.log("promise1 rejected");
 
       expect(runTask).toBeCalledTimes(2);
+
+      console.log("Draining second task");
       drainTask();
+      console.log("Second task drained");
+
+      console.log("Waiting for promise2 to resolve");
       const result2 = await promise2;
+      console.log("promise2 resolved");
       expect(result2.toJsSync()).toBe(4);
     });
 

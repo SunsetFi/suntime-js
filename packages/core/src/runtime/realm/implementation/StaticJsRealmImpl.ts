@@ -312,18 +312,22 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       const [queuedTask, promise] = createQueuedTask(
         false,
         evaluatorFn,
-        taskRunner,
+        (gen) => {
+          // Only start listening to this when the task is actually run.
+          // Is this jank?  Are we certain that this will be our microtasks and not a previous task?
+          this._microtasksDrainedCallbacks.push((err) => {
+            if (err) {
+              reject(err);
+            } else {
+              accept(promise as Promise<TReturn>);
+            }
+          });
+
+          taskRunner(gen);
+        },
       );
       this._taskQueues[1].push(queuedTask);
       this._tryDrainTaskQueue();
-
-      this._microtasksDrainedCallbacks.push((err) => {
-        if (err) {
-          reject(err);
-        } else {
-          accept(promise as Promise<TReturn>);
-        }
-      });
     });
   }
 
@@ -340,9 +344,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return iteratorResult.value;
   }
 
-  private _onTaskCompleted() {
+  private _onTaskCompleted(error: unknown | null = null) {
+    this._currentTask = null;
     if (this._taskQueues[0].length === 0) {
-      this._onMicrotasksDrained(null);
+      this._onMicrotasksDrained(error);
     }
 
     this._tryDrainTaskQueue();
@@ -395,6 +400,21 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     const iterator = evaluateCommands(task.evaluator());
     let done = false;
     let aborted = false;
+
+    const killTask = (error: unknown) => {
+      if (this._currentTask !== task) {
+        return;
+      }
+
+      task.reject(error);
+
+      if (task.microtask) {
+        // Kill all remaining microtasks.
+        this._taskQueues[0] = [];
+      }
+      this._onTaskCompleted(error);
+    };
+
     return {
       get done() {
         return done;
@@ -417,9 +437,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
           const result = iterator.next();
           if (result.done) {
             done = true;
-            this._currentTask = null;
-            this._onTaskCompleted();
             task.resolve(result.value);
+            this._onTaskCompleted();
           }
           return {
             value: undefined,
@@ -429,16 +448,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
           // Normally we should pass this to the generator's throw method,
           // but we are passed generators that handle all of that for us, so the only
           // throws we should be getting here are final throws.
-          task.reject(e);
-          this._currentTask = null;
-          if (task.microtask) {
-            // Kill all remaining microtasks and resolve with the error.
-            // Probably not spec compliant...
-            // TODO: Implement a handler for uncaught errors.
-            this._taskQueues[0] = [];
-            this._onMicrotasksDrained(e);
-          }
-          this._onTaskCompleted();
+          killTask(e);
           return {
             value: undefined,
             done: true,
@@ -451,9 +461,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
           throw new Error("Cannot call abort() on an inactive task.");
         }
         aborted = true;
-        this._currentTask = null;
-        task.reject(new StaticJsTaskAbortedError("Task was aborted."));
-        this._tryDrainTaskQueue();
+        killTask(new StaticJsTaskAbortedError("Task was aborted."));
       },
     };
   }
