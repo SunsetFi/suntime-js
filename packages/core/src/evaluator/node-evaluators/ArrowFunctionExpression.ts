@@ -2,7 +2,7 @@ import type { ArrowFunctionExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import StaticJsAstArrowFunction from "../../runtime/types/implementation/StaticJsAstArrowFunction.js";
+import StaticJsArrowFunction from "../../runtime/types/implementation/StaticJsArrowFunction.js";
 
 import typedMerge from "../../internal/typed-merge.js";
 
@@ -23,7 +23,7 @@ function* arrowFunctionExpressionNodeEvaluator(
     throw new StaticJsEngineError("Generator functions are not supported");
   }
 
-  const func = new StaticJsAstArrowFunction(
+  const func = new StaticJsArrowFunction(
     context.realm,
     // TODO: v8 uses the name of the variable the function is assigned to.
     "",

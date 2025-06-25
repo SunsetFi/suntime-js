@@ -94,6 +94,7 @@ describe("E2E: Tasks", () => {
           result = task.next();
           iterations++;
           if (iterations > 10) {
+            console.log("Aborting task after 10 iterations");
             task.abort();
           }
         } while (!result.done);

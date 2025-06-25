@@ -218,6 +218,7 @@ function queuePromiseReactionJob(
     } catch (e) {
       if (e instanceof ThrowCompletion) {
         yield* capability.reject.callEvaluator(realm.types.undefined, e.value);
+        return;
       }
 
       throw e;

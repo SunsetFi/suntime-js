@@ -20,11 +20,7 @@ import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCom
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import toObject from "../../algorithms/to-object.js";
-
 import type { StaticJsValue } from "../StaticJsValue.js";
-import { isStaticJsUndefined } from "../StaticJsUndefined.js";
-import { isStaticJsNull } from "../StaticJsNull.js";
 
 import StaticJsFunctionBase from "./StaticJsFunctionImpl.js";
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
@@ -34,64 +30,22 @@ export type StaticJsAstFunctionArgumentDeclaration =
   | Pattern
   | RestElement;
 
-export default class StaticJsAstFunction extends StaticJsFunctionBase {
+export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
   constructor(
     realm: StaticJsRealm,
     name: string | null,
-    private readonly _thisMode: "lexical" | "strict",
     private readonly _argumentDeclarations: StaticJsAstFunctionArgumentDeclaration[],
-    private readonly _context: EvaluationContext,
-    private readonly _body: BlockStatement | Expression,
-    private readonly _bound?: StaticJsValue,
+    protected readonly _context: EvaluationContext,
+    protected readonly _body: BlockStatement | Expression,
   ) {
     super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args));
-
-    this.definePropertySync("prototype", {
-      value: realm.types.object({
-        constructor: {
-          value: this,
-          writable: true,
-          enumerable: false,
-          configurable: true,
-        },
-      }),
-      writable: true,
-      enumerable: false,
-      configurable: false,
-    });
   }
 
   private *_invoke(
     thisArg: StaticJsValue,
     args: StaticJsValue[],
   ): EvaluationGenerator {
-    let resolvedThisArg: StaticJsValue;
-    if (this._thisMode === "strict") {
-      resolvedThisArg = thisArg;
-    } else {
-      if (isStaticJsUndefined(thisArg) || isStaticJsNull(thisArg)) {
-        resolvedThisArg = yield* this._context.env.getThisBindingEvaluator();
-      } else {
-        resolvedThisArg = yield* toObject(thisArg, this.realm);
-      }
-    }
-
-    const functionEnv = new StaticJsLexicalEnvironment(
-      this.realm,
-      new StaticJsFunctionEnvironmentRecord(
-        this.realm,
-        // Having a bound input here is weird... I'm starting to think the env is actually set up ahead of time in the declaration phase.
-        this._bound ?? resolvedThisArg,
-        args,
-      ),
-      this._context.env,
-    );
-
-    const functionContext: EvaluationContext = {
-      ...this._context,
-      env: functionEnv,
-      label: null,
-    };
+    const functionContext = yield* this._createContext(thisArg, args);
 
     yield* this._declareArguments(args, functionContext);
 
@@ -100,7 +54,24 @@ export default class StaticJsAstFunction extends StaticJsFunctionBase {
     return yield* EvaluateNodeCommand(this._body, functionContext);
   }
 
-  private *_declareArguments(
+  protected *_createContext(
+    thisArg: StaticJsValue,
+    args: StaticJsValue[],
+  ): EvaluationGenerator<EvaluationContext> {
+    const functionEnv = new StaticJsLexicalEnvironment(
+      this.realm,
+      new StaticJsFunctionEnvironmentRecord(this.realm, thisArg, args),
+      this._context.env,
+    );
+
+    return {
+      ...this._context,
+      env: functionEnv,
+      label: null,
+    };
+  }
+
+  protected *_declareArguments(
     args: StaticJsValue[],
     context: EvaluationContext,
   ): EvaluationGenerator<void> {

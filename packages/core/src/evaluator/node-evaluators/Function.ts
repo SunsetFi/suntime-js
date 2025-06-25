@@ -4,7 +4,7 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 import type { StaticJsAstFunctionArgumentDeclaration } from "../../runtime/types/implementation/StaticJsAstFunction.js";
-import StaticJsAstFunction from "../../runtime/types/implementation/StaticJsAstFunction.js";
+import StaticJsDeclFunction from "../../runtime/types/implementation/StaticJsDeclFunction.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 
@@ -30,7 +30,7 @@ export default function createFunction(
     );
   }
 
-  return new StaticJsAstFunction(
+  return new StaticJsDeclFunction(
     functionContext.realm,
     name,
     thisMode,
