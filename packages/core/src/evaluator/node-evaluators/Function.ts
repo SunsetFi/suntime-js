@@ -14,6 +14,12 @@ export default function createFunction(
   thisMode: "lexical" | "strict",
   functionContext: EvaluationContext,
 ): StaticJsFunction {
+  if (node.params.some((x) => x.type === "TSParameterProperty")) {
+    throw new StaticJsEngineError(
+      "TypeScript parameter properties are not supported",
+    );
+  }
+
   if (node.async) {
     // TODO: Support these when the Promise primitive is in.
     throw new StaticJsEngineError("Async functions are not supported");
@@ -22,12 +28,6 @@ export default function createFunction(
   if (node.generator) {
     // TODO: Support these when an Iterator primitive is in.
     throw new StaticJsEngineError("Generator functions are not supported");
-  }
-
-  if (node.params.some((x) => x.type === "TSParameterProperty")) {
-    throw new StaticJsEngineError(
-      "TypeScript parameter properties are not supported",
-    );
   }
 
   return new StaticJsDeclFunction(

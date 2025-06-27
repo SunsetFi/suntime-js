@@ -3,8 +3,10 @@ export interface StaticJsModule {
 
   getExportedNames(): string[];
 
+  // FIXME: Return a StaticJsValue
   getExport(exportName: string): unknown;
 
+  // FIXME: Return a native object mapping StaticJsValue objects.
   getModuleNamespace(): Record<string, unknown>;
 }
 

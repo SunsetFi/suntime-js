@@ -7,7 +7,7 @@
  * Task execution can be done asynchronously, with pauses between operations,
  */
 
-export interface StaticJsTask {
+export interface StaticJsTaskIterator {
   get done(): boolean;
   get aborted(): boolean;
 
@@ -21,4 +21,4 @@ export interface StaticJsTask {
  * The implementation should call .next() on the generator until it is done.
  * This may be done synchronously or asynchronously.
  */
-export type StaticJsTaskRunner = (task: StaticJsTask) => void;
+export type StaticJsTaskRunner = (task: StaticJsTaskIterator) => void;

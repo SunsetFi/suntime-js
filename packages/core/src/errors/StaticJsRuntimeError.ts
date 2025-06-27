@@ -13,6 +13,13 @@ export default class StaticJsRuntimeError extends Error {
   get thrown(): StaticJsValue {
     return this._thrown;
   }
+
+  toJSON(): Record<string, unknown> {
+    return {
+      name: this.name,
+      message: this.message,
+    };
+  }
 }
 
 function getName(value: StaticJsValue): string {

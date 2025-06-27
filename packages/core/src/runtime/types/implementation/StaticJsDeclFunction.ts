@@ -23,20 +23,21 @@ export default class StaticJsDeclFunction extends StaticJsAstFunction {
     context: EvaluationContext,
     body: BlockStatement | Expression,
   ) {
-    super(realm, name, argumentDeclarations, context, body);
+    // Non-arrow and non-class-method functions are always constructors.
+    super(realm, name, argumentDeclarations, context, body, {
+      isConstructor: true,
+    });
 
+    // Create our prototype as we are implicitly a constructor.
     this.definePropertySync("prototype", {
-      value: realm.types.object(
-        {
-          constructor: {
-            value: this,
-            writable: true,
-            enumerable: false,
-            configurable: true,
-          },
+      value: realm.types.object({
+        constructor: {
+          value: this,
+          writable: true,
+          enumerable: false,
+          configurable: true,
         },
-        realm.types.prototypes.functionProto,
-      ),
+      }),
       writable: true,
       enumerable: false,
       configurable: false,

@@ -66,6 +66,7 @@ export default interface StaticJsTypeFactory {
   error(errorType: ErrorTypeName, message: string): StaticJsObject;
   error(message: string): StaticJsObject;
 
+  toStaticJsValue(value: (...args: unknown[]) => unknown): StaticJsFunction;
   toStaticJsValue(value: boolean): StaticJsBoolean;
   toStaticJsValue(value: number): StaticJsNumber;
   toStaticJsValue(value: string): StaticJsString;

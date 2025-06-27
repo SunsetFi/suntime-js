@@ -3,7 +3,7 @@ import { describe, it, expect, vitest } from "vitest";
 import {
   StaticJsRealm,
   StaticJsTaskAbortedError,
-  type StaticJsTask,
+  type StaticJsTaskIterator,
 } from "../../src/index.js";
 
 describe("E2E: Tasks", () => {
@@ -16,7 +16,7 @@ describe("E2E: Tasks", () => {
     });
 
     it("Handles evaluation with a StaticJsRealm runTask option", async () => {
-      const runTask = vitest.fn((task: StaticJsTask) => {
+      const runTask = vitest.fn((task: StaticJsTaskIterator) => {
         let result: ReturnType<typeof task.next>;
         do {
           result = task.next();
@@ -38,7 +38,7 @@ describe("E2E: Tasks", () => {
     });
 
     it("Queues evaluations when called synchronously", async () => {
-      let queuedTask: StaticJsTask | undefined;
+      let queuedTask: StaticJsTaskIterator | undefined;
       function drainTask() {
         if (!queuedTask) {
           throw new Error("No queued task to drain");
@@ -55,7 +55,7 @@ describe("E2E: Tasks", () => {
         }
         queuedTask = undefined;
       }
-      const runTask = vitest.fn((task: StaticJsTask) => {
+      const runTask = vitest.fn((task: StaticJsTaskIterator) => {
         queuedTask = task;
       });
 
@@ -88,7 +88,7 @@ describe("E2E: Tasks", () => {
 
     it("Allows tasks to be aborted", async () => {
       let iterations = 0;
-      const runTask = vitest.fn((task: StaticJsTask) => {
+      const runTask = vitest.fn((task: StaticJsTaskIterator) => {
         let result: ReturnType<typeof task.next>;
         do {
           result = task.next();
@@ -96,6 +96,7 @@ describe("E2E: Tasks", () => {
           if (iterations > 10) {
             console.log("Aborting task after 10 iterations");
             task.abort();
+            return;
           }
         } while (!result.done);
       });
@@ -110,7 +111,7 @@ describe("E2E: Tasks", () => {
     });
 
     it("Resumes the next task after an aborted task", async () => {
-      let queuedTask: StaticJsTask | undefined;
+      let queuedTask: StaticJsTaskIterator | undefined;
       function drainTask() {
         if (!queuedTask) {
           throw new Error("No queued task to drain");
@@ -131,7 +132,7 @@ describe("E2E: Tasks", () => {
         }
         queuedTask.abort();
       }
-      const runTask = vitest.fn((task: StaticJsTask) => {
+      const runTask = vitest.fn((task: StaticJsTaskIterator) => {
         queuedTask = task;
       });
       const realm = StaticJsRealm({
@@ -167,7 +168,7 @@ describe("E2E: Tasks", () => {
 
     describe("With taskRunner option", () => {
       it("Is invoked to run the task", async () => {
-        const taskRunner = vitest.fn((task: StaticJsTask) => {
+        const taskRunner = vitest.fn((task: StaticJsTaskIterator) => {
           let result: ReturnType<typeof task.next>;
           do {
             result = task.next();
@@ -184,7 +185,7 @@ describe("E2E: Tasks", () => {
 
       it("Does not invoke the realm runTask handler", async () => {
         const runTask = vitest.fn();
-        const taskRunner = vitest.fn((task: StaticJsTask) => {
+        const taskRunner = vitest.fn((task: StaticJsTaskIterator) => {
           let result: ReturnType<typeof task.next>;
           do {
             result = task.next();

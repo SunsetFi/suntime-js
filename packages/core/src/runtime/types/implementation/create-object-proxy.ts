@@ -2,6 +2,7 @@ import type { StaticJsObjectLike } from "../StaticJsObject.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
+  type StaticJsPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
 
 export default function createStaticJsObjectLikeProxy(
@@ -125,31 +126,71 @@ export default function createStaticJsObjectLikeProxy(
       }
       return getOwnPropertyDescriptor(p) !== undefined;
     },
-    // TODO: Writable traps
-    defineProperty() {
+    defineProperty(_target, p, descriptor) {
+      if (typeof p !== "string") {
+        // Don't yet support symbols.
+        return false;
+      }
+
+      if (descriptor.get || descriptor.set) {
+        const sjsDescriptor: StaticJsPropertyDescriptor = {
+          configurable: descriptor.configurable ?? false,
+          enumerable: descriptor.enumerable ?? false,
+        };
+        if (descriptor.get) {
+          sjsDescriptor.get = obj.realm.types.toStaticJsValue(descriptor.get);
+        }
+        if (descriptor.set) {
+          sjsDescriptor.set = obj.realm.types.toStaticJsValue(descriptor.set);
+        }
+        obj.definePropertySync(p, sjsDescriptor);
+      } else {
+        const sjsDescriptor: StaticJsPropertyDescriptor = {
+          configurable: descriptor.configurable ?? false,
+          enumerable: descriptor.enumerable ?? false,
+          writable: descriptor.writable ?? false,
+          value: obj.realm.types.toStaticJsValue(descriptor.value),
+        };
+        obj.definePropertySync(p, sjsDescriptor);
+      }
+
       return false;
     },
-    deleteProperty() {
+    deleteProperty(_target, p) {
+      if (typeof p !== "string") {
+        // Don't yet support symbols.
+        return false;
+      }
+      obj.deletePropertySync(p);
       return false;
     },
     isExtensible() {
-      return false;
+      return obj.extensible;
     },
     preventExtensions() {
+      obj.preventExtensionsSync();
       return true;
     },
-    set() {
+    set(_target, p, value) {
+      if (typeof p !== "string") {
+        // Don't yet support symbols.
+        return false;
+      }
+
+      const staticJsValue = obj.realm.types.toStaticJsValue(value);
+      obj.setPropertySync(p, staticJsValue, false);
       return false;
     },
     setPrototypeOf() {
       return false;
     },
     getPrototypeOf() {
-      return Object.prototype;
+      if (!obj.prototype) {
+        return null;
+      }
+      return obj.prototype.toJsSync() as object;
     },
     apply() {
-      // FIXME: It might be!!!
-      // We need to make Function ObjectLikes handle this!
       throw new TypeError("Object is not a function.");
     },
     construct() {

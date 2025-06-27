@@ -22,7 +22,9 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
 
-import StaticJsFunctionBase from "./StaticJsFunctionImpl.js";
+import StaticJsFunctionBase, {
+  type StaticJsFunctionImplOptions,
+} from "./StaticJsFunctionImpl.js";
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 export type StaticJsAstFunctionArgumentDeclaration =
@@ -37,8 +39,9 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     private readonly _argumentDeclarations: StaticJsAstFunctionArgumentDeclaration[],
     protected readonly _context: EvaluationContext,
     protected readonly _body: BlockStatement | Expression,
+    opts?: StaticJsFunctionImplOptions,
   ) {
-    super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args));
+    super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args), opts);
   }
 
   private *_invoke(

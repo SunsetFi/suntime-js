@@ -27,6 +27,10 @@ export interface StaticJsRunTaskOptions {
   taskRunner?: StaticJsTaskRunner;
 }
 
+export type StaticJsEvaluator<T = unknown> =
+  | EvaluationGenerator<T>
+  | (() => EvaluationGenerator<T>);
+
 /**
  * A top-level construct describing the overall environment in which a javascript program is executed.
  * This is not to be confused with an Environment, or Environment Record, which is a lower-level
@@ -111,8 +115,7 @@ export interface StaticJsRealm {
    * @internal
    * @param evaluator The evaluator to enqueue.
    */
-  enqueueMicrotask(evaluator: EvaluationGenerator<void>): void;
-  enqueueMicrotask(evaluator: () => EvaluationGenerator<void>): void;
+  enqueueMicrotask(evaluator: StaticJsEvaluator<void>): void;
 
   /**
    * Enqueues a macrotask to be executed in the next event loop tick.
@@ -121,7 +124,7 @@ export interface StaticJsRealm {
    * @param opts Options for running the task.
    */
   enqueueMacrotask<TReturn>(
-    evaluator: EvaluationGenerator<TReturn>,
+    evaluator: StaticJsEvaluator<TReturn>,
     opts?: StaticJsRunTaskOptions,
   ): Promise<TReturn>;
 

@@ -55,52 +55,18 @@ import type {
   StaticJsRealmOptions,
 } from "../factories/StaticJsRealm.js";
 
-import type { StaticJsTask, StaticJsTaskRunner } from "../StaticJsTask.js";
+import type {
+  StaticJsTaskIterator,
+  StaticJsTaskRunner,
+} from "../StaticJsTask.js";
 
 import type {
+  StaticJsEvaluator,
   StaticJsRealm,
   StaticJsRunTaskOptions,
 } from "../StaticJsRealm.js";
 import { StaticJsTaskAbortedError } from "../../../errors/StaticJsTaskAbortedError.js";
-
-interface QueuedTask {
-  evaluator: () => EvaluationGenerator<unknown>;
-  resolve: (value: unknown) => void;
-  reject: (reason?: unknown) => void;
-  runTask: StaticJsTaskRunner;
-  get microtask(): boolean;
-  get done(): boolean;
-}
-
-function createQueuedTask(
-  microtask: boolean,
-  evaluator: () => EvaluationGenerator<unknown>,
-  runTask: StaticJsTaskRunner,
-) {
-  let task!: QueuedTask;
-  let done = false;
-  const promise = new Promise<unknown>((resolve, reject) => {
-    task = {
-      evaluator,
-      resolve: (value: unknown) => {
-        done = true;
-        resolve(value);
-      },
-      reject: (reason?: unknown) => {
-        done = true;
-        reject(reason);
-      },
-      runTask,
-      get microtask() {
-        return microtask;
-      },
-      get done() {
-        return done;
-      },
-    };
-  });
-  return [task, promise] as const;
-}
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;
@@ -113,16 +79,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   >();
   private readonly _externalResolveModule: StaticJsModuleResolver | undefined;
 
-  private readonly _taskQueues: [
-    microtask: QueuedTask[],
-    macrotask: QueuedTask[],
-  ] = [[], []];
+  private readonly _tasks: Macrotask[] = [];
+  private _currentTask: Macrotask | null = null;
 
-  private _currentTask: QueuedTask | null = null;
-
-  private _microtasksDrainedCallbacks: ((err?: unknown) => void)[] = [];
-
-  private readonly _runTask: StaticJsTaskRunner;
+  private readonly _defaultRunTask: StaticJsTaskRunner;
 
   constructor({
     globalObject,
@@ -132,7 +92,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     runTask,
   }: StaticJsRealmOptions = {}) {
     this._externalResolveModule = resolveModule;
-    this._runTask = runTask ?? defaultTaskRunner;
+    this._defaultRunTask = runTask ?? defaultTaskRunner;
 
     // Note: We could check to see if globalObject has factories or prototypes and use them
     // instead of these.
@@ -249,20 +209,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   async awaitCurrentTask() {
-    return new Promise<void>((accept, reject) => {
-      if (!this._currentTask) {
-        accept();
-        return;
-      }
+    if (this._currentTask === null) {
+      // No current task, so we can resolve immediately.
+      return Promise.resolve();
+    }
 
-      this._microtasksDrainedCallbacks.push((err) => {
-        if (err) {
-          reject(err);
-        } else {
-          accept();
-        }
-      });
-    });
+    return this._currentTask.await().then(() => {});
   }
 
   async resolveImportedModule(
@@ -287,6 +239,13 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   enqueueMicrotask(
     evaluator: (() => EvaluationGenerator<void>) | EvaluationGenerator<void>,
   ): void {
+    // This used to work.  We could still make it work if we wanted to.
+    if (!this._currentTask) {
+      throw new StaticJsEngineError(
+        "Cannot enqueue a microtask when no task is running.",
+      );
+    }
+
     let evaluatorFn: () => EvaluationGenerator<void>;
     if (typeof evaluator === "function") {
       evaluatorFn = evaluator;
@@ -294,41 +253,25 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       evaluatorFn = () => evaluator;
     }
 
-    // FIXME: Use the task runner from the macro task!
-    const [task, promise] = createQueuedTask(true, evaluatorFn, this._runTask);
-    this._taskQueues[0].push(task);
-    this._tryDrainTaskQueue();
-
-    // These errors will be trapped and handled by the task logic.
-    // They will bubble up to the macrotask that caused them.
-    promise.catch(() => {});
+    this._currentTask.enqueueMicrotask(evaluatorFn);
   }
 
   enqueueMacrotask<TReturn>(
     evaluator: EvaluationGenerator<TReturn>,
-    { taskRunner = this._runTask } = {},
+    { taskRunner = this._defaultRunTask } = {},
   ): Promise<TReturn> {
-    return new Promise<TReturn>((accept, reject) => {
-      const evaluatorFn = () => evaluator;
-      const [queuedTask, promise] = createQueuedTask(
-        false,
-        evaluatorFn,
-        (gen) => {
-          // Only start listening to this when the task is actually run.
-          this._microtasksDrainedCallbacks.push((err) => {
-            if (err) {
-              reject(err);
-            } else {
-              accept(promise as Promise<TReturn>);
-            }
-          });
+    const macrotask = new Macrotask(
+      () => evaluator,
+      taskRunner,
+      (task) => this._assertTaskRunning(task),
+    );
 
-          taskRunner(gen);
-        },
-      );
-      this._taskQueues[1].push(queuedTask);
-      this._tryDrainTaskQueue();
-    });
+    macrotask.onComplete((err) => this._onTaskCompleted(err));
+
+    this._tasks.push(macrotask);
+    this._tryDrainTaskQueue();
+
+    return macrotask.await() as Promise<TReturn>;
   }
 
   invokeEvaluatorSync<TReturn>(
@@ -344,12 +287,16 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return iteratorResult.value;
   }
 
-  private _onTaskCompleted(error: unknown | null = null) {
-    this._currentTask = null;
-    if (this._taskQueues[0].length === 0) {
-      this._onMicrotasksDrained(error);
+  private _assertTaskRunning(task: Macrotask) {
+    if (this._currentTask !== task) {
+      throw new StaticJsEngineError(
+        "Cannot run a task that is not the current task.",
+      );
     }
+  }
 
+  private _onTaskCompleted(_error: unknown) {
+    this._currentTask = null;
     this._tryDrainTaskQueue();
   }
 
@@ -359,118 +306,26 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       return;
     }
 
-    for (const queue of this._taskQueues) {
-      const queuedTask = queue.shift();
-      if (queuedTask) {
-        this._invokeQueuedTask(queuedTask);
-        return;
-      }
+    const nextTask = this._tasks.shift();
+    if (nextTask) {
+      this._invokeMacrotask(nextTask);
+      return;
     }
   }
 
-  private _invokeQueuedTask(queuedTask: QueuedTask) {
+  private _invokeMacrotask(task: Macrotask) {
     if (this._currentTask !== null) {
       throw new Error("Cannot invoke a task while another task is running.");
     }
 
-    this._currentTask = queuedTask;
+    this._currentTask = task;
 
     // Invoke on the microtask queue, so that
-    // we do not end up calling another task runner inside the
-    // .next() call of a previous task runner.
+    // we do not end up calling another task while inside the
+    // final .next() call of a previous task.
     Promise.resolve().then(() => {
-      const iterator = this._createTask(queuedTask);
-      try {
-        queuedTask.runTask(iterator);
-      } catch (e) {
-        // If the task runner throws, we need to reject the task
-        // and clean up if its still pending.
-        if (!queuedTask.done) {
-          queuedTask.reject(e);
-        }
-        if (this._currentTask === queuedTask) {
-          this._currentTask = null;
-          this._onTaskCompleted();
-        }
-      }
+      task.invoke();
     });
-  }
-
-  private _createTask(task: QueuedTask): StaticJsTask {
-    const iterator = evaluateCommands(task.evaluator());
-    let done = false;
-    let aborted = false;
-
-    const killTask = (error: unknown) => {
-      if (this._currentTask !== task) {
-        return;
-      }
-
-      task.reject(error);
-
-      if (task.microtask) {
-        // Kill all remaining microtasks.
-        this._taskQueues[0] = [];
-      }
-      this._onTaskCompleted(error);
-    };
-
-    return {
-      get done() {
-        return done;
-      },
-      get aborted() {
-        return aborted;
-      },
-      next: () => {
-        if (this._currentTask !== task) {
-          throw new Error("Cannot call next() on an inactive task.");
-        }
-
-        if (aborted) {
-          throw new StaticJsTaskAbortedError(
-            "Cannot call next() on an aborted task.",
-          );
-        }
-
-        try {
-          const result = iterator.next();
-          if (result.done) {
-            done = true;
-            task.resolve(result.value);
-            this._onTaskCompleted();
-          }
-          return {
-            value: undefined,
-            done: result.done,
-          };
-        } catch (e) {
-          // Normally we should pass this to the generator's throw method,
-          // but we are passed generators that handle all of that for us, so the only
-          // throws we should be getting here are final throws.
-          killTask(e);
-          return {
-            value: undefined,
-            done: true,
-          };
-        }
-      },
-
-      abort: () => {
-        if (this._currentTask !== task) {
-          throw new Error("Cannot call abort() on an inactive task.");
-        }
-        aborted = true;
-        killTask(new StaticJsTaskAbortedError("Task was aborted."));
-      },
-    };
-  }
-
-  private _onMicrotasksDrained(err: unknown | null) {
-    for (const callback of this._microtasksDrainedCallbacks) {
-      callback(err);
-    }
-    this._microtasksDrainedCallbacks = [];
   }
 
   private _setupGlobalObject(
@@ -591,7 +446,7 @@ function isIterator<T>(obj: unknown): obj is Generator<T, unknown, unknown> {
   );
 }
 
-function defaultTaskRunner(task: StaticJsTask) {
+function defaultTaskRunner(task: StaticJsTaskIterator) {
   // This is a default task runner that runs the generator synchronously.
   // It can be replaced by the user to run tasks asynchronously.
   let result = task.next();
@@ -637,5 +492,215 @@ function* doEvaluateModule(
     }
 
     throw e;
+  }
+}
+
+class Macrotask {
+  private readonly _microtasks: StaticJsEvaluator<void>[] = [];
+
+  private readonly _promise: Promise<unknown>;
+
+  private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";
+  private _macrotaskCompletionValue: unknown | undefined = undefined;
+  private _acceptPromise!: (value: unknown) => void;
+  private _rejectPromise!: (reason?: unknown) => void;
+
+  // This isn't the same as the promise.  The promise is for returning to the outside world,
+  // but our internals still want to be notified when the task completes without marking the rejection
+  // as handled.
+  private _onCompletedCallbacks: ((err?: unknown) => void)[] = [];
+
+  constructor(
+    private readonly _evaluator: StaticJsEvaluator,
+    private readonly _taskRunner: StaticJsTaskRunner,
+    // This shouldn't be needed if this task stays in sync with the realm about whether it is running.
+    private readonly _assertIsRunning: (task: Macrotask) => void,
+  ) {
+    this._promise = new Promise<unknown>((accept, reject) => {
+      this._acceptPromise = accept;
+      this._rejectPromise = reject;
+    });
+  }
+
+  get taskRunner() {
+    return this._taskRunner;
+  }
+
+  onComplete(callback: (err?: unknown) => void) {
+    this._onCompletedCallbacks.push(callback);
+  }
+
+  enqueueMicrotask(evaluator: StaticJsEvaluator<void>) {
+    if (this._status !== "running") {
+      throw new StaticJsEngineError(
+        `Cannot enqueue a microtask when task is not running.  Current status: ${this._status}`,
+      );
+    }
+
+    this._microtasks.push(evaluator);
+  }
+
+  await() {
+    return this._promise;
+  }
+
+  invoke() {
+    if (this._status !== "pending") {
+      throw new StaticJsEngineError(
+        `Cannot invoke a task that is already ${this._status}.`,
+      );
+    }
+
+    this._status = "running";
+
+    this._runTask(
+      this._evaluator,
+      (value) => this._acceptMacrotask(value),
+      (reason) => this._reject(reason),
+    );
+  }
+
+  private _tryDrainMicrotasks() {
+    if (this._status !== "running") {
+      throw new StaticJsEngineError(
+        `Cannot drain microtasks when task is not running.  Current status: ${this._status}`,
+      );
+    }
+
+    const microtask = this._microtasks.shift();
+    if (!microtask) {
+      this._accept();
+      return;
+    }
+
+    this._runTask(
+      microtask,
+      () => this._acceptMicrotask(),
+      (reason) => {
+        this._reject(reason);
+      },
+    );
+  }
+
+  private _runTask(
+    evaluator: StaticJsEvaluator,
+    accept: (value: unknown) => void,
+    reject: (reason: unknown) => void,
+  ) {
+    const taskIterator = this._createTaskIterator(evaluator, accept, reject);
+    this._taskRunner(taskIterator);
+  }
+
+  private _createTaskIterator(
+    evaluator: StaticJsEvaluator,
+    accept: (value: unknown) => void,
+    reject: (reason: unknown) => void,
+  ): StaticJsTaskIterator {
+    const iterator = evaluateCommands(invokeEvaluator(evaluator));
+    let done = false;
+    let aborted = false;
+
+    const assertNotCompleted = () => {
+      if (aborted) {
+        throw new StaticJsTaskAbortedError(
+          "Cannot call next() on an aborted task.",
+        );
+      }
+
+      if (done) {
+        throw new StaticJsEngineError(
+          "Cannot call next() on a completed task.",
+        );
+      }
+    };
+
+    return {
+      get done() {
+        return done;
+      },
+      get aborted() {
+        return aborted;
+      },
+      next: () => {
+        assertNotCompleted();
+        this._assertIsRunning(this);
+
+        try {
+          const result = iterator.next();
+          if (result.done) {
+            done = true;
+            accept(result.value);
+          }
+          return {
+            value: undefined,
+            done: result.done,
+          };
+        } catch (e) {
+          // Normally we should pass this to the generator's throw method,
+          // but we are passed generators that handle all of that for us, so the only
+          // throws we should be getting here are final throws.
+          done = true;
+          reject(e);
+          return {
+            value: undefined,
+            done: true,
+          };
+        }
+      },
+
+      abort: () => {
+        assertNotCompleted();
+        this._assertIsRunning(this);
+        aborted = true;
+        reject(new StaticJsTaskAbortedError("Task was aborted."));
+      },
+    };
+  }
+
+  private _acceptMacrotask(value: unknown) {
+    this._macrotaskCompletionValue = value;
+    this._tryDrainMicrotasks();
+  }
+
+  private _acceptMicrotask() {
+    this._tryDrainMicrotasks();
+  }
+
+  private _accept() {
+    if (this._status !== "running") {
+      throw new StaticJsEngineError(
+        `Cannot accept a task that is not running.  Current status: ${this._status}`,
+      );
+    }
+
+    this._status = "fulfilled";
+    this._acceptPromise(this._macrotaskCompletionValue);
+    this._onCompletedCallbacks.forEach((cb) => cb());
+    this._onCompletedCallbacks = [];
+    this._macrotaskCompletionValue = undefined;
+  }
+
+  private _reject(reason?: unknown) {
+    if (this._status !== "running") {
+      throw new StaticJsEngineError(
+        `Cannot reject a task that is not running.  Current status: ${this._status}`,
+      );
+    }
+
+    this._status = "rejected";
+    this._rejectPromise(reason);
+    this._onCompletedCallbacks.forEach((cb) => cb(reason));
+    this._onCompletedCallbacks = [];
+    this._macrotaskCompletionValue = undefined;
+  }
+}
+
+function invokeEvaluator<T>(
+  evaluator: StaticJsEvaluator<T>,
+): EvaluationGenerator<T> {
+  if (typeof evaluator === "function") {
+    return evaluator();
+  } else {
+    return evaluator;
   }
 }
