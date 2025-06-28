@@ -52,18 +52,14 @@ function* runCatch(
   value: StaticJsValue,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const env = new StaticJsLexicalEnvironment(
-    context.realm,
+  const catchContext = context.createBlockContext(
     new StaticJsDeclarativeEnvironmentRecord(context.realm),
-    context.env,
   );
-
-  const catchContext = context.createBlockContext(env);
 
   if (node.param) {
     yield* setLVal(node.param, value, catchContext, function* (name, value) {
-      yield* env.createMutableBindingEvaluator(name, false);
-      yield* env.initializeBindingEvaluator(name, value);
+      yield* catchContext.env.createMutableBindingEvaluator(name, false);
+      yield* catchContext.env.initializeBindingEvaluator(name, value);
     });
   }
 

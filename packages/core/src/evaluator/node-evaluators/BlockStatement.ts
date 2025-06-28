@@ -5,7 +5,6 @@ import typedMerge from "../../internal/typed-merge.js";
 import type { StaticJsValue } from "../../runtime/index.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
@@ -19,13 +18,9 @@ function* blockStatementNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   // FIXME: Only do this if we have a let or const.
-  const env = new StaticJsLexicalEnvironment(
-    context.realm,
+  const blockContext = context.createBlockContext(
     new StaticJsDeclarativeEnvironmentRecord(context.realm),
-    context.env,
   );
-
-  const blockContext = context.createBlockContext(env);
 
   for (const child of node.body) {
     yield* setupEnvironment(child, blockContext);

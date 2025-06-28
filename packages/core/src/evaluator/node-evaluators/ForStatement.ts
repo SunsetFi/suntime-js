@@ -2,7 +2,6 @@ import type { ForStatement } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
@@ -22,13 +21,9 @@ function* forStatementNodeEvaluator(
   let forContext = context;
 
   if (node.init || node.update || node.test) {
-    const forEnv = new StaticJsLexicalEnvironment(
-      context.realm,
+    forContext = context.createBlockContext(
       new StaticJsDeclarativeEnvironmentRecord(context.realm),
-      context.env,
     );
-
-    forContext = context.createBlockContext(forEnv);
 
     if (node.init) {
       yield* setupEnvironment(node.init, forContext);
@@ -58,13 +53,9 @@ function* forStatementNodeEvaluator(
       }
     }
 
-    const bodyEnv = new StaticJsLexicalEnvironment(
-      context.realm,
+    const bodyContext = forContext.createBlockContext(
       new StaticJsDeclarativeEnvironmentRecord(context.realm),
-      forContext.env,
     );
-
-    const bodyContext = forContext.createBlockContext(bodyEnv);
 
     yield* setupEnvironment(node.body, bodyContext);
 

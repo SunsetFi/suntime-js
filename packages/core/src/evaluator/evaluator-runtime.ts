@@ -22,6 +22,11 @@ export function* evaluateCommands<TReturn>(
         continue;
       }
 
+      // FOR ASYNC AWAIT
+      // If we have entered an async frame, remember the current iterator.
+      // If we get an await, call .then on the awaitable to queue a microtask to resume the iterator,
+      // and return the promise from the current iterator.
+
       // It seems counterintuitive to set lastValue to undefined here (instead of value),
       // but 'value' represents an entry into a recursive evaluation, which is starting fresh.
       // lastValue needs to be value only when a generator completes, as that returns the completion

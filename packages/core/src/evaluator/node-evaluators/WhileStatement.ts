@@ -2,7 +2,6 @@ import type { WhileStatement } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -19,13 +18,9 @@ function* whileStatementNodeEvaluator(
   node: WhileStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const whileEnv = new StaticJsLexicalEnvironment(
-    context.realm,
+  const whileContext = context.createBlockContext(
     new StaticJsDeclarativeEnvironmentRecord(context.realm),
-    context.env,
   );
-
-  const whileContext = context.createBlockContext(whileEnv);
 
   while (true) {
     let testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
@@ -37,13 +32,9 @@ function* whileStatementNodeEvaluator(
       break;
     }
 
-    const bodyEnv = new StaticJsLexicalEnvironment(
-      context.realm,
+    const bodyContext = whileContext.createBlockContext(
       new StaticJsDeclarativeEnvironmentRecord(context.realm),
-      whileEnv,
     );
-
-    const bodyContext = whileContext.createBlockContext(bodyEnv);
 
     yield* setupEnvironment(node.body, bodyContext);
 

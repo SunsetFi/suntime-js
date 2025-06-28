@@ -2,7 +2,6 @@ import type { ForInStatement, LVal } from "@babel/types";
 
 import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObject.js";
 
-import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
@@ -44,13 +43,9 @@ export default function* forInStatementNodeEvaluator(
 
   const keys = yield* right.getEnumerableKeysEvaluator();
   for (const key of keys) {
-    const bodyEnv = new StaticJsLexicalEnvironment(
-      context.realm,
+    const bodyContext = context.createBlockContext(
       new StaticJsDeclarativeEnvironmentRecord(context.realm),
-      context.env,
     );
-
-    const bodyContext = context.createBlockContext(bodyEnv);
 
     // From testing NodeJs, the decl is in the body scope
     // (IE: const works and doesn't get upset about redecl)
@@ -70,7 +65,7 @@ export default function* forInStatementNodeEvaluator(
       context.realm.types.string(key),
       bodyContext,
       function* (name, value) {
-        return yield* bodyEnv.initializeBindingEvaluator(name, value);
+        return yield* bodyContext.env.initializeBindingEvaluator(name, value);
       },
     );
 

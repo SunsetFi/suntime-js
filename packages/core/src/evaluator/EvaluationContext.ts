@@ -1,6 +1,7 @@
 import type { StaticJsEnvironment } from "../runtime/environments/StaticJsEnvironment.js";
 import type { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
+import StaticJsLexicalEnvironment from "../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 
 export default abstract class EvaluationContext {
   private _parent: EvaluationContext | null;
@@ -54,7 +55,8 @@ export default abstract class EvaluationContext {
     return new LabelEvalationContext(label, this);
   }
 
-  createBlockContext(env: StaticJsEnvironment): EvaluationContext {
+  createBlockContext(record: StaticJsEnvironment): EvaluationContext {
+    const env = new StaticJsLexicalEnvironment(this.realm, record, this.env);
     return new BlockEvaluationContext(env, this);
   }
 

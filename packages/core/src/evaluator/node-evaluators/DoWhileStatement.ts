@@ -2,7 +2,6 @@ import type { DoWhileStatement } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -20,22 +19,14 @@ function* doWhileStatementNodeEvaluator(
   node: DoWhileStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const whileEnv = new StaticJsLexicalEnvironment(
-    context.realm,
+  const whileContext = context.createBlockContext(
     new StaticJsDeclarativeEnvironmentRecord(context.realm),
-    context.env,
   );
 
-  const whileContext = context.createBlockContext(whileEnv);
-
   while (true) {
-    const bodyEnv = new StaticJsLexicalEnvironment(
-      context.realm,
+    const bodyContext = whileContext.createBlockContext(
       new StaticJsDeclarativeEnvironmentRecord(context.realm),
-      context.env,
     );
-
-    const bodyContext = whileContext.createBlockContext(bodyEnv);
 
     yield* setupEnvironment(node.body, bodyContext);
 
