@@ -25,10 +25,7 @@ function* whileStatementNodeEvaluator(
     context.env,
   );
 
-  const whileContext = {
-    ...context,
-    env: whileEnv,
-  };
+  const whileContext = context.createBlockContext(whileEnv);
 
   while (true) {
     let testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
@@ -46,10 +43,7 @@ function* whileStatementNodeEvaluator(
       whileEnv,
     );
 
-    const bodyContext = {
-      ...whileContext,
-      env: bodyEnv,
-    };
+    const bodyContext = whileContext.createBlockContext(bodyEnv);
 
     yield* setupEnvironment(node.body, bodyContext);
 

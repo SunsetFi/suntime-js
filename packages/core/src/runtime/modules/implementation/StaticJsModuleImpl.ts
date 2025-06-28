@@ -11,13 +11,12 @@ import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import StaticJsModuleEnvironmentRecord from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
-import type { StaticJsEnvironment } from "../../environments/StaticJsEnvironment.js";
 
 import evaluateNode from "../../../evaluator/node-evaluators/evaluate-node.js";
 import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
 
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
+import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
@@ -48,7 +47,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
   private _linked = false;
 
   private _enviornment: StaticJsModuleEnvironmentRecord | undefined;
-  private _lexicalEnv: StaticJsEnvironment | undefined;
+  private _context: EvaluationContext | undefined;
 
   private _status: StaticJsModuleStatus = "uninstantiated";
 
@@ -129,24 +128,17 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       return null;
     }
 
-    // TODO: Recursive dependency instantiation
-
     this._enviornment = new StaticJsModuleEnvironmentRecord(this._realm);
 
-    this._lexicalEnv = new StaticJsLexicalEnvironment(
+    const env = new StaticJsLexicalEnvironment(
       this._realm,
       this._enviornment,
       this._realm.globalEnv,
     );
 
-    const context: EvaluationContext = {
-      realm: this._realm,
-      strict: true,
-      env: this._lexicalEnv,
-      label: null,
-    };
+    this._context = EvaluationContext.createRootContext(true, this._realm, env);
 
-    yield* setupEnvironment(this._ast, context);
+    yield* setupEnvironment(this._ast, this._context);
 
     // Instaniate export modules
     for (const entry of this._exportEntries) {
@@ -300,13 +292,6 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
     this._status = "evaluating";
 
-    const context: EvaluationContext = {
-      realm: this._realm,
-      strict: true,
-      env: this._lexicalEnv!,
-      label: null,
-    };
-
     for (const module of this._linkedModules.values()) {
       if (!module) {
         // Oh well.  If we actually needed it we would have thrown by now.
@@ -316,7 +301,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       yield* module.moduleEvaluationEvaluator();
     }
 
-    const result = yield* evaluateNode(this._ast, context);
+    const result = yield* evaluateNode(this._ast, this._context!);
 
     this._status = "evaluated";
 

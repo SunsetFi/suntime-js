@@ -6,6 +6,8 @@ import StaticJsLexicalEnvironment from "../../runtime/environments/implementatio
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
+import { ContinueCompletion } from "../completions/ContinueCompletion.js";
+import { BreakCompletion } from "../completions/BreakCompletion.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -14,8 +16,6 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setLVal from "./LVal.js";
 import setupEnvironment from "./setup-environment.js";
-import { ContinueCompletion } from "../completions/ContinueCompletion.js";
-import { BreakCompletion } from "../completions/BreakCompletion.js";
 
 export default function* forInStatementNodeEvaluator(
   node: ForInStatement,
@@ -50,10 +50,7 @@ export default function* forInStatementNodeEvaluator(
       context.env,
     );
 
-    const bodyContext = {
-      ...context,
-      env: bodyEnv,
-    };
+    const bodyContext = context.createBlockContext(bodyEnv);
 
     // From testing NodeJs, the decl is in the body scope
     // (IE: const works and doesn't get upset about redecl)

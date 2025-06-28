@@ -58,10 +58,7 @@ function* runCatch(
     context.env,
   );
 
-  const catchContext: EvaluationContext = {
-    ...context,
-    env,
-  };
+  const catchContext = context.createBlockContext(env);
 
   if (node.param) {
     yield* setLVal(node.param, value, catchContext, function* (name, value) {
@@ -77,14 +74,13 @@ function* runBlock(
   node: BlockStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const blockContext = {
-    ...context,
-    env: new StaticJsLexicalEnvironment(
-      context.realm,
-      new StaticJsDeclarativeEnvironmentRecord(context.realm),
-      context.env,
-    ),
-  };
+  const env = new StaticJsLexicalEnvironment(
+    context.realm,
+    new StaticJsDeclarativeEnvironmentRecord(context.realm),
+    context.env,
+  );
+
+  const blockContext = context.createBlockContext(env);
 
   for (const statement of node.body) {
     yield* setupEnvironment(statement, blockContext);

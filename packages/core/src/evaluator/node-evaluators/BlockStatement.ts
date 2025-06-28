@@ -24,10 +24,8 @@ function* blockStatementNodeEvaluator(
     new StaticJsDeclarativeEnvironmentRecord(context.realm),
     context.env,
   );
-  const blockContext: EvaluationContext = {
-    ...context,
-    env: env,
-  };
+
+  const blockContext = context.createBlockContext(env);
 
   for (const child of node.body) {
     yield* setupEnvironment(child, blockContext);

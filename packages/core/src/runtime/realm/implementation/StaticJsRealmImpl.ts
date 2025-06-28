@@ -13,7 +13,7 @@ import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
 import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
 import evaluateNode from "../../../evaluator/node-evaluators/evaluate-node.js";
-import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
+import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
 
 import type { StaticJsEnvironment } from "../../environments/StaticJsEnvironment.js";
@@ -460,12 +460,7 @@ function* doEvaluateNode(
   realm: StaticJsRealm,
   strict?: boolean,
 ): EvaluationGenerator<StaticJsValue> {
-  const context: EvaluationContext = {
-    realm,
-    strict: strict ?? false,
-    env: realm.globalEnv,
-    label: null,
-  };
+  const context = EvaluationContext.createRootContext(strict ?? false, realm);
   try {
     yield* setupEnvironment(node, context);
     const result = yield* evaluateNode(node, context);

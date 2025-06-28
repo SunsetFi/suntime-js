@@ -22,6 +22,12 @@ export function* evaluateCommands<TReturn>(
         continue;
       }
 
+      // It seems counterintuitive to set lastValue to undefined here (instead of value),
+      // but 'value' represents an entry into a recursive evaluation, which is starting fresh.
+      // lastValue needs to be value only when a generator completes, as that returns the completion
+      // to the parent generator that spawned it.
+      lastValue = undefined;
+
       const nextGen = executeEvaluatorCommand(value);
       stack.push(nextGen);
     } catch (e: unknown) {

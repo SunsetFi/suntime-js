@@ -28,10 +28,7 @@ function* forStatementNodeEvaluator(
       context.env,
     );
 
-    forContext = {
-      ...context,
-      env: forEnv,
-    };
+    forContext = context.createBlockContext(forEnv);
 
     if (node.init) {
       yield* setupEnvironment(node.init, forContext);
@@ -44,10 +41,10 @@ function* forStatementNodeEvaluator(
     if (node.update) {
       yield* setupEnvironment(node.update, forContext);
     }
-  }
 
-  if (node.init) {
-    yield* EvaluateNodeCommand(node.init, forContext);
+    if (node.init) {
+      yield* EvaluateNodeCommand(node.init, forContext);
+    }
   }
 
   do {
@@ -67,10 +64,7 @@ function* forStatementNodeEvaluator(
       forContext.env,
     );
 
-    const bodyContext = {
-      ...forContext,
-      env: bodyEnv,
-    };
+    const bodyContext = forContext.createBlockContext(bodyEnv);
 
     yield* setupEnvironment(node.body, bodyContext);
 

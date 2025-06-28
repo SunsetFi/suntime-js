@@ -44,7 +44,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args), opts);
   }
 
-  private *_invoke(
+  protected *_invoke(
     thisArg: StaticJsValue,
     args: StaticJsValue[],
   ): EvaluationGenerator {
@@ -67,11 +67,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
       this._context.env,
     );
 
-    return {
-      ...this._context,
-      env: functionEnv,
-      label: null,
-    };
+    return this._context.createStackContext(functionEnv, this);
   }
 
   protected *_declareArguments(

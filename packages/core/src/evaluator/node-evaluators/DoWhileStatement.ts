@@ -26,22 +26,16 @@ function* doWhileStatementNodeEvaluator(
     context.env,
   );
 
-  const whileContext = {
-    ...context,
-    env: whileEnv,
-  };
+  const whileContext = context.createBlockContext(whileEnv);
 
   while (true) {
     const bodyEnv = new StaticJsLexicalEnvironment(
       context.realm,
       new StaticJsDeclarativeEnvironmentRecord(context.realm),
-      whileEnv,
+      context.env,
     );
 
-    const bodyContext = {
-      ...whileContext,
-      env: bodyEnv,
-    };
+    const bodyContext = whileContext.createBlockContext(bodyEnv);
 
     yield* setupEnvironment(node.body, bodyContext);
 
@@ -62,7 +56,7 @@ function* doWhileStatementNodeEvaluator(
     let testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
       forNormalValue: "DoWhileStatement.test",
     });
-    testResult = yield* toBoolean(testResult, context.realm);
+    testResult = yield* toBoolean(testResult, whileContext.realm);
     if (!testResult.value) {
       break;
     }
