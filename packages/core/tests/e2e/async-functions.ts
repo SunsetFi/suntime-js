@@ -1,0 +1,57 @@
+import { describe, it, expect } from "vitest";
+
+import { StaticJsRealm } from "../../src/index.js";
+import {
+  isStaticJsPromise,
+  type StaticJsPromise,
+} from "../../src/runtime/types/StaticJsPromise.js";
+
+describe("E2E: Async functions", () => {
+  it("Returns a promise", async () => {
+    const realm = StaticJsRealm();
+    const code = `
+      async function test() {
+        return 42;
+      }
+      test();
+    `;
+
+    const result = await realm.evaluateScript(code);
+    expect(isStaticJsPromise(result)).toBe(true);
+
+    const promise = staticJsPromiseToPromise(result as StaticJsPromise, realm);
+    await expect(promise).resolves.toBe(42);
+  });
+
+  it("Rejects a promise on error", async () => {
+    const realm = StaticJsRealm();
+    const code = `
+      async function test() {
+        throw new Error("Test error");
+      }
+      test();
+    `;
+
+    const result = await realm.evaluateScript(code);
+
+    expect(isStaticJsPromise(result)).toBe(true);
+    const promise = staticJsPromiseToPromise(result as StaticJsPromise, realm);
+    await expect(promise).rejects.toThrow("Test error");
+  });
+});
+
+function staticJsPromiseToPromise(
+  promise: StaticJsPromise,
+  realm: StaticJsRealm,
+): Promise<unknown> {
+  return new Promise((resolve, reject) => {
+    // FIXME: It would be nice to do it this way, but we currently don't support
+    // enqueuing microtasks outside of a realm.
+    realm.invokeEvaluatorSync(
+      promise.thenEvaluator(
+        realm.types.toStaticJsValue(resolve),
+        realm.types.toStaticJsValue(reject),
+      ),
+    );
+  });
+}

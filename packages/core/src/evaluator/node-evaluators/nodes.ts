@@ -43,6 +43,7 @@ import forInStatementNodeEvaluator from "./ForInStatement.js";
 import exportAllDeclarationNodeEvaluator from "./ExportAllDeclaration.js";
 import exportDefaultDeclarationNodeEvaluator from "./ExportDefaultDeclaration.js";
 import exportNamedDeclarationNodeEvaluator from "./ExportNamedDeclaration.js";
+import awaitExpressionNodeEvaluator from "./AwaitExpression.js";
 
 type NodeEvaluators = {
   [key in Node["type"]]?: NodeEvaluator<key>;
@@ -52,6 +53,7 @@ const nodeEvaluators: NodeEvaluators = {
   ArrayExpression: arrayExpressionNodeEvaluator,
   ArrowFunctionExpression: arrowFunctionExpressionNodeEvaluator,
   AssignmentExpression: assignmentExpressionNodeEvaluator,
+  AwaitExpression: awaitExpressionNodeEvaluator,
   BinaryExpression: binaryExpressionNodeEvaluator,
   BlockStatement: blockStatementNodeEvaluator,
   BooleanLiteral: booleanLiteralNodeEvaluator,

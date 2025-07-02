@@ -7,6 +7,7 @@ import type { StaticJsAstFunctionArgumentDeclaration } from "../../runtime/types
 import StaticJsDeclFunction from "../../runtime/types/implementation/StaticJsDeclFunction.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
+import StaticJsAsyncDeclFunction from "../../runtime/types/implementation/StaticJsAsyncDeclFunction.js";
 
 export default function createFunction(
   name: string | null,
@@ -21,8 +22,13 @@ export default function createFunction(
   }
 
   if (node.async) {
-    // TODO: Support these when the Promise primitive is in.
-    throw new StaticJsEngineError("Async functions are not supported");
+    return new StaticJsAsyncDeclFunction(
+      functionContext.realm,
+      name,
+      node.params as StaticJsAstFunctionArgumentDeclaration[],
+      functionContext,
+      node.body,
+    );
   }
 
   if (node.generator) {

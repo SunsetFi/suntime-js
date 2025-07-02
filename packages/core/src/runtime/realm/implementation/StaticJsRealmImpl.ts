@@ -84,6 +84,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   private readonly _defaultRunTask: StaticJsTaskRunner;
 
+  private _invokeEvaluatorSyncDepth = 0;
+  private _invokeEvaluatorSyncMicrotasks: (() => EvaluationGenerator<void>)[] =
+    [];
+
   constructor({
     globalObject,
     globalThis,
@@ -239,18 +243,24 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   enqueueMicrotask(
     evaluator: (() => EvaluationGenerator<void>) | EvaluationGenerator<void>,
   ): void {
-    // This used to work.  We could still make it work if we wanted to.
-    if (!this._currentTask) {
-      throw new StaticJsEngineError(
-        "Cannot enqueue a microtask when no task is running.",
-      );
-    }
-
     let evaluatorFn: () => EvaluationGenerator<void>;
     if (typeof evaluator === "function") {
       evaluatorFn = evaluator;
     } else {
       evaluatorFn = () => evaluator;
+    }
+
+    // HACK for synchronous evaluations.
+    if (this._invokeEvaluatorSyncDepth > 0) {
+      this._invokeEvaluatorSyncMicrotasks.push(evaluatorFn);
+      return;
+    }
+
+    // This used to work.  We could still make it work if we wanted to.
+    if (!this._currentTask) {
+      throw new StaticJsEngineError(
+        "Cannot enqueue a microtask when no task is running.",
+      );
     }
 
     this._currentTask.enqueueMicrotask(evaluatorFn);
@@ -277,14 +287,32 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   invokeEvaluatorSync<TReturn>(
     evaluator: EvaluationGenerator<TReturn>,
   ): TReturn {
-    const iterator = evaluateCommands(evaluator);
+    this._invokeEvaluatorSyncDepth++;
+    try {
+      const iterator = evaluateCommands(evaluator);
 
-    let iteratorResult = iterator.next();
-    while (!iteratorResult.done) {
-      iteratorResult = iterator.next();
+      let iteratorResult = iterator.next();
+      while (!iteratorResult.done) {
+        iteratorResult = iterator.next();
+      }
+
+      while (this._invokeEvaluatorSyncMicrotasks.length > 0) {
+        const evaluator = this._invokeEvaluatorSyncMicrotasks.shift()!;
+        const iterator = evaluateCommands(evaluator());
+        let iteratorResult = iterator.next();
+        while (!iteratorResult.done) {
+          iteratorResult = iterator.next();
+        }
+      }
+
+      return iteratorResult.value;
+    } finally {
+      this._invokeEvaluatorSyncMicrotasks.splice(
+        0,
+        this._invokeEvaluatorSyncMicrotasks.length,
+      );
+      this._invokeEvaluatorSyncDepth--;
     }
-
-    return iteratorResult.value;
   }
 
   private _assertTaskRunning(task: Macrotask) {
