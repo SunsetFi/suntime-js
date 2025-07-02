@@ -38,6 +38,63 @@ describe("E2E: Async functions", () => {
     const promise = staticJsPromiseToPromise(result as StaticJsPromise, realm);
     await expect(promise).rejects.toThrow("Test error");
   });
+
+  it("Can receive an awaited value", async () => {
+    const realm = StaticJsRealm();
+    const code = `
+      const awaitable = Promise.resolve(42);
+      async function test() {
+        const result = await awaitable;
+        return result;
+      }
+      test();
+    `;
+
+    const result = await realm.evaluateScript(code);
+    expect(isStaticJsPromise(result)).toBe(true);
+
+    const promise = staticJsPromiseToPromise(result as StaticJsPromise, realm);
+    await expect(promise).resolves.toBe(42);
+  });
+
+  it("Can catch a thrown error", async () => {
+    const realm = StaticJsRealm();
+    const code = `
+      const awaitable = Promise.reject(new Error("Test error"));
+      async function test() {
+        try {
+          await awaitable;
+          return "uncaught";
+        } catch (e) {
+         return "caught";
+        }
+      }
+      test();
+    `;
+
+    const result = await realm.evaluateScript(code);
+
+    expect(isStaticJsPromise(result)).toBe(true);
+    const promise = staticJsPromiseToPromise(result as StaticJsPromise, realm);
+    await expect(promise).resolves.toBe("caught");
+  });
+
+  it("Can inherit a promise", async () => {
+    const realm = StaticJsRealm();
+    const code = `
+      const awaitable = Promise.resolve(42);
+      async function test() {
+        return awaitable;
+      }
+      test();
+    `;
+
+    const result = await realm.evaluateScript(code);
+    expect(isStaticJsPromise(result)).toBe(true);
+
+    const promise = staticJsPromiseToPromise(result as StaticJsPromise, realm);
+    await expect(promise).resolves.toBe(42);
+  });
 });
 
 function staticJsPromiseToPromise(

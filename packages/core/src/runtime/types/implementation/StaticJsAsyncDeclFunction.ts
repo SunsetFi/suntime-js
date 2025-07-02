@@ -4,7 +4,8 @@ import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-
+import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletion.js";
+import type { EvaluatorCommand } from "../../../evaluator/commands/EvaluatorCommand.js";
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
@@ -27,7 +28,6 @@ import StaticJsAstFunction, {
 } from "./StaticJsAstFunction.js";
 
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
-import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletion.js";
 
 export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
   constructor(
@@ -94,6 +94,7 @@ class InvokingAsyncFunction {
 
   private *_continue(
     continueWith: StaticJsValue | null,
+    continueMode: "next" | "throw" = "next",
   ): EvaluationGenerator<void> {
     if (this._state !== "started" && this._state !== "awaiting") {
       throw new StaticJsEngineError(
@@ -105,14 +106,25 @@ class InvokingAsyncFunction {
 
     try {
       while (true) {
-        const { value, done } = this._evaluator.next(continueWith);
+        let result: IteratorResult<EvaluatorCommand, StaticJsValue | null>;
+        if (continueMode === "throw" && continueWith !== null) {
+          result = this._evaluator.throw(new ThrowCompletion(continueWith));
+        } else {
+          result = this._evaluator.next(continueWith);
+        }
+        continueMode = "next";
+
+        const { value, done } = result;
 
         if (done) {
-          this._halt();
+          // Hit the end of the generator, no more function to run.
+          this._resolve(this._context.realm.types.undefined);
           return;
         }
 
         if (value.kind === "await") {
+          // Signal for us to await.
+          // Handle the awaitable and pause execution.
           yield* this._registerContinuation(value.awaitable);
           return;
         }
@@ -122,13 +134,15 @@ class InvokingAsyncFunction {
       }
     } catch (e) {
       if (e instanceof ThrowCompletion) {
+        // Function threw an error, reject the promise with it.
         yield* this._reject(e.value);
         return;
       }
 
-      // Silly note: If this is our starting continuation, than failing to capture this return here
-      // will bubble up to FunctionBase and make it return the value instead of the promise.
       if (e instanceof ReturnCompletion) {
+        // Function had a return statement, resolve the promise with it.
+        // Silly note: If this is our starting continuation, than failing to capture this return here
+        // will bubble up to FunctionBase and make it return the value instead of the promise.
         yield* this._resolve(e.value ?? this._context.realm.types.undefined);
         return;
       }
@@ -137,15 +151,18 @@ class InvokingAsyncFunction {
     }
   }
 
-  private _halt() {
-    this._state = "halted";
-  }
-
   private *_registerContinuation(
     awaitable: StaticJsValue,
   ): EvaluationGenerator<void> {
+    if (this._state !== "running") {
+      throw new StaticJsEngineError(
+        "Async function can only register continuations when running.",
+      );
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
+
     this._state = "awaiting";
 
     if (isStaticJsObjectLike(awaitable)) {
@@ -166,7 +183,7 @@ class InvokingAsyncFunction {
             thisArg,
             value,
           ) {
-            yield* self._reject(value);
+            yield* self._continue(value, "throw");
             return self._context.realm.types.undefined;
           }),
         );
@@ -185,6 +202,8 @@ class InvokingAsyncFunction {
       return;
     }
 
+    this._halt();
+
     yield* this._capability.resolve.callEvaluator(
       this._context.realm.types.undefined,
       value,
@@ -196,9 +215,15 @@ class InvokingAsyncFunction {
       return;
     }
 
+    this._halt();
+
     yield* this._capability.reject.callEvaluator(
       this._context.realm.types.undefined,
       reason,
     );
+  }
+
+  private _halt() {
+    this._state = "halted";
   }
 }

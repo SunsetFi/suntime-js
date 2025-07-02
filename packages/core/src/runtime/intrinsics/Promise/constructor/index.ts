@@ -13,7 +13,13 @@ import type { StaticJsPromise } from "../../../types/StaticJsPromise.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import { applyIntrinsicProperties } from "../../utils.js";
 
-const declarations: IntrinsicPropertyDeclaration[] = [];
+import promiseCtorRejectDeclaration from "./reject.js";
+import promiseCtorResolveDeclaration from "./resolve.js";
+
+const declarations: IntrinsicPropertyDeclaration[] = [
+  promiseCtorRejectDeclaration,
+  promiseCtorResolveDeclaration,
+];
 
 export default function createPromiseConstructor(
   realm: StaticJsRealm,
