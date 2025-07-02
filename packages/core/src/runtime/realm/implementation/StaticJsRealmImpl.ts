@@ -505,6 +505,8 @@ class Macrotask {
   // as handled.
   private _onCompletedCallbacks: ((err?: unknown) => void)[] = [];
 
+  private _currentNode: Node | null = null;
+
   constructor(
     private readonly _evaluator: StaticJsEvaluator,
     private readonly _taskRunner: StaticJsTaskRunner,
@@ -591,7 +593,11 @@ class Macrotask {
     accept: (value: unknown) => void,
     reject: (reason: unknown) => void,
   ): StaticJsTaskIterator {
-    const iterator = evaluateCommands(invokeEvaluator(evaluator));
+    const iterator = evaluateCommands(invokeEvaluator(evaluator), {
+      onBeforeNodeEntry: (node) => {
+        this._currentNode = node;
+      },
+    });
     let done = false;
     let aborted = false;
 
@@ -609,12 +615,21 @@ class Macrotask {
       }
     };
 
+    const getCurrentNode = () => {
+      return this._currentNode;
+    };
     return {
       get done() {
         return done;
       },
       get aborted() {
         return aborted;
+      },
+      get line() {
+        return getCurrentNode()?.loc?.start.line ?? -1;
+      },
+      get column() {
+        return getCurrentNode()?.loc?.start.column ?? -1;
       },
       next: () => {
         assertNotCompleted();

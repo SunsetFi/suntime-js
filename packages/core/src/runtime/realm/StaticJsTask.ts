@@ -11,6 +11,9 @@ export interface StaticJsTaskIterator {
   get done(): boolean;
   get aborted(): boolean;
 
+  get line(): number;
+  get column(): number;
+
   next(): IteratorResult<void, void>;
   abort(): void;
 }

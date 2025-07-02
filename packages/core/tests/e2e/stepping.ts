@@ -39,4 +39,24 @@ describe("E2E: Stepping", () => {
     expect(captured).toBeGreaterThan(10);
     expect(`Took ${captured} iterations to run the script.`).toMatchSnapshot();
   });
+
+  it("Records the line and column of each step", async () => {
+    const steps: string[] = [];
+    const realm = StaticJsRealm({
+      runTask(task) {
+        while (!task.done) {
+          steps.push(`Line: ${task.line}, Column: ${task.column}`);
+          task.next();
+        }
+      },
+    });
+
+    const code = `
+      for(let i = 0; i < 10; i++) {};
+    `;
+
+    await realm.evaluateScript(code);
+
+    expect(steps).toMatchSnapshot();
+  });
 });
