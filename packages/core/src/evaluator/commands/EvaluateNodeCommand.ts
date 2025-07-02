@@ -38,12 +38,14 @@ export function* EvaluateNodeCommand(
   context: EvaluationContext,
   { forNormalValue, ...evaluateOptions }: EvaluateNodeCommandOptions = {},
 ): EvaluationGenerator<unknown> {
-  const result = yield {
+  yield {
     kind: "evalute-node",
     node,
     context,
     options: evaluateOptions,
   };
+
+  const result = yield* evaluateNode(node, context, evaluateOptions);
   if (forNormalValue) {
     if (result == null) {
       throw new StaticJsEngineError(
@@ -55,13 +57,8 @@ export function* EvaluateNodeCommand(
   return result;
 }
 
-export function* executeEvaluateNodeCommand(
-  command: EvaluateNodeCommand,
-): EvaluationGenerator {
-  const result = yield* evaluateNode(
-    command.node,
-    command.context,
-    command.options,
-  );
-  return result;
-}
+// export function* executeEvaluateNodeCommand(
+//   command: EvaluateNodeCommand,
+// ): EvaluationGenerator {
+
+// }

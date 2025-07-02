@@ -12,9 +12,8 @@ import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 import StaticJsModuleEnvironmentRecord from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
 
-import evaluateNode from "../../../evaluator/node-evaluators/evaluate-node.js";
 import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
-
+import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
@@ -301,7 +300,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       yield* module.moduleEvaluationEvaluator();
     }
 
-    const result = yield* evaluateNode(this._ast, this._context!);
+    const result = yield* EvaluateNodeCommand(this._ast, this._context!);
 
     this._status = "evaluated";
 

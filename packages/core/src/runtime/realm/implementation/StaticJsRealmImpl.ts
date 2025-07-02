@@ -12,9 +12,9 @@ import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
 import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
 import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
-import evaluateNode from "../../../evaluator/node-evaluators/evaluate-node.js";
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
+import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import type { StaticJsEnvironment } from "../../environments/StaticJsEnvironment.js";
 import StaticJsGlobalEnvironmentRecord from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
@@ -463,7 +463,7 @@ function* doEvaluateNode(
   const context = EvaluationContext.createRootContext(strict ?? false, realm);
   try {
     yield* setupEnvironment(node, context);
-    const result = yield* evaluateNode(node, context);
+    const result = yield* EvaluateNodeCommand(node, context);
     return result ?? realm.types.undefined;
   } catch (e) {
     if (e instanceof AbnormalCompletion) {
