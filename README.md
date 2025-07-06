@@ -32,6 +32,7 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
   - Boxed versions of string / number / boolean
 - Strict directive
 - Promises
+- Async Functions
 - Math
 - Error (and variants)
 - Unary and Binary operators
@@ -47,7 +48,6 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 ### Notable things not (yet) supported
 
 - Symbols
-- Async
 - Async Modules
 - Iterators and Generators
 - Class syntax

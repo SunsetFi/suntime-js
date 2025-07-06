@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StaticJsRealm, type StaticJsTask } from "@suntime-js/core";
+import { StaticJsRealm, type StaticJsTaskIterator } from "@suntime-js/core";
 
 import { SxProps } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -14,7 +14,7 @@ export interface JavascriptEvaluatorProps {
 
 const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
   const [logs, setLogs] = React.useState<string[]>([]);
-  const [task, setTask] = React.useState<StaticJsTask | null>(null);
+  const [task, setTask] = React.useState<StaticJsTaskIterator | null>(null);
   const [compileTime, setCompileTime] = React.useState(0);
   const onCompile = React.useCallback(async () => {
     try {
@@ -31,9 +31,13 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
           },
         },
       });
+
       const start = performance.now();
-      const task = await new Promise<StaticJsTask>((resolve) =>
-        realm.evaluateScript(code, { taskRunner: resolve })
+      const task = await new Promise<StaticJsTaskIterator>((resolve) =>
+        realm.evaluateScript(code, { taskRunner: resolve }).catch((err) => {
+          setLogs((logs) => logs.concat(["Runtime error: " + err.message]));
+          setStatus("error");
+        })
       );
       setCompileTime(performance.now() - start);
       setTask(task);

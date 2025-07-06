@@ -3,6 +3,9 @@ import { isLVal } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
+import toObject from "../../runtime/algorithms/to-object.js";
+
+import sliceArrayNative from "../../runtime/types/utils/slice-array-native.js";
 import { isStaticJsArray } from "../../runtime/types/StaticJsArray.js";
 import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
@@ -17,8 +20,6 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
-import toObject from "../../runtime/algorithms/to-object.js";
-import sliceArrayNative from "../../runtime/types/utils/slice-array-native.js";
 
 export default function setLVal(
   lval: LVal,
