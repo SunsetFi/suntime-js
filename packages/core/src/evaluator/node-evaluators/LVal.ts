@@ -4,7 +4,7 @@ import { isLVal } from "@babel/types";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import { isStaticJsArray } from "../../runtime/types/StaticJsArray.js";
-import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
+import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
@@ -100,7 +100,7 @@ export default function* setLVal(
       return null;
     }
     case "ObjectPattern": {
-      if (!isStaticJsObject(value)) {
+      if (!isStaticJsObjectLike(value)) {
         // FIXME: Use real error.
         throw new ThrowCompletion(
           context.realm.types.string("Cannot destructure non-object value"),

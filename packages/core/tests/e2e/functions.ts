@@ -317,7 +317,12 @@ describe("E2E: Functions", () => {
       });
     });
 
-    it("supports default arguments", async () => {
+    it("Supports rest destructuring", async () => {
+      const code = `((...{[0]: value}) => value)("test value")`;
+      expect(await evaluateScript(code)).toBe("test value");
+    });
+
+    it("Supports default arguments", async () => {
       const code = `
         function a(x = 42) {
           return x;
