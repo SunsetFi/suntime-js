@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Subscription } from "rxjs";
+import numeral from "numeral";
 
 import { SxProps } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import ScriptInvocation from "@/models/ScriptInvocation";
+import { useObservation } from "@/hooks/use-observation";
 
 export interface JavascriptEvaluatorProps {
   sx?: SxProps;
@@ -15,80 +16,38 @@ export interface JavascriptEvaluatorProps {
 }
 
 const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
-  const invocationRef = React.useRef<ScriptInvocation | null>(null);
-  const subscriptionsRef = React.useRef<Subscription[]>([]);
+  const [invocation, setInvocation] = React.useState<ScriptInvocation | null>(
+    null
+  );
 
-  const [running, setRunning] = React.useState(false);
-  const [log, setLog] = React.useState<string[]>([]);
-  const [result, setResult] = React.useState<unknown>(undefined);
-  const [ops, setOps] = React.useState(0);
-  const [runStart, setRunStart] = React.useState(0);
-  const [runEnd, setRunEnd] = React.useState(0);
-
-  const cleanup = React.useCallback(() => {
-    if (invocationRef.current) {
-      invocationRef.current = null;
-    }
-    if (subscriptionsRef.current.length > 0) {
-      subscriptionsRef.current.forEach((sub) => sub.unsubscribe());
-      subscriptionsRef.current = [];
-    }
-  }, []);
+  const status = useObservation(invocation?.status$) ?? "unstarted";
+  const log = useObservation(invocation?.log$) ?? [];
+  const result = useObservation(invocation?.result$, { onError: "return" });
+  const ops = useObservation(invocation?.operations$);
 
   const onAbort = React.useCallback(() => {
-    if (invocationRef.current) {
-      invocationRef.current.abort();
-    }
-    setRunEnd(performance.now());
-    setRunning(false);
-    setLog((prev) => [...prev, "Aborted"]);
-  }, [cleanup]);
+    invocation?.abort();
+  }, [invocation]);
 
   const onRun = React.useCallback(() => {
-    cleanup();
-
-    setLog([]);
-    setResult(undefined);
-    setOps(0);
-
     const invocation = new ScriptInvocation(code);
-    invocationRef.current = invocation;
-
-    function onResult(result: unknown) {
-      console.log("Script result:", result);
-      setResult(result);
-      setRunEnd(performance.now());
-      setRunning(false);
-      cleanup();
-    }
-
-    subscriptionsRef.current = [
-      invocation.log$.subscribe((message) => {
-        setLog((prev) => [...prev, message]);
-      }),
-      invocation.operations$.subscribe((ops) => {
-        setOps(ops);
-      }),
-      invocation.result$.subscribe({
-        next: onResult,
-        error: onResult,
-      }),
-    ];
+    setInvocation(invocation);
 
     invocation.run();
-    setRunning(true);
-    setRunStart(performance.now());
   }, [code]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", ...sx }}>
-      {!running && <button onClick={onRun}>Run</button>}
-      {running && <button onClick={onAbort}>Abort</button>}
+      {status !== "running" && <button onClick={onRun}>Run</button>}
+      {status === "running" && <button onClick={onAbort}>Abort</button>}
       <Typography>
-        {running && <CircularProgress size="1rem" sx={{ mr: 1 }} />}
-        {running
-          ? `Running (${ops} ops)`
-          : `Done (${ops} ops, ${runEnd - runStart}ms)`}
+        {status === "running" && (
+          <>
+            <CircularProgress size="1rem" sx={{ mr: 1 }} />
+            Running ({numeral(ops).format("0a")} ops)
+          </>
+        )}
+        {status === "done" && `Done (${numeral(ops).format("0a")} ops)`}
       </Typography>
       {log.map((message, i) => (
         <Typography key={i} variant="body2">

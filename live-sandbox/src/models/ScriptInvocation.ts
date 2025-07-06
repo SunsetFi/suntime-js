@@ -10,7 +10,7 @@ export default class ScriptInvocation {
     "unstarted"
   );
   private _operations$ = new BehaviorSubject<number>(0);
-  private _log$ = new Subject<string>();
+  private _log$ = new BehaviorSubject<string[]>([]);
   private _result$ = new Subject<unknown>();
 
   private _task: StaticJsTaskIterator | null = null;
@@ -21,7 +21,7 @@ export default class ScriptInvocation {
     return this._operations$;
   }
 
-  get log$(): Observable<string> {
+  get log$(): Observable<string[]> {
     return this._log$;
   }
 
@@ -108,6 +108,6 @@ export default class ScriptInvocation {
   }
 
   private _consoleLog(...args: unknown[]) {
-    this._log$.next(args.map(String).join(" "));
+    this._log$.next(this._log$.value.concat(args.map(String).join(" ")));
   }
 }
