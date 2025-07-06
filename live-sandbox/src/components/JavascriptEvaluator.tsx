@@ -1,11 +1,13 @@
 import React from "react";
 
-import { StaticJsRealm, type StaticJsTaskIterator } from "@suntime-js/core";
+import { Subscription } from "rxjs";
 
 import { SxProps } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
+
+import ScriptInvocation from "@/models/ScriptInvocation";
 
 export interface JavascriptEvaluatorProps {
   sx?: SxProps;
@@ -13,132 +15,89 @@ export interface JavascriptEvaluatorProps {
 }
 
 const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
-  const [logs, setLogs] = React.useState<string[]>([]);
-  const [task, setTask] = React.useState<StaticJsTaskIterator | null>(null);
-  const [compileTime, setCompileTime] = React.useState(0);
-  const onCompile = React.useCallback(async () => {
-    try {
-      const realm = StaticJsRealm({
-        globalObject: {
-          value: {
-            console: {
-              log: (...args: any[]) => {
-                setLogs((logs) =>
-                  [...logs, args.map(String).join(" ")].slice(-100)
-                );
-              },
-            },
-          },
-        },
-      });
+  const invocationRef = React.useRef<ScriptInvocation | null>(null);
+  const subscriptionsRef = React.useRef<Subscription[]>([]);
 
-      const start = performance.now();
-      const task = await new Promise<StaticJsTaskIterator>((resolve) =>
-        realm.evaluateScript(code, { taskRunner: resolve }).catch((err) => {
-          setLogs((logs) => logs.concat(["Runtime error: " + err.message]));
-          setStatus("error");
-        })
-      );
-      setCompileTime(performance.now() - start);
-      setTask(task);
-    } catch (e: any) {
-      setLogs([e.message]);
-      setStatus("error");
-    }
-  }, [code]);
-
-  const onAbort = React.useCallback(() => {
-    if (task == null) {
-      return;
-    }
-    task.abort();
-    setTask(null);
-    setStatus("done");
-    setRunEnd(performance.now());
-  }, [task]);
-
-  const [status, setStatus] = React.useState<"running" | "done" | "error">(
-    "done"
-  );
+  const [running, setRunning] = React.useState(false);
+  const [log, setLog] = React.useState<string[]>([]);
+  const [result, setResult] = React.useState<unknown>(undefined);
+  const [ops, setOps] = React.useState(0);
   const [runStart, setRunStart] = React.useState(0);
   const [runEnd, setRunEnd] = React.useState(0);
-  const [ops, setOps] = React.useState(0);
 
-  React.useEffect(() => {
-    if (task == null) {
-      return;
+  const cleanup = React.useCallback(() => {
+    if (invocationRef.current) {
+      invocationRef.current = null;
     }
+    if (subscriptionsRef.current.length > 0) {
+      subscriptionsRef.current.forEach((sub) => sub.unsubscribe());
+      subscriptionsRef.current = [];
+    }
+  }, []);
 
-    const caturedTask = task;
+  const onAbort = React.useCallback(() => {
+    if (invocationRef.current) {
+      invocationRef.current.abort();
+    }
+    cleanup();
+    setRunning(false);
+    setLog((prev) => [...prev, "Aborted"]);
+  }, [cleanup]);
 
-    setStatus("running");
+  const onRun = React.useCallback(() => {
+    cleanup();
+
+    setLog([]);
+    setResult(undefined);
     setOps(0);
-    setLogs([]);
 
-    setRunEnd(0);
-    setRunStart(performance.now());
+    const invocation = new ScriptInvocation(code);
+    invocationRef.current = invocation;
 
-    function onDone() {
+    function onResult(result: unknown) {
+      setResult(result);
       setRunEnd(performance.now());
-      setStatus("done");
+      setRunning(false);
+      cleanup();
     }
 
-    let timeout: number | null = null;
-    function process() {
-      for (let i = 0; i < 1000; i++) {
-        if (caturedTask.aborted) {
-          // We may have aborted externally.
-          return;
-        }
+    subscriptionsRef.current = [
+      invocation.log$.subscribe((message) => {
+        setLog((prev) => [...prev, message]);
+      }),
+      invocation.operations$.subscribe((ops) => {
+        setOps(ops);
+      }),
+      invocation.result$.subscribe({
+        next: onResult,
+        error: (error) => {
+          setLog((prev) => [...prev, `Error: ${error.message}`]);
+          onResult(error);
+        },
+      }),
+    ];
 
-        try {
-          const { done } = task!.next();
-          if (done) {
-            setOps((ops) => ops + i + 1);
-            onDone();
-            return;
-          }
-        } catch (e: any) {
-          setLogs((logs) => [...logs, e.message]);
-          setRunEnd(performance.now());
-          setStatus("error");
-          return;
-        }
-      }
-
-      setOps((ops) => ops + 1000);
-      timeout = setTimeout(process, 10);
-    }
-
-    process();
-
-    return () => {
-      if (timeout !== null) {
-        clearTimeout(timeout);
-      }
-    };
-  }, [task]);
+    invocation.run();
+    setRunning(true);
+    setRunStart(performance.now());
+  }, [code]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", ...sx }}>
-      {status !== "running" && <button onClick={onCompile}>Run</button>}
-      {status === "running" && <button onClick={onAbort}>Abort</button>}
-      {compileTime > 0 && (
-        <Typography>{`Compiled in ${compileTime}ms`}</Typography>
-      )}
+      {!running && <button onClick={onRun}>Run</button>}
+      {running && <button onClick={onAbort}>Abort</button>}
       <Typography>
-        {status === "running" && (
-          <CircularProgress size="1rem" sx={{ mr: 1 }} />
-        )}
-        {status === "running"
+        {running && <CircularProgress size="1rem" sx={{ mr: 1 }} />}
+        {running
           ? `Running (${ops} ops)`
           : `Done (${ops} ops, ${runEnd - runStart}ms)`}
       </Typography>
-      {logs.map((log, i) => (
+      {log.map((message, i) => (
         <Typography key={i} variant="body2">
-          {log}
+          {message}
         </Typography>
       ))}
+      {result !== undefined && JSON.stringify(result, null, 2)}
     </Box>
   );
 };

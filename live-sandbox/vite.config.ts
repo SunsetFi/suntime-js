@@ -8,6 +8,11 @@ export default defineConfig({
     react(),
     checker({ typescript: { root: ".", tsconfigPath: "tsconfig.json" } }),
   ],
+  resolve: {
+    alias: {
+      "@": "/src",
+    },
+  },
   define: {
     "process.env": JSON.stringify({}),
   },

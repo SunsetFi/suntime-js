@@ -626,22 +626,9 @@ class Macrotask {
         this._currentNode = node;
       },
     });
+
     let done = false;
     let aborted = false;
-
-    const assertNotCompleted = () => {
-      if (aborted) {
-        throw new StaticJsTaskAbortedError(
-          "Cannot call next() on an aborted task.",
-        );
-      }
-
-      if (done) {
-        throw new StaticJsEngineError(
-          "Cannot call next() on a completed task.",
-        );
-      }
-    };
 
     const getCurrentNode = () => {
       return this._currentNode;
@@ -660,7 +647,18 @@ class Macrotask {
         return getCurrentNode()?.loc?.start.column ?? -1;
       },
       next: () => {
-        assertNotCompleted();
+        if (aborted) {
+          throw new StaticJsTaskAbortedError(
+            "Cannot call next() on an aborted task.",
+          );
+        }
+
+        if (done) {
+          throw new StaticJsEngineError(
+            "Cannot call next() on a completed task.",
+          );
+        }
+
         this._assertIsRunning(this);
 
         try {
@@ -687,8 +685,14 @@ class Macrotask {
       },
 
       abort: () => {
-        assertNotCompleted();
+        if (done || aborted) {
+          throw new StaticJsEngineError(
+            "Cannot abort a task that is already done or aborted.",
+          );
+        }
+
         this._assertIsRunning(this);
+
         aborted = true;
         reject(new StaticJsTaskAbortedError("Task was aborted."));
       },
