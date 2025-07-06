@@ -56,7 +56,7 @@ export default class ScriptInvocation {
           this._status$.next("done");
         },
         (error) => {
-          this._result$.error(error.toJsSync());
+          this._result$.error(error);
           this._status$.next("done");
         }
       );

@@ -39,7 +39,7 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
     if (invocationRef.current) {
       invocationRef.current.abort();
     }
-    cleanup();
+    setRunEnd(performance.now());
     setRunning(false);
     setLog((prev) => [...prev, "Aborted"]);
   }, [cleanup]);
@@ -55,6 +55,7 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
     invocationRef.current = invocation;
 
     function onResult(result: unknown) {
+      console.log("Script result:", result);
       setResult(result);
       setRunEnd(performance.now());
       setRunning(false);
@@ -70,10 +71,7 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
       }),
       invocation.result$.subscribe({
         next: onResult,
-        error: (error) => {
-          setLog((prev) => [...prev, `Error: ${error.message}`]);
-          onResult(error);
-        },
+        error: onResult,
       }),
     ];
 
@@ -97,9 +95,17 @@ const JavascriptEvaluator = ({ sx, code }: JavascriptEvaluatorProps) => {
           {message}
         </Typography>
       ))}
-      {result !== undefined && JSON.stringify(result, null, 2)}
+      {result !== undefined && stringify(result)}
     </Box>
   );
 };
+
+function stringify(value: unknown): string {
+  if (value instanceof Error) {
+    return `${value.name}: ${value.message}`;
+  }
+
+  return JSON.stringify(value, null, 2);
+}
 
 export default JavascriptEvaluator;
