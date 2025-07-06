@@ -84,25 +84,14 @@ The primary way of interacting with StaticJs is through using a [StaticJsRealm](
 ## TODO:
 
 - **Testing with https://github.com/tc39/test262**
-- Switch to sub-imports for lodash-es for tree-shaking
-  Not sure why this isnt working. Identical tsconfig and setup to other projects where this works fine.
-  Stupid pnpm typescript resolution jank.
 - Report code coverage in repo
   coveralls.io?
   [vitest-coverage-report-action](https://github.com/marketplace/actions/vitest-coverage-report)?
 - Get api-extractor working. The only holdup right now is the combine and re-export of the interface and factory function of StaticJsRealm
   - Combine these into one file to make this work?
-- Get more strict with public api
-  - Replace index.ts with public.ts
-  - Never import from public.ts except for other public.ts to stop circular refs.
-- Clean up ThrowCompletions on utility functions.
-  - Currently have a mix of some functions returning ThrowCompletions and some throwing StaticJsRuntimeErrors
-  - Decide on one and stick to it.
 - Turn the value of ObjectLike.toJs() back into the same instance of StaticJsObjectLike in TypeFactory.toStaticJsValue()
 - Reveal information about the current line and character number the generator is at.
   - Also reveal scopes and variables.
 - Investigate debugger for monaco
   [Example implementation?](https://github.com/polylith/monaco-debugger)
-- Stop .toX functions from using synchronous evaluation, use promises.
-  Probably should include a .toXSync
-  But don't use these internally!
+  [Docs](https://microsoft.github.io/debug-adapter-protocol/overview)
