@@ -243,7 +243,9 @@ export default class ScriptInvocation {
     const avgTimePerIteration = averageOrZero(this._timePerIterationSamples);
     let iterationCount = ScriptInvocation.BaseOpsPerIteration;
 
-    // If we are off our quota by double, adjust the number of operations per iteration.
+    // This is a quick and janky way to adjust the number of iterations to hit a certain time quota.
+    // This isn't strictly correct as our iteration count is different for each of those time samples.
+    // FIXME: Find something better.
     if (avgTimePerIteration > 0) {
       iterationCount = Math.min(
         Math.max(
