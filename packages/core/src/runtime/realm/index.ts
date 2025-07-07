@@ -25,4 +25,4 @@ export type {
   StaticJsRunTaskOptions as StaticJsRunMacrotaskOptions,
   isStaticJsRealm,
 } from "./StaticJsRealm.js";
-export * from "./StaticJsTask.js";
+export * from "./StaticJsTaskIterator.js";

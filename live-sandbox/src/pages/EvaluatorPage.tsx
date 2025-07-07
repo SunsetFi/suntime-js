@@ -31,6 +31,7 @@ const EvaluatorPage = () => {
   const ops = useObservation(invocation?.operations$);
   const line = useObservation(invocation?.line$) ?? -1;
   const column = useObservation(invocation?.column$) ?? -1;
+  const operationType = useObservation(invocation?.operationType$) ?? null;
 
   const result = useObservation(invocation?.result$, { onError: "return" });
 
@@ -73,10 +74,12 @@ const EvaluatorPage = () => {
         onChange={onCodeChange}
       />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-        {!active && <button onClick={onRun}>Run</button>}
-        <button onClick={onStep}>Step</button>
-        {status === "running" && <button onClick={onPause}>Pause</button>}
-        {active && <button onClick={onAbort}>Abort</button>}
+        <Box sx={{ display: "flex", flexDirection: "row", gap: 1, py: 1 }}>
+          {status !== "running" && <button onClick={onRun}>Run</button>}
+          {status === "running" && <button onClick={onPause}>Pause</button>}
+          <button onClick={onStep}>Step</button>
+          {active && <button onClick={onAbort}>Abort</button>}
+        </Box>
         <Typography>
           {status === "running" && (
             <>
@@ -84,7 +87,8 @@ const EvaluatorPage = () => {
               Running ({fmtOps} ops)
             </>
           )}
-          {status === "paused" && `Paused at ${line}:${column} (${fmtOps} ops)`}
+          {status === "paused" &&
+            `Paused at ${operationType} ${line}:${column} (${fmtOps} ops)`}
           {status === "done" && `Done after ${fmtOps} ops)`}
         </Typography>
         {log.map((message, i) => (

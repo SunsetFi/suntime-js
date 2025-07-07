@@ -10,7 +10,7 @@ import type { StaticJsModuleImplementation } from "../modules/StaticJsModuleImpl
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import type { StaticJsTaskRunner } from "./StaticJsTask.js";
+import type { StaticJsTaskRunner } from "./StaticJsTaskIterator.js";
 
 /**
  * Options for running a macrotask in the StaticJs runtime.

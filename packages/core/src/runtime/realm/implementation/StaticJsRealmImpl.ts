@@ -57,8 +57,9 @@ import type {
 
 import type {
   StaticJsTaskIterator,
+  StaticJsTaskIteratorLocation,
   StaticJsTaskRunner,
-} from "../StaticJsTask.js";
+} from "../StaticJsTaskIterator.js";
 
 import type {
   StaticJsEvaluator,
@@ -622,17 +623,46 @@ class Macrotask {
     reject: (reason: unknown) => void,
   ): StaticJsTaskIterator {
     const iterator = evaluateCommands(invokeEvaluator(evaluator), {
-      onBeforeNodeEntry: (node) => {
+      onBeforeNode: (node) => {
+        // This is a bit of a hack, but we need
         this._currentNode = node;
+      },
+      onAfterNode: () => {
+        this._currentNode = null;
       },
     });
 
     let done = false;
     let aborted = false;
 
-    const getCurrentNode = () => {
+    const getCurrentLocation = (): StaticJsTaskIteratorLocation | null => {
+      if (
+        !this._currentNode ||
+        !this._currentNode.loc ||
+        this._currentNode.start == null ||
+        this._currentNode.end == null
+      ) {
+        return null;
+      }
+
+      return {
+        start: {
+          line: this._currentNode.loc.start.line,
+          column: this._currentNode.loc.start.column,
+          character: this._currentNode.start,
+        },
+        end: {
+          line: this._currentNode.loc.end.line,
+          column: this._currentNode.loc.end.column,
+          character: this._currentNode.end,
+        },
+      };
+    };
+
+    const getCurrentNode = (): Node | null => {
       return this._currentNode;
     };
+
     return {
       get done() {
         return done;
@@ -640,11 +670,16 @@ class Macrotask {
       get aborted() {
         return aborted;
       },
-      get line() {
-        return getCurrentNode()?.loc?.start.line ?? -1;
+      get location() {
+        return getCurrentLocation();
       },
-      get column() {
-        return getCurrentNode()?.loc?.start.column ?? -1;
+      get operationType() {
+        const node = getCurrentNode();
+        if (!node) {
+          return null;
+        }
+
+        return node.type;
       },
       next: () => {
         if (aborted) {

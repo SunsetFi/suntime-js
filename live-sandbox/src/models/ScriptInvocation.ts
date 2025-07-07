@@ -22,6 +22,7 @@ export default class ScriptInvocation {
 
   private _line$ = new BehaviorSubject<number>(-1);
   private _column$ = new BehaviorSubject<number>(-1);
+  private _opType = new BehaviorSubject<string | null>(null);
 
   private _result$ = new Subject<unknown>();
 
@@ -62,11 +63,17 @@ export default class ScriptInvocation {
   }
 
   @CacheValue()
-  @AsObservable()
   get column$(): Observable<number> {
     // This can change rapidly during a single evaluation iteration sequence,
     // so debounce it.
     return this._column$.pipe(debounceTime(0));
+  }
+
+  @CacheValue()
+  get operationType$(): Observable<string | null> {
+    // This can change rapidly during a single evaluation iteration sequence,
+    // so debounce it.
+    return this._opType.pipe(debounceTime(0));
   }
 
   @CacheValue()
@@ -165,9 +172,17 @@ export default class ScriptInvocation {
 
   private _onTaskStarted(task: StaticJsTaskIterator) {
     this._task = task;
-    if (this._status$.value === "running") {
+
+    const status = this._status$.value;
+    if (status === "running") {
       // Not paused, so start it running.
       this._runTaskIteration();
+    } else if (status === "paused") {
+      // Do a single step to advance the iterator to the first operation.
+      // This prevents us showing a location of -1 for the first operation,
+      // We don't use doNextOp as we don't want to increment operations count
+      this._task.next();
+      this._captureOperationData();
     }
   }
 
@@ -220,7 +235,7 @@ export default class ScriptInvocation {
     const { done } = this._task.next();
 
     // We are now pointing at a new op, capture it.
-    this._captureLineAndColumn();
+    this._captureOperationData();
 
     if (done) {
       // We may not be 'done' if microtasks want to run.
@@ -239,13 +254,24 @@ export default class ScriptInvocation {
     }
   }
 
-  private _captureLineAndColumn() {
+  private _captureOperationData() {
     if (!this._task) {
       return;
     }
 
-    this._line$.next(this._task.line);
-    this._column$.next(this._task.column);
+    const location = this._task.location;
+    const type = this._task.operationType;
+
+    if (!location || !type) {
+      this._line$.next(-1);
+      this._column$.next(-1);
+      this._opType.next(null);
+      return;
+    }
+
+    this._line$.next(location.start.line);
+    this._column$.next(location.start.column);
+    this._opType.next(type);
   }
 
   private _done(result: unknown, error = false) {

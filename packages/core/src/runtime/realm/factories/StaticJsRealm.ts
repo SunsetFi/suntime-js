@@ -5,7 +5,7 @@ import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleI
 
 import type { StaticJsRealm as IStaticJsRealm } from "../StaticJsRealm.js";
 
-import type { StaticJsTaskRunner } from "../StaticJsTask.js";
+import type { StaticJsTaskRunner } from "../StaticJsTaskIterator.js";
 
 import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
 

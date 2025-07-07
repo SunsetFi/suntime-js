@@ -2,7 +2,6 @@
 
 exports[`E2E: Stepping > Records the line and column of each step 1`] = `
 [
-  "Line: -1, Column: -1",
   "Line: 1, Column: 0",
   "Line: 2, Column: 6",
   "Line: 2, Column: 10",
@@ -60,6 +59,7 @@ exports[`E2E: Stepping > Records the line and column of each step 1`] = `
   "Line: 2, Column: 21",
   "Line: 2, Column: 21",
   "Line: 2, Column: 25",
+  "Line: 2, Column: 36",
   "Line: 2, Column: 36",
   "Line: 2, Column: 36",
 ]
