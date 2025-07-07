@@ -2,7 +2,6 @@ import { BehaviorSubject, debounceTime, Observable, Subject } from "rxjs";
 import mapValues from "lodash-es/mapValues";
 
 import { StaticJsRealm, StaticJsTaskIterator } from "@suntime-js/core";
-import AsObservable from "@/decorators/as-observable";
 import CacheValue from "@/decorators/cache-value";
 
 export type ScriptInvocationStatus =
@@ -45,9 +44,8 @@ export default class ScriptInvocation {
   ) {}
 
   @CacheValue()
-  @AsObservable()
   get status$(): Observable<ScriptInvocationStatus> {
-    return this._status$;
+    return this._status$.asObservable();
   }
 
   @CacheValue()
@@ -58,9 +56,8 @@ export default class ScriptInvocation {
   }
 
   @CacheValue()
-  @AsObservable()
   get operationsPerSecond$(): Observable<number> {
-    return this._operationsPerSecond$;
+    return this._operationsPerSecond$.asObservable();
   }
 
   @CacheValue()
@@ -92,9 +89,8 @@ export default class ScriptInvocation {
   }
 
   @CacheValue()
-  @AsObservable()
   get result$(): Observable<unknown> {
-    return this._result$;
+    return this._result$.asObservable();
   }
 
   run() {
@@ -133,9 +129,10 @@ export default class ScriptInvocation {
       throw new Error("Script is not running.");
     }
 
+    this._cancelRunTaskIteration();
+
     this._status$.next("paused");
     this._operationsPerSecond$.next(0);
-    this._cancelRunTaskIteration();
   }
 
   step() {
@@ -144,8 +141,7 @@ export default class ScriptInvocation {
     if (status === "unstarted") {
       this._startScript("paused");
     } else if (status === "running") {
-      this._cancelRunTaskIteration();
-      this._status$.next("paused");
+      this.pause();
     } else if (status === "paused") {
       // No-op, continue to the next operation.
     } else {
@@ -169,9 +165,6 @@ export default class ScriptInvocation {
     if (this._status$.value !== "unstarted") {
       throw new Error("Script has already been started.");
     }
-
-    this._task = null;
-    this._cancelRunTaskIteration();
 
     const realm = StaticJsRealm({
       globalObject: {
@@ -200,6 +193,7 @@ export default class ScriptInvocation {
 
   private _onTaskStarted(task: StaticJsTaskIterator) {
     const status = this._status$.value;
+
     if (status !== "running" && status !== "paused") {
       throw new Error(`Unexpected status "${status}" in _onTaskStarted.`);
     }
@@ -238,10 +232,6 @@ export default class ScriptInvocation {
     }
 
     if (this._task.done || this._task.aborted) {
-      return;
-    }
-
-    if (status === "paused") {
       return;
     }
 

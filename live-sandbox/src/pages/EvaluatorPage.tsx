@@ -81,8 +81,9 @@ const EvaluatorPage = () => {
       />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Typography sx={{ px: 1, pt: 1 }}>
-          This demo is configured to automatically adjust its operations per
-          frame to consume 20% of a 60 fps frame.
+          This demo is configured to automatically adjust its execution rate to
+          limit itself to 20% of a 60 fps frame, or 3.4 ms of execution time per
+          every 16.67 ms interval.
         </Typography>
         <Box sx={{ display: "flex", flexDirection: "row", gap: 1, py: 1 }}>
           {status !== "running" && <button onClick={onRun}>Run</button>}
