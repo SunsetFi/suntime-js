@@ -29,6 +29,7 @@ const EvaluatorPage = () => {
   const status = useObservation(invocation?.status$) ?? "unstarted";
   const log = useObservation(invocation?.log$) ?? [];
   const ops = useObservation(invocation?.operations$);
+  const opsPerSecond = useObservation(invocation?.operationsPerSecond$) ?? 0;
   const line = useObservation(invocation?.line$) ?? -1;
   const column = useObservation(invocation?.column$) ?? -1;
   const operationType = useObservation(invocation?.operationType$) ?? null;
@@ -40,11 +41,14 @@ const EvaluatorPage = () => {
   }, [invocation]);
 
   const onRun = React.useCallback(() => {
-    const invocation = new ScriptInvocation(code);
-    setInvocation(invocation);
+    let inv = invocation;
+    if (!inv || status !== "paused") {
+      inv = new ScriptInvocation(code);
+      setInvocation(inv);
+    }
 
-    invocation.run();
-  }, [code]);
+    inv.run();
+  }, [status, code]);
 
   const onPause = React.useCallback(() => {
     if (invocation) {
@@ -63,7 +67,7 @@ const EvaluatorPage = () => {
   }, [status, invocation]);
 
   const active = status === "running" || status === "paused";
-  const fmtOps = ops !== undefined ? numeral(ops).format("0a") : "0";
+  const fmtOps = numeral(ops ?? 0).format("0a");
   return (
     <Box sx={{ display: "flex", flexDirection: "row", height: "100vh" }}>
       <Editor
@@ -74,6 +78,10 @@ const EvaluatorPage = () => {
         onChange={onCodeChange}
       />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Typography sx={{ px: 1, pt: 1 }}>
+          The script runner will automatically adjust its operations per frame
+          to consume 20% of a 60 fps frame.
+        </Typography>
         <Box sx={{ display: "flex", flexDirection: "row", gap: 1, py: 1 }}>
           {status !== "running" && <button onClick={onRun}>Run</button>}
           {status === "running" && <button onClick={onPause}>Pause</button>}
@@ -84,12 +92,12 @@ const EvaluatorPage = () => {
           {status === "running" && (
             <>
               <CircularProgress size="1rem" sx={{ mr: 1 }} />
-              Running ({fmtOps} ops)
+              Running ({fmtOps} ops, {numeral(opsPerSecond).format("0a")}/s)
             </>
           )}
           {status === "paused" &&
             `Paused at ${operationType} ${line}:${column} (${fmtOps} ops)`}
-          {status === "done" && `Done after ${fmtOps} ops)`}
+          {status === "done" && `Done after ${fmtOps} ops`}
         </Typography>
         {log.map((message, i) => (
           <Typography key={i} variant="body2">

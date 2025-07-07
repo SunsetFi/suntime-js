@@ -12,12 +12,19 @@ export type ScriptInvocationStatus =
   | "done";
 
 export default class ScriptInvocation {
-  private static readonly OptsPerIteration = 1000;
-  private static readonly YieldTimePerIteration = 10;
+  // Our desired time span is to take up 20% of one visual frame at 60 fps.
+  // So leave 80% of the frame time for the browser to do its thing.
+  private static readonly QuotaTime = (0.2 / 60) * 1000;
+  private static readonly YieldTime = (0.8 / 60) * 1000;
+
+  // Track the last 15 iterations to see how much time we take.
+  private static readonly IterationTimeQutoaSamples = 15;
+  private static readonly BaseOpsPerIteration = 1000;
 
   private _status$ = new BehaviorSubject<ScriptInvocationStatus>("unstarted");
 
   private _operations$ = new BehaviorSubject<number>(0);
+  private _operationsPerSecond$ = new BehaviorSubject<number>(0);
   private _log$ = new BehaviorSubject<string[]>([]);
 
   private _line$ = new BehaviorSubject<number>(-1);
@@ -28,6 +35,7 @@ export default class ScriptInvocation {
 
   private _task: StaticJsTaskIterator | null = null;
 
+  private _timePerIterationSamples: number[] = [];
   private _iterationTimeout: ReturnType<typeof setTimeout> | null = null;
 
   constructor(
@@ -46,6 +54,12 @@ export default class ScriptInvocation {
     // This can change rapidly during a single evaluation iteration sequence,
     // so debounce it.
     return this._operations$.pipe(debounceTime(0));
+  }
+
+  @CacheValue()
+  @AsObservable()
+  get operationsPerSecond$(): Observable<number> {
+    return this._operationsPerSecond$;
   }
 
   @CacheValue()
@@ -91,8 +105,8 @@ export default class ScriptInvocation {
 
     if (status === "unstarted") {
       this._startScript();
-      // evaluateScript waits for a microtask to invoke the taskRunner, so
-      // this is safe.
+      // The realm invokes the taskRunner in a microtask, so
+      // setting this now will have it be in place when taskRunner gets invoked.
       this._status$.next("running");
     } else if (status === "paused") {
       this._status$.next("running");
@@ -101,19 +115,24 @@ export default class ScriptInvocation {
   }
 
   abort() {
-    if (this._status$.value !== "running") {
+    if (this._status$.value !== "running" && this._status$.value !== "paused") {
       throw new Error("Script is not running.");
     }
 
-    if (this._task && !this._task.done && !this._task.aborted) {
-      this._task.abort();
-    }
+    this._cancelRunTaskIteration();
 
-    this._status$.next("done");
+    if (this._task && !this._task.done && !this._task.aborted) {
+      // Let the task complete in the intended way through an abort.
+      // Its promise resolution will be captured and reported.
+      this._task.abort();
+    } else {
+      this._status$.next("done");
+    }
   }
 
   pause() {
     this._status$.next("paused");
+    this._operationsPerSecond$.next(0);
     this._cancelRunTaskIteration();
   }
 
@@ -123,8 +142,15 @@ export default class ScriptInvocation {
     if (status === "unstarted") {
       this._startScript();
       this._status$.next("paused");
-    } else if (status !== "running" && status !== "paused") {
-      throw new Error("Script is not running or paused.");
+    } else if (status === "running") {
+      this._cancelRunTaskIteration();
+      this._status$.next("paused");
+    } else if (status === "paused") {
+      // No-op, continue to the next operation.
+    } else {
+      throw new Error(
+        "Cannot step a script that is not unstarted, running or paused."
+      );
     }
 
     // This might get cleared by doNextOp if the task finishes,
@@ -171,17 +197,27 @@ export default class ScriptInvocation {
   }
 
   private _onTaskStarted(task: StaticJsTaskIterator) {
+    const status = this._status$.value;
+    if (status !== "running" && status !== "paused") {
+      throw new Error(`Unexpected status "${status}" in _onTaskStarted.`);
+    }
+
     this._task = task;
 
-    const status = this._status$.value;
     if (status === "running") {
-      // Not paused, so start it running.
+      // Start running freely.
       this._runTaskIteration();
     } else if (status === "paused") {
+      // Task is starting pause.
+
       // Do a single step to advance the iterator to the first operation.
-      // This prevents us showing a location of -1 for the first operation,
-      // We don't use doNextOp as we don't want to increment operations count
+      // Evaluation doesn't start until the first next() call, so calling this is needed
+      // to advance to the first operation.
+      // Without this, we would capture a null operation.
+      // (We don't use doNextOp as this isn't a real operation and we don't want to increment the operation count.)
       this._task.next();
+
+      // Capture the first operation data.
       this._captureOperationData();
     }
   }
@@ -204,22 +240,53 @@ export default class ScriptInvocation {
       return;
     }
 
-    for (let i = 0; i < ScriptInvocation.OptsPerIteration; i++) {
+    const avgTimePerIteration = averageOrZero(this._timePerIterationSamples);
+    let iterationCount = ScriptInvocation.BaseOpsPerIteration;
+
+    // If we are off our quota by double, adjust the number of operations per iteration.
+    if (avgTimePerIteration > 0) {
+      iterationCount = Math.min(
+        Math.max(
+          1,
+          Math.floor(
+            iterationCount * (ScriptInvocation.QuotaTime / avgTimePerIteration)
+          )
+        ),
+        100000
+      );
+    }
+
+    const start = performance.now();
+    for (let i = 0; i < iterationCount; i++) {
       // Breakpoint or something might have stopped us.
       if (this._status$.value !== "running") {
         return;
       }
 
       if (!this._doNextOp()) {
-        // There is nothing left to do.
+        // The current task has completed.
         // This doesn't mean we are done; there might be microtasks to run.
+        // If so, they will be fired off by _onTaskStarted.
+        // If we are truely done, the task promise will resolve,
         return;
       }
     }
 
-    setTimeout(
+    const end = performance.now();
+    const timeTaken = end - start;
+    this._timePerIterationSamples.push(timeTaken);
+    if (
+      this._timePerIterationSamples.length >
+      ScriptInvocation.IterationTimeQutoaSamples
+    ) {
+      this._timePerIterationSamples.shift();
+    }
+
+    this._operationsPerSecond$.next(iterationCount / (timeTaken / 1000));
+
+    this._iterationTimeout = setTimeout(
       () => this._runTaskIteration(),
-      ScriptInvocation.YieldTimePerIteration
+      ScriptInvocation.YieldTime
     );
   }
 
@@ -294,4 +361,12 @@ export default class ScriptInvocation {
   private _consoleLog(...args: unknown[]) {
     this._log$.next(this._log$.value.concat(args.map(String).join(" ")));
   }
+}
+
+function averageOrZero(arr: number[]): number {
+  if (arr.length === 0) {
+    return 0;
+  }
+  const sum = arr.reduce((acc, val) => acc + val, 0);
+  return sum / arr.length;
 }
