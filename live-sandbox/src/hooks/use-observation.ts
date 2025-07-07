@@ -14,6 +14,8 @@ export function useObservation<T>(
   React.useLayoutEffect(() => {
     if (observable) {
       if (observable instanceof Observable) {
+        // Reset the value as the observable has changed.
+        setVal(undefined);
         const subscription = observable.subscribe({
           next(val) {
             if (useTransition) {

@@ -36,6 +36,7 @@ export default class ScriptInvocation {
   private _task: StaticJsTaskIterator | null = null;
 
   private _timePerIterationSamples: number[] = [];
+  private _opsPerIterationSamples: number[] = [];
   private _iterationTimeout: ReturnType<typeof setTimeout> | null = null;
 
   constructor(
@@ -244,8 +245,11 @@ export default class ScriptInvocation {
       return;
     }
 
-    const avgTimePerIteration = averageOrZero(this._timePerIterationSamples);
-    let iterationCount = ScriptInvocation.BaseOpsPerIteration;
+    const avgTimePerIteration = average(this._timePerIterationSamples, 0);
+    let iterationCount = average(
+      this._opsPerIterationSamples,
+      ScriptInvocation.BaseOpsPerIteration
+    );
 
     // This is a quick and janky way to adjust the number of iterations to hit a certain time quota.
     // This isn't strictly correct as our iteration count is different for each of those time samples.
@@ -285,14 +289,22 @@ export default class ScriptInvocation {
     const end = performance.now();
     const timeTaken = end - start;
     this._timePerIterationSamples.push(timeTaken);
+    this._opsPerIterationSamples.push(iterationCount);
     if (
       this._timePerIterationSamples.length >
       ScriptInvocation.IterationTimeQutoaSamples
     ) {
       this._timePerIterationSamples.shift();
+      this._opsPerIterationSamples.shift();
     }
 
-    this._operationsPerSecond$.next(iterationCount / (timeTaken / 1000));
+    this._operationsPerSecond$.next(
+      average(
+        this._opsPerIterationSamples,
+        ScriptInvocation.BaseOpsPerIteration
+      ) /
+        (avgTimePerIteration / 1000)
+    );
 
     this._iterationTimeout = setTimeout(
       () => this._runTaskIteration(),
@@ -374,9 +386,9 @@ export default class ScriptInvocation {
   }
 }
 
-function averageOrZero(arr: number[]): number {
+function average(arr: number[], fallback: number): number {
   if (arr.length === 0) {
-    return 0;
+    return fallback;
   }
   const sum = arr.reduce((acc, val) => acc + val, 0);
   return sum / arr.length;

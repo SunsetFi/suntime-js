@@ -67,9 +67,11 @@ const EvaluatorPage = () => {
   }, [status, invocation]);
 
   const active = status === "running" || status === "paused";
-  const fmtOps = numeral(ops ?? 0).format("0a");
+  const fmtOps = numeral(ops ?? 0).format("0.00a");
   return (
-    <Box sx={{ display: "flex", flexDirection: "row", height: "100vh" }}>
+    <Box
+      sx={{ display: "flex", flexDirection: "row", height: "100vh", gap: 1 }}
+    >
       <Editor
         width="60vw"
         height="100vh"
@@ -79,8 +81,8 @@ const EvaluatorPage = () => {
       />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Typography sx={{ px: 1, pt: 1 }}>
-          The script runner will automatically adjust its operations per frame
-          to consume 20% of a 60 fps frame.
+          This demo is configured to automatically adjust its operations per
+          frame to consume 20% of a 60 fps frame.
         </Typography>
         <Box sx={{ display: "flex", flexDirection: "row", gap: 1, py: 1 }}>
           {status !== "running" && <button onClick={onRun}>Run</button>}
