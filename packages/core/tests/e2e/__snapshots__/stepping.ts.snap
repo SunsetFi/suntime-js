@@ -63,4 +63,4 @@ exports[`E2E: Stepping > Records the line and column of each step 1`] = `
 ]
 `;
 
-exports[`E2E: Stepping > Steps through opts individually 1`] = `"Took 62 iterations to run the script."`;
+exports[`E2E: Stepping > Steps through opts individually 1`] = `"Took 59 iterations to run the script."`;
