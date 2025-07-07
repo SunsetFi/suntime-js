@@ -104,10 +104,7 @@ export default class ScriptInvocation {
     }
 
     if (status === "unstarted") {
-      this._startScript();
-      // The realm invokes the taskRunner in a microtask, so
-      // setting this now will have it be in place when taskRunner gets invoked.
-      this._status$.next("running");
+      this._startScript("running");
     } else if (status === "paused") {
       this._status$.next("running");
       this._runTaskIteration();
@@ -131,6 +128,10 @@ export default class ScriptInvocation {
   }
 
   pause() {
+    if (this._status$.value !== "running") {
+      throw new Error("Script is not running.");
+    }
+
     this._status$.next("paused");
     this._operationsPerSecond$.next(0);
     this._cancelRunTaskIteration();
@@ -140,8 +141,7 @@ export default class ScriptInvocation {
     const status = this._status$.value;
 
     if (status === "unstarted") {
-      this._startScript();
-      this._status$.next("paused");
+      this._startScript("paused");
     } else if (status === "running") {
       this._cancelRunTaskIteration();
       this._status$.next("paused");
@@ -164,7 +164,7 @@ export default class ScriptInvocation {
     this._doNextOp();
   }
 
-  private _startScript() {
+  private _startScript(mode: "running" | "paused") {
     if (this._status$.value !== "unstarted") {
       throw new Error("Script has already been started.");
     }
@@ -194,6 +194,7 @@ export default class ScriptInvocation {
         this._done(error, true);
       }
     );
+    this._status$.next(mode);
   }
 
   private _onTaskStarted(task: StaticJsTaskIterator) {
@@ -223,6 +224,9 @@ export default class ScriptInvocation {
   }
 
   private _runTaskIteration() {
+    // Make sure we never double up.
+    this._cancelRunTaskIteration();
+
     const status = this._status$.value;
     if (status !== "running" && status !== "paused") {
       throw new Error("Script is not running or paused.");
@@ -274,6 +278,10 @@ export default class ScriptInvocation {
       }
     }
 
+    // This is fine to not run if we returned, as we don't want a partial iteration
+    // to be counted as a full iteration for average time purposes.
+    // Note that this data can still go on to be used in microtasks if any execute
+    // after this task completes.
     const end = performance.now();
     const timeTaken = end - start;
     this._timePerIterationSamples.push(timeTaken);
@@ -303,7 +311,8 @@ export default class ScriptInvocation {
     // Evaluate an operation.
     const { done } = this._task.next();
 
-    // We are now pointing at a new op, capture it.
+    // We are now pointing at a new op (or nothing, if done).
+    // Capture the data for it.
     this._captureOperationData();
 
     if (done) {
