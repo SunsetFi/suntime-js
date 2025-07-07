@@ -44,9 +44,13 @@ describe("E2E: Stepping", () => {
     const steps: string[] = [];
     const realm = StaticJsRealm({
       runTask(task) {
-        while (!task.done) {
+        while (true) {
           // The function doesn't start until the first next() call, so we are at -1/-1 right now.
-          task.next();
+          const { done } = task.next();
+          if (done) {
+            break;
+          }
+
           // Now that we ran, we should be paused at an operation.
           steps.push(
             `Line: ${task.location?.start.line}, Column: ${task.location?.start.column}`,
