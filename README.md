@@ -20,7 +20,7 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 
 ## What is supported
 
-- Most primitives (including prototypes and constructors)
+- Most primitives (including boxing, prototypes and constructors)
   - null
   - undefined
   - string
@@ -29,13 +29,11 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
   - object
   - array
   - function
-  - Boxed versions of string / number / boolean
 - Strict directive
 - Promises
 - Async Functions
 - Math
 - Error (and variants)
-- Unary and Binary operators
 - for / while / do
 - try / catch / finally
 - Destructuring

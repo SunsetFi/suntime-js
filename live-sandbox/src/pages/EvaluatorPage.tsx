@@ -14,7 +14,7 @@ import { useObservation } from "@/hooks/use-observation";
 const defaultCode = `// Write your JavaScript code here
 console.log("Hello, world!");`;
 
-const App = () => {
+const EvaluatorPage = () => {
   const [code, setCode] = React.useState<string>(defaultCode);
   const [invocation, setInvocation] = React.useState<ScriptInvocation | null>(
     null
@@ -28,8 +28,11 @@ const App = () => {
 
   const status = useObservation(invocation?.status$) ?? "unstarted";
   const log = useObservation(invocation?.log$) ?? [];
-  const result = useObservation(invocation?.result$, { onError: "return" });
   const ops = useObservation(invocation?.operations$);
+  const line = useObservation(invocation?.line$) ?? -1;
+  const column = useObservation(invocation?.column$) ?? -1;
+
+  const result = useObservation(invocation?.result$, { onError: "return" });
 
   const onAbort = React.useCallback(() => {
     invocation?.abort();
@@ -42,6 +45,24 @@ const App = () => {
     invocation.run();
   }, [code]);
 
+  const onPause = React.useCallback(() => {
+    if (invocation) {
+      invocation.pause();
+    }
+  }, [invocation]);
+
+  const onStep = React.useCallback(() => {
+    let inv = invocation;
+    if (!inv || status === "done") {
+      inv = new ScriptInvocation(code);
+      setInvocation(inv);
+    }
+
+    inv.step();
+  }, [status, invocation]);
+
+  const active = status === "running" || status === "paused";
+  const fmtOps = ops !== undefined ? numeral(ops).format("0a") : "0";
   return (
     <Box sx={{ display: "flex", flexDirection: "row", height: "100vh" }}>
       <Editor
@@ -52,16 +73,19 @@ const App = () => {
         onChange={onCodeChange}
       />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-        {status !== "running" && <button onClick={onRun}>Run</button>}
-        {status === "running" && <button onClick={onAbort}>Abort</button>}
+        {!active && <button onClick={onRun}>Run</button>}
+        <button onClick={onStep}>Step</button>
+        {status === "running" && <button onClick={onPause}>Pause</button>}
+        {active && <button onClick={onAbort}>Abort</button>}
         <Typography>
           {status === "running" && (
             <>
               <CircularProgress size="1rem" sx={{ mr: 1 }} />
-              Running ({numeral(ops).format("0a")} ops)
+              Running ({fmtOps} ops)
             </>
           )}
-          {status === "done" && `Done (${numeral(ops).format("0a")} ops)`}
+          {status === "paused" && `Paused at ${line}:${column} (${fmtOps} ops)`}
+          {status === "done" && `Done after ${fmtOps} ops)`}
         </Typography>
         {log.map((message, i) => (
           <Typography key={i} variant="body2">
@@ -82,4 +106,4 @@ function stringify(value: unknown): string {
   return JSON.stringify(value, null, 2);
 }
 
-export default App;
+export default EvaluatorPage;
