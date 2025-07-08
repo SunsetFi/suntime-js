@@ -83,18 +83,27 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
       return false;
     }
 
-    return !(yield* this._declarativeRecord.hasBindingEvaluator(name));
+    if (yield* this._globalObject.hasPropertyEvaluator(name)) {
+      return true;
+    }
+
+    return this._globalObject.extensible;
   }
 
   *createGlobalVarBindingEvaluator(
     name: string,
     deletable: boolean,
   ): EvaluationGenerator<void> {
-    if (!(yield* this.canDeclareGlobalVarEvaluator(name))) {
-      return;
-    }
+    const hasProperty = yield* this._globalObject.hasPropertyEvaluator(name);
+    const extensible = this._globalObject.extensible;
 
-    yield* this._objectRecord.createMutableBindingEvaluator(name, deletable);
+    if (!hasProperty && extensible) {
+      yield* this._objectRecord.createMutableBindingEvaluator(name, deletable);
+      yield* this._objectRecord.initializeBindingEvaluator(
+        name,
+        this.realm.types.undefined,
+      );
+    }
   }
 
   *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {

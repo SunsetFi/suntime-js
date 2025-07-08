@@ -10,9 +10,7 @@ import getFilesSync from "./utils/get-files.js";
 
 import bootstrapTest262 from "./utils/bootstrap.js";
 
-import { evaluateScript, StaticJsRealm } from "../../src/index.js";
-
-// const ignoreFeatures = ["async-functions"];
+import { StaticJsRealm } from "../../src/index.js";
 
 const LanguageCategories = readdirSync(test262Path("test/language"));
 
@@ -49,13 +47,6 @@ function defineTest(test: string) {
     return;
   }
 
-  // if (
-  //   testMeta.attrs.features?.some((feature) => ignoreFeatures.includes(feature))
-  // ) {
-  //   it.skip("Ignored feature: " + testName, () => {});
-  //   return;
-  // }
-
   if (testMeta.async) {
     it.skip("Ignored async test: " + testName, () => {});
     return;
@@ -89,29 +80,8 @@ function defineTest(test: string) {
     }
     await bootstrapTest262(realm, includes);
 
-    // let compiled: StaticJsCompilation;
-    // try {
-    //   compiled = compileProgram(testMeta.contents);
-    // } catch (e: unknown) {
-    //   if (e instanceof Error == false) {
-    //     throw e;
-    //   }
-
-    //   if (testMeta.attrs.negative?.phase === "parse") {
-    //     expect(e.name).toBe(testMeta.attrs.negative.type);
-    //     return;
-    //   }
-
-    //   throw e;
-    // }
-
-    // if (testMeta.attrs.negative?.phase === "parse") {
-    //   throw new Error("Test should have failed to parse, but it did not.");
-    // }
-
     try {
-      // runTimeBound(compiled.generator({ realm }), 3000);
-      await evaluateScript(testMeta.contents, { realm });
+      await runTimeBound(testMeta.contents, realm, 3000);
       if (testMeta.attrs.negative) {
         throw new Error("Test should have failed to run, but it did not.");
       }
@@ -124,6 +94,7 @@ function defineTest(test: string) {
         expect(e.name).toBe(testMeta.attrs.negative.type);
         return;
       }
+
       throw e;
     }
   });
@@ -138,21 +109,25 @@ function createHostApi(realm: StaticJsRealm) {
   });
 }
 
-// function runTimeBound<TResult>(
-//   gen: Generator<void, TResult, void>,
-//   timeout: number,
-// ) {
-//   const start = performance.now();
-//   let end = start;
-//   let done = false;
-
-//   while (!done && end - start < timeout) {
-//     done = gen.next().done ?? false;
-//     end = performance.now();
-//   }
-//   if (!done) {
-//     throw new Error("Test262 test timed out");
-//   }
-
-//   return end - start;
-// }
+async function runTimeBound(
+  code: string,
+  realm: StaticJsRealm,
+  timeout: number,
+) {
+  const start = performance.now();
+  return await realm.evaluateScript(code, {
+    taskRunner(task) {
+      while (true) {
+        const elapsed = performance.now() - start;
+        if (elapsed > timeout) {
+          task.abort();
+          return;
+        }
+        const { done } = task.next();
+        if (done) {
+          return;
+        }
+      }
+    },
+  });
+}

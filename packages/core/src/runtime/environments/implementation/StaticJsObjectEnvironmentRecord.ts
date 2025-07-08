@@ -37,12 +37,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
     name: string,
     value: StaticJsValue,
   ): EvaluationGenerator<void> {
-    yield* this._obj.definePropertyEvaluator(name, {
-      writable: false,
-      enumerable: true,
-      configurable: false,
-      value,
-    });
+    yield* this._obj.setPropertyEvaluator(name, value, false);
   }
 
   [StaticJsEnvironmentGetBinding](
