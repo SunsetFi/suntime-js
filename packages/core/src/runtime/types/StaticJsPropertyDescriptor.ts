@@ -13,7 +13,7 @@ export interface StaticJsPropertyDescriptorBase {
 export interface StaticJsDataPropertyDescriptor
   extends StaticJsPropertyDescriptorBase {
   readonly writable?: boolean;
-  readonly value: StaticJsValue;
+  readonly value?: StaticJsValue;
 }
 
 export interface StaticJsAccessorPropertyDescriptor
@@ -66,7 +66,7 @@ export function isStaticJsDataPropertyDescriptor(
     return false;
   }
 
-  return hasOwnProperty(value, "value");
+  return hasOwnProperty(value, "value") || hasOwnProperty(value, "writable");
 }
 
 export function isStaticJsAccessorPropertyDescriptor(

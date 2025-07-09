@@ -57,7 +57,10 @@ export default class StaticJsArrayImpl
     }
 
     if (isStaticJsDataPropertyDescriptor(descr)) {
-      const value = yield* toNumber(descr.value, this.realm);
+      const value = yield* toNumber(
+        descr.value ?? this.realm.types.undefined,
+        this.realm,
+      );
       return value.value;
     } else if (isStaticJsAccessorPropertyDescriptor(descr) && descr.get) {
       let result = yield* descr.get.callEvaluator(this);

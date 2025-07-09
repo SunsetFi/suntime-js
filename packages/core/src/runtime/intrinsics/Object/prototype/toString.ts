@@ -16,8 +16,12 @@ const objectProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
       return realm.types.string("[object Undefined]");
     }
 
-    return realm.types.string(`[object ${thisArg.runtimeTypeOf}]`);
+    return realm.types.string(`[object ${captitalize(thisArg.runtimeTypeOf)}]`);
   },
 };
+
+function captitalize(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 export default objectProtoToStringDeclaration;

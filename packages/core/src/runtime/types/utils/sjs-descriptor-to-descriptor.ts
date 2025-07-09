@@ -34,7 +34,9 @@ export default function staticJsDescriptorToObjectDescriptor(
       };
     }
   } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
-    objDescriptor.value = descriptor.value.toJsSync();
+    objDescriptor.value = (
+      descriptor.value ?? realm.types.undefined
+    ).toJsSync();
   }
 
   return objDescriptor;

@@ -3,6 +3,7 @@ import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   type StaticJsPropertyDescriptor,
+  type StaticJsAccessorPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
 
 export default function createStaticJsObjectLikeProxy(
@@ -133,7 +134,7 @@ export default function createStaticJsObjectLikeProxy(
       }
 
       if (descriptor.get || descriptor.set) {
-        const sjsDescriptor: StaticJsPropertyDescriptor = {
+        const sjsDescriptor: StaticJsAccessorPropertyDescriptor = {
           configurable: descriptor.configurable ?? false,
           enumerable: descriptor.enumerable ?? false,
         };
