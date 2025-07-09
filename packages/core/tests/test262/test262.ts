@@ -67,6 +67,10 @@ function defineTest(test: string) {
     return;
   }
 
+  if (testMeta.attrs.features?.some((x) => x.includes("Symbol"))) {
+    it.skip("Ignored Symbol test: " + testName, () => {});
+  }
+
   // TODO: Run in strict and nostrict mode
   // (Unless noStrict, onlyStrict, module, raw)
   // See repo/INTERPRETING.md

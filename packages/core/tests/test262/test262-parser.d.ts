@@ -10,6 +10,7 @@ declare module "test262-parser" {
   export interface Test262FileAttrs {
     includes: string[];
     flags: Record<string, string>;
+    features?: string[];
     author: string;
     negative?: Test262Negative;
   }
