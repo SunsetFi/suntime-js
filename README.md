@@ -39,9 +39,9 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 - Destructuring
 - Spread operators (internal array and object instances only).
 - ECMAScript Modules
-  - Importing from external APIs
-  - Importing from additional code string sources
   - Exports
+  - Importing from external APIs
+  - Importing from other sandboxed modules
 
 ### Notable things not (yet) supported
 

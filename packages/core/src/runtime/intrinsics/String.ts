@@ -13,6 +13,8 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import toNumber from "../algorithms/to-number.js";
 import toString from "../algorithms/to-string.js";
 
+// FIXME: There is some nastyness in here over boxing and unboxing the string manually.
+// We should figure out a clean way to do this.
 import StaticJsStringBoxed from "../types/implementation/StaticJsStringBoxed.js";
 
 export function populateStringPrototype(
@@ -591,11 +593,13 @@ export function createStringConstructor(
     realm,
     "String",
     function* (_thisArg: StaticJsValue, value?: StaticJsValue) {
+      // FIXME: Return unboxed string if not called with 'new'.
       if (value === undefined) {
-        return realm.types.string("");
+        return new StaticJsStringBoxed(realm, "");
       }
 
-      return yield* toString(value, realm);
+      const str = yield* toString(value, realm);
+      return new StaticJsStringBoxed(realm, str.value);
     },
     { prototype: functionProto },
   );

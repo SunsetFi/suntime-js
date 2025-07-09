@@ -65,7 +65,11 @@ export default function* forInStatementNodeEvaluator(
       context.realm.types.string(key),
       bodyContext,
       function* (name, value) {
-        return yield* bodyContext.env.initializeBindingEvaluator(name, value);
+        return yield* bodyContext.env.setMutableBindingEvaluator(
+          name,
+          value,
+          true,
+        );
       },
     );
 

@@ -33,6 +33,16 @@ describe("E2E: Strings", () => {
     });
   });
 
+  describe("Constructor", () => {
+    it("Supports casting constructed strings to strings", async () => {
+      const code = `
+        new String("abc") + "foo";
+      `;
+      const result = await evaluateScript(code);
+      expect(result).toBe("abcfoo");
+    });
+  });
+
   describe("Boxing", () => {
     it("Supports length", async () => {
       const code = `

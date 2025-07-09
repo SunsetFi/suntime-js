@@ -4,6 +4,7 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import StaticJsArrayImpl from "../../../types/implementation/StaticJsArrayImpl.js";
 import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
+import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
 export default function createArrayConstructor(
@@ -14,17 +15,18 @@ export default function createArrayConstructor(
   const ctor = new StaticJsFunctionImpl(
     realm,
     "Array",
-    function* (_thisArg, lengthValue) {
-      const length = yield* toInteger(
-        lengthValue ?? realm.types.undefined,
-        realm,
-      );
+    function* (_thisArg, ...args) {
+      if (args.length === 1 && isStaticJsNumber(args[0])) {
+        const length = yield* toInteger(args[0], realm);
 
-      // FIXME: Returning our own object instead of obeying the prototype chain.
-      const array = new StaticJsArrayImpl(realm);
+        const array = new StaticJsArrayImpl(realm);
 
-      yield* array.setPropertyEvaluator("length", length, false);
-      return array;
+        yield* array.setPropertyEvaluator("length", length, false);
+        return array;
+      } else {
+        const array = new StaticJsArrayImpl(realm, args);
+        return array;
+      }
     },
     { prototype: functionProto, isConstructor: true },
   );

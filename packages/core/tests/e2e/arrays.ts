@@ -12,6 +12,16 @@ describe("E2E: Arrays", () => {
     expect(result).toEqual([1, 2, 3]);
   });
 
+  it("Can declare an array constructor", async () => {
+    const code = `
+      const a = new Array(1, 2, 3);
+      a;
+    `;
+    const result = await evaluateScript(code);
+    // TODO: This is clearly broken, why is this test passing?
+    expect(result).toEqual([1, 2, 3]);
+  });
+
   it("Is an array instance", async () => {
     const code = `
       const a = [];
