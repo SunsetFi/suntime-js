@@ -22,7 +22,10 @@ import {
   createFunctionConstructor,
   populateFunctionPrototype,
 } from "./Function.js";
-import { populateStringPrototype, createStringConstructor } from "./String.js";
+import {
+  populateStringPrototype,
+  createStringConstructor,
+} from "./String/index.js";
 import { createNumberConstructor, populateNumberPrototype } from "./Number.js";
 import {
   createBooleanConstructor,

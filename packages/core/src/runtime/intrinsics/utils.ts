@@ -4,6 +4,7 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsObjectLike } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
 export interface IntrinsicPropertyDeclarationBase {
@@ -37,9 +38,26 @@ function isDataIntrinsicPropertyDeclaration(
   return "value" in prop;
 }
 
+export interface AccessorIntrinsicPropertyDeclaration
+  extends IntrinsicPropertyDeclarationBase {
+  get?: (realm: StaticJsRealm, thisArg: StaticJsValue) => EvaluationGenerator;
+  set?: (
+    realm: StaticJsRealm,
+    thisArg: StaticJsValue,
+    value: StaticJsValue,
+  ) => EvaluationGenerator;
+}
+
+function isAccessorIntrinsicPropertyDeclaration(
+  prop: IntrinsicPropertyDeclaration,
+): prop is AccessorIntrinsicPropertyDeclaration {
+  return "get" in prop || "set" in prop;
+}
+
 export type IntrinsicPropertyDeclaration =
   | FunctionIntrinsicPropertyDeclaration
-  | DataIntrinsicPropertyDeclaration;
+  | DataIntrinsicPropertyDeclaration
+  | AccessorIntrinsicPropertyDeclaration;
 
 export function applyIntrinsicProperties(
   realm: StaticJsRealm,
@@ -68,6 +86,31 @@ export function applyIntrinsicProperties(
         enumerable: prop.enumerable ?? false,
         configurable: prop.configurable ?? false,
         writable: prop.writable ?? false,
+      });
+    } else if (isAccessorIntrinsicPropertyDeclaration(prop)) {
+      obj.definePropertySync(prop.name, {
+        get: prop.get
+          ? new StaticJsFunctionImpl(
+              realm,
+              "get",
+              (thisArg) => prop.get!(realm, thisArg),
+              {
+                prototype: functionProto,
+              },
+            )
+          : undefined,
+        set: prop.set
+          ? new StaticJsFunctionImpl(
+              realm,
+              "set",
+              (thisArg, value) => prop.set!(realm, thisArg, value),
+              {
+                prototype: functionProto,
+              },
+            )
+          : undefined,
+        enumerable: prop.enumerable ?? false,
+        configurable: prop.configurable ?? true,
       });
     } else {
       throw new Error(

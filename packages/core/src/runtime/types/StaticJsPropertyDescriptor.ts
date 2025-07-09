@@ -35,8 +35,8 @@ export function validateStaticJsPropertyDescriptor(
 
   const hasWritable = hasOwnProperty(value, "writable");
   const hasValue = hasOwnProperty(value, "value");
-  const hasGet = hasOwnProperty(value, "get");
-  const hasSet = hasOwnProperty(value, "set");
+  const hasGet = hasOwnProperty(value, "get") && value.get !== undefined;
+  const hasSet = hasOwnProperty(value, "set") && value.set !== undefined;
 
   const hasAccessor = hasGet || hasSet;
 
