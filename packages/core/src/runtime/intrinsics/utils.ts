@@ -30,7 +30,7 @@ function isFunctionIntrinsicPropertyDeclaration(
 
 export interface DataIntrinsicPropertyDeclaration
   extends IntrinsicPropertyDeclarationBase {
-  value: StaticJsValue;
+  value: StaticJsValue | ((realm: StaticJsRealm) => StaticJsValue);
 }
 function isDataIntrinsicPropertyDeclaration(
   prop: IntrinsicPropertyDeclaration,
@@ -82,7 +82,8 @@ export function applyIntrinsicProperties(
       });
     } else if (isDataIntrinsicPropertyDeclaration(prop)) {
       obj.definePropertySync(prop.name, {
-        value: prop.value,
+        value:
+          typeof prop.value === "function" ? prop.value(realm) : prop.value,
         enumerable: prop.enumerable ?? false,
         configurable: prop.configurable ?? false,
         writable: prop.writable ?? false,

@@ -26,7 +26,10 @@ import {
   populateStringPrototype,
   createStringConstructor,
 } from "./String/index.js";
-import { createNumberConstructor, populateNumberPrototype } from "./Number.js";
+import {
+  createNumberConstructor,
+  populateNumberPrototype,
+} from "./Number/index.js";
 import {
   createBooleanConstructor,
   populateBooleanPrototype,
