@@ -12,10 +12,24 @@ import {
   type IntrinsicPropertyDeclaration,
 } from "../../utils.js";
 
+import numberConstructorEpsilonDeclaration from "./EPSILON.js";
+import numberConstructorMaxSafeIntegerDeclaration from "./MAX_SAFE_INTEGER.js";
+import numberConstructorMaxValueDeclaration from "./MAX_VALUE.js";
+import numberConstructorMinSafeIntegerDeclaration from "./MIN_SAFE_INTEGER.js";
+import numberConstructorMinValueDeclaration from "./MIN_VALUE.js";
 import numberConstructorNanDeclaration from "./NaN.js";
+import numberConstructorNegativeInfinityDeclaration from "./NEGATIVE_INFINITY.js";
+import numberConstructorPositiveInfinityDeclaration from "./POSITIVE_INFINITY.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
+  numberConstructorEpsilonDeclaration,
+  numberConstructorMaxSafeIntegerDeclaration,
+  numberConstructorMaxValueDeclaration,
+  numberConstructorMinSafeIntegerDeclaration,
+  numberConstructorMinValueDeclaration,
   numberConstructorNanDeclaration,
+  numberConstructorNegativeInfinityDeclaration,
+  numberConstructorPositiveInfinityDeclaration,
 ];
 
 export default function createNumberConstructor(
