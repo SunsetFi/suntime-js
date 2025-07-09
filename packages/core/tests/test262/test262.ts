@@ -42,6 +42,7 @@ function defineTest(test: string) {
   const testName = basename(test);
   const testContents = readFileSync(test, "utf-8");
   const testMeta = parseTest262(testContents);
+
   if (!testMeta.isATest) {
     it.skip("Not a test: " + test, () => {});
     return;
@@ -69,6 +70,7 @@ function defineTest(test: string) {
 
   if (testMeta.attrs.features?.some((x) => x.includes("Symbol"))) {
     it.skip("Ignored Symbol test: " + testName, () => {});
+    return;
   }
 
   // TODO: Run in strict and nostrict mode
