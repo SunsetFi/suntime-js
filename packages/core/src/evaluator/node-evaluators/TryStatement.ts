@@ -28,15 +28,11 @@ function* tryStatementNodeEvaluator(
   try {
     returnValue = yield* runBlock(node.block, context);
   } catch (e) {
-    if (e instanceof ThrowCompletion) {
-      if (node.handler) {
-        returnValue = yield* runCatch(node.handler, e.value, context);
-      } else {
-        throw e;
-      }
+    if (e instanceof ThrowCompletion && node.handler) {
+      returnValue = yield* runCatch(node.handler, e.value, context);
+    } else {
+      throw e;
     }
-
-    throw e;
   } finally {
     if (node.finalizer) {
       const finalizerValue = yield* runBlock(node.finalizer, context);
