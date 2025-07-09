@@ -35,6 +35,8 @@ function* tryStatementNodeEvaluator(
         throw e;
       }
     }
+
+    throw e;
   } finally {
     if (node.finalizer) {
       const finalizerValue = yield* runBlock(node.finalizer, context);
