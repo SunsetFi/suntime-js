@@ -2,7 +2,7 @@ import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js"
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import type { StaticJsObject } from "../../types/StaticJsObject.js";
+import type { StaticJsObjectLike } from "../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import StaticJsBaseEnvironmentRecord from "./StaticJsBaseEnvironmentRecord.js";
@@ -12,7 +12,7 @@ import { StaticJsEnvironmentGetBinding } from "./StaticJsEnvironmentBindingProvi
 export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnvironmentRecord {
   constructor(
     realm: StaticJsRealm,
-    private readonly _obj: StaticJsObject,
+    private readonly _obj: StaticJsObjectLike,
   ) {
     super(realm);
   }
@@ -40,11 +40,11 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
     yield* this._obj.setPropertyEvaluator(name, value, false);
   }
 
-  [StaticJsEnvironmentGetBinding](
+  *[StaticJsEnvironmentGetBinding](
     name: string,
-  ): StaticJsEnvironmentBinding | undefined {
+  ): EvaluationGenerator<StaticJsEnvironmentBinding | undefined> {
     const obj = this._obj;
-    const descriptor = obj.getPropertyDescriptorSync(name);
+    const descriptor = yield* obj.getPropertyDescriptorEvaluator(name);
     if (!descriptor) {
       return undefined;
     }

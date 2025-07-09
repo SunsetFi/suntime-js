@@ -10,7 +10,7 @@ describe("E2E: With", () => {
         a = 3;
         b = 4;
       }
-      a + b;
+      obj.a + obj.b;
     `;
     const result = await evaluateScript(code);
     expect(result).toBe(7); // 3 + 4

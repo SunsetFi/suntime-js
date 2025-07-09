@@ -1,3 +1,5 @@
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+
 import type { StaticJsEnvironment } from "../StaticJsEnvironment.js";
 
 import type StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
@@ -8,7 +10,7 @@ export const StaticJsEnvironmentGetBinding: unique symbol = Symbol(
 export default interface StaticJsEnvironmentBindingProvider {
   [StaticJsEnvironmentGetBinding](
     name: string,
-  ): StaticJsEnvironmentBinding | undefined;
+  ): EvaluationGenerator<StaticJsEnvironmentBinding | undefined>;
 }
 export function isStaticJsEnvironmentBindingProvider(
   value: unknown,

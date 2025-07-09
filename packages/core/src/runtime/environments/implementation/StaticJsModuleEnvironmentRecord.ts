@@ -66,12 +66,14 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsDeclarative
     return null;
   }
 
-  [StaticJsEnvironmentGetBinding](
+  *[StaticJsEnvironmentGetBinding](
     name: string,
-  ): StaticJsEnvironmentBinding | undefined {
-    return (
-      this._moduleBindings.get(name) ??
-      super[StaticJsEnvironmentGetBinding](name)
-    );
+  ): EvaluationGenerator<StaticJsEnvironmentBinding | undefined> {
+    const moduleBinding = this._moduleBindings.get(name);
+    if (moduleBinding) {
+      return moduleBinding;
+    }
+
+    return yield* super[StaticJsEnvironmentGetBinding](name);
   }
 }

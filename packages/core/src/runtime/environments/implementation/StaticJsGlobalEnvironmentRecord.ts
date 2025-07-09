@@ -37,7 +37,7 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
   ): EvaluationGenerator<void> {
     // FIXME: Theres a whole reference thing we aren't doing which should be taking care of this (ResolveBinding, GetValue, PutValue).
 
-    const binding = this[StaticJsEnvironmentGetBinding](name);
+    const binding = yield* this[StaticJsEnvironmentGetBinding](name);
 
     if (binding) {
       if (!binding.isMutable) {
@@ -162,12 +162,15 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
     return this;
   }
 
-  [StaticJsEnvironmentGetBinding](
+  *[StaticJsEnvironmentGetBinding](
     name: string,
-  ): StaticJsEnvironmentBinding | undefined {
-    return (
-      this._declarativeRecord[StaticJsEnvironmentGetBinding](name) ??
-      this._objectRecord[StaticJsEnvironmentGetBinding](name)
-    );
+  ): EvaluationGenerator<StaticJsEnvironmentBinding | undefined> {
+    const declarativeValue =
+      yield* this._declarativeRecord[StaticJsEnvironmentGetBinding](name);
+    if (declarativeValue) {
+      return declarativeValue;
+    }
+
+    return yield* this._objectRecord[StaticJsEnvironmentGetBinding](name);
   }
 }

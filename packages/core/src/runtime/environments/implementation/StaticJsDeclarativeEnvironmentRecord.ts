@@ -58,9 +58,9 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
     );
   }
 
-  [StaticJsEnvironmentGetBinding](
+  *[StaticJsEnvironmentGetBinding](
     name: string,
-  ): StaticJsEnvironmentBinding | undefined {
+  ): EvaluationGenerator<StaticJsEnvironmentBinding | undefined> {
     return this._bindings.get(name);
   }
 }

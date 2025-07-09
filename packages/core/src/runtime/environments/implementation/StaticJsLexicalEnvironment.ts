@@ -89,12 +89,19 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
     return null;
   }
 
-  [StaticJsEnvironmentGetBinding](
+  *[StaticJsEnvironmentGetBinding](
     name: string,
-  ): StaticJsEnvironmentBinding | undefined {
-    return (
-      this._record[StaticJsEnvironmentGetBinding](name) ??
-      this._parent?.[StaticJsEnvironmentGetBinding](name)
-    );
+  ): EvaluationGenerator<StaticJsEnvironmentBinding | undefined> {
+    const recordValue =
+      yield* this._record[StaticJsEnvironmentGetBinding](name);
+    if (recordValue) {
+      return recordValue;
+    }
+
+    if (this._parent) {
+      return yield* this._parent[StaticJsEnvironmentGetBinding](name);
+    }
+
+    return undefined;
   }
 }

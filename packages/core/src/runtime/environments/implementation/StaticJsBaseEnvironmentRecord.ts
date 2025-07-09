@@ -20,7 +20,8 @@ export default abstract class StaticJsBaseEnvironmentRecord
   }
 
   *hasBindingEvaluator(name: string) {
-    return this[StaticJsEnvironmentGetBinding](name) !== undefined;
+    const binding = yield* this[StaticJsEnvironmentGetBinding](name);
+    return binding !== undefined;
   }
 
   abstract createMutableBindingEvaluator(
@@ -50,7 +51,7 @@ export default abstract class StaticJsBaseEnvironmentRecord
     name: string,
     value: StaticJsValue,
   ): EvaluationGenerator<void> {
-    const binding = this[StaticJsEnvironmentGetBinding](name);
+    const binding = yield* this[StaticJsEnvironmentGetBinding](name);
 
     if (binding) {
       if (binding.isInitialized) {
@@ -86,7 +87,7 @@ export default abstract class StaticJsBaseEnvironmentRecord
     value: StaticJsValue,
     strict: boolean,
   ): EvaluationGenerator<void> {
-    const binding = this[StaticJsEnvironmentGetBinding](name);
+    const binding = yield* this[StaticJsEnvironmentGetBinding](name);
 
     if (binding) {
       if (!binding.isMutable) {
@@ -120,7 +121,7 @@ export default abstract class StaticJsBaseEnvironmentRecord
     name: string,
     _strict: boolean,
   ): EvaluationGenerator<StaticJsValue> {
-    const binding = this[StaticJsEnvironmentGetBinding](name);
+    const binding = yield* this[StaticJsEnvironmentGetBinding](name);
 
     if (binding) {
       return yield* binding.get();
@@ -135,7 +136,7 @@ export default abstract class StaticJsBaseEnvironmentRecord
   }
 
   *deleteBindingEvaluator(name: string): EvaluationGenerator<boolean> {
-    const binding = this[StaticJsEnvironmentGetBinding](name);
+    const binding = yield* this[StaticJsEnvironmentGetBinding](name);
 
     if (binding && binding.isDeletable) {
       yield* binding.delete();
@@ -171,5 +172,5 @@ export default abstract class StaticJsBaseEnvironmentRecord
 
   abstract [StaticJsEnvironmentGetBinding](
     name: string,
-  ): StaticJsEnvironmentBinding | undefined;
+  ): EvaluationGenerator<StaticJsEnvironmentBinding | undefined>;
 }
