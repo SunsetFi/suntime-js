@@ -1,6 +1,11 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateScript, StaticJsRealm } from "../../src/index.js";
+import type { StaticJsNumber } from "../../src/index.js";
+import {
+  evaluateScript,
+  isStaticJsNumber,
+  StaticJsRealm,
+} from "../../src/index.js";
 
 describe("E2E: Variables", () => {
   describe("const", () => {
@@ -188,6 +193,21 @@ describe("E2E: Variables", () => {
       const realm = StaticJsRealm();
       await evaluateScript(code, { realm });
       expect(realm.globalObject.hasPropertySync("a")).toBe(false);
+    });
+  });
+
+  describe("implicit globals", () => {
+    it("Defines an identifier var on the global object", async () => {
+      const code = `
+        x = 10;
+        x;
+      `;
+      const realm = StaticJsRealm();
+      await evaluateScript(code, { realm });
+      const globalValue = realm.globalObject.getPropertySync("x");
+      expect(globalValue).toBeDefined();
+      expect(isStaticJsNumber(globalValue)).toBe(true);
+      expect((globalValue as StaticJsNumber).value).toBe(10);
     });
   });
 });

@@ -51,7 +51,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
 
     return {
       isInitialized: true,
-      isDeletable: true,
+      isDeletable: descriptor.configurable,
       isMutable: true,
       *initialize() {
         throw new Error("Cannot reinitialize binding.");

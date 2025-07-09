@@ -64,6 +64,8 @@ function* deleteExpressionNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   // FIXME: This seems weird and jank.  Validate that this logic is correct.
+  // https://tc39.es/ecma262/#sec-delete-operator
+  // Seems to be some ReferenceRecord we aren't doing.
 
   const argument = node.argument;
   if (argument.type === "MemberExpression") {
@@ -98,10 +100,23 @@ function* deleteExpressionNodeEvaluator(
   } else if (argument.type === "Identifier") {
     const env = context.env;
     const name = argument.name;
-    yield* env.deleteBindingEvaluator(name, context.strict);
+
+    if (!(yield* env.hasBindingEvaluator(name))) {
+      return context.realm.types.true;
+    }
+
+    const deleted = yield* env.deleteBindingEvaluator(name);
+    if (!deleted && context.strict) {
+      throw new ThrowCompletion(
+        context.realm.types.error(
+          "ReferenceError",
+          `Cannot delete binding ${name}: Binding does not exist.`,
+        ),
+      );
+    }
 
     // We just return true regardless apparently?
-    return context.realm.types.true;
+    return context.realm.types.boolean(deleted);
   }
 
   // ???

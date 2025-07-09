@@ -22,7 +22,7 @@ export default class StaticJsStringImpl
   }
 
   get typeOf() {
-    return "boolean" as const;
+    return "string" as const;
   }
 
   get runtimeTypeOf() {

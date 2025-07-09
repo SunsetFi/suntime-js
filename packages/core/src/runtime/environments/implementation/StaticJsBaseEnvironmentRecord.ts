@@ -114,12 +114,6 @@ export default abstract class StaticJsBaseEnvironmentRecord
         ),
       );
     }
-
-    yield* this.createMutableBindingEvaluator(name, false);
-    const newBinding = this[StaticJsEnvironmentGetBinding](name);
-    if (newBinding) {
-      yield* newBinding.set(value);
-    }
   }
 
   *getBindingValueEvaluator(
@@ -140,22 +134,15 @@ export default abstract class StaticJsBaseEnvironmentRecord
     }
   }
 
-  *deleteBindingEvaluator(
-    name: string,
-    strict: boolean,
-  ): EvaluationGenerator<void> {
+  *deleteBindingEvaluator(name: string): EvaluationGenerator<boolean> {
     const binding = this[StaticJsEnvironmentGetBinding](name);
 
-    if (binding) {
+    if (binding && binding.isDeletable) {
       yield* binding.delete();
-    } else if (strict) {
-      throw new ThrowCompletion(
-        this.realm.types.error(
-          "ReferenceError",
-          `Cannot delete binding ${name}: Binding does not exist.`,
-        ),
-      );
+      return true;
     }
+
+    return false;
   }
 
   *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {

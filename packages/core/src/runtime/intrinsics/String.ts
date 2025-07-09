@@ -4,12 +4,16 @@ import type { StaticJsObject } from "../types/StaticJsObject.js";
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsValue } from "../types/StaticJsValue.js";
-
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-import toNumber from "../algorithms/to-number.js";
-import toString from "../algorithms/to-string.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
+import type { StaticJsString } from "../types/StaticJsString.js";
+
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+
+import toNumber from "../algorithms/to-number.js";
+import toString from "../algorithms/to-string.js";
+
+import StaticJsStringBoxed from "../types/implementation/StaticJsStringBoxed.js";
 
 export function populateStringPrototype(
   realm: StaticJsRealm,
@@ -25,7 +29,8 @@ export function populateStringPrototype(
       realm,
       "length",
       function* (thisArg: StaticJsValue) {
-        return realm.types.number(thisArg.toStringSync().length);
+        const str = yield* toString(thisArg, realm);
+        return realm.types.number(str.value.length);
       },
       { prototype: functionProto },
     ),
@@ -40,7 +45,11 @@ export function populateStringPrototype(
       "valueOf",
       function* (thisArg: StaticJsValue) {
         // Unbox.
-        return realm.types.string(thisArg.toStringSync());
+        if (thisArg instanceof StaticJsStringBoxed) {
+          return realm.types.string(thisArg.value);
+        }
+
+        return yield* toString(thisArg, realm);
       },
       { prototype: functionProto },
     ),
@@ -54,7 +63,13 @@ export function populateStringPrototype(
       realm,
       "toString",
       function* (thisArg: StaticJsValue) {
-        return realm.types.string(thisArg.toStringSync());
+        // Unbox
+        if (thisArg instanceof StaticJsStringBoxed) {
+          return realm.types.string(thisArg.value);
+        }
+
+        const str = yield* toString(thisArg, realm);
+        return realm.types.string(str.value);
       },
       { prototype: functionProto },
     ),
@@ -68,9 +83,16 @@ export function populateStringPrototype(
       realm,
       "concat",
       function* (thisArg: StaticJsValue, ...args: StaticJsValue[]) {
-        const result =
-          thisArg.toStringSync() +
-          args.map((arg) => arg.toStringSync()).join("");
+        const thisArgStr = yield* toString(thisArg, realm);
+        const argStrs: StaticJsString[] = [];
+        for (const arg of args) {
+          argStrs.push(yield* toString(arg, realm));
+        }
+
+        const result = argStrs.reduce(
+          (acc, str) => acc + str.value,
+          thisArgStr.value,
+        );
         return realm.types.string(result);
       },
       { prototype: functionProto },
@@ -187,7 +209,10 @@ export function populateStringPrototype(
           );
         }
 
-        const result = thisArg.toStringSync().startsWith(value.toStringSync());
+        const thisArgStr = yield* toString(thisArg, realm);
+        value = yield* toString(value, realm);
+
+        const result = thisArgStr.value.startsWith(value.value);
         return realm.types.boolean(result);
       },
       { prototype: functionProto },
@@ -208,7 +233,10 @@ export function populateStringPrototype(
           );
         }
 
-        const result = thisArg.toStringSync().endsWith(value.toStringSync());
+        const thisArgStr = yield* toString(thisArg, realm);
+        value = yield* toString(value, realm);
+
+        const result = thisArgStr.value.endsWith(value.value);
         return realm.types.boolean(result);
       },
       { prototype: functionProto },
@@ -229,7 +257,10 @@ export function populateStringPrototype(
           );
         }
 
-        const result = thisArg.toStringSync().includes(value.toStringSync());
+        const thisArgStr = yield* toString(thisArg, realm);
+        value = yield* toString(value, realm);
+
+        const result = thisArgStr.value.includes(value.value);
         return realm.types.boolean(result);
       },
       { prototype: functionProto },
@@ -262,7 +293,8 @@ export function populateStringPrototype(
       realm,
       "toLowerCase",
       function* (thisArg: StaticJsValue) {
-        const result = thisArg.toStringSync().toLowerCase();
+        const str = yield* toString(thisArg, realm);
+        const result = str.value.toLowerCase();
         return realm.types.string(result);
       },
       { prototype: functionProto },
@@ -277,7 +309,8 @@ export function populateStringPrototype(
       realm,
       "toUpperCase",
       function* (thisArg: StaticJsValue) {
-        const result = thisArg.toStringSync().toUpperCase();
+        const str = yield* toString(thisArg, realm);
+        const result = str.value.toUpperCase();
         return realm.types.string(result);
       },
       { prototype: functionProto },
@@ -292,7 +325,8 @@ export function populateStringPrototype(
       realm,
       "trim",
       function* (thisArg: StaticJsValue) {
-        const result = thisArg.toStringSync().trim();
+        const str = yield* toString(thisArg, realm);
+        const result = str.value.trim();
         return realm.types.string(result);
       },
       { prototype: functionProto },
@@ -307,7 +341,8 @@ export function populateStringPrototype(
       realm,
       "trimStart",
       function* (thisArg: StaticJsValue) {
-        const result = thisArg.toStringSync().trimStart();
+        const str = yield* toString(thisArg, realm);
+        const result = str.value.trimStart();
         return realm.types.string(result);
       },
       { prototype: functionProto },
@@ -322,7 +357,8 @@ export function populateStringPrototype(
       realm,
       "trimEnd",
       function* (thisArg: StaticJsValue) {
-        const result = thisArg.toStringSync().trimEnd();
+        const str = yield* toString(thisArg, realm);
+        const result = str.value.trimEnd();
         return realm.types.string(result);
       },
       { prototype: functionProto },
@@ -371,7 +407,13 @@ export function populateStringPrototype(
       realm,
       "split",
       function* (thisArg: StaticJsValue, separator: StaticJsValue) {
-        const result = thisArg.toStringSync().split(separator.toStringSync());
+        const thisArgStr = yield* toString(thisArg, realm);
+        const separatorStr = yield* toString(
+          separator ?? realm.types.undefined,
+          realm,
+        );
+
+        const result = thisArgStr.value.split(separatorStr.value);
         return realm.types.array(result.map((s) => realm.types.string(s)));
       },
       { prototype: functionProto },
@@ -386,9 +428,13 @@ export function populateStringPrototype(
       realm,
       "indexOf",
       function* (thisArg: StaticJsValue, searchValue: StaticJsValue) {
-        const result = thisArg
-          .toStringSync()
-          .indexOf(searchValue.toStringSync());
+        const thisArgStr = yield* toString(thisArg, realm);
+        searchValue = yield* toString(
+          searchValue ?? realm.types.undefined,
+          realm,
+        );
+
+        const result = thisArgStr.value.indexOf(searchValue.value);
         return realm.types.number(result);
       },
       { prototype: functionProto },
@@ -403,9 +449,13 @@ export function populateStringPrototype(
       realm,
       "lastIndexOf",
       function* (thisArg: StaticJsValue, searchValue: StaticJsValue) {
-        const result = thisArg
-          .toStringSync()
-          .lastIndexOf(searchValue.toStringSync());
+        const thisArgStr = yield* toString(thisArg, realm);
+        searchValue = yield* toString(
+          searchValue ?? realm.types.undefined,
+          realm,
+        );
+
+        const result = thisArgStr.value.lastIndexOf(searchValue.value);
         return realm.types.number(result);
       },
       { prototype: functionProto },
@@ -510,9 +560,19 @@ export function populateStringPrototype(
         searchValue: StaticJsValue,
         replaceValue: StaticJsValue,
       ) {
-        const result = thisArg
-          .toStringSync()
-          .replace(searchValue.toStringSync(), replaceValue.toStringSync());
+        const thisArgStr = yield* toString(thisArg, realm);
+        searchValue = yield* toString(
+          searchValue ?? realm.types.undefined,
+          realm,
+        );
+        replaceValue = yield* toString(
+          replaceValue ?? realm.types.undefined,
+          realm,
+        );
+        const result = thisArgStr.value.replace(
+          searchValue.value,
+          replaceValue.value,
+        );
         return realm.types.string(result);
       },
       { prototype: functionProto },
@@ -535,7 +595,7 @@ export function createStringConstructor(
         return realm.types.string("");
       }
 
-      return realm.types.string(value.toStringSync());
+      return yield* toString(value, realm);
     },
     { prototype: functionProto },
   );

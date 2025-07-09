@@ -83,7 +83,7 @@ function* variableDeclarationEnvironmentSetup(
           varScope = context.env;
         }
         if (yield* varScope.canDeclareGlobalVarEvaluator(name)) {
-          yield* varScope.createGlobalVarBindingEvaluator(name, true);
+          yield* varScope.createGlobalVarBindingEvaluator(name, false);
         } else {
           yield* varScope.createMutableBindingEvaluator(name, false);
         }

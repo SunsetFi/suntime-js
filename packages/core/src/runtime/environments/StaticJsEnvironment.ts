@@ -43,10 +43,7 @@ export interface StaticJsEnvironment {
     strict: boolean,
   ): EvaluationGenerator<StaticJsValue>;
 
-  deleteBindingEvaluator(
-    name: string,
-    strict: boolean,
-  ): EvaluationGenerator<void>;
+  deleteBindingEvaluator(name: string): EvaluationGenerator<boolean>;
 
   // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   hasThisBindingEvaluator(): EvaluationGenerator<boolean>;

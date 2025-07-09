@@ -2,10 +2,9 @@ import type { UpdateExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import { isStaticJsNumber } from "../../runtime/types/StaticJsNumber.js";
-
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
+import toNumber from "../../runtime/algorithms/to-number.js";
 
 export default function* updateExpressionNodeEvaluator(
   node: UpdateExpression,
@@ -25,11 +24,11 @@ export default function* updateExpressionNodeEvaluator(
     context.strict,
   );
 
-  if (!isStaticJsNumber(originalValue)) {
-    return context.realm.types.NaN;
-  }
+  // Note: NodeJs throws an error if the value is a string or something, but
+  // thats not what the spec says to do!
+  const asNumber = yield* toNumber(originalValue, context.realm);
 
-  let targetValue = originalValue.value;
+  let targetValue = asNumber.value;
   switch (node.operator) {
     case "++":
       targetValue++;

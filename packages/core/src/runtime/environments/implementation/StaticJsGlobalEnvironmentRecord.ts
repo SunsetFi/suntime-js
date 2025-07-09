@@ -30,6 +30,50 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
     );
   }
 
+  *setMutableBindingEvaluator(
+    name: string,
+    value: StaticJsValue,
+    strict: boolean,
+  ): EvaluationGenerator<void> {
+    // FIXME: Theres a whole reference thing we aren't doing which should be taking care of this (ResolveBinding, GetValue, PutValue).
+
+    const binding = this[StaticJsEnvironmentGetBinding](name);
+
+    if (binding) {
+      if (!binding.isMutable) {
+        if (strict) {
+          throw new ThrowCompletion(
+            this.realm.types.error(
+              "TypeError",
+              `Assignment to constant variable '${name}'.`,
+            ),
+          );
+        }
+
+        return;
+      }
+
+      yield* binding.set(value);
+      return;
+    }
+
+    if (strict) {
+      throw new ThrowCompletion(
+        this.realm.types.error(
+          "ReferenceError",
+          `Assignment to undeclared variable '${name}'.`,
+        ),
+      );
+    }
+
+    yield* this._globalObject.definePropertyEvaluator(name, {
+      value,
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    });
+  }
+
   *createMutableBindingEvaluator(
     name: string,
     deletable: boolean,
