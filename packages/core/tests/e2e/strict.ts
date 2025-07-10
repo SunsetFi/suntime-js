@@ -117,4 +117,16 @@ describe("E2E: Strict mode", () => {
       });
     });
   });
+
+  it("Should support strict mode directives in functions", async () => {
+    const code = `
+      function strictFunction() {
+        'use strict';
+        return this;
+      }
+      strictFunction() === undefined;
+    `;
+    const result = await evaluateScript(code);
+    expect(result).toBe(true);
+  });
 });

@@ -7,9 +7,11 @@ import { type Node } from "@babel/types";
 
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
-import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
+import { StaticJsTaskAbortedError } from "../../../errors/StaticJsTaskAbortedError.js";
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
+import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
 import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
@@ -66,8 +68,6 @@ import type {
   StaticJsRealm,
   StaticJsRunTaskOptions,
 } from "../StaticJsRealm.js";
-import { StaticJsTaskAbortedError } from "../../../errors/StaticJsTaskAbortedError.js";
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;

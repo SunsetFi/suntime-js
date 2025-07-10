@@ -1,4 +1,4 @@
-import type { FunctionDeclaration } from "@babel/types";
+import { isBlock, type FunctionDeclaration } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
@@ -29,11 +29,21 @@ function* functionDeclarationEnvironmentSetup(
   context: EvaluationContext,
 ): EvaluationGenerator<boolean> {
   const functionName = node.id?.name ?? null;
+
+  let functionContext = context;
+
+  if (
+    isBlock(node.body) &&
+    node.body.directives.some(({ value }) => value.value === "use strict")
+  ) {
+    functionContext = context.createStrictContext();
+  }
+
   const func = createFunction(
     functionName,
     node,
-    context.strict ? "strict" : "lexical",
-    context,
+    functionContext.strict ? "strict" : "lexical",
+    functionContext,
   );
 
   if (functionName) {

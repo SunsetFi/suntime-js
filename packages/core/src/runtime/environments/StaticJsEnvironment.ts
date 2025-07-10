@@ -8,6 +8,9 @@ export interface StaticJsEnvironment {
   createMutableBindingEvaluator(
     name: string,
     deletable: boolean,
+    // This feels gross.  The spec doesn't define this, but...
+    // apparently it's needed.
+    canReferenceUninitialized?: boolean,
   ): EvaluationGenerator<void>;
 
   createImmutableBindingEvaluator(

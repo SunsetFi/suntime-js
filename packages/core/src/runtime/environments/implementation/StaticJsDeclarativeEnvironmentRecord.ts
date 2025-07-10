@@ -13,7 +13,11 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
   private readonly _bindings: Map<string, DeclarativeEnvironmentBinding> =
     new Map();
 
-  *createMutableBindingEvaluator(name: string, deletable: boolean) {
+  *createMutableBindingEvaluator(
+    name: string,
+    deletable: boolean,
+    canReferenceUninitialized: boolean = false,
+  ) {
     if (deletable) {
       throw new ThrowCompletion(
         this.realm.types.error(
@@ -34,7 +38,13 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
 
     this._bindings.set(
       name,
-      new DeclarativeEnvironmentBinding(name, true, null, this.realm),
+      new DeclarativeEnvironmentBinding(
+        name,
+        true,
+        canReferenceUninitialized,
+        null,
+        this.realm,
+      ),
     );
   }
 
@@ -54,7 +64,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
 
     this._bindings.set(
       name,
-      new DeclarativeEnvironmentBinding(name, false, null, this.realm),
+      new DeclarativeEnvironmentBinding(name, false, false, null, this.realm),
     );
   }
 
@@ -71,6 +81,7 @@ class DeclarativeEnvironmentBinding implements StaticJsEnvironmentBinding {
   constructor(
     public readonly name: string,
     public readonly isMutable: boolean,
+    private readonly canAccessUninitialized: boolean,
     value: StaticJsValue | null,
     private readonly realm: StaticJsRealm,
   ) {
@@ -97,6 +108,10 @@ class DeclarativeEnvironmentBinding implements StaticJsEnvironmentBinding {
 
   *get(): EvaluationGenerator<StaticJsValue> {
     if (this._value == null) {
+      if (this.canAccessUninitialized) {
+        return this.realm.types.undefined;
+      }
+
       throw new ThrowCompletion(
         this.realm.types.error(
           "ReferenceError",

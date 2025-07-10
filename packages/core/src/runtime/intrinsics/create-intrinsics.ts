@@ -53,7 +53,32 @@ import createSyntaxErrorConstructor, {
 } from "./SyntaxError.js";
 import { createMathStatic } from "./Math/index.js";
 
+import {
+  applyIntrinsicProperties,
+  type IntrinsicPropertyDeclaration,
+} from "./utils.js";
+
+import globalObjectEvalDeclaration from "./eval.js";
+import globalObjectInfinityDeclaration from "./Infinity.js";
+import globalObjectIsFiniteDeclaration from "./isFinite.js";
+import globalObjectIsNaNDeclaration from "./isNaN.js";
+import globalObjectNaNDeclaration from "./NaN.js";
+import globalObjectParseFloatDeclaration from "./parseFloat.js";
+import globalObjectParseIntDeclaration from "./parseInt.js";
+import globalObjectUndefinedDeclaration from "./undefined.js";
+
 export type { Instrinsics, Prototypes };
+
+const globalPropertyDeclarations: IntrinsicPropertyDeclaration[] = [
+  globalObjectEvalDeclaration,
+  globalObjectInfinityDeclaration,
+  globalObjectIsFiniteDeclaration,
+  globalObjectIsNaNDeclaration,
+  globalObjectNaNDeclaration,
+  globalObjectParseFloatDeclaration,
+  globalObjectParseIntDeclaration,
+  globalObjectUndefinedDeclaration,
+];
 
 export function createIntrinsics(realm: StaticJsRealm): Instrinsics {
   const protos = createPrototypes(realm);
@@ -174,30 +199,16 @@ function createConstructors(
 export function defineGlobalProperties(
   realm: StaticJsRealm,
   globalObject: StaticJsObjectLike,
-  constructors: Constructors,
+  intrinsics: Instrinsics,
 ) {
-  globalObject.definePropertySync("undefined", {
-    value: realm.types.undefined,
-    writable: false,
-    enumerable: false,
-    configurable: false,
-  });
+  applyIntrinsicProperties(
+    realm,
+    globalObject,
+    globalPropertyDeclarations,
+    intrinsics.functionProto,
+  );
 
-  globalObject.definePropertySync("NaN", {
-    value: realm.types.NaN,
-    writable: false,
-    enumerable: false,
-    configurable: false,
-  });
-
-  globalObject.definePropertySync("Infinity", {
-    value: realm.types.Infinity,
-    writable: false,
-    enumerable: false,
-    configurable: false,
-  });
-
-  for (const [key, value] of Object.entries(constructors)) {
+  for (const [key, value] of Object.entries(intrinsics)) {
     globalObject.definePropertySync(key, {
       value,
       writable: true,

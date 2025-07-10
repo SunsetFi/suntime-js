@@ -66,6 +66,10 @@ export default abstract class EvaluationContext {
   ): EvaluationContext {
     return new StackEvaluationContext(env, func, this);
   }
+
+  createStrictContext(): EvaluationContext {
+    return new StrictEvaluationContext(this);
+  }
 }
 
 class RootEvaluationContext extends EvaluationContext {
@@ -87,6 +91,16 @@ class RootEvaluationContext extends EvaluationContext {
 
   get env(): StaticJsEnvironment {
     return this._env;
+  }
+}
+
+class StrictEvaluationContext extends EvaluationContext {
+  constructor(parent: EvaluationContext) {
+    super(parent);
+  }
+
+  get strict(): boolean {
+    return true;
   }
 }
 
@@ -119,6 +133,7 @@ class BlockEvaluationContext extends EvaluationContext {
 class StackEvaluationContext extends EvaluationContext {
   private _env: StaticJsEnvironment;
   private _function: StaticJsFunction;
+  private _strict: boolean | null = null;
 
   constructor(
     env: StaticJsEnvironment,
