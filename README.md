@@ -65,7 +65,7 @@ Currently, only a small subset of the tests are passing, but work is ongoing in 
 
 StaticJs provides quick functions for evaluating simple code: `evaluateExpression`, `evaluateScript`, and `evaluateModule`. These functions take strings as their first argument, and return a promise to the [coerced native value](docs/03-type-coersion.md).
 
-Note that the promise resolves when all microtasks are complete, not when the macrotask itself completes.
+Note that the promise resolves when all microtasks spawned by the expression are complete, not when the macrotask itself completes. This means any promise resolutions that occurred as a result of the evaluation will be ran to completion.
 
 ```ts
 import { evaluateExpression } from "@suntime-js/core";
@@ -77,7 +77,9 @@ For more information, see [Quick Start](docs/01-quick-start.md).
 
 ## Detailed Usage
 
-The primary way of interacting with StaticJs is through using a [StaticJsRealm](./04-realms.md)
+The primary way of interacting with StaticJs is through using a [StaticJsRealm](./04-realms.md).
+
+This gives you full control of the evaluation, including pausing execution, debugging, enforcing time or operation count limits, and configuring the global environment.
 
 ## TODO:
 
