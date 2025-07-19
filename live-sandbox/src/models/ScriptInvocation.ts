@@ -339,8 +339,8 @@ export default class ScriptInvocation {
       return;
     }
 
-    const location = this._task.location;
-    const type = this._task.operationType;
+    const location = this._task.operation?.location;
+    const type = this._task.operation?.operationType;
 
     if (!location || !type) {
       this._line$.next(-1);
