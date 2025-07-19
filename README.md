@@ -83,15 +83,14 @@ This gives you full control of the evaluation, including pausing execution, debu
 
 ## TODO:
 
-- **Testing with https://github.com/tc39/test262**
+- Fix 'all' [Test262](https://github.com/tc39/test262) tests.
 - Report code coverage in repo
   coveralls.io?
   [vitest-coverage-report-action](https://github.com/marketplace/actions/vitest-coverage-report)?
 - Get api-extractor working. The only holdup right now is the combine and re-export of the interface and factory function of StaticJsRealm
   - Combine these into one file to make this work?
-- Turn the value of ObjectLike.toJs() back into the same instance of StaticJsObjectLike in TypeFactory.toStaticJsValue()
-- Reveal information about the current line and character number the generator is at.
-  - Also reveal scopes and variables.
+- Turn the value of ObjectLike.toJsSync() back into the same instance of StaticJsObjectLike in TypeFactory.toStaticJsValue()
+- Add scope, variable, and stack info to StaticJsTaskIterator for debugging.
 - Investigate debugger for monaco
   [Example implementation?](https://github.com/polylith/monaco-debugger)
   [Docs](https://microsoft.github.io/debug-adapter-protocol/overview)
