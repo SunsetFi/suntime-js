@@ -115,7 +115,7 @@ export default class ScriptInvocation {
 
     this._cancelRunTaskIteration();
 
-    if (this._task && !this._task.done && !this._task.aborted) {
+    if (this._task && !this._task.done) {
       // Let the task complete in the intended way through an abort.
       // Its promise resolution will be captured and reported.
       this._task.abort();
@@ -231,7 +231,7 @@ export default class ScriptInvocation {
       throw new Error("No task to run.");
     }
 
-    if (this._task.done || this._task.aborted) {
+    if (this._task.done) {
       return;
     }
 

@@ -24,7 +24,7 @@ describe("E2E: Tasks", () => {
       });
 
       const realm = StaticJsRealm({
-        runTask,
+        runTask: runTask,
       });
 
       const promise = realm.evaluateScript("2 + 2");
@@ -60,7 +60,7 @@ describe("E2E: Tasks", () => {
       });
 
       const realm = StaticJsRealm({
-        runTask,
+        runTask: runTask,
       });
 
       const promise1 = realm.evaluateScript("2 + 2");
@@ -102,7 +102,7 @@ describe("E2E: Tasks", () => {
       });
 
       const realm = StaticJsRealm({
-        runTask,
+        runTask: runTask,
       });
 
       await expect(() =>
@@ -136,7 +136,7 @@ describe("E2E: Tasks", () => {
         queuedTask = task;
       });
       const realm = StaticJsRealm({
-        runTask,
+        runTask: runTask,
       });
 
       const promise1 = realm.evaluateScript(
@@ -166,9 +166,9 @@ describe("E2E: Tasks", () => {
       expect(result2.toJsSync()).toBe(4);
     });
 
-    describe("With taskRunner option", () => {
+    describe("With runTask option", () => {
       it("Is invoked to run the task", async () => {
-        const taskRunner = vitest.fn((task: StaticJsTaskIterator) => {
+        const runTask = vitest.fn((task: StaticJsTaskIterator) => {
           let result: ReturnType<typeof task.next>;
           do {
             result = task.next();
@@ -177,15 +177,15 @@ describe("E2E: Tasks", () => {
         const realm = StaticJsRealm({});
 
         const result = await realm.evaluateScript("2 + 2", {
-          taskRunner,
+          runTask,
         });
-        expect(taskRunner).toBeCalledTimes(1);
+        expect(runTask).toBeCalledTimes(1);
         expect(result.toJsSync()).toBe(4);
       });
 
       it("Does not invoke the realm runTask handler", async () => {
-        const runTask = vitest.fn();
-        const taskRunner = vitest.fn((task: StaticJsTaskIterator) => {
+        const runTaskRealm = vitest.fn();
+        const runTaskEvaluate = vitest.fn((task: StaticJsTaskIterator) => {
           let result: ReturnType<typeof task.next>;
           do {
             result = task.next();
@@ -193,14 +193,14 @@ describe("E2E: Tasks", () => {
         });
 
         const realm = StaticJsRealm({
-          runTask,
+          runTask: runTaskRealm,
         });
 
         const result = await realm.evaluateScript("2 + 2", {
-          taskRunner,
+          runTask: runTaskEvaluate,
         });
-        expect(runTask).toBeCalledTimes(0);
-        expect(taskRunner).toBeCalledTimes(1);
+        expect(runTaskRealm).toBeCalledTimes(0);
+        expect(runTaskEvaluate).toBeCalledTimes(1);
         expect(result.toJsSync()).toBe(4);
       });
     });

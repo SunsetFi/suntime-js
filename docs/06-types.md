@@ -268,15 +268,16 @@ Inherits all properties from `StaticJsObjectLike`
 Examples:
 
 ```ts
-import { StaticJsValue, ThrowCompletion } from "@suntime-js/core";
+import { StaticJsValue } from "@suntime-js/core";
 
 const add = realm.types.function(
   "add",
   (a: StaticJsValue, b: StaticJsValue) => {
     if (a.typeOf !== "number" || b.typeOf !== "number") {
-      throw new ThrowCompletion(
-        realm.types.error("TypeError", "Arguments to add must be numbers")
-      );
+      // Thrown StaticJsValue types will act as thrown errors within the sandbox.
+      // Any other thrown value will bypass sandbox evaluation and bubble up to either the evaluate* function
+      // promise or thrown from the synchronous invocation.
+      throw realm.types.error("TypeError", "Arguments to add must be numbers");
     }
 
     return realm.types.number(a.value + b.value);

@@ -24,7 +24,7 @@ export interface StaticJsRunTaskOptions {
    * This may not be called immediately.  The task will be run when it is reached in the queue.
    * @param task The task to run.
    */
-  taskRunner?: StaticJsTaskRunner;
+  runTask?: StaticJsTaskRunner;
 }
 
 export type StaticJsEvaluator<T = unknown> =

@@ -1,5 +1,6 @@
-import { ThrowCompletion } from "../../../../evaluator/index.js";
-import type { StaticJsRealm } from "../../../realm/index.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+
+import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
 import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
 import StaticJsPromiseImpl from "../../../types/implementation/StaticJsPromiseImpl.js";

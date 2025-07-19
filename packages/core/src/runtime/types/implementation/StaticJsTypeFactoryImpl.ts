@@ -1,3 +1,5 @@
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsArray } from "../StaticJsArray.js";
@@ -151,13 +153,21 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       this._realm,
       name,
       function* (thisArg: StaticJsValue, ...args: StaticJsValue[]) {
-        const result = func.apply(thisArg, args);
-        if (!isStaticJsValue(result)) {
-          throw new TypeError(
-            `Function ${name} returned non-StaticJsValue: ${result}`,
-          );
+        try {
+          const result = func.apply(thisArg, args);
+          if (!isStaticJsValue(result)) {
+            throw new TypeError(
+              `Function ${name} returned non-StaticJsValue: ${result}`,
+            );
+          }
+          return result;
+        } catch (e) {
+          if (isStaticJsValue(e)) {
+            throw new ThrowCompletion(e);
+          }
+
+          throw e;
         }
-        return result;
       },
       {
         isConstructor: opts.isConstructor ?? false,

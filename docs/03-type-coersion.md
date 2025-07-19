@@ -8,7 +8,7 @@ When a value is passed to the sandbox, special care is taken to limit the sandbo
 
 ### Scalars
 
-Scalars are sent as-is.
+Scalars act the same in the host or the sandbox. Boxed scalers will use the sandbox version of the boxing object.
 
 ### Objects
 
@@ -34,7 +34,7 @@ Generally, this is only used for `toJsSync`, and for `evaluateScript` and friend
 
 ## Scalars
 
-Scalars are sent in their native forms.
+Scalars are returned converted to their native forms.
 
 ### Objects
 
@@ -52,7 +52,7 @@ Functions extend from objects, and are fully proxied and mutable in turn. Additi
 
 Calling a function from the host will:
 
-- Coerce the this argument to a StaticJs value
+- Coerce the 'this' argument to a StaticJs value
 - Coerce all arguments to StaticJs values
 - Invoke the function synchronously.
 - Coerce the result to a native value and return it.

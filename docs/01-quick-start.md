@@ -43,7 +43,7 @@ const result = await evaluateExpression("[1, 2, 3]");
 console.log(Array.isArray(result));
 ```
 
-If the runtime result is callable, the proxy will also be callable. Calling the proxy will automatically convert any input (arguments and the this arg) into StaticJs values, and the result will be converted back to native values.
+If the runtime result is callable, the proxy will also be callable. Calling the proxy will automatically convert any input (arguments and the 'this' arg) into StaticJs values, and the result will be converted back to native values.
 Note that for security, objects passed in this way are not mutatable by the StaticJs code. See [Native / Script type coersion](#type-coersion-between-the-native-runtime-and-the-script-evaluation).
 
 ```ts

@@ -41,7 +41,7 @@ export interface StaticJsTaskIterator {
   /**
    * Whether the task has completed execution.
    *
-   * This will still be false if the task has aborted.
+   * This will return true if the task ran to completion, or if it was aborted.
    */
   get done(): boolean;
 

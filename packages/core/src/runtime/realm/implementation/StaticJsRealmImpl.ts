@@ -94,7 +94,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     globalThis,
     modules,
     resolveImportedModule: resolveModule,
-    runTask,
+    runTask: runTask,
   }: StaticJsRealmOptions = {}) {
     this._externalResolveModule = resolveModule;
     this._defaultRunTask = runTask ?? defaultTaskRunner;
@@ -269,11 +269,11 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   enqueueMacrotask<TReturn>(
     evaluator: EvaluationGenerator<TReturn>,
-    { taskRunner = this._defaultRunTask } = {},
+    { runTask = this._defaultRunTask } = {},
   ): Promise<TReturn> {
     const macrotask = new Macrotask(
       () => evaluator,
-      taskRunner,
+      runTask,
       (task) => this._assertTaskRunning(task),
     );
 
@@ -665,7 +665,7 @@ class Macrotask {
 
     return {
       get done() {
-        return done;
+        return done || aborted;
       },
       get aborted() {
         return aborted;
@@ -707,11 +707,13 @@ class Macrotask {
             done: result.done,
           };
         } catch (e) {
-          // Normally we should pass this to the generator's throw method,
-          // but we are passed generators that handle all of that for us, so the only
-          // throws we should be getting here are final throws.
-          done = true;
-          reject(e);
+          if (!done && !aborted) {
+            // Normally we should pass this to the generator's throw method,
+            // but we are passed generators that handle all of that for us, so the only
+            // throws we should be getting here are final throws.
+            done = true;
+            reject(e);
+          }
           return {
             value: undefined,
             done: true,

@@ -122,7 +122,7 @@ async function runTimeBound(
 ) {
   const start = performance.now();
   return await realm.evaluateScript(code, {
-    taskRunner(task) {
+    runTask(task) {
       while (true) {
         const elapsed = performance.now() - start;
         if (elapsed > timeout) {

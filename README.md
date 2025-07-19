@@ -90,6 +90,8 @@ This gives you full control of the evaluation, including pausing execution, debu
 - Get api-extractor working. The only holdup right now is the combine and re-export of the interface and factory function of StaticJsRealm
   - Combine these into one file to make this work?
 - Turn the value of ObjectLike.toJsSync() back into the same instance of StaticJsObjectLike in TypeFactory.toStaticJsValue()
+- Add a runTaskSync to realms that allows for time and operation limiting synchronous functions but enforces the task is completed or aborted when the function exits.
+- Rename toJs to toNative
 - Add scope, variable, and stack info to StaticJsTaskIterator for debugging.
 - Investigate debugger for monaco
   [Example implementation?](https://github.com/polylith/monaco-debugger)

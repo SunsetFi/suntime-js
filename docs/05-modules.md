@@ -8,7 +8,7 @@ Modules can be used by either the quick `evaluateModule` function, or by calling
 
 ## Consuming evaluated modules
 
-Evaluating a module will return a promise to a StaticJsModule.
+Evaluating a module will return a promise to a `StaticJsModule`.
 
 ### StaticJsModule methods
 
@@ -20,13 +20,13 @@ Returns an array of string names for all exports from the module, including star
 
 Returns the current value of the export. The string "default" can be used to get the default export.
 
-The returned value will be [coersed to native representation](./03-type-coersion.md).
+The returned value will be [coerced to native representation](./03-type-coersion.md).
 
 #### getModuleNamespace
 
 Returns a namespace object for all (non-default) exports of the module. This object will reflect the current state of the module, including any changes made after its creation.
 
-The mapped values will be [coersed to native representations](./03-type-coersion.md).
+The mapped values will be [coerced to native representations](./03-type-coersion.md).
 
 ## Providing external modules.
 
@@ -67,4 +67,4 @@ Note that doing so during `resolveImportedModule` will invoke that module's eval
 
 ## Async Modules
 
-Currently, async modules are not supported, as async (and promises in general) are not yet implemented.
+Currently, top-level async modules are not supported.

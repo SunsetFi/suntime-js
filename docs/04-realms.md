@@ -57,7 +57,7 @@ await realm.evaluateModule(`
 
 ### resolveImportedModule
 
-For asynchronous module resolution, the `resolveImportedModule` function will be invoked if `modules` has no record for the desired module. It will be called with a reference with the importing [StaticJsModule](./05-modules.md) as its first argument, and the module specifier as the second argument. It should return either a [Resolvable StaticJs Modules](./05-modules.md#resolvable-modules), or a Promise that resolved to one.
+For asynchronous module resolution, the `resolveImportedModule` function will be invoked if `modules` has no record for the desired module. It will be called with a reference with the importing [StaticJsModule](./05-modules.md) as its first argument, and the module specifier as the second argument. It should return either a [Resolvable StaticJs Modules](./05-modules.md#resolvable-modules), or a Promise that resolves to one.
 
 ### runTask
 
