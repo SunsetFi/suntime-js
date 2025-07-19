@@ -1,19 +1,23 @@
 import { parse as parseAst } from "@babel/parser";
 import type { Node } from "@babel/types";
 
+import StaticJsDeclarativeEnvironmentRecord from "../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
+
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+
+import setupEnvironment from "../../evaluator/node-evaluators/setup-environment.js";
+
+import { EvaluateNodeCommand } from "../../evaluator/commands/EvaluateNodeCommand.js";
 
 import toString from "../algorithms/to-string.js";
 
 import type { IntrinsicPropertyDeclaration } from "./utils.js";
-import setupEnvironment from "../../evaluator/node-evaluators/setup-environment.js";
-import { EvaluateNodeCommand } from "../../evaluator/commands/EvaluateNodeCommand.js";
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
-import StaticJsDeclarativeEnvironmentRecord from "../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
   name: "eval",
-  *func(realm, thisArg, str) {
+  *func(realm, _thisArg, str) {
     str = yield* toString(str ?? realm.types.undefined, realm);
 
     let node: Node;
@@ -29,13 +33,16 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
 
     // FIXME: If this is a direct call, we need to inherit the context
     // from the caller!
-    const context = EvaluationContext.createRootContext(
+    let context = EvaluationContext.createRootContext(
       false,
       realm,
       realm.globalEnv,
-    ).createBlockContext(new StaticJsDeclarativeEnvironmentRecord(realm));
+    );
 
-    // FIXME: If strict mode, create a new lexical environment.
+    // FIXME: Only do this if strict mode.
+    context = context.createBlockContext(
+      new StaticJsDeclarativeEnvironmentRecord(realm),
+    );
 
     yield* setupEnvironment(node, context);
     const result = yield* EvaluateNodeCommand(node, context);
