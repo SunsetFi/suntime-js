@@ -665,7 +665,7 @@ class Macrotask {
 
     return {
       get done() {
-        return done || aborted;
+        return done;
       },
       get aborted() {
         return aborted;
@@ -707,7 +707,7 @@ class Macrotask {
             done: result.done,
           };
         } catch (e) {
-          if (!done && !aborted) {
+          if (!done) {
             // Normally we should pass this to the generator's throw method,
             // but we are passed generators that handle all of that for us, so the only
             // throws we should be getting here are final throws.
@@ -722,7 +722,7 @@ class Macrotask {
       },
 
       abort: () => {
-        if (done || aborted) {
+        if (done) {
           throw new StaticJsEngineError(
             "Cannot abort a task that is already done or aborted.",
           );
@@ -730,6 +730,7 @@ class Macrotask {
 
         this._assertIsRunning(this);
 
+        done = true;
         aborted = true;
         reject(new StaticJsTaskAbortedError("Task was aborted."));
       },

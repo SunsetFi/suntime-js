@@ -194,3 +194,28 @@ const value = await realm.evaluateScript(
   }
 )
 ```
+
+## StaticJsTaskIterator
+
+All instances of task are a StaticJsTaskIterator
+
+### Properties
+
+- `done`: Whether the task is completed. This will be `true` if the task has completed by any means, including by `.abort()`.
+
+- `aborted`: True if `.abort()` has been called.
+
+- `location`: Information on the location of the next operation that will be evaluated on `.next()`
+  If an operation is queued (the taks is not done), this will be an object containing `start` and `end` properties. If the task is done, this will be `null`.
+  Both of these properties will be an object with:
+
+  - `line`: The 1-based line number of the start, or end, of the operation on the script being evaluated.
+  - `column`: The 0-based character index of the start, or end, of the operation on the given line of the script being evaluated.
+  - `character`: The 0-based character index in the raw string of the script being evaluated.
+
+- `operationType`: If an operation is queued (the task is not done), this is the type of the AST node queued for evaluation. If the task is done, this will be `null`.
+
+### Methods
+
+- `next()`: Invoke the next operation. Returns an IteratorResult where `done` indicates if the task is completed. If the task is already done, a `StaticJsEngineError` is thrown.
+- `abort()`: Aborts the task. If the task is already done, a StaticJsEngineError is thrown.
