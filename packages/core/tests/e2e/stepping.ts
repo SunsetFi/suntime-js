@@ -44,8 +44,9 @@ describe("E2E: Stepping", () => {
           }
 
           // Now that we ran, we should be paused at an operation.
+          const op = task.operation!;
           steps.push(
-            `Line: ${task.location?.start.line}, Column: ${task.location?.start.column}`,
+            `Line: ${op.location.start.line}, Column: ${op.location.start.column}`,
           );
         }
       },

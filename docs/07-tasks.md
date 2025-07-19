@@ -205,15 +205,15 @@ All instances of task are a StaticJsTaskIterator
 
 - `aborted`: True if `.abort()` has been called.
 
-- `location`: Information on the location of the next operation that will be evaluated on `.next()`
-  If an operation is queued (the taks is not done), this will be an object containing `start` and `end` properties. If the task is done, this will be `null`.
-  Both of these properties will be an object with:
+- `operation`: Information on the next operation to be evaluated by a call to `.next()`. If the task is done, this will be `null`.
 
-  - `line`: The 1-based line number of the start, or end, of the operation on the script being evaluated.
-  - `column`: The 0-based character index of the start, or end, of the operation on the given line of the script being evaluated.
-  - `character`: The 0-based character index in the raw string of the script being evaluated.
+  - `location`: An object containing the start and end of the operation in the source code to be evaluated. Contains a `start` and `end` property, both with:
 
-- `operationType`: If an operation is queued (the task is not done), this is the type of the AST node queued for evaluation. If the task is done, this will be `null`.
+    - `line`: The 1-based line number of the start, or end, of the operation on the script being evaluated.
+    - `column`: The 0-based character index of the start, or end, of the operation on the given line of the script being evaluated.
+    - `character`: The 0-based character index in the raw string of the script being evaluated.
+
+  - `operationType`: The AST node type of the queued operation.
 
 ### Methods
 

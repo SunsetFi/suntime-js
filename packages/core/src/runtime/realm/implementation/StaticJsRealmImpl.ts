@@ -59,7 +59,7 @@ import type {
 
 import type {
   StaticJsTaskIterator,
-  StaticJsTaskIteratorLocation,
+  StaticJsTaskIteratorOperation,
   StaticJsTaskRunner,
 } from "../StaticJsTaskIterator.js";
 
@@ -635,7 +635,7 @@ class Macrotask {
     let done = false;
     let aborted = false;
 
-    const getCurrentLocation = (): StaticJsTaskIteratorLocation | null => {
+    const getCurrentOperation = (): StaticJsTaskIteratorOperation | null => {
       if (
         !this._currentNode ||
         !this._currentNode.loc ||
@@ -646,21 +646,20 @@ class Macrotask {
       }
 
       return {
-        start: {
-          line: this._currentNode.loc.start.line,
-          column: this._currentNode.loc.start.column,
-          character: this._currentNode.start,
-        },
-        end: {
-          line: this._currentNode.loc.end.line,
-          column: this._currentNode.loc.end.column,
-          character: this._currentNode.end,
+        operationType: this._currentNode.type,
+        location: {
+          start: {
+            line: this._currentNode.loc.start.line,
+            column: this._currentNode.loc.start.column,
+            character: this._currentNode.start,
+          },
+          end: {
+            line: this._currentNode.loc.end.line,
+            column: this._currentNode.loc.end.column,
+            character: this._currentNode.end,
+          },
         },
       };
-    };
-
-    const getCurrentNode = (): Node | null => {
-      return this._currentNode;
     };
 
     return {
@@ -670,16 +669,8 @@ class Macrotask {
       get aborted() {
         return aborted;
       },
-      get location() {
-        return getCurrentLocation();
-      },
-      get operationType() {
-        const node = getCurrentNode();
-        if (!node) {
-          return null;
-        }
-
-        return node.type;
+      get operation() {
+        return getCurrentOperation();
       },
       next: () => {
         if (aborted) {

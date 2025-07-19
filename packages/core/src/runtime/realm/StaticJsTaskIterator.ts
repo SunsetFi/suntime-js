@@ -37,6 +37,18 @@ export interface StaticJsTaskIteratorLocation {
   readonly end: Readonly<StaticJsTaskSourceLocation>;
 }
 
+export interface StaticJsTaskIteratorOperation {
+  /**
+   * Gets the type of the current operation queued for evaluation.
+   */
+  get operationType(): string;
+
+  /**
+   * The location of the current operation queued for evaluation.
+   */
+  get location(): StaticJsTaskIteratorLocation;
+}
+
 export interface StaticJsTaskIterator {
   /**
    * Whether the task has completed execution.
@@ -51,14 +63,11 @@ export interface StaticJsTaskIterator {
   get aborted(): boolean;
 
   /**
-   * The location of the current operation queued for evaluation.
+   * Information on the current queued operation to be evaluated by a call to `.next()`.
+   *
+   * If the task is done, this will be null.
    */
-  get location(): StaticJsTaskIteratorLocation | null;
-
-  /**
-   * Gets the type of the current operation queued for evaluation.
-   */
-  get operationType(): string | null;
+  get operation(): StaticJsTaskIteratorOperation | null;
 
   /**
    * Evaluate the current operation and proceed the iterator to the next one.
