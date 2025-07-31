@@ -236,7 +236,7 @@ export default class ScriptInvocation {
     }
 
     const avgTimePerIteration = average(this._timePerIterationSamples, 0);
-    let iterationCount = average(
+    let iterationBudget = average(
       this._opsPerIterationSamples,
       ScriptInvocation.BaseOpsPerIteration
     );
@@ -245,11 +245,11 @@ export default class ScriptInvocation {
     // This isn't strictly correct as our iteration count is different for each of those time samples.
     // FIXME: Find something better.
     if (avgTimePerIteration > 0) {
-      iterationCount = Math.min(
+      iterationBudget = Math.min(
         Math.max(
           1,
           Math.floor(
-            iterationCount * (ScriptInvocation.QuotaTime / avgTimePerIteration)
+            iterationBudget * (ScriptInvocation.QuotaTime / avgTimePerIteration)
           )
         ),
         100000
@@ -257,7 +257,7 @@ export default class ScriptInvocation {
     }
 
     const start = performance.now();
-    for (let i = 0; i < iterationCount; i++) {
+    for (let i = 0; i < iterationBudget; i++) {
       // Breakpoint or something might have stopped us.
       if (this._status$.value !== "running") {
         return;
@@ -279,7 +279,7 @@ export default class ScriptInvocation {
     const end = performance.now();
     const timeTaken = end - start;
     this._timePerIterationSamples.push(timeTaken);
-    this._opsPerIterationSamples.push(iterationCount);
+    this._opsPerIterationSamples.push(iterationBudget);
     if (
       this._timePerIterationSamples.length >
       ScriptInvocation.IterationTimeQutoaSamples

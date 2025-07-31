@@ -1,7 +1,7 @@
 {
   "name": "@suntime-js/core",
   "version": "0.0.12",
-  "description": "An AST-based javascript evaluator in a sandboxed environment.",
+  "description": "Evaluate javascript in a sandboxed environment.",
   "type": "module",
   "main": "lib/index.js",
   "private": false,
