@@ -42,4 +42,24 @@ describe("E2E: Symbols", () => {
     const result = await evaluateScript(code);
     expect(result).toEqual([]);
   });
+
+  it("Supports Symbol.for", async () => {
+    const code = `
+        const sym1 = Symbol.for("sharedSymbol");
+        const sym2 = Symbol.for("sharedSymbol");
+        const key = Symbol.keyFor(sym1);
+        sym1 === sym2;
+      `;
+    const result = await evaluateScript(code);
+    expect(result).toBe(true);
+  });
+
+  it("Supports Symbol.keyFor", async () => {
+    const code = `
+        const sym = Symbol.for("sharedSymbol");
+        Symbol.keyFor(sym);
+      `;
+    const result = await evaluateScript(code);
+    expect(result).toBe("sharedSymbol");
+  });
 });

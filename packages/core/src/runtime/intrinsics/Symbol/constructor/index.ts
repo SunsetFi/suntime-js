@@ -1,13 +1,26 @@
-import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import toString from "../../algorithms/to-string.js";
+import toString from "../../../algorithms/to-string.js";
 
-import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
+import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
 import {
   isStaticJsObject,
   type StaticJsObject,
-} from "../../types/StaticJsObject.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
+} from "../../../types/StaticJsObject.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+
+import {
+  applyIntrinsicProperties,
+  type IntrinsicPropertyDeclaration,
+} from "../../utils.js";
+
+import symbolConstructorForDeclaration from "./for.js";
+import symbolConstructorKeyForDeclaration from "./keyFor.js";
+
+const declarations: IntrinsicPropertyDeclaration[] = [
+  symbolConstructorForDeclaration,
+  symbolConstructorKeyForDeclaration,
+];
 
 export default function createSymbolConstructor(
   realm: StaticJsRealm,
@@ -48,6 +61,8 @@ export default function createSymbolConstructor(
     enumerable: false,
     configurable: true,
   });
+
+  applyIntrinsicProperties(realm, ctor, declarations, functionProto);
 
   return ctor;
 }

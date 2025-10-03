@@ -44,18 +44,20 @@ import StaticJsExternalObject from "./StaticJsExternalObject.js";
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
 
 export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
-  private _prototypes: Prototypes;
-  private _constructors: Constructors;
+  private readonly _prototypes: Prototypes;
+  private readonly _constructors: Constructors;
 
-  private _zero: StaticJsNumber;
-  private _NaN: StaticJsNumber;
-  private _Infinity: StaticJsNumber;
+  private readonly _symbolRegistry = new Map<string, StaticJsSymbol>();
 
-  private _false: StaticJsBoolean;
-  private _true: StaticJsBoolean;
+  private readonly _zero: StaticJsNumber;
+  private readonly _NaN: StaticJsNumber;
+  private readonly _Infinity: StaticJsNumber;
 
-  private _null: StaticJsNull;
-  private _undefined: StaticJsUndefined;
+  private readonly _false: StaticJsBoolean;
+  private readonly _true: StaticJsBoolean;
+
+  private readonly _null: StaticJsNull;
+  private readonly _undefined: StaticJsUndefined;
 
   constructor(
     private readonly _realm: StaticJsRealm,
@@ -92,6 +94,10 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   get constructors(): Constructors {
     return this._constructors;
+  }
+
+  get symbolRegistry(): Map<string, StaticJsSymbol> {
+    return this._symbolRegistry;
   }
 
   get true(): StaticJsBoolean {

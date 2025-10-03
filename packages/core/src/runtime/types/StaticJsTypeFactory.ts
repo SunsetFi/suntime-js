@@ -38,6 +38,8 @@ export default interface StaticJsTypeFactory {
   readonly prototypes: Prototypes;
   readonly constructors: Constructors;
 
+  readonly symbolRegistry: Map<string, StaticJsSymbol>;
+
   readonly undefined: StaticJsUndefined;
   readonly null: StaticJsNull;
 
