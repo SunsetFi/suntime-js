@@ -9,6 +9,7 @@ export * from "./StaticJsPrimitive.js";
 export * from "./StaticJsPropertyDescriptor.js";
 export * from "./StaticJsScalar.js";
 export * from "./StaticJsString.js";
+export * from "./StaticJsSymbol.js";
 export * from "./StaticJsTypeFactory.js";
 export * from "./StaticJsUndefined.js";
 export * from "./StaticJsValue.js";

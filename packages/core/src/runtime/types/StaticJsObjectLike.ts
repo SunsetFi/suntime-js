@@ -4,6 +4,9 @@ import type { StaticJsPrimitive } from "./StaticJsPrimitive.js";
 import type { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
+import type { StaticJsSymbol } from "./StaticJsSymbol.js";
+
+export type StaticJsObjectPropertyKey = string | StaticJsSymbol;
 
 export interface StaticJsObjectLike extends StaticJsPrimitive {
   // We MUST NOT RESTRICT THIS to "object" | "array" | "function", or else
@@ -25,7 +28,16 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
 
   preventExtensionsEvaluator(): EvaluationGenerator<void>;
 
+  /**
+   * Gets all property keys, including non-enumerable and inherited ones.
+   * Excludes symbol keys.
+   */
   getKeysSync(): string[];
+
+  /**
+   * Gets an evaluator to get all property keys, including non-enumerable and inherited ones.
+   * Excludes symbol keys.
+   */
   getKeysEvaluator(): EvaluationGenerator<string[]>;
 
   getEnumerableKeysSync(): string[];
@@ -37,44 +49,54 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   getOwnEnumerableKeysSync(): string[];
   getOwnEnumerableKeysEvaluator(): EvaluationGenerator<string[]>;
 
-  hasPropertySync(name: string): boolean;
-  hasPropertyEvaluator(name: string): EvaluationGenerator<boolean>;
+  hasPropertySync(name: StaticJsObjectPropertyKey): boolean;
+  hasPropertyEvaluator(
+    name: StaticJsObjectPropertyKey,
+  ): EvaluationGenerator<boolean>;
 
   getPropertyDescriptorSync(
-    name: string,
+    name: StaticJsObjectPropertyKey,
   ): StaticJsPropertyDescriptor | undefined;
   getPropertyDescriptorEvaluator(
-    name: string,
+    name: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
   getOwnPropertyDescriptorSync(
-    name: string,
+    name: StaticJsObjectPropertyKey,
   ): StaticJsPropertyDescriptor | undefined;
   getOwnPropertyDescriptorEvaluator(
-    name: string,
+    name: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
   definePropertySync(
-    name: string,
+    name: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): void;
   definePropertyEvaluator(
-    name: string,
+    name: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<void>;
 
-  getPropertySync(name: string): StaticJsValue;
-  getPropertyEvaluator(name: string): EvaluationGenerator<StaticJsValue>;
+  getPropertySync(name: StaticJsObjectPropertyKey): StaticJsValue;
+  getPropertyEvaluator(
+    name: StaticJsObjectPropertyKey,
+  ): EvaluationGenerator<StaticJsValue>;
 
-  setPropertySync(name: string, value: StaticJsValue, strict: boolean): void;
+  setPropertySync(
+    name: StaticJsObjectPropertyKey,
+    value: StaticJsValue,
+    strict: boolean,
+  ): void;
   setPropertyEvaluator(
-    name: string,
+    name: StaticJsObjectPropertyKey,
     value: StaticJsValue,
     strict: boolean,
   ): EvaluationGenerator<void>;
 
-  deletePropertySync(name: string): boolean;
-  deletePropertyEvaluator(name: string): EvaluationGenerator<boolean>;
+  deletePropertySync(name: StaticJsObjectPropertyKey): boolean;
+  deletePropertyEvaluator(
+    name: StaticJsObjectPropertyKey,
+  ): EvaluationGenerator<boolean>;
 }
 
 export function isStaticJsObjectLike(
@@ -83,7 +105,7 @@ export function isStaticJsObjectLike(
   if (!isStaticJsValue(value)) {
     return false;
   }
-  return ["object", "array", "function", "promise"].includes(
+  return ["object", "array", "function", "promise", "symbol"].includes(
     value.runtimeTypeOf,
   );
 }

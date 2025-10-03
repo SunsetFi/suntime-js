@@ -10,6 +10,7 @@ import type { StaticJsObject } from "./StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import type { StaticJsString } from "./StaticJsString.js";
+import type { StaticJsSymbol } from "./StaticJsSymbol.js";
 import type { StaticJsUndefined } from "./StaticJsUndefined.js";
 
 export type ErrorTypeName =
@@ -55,6 +56,8 @@ export default interface StaticJsTypeFactory {
     properties?: Record<string, StaticJsPropertyDescriptor>,
     prototype?: StaticJsTypeCreationPrototype,
   ): StaticJsObject;
+
+  symbol(description?: string): StaticJsSymbol;
 
   array(items?: StaticJsValue[]): StaticJsArray;
 

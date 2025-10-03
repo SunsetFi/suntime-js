@@ -1,7 +1,10 @@
 import type { UnaryExpression } from "@babel/types";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
+import {
+  isStaticJsObjectLike,
+  type StaticJsObjectPropertyKey,
+} from "../../runtime/types/StaticJsObjectLike.js";
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -83,19 +86,19 @@ function* deleteExpressionNodeEvaluator(
       );
     }
 
-    const property = argument.property;
-    let propertyName: string;
-    if (!argument.computed && property.type === "Identifier") {
-      propertyName = property.name;
+    const propertyNode = argument.property;
+    let propertyKey: StaticJsObjectPropertyKey;
+    if (!argument.computed && propertyNode.type === "Identifier") {
+      propertyKey = propertyNode.name;
     } else {
-      const propertyValue = yield* EvaluateNodeCommand(property, context, {
+      const propertyValue = yield* EvaluateNodeCommand(propertyNode, context, {
         forNormalValue: "UnaryExpression.argument<MemberExpression>.property",
       });
 
-      propertyName = toPropertyKey(propertyValue);
+      propertyKey = yield* toPropertyKey(propertyValue, context.realm);
     }
 
-    const result = yield* object.deletePropertyEvaluator(propertyName);
+    const result = yield* object.deletePropertyEvaluator(propertyKey);
     return context.realm.types.boolean(result);
   } else if (argument.type === "Identifier") {
     const env = context.env;

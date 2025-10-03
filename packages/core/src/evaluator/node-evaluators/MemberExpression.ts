@@ -5,6 +5,9 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 import { isStaticJsNull } from "../../runtime/types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
+import type { StaticJsObjectPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
+
+import toObject from "../../runtime/algorithms/to-object.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -14,7 +17,6 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import nameNode from "./name-node.js";
-import toObject from "../../runtime/algorithms/to-object.js";
 
 export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,
@@ -46,7 +48,7 @@ export default function* memberExpressionNodeEvaluator(
   // Perform boxing if needed.
   target = yield* toObject(target, context.realm);
 
-  let propertyName: string;
+  let propertyKey: StaticJsObjectPropertyKey;
   if (propertyNode.type === "PrivateName") {
     // TODO: Support private fields
     // We just need to know if the target is a 'this' and we are inside the class.
@@ -55,14 +57,14 @@ export default function* memberExpressionNodeEvaluator(
   }
 
   if (!node.computed && propertyNode.type === "Identifier") {
-    propertyName = propertyNode.name;
+    propertyKey = propertyNode.name;
   } else {
     const property = yield* EvaluateNodeCommand(propertyNode, context, {
       forNormalValue: "MemberExpression.property",
     });
-    propertyName = toPropertyKey(property);
+    propertyKey = yield* toPropertyKey(property, context.realm);
   }
 
-  const value = yield* target.getPropertyEvaluator(propertyName);
+  const value = yield* target.getPropertyEvaluator(propertyKey);
   return value;
 }

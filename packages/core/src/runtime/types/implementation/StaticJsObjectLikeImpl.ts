@@ -10,12 +10,19 @@ import {
 } from "../StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
-import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
+import type {
+  StaticJsObjectLike,
+  StaticJsObjectPropertyKey,
+} from "../StaticJsObjectLike.js";
+import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 
 export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObject {
-  private readonly _contents = new Map<string, StaticJsPropertyDescriptor>();
+  private readonly _contents = new Map<
+    StaticJsObjectPropertyKey,
+    StaticJsPropertyDescriptor
+  >();
 
   constructor(
     realm: StaticJsRealm,
@@ -25,9 +32,7 @@ export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObj
   }
 
   *getOwnKeysEvaluator(): EvaluationGenerator<string[]> {
-    return Array.from(this._contents.keys()).filter((x) =>
-      this._contents.get(x),
-    );
+    return Array.from(this._contents.keys()).filter(isStringProperty);
   }
 
   *getOwnPropertyDescriptorEvaluator(
@@ -38,7 +43,6 @@ export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObj
       return undefined;
     }
 
-    // FIXME: Where should the defaults be resolved?
     if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
       return {
         configurable: false,
@@ -60,7 +64,7 @@ export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObj
   }
 
   protected *_setWritableDataPropertyEvaluator(
-    name: string,
+    name: StaticJsObjectPropertyKey,
     value: StaticJsValue,
   ): EvaluationGenerator<void> {
     this._contents.set(name, {
@@ -70,7 +74,7 @@ export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObj
   }
 
   protected *_definePropertyEvaluator(
-    name: string,
+    name: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<void> {
     this._contents.set(name, {
@@ -80,8 +84,12 @@ export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObj
   }
 
   protected *_deleteConfigurablePropertyEvaluator(
-    name: string,
+    name: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<boolean> {
     return this._contents.delete(name);
   }
+}
+
+function isStringProperty(x: string | StaticJsSymbol): x is string {
+  return typeof x === "string";
 }

@@ -62,8 +62,8 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 
 export default function populateStringPrototype(
   realm: StaticJsRealm,
-  objectProto: StaticJsObject,
+  stringProto: StaticJsObject,
   functionProto: StaticJsObject,
 ) {
-  applyIntrinsicProperties(realm, objectProto, declarations, functionProto);
+  applyIntrinsicProperties(realm, stringProto, declarations, functionProto);
 }

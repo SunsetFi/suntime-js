@@ -21,6 +21,7 @@ import type { StaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 import type { StaticJsNumber } from "../StaticJsNumber.js";
 import type { StaticJsString } from "../StaticJsString.js";
+import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 
 import {
   constructorKeys,
@@ -36,6 +37,7 @@ import StaticJsNullImpl from "./StaticJsNullImpl.js";
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectImpl from "./StaticJsObjectImpl.js";
 import StaticJsStringImpl from "./StaticJsStringImpl.js";
+import StaticJsSymbolImpl from "./StaticJsSymbolImpl.js";
 import StaticJsUndefinedImpl from "./StaticJsUndefinedImpl.js";
 import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
 import StaticJsExternalObject from "./StaticJsExternalObject.js";
@@ -139,6 +141,10 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     }
 
     return obj;
+  }
+
+  symbol(description?: string): StaticJsSymbol {
+    return new StaticJsSymbolImpl(this._realm, description);
   }
 
   array(items?: StaticJsValue[]): StaticJsArray {

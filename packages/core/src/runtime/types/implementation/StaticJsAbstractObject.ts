@@ -8,6 +8,8 @@ import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
+import toString from "../../algorithms/to-string.js";
+
 import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
@@ -19,13 +21,14 @@ import { isStaticJsNull } from "../StaticJsNull.js";
 import {
   isStaticJsObjectLike,
   type StaticJsObjectLike,
+  type StaticJsObjectPropertyKey,
 } from "../StaticJsObjectLike.js";
 import { type StaticJsObject } from "../StaticJsObject.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
-import toString from "../../algorithms/to-string.js";
+
 import createStaticJsObjectLikeProxy from "./create-object-proxy.js";
 
 export default abstract class StaticJsAbstractObject
@@ -148,17 +151,19 @@ export default abstract class StaticJsAbstractObject
     return filtered;
   }
 
-  hasPropertySync(name: string): boolean {
+  hasPropertySync(name: StaticJsObjectPropertyKey): boolean {
     return this.realm.invokeEvaluatorSync(this.hasPropertyEvaluator(name));
   }
 
-  *hasPropertyEvaluator(name: string): EvaluationGenerator<boolean> {
+  *hasPropertyEvaluator(
+    name: StaticJsObjectPropertyKey,
+  ): EvaluationGenerator<boolean> {
     const decl = yield* this.getPropertyDescriptorEvaluator(name);
     return decl !== undefined;
   }
 
   getPropertyDescriptorSync(
-    name: string,
+    name: StaticJsObjectPropertyKey,
   ): StaticJsPropertyDescriptor | undefined {
     return this.realm.invokeEvaluatorSync(
       this.getPropertyDescriptorEvaluator(name),
@@ -166,7 +171,7 @@ export default abstract class StaticJsAbstractObject
   }
 
   *getPropertyDescriptorEvaluator(
-    name: string,
+    name: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     let target: StaticJsObjectLike | null = this;
@@ -178,7 +183,7 @@ export default abstract class StaticJsAbstractObject
   }
 
   getOwnPropertyDescriptorSync(
-    name: string,
+    name: StaticJsObjectPropertyKey,
   ): StaticJsPropertyDescriptor | undefined {
     return this.realm.invokeEvaluatorSync(
       this.getOwnPropertyDescriptorEvaluator(name),
@@ -186,7 +191,7 @@ export default abstract class StaticJsAbstractObject
   }
 
   definePropertySync(
-    name: string,
+    name: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): void {
     this.realm.invokeEvaluatorSync(
@@ -195,7 +200,7 @@ export default abstract class StaticJsAbstractObject
   }
 
   *definePropertyEvaluator(
-    name: string,
+    name: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<void> {
     // FIXME: Return throw completion?
@@ -251,14 +256,16 @@ export default abstract class StaticJsAbstractObject
   }
 
   abstract getOwnPropertyDescriptorEvaluator(
-    name: string,
+    name: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
-  getPropertySync(name: string): StaticJsValue {
+  getPropertySync(name: StaticJsObjectPropertyKey): StaticJsValue {
     return this.realm.invokeEvaluatorSync(this.getPropertyEvaluator(name));
   }
 
-  *getPropertyEvaluator(name: string): EvaluationGenerator<StaticJsValue> {
+  *getPropertyEvaluator(
+    name: StaticJsObjectPropertyKey,
+  ): EvaluationGenerator<StaticJsValue> {
     const decl = yield* this.getPropertyDescriptorEvaluator(name);
     if (decl === undefined) {
       return this.realm.types.undefined;
@@ -290,14 +297,18 @@ export default abstract class StaticJsAbstractObject
     return value;
   }
 
-  setPropertySync(name: string, value: StaticJsValue, strict: boolean): void {
+  setPropertySync(
+    name: StaticJsObjectPropertyKey,
+    value: StaticJsValue,
+    strict: boolean,
+  ): void {
     this.realm.invokeEvaluatorSync(
       this.setPropertyEvaluator(name, value, strict),
     );
   }
 
   *setPropertyEvaluator(
-    name: string,
+    name: StaticJsObjectPropertyKey,
     value: StaticJsValue,
     strict: boolean,
   ): EvaluationGenerator<void> {
@@ -377,11 +388,13 @@ export default abstract class StaticJsAbstractObject
     });
   }
 
-  deletePropertySync(name: string): boolean {
+  deletePropertySync(name: StaticJsObjectPropertyKey): boolean {
     return this.realm.invokeEvaluatorSync(this.deletePropertyEvaluator(name));
   }
 
-  *deletePropertyEvaluator(name: string): EvaluationGenerator<boolean> {
+  *deletePropertyEvaluator(
+    name: StaticJsObjectPropertyKey,
+  ): EvaluationGenerator<boolean> {
     if (!this.extensible) {
       return false;
     }
@@ -420,16 +433,16 @@ export default abstract class StaticJsAbstractObject
   protected _configureToJsProxy(_traps: ProxyHandler<object>): void {}
 
   protected abstract _setWritableDataPropertyEvaluator(
-    name: string,
+    name: StaticJsObjectPropertyKey,
     value: StaticJsValue,
   ): EvaluationGenerator<void>;
 
   protected abstract _definePropertyEvaluator(
-    name: string,
+    name: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<void>;
 
   protected abstract _deleteConfigurablePropertyEvaluator(
-    name: string,
+    name: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<boolean>;
 }

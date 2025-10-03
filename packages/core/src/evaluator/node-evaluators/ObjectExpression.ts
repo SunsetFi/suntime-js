@@ -10,6 +10,8 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import type { StaticJsObject } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
+import type { StaticJsObjectPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
+import toString from "../../runtime/algorithms/to-string.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -67,20 +69,24 @@ function* objectExpressionPropertyObjectMethodEvaluator(
   property: ObjectMethod,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const propertyKey = property.key;
-  let propertyName: string;
-  if (!property.computed && propertyKey.type === "Identifier") {
+  const propertyKeyNode = property.key;
+  let propertyKey: StaticJsObjectPropertyKey;
+  let functionName: string;
+  if (!property.computed && propertyKeyNode.type === "Identifier") {
     // Identifiers evaluate to their values, but we want their name.
-    propertyName = propertyKey.name;
+    propertyKey = propertyKeyNode.name;
+    functionName = propertyKeyNode.name;
   } else {
-    const property = yield* EvaluateNodeCommand(propertyKey, context, {
+    const property = yield* EvaluateNodeCommand(propertyKeyNode, context, {
       forNormalValue: "ObjectMethod.key",
     });
-    propertyName = toPropertyKey(property);
+    propertyKey = yield* toPropertyKey(property, context.realm);
+    const propertyName = yield* toString(property, context.realm);
+    functionName = propertyName.value;
   }
 
   const method = createFunction(
-    propertyName,
+    functionName,
     property,
     context.strict ? "strict" : "lexical",
     context,
@@ -88,11 +94,11 @@ function* objectExpressionPropertyObjectMethodEvaluator(
 
   switch (property.kind) {
     case "method": {
-      yield* target.setPropertyEvaluator(propertyName, method, context.strict);
+      yield* target.setPropertyEvaluator(propertyKey, method, context.strict);
       return null;
     }
     case "get": {
-      yield* target.definePropertyEvaluator(propertyName, {
+      yield* target.definePropertyEvaluator(propertyKey, {
         enumerable: true,
         configurable: true,
         get: method,
@@ -100,7 +106,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
       return null;
     }
     case "set": {
-      yield* target.definePropertyEvaluator(propertyName, {
+      yield* target.definePropertyEvaluator(propertyKey, {
         enumerable: true,
         configurable: true,
         set: method,
@@ -118,23 +124,23 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
   property: ObjectProperty,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const propertyKey = property.key;
-  let propertyName: string;
-  if (!property.computed && propertyKey.type === "Identifier") {
-    propertyName = propertyKey.name;
-  } else if (propertyKey.type === "PrivateName") {
+  const propertyKeyNode = property.key;
+  let propertyKey: StaticJsObjectPropertyKey;
+  if (!property.computed && propertyKeyNode.type === "Identifier") {
+    propertyKey = propertyKeyNode.name;
+  } else if (propertyKeyNode.type === "PrivateName") {
     throw new StaticJsEngineError("Private fields are not supported");
   } else {
-    const property = yield* EvaluateNodeCommand(propertyKey, context, {
+    const property = yield* EvaluateNodeCommand(propertyKeyNode, context, {
       forNormalValue: "ObjectProperty.key",
     });
-    propertyName = toPropertyKey(property);
+    propertyKey = yield* toPropertyKey(property, context.realm);
   }
 
   const value = yield* EvaluateNodeCommand(property.value, context, {
     forNormalValue: "ObjectProperty.value",
   });
-  yield* target.setPropertyEvaluator(propertyName, value, context.strict);
+  yield* target.setPropertyEvaluator(propertyKey, value, context.strict);
   return null;
 }
 

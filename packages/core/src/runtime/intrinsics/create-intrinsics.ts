@@ -66,6 +66,10 @@ import globalObjectNaNDeclaration from "./NaN.js";
 import globalObjectParseFloatDeclaration from "./parseFloat.js";
 import globalObjectParseIntDeclaration from "./parseInt.js";
 import globalObjectUndefinedDeclaration from "./undefined.js";
+import {
+  createSymbolConstructor,
+  populateSymbolPrototype,
+} from "./Symbol/index.js";
 
 export type { Instrinsics, Prototypes };
 
@@ -102,6 +106,7 @@ function createPrototypes(realm: StaticJsRealm): Prototypes {
   const numberProto = new StaticJsObjectImpl(realm, objectProto);
   const booleanProto = new StaticJsObjectImpl(realm, objectProto);
   const arrayProto = new StaticJsObjectImpl(realm, objectProto);
+  const symbolProto = new StaticJsObjectImpl(realm, objectProto);
 
   const promiseProto = new StaticJsObjectImpl(realm, objectProto);
 
@@ -119,6 +124,8 @@ function createPrototypes(realm: StaticJsRealm): Prototypes {
 
   populateArrayPrototype(realm, arrayProto, functionProto);
 
+  populateSymbolPrototype(realm, symbolProto, functionProto);
+
   populatePromisePrototype(realm, promiseProto, functionProto);
 
   populateErrorPrototype(realm, errorProto, functionProto);
@@ -131,6 +138,7 @@ function createPrototypes(realm: StaticJsRealm): Prototypes {
     numberProto,
     booleanProto,
     objectProto,
+    symbolProto,
     arrayProto,
     functionProto,
     promiseProto,
@@ -150,6 +158,7 @@ function createConstructors(
     objectProto,
     functionProto,
     arrayProto,
+    symbolProto,
     promiseProto,
     errorProto,
     typeErrorProto,
@@ -161,6 +170,7 @@ function createConstructors(
   const Number = createNumberConstructor(realm, numberProto, functionProto);
   const Boolean = createBooleanConstructor(realm, booleanProto, functionProto);
   const Object = createObjectConstructor(realm, objectProto, functionProto);
+  const Symbol = createSymbolConstructor(realm, symbolProto, functionProto);
   const Array = createArrayConstructor(realm, arrayProto, functionProto);
   const Function = createFunctionConstructor(realm, functionProto);
   const Promise = createPromiseConstructor(realm, promiseProto, functionProto);
@@ -186,6 +196,7 @@ function createConstructors(
     Number,
     Boolean,
     Object,
+    Symbol,
     Array,
     Function,
     Promise,

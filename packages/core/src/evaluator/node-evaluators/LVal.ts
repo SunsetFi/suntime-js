@@ -7,7 +7,10 @@ import toObject from "../../runtime/algorithms/to-object.js";
 
 import sliceArrayNative from "../../runtime/types/utils/slice-array-native.js";
 import { isStaticJsArray } from "../../runtime/types/StaticJsArray.js";
-import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
+import {
+  isStaticJsObjectLike,
+  type StaticJsObjectPropertyKey,
+} from "../../runtime/types/StaticJsObjectLike.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
@@ -55,7 +58,7 @@ export default function* setLVal(
   // Type hack: Our overloads force us to either be nullable or non-nullable,
   // but the variance of the function doesn't actually let us have either-or.
   const setNamedVariable = _setNamedVariable as (
-    name: string,
+    name: StaticJsObjectPropertyKey,
     value: StaticJsValue | null,
   ) => EvaluationGenerator<void>;
 
@@ -130,18 +133,18 @@ export default function* setLVal(
             setNamedVariable,
           );
         } else {
-          const propertyKey = property.key;
-          let keyName: string;
-          if (!property.computed && propertyKey.type === "Identifier") {
-            keyName = propertyKey.name;
+          const propertyKeyNode = property.key;
+          let propertyKey: StaticJsObjectPropertyKey;
+          if (!property.computed && propertyKeyNode.type === "Identifier") {
+            propertyKey = propertyKeyNode.name;
           } else {
-            const value = yield* EvaluateNodeCommand(propertyKey, context, {
+            const value = yield* EvaluateNodeCommand(propertyKeyNode, context, {
               forNormalValue: "ObjectPattern.properties[].key",
             });
-            keyName = toPropertyKey(value);
+            propertyKey = yield* toPropertyKey(value, context.realm);
           }
 
-          const propertyValue = yield* value.getPropertyEvaluator(keyName);
+          const propertyValue = yield* value.getPropertyEvaluator(propertyKey);
 
           if (!property.computed && property.value.type === "Identifier") {
             yield* setNamedVariable(property.value.name, propertyValue);
@@ -191,14 +194,14 @@ export default function* setLVal(
         throw new StaticJsEngineError("Cannot set property without value");
       }
 
-      let propertyKey: string;
+      let propertyKey: StaticJsObjectPropertyKey;
       if (!lval.computed && lval.property.type === "Identifier") {
         propertyKey = lval.property.name;
       } else {
         const property = yield* EvaluateNodeCommand(lval.property, context, {
           forNormalValue: "MemberExpression.property",
         });
-        propertyKey = toPropertyKey(property);
+        propertyKey = yield* toPropertyKey(property, context.realm);
       }
 
       const object = yield* toObject(objectValue, context.realm);

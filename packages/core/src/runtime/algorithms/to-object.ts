@@ -43,8 +43,6 @@ export default function* toObject(
     return new StaticJsStringBoxed(realm, value.value);
   }
 
-  // TODO symbol
-
   if (isStaticJsObjectLike(value)) {
     return value;
   }

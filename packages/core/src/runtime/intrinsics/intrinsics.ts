@@ -9,6 +9,7 @@ export interface Prototypes {
   arrayProto: StaticJsObject;
   functionProto: StaticJsObject;
   promiseProto: StaticJsObject;
+  symbolProto: StaticJsObject;
 
   errorProto: StaticJsObject;
   typeErrorProto: StaticJsObject;
@@ -21,6 +22,7 @@ export const prototypeKeys = [
   "numberProto",
   "booleanProto",
   "objectProto",
+  "symbolProto",
   "arrayProto",
   "functionProto",
   "promiseProto",
@@ -35,6 +37,7 @@ export interface Constructors {
   Number: StaticJsFunction;
   Boolean: StaticJsFunction;
   Object: StaticJsFunction;
+  Symbol: StaticJsFunction;
   Array: StaticJsFunction;
   Function: StaticJsFunction;
   Promise: StaticJsFunction;
@@ -49,6 +52,7 @@ export const constructorKeys = [
   "Number",
   "Boolean",
   "Object",
+  "Symbol",
   "Array",
   "Function",
   "Promise",
