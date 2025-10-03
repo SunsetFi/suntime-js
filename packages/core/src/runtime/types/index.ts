@@ -4,6 +4,7 @@ export * from "./StaticJsFunction.js";
 export * from "./StaticJsNull.js";
 export * from "./StaticJsNumber.js";
 export * from "./StaticJsObject.js";
+export * from "./StaticJsObjectLike.js";
 export * from "./StaticJsPrimitive.js";
 export * from "./StaticJsPropertyDescriptor.js";
 export * from "./StaticJsScalar.js";

@@ -14,7 +14,7 @@ import {
 } from "../StaticJsFunction.js";
 import { type StaticJsPromise } from "../StaticJsPromise.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
-import type { StaticJsObjectLike } from "../StaticJsObject.js";
+import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 

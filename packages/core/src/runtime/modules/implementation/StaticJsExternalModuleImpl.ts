@@ -1,6 +1,6 @@
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsObjectLike } from "../../types/StaticJsObject.js";
+import type { StaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";

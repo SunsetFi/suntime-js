@@ -1,7 +1,7 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import StaticJsObjectImpl from "../types/implementation/StaticJsObjectImpl.js";
-import type { StaticJsObjectLike } from "../types/StaticJsObject.js";
+import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
 import type {
   Constructors,

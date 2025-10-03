@@ -5,7 +5,7 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import toString from "../../runtime/algorithms/to-string.js";
 import toNumber from "../../runtime/algorithms/to-number.js";
 
-import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObject.js";
+import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 

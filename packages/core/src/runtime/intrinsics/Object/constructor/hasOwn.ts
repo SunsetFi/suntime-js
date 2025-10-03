@@ -1,6 +1,6 @@
 import toObject from "../../../algorithms/to-object.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
-import { isStaticJsObjectLike } from "../../../types/StaticJsObject.js";
+import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 import { isStaticJsScalar } from "../../../types/StaticJsScalar.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 

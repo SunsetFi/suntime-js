@@ -3,7 +3,7 @@ import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js"
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import { isStaticJsObjectLike } from "../types/StaticJsObject.js";
+import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 

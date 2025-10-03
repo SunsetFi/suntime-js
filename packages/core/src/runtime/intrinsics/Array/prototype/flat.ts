@@ -6,7 +6,7 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import type { StaticJsObjectLike } from "../../../types/StaticJsObject.js";
+import type { StaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";

@@ -1,7 +1,7 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import toObject from "../../../algorithms/to-object.js";
 
-import { isStaticJsObjectLike } from "../../../types/StaticJsObject.js";
+import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 import { validateStaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
 
 import toPropertyDescriptor from "../../../utils/to-property-descriptor.js";

@@ -1,4 +1,4 @@
-import type { StaticJsObjectLike } from "../StaticJsObject.js";
+import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,

@@ -21,7 +21,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsPromise } from "../StaticJsPromise.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsFunction } from "../StaticJsFunction.js";
-import { isStaticJsObjectLike } from "../StaticJsObject.js";
+import { isStaticJsObjectLike } from "../StaticJsObjectLike.js";
 
 import StaticJsAstFunction, {
   type StaticJsAstFunctionArgumentDeclaration,

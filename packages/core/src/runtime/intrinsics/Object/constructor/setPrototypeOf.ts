@@ -2,8 +2,8 @@ import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompleti
 import toObject from "../../../algorithms/to-object.js";
 
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
-import type { StaticJsObjectLike } from "../../../types/StaticJsObject.js";
-import { isStaticJsObjectLike } from "../../../types/StaticJsObject.js";
+import type { StaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 

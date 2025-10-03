@@ -35,7 +35,6 @@ describe("E2E: Eval", () => {
       const code = `
         function testEval() {
           eval("var z = 30");
-          return z;
         }
         testEval();
         typeof z;

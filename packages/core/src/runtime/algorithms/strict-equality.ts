@@ -3,7 +3,7 @@ import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsBoolean } from "../types/StaticJsBoolean.js";
-import { isStaticJsObjectLike } from "../types/StaticJsObject.js";
+import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 export default function* strictEquality(

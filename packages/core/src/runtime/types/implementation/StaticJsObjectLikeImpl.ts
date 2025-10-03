@@ -10,7 +10,7 @@ import {
 } from "../StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
-import type { StaticJsObjectLike } from "../StaticJsObject.js";
+import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 

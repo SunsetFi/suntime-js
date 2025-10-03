@@ -8,7 +8,7 @@ import {
 import {
   isStaticJsObjectLike,
   type StaticJsObjectLike,
-} from "../types/StaticJsObject.js";
+} from "../types/StaticJsObjectLike.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 

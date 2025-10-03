@@ -4,7 +4,7 @@ import type { StaticJsRealm } from "../../../../realm/StaticJsRealm.js";
 
 import toInteger from "../../../../algorithms/to-integer.js";
 
-import type { StaticJsObjectLike } from "../../../../types/StaticJsObject.js";
+import type { StaticJsObjectLike } from "../../../../types/StaticJsObjectLike.js";
 import { MAX_ARRAY_LENGTH } from "../../../../types/StaticJsArray.js";
 
 export default function* getLength(

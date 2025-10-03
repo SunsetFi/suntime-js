@@ -7,7 +7,7 @@ import toObject from "../../runtime/algorithms/to-object.js";
 
 import sliceArrayNative from "../../runtime/types/utils/slice-array-native.js";
 import { isStaticJsArray } from "../../runtime/types/StaticJsArray.js";
-import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObject.js";
+import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";

@@ -1,6 +1,6 @@
 import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsObjectLike } from "./StaticJsObject.js";
+import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 

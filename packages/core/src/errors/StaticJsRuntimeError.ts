@@ -1,4 +1,4 @@
-import { isStaticJsObjectLike } from "../runtime/types/StaticJsObject.js";
+import { isStaticJsObjectLike } from "../runtime/types/StaticJsObjectLike.js";
 import { isStaticJsScalar } from "../runtime/types/StaticJsScalar.js";
 import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
 

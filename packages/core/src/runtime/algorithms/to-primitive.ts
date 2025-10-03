@@ -5,7 +5,7 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import type { StaticJsScalar } from "../types/StaticJsScalar.js";
-import { isStaticJsObjectLike } from "../types/StaticJsObject.js";
+import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 
 export default function* toPrimitive(

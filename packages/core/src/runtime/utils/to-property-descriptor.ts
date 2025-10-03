@@ -11,7 +11,7 @@ import type {
   StaticJsDataPropertyDescriptor,
 } from "../types/StaticJsPropertyDescriptor.js";
 import { isStaticJsFunction } from "../types/StaticJsFunction.js";
-import type { StaticJsObjectLike } from "../types/StaticJsObject.js";
+import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import toBoolean from "../algorithms/to-boolean.js";
 
 export default function* toPropertyDescriptor(

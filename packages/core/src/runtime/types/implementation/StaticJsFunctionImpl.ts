@@ -9,8 +9,8 @@ import type { StaticJsNull } from "../StaticJsNull.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
-import type { StaticJsObjectLike } from "../StaticJsObject.js";
-import { isStaticJsObjectLike } from "../StaticJsObject.js";
+import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
+import { isStaticJsObjectLike } from "../StaticJsObjectLike.js";
 
 import StaticJsStringImpl from "./StaticJsStringImpl.js";
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";

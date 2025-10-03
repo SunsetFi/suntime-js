@@ -18,9 +18,9 @@ import type { StaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 import {
   isStaticJsObjectLike,
-  type StaticJsObject,
   type StaticJsObjectLike,
-} from "../StaticJsObject.js";
+} from "../StaticJsObjectLike.js";
+import { type StaticJsObject } from "../StaticJsObject.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
 

@@ -11,7 +11,7 @@ import {
   isStaticJsBoolean,
   type StaticJsBoolean,
 } from "../types/StaticJsBoolean.js";
-import { isStaticJsObjectLike } from "../types/StaticJsObject.js";
+import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsScalar } from "../types/StaticJsScalar.js";
 
 import strictEquality from "./strict-equality.js";
