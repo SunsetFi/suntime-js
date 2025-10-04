@@ -18,10 +18,12 @@ import {
 
 import promiseCtorRejectDeclaration from "./reject.js";
 import promiseCtorResolveDeclaration from "./resolve.js";
+import promiseConstructorSymbolSpeciesDeclaration from "./symbol_species.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   promiseCtorRejectDeclaration,
   promiseCtorResolveDeclaration,
+  promiseConstructorSymbolSpeciesDeclaration,
 ];
 
 export default function createPromiseConstructor(
