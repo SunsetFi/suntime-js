@@ -97,7 +97,9 @@ describe("E2E: Assignment", () => {
         const a = [1, 2];
         a;
       `;
-      expect(await evaluateScript(code)).toEqual([1, 2]);
+
+      const result = await evaluateScript(code);
+      expect(result).toEqual([1, 2]);
     });
 
     it("Can be assigned to other variables", async () => {
@@ -106,7 +108,9 @@ describe("E2E: Assignment", () => {
         const b = a;
         b;
       `;
-      expect(await evaluateScript(code)).toEqual([1, 2]);
+
+      const result = await evaluateScript(code);
+      expect(result).toEqual([1, 2]);
     });
 
     it("Can be spread", async () => {
@@ -116,7 +120,32 @@ describe("E2E: Assignment", () => {
         const c = [1, ...a, ...b, 6];
         c;
       `;
-      expect(await evaluateScript(code)).toEqual([1, 2, 3, 4, 5, 6]);
+
+      const result = await evaluateScript(code);
+      expect(result).toEqual([1, 2, 3, 4, 5, 6]);
+    });
+
+    it("Sources from iterables", async () => {
+      const code = `
+        const iterable = {
+          [Symbol.iterator]() {
+            let count = 0;
+            return {
+              next() {
+                if (count < 5) {
+                  return { value: count++, done: false };
+                } else {
+                  return { value: undefined, done: true };
+                }
+              }
+            };
+          }
+        };
+        const [a, b, ...rest] = iterable;
+        [a, b, rest];
+      `;
+      const result = await evaluateScript(code);
+      expect(result).toEqual([0, 1, [2, 3, 4]]);
     });
   });
 });

@@ -4,9 +4,9 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
 
-import toBoolean from "../../runtime/algorithms/to-boolean.js";
+import getIterator from "../../runtime/algorithms/get-iterator.js";
+import getIteratorNext from "../../runtime/algorithms/get-iterator-next.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -57,57 +57,13 @@ export default function* callExpressionNodeEvaluator(
         forNormalValue: "ForInStatement.right",
       });
 
-      if (!isStaticJsObjectLike(iterable)) {
-        // NodeJS seems to stringify the value in place of 'Value'.  Maybe.  It returns {} when {} is used?
-        throw new ThrowCompletion(
-          context.realm.types.error("TypeError", "Value is not iterable"),
-        );
-      }
-
-      const iteratorFunc = yield* iterable.getPropertyEvaluator(
-        context.realm.types.symbols.iterator,
-      );
-      if (!isStaticJsFunction(iteratorFunc)) {
-        throw new ThrowCompletion(
-          context.realm.types.error("TypeError", "Value is not iterable"),
-        );
-      }
-
-      const iterator = yield* iteratorFunc.callEvaluator(iterable);
-      if (!isStaticJsObjectLike(iterator)) {
-        throw new ThrowCompletion(
-          context.realm.types.error(
-            "TypeError",
-            "Result of the Symbol.iterator method is not an object",
-          ),
-        );
-      }
+      const iterator = yield* getIterator(iterable, context.realm);
 
       while (true) {
-        const nextMethod = yield* iterator.getPropertyEvaluator("next");
-        if (!isStaticJsFunction(nextMethod)) {
-          throw new ThrowCompletion(
-            context.realm.types.error("TypeError", "next is not a function"),
-          );
-        }
-
-        const next = yield* nextMethod.callEvaluator(iterator);
-        if (!isStaticJsObjectLike(next)) {
-          throw new ThrowCompletion(
-            context.realm.types.error(
-              "TypeError",
-              "Result of next is not an object",
-            ),
-          );
-        }
-
-        const done = yield* next.getPropertyEvaluator("done");
-        const doneResult = yield* toBoolean(done, context.realm);
-        if (doneResult.value) {
+        const value = yield* getIteratorNext(iterator, context.realm);
+        if (value === false) {
           break;
         }
-
-        const value = yield* next.getPropertyEvaluator("value");
         args.push(value);
       }
     } else {

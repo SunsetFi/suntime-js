@@ -5,8 +5,6 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import toObject from "../../runtime/algorithms/to-object.js";
 
-import sliceArrayNative from "../../runtime/types/utils/slice-array-native.js";
-import { isStaticJsArray } from "../../runtime/types/StaticJsArray.js";
 import {
   isStaticJsObjectLike,
   type StaticJsObjectPropertyKey,
@@ -23,6 +21,8 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
+import getIterator from "../../runtime/algorithms/get-iterator.js";
+import getIteratorNext from "../../runtime/algorithms/get-iterator-next.js";
 
 export default function setLVal(
   lval: LVal,
@@ -68,27 +68,59 @@ export default function* setLVal(
       return null;
     }
     case "ArrayPattern": {
-      // FIXME: This should use iterators.
-      if (!isStaticJsArray(value)) {
+      if (!value) {
+        // This is a special case where we are declaring a variable without
+        // initializing it.
         throw new ThrowCompletion(
           context.realm.types.error(
             "TypeError",
-            "Cannot destructure non-array value",
+            "Missing initializer in destructuring declaration",
           ),
         );
       }
 
+      const iterator = yield* getIterator(value, context.realm);
+
+      let foundEnd = false;
       for (let index = 0; index < lval.elements.length; index++) {
         const element = lval.elements[index];
+
+        let value: StaticJsValue;
+        if (foundEnd) {
+          value = context.realm.types.undefined;
+        } else {
+          const next = yield* getIteratorNext(iterator, context.realm);
+          if (next === false) {
+            foundEnd = true;
+            value = context.realm.types.undefined;
+          } else {
+            value = next;
+          }
+        }
+
         if (element === null) {
           continue;
         }
 
-        const property = String(index);
-
         if (element.type === "RestElement") {
-          const restValueNative = yield* sliceArrayNative(value);
-          const restValue = context.realm.types.array(restValueNative);
+          const restItems: StaticJsValue[] = [];
+
+          // Add the current value!
+          restItems.push(value);
+
+          // And then get the rest of them.
+          while (true) {
+            const next = yield* getIteratorNext(iterator, context.realm);
+            if (next === false) {
+              // babel should enforce no more elements after a rest element, but just in case...
+              foundEnd = true;
+              break;
+            }
+
+            restItems.push(next);
+          }
+
+          const restValue = context.realm.types.array(restItems);
           yield* setLVal(
             element.argument,
             restValue,
@@ -96,18 +128,31 @@ export default function* setLVal(
             setNamedVariable,
           );
         } else {
-          const elementValue = yield* value.getPropertyEvaluator(property);
-          yield* setLVal(element, elementValue, context, setNamedVariable);
+          yield* setLVal(element, value, context, setNamedVariable);
         }
       }
 
       return null;
     }
     case "ObjectPattern": {
+      if (!value) {
+        // This is a special case where we are declaring a variable without
+        // initializing it.
+        throw new ThrowCompletion(
+          context.realm.types.error(
+            "TypeError",
+            "Missing initializer in destructuring declaration",
+          ),
+        );
+      }
+
       if (!isStaticJsObjectLike(value)) {
         // FIXME: Use real error.
         throw new ThrowCompletion(
-          context.realm.types.string("Cannot destructure non-object value"),
+          context.realm.types.error(
+            "TypeError",
+            "Cannot destructure non-object value",
+          ),
         );
       }
 
