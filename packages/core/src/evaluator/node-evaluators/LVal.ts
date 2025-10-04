@@ -4,6 +4,8 @@ import { isLVal } from "@babel/types";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import toObject from "../../runtime/algorithms/to-object.js";
+import getIterator from "../../runtime/algorithms/get-iterator.js";
+import getIteratorNext from "../../runtime/algorithms/get-iterator-next.js";
 
 import {
   isStaticJsObjectLike,
@@ -12,7 +14,6 @@ import {
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
-
 import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -21,8 +22,6 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
-import getIterator from "../../runtime/algorithms/get-iterator.js";
-import getIteratorNext from "../../runtime/algorithms/get-iterator-next.js";
 
 export default function setLVal(
   lval: LVal,

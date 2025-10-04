@@ -172,7 +172,7 @@ export function createIntrinsics(realm: StaticJsRealm): Intrinsics {
     prototypes,
     symbols,
   );
-  const Array = createArrayConstructor(realm, arrayProto, prototypes);
+  const Array = createArrayConstructor(realm, arrayProto, prototypes, symbols);
   const Function = createFunctionConstructor(realm, functionProto);
   const Promise = createPromiseConstructor(
     realm,

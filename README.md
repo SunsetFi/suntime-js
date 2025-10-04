@@ -31,12 +31,13 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
   - function
 - Strict directive
 - Symbols
-  - Symbol.iterator engine behavior
+  - Symbol.iterator and engine behavior (destructuring, for / of)
+  - Symbol.hasInstance
 - Promises
 - Async Functions
 - Math
 - Error (and variants)
-- for / while / do
+- for / for-of / for-in / while / do
 - try / catch / finally
 - Destructuring
 - Spread operators (internal array and object instances only).

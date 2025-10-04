@@ -7,12 +7,24 @@ import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunction
 import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
-import type { Prototypes } from "../../intrinsics.js";
+import type { IntrinsicSymbols, Prototypes } from "../../intrinsics.js";
+
+import {
+  applyIntrinsicProperties,
+  type IntrinsicPropertyDeclaration,
+} from "../../utils.js";
+
+import arrayConstructorSymbolSpeciesDeclaration from "./symbol_species.js";
+
+const declarations: IntrinsicPropertyDeclaration[] = [
+  arrayConstructorSymbolSpeciesDeclaration,
+];
 
 export default function createArrayConstructor(
   realm: StaticJsRealm,
   arrayProto: StaticJsObject,
   prototypes: Prototypes,
+  symbols: IntrinsicSymbols,
 ) {
   const ctor = new StaticJsFunctionImpl(
     realm,
@@ -45,6 +57,8 @@ export default function createArrayConstructor(
     enumerable: false,
     configurable: true,
   });
+
+  applyIntrinsicProperties(realm, ctor, declarations, prototypes, symbols);
 
   return ctor;
 }

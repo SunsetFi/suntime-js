@@ -6,13 +6,27 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+import toBoolean from "./to-boolean.js";
 
 export default function* ordinaryHasInstance(
   C: StaticJsValue,
   O: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<boolean> {
-  if (!isStaticJsFunction(C) || !isStaticJsObjectLike(O)) {
+  if (!isStaticJsObjectLike(C)) {
+    return false;
+  }
+
+  const hasInstanceFunc = yield* C.getPropertyEvaluator(
+    realm.types.symbols.hasInstance,
+  );
+  if (isStaticJsFunction(hasInstanceFunc)) {
+    const result = yield* hasInstanceFunc.callEvaluator(C, O);
+    const resultBool = yield* toBoolean(result, realm);
+    return resultBool.value;
+  }
+
+  if (!isStaticJsObjectLike(O)) {
     return false;
   }
 
@@ -22,8 +36,6 @@ export default function* ordinaryHasInstance(
       realm.types.error("TypeError", "Function has non-object prototype"),
     );
   }
-
-  // TODO: Symbol nonsense.
 
   let current = O.prototype;
 

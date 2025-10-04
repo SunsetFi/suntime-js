@@ -3,6 +3,15 @@ import { describe, it, expect } from "vitest";
 import { evaluateScript } from "../../src/index.js";
 
 describe("E2E: Arrays", () => {
+  it("Is instanceof Array", async () => {
+    const code = `
+      const a = [];
+      a instanceof Array;
+    `;
+    const result = await evaluateScript(code);
+    expect(result).toEqual(true);
+  });
+
   it("Can declare an array", async () => {
     const code = `
       const a = [1, 2, 3];

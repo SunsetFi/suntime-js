@@ -15,29 +15,36 @@ import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 export default function* speciesConstructor(
-  obj: StaticJsObjectLike,
+  O: StaticJsObjectLike,
   defaultConstructor: StaticJsFunction,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsFunction> {
-  const ctor = yield* obj.getPropertyEvaluator("constructor");
+  const C = yield* O.getPropertyEvaluator("constructor");
 
-  if (isStaticJsNull(ctor) || isStaticJsUndefined(ctor)) {
+  if (isStaticJsUndefined(C)) {
     return defaultConstructor;
   }
 
-  if (!isStaticJsObjectLike(ctor)) {
+  if (isStaticJsNull(C) || isStaticJsUndefined(C)) {
+    return defaultConstructor;
+  }
+
+  if (!isStaticJsObjectLike(C)) {
     throw new ThrowCompletion(
       realm.types.error("TypeError", "Constructor is not an object"),
     );
   }
 
-  // TODO: Get species from symbol.
+  const S = yield* C.getPropertyEvaluator(realm.types.symbols.species);
+  if (isStaticJsNull(S) || isStaticJsUndefined(S)) {
+    return defaultConstructor;
+  }
 
-  if (!isStaticJsFunction(ctor) || !ctor.isConstructor) {
+  if (!isStaticJsFunction(S) || !S.isConstructor) {
     throw new ThrowCompletion(
       realm.types.error("TypeError", "Species is not a constructor"),
     );
   }
 
-  return ctor;
+  return S;
 }
