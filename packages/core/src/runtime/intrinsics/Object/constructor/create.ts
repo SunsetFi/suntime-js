@@ -6,7 +6,7 @@ import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorCreateDeclaration: IntrinsicPropertyDeclaration = {
-  name: "create",
+  key: "create",
   *func(realm, thisArg, protoValue) {
     if (!isStaticJsNull(protoValue) && !isStaticJsObjectLike(protoValue)) {
       throw new ThrowCompletion(

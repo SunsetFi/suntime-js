@@ -2,17 +2,19 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
-import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
-import StaticJsPromiseImpl from "../../../types/implementation/StaticJsPromiseImpl.js";
-import {
-  isStaticJsFunction,
-  isStaticJsObjectLike,
-  type StaticJsObject,
-} from "../../../types/index.js";
+import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
+import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsPromise } from "../../../types/StaticJsPromise.js";
 
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-import { applyIntrinsicProperties } from "../../utils.js";
+import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
+import StaticJsPromiseImpl from "../../../types/implementation/StaticJsPromiseImpl.js";
+
+import type { IntrinsicSymbols, Prototypes } from "../../intrinsics.js";
+import {
+  applyIntrinsicProperties,
+  type IntrinsicPropertyDeclaration,
+} from "../../utils.js";
 
 import promiseCtorRejectDeclaration from "./reject.js";
 import promiseCtorResolveDeclaration from "./resolve.js";
@@ -25,7 +27,8 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 export default function createPromiseConstructor(
   realm: StaticJsRealm,
   objectProto: StaticJsObject,
-  functionProto: StaticJsObject,
+  prototypes: Prototypes,
+  intrinsicSymbols: IntrinsicSymbols,
 ) {
   const ctor = new StaticJsFunctionImpl(
     realm,
@@ -70,7 +73,7 @@ export default function createPromiseConstructor(
 
       return promise;
     },
-    { prototype: functionProto, isConstructor: true },
+    { prototype: prototypes.functionProto, isConstructor: true },
   );
 
   ctor.definePropertySync("prototype", {
@@ -86,7 +89,13 @@ export default function createPromiseConstructor(
     configurable: true,
   });
 
-  applyIntrinsicProperties(realm, ctor, declarations, functionProto);
+  applyIntrinsicProperties(
+    realm,
+    ctor,
+    declarations,
+    prototypes,
+    intrinsicSymbols,
+  );
 
   return ctor;
 }

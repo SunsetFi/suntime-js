@@ -9,7 +9,7 @@ import toPropertyDescriptor from "../../../utils/to-property-descriptor.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
-  name: "defineProperties",
+  key: "defineProperties",
   *func(realm, _thisArg, targetValue, propertiesValue) {
     if (!isStaticJsObjectLike(targetValue)) {
       throw new ThrowCompletion(

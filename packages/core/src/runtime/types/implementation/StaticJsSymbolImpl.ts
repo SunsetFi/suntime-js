@@ -1,5 +1,7 @@
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
+import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
+
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
@@ -25,8 +27,9 @@ export default class StaticJsSymbolImpl
   constructor(
     realm: StaticJsRealm,
     descriptionOrSymbol: string | symbol | undefined,
+    prototype?: StaticJsObjectLike | undefined,
   ) {
-    super(realm, realm.types.prototypes.symbolProto);
+    super(realm, prototype ?? realm.types.prototypes.symbolProto);
     if (typeof descriptionOrSymbol === "string") {
       this._description = descriptionOrSymbol;
     } else if (typeof descriptionOrSymbol === "symbol") {

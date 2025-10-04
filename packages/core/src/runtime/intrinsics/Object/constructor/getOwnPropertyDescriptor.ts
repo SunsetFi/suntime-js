@@ -12,7 +12,7 @@ import toObject from "../../../algorithms/to-object.js";
 
 const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaration =
   {
-    name: "getOwnPropertyDescriptor",
+    key: "getOwnPropertyDescriptor",
     *func(realm, _thisArg, objValue, propValue) {
       const obj = yield* toObject(objValue ?? realm.types.undefined, realm);
 

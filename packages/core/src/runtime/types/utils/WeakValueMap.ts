@@ -10,6 +10,7 @@ export class WeakValueMap<K extends object, V extends object> {
 
   set(key: K, value: V) {
     this._map.set(key, new WeakRef(value));
+    // unregisterToken is held weakly, so there is no issues passing our value to it.
     this._finalizationRegistry.register(value, key, value);
   }
 

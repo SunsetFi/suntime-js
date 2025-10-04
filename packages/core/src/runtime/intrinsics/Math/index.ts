@@ -1,12 +1,16 @@
-import type { StaticJsRealm } from "../../realm/index.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import StaticJsObjectImpl from "../../types/implementation/StaticJsObjectImpl.js";
 import StaticJsNumberImpl from "../../types/implementation/StaticJsNumberImpl.js";
 
-import type { IntrinsicPropertyDeclaration } from "../utils.js";
-import { applyIntrinsicProperties } from "../utils.js";
 import toNumber from "../../algorithms/to-number.js";
+
+import type { IntrinsicSymbols, Prototypes } from "../intrinsics.js";
+import {
+  applyIntrinsicProperties,
+  type IntrinsicPropertyDeclaration,
+} from "../utils.js";
 
 // Since math is quite predictable in its inputs and outputs, we can do this programatically.
 
@@ -84,7 +88,7 @@ function createMathNumericFunctionDeclaration(
 ): IntrinsicPropertyDeclaration {
   const func = Math[key];
   return {
-    name: key,
+    key: key,
     *func(realm, _thisObj, ...args) {
       const asNumbers = new Array<number>(args.length);
       for (let i = 0; i < args.length; i++) {
@@ -104,7 +108,7 @@ function createMathNumericPropertyDeclaration(
   realm: StaticJsRealm,
 ): IntrinsicPropertyDeclaration {
   return {
-    name: key,
+    key: key,
     value: new StaticJsNumberImpl(realm, Math[key]),
   };
 }
@@ -112,7 +116,8 @@ function createMathNumericPropertyDeclaration(
 export function createMathStatic(
   realm: StaticJsRealm,
   objectProto: StaticJsObject,
-  functionProto: StaticJsObject,
+  prototypes: Prototypes,
+  intrinsicSymbols: IntrinsicSymbols,
 ) {
   const Math = new StaticJsObjectImpl(realm, objectProto);
 
@@ -127,7 +132,13 @@ export function createMathStatic(
     ),
   );
 
-  applyIntrinsicProperties(realm, Math, declarations, functionProto);
+  applyIntrinsicProperties(
+    realm,
+    Math,
+    declarations,
+    prototypes,
+    intrinsicSymbols,
+  );
 
   return Math;
 }

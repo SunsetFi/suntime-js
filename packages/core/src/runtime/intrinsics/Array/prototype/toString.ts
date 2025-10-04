@@ -1,11 +1,11 @@
 import toString from "../../../algorithms/to-string.js";
-import { isStaticJsObjectLike } from "../../../types/index.js";
+import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";
 
 const arrayProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
-  name: "toString",
+  key: "toString",
   *func(realm, thisArg) {
     // I'm not too sure on the spec for this...
     if (!thisArg) {

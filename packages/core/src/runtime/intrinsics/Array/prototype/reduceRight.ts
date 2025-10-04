@@ -10,7 +10,7 @@ import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoReduceRightDeclaration: IntrinsicPropertyDeclaration = {
-  name: "reduceRight",
+  key: "reduceRight",
   *func(realm, thisArg, callback, initialValue) {
     if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
       throw new ThrowCompletion(

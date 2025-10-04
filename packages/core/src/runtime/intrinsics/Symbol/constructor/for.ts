@@ -3,7 +3,7 @@ import toString from "../../../algorithms/to-string.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const symbolConstructorForDeclaration: IntrinsicPropertyDeclaration = {
-  name: "for",
+  key: "for",
   *func(realm, thisArg, keyArg) {
     const keyStringValue = yield* toString(
       keyArg ?? realm.types.undefined,

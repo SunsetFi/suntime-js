@@ -13,10 +13,13 @@ import {
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
+import type { IntrinsicSymbols, Prototypes } from "./intrinsics.js";
+
 export function populateBooleanPrototype(
   realm: StaticJsRealm,
   booleanProto: StaticJsObject,
-  functionProto: StaticJsObject,
+  prototypes: Prototypes,
+  _intrinsicSymbols: IntrinsicSymbols,
 ) {
   booleanProto.definePropertySync("toString", {
     configurable: true,
@@ -29,7 +32,7 @@ export function populateBooleanPrototype(
         thisArg = yield* toBoolean(thisArg, realm);
         return realm.types.string(thisArg.value ? "true" : "false");
       },
-      { prototype: functionProto },
+      { prototype: prototypes.functionProto },
     ),
   });
 
@@ -52,7 +55,7 @@ export function populateBooleanPrototype(
 
         return realm.types.boolean(thisArg.value);
       },
-      { prototype: functionProto },
+      { prototype: prototypes.functionProto },
     ),
   });
 
@@ -62,7 +65,7 @@ export function populateBooleanPrototype(
 export function createBooleanConstructor(
   realm: StaticJsRealm,
   booleanProto: StaticJsObject,
-  functionProto: StaticJsObject,
+  prototypes: Prototypes,
 ) {
   const ctor = new StaticJsFunctionImpl(
     realm,
@@ -74,7 +77,7 @@ export function createBooleanConstructor(
 
       return yield* toBoolean(value, realm);
     },
-    { prototype: functionProto },
+    { prototype: prototypes.functionProto },
   );
 
   ctor.definePropertySync("prototype", {

@@ -6,7 +6,7 @@ import isNumberLike from "../isNumberLike.js";
 
 const numberProtoToLocaleStringDeclaration: FunctionIntrinsicPropertyDeclaration =
   {
-    name: "toLocaleString",
+    key: "toLocaleString",
     func: function* (realm, thisArg) {
       // Node is really confusing here, it requires thisArg to be a function???
 

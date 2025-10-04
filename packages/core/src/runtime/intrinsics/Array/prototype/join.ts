@@ -7,7 +7,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";
 
 const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
-  name: "join",
+  key: "join",
   *func(realm, thisArg, joinerValue) {
     const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 

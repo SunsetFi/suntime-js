@@ -1,8 +1,12 @@
-import type { StaticJsRealm } from "../../../realm/index.js";
-import type { StaticJsObject } from "../../../types/index.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-import { applyIntrinsicProperties } from "../../utils.js";
+import type { IntrinsicSymbols, Prototypes } from "../../intrinsics.js";
+
+import {
+  applyIntrinsicProperties,
+  type IntrinsicPropertyDeclaration,
+} from "../../utils.js";
 
 import arrayProtoAtDeclaration from "./at.js";
 import arrayProtoConcatDeclaration from "./concat.js";
@@ -31,6 +35,7 @@ import arrayProtoSliceDeclaration from "./slice.js";
 import arrayProtoSomeDeclaration from "./some.js";
 import arrayProtoSortDeclaration from "./sort.js";
 import arrayProtoSpliceDeclaration from "./splice.js";
+import arrayProtoSymbolIteratorDeclaration from "./symbol_iterator.js";
 import arrayProtoToStringDeclaration from "./toString.js";
 import arrayProtoUnshiftDeclaration from "./unshift.js";
 
@@ -65,6 +70,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoSomeDeclaration,
   arrayProtoSortDeclaration,
   arrayProtoSpliceDeclaration,
+  arrayProtoSymbolIteratorDeclaration,
   arrayProtoToStringDeclaration,
   arrayProtoUnshiftDeclaration,
 ];
@@ -72,7 +78,14 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 export default function populateArrayPrototype(
   realm: StaticJsRealm,
   arrayProto: StaticJsObject,
-  functionProto: StaticJsObject,
+  prototypes: Prototypes,
+  intrinsicSymbols: IntrinsicSymbols,
 ) {
-  applyIntrinsicProperties(realm, arrayProto, declarations, functionProto);
+  applyIntrinsicProperties(
+    realm,
+    arrayProto,
+    declarations,
+    prototypes,
+    intrinsicSymbols,
+  );
 }

@@ -3,16 +3,19 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
+import type { IntrinsicSymbols, Prototypes } from "./intrinsics.js";
+
 export function populateSyntaxErrorPrototype(
   _realm: StaticJsRealm,
   _errorProto: StaticJsObject,
   _functionProto: StaticJsObject,
+  _intrinsicSymbols: IntrinsicSymbols,
 ) {}
 
 export default function createSyntaxErrorConstructor(
   realm: StaticJsRealm,
   errorProto: StaticJsObject,
-  functionProto: StaticJsObject,
+  prototypes: Prototypes,
 ) {
   const ctor = new StaticJsFunctionImpl(
     realm,
@@ -39,7 +42,7 @@ export default function createSyntaxErrorConstructor(
 
       return error;
     },
-    { prototype: functionProto },
+    { prototype: prototypes.functionProto },
   );
 
   ctor.definePropertySync("prototype", {

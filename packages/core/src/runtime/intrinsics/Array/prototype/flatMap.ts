@@ -11,7 +11,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";
 
 const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
-  name: "flatMap",
+  key: "flatMap",
   *func(realm, thisArg, callback) {
     const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 

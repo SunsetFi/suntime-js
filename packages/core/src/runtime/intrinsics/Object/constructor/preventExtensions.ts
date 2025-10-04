@@ -5,7 +5,7 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorPreventExtensionsDeclaration: IntrinsicPropertyDeclaration = {
-  name: "preventExtensions",
+  key: "preventExtensions",
   *func(realm, thisArg, targetValue) {
     if (!targetValue) {
       targetValue = realm.types.undefined;

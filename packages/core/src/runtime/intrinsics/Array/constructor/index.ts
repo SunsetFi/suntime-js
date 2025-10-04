@@ -7,10 +7,12 @@ import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunction
 import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
+import type { Prototypes } from "../../intrinsics.js";
+
 export default function createArrayConstructor(
   realm: StaticJsRealm,
   arrayProto: StaticJsObject,
-  functionProto: StaticJsObject,
+  prototypes: Prototypes,
 ) {
   const ctor = new StaticJsFunctionImpl(
     realm,
@@ -28,7 +30,7 @@ export default function createArrayConstructor(
         return array;
       }
     },
-    { prototype: functionProto, isConstructor: true },
+    { prototype: prototypes.functionProto, isConstructor: true },
   );
 
   ctor.definePropertySync("prototype", {

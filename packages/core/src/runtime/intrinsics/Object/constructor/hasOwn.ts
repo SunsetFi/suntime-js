@@ -7,7 +7,7 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorHasOwnDeclaration: IntrinsicPropertyDeclaration = {
-  name: "hasOwn",
+  key: "hasOwn",
   *func(realm, thisArg, objectValue, keyValue) {
     const obj = yield* toObject(objectValue ?? realm.types.undefined, realm);
 

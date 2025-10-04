@@ -1563,5 +1563,48 @@ describe("E2E: Arrays", () => {
         expect(Object.hasOwn(result, "2")).toEqual(false);
       });
     });
+
+    describe("Array.prototype[Symbol.iterator]", () => {
+      it("Returns an iterator", async () => {
+        const code = `
+          const a = [1, 2, 3];
+          const it = a[Symbol.iterator]();
+          typeof it.next === "function";
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual(true);
+      });
+
+      it("Iterates the values", async () => {
+        const code = `
+          const a = [1, 2, 3];
+          const it = a[Symbol.iterator]();
+          [it.next(), it.next(), it.next(), it.next()];
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([
+          { value: 1, done: false },
+          { value: 2, done: false },
+          { value: 3, done: false },
+          { value: undefined, done: true },
+        ]);
+      });
+
+      it("Iterates empty items", async () => {
+        const code = `
+          const a = [1, 2, 3];
+          delete a[1];
+          const it = a[Symbol.iterator]();
+          [it.next(), it.next(), it.next(), it.next()];
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([
+          { value: 1, done: false },
+          { value: undefined, done: false },
+          { value: 3, done: false },
+          { value: undefined, done: true },
+        ]);
+      });
+    });
   });
 });

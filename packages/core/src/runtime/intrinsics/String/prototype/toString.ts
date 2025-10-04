@@ -5,7 +5,7 @@ import StaticJsStringBoxed from "../../../types/implementation/StaticJsStringBox
 import toString from "../../../algorithms/to-string.js";
 
 const stringProtoToStringDeclaration: FunctionIntrinsicPropertyDeclaration = {
-  name: "toString",
+  key: "toString",
   func: function* (realm, thisArg) {
     // Unbox
     if (thisArg instanceof StaticJsStringBoxed) {

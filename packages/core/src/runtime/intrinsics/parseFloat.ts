@@ -6,7 +6,7 @@ import { isStaticJsNull } from "../types/StaticJsNull.js";
 import toString from "../algorithms/to-string.js";
 
 const globalObjectParseFloatDeclaration: IntrinsicPropertyDeclaration = {
-  name: "parseFloat",
+  key: "parseFloat",
   *func(realm, thisArg, value) {
     if (!value || isStaticJsUndefined(value) || isStaticJsNull(value)) {
       return realm.types.NaN;

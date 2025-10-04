@@ -5,7 +5,7 @@ import sliceArrayNative from "../../../types/utils/slice-array-native.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
-  name: "concat",
+  key: "concat",
   *func(realm, ...args) {
     // Unique among array methods, concat does not cast thisArg to an array.
 

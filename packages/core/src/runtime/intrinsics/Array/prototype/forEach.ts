@@ -8,7 +8,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";
 
 const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
-  name: "forEach",
+  key: "forEach",
   *func(realm, thisArg, callback, providedThisArg) {
     const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 

@@ -6,7 +6,7 @@ import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const promiseProtoThenDeclaration: IntrinsicPropertyDeclaration = {
-  name: "then",
+  key: "then",
   *func(realm, thisArg, onFulfilled, onRejected) {
     // FIXME: Support subclassing.  Somehow.
     if (!isStaticJsPromise(thisArg)) {

@@ -8,7 +8,7 @@ import isNumberLike from "../isNumberLike.js";
 import toNumber from "../../../algorithms/to-number.js";
 
 const numberProtoToFixedDeclaration: FunctionIntrinsicPropertyDeclaration = {
-  name: "toFixed",
+  key: "toFixed",
   func: function* (realm, thisArg, digits?: StaticJsValue) {
     // Node is really confusing here, it requires thisArg to be a function???
 

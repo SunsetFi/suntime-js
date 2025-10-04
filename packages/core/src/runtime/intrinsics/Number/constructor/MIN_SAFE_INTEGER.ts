@@ -3,7 +3,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const numberConstructorMinSafeIntegerDeclaration: IntrinsicPropertyDeclaration =
   {
-    name: "MIN_SAFE_INTEGER",
+    key: "MIN_SAFE_INTEGER",
     value(realm) {
       return new StaticJsNumberImpl(realm, Number.MIN_SAFE_INTEGER);
     },

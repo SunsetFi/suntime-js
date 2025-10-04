@@ -2,13 +2,30 @@ import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type {
+  StaticJsObjectLike,
+  StaticJsObjectPropertyKey,
+} from "../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
+import type { IntrinsicSymbols, Prototypes } from "./intrinsics.js";
+
+export interface IntrinsicPropertyDeclarationContext {
+  realm: StaticJsRealm;
+  prototypes: Prototypes;
+  symbols: IntrinsicSymbols;
+}
+
 export interface IntrinsicPropertyDeclarationBase {
-  name: string;
+  key:
+    | StaticJsObjectPropertyKey
+    | ((
+        realm: StaticJsRealm,
+        symbols: IntrinsicSymbols,
+      ) => StaticJsObjectPropertyKey);
   enumerable?: boolean;
   configurable?: boolean;
   writable?: boolean;
@@ -26,6 +43,21 @@ function isFunctionIntrinsicPropertyDeclaration(
   prop: IntrinsicPropertyDeclaration,
 ): prop is FunctionIntrinsicPropertyDeclaration {
   return "func" in prop;
+}
+
+// FIXME: Remove the old one and make everything use this one.
+export interface Function2IntrinsicPropertyDeclaration
+  extends IntrinsicPropertyDeclarationBase {
+  func2(
+    context: IntrinsicPropertyDeclarationContext,
+    thisArg: StaticJsValue,
+    ...args: (StaticJsValue | undefined)[]
+  ): EvaluationGenerator;
+}
+function isFunction2IntrinsicPropertyDeclaration(
+  prop: IntrinsicPropertyDeclaration,
+): prop is Function2IntrinsicPropertyDeclaration {
+  return "func2" in prop;
 }
 
 export interface DataIntrinsicPropertyDeclaration
@@ -56,6 +88,7 @@ function isAccessorIntrinsicPropertyDeclaration(
 
 export type IntrinsicPropertyDeclaration =
   | FunctionIntrinsicPropertyDeclaration
+  | Function2IntrinsicPropertyDeclaration
   | DataIntrinsicPropertyDeclaration
   | AccessorIntrinsicPropertyDeclaration;
 
@@ -63,25 +96,49 @@ export function applyIntrinsicProperties(
   realm: StaticJsRealm,
   obj: StaticJsObjectLike,
   properties: IntrinsicPropertyDeclaration[],
-  functionProto: StaticJsObjectLike,
+  prototypes: Prototypes,
+  symbols: IntrinsicSymbols,
 ) {
   for (const prop of properties) {
-    if (isFunctionIntrinsicPropertyDeclaration(prop)) {
-      obj.definePropertySync(prop.name, {
-        value: new StaticJsFunctionImpl(
-          realm,
-          prop.name,
-          (...args) => prop.func(realm, ...args),
-          {
-            prototype: functionProto,
-          },
-        ),
+    let key: StaticJsObjectPropertyKey;
+    if (typeof prop.key === "function") {
+      key = prop.key(realm, symbols);
+    } else {
+      key = prop.key;
+    }
+
+    if (
+      isFunctionIntrinsicPropertyDeclaration(prop) ||
+      isFunction2IntrinsicPropertyDeclaration(prop)
+    ) {
+      let name: string | undefined = undefined;
+      if (typeof key === "string") {
+        name = key;
+      } else if (isStaticJsSymbol(key)) {
+        name = `Symbol(${key.description})`;
+      }
+
+      let func: (
+        thisArg: StaticJsValue,
+        ...args: (StaticJsValue | undefined)[]
+      ) => EvaluationGenerator;
+      if (isFunctionIntrinsicPropertyDeclaration(prop)) {
+        func = (...args) => prop.func(realm, ...args);
+      } else {
+        func = (thisArg, ...args) =>
+          prop.func2({ realm, prototypes, symbols }, thisArg, ...args);
+      }
+
+      obj.definePropertySync(key, {
+        value: new StaticJsFunctionImpl(realm, name ?? "anonymous", func, {
+          prototype: prototypes.functionProto,
+        }),
         enumerable: prop.enumerable ?? false,
         configurable: prop.configurable ?? true,
         writable: prop.writable ?? true,
       });
     } else if (isDataIntrinsicPropertyDeclaration(prop)) {
-      obj.definePropertySync(prop.name, {
+      obj.definePropertySync(key, {
         value:
           typeof prop.value === "function" ? prop.value(realm) : prop.value,
         enumerable: prop.enumerable ?? false,
@@ -89,14 +146,14 @@ export function applyIntrinsicProperties(
         writable: prop.writable ?? false,
       });
     } else if (isAccessorIntrinsicPropertyDeclaration(prop)) {
-      obj.definePropertySync(prop.name, {
+      obj.definePropertySync(key, {
         get: prop.get
           ? new StaticJsFunctionImpl(
               realm,
               "get",
               (thisArg) => prop.get!(realm, thisArg),
               {
-                prototype: functionProto,
+                prototype: prototypes.functionProto,
               },
             )
           : undefined,
@@ -106,7 +163,7 @@ export function applyIntrinsicProperties(
               "set",
               (thisArg, value) => prop.set!(realm, thisArg, value),
               {
-                prototype: functionProto,
+                prototype: prototypes.functionProto,
               },
             )
           : undefined,

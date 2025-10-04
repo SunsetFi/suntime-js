@@ -7,7 +7,7 @@ import toArray from "../../../utils/to-array.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
-  name: "splice",
+  key: "splice",
   *func(realm, thisArg, startValue, deleteCountValue, ...items) {
     const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 

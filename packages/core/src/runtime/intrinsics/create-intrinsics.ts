@@ -1,19 +1,19 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import StaticJsObjectImpl from "../types/implementation/StaticJsObjectImpl.js";
+
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
-import type {
-  Constructors,
-  Instrinsics,
-  Prototypes,
-  Statics,
-} from "./intrinsics.js";
+import type { Intrinsics, Prototypes } from "./intrinsics.js";
 
 import {
   createObjectConstructor,
   populateObjectPrototype,
 } from "./Object/index.js";
+import {
+  createSymbolConstructor,
+  populateSymbolPrototype,
+} from "./Symbol/index.js";
 import {
   createArrayConstructor,
   populateArrayPrototype,
@@ -66,12 +66,9 @@ import globalObjectNaNDeclaration from "./NaN.js";
 import globalObjectParseFloatDeclaration from "./parseFloat.js";
 import globalObjectParseIntDeclaration from "./parseInt.js";
 import globalObjectUndefinedDeclaration from "./undefined.js";
-import {
-  createSymbolConstructor,
-  populateSymbolPrototype,
-} from "./Symbol/index.js";
+import createIntrinsicSymbols from "./Symbol/intrinsic-symbols.js";
 
-export type { Instrinsics, Prototypes };
+import { populateIteratorPrototype } from "./Iterator.js";
 
 const globalPropertyDeclarations: IntrinsicPropertyDeclaration[] = [
   globalObjectEvalDeclaration,
@@ -84,29 +81,20 @@ const globalPropertyDeclarations: IntrinsicPropertyDeclaration[] = [
   globalObjectUndefinedDeclaration,
 ];
 
-export function createIntrinsics(realm: StaticJsRealm): Instrinsics {
-  const protos = createPrototypes(realm);
-  const ctors = createConstructors(realm, protos);
-  const statics = createStatics(realm, protos);
+export function createIntrinsics(realm: StaticJsRealm): Intrinsics {
+  // Create the protos.
 
-  return {
-    ...protos,
-    ...ctors,
-    ...statics,
-  };
-}
-
-function createPrototypes(realm: StaticJsRealm): Prototypes {
   // There are some circular references around these, particularly with
   // instantiating functions for properties, so establish them ahead of time.
+
   const objectProto = new StaticJsObjectImpl(realm, null);
+  const symbolProto = new StaticJsObjectImpl(realm, objectProto);
   const functionProto = new StaticJsObjectImpl(realm, objectProto);
 
   const stringProto = new StaticJsObjectImpl(realm, objectProto);
   const numberProto = new StaticJsObjectImpl(realm, objectProto);
   const booleanProto = new StaticJsObjectImpl(realm, objectProto);
   const arrayProto = new StaticJsObjectImpl(realm, objectProto);
-  const symbolProto = new StaticJsObjectImpl(realm, objectProto);
 
   const promiseProto = new StaticJsObjectImpl(realm, objectProto);
 
@@ -115,25 +103,9 @@ function createPrototypes(realm: StaticJsRealm): Prototypes {
   const referenceErrorProto = new StaticJsObjectImpl(realm, errorProto);
   const syntaxErrorProto = new StaticJsObjectImpl(realm, errorProto);
 
-  populateObjectPrototype(realm, objectProto, functionProto);
-  populateFunctionPrototype(realm, functionProto);
+  const iteratorProto = new StaticJsObjectImpl(realm, objectProto);
 
-  populateStringPrototype(realm, stringProto, functionProto);
-  populateNumberPrototype(realm, numberProto, functionProto);
-  populateBooleanPrototype(realm, booleanProto, functionProto);
-
-  populateArrayPrototype(realm, arrayProto, functionProto);
-
-  populateSymbolPrototype(realm, symbolProto, functionProto);
-
-  populatePromisePrototype(realm, promiseProto, functionProto);
-
-  populateErrorPrototype(realm, errorProto, functionProto);
-  populateTypeErrorPrototype(realm, typeErrorProto, functionProto);
-  populateReferenceErrorPrototype(realm, referenceErrorProto, functionProto);
-  populateSyntaxErrorPrototype(realm, syntaxErrorProto, functionProto);
-
-  return {
+  const prototypes: Prototypes = {
     stringProto,
     numberProto,
     booleanProto,
@@ -146,80 +118,141 @@ function createPrototypes(realm: StaticJsRealm): Prototypes {
     typeErrorProto,
     referenceErrorProto,
     syntaxErrorProto,
+    iteratorProto,
   };
-}
 
-function createConstructors(
-  realm: StaticJsRealm,
-  {
-    stringProto,
-    numberProto,
-    booleanProto,
-    objectProto,
-    functionProto,
-    arrayProto,
-    symbolProto,
-    promiseProto,
-    errorProto,
-    typeErrorProto,
+  // Populate prototypes
+
+  // These are referenced by most prototypes.
+  const symbols = createIntrinsicSymbols(realm, prototypes);
+
+  populateObjectPrototype(realm, objectProto, prototypes, symbols);
+  populateSymbolPrototype(realm, symbolProto, prototypes, symbols);
+  populateFunctionPrototype(realm, prototypes, symbols);
+
+  populateStringPrototype(realm, stringProto, prototypes, symbols);
+  populateNumberPrototype(realm, numberProto, prototypes, symbols);
+  populateBooleanPrototype(realm, booleanProto, prototypes, symbols);
+
+  populateArrayPrototype(realm, arrayProto, prototypes, symbols);
+
+  populatePromisePrototype(realm, promiseProto, prototypes, symbols);
+
+  populateErrorPrototype(realm, errorProto, prototypes, symbols);
+  populateTypeErrorPrototype(realm, typeErrorProto, functionProto, symbols);
+  populateReferenceErrorPrototype(
+    realm,
     referenceErrorProto,
-    syntaxErrorProto,
-  }: Prototypes,
-): Constructors {
-  const String = createStringConstructor(realm, stringProto, functionProto);
-  const Number = createNumberConstructor(realm, numberProto, functionProto);
-  const Boolean = createBooleanConstructor(realm, booleanProto, functionProto);
-  const Object = createObjectConstructor(realm, objectProto, functionProto);
-  const Symbol = createSymbolConstructor(realm, symbolProto, functionProto);
-  const Array = createArrayConstructor(realm, arrayProto, functionProto);
+    functionProto,
+    symbols,
+  );
+  populateSyntaxErrorPrototype(realm, syntaxErrorProto, functionProto, symbols);
+
+  populateIteratorPrototype(realm, iteratorProto, prototypes, symbols);
+
+  // Constructors
+
+  const String = createStringConstructor(realm, stringProto, prototypes);
+  const Number = createNumberConstructor(
+    realm,
+    numberProto,
+    prototypes,
+    symbols,
+  );
+  const Boolean = createBooleanConstructor(realm, booleanProto, prototypes);
+  const Object = createObjectConstructor(
+    realm,
+    objectProto,
+    prototypes,
+    symbols,
+  );
+  const Symbol = createSymbolConstructor(
+    realm,
+    symbolProto,
+    prototypes,
+    symbols,
+  );
+  const Array = createArrayConstructor(realm, arrayProto, prototypes);
   const Function = createFunctionConstructor(realm, functionProto);
-  const Promise = createPromiseConstructor(realm, promiseProto, functionProto);
-  const Error = createErrorConstructor(realm, errorProto, functionProto);
+  const Promise = createPromiseConstructor(
+    realm,
+    promiseProto,
+    prototypes,
+    symbols,
+  );
+  const Error = createErrorConstructor(realm, errorProto, prototypes, symbols);
   const TypeError = createTypeErrorConstructor(
     realm,
     typeErrorProto,
-    functionProto,
+    prototypes,
   );
   const ReferenceError = createReferenceErrorConstructor(
     realm,
     referenceErrorProto,
-    functionProto,
+    prototypes,
   );
   const SyntaxError = createSyntaxErrorConstructor(
     realm,
     syntaxErrorProto,
-    functionProto,
+    prototypes,
   );
 
+  const Math = createMathStatic(realm, objectProto, prototypes, symbols);
+
   return {
-    String,
-    Number,
-    Boolean,
-    Object,
-    Symbol,
-    Array,
-    Function,
-    Promise,
-    Error,
-    TypeError,
-    ReferenceError,
-    SyntaxError,
+    prototypes: {
+      stringProto,
+      numberProto,
+      booleanProto,
+      objectProto,
+      symbolProto,
+      arrayProto,
+      functionProto,
+      promiseProto,
+      errorProto,
+      typeErrorProto,
+      referenceErrorProto,
+      syntaxErrorProto,
+      iteratorProto,
+    },
+    constructors: {
+      String,
+      Number,
+      Boolean,
+      Object,
+      Symbol,
+      Array,
+      Function,
+      Promise,
+      Error,
+      TypeError,
+      ReferenceError,
+      SyntaxError,
+    },
+    statics: {
+      Math,
+    },
+    symbols,
   };
 }
 
 export function defineGlobalProperties(
   realm: StaticJsRealm,
   globalObject: StaticJsObjectLike,
-  intrinsics: Instrinsics,
+  intrinsics: Intrinsics,
 ) {
   applyIntrinsicProperties(
     realm,
     globalObject,
     globalPropertyDeclarations,
-    intrinsics.functionProto,
+    intrinsics.prototypes,
+    intrinsics.symbols,
   );
 
-  for (const [key, value] of Object.entries(intrinsics)) {
+  for (const [key, value] of Object.entries({
+    ...intrinsics.constructors,
+    ...intrinsics.statics,
+  })) {
     globalObject.definePropertySync(key, {
       value,
       writable: true,
@@ -227,16 +260,4 @@ export function defineGlobalProperties(
       configurable: true,
     });
   }
-}
-
-function createStatics(realm: StaticJsRealm, protos: Prototypes): Statics {
-  const Math = createMathStatic(
-    realm,
-    protos.objectProto,
-    protos.functionProto,
-  );
-
-  return {
-    Math,
-  };
 }

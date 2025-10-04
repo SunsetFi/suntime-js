@@ -2,7 +2,7 @@ import StaticJsNumberImpl from "../../../types/implementation/StaticJsNumberImpl
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const numberConstructorEpsilonDeclaration: IntrinsicPropertyDeclaration = {
-  name: "EPSILON",
+  key: "EPSILON",
   value(realm) {
     return new StaticJsNumberImpl(realm, Number.EPSILON);
   },

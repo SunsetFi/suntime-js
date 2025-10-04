@@ -4,7 +4,7 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
-  name: "toString",
+  key: "toString",
   *func(realm, thisArg) {
     // I'm not too sure on the spec for this...
 

@@ -4,11 +4,14 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
+import type { IntrinsicSymbols, Prototypes } from "./intrinsics.js";
+
 export function populateFunctionPrototype(
-  realm: StaticJsRealm,
-  functionPrototype: StaticJsObject,
+  _realm: StaticJsRealm,
+  prototypes: Prototypes,
+  _intrinsicSymbols: IntrinsicSymbols,
 ) {
-  return functionPrototype;
+  return prototypes.functionProto;
 }
 
 export function createFunctionConstructor(

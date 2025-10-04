@@ -13,7 +13,7 @@ import toNumber from "../../../algorithms/to-number.js";
 import toObject from "../../../algorithms/to-object.js";
 
 const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
-  name: "sort",
+  key: "sort",
   *func(realm, thisArg, compareFnValue) {
     const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 

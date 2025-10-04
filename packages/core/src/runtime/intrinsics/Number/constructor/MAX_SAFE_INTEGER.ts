@@ -3,7 +3,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const numberConstructorMaxSafeIntegerDeclaration: IntrinsicPropertyDeclaration =
   {
-    name: "MAX_SAFE_INTEGER",
+    key: "MAX_SAFE_INTEGER",
     value(realm) {
       return new StaticJsNumberImpl(realm, Number.MAX_SAFE_INTEGER);
     },

@@ -15,7 +15,7 @@ import getLength from "./utils/get-length.js";
 import toObject from "../../../algorithms/to-object.js";
 
 const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
-  name: "flat",
+  key: "flat",
   *func(realm, thisArg, depthValue) {
     const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 

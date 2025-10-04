@@ -3,7 +3,7 @@ import toString from "../../../algorithms/to-string.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const symbolProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
-  name: "toString",
+  key: "toString",
   *func(realm, thisArg) {
     if (isStaticJsSymbol(thisArg)) {
       return realm.types.string(`Symbol(${thisArg.description})`);

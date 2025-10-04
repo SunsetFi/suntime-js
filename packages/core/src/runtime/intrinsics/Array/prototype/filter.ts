@@ -10,7 +10,7 @@ import toBoolean from "../../../algorithms/to-boolean.js";
 import toObject from "../../../algorithms/to-object.js";
 
 const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
-  name: "filter",
+  key: "filter",
   *func(realm, thisArg, callback) {
     const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 

@@ -7,10 +7,12 @@ import StaticJsStringBoxed from "../../types/implementation/StaticJsStringBoxed.
 
 import toString from "../../algorithms/to-string.js";
 
+import type { Prototypes } from "../intrinsics.js";
+
 export default function createStringConstructor(
   realm: StaticJsRealm,
   stringProto: StaticJsObject,
-  functionProto: StaticJsObject,
+  prototypes: Prototypes,
 ) {
   // FIXME: This is the casting function, but if it's invoked with 'new', we should
   // return the boxed version.
@@ -26,7 +28,7 @@ export default function createStringConstructor(
       const str = yield* toString(value, realm);
       return new StaticJsStringBoxed(realm, str.value);
     },
-    { prototype: functionProto },
+    { prototype: prototypes.functionProto },
   );
 
   ctor.definePropertySync("prototype", {

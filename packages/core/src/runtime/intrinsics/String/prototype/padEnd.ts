@@ -7,7 +7,7 @@ import toString from "../../../algorithms/to-string.js";
 import toNumber from "../../../algorithms/to-number.js";
 
 const stringProtoPadEndDeclaration: FunctionIntrinsicPropertyDeclaration = {
-  name: "padEnd",
+  key: "padEnd",
   func: function* (
     realm,
     thisArg,

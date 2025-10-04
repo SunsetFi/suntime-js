@@ -7,7 +7,7 @@ import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import toString from "../../../algorithms/to-string.js";
 
 const stringProtoIncludesDeclaration: FunctionIntrinsicPropertyDeclaration = {
-  name: "includes",
+  key: "includes",
   func: function* (realm, thisArg, value?: StaticJsValue) {
     if (!value || isStaticJsUndefined(value) || isStaticJsNull(value)) {
       return realm.types.false;

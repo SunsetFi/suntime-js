@@ -23,12 +23,11 @@ import type { StaticJsNumber } from "../StaticJsNumber.js";
 import type { StaticJsString } from "../StaticJsString.js";
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 
-import {
-  constructorKeys,
-  prototypeKeys,
-  type Constructors,
-  type Instrinsics,
-  type Prototypes,
+import type {
+  Intrinsics,
+  IntrinsicSymbols,
+  Constructors,
+  Prototypes,
 } from "../../intrinsics/intrinsics.js";
 
 import { WeakValueMap } from "../utils/WeakValueMap.js";
@@ -51,6 +50,7 @@ import { getStaticJsObjectLikeProxyOwner } from "./create-object-proxy.js";
 export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _prototypes: Prototypes;
   private readonly _constructors: Constructors;
+  private readonly _symbols: IntrinsicSymbols;
 
   // The registry for our local Symbol.for()
   private readonly _symbolRegistry = new Map<string, StaticJsSymbol>();
@@ -87,7 +87,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   constructor(
     private readonly _realm: StaticJsRealm,
-    private readonly _instrinsics: Instrinsics,
+    intrinsics: Intrinsics,
   ) {
     this._zero = new StaticJsNumberImpl(_realm, 0);
     this._NaN = new StaticJsNumberImpl(_realm, NaN);
@@ -99,19 +99,14 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     this._null = new StaticJsNullImpl(_realm);
     this._undefined = new StaticJsUndefinedImpl(_realm);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this._prototypes = {} as any;
-    for (const key of prototypeKeys) {
-      this._prototypes[key] = this._instrinsics[key];
-    }
+    this._prototypes = { ...intrinsics.prototypes };
     Object.freeze(this._prototypes);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this._constructors = {} as any;
-    for (const key of constructorKeys) {
-      this._constructors[key] = this._instrinsics[key];
-    }
+    this._constructors = { ...intrinsics.constructors };
     Object.freeze(this._constructors);
+
+    this._symbols = { ...intrinsics.symbols };
+    Object.freeze(this._symbols);
   }
 
   get prototypes(): Prototypes {
@@ -120,6 +115,10 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   get constructors(): Constructors {
     return this._constructors;
+  }
+
+  get symbols(): IntrinsicSymbols {
+    return this._symbols;
   }
 
   get symbolRegistry(): Map<string, StaticJsSymbol> {

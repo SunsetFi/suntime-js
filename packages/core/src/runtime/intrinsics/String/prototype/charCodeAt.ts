@@ -6,7 +6,7 @@ import toString from "../../../algorithms/to-string.js";
 import toNumber from "../../../algorithms/to-number.js";
 
 const stringProtoCharCodeAtDeclaration: FunctionIntrinsicPropertyDeclaration = {
-  name: "charCodeAt",
+  key: "charCodeAt",
   func: function* (realm, thisArg, indexValue?: StaticJsValue) {
     thisArg = yield* toString(thisArg, realm);
 

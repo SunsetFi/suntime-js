@@ -16,7 +16,7 @@ import toString from "../algorithms/to-string.js";
 import type { IntrinsicPropertyDeclaration } from "./utils.js";
 
 const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
-  name: "eval",
+  key: "eval",
   *func(realm, _thisArg, str) {
     str = yield* toString(str ?? realm.types.undefined, realm);
 

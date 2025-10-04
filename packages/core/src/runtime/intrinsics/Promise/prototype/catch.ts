@@ -6,7 +6,7 @@ import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const promiseProtoCatchDeclaration: IntrinsicPropertyDeclaration = {
-  name: "catch",
+  key: "catch",
   *func(realm, thisArg, onRejected) {
     // FIXME: Support subclassing.  Somehow.
     if (!isStaticJsPromise(thisArg)) {

@@ -3,7 +3,7 @@ import type { IntrinsicPropertyDeclaration } from "./utils.js";
 import toNumber from "../algorithms/to-number.js";
 
 const globalObjectIsFiniteDeclaration: IntrinsicPropertyDeclaration = {
-  name: "isFinite",
+  key: "isFinite",
   *func(realm, thisArg, value) {
     value = yield* toNumber(value ?? realm.types.undefined, realm);
 

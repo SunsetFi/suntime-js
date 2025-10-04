@@ -9,7 +9,7 @@ import toNumber from "../../../algorithms/to-number.js";
 
 const numberProtoToPrecisionDeclaration: FunctionIntrinsicPropertyDeclaration =
   {
-    name: "toPrecision",
+    key: "toPrecision",
     func: function* (realm, thisArg, digits?: StaticJsValue) {
       // Node is really confusing here, it requires thisArg to be a function???
 

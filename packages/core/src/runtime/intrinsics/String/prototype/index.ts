@@ -1,10 +1,13 @@
-import type { StaticJsRealm } from "../../../realm/index.js";
-import type { StaticJsObject } from "../../../types/index.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../utils.js";
+
+import type { IntrinsicSymbols, Prototypes } from "../../intrinsics.js";
 
 import stringProtoCharAtDeclaration from "./charAt.js";
 import stringProtoCharCodeAtDeclaration from "./charCodeAt.js";
@@ -63,7 +66,14 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 export default function populateStringPrototype(
   realm: StaticJsRealm,
   stringProto: StaticJsObject,
-  functionProto: StaticJsObject,
+  prototypes: Prototypes,
+  intrinsicSymbols: IntrinsicSymbols,
 ) {
-  applyIntrinsicProperties(realm, stringProto, declarations, functionProto);
+  applyIntrinsicProperties(
+    realm,
+    stringProto,
+    declarations,
+    prototypes,
+    intrinsicSymbols,
+  );
 }

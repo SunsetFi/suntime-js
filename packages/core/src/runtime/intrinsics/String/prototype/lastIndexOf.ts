@@ -8,7 +8,7 @@ import toString from "../../../algorithms/to-string.js";
 
 const stringProtoLastIndexOfDeclaration: FunctionIntrinsicPropertyDeclaration =
   {
-    name: "lastIndexOf",
+    key: "lastIndexOf",
     func: function* (realm, thisArg, value?: StaticJsValue) {
       if (!value || isStaticJsUndefined(value) || isStaticJsNull(value)) {
         return realm.types.number(-1);

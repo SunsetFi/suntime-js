@@ -5,7 +5,7 @@ import type { StaticJsString } from "../../../types/StaticJsString.js";
 import toString from "../../../algorithms/to-string.js";
 
 const stringProtoConcatDeclaration: FunctionIntrinsicPropertyDeclaration = {
-  name: "concat",
+  key: "concat",
   func: function* (realm, thisArg, ...args) {
     const thisArgStr = yield* toString(thisArg, realm);
     const argStrs: StaticJsString[] = [];

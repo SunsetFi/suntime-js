@@ -1,11 +1,15 @@
 import toObject from "../../../algorithms/to-object.js";
-import type { StaticJsRealm } from "../../../realm/index.js";
+
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
-import type { StaticJsObject } from "../../../types/index.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-import { applyIntrinsicProperties } from "../../utils.js";
+import type { IntrinsicSymbols, Prototypes } from "../../intrinsics.js";
+import {
+  applyIntrinsicProperties,
+  type IntrinsicPropertyDeclaration,
+} from "../../utils.js";
 
 import objectCtorAssignDeclaration from "./assign.js";
 import objectCtorCreateDeclaration from "./create.js";
@@ -42,7 +46,8 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 export default function createObjectConstructor(
   realm: StaticJsRealm,
   objectProto: StaticJsObject,
-  functionProto: StaticJsObject,
+  prototypes: Prototypes,
+  intrinsicSymbols: IntrinsicSymbols,
 ) {
   const ctor = new StaticJsFunctionImpl(
     realm,
@@ -54,7 +59,7 @@ export default function createObjectConstructor(
 
       return yield* toObject(arg, realm);
     },
-    { prototype: functionProto, isConstructor: true },
+    { prototype: prototypes.functionProto, isConstructor: true },
   );
 
   ctor.definePropertySync("prototype", {
@@ -70,7 +75,13 @@ export default function createObjectConstructor(
     configurable: true,
   });
 
-  applyIntrinsicProperties(realm, ctor, declarations, functionProto);
+  applyIntrinsicProperties(
+    realm,
+    ctor,
+    declarations,
+    prototypes,
+    intrinsicSymbols,
+  );
 
   return ctor;
 }

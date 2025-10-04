@@ -4,7 +4,7 @@ import toString from "../../../algorithms/to-string.js";
 
 const stringProtoToLowerCaseDeclaration: FunctionIntrinsicPropertyDeclaration =
   {
-    name: "toLowerCase",
+    key: "toLowerCase",
     func: function* (realm, thisArg) {
       const thisStr = yield* toString(thisArg, realm);
 

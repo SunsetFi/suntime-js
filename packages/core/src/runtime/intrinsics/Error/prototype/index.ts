@@ -1,14 +1,25 @@
-import type { StaticJsRealm } from "../../../realm/index.js";
-import type { StaticJsObject } from "../../../types/index.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-import { applyIntrinsicProperties } from "../../utils.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
+
+import type { IntrinsicSymbols, Prototypes } from "../../intrinsics.js";
+import {
+  applyIntrinsicProperties,
+  type IntrinsicPropertyDeclaration,
+} from "../../utils.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [];
 
 export default function populateErrorPrototype(
   realm: StaticJsRealm,
   errorProto: StaticJsObject,
-  functionProto: StaticJsObject,
+  prototypes: Prototypes,
+  intrinsicSymbols: IntrinsicSymbols,
 ) {
-  applyIntrinsicProperties(realm, errorProto, declarations, functionProto);
+  applyIntrinsicProperties(
+    realm,
+    errorProto,
+    declarations,
+    prototypes,
+    intrinsicSymbols,
+  );
 }

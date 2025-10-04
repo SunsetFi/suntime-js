@@ -7,7 +7,7 @@ import toString from "../algorithms/to-string.js";
 import toInteger from "../algorithms/to-integer.js";
 
 const globalObjectParseIntDeclaration: IntrinsicPropertyDeclaration = {
-  name: "parseInt",
+  key: "parseInt",
   *func(realm, thisArg, value, radix) {
     if (!value || isStaticJsUndefined(value) || isStaticJsNull(value)) {
       return realm.types.NaN;

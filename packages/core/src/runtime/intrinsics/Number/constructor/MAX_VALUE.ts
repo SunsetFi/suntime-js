@@ -2,7 +2,7 @@ import StaticJsNumberImpl from "../../../types/implementation/StaticJsNumberImpl
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const numberConstructorMaxValueDeclaration: IntrinsicPropertyDeclaration = {
-  name: "MAX_VALUE",
+  key: "MAX_VALUE",
   value(realm) {
     return new StaticJsNumberImpl(realm, Number.MAX_VALUE);
   },

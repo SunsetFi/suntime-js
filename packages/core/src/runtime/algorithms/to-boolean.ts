@@ -1,6 +1,9 @@
-import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 import typedMerge from "../../internal/typed-merge.js";
-import type { StaticJsRealm } from "../realm/index.js";
+
+import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+
 import {
   isStaticJsBoolean,
   type StaticJsBoolean,

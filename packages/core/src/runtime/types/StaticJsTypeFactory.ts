@@ -1,4 +1,8 @@
-import type { Constructors, Prototypes } from "../intrinsics/intrinsics.js";
+import type {
+  Constructors,
+  Prototypes,
+  IntrinsicSymbols,
+} from "../intrinsics/intrinsics.js";
 
 import type { StaticJsArray } from "./StaticJsArray.js";
 import type { StaticJsFunction } from "./StaticJsFunction.js";
@@ -37,7 +41,7 @@ export interface StaticJsFunctionTypeCreationOptions {
 export default interface StaticJsTypeFactory {
   readonly prototypes: Prototypes;
   readonly constructors: Constructors;
-
+  readonly symbols: IntrinsicSymbols;
   readonly symbolRegistry: Map<string, StaticJsSymbol>;
 
   readonly undefined: StaticJsUndefined;

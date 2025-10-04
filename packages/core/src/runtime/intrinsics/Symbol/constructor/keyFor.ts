@@ -1,9 +1,9 @@
-import { isStaticJsSymbol } from "../../../types/index.js";
+import { isStaticJsSymbol } from "../../../types/StaticJsSymbol.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const symbolConstructorKeyForDeclaration: IntrinsicPropertyDeclaration = {
-  name: "keyFor",
+  key: "keyFor",
   *func(realm, thisArg, symbolArg) {
     if (!isStaticJsSymbol(symbolArg)) {
       return realm.types.undefined;

@@ -21,13 +21,15 @@ import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCom
 import type { StaticJsEnvironment } from "../../environments/StaticJsEnvironment.js";
 import StaticJsGlobalEnvironmentRecord from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 
-import type { Instrinsics } from "../../intrinsics/create-intrinsics.js";
+import type { Intrinsics } from "../../intrinsics/intrinsics.js";
+
 import {
   createIntrinsics,
   defineGlobalProperties,
 } from "../../intrinsics/create-intrinsics.js";
 
 import StaticJsTypeFactoryImpl from "../../types/implementation/StaticJsTypeFactoryImpl.js";
+
 import type StaticJsTypeFactory from "../../types/StaticJsTypeFactory.js";
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import type {
@@ -360,7 +362,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private _setupGlobalObject(
     globalObject: StaticJsObject,
     globalThis: StaticJsValue,
-    intrinsics: Instrinsics,
+    intrinsics: Intrinsics,
   ) {
     if (!globalObject.hasPropertySync("globalThis")) {
       globalObject.definePropertySync("globalThis", {

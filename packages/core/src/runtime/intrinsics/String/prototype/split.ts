@@ -8,7 +8,7 @@ import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import toString from "../../../algorithms/to-string.js";
 
 const stringProtoSplitDeclaration: FunctionIntrinsicPropertyDeclaration = {
-  name: "split",
+  key: "split",
   func: function* (realm, thisArg, separator?: StaticJsValue) {
     thisArg = yield* toString(thisArg, realm);
 

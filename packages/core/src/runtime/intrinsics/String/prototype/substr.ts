@@ -6,7 +6,7 @@ import toString from "../../../algorithms/to-string.js";
 import toNumber from "../../../algorithms/to-number.js";
 
 const stringProtoSubstrDeclaration: FunctionIntrinsicPropertyDeclaration = {
-  name: "substr",
+  key: "substr",
   func: function* (
     realm,
     thisArg,

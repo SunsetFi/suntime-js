@@ -6,7 +6,7 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectProtoHasOwnPropertyDeclaration: IntrinsicPropertyDeclaration = {
-  name: "hasOwnProperty",
+  key: "hasOwnProperty",
   *func(realm, thisArg, keyValue) {
     if (!keyValue) {
       return realm.types.false;

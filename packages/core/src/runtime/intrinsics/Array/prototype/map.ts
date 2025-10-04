@@ -10,7 +10,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";
 
 const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
-  name: "map",
+  key: "map",
   *func(realm, thisArg, callback, providedThisArg) {
     const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 

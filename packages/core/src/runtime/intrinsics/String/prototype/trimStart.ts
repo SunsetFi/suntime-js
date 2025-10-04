@@ -3,7 +3,7 @@ import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 import toString from "../../../algorithms/to-string.js";
 
 const stringProtoTrimStartDeclaration: FunctionIntrinsicPropertyDeclaration = {
-  name: "trimStart",
+  key: "trimStart",
   func: function* (realm, thisArg) {
     const thisStr = yield* toString(thisArg, realm);
 

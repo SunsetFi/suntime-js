@@ -2,7 +2,7 @@ import toObject from "../../../algorithms/to-object.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorKeysDeclaration: IntrinsicPropertyDeclaration = {
-  name: "keys",
+  key: "keys",
   *func(realm, thisArg, objValue) {
     const obj = yield* toObject(objValue ?? realm.types.undefined, realm);
 

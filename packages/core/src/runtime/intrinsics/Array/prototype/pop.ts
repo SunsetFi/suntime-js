@@ -4,7 +4,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import getLength from "./utils/get-length.js";
 
 export const arrayProtoPopDeclaration: IntrinsicPropertyDeclaration = {
-  name: "pop",
+  key: "pop",
   *func(realm, thisArg) {
     const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 

@@ -1,3 +1,4 @@
+import type { StaticJsSymbol } from "../types/StaticJsSymbol.js";
 import type { StaticJsFunction } from "../types/StaticJsFunction.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 
@@ -15,22 +16,9 @@ export interface Prototypes {
   typeErrorProto: StaticJsObject;
   referenceErrorProto: StaticJsObject;
   syntaxErrorProto: StaticJsObject;
-}
 
-export const prototypeKeys = [
-  "stringProto",
-  "numberProto",
-  "booleanProto",
-  "objectProto",
-  "symbolProto",
-  "arrayProto",
-  "functionProto",
-  "promiseProto",
-  "errorProto",
-  "typeErrorProto",
-  "referenceErrorProto",
-  "syntaxErrorProto",
-] as const;
+  iteratorProto: StaticJsObject;
+}
 
 export interface Constructors {
   String: StaticJsFunction;
@@ -47,23 +35,32 @@ export interface Constructors {
   SyntaxError: StaticJsFunction;
 }
 
-export const constructorKeys = [
-  "String",
-  "Number",
-  "Boolean",
-  "Object",
-  "Symbol",
-  "Array",
-  "Function",
-  "Promise",
-  "Error",
-  "TypeError",
-  "ReferenceError",
-  "SyntaxError",
-] as const;
-
 export interface Statics {
   Math: StaticJsObject;
 }
 
-export type Instrinsics = Statics & Prototypes & Constructors;
+export interface IntrinsicSymbols {
+  asyncDispose: StaticJsSymbol;
+  asyncIterator: StaticJsSymbol;
+  dispose: StaticJsSymbol;
+  hasInstance: StaticJsSymbol;
+  isConcatSpreadable: StaticJsSymbol;
+  iterator: StaticJsSymbol;
+  match: StaticJsSymbol;
+  matchAll: StaticJsSymbol;
+  observable: StaticJsSymbol;
+  replace: StaticJsSymbol;
+  search: StaticJsSymbol;
+  species: StaticJsSymbol;
+  split: StaticJsSymbol;
+  toPrimitive: StaticJsSymbol;
+  toStringTag: StaticJsSymbol;
+  unscopables: StaticJsSymbol;
+}
+
+export interface Intrinsics {
+  prototypes: Prototypes;
+  constructors: Constructors;
+  statics: Statics;
+  symbols: IntrinsicSymbols;
+}

@@ -5,7 +5,7 @@ import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import toString from "../../../algorithms/to-string.js";
 
 const stringProtoReplaceAllDeclaration: FunctionIntrinsicPropertyDeclaration = {
-  name: "replaceAll",
+  key: "replaceAll",
   func: function* (
     realm,
     thisArg,

@@ -12,6 +12,8 @@ import {
   type IntrinsicPropertyDeclaration,
 } from "../../utils.js";
 
+import type { IntrinsicSymbols, Prototypes } from "../../intrinsics.js";
+
 import numberConstructorEpsilonDeclaration from "./EPSILON.js";
 import numberConstructorMaxSafeIntegerDeclaration from "./MAX_SAFE_INTEGER.js";
 import numberConstructorMaxValueDeclaration from "./MAX_VALUE.js";
@@ -35,7 +37,8 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 export default function createNumberConstructor(
   realm: StaticJsRealm,
   numberProto: StaticJsObject,
-  functionProto: StaticJsObject,
+  prototypes: Prototypes,
+  intrinsicSymbols: IntrinsicSymbols,
 ) {
   // FIXME: This is the casting function, but if it's invoked with 'new', we should
   // return the boxed version.
@@ -49,7 +52,7 @@ export default function createNumberConstructor(
 
       return yield* toNumber(value, realm);
     },
-    { prototype: functionProto },
+    { prototype: prototypes.functionProto },
   );
 
   ctor.definePropertySync("prototype", {
@@ -65,7 +68,13 @@ export default function createNumberConstructor(
     configurable: true,
   });
 
-  applyIntrinsicProperties(realm, ctor, declarations, functionProto);
+  applyIntrinsicProperties(
+    realm,
+    ctor,
+    declarations,
+    prototypes,
+    intrinsicSymbols,
+  );
 
   return ctor;
 }

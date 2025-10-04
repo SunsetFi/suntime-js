@@ -2,7 +2,7 @@ import StaticJsNumberImpl from "../../../types/implementation/StaticJsNumberImpl
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const numberConstructorMinValueDeclaration: IntrinsicPropertyDeclaration = {
-  name: "MIN_VALUE",
+  key: "MIN_VALUE",
   value(realm) {
     return new StaticJsNumberImpl(realm, Number.MIN_VALUE);
   },

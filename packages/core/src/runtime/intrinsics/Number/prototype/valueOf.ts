@@ -5,7 +5,7 @@ import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompleti
 import isNumberLike from "../isNumberLike.js";
 
 const numberProtoValueOfDeclaration: FunctionIntrinsicPropertyDeclaration = {
-  name: "valueOf",
+  key: "valueOf",
   func: function* (realm, thisArg) {
     // Node is really confusing here, it requires thisArg to be a function???
 
