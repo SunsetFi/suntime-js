@@ -4,8 +4,8 @@ import { evaluateScript } from "../../src/index.js";
 import StaticJsRealm from "../../src/runtime/realm/factories/StaticJsRealm.js";
 
 describe("E2E: Object", () => {
-  describe("Native proxies", () => {
-    it("Should preserve the reference across native / runtime boundaries", async () => {
+  describe("Host/Sandbox proxies", () => {
+    it("Should preserve a sandboxed object reference across the host/sandbox boundary", async () => {
       const realm = StaticJsRealm();
       const objVm = await realm.evaluateScript(`
         const obj = {};
@@ -24,7 +24,25 @@ describe("E2E: Object", () => {
       const result = comparer(objNative);
       expect(result).toBe(true);
     });
+
+    it("Should preserve a host object reference across the host/sandbox boundary", async () => {
+      const realm = StaticJsRealm();
+      const objNative = {};
+
+      const compare = await realm.evaluateScript(`
+        function compare(obj1, obj2) {
+          return obj1 === obj2;
+        }
+    `);
+      const compareFn = compare.toJsSync() as (
+        obj1: unknown,
+        obj2: unknown,
+      ) => boolean;
+      const result = compareFn(objNative, objNative);
+      expect(result).toBe(true);
+    });
   });
+
   describe("Properties", () => {
     describe("Getting", () => {
       it("Can get properties", async () => {

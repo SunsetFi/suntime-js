@@ -31,6 +31,8 @@ import {
   type Prototypes,
 } from "../../intrinsics/intrinsics.js";
 
+import { WeakValueMap } from "../utils/WeakValueMap.js";
+
 import StaticJsArrayImpl from "./StaticJsArrayImpl.js";
 import StaticJsBooleanImpl from "./StaticJsBooleanImpl.js";
 import StaticJsNullImpl from "./StaticJsNullImpl.js";
@@ -53,10 +55,25 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   // The registry for our local Symbol.for()
   private readonly _symbolRegistry = new Map<string, StaticJsSymbol>();
 
-  // Maps for native symbols so we can be consistent with references.
-  // We need two, as Symbol.for() returns symbols that cannot be garbage collected.
-  private readonly _nativeRegistrySymbolMap = new Map<object, StaticJsSymbol>();
-  private readonly _nativeSymbolMap = new WeakMap<object, StaticJsSymbol>();
+  // Map native objects to our StaticJsValue wrappers.
+  // We want to be weak for the value, not the key, as we can forget about these objects
+  // when the runtime is no longer using them, but we want to keep the instance the same
+  // so long as an instance actually exists in the runtime.
+  // We do NOT want or need a weak key, because:
+  // - StaticJsObject needs to keep the backing object around for property access, and thus
+  //   requires a strong reference to the key.
+  // - StaticJsSymbol keeps the backing symbol around for .toJsSync()
+  //   We could in theory use a weak key for StaticJsSymbol as once no references exist in the host
+  //   it becomes impossible to verify who the original was, but that adds more complexity for little benefit,
+  //   and I don't expect the memory pressure of keeping the originals around to be particularly problematic.
+  private readonly _nativeSymbolMap = new WeakValueMap<
+    object,
+    StaticJsSymbol
+  >();
+  private readonly _externalObjectMap = new WeakValueMap<
+    object,
+    StaticJsObject
+  >();
 
   private readonly _zero: StaticJsNumber;
   private readonly _NaN: StaticJsNumber;
@@ -326,20 +343,6 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     // Typescript says no, so we have to pull this gross typing shenanigans
     const valueAsObj = value as unknown as object;
 
-    // Check if its from the registry, as registry symbols cannot be GC'd.
-    const keyFor = Symbol.keyFor(value);
-    if (keyFor) {
-      // Note: We could opt for adding this to our own registry, but currently not doing so
-      // in order to keep the two runtimes separate.
-      let sym = this._nativeRegistrySymbolMap.get(valueAsObj);
-      if (!sym) {
-        sym = new StaticJsSymbolImpl(this._realm, value);
-        this._nativeRegistrySymbolMap.set(valueAsObj, sym);
-      }
-      return sym;
-    }
-
-    // Not from a registry, so we can store it in a WeakMap.
     let sym = this._nativeSymbolMap.get(valueAsObj);
     if (!sym) {
       sym = new StaticJsSymbolImpl(this._realm, value);
@@ -364,7 +367,13 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       return this.error(value.name, value.message);
     }
 
-    return new StaticJsExternalObject(this._realm, value);
+    let obj = this._externalObjectMap.get(value);
+    if (!obj) {
+      obj = new StaticJsExternalObject(this._realm, value);
+      this._externalObjectMap.set(value, obj);
+    }
+
+    return obj;
   }
 
   private _toStaticJsValueNull(): StaticJsNull {
