@@ -1,3 +1,4 @@
+import type { StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
@@ -6,14 +7,26 @@ import {
   type StaticJsAccessorPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
 
+const ProxyOwnerKey = Symbol("StaticJsObjectLikeProxyOwner");
+
+export function getStaticJsObjectLikeProxyOwner(
+  proxy: unknown,
+): StaticJsValue | null {
+  if (proxy && typeof proxy === "object" && ProxyOwnerKey in proxy) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (proxy as any)[ProxyOwnerKey] as StaticJsValue;
+  }
+  return null;
+}
+
 export default function createStaticJsObjectLikeProxy(
   obj: StaticJsObjectLike,
   target: object = {},
   additionalTraps: ProxyHandler<object> = {},
 ): unknown {
-  const getOwnPropertyDescriptor = (propertyName: string) => {
+  const getOwnPropertyDescriptor = (propertyName: string | symbol) => {
     if (typeof propertyName !== "string") {
-      // Dont yet support symbols.
+      // TODO: Support well-known symbols.
       return undefined;
     }
 
@@ -93,9 +106,10 @@ export default function createStaticJsObjectLikeProxy(
 
   return new Proxy(target, {
     get(_target, p) {
-      if (typeof p !== "string") {
-        // Don't yet support symbols.
-        return undefined;
+      // Apparently we can add extra properties from get
+      // without having to mess around with the descriptors.
+      if (p === ProxyOwnerKey) {
+        return obj;
       }
 
       const descr = getOwnPropertyDescriptor(p);
@@ -113,23 +127,17 @@ export default function createStaticJsObjectLikeProxy(
     },
     ownKeys,
     getOwnPropertyDescriptor: (_target, p) => {
-      if (typeof p !== "string") {
-        // Don't yet support symbols.
-        return undefined;
-      }
-
       return getOwnPropertyDescriptor(p);
     },
     has(_target, p) {
-      if (typeof p !== "string") {
-        // Don't yet support symbols.
-        return false;
+      if (p === ProxyOwnerKey) {
+        return true;
       }
       return getOwnPropertyDescriptor(p) !== undefined;
     },
     defineProperty(_target, p, descriptor) {
       if (typeof p !== "string") {
-        // Don't yet support symbols.
+        // FIXME: Support symbols in the registry.
         return false;
       }
 
@@ -159,7 +167,7 @@ export default function createStaticJsObjectLikeProxy(
     },
     deleteProperty(_target, p) {
       if (typeof p !== "string") {
-        // Don't yet support symbols.
+        // FIXME: Support symbols in the registry.
         return false;
       }
       obj.deletePropertySync(p);
@@ -174,7 +182,7 @@ export default function createStaticJsObjectLikeProxy(
     },
     set(_target, p, value) {
       if (typeof p !== "string") {
-        // Don't yet support symbols.
+        // FIXME: Support symbols in the registry.
         return false;
       }
 

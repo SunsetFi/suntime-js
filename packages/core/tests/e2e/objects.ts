@@ -1,8 +1,30 @@
 import { describe, it, expect } from "vitest";
 
 import { evaluateScript } from "../../src/index.js";
+import StaticJsRealm from "../../src/runtime/realm/factories/StaticJsRealm.js";
 
 describe("E2E: Object", () => {
+  describe("Native proxies", () => {
+    it("Should preserve the reference across native / runtime boundaries", async () => {
+      const realm = StaticJsRealm();
+      const objVm = await realm.evaluateScript(`
+        const obj = {};
+        globalThis.__nativeObj = obj;
+        obj;
+      `);
+
+      const objNative = objVm.toJsSync();
+
+      const comparerFn = await realm.evaluateScript(`
+        function checkSame(obj) {
+          return obj === globalThis.__nativeObj;
+        }`);
+
+      const comparer = comparerFn.toJsSync() as (obj: unknown) => boolean;
+      const result = comparer(objNative);
+      expect(result).toBe(true);
+    });
+  });
   describe("Properties", () => {
     describe("Getting", () => {
       it("Can get properties", async () => {

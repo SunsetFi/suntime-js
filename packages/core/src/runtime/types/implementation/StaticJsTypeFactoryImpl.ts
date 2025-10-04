@@ -37,17 +37,26 @@ import StaticJsNullImpl from "./StaticJsNullImpl.js";
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectImpl from "./StaticJsObjectImpl.js";
 import StaticJsStringImpl from "./StaticJsStringImpl.js";
-import StaticJsSymbolImpl from "./StaticJsSymbolImpl.js";
+import StaticJsSymbolImpl, {
+  getSymbolProxyOwner,
+} from "./StaticJsSymbolImpl.js";
 import StaticJsUndefinedImpl from "./StaticJsUndefinedImpl.js";
 import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
 import StaticJsExternalObject from "./StaticJsExternalObject.js";
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
+import { getStaticJsObjectLikeProxyOwner } from "./create-object-proxy.js";
 
 export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _prototypes: Prototypes;
   private readonly _constructors: Constructors;
 
+  // The registry for our local Symbol.for()
   private readonly _symbolRegistry = new Map<string, StaticJsSymbol>();
+
+  // Maps for native symbols so we can be consistent with references.
+  // We need two, as Symbol.for() returns symbols that cannot be garbage collected.
+  private readonly _nativeRegistrySymbolMap = new Map<object, StaticJsSymbol>();
+  private readonly _nativeSymbolMap = new WeakMap<object, StaticJsSymbol>();
 
   private readonly _zero: StaticJsNumber;
   private readonly _NaN: StaticJsNumber;
@@ -149,8 +158,10 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     return obj;
   }
 
-  symbol(description?: string): StaticJsSymbol {
-    return new StaticJsSymbolImpl(this._realm, description);
+  symbol(symbol: symbol): StaticJsSymbol;
+  symbol(description?: string): StaticJsSymbol;
+  symbol(descriptionOrSymbol: string | symbol | undefined): StaticJsSymbol {
+    return new StaticJsSymbolImpl(this._realm, descriptionOrSymbol);
   }
 
   array(items?: StaticJsValue[]): StaticJsArray {
@@ -248,6 +259,13 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   toStaticJsValue(value: undefined): StaticJsUndefined;
   toStaticJsValue(value: unknown): StaticJsValue;
   toStaticJsValue(value: unknown): StaticJsValue {
+    const owner =
+      getStaticJsObjectLikeProxyOwner(value) ?? getSymbolProxyOwner(value);
+    if (owner) {
+      value = owner;
+    }
+
+    // Check to see if its a StaticJsValue from another realm.
     if (isStaticJsValue(value)) {
       if (value.realm === this._realm) {
         return value;
@@ -256,8 +274,6 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       // Unwrap it to re-wrap with our own realm.
       value = value.toJsSync();
     }
-
-    // TODO: Resolve to same instance if this is a toJs() value from an existing object.
 
     if (value === null) {
       return this._toStaticJsValueNull();
@@ -269,6 +285,8 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       return this.number(value);
     } else if (typeof value === "string") {
       return this.string(value);
+    } else if (typeof value === "symbol") {
+      return this._toStaticJsValueSymbol(value);
     } else if (Array.isArray(value)) {
       return this._toStaticJsValueArray(value);
     } else if (isFunction(value)) {
@@ -302,6 +320,32 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   string(value: string): StaticJsString {
     return new StaticJsStringImpl(this._realm, value);
+  }
+
+  private _toStaticJsValueSymbol(value: symbol): StaticJsSymbol {
+    // Typescript says no, so we have to pull this gross typing shenanigans
+    const valueAsObj = value as unknown as object;
+
+    // Check if its from the registry, as registry symbols cannot be GC'd.
+    const keyFor = Symbol.keyFor(value);
+    if (keyFor) {
+      // Note: We could opt for adding this to our own registry, but currently not doing so
+      // in order to keep the two runtimes separate.
+      let sym = this._nativeRegistrySymbolMap.get(valueAsObj);
+      if (!sym) {
+        sym = new StaticJsSymbolImpl(this._realm, value);
+        this._nativeRegistrySymbolMap.set(valueAsObj, sym);
+      }
+      return sym;
+    }
+
+    // Not from a registry, so we can store it in a WeakMap.
+    let sym = this._nativeSymbolMap.get(valueAsObj);
+    if (!sym) {
+      sym = new StaticJsSymbolImpl(this._realm, value);
+      this._nativeSymbolMap.set(valueAsObj, sym);
+    }
+    return sym;
   }
 
   private _toStaticJsValueArray(value: unknown[]): StaticJsArray {
