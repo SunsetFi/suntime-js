@@ -1590,6 +1590,28 @@ describe("E2E: Arrays", () => {
         ]);
       });
 
+      it("Accepts items added during iteration", async () => {
+        const code = `
+          const a = [1, 2, 3];
+          const it = a[Symbol.iterator]();
+          const results = [it.next(), it.next()];
+          a.push(4);
+          results.push(it.next());
+          a.push(5);
+          results.push(it.next());
+          results.push(it.next());
+          results;
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([
+          { value: 1, done: false },
+          { value: 2, done: false },
+          { value: 3, done: false },
+          { value: 4, done: false },
+          { value: undefined, done: true },
+        ]);
+      });
+
       it("Iterates empty items", async () => {
         const code = `
           const a = [1, 2, 3];
