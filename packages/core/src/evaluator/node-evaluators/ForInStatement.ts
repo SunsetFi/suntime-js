@@ -15,8 +15,9 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setLVal from "./LVal.js";
 import setupEnvironment from "./setup-environment.js";
+import typedMerge from "../../internal/typed-merge.js";
 
-export default function* forInStatementNodeEvaluator(
+function* forInStatementNodeEvaluator(
   node: ForInStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
@@ -65,11 +66,7 @@ export default function* forInStatementNodeEvaluator(
       context.realm.types.string(key),
       bodyContext,
       function* (name, value) {
-        return yield* bodyContext.env.setMutableBindingEvaluator(
-          name,
-          value,
-          true,
-        );
+        return yield* bodyContext.env.initializeBindingEvaluator(name, value);
       },
     );
 
@@ -90,3 +87,7 @@ export default function* forInStatementNodeEvaluator(
 
   return null;
 }
+
+export default typedMerge(forInStatementNodeEvaluator, {
+  environmentSetup: false,
+});
