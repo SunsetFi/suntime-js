@@ -30,6 +30,8 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
   - array
   - function
 - Strict directive
+- Symbols
+  - Symbol.iterator engine behavior
 - Promises
 - Async Functions
 - Math
@@ -45,9 +47,12 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 
 ### Notable things not (yet) supported
 
-- Symbols
+- Spec-defined symbols and their usage in the runtime (Symbol.iterator and so forth)
 - Async Modules
-- Iterators and Generators
+- Generator functions
+- All well-known symbols not listed above.
+- Map, Set
+- WeakMap, WeakRef, FinalizationRegistry
 - Class syntax
 - Date
 - Regex
@@ -65,7 +70,7 @@ Currently, only a small subset of the tests are passing, but work is ongoing in 
 
 StaticJs provides quick functions for evaluating simple code: `evaluateExpression`, `evaluateScript`, and `evaluateModule`. These functions take strings as their first argument, and return a promise to the [coerced native value](docs/03-type-coersion.md).
 
-Note that the promise resolves when all microtasks spawned by the expression are complete, not when the macrotask itself completes. This means any promise resolutions that occurred as a result of the evaluation will be ran to completion.
+Note that the promise resolves when all microtasks spawned by the expression are complete, not when the macrotask itself completes. This means any VM promise resolutions that occurred as a result of the evaluation will be ran to completion before the returned native promise is resolved.
 
 ```ts
 import { evaluateExpression } from "@suntime-js/core";

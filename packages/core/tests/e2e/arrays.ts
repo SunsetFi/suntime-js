@@ -59,6 +59,29 @@ describe("E2E: Arrays", () => {
     expect(result).toEqual([]);
   });
 
+  it("Can declare an array with a spread operator", async () => {
+    const code = `
+      const iterable = {
+        [Symbol.iterator]: function () {
+          let i = 0;
+          return {
+            next: function () {
+              if (i < 4) {
+                return { value: i++, done: false };
+              } else {
+                return { value: undefined, done: true };
+              }
+            },
+          };
+        },
+      };
+      const b = ["start", ...iterable, "end"];
+      b;
+    `;
+    const result = await evaluateScript(code);
+    expect(result).toEqual(["start", 0, 1, 2, 3, "end"]);
+  });
+
   describe("Array.prototype methods", () => {
     describe("Array.prototype.at", () => {
       it("Can call with a positive index", async () => {

@@ -1,8 +1,13 @@
 import type { ForOfStatement, LVal } from "@babel/types";
 
 import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
+import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+
+import toBoolean from "../../runtime/algorithms/to-boolean.js";
+
+import typedMerge from "../../internal/typed-merge.js";
 
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 import { ContinueCompletion } from "../completions/ContinueCompletion.js";
@@ -15,9 +20,6 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setLVal from "./LVal.js";
 import setupEnvironment from "./setup-environment.js";
-import { isStaticJsFunction } from "../../runtime/index.js";
-import toBoolean from "../../runtime/algorithms/to-boolean.js";
-import typedMerge from "../../internal/typed-merge.js";
 
 function* forOfStatementNodeEvaluator(
   node: ForOfStatement,

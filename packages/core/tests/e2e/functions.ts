@@ -331,6 +331,16 @@ describe("E2E: Functions", () => {
       `;
       expect(await evaluateScript(code)).toBe(42);
     });
+
+    it("Supports spread calls", async () => {
+      const code = `
+        function a(x, y, z) {
+          return x + y + z;
+        }
+        a(...[1, 2, 3]);
+      `;
+      expect(await evaluateScript(code)).toBe(6);
+    });
   });
 
   describe("Scopes", () => {

@@ -1,7 +1,10 @@
 import type { ArrayExpression } from "@babel/types";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import { isStaticJsArray } from "../../runtime/types/StaticJsArray.js";
+import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
+import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
+
+import toBoolean from "../../runtime/algorithms/to-boolean.js";
 
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
@@ -9,9 +12,6 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
-
-import nameNode from "./name-node.js";
-import sliceArrayNative from "../../runtime/types/utils/slice-array-native.js";
 
 export default function* arrayExpressionNodeEvaluator(
   node: ArrayExpression,
@@ -25,30 +25,73 @@ export default function* arrayExpressionNodeEvaluator(
     }
 
     if (element.type === "SpreadElement") {
-      const resolved = yield* EvaluateNodeCommand(element.argument, context, {
-        forNormalValue: "ArrayExpression.elements[].argument",
-      });
+      const spreadValue = yield* EvaluateNodeCommand(
+        element.argument,
+        context,
+        {
+          forNormalValue: "ArrayExpression.elements[].argument",
+        },
+      );
 
-      if (!isStaticJsArray(resolved)) {
-        // FIXME: This is allowed if there is an Iterator.
-        // FIXME: Use real error.
+      if (!isStaticJsObjectLike(spreadValue)) {
+        // NodeJS seems to stringify the value in place of 'Value'.  Maybe.  It returns {} when {} is used?
+        throw new ThrowCompletion(
+          context.realm.types.error("TypeError", "Value is not iterable"),
+        );
+      }
+
+      const iteratorFunc = yield* spreadValue.getPropertyEvaluator(
+        context.realm.types.symbols.iterator,
+      );
+      if (!isStaticJsFunction(iteratorFunc)) {
+        throw new ThrowCompletion(
+          context.realm.types.error("TypeError", "Value is not iterable"),
+        );
+      }
+
+      const iterator = yield* iteratorFunc.callEvaluator(spreadValue);
+      if (!isStaticJsObjectLike(iterator)) {
         throw new ThrowCompletion(
           context.realm.types.error(
             "TypeError",
-            `Cannot spread non-array value (spreading ${nameNode(element)}).`,
+            "Result of the Symbol.iterator method is not an object",
           ),
         );
       }
 
-      const resolvedValues = yield* sliceArrayNative(resolved);
-      items.push(...resolvedValues);
-      continue;
-    }
+      while (true) {
+        const nextMethod = yield* iterator.getPropertyEvaluator("next");
+        if (!isStaticJsFunction(nextMethod)) {
+          throw new ThrowCompletion(
+            context.realm.types.error("TypeError", "next is not a function"),
+          );
+        }
 
-    const value = yield* EvaluateNodeCommand(element, context, {
-      forNormalValue: "ArrayExpression.elements[]",
-    });
-    items.push(value);
+        const next = yield* nextMethod.callEvaluator(iterator);
+        if (!isStaticJsObjectLike(next)) {
+          throw new ThrowCompletion(
+            context.realm.types.error(
+              "TypeError",
+              "Result of next is not an object",
+            ),
+          );
+        }
+
+        const done = yield* next.getPropertyEvaluator("done");
+        const doneResult = yield* toBoolean(done, context.realm);
+        if (doneResult.value) {
+          break;
+        }
+
+        const value = yield* next.getPropertyEvaluator("value");
+        items.push(value);
+      }
+    } else {
+      const value = yield* EvaluateNodeCommand(element, context, {
+        forNormalValue: "ArrayExpression.elements[]",
+      });
+      items.push(value);
+    }
   }
 
   return context.realm.types.array(items);
