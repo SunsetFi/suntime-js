@@ -1,11 +1,10 @@
 import toInteger from "../../../algorithms/to-integer.js";
 import toObject from "../../../algorithms/to-object.js";
 
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
-
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
 
 const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
   key: "slice",
@@ -49,7 +48,7 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const sliceLength = end - start;
-    const items: StaticJsValue[] = new Array(sliceLength);
+    const A = yield* arraySpeciesCreate(thisObj, sliceLength, realm);
     for (let i = 0; i < sliceLength; i++) {
       const property = String(start + i);
       const hasProperty = yield* thisObj.hasPropertyEvaluator(property);
@@ -59,10 +58,15 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const value = yield* thisObj.getPropertyEvaluator(property);
-      items[i] = value;
+      yield* A.definePropertyEvaluator(String(i), {
+        value: value,
+        writable: true,
+        enumerable: true,
+        configurable: true,
+      });
     }
 
-    return realm.types.array(items);
+    return A;
   },
 };
 

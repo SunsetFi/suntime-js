@@ -24,6 +24,7 @@ import arrayProtoForEachDeclaration from "./forEach.js";
 import arrayProtoIncludesDeclaration from "./includes.js";
 import arrayProtoIndexOfDeclaration from "./indexOf.js";
 import arrayProtoJoinDeclaration from "./join.js";
+import arrayProtoKeysDeclaration from "./keys.js";
 import arrayProtoLastIndexOfDeclaration from "./lastIndexOf.js";
 import arrayProtoMapDeclaration from "./map.js";
 import arrayProtoPopDeclaration from "./pop.js";
@@ -44,6 +45,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoAtDeclaration,
   arrayProtoConcatDeclaration,
   // TODO: Array.prototype.copyWithin
+  // https://tc39.es/ecma262/multipage/indexed-collections.html#sec-array.prototype.copywithin
   arrayProtoEntriesDeclaration,
   arrayProtoEveryDeclaration,
   arrayProtoFillDeclaration,
@@ -59,6 +61,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoIndexOfDeclaration,
   arrayProtoJoinDeclaration,
   // TODO: Array.prototype.keys
+  arrayProtoKeysDeclaration,
   arrayProtoLastIndexOfDeclaration,
   arrayProtoMapDeclaration,
   arrayProtoPopDeclaration,

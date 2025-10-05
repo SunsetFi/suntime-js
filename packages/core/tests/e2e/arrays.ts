@@ -886,6 +886,31 @@ describe("E2E: Arrays", () => {
       });
     });
 
+    describe("Array.prototype.keys", () => {
+      it("Returns an iterator", async () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.keys();
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual(expect.any(Object));
+      });
+
+      it("Iterates the keys", async () => {
+        const code = `
+          const a = [1, 2, 3];
+          const iterator = a.keys();
+          const results = [];
+          for (const key of iterator) {
+            results.push(key);
+          }
+          results;
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([0, 1, 2]);
+      });
+    });
+
     describe("Array.prototype.lastIndexOf", () => {
       it("Can be called with no value", async () => {
         const code = `

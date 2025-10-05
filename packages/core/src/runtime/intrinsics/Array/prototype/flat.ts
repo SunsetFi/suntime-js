@@ -31,6 +31,7 @@ const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
       depth = 1;
     }
 
+    // FIXME: Use ArraySpeciesCreate
     const result = yield* performFlat(realm, thisObj, depth);
 
     return realm.types.array(result);

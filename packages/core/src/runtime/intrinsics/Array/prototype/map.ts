@@ -3,11 +3,11 @@ import toObject from "../../../algorithms/to-object.js";
 
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
 
 const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
   key: "map",
@@ -34,7 +34,7 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
 
     const length = yield* lengthOfArrayLike(thisObj, realm);
 
-    const resultArray: StaticJsValue[] = new Array(length);
+    const A = yield* arraySpeciesCreate(thisObj, length, realm);
     for (let i = 0; i < length; i++) {
       const property = String(i);
       const hasProperty = yield* thisObj.hasPropertyEvaluator(property);
@@ -51,10 +51,15 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
         thisArg,
       );
 
-      resultArray[i] = result;
+      yield* A.definePropertyEvaluator(property, {
+        value: result,
+        writable: true,
+        enumerable: true,
+        configurable: true,
+      });
     }
 
-    return realm.types.array(resultArray);
+    return A;
   },
 };
 

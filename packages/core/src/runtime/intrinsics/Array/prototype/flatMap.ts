@@ -1,14 +1,16 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import toObject from "../../../algorithms/to-object.js";
 
-import { isStaticJsArray } from "../../../types/StaticJsArray.js";
+import {
+  isStaticJsArray,
+  MAX_ARRAY_LENGTH,
+} from "../../../types/StaticJsArray.js";
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
-import sliceArrayNative from "../../../types/utils/slice-array-native.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
 
 const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
   key: "flatMap",
@@ -30,7 +32,9 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
 
     const length = yield* lengthOfArrayLike(thisObj, realm);
 
-    const items: StaticJsValue[] = [];
+    const A = yield* arraySpeciesCreate(thisObj, 0, realm);
+    let n = 0;
+
     for (let i = 0; i < length; i++) {
       const hasProperty = yield* thisObj.hasPropertyEvaluator(String(i));
       // flatMap ignores missing items.
@@ -47,15 +51,46 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       );
       // flatMap does not flatten non-array array-likes.
       if (isStaticJsArray(result)) {
-        const resultArray = yield* sliceArrayNative(result);
-        // flatMap does not preserve missing items in sub-arrays.
-        items.push(...resultArray);
+        const len = yield* lengthOfArrayLike(result, realm);
+        if (n + len > MAX_ARRAY_LENGTH) {
+          throw new ThrowCompletion(
+            realm.types.error("TypeError", "Maximum array size exceeded"),
+          );
+        }
+
+        for (let k = 0; k < len; k++) {
+          const exists = yield* result.hasPropertyEvaluator(String(k));
+          if (!exists) {
+            continue;
+          }
+
+          const value = yield* result.getPropertyEvaluator(String(k));
+          yield* A.definePropertyEvaluator(String(n), {
+            value: value,
+            writable: true,
+            enumerable: true,
+            configurable: true,
+          });
+          n++;
+        }
       } else {
-        items.push(result);
+        if (n >= MAX_ARRAY_LENGTH) {
+          throw new ThrowCompletion(
+            realm.types.error("TypeError", "Maximum array size exceeded"),
+          );
+        }
+
+        yield* A.definePropertyEvaluator(String(n), {
+          value: result,
+          writable: true,
+          enumerable: true,
+          configurable: true,
+        });
+        n++;
       }
     }
 
-    return realm.types.array(items);
+    return A;
   },
 };
 

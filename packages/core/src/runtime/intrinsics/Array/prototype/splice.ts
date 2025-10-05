@@ -47,6 +47,7 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
     // Splice is quite complicated, so just hand it off to native.
     // Note: We might want to do this manually eventually, as this might have weird compatibility issues
     // around when getters and setters are invoked.
+    // FIXME: Use algo https://tc39.es/ecma262/multipage/indexed-collections.html#sec-array.prototype.splice
     const oldItems = yield* toArray(thisObj, realm);
     const result = oldItems.splice(
       start,
@@ -55,6 +56,7 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
     );
 
     yield* setArray(realm, thisObj, oldItems);
+    // FIXME: Doesn't take into account array species.
     return realm.types.array(result);
   },
 };
