@@ -204,7 +204,7 @@ export default class ScriptInvocation {
       // Start running freely.
       this._runTaskIteration();
     } else if (status === "paused") {
-      // Task is starting pause.
+      // Task is starting paused.
 
       // Do a single step to advance the iterator to the first operation.
       // Evaluation doesn't start until the first next() call, so calling this is needed

@@ -387,4 +387,38 @@ describe("E2E: Functions", () => {
       expect(await evaluateScript(code)).toEqual([2, 2, "outer"]);
     });
   });
+
+  describe("Prototype", () => {
+    describe("Function.prototype.bind", () => {
+      it("Exists", async () => {
+        const code = `
+          function a() {}
+          a.bind;
+        `;
+        expect(await evaluateScript(code)).toBeTypeOf("function");
+      });
+
+      it("Binds thisArg", async () => {
+        const code = `
+          function a() {
+            return this.value;
+          }
+          const bound = a.bind({ value: 42 });
+          bound();
+        `;
+        expect(await evaluateScript(code)).toBe(42);
+      });
+
+      it("Binds arguments", async () => {
+        const code = `
+          function a(x, y) {
+            return x + y;
+          }
+          const bound = a.bind(null, 40, 2);
+          bound();
+        `;
+        expect(await evaluateScript(code)).toBe(42);
+      });
+    });
+  });
 });
