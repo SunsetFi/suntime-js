@@ -153,4 +153,15 @@ describe("E2E: For Of loops", () => {
       `;
     await expect(evaluateScript(code)).rejects.toThrow("Error");
   });
+
+  it("Passes the last value as the result", async () => {
+    const code = `
+        let sum = 0;
+        for (const i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
+          sum += i;
+          "value: " + i;
+        }
+      `;
+    expect(await evaluateScript(code)).toBe("value: 9");
+  });
 });

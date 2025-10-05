@@ -1,8 +1,12 @@
 import type { ForInStatement, LVal } from "@babel/types";
 
+import typedMerge from "../../internal/typed-merge.js";
+
 import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 import { ContinueCompletion } from "../completions/ContinueCompletion.js";
@@ -15,7 +19,6 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setLVal from "./LVal.js";
 import setupEnvironment from "./setup-environment.js";
-import typedMerge from "../../internal/typed-merge.js";
 
 function* forInStatementNodeEvaluator(
   node: ForInStatement,
@@ -42,6 +45,7 @@ function* forInStatementNodeEvaluator(
     return null;
   }
 
+  let lastValue: StaticJsValue | null = null;
   const keys = yield* right.getEnumerableKeysEvaluator();
   for (const key of keys) {
     const bodyContext = context.createBlockContext(
@@ -71,10 +75,10 @@ function* forInStatementNodeEvaluator(
     );
 
     try {
-      yield* EvaluateNodeCommand(node.body, bodyContext);
+      lastValue = yield* EvaluateNodeCommand(node.body, bodyContext);
     } catch (e) {
       if (BreakCompletion.isBreakForLabel(e, context.label)) {
-        return null;
+        break;
       }
 
       if (ContinueCompletion.isContinueForLabel(e, context.label)) {
@@ -85,7 +89,7 @@ function* forInStatementNodeEvaluator(
     }
   }
 
-  return null;
+  return lastValue;
 }
 
 export default typedMerge(forInStatementNodeEvaluator, {

@@ -143,4 +143,15 @@ describe("E2E: For loops", () => {
       `;
     await expect(evaluateScript(code)).rejects.toThrow("Error");
   });
+
+  it("Passes the last value as the result", async () => {
+    const code = `
+        let sum = 0;
+        for (let i = 0; i < 10; i++) {
+          sum += i;
+          "value: " + i;
+        }
+      `;
+    expect(await evaluateScript(code)).toBe("value: 9");
+  });
 });

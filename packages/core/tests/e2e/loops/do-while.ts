@@ -58,4 +58,17 @@ describe("E2E: Do While loops", () => {
       `;
     await expect(evaluateScript(code)).rejects.toThrow("Error");
   });
+
+  it("Returns last evaluated value", async () => {
+    const code = `
+        let sum = 0;
+        let i = 0;
+        do {
+          sum += i;
+          i++;
+          "value: " + i;
+        } while (i < 10);
+      `;
+    expect(await evaluateScript(code)).toEqual("value: 10");
+  });
 });

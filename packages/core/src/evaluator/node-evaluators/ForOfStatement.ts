@@ -1,11 +1,13 @@
 import type { ForOfStatement, LVal } from "@babel/types";
 
+import typedMerge from "../../internal/typed-merge.js";
+
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import getIterator from "../../runtime/algorithms/get-iterator.js";
 import iteratorStepValue from "../../runtime/algorithms/iterator-step-value.js";
 
-import typedMerge from "../../internal/typed-merge.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 import { ContinueCompletion } from "../completions/ContinueCompletion.js";
@@ -41,6 +43,7 @@ function* forOfStatementNodeEvaluator(
 
   const iterator = yield* getIterator(right, context.realm);
 
+  let lastValue: StaticJsValue | null = null;
   while (true) {
     const value = yield* iteratorStepValue(iterator, context.realm);
     if (value === false) {
@@ -67,10 +70,10 @@ function* forOfStatementNodeEvaluator(
     });
 
     try {
-      yield* EvaluateNodeCommand(node.body, bodyContext);
+      lastValue = yield* EvaluateNodeCommand(node.body, bodyContext);
     } catch (e) {
       if (BreakCompletion.isBreakForLabel(e, context.label)) {
-        return null;
+        break;
       }
 
       if (ContinueCompletion.isContinueForLabel(e, context.label)) {
@@ -81,7 +84,7 @@ function* forOfStatementNodeEvaluator(
     }
   }
 
-  return null;
+  return lastValue;
 }
 
 export default typedMerge(forOfStatementNodeEvaluator, {

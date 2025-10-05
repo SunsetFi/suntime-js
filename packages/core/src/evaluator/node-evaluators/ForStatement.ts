@@ -4,15 +4,18 @@ import typedMerge from "../../internal/typed-merge.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
+import toBoolean from "../../runtime/algorithms/to-boolean.js";
+
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import setupEnvironment from "./setup-environment.js";
 import { ContinueCompletion } from "../completions/ContinueCompletion.js";
 import { BreakCompletion } from "../completions/BreakCompletion.js";
-import toBoolean from "../../runtime/algorithms/to-boolean.js";
+
+import setupEnvironment from "./setup-environment.js";
 
 function* forStatementNodeEvaluator(
   node: ForStatement,
@@ -42,6 +45,7 @@ function* forStatementNodeEvaluator(
     }
   }
 
+  let lastValue: StaticJsValue | null = null;
   do {
     if (node.test) {
       let testResult = yield* EvaluateNodeCommand(node.test, forContext, {
@@ -49,7 +53,7 @@ function* forStatementNodeEvaluator(
       });
       testResult = yield* toBoolean(testResult, context.realm);
       if (!testResult.value) {
-        return null;
+        break;
       }
     }
 
@@ -60,10 +64,10 @@ function* forStatementNodeEvaluator(
     yield* setupEnvironment(node.body, bodyContext);
 
     try {
-      yield* EvaluateNodeCommand(node.body, bodyContext);
+      lastValue = yield* EvaluateNodeCommand(node.body, bodyContext);
     } catch (e) {
       if (BreakCompletion.isBreakForLabel(e, context.label)) {
-        return null;
+        break;
       }
 
       if (ContinueCompletion.isContinueForLabel(e, context.label)) {
@@ -77,6 +81,8 @@ function* forStatementNodeEvaluator(
       yield* EvaluateNodeCommand(node.update, forContext);
     }
   } while (true);
+
+  return lastValue;
 }
 
 export default typedMerge(forStatementNodeEvaluator, {
