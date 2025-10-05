@@ -49,53 +49,53 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   getOwnEnumerableKeysSync(): string[];
   getOwnEnumerableKeysEvaluator(): EvaluationGenerator<string[]>;
 
-  hasPropertySync(name: StaticJsObjectPropertyKey): boolean;
+  hasPropertySync(key: StaticJsObjectPropertyKey): boolean;
   hasPropertyEvaluator(
-    name: StaticJsObjectPropertyKey,
+    key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<boolean>;
 
   getPropertyDescriptorSync(
-    name: StaticJsObjectPropertyKey,
+    key: StaticJsObjectPropertyKey,
   ): StaticJsPropertyDescriptor | undefined;
   getPropertyDescriptorEvaluator(
-    name: StaticJsObjectPropertyKey,
+    key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
   getOwnPropertyDescriptorSync(
-    name: StaticJsObjectPropertyKey,
+    key: StaticJsObjectPropertyKey,
   ): StaticJsPropertyDescriptor | undefined;
   getOwnPropertyDescriptorEvaluator(
-    name: StaticJsObjectPropertyKey,
+    key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
   definePropertySync(
-    name: StaticJsObjectPropertyKey,
+    key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): void;
   definePropertyEvaluator(
-    name: StaticJsObjectPropertyKey,
+    key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<void>;
 
   getPropertySync(name: StaticJsObjectPropertyKey): StaticJsValue;
   getPropertyEvaluator(
-    name: StaticJsObjectPropertyKey,
+    key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsValue>;
 
   setPropertySync(
-    name: StaticJsObjectPropertyKey,
+    key: StaticJsObjectPropertyKey,
     value: StaticJsValue,
     strict: boolean,
   ): void;
   setPropertyEvaluator(
-    name: StaticJsObjectPropertyKey,
+    key: StaticJsObjectPropertyKey,
     value: StaticJsValue,
     strict: boolean,
   ): EvaluationGenerator<void>;
 
-  deletePropertySync(name: StaticJsObjectPropertyKey): boolean;
+  deletePropertySync(key: StaticJsObjectPropertyKey): boolean;
   deletePropertyEvaluator(
-    name: StaticJsObjectPropertyKey,
+    key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<boolean>;
 }
 

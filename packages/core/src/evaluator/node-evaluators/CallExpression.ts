@@ -6,7 +6,7 @@ import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import getIterator from "../../runtime/algorithms/get-iterator.js";
-import getIteratorNext from "../../runtime/algorithms/get-iterator-next.js";
+import iteratorStepValue from "../../runtime/algorithms/iterator-step-value.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -60,7 +60,7 @@ export default function* callExpressionNodeEvaluator(
       const iterator = yield* getIterator(iterable, context.realm);
 
       while (true) {
-        const value = yield* getIteratorNext(iterator, context.realm);
+        const value = yield* iteratorStepValue(iterator, context.realm);
         if (value === false) {
           break;
         }

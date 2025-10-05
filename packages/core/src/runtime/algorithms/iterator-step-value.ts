@@ -12,7 +12,7 @@ import {
 
 import toBoolean from "./to-boolean.js";
 
-export default function* getIteratorNext(
+export default function* iteratorStepValue(
   iterator: StaticJsObjectLike,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsValue | false> {

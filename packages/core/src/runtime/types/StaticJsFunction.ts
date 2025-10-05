@@ -14,7 +14,9 @@ export interface StaticJsFunction extends StaticJsObjectLike {
     ...args: StaticJsValue[]
   ): EvaluationGenerator<StaticJsValue>;
 
-  constructEvaluator(...args: StaticJsValue[]): EvaluationGenerator;
+  constructEvaluator(
+    ...args: StaticJsValue[]
+  ): EvaluationGenerator<StaticJsValue>;
 }
 
 export function isStaticJsFunction(value: unknown): value is StaticJsFunction {

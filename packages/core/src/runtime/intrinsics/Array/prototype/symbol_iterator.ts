@@ -7,7 +7,7 @@ import getLength from "./utils/get-length.js";
 
 const arrayProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
   key: (_realm, symbols) => symbols.iterator,
-  *func2({ realm, prototypes }, thisArg) {
+  *func(realm, thisArg) {
     let index = 0;
 
     thisArg = yield* toObject(thisArg ?? realm.types.undefined, realm);
@@ -53,7 +53,7 @@ const arrayProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
           },
         });
       },
-      { prototype: prototypes.functionProto },
+      { prototype: realm.types.prototypes.functionProto },
     );
 
     const iteratorObj = realm.types.object(
@@ -65,7 +65,7 @@ const arrayProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
           configurable: true,
         },
       },
-      prototypes.iteratorProto,
+      realm.types.prototypes.iteratorProto,
     );
 
     return iteratorObj;

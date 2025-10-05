@@ -3,7 +3,7 @@ import type { ForOfStatement, LVal } from "@babel/types";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import getIterator from "../../runtime/algorithms/get-iterator.js";
-import getIteratorNext from "../../runtime/algorithms/get-iterator-next.js";
+import iteratorStepValue from "../../runtime/algorithms/iterator-step-value.js";
 
 import typedMerge from "../../internal/typed-merge.js";
 
@@ -42,7 +42,7 @@ function* forOfStatementNodeEvaluator(
   const iterator = yield* getIterator(right, context.realm);
 
   while (true) {
-    const value = yield* getIteratorNext(iterator, context.realm);
+    const value = yield* iteratorStepValue(iterator, context.realm);
     if (value === false) {
       break;
     }

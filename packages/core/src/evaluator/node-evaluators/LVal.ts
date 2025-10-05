@@ -5,7 +5,7 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import toObject from "../../runtime/algorithms/to-object.js";
 import getIterator from "../../runtime/algorithms/get-iterator.js";
-import getIteratorNext from "../../runtime/algorithms/get-iterator-next.js";
+import iteratorStepValue from "../../runtime/algorithms/iterator-step-value.js";
 
 import {
   isStaticJsObjectLike,
@@ -88,7 +88,7 @@ export default function* setLVal(
         if (foundEnd) {
           value = context.realm.types.undefined;
         } else {
-          const next = yield* getIteratorNext(iterator, context.realm);
+          const next = yield* iteratorStepValue(iterator, context.realm);
           if (next === false) {
             foundEnd = true;
             value = context.realm.types.undefined;
@@ -109,7 +109,7 @@ export default function* setLVal(
 
           // And then get the rest of them.
           while (true) {
-            const next = yield* getIteratorNext(iterator, context.realm);
+            const next = yield* iteratorStepValue(iterator, context.realm);
             if (next === false) {
               // babel should enforce no more elements after a rest element, but just in case...
               foundEnd = true;

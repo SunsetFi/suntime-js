@@ -1661,4 +1661,100 @@ describe("E2E: Arrays", () => {
       });
     });
   });
+
+  describe("Static Methods", () => {
+    describe("Array.from", () => {
+      it("Errors if called with no args", async () => {
+        const code = `
+          Array.from();
+        `;
+        await expect(evaluateScript(code)).rejects.toThrow(
+          "Cannot convert undefined or null to object",
+        );
+      });
+
+      it("Errors if called with null", async () => {
+        const code = `
+          Array.from(null);
+        `;
+        await expect(evaluateScript(code)).rejects.toThrow(
+          "Cannot convert undefined or null to object",
+        );
+      });
+
+      it("Errors if called with undefined", async () => {
+        const code = `
+          Array.from(undefined);
+        `;
+        await expect(evaluateScript(code)).rejects.toThrow(
+          "Cannot convert undefined or null to object",
+        );
+      });
+
+      it("Creates an array from an array", async () => {
+        const code = `
+          const a = [1, 2, 3];
+          Array.from(a);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([1, 2, 3]);
+      });
+
+      it("Creates an array from an array-like", async () => {
+        const code = `
+          Array.from({length: 3, 0: "a", 1: "b", 2: "c"});
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual(["a", "b", "c"]);
+      });
+
+      it("Creates an array from an iterator", async () => {
+        const code = `
+          const iterable = {
+            [Symbol.iterator]() {
+              let i = 1;
+              return {
+                next() {
+                  if (i <= 3) {
+                    return { value: i++, done: false };
+                  } else {
+                    return { value: undefined, done: true };
+                  }
+                }
+              };
+            }
+          };
+          Array.from(iterable);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([1, 2, 3]);
+      });
+    });
+
+    describe("Array.of", () => {
+      it("Creates an array from the arguments", async () => {
+        const code = `
+          Array.of(1, 2, 3);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([1, 2, 3]);
+      });
+
+      it("Creates an array with a single numeric argument", async () => {
+        const code = `
+          Array.of(3);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([3]);
+      });
+
+      it("Creates an array with no arguments", async () => {
+        const code = `
+          Array.of();
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([]);
+      });
+    });
+  });
 });

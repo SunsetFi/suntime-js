@@ -107,7 +107,9 @@ export default class StaticJsFunctionImpl
     }
   }
 
-  *constructEvaluator(...args: StaticJsValue[]): EvaluationGenerator {
+  *constructEvaluator(
+    ...args: StaticJsValue[]
+  ): EvaluationGenerator<StaticJsValue> {
     let proto = yield* this.getPropertyEvaluator("prototype");
     if (!proto || !isStaticJsObjectLike(proto)) {
       // This appears to be what node does

@@ -31,7 +31,7 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
     return yield* super._createContext(this.realm.types.undefined, args);
   }
 
-  *constructEvaluator(): EvaluationGenerator {
+  *constructEvaluator(): EvaluationGenerator<StaticJsValue> {
     const nameValue = yield* this.getPropertyEvaluator("name");
     let name = nameValue.toStringSync();
     if (name === "") {

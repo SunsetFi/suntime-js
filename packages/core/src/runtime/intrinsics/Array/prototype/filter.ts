@@ -1,13 +1,14 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import toBoolean from "../../../algorithms/to-boolean.js";
+import toObject from "../../../algorithms/to-object.js";
+import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
+
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import getLength from "./utils/get-length.js";
-import toBoolean from "../../../algorithms/to-boolean.js";
-import toObject from "../../../algorithms/to-object.js";
 
 const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
   key: "filter",
@@ -29,7 +30,9 @@ const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
 
     const length = yield* getLength(realm, thisObj);
 
-    const resultItems: StaticJsValue[] = [];
+    const target = yield* arraySpeciesCreate(thisObj, 0, realm);
+    let to = 0;
+
     for (let i = 0; i < length; i++) {
       const property = String(i);
       const hasProperty = yield* thisObj.hasPropertyEvaluator(property);
@@ -45,13 +48,23 @@ const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
         thisObj,
       );
       result = yield* toBoolean(result, realm);
-
-      if (result.value) {
-        resultItems.push(elementValue);
+      if (!result.value) {
+        continue;
       }
+
+      // Needs to be define, not set, for spec compliance.
+      // This is only relevant for crazy things like a subclass of array
+      // with setter props for index values.
+      yield* target.definePropertyEvaluator(String(to), {
+        value: elementValue,
+        writable: true,
+        enumerable: true,
+        configurable: true,
+      });
+      to++;
     }
 
-    return realm.types.array(resultItems);
+    return target;
   },
 };
 

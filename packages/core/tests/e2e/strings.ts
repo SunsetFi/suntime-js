@@ -51,6 +51,13 @@ describe("E2E: Strings", () => {
       expect(await evaluateScript(code)).toBe(3);
     });
 
+    it("Supports indexing", async () => {
+      const code = `
+        "abc"[1];
+      `;
+      expect(await evaluateScript(code)).toBe("b");
+    });
+
     it("Supports concat", async () => {
       const code = `
         "a".concat("b");

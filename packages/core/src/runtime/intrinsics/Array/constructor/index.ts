@@ -14,9 +14,15 @@ import {
   type IntrinsicPropertyDeclaration,
 } from "../../utils.js";
 
+import arrayConstructorFromDeclaration from "./from.js";
+import arrayConstructorIsArrayDeclaration from "./isArray.js";
+import arrayConstructorOfDeclaration from "./of.js";
 import arrayConstructorSymbolSpeciesDeclaration from "./symbol_species.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
+  arrayConstructorFromDeclaration,
+  arrayConstructorIsArrayDeclaration,
+  arrayConstructorOfDeclaration,
   arrayConstructorSymbolSpeciesDeclaration,
 ];
 
