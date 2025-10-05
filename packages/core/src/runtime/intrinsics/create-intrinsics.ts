@@ -21,7 +21,7 @@ import {
 import {
   createFunctionConstructor,
   populateFunctionPrototype,
-} from "./Function.js";
+} from "./Function/index.js";
 import {
   populateStringPrototype,
   createStringConstructor,
@@ -128,7 +128,7 @@ export function createIntrinsics(realm: StaticJsRealm): Intrinsics {
 
   populateObjectPrototype(realm, objectProto, prototypes, symbols);
   populateSymbolPrototype(realm, symbolProto, prototypes, symbols);
-  populateFunctionPrototype(realm, prototypes, symbols);
+  populateFunctionPrototype(realm, functionProto, prototypes, symbols);
 
   populateStringPrototype(realm, stringProto, prototypes, symbols);
   populateNumberPrototype(realm, numberProto, prototypes, symbols);

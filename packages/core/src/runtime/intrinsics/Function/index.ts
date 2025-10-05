@@ -1,18 +1,10 @@
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import type { StaticJsObject } from "../types/StaticJsObject.js";
-import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
+import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
 
-import type { IntrinsicSymbols, Prototypes } from "./intrinsics.js";
-
-export function populateFunctionPrototype(
-  _realm: StaticJsRealm,
-  prototypes: Prototypes,
-  _intrinsicSymbols: IntrinsicSymbols,
-) {
-  return prototypes.functionProto;
-}
+export { default as populateFunctionPrototype } from "./prototype/index.js";
 
 export function createFunctionConstructor(
   realm: StaticJsRealm,

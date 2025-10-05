@@ -73,6 +73,7 @@ import type {
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;
+  private readonly _globalThis: StaticJsValue;
   private readonly _globalEnv: StaticJsEnvironment;
   private readonly _typeFactory: StaticJsTypeFactory;
 
@@ -151,6 +152,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     );
 
     this._globalObject = globalObjectResolved;
+    this._globalThis = globalThisResolved;
 
     this._globalEnv = new StaticJsGlobalEnvironmentRecord(
       this,
@@ -166,6 +168,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   get globalObject() {
     return this._globalObject;
+  }
+
+  get globalThis() {
+    return this._globalThis;
   }
 
   get globalEnv() {

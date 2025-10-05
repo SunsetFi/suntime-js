@@ -46,6 +46,11 @@ export interface StaticJsRealm {
   readonly globalObject: StaticJsObject;
 
   /**
+   * The global-scope `this` value of the realm.
+   */
+  readonly globalThis: StaticJsValue;
+
+  /**
    * The global-scope Environment of the realm.
    */
   readonly globalEnv: StaticJsEnvironment;
