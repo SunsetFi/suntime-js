@@ -75,6 +75,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoSortDeclaration,
   arrayProtoSpliceDeclaration,
   arrayProtoSymbolIteratorDeclaration,
+  // TODO: symbol.unscopables
   arrayProtoToStringDeclaration,
   arrayProtoUnshiftDeclaration,
 ];

@@ -4,15 +4,19 @@ import typedMerge from "../../internal/typed-merge.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
+import toBoolean from "../../runtime/algorithms/to-boolean.js";
+
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+
+import { BreakCompletion } from "../completions/BreakCompletion.js";
+import { ContinueCompletion } from "../completions/ContinueCompletion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setupEnvironment from "./setup-environment.js";
-import { BreakCompletion } from "../completions/BreakCompletion.js";
-import { ContinueCompletion } from "../completions/ContinueCompletion.js";
-import toBoolean from "../../runtime/algorithms/to-boolean.js";
 
 function* whileStatementNodeEvaluator(
   node: WhileStatement,
@@ -22,6 +26,7 @@ function* whileStatementNodeEvaluator(
     new StaticJsDeclarativeEnvironmentRecord(context.realm),
   );
 
+  let lastResult: StaticJsValue | null = null;
   while (true) {
     let testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
       forNormalValue: "WhileStatement.test",
@@ -39,7 +44,7 @@ function* whileStatementNodeEvaluator(
     yield* setupEnvironment(node.body, bodyContext);
 
     try {
-      yield* EvaluateNodeCommand(node.body, bodyContext);
+      lastResult = yield* EvaluateNodeCommand(node.body, bodyContext);
     } catch (e) {
       if (BreakCompletion.isBreakForLabel(e, context.label)) {
         break;
@@ -53,7 +58,7 @@ function* whileStatementNodeEvaluator(
     }
   }
 
-  return null;
+  return lastResult;
 }
 
 export default typedMerge(whileStatementNodeEvaluator, {
