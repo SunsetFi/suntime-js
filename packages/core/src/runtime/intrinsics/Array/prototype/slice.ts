@@ -5,14 +5,14 @@ import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import getLength from "./utils/get-length.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
   key: "slice",
   *func(realm, thisArg, startValue, endValue) {
     const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
-    const length = yield* getLength(realm, thisObj);
+    const length = yield* lengthOfArrayLike(thisObj, realm);
 
     let start = 0;
     if (startValue) {

@@ -3,14 +3,14 @@ import toObject from "../../../algorithms/to-object.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import getLength from "./utils/get-length.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoIndexOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "indexOf",
   *func(realm, thisArg, value) {
     const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
-    const length = yield* getLength(realm, thisObj);
+    const length = yield* lengthOfArrayLike(thisObj, realm);
 
     if (!value) {
       value = realm.types.undefined;

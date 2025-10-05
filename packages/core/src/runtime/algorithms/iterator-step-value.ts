@@ -31,8 +31,8 @@ export default function* iteratorStepValue(
   }
 
   const done = yield* next.getPropertyEvaluator("done");
-  const doneResult = yield* toBoolean(done, realm);
-  if (doneResult.value) {
+  const doneResult = yield* toBoolean.js(done, realm);
+  if (doneResult) {
     return false;
   }
 

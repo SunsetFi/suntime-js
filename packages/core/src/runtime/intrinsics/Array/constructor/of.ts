@@ -40,6 +40,7 @@ const arrayConstructorOfDeclaration: IntrinsicPropertyDeclaration = {
     let k = 0;
 
     while (k < len.value) {
+      // Per spec, must be defineProperty
       yield* A.definePropertyEvaluator(String(k), {
         value: items[k],
         writable: true,
@@ -49,6 +50,7 @@ const arrayConstructorOfDeclaration: IntrinsicPropertyDeclaration = {
       k++;
     }
 
+    // Per spec, must be set
     yield* A.setPropertyEvaluator("length", len, true);
 
     return A;

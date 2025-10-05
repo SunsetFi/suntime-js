@@ -8,7 +8,7 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-import getLength from "./utils/get-length.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import toNumber from "../../../algorithms/to-number.js";
 import toObject from "../../../algorithms/to-object.js";
 
@@ -73,7 +73,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
       }
     };
 
-    const length = yield* getLength(realm, thisObj);
+    const length = yield* lengthOfArrayLike(thisObj, realm);
 
     const a: StaticJsValue[] = new Array(length);
     const b: StaticJsValue[] = new Array(length);

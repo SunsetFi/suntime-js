@@ -3,7 +3,7 @@ import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunction
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import getLength from "./utils/get-length.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
   key: (_realm, symbols) => symbols.iterator,
@@ -16,7 +16,7 @@ const arrayProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
       realm,
       "next",
       function* () {
-        const length = yield* getLength(realm, thisArg);
+        const length = yield* lengthOfArrayLike(thisArg, realm);
         if (index < length) {
           const value = yield* thisArg.getPropertyEvaluator(String(index));
 

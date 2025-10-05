@@ -1,14 +1,14 @@
 import toObject from "../../../algorithms/to-object.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import getLength from "./utils/get-length.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
   key: "shift",
   *func(realm, thisArg) {
     const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
-    const length = yield* getLength(realm, thisObj);
+    const length = yield* lengthOfArrayLike(thisObj, realm);
 
     if (length <= 0) {
       yield* thisObj.setPropertyEvaluator("length", realm.types.zero, true);

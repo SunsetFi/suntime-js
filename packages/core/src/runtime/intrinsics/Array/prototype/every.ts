@@ -6,7 +6,7 @@ import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import getLength from "./utils/get-length.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
   key: "every",
@@ -28,7 +28,7 @@ const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const length = yield* getLength(realm, thisObj);
+    const length = yield* lengthOfArrayLike(thisObj, realm);
 
     if (length === 0) {
       return realm.types.false;

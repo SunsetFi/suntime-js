@@ -6,7 +6,7 @@ import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import getLength from "./utils/get-length.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoFindIndexDeclaration: IntrinsicPropertyDeclaration = {
   key: "findIndex",
@@ -26,7 +26,7 @@ const arrayProtoFindIndexDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const length = yield* getLength(realm, thisObj);
+    const length = yield* lengthOfArrayLike(thisObj, realm);
 
     for (let i = 0; i < length; i++) {
       const value = yield* thisObj.getPropertyEvaluator(String(i));

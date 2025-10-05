@@ -22,10 +22,11 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import getLength from "../prototype/utils/get-length.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import StaticJsArrayImpl from "../../../types/implementation/StaticJsArrayImpl.js";
 import getIterator from "../../../algorithms/get-iterator.js";
 import iteratorStepValue from "../../../algorithms/iterator-step-value.js";
+import { MAX_ARRAY_LENGTH } from "../../../types/StaticJsArray.js";
 
 const arrayConstructorFromDeclaration: IntrinsicPropertyDeclaration = {
   key: "from",
@@ -70,8 +71,6 @@ const arrayConstructorFromDeclaration: IntrinsicPropertyDeclaration = {
 
 export default arrayConstructorFromDeclaration;
 
-// From the spec.
-const maxIteratorItems = 2 ** 53 - 1;
 function* fromIterator(
   C: StaticJsValue,
   items: StaticJsValue,
@@ -86,7 +85,7 @@ function* fromIterator(
   let k = 0;
 
   while (true) {
-    if (k >= maxIteratorItems) {
+    if (k >= MAX_ARRAY_LENGTH) {
       throw new ThrowCompletion(
         realm.types.error("TypeError", "Too many items from iterator"),
       );
@@ -137,7 +136,7 @@ function* fromArrayLike(
 ): EvaluationGenerator<StaticJsValue> {
   const arrayLike = yield* toObject(items, realm);
 
-  const len = yield* getLength(realm, arrayLike);
+  const len = yield* lengthOfArrayLike(arrayLike, realm);
 
   const A = yield* createArrayFromConstructor(C, len, realm);
 

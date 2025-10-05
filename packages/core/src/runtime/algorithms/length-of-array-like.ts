@@ -1,15 +1,15 @@
-import type EvaluationGenerator from "../../../../../evaluator/EvaluationGenerator.js";
+import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsRealm } from "../../../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import toInteger from "../../../../algorithms/to-integer.js";
+import toInteger from "./to-integer.js";
 
-import type { StaticJsObjectLike } from "../../../../types/StaticJsObjectLike.js";
-import { MAX_ARRAY_LENGTH } from "../../../../types/StaticJsArray.js";
+import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { MAX_ARRAY_LENGTH } from "../types/StaticJsArray.js";
 
-export default function* getLength(
-  realm: StaticJsRealm,
+export default function* lengthOfArrayLike(
   obj: StaticJsObjectLike,
+  realm: StaticJsRealm,
 ): EvaluationGenerator<number> {
   let lengthValue = yield* obj.getPropertyEvaluator("length");
   lengthValue = yield* toInteger(lengthValue, realm);

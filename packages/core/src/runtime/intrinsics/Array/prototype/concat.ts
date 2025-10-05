@@ -1,39 +1,99 @@
-import { isStaticJsArray } from "../../../types/StaticJsArray.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
-import sliceArrayNative from "../../../types/utils/slice-array-native.js";
+import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+
+import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
+import isConcatSpreadable from "../../../algorithms/is-concat-spreadable.js";
+import toObject from "../../../algorithms/to-object.js";
+
+import type { StaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { MAX_ARRAY_LENGTH } from "../../../types/StaticJsArray.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+
 const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
   key: "concat",
-  *func(realm, ...args) {
+  *func(realm, thisArg, ...items) {
     // Unique among array methods, concat does not cast thisArg to an array.
 
-    let values: StaticJsValue[] = [];
+    const O = yield* toObject(thisArg, realm);
+    const A = yield* arraySpeciesCreate(O, 0, realm);
 
-    for (const arg of args) {
-      if (!arg) {
-        continue;
+    let n = 0;
+
+    // Spec just says "prepend O to items".  Not sure what to do if getting items increments the length
+    const length = yield* lengthOfArrayLike(O, realm);
+    for (let i = 0; i < length; i++) {
+      const property = String(i);
+      if (yield* O.hasPropertyEvaluator(property)) {
+        const E = yield* O.getPropertyEvaluator(property);
+        // Per spec, must be defineProperty
+        yield* A.definePropertyEvaluator(String(n), {
+          value: E,
+          writable: true,
+          enumerable: true,
+          configurable: true,
+        });
       }
-
-      // Concat actually seems to understand the concept of arrays and not-arrays.
-      // Objects with length properties are NOT treated as arrays!
-      // FIXME: Is this an iterator thing?
-      if (isStaticJsArray(arg)) {
-        const argValues = yield* sliceArrayNative(arg);
-
-        // CANT DO THIS!  It actualizes unset values!
-        // values.push(...argValues);
-        // Must use concat to keep gaps.
-        values = values.concat(argValues);
-
-        continue;
-      }
-
-      values.push(arg);
+      n++;
     }
 
-    return realm.types.array(values);
+    for (const E of items) {
+      // We only type undefined to force implementers to consider empty values in the spread
+      if (!E) {
+        continue;
+      }
+
+      const spreadable = yield* isConcatSpreadable(E, realm);
+      if (spreadable) {
+        const objE = E as StaticJsObjectLike;
+        const len = yield* lengthOfArrayLike(objE, realm);
+        if (n + len > MAX_ARRAY_LENGTH) {
+          throw new ThrowCompletion(
+            realm.types.error("TypeError", "Maximum array size exceeded"),
+          );
+        }
+
+        let k = 0;
+        while (k < len) {
+          const Pk = String(k);
+          const exists = yield* objE.hasPropertyEvaluator(Pk);
+          if (exists) {
+            const subElement = yield* objE.getPropertyEvaluator(Pk);
+
+            // Per spec, must be defineProperty
+            yield* A.definePropertyEvaluator(String(n), {
+              value: subElement,
+              writable: true,
+              enumerable: true,
+              configurable: true,
+            });
+          }
+          n++;
+          k++;
+        }
+      } else {
+        if (n >= MAX_ARRAY_LENGTH) {
+          throw new ThrowCompletion(
+            realm.types.error("TypeError", "Maximum array size exceeded"),
+          );
+        }
+
+        // Per spec, must be defineProperty
+        yield* A.definePropertyEvaluator(String(n), {
+          value: E,
+          writable: true,
+          enumerable: true,
+          configurable: true,
+        });
+        n++;
+      }
+    }
+
+    // Per spec, must be set
+    yield* A.setPropertyEvaluator("length", realm.types.number(n), true);
+
+    return A;
   },
 };
 

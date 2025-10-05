@@ -4,7 +4,7 @@ import toObject from "../../../algorithms/to-object.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import getLength from "./utils/get-length.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
   key: "includes",
@@ -15,7 +15,7 @@ const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
       return realm.types.false;
     }
 
-    const length = yield* getLength(realm, thisObj);
+    const length = yield* lengthOfArrayLike(thisObj, realm);
     if (length === 0) {
       return realm.types.false;
     }

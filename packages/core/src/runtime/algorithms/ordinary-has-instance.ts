@@ -22,8 +22,7 @@ export default function* ordinaryHasInstance(
   );
   if (isStaticJsFunction(hasInstanceFunc)) {
     const result = yield* hasInstanceFunc.callEvaluator(C, O);
-    const resultBool = yield* toBoolean(result, realm);
-    return resultBool.value;
+    return yield* toBoolean.js(result, realm);
   }
 
   if (!isStaticJsObjectLike(O)) {

@@ -5,7 +5,7 @@ import { MAX_ARRAY_LENGTH } from "../../../types/StaticJsArray.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import getLength from "./utils/get-length.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
   key: "unshift",
@@ -13,7 +13,7 @@ export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
     const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
     // Set the new length
-    const length = yield* getLength(realm, thisObj);
+    const length = yield* lengthOfArrayLike(thisObj, realm);
 
     if (args.length + length > MAX_ARRAY_LENGTH) {
       // Note: Not exactly what NodeJs does, it says "invalid array length".

@@ -2,7 +2,7 @@ import toString from "../../../algorithms/to-string.js";
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-import getLength from "./utils/get-length.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
   key: "toString",
@@ -18,7 +18,7 @@ const arrayProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
       return yield* toString(thisArg, realm);
     }
 
-    const length = yield* getLength(realm, thisArg);
+    const length = yield* lengthOfArrayLike(thisArg, realm);
 
     const segments = new Array<string>(length);
     for (let i = 0; i < length; i++) {

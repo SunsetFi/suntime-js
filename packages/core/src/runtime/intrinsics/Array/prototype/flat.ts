@@ -11,7 +11,7 @@ import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import getLength from "./utils/get-length.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import toObject from "../../../algorithms/to-object.js";
 
 const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
@@ -45,7 +45,7 @@ function* performFlat(
   depth: number,
   target: StaticJsValue[] = [],
 ): EvaluationGenerator<StaticJsValue[]> {
-  const length = yield* getLength(realm, thisObj);
+  const length = yield* lengthOfArrayLike(thisObj, realm);
 
   for (let i = 0; i < length; i++) {
     const hasProperty = yield* thisObj.hasPropertyEvaluator(String(i));

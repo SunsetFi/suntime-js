@@ -4,14 +4,14 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import getLength from "./utils/get-length.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
   key: "join",
   *func(realm, thisArg, joinerValue) {
     const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
-    const length = yield* getLength(realm, thisObj);
+    const length = yield* lengthOfArrayLike(thisObj, realm);
 
     if (joinerValue == null) {
       joinerValue = realm.types.undefined;
