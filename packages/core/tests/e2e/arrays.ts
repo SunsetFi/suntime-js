@@ -1756,5 +1756,23 @@ describe("E2E: Arrays", () => {
         expect(result).toEqual([]);
       });
     });
+
+    describe("Array.isArray", () => {
+      it("Returns true for arrays", async () => {
+        const code = `
+          Array.isArray([1, 2, 3]);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual(true);
+      });
+
+      it("Returns false for non-arrays", async () => {
+        const code = `
+          Array.isArray({});
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual(false);
+      });
+    });
   });
 });
