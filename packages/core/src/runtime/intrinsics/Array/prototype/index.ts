@@ -10,6 +10,7 @@ import {
 
 import arrayProtoAtDeclaration from "./at.js";
 import arrayProtoConcatDeclaration from "./concat.js";
+import arrayProtoEntriesDeclaration from "./entries.js";
 import arrayProtoEveryDeclaration from "./every.js";
 import arrayProtoFillDeclaration from "./fill.js";
 import arrayProtoFilterDeclaration from "./filter.js";
@@ -43,7 +44,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoAtDeclaration,
   arrayProtoConcatDeclaration,
   // TODO: Array.prototype.copyWithin
-  // TODO: Array.prototype.entries
+  arrayProtoEntriesDeclaration,
   arrayProtoEveryDeclaration,
   arrayProtoFillDeclaration,
   arrayProtoFilterDeclaration,

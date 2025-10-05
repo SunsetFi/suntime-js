@@ -2,6 +2,9 @@ import { describe, it, expect } from "vitest";
 
 import { evaluateScript } from "../../src/index.js";
 
+// FIXME SUPER IMPORTANT:
+// vitest expect toEqual is not erroring at all even with grossly wrong values.
+
 describe("E2E: Arrays", () => {
   it("Is instanceof Array", async () => {
     const code = `
@@ -142,14 +145,10 @@ describe("E2E: Arrays", () => {
       it("Can call with two arrays", async () => {
         const code = `
         const a = [1, 2, 3];
-        const b = a.concat([4, 5]);
-        [a, b];
+        a.concat([4, 5]);
       `;
         const result = await evaluateScript(code);
-        expect(result).toEqual([
-          [1, 2, 3],
-          [1, 2, 3, 4, 5],
-        ]);
+        expect(result).toEqual([1, 2, 3, 4, 5]);
       });
 
       it("Can call with gap arrays", async () => {
@@ -163,6 +162,46 @@ describe("E2E: Arrays", () => {
         expect(result).toEqual([
           [1, undefined, 3],
           [1, undefined, 3, 4, 5],
+        ]);
+      });
+
+      it("Supports Symbol.isConcatSpreadable", async () => {
+        const code = `
+          const a = [1, 2, 3];
+          const b = [4, 5];
+          b[Symbol.isConcatSpreadable] = false;
+          a.concat(b);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([1, 2, 3, [4, 5]]);
+      });
+    });
+
+    describe("Array.prototype.entries", () => {
+      it("Returns an iterator", async () => {
+        const code = `
+          const a = [1, 2, 3];
+          a.entries();
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual(expect.any(Object));
+      });
+
+      it("Iterates the entries", async () => {
+        const code = `
+          const a = [1, 2, 3];
+          const iterator = a.entries();
+          const results = [];
+          for (const entry of iterator) {
+            results.push(entry);
+          }
+          results;
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([
+          [0, 1],
+          [1, 2],
+          [2, 3],
         ]);
       });
     });
@@ -1604,7 +1643,7 @@ describe("E2E: Arrays", () => {
           typeof it.next === "function";
         `;
         const result = await evaluateScript(code);
-        expect(result).toEqual(true);
+        expect(result).toBe(true);
       });
 
       it("Iterates the values", async () => {
@@ -1632,6 +1671,7 @@ describe("E2E: Arrays", () => {
           a.push(5);
           results.push(it.next());
           results.push(it.next());
+          results.push(it.next());
           results;
         `;
         const result = await evaluateScript(code);
@@ -1640,6 +1680,7 @@ describe("E2E: Arrays", () => {
           { value: 2, done: false },
           { value: 3, done: false },
           { value: 4, done: false },
+          { value: 5, done: false },
           { value: undefined, done: true },
         ]);
       });
