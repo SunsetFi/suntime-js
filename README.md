@@ -49,6 +49,7 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 ### Notable things not (yet) supported
 
 - Spec-defined symbols and their usage in the runtime (Symbol.iterator and so forth)
+- iterator.return calls
 - Async Modules
 - Generator functions
 - All well-known symbols not listed above.
