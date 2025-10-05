@@ -64,7 +64,7 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 
 This project is slowly working its way through the [Test262](https://github.com/tc39/test262) suite of JavaScript tests in order to ensure compliance with the spec.
 
-Currently, only a small subset of the tests are passing, but work is ongoing in this area.
+Currently, around 3800 tests are passing, or about 16%. Further work is ongoing in this area.
 
 ## Quick Usage (native JS interop)
 
