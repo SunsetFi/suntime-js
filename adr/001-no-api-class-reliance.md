@@ -3,7 +3,7 @@
 ## Decisions
 
 - Do not export any classes or class constructors
-- Do not rely on any class instance checks in the codebase (IE, with instanceof)
+- Do not rely on any class instance checks for public APIs in the codebase (IE, with instanceof)
 - Internal classes may be used, but if exported, they should be wrapped behind:
   - An exported interface or type
   - An exported factory function

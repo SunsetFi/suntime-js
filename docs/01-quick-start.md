@@ -61,7 +61,7 @@ const result = await evaluateScript(code);
 console.log(result(2, 4)); // 6
 ```
 
-These proxies are live and bidirectional, so mutating values on a proxy will mutate it in the StaticJs runtime. Note that things like property setters are invoked when mutating.
+These proxies are live and bidirectional, so mutating values on a proxy will mutate it in the StaticJs runtime. Note that property setters may be invoked when mutating.
 
 ```ts
 import { evaluateExpression } from "@suntime-js/core";
