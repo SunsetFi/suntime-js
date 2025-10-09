@@ -29,7 +29,7 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
   - object
   - function
 - Strict directive
-- Symbols
+- Symbols (including engine behavior)
   - Symbol.iterator
   - Symbol.hasInstance
   - Symbol.species
@@ -43,11 +43,11 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 - for / for-of / for-in / while / do
 - try / catch / finally
 - Destructuring
-- Spread operators (internal array and object instances only).
+- Spread operators (including Symbol.iterator usage)
 - ECMAScript Modules
   - Exports
-  - Importing from external APIs
-  - Importing from other sandboxed modules
+  - Importing from host-defined modules
+  - Importing from sandboxed modules
 
 ### Notable things not (yet) supported
 
@@ -55,7 +55,7 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 - iterator.return calls
 - Async Modules
 - Generator functions
-- All well-known symbols not listed above.
+- All well-known symbols not listed above
 - Map, Set
 - WeakMap, WeakRef, FinalizationRegistry
 - Class syntax
