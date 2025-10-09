@@ -38,6 +38,7 @@ import arrayProtoSomeDeclaration from "./some.js";
 import arrayProtoSortDeclaration from "./sort.js";
 import arrayProtoSpliceDeclaration from "./splice.js";
 import arrayProtoSymbolIteratorDeclaration from "./symbol_iterator.js";
+import arrayProtoSymbolUnscopables from "./symbol_unscopables.js";
 import arrayProtoToStringDeclaration from "./toString.js";
 import arrayProtoUnshiftDeclaration from "./unshift.js";
 
@@ -60,7 +61,6 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoIncludesDeclaration,
   arrayProtoIndexOfDeclaration,
   arrayProtoJoinDeclaration,
-  // TODO: Array.prototype.keys
   arrayProtoKeysDeclaration,
   arrayProtoLastIndexOfDeclaration,
   arrayProtoMapDeclaration,
@@ -75,7 +75,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoSortDeclaration,
   arrayProtoSpliceDeclaration,
   arrayProtoSymbolIteratorDeclaration,
-  // TODO: symbol.unscopables
+  arrayProtoSymbolUnscopables,
   arrayProtoToStringDeclaration,
   arrayProtoUnshiftDeclaration,
 ];
