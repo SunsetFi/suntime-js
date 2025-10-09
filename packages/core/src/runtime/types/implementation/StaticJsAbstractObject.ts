@@ -4,16 +4,19 @@ import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js"
 
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
-import hasOwnProperty from "../../../internal/has-own-property.js";
-
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import toString from "../../algorithms/to-string.js";
 
-import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
+import type {
+  StaticJsAccessorPropertyDescriptor,
+  StaticJsDataPropertyDescriptor,
+  StaticJsPropertyDescriptor,
+} from "../StaticJsPropertyDescriptor.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
+  isStaticJsGenericPropertyDescriptor,
   validateStaticJsPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
@@ -30,6 +33,7 @@ import { isStaticJsValue } from "../StaticJsValue.js";
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 
 import createStaticJsObjectLikeProxy from "./create-object-proxy.js";
+import { sameValue } from "../../algorithms/same-value.js";
 
 export default abstract class StaticJsAbstractObject
   extends StaticJsAbstractPrimitive
@@ -201,48 +205,142 @@ export default abstract class StaticJsAbstractObject
 
   *definePropertyEvaluator(
     key: StaticJsObjectPropertyKey,
-    descriptor: StaticJsPropertyDescriptor,
+    desc: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean> {
-    // FIXME: Implement for real: https://tc39.es/ecma262/#sec-ordinarydefineownproperty
-    validateStaticJsPropertyDescriptor(descriptor);
+    // For abstract objects, implement the 'default' handling of object.[[DefineOwnProperty]], which ultimately
+    // is an implementation of ValidateAndApplyPropertyDescriptor:
+    // https://tc39.es/ecma262/multipage/ordinary-and-exotic-objects-behaviours.html#sec-validateandapplypropertydescriptor
 
-    const currentDescriptor =
-      yield* this.getOwnPropertyDescriptorEvaluator(key);
+    validateStaticJsPropertyDescriptor(desc);
 
-    if (!currentDescriptor) {
+    const current = yield* this.getOwnPropertyDescriptorEvaluator(key);
+
+    const isCurrentAccessor = isStaticJsAccessorPropertyDescriptor(current);
+    // const isCurrentData = isStaticJsDataPropertyDescriptor(current);
+
+    const isDescAccessor = isStaticJsAccessorPropertyDescriptor(desc);
+    const isDescData = isStaticJsDataPropertyDescriptor(desc);
+
+    if (!current) {
       if (!this.extensible) {
         return false;
       }
 
-      // Apply
-      return yield* this._definePropertyEvaluator(key, descriptor);
-    }
+      if (isDescAccessor) {
+        return yield* this._setPropertyDescriptorEvaluator(key, {
+          get: undefined,
+          set: undefined,
+          enumerable: false,
+          configurable: false,
+          ...desc,
+        });
+      } else {
+        let value = isDescData ? desc.value : undefined;
+        if (value === undefined) {
+          if (this.realm.types === undefined) {
+            throw new StaticJsEngineError(
+              "When defining object properties during realm initialization, value must be provided.",
+            );
+          }
+          value = this.realm.types.undefined;
+        }
 
-    if (!currentDescriptor.configurable) {
-      // This is okay if we are making the value more strict.
-      const isNonStrictWritable =
-        hasOwnProperty(descriptor, "writable") && descriptor.writable == true;
-      const isNonStrictEnumerable =
-        hasOwnProperty(descriptor, "enumerable") &&
-        descriptor.enumerable == true;
-      const isNonStrictConfigurable =
-        hasOwnProperty(descriptor, "configurable") &&
-        descriptor.configurable == true;
-      const isNonStrictAccessor =
-        hasOwnProperty(descriptor, "get") || hasOwnProperty(descriptor, "set");
-
-      const isNonStrict =
-        isNonStrictWritable ||
-        isNonStrictEnumerable ||
-        isNonStrictConfigurable ||
-        isNonStrictAccessor;
-
-      if (isNonStrict) {
-        return false;
+        return yield* this._setPropertyDescriptorEvaluator(key, {
+          value,
+          writable: false,
+          enumerable: false,
+          configurable: false,
+          ...desc,
+        });
       }
     }
 
-    return yield* this._definePropertyEvaluator(key, descriptor);
+    if (Object.keys(desc).length === 0) {
+      return true;
+    }
+
+    if (current.configurable === false) {
+      if (desc.configurable === true) {
+        return false;
+      }
+
+      if (
+        desc.enumerable !== undefined &&
+        desc.enumerable !== current.enumerable
+      ) {
+        return false;
+      }
+
+      if (
+        !isStaticJsGenericPropertyDescriptor(desc) &&
+        isCurrentAccessor !== isDescAccessor
+      ) {
+        return false;
+      }
+
+      // True because of the above check.
+      const descriptorAsAccessor = desc as StaticJsAccessorPropertyDescriptor;
+
+      // Will be true in our else-if because of isCurrentAccessor is false and the above.
+      const descriptorAsData = desc as StaticJsDataPropertyDescriptor;
+      const currentAsData = current as StaticJsDataPropertyDescriptor;
+
+      if (isCurrentAccessor) {
+        if (current.get && current.get !== descriptorAsAccessor.get) {
+          return false;
+        }
+
+        if (current.set && current.set !== descriptorAsAccessor.set) {
+          return false;
+        }
+      } else if (currentAsData.writable === false) {
+        if (descriptorAsData.writable === true) {
+          return false;
+        }
+
+        if (descriptorAsData.value !== undefined) {
+          // FIXME: There's confusion here over asserting current as a 'fully populated' data descriptor.
+          // See maybe 6.2.6.6 CompletePropertyDescriptor
+          // I think our engine should have this always be populated?
+          return sameValue(
+            descriptorAsData.value,
+            currentAsData.value ?? this.realm.types.undefined,
+          );
+        }
+      }
+    }
+
+    const configurable = desc.configurable ?? current.configurable;
+    const enumerable = desc.enumerable ?? current.enumerable;
+
+    if (
+      isStaticJsDataPropertyDescriptor(current) &&
+      isStaticJsAccessorPropertyDescriptor(desc)
+    ) {
+      return yield* this._setPropertyDescriptorEvaluator(key, {
+        get: undefined,
+        set: undefined,
+        ...desc,
+        configurable,
+        enumerable,
+      });
+    } else if (
+      isStaticJsAccessorPropertyDescriptor(current) &&
+      isStaticJsDataPropertyDescriptor(desc)
+    ) {
+      return yield* this._setPropertyDescriptorEvaluator(key, {
+        value: this.realm.types.undefined,
+        writable: false,
+        ...desc,
+        configurable,
+        enumerable,
+      });
+    } else {
+      return yield* this._setPropertyDescriptorEvaluator(key, {
+        ...current,
+        ...desc,
+      });
+    }
   }
 
   abstract getOwnPropertyDescriptorEvaluator(
@@ -316,7 +414,10 @@ export default abstract class StaticJsAbstractObject
         }
       } else if (isStaticJsDataPropertyDescriptor(ownDecl)) {
         if (ownDecl.writable) {
-          yield* this._setWritableDataPropertyEvaluator(key, value);
+          yield* this._setPropertyDescriptorEvaluator(key, {
+            ...ownDecl,
+            value,
+          });
           return;
         }
       }
@@ -356,7 +457,7 @@ export default abstract class StaticJsAbstractObject
       // Inherited value is not an accessor, fall through to creating a new property on us.
     }
 
-    // Doesn't exist anywhere.  Create it on us if we can.
+    // Doesn't exist anywhere, or is a parent data property.  Create it on us if we can.
 
     if (!this.extensible) {
       if (strict) {
@@ -370,7 +471,7 @@ export default abstract class StaticJsAbstractObject
       return;
     }
 
-    yield* this._definePropertyEvaluator(key, {
+    yield* this._setPropertyDescriptorEvaluator(key, {
       configurable: true,
       enumerable: true,
       writable: true,
@@ -422,12 +523,7 @@ export default abstract class StaticJsAbstractObject
 
   protected _configureToJsProxy(_traps: ProxyHandler<object>): void {}
 
-  protected abstract _setWritableDataPropertyEvaluator(
-    key: StaticJsObjectPropertyKey,
-    value: StaticJsValue,
-  ): EvaluationGenerator<void>;
-
-  protected abstract _definePropertyEvaluator(
+  protected abstract _setPropertyDescriptorEvaluator(
     key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean>;

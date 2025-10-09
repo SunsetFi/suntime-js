@@ -86,7 +86,7 @@ export default class StaticJsArrayImpl
     // We need to call super and use the direct setter for this.
     // This is the equivalent of the spec OrdinaryDefineOwnProperty, with gratuitious shortcuts, as
     // we know we will be an ObjectLikeImpl and not something exotic.
-    yield* super._definePropertyEvaluator("length", {
+    yield* super._setPropertyDescriptorEvaluator("length", {
       value: new StaticJsNumberImpl(this.realm, length),
       writable: true,
       enumerable: false,
@@ -134,22 +134,7 @@ export default class StaticJsArrayImpl
     return [];
   }
 
-  protected *_setWritableDataPropertyEvaluator(
-    key: string,
-    value: StaticJsValue,
-  ): EvaluationGenerator<void> {
-    if (key === "length") {
-      // Hard to find this in the spec.  It's just a footnote of the array length spec (23.1.4.1).
-      yield* this.definePropertyEvaluator(key, {
-        value,
-      });
-      return;
-    }
-
-    yield* super._setWritableDataPropertyEvaluator(key, value);
-  }
-
-  protected *_definePropertyEvaluator(
+  protected *_setPropertyDescriptorEvaluator(
     key: string,
     desc: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean> {
@@ -187,7 +172,7 @@ export default class StaticJsArrayImpl
         return false;
       }
 
-      const success = yield* super._definePropertyEvaluator(key, desc);
+      const success = yield* super._setPropertyDescriptorEvaluator(key, desc);
       if (!success) {
         return false;
       }
@@ -198,7 +183,7 @@ export default class StaticJsArrayImpl
           value: new StaticJsNumberImpl(this.realm, index + 1),
         };
 
-        const success = yield* super._definePropertyEvaluator(
+        const success = yield* super._setPropertyDescriptorEvaluator(
           "length",
           lengthDesc,
         );
@@ -212,14 +197,14 @@ export default class StaticJsArrayImpl
       return true;
     }
 
-    return yield* super._definePropertyEvaluator(key, desc);
+    return yield* super._setPropertyDescriptorEvaluator(key, desc);
   }
 
   private *_setLength(
     desc: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean> {
     if (!isStaticJsDataPropertyDescriptor(desc) || !desc.value) {
-      return yield* super._definePropertyEvaluator("length", desc);
+      return yield* super._setPropertyDescriptorEvaluator("length", desc);
     }
 
     const newLen = yield* toUInt32(desc.value, this.realm);
@@ -260,7 +245,7 @@ export default class StaticJsArrayImpl
     const oldLen = oldLenValue.value;
 
     if (newLen >= oldLen) {
-      return yield* super._definePropertyEvaluator("length", newLenDesc);
+      return yield* super._setPropertyDescriptorEvaluator("length", newLenDesc);
     }
 
     if (oldLenDesc.writable === false) {
@@ -273,7 +258,7 @@ export default class StaticJsArrayImpl
       newLenDesc.writable = true;
     }
 
-    const succeeded = yield* super._definePropertyEvaluator(
+    const succeeded = yield* super._setPropertyDescriptorEvaluator(
       "length",
       newLenDesc,
     );
@@ -303,13 +288,13 @@ export default class StaticJsArrayImpl
           newLenDesc.writable = false;
         }
 
-        yield* super._definePropertyEvaluator("length", newLenDesc);
+        yield* super._setPropertyDescriptorEvaluator("length", newLenDesc);
         return false;
       }
     }
 
     if (!newWritable) {
-      const succeeded = yield* super._definePropertyEvaluator("length", {
+      const succeeded = yield* super._setPropertyDescriptorEvaluator("length", {
         ...newLenDesc,
         writable: false,
       });

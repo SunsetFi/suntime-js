@@ -8,7 +8,6 @@ import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
-import type { StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
 import type {
   StaticJsObjectLike,
@@ -63,22 +62,13 @@ export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObj
     }
   }
 
-  protected *_setWritableDataPropertyEvaluator(
-    name: StaticJsObjectPropertyKey,
-    value: StaticJsValue,
-  ): EvaluationGenerator<void> {
-    this._contents.set(name, {
-      ...this._contents.get(name),
-      value,
-    });
-  }
-
-  protected *_definePropertyEvaluator(
+  protected *_setPropertyDescriptorEvaluator(
     name: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean> {
+    // Note: At one point, we merged the descriptor with the existing one.
+    // No longer; that's done in AbstractObject.definePropertyEvaluator according to the spec.
     this._contents.set(name, {
-      ...this._contents.get(name),
       ...descriptor,
     });
 

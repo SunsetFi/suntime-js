@@ -51,7 +51,7 @@ export default class StaticJsFunctionImpl
     });
 
     this.definePropertySync("length", {
-      value: new StaticJsNumberImpl(this.realm, length ?? _call.length - 1),
+      value: new StaticJsNumberImpl(realm, length ?? _call.length - 1),
       writable: false,
       enumerable: false,
       configurable: true,

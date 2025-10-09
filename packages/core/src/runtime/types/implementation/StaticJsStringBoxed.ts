@@ -3,7 +3,6 @@ import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js"
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
-import type { StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
@@ -48,12 +47,7 @@ export default class StaticJsStringBoxed extends StaticJsAbstractObject {
     };
   }
 
-  protected *_setWritableDataPropertyEvaluator(
-    _key: StaticJsObjectPropertyKey,
-    _value: StaticJsValue,
-  ): EvaluationGenerator<void> {}
-
-  protected *_definePropertyEvaluator(
+  protected *_setPropertyDescriptorEvaluator(
     _key: StaticJsObjectPropertyKey,
     _descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean> {

@@ -5,24 +5,25 @@ import { isStaticJsFunction } from "./StaticJsFunction.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
-export interface StaticJsPropertyDescriptorBase {
+export interface StaticJsGenericPropertyDescriptor {
   readonly configurable?: boolean;
   readonly enumerable?: boolean;
 }
 
 export interface StaticJsDataPropertyDescriptor
-  extends StaticJsPropertyDescriptorBase {
+  extends StaticJsGenericPropertyDescriptor {
   readonly writable?: boolean;
   readonly value?: StaticJsValue;
 }
 
 export interface StaticJsAccessorPropertyDescriptor
-  extends StaticJsPropertyDescriptorBase {
+  extends StaticJsGenericPropertyDescriptor {
   get?: StaticJsFunction;
   set?: StaticJsFunction;
 }
 
 export type StaticJsPropertyDescriptor =
+  | StaticJsGenericPropertyDescriptor
   | StaticJsDataPropertyDescriptor
   | StaticJsAccessorPropertyDescriptor;
 
@@ -57,6 +58,19 @@ export function validateStaticJsPropertyDescriptor(
   if (hasSet && !isStaticJsFunction(value.set)) {
     throw new TypeError("set must be a StaticJsFunction.");
   }
+}
+
+export function isStaticJsGenericPropertyDescriptor(
+  value: unknown,
+): value is StaticJsGenericPropertyDescriptor {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  return (
+    !isStaticJsAccessorPropertyDescriptor(value) &&
+    !isStaticJsDataPropertyDescriptor(value)
+  );
 }
 
 export function isStaticJsDataPropertyDescriptor(
