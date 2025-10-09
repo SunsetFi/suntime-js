@@ -16,6 +16,7 @@ export interface Prototypes {
   typeErrorProto: StaticJsObject;
   referenceErrorProto: StaticJsObject;
   syntaxErrorProto: StaticJsObject;
+  rangeErrorProto: StaticJsObject;
 
   iteratorProto: StaticJsObject;
 }
@@ -33,6 +34,7 @@ export interface Constructors {
   TypeError: StaticJsFunction;
   ReferenceError: StaticJsFunction;
   SyntaxError: StaticJsFunction;
+  RangeError: StaticJsFunction;
 }
 
 export interface Statics {

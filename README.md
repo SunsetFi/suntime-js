@@ -20,19 +20,22 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 
 ## What is supported
 
-- Most primitives (including boxing, prototypes and constructors)
+- Primitives
   - null
   - undefined
   - string
   - number
   - boolean
   - object
-  - array
   - function
 - Strict directive
 - Symbols
-  - Symbol.iterator and engine behavior (destructuring, for / of)
+  - Symbol.iterator
   - Symbol.hasInstance
+  - Symbol.species
+  - Symbol.isConcatSpreadable
+  - Symbol.toPrimitive
+- Arrays
 - Promises
 - Async Functions
 - Math

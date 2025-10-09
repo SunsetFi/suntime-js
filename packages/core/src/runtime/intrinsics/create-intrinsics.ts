@@ -69,6 +69,9 @@ import globalObjectUndefinedDeclaration from "./undefined.js";
 import createIntrinsicSymbols from "./Symbol/intrinsic-symbols.js";
 
 import { populateIteratorPrototype } from "./Iterator.js";
+import createRangeErrorConstructor, {
+  populateRangeErrorPrototype,
+} from "./RangeError.js";
 
 const globalPropertyDeclarations: IntrinsicPropertyDeclaration[] = [
   globalObjectEvalDeclaration,
@@ -102,6 +105,7 @@ export function createIntrinsics(realm: StaticJsRealm): Intrinsics {
   const typeErrorProto = new StaticJsObjectImpl(realm, errorProto);
   const referenceErrorProto = new StaticJsObjectImpl(realm, errorProto);
   const syntaxErrorProto = new StaticJsObjectImpl(realm, errorProto);
+  const rangeErrorProto = new StaticJsObjectImpl(realm, errorProto);
 
   const iteratorProto = new StaticJsObjectImpl(realm, objectProto);
 
@@ -118,6 +122,7 @@ export function createIntrinsics(realm: StaticJsRealm): Intrinsics {
     typeErrorProto,
     referenceErrorProto,
     syntaxErrorProto,
+    rangeErrorProto,
     iteratorProto,
   };
 
@@ -147,6 +152,7 @@ export function createIntrinsics(realm: StaticJsRealm): Intrinsics {
     symbols,
   );
   populateSyntaxErrorPrototype(realm, syntaxErrorProto, functionProto, symbols);
+  populateRangeErrorPrototype(realm, rangeErrorProto, functionProto, symbols);
 
   populateIteratorPrototype(realm, iteratorProto, prototypes, symbols);
 
@@ -196,25 +202,16 @@ export function createIntrinsics(realm: StaticJsRealm): Intrinsics {
     syntaxErrorProto,
     prototypes,
   );
+  const RangeError = createRangeErrorConstructor(
+    realm,
+    rangeErrorProto,
+    prototypes,
+  );
 
   const Math = createMathStatic(realm, objectProto, prototypes, symbols);
 
   return {
-    prototypes: {
-      stringProto,
-      numberProto,
-      booleanProto,
-      objectProto,
-      symbolProto,
-      arrayProto,
-      functionProto,
-      promiseProto,
-      errorProto,
-      typeErrorProto,
-      referenceErrorProto,
-      syntaxErrorProto,
-      iteratorProto,
-    },
+    prototypes,
     constructors: {
       String,
       Number,
@@ -228,6 +225,7 @@ export function createIntrinsics(realm: StaticJsRealm): Intrinsics {
       TypeError,
       ReferenceError,
       SyntaxError,
+      RangeError,
     },
     statics: {
       Math,

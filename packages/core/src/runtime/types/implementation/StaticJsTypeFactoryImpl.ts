@@ -242,6 +242,9 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       case "SyntaxError":
         proto = this._prototypes.syntaxErrorProto;
         break;
+      case "RangeError":
+        proto = this._prototypes.rangeErrorProto;
+        break;
     }
 
     const error = this.object(
