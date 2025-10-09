@@ -30,7 +30,7 @@ import type {
   Prototypes,
 } from "../../intrinsics/intrinsics.js";
 
-import { WeakValueMap } from "../utils/WeakValueMap.js";
+import { WeakValueMap } from "../../../internal/WeakValueMap.js";
 
 import StaticJsArrayImpl from "./StaticJsArrayImpl.js";
 import StaticJsBooleanImpl from "./StaticJsBooleanImpl.js";

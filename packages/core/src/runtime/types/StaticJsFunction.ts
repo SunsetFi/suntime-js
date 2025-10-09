@@ -7,6 +7,8 @@ import { isStaticJsValue } from "./StaticJsValue.js";
 export interface StaticJsFunction extends StaticJsObjectLike {
   readonly runtimeTypeOf: "function";
 
+  readonly typeOf: "function";
+
   readonly isConstructor: boolean;
 
   callEvaluator(
@@ -19,9 +21,22 @@ export interface StaticJsFunction extends StaticJsObjectLike {
   ): EvaluationGenerator<StaticJsValue>;
 }
 
+export interface StaticJsBoundFunction extends StaticJsFunction {
+  boundTargetFunction: StaticJsFunction;
+}
+
 export function isStaticJsFunction(value: unknown): value is StaticJsFunction {
   if (!isStaticJsValue(value)) {
     return false;
   }
   return value.runtimeTypeOf === "function";
+}
+
+export function isStaticJsBoundFunction(
+  value: unknown,
+): value is StaticJsBoundFunction {
+  if (!isStaticJsFunction(value)) {
+    return false;
+  }
+  return "boundTargetFunction" in value;
 }

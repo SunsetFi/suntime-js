@@ -56,9 +56,3 @@ export function* EvaluateNodeCommand(
 
   return result;
 }
-
-// export function* executeEvaluateNodeCommand(
-//   command: EvaluateNodeCommand,
-// ): EvaluationGenerator {
-
-// }

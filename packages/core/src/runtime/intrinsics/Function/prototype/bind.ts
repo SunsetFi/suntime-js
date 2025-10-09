@@ -1,6 +1,8 @@
+import isNotUndefined from "../../../../internal/is-not-undefined.js";
+
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
-import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
+import StaticJsBoundFunction from "../../../types/implementation/StaticJsBoundFunctionImpl.js";
 
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsString } from "../../../types/StaticJsString.js";
@@ -32,17 +34,13 @@ const functionProtoBindDeclaration: IntrinsicPropertyDeclaration = {
     // to assume it might not get them for non-spread parameters.
     const cleanedArgs = args.filter(isNotUndefined);
 
-    return new StaticJsFunctionImpl(realm, name.value, function* (
-      _thisArg,
-      ...moreArgs
-    ) {
-      return yield* self.callEvaluator(thisArg, ...cleanedArgs, ...moreArgs);
-    });
+    return yield* StaticJsBoundFunction.create(
+      realm,
+      self,
+      thisArg,
+      cleanedArgs,
+    );
   },
 };
-
-function isNotUndefined<T>(value: T | undefined): value is T {
-  return value !== undefined;
-}
 
 export default functionProtoBindDeclaration;

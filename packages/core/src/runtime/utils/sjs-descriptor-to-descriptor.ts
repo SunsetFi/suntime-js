@@ -1,10 +1,10 @@
-import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
+import type { StaticJsPropertyDescriptor } from "../types/StaticJsPropertyDescriptor.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
-} from "../StaticJsPropertyDescriptor.js";
+} from "../types/StaticJsPropertyDescriptor.js";
 
 export default function staticJsDescriptorToObjectDescriptor(
   realm: StaticJsRealm,

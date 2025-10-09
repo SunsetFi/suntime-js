@@ -9,10 +9,14 @@ import {
   type IntrinsicPropertyDeclaration,
 } from "../../utils.js";
 
+import functionProtoApplyDeclaration from "./apply.js";
 import functionProtoBindDeclaration from "./bind.js";
+import functionProtoCallDeclaration from "./call.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
+  functionProtoApplyDeclaration,
   functionProtoBindDeclaration,
+  functionProtoCallDeclaration,
 ];
 
 function populateFunctionPrototype(

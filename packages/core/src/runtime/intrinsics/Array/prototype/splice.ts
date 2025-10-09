@@ -1,3 +1,5 @@
+import isNotUndefined from "../../../../internal/is-not-undefined.js";
+
 import toInteger from "../../../algorithms/to-integer.js";
 import toObject from "../../../algorithms/to-object.js";
 
@@ -62,7 +64,3 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
 };
 
 export default arrayProtoSpliceDeclaration;
-
-function isNotUndefined<T>(x: T | undefined): x is T {
-  return x !== undefined;
-}

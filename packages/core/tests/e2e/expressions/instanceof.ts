@@ -25,8 +25,7 @@ describe("E2E: instanceof", () => {
         [Symbol.hasInstance](x) {
           return x % 2 === 0;
         }
-      }
-
+      };
       2 instanceof MyClass;
     `);
     expect(result).toBe(true);

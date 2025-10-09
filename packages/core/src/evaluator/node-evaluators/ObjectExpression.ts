@@ -9,7 +9,7 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type { StaticJsObject } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
-import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
+import toPropertyKey from "../../runtime/utils/to-property-key.js";
 import type { StaticJsObjectPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
 import toString from "../../runtime/algorithms/to-string.js";
 

@@ -419,6 +419,17 @@ describe("E2E: Functions", () => {
         `;
         expect(await evaluateScript(code)).toBe(42);
       });
+
+      it("Combines bound and call arguments", async () => {
+        const code = `
+          function a(x, y, z) {
+            return x + y + z;
+          }
+          const bound = a.bind(null, 40);
+          bound(1, 1);
+        `;
+        expect(await evaluateScript(code)).toBe(42);
+      });
     });
   });
 });

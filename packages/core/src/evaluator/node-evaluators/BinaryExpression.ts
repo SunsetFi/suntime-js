@@ -16,7 +16,7 @@ import abstractEquality from "../../runtime/algorithms/abstract-equality.js";
 import toNumber from "../../runtime/algorithms/to-number.js";
 import addition from "../../runtime/algorithms/addition.js";
 import toObject from "../../runtime/algorithms/to-object.js";
-import ordinaryHasInstance from "../../runtime/algorithms/ordinary-has-instance.js";
+import instanceOfOperator from "../../runtime/algorithms/instance-of-operator.js";
 
 export default function binaryExpressionNodeEvaluator(
   node: BinaryExpression,
@@ -64,9 +64,9 @@ export default function binaryExpressionNodeEvaluator(
     case ">>>":
       return numericComputation((a, b) => a >>> b, node, context);
     case "in":
-      return inOperator(node, context);
+      return inExpression(node, context);
     case "instanceof":
-      return instanceOfOperator(node, context);
+      return instanceOfExpression(node, context);
     default:
       throw new StaticJsEngineError(
         `BinaryExpression operator ${node.operator} is not supported`,
@@ -149,7 +149,7 @@ function* numericComputation(
   return context.realm.types.toStaticJsValue(func(left.value, right.value));
 }
 
-function* inOperator(
+function* inExpression(
   node: BinaryExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
@@ -175,7 +175,7 @@ function* inOperator(
   return context.realm.types.boolean(hasProperty);
 }
 
-function* instanceOfOperator(
+function* instanceOfExpression(
   node: BinaryExpression,
   context: EvaluationContext,
 ) {
@@ -186,7 +186,7 @@ function* instanceOfOperator(
     forNormalValue: "BinaryExpression.right",
   });
 
-  const result = yield* ordinaryHasInstance(right, left, context.realm);
+  const result = yield* instanceOfOperator(left, right, context.realm);
 
   return context.realm.types.boolean(result);
 }

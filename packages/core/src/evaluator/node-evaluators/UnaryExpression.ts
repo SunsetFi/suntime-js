@@ -5,7 +5,7 @@ import {
   isStaticJsObjectLike,
   type StaticJsObjectPropertyKey,
 } from "../../runtime/types/StaticJsObjectLike.js";
-import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
+import toPropertyKey from "../../runtime/utils/to-property-key.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 

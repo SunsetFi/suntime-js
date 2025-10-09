@@ -14,7 +14,7 @@ import {
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import toPropertyKey from "../../runtime/types/utils/to-property-key.js";
+import toPropertyKey from "../../runtime/utils/to-property-key.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
