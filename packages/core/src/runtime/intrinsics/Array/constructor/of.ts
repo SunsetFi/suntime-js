@@ -34,12 +34,12 @@ const arrayConstructorOfDeclaration: IntrinsicPropertyDeclaration = {
 
       A = constructed;
     } else {
-      A = new StaticJsArrayImpl(realm);
+      A = yield* StaticJsArrayImpl.create(realm, items.length);
     }
 
     let k = 0;
 
-    while (k < len.value) {
+    while (k < items.length) {
       // Per spec, must be defineProperty
       yield* A.definePropertyEvaluator(String(k), {
         value: items[k],
@@ -51,6 +51,7 @@ const arrayConstructorOfDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     // Per spec, must be set
+    // Does not invoke setters; array ctor uses define to create length.
     yield* A.setPropertyEvaluator("length", len, true);
 
     return A;

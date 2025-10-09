@@ -65,7 +65,7 @@ export default interface StaticJsTypeFactory {
 
   symbol(description?: string): StaticJsSymbol;
 
-  array(items?: StaticJsValue[]): StaticJsArray;
+  array(itemsOrLength?: StaticJsValue[] | number): StaticJsArray;
 
   function(
     name: string,

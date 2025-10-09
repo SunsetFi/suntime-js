@@ -6,27 +6,25 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import isConstructor from "../../../algorithms/is-constructor.js";
 import toObject from "../../../algorithms/to-object.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import getIterator from "../../../algorithms/get-iterator.js";
+import iteratorStepValue from "../../../algorithms/iterator-step-value.js";
+
+import StaticJsArrayImpl from "../../../types/implementation/StaticJsArrayImpl.js";
 
 import {
   isStaticJsObjectLike,
   type StaticJsObjectLike,
 } from "../../../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
-
 import {
   isStaticJsFunction,
   type StaticJsFunction,
 } from "../../../types/StaticJsFunction.js";
-
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
+import { MAX_ARRAY_LENGTH } from "../../../types/StaticJsArray.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
-import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
-import StaticJsArrayImpl from "../../../types/implementation/StaticJsArrayImpl.js";
-import getIterator from "../../../algorithms/get-iterator.js";
-import iteratorStepValue from "../../../algorithms/iterator-step-value.js";
-import { MAX_ARRAY_LENGTH } from "../../../types/StaticJsArray.js";
 
 const arrayConstructorFromDeclaration: IntrinsicPropertyDeclaration = {
   key: "from",
@@ -168,6 +166,7 @@ function* fromArrayLike(
   }
 
   // Per spec: Use set, not define
+  // This doesn't actually hit setters, as the array ctor uses define for initializing length.
   yield* A.setPropertyEvaluator("length", realm.types.number(len), true);
 
   return A;
@@ -194,7 +193,7 @@ function* createArrayFromConstructor(
     }
     A = created;
   } else {
-    A = new StaticJsArrayImpl(realm, new Array(len));
+    A = yield* StaticJsArrayImpl.create(realm, len);
   }
 
   return A;

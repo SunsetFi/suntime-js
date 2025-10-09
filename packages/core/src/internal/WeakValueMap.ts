@@ -1,4 +1,4 @@
-export class WeakValueMap<K extends object, V extends object> {
+export class WeakValueMap<K, V extends object> {
   private readonly _map = new Map<K, WeakRef<V>>();
   private readonly _finalizationRegistry: FinalizationRegistry<K>;
 

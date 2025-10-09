@@ -67,7 +67,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   //   it becomes impossible to verify who the original was, but that adds more complexity for little benefit,
   //   and I don't expect the memory pressure of keeping the originals around to be particularly problematic.
   private readonly _nativeSymbolMap = new WeakValueMap<
-    object,
+    symbol,
     StaticJsSymbol
   >();
   private readonly _externalObjectMap = new WeakValueMap<
@@ -174,14 +174,14 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     return obj;
   }
 
-  symbol(symbol: symbol): StaticJsSymbol;
-  symbol(description?: string): StaticJsSymbol;
-  symbol(descriptionOrSymbol: string | symbol | undefined): StaticJsSymbol {
-    return new StaticJsSymbolImpl(this._realm, descriptionOrSymbol);
+  symbol(description?: string | undefined): StaticJsSymbol {
+    return new StaticJsSymbolImpl(this._realm, description);
   }
 
-  array(items?: StaticJsValue[]): StaticJsArray {
-    return new StaticJsArrayImpl(this._realm, items);
+  array(itemsOrLength?: StaticJsValue[] | number): StaticJsArray {
+    return this._realm.invokeEvaluatorSync(
+      StaticJsArrayImpl.create(this._realm, itemsOrLength),
+    );
   }
 
   function(
@@ -288,6 +288,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       }
 
       // Unwrap it to re-wrap with our own realm.
+      // This will result in foreign StaticJs objects being wrapped as external objects, which is desired.
       value = value.toJsSync();
     }
 
@@ -339,20 +340,57 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   private _toStaticJsValueSymbol(value: symbol): StaticJsSymbol {
-    // Typescript says no, so we have to pull this gross typing shenanigans
-    const valueAsObj = value as unknown as object;
+    // Spec says these symbols are consistent across realms, so convert them
+    // to the appropriate intrinsic symbol.
+    // This saves us having to care about unwrapping them in equality checks elsewhere.
+    switch (value) {
+      case Symbol.asyncDispose:
+        return this._symbols.asyncDispose;
+      case Symbol.asyncIterator:
+        return this._symbols.asyncIterator;
+      case Symbol.dispose:
+        return this._symbols.dispose;
+      case Symbol.hasInstance:
+        return this._symbols.hasInstance;
+      case Symbol.isConcatSpreadable:
+        return this._symbols.isConcatSpreadable;
+      case Symbol.iterator:
+        return this._symbols.iterator;
+      case Symbol.match:
+        return this._symbols.match;
+      case Symbol.matchAll:
+        return this._symbols.matchAll;
+      case Symbol.observable:
+        return this._symbols.observable;
+      case Symbol.replace:
+        return this._symbols.replace;
+      case Symbol.search:
+        return this._symbols.search;
+      case Symbol.species:
+        return this._symbols.species;
+      case Symbol.split:
+        return this._symbols.split;
+      case Symbol.toPrimitive:
+        return this._symbols.toPrimitive;
+      case Symbol.toStringTag:
+        return this._symbols.toStringTag;
+      case Symbol.unscopables:
+        return this._symbols.unscopables;
+    }
 
-    let sym = this._nativeSymbolMap.get(valueAsObj);
+    let sym = this._nativeSymbolMap.get(value);
     if (!sym) {
       sym = new StaticJsSymbolImpl(this._realm, value);
-      this._nativeSymbolMap.set(valueAsObj, sym);
+      this._nativeSymbolMap.set(value, sym);
     }
     return sym;
   }
 
   private _toStaticJsValueArray(value: unknown[]): StaticJsArray {
     const values = value.map((v) => this.toStaticJsValue(v));
-    return new StaticJsArrayImpl(this._realm, values);
+    return this._realm.invokeEvaluatorSync(
+      StaticJsArrayImpl.create(this._realm, values),
+    );
   }
 
   private _toStaticJsValueFunction(

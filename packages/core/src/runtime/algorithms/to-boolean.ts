@@ -14,7 +14,6 @@ import { isStaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-// FIXME:
 function* toBoolean(
   value: StaticJsValue,
   realm: StaticJsRealm,

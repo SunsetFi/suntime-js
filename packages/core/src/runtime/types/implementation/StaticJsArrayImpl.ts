@@ -3,6 +3,8 @@ import hasOwnProperty from "../../../internal/has-own-property.js";
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
+import toNumber from "../../algorithms/to-number.js";
+
 import type { StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 import {
@@ -13,37 +15,65 @@ import type { StaticJsArray } from "../StaticJsArray.js";
 
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
-import toNumber from "../../algorithms/to-number.js";
 
 export default class StaticJsArrayImpl
   extends StaticJsObjectLikeImpl
   implements StaticJsArray
 {
-  constructor(realm: StaticJsRealm, items: StaticJsValue[] = []) {
-    super(realm, realm.types.prototypes.arrayProto);
+  static create(
+    realm: StaticJsRealm,
+    items?: StaticJsValue[],
+  ): EvaluationGenerator<StaticJsArrayImpl>;
+  static create(
+    realm: StaticJsRealm,
+    len?: number,
+  ): EvaluationGenerator<StaticJsArrayImpl>;
+  // Redundant overload to help TS understand the union type
+  static create(
+    realm: StaticJsRealm,
+    itemsOrLen?: StaticJsValue[] | number,
+  ): EvaluationGenerator<StaticJsArrayImpl>;
+  static *create(
+    realm: StaticJsRealm,
+    itemsOrLen: StaticJsValue[] | number = 0,
+  ): EvaluationGenerator<StaticJsArrayImpl> {
+    const array = new StaticJsArrayImpl(realm);
 
-    // This is a little suspect... We are using runEvaluatorUntilCompletion for these...
+    // Per the spec, these need to be defineProperty, not setProperty.
 
-    for (let i = 0; i < items.length; i++) {
-      if (!hasOwnProperty(items, String(i))) {
-        // Skip deletions.
-        continue;
+    let length: number;
+    if (Array.isArray(itemsOrLen)) {
+      length = itemsOrLen.length;
+      for (let i = 0; i < itemsOrLen.length; i++) {
+        const Pi = String(i);
+        if (!hasOwnProperty(itemsOrLen, Pi)) {
+          // Skip deletions.
+          continue;
+        }
+
+        yield* array.definePropertyEvaluator(Pi, {
+          value: itemsOrLen[i],
+          writable: true,
+          enumerable: true,
+          configurable: true,
+        });
       }
-
-      this.definePropertySync(i.toString(), {
-        value: items[i],
-        writable: true,
-        enumerable: true,
-        configurable: true,
-      });
+    } else {
+      length = itemsOrLen;
     }
 
-    this.definePropertySync("length", {
-      value: new StaticJsNumberImpl(realm, items.length),
+    yield* array.definePropertyEvaluator("length", {
+      value: new StaticJsNumberImpl(realm, length),
       writable: true,
       enumerable: false,
       configurable: false,
     });
+
+    return array;
+  }
+
+  private constructor(realm: StaticJsRealm) {
+    super(realm, realm.types.prototypes.arrayProto);
   }
 
   get runtimeTypeOf() {

@@ -39,12 +39,10 @@ export default function createArrayConstructor(
       if (args.length === 1 && isStaticJsNumber(args[0])) {
         const length = yield* toInteger(args[0], realm);
 
-        const array = new StaticJsArrayImpl(realm);
-
-        yield* array.setPropertyEvaluator("length", length, false);
+        const array = yield* StaticJsArrayImpl.create(realm, length.value);
         return array;
       } else {
-        const array = new StaticJsArrayImpl(realm, args);
+        const array = yield* StaticJsArrayImpl.create(realm, args);
         return array;
       }
     },

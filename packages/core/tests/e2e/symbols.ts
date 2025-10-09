@@ -152,5 +152,25 @@ describe("E2E: Symbols", () => {
       const obj2 = returnObj(sym1);
       expect(obj2).toBe(sym1);
     });
+
+    it("Preserves native symbols in the sandbox", async () => {
+      const realm = StaticJsRealm();
+      const comparerFn = await realm.evaluateScript(`
+        function checkIsIterator(x) {
+          return x === Symbol.iterator;
+        }`);
+
+      const checkIsIterator = comparerFn.toJsSync() as (x: unknown) => boolean;
+
+      const result = checkIsIterator(Symbol.iterator);
+      expect(result).toBe(true);
+    });
+
+    it("Preserves native symbols returned from the sandbox", async () => {
+      const realm = StaticJsRealm();
+      const iterator = await realm.evaluateExpression(`Symbol.iterator`);
+      const iteratorNative = iterator.toJsSync();
+      expect(iteratorNative).toBe(Symbol.iterator);
+    });
   });
 });

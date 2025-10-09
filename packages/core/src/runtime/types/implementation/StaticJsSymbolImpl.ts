@@ -6,7 +6,7 @@ import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
-// By the spec, symbols CAN be stored in WeakMap.  Except for the ones creatd with Symbol.for apparently.
+// By the spec, symbols CAN be stored in WeakMap.  Except for the ones created with Symbol.for apparently.
 // Despite this, TS says no for the typing.
 const proxySymbolOwners = new WeakMap<object, StaticJsSymbol>();
 
