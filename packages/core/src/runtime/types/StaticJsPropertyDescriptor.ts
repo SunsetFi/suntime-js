@@ -30,7 +30,7 @@ export function validateStaticJsPropertyDescriptor(
   value: unknown,
 ): asserts value is StaticJsPropertyDescriptor {
   if (!value || typeof value !== "object") {
-    throw new Error("StaticJsPropertyDescriptor must be an object.");
+    throw new TypeError("Property description must be an object.");
   }
 
   const hasWritable = hasOwnProperty(value, "writable");
@@ -41,21 +41,21 @@ export function validateStaticJsPropertyDescriptor(
   const hasAccessor = hasGet || hasSet;
 
   if (hasAccessor && (hasWritable || hasValue)) {
-    throw new Error(
+    throw new TypeError(
       "Invalid property descriptor.  Cannot both specify accessors and a value or writable attribute",
     );
   }
 
   if (hasValue && !isStaticJsValue(value.value)) {
-    throw new Error("value must be a StaticJsValue.");
+    throw new TypeError("value must be a StaticJsValue.");
   }
 
   if (hasGet && !isStaticJsFunction(value.get)) {
-    throw new Error("get must be a StaticJsFunction.");
+    throw new TypeError("get must be a StaticJsFunction.");
   }
 
   if (hasSet && !isStaticJsFunction(value.set)) {
-    throw new Error("set must be a StaticJsFunction.");
+    throw new TypeError("set must be a StaticJsFunction.");
   }
 }
 

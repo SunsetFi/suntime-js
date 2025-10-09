@@ -3,8 +3,8 @@ import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import toNumber from "../algorithms/to-number.js";
 import toObject from "../algorithms/to-object.js";
+import lengthOfArrayLike from "../algorithms/length-of-array-like.js";
 
 export default function* toArray(
   val: StaticJsValue,
@@ -12,10 +12,7 @@ export default function* toArray(
 ): EvaluationGenerator<StaticJsValue[]> {
   const obj = yield* toObject(val, realm);
 
-  let lengthValue = yield* obj.getPropertyEvaluator("length");
-  lengthValue = yield* toNumber(lengthValue, realm);
-
-  const length = lengthValue.value;
+  const length = yield* lengthOfArrayLike(obj, realm);
 
   const result: StaticJsValue[] = new Array(length);
   for (let i = 0; i < length; i++) {

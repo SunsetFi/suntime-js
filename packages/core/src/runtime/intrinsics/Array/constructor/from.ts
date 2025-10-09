@@ -22,7 +22,7 @@ import {
   type StaticJsFunction,
 } from "../../../types/StaticJsFunction.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import { MAX_ARRAY_LENGTH } from "../../../types/StaticJsArray.js";
+import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -83,7 +83,7 @@ function* fromIterator(
   let k = 0;
 
   while (true) {
-    if (k >= MAX_ARRAY_LENGTH) {
+    if (k > MAX_ARRAY_LENGTH_INCLUSIVE) {
       throw new ThrowCompletion(
         realm.types.error("TypeError", "Too many items from iterator"),
       );

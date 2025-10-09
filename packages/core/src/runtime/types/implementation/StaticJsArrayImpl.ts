@@ -1,17 +1,31 @@
+import type { Writable } from "type-fest";
+
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+
 import toNumber from "../../algorithms/to-number.js";
+import toUInt32 from "../../algorithms/to-uint-32.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
-import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
+import type {
+  StaticJsDataPropertyDescriptor,
+  StaticJsPropertyDescriptor,
+} from "../StaticJsPropertyDescriptor.js";
 import {
   isStaticJsDataPropertyDescriptor,
   isStaticJsAccessorPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
-import type { StaticJsArray } from "../StaticJsArray.js";
+import {
+  MAX_ARRAY_LENGTH_INCLUSIVE,
+  type StaticJsArray,
+} from "../StaticJsArray.js";
+import { isStaticJsNumber } from "../StaticJsNumber.js";
 
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
@@ -39,11 +53,12 @@ export default class StaticJsArrayImpl
   ): EvaluationGenerator<StaticJsArrayImpl> {
     const array = new StaticJsArrayImpl(realm);
 
-    // Per the spec, these need to be defineProperty, not setProperty.
+    yield* array._init(
+      typeof itemsOrLen === "number" ? itemsOrLen : itemsOrLen.length,
+    );
 
-    let length: number;
+    // Often in the spec, setting items on arrays is done through [[DefineOwnProperty]].
     if (Array.isArray(itemsOrLen)) {
-      length = itemsOrLen.length;
       for (let i = 0; i < itemsOrLen.length; i++) {
         const Pi = String(i);
         if (!hasOwnProperty(itemsOrLen, Pi)) {
@@ -58,22 +73,25 @@ export default class StaticJsArrayImpl
           configurable: true,
         });
       }
-    } else {
-      length = itemsOrLen;
     }
-
-    yield* array.definePropertyEvaluator("length", {
-      value: new StaticJsNumberImpl(realm, length),
-      writable: true,
-      enumerable: false,
-      configurable: false,
-    });
 
     return array;
   }
 
   private constructor(realm: StaticJsRealm) {
     super(realm, realm.types.prototypes.arrayProto);
+  }
+
+  private *_init(length: number): EvaluationGenerator<void> {
+    // We need to call super and use the direct setter for this.
+    // This is the equivalent of the spec OrdinaryDefineOwnProperty, with gratuitious shortcuts, as
+    // we know we will be an ObjectLikeImpl and not something exotic.
+    yield* super._definePropertyEvaluator("length", {
+      value: new StaticJsNumberImpl(this.realm, length),
+      writable: true,
+      enumerable: false,
+      configurable: false,
+    });
   }
 
   get runtimeTypeOf() {
@@ -117,58 +135,201 @@ export default class StaticJsArrayImpl
   }
 
   protected *_setWritableDataPropertyEvaluator(
-    name: string,
+    key: string,
     value: StaticJsValue,
   ): EvaluationGenerator<void> {
-    if (name === "length") {
-      value = yield* toNumber(value, this.realm);
-      const newLength = value.value;
-      const length = yield* this.getLengthEvaluator();
-      if (newLength < length) {
-        for (let i = newLength; i < length; i++) {
-          yield* this.deletePropertyEvaluator(i.toString());
-        }
-      }
-    } else {
-      const index = parseInt(name, 10);
-      if (!Number.isNaN(index)) {
-        const length = yield* this.getLengthEvaluator();
-        if (index >= length) {
-          yield* this._updateLength(index + 1);
-        }
-      }
+    if (key === "length") {
+      // Hard to find this in the spec.  It's just a footnote of the array length spec (23.1.4.1).
+      yield* this.definePropertyEvaluator(key, {
+        value,
+      });
+      return;
     }
 
-    yield* super._setWritableDataPropertyEvaluator(name, value);
+    yield* super._setWritableDataPropertyEvaluator(key, value);
   }
 
   protected *_definePropertyEvaluator(
-    name: string,
-    descriptor: StaticJsPropertyDescriptor,
-  ): EvaluationGenerator<void> {
-    yield* super._definePropertyEvaluator(name, descriptor);
-    const index = parseInt(name, 10);
-    if (!Number.isNaN(index)) {
-      const length = yield* this.getLengthEvaluator();
-      if (index >= length) {
-        yield* this._updateLength(index + 1);
-      }
+    key: string,
+    desc: StaticJsPropertyDescriptor,
+  ): EvaluationGenerator<boolean> {
+    if (key === "length") {
+      return yield* this._setLength(desc);
     }
+
+    if (isArrayIndex(key)) {
+      let lengthDesc = yield* this.getOwnPropertyDescriptorEvaluator("length");
+      if (!lengthDesc) {
+        throw new StaticJsEngineError(
+          "Null length descriptor on array intrinsic",
+        );
+      }
+      if (lengthDesc.configurable) {
+        throw new StaticJsEngineError(
+          "Configurable length descriptor on array intrinsic",
+        );
+      }
+      if (!isStaticJsDataPropertyDescriptor(lengthDesc)) {
+        throw new StaticJsEngineError(
+          "Invalid length descriptor on array intrinsic",
+        );
+      }
+
+      const length = lengthDesc.value;
+      if (!isStaticJsNumber(length) || length.value < 0) {
+        throw new StaticJsEngineError(
+          "Invalid length value on array intrinsic",
+        );
+      }
+
+      const index = toUInt32.sync(key);
+      if (index >= length.value && !lengthDesc.writable) {
+        return false;
+      }
+
+      const success = yield* super._definePropertyEvaluator(key, desc);
+      if (!success) {
+        return false;
+      }
+
+      if (index >= length.value) {
+        lengthDesc = {
+          ...lengthDesc,
+          value: new StaticJsNumberImpl(this.realm, index + 1),
+        };
+
+        const success = yield* super._definePropertyEvaluator(
+          "length",
+          lengthDesc,
+        );
+        if (!success) {
+          throw new StaticJsEngineError(
+            "Failed to update array length after adding element",
+          );
+        }
+      }
+
+      return true;
+    }
+
+    return yield* super._definePropertyEvaluator(key, desc);
   }
 
-  private *_updateLength(length: number): EvaluationGenerator<void> {
-    const currentLength = yield* this.getLengthEvaluator();
+  private *_setLength(
+    desc: StaticJsPropertyDescriptor,
+  ): EvaluationGenerator<boolean> {
+    if (!isStaticJsDataPropertyDescriptor(desc) || !desc.value) {
+      return yield* super._definePropertyEvaluator("length", desc);
+    }
 
-    yield* this.setPropertyEvaluator(
+    const newLen = yield* toUInt32(desc.value, this.realm);
+
+    const numberLen = yield* toNumber(desc.value, this.realm);
+    if (numberLen.value !== newLen) {
+      throw new ThrowCompletion(
+        this.realm.types.error("RangeError", "Invalid array length"),
+      );
+    }
+
+    const newLenDesc: Writable<StaticJsDataPropertyDescriptor> = {
+      ...desc,
+      value: this.realm.types.number(newLen),
+    };
+
+    const oldLenDesc = yield* this.getOwnPropertyDescriptorEvaluator("length");
+    if (oldLenDesc === undefined) {
+      throw new StaticJsEngineError(
+        "Null length descriptor on array intrinsic",
+      );
+    }
+    if (!isStaticJsDataPropertyDescriptor(oldLenDesc)) {
+      throw new StaticJsEngineError(
+        "Invalid length descriptor on array intrinsic",
+      );
+    }
+    if (oldLenDesc.configurable) {
+      throw new StaticJsEngineError(
+        "Configurable length descriptor on array intrinsic",
+      );
+    }
+
+    const oldLenValue = oldLenDesc.value;
+    if (!isStaticJsNumber(oldLenValue) || oldLenValue.value < 0) {
+      throw new StaticJsEngineError("Invalid length value on array intrinsic");
+    }
+    const oldLen = oldLenValue.value;
+
+    if (newLen >= oldLen) {
+      return yield* super._definePropertyEvaluator("length", newLenDesc);
+    }
+
+    if (oldLenDesc.writable === false) {
+      return false;
+    }
+
+    let newWritable: boolean = true;
+    if (newLenDesc.writable === false) {
+      newWritable = false;
+      newLenDesc.writable = true;
+    }
+
+    const succeeded = yield* super._definePropertyEvaluator(
       "length",
-      new StaticJsNumberImpl(this.realm, length),
-      false,
+      newLenDesc,
     );
+    if (!succeeded) {
+      return false;
+    }
 
-    if (length < currentLength) {
-      for (let i = length; i < currentLength; i++) {
-        yield* this.deletePropertyEvaluator(i.toString());
+    const keys = yield* this.getOwnKeysEvaluator();
+    // Madness to do the equivalent of toUInt32, which would be inefficient to use on account of being a generator.
+    // We probably should make a non-generator version of it.
+    const indicies = keys
+      .filter(isArrayIndex)
+      .map(toUInt32.sync)
+      .sort()
+      .reverse();
+    for (const index of indicies) {
+      if (index < newLen) {
+        break;
+      }
+
+      const deleteSucceeded = yield* this.deletePropertyEvaluator(
+        String(index),
+      );
+      if (!deleteSucceeded) {
+        newLenDesc.value = this.realm.types.number(index + 1);
+        if (!newWritable) {
+          newLenDesc.writable = false;
+        }
+
+        yield* super._definePropertyEvaluator("length", newLenDesc);
+        return false;
       }
     }
+
+    if (!newWritable) {
+      const succeeded = yield* super._definePropertyEvaluator("length", {
+        ...newLenDesc,
+        writable: false,
+      });
+      if (!succeeded) {
+        throw new StaticJsEngineError(
+          "Failed to make array length non-writable",
+        );
+      }
+    }
+
+    return true;
   }
+}
+
+function isArrayIndex(number: number | string): boolean {
+  const parsed = typeof number === "number" ? number : parseInt(number, 10);
+  return (
+    !Number.isNaN(parsed) &&
+    parsed >= 0 &&
+    parsed <= MAX_ARRAY_LENGTH_INCLUSIVE &&
+    Math.floor(parsed) === parsed
+  );
 }

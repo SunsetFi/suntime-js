@@ -1,7 +1,7 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import toObject from "../../../algorithms/to-object.js";
 
-import { MAX_ARRAY_LENGTH } from "../../../types/StaticJsArray.js";
+import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -14,7 +14,7 @@ const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
 
     const length = yield* lengthOfArrayLike(thisObj, realm);
 
-    if (args.length + length > MAX_ARRAY_LENGTH) {
+    if (args.length + length > MAX_ARRAY_LENGTH_INCLUSIVE) {
       throw new ThrowCompletion(
         realm.types.error(
           "TypeError",

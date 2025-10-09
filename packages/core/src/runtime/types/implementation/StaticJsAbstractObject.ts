@@ -193,8 +193,8 @@ export default abstract class StaticJsAbstractObject
   definePropertySync(
     key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
-  ): void {
-    this.realm.invokeEvaluatorSync(
+  ): boolean {
+    return this.realm.invokeEvaluatorSync(
       this.definePropertyEvaluator(key, descriptor),
     );
   }
@@ -202,8 +202,8 @@ export default abstract class StaticJsAbstractObject
   *definePropertyEvaluator(
     key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
-  ): EvaluationGenerator<void> {
-    // FIXME: Return throw completion?
+  ): EvaluationGenerator<boolean> {
+    // FIXME: Implement for real: https://tc39.es/ecma262/#sec-ordinarydefineownproperty
     validateStaticJsPropertyDescriptor(descriptor);
 
     const currentDescriptor =
@@ -211,14 +211,11 @@ export default abstract class StaticJsAbstractObject
 
     if (!currentDescriptor) {
       if (!this.extensible) {
-        throw new ThrowCompletion(
-          this.realm.types.error("TypeError", `Object is not extensible`),
-        );
+        return false;
       }
 
       // Apply
-      yield* this._definePropertyEvaluator(key, descriptor);
-      return;
+      return yield* this._definePropertyEvaluator(key, descriptor);
     }
 
     if (!currentDescriptor.configurable) {
@@ -231,7 +228,6 @@ export default abstract class StaticJsAbstractObject
       const isNonStrictConfigurable =
         hasOwnProperty(descriptor, "configurable") &&
         descriptor.configurable == true;
-      const isNonStrictValue = hasOwnProperty(descriptor, "value");
       const isNonStrictAccessor =
         hasOwnProperty(descriptor, "get") || hasOwnProperty(descriptor, "set");
 
@@ -239,20 +235,14 @@ export default abstract class StaticJsAbstractObject
         isNonStrictWritable ||
         isNonStrictEnumerable ||
         isNonStrictConfigurable ||
-        isNonStrictValue ||
         isNonStrictAccessor;
 
       if (isNonStrict) {
-        throw new ThrowCompletion(
-          this.realm.types.error(
-            "TypeError",
-            `Cannot redefine property ${key}`,
-          ),
-        );
+        return false;
       }
     }
 
-    yield* this._definePropertyEvaluator(key, descriptor);
+    return yield* this._definePropertyEvaluator(key, descriptor);
   }
 
   abstract getOwnPropertyDescriptorEvaluator(
@@ -440,7 +430,7 @@ export default abstract class StaticJsAbstractObject
   protected abstract _definePropertyEvaluator(
     key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
-  ): EvaluationGenerator<void>;
+  ): EvaluationGenerator<boolean>;
 
   protected abstract _deleteConfigurablePropertyEvaluator(
     key: StaticJsObjectPropertyKey,

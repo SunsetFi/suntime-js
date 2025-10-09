@@ -1,7 +1,7 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 import toObject from "../../../algorithms/to-object.js";
 
-import { MAX_ARRAY_LENGTH } from "../../../types/StaticJsArray.js";
+import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -15,7 +15,7 @@ export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
     // Set the new length
     const length = yield* lengthOfArrayLike(thisObj, realm);
 
-    if (args.length + length > MAX_ARRAY_LENGTH) {
+    if (args.length + length > MAX_ARRAY_LENGTH_INCLUSIVE) {
       // Note: Not exactly what NodeJs does, it says "invalid array length".
       // Not sure on the exact situations of when it says that though.
       throw new ThrowCompletion(

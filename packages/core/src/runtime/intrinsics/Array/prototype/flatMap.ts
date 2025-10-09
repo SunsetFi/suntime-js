@@ -3,7 +3,7 @@ import toObject from "../../../algorithms/to-object.js";
 
 import {
   isStaticJsArray,
-  MAX_ARRAY_LENGTH,
+  MAX_ARRAY_LENGTH_INCLUSIVE,
 } from "../../../types/StaticJsArray.js";
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
@@ -52,7 +52,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       // flatMap does not flatten non-array array-likes.
       if (isStaticJsArray(result)) {
         const len = yield* lengthOfArrayLike(result, realm);
-        if (n + len > MAX_ARRAY_LENGTH) {
+        if (n + len > MAX_ARRAY_LENGTH_INCLUSIVE) {
           throw new ThrowCompletion(
             realm.types.error("TypeError", "Maximum array size exceeded"),
           );
@@ -74,7 +74,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
           n++;
         }
       } else {
-        if (n >= MAX_ARRAY_LENGTH) {
+        if (n > MAX_ARRAY_LENGTH_INCLUSIVE) {
           throw new ThrowCompletion(
             realm.types.error("TypeError", "Maximum array size exceeded"),
           );

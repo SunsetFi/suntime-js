@@ -71,11 +71,11 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   definePropertySync(
     key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
-  ): void;
+  ): boolean;
   definePropertyEvaluator(
     key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
-  ): EvaluationGenerator<void>;
+  ): EvaluationGenerator<boolean>;
 
   getPropertySync(name: StaticJsObjectPropertyKey): StaticJsValue;
   getPropertyEvaluator(

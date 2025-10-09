@@ -5,7 +5,7 @@ import isConcatSpreadable from "../../../algorithms/is-concat-spreadable.js";
 import toObject from "../../../algorithms/to-object.js";
 
 import type { StaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
-import { MAX_ARRAY_LENGTH } from "../../../types/StaticJsArray.js";
+import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -48,7 +48,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
       if (spreadable) {
         const objE = E as StaticJsObjectLike;
         const len = yield* lengthOfArrayLike(objE, realm);
-        if (n + len > MAX_ARRAY_LENGTH) {
+        if (n + len > MAX_ARRAY_LENGTH_INCLUSIVE) {
           throw new ThrowCompletion(
             realm.types.error("TypeError", "Maximum array size exceeded"),
           );
@@ -73,7 +73,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
           k++;
         }
       } else {
-        if (n >= MAX_ARRAY_LENGTH) {
+        if (n > MAX_ARRAY_LENGTH_INCLUSIVE) {
           throw new ThrowCompletion(
             realm.types.error("TypeError", "Maximum array size exceeded"),
           );

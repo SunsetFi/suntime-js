@@ -5,7 +5,7 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import toInteger from "./to-integer.js";
 
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
-import { MAX_ARRAY_LENGTH } from "../types/StaticJsArray.js";
+import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../types/StaticJsArray.js";
 
 export default function* lengthOfArrayLike(
   obj: StaticJsObjectLike,
@@ -23,7 +23,7 @@ export default function* lengthOfArrayLike(
 
   // Some hints about the behavior here:
   // https://issues.chromium.org/issues/42201570
-  length = Math.min(length, MAX_ARRAY_LENGTH);
+  length = Math.min(length, MAX_ARRAY_LENGTH_INCLUSIVE);
 
   return length;
 }

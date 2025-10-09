@@ -56,7 +56,10 @@ export default class StaticJsStringBoxed extends StaticJsAbstractObject {
   protected *_definePropertyEvaluator(
     _key: StaticJsObjectPropertyKey,
     _descriptor: StaticJsPropertyDescriptor,
-  ): EvaluationGenerator<void> {}
+  ): EvaluationGenerator<boolean> {
+    return false;
+  }
+
   protected *_deleteConfigurablePropertyEvaluator(
     _key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<boolean> {

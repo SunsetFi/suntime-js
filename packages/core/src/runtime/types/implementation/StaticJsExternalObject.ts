@@ -99,8 +99,9 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
     /* No-op.  Externals are not writable. */
   }
 
-  protected *_definePropertyEvaluator(): EvaluationGenerator<void> {
+  protected *_definePropertyEvaluator(): EvaluationGenerator<boolean> {
     /* No-op.  Externals are not writable. */
+    return false;
   }
 
   protected *_deleteConfigurablePropertyEvaluator(): EvaluationGenerator<boolean> {

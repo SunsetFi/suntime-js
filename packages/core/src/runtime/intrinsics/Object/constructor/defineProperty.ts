@@ -36,7 +36,7 @@ const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const propertyName = propertyNameValue.toStringSync();
+    const propertyKey = propertyNameValue.toStringSync();
 
     if (!isStaticJsObjectLike(propertyDescriptor)) {
       throw new ThrowCompletion(
@@ -56,7 +56,25 @@ const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    yield* targetValue.definePropertyEvaluator(propertyName, descriptor);
+    const success = yield* targetValue.definePropertyEvaluator(
+      propertyKey,
+      descriptor,
+    );
+    if (!success) {
+      if (!targetValue.extensible) {
+        throw new ThrowCompletion(
+          realm.types.error("TypeError", `Object is not extensible`),
+        );
+      } else {
+        // FIXME: Just guessing.
+        throw new ThrowCompletion(
+          realm.types.error(
+            "TypeError",
+            `Cannot redefine property ${propertyKey}`,
+          ),
+        );
+      }
+    }
 
     return targetValue;
   },

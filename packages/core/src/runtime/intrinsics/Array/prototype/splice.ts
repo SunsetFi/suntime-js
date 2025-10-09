@@ -1,4 +1,6 @@
 import isNotUndefined from "../../../../internal/is-not-undefined.js";
+import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 import toInteger from "../../../algorithms/to-integer.js";
 import toObject from "../../../algorithms/to-object.js";
@@ -13,9 +15,7 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg, startValue, deleteCountValue, ...items) {
     const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
 
-    let lengthValue = yield* thisObj.getPropertyEvaluator("length");
-    lengthValue = yield* toInteger(lengthValue, realm);
-    const length = lengthValue.value;
+    const length = yield* lengthOfArrayLike(thisObj, realm);
 
     if (!startValue) {
       return realm.types.array();
@@ -58,8 +58,15 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
     );
 
     yield* setArray(realm, thisObj, oldItems);
-    // FIXME: Doesn't take into account array species.
-    return realm.types.array(result);
+
+    const resultItems = yield* arraySpeciesCreate(
+      thisObj,
+      oldItems.length,
+      realm,
+    );
+    yield* setArray(realm, resultItems, result);
+
+    return resultItems;
   },
 };
 

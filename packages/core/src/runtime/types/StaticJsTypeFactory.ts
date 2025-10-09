@@ -21,6 +21,7 @@ export type ErrorTypeName =
   | "TypeError"
   | "ReferenceError"
   | "SyntaxError"
+  | "RangeError"
   | "Error";
 
 export function isErrorTypeName(name: string): name is ErrorTypeName {
