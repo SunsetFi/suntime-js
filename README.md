@@ -89,10 +89,6 @@ This gives you full control of the evaluation, including pausing execution, debu
 
 - Fix 'all' [Test262](https://github.com/tc39/test262) tests.
   - Currently only running tests in the language folder. Need to add built-ins
-- Async arrow functions
-  - Simple and easy; already support async functions
-- Eval scoping
-  - Need to rework functions to get context of their calls.
 - Rework TypeFactory so that realm.types is not undefined while resolving prototypes and constructors.
 - Report code coverage in repo
   coveralls.io?
