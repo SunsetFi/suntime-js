@@ -1,3 +1,4 @@
 tsconfig.lib.tsbuildinfo
 lib
 static-js-*.tgz
+html

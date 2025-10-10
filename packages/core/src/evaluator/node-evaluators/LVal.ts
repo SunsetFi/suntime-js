@@ -7,13 +7,11 @@ import toObject from "../../runtime/algorithms/to-object.js";
 import getIterator from "../../runtime/algorithms/get-iterator.js";
 import iteratorStepValue from "../../runtime/algorithms/iterator-step-value.js";
 
-import {
-  isStaticJsObjectLike,
-  type StaticJsObjectPropertyKey,
-} from "../../runtime/types/StaticJsObjectLike.js";
+import { type StaticJsObjectPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
+
 import toPropertyKey from "../../runtime/utils/to-property-key.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -145,21 +143,14 @@ export default function* setLVal(
         );
       }
 
-      if (!isStaticJsObjectLike(value)) {
-        // FIXME: Use real error.
-        throw new ThrowCompletion(
-          context.realm.types.error(
-            "TypeError",
-            "Cannot destructure non-object value",
-          ),
-        );
-      }
+      value = yield* toObject(value, context.realm);
 
       const seenProperties = new Set<string>();
       for (const property of lval.properties) {
         if (property.type === "RestElement") {
           const restValue = context.realm.types.object();
-          for (const key in value) {
+          const keys = yield* value.getOwnKeysEvaluator();
+          for (const key in keys) {
             if (!seenProperties.has(key)) {
               const propertyValue = yield* value.getPropertyEvaluator(key);
               yield* restValue.setPropertyEvaluator(
@@ -186,6 +177,10 @@ export default function* setLVal(
               forNormalValue: "ObjectPattern.properties[].key",
             });
             propertyKey = yield* toPropertyKey(value, context.realm);
+          }
+
+          if (typeof propertyKey === "string") {
+            seenProperties.add(propertyKey);
           }
 
           const propertyValue = yield* value.getPropertyEvaluator(propertyKey);

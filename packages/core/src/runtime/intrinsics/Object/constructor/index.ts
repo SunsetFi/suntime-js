@@ -18,6 +18,7 @@ import objectCtorDefinePropertyDeclaration from "./defineProperty.js";
 import objectCtorEntriesDeclaration from "./entries.js";
 import objectCtorFreezeDeclaration from "./freeze.js";
 import objectCtorGetOwnPropertyDescriptorDeclaration from "./getOwnPropertyDescriptor.js";
+import objectCtorGetOwnPropertyNamesDeclaration from "./getOwnPropertyNames.js";
 import objectCtorGetPrototypeOfDeclaration from "./getPrototypeOf.js";
 import objectCtorHasOwnDeclaration from "./hasOwn.js";
 import objectCtorKeysDeclaration from "./keys.js";
@@ -34,6 +35,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   objectCtorEntriesDeclaration,
   objectCtorFreezeDeclaration,
   objectCtorGetOwnPropertyDescriptorDeclaration,
+  objectCtorGetOwnPropertyNamesDeclaration,
   objectCtorGetPrototypeOfDeclaration,
   objectCtorHasOwnDeclaration,
   objectCtorKeysDeclaration,
