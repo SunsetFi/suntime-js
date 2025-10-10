@@ -84,7 +84,8 @@ function* variableDeclarationEnvironmentSetup(
         }
         if (yield* varScope.canDeclareGlobalVarEvaluator(name)) {
           yield* varScope.createGlobalVarBindingEvaluator(name, false);
-        } else {
+        } else if (!(yield* varScope.hasBindingEvaluator(name))) {
+          // duplicate var declarations are ignored
           yield* varScope.createMutableBindingEvaluator(name, false, true);
         }
       };

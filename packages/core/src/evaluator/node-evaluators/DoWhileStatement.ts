@@ -42,10 +42,10 @@ function* doWhileStatementNodeEvaluator(
       }
 
       if (ContinueCompletion.isContinueForLabel(e, context.label)) {
-        continue;
+        // Flow through to the test.
+      } else {
+        throw e;
       }
-
-      throw e;
     }
 
     let testResult = yield* EvaluateNodeCommand(node.test, whileContext, {

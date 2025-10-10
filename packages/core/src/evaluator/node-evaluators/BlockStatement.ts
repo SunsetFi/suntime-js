@@ -12,6 +12,7 @@ import type EvaluationContext from "../EvaluationContext.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import setupEnvironment from "./setup-environment.js";
+import { BreakCompletion } from "../completions/BreakCompletion.js";
 
 function* blockStatementNodeEvaluator(
   node: BlockStatement,
@@ -28,7 +29,14 @@ function* blockStatementNodeEvaluator(
 
   let lastValue: StaticJsValue | null = null;
   for (const statement of node.body) {
-    lastValue = yield* EvaluateNodeCommand(statement, blockContext);
+    try {
+      lastValue = yield* EvaluateNodeCommand(statement, blockContext);
+    } catch (e) {
+      if (BreakCompletion.isBreakForLabel(e, context.label)) {
+        return lastValue;
+      }
+      throw e;
+    }
   }
 
   return lastValue;

@@ -7,6 +7,7 @@ import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import toString from "../../algorithms/to-string.js";
+import sameValue from "../../algorithms/same-value.js";
 
 import type {
   StaticJsAccessorPropertyDescriptor,
@@ -33,7 +34,6 @@ import { isStaticJsValue } from "../StaticJsValue.js";
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 
 import createStaticJsObjectLikeProxy from "./create-object-proxy.js";
-import { sameValue } from "../../algorithms/same-value.js";
 
 export default abstract class StaticJsAbstractObject
   extends StaticJsAbstractPrimitive

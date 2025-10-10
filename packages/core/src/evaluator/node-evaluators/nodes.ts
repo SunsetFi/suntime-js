@@ -47,6 +47,7 @@ import exportNamedDeclarationNodeEvaluator from "./ExportNamedDeclaration.js";
 import awaitExpressionNodeEvaluator from "./AwaitExpression.js";
 import withStatementNodeEvaluator from "./WithStatement.js";
 import sequenceExpressionNodeEvaluator from "./SequenceExpression.js";
+import switchStatementNodeEvaluator from "./SwitchStatement.js";
 
 type NodeEvaluators = {
   [key in Node["type"]]?: NodeEvaluator<key>;
@@ -90,6 +91,7 @@ const nodeEvaluators: NodeEvaluators = {
   ReturnStatement: returnStatementNodeEvaluator,
   SequenceExpression: sequenceExpressionNodeEvaluator,
   StringLiteral: stringLiteralNodeEvaluator,
+  SwitchStatement: switchStatementNodeEvaluator,
   ThisExpression: thisExpressionNodeEvaluator,
   ThrowStatement: throwStatementNodeEvaluator,
   TryStatement: tryStatementNodeEvaluator,

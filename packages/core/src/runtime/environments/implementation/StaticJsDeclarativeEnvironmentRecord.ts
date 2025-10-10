@@ -27,14 +27,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
       );
     }
 
-    if (this._bindings.has(name)) {
-      throw new ThrowCompletion(
-        this.realm.types.error(
-          "SyntaxError",
-          `Identifier ${name} has already been declared`,
-        ),
-      );
-    }
+    this._assertBindingNotDeclared(name);
 
     this._bindings.set(
       name,
@@ -52,8 +45,17 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
     name: string,
     _strict: boolean,
   ): EvaluationGenerator<void> {
+    // TODO: Do we throw if not strict?
+    this._assertBindingNotDeclared(name);
+
+    this._bindings.set(
+      name,
+      new DeclarativeEnvironmentBinding(name, false, false, null, this.realm),
+    );
+  }
+
+  protected _assertBindingNotDeclared(name: string) {
     if (this._bindings.has(name)) {
-      // FIXME: Strict probably means we should or should not throw here.
       throw new ThrowCompletion(
         this.realm.types.error(
           "SyntaxError",
@@ -61,11 +63,6 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
         ),
       );
     }
-
-    this._bindings.set(
-      name,
-      new DeclarativeEnvironmentBinding(name, false, false, null, this.realm),
-    );
   }
 
   *[StaticJsEnvironmentGetBinding](
