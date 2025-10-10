@@ -68,8 +68,8 @@ function defineTest(test: string) {
     return;
   }
 
-  if (testMeta.attrs.features?.some((x) => x.includes("Symbol"))) {
-    it.skip("Ignored Symbol test: " + testName, () => {});
+  if (testMeta.attrs.features?.some((x) => x.includes("generators"))) {
+    it.skip("Ignored generator test: " + testName, () => {});
     return;
   }
 

@@ -20,28 +20,22 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 
 ## What is supported
 
-- Primitives
-  - null
-  - undefined
-  - string
-  - number
-  - boolean
-  - object
-  - function
 - Strict directive
+- Primitives
+- Arrays
+- Promises
+- Functions / Arrow functions
+- Async Functions
+- Math
+- Error (and variants)
 - Symbols (including engine behavior)
   - Symbol.iterator
   - Symbol.hasInstance
   - Symbol.species
   - Symbol.isConcatSpreadable
   - Symbol.toPrimitive
-- Arrays
-- Promises
-- Async Functions
-- Math
-- Error (and variants)
-- for / for-of / for-in / while / do
-- try / catch / finally
+- Control flow / loops
+- Unary and binary operators
 - Destructuring
 - Spread operators (including Symbol.iterator usage)
 - ECMAScript Modules
@@ -51,8 +45,6 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 
 ### Notable things not (yet) supported
 
-- Spec-defined symbols and their usage in the runtime (Symbol.iterator and so forth)
-- iterator.return calls
 - Async Modules
 - Generator functions
 - All well-known symbols not listed above
@@ -61,13 +53,13 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 - Class syntax
 - Date
 - Regex
-- for-of
+- Iterator.return calls
 
 ## Test262 coverage
 
 This project is slowly working its way through the [Test262](https://github.com/tc39/test262) suite of JavaScript tests in order to ensure compliance with the spec.
 
-Currently, around 3900 tests are passing, or about 17%. Further work is ongoing in this area.
+Currently, around 4200 tests are passing, or about 18%. Further work is ongoing in this area.
 
 ## Quick Usage (native JS interop)
 
@@ -94,12 +86,12 @@ This gives you full control of the evaluation, including pausing execution, debu
 ## TODO:
 
 - Fix 'all' [Test262](https://github.com/tc39/test262) tests.
+  - Currently only running tests in the language folder. Need to add built-ins
 - Report code coverage in repo
   coveralls.io?
   [vitest-coverage-report-action](https://github.com/marketplace/actions/vitest-coverage-report)?
 - Get api-extractor working. The only holdup right now is the combine and re-export of the interface and factory function of StaticJsRealm
   - Combine these into one file to make this work?
-- Turn the value of ObjectLike.toJsSync() back into the same instance of StaticJsObjectLike in TypeFactory.toStaticJsValue()
 - Add a runTaskSync to realms that allows for time and operation limiting synchronous functions but enforces the task is completed or aborted when the function exits.
 - Rename toJs to toNative
 - Add scope, variable, and stack info to StaticJsTaskIterator for debugging.
