@@ -27,6 +27,7 @@ export default abstract class StaticJsBaseEnvironmentRecord
   abstract createMutableBindingEvaluator(
     name: string,
     deletable: boolean,
+    canReferenceUninitialized: boolean,
   ): EvaluationGenerator<void>;
 
   abstract createImmutableBindingEvaluator(
@@ -78,7 +79,7 @@ export default abstract class StaticJsBaseEnvironmentRecord
     name: string,
     value: StaticJsValue,
   ): EvaluationGenerator<void> {
-    yield* this.createMutableBindingEvaluator(name, false);
+    yield* this.createMutableBindingEvaluator(name, false, false);
     yield* this.setMutableBindingEvaluator(name, value, true);
   }
 
@@ -164,10 +165,6 @@ export default abstract class StaticJsBaseEnvironmentRecord
 
   *getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this.realm.types.undefined;
-  }
-
-  *getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironment | null> {
-    return null;
   }
 
   abstract [StaticJsEnvironmentGetBinding](

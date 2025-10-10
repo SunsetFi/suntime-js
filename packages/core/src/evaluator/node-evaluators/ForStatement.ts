@@ -24,7 +24,7 @@ function* forStatementNodeEvaluator(
   let forContext = context;
 
   if (node.init || node.update || node.test) {
-    forContext = context.createBlockContext(
+    forContext = context.createLexicalEnvContext(
       new StaticJsDeclarativeEnvironmentRecord(context.realm),
     );
 
@@ -57,7 +57,7 @@ function* forStatementNodeEvaluator(
       }
     }
 
-    const bodyContext = forContext.createBlockContext(
+    const bodyContext = forContext.createLexicalEnvContext(
       new StaticJsDeclarativeEnvironmentRecord(context.realm),
     );
 

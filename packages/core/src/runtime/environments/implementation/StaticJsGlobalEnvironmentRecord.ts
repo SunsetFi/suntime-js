@@ -5,7 +5,6 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
-import type { StaticJsEnvironment } from "../StaticJsEnvironment.js";
 
 import StaticJsBaseEnvironmentRecord from "./StaticJsBaseEnvironmentRecord.js";
 import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
@@ -77,9 +76,9 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
   *createMutableBindingEvaluator(
     name: string,
     deletable: boolean,
+    isVarDecl: boolean,
   ): EvaluationGenerator<void> {
-    // Both need to be checked first
-    if (yield* this.hasBindingEvaluator(name)) {
+    if (yield* this._globalObject.hasPropertyEvaluator(name)) {
       throw new ThrowCompletion(
         this.realm.types.error(
           "SyntaxError",
@@ -91,6 +90,7 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
     return yield* this._declarativeRecord.createMutableBindingEvaluator(
       name,
       deletable,
+      isVarDecl,
     );
   }
 
@@ -118,7 +118,7 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
     name: string,
     value: StaticJsValue,
   ): EvaluationGenerator<void> {
-    yield* this._objectRecord.createMutableBindingEvaluator(name, false);
+    yield* this._objectRecord.createMutableBindingEvaluator(name, false, false);
     yield* this._objectRecord.setMutableBindingEvaluator(name, value, true);
   }
 
@@ -142,7 +142,11 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
     const extensible = this._globalObject.extensible;
 
     if (!hasProperty && extensible) {
-      yield* this._objectRecord.createMutableBindingEvaluator(name, deletable);
+      yield* this._objectRecord.createMutableBindingEvaluator(
+        name,
+        deletable,
+        true,
+      );
       yield* this._objectRecord.initializeBindingEvaluator(
         name,
         this.realm.types.undefined,
@@ -156,10 +160,6 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
 
   *getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this._globalThis;
-  }
-
-  *getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironment> {
-    return this;
   }
 
   *[StaticJsEnvironmentGetBinding](

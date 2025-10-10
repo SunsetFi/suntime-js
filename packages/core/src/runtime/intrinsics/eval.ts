@@ -1,5 +1,6 @@
-import { parse as parseAst } from "@babel/parser";
 import type { Node } from "@babel/types";
+
+import parseScript from "../../parser/parse-script.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
@@ -7,9 +8,9 @@ import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 
-import setupEnvironment from "../../evaluator/node-evaluators/setup-environment.js";
-
 import { EvaluateNodeCommand } from "../../evaluator/commands/EvaluateNodeCommand.js";
+
+import setupEnvironment from "../../evaluator/node-evaluators/setup-environment.js";
 
 import toString from "../algorithms/to-string.js";
 
@@ -22,7 +23,7 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
 
     let node: Node;
     try {
-      node = parseAst(str.value, { sourceType: "script" });
+      node = parseScript(str.value);
     } catch (e: unknown) {
       if (e instanceof SyntaxError) {
         throw new ThrowCompletion(realm.types.error("SyntaxError", e.message));
@@ -40,7 +41,7 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
     );
 
     // FIXME: Only do this if strict mode.
-    context = context.createBlockContext(
+    context = context.createLexicalEnvContext(
       new StaticJsDeclarativeEnvironmentRecord(realm),
     );
 

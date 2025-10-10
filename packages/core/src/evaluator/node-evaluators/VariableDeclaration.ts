@@ -25,7 +25,7 @@ function* variableDeclarationNodeEvaluator(
     case "const":
     case "let":
       variableInitializer = function* (name, value) {
-        return yield* context.env.initializeBindingEvaluator(
+        return yield* context.lexicalEnv.initializeBindingEvaluator(
           name,
           value ?? context.realm.types.undefined,
         );
@@ -33,7 +33,7 @@ function* variableDeclarationNodeEvaluator(
       break;
     case "var":
       variableInitializer = function* (name, value) {
-        return yield* context.env.setMutableBindingEvaluator(
+        return yield* context.lexicalEnv.setMutableBindingEvaluator(
           name,
           value ?? context.realm.types.undefined,
           context.strict,
@@ -65,7 +65,7 @@ function* variableDeclarationEnvironmentSetup(
   switch (node.kind) {
     case "const":
       variableCreator = function* (name) {
-        yield* context.env.createImmutableBindingEvaluator(
+        yield* context.lexicalEnv.createImmutableBindingEvaluator(
           name,
           context.strict,
         );
@@ -73,21 +73,23 @@ function* variableDeclarationEnvironmentSetup(
       break;
     case "let":
       variableCreator = function* (name) {
-        yield* context.env.createMutableBindingEvaluator(name, false);
+        yield* context.lexicalEnv.createMutableBindingEvaluator(name, false);
       };
       break;
     case "var":
       variableCreator = function* (name) {
-        let varScope = yield* context.env.getVarScopeEvaluator();
-        if (!varScope) {
-          varScope = context.env;
-        }
+        const varScope = context.variableEnv;
         if (yield* varScope.canDeclareGlobalVarEvaluator(name)) {
           yield* varScope.createGlobalVarBindingEvaluator(name, false);
-        } else if (!(yield* varScope.hasBindingEvaluator(name))) {
-          // duplicate var declarations are ignored
+        } else {
           yield* varScope.createMutableBindingEvaluator(name, false, true);
         }
+
+        // Vars are initialized immediately with undefined.
+        varScope.initializeBindingEvaluator(
+          name,
+          context.realm.types.undefined,
+        );
       };
       break;
     default:

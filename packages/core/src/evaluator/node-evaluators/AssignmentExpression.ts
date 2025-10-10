@@ -45,7 +45,7 @@ export default function* assignmentExpressionNodeEvaluator(
           );
         }
 
-        const leftValue = yield* context.env.getBindingValueEvaluator(
+        const leftValue = yield* context.lexicalEnv.getBindingValueEvaluator(
           left.name,
           true,
         );
@@ -64,7 +64,7 @@ export default function* assignmentExpressionNodeEvaluator(
           );
         }
 
-        let leftValue = yield* context.env.getBindingValueEvaluator(
+        let leftValue = yield* context.lexicalEnv.getBindingValueEvaluator(
           left.name,
           true,
         );
@@ -85,7 +85,7 @@ export default function* assignmentExpressionNodeEvaluator(
           );
         }
 
-        let leftValue = yield* context.env.getBindingValueEvaluator(
+        let leftValue = yield* context.lexicalEnv.getBindingValueEvaluator(
           left.name,
           true,
         );
@@ -107,7 +107,7 @@ export default function* assignmentExpressionNodeEvaluator(
           );
         }
 
-        let leftValue = yield* context.env.getBindingValueEvaluator(
+        let leftValue = yield* context.lexicalEnv.getBindingValueEvaluator(
           left.name,
           true,
         );
@@ -129,7 +129,7 @@ export default function* assignmentExpressionNodeEvaluator(
           );
         }
 
-        let leftValue = yield* context.env.getBindingValueEvaluator(
+        let leftValue = yield* context.lexicalEnv.getBindingValueEvaluator(
           left.name,
           true,
         );
@@ -143,7 +143,7 @@ export default function* assignmentExpressionNodeEvaluator(
   }
 
   yield* setLVal(left, value, context, function* (name, value) {
-    return yield* context.env.setMutableBindingEvaluator(
+    return yield* context.lexicalEnv.setMutableBindingEvaluator(
       name,
       value,
       context.strict,

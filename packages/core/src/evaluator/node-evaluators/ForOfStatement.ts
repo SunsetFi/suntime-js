@@ -50,7 +50,7 @@ function* forOfStatementNodeEvaluator(
       break;
     }
 
-    const bodyContext = context.createBlockContext(
+    const bodyContext = context.createLexicalEnvContext(
       new StaticJsDeclarativeEnvironmentRecord(context.realm),
     );
 
@@ -66,7 +66,10 @@ function* forOfStatementNodeEvaluator(
     }
 
     yield* setLVal(lVal, value, bodyContext, function* (name, val) {
-      return yield* bodyContext.env.initializeBindingEvaluator(name, val);
+      return yield* bodyContext.lexicalEnv.initializeBindingEvaluator(
+        name,
+        val,
+      );
     });
 
     try {

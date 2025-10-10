@@ -19,7 +19,7 @@ function* blockStatementNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   // FIXME: Only do this if we have a let or const.
-  const blockContext = context.createBlockContext(
+  const blockContext = context.createLexicalEnvContext(
     new StaticJsDeclarativeEnvironmentRecord(context.realm),
   );
 
@@ -28,6 +28,17 @@ function* blockStatementNodeEvaluator(
   }
 
   let lastValue: StaticJsValue | null = null;
+
+  // Directives are values too!
+  // Inherit the last one as a value.
+  // This is important for eval(),
+  // with things like eval("'use strict'"); returning "use strict"
+  // We may want to consider making these evaluator nodes as anything else...
+  const lastDirective = node.directives.at(-1);
+  if (lastDirective) {
+    lastValue = context.realm.types.string(lastDirective.value.value);
+  }
+
   for (const statement of node.body) {
     try {
       lastValue = yield* EvaluateNodeCommand(statement, blockContext);

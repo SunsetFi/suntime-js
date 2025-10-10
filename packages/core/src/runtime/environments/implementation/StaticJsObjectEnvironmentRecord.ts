@@ -20,6 +20,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
   *createMutableBindingEvaluator(
     name: string,
     deletable: boolean,
+    _isVarDecl: boolean,
   ): EvaluationGenerator<void> {
     yield* this._obj.definePropertyEvaluator(name, {
       value: this.realm.types.undefined,

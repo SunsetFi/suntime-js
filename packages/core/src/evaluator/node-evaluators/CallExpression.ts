@@ -1,5 +1,6 @@
-import { parse as parseAst } from "@babel/parser";
 import { isIdentifier, type Node, type CallExpression } from "@babel/types";
+
+import parseScript from "../../parser/parse-script.js";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
@@ -10,6 +11,8 @@ import getIterator from "../../runtime/algorithms/get-iterator.js";
 import iteratorStepValue from "../../runtime/algorithms/iterator-step-value.js";
 import toString from "../../runtime/algorithms/to-string.js";
 
+import StaticJsDirectEvalEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDirectEvalEnvironmentRecord.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
@@ -18,8 +21,8 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import nameNode from "./name-node.js";
-import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import setupEnvironment from "./setup-environment.js";
+import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 export default function* callExpressionNodeEvaluator(
   node: CallExpression,
@@ -54,12 +57,19 @@ export default function* callExpressionNodeEvaluator(
   }
 
   const args: StaticJsValue[] = [];
+  const parameterInitContext = context.createLexicalAndVariableEnvContext(
+    new StaticJsDeclarativeEnvironmentRecord(context.realm),
+  );
   for (let i = 0; i < node.arguments.length; i++) {
     const argument = node.arguments[i];
     if (argument.type === "SpreadElement") {
-      const iterable = yield* EvaluateNodeCommand(argument.argument, context, {
-        forNormalValue: "ForInStatement.right",
-      });
+      const iterable = yield* EvaluateNodeCommand(
+        argument.argument,
+        parameterInitContext,
+        {
+          forNormalValue: "ForInStatement.right",
+        },
+      );
 
       const iterator = yield* getIterator(iterable, context.realm);
 
@@ -71,7 +81,7 @@ export default function* callExpressionNodeEvaluator(
         args.push(value);
       }
     } else {
-      const arg = yield* EvaluateNodeCommand(argument, context, {
+      const arg = yield* EvaluateNodeCommand(argument, parameterInitContext, {
         forNormalValue: "CallExpression.arguments[]",
       });
       args.push(arg);
@@ -101,7 +111,7 @@ function* callEvalEvaluator(
 
   let node: Node;
   try {
-    node = parseAst(str.value, { sourceType: "script" });
+    node = parseScript(str.value);
   } catch (e: unknown) {
     if (e instanceof SyntaxError) {
       throw new ThrowCompletion(realm.types.error("SyntaxError", e.message));
@@ -110,15 +120,17 @@ function* callEvalEvaluator(
     throw e;
   }
 
-  // FIXME: Only do this if strict mode.
   let evalContext = context;
   if (strict) {
-    evalContext = context.createBlockContext(
-      new StaticJsDeclarativeEnvironmentRecord(realm),
+    // Weird hack because we don't preparse all the nodes to see if var is used.
+    // Under the hood, this is also a LexicalEnvironment as the spec requires.
+    evalContext = context.createLexicalAndVariableEnvContext(
+      new StaticJsDirectEvalEnvironmentRecord(realm, true),
     );
   }
 
   yield* setupEnvironment(node, evalContext);
+
   const result = yield* EvaluateNodeCommand(node, evalContext);
   return result ?? realm.types.undefined;
 }

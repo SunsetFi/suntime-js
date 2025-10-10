@@ -1,11 +1,10 @@
-import type { BlockStatement, CatchClause, TryStatement } from "@babel/types";
+import type { CatchClause, TryStatement } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import StaticJsLexicalEnvironment from "../../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
@@ -15,7 +14,6 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import setLVal from "./LVal.js";
-import setupEnvironment from "./setup-environment.js";
 
 function* tryStatementNodeEvaluator(
   node: TryStatement,
@@ -26,7 +24,7 @@ function* tryStatementNodeEvaluator(
 
   let returnValue: StaticJsValue | null = null;
   try {
-    returnValue = yield* runBlock(node.block, context);
+    returnValue = yield* EvaluateNodeCommand(node.block, context);
   } catch (e) {
     if (e instanceof ThrowCompletion && node.handler) {
       returnValue = yield* runCatch(node.handler, e.value, context);
@@ -35,7 +33,10 @@ function* tryStatementNodeEvaluator(
     }
   } finally {
     if (node.finalizer) {
-      const finalizerValue = yield* runBlock(node.finalizer, context);
+      const finalizerValue = yield* EvaluateNodeCommand(
+        node.finalizer,
+        context,
+      );
       if (finalizerValue !== null) {
         returnValue = finalizerValue;
       }
@@ -50,42 +51,18 @@ function* runCatch(
   value: StaticJsValue,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const catchContext = context.createBlockContext(
+  const catchContext = context.createLexicalEnvContext(
     new StaticJsDeclarativeEnvironmentRecord(context.realm),
   );
 
   if (node.param) {
     yield* setLVal(node.param, value, catchContext, function* (name, value) {
-      yield* catchContext.env.createMutableBindingEvaluator(name, false);
-      yield* catchContext.env.initializeBindingEvaluator(name, value);
+      yield* catchContext.lexicalEnv.createMutableBindingEvaluator(name, false);
+      yield* catchContext.lexicalEnv.initializeBindingEvaluator(name, value);
     });
   }
 
-  return yield* runBlock(node.body, catchContext);
-}
-
-function* runBlock(
-  node: BlockStatement,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const env = new StaticJsLexicalEnvironment(
-    context.realm,
-    new StaticJsDeclarativeEnvironmentRecord(context.realm),
-    context.env,
-  );
-
-  const blockContext = context.createBlockContext(env);
-
-  for (const statement of node.body) {
-    yield* setupEnvironment(statement, blockContext);
-  }
-
-  let completionResult: StaticJsValue | null = null;
-  for (const statement of node.body) {
-    completionResult = yield* EvaluateNodeCommand(statement, blockContext);
-  }
-
-  return completionResult;
+  return yield* EvaluateNodeCommand(node.body, catchContext);
 }
 
 export default typedMerge(tryStatementNodeEvaluator, {

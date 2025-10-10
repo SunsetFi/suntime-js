@@ -57,4 +57,27 @@ describe("E2E: Eval", () => {
       expect(result).toBe(42);
     });
   });
+
+  describe("Strict", () => {
+    it("Should throw a SyntaxError if var is used", async () => {
+      const code = `
+        'use strict';
+        eval("var public = 1;");
+        `;
+      await expect(evaluateScript(code)).rejects.toHaveProperty(
+        "name",
+        "SyntaxError",
+      );
+    });
+  });
+
+  describe("Directives", () => {
+    it("Returns directives as strings", async () => {
+      const code = `
+      eval("'use strict'");
+    `;
+      const result = await evaluateScript(code);
+      expect(result).toBe("use strict");
+    });
+  });
 });

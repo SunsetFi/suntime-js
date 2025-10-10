@@ -1,4 +1,4 @@
-import type { FunctionExpression } from "@babel/types";
+import { isBlock, type FunctionExpression } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
@@ -12,11 +12,20 @@ function* expressionStatementNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const functionName = node.id?.name ?? null;
+
+  let functionContext = context;
+  if (
+    isBlock(node.body) &&
+    node.body.directives.some(({ value }) => value.value === "use strict")
+  ) {
+    functionContext = context.createStrictContext();
+  }
+
   return createFunction(
     functionName,
     node,
-    context.strict ? "strict" : "lexical",
-    context,
+    functionContext.strict ? "strict" : "lexical",
+    functionContext,
   );
 }
 

@@ -47,7 +47,10 @@ function* functionDeclarationEnvironmentSetup(
   );
 
   if (functionName) {
-    yield* context.env.createFunctionBindingEvaluator(functionName, func);
+    yield* context.lexicalEnv.createFunctionBindingEvaluator(
+      functionName,
+      func,
+    );
   }
 
   // FIXME: We have been so careful to get away with not mutating the node, but here

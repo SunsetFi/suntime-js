@@ -2,8 +2,6 @@ import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js"
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
-import type { StaticJsEnvironment } from "../StaticJsEnvironment.js";
-
 import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
 
 export default class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnvironmentRecord {
@@ -23,9 +21,5 @@ export default class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarati
 
   *getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this._thisArg;
-  }
-
-  *getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironment | null> {
-    return this;
   }
 }

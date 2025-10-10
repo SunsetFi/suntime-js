@@ -101,7 +101,7 @@ function* deleteExpressionNodeEvaluator(
     const result = yield* object.deletePropertyEvaluator(propertyKey);
     return context.realm.types.boolean(result);
   } else if (argument.type === "Identifier") {
-    const env = context.env;
+    const env = context.lexicalEnv;
     const name = argument.name;
 
     if (!(yield* env.hasBindingEvaluator(name))) {
@@ -134,7 +134,7 @@ function* typeofExpressionNodeEvaluator(
   const argument = node.argument;
   if (argument.type === "Identifier") {
     const name = argument.name;
-    const env = context.env;
+    const env = context.lexicalEnv;
 
     const hasBinding = yield* env.hasBindingEvaluator(name);
 

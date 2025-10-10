@@ -16,7 +16,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
   *createMutableBindingEvaluator(
     name: string,
     deletable: boolean,
-    canReferenceUninitialized: boolean = false,
+    isVarDecl: boolean,
   ) {
     if (deletable) {
       throw new ThrowCompletion(
@@ -27,6 +27,12 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
       );
     }
 
+    // HACK: Per the spec, we need to process all var decls in a batch and dedup var decls.
+    // But, we aren't set up to do that easily...
+    if (isVarDecl && this._bindings.get(name)?.isVarDecl) {
+      return;
+    }
+
     this._assertBindingNotDeclared(name);
 
     this._bindings.set(
@@ -34,7 +40,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
       new DeclarativeEnvironmentBinding(
         name,
         true,
-        canReferenceUninitialized,
+        isVarDecl,
         null,
         this.realm,
       ),
@@ -78,9 +84,9 @@ class DeclarativeEnvironmentBinding implements StaticJsEnvironmentBinding {
   constructor(
     public readonly name: string,
     public readonly isMutable: boolean,
-    private readonly canAccessUninitialized: boolean,
+    public readonly isVarDecl: boolean,
     value: StaticJsValue | null,
-    private readonly realm: StaticJsRealm,
+    private readonly _realm: StaticJsRealm,
   ) {
     this._value = value;
   }
@@ -105,12 +111,8 @@ class DeclarativeEnvironmentBinding implements StaticJsEnvironmentBinding {
 
   *get(): EvaluationGenerator<StaticJsValue> {
     if (this._value == null) {
-      if (this.canAccessUninitialized) {
-        return this.realm.types.undefined;
-      }
-
       throw new ThrowCompletion(
-        this.realm.types.error(
+        this._realm.types.error(
           "ReferenceError",
           `Cannot get value of uninitialized binding ${this.name}`,
         ),

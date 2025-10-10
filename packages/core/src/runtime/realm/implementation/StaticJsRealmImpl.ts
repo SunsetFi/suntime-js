@@ -1,9 +1,9 @@
 import type { Writable } from "type-fest";
-import {
-  parse as parseAst,
-  parseExpression as parseExpressionAst,
-} from "@babel/parser";
 import { type Node } from "@babel/types";
+
+import parseScript from "../../../parser/parse-script.js";
+import parseModule from "../../../parser/parse-module.js";
+import parseExpression from "../../../parser/parse-expression.js";
 
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
@@ -186,7 +186,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     code: string,
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsValue> {
-    const parsed = parseExpressionAst(code, { sourceType: "script" });
+    const parsed = parseExpression(code);
     return this.enqueueMacrotask(doEvaluateNode(parsed, this), opts);
   }
 
@@ -194,7 +194,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     code: string,
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsValue> {
-    const parsed = parseAst(code, { sourceType: "script" });
+    const parsed = parseScript(code);
     const strict = parsed.program.directives.some(
       (directive) => directive.value.value === "use strict",
     );
@@ -208,7 +208,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     code: string,
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsModule> {
-    const parsed = parseAst(code, { sourceType: "module" });
+    const parsed = parseModule(code);
     const module = new StaticJsModuleImpl(
       `inline-module?${Date.now()}`,
       parsed.program,
@@ -398,15 +398,13 @@ function realmModuleToModule(
   module: StaticJsModuleResolution,
 ): StaticJsModuleImplementation {
   if (typeof module === "string") {
-    // Could try to import the compileModule function but I fear circular references.
     try {
-      const parsed = parseAst(module, { sourceType: "module" });
+      const parsed = parseModule(module);
       return new StaticJsModuleImpl(specifier, parsed.program, realm);
-    } catch (e: unknown) {
-      // FIXME: Only if actual syntax error
-      // FIXME: Do we even get thrown syntax errors when evaluating dependent modules?
+    } catch {
+      // FIXME: Handle syntax errors better.
       throw new StaticJsRuntimeError(
-        realm.types.error("SyntaxError", (e as Error).message),
+        realm.types.error("SyntaxError", "Failed to parse module source code."),
       );
     }
   } else if (isStaticJsModuleImplementation(module)) {

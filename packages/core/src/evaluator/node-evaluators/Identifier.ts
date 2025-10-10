@@ -9,7 +9,7 @@ export default function* identifierNodeEvaluator(
   node: Identifier,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const hasBinding = yield* context.env.hasBindingEvaluator(node.name);
+  const hasBinding = yield* context.lexicalEnv.hasBindingEvaluator(node.name);
 
   if (!hasBinding) {
     throw new ThrowCompletion(
@@ -20,7 +20,7 @@ export default function* identifierNodeEvaluator(
     );
   }
 
-  const value = yield* context.env.getBindingValueEvaluator(
+  const value = yield* context.lexicalEnv.getBindingValueEvaluator(
     node.name,
     context.strict,
   );

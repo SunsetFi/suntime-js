@@ -16,17 +16,28 @@ function* programNodeEvaluator(
   node: Program,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  let lastResult: StaticJsValue | null = null;
+  let lastValue: StaticJsValue | null = null;
+
+  // Directives are values too!
+  // Inherit the last one as a value.
+  // This is important for eval(),
+  // with things like eval("'use strict'"); returning "use strict"
+  // We may want to consider making these evaluator nodes as anything else...
+  const lastDirective = node.directives.at(-1);
+  if (lastDirective) {
+    lastValue = context.realm.types.string(lastDirective.value.value);
+  }
+
   for (const statement of node.body) {
     try {
-      lastResult = yield* EvaluateNodeCommand(statement, context);
+      lastValue = yield* EvaluateNodeCommand(statement, context);
     } catch (e) {
       ControlFlowCompletion.handleUnexpected(context.realm, e);
       throw e;
     }
   }
 
-  return lastResult;
+  return lastValue;
 }
 
 export default typedMerge(programNodeEvaluator, {

@@ -47,6 +47,13 @@ export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
   ): EvaluationGenerator {
     const functionContext = yield* this._createContext(thisArg, args);
 
+    // Base implementation takes an array of statements for the function constructor, which we don't support.
+    if (Array.isArray(this._body)) {
+      throw new StaticJsEngineError(
+        "Async declaration functions do not support array bodies.",
+      );
+    }
+
     yield* this._declareArguments(args, functionContext);
 
     yield* setupEnvironment(this._body, functionContext);

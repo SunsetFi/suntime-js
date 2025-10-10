@@ -8,9 +8,12 @@ export interface StaticJsEnvironment {
   createMutableBindingEvaluator(
     name: string,
     deletable: boolean,
-    // This feels gross.  The spec doesn't define this, but...
-    // apparently it's needed.
-    canReferenceUninitialized?: boolean,
+    // Extremely gross.
+    // Normally, all variable declarations are processed in bulk by a single source,
+    // but our system is not set up to do that at the moment.
+    // Instead, we need to allow the caller to indicate if this is a var declaration or not.
+    // This is entirely so that vars can be re-declared.
+    isVarBinding?: boolean,
   ): EvaluationGenerator<void>;
 
   createImmutableBindingEvaluator(
@@ -62,7 +65,4 @@ export interface StaticJsEnvironment {
 
   // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue>;
-
-  // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
-  getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironment | null>;
 }

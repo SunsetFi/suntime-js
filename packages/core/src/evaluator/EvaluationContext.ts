@@ -1,6 +1,7 @@
-import type { StaticJsEnvironment } from "../runtime/environments/StaticJsEnvironment.js";
 import type { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
+
+import type { StaticJsEnvironment } from "../runtime/environments/StaticJsEnvironment.js";
 import StaticJsLexicalEnvironment from "../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
 
 export default abstract class EvaluationContext {
@@ -26,12 +27,24 @@ export default abstract class EvaluationContext {
     throw new Error("Strict mode is not set in the evaluation context.");
   }
 
-  get env(): StaticJsEnvironment {
+  get lexicalEnv(): StaticJsEnvironment {
     if (this._parent) {
-      return this._parent.env;
+      return this._parent.lexicalEnv;
     }
 
-    throw new Error("Environment is not set in the evaluation context.");
+    throw new Error(
+      "Lexical Environment is not set in the evaluation context.",
+    );
+  }
+
+  get variableEnv(): StaticJsEnvironment {
+    if (this._parent) {
+      return this._parent.variableEnv;
+    }
+
+    throw new Error(
+      "Variable Environment is not set in the evaluation context.",
+    );
   }
 
   get label(): string | null {
@@ -55,9 +68,23 @@ export default abstract class EvaluationContext {
     return new LabelEvalationContext(label, this);
   }
 
-  createBlockContext(record: StaticJsEnvironment): EvaluationContext {
-    const env = new StaticJsLexicalEnvironment(this.realm, record, this.env);
-    return new BlockEvaluationContext(env, this);
+  createLexicalEnvContext(record: StaticJsEnvironment): EvaluationContext {
+    return new EnvironmentEvaluationContext(
+      new StaticJsLexicalEnvironment(this.realm, record, this.lexicalEnv),
+      null,
+      this,
+    );
+  }
+
+  createLexicalAndVariableEnvContext(
+    record: StaticJsEnvironment,
+  ): EvaluationContext {
+    const lexical = new StaticJsLexicalEnvironment(
+      this.realm,
+      record,
+      this.lexicalEnv,
+    );
+    return new EnvironmentEvaluationContext(lexical, lexical, this);
   }
 
   createStackContext(
@@ -89,7 +116,11 @@ class RootEvaluationContext extends EvaluationContext {
     return this._strict;
   }
 
-  get env(): StaticJsEnvironment {
+  get lexicalEnv(): StaticJsEnvironment {
+    return this._env;
+  }
+
+  get variableEnv(): StaticJsEnvironment {
     return this._env;
   }
 }
@@ -117,23 +148,35 @@ class LabelEvalationContext extends EvaluationContext {
   }
 }
 
-class BlockEvaluationContext extends EvaluationContext {
-  private _env: StaticJsEnvironment;
-
-  constructor(env: StaticJsEnvironment, parent: EvaluationContext) {
+class EnvironmentEvaluationContext extends EvaluationContext {
+  constructor(
+    private readonly _lexicalEnv: StaticJsEnvironment | null,
+    private readonly _variableEnv: StaticJsEnvironment | null,
+    parent: EvaluationContext,
+  ) {
     super(parent);
-    this._env = env;
   }
 
-  get env(): StaticJsEnvironment {
-    return this._env;
+  get lexicalEnv(): StaticJsEnvironment {
+    if (this._lexicalEnv) {
+      return this._lexicalEnv;
+    }
+
+    return this.parent!.lexicalEnv;
+  }
+
+  get variableEnv(): StaticJsEnvironment {
+    if (this._variableEnv) {
+      return this._variableEnv;
+    }
+
+    return this.parent!.variableEnv;
   }
 }
 
 class StackEvaluationContext extends EvaluationContext {
   private _env: StaticJsEnvironment;
   private _function: StaticJsFunction;
-  private _strict: boolean | null = null;
 
   constructor(
     env: StaticJsEnvironment,
@@ -145,7 +188,11 @@ class StackEvaluationContext extends EvaluationContext {
     this._function = func;
   }
 
-  get env(): StaticJsEnvironment {
+  get lexicalEnv(): StaticJsEnvironment {
+    return this._env;
+  }
+
+  get variableEnv(): StaticJsEnvironment {
     return this._env;
   }
 

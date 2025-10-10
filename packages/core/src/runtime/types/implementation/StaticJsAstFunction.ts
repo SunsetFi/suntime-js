@@ -8,6 +8,7 @@ import {
   type Identifier,
   type Pattern,
   type RestElement,
+  type Statement,
 } from "@babel/types";
 
 import setLVal from "../../../evaluator/node-evaluators/LVal.js";
@@ -47,7 +48,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     name: string | null,
     private readonly _argumentDeclarations: StaticJsAstFunctionArgumentDeclaration[],
     protected readonly _context: EvaluationContext,
-    protected readonly _body: BlockStatement | Expression,
+    protected readonly _body: BlockStatement | Expression | Statement[],
     opts?: StaticJsFunctionImplOptions,
   ) {
     super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args), {
@@ -64,9 +65,22 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
 
     yield* this._declareArguments(args, functionContext);
 
-    yield* setupEnvironment(this._body, functionContext);
+    if (Array.isArray(this._body)) {
+      for (const stmt of this._body) {
+        yield* setupEnvironment(stmt, functionContext);
+      }
 
-    return yield* EvaluateNodeCommand(this._body, functionContext);
+      for (const stmt of this._body) {
+        yield* EvaluateNodeCommand(stmt, functionContext);
+      }
+
+      // ReturnCompletion is a throwable, so if we get here we just return undefined.
+      return functionContext.realm.types.undefined;
+    } else {
+      yield* setupEnvironment(this._body, functionContext);
+
+      return yield* EvaluateNodeCommand(this._body, functionContext);
+    }
   }
 
   protected *_createContext(
@@ -76,7 +90,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     const functionEnv = new StaticJsLexicalEnvironment(
       this.realm,
       new StaticJsFunctionEnvironmentRecord(this.realm, thisArg, args),
-      this._context.env,
+      this._context.lexicalEnv,
     );
 
     return this._context.createStackContext(functionEnv, this);
@@ -94,8 +108,8 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
       }
 
       seen.add(name);
-      yield* context.env.createMutableBindingEvaluator(name, false);
-      yield* context.env.initializeBindingEvaluator(name, value);
+      yield* context.lexicalEnv.createMutableBindingEvaluator(name, false);
+      yield* context.lexicalEnv.initializeBindingEvaluator(name, value);
     }
 
     // Start from the end and work backwards.

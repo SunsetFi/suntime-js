@@ -7,6 +7,6 @@ export default function* thisExpressionNodeEvaluator(
   _node: ThisExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const value = yield* context.env.getThisBindingEvaluator();
+  const value = yield* context.lexicalEnv.getThisBindingEvaluator();
   return value;
 }

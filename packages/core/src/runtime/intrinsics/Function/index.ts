@@ -1,8 +1,16 @@
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import { type Statement } from "@babel/types";
+
+import parseFunctionBody from "../../../parser/parse-function-body.js";
+
+import EvaluationContext from "../../../evaluator/EvaluationContext.js";
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
+import StaticJsDeclFunction from "../../types/implementation/StaticJsDeclFunction.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
+import { isStaticJsString } from "../../types/StaticJsString.js";
 
 export { default as populateFunctionPrototype } from "./prototype/index.js";
 
@@ -13,9 +21,34 @@ export function createFunctionConstructor(
   const ctor = new StaticJsFunctionImpl(
     realm,
     "Function",
-    function* () {
-      // FIXME: Function constructor.
-      throw new StaticJsEngineError("Not implemented: Function constructor");
+    function* (_thisArg, nameValue, bodyStrValue) {
+      let name = "anonymous";
+      if (isStaticJsString(nameValue)) {
+        name = nameValue.value;
+      }
+
+      // Node seems to be very loose about this.
+      let statements: Statement[] = [];
+      if (isStaticJsString(bodyStrValue)) {
+        try {
+          statements = parseFunctionBody(bodyStrValue.value);
+        } catch {
+          throw new ThrowCompletion(
+            realm.types.error("SyntaxError", "Failed to parse function body"),
+          );
+        }
+      }
+
+      const context = EvaluationContext.createRootContext(false, realm);
+
+      return new StaticJsDeclFunction(
+        realm,
+        name,
+        "lexical",
+        [],
+        context,
+        statements,
+      );
     },
     { prototype: functionProto, construct: true },
   );

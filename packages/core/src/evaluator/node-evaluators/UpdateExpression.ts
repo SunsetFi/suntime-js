@@ -46,7 +46,7 @@ export default function* updateExpressionNodeEvaluator(
 
   switch (node.argument.type) {
     case "Identifier":
-      yield* context.env.setMutableBindingEvaluator(
+      yield* context.lexicalEnv.setMutableBindingEvaluator(
         node.argument.name,
         setValue,
         context.strict,

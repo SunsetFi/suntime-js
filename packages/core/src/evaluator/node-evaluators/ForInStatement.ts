@@ -48,7 +48,7 @@ function* forInStatementNodeEvaluator(
   let lastValue: StaticJsValue | null = null;
   const keys = yield* right.getEnumerableKeysEvaluator();
   for (const key of keys) {
-    const bodyContext = context.createBlockContext(
+    const bodyContext = context.createLexicalEnvContext(
       new StaticJsDeclarativeEnvironmentRecord(context.realm),
     );
 
@@ -70,7 +70,10 @@ function* forInStatementNodeEvaluator(
       context.realm.types.string(key),
       bodyContext,
       function* (name, value) {
-        return yield* bodyContext.env.initializeBindingEvaluator(name, value);
+        return yield* bodyContext.lexicalEnv.initializeBindingEvaluator(
+          name,
+          value,
+        );
       },
     );
 

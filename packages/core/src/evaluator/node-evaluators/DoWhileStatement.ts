@@ -22,13 +22,13 @@ function* doWhileStatementNodeEvaluator(
   node: DoWhileStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const whileContext = context.createBlockContext(
+  const whileContext = context.createLexicalEnvContext(
     new StaticJsDeclarativeEnvironmentRecord(context.realm),
   );
 
   let lastResult: StaticJsValue | null = null;
   while (true) {
-    const bodyContext = whileContext.createBlockContext(
+    const bodyContext = whileContext.createLexicalEnvContext(
       new StaticJsDeclarativeEnvironmentRecord(context.realm),
     );
 

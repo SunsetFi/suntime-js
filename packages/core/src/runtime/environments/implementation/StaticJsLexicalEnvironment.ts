@@ -30,8 +30,24 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
     this._parent = parent ? environmentToBindingProvider(parent) : null;
   }
 
-  *createMutableBindingEvaluator(name: string, deletable: boolean) {
-    yield* this._record.createMutableBindingEvaluator(name, deletable);
+  canDeclareGlobalVarEvaluator(name: string) {
+    return this._record.canDeclareGlobalVarEvaluator(name);
+  }
+
+  createGlobalVarBindingEvaluator(name: string, deletable: boolean) {
+    return this._record.createGlobalVarBindingEvaluator(name, deletable);
+  }
+
+  *createMutableBindingEvaluator(
+    name: string,
+    deletable: boolean,
+    isVarDecl: boolean,
+  ) {
+    yield* this._record.createMutableBindingEvaluator(
+      name,
+      deletable,
+      isVarDecl,
+    );
   }
 
   *createImmutableBindingEvaluator(
@@ -75,18 +91,6 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
 
   *getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue> {
     return yield* this._record.getSuperBaseEvaluator();
-  }
-
-  *getVarScopeEvaluator(): EvaluationGenerator<StaticJsEnvironment | null> {
-    const recordScope = yield* this._record.getVarScopeEvaluator();
-    if (recordScope) {
-      return recordScope;
-    }
-    if (this._parent) {
-      return yield* this._parent.getVarScopeEvaluator();
-    }
-
-    return null;
   }
 
   *[StaticJsEnvironmentGetBinding](

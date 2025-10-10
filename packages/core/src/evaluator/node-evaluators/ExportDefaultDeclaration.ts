@@ -15,7 +15,7 @@ function* exportDefaultDeclarationNodeEvaluator(
     forNormalValue: "default export",
   });
 
-  yield* context.env.initializeBindingEvaluator("*default*", value);
+  yield* context.lexicalEnv.initializeBindingEvaluator("*default*", value);
 
   return null;
 }
@@ -25,7 +25,10 @@ export default typedMerge(exportDefaultDeclarationNodeEvaluator, {
     _node: ExportDefaultDeclaration,
     context: EvaluationContext,
   ) {
-    yield* context.env.createImmutableBindingEvaluator("*default*", true);
+    yield* context.lexicalEnv.createImmutableBindingEvaluator(
+      "*default*",
+      true,
+    );
 
     return true;
   },

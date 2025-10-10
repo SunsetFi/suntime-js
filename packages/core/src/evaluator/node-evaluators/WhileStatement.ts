@@ -22,7 +22,7 @@ function* whileStatementNodeEvaluator(
   node: WhileStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const whileContext = context.createBlockContext(
+  const whileContext = context.createLexicalEnvContext(
     new StaticJsDeclarativeEnvironmentRecord(context.realm),
   );
 
@@ -37,7 +37,7 @@ function* whileStatementNodeEvaluator(
       break;
     }
 
-    const bodyContext = whileContext.createBlockContext(
+    const bodyContext = whileContext.createLexicalEnvContext(
       new StaticJsDeclarativeEnvironmentRecord(context.realm),
     );
 
