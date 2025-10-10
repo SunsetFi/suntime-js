@@ -8,10 +8,9 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 const promiseProtoThenDeclaration: IntrinsicPropertyDeclaration = {
   key: "then",
   *func(realm, thisArg, onFulfilled, onRejected) {
-    // FIXME: Support subclassing.  Somehow.
     if (!isStaticJsPromise(thisArg)) {
       throw new ThrowCompletion(
-        realm.types.error("TypeError", "Then called on non-promise"),
+        realm.types.error("TypeError", "then called on non-promise"),
       );
     }
 

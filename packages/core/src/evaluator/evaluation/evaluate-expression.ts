@@ -27,5 +27,7 @@ export async function evaluateExpression(
     if (e instanceof StaticJsRuntimeError) {
       throw e.thrown.toJsSync();
     }
+
+    throw e;
   }
 }

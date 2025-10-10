@@ -6,6 +6,8 @@ import StaticJsArrowFunction from "../../runtime/types/implementation/StaticJsAr
 
 import typedMerge from "../../internal/typed-merge.js";
 
+import StaticJsAsyncArrowFunction from "../../runtime/types/implementation/StaticJsAsyncArrowFunction.js";
+
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 
@@ -13,21 +15,28 @@ function* arrowFunctionExpressionNodeEvaluator(
   node: ArrowFunctionExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  if (node.async) {
-    // TODO: Support these when the Promise primitive is in.
-    throw new StaticJsEngineError("Async functions are not supported");
-  }
-
   if (node.generator) {
     // TODO: Support these when an Iterator primitive is in.
     throw new StaticJsEngineError("Generator functions are not supported");
   }
 
+  // TODO: v8 uses the name of the variable the function is assigned to,
+  // if this is assigned to a variable.
+  const name = "";
+
+  if (node.async) {
+    return new StaticJsAsyncArrowFunction(
+      context.realm,
+      name,
+      node.params,
+      context,
+      node.body,
+    );
+  }
+
   const func = new StaticJsArrowFunction(
     context.realm,
-    // TODO: v8 uses the name of the variable the function is assigned to,
-    // if this is assigned to a variable.
-    "",
+    name,
     node.params,
     context,
     node.body,

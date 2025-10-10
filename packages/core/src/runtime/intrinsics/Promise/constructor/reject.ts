@@ -1,19 +1,11 @@
-import newPromiseCapability from "../../../algorithms/new-promise-capability.js";
+import promiseReject from "../../../algorithms/promise-reject.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const promiseCtorRejectDeclaration: IntrinsicPropertyDeclaration = {
   key: "reject",
   *func(realm, _thisArg, reason) {
-    const capability = yield* newPromiseCapability(
-      realm.types.constructors.Promise,
-      realm,
-    );
-    yield* capability.reject.callEvaluator(
-      realm.types.undefined,
-      reason ?? realm.types.undefined,
-    );
-    return capability.promise;
+    return yield* promiseReject(reason ?? realm.types.undefined, realm);
   },
 };
 

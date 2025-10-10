@@ -118,7 +118,7 @@ class InvokingAsyncFunction {
 
         if (done) {
           // Hit the end of the generator, no more function to run.
-          this._resolve(this._context.realm.types.undefined);
+          yield* this._resolve(this._context.realm.types.undefined);
           return;
         }
 
@@ -173,14 +173,14 @@ class InvokingAsyncFunction {
         yield* awaitableThen.callEvaluator(
           awaitable,
           new StaticJsFunctionImpl(this._context.realm, "resolve", function* (
-            thisArg,
+            _thisArg,
             value,
           ) {
             yield* self._continue(value);
             return self._context.realm.types.undefined;
           }),
           new StaticJsFunctionImpl(this._context.realm, "reject", function* (
-            thisArg,
+            _thisArg,
             value,
           ) {
             yield* self._continue(value, "throw");

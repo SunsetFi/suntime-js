@@ -4,6 +4,16 @@ import { evaluateScript, StaticJsRealm } from "../../src/index.js";
 
 describe("E2E: Functions", () => {
   describe("Declaration", () => {
+    describe("Arguments", () => {
+      it("Sets the argument length property", async () => {
+        const code = `
+          function a(x, y, z) {}
+          a.length;
+        `;
+        expect(await evaluateScript(code)).toBe(3);
+      });
+    });
+
     it("Can be declared", async () => {
       const code = `
         function a() {

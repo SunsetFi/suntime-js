@@ -78,9 +78,6 @@ function* ordinaryToPrimitive(
   }
 
   throw new ThrowCompletion(
-    realm.types.error(
-      "TypeError",
-      `Cannot convert object to primitive value: ${value.toStringSync()}`,
-    ),
+    realm.types.error("TypeError", `Cannot convert object to primitive value`),
   );
 }

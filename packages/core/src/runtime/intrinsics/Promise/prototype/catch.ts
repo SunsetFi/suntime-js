@@ -8,10 +8,9 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 const promiseProtoCatchDeclaration: IntrinsicPropertyDeclaration = {
   key: "catch",
   *func(realm, thisArg, onRejected) {
-    // FIXME: Support subclassing.  Somehow.
     if (!isStaticJsPromise(thisArg)) {
       throw new ThrowCompletion(
-        realm.types.error("TypeError", "Then called on non-promise"),
+        realm.types.error("TypeError", "catch called on non-promise"),
       );
     }
 

@@ -1,9 +1,13 @@
-import type {
-  BlockStatement,
-  Expression,
-  Identifier,
-  Pattern,
-  RestElement,
+import {
+  isIdentifier,
+  isPattern,
+  isRestElement,
+  type Node,
+  type BlockStatement,
+  type Expression,
+  type Identifier,
+  type Pattern,
+  type RestElement,
 } from "@babel/types";
 
 import setLVal from "../../../evaluator/node-evaluators/LVal.js";
@@ -31,6 +35,11 @@ export type StaticJsAstFunctionArgumentDeclaration =
   | Identifier
   | Pattern
   | RestElement;
+export function isStaticJsAstFunctionArgumentDeclaration(
+  node: Node,
+): node is StaticJsAstFunctionArgumentDeclaration {
+  return isIdentifier(node) || isPattern(node) || isRestElement(node);
+}
 
 export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
   constructor(
@@ -41,7 +50,10 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     protected readonly _body: BlockStatement | Expression,
     opts?: StaticJsFunctionImplOptions,
   ) {
-    super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args), opts);
+    super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args), {
+      length: _argumentDeclarations.length,
+      ...opts,
+    });
   }
 
   protected *_invoke(

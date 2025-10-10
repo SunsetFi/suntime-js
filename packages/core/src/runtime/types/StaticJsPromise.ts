@@ -10,11 +10,13 @@ export interface StaticJsPromise extends StaticJsObjectLike {
   reject(reason: StaticJsValue): void;
 
   thenEvaluator(
-    onFulfilled?: StaticJsFunction,
-    onRejected?: StaticJsFunction,
+    onFulfilled?: StaticJsFunction | undefined,
+    onRejected?: StaticJsFunction | undefined,
   ): EvaluationGenerator<StaticJsPromise>;
 
-  catchEvaluator(func: StaticJsFunction): EvaluationGenerator<StaticJsPromise>;
+  catchEvaluator(
+    func: StaticJsFunction | undefined,
+  ): EvaluationGenerator<StaticJsPromise>;
 }
 
 export function isStaticJsPromise(value: unknown): value is StaticJsPromise {

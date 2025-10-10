@@ -113,14 +113,18 @@ export default function createStaticJsObjectLikeProxy(
       }
 
       const descr = getOwnPropertyDescriptor(p);
-      if (!descr) {
-        return undefined;
+      if (descr) {
+        if (descr.value !== undefined) {
+          return descr.value;
+        } else if (descr.get) {
+          return descr.get();
+        }
       }
 
-      if (descr.value !== undefined) {
-        return descr.value;
-      } else if (descr.get) {
-        return descr.get();
+      // Delegate to the prototype proxy.
+      const proto = obj.prototype?.toJsSync();
+      if (proto) {
+        return Reflect.get(proto, p);
       }
 
       return undefined;
@@ -133,7 +137,19 @@ export default function createStaticJsObjectLikeProxy(
       if (p === ProxyOwnerKey) {
         return true;
       }
-      return getOwnPropertyDescriptor(p) !== undefined;
+
+      const descr = getOwnPropertyDescriptor(p);
+      if (descr) {
+        return true;
+      }
+
+      // Delegate to the prototype proxy.
+      const proto = obj.prototype?.toJsSync();
+      if (proto) {
+        return Reflect.has(proto, p);
+      }
+
+      return false;
     },
     defineProperty(_target, p, descriptor) {
       if (typeof p !== "string") {

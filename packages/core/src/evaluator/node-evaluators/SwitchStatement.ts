@@ -42,9 +42,7 @@ export default function* switchStatementNodeEvaluator(
     if (matched) {
       for (const consequent of switchCase.consequent) {
         try {
-          lastValue = yield* EvaluateNodeCommand(consequent, context, {
-            forNormalValue: "SwitchStatement.consequent",
-          });
+          lastValue = yield* EvaluateNodeCommand(consequent, context);
         } catch (e) {
           if (BreakCompletion.isBreakForLabel(e, context.label)) {
             return lastValue;

@@ -2,6 +2,7 @@ import type { EvaluationOptions } from "./options.js";
 
 import StaticJsRealm from "../../runtime/realm/factories/StaticJsRealm.js";
 import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
+import type { StaticJsValue } from "../../runtime/index.js";
 
 /**
  * Evaluates a string as a javascript program, and returns the result.
@@ -13,6 +14,7 @@ import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
 export async function evaluateScript(
   code: string,
   opts?: EvaluationOptions,
+  callback?: (value: unknown, error?: unknown) => Promise<unknown> | void,
 ): Promise<unknown> {
   opts ??= {};
   let { realm } = opts;
@@ -20,13 +22,28 @@ export async function evaluateScript(
 
   realm ??= StaticJsRealm();
 
+  let result: StaticJsValue;
   try {
-    const value = await realm.evaluateScript(code, { runTask: taskRunner });
-    return value.toJsSync();
+    result = await realm.evaluateScript(code, { runTask: taskRunner });
   } catch (e) {
-    if (e instanceof StaticJsRuntimeError) {
-      throw e.thrown.toJsSync();
+    let error = e;
+    if (error instanceof StaticJsRuntimeError) {
+      error = error.thrown.toJsSync();
     }
-    throw e;
+
+    if (callback) {
+      await callback(undefined, error);
+      return;
+    }
+
+    throw error;
   }
+
+  const jsValue = result.toJsSync();
+
+  if (callback) {
+    return await callback(jsValue);
+  }
+
+  return jsValue;
 }

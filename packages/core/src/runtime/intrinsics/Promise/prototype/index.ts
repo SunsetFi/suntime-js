@@ -6,10 +6,12 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import { applyIntrinsicProperties } from "../../utils.js";
 
 import promiseProtoCatchDeclaration from "./catch.js";
+import promiseProtoFinallyDeclaration from "./finally.js";
 import promiseProtoThenDeclaration from "./then.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   promiseProtoCatchDeclaration,
+  promiseProtoFinallyDeclaration,
   promiseProtoThenDeclaration,
 ];
 
