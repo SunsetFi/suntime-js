@@ -25,7 +25,7 @@ export default class StaticJsDeclFunction extends StaticJsAstFunction {
   ) {
     // Non-arrow and non-class-method functions are always constructors.
     super(realm, name, argumentDeclarations, context, body, {
-      isConstructor: true,
+      construct: true,
     });
 
     // Create our prototype as we are implicitly a constructor.

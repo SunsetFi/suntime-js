@@ -22,6 +22,7 @@ import numberConstructorMinValueDeclaration from "./MIN_VALUE.js";
 import numberConstructorNanDeclaration from "./NaN.js";
 import numberConstructorNegativeInfinityDeclaration from "./NEGATIVE_INFINITY.js";
 import numberConstructorPositiveInfinityDeclaration from "./POSITIVE_INFINITY.js";
+import StaticJsNumberBoxed from "../../../types/implementation/StaticJsNumberBoxed.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   numberConstructorEpsilonDeclaration,
@@ -52,7 +53,16 @@ export default function createNumberConstructor(
 
       return yield* toNumber(value, realm);
     },
-    { prototype: prototypes.functionProto },
+    {
+      prototype: prototypes.functionProto,
+      *construct(_thisArg, value) {
+        const numVal = yield* toNumber.js(
+          value ?? realm.types.undefined,
+          realm,
+        );
+        return new StaticJsNumberBoxed(realm, numVal);
+      },
+    },
   );
 
   ctor.definePropertySync("prototype", {

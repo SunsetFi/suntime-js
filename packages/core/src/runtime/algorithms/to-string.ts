@@ -1,3 +1,5 @@
+import typedMerge from "../../internal/typed-merge.js";
+
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
@@ -16,7 +18,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import toPrimitive from "./to-primitive.js";
 
-export default function* toString(
+function* toString(
   value: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsString> {
@@ -52,3 +54,10 @@ export default function* toString(
     "Unhandled internal value type in toString: " + value.runtimeTypeOf,
   );
 }
+
+export default typedMerge(toString, {
+  *js(value: StaticJsValue, realm: StaticJsRealm): EvaluationGenerator<string> {
+    const strVal = yield* toString(value, realm);
+    return strVal.value;
+  },
+});

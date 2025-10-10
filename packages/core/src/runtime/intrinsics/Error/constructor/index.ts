@@ -43,7 +43,7 @@ export default function createErrorConstructor(
 
       return error;
     },
-    { prototype: prototypes.functionProto, isConstructor: true },
+    { prototype: prototypes.functionProto, construct: true },
   );
 
   ctor.definePropertySync("prototype", {

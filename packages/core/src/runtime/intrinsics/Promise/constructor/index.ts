@@ -75,7 +75,7 @@ export default function createPromiseConstructor(
 
       return promise;
     },
-    { prototype: prototypes.functionProto, isConstructor: true },
+    { prototype: prototypes.functionProto, construct: true },
   );
 
   ctor.definePropertySync("prototype", {

@@ -46,7 +46,7 @@ export default function createArrayConstructor(
         return array;
       }
     },
-    { prototype: prototypes.functionProto, isConstructor: true },
+    { prototype: prototypes.functionProto, construct: true },
   );
 
   ctor.definePropertySync("prototype", {

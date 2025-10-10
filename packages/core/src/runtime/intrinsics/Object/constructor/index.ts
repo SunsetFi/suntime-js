@@ -61,7 +61,7 @@ export default function createObjectConstructor(
 
       return yield* toObject(arg, realm);
     },
-    { prototype: prototypes.functionProto, isConstructor: true },
+    { prototype: prototypes.functionProto, construct: true },
   );
 
   ctor.definePropertySync("prototype", {

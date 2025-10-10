@@ -47,7 +47,7 @@ export default function createSymbolConstructor(
       return realm.types.symbol(description);
     },
     {
-      isConstructor: false,
+      construct: false,
       prototype: prototypes.functionProto,
     },
   );

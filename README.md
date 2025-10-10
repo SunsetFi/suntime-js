@@ -59,7 +59,7 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 
 This project is slowly working its way through the [Test262](https://github.com/tc39/test262) suite of JavaScript tests in order to ensure compliance with the spec.
 
-Currently, around 4200 of the language tests are passing, or about 18%. Further work is ongoing in this area.
+Currently, around 4400 of the language tests are passing, or about 19%. Further work is ongoing in this area.
 
 ## Quick Usage (native JS interop)
 
@@ -89,6 +89,11 @@ This gives you full control of the evaluation, including pausing execution, debu
 
 - Fix 'all' [Test262](https://github.com/tc39/test262) tests.
   - Currently only running tests in the language folder. Need to add built-ins
+- Async arrow functions
+  - Simple and easy; already support async functions
+- Eval scoping
+  - Need to rework functions to get context of their calls.
+- Rework TypeFactory so that realm.types is not undefined while resolving prototypes and constructors.
 - Report code coverage in repo
   coveralls.io?
   [vitest-coverage-report-action](https://github.com/marketplace/actions/vitest-coverage-report)?

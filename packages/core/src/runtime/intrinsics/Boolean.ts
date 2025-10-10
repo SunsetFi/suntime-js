@@ -71,13 +71,22 @@ export function createBooleanConstructor(
     realm,
     "Boolean",
     function* (thisArg, value) {
-      if (thisArg === undefined) {
+      if (value === undefined) {
         return realm.types.boolean(false);
       }
 
       return yield* toBoolean(value, realm);
     },
-    { prototype: prototypes.functionProto },
+    {
+      prototype: prototypes.functionProto,
+      *construct(_thisArg, value) {
+        const boolVal = yield* toBoolean.js(
+          value ?? realm.types.undefined,
+          realm,
+        );
+        return new StaticJsBooleanBoxed(realm, boolVal);
+      },
+    },
   );
 
   ctor.definePropertySync("prototype", {

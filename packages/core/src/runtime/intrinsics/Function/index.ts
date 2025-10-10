@@ -17,7 +17,7 @@ export function createFunctionConstructor(
       // FIXME: Function constructor.
       throw new StaticJsEngineError("Not implemented: Function constructor");
     },
-    { prototype: functionProto, isConstructor: true },
+    { prototype: functionProto, construct: true },
   );
 
   ctor.definePropertySync("prototype", {

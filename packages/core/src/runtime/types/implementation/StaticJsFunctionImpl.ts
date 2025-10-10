@@ -15,18 +15,29 @@ import { isStaticJsObjectLike } from "../StaticJsObjectLike.js";
 import StaticJsStringImpl from "./StaticJsStringImpl.js";
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
 export interface StaticJsFunctionImplOptions {
   length?: number;
   prototype?: StaticJsObjectLike | StaticJsNull | null;
-  isConstructor?: boolean;
+  construct?:
+    | boolean
+    | ((
+        thisArg: StaticJsValue,
+        ...args: StaticJsValue[]
+      ) => EvaluationGenerator);
 }
 
 export default class StaticJsFunctionImpl
   extends StaticJsObjectLikeImpl
   implements StaticJsFunction
 {
-  private _isConstructor: boolean;
+  private _construct:
+    | ((
+        thisArg: StaticJsValue,
+        ...args: StaticJsValue[]
+      ) => EvaluationGenerator)
+    | null;
 
   constructor(
     realm: StaticJsRealm,
@@ -35,13 +46,19 @@ export default class StaticJsFunctionImpl
       thisArg: StaticJsValue,
       ...args: StaticJsValue[]
     ) => EvaluationGenerator,
-    { isConstructor, length, prototype }: StaticJsFunctionImplOptions = {},
+    { construct, length, prototype }: StaticJsFunctionImplOptions = {},
   ) {
     super(realm, prototype ?? realm.types.prototypes.functionProto);
 
-    this._isConstructor = isConstructor ?? false;
+    if (typeof construct === "boolean") {
+      this._construct = construct ? this._call : null;
+    } else if (typeof construct === "function") {
+      this._construct = construct;
+    } else {
+      this._construct = null;
+    }
 
-    // FIXME: Suspicious use of non-eval defineProperty during construction.
+    // FIXME: Suspicious use of non-evaluator defineProperty during construction.
     // Invokes runEvaluatorUntilCompletion
     this.definePropertySync("name", {
       value: new StaticJsStringImpl(realm, name ?? ""),
@@ -67,7 +84,7 @@ export default class StaticJsFunctionImpl
   }
 
   get isConstructor() {
-    return this._isConstructor;
+    return this._construct !== null;
   }
 
   toStringSync() {
@@ -110,6 +127,19 @@ export default class StaticJsFunctionImpl
   *constructEvaluator(
     ...args: StaticJsValue[]
   ): EvaluationGenerator<StaticJsValue> {
+    if (!this._construct) {
+      throw new ThrowCompletion(
+        this.realm.types.error(
+          "TypeError",
+          "This function is not a constructor.",
+        ),
+      );
+    }
+
+    // This is far from spec compliant: https://tc39.es/ecma262/multipage/ordinary-and-exotic-objects-behaviours.html#sec-ecmascript-function-objects-construct-argumentslist-newtarget
+    // Just hacking together something that works.
+    // What even is [[ConstructorKind]]?
+
     let proto = yield* this.getPropertyEvaluator("prototype");
     if (!proto || !isStaticJsObjectLike(proto)) {
       // This appears to be what node does
@@ -117,12 +147,49 @@ export default class StaticJsFunctionImpl
     }
 
     const thisObj = this.realm.types.object(undefined, proto);
-    const result = yield* this.callEvaluator(thisObj, ...args);
+    const result = yield* this._invokeConstructEvaluator(thisObj, ...args);
     if (result && isStaticJsObjectLike(result)) {
       return result;
     }
 
     return thisObj;
+  }
+
+  private *_invokeConstructEvaluator(
+    thisArg: StaticJsValue,
+    ...args: StaticJsValue[]
+  ): EvaluationGenerator {
+    if (!this._construct) {
+      throw new ThrowCompletion(
+        this.realm.types.error(
+          "TypeError",
+          "This function is not a constructor.",
+        ),
+      );
+    }
+
+    if (!isStaticJsValue(thisArg)) {
+      throw new TypeError("thisArg must be a StaticJsValue instance.");
+    }
+
+    if (args.some((arg) => !isStaticJsValue(arg))) {
+      throw new TypeError("Arguments must be StaticJsValue instances.");
+    }
+
+    try {
+      // For convienence, we support returning normal completions
+      // as being equivalent to a return completion.
+      const result = yield* this._construct(thisArg, ...args);
+      return result ?? this.realm.types.undefined;
+    } catch (e) {
+      if (e instanceof ReturnCompletion) {
+        return e.value ?? this.realm.types.undefined;
+      }
+
+      ControlFlowCompletion.handleUnexpected(this.realm, e);
+
+      throw e;
+    }
   }
 
   protected _createToJsProxyTarget(): object {

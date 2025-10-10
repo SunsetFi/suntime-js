@@ -210,7 +210,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
         }
       },
       {
-        isConstructor: opts.isConstructor ?? false,
+        construct: opts.isConstructor ?? false,
         length: opts.length ?? func.length,
         prototype: opts.prototype ?? this._prototypes.functionProto,
       },

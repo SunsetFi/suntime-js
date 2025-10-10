@@ -1,6 +1,5 @@
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
 import StaticJsStringBoxed from "../../types/implementation/StaticJsStringBoxed.js";
@@ -14,21 +13,20 @@ export default function createStringConstructor(
   stringProto: StaticJsObject,
   prototypes: Prototypes,
 ) {
-  // FIXME: This is the casting function, but if it's invoked with 'new', we should
-  // return the boxed version.
   const ctor = new StaticJsFunctionImpl(
     realm,
     "String",
-    function* (_thisArg: StaticJsValue, value?: StaticJsValue) {
-      // FIXME: Return unboxed string if not called with 'new'.
-      if (value === undefined) {
-        return new StaticJsStringBoxed(realm, "");
-      }
-
-      const str = yield* toString(value, realm);
+    function* (_thisArg, value) {
+      const str = yield* toString(value ?? realm.types.undefined, realm);
       return new StaticJsStringBoxed(realm, str.value);
     },
-    { prototype: prototypes.functionProto },
+    {
+      prototype: prototypes.functionProto,
+      *construct(_thisArg, value) {
+        const str = yield* toString.js(value ?? realm.types.undefined, realm);
+        return new StaticJsStringBoxed(realm, str);
+      },
+    },
   );
 
   ctor.definePropertySync("prototype", {
