@@ -32,7 +32,8 @@ function* blockStatementNodeEvaluator(
     try {
       lastValue = yield* EvaluateNodeCommand(statement, blockContext);
     } catch (e) {
-      if (BreakCompletion.isBreakForLabel(e, context.label)) {
+      // Breaks apply to blocks, but only if we have a label.
+      if (context.label && BreakCompletion.isBreakForLabel(e, context.label)) {
         return lastValue;
       }
       throw e;
