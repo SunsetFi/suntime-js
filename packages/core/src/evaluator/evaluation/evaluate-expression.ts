@@ -1,6 +1,7 @@
 import type { EvaluationOptions } from "./options.js";
 
 import StaticJsRealm from "../../runtime/realm/factories/StaticJsRealm.js";
+import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
 
 /**
  * Evaluates a string as a javascript program, and returns the result.
@@ -13,10 +14,18 @@ export async function evaluateExpression(
   code: string,
   opts?: EvaluationOptions,
 ): Promise<unknown> {
-  let { realm } = opts ?? {};
+  opts ??= {};
+  let { realm } = opts;
+  const { taskRunner } = opts;
 
   realm ??= StaticJsRealm();
 
-  const value = await realm.evaluateExpression(code);
-  return value.toJsSync();
+  try {
+    const value = await realm.evaluateExpression(code, { runTask: taskRunner });
+    return value.toJsSync();
+  } catch (e) {
+    if (e instanceof StaticJsRuntimeError) {
+      throw e.thrown.toJsSync();
+    }
+  }
 }

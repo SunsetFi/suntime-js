@@ -14,12 +14,14 @@ export async function evaluateScript(
   code: string,
   opts?: EvaluationOptions,
 ): Promise<unknown> {
-  let { realm } = opts ?? {};
+  opts ??= {};
+  let { realm } = opts;
+  const { taskRunner } = opts;
 
   realm ??= StaticJsRealm();
 
   try {
-    const value = await realm.evaluateScript(code);
+    const value = await realm.evaluateScript(code, { runTask: taskRunner });
     return value.toJsSync();
   } catch (e) {
     if (e instanceof StaticJsRuntimeError) {

@@ -14,9 +14,11 @@ export function evaluateModule(
   code: string,
   opts?: EvaluationOptions,
 ): Promise<StaticJsModule> {
-  let { realm } = opts ?? {};
+  opts ??= {};
+  let { realm } = opts;
+  const { taskRunner } = opts;
 
   realm ??= StaticJsRealm();
 
-  return realm.evaluateModule(code);
+  return realm.evaluateModule(code, { runTask: taskRunner });
 }
