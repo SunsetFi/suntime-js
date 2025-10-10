@@ -1,8 +1,10 @@
 import type { EvaluationOptions } from "./options.js";
 
 import StaticJsRealm from "../../runtime/realm/factories/StaticJsRealm.js";
+
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+
 import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
-import type { StaticJsValue } from "../../runtime/index.js";
 
 /**
  * Evaluates a string as a javascript program, and returns the result.
