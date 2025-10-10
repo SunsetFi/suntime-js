@@ -1,9 +1,11 @@
 # StaticJs Quick Start
 
-**Warning**: Using StaticJs this way is vulnurable to deadlocks when given looping code, and can introduce security complications where VM code can be unexpectedly invoked through interacting with the resulting values (eg: property getters and setters).
+## StaticJs Basics
 
 The API functions `evaluateScript(string, {realm?})`, `evaluateModule(string, {realm?})`, and `evaluateExpression(string, {realm?})`
 will evaluate the given script, and return a promise resolving to the script's result after the task (and all microtasks) are completed.
+
+**Warning**: Using StaticJs this way is vulnurable to deadlocks when given looping code, and can introduce security complications where VM code can be unexpectedly invoked through interacting with the resulting values (eg: property getters and setters). See further sections for solutions to this.
 
 ```ts
 import { evaluateExpression } from "@suntime-js/core";
@@ -82,3 +84,56 @@ result.amount = 4;
 
 console.log(result.increment(10)); // Results in 14
 ```
+
+## Putting time limits on evaluation
+
+Tasks can be used to enforce limits on how long an evaluation can run for. This can be handy for guarding against infinite loops and deadlocks.
+
+```ts
+const code = `while(true) {}`;
+const result = await evaluateScript(code, {
+  runTask(task) {
+    const start = Date.now();
+    const end = start + 10 * 1000;
+    while (!task.done) {
+      if (end <= Date.now()) {
+        task.abort();
+        return;
+      }
+      task.next();
+    }
+  },
+});
+```
+
+See [Tasks](./07-tasks.md) for more information.
+
+## Timesharing evaluation with the host
+
+Rather than putting hard limits on operation count or time taken, the evaluator can be freely paused and resumed on an interval in order to allow
+unbounded evaluation without deadlocking the underlying application:
+
+```ts
+const code = `while(true) {}`;
+const result = await evaluateScript(code, {
+  runTask(task) {
+    const operationsPerIteration = 100000;
+    const yieldTime = 100;
+
+    function doTask() {
+      for (let i = 0; i < operationsPerIteration; i++) {
+        task.next();
+        if (task.done) {
+          return;
+        }
+      }
+
+      setTimeout(doTask, yieldTime);
+    }
+
+    doTask();
+  },
+});
+```
+
+See [Tasks](./07-tasks.md) for more information.

@@ -75,6 +75,8 @@ import { evaluateExpression } from "@suntime-js/core";
 const result = await evaluateExpression("2 + 2");
 ```
 
+It might seem strange to see an await with a simple expression, but that is because the underlying engine is designed to be able to pause and resume code execution at any time.
+
 For more information, see [Quick Start](docs/01-quick-start.md).
 
 ## Detailed Usage
