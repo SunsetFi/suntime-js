@@ -41,9 +41,14 @@ export type StaticJsEvaluator<T = unknown> =
  */
 export interface StaticJsRealm {
   /**
+   * The type factory for the realm.
+   */
+  readonly types: StaticJsTypeFactory;
+
+  /**
    * The global-scope global object of the realm.
    */
-  readonly globalObject: StaticJsObject;
+  readonly global: StaticJsObject;
 
   /**
    * The global-scope `this` value of the realm.
@@ -52,13 +57,9 @@ export interface StaticJsRealm {
 
   /**
    * The global-scope Environment of the realm.
+   * @internal
    */
   readonly globalEnv: StaticJsEnvironment;
-
-  /**
-   * The type factory for the realm.
-   */
-  readonly types: StaticJsTypeFactory;
 
   /**
    * Evaluates the expression in the realm, returning a promise that resolves to the result.
@@ -120,6 +121,11 @@ export interface StaticJsRealm {
    * The promise will reject if a task or microtask throws an exception or encounters an evaluation error.
    */
   awaitCurrentTask(): Promise<void>;
+
+  /**
+   * Returns a promise that resolves when the realm is idle, i.e. there are no tasks or microtasks remaining to be processed.
+   */
+  awaitIdle(): Promise<void>;
 
   /*
   The below is all internal.  We could isolate this from the public API using a different interface.

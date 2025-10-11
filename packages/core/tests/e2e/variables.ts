@@ -41,7 +41,7 @@ describe("E2E: Variables", () => {
       `;
       const realm = StaticJsRealm();
       await evaluateScript(code, { realm });
-      expect(realm.globalObject.hasPropertySync("a")).toBe(false);
+      expect(realm.global.hasPropertySync("a")).toBe(false);
     });
 
     it("Can be redeclared in block scopes", async () => {
@@ -131,7 +131,7 @@ describe("E2E: Variables", () => {
       `;
       const realm = StaticJsRealm();
       await evaluateScript(code, { realm });
-      expect(realm.globalObject.hasPropertySync("a")).toBe(false);
+      expect(realm.global.hasPropertySync("a")).toBe(false);
     });
 
     it("Can be redeclared in block scopes", async () => {
@@ -170,7 +170,7 @@ describe("E2E: Variables", () => {
       `;
       const realm = StaticJsRealm();
       await evaluateScript(code, { realm });
-      expect(realm.globalObject.hasPropertySync("a")).toBe(true);
+      expect(realm.global.hasPropertySync("a")).toBe(true);
     });
 
     it("Appears on the global scope in a block scope", async () => {
@@ -181,7 +181,7 @@ describe("E2E: Variables", () => {
       `;
       const realm = StaticJsRealm();
       await evaluateScript(code, { realm });
-      expect(realm.globalObject.hasPropertySync("a")).toBe(true);
+      expect(realm.global.hasPropertySync("a")).toBe(true);
     });
 
     it("Does not appear on the global scope in a function scope", async () => {
@@ -192,7 +192,7 @@ describe("E2E: Variables", () => {
       `;
       const realm = StaticJsRealm();
       await evaluateScript(code, { realm });
-      expect(realm.globalObject.hasPropertySync("a")).toBe(false);
+      expect(realm.global.hasPropertySync("a")).toBe(false);
     });
   });
 
@@ -204,7 +204,7 @@ describe("E2E: Variables", () => {
       `;
       const realm = StaticJsRealm();
       await evaluateScript(code, { realm });
-      const globalValue = realm.globalObject.getPropertySync("x");
+      const globalValue = realm.global.getPropertySync("x");
       expect(globalValue).toBeDefined();
       expect(isStaticJsNumber(globalValue)).toBe(true);
       expect((globalValue as StaticJsNumber).value).toBe(10);

@@ -70,6 +70,7 @@ import type {
   StaticJsRealm,
   StaticJsRunTaskOptions,
 } from "../StaticJsRealm.js";
+import StaticJsConcurrentEvaluationError from "../../../errors/StaticJsConcurrentEvaluationError.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;
@@ -92,6 +93,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private _invokeEvaluatorSyncDepth = 0;
   private _invokeEvaluatorSyncMicrotasks: (() => EvaluationGenerator<void>)[] =
     [];
+
+  private _idleCallbacks: (() => void)[] = [];
 
   constructor({
     globalObject,
@@ -169,7 +172,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
   }
 
-  get globalObject() {
+  get global() {
     return this._globalObject;
   }
 
@@ -198,9 +201,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     opts?: StaticJsRunTaskOptions,
   ): StaticJsValue {
     if (this._currentTask) {
-      throw new StaticJsEngineError(
-        "Cannot run a synchronous task while another task is running.",
-      );
+      throw new StaticJsConcurrentEvaluationError();
     }
 
     const parsed = parseExpression(expression);
@@ -226,9 +227,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     opts?: StaticJsRunTaskOptions,
   ): StaticJsValue {
     if (this._currentTask) {
-      throw new StaticJsEngineError(
-        "Cannot run a synchronous task while another task is running.",
-      );
+      throw new StaticJsConcurrentEvaluationError();
     }
 
     const parsed = parseScript(script);
@@ -265,6 +264,21 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
 
     return this._currentTask.await().then(() => {});
+  }
+
+  async awaitIdle() {
+    if (this._currentTask === null && this._tasks.length === 0) {
+      // No current task, so we can resolve immediately.
+      return Promise.resolve();
+    }
+
+    // Queue the callback registration in a microtask, so that if a task is pending in the microtask queue,
+    // this invocation of awaitIdle will await that task.
+    return Promise.resolve().then(() => {
+      return new Promise<void>((accept) => {
+        this._idleCallbacks.push(accept);
+      });
+    });
   }
 
   async resolveImportedModule(
@@ -436,6 +450,15 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     if (nextTask) {
       this._invokeMacrotask(nextTask);
       return;
+    } else {
+      while (this._idleCallbacks.length > 0) {
+        const cb = this._idleCallbacks.shift()!;
+        cb();
+        if (this._currentTask !== null) {
+          // A task was started during the idle callback.
+          return;
+        }
+      }
     }
   }
 

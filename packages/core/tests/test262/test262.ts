@@ -107,7 +107,7 @@ function defineTest(test: string) {
 }
 
 function createHostApi(realm: StaticJsRealm) {
-  realm.globalObject.definePropertySync("print", {
+  realm.global.definePropertySync("print", {
     writable: true,
     configurable: true,
     enumerable: false,

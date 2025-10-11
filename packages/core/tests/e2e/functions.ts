@@ -210,7 +210,7 @@ describe("E2E: Functions", () => {
       `;
       const realm = StaticJsRealm();
       await evaluateScript(code, { realm });
-      expect(realm.globalObject.hasPropertySync("foo")).toBe(false);
+      expect(realm.global.hasPropertySync("foo")).toBe(false);
     });
 
     it("Can be invoked by the engine", async () => {
