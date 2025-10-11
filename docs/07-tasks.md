@@ -261,7 +261,7 @@ All instances of task are a StaticJsTaskIterator
 
 ### Properties
 
-- `done`: Whether the task is completed. This will be `true` if the task has completed by any means, including by `.abort()` or having the parent taskRunner throw.
+- `done`: Whether the task is completed. This will be `true` if the task has completed by any means, including by `.abort()` or having the controlling task runner throw.
 
 - `aborted`: True if `.abort()` has been called.
 
