@@ -8,13 +8,13 @@ import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
 
 /**
  * Evaluates a string as a javascript program, and returns the result.
- * @param code - The string containing javascript code to evaluate.
- * @param opts - The options for the evaluation.
+ * @param script The string containing javascript code to evaluate.
+ * @param opts The options for the evaluation.
  * @returns The native javascript result of evaluating the code.
  * @public
  */
 export async function evaluateScript(
-  code: string,
+  script: string,
   opts?: EvaluationOptions,
   callback?: (value: unknown, error?: unknown) => Promise<unknown> | void,
 ): Promise<unknown> {
@@ -26,7 +26,7 @@ export async function evaluateScript(
 
   let result: StaticJsValue;
   try {
-    result = await realm.evaluateScript(code, { runTask: taskRunner });
+    result = await realm.evaluateScript(script, { runTask: taskRunner });
   } catch (e) {
     let error = e;
     if (error instanceof StaticJsRuntimeError) {
@@ -48,4 +48,18 @@ export async function evaluateScript(
   }
 
   return jsValue;
+}
+
+export function evaluateScriptSync(
+  script: string,
+  opts?: EvaluationOptions,
+): unknown {
+  opts ??= {};
+  let { realm } = opts;
+  const { taskRunner } = opts;
+
+  realm ??= StaticJsRealm();
+
+  const result = realm.evaluateScriptSync(script, { runTask: taskRunner });
+  return result.toJsSync();
 }

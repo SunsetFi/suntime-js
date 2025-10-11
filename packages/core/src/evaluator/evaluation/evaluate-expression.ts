@@ -8,13 +8,13 @@ import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
 
 /**
  * Evaluates a string as a javascript program, and returns the result.
- * @param code - The string containing javascript code to evaluate.
- * @param opts - The options for the evaluation.
+ * @param expression The string containing javascript code to evaluate.
+ * @param opts The options for the evaluation.
  * @returns The native javascript result of evaluating the code.
  * @public
  */
 export async function evaluateExpression(
-  code: string,
+  expression: string,
   opts?: EvaluationOptions,
   callback?: (value: unknown, error?: unknown) => Promise<unknown> | void,
 ): Promise<unknown> {
@@ -26,7 +26,9 @@ export async function evaluateExpression(
 
   let result: StaticJsValue;
   try {
-    result = await realm.evaluateExpression(code, { runTask: taskRunner });
+    result = await realm.evaluateExpression(expression, {
+      runTask: taskRunner,
+    });
   } catch (e) {
     let error = e;
     if (error instanceof StaticJsRuntimeError) {
@@ -48,4 +50,35 @@ export async function evaluateExpression(
   }
 
   return jsValue;
+}
+
+/**
+ * Evaluates a string as a javascript program, and synchronously returns the result.
+ * @param expression The string containing javascript code to evaluate.
+ * @param opts The options for the evaluation.
+ * @returns The native javascript result of evaluating the code.
+ * @public
+ */
+export function evaluateExpressionSync(
+  code: string,
+  opts?: EvaluationOptions,
+): unknown {
+  opts ??= {};
+  let { realm } = opts;
+  const { taskRunner } = opts;
+
+  realm ??= StaticJsRealm();
+
+  let result: StaticJsValue;
+  try {
+    result = realm.evaluateExpressionSync(code, { runTask: taskRunner });
+  } catch (e) {
+    let error = e;
+    if (error instanceof StaticJsRuntimeError) {
+      error = error.thrown.toJsSync();
+    }
+    throw error;
+  }
+
+  return result.toJsSync();
 }

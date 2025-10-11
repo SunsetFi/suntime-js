@@ -6,7 +6,7 @@ The StaticJs runtime creates its own implementations of all intrinsic types. Eac
 
 The `types` property on a `StaticJsRealm` contains factories for creating all primitive types. Using these factories will let you pass in types to the sandbox directly without any coersion.
 
-Additionally, it contains a `toStaticJsValue` function that performs coersion on native types.
+Additionally, it contains a `toStaticJsValue` function that performs [coersion on native types](./03-type-coersion.md).
 
 ## Types
 

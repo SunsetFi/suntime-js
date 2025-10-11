@@ -84,6 +84,14 @@ export interface StaticJsRealmOptions {
    * This may be done synchronously or asynchronously.
    */
   runTask?: StaticJsTaskRunner;
+
+  /**
+   * Invoked when the realm wants to run a task synchronously.
+   *
+   * The implementation should call .next() on the evaluator until it is done.
+   * This must be done synchronously.  Failure to complete the task will result in an error.
+   */
+  runTaskSync?: StaticJsTaskRunner;
 }
 
 /**

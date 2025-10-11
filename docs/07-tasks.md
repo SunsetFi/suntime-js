@@ -62,14 +62,21 @@ function runTask(task) {
 }
 ```
 
+### Synchronous vs Asynchronous
+
+Task runners can be expected to synchronously complete their task, depending on the context.
+
+If the task runner is passed to `realm.evaluateScript`, `realm.evaluateExpression`, `realm.evaluateModule`, `evaluateScript`, `evaluateExpression`, or `evaluateModule`, it may be asynchronous. In this case, it can yield execution or avoid completing the task alltogether.
+
+If the task runner is passed to `realm.evaluateScriptSync`, `realm.evaluateExpressionSync`, `evaluateScriptSync`, or `evaluateExpressionSync`, it is expected to fully drain the task synchronously. If it does not, a `StaticJsEngineError` will be thrown.
+
 ### Aborting tasks
 
-Tasks have the ability to be aborted, by calling `task.abort()`. This will result in the evaluation resolving to an instance of a `StaticJsTaskAbortedError`
+Tasks have the ability to be aborted by calling `task.abort()`. This will result in the evaluation resolving to an instance of a `StaticJsTaskAbortedError`
 
 ```ts
 function runTask(task) {
-  const start = Date.now();
-  const end = start + 60 * 1000;
+  const end = Date.now() + 60 * 1000;
   while (!task.done) {
     task.next();
 
@@ -146,11 +153,11 @@ function runTask(task) {
 
 ### Specifying task runners
 
-Task runners can be specified in two ways:
+Task runners can be specified in a few ways:
 
-### runTask option on the StaticJsRealm constructor
+#### `runTask` option on the StaticJsRealm constructor
 
-The `runTask` option passed to the `StaticJsRealm` constructor provides the default callback for running a task, for all script invocations that do not themselves specify a task runner.
+The `runTask` option passed to the `StaticJsRealm` constructor provides the default callback for running a task using `realm.evaluateScript`, `realm.evaluateExpression`, `realm.evaluateModule`, and the `resolveImportedModule` realm option.
 
 ```ts
 const realm = StaticJsRealm({
@@ -170,14 +177,67 @@ const realm = StaticJsRealm({
 await realm.evaluateScript(`while(true) {}`);
 ```
 
-### `runTask` option on evaluation methods
+#### `runTaskSync` option on the StaticJsRealm constructor
 
-The three evaluation functions (`evaluateExpression`, `evaluateScript`, and `evaluateModule`) all take a second options argument that contains a `taskRunner` property. Setting this property will apply a task runner for all tasks created by this invocation (macrotask, microtasks, module evaluations, and so on). This will be used over any `runTask` supplied to the realm.
+The `runTaskSync` option passed to the `StaticJsRealm` constructor provides the default callback for running a task using `realm.evaluateScriptSync` and `realm.evaluateExpressionSync`. Note that this task runner is expected to be synchronous, and an error will be thrown if it does not either fully drain or abort the task.
 
 ```ts
+const realm = StaticJsRealm({
+  runTask(task) {
+    for (let i = 0; i < 100000; i++) {
+      const { done } = task.next();
+      if (done) {
+        return;
+      }
+    }
+
+    console.warn("Task exceeded 100000 operations.");
+    task.abort();
+  },
+});
+
+realm.evaluateScriptSync(`while(true) {}`);
+```
+
+#### `runTask` option on realm evaluation methods
+
+The evaluation functions (`realm.evaluateExpression`, `realm.evaluateExpressionSync`, `realm.evaluateScript`, `realm.evaluateScriptSync` and `realm.evaluateModule`) all take a second options argument that accepts a `runTask` property. Setting this property will apply a task runner for all tasks created by this invocation (macrotask, microtasks, module evaluations, and so on). This will be used over any `runTask` supplied to the realm.
+
+Note that the synchronous variants all expect their task runner to complete synchronously, and will throw a `StaticJsEngineError` if they do not.
+
+```ts
+import { StaticJsRealm } from "@suntime-js/core";
+
 const realm = StaticJsRealm();
 
 const value = await realm.evaluateScript(
+  'while(true) {}`,
+  {
+    runTask(task) {
+      for (let i = 0; i < 100000; i++) {
+        const { done } = task.next();
+        if (done) {
+          return;
+        }
+      }
+
+      console.warn("Task exceeded 100000 operations.");
+      task.abort();
+    }
+  }
+)
+```
+
+### `runTask` option on the quickstart evaluation methods.
+
+The exports `evaluateScript`, `evaluateScriptSync`, `evaluateExpression`, `evaluateExpressionSync`, and `evaluateModule` all accepts a `runTask` option in their second argument.
+
+Note that the synchronous variants all expect their task runner to complete synchronously, and will throw a `StaticJsEngineError` if they do not.
+
+```ts
+import { evaluateScript } from "@suntime-js/core";
+
+const value = await evaluateScript(
   'while(true) {}`,
   {
     runTask(task) {

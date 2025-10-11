@@ -71,6 +71,17 @@ export interface StaticJsRealm {
   ): Promise<StaticJsValue>;
 
   /**
+   * Evaluates the expression in the realm synchronously, returning the result.
+   * This cannot be called if a task is already running.
+   * @param expression The expression to evaluate.
+   * @param opts Options for running the task.
+   */
+  evaluateExpressionSync(
+    expression: string,
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsValue;
+
+  /**
    * Runs the given script in the realm, returning a promise that resolves to the result.
    * @param script The script to run.
    * @param opts Options for running the task.
@@ -79,6 +90,17 @@ export interface StaticJsRealm {
     script: string,
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsValue>;
+
+  /**
+   * Evaluates the script in the realm synchronously, returning the result.
+   * This cannot be called if a task is already running.
+   * @param script The script to evaluate.
+   * @param opts Options for running the task.
+   */
+  evaluateScriptSync(
+    script: string,
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsValue;
 
   /**
    * Evaluates a module in the realm, returning a promise that resolves to the module.
@@ -132,6 +154,19 @@ export interface StaticJsRealm {
     evaluator: StaticJsEvaluator<TReturn>,
     opts?: StaticJsRunTaskOptions,
   ): Promise<TReturn>;
+
+  /**
+   * Invokes a macrotask synchronously, blocking until it completes.
+   * This differs from invokeEvaluatorSync in that it handles draining all microtasks from the resultant task.
+   * This cannot be called if there is already a task running.
+   * @internal
+   * @param evaluator The evaluator to invoke.
+   * @param opts Options for running the task.
+   */
+  invokeMacrotaskSync<TReturn>(
+    evaluator: StaticJsEvaluator<TReturn>,
+    opts?: StaticJsRunTaskOptions,
+  ): TReturn;
 
   /**
    * Invoke the given evaluator synchronously, returning the result.

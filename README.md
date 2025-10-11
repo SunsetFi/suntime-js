@@ -65,17 +65,15 @@ Currently, around 4500 of the language tests are passing, or about 19%. Further 
 
 **Warning**: Using StaticJs this way is vulnurable to deadlocks when given looping code, and can introduce security complications where VM code can be unexpectedly invoked through interacting with the resulting values (eg: property getters and setters).
 
-StaticJs provides quick functions for evaluating simple code: `evaluateExpression`, `evaluateScript`, and `evaluateModule`. These functions take strings as their first argument, and return a promise to the [coerced native value](docs/03-type-coersion.md).
+StaticJs provides quick functions for evaluating simple code: `evaluateExpressionSync`, `evaluateScriptSync`, and `evaluateModule`. These functions take strings as their first argument, and return a promise to the [coerced native value](docs/03-type-coersion.md).
 
-Note that the promise resolves when all microtasks spawned by the expression are complete, not when the macrotask itself completes. This means any VM promise resolutions that occurred as a result of the evaluation will be ran to completion before the returned native promise is resolved.
+Note that these functions will drain all microtasks enqueued during their evaluation before returning. This means that any promise resolutions in the scripts will run to completion.
 
 ```ts
-import { evaluateExpression } from "@suntime-js/core";
+import { evaluateExpressionSync } from "@suntime-js/core";
 
-const result = await evaluateExpression("2 + 2");
+const result = evaluateExpressionSync("2 + 2");
 ```
-
-It might seem strange to see an await with a simple expression, but that is because the underlying engine is designed to be able to pause and resume code execution at any time.
 
 For more information, see [Quick Start](docs/01-quick-start.md).
 

@@ -87,6 +87,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private _currentTask: Macrotask | null = null;
 
   private readonly _defaultRunTask: StaticJsTaskRunner;
+  private readonly _defaultRunTaskSync: StaticJsTaskRunner;
 
   private _invokeEvaluatorSyncDepth = 0;
   private _invokeEvaluatorSyncMicrotasks: (() => EvaluationGenerator<void>)[] =
@@ -97,10 +98,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     globalThis,
     modules,
     resolveImportedModule: resolveModule,
-    runTask: runTask,
+    runTask,
+    runTaskSync,
   }: StaticJsRealmOptions = {}) {
     this._externalResolveModule = resolveModule;
     this._defaultRunTask = runTask ?? defaultTaskRunner;
+    this._defaultRunTaskSync = runTaskSync ?? defaultTaskRunner;
 
     // Note: We could check to see if globalObject has factories or prototypes and use them
     // instead of these.
@@ -183,22 +186,56 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   evaluateExpression(
-    code: string,
+    expression: string,
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsValue> {
-    const parsed = parseExpression(code);
+    const parsed = parseExpression(expression);
     return this.enqueueMacrotask(doEvaluateNode(parsed, this), opts);
   }
 
+  evaluateExpressionSync(
+    expression: string,
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsValue {
+    if (this._currentTask) {
+      throw new StaticJsEngineError(
+        "Cannot run a synchronous task while another task is running.",
+      );
+    }
+
+    const parsed = parseExpression(expression);
+    return this.invokeMacrotaskSync(doEvaluateNode(parsed, this), opts);
+  }
+
   async evaluateScript(
-    code: string,
+    script: string,
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsValue> {
-    const parsed = parseScript(code);
+    const parsed = parseScript(script);
     const strict = parsed.program.directives.some(
       (directive) => directive.value.value === "use strict",
     );
     return this.enqueueMacrotask(
+      doEvaluateNode(parsed.program, this, strict),
+      opts,
+    );
+  }
+
+  evaluateScriptSync(
+    script: string,
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsValue {
+    if (this._currentTask) {
+      throw new StaticJsEngineError(
+        "Cannot run a synchronous task while another task is running.",
+      );
+    }
+
+    const parsed = parseScript(script);
+    const strict = parsed.program.directives.some(
+      (directive) => directive.value.value === "use strict",
+    );
+    return this.invokeMacrotaskSync(
       doEvaluateNode(parsed.program, this, strict),
       opts,
     );
@@ -291,6 +328,58 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     this._tryDrainTaskQueue();
 
     return macrotask.await() as Promise<TReturn>;
+  }
+
+  invokeMacrotaskSync<TReturn>(
+    evaluator: StaticJsEvaluator<TReturn>,
+    { runTask = this._defaultRunTaskSync }: StaticJsRunTaskOptions = {},
+  ): TReturn {
+    if (this._currentTask) {
+      throw new StaticJsEngineError(
+        "Cannot invoke a macrotask synchronously while another task is running.",
+      );
+    }
+
+    let result: TReturn | undefined = undefined;
+    let complete = false;
+    try {
+      if (!runTask) {
+        runTask = (task) => {
+          while (!task.done) {
+            task.next();
+          }
+        };
+      }
+
+      const macrotask = new Macrotask(evaluator, runTask, (task) =>
+        this._assertTaskRunning(task),
+      );
+
+      this._currentTask = macrotask;
+      macrotask.onComplete((value, err) => {
+        complete = true;
+        if (err) {
+          throw err;
+        }
+        result = value as TReturn;
+      });
+
+      macrotask.invoke();
+
+      if (!macrotask.done) {
+        throw new StaticJsEngineError("Task did not complete synchronously.");
+      }
+
+      if (!complete) {
+        throw new StaticJsEngineError(
+          "The macrotask did not complete correctly.",
+        );
+      }
+
+      return result!;
+    } finally {
+      this._currentTask = null;
+    }
   }
 
   invokeEvaluatorSync<TReturn>(
@@ -538,7 +627,8 @@ class Macrotask {
   // This isn't the same as the promise.  The promise is for returning to the outside world,
   // but our internals still want to be notified when the task completes without marking the rejection
   // as handled.
-  private _onCompletedCallbacks: ((err?: unknown) => void)[] = [];
+  private _onCompletedCallbacks: ((value: unknown, err?: unknown) => void)[] =
+    [];
 
   private _currentNode: Node | null = null;
 
@@ -558,7 +648,15 @@ class Macrotask {
     return this._taskRunner;
   }
 
-  onComplete(callback: (err?: unknown) => void) {
+  await() {
+    return this._promise;
+  }
+
+  get done() {
+    return this._status === "fulfilled" || this._status === "rejected";
+  }
+
+  onComplete(callback: (value: unknown, err?: unknown) => void) {
     this._onCompletedCallbacks.push(callback);
   }
 
@@ -570,10 +668,6 @@ class Macrotask {
     }
 
     this._microtasks.push(evaluator);
-  }
-
-  await() {
-    return this._promise;
   }
 
   invoke() {
@@ -752,7 +846,9 @@ class Macrotask {
 
     this._status = "fulfilled";
     this._acceptPromise(this._macrotaskCompletionValue);
-    this._onCompletedCallbacks.forEach((cb) => cb());
+    this._onCompletedCallbacks.forEach((cb) =>
+      cb(this._macrotaskCompletionValue),
+    );
     this._onCompletedCallbacks = [];
     this._macrotaskCompletionValue = undefined;
   }
@@ -766,7 +862,7 @@ class Macrotask {
 
     this._status = "rejected";
     this._rejectPromise(reason);
-    this._onCompletedCallbacks.forEach((cb) => cb(reason));
+    this._onCompletedCallbacks.forEach((cb) => cb(undefined, reason));
     this._onCompletedCallbacks = [];
     this._macrotaskCompletionValue = undefined;
   }
