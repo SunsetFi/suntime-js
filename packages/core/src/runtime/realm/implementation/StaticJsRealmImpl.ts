@@ -657,10 +657,8 @@ function hasTopLevelAwait(node: Node) {
   let found = false;
   traverse(node, {
     AwaitExpression(path) {
-      if (path.getFunctionParent() === null) {
-        path.stop();
-        found = true;
-      }
+      path.stop();
+      found = true;
     },
     FunctionExpression(path) {
       path.skip();
@@ -704,7 +702,7 @@ function* doEvaluateNodeAsync(
   try {
     yield* setupEnvironment(node, context);
     const evaluator = EvaluateNodeCommand(node, context);
-    const invocation = new AsyncEvaluatorInvocation(evaluator, context);
+    const invocation = new AsyncEvaluatorInvocation(evaluator, context, true);
     yield* invocation.start();
     return invocation.promise;
   } catch (e) {

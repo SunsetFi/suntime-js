@@ -2,9 +2,6 @@ import { describe, it, expect } from "vitest";
 
 import { evaluateScript } from "../../src/index.js";
 
-// FIXME SUPER IMPORTANT:
-// vitest expect toEqual is not erroring at all even with grossly wrong values.
-
 describe("E2E: Arrays", () => {
   it("Is instanceof Array", async () => {
     const code = `
@@ -30,7 +27,6 @@ describe("E2E: Arrays", () => {
       a;
     `;
     const result = await evaluateScript(code);
-    // TODO: This is clearly broken, why is this test passing?
     expect(result).toEqual([1, 2, 3]);
   });
 

@@ -223,22 +223,15 @@ describe("E2E: Realm", () => {
         await delay(0); // Allow the first task to be queued
         expect(runTask).toBeCalledTimes(1);
 
-        console.log("Aborting task");
         abortTask();
 
-        console.log("Waiting for promise1 to reject");
         await expect(promise1).rejects.toThrow(StaticJsTaskAbortedError);
-        console.log("promise1 rejected");
 
         expect(runTask).toBeCalledTimes(2);
 
-        console.log("Draining second task");
         drainTask();
-        console.log("Second task drained");
 
-        console.log("Waiting for promise2 to resolve");
         const result2 = await promise2;
-        console.log("promise2 resolved");
         expect(result2.toJsSync()).toBe(4);
       });
 
@@ -334,16 +327,14 @@ describe("E2E: Realm", () => {
           const realm = StaticJsRealm({});
 
           const result = await realm.evaluateScript(
-            `
-            await Promise.resolve(4);
-          `,
+            `await Promise.resolve(4);`,
             { topLevelAwait: "auto" },
           );
           expect(isStaticJsPromise(result)).toBe(true);
         });
       });
 
-      it.skip("Resolves the promise to the script last value", async () => {
+      it("Resolves the promise to the script last value", async () => {
         const realm = StaticJsRealm();
 
         const result = await realm.evaluateScript(
@@ -353,6 +344,7 @@ describe("E2E: Realm", () => {
           });
           value;
         `,
+          { topLevelAwait: true },
         );
 
         expect(isStaticJsPromise(result)).toBe(true);

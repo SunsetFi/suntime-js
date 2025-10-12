@@ -26,6 +26,7 @@ export default class AsyncEvaluatorInvocation {
   constructor(
     private readonly _evaluator: EvaluationGenerator,
     private readonly _context: EvaluationContext,
+    private readonly _resolveToEvaluatorResult: boolean = false,
   ) {}
 
   get promise(): StaticJsPromise {
@@ -76,7 +77,11 @@ export default class AsyncEvaluatorInvocation {
 
         if (done) {
           // Hit the end of the generator, no more function to run.
-          yield* this._resolve(this._context.realm.types.undefined);
+          let result: StaticJsValue = this._context.realm.types.undefined;
+          if (this._resolveToEvaluatorResult && value != null) {
+            result = value;
+          }
+          yield* this._resolve(result);
           return;
         }
 
@@ -116,10 +121,10 @@ export default class AsyncEvaluatorInvocation {
       );
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const self = this;
-
     this._state = "awaiting";
+
+    const realm = this._context.realm;
+    const continueInvocation = this._continue.bind(this);
 
     if (isStaticJsObjectLike(awaitable)) {
       const awaitableThen = yield* awaitable.getPropertyEvaluator("then");
@@ -128,19 +133,19 @@ export default class AsyncEvaluatorInvocation {
         // The function will be responsible for queueing us on the microtask.
         yield* awaitableThen.callEvaluator(
           awaitable,
-          new StaticJsFunctionImpl(this._context.realm, "resolve", function* (
+          new StaticJsFunctionImpl(realm, "resolve", function* (
             _thisArg,
             value,
           ) {
-            yield* self._continue(value);
-            return self._context.realm.types.undefined;
+            yield* continueInvocation(value);
+            return realm.types.undefined;
           }),
-          new StaticJsFunctionImpl(this._context.realm, "reject", function* (
+          new StaticJsFunctionImpl(realm, "reject", function* (
             _thisArg,
             value,
           ) {
-            yield* self._continue(value, "throw");
-            return self._context.realm.types.undefined;
+            yield* continueInvocation(value, "throw");
+            return realm.types.undefined;
           }),
         );
         return;
@@ -149,7 +154,7 @@ export default class AsyncEvaluatorInvocation {
 
     // For everything else, continue on the next microtask.
     this._context.realm.enqueueMicrotask(function* () {
-      yield* self._continue(awaitable);
+      yield* continueInvocation(awaitable);
     });
   }
 
