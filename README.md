@@ -87,13 +87,11 @@ This gives you full control of the evaluation, including pausing execution, debu
 
 - Fix 'all' [Test262](https://github.com/tc39/test262) tests.
   - Currently only running tests in the language folder. Need to add built-ins
-- Rework TypeFactory so that realm.types is not undefined while resolving prototypes and constructors.
 - Report code coverage in repo
   coveralls.io?
   [vitest-coverage-report-action](https://github.com/marketplace/actions/vitest-coverage-report)?
 - Get api-extractor working. The only holdup right now is the combine and re-export of the interface and factory function of StaticJsRealm
   - Combine these into one file to make this work?
-- Add a runTaskSync to realms that allows for time and operation limiting synchronous functions but enforces the task is completed or aborted when the function exits.
 - Rename toJs to toNative
 - Add scope, variable, and stack info to StaticJsTaskIterator for debugging.
 - Investigate debugger for monaco
