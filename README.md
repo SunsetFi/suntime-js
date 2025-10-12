@@ -38,6 +38,7 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 - Unary and binary operators
 - Destructuring
 - Spread operators (including Symbol.iterator usage)
+- eval / Function constructor.
 - ECMAScript Modules
   - Exports
   - Importing from host-defined modules
@@ -63,11 +64,9 @@ Currently, around 4500 of the language tests are passing, or about 19%. Further 
 
 ## Quick Usage (native JS interop)
 
-**Warning**: Using StaticJs this way is vulnurable to deadlocks when given looping code, and can introduce security complications where VM code can be unexpectedly invoked through interacting with the resulting values (eg: property getters and setters).
+StaticJs provides quick functions for evaluating simple code: `evaluateExpressionSync` and `evaluateScriptSync`. These functions take strings as their first argument, and return a [coerced native value](docs/03-type-coersion.md).
 
-StaticJs provides quick functions for evaluating simple code: `evaluateExpressionSync`, `evaluateScriptSync`, and `evaluateModule`. These functions take strings as their first argument, and return a promise to the [coerced native value](docs/03-type-coersion.md).
-
-Note that these functions will drain all microtasks enqueued during their evaluation before returning. This means that any promise resolutions in the scripts will run to completion.
+Note that these functions will drain all microtasks enqueued during their evaluation before returning. This means that any promise resolutions in the scripts will also be ran to completion.
 
 ```ts
 import { evaluateExpressionSync } from "@suntime-js/core";
@@ -75,11 +74,15 @@ import { evaluateExpressionSync } from "@suntime-js/core";
 const result = evaluateExpressionSync("2 + 2");
 ```
 
+For ECMAScript Modules, `evaluateModule` will take a source string as its first argument, and return a promise that resolves to a [StaticJsModule](./docs/05-modules.md#staticjsmodule-type)
+
+**Warning**: Using StaticJs this way is vulnurable to deadlocks with infinite loops, and can introduce security complications where VM code can be unexpectedly invoked through interacting with the resulting values (eg: property getters and setters).
+
 For more information, see [Quick Start](docs/01-quick-start.md).
 
 ## Detailed Usage
 
-The primary way of interacting with StaticJs is through using a [StaticJsRealm](./04-realms.md).
+The primary way of interacting with StaticJs is through using a [StaticJsRealm](./docs/04-realms.md).
 
 This gives you full control of the evaluation, including pausing execution, debugging, enforcing time or operation count limits, and configuring the global environment.
 
