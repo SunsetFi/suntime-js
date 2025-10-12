@@ -1,5 +1,5 @@
-export * from "./StaticJsConcurrentEvaluationError.js";
-export * from "./StaticJsEngineError.js";
-export * from "./StaticJsSyntaxError.js";
-export * from "./StaticJsRuntimeError.js";
-export * from "./StaticJsTaskAbortedError.js";
+export { default as StaticJsConcurrentEvaluationError } from "./StaticJsConcurrentEvaluationError.js";
+export { default as StaticJsEngineError } from "./StaticJsEngineError.js";
+export { default as StaticJsSyntaxError } from "./StaticJsSyntaxError.js";
+export { default as StaticJsRuntimeError } from "./StaticJsRuntimeError.js";
+export { default as StaticJsTaskAbortedError } from "./StaticJsTaskAbortedError.js";
