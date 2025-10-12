@@ -1,4 +1,4 @@
-import StaticJsParseError from "../errors/StaticJsParseError.js";
+import StaticJsSyntaxError from "../errors/StaticJsSyntaxError.js";
 
 export default function handleParseError(
   e: unknown,
@@ -16,5 +16,5 @@ export default function handleParseError(
 
   // FIXME: What type of errors does @babel/parser throw?
   // Expose stuff like line/column numbers
-  throw new StaticJsParseError(message);
+  throw new StaticJsSyntaxError(message);
 }

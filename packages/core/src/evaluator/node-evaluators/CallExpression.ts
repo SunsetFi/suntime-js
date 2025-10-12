@@ -2,6 +2,7 @@ import { isIdentifier, type Node, type CallExpression } from "@babel/types";
 
 import parseScript from "../../parser/parse-script.js";
 
+import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
@@ -12,6 +13,7 @@ import iteratorStepValue from "../../runtime/algorithms/iterator-step-value.js";
 import toString from "../../runtime/algorithms/to-string.js";
 
 import StaticJsDirectEvalEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDirectEvalEnvironmentRecord.js";
+import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -22,7 +24,6 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import nameNode from "./name-node.js";
 import setupEnvironment from "./setup-environment.js";
-import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 export default function* callExpressionNodeEvaluator(
   node: CallExpression,
@@ -112,7 +113,7 @@ function* callEvalEvaluator(
   try {
     node = parseScript(str.value);
   } catch (e: unknown) {
-    if (e instanceof SyntaxError) {
+    if (e instanceof StaticJsSyntaxError) {
       throw new ThrowCompletion(realm.types.error("SyntaxError", e.message));
     }
 

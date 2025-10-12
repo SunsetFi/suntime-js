@@ -1,5 +1,7 @@
 import type { Node } from "@babel/types";
 
+import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
+
 import parseScript from "../../parser/parse-script.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
@@ -25,7 +27,7 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
     try {
       node = parseScript(str.value);
     } catch (e: unknown) {
-      if (e instanceof SyntaxError) {
+      if (e instanceof StaticJsSyntaxError) {
         throw new ThrowCompletion(realm.types.error("SyntaxError", e.message));
       }
 

@@ -5,7 +5,7 @@ import StaticJsRealm from "../../runtime/realm/factories/StaticJsRealm.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
-import StaticJsParseError from "../../errors/StaticJsParseError.js";
+import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
 
 /**
  * Evaluates a string as a javascript program, and returns the result.
@@ -32,7 +32,7 @@ export async function evaluateScript(
     let error = e;
     if (error instanceof StaticJsRuntimeError) {
       error = error.thrown.toJsSync();
-    } else if (error instanceof StaticJsParseError) {
+    } else if (error instanceof StaticJsSyntaxError) {
       error = new SyntaxError(error.message);
     }
 
@@ -71,7 +71,7 @@ export function evaluateScriptSync(
 
     if (error instanceof StaticJsRuntimeError) {
       error = error.thrown.toJsSync();
-    } else if (error instanceof StaticJsParseError) {
+    } else if (error instanceof StaticJsSyntaxError) {
       throw new SyntaxError(error.message);
     }
 
