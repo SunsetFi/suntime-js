@@ -10,7 +10,7 @@ import getFilesSync from "./utils/get-files.js";
 
 import bootstrapTest262 from "./utils/bootstrap.js";
 
-import { StaticJsRealm } from "../../src/index.js";
+import { StaticJsRealm, createTimeBoundTaskRunner } from "../../src/index.js";
 
 const LanguageCategories = readdirSync(test262Path("test/language"));
 
@@ -44,14 +44,13 @@ function defineTest(test: string) {
   const testMeta = parseTest262(testContents);
 
   if (!testMeta.isATest) {
-    it.skip("Not a test: " + test, () => {});
     return;
   }
 
-  if (testMeta.async) {
-    it.skip("Ignored async test: " + testName, () => {});
-    return;
-  }
+  // if (testMeta.async) {
+  //   it.skip("Ignored async test: " + testName, () => {});
+  //   return;
+  // }
 
   if (testMeta.attrs.negative?.type === "resolution") {
     it.skip("Ignored negative resolution test: " + testName, () => {});
@@ -77,7 +76,9 @@ function defineTest(test: string) {
   // (Unless noStrict, onlyStrict, module, raw)
   // See repo/INTERPRETING.md
   it(testName, async () => {
-    const realm = StaticJsRealm();
+    const realm = StaticJsRealm({
+      runTask: createTimeBoundTaskRunner({ maxRunTime: 5000 }),
+    });
     createHostApi(realm);
 
     const includes = testMeta.attrs.includes;
@@ -86,8 +87,33 @@ function defineTest(test: string) {
     }
     await bootstrapTest262(realm, includes);
 
+    // This isn't documented in INTERPRETING.md,
+    // I can only infer its extistence from CONTRIBUTING.md
+    let awaitPromise: Promise<void> = Promise.resolve();
+    if (testMeta.async) {
+      awaitPromise = new Promise((resolve, reject) => {
+        realm.global.definePropertySync("$DONE", {
+          writable: true,
+          configurable: true,
+          enumerable: false,
+          value: realm.types.toStaticJsValue((err?: unknown) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(undefined);
+            }
+          }),
+        });
+      });
+    }
+
     try {
-      await runTimeBound(testMeta.contents, realm, 3000);
+      await realm.evaluateScript(testMeta.contents);
+      await Promise.race([
+        awaitPromise,
+        delay(5000).then(() => Promise.reject(new Error("Test timed out"))),
+      ]);
+
       if (testMeta.attrs.negative) {
         throw new Error("Test should have failed to run, but it did not.");
       }
@@ -107,33 +133,60 @@ function defineTest(test: string) {
 }
 
 function createHostApi(realm: StaticJsRealm) {
-  realm.global.definePropertySync("print", {
+  const hostDefinedProperty = {
     writable: true,
     configurable: true,
     enumerable: false,
+  } as const;
+  realm.global.definePropertySync("print", {
+    ...hostDefinedProperty,
     value: realm.types.toStaticJsValue((value: string) => console.log(value)),
+  });
+  realm.global.definePropertySync("$262", {
+    ...hostDefinedProperty,
+    value: realm.types.object({
+      createRealm: {
+        ...hostDefinedProperty,
+        value: realm.types.toStaticJsValue(() => {
+          const realm = StaticJsRealm({
+            runTask: createTimeBoundTaskRunner({ maxRunTime: 5000 }),
+          });
+          createHostApi(realm);
+        }),
+      },
+      detatchArrayBuffer: {
+        ...hostDefinedProperty,
+        value: realm.types.toStaticJsValue(() => {
+          throw new Error("Not implemented: detatchArrayBuffer");
+        }),
+      },
+      evalScript: {
+        ...hostDefinedProperty,
+        value: realm.types.toStaticJsValue((code: string) => {
+          // FIXME: By nature we are currently running a script,
+          // so this will throw because we don't support evaluateScriptSync
+          // while another script is running.
+          // I guess this is something we need to support?
+          const result = realm.evaluateScriptSync(code);
+          return result;
+        }),
+      },
+      gc: {
+        ...hostDefinedProperty,
+        value: realm.types.toStaticJsValue(() => {
+          throw new Error("No garbage collection mechanism implemented");
+        }),
+      },
+      global: {
+        ...hostDefinedProperty,
+        value: realm.global,
+      },
+    }),
   });
 }
 
-async function runTimeBound(
-  code: string,
-  realm: StaticJsRealm,
-  timeout: number,
-) {
-  const start = performance.now();
-  return await realm.evaluateScript(code, {
-    runTask(task) {
-      while (true) {
-        const elapsed = performance.now() - start;
-        if (elapsed > timeout) {
-          task.abort();
-          return;
-        }
-        const { done } = task.next();
-        if (done) {
-          return;
-        }
-      }
-    },
+function delay(ms: number) {
+  return new Promise<void>((resolve) => {
+    setTimeout(() => resolve(), ms);
   });
 }

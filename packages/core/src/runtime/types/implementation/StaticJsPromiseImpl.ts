@@ -32,6 +32,7 @@ export default class StaticJsPromiseImpl
   private _result: StaticJsValue | null = null;
   private _fulfullReactions: ReactionRecord[] = [];
   private _rejectReactions: ReactionRecord[] = [];
+  private _clearUncaughtError: (() => void) | null = null;
 
   constructor(
     realm: StaticJsRealm,
@@ -68,8 +69,12 @@ export default class StaticJsPromiseImpl
     this._state = "rejected";
     this._result = reason;
 
-    for (const reaction of this._rejectReactions) {
-      queuePromiseReactionJob(this.realm, reaction, reason);
+    if (this._rejectReactions.length === 0) {
+      this._clearUncaughtError = this.realm.raiseUnhandledRejection(reason);
+    } else {
+      for (const reaction of this._rejectReactions) {
+        queuePromiseReactionJob(this.realm, reaction, reason);
+      }
     }
 
     this._fulfullReactions = [];
@@ -111,6 +116,7 @@ export default class StaticJsPromiseImpl
         queuePromiseReactionJob(this.realm, fulfillReaction, this._result!);
         break;
       case "rejected":
+        this._clearUncaughtError?.();
         queuePromiseReactionJob(this.realm, rejectReaction, this._result!);
         break;
     }

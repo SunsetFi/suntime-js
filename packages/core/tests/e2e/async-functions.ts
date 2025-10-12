@@ -29,7 +29,10 @@ describe("E2E: Async functions", () => {
       async function test() {
         throw new Error("Test error");
       }
-      test();
+      const result = test();
+      // Prevent unhandled rejection
+      result.catch(() => {});
+      result;
     `;
 
     const result = await realm.evaluateScript(code);

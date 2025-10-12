@@ -24,13 +24,6 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
     super(realm, name, argumentDeclarations, context, body);
   }
 
-  protected *_createContext(
-    _thisArg: StaticJsValue,
-    args: StaticJsValue[],
-  ): EvaluationGenerator<EvaluationContext> {
-    return yield* super._createContext(this.realm.types.undefined, args);
-  }
-
   *constructEvaluator(): EvaluationGenerator<StaticJsValue> {
     const nameValue = yield* this.getPropertyEvaluator("name");
     let name = nameValue.toStringSync();
@@ -41,5 +34,12 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
     throw new ThrowCompletion(
       this.realm.types.error("TypeError", `${name} is not a constructor`),
     );
+  }
+
+  protected *_createContext(
+    _thisArg: StaticJsValue,
+    args: StaticJsValue[],
+  ): EvaluationGenerator<EvaluationContext> {
+    return yield* super._createContext(this.realm.types.undefined, args);
   }
 }

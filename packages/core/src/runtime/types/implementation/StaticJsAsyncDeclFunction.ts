@@ -49,7 +49,10 @@ export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
     yield* setupEnvironment(this._body, functionContext);
 
     const evaluator = EvaluateNodeCommand(this._body, functionContext);
-    const invocation = new AsyncEvaluatorInvocation(evaluator, functionContext);
+    const invocation = new AsyncEvaluatorInvocation(
+      evaluator,
+      functionContext.realm,
+    );
 
     yield* invocation.start();
 

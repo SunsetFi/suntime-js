@@ -1,6 +1,10 @@
 import { describe, it, expect, vitest } from "vitest";
 
-import { StaticJsRealm, evaluateModule } from "../../src/index.js";
+import {
+  StaticJsRealm,
+  StaticJsSyntaxError,
+  evaluateModule,
+} from "../../src/index.js";
 
 describe("E2E: Module", () => {
   it("Throws ReferenceError when a module is not found", async () => {
@@ -340,6 +344,69 @@ describe("E2E: Module", () => {
 
       await evaluateModule(programCode, { realm });
       expect(receiver).toBeCalledWith([0, 4]);
+    });
+
+    // FIXME: Make this work.
+    // Should be easy.  This is a sign we are not caching the module resolutions.
+    it.skip("Throws on circular dependencies", async () => {
+      const realm = StaticJsRealm({
+        modules: {
+          "module-1": `import { a } from "module-2"; export const b = 42;`,
+          "module-2": `import { b } from "module-1"; export const a = 64;`,
+        },
+      });
+      await expect(
+        evaluateModule('import { value } from "module-1";', { realm }),
+      ).rejects.toThrow(/circular/);
+    });
+
+    it("Throws on syntax errors", async () => {
+      expect(() =>
+        StaticJsRealm({
+          modules: {
+            "module-1": `export const a = ;`,
+          },
+        }),
+      ).toThrow(StaticJsSyntaxError);
+    });
+
+    it("Supports top-level await", async () => {
+      const receiver = vitest.fn();
+      let resolver: (() => void) | undefined = undefined;
+      const realm = StaticJsRealm({
+        globalObject: {
+          value: {
+            setValue: receiver,
+            setResolver: (r: () => void) => {
+              resolver = r;
+            },
+          },
+        },
+        modules: {
+          "module-1": `
+            await new Promise((r) => setResolver(r));
+            export const value = 42;
+          `,
+        },
+      });
+
+      const code = `import { value } from "module-1"; setValue(value);`;
+
+      let moduleResolved = false;
+      evaluateModule(code, { realm }).then(() => (moduleResolved = true));
+
+      await delay(0);
+
+      expect(moduleResolved).toBe(false);
+      expect(receiver).not.toBeCalled();
+      expect(resolver).toBeDefined();
+
+      resolver!();
+
+      await delay(0);
+
+      expect(moduleResolved).toBe(true);
+      expect(receiver).toBeCalledWith(42);
     });
   });
 

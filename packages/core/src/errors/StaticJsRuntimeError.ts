@@ -1,13 +1,17 @@
+import { isStaticJsString } from "../runtime/types/StaticJsString.js";
 import { isStaticJsObjectLike } from "../runtime/types/StaticJsObjectLike.js";
 import { isStaticJsScalar } from "../runtime/types/StaticJsScalar.js";
 import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
 
 export default class StaticJsRuntimeError extends Error {
-  constructor(private readonly _thrown: StaticJsValue) {
+  constructor(
+    private readonly _thrown: StaticJsValue,
+    prefix: string = "Runtime Error: ",
+  ) {
     super("StaticJsRuntimeError");
-
-    this.name = getName(this._thrown);
-    this.message = getMessage(this._thrown);
+    this.name = "StaticJsRuntimeError";
+    this.message =
+      prefix + getName(this._thrown) + ": " + getMessage(this._thrown);
   }
 
   get thrown(): StaticJsValue {
@@ -24,20 +28,24 @@ export default class StaticJsRuntimeError extends Error {
 
 function getName(value: StaticJsValue): string {
   if (!isStaticJsObjectLike(value)) {
-    return `StaticJsRuntimeError: [${value.runtimeTypeOf}]`;
+    return `[${value.runtimeTypeOf}]`;
   }
 
   const hasName = value.hasPropertySync("name");
   if (hasName) {
     const name = value.getPropertySync("name");
     if (!isStaticJsScalar(name)) {
-      return `StaticJsRuntimeError: [${value.runtimeTypeOf}]`;
+      return `[${value.runtimeTypeOf}]`;
     }
 
-    return `StaticJsRuntimeError: [${name.toStringSync()}]`;
+    if (isStaticJsString(name)) {
+      return name.value;
+    }
+
+    return `[${name.toStringSync()}]`;
   }
 
-  return `StaticJsRuntimeError: [${value.runtimeTypeOf}]`;
+  return `[${value.runtimeTypeOf}]`;
 }
 
 function getMessage(value: StaticJsValue): string {

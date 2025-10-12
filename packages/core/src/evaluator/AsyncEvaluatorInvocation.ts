@@ -1,5 +1,7 @@
 import StaticJsEngineError from "../errors/StaticJsEngineError.js";
 
+import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
+
 import type { PromiseCapabilityRecord } from "../runtime/algorithms/new-promise-capability.js";
 import newPromiseCapability from "../runtime/algorithms/new-promise-capability.js";
 
@@ -15,7 +17,6 @@ import type { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
 import { ReturnCompletion } from "./completions/ReturnCompletion.js";
 import { ThrowCompletion } from "./completions/ThrowCompletion.js";
 
-import type EvaluationContext from "./EvaluationContext.js";
 import type EvaluationGenerator from "./EvaluationGenerator.js";
 
 export default class AsyncEvaluatorInvocation {
@@ -23,14 +24,32 @@ export default class AsyncEvaluatorInvocation {
   private _state: "pending" | "started" | "running" | "awaiting" | "halted" =
     "pending";
 
+  private _callbacks: ((
+    value: StaticJsValue,
+    error?: StaticJsValue,
+  ) => void)[] = [];
+
   constructor(
     private readonly _evaluator: EvaluationGenerator,
-    private readonly _context: EvaluationContext,
+    private readonly _realm: StaticJsRealm,
     private readonly _resolveToEvaluatorResult: boolean = false,
   ) {}
 
   get promise(): StaticJsPromise {
     return this._capability.promise;
+  }
+
+  onComplete(
+    callback: (value: StaticJsValue, error?: StaticJsValue) => void,
+  ): void {
+    if (this._state === "halted") {
+      // We can take a reference to the result and return it to callback here if we really need to.
+      throw new StaticJsEngineError(
+        "Async function can not be listened to after it has completed.",
+      );
+    }
+
+    this._callbacks.push(callback);
   }
 
   *start(): EvaluationGenerator<StaticJsPromise> {
@@ -41,8 +60,8 @@ export default class AsyncEvaluatorInvocation {
     this._state = "started";
 
     this._capability = yield* newPromiseCapability(
-      this._context.realm.types.constructors.Promise,
-      this._context.realm,
+      this._realm.types.constructors.Promise,
+      this._realm,
     );
 
     // We start evaluating immediately, not on a microtask.
@@ -77,7 +96,7 @@ export default class AsyncEvaluatorInvocation {
 
         if (done) {
           // Hit the end of the generator, no more function to run.
-          let result: StaticJsValue = this._context.realm.types.undefined;
+          let result: StaticJsValue = this._realm.types.undefined;
           if (this._resolveToEvaluatorResult && value != null) {
             result = value;
           }
@@ -104,7 +123,7 @@ export default class AsyncEvaluatorInvocation {
 
       if (e instanceof ReturnCompletion) {
         // Function had a return statement, resolve the promise with it.
-        yield* this._resolve(e.value ?? this._context.realm.types.undefined);
+        yield* this._resolve(e.value ?? this._realm.types.undefined);
         return;
       }
 
@@ -123,7 +142,7 @@ export default class AsyncEvaluatorInvocation {
 
     this._state = "awaiting";
 
-    const realm = this._context.realm;
+    const realm = this._realm;
     const continueInvocation = this._continue.bind(this);
 
     if (isStaticJsObjectLike(awaitable)) {
@@ -153,7 +172,7 @@ export default class AsyncEvaluatorInvocation {
     }
 
     // For everything else, continue on the next microtask.
-    this._context.realm.enqueueMicrotask(function* () {
+    this._realm.enqueueMicrotask(function* () {
       yield* continueInvocation(awaitable);
     });
   }
@@ -166,9 +185,15 @@ export default class AsyncEvaluatorInvocation {
     this._halt();
 
     yield* this._capability.resolve.callEvaluator(
-      this._context.realm.types.undefined,
+      this._realm.types.undefined,
       value,
     );
+
+    this._callbacks.forEach((callback) => {
+      callback(value);
+    });
+
+    this._callbacks = [];
   }
 
   private *_reject(reason: StaticJsValue): EvaluationGenerator<void> {
@@ -178,10 +203,15 @@ export default class AsyncEvaluatorInvocation {
 
     this._halt();
 
-    yield* this._capability.reject.callEvaluator(
-      this._context.realm.types.undefined,
-      reason,
-    );
+    const result = this._realm.types.undefined;
+
+    yield* this._capability.reject.callEvaluator(result, reason);
+
+    this._callbacks.forEach((callback) => {
+      callback(result, reason);
+    });
+
+    this._callbacks = [];
   }
 
   private _halt() {

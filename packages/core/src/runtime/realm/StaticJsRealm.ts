@@ -35,7 +35,7 @@ export interface StaticJsEvaluateScriptOptions extends StaticJsRunTaskOptions {
    * If false or omitted, top-level await is not supported and will throw a syntax error if used.
    *
    * Default: false
-   * @see {@link StaticJsRealm.evaluateScript}
+   * @see {@link StaticJsRealm["evaluateScript"]}
    */
   topLevelAwait?: boolean | "auto";
 }
@@ -143,6 +143,14 @@ export interface StaticJsRealm {
   /*
   The below is all internal.  We could isolate this from the public API using a different interface.
   */
+
+  /**
+   * Raises an uncaught error in the realm.
+   * @param error The error to raise.
+   * @returns A function that, when called, will clear the uncaught error.
+   * @internal
+   */
+  raiseUnhandledRejection(error: StaticJsValue): () => void;
 
   /**
    * A function to resolve an imported ECMAScript Module given a referencing module

@@ -1,3 +1,5 @@
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
+
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsModule } from "../../modules/StaticJsModule.js";
@@ -92,6 +94,13 @@ export interface StaticJsRealmOptions {
    * This must be done synchronously.  Failure to complete the task will result in an error.
    */
   runTaskSync?: StaticJsTaskRunner;
+
+  /**
+   * Invoked when an unhandled promise rejection occurs.
+   * This will implicitly handle the rejection.  If desired, you may re-throw a StaticJsUnhandledRejectionError to propagate the error.
+   * @param value The value with which the promise was rejected.
+   */
+  onUnhandledRejection?: (value: StaticJsValue) => Promise<void>;
 }
 
 /**

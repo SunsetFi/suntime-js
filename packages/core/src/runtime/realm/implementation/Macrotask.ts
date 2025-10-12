@@ -1,7 +1,10 @@
 import type { Node } from "@babel/types";
 
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
+
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 import StaticJsTaskAbortedError from "../../../errors/StaticJsTaskAbortedError.js";
+import StaticJsUnhandledRejectionError from "../../../errors/StaticJsUnhandledRejectionError.js";
 
 import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
@@ -20,6 +23,8 @@ export default class Macrotask {
 
   private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";
   private _macrotaskCompletionValue: unknown | undefined = undefined;
+  private _uncaughtErrors: StaticJsValue[] = [];
+
   private _acceptPromise!: (value: unknown) => void;
   private _rejectPromise!: (reason?: unknown) => void;
 
@@ -67,6 +72,22 @@ export default class Macrotask {
     }
 
     this._microtasks.push(evaluator);
+  }
+
+  raiseUnhandledRejection(error: StaticJsValue): () => void {
+    if (this._status !== "running") {
+      throw new StaticJsEngineError(
+        `Cannot raise an uncaught error when task is not running.  Current status: ${this._status}`,
+      );
+    }
+
+    this._uncaughtErrors.push(error);
+    return () => {
+      const index = this._uncaughtErrors.indexOf(error);
+      if (index !== -1) {
+        this._uncaughtErrors.splice(index, 1);
+      }
+    };
   }
 
   invoke() {
@@ -241,6 +262,13 @@ export default class Macrotask {
       throw new StaticJsEngineError(
         `Cannot accept a task that is not running.  Current status: ${this._status}`,
       );
+    }
+
+    if (this._uncaughtErrors.length > 0) {
+      this._reject(
+        new StaticJsUnhandledRejectionError(this._uncaughtErrors[0]),
+      );
+      return;
     }
 
     this._status = "fulfilled";

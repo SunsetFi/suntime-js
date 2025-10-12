@@ -10,16 +10,24 @@ import parseExpression from "../../../parser/parse-expression.js";
 
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
-import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
+import StaticJsSyntaxError from "../../../errors/StaticJsSyntaxError.js";
+
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 import StaticJsConcurrentEvaluationError from "../../../errors/StaticJsConcurrentEvaluationError.js";
 
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
-import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
+
+import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
+
 import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
+
+import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
+
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
+
+import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
 import type { StaticJsEnvironment } from "../../environments/StaticJsEnvironment.js";
 import StaticJsGlobalEnvironmentRecord from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
@@ -76,8 +84,7 @@ import type {
 } from "../StaticJsRealm.js";
 
 import Macrotask from "./Macrotask.js";
-import StaticJsSyntaxError from "../../../errors/StaticJsSyntaxError.js";
-import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
+import StaticJsUnhandledRejectionError from "../../../errors/StaticJsUnhandledRejectionError.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;
@@ -96,6 +103,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   private readonly _defaultRunTask: StaticJsTaskRunner;
   private readonly _defaultRunTaskSync: StaticJsTaskRunner;
+  private readonly _defaultOnUnhandledRejection: (
+    value: StaticJsValue,
+  ) => void | Promise<void>;
 
   private _invokeEvaluatorSyncDepth = 0;
   private _invokeEvaluatorSyncMicrotasks: (() => EvaluationGenerator<void>)[] =
@@ -110,10 +120,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     resolveImportedModule: resolveModule,
     runTask,
     runTaskSync,
+    onUnhandledRejection,
   }: StaticJsRealmOptions = {}) {
     this._externalResolveModule = resolveModule;
     this._defaultRunTask = runTask ?? defaultTaskRunner;
     this._defaultRunTaskSync = runTaskSync ?? defaultTaskRunner;
+    this._defaultOnUnhandledRejection = onUnhandledRejection ?? (() => {});
 
     // Note: We could check to see if globalObject has factories or prototypes and use them
     // instead of these.
@@ -232,6 +244,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     opts?: StaticJsRunTaskOptions,
   ): StaticJsValue {
     if (this._currentTask) {
+      // FIXME: This should be allowed.  Use this for eval?
+      // test262 wants realms to be able to do this.
       throw new StaticJsConcurrentEvaluationError();
     }
 
@@ -259,7 +273,55 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     // Bit weird that we link immediately instead of when we are ready to perform the task?
     await module.linkModules();
 
-    return await this.enqueueMacrotask(doEvaluateModule(module), opts);
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const realm = this;
+
+    let moduleEvaluationResolve!: (value: StaticJsModule) => void;
+    let moduleEvaluationReject!: (err: unknown) => void;
+    const moduleEvaluationCompleted = new Promise<StaticJsModule>(
+      (accept, rej) => {
+        moduleEvaluationResolve = accept;
+        moduleEvaluationReject = rej;
+      },
+    );
+
+    // Start the module evaluation.
+    // The evaluation can be asynchronous, so this might not evaluate everything.
+    // FIXME (maybe): It might be suprising that resumes of the async will run on
+    // the runTask of the resumption, not on the one passed to us.
+    function* beginModuleEvaluation(): EvaluationGenerator<void> {
+      try {
+        yield* module.moduleDeclarationInstantiationEvaluator();
+
+        const evaluator = module.moduleEvaluationEvaluator();
+        const invocation = new AsyncEvaluatorInvocation(evaluator, realm);
+        invocation.onComplete((_value, err) => {
+          if (err) {
+            // invocation is promise-like, so reinterpret the rejected error as a ThrowCompletion
+            // This is so that it gets handled correctly as a thrown runtime error.
+            moduleEvaluationReject(new ThrowCompletion(err));
+          } else {
+            moduleEvaluationResolve(module);
+          }
+        });
+
+        // Note: This does its own error capture, and will not throw.
+        yield* invocation.start();
+      } catch (e) {
+        moduleEvaluationReject(e);
+      }
+    }
+
+    await this.enqueueMacrotask(beginModuleEvaluation, opts);
+
+    try {
+      return await moduleEvaluationCompleted;
+    } catch (e) {
+      if (e instanceof AbnormalCompletion) {
+        throw e.toRuntime();
+      }
+      throw e;
+    }
   }
 
   async awaitCurrentTask() {
@@ -284,6 +346,14 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         this._idleCallbacks.push(accept);
       });
     });
+  }
+
+  raiseUnhandledRejection(error: StaticJsValue): () => void {
+    if (this._currentTask) {
+      return this._currentTask.raiseUnhandledRejection(error);
+    }
+
+    throw new StaticJsUnhandledRejectionError(error);
   }
 
   async resolveImportedModule(
@@ -332,11 +402,11 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   enqueueMacrotask<TReturn>(
-    evaluator: EvaluationGenerator<TReturn>,
+    evaluator: StaticJsEvaluator<TReturn>,
     { runTask = this._defaultRunTask } = {},
   ): Promise<TReturn> {
     const macrotask = new Macrotask(
-      () => evaluator,
+      typeof evaluator === "function" ? evaluator : () => evaluator,
       runTask,
       (task) => this._assertTaskRunning(task),
     );
@@ -354,6 +424,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     { runTask = this._defaultRunTaskSync }: StaticJsRunTaskOptions = {},
   ): TReturn {
     if (this._currentTask) {
+      // FIXME: This should be allowed.  Use this for eval?
+      // Get rid of this restriction, and use this in place of invokeEvaluatorSync.
       throw new StaticJsEngineError(
         "Cannot invoke a macrotask synchronously while another task is running.",
       );
@@ -561,15 +633,8 @@ function realmModuleToModule(
   module: StaticJsModuleResolution,
 ): StaticJsModuleImplementation {
   if (typeof module === "string") {
-    try {
-      const parsed = parseModule(module);
-      return new StaticJsModuleImpl(specifier, parsed.program, realm);
-    } catch {
-      // FIXME: Handle syntax errors better.
-      throw new StaticJsRuntimeError(
-        realm.types.error("SyntaxError", "Failed to parse module source code."),
-      );
-    }
+    const parsed = parseModule(module);
+    return new StaticJsModuleImpl(specifier, parsed.program, realm);
   } else if (isStaticJsModuleImplementation(module)) {
     return module;
   } else if (isStaticJsModule(module)) {
@@ -702,25 +767,9 @@ function* doEvaluateNodeAsync(
   try {
     yield* setupEnvironment(node, context);
     const evaluator = EvaluateNodeCommand(node, context);
-    const invocation = new AsyncEvaluatorInvocation(evaluator, context, true);
+    const invocation = new AsyncEvaluatorInvocation(evaluator, realm, true);
     yield* invocation.start();
     return invocation.promise;
-  } catch (e) {
-    if (e instanceof AbnormalCompletion) {
-      throw e.toRuntime();
-    }
-
-    throw e;
-  }
-}
-
-function* doEvaluateModule(
-  module: StaticJsModuleImpl,
-): EvaluationGenerator<StaticJsModule> {
-  try {
-    yield* module.moduleDeclarationInstantiationEvaluator();
-    yield* module.moduleEvaluationEvaluator();
-    return module;
   } catch (e) {
     if (e instanceof AbnormalCompletion) {
       throw e.toRuntime();

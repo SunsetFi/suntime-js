@@ -2,7 +2,7 @@ import type { BlockStatement } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import type { StaticJsValue } from "../../runtime/index.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 

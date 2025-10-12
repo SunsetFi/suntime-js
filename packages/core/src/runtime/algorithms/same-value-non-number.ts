@@ -1,4 +1,4 @@
-import { isStaticJsBoolean } from "../types/index.js";
+import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsString } from "../types/StaticJsString.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 

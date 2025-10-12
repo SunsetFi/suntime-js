@@ -4,6 +4,7 @@ import {
   evaluateScript,
   type StaticJsFunction,
   StaticJsRealm,
+  StaticJsUnhandledRejectionError,
 } from "../../src/index.js";
 
 describe("E2E: Promises", () => {
@@ -88,7 +89,7 @@ describe("E2E: Promises", () => {
       const code = `
         let reject;
         const p = new Promise((_, r) => {reject = r});
-        p.then(() => {callback()});
+        p.then(() => {callback()}, () => {});
         reject;
       `;
 
@@ -126,5 +127,18 @@ describe("E2E: Promises", () => {
 
       expect(cb).toBeCalled();
     });
+  });
+
+  it("Captures unhandled rejections", async () => {
+    const code = `
+      const p = Promise.resolve(1);
+      p.then(() => { throw new Error("Rejected!") });
+    `;
+
+    const realm = StaticJsRealm();
+
+    expect(() => realm.evaluateScript(code)).rejects.toThrow(
+      StaticJsUnhandledRejectionError,
+    );
   });
 });
