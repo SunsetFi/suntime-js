@@ -7,8 +7,6 @@ import {
   type IntrinsicPropertyDeclaration,
 } from "../../utils.js";
 
-import type { IntrinsicSymbols, Prototypes } from "../../intrinsics.js";
-
 import stringProtoCharAtDeclaration from "./charAt.js";
 import stringProtoCharCodeAtDeclaration from "./charCodeAt.js";
 import stringProtoConcatDeclaration from "./concat.js";
@@ -66,14 +64,6 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 export default function populateStringPrototype(
   realm: StaticJsRealm,
   stringProto: StaticJsObject,
-  prototypes: Prototypes,
-  intrinsicSymbols: IntrinsicSymbols,
 ) {
-  applyIntrinsicProperties(
-    realm,
-    stringProto,
-    declarations,
-    prototypes,
-    intrinsicSymbols,
-  );
+  applyIntrinsicProperties(realm, stringProto, declarations);
 }

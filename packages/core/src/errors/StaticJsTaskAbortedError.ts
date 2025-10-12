@@ -1,4 +1,4 @@
-export class StaticJsTaskAbortedError extends Error {
+export default class StaticJsTaskAbortedError extends Error {
   /**
    * Creates a new StaticJsTaskAbortedError.
    * @param message The error message.

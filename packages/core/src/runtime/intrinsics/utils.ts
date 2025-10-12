@@ -11,15 +11,10 @@ import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
-import type { IntrinsicSymbols, Prototypes } from "./intrinsics.js";
-
 export interface IntrinsicPropertyDeclarationBase {
   key:
     | StaticJsObjectPropertyKey
-    | ((
-        realm: StaticJsRealm,
-        symbols: IntrinsicSymbols,
-      ) => StaticJsObjectPropertyKey);
+    | ((realm: StaticJsRealm) => StaticJsObjectPropertyKey);
   enumerable?: boolean;
   configurable?: boolean;
   writable?: boolean;
@@ -74,13 +69,11 @@ export function applyIntrinsicProperties(
   realm: StaticJsRealm,
   obj: StaticJsObjectLike,
   properties: IntrinsicPropertyDeclaration[],
-  prototypes: Prototypes,
-  symbols: IntrinsicSymbols,
 ) {
   for (const prop of properties) {
     let key: StaticJsObjectPropertyKey;
     if (typeof prop.key === "function") {
-      key = prop.key(realm, symbols);
+      key = prop.key(realm);
     } else {
       key = prop.key;
     }
@@ -99,9 +92,7 @@ export function applyIntrinsicProperties(
       ) => prop.func(realm, thisArg, ...args);
 
       obj.definePropertySync(key, {
-        value: new StaticJsFunctionImpl(realm, name ?? "anonymous", func, {
-          prototype: prototypes.functionProto,
-        }),
+        value: new StaticJsFunctionImpl(realm, name ?? "anonymous", func),
         enumerable: prop.enumerable ?? false,
         configurable: prop.configurable ?? true,
         writable: prop.writable ?? true,
@@ -117,23 +108,13 @@ export function applyIntrinsicProperties(
     } else if (isAccessorIntrinsicPropertyDeclaration(prop)) {
       obj.definePropertySync(key, {
         get: prop.get
-          ? new StaticJsFunctionImpl(
-              realm,
-              "get",
-              (thisArg) => prop.get!(realm, thisArg),
-              {
-                prototype: prototypes.functionProto,
-              },
+          ? new StaticJsFunctionImpl(realm, "get", (thisArg) =>
+              prop.get!(realm, thisArg),
             )
           : undefined,
         set: prop.set
-          ? new StaticJsFunctionImpl(
-              realm,
-              "set",
-              (thisArg, value) => prop.set!(realm, thisArg, value),
-              {
-                prototype: prototypes.functionProto,
-              },
+          ? new StaticJsFunctionImpl(realm, "set", (thisArg, value) =>
+              prop.set!(realm, thisArg, value),
             )
           : undefined,
         enumerable: prop.enumerable ?? false,

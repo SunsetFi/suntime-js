@@ -6,12 +6,9 @@ import StaticJsStringBoxed from "../../types/implementation/StaticJsStringBoxed.
 
 import toString from "../../algorithms/to-string.js";
 
-import type { Prototypes } from "../intrinsics.js";
-
 export default function createStringConstructor(
   realm: StaticJsRealm,
   stringProto: StaticJsObject,
-  prototypes: Prototypes,
 ) {
   const ctor = new StaticJsFunctionImpl(
     realm,
@@ -21,7 +18,6 @@ export default function createStringConstructor(
       return new StaticJsStringBoxed(realm, str.value);
     },
     {
-      prototype: prototypes.functionProto,
       *construct(_thisArg, value) {
         const str = yield* toString.js(value ?? realm.types.undefined, realm);
         return new StaticJsStringBoxed(realm, str);

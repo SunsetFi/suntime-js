@@ -6,7 +6,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
-  key: (_realm, symbols) => symbols.iterator,
+  key: (realm) => realm.types.symbols.iterator,
   *func(realm, thisArg) {
     let index = 0;
 

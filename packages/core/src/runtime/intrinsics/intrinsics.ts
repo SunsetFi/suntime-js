@@ -37,10 +37,6 @@ export interface Constructors {
   RangeError: StaticJsFunction;
 }
 
-export interface Statics {
-  Math: StaticJsObject;
-}
-
 export interface IntrinsicSymbols {
   asyncDispose: StaticJsSymbol;
   asyncIterator: StaticJsSymbol;
@@ -58,11 +54,4 @@ export interface IntrinsicSymbols {
   toPrimitive: StaticJsSymbol;
   toStringTag: StaticJsSymbol;
   unscopables: StaticJsSymbol;
-}
-
-export interface Intrinsics {
-  prototypes: Prototypes;
-  constructors: Constructors;
-  statics: Statics;
-  symbols: IntrinsicSymbols;
 }

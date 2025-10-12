@@ -1,9 +1,10 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
-import type { IntrinsicSymbols, Prototypes } from "../../intrinsics.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-import { applyIntrinsicProperties } from "../../utils.js";
+import {
+  type IntrinsicPropertyDeclaration,
+  applyIntrinsicProperties,
+} from "../../utils.js";
 
 import promiseProtoCatchDeclaration from "./catch.js";
 import promiseProtoFinallyDeclaration from "./finally.js";
@@ -18,14 +19,6 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 export default function populatePromisePrototype(
   realm: StaticJsRealm,
   promiseProto: StaticJsObject,
-  prototypes: Prototypes,
-  intrinsicSymbols: IntrinsicSymbols,
 ) {
-  applyIntrinsicProperties(
-    realm,
-    promiseProto,
-    declarations,
-    prototypes,
-    intrinsicSymbols,
-  );
+  applyIntrinsicProperties(realm, promiseProto, declarations);
 }

@@ -14,8 +14,6 @@ import {
   type IntrinsicPropertyDeclaration,
 } from "../../utils.js";
 
-import type { IntrinsicSymbols, Prototypes } from "../../intrinsics.js";
-
 import symbolConstructorForDeclaration from "./for.js";
 import symbolConstructorKeyForDeclaration from "./keyFor.js";
 
@@ -27,8 +25,6 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 export default function createSymbolConstructor(
   realm: StaticJsRealm,
   symbolProto: StaticJsObject,
-  prototypes: Prototypes,
-  intrinsicSymbols: IntrinsicSymbols,
 ) {
   const ctor = new StaticJsFunctionImpl(
     realm,
@@ -48,7 +44,6 @@ export default function createSymbolConstructor(
     },
     {
       construct: false,
-      prototype: prototypes.functionProto,
     },
   );
 
@@ -65,7 +60,7 @@ export default function createSymbolConstructor(
     configurable: true,
   });
 
-  for (const [key, symbol] of Object.entries(intrinsicSymbols)) {
+  for (const [key, symbol] of Object.entries(realm.types.symbols)) {
     ctor.definePropertySync(key, {
       value: symbol,
       writable: false,
@@ -74,13 +69,7 @@ export default function createSymbolConstructor(
     });
   }
 
-  applyIntrinsicProperties(
-    realm,
-    ctor,
-    declarations,
-    prototypes,
-    intrinsicSymbols,
-  );
+  applyIntrinsicProperties(realm, ctor, declarations);
 
   return ctor;
 }

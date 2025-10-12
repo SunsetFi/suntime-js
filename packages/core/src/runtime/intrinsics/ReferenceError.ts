@@ -3,19 +3,14 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 
-import type { IntrinsicSymbols, Prototypes } from "./intrinsics.js";
-
 export function populateReferenceErrorPrototype(
   _realm: StaticJsRealm,
-  _errorProto: StaticJsObject,
-  _functionProto: StaticJsObject,
-  _intrinsicSymbols: IntrinsicSymbols,
+  _referenceErrorProto: StaticJsObject,
 ) {}
 
-export default function createReferenceErrorConstructor(
+export function createReferenceErrorConstructor(
   realm: StaticJsRealm,
-  errorProto: StaticJsObject,
-  prototypes: Prototypes,
+  refernceErrorProto: StaticJsObject,
 ) {
   const ctor = new StaticJsFunctionImpl(
     realm,
@@ -42,17 +37,17 @@ export default function createReferenceErrorConstructor(
 
       return error;
     },
-    { prototype: prototypes.functionProto },
+    { construct: true },
   );
 
   ctor.definePropertySync("prototype", {
-    value: errorProto,
+    value: refernceErrorProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
 
-  errorProto.definePropertySync("constructor", {
+  refernceErrorProto.definePropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

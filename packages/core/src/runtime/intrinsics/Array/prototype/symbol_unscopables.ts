@@ -4,7 +4,7 @@ import StaticJsObjectImpl from "../../../types/implementation/StaticJsObjectImpl
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoSymbolUnscopables: IntrinsicPropertyDeclaration = {
-  key: (_realm, symbols) => symbols.unscopables,
+  key: (realm) => realm.types.symbols.unscopables,
   value(realm) {
     const unscopables = [
       "at",

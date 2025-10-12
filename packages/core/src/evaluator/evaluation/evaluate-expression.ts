@@ -5,6 +5,7 @@ import StaticJsRealm from "../../runtime/realm/factories/StaticJsRealm.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
+import StaticJsParseError from "../../errors/StaticJsParseError.js";
 
 /**
  * Evaluates a string as a javascript program, and returns the result.
@@ -31,8 +32,11 @@ export async function evaluateExpression(
     });
   } catch (e) {
     let error = e;
+
     if (error instanceof StaticJsRuntimeError) {
       error = error.thrown.toJsSync();
+    } else if (error instanceof StaticJsParseError) {
+      error = new SyntaxError(error.message);
     }
 
     if (callback) {
@@ -74,9 +78,13 @@ export function evaluateExpressionSync(
     result = realm.evaluateExpressionSync(code, { runTask: taskRunner });
   } catch (e) {
     let error = e;
+
     if (error instanceof StaticJsRuntimeError) {
       error = error.thrown.toJsSync();
+    } else if (error instanceof StaticJsParseError) {
+      error = new SyntaxError(error.message);
     }
+
     throw error;
   }
 

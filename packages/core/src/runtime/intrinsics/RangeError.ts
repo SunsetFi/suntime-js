@@ -3,23 +3,18 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
-import type { IntrinsicSymbols, Prototypes } from "./intrinsics.js";
-
 export function populateRangeErrorPrototype(
   _realm: StaticJsRealm,
-  _errorProto: StaticJsObject,
-  _functionProto: StaticJsObject,
-  _intrinsicSymbols: IntrinsicSymbols,
+  _rangeErrorProto: StaticJsObject,
 ) {}
 
-export default function createRangeErrorConstructor(
+export function createRangeErrorConstructor(
   realm: StaticJsRealm,
-  errorProto: StaticJsObject,
-  prototypes: Prototypes,
+  rangeErrorProto: StaticJsObject,
 ) {
   const ctor = new StaticJsFunctionImpl(
     realm,
-    "SyntaxError",
+    "RangeError",
     function* (_thisArg, messageValue) {
       // Error jank seems to indicate we make a new object ourselves and return it?
       const error = realm.types.object(
@@ -28,7 +23,7 @@ export default function createRangeErrorConstructor(
             enumerable: false,
             writable: true,
             configurable: true,
-            value: realm.types.string("SyntaxError"),
+            value: realm.types.string("RangeError"),
           },
           message: {
             enumerable: false,
@@ -42,17 +37,17 @@ export default function createRangeErrorConstructor(
 
       return error;
     },
-    { prototype: prototypes.functionProto },
+    { construct: true },
   );
 
   ctor.definePropertySync("prototype", {
-    value: errorProto,
+    value: rangeErrorProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
 
-  errorProto.definePropertySync("constructor", {
+  rangeErrorProto.definePropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

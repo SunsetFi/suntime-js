@@ -3,8 +3,6 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
-import type { IntrinsicSymbols, Prototypes } from "../../intrinsics.js";
-
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
@@ -15,8 +13,6 @@ const declarations: IntrinsicPropertyDeclaration[] = [];
 export default function createErrorConstructor(
   realm: StaticJsRealm,
   errorProto: StaticJsObject,
-  prototypes: Prototypes,
-  intrinsicSymbols: IntrinsicSymbols,
 ) {
   const ctor = new StaticJsFunctionImpl(
     realm,
@@ -43,7 +39,7 @@ export default function createErrorConstructor(
 
       return error;
     },
-    { prototype: prototypes.functionProto, construct: true },
+    { construct: true },
   );
 
   ctor.definePropertySync("prototype", {
@@ -60,13 +56,7 @@ export default function createErrorConstructor(
     configurable: true,
   });
 
-  applyIntrinsicProperties(
-    realm,
-    ctor,
-    declarations,
-    prototypes,
-    intrinsicSymbols,
-  );
+  applyIntrinsicProperties(realm, ctor, declarations);
 
   return ctor;
 }

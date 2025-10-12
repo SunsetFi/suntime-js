@@ -24,7 +24,6 @@ import type { StaticJsString } from "../StaticJsString.js";
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 
 import type {
-  Intrinsics,
   IntrinsicSymbols,
   Constructors,
   Prototypes,
@@ -49,8 +48,8 @@ import { getStaticJsObjectLikeProxyOwner } from "./create-object-proxy.js";
 
 export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _prototypes: Prototypes;
-  private readonly _constructors: Constructors;
   private readonly _symbols: IntrinsicSymbols;
+  private _constructors: Constructors | undefined;
 
   // The registry for our local Symbol.for()
   private readonly _symbolRegistry = new Map<string, StaticJsSymbol>();
@@ -87,7 +86,8 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   constructor(
     private readonly _realm: StaticJsRealm,
-    intrinsics: Intrinsics,
+    prototypes: Prototypes,
+    symbols: IntrinsicSymbols,
   ) {
     this._zero = new StaticJsNumberImpl(_realm, 0);
     this._NaN = new StaticJsNumberImpl(_realm, NaN);
@@ -99,14 +99,16 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     this._null = new StaticJsNullImpl(_realm);
     this._undefined = new StaticJsUndefinedImpl(_realm);
 
-    this._prototypes = { ...intrinsics.prototypes };
+    this._prototypes = { ...prototypes };
     Object.freeze(this._prototypes);
 
-    this._constructors = { ...intrinsics.constructors };
-    Object.freeze(this._constructors);
-
-    this._symbols = { ...intrinsics.symbols };
+    this._symbols = { ...symbols };
     Object.freeze(this._symbols);
+  }
+
+  _initializeConstructors(constructors: Constructors) {
+    this._constructors = { ...constructors };
+    Object.freeze(this._constructors);
   }
 
   get prototypes(): Prototypes {
@@ -114,6 +116,10 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   get constructors(): Constructors {
+    if (!this._constructors) {
+      throw new Error("Constructors have not yet been initialized");
+    }
+
     return this._constructors;
   }
 

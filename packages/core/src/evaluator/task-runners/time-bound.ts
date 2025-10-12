@@ -1,4 +1,4 @@
-import { StaticJsTaskAbortedError } from "../../errors/StaticJsTaskAbortedError.js";
+import StaticJsTaskAbortedError from "../../errors/StaticJsTaskAbortedError.js";
 
 import type { StaticJsTaskRunner } from "../../runtime/realm/StaticJsTaskIterator.js";
 

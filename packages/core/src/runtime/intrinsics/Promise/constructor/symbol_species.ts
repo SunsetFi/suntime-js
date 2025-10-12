@@ -2,7 +2,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const promiseConstructorSymbolSpeciesDeclaration: IntrinsicPropertyDeclaration =
   {
-    key: (_realm, symbols) => symbols.species,
+    key: (realm) => realm.types.symbols.species,
     *get(_realm, thisArg) {
       return thisArg;
     },

@@ -2,8 +2,6 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
-import type { Prototypes, IntrinsicSymbols } from "../../intrinsics.js";
-
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
@@ -22,16 +20,8 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 function populateFunctionPrototype(
   realm: StaticJsRealm,
   functionProto: StaticJsObject,
-  prototypes: Prototypes,
-  intrinsicSymbols: IntrinsicSymbols,
 ) {
-  applyIntrinsicProperties(
-    realm,
-    functionProto,
-    declarations,
-    prototypes,
-    intrinsicSymbols,
-  );
+  applyIntrinsicProperties(realm, functionProto, declarations);
 }
 
 export default populateFunctionPrototype;

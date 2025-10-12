@@ -10,7 +10,6 @@ import type { StaticJsPromise } from "../../../types/StaticJsPromise.js";
 import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
 import StaticJsPromiseImpl from "../../../types/implementation/StaticJsPromiseImpl.js";
 
-import type { IntrinsicSymbols, Prototypes } from "../../intrinsics.js";
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
@@ -28,9 +27,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 
 export default function createPromiseConstructor(
   realm: StaticJsRealm,
-  objectProto: StaticJsObject,
-  prototypes: Prototypes,
-  intrinsicSymbols: IntrinsicSymbols,
+  promiseProto: StaticJsObject,
 ) {
   const ctor = new StaticJsFunctionImpl(
     realm,
@@ -75,29 +72,23 @@ export default function createPromiseConstructor(
 
       return promise;
     },
-    { prototype: prototypes.functionProto, construct: true },
+    { construct: true },
   );
 
   ctor.definePropertySync("prototype", {
-    value: objectProto,
+    value: promiseProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
-  objectProto.definePropertySync("constructor", {
+  promiseProto.definePropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,
     configurable: true,
   });
 
-  applyIntrinsicProperties(
-    realm,
-    ctor,
-    declarations,
-    prototypes,
-    intrinsicSymbols,
-  );
+  applyIntrinsicProperties(realm, ctor, declarations);
 
   return ctor;
 }
