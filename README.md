@@ -80,12 +80,6 @@ For ECMAScript Modules, `evaluateModule` will take a source string as its first 
 
 For more information, see [Quick Start](docs/01-quick-start.md).
 
-## Detailed Usage
-
-The primary way of interacting with StaticJs is through using a [StaticJsRealm](./docs/04-realms.md).
-
-This gives you full control of the evaluation, including pausing execution, debugging, enforcing time or operation count limits, and configuring the global environment.
-
 ## TODO:
 
 - Fix 'all' [Test262](https://github.com/tc39/test262) tests.
