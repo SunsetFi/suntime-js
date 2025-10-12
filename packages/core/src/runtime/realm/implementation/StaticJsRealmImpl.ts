@@ -1,5 +1,8 @@
 import type { Writable } from "type-fest";
 import { type Node } from "@babel/types";
+import traverseNs from "@babel/traverse";
+const traverse =
+  typeof traverseNs === "function" ? traverseNs : traverseNs.default;
 
 import parseScript from "../../../parser/parse-script.js";
 import parseModule from "../../../parser/parse-module.js";
@@ -66,12 +69,15 @@ import type {
 } from "../StaticJsTaskIterator.js";
 
 import type {
+  StaticJsEvaluateScriptOptions,
   StaticJsEvaluator,
   StaticJsRealm,
   StaticJsRunTaskOptions,
 } from "../StaticJsRealm.js";
 
 import Macrotask from "./Macrotask.js";
+import StaticJsSyntaxError from "../../../errors/StaticJsSyntaxError.js";
+import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;
@@ -192,12 +198,29 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   async evaluateScript(
     script: string,
-    opts?: StaticJsRunTaskOptions,
+    opts?: StaticJsEvaluateScriptOptions,
   ): Promise<StaticJsValue> {
-    const parsed = parseScript(script);
+    const parsed = parseScript(script, {
+      topLevelAwait: Boolean(opts?.topLevelAwait),
+    });
     const strict = parsed.program.directives.some(
       (directive) => directive.value.value === "use strict",
     );
+
+    const topLevelAwait = hasTopLevelAwait(parsed);
+    if (topLevelAwait || opts?.topLevelAwait === true) {
+      if (opts?.topLevelAwait === false) {
+        throw new StaticJsSyntaxError(
+          "Top-level await is not allowed in this script.",
+        );
+      }
+
+      return this.enqueueMacrotask(
+        doEvaluateNodeAsync(parsed.program, this, strict),
+        opts,
+      );
+    }
+
     return this.enqueueMacrotask(
       doEvaluateNode(parsed.program, this, strict),
       opts,
@@ -630,6 +653,29 @@ function defaultTaskRunner(task: StaticJsTaskIterator) {
   }
 }
 
+function hasTopLevelAwait(node: Node) {
+  let found = false;
+  traverse(node, {
+    AwaitExpression(path) {
+      if (path.getFunctionParent() === null) {
+        path.stop();
+        found = true;
+      }
+    },
+    FunctionExpression(path) {
+      path.skip();
+    },
+    FunctionDeclaration(path) {
+      path.skip();
+    },
+    ArrowFunctionExpression(path) {
+      path.skip();
+    },
+  });
+
+  return found;
+}
+
 function* doEvaluateNode(
   node: Node,
   realm: StaticJsRealm,
@@ -640,6 +686,27 @@ function* doEvaluateNode(
     yield* setupEnvironment(node, context);
     const result = yield* EvaluateNodeCommand(node, context);
     return result ?? realm.types.undefined;
+  } catch (e) {
+    if (e instanceof AbnormalCompletion) {
+      throw e.toRuntime();
+    }
+
+    throw e;
+  }
+}
+
+function* doEvaluateNodeAsync(
+  node: Node,
+  realm: StaticJsRealm,
+  strict?: boolean,
+): EvaluationGenerator<StaticJsValue> {
+  const context = EvaluationContext.createRootContext(strict ?? false, realm);
+  try {
+    yield* setupEnvironment(node, context);
+    const evaluator = EvaluateNodeCommand(node, context);
+    const invocation = new AsyncEvaluatorInvocation(evaluator, context);
+    yield* invocation.start();
+    return invocation.promise;
   } catch (e) {
     if (e instanceof AbnormalCompletion) {
       throw e.toRuntime();

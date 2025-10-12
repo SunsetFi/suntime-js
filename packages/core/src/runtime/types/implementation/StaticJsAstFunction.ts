@@ -116,6 +116,10 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     for (let i = this._argumentDeclarations.length - 1; i >= 0; i--) {
       const decl = this._argumentDeclarations[i];
 
+      if (decl.type === "VoidPattern") {
+        continue;
+      }
+
       if (decl.type === "RestElement") {
         if (i !== this._argumentDeclarations.length - 1) {
           // I think babel should catch this for us...

@@ -43,6 +43,23 @@ function* forOfStatementNodeEvaluator(
 
   const iterator = yield* getIterator(right, context.realm);
 
+  let lVal: LVal;
+  if (node.left.type === "VariableDeclaration") {
+    const decl = node.left.declarations[0];
+    // FIXME: What on earth is this?  It just showed up one day with an update to @babel/parser
+    if (decl.id.type === "VoidPattern") {
+      throw new ThrowCompletion(
+        context.realm.types.error(
+          "SyntaxError",
+          "Invalid left-hand side in for-in loop",
+        ),
+      );
+    }
+    lVal = decl.id;
+  } else {
+    lVal = node.left;
+  }
+
   let lastValue: StaticJsValue | null = null;
   while (true) {
     const value = yield* iteratorStepValue(iterator, context.realm);
@@ -57,13 +74,6 @@ function* forOfStatementNodeEvaluator(
     yield* setupEnvironment(node.left, bodyContext);
 
     yield* setupEnvironment(node.body, bodyContext);
-
-    let lVal: LVal;
-    if (node.left.type === "VariableDeclaration") {
-      lVal = node.left.declarations[0].id;
-    } else {
-      lVal = node.left;
-    }
 
     yield* setLVal(lVal, value, bodyContext, function* (name, val) {
       return yield* bodyContext.lexicalEnv.initializeBindingEvaluator(

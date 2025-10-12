@@ -24,6 +24,7 @@ export function* evaluateCommands<TReturn>(
     // It will then pause until the next run.
     // This effectively sets up the proper line and column that will be executed
     // when yield is called.
+    // FIXME: Is this true?  Usage has to call .next() on the iterator once to get the line/column set up...
     const { value, done } = generator.next(null);
 
     // The above generator invocation will have invoked the node we were queued on.
@@ -43,7 +44,7 @@ export function* evaluateCommands<TReturn>(
     if (value.kind === "evalute-node") {
       currentNode = value.node;
       if (onBeforeNode) {
-        onBeforeNode(value.node);
+        onBeforeNode(currentNode);
       }
     }
 

@@ -2,6 +2,7 @@ import { describe, it, expect, vitest } from "vitest";
 
 import {
   evaluateScript,
+  isStaticJsPromise,
   StaticJsRealm,
   StaticJsTaskAbortedError,
   type StaticJsTaskIterator,
@@ -278,6 +279,85 @@ describe("E2E: Realm", () => {
           expect(runTaskEvaluate).toBeCalledTimes(1);
           expect(result.toJsSync()).toBe(4);
         });
+      });
+    });
+
+    describe("Top-level await", () => {
+      it("Handles top-level await", async () => {
+        let resolver: (() => void) | undefined = undefined;
+        const invocationCompleted = vitest.fn();
+        const realm = StaticJsRealm({
+          globalObject: {
+            value: {
+              invocationCompleted,
+              setResolver: (r: () => void) => {
+                resolver = r;
+              },
+            },
+          },
+        });
+
+        const result = await realm.evaluateScript(
+          `
+          const value = await new Promise(resolve => {
+            setResolver(resolve);
+          });
+          invocationCompleted();
+        `,
+          { topLevelAwait: true },
+        );
+        expect(isStaticJsPromise(result)).toBe(true);
+        expect(invocationCompleted).toBeCalledTimes(0);
+        expect(resolver).toBeDefined();
+        resolver!();
+        await result.toJsSync();
+        expect(invocationCompleted).toBeCalledTimes(1);
+      });
+
+      describe("Auto", () => {
+        it("Does not return a promise if no top-level await is used", async () => {
+          const realm = StaticJsRealm();
+
+          const result = await realm.evaluateScript(
+            `
+            const value = 42;
+            value;
+          `,
+            { topLevelAwait: "auto" },
+          );
+
+          expect(isStaticJsPromise(result)).toBe(false);
+          expect(result.toJsSync()).toBe(42);
+        });
+
+        it("Returns a promise if top-level await is used", async () => {
+          const realm = StaticJsRealm({});
+
+          const result = await realm.evaluateScript(
+            `
+            await Promise.resolve(4);
+          `,
+            { topLevelAwait: "auto" },
+          );
+          expect(isStaticJsPromise(result)).toBe(true);
+        });
+      });
+
+      it.skip("Resolves the promise to the script last value", async () => {
+        const realm = StaticJsRealm();
+
+        const result = await realm.evaluateScript(
+          `
+          const value = await new Promise(resolve => {
+            resolve(42)
+          });
+          value;
+        `,
+        );
+
+        expect(isStaticJsPromise(result)).toBe(true);
+        const finalValue = await result.toJsSync();
+        expect(finalValue).toBe(42);
       });
     });
   });

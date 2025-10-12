@@ -99,6 +99,9 @@ function* variableDeclarationEnvironmentSetup(
   }
 
   for (const declarator of node.declarations) {
+    if (declarator.id.type === "VoidPattern") {
+      continue;
+    }
     yield* environmentSetupLVal(declarator.id, context, variableCreator);
   }
 
@@ -122,6 +125,10 @@ function* declarationStatementEvaluator(
     value = yield* EvaluateNodeCommand(declarator.init, context, {
       forNormalValue: "VariableDeclarator.init",
     });
+  }
+
+  if (declarator.id.type === "VoidPattern") {
+    return context.realm.types.undefined;
   }
 
   return yield* setLVal(declarator.id, value, context, variableCreator);

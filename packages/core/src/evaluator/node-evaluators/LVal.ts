@@ -99,6 +99,10 @@ export default function* setLVal(
           continue;
         }
 
+        if (element.type === "VoidPattern") {
+          continue;
+        }
+
         if (element.type === "RestElement") {
           const restItems: StaticJsValue[] = [];
 
@@ -269,7 +273,9 @@ export function* environmentSetupLVal(
           continue;
         }
 
-        if (element.type === "RestElement") {
+        if (element.type === "VoidPattern") {
+          continue;
+        } else if (element.type === "RestElement") {
           yield* environmentSetupLVal(element.argument, context, bindVariable);
         } else {
           yield* environmentSetupLVal(element, context, bindVariable);
