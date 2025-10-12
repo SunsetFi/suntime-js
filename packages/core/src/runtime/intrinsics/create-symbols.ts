@@ -18,7 +18,6 @@ const intrinsicSymbols: Record<keyof IntrinsicSymbols, symbol> = {
 
   hasInstance: Symbol.hasInstance,
 
-  // TODO: Implement in engine.
   isConcatSpreadable: Symbol.isConcatSpreadable,
 
   iterator: Symbol.iterator,
