@@ -17,6 +17,8 @@ export interface StaticJsPromise extends StaticJsObjectLike {
   catchEvaluator(
     func: StaticJsFunction | undefined,
   ): EvaluationGenerator<StaticJsPromise>;
+
+  toJsSync(): Promise<unknown>;
 }
 
 export function isStaticJsPromise(value: unknown): value is StaticJsPromise {

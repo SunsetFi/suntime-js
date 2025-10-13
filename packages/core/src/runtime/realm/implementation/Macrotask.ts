@@ -17,27 +17,69 @@ import type {
 } from "../StaticJsTaskIterator.js";
 
 export default class Macrotask {
+  private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";
+
+  /**
+   * The microtasks that have been enqueued during this macrotask.
+   * Evaluation of a microtask may enqueue further microtasks.
+   */
   private readonly _microtasks: StaticJsEvaluator<void>[] = [];
 
-  private readonly _promise: Promise<unknown>;
-
-  private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";
+  /**
+   * The pending completion value from the macrotask.
+   *
+   * This needs to be stored separately before the promise completes as we may need to
+   * invoke microtasks that themselves can throw and reject our promise.
+   */
   private _macrotaskCompletionValue: unknown | undefined = undefined;
+
+  /**
+   * Errors that have been raised but not yet handled.
+   *
+   * If this is non-empty when the macrotask and all microtasks complete, the macrotask
+   * will be rejected with the first error in the list.
+   */
   private _uncaughtErrors: StaticJsValue[] = [];
 
+  /**
+   * Promise that resolves when the macrotask is complete.
+   */
+  private readonly _promise: Promise<unknown>;
+
+  /**
+   * Function to complete the task session.
+   *
+   * Do not call until all microtasks have been processed.
+   */
   private _acceptPromise!: (value: unknown) => void;
+
+  /**
+   * Function to reject the task session.
+   *
+   * Do not call until all microtasks have been processed.
+   */
   private _rejectPromise!: (reason?: unknown) => void;
 
-  // This isn't the same as the promise.  The promise is for returning to the outside world,
-  // but our internals still want to be notified when the task completes without marking the rejection
-  // as handled.
+  /**
+   * Callbacks to inform external systems when the task completes.
+   * This isn't the same as the promise, as we need to run synchronous checks and cleanups
+   * in the realm based on macrotask completion.
+   */
   private _onCompletedCallbacks: ((value: unknown, err?: unknown) => void)[] =
     [];
 
+  /**
+   * Whether the task is currently evaluating code.
+   */
+  private _isEntered: boolean = false;
+
+  /**
+   * The current AST node being executed, if any.
+   */
   private _currentNode: Node | null = null;
 
   constructor(
-    private readonly _evaluator: StaticJsEvaluator,
+    private readonly _evaluator: StaticJsEvaluator<unknown>,
     private readonly _taskRunner: StaticJsTaskRunner,
     // This shouldn't be needed if this task stays in sync with the realm about whether it is running.
     private readonly _assertIsRunning: (task: Macrotask) => void,
@@ -54,6 +96,10 @@ export default class Macrotask {
 
   await() {
     return this._promise;
+  }
+
+  get entered() {
+    return this._isEntered;
   }
 
   get done() {
@@ -207,6 +253,7 @@ export default class Macrotask {
 
         this._assertIsRunning(this);
 
+        this._isEntered = true;
         try {
           const result = iterator.next();
           if (result.done) {
@@ -229,6 +276,8 @@ export default class Macrotask {
             value: undefined,
             done: true,
           };
+        } finally {
+          this._isEntered = false;
         }
       },
 

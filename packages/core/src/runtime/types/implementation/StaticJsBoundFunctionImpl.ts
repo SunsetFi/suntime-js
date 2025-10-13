@@ -87,6 +87,10 @@ class StaticJsBoundFunction
   ): EvaluationGenerator<StaticJsValue> {
     return this.targetFunc.constructEvaluator(...this._boundArgs, ...args);
   }
+
+  toJsSync(): (...args: unknown[]) => unknown {
+    return super.toJsSync() as (...args: unknown[]) => unknown;
+  }
 }
 
 export default StaticJsBoundFunction;

@@ -3,6 +3,9 @@ import type { EvaluationOptions } from "./options.js";
 import StaticJsRealm from "../../runtime/realm/factories/StaticJsRealm.js";
 import type { StaticJsModule } from "../../runtime/modules/StaticJsModule.js";
 
+import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
+import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
+
 /**
  * Evaluates a string as a javascript program, and returns the result.
  * @param code - The string containing javascript code to evaluate.
@@ -10,7 +13,7 @@ import type { StaticJsModule } from "../../runtime/modules/StaticJsModule.js";
  * @returns The native javascript result of evaluating the code.
  * @public
  */
-export function evaluateModule(
+export async function evaluateModule(
   code: string,
   opts?: EvaluationOptions,
 ): Promise<StaticJsModule> {
@@ -20,5 +23,17 @@ export function evaluateModule(
 
   realm ??= StaticJsRealm();
 
-  return realm.evaluateModule(code, { runTask: taskRunner });
+  try {
+    return await realm.evaluateModule(code, { runTask: taskRunner });
+  } catch (e) {
+    let error = e;
+
+    if (error instanceof StaticJsRuntimeError) {
+      error = error.thrown.toJsSync();
+    } else if (error instanceof StaticJsSyntaxError) {
+      throw new SyntaxError(error.message);
+    }
+
+    throw error;
+  }
 }

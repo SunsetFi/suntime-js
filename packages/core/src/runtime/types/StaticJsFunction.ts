@@ -19,6 +19,8 @@ export interface StaticJsFunction extends StaticJsObjectLike {
   constructEvaluator(
     ...args: StaticJsValue[]
   ): EvaluationGenerator<StaticJsValue>;
+
+  toJsSync(): (...args: unknown[]) => unknown;
 }
 
 export interface StaticJsBoundFunction extends StaticJsFunction {

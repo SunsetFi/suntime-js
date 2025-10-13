@@ -30,7 +30,7 @@ export default class StaticJsExternalFunction extends StaticJsFunctionImpl {
     }
   }
 
-  toJsSync(): unknown {
+  toJsSync(): (...args: unknown[]) => unknown {
     return this._func;
   }
 }

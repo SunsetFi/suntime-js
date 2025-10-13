@@ -155,6 +155,10 @@ export default class StaticJsFunctionImpl
     return thisObj;
   }
 
+  toJsSync(): (...args: unknown[]) => unknown {
+    return super.toJsSync() as (...args: unknown[]) => unknown;
+  }
+
   private *_invokeConstructEvaluator(
     thisArg: StaticJsValue,
     ...args: StaticJsValue[]

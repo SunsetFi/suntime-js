@@ -173,12 +173,7 @@ function createHostApi(realm: StaticJsRealm) {
       evalScript: {
         ...hostDefinedProperty,
         value: realm.types.toStaticJsValue((code: string) => {
-          // FIXME: By nature we are currently running a script,
-          // so this will throw because we don't support evaluateScriptSync
-          // while another script is running.
-          // I guess this is something we need to support?
-          const result = realm.evaluateScriptSync(code);
-          return result;
+          return realm.evaluateScriptSync(code);
         }),
       },
       gc: {

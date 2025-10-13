@@ -129,6 +129,10 @@ export default class StaticJsPromiseImpl
   ): EvaluationGenerator<StaticJsPromise> {
     return yield* this.thenEvaluator(undefined, onRejected);
   }
+
+  toJsSync(): Promise<unknown> {
+    return super.toJsSync() as Promise<unknown>;
+  }
 }
 
 function queuePromiseReactionJob(

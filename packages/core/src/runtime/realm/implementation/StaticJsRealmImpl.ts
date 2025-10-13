@@ -11,6 +11,8 @@ import parseExpression from "../../../parser/parse-expression.js";
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import StaticJsSyntaxError from "../../../errors/StaticJsSyntaxError.js";
+import StaticJsUnhandledRejectionError from "../../../errors/StaticJsUnhandledRejectionError.js";
+import StaticJsSynchronousTaskIncompleteError from "../../../errors/StaticJsSynchronousTaskIncompleteError.js";
 
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 import StaticJsConcurrentEvaluationError from "../../../errors/StaticJsConcurrentEvaluationError.js";
@@ -85,7 +87,6 @@ import type {
 } from "../StaticJsRealm.js";
 
 import Macrotask from "./Macrotask.js";
-import StaticJsUnhandledRejectionError from "../../../errors/StaticJsUnhandledRejectionError.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _globalObject: StaticJsObject;
@@ -243,10 +244,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     script: string,
     opts?: StaticJsEvaluateScriptSyncOptions,
   ): StaticJsValue {
-    if (this._currentTask) {
-      // FIXME: This should be allowed.  Use this for eval?
-      // test262 wants realms to be able to do this.
-      throw new StaticJsConcurrentEvaluationError();
+    if (this._currentTask && !this._currentTask.entered) {
+      throw new StaticJsConcurrentEvaluationError(
+        "Synchronous script evaluations from outside the current task cannot be performed while another task is running.",
+      );
     }
 
     const parsed = parseScript(script, {
@@ -292,32 +293,34 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     // FIXME (maybe): It might be suprising that resumes of the async will run on
     // the runTask of the resumption, not on the one passed to us.
     function* beginModuleEvaluation(): EvaluationGenerator<void> {
-      try {
-        yield* module.moduleDeclarationInstantiationEvaluator();
+      yield* module.moduleDeclarationInstantiationEvaluator();
 
-        const evaluator = module.moduleEvaluationEvaluator();
-        const invocation = new AsyncEvaluatorInvocation(evaluator, realm);
-        invocation.onComplete((_value, err) => {
-          if (err) {
-            // invocation is promise-like, so reinterpret the rejected error as a ThrowCompletion
-            // This is so that it gets handled correctly as a thrown runtime error.
-            moduleEvaluationReject(new ThrowCompletion(err));
-          } else {
-            moduleEvaluationResolve(module);
-          }
-        });
+      const evaluator = module.moduleEvaluationEvaluator();
+      const invocation = new AsyncEvaluatorInvocation(evaluator, realm);
+      invocation.onComplete((_value, err) => {
+        if (err) {
+          // invocation is promise-like, so reinterpret the rejected error as a ThrowCompletion
+          // This is so that it gets handled correctly as a thrown runtime error.
+          moduleEvaluationReject(new ThrowCompletion(err));
+        } else {
+          moduleEvaluationResolve(module);
+        }
+      });
 
-        // Note: This does its own error capture, and will not throw.
-        yield* invocation.start();
-      } catch (e) {
-        moduleEvaluationReject(e);
-      }
+      // Note: This does its own error capture, and will not throw.
+      yield* invocation.start();
     }
 
-    await this.enqueueMacrotask(beginModuleEvaluation, opts);
-
     try {
-      return await moduleEvaluationCompleted;
+      // Wait for both the initial macrotask to complete, and for
+      // the module async evaluation to complete.
+      // In theory enqueueMacrotask will complete before or simultaniously with moduleEvaluationCompleted,
+      // but await both at once to capture errors from either.
+      const [_, mod] = await Promise.all([
+        this.enqueueMacrotask(beginModuleEvaluation, opts),
+        moduleEvaluationCompleted,
+      ]);
+      return mod;
     } catch (e) {
       if (e instanceof AbnormalCompletion) {
         throw e.toRuntime();
@@ -421,17 +424,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     evaluator: StaticJsEvaluator<TReturn>,
     { runTask = this._defaultRunTaskSync }: StaticJsRunTaskOptions = {},
   ): TReturn {
-    if (this._currentTask) {
-      // FIXME: This should be allowed.  Use this for eval?
-      // Get rid of this restriction, and use this in place of invokeEvaluatorSync.
-      throw new StaticJsEngineError(
-        "Cannot invoke a macrotask synchronously while another task is running.",
-      );
-    }
+    const previousTask = this._currentTask;
 
-    let result: TReturn | undefined = undefined;
-    let error: unknown | undefined = undefined;
-    let complete = false;
     try {
       if (!runTask) {
         runTask = (task) => {
@@ -440,6 +434,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
           }
         };
       }
+
+      let result: TReturn | undefined = undefined;
+      let error: unknown | undefined = undefined;
+      let complete = false;
 
       const macrotask = this._createMacrotask(evaluator, runTask);
       macrotask.onComplete((value, err) => {
@@ -453,8 +451,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       macrotask.invoke();
 
       if (!macrotask.done) {
-        throw new StaticJsEngineError(
-          `The task runner for invokeMacrotaskSync did not complete the task synchronously.  The provided runTask was '${runTask.name}'.`,
+        throw new StaticJsSynchronousTaskIncompleteError(
+          `A synchronous task did not complete synchronously.  The task runner was: ${runTask.name || "anonymous"}`,
         );
       }
 
@@ -471,7 +469,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
       return result!;
     } finally {
-      this._currentTask = null;
+      this._currentTask = previousTask;
     }
   }
 

@@ -2,8 +2,12 @@ import { describe, it, expect, vitest } from "vitest";
 
 import {
   evaluateScript,
+  isStaticJsFunction,
+  isStaticJsNumber,
   isStaticJsPromise,
+  StaticJsConcurrentEvaluationError,
   StaticJsRealm,
+  StaticJsSynchronousTaskIncompleteError,
   StaticJsTaskAbortedError,
   type StaticJsTaskIterator,
 } from "../../src/index.js";
@@ -362,15 +366,6 @@ describe("E2E: Realm", () => {
       expect(result.toJsSync()).toBe(4);
     });
 
-    it("Throws if a task is already running", () => {
-      const realm = StaticJsRealm();
-      realm.evaluateScript("2 + 2");
-
-      expect(() => realm.evaluateScriptSync("3 + 3")).toThrow(
-        "Cannot run a synchronous task while another task is running.",
-      );
-    });
-
     it("Synchronously resolves microtasks before returning", () => {
       const realm = StaticJsRealm();
 
@@ -411,8 +406,63 @@ describe("E2E: Realm", () => {
       });
 
       expect(() => realm.evaluateScriptSync("2 + 2")).toThrow(
-        "Task did not complete synchronously.",
+        StaticJsSynchronousTaskIncompleteError,
       );
+    });
+
+    it("Throws if called while a task is running from outside the task", () => {
+      const realm = StaticJsRealm();
+      realm.evaluateScript("2 + 2");
+      expect(() => realm.evaluateScriptSync("3 + 3")).toThrow(
+        StaticJsConcurrentEvaluationError,
+      );
+    });
+
+    it("Permits calls when nested inside another evaluateScript task", async () => {
+      const realm = StaticJsRealm({
+        globalObject: {
+          value: {
+            callEvaluateScriptSync: () => {
+              return realm.evaluateScriptSync("3 + 3").toJsSync();
+            },
+          },
+        },
+      });
+
+      const result = await realm.evaluateScript(`
+        const result = callEvaluateScriptSync();
+        if (result !== 6) {
+          throw new Error('Unexpected result: ' + result);
+        }
+        result;
+      `);
+
+      expect(isStaticJsNumber(result)).toBe(true);
+      expect(result.toJsSync()).toBe(6);
+    });
+
+    it("Permits calls when nested inside a continuation of another evaluateScript task", async () => {
+      const realm = StaticJsRealm({
+        globalObject: {
+          value: {
+            callEvaluateScriptSync: () => {
+              return realm.evaluateScriptSync("3 + 3").toJsSync();
+            },
+          },
+        },
+      });
+
+      const func = await realm.evaluateScript(`
+        function fn() {
+          return callEvaluateScriptSync();
+        }
+        fn;
+      `);
+      if (!isStaticJsFunction(func)) {
+        throw new Error("Expected a function");
+      }
+
+      func.toJsSync()();
     });
   });
 
