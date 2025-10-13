@@ -87,7 +87,7 @@ import type {
 import Macrotask from "./Macrotask.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
-  private readonly _globalObject: StaticJsObject;
+  private readonly _global: StaticJsObject;
   private readonly _globalThis: StaticJsValue;
   private readonly _globalEnv: StaticJsEnvironment;
   private readonly _typeFactory: StaticJsTypeFactory;
@@ -150,9 +150,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       globalThis,
     );
 
-    this._setupGlobalObject(globalObjectResolved, globalThisResolved);
-
-    this._globalObject = globalObjectResolved;
+    this._global = globalObjectResolved;
     this._globalThis = globalThisResolved;
 
     this._globalEnv = new StaticJsGlobalEnvironmentRecord(
@@ -161,6 +159,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       globalObjectResolved,
     );
 
+    populateGlobal(this, this._global);
+
     for (const [name, moduleDef] of Object.entries(modules ?? {})) {
       const module = realmModuleToModule(this, name, moduleDef);
       this._staticModules.set(name, module);
@@ -168,7 +168,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   get global() {
-    return this._globalObject;
+    return this._global;
   }
 
   get globalThis() {
@@ -373,11 +373,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return module ?? null;
   }
 
-  enqueueMicrotask(evaluator: EvaluationGenerator<void>): void;
-  enqueueMicrotask(evaluator: () => EvaluationGenerator<void>): void;
-  enqueueMicrotask(
-    evaluator: (() => EvaluationGenerator<void>) | EvaluationGenerator<void>,
-  ): void {
+  enqueueMicrotask(evaluator: StaticJsEvaluator<void>): void {
     let evaluatorFn: () => EvaluationGenerator<void>;
     if (typeof evaluator === "function") {
       evaluatorFn = evaluator;
@@ -391,7 +387,6 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       return;
     }
 
-    // This used to work.  We could still make it work if we wanted to.
     if (!this._currentTask) {
       throw new StaticJsEngineError(
         "Cannot enqueue a microtask when no task is running.",
@@ -559,31 +554,6 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     Promise.resolve().then(() => {
       task.invoke();
     });
-  }
-
-  private _setupGlobalObject(
-    globalObject: StaticJsObject,
-    globalThis: StaticJsValue,
-  ) {
-    if (!globalObject.hasPropertySync("globalThis")) {
-      globalObject.definePropertySync("globalThis", {
-        value: globalThis,
-        writable: true,
-        enumerable: false,
-        configurable: true,
-      });
-    }
-
-    if (!globalObject.hasPropertySync("global")) {
-      globalObject.definePropertySync("global", {
-        value: globalObject,
-        writable: true,
-        enumerable: false,
-        configurable: true,
-      });
-    }
-
-    populateGlobal(this, globalObject);
   }
 }
 

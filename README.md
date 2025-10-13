@@ -24,11 +24,11 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 - Primitives
 - Arrays
 - Math
+- Error (and variants), try / catch
 - Promises
 - Functions / Arrow functions
-- Top-level await
 - Async Functions
-- Error (and variants)
+- Top-level await
 - Symbols (including engine behavior)
   - Symbol.iterator
   - Symbol.hasInstance
@@ -75,21 +75,15 @@ import { evaluateExpressionSync } from "@suntime-js/core";
 const result = evaluateExpressionSync("2 + 2");
 ```
 
-For ECMAScript Modules, `evaluateModule` will take a source string as its first argument, and return a promise that resolves to a [StaticJsModule](./docs/05-modules.md#staticjsmodule-type)
-
 **Warning**: Using StaticJs this way is vulnurable to deadlocks with infinite loops, and can introduce security complications where VM code can be unexpectedly invoked through interacting with the resulting values (eg: property getters and setters).
 
-For more information, see [Quick Start](docs/01-quick-start.md).
+For more information, including solutions for breaking loops, see [Quick Start](docs/01-quick-start.md).
 
 ## TODO:
 
 - Fix 'all' [Test262](https://github.com/tc39/test262) tests.
   - Currently only running tests in the language folder. Need to add built-ins
 - Fix host throwing error inside a sandbox promise continuation causing sandbox unhandled rejections.
-- Fix test262 unhandled rejections not captured.
-  Should be being captured... not sure how its escaping
-  See "named-returns-async-arrow.js"
-  This is failing in a fascinating way too... somehow the .then() is called 4 times?
 - Fix circular imports on modules. There's a skipped test for this.
 - Fix task runner not bound to continuations of promises
   - This is really thorny. On the surface, its suprising that a task runner passed to evaluateModule will only work for

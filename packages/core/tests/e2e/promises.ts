@@ -157,7 +157,7 @@ describe("E2E: Promises", () => {
 
     const realm = StaticJsRealm();
 
-    expect(() => realm.evaluateScript(code)).rejects.toThrow(
+    await expect(() => realm.evaluateScript(code)).rejects.toThrow(
       StaticJsUnhandledRejectionError,
     );
   });
