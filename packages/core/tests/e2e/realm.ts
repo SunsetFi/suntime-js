@@ -16,7 +16,7 @@ describe("E2E: Realm", () => {
   describe("Globals", () => {
     it("Sets a global value", async () => {
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: { x: 42 },
         },
       });
@@ -30,7 +30,7 @@ describe("E2E: Realm", () => {
       };
 
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: globalObjectValue,
         },
       });
@@ -48,7 +48,7 @@ describe("E2E: Realm", () => {
       };
 
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: globalObjectValue,
         },
       });
@@ -65,7 +65,7 @@ describe("E2E: Realm", () => {
       };
 
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: globalObjectValue,
         },
       });
@@ -284,7 +284,7 @@ describe("E2E: Realm", () => {
         let resolver: (() => void) | undefined = undefined;
         const invocationCompleted = vitest.fn();
         const realm = StaticJsRealm({
-          globalObject: {
+          global: {
             value: {
               invocationCompleted,
               setResolver: (r: () => void) => {
@@ -420,7 +420,7 @@ describe("E2E: Realm", () => {
 
     it("Permits calls when nested inside another evaluateScript task", async () => {
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             callEvaluateScriptSync: () => {
               return realm.evaluateScriptSync("3 + 3").toJsSync();
@@ -443,7 +443,7 @@ describe("E2E: Realm", () => {
 
     it("Permits calls when nested inside a continuation of another evaluateScript task", async () => {
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             callEvaluateScriptSync: () => {
               return realm.evaluateScriptSync("3 + 3").toJsSync();

@@ -23,10 +23,11 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 - Strict directive
 - Primitives
 - Arrays
+- Math
 - Promises
 - Functions / Arrow functions
+- Top-level await
 - Async Functions
-- Math
 - Error (and variants)
 - Symbols (including engine behavior)
   - Symbol.iterator
@@ -40,13 +41,13 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 - Spread operators (including Symbol.iterator usage)
 - eval / Function constructor.
 - ECMAScript Modules
+  - Async modules
   - Exports
   - Importing from host-defined modules
   - Importing from sandboxed modules
 
 ### Notable things not (yet) supported
 
-- Async Modules
 - Generator functions
 - All well-known symbols not listed above
 - Map, Set
@@ -60,7 +61,7 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 
 This project is slowly working its way through the [Test262](https://github.com/tc39/test262) suite of JavaScript tests in order to ensure compliance with the spec.
 
-Currently, around 4500 of the language tests are passing, or about 19%. Further work is ongoing in this area.
+Currently, around 4800 of the language tests are passing, or about 20%. Further work is ongoing in this area.
 
 ## Quick Usage (native JS interop)
 
@@ -84,6 +85,17 @@ For more information, see [Quick Start](docs/01-quick-start.md).
 
 - Fix 'all' [Test262](https://github.com/tc39/test262) tests.
   - Currently only running tests in the language folder. Need to add built-ins
+- Fix host throwing error inside a sandbox promise continuation causing sandbox unhandled rejections.
+- Fix test262 unhandled rejections not captured.
+  Should be being captured... not sure how its escaping
+  See "named-returns-async-arrow.js"
+  This is failing in a fascinating way too... somehow the .then() is called 4 times?
+- Fix circular imports on modules. There's a skipped test for this.
+- Fix task runner not bound to continuations of promises
+  - This is really thorny. On the surface, its suprising that a task runner passed to evaluateModule will only work for
+    the initial evaluation and not for any runs after await, but it would also be suprising if the await is triggered
+    by code that has its own runTask and that runTask isn't used in favor of the root runTask.
+    Either way, this probably means we need to store the runTask on the context.
 - Report code coverage in repo
   coveralls.io?
   [vitest-coverage-report-action](https://github.com/marketplace/actions/vitest-coverage-report)?

@@ -237,9 +237,9 @@ Special care must be taken when using the async API. Because promises in javascr
 ```ts
 import { evaluateScript } from "@suntime-js/core";
 
-const result = await evaluateScript(`Promise.resolve(5)`);
+const result = await evaluateScript(`Promise.resolve("Hello World")`);
 
-// Results in "5", as the inner promise will be unrolled.
+// Results in "Hello World", not a promise, as the inner promise is awaited.
 console.log(result);
 ```
 

@@ -29,7 +29,7 @@ describe("E2E: Module", () => {
     it("Can import a named export", async () => {
       const receiver = vitest.fn();
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             setResult: receiver,
           },
@@ -56,7 +56,7 @@ describe("E2E: Module", () => {
     it("Can import a default export", async () => {
       const receiver = vitest.fn();
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             setResult: receiver,
           },
@@ -152,7 +152,7 @@ describe("E2E: Module", () => {
       `;
 
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             setResult: receiver,
           },
@@ -184,7 +184,7 @@ describe("E2E: Module", () => {
       `;
 
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             setResult: receiver,
           },
@@ -214,7 +214,7 @@ describe("E2E: Module", () => {
       `;
 
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             setResult: receiver,
           },
@@ -244,7 +244,7 @@ describe("E2E: Module", () => {
       `;
 
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             setResult: receiver,
           },
@@ -278,7 +278,7 @@ describe("E2E: Module", () => {
       `;
 
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             setResult: receiver,
           },
@@ -332,7 +332,7 @@ describe("E2E: Module", () => {
       `;
 
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             setResult: receiver,
           },
@@ -348,16 +348,19 @@ describe("E2E: Module", () => {
 
     // FIXME: Make this work.
     // Should be easy.  This is a sign we are not caching the module resolutions.
-    it.skip("Throws on circular dependencies", async () => {
+    it.skip("Handled circular dependencies", async () => {
+      // Circular dependencies should resolve to undefined values during initialization.
+      // Is this supposed to throw for uninitialized access?
+      // Right now, we spin in circles until we fill up the stack...
       const realm = StaticJsRealm({
         modules: {
-          "module-1": `import { a } from "module-2"; export const b = 42;`,
-          "module-2": `import { b } from "module-1"; export const a = 64;`,
+          "module-1": `import { a } from "module-2"; export const b = 42 + a;`,
+          "module-2": `import { b } from "module-1"; export const a = 64 + b;`,
         },
       });
       await expect(
         evaluateModule('import { value } from "module-1";', { realm }),
-      ).rejects.toThrow(/circular/);
+      ).resolves.toBeDefined();
     });
 
     it("Throws on syntax errors", async () => {
@@ -374,7 +377,7 @@ describe("E2E: Module", () => {
       const receiver = vitest.fn();
       let resolver: (() => void) | undefined = undefined;
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             setValue: receiver,
             setResolver: (r: () => void) => {
@@ -415,7 +418,7 @@ describe("E2E: Module", () => {
       const receiver = vitest.fn();
       const moduleCode = `export const value = 42`;
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             setValue: receiver,
           },
@@ -437,7 +440,7 @@ describe("E2E: Module", () => {
     it("Supports external objects", async () => {
       const receiver = vitest.fn();
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             setValue: receiver,
           },

@@ -123,7 +123,7 @@ describe("E2E: Functions", () => {
   describe("External", () => {
     it("Can be invoked by the engine", async () => {
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             a: function () {
               return 42;
@@ -139,7 +139,7 @@ describe("E2E: Functions", () => {
 
     it("Can be invoked by the runtime", async () => {
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             a: function () {
               return 42;
@@ -160,7 +160,7 @@ describe("E2E: Functions", () => {
 
     it("Cascades throws", async () => {
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             a: function () {
               throw 42;

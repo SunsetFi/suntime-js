@@ -1,5 +1,3 @@
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
-
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsModule } from "../../modules/StaticJsModule.js";
@@ -67,7 +65,7 @@ export interface StaticJsRealmOptions {
   /**
    * Settings for the global object in the realm.
    */
-  globalObject?: StaticJsRealmGlobalDecl | StaticJsRealmGlobalValue;
+  global?: StaticJsRealmGlobalDecl | StaticJsRealmGlobalValue;
 
   /**
    * Statically defined ECMA Modules.
@@ -84,6 +82,12 @@ export interface StaticJsRealmOptions {
    *
    * The implementation should call .next() on the evaluator until it is done.
    * This may be done synchronously or asynchronously.
+   *
+   * Used for
+   * {@link import("../StaticJsRealm.js").StaticJsRealm.evaluateExpression},
+   * {@link import("../StaticJsRealm.js").StaticJsRealm.evaluateScriptSync}, and
+   * {@link import("../StaticJsRealm.js").StaticJsRealm.evaluateModule} when the
+   * {@link import("../StaticJsRealm.js").StaticJsRunTaskOptions.runTask} option is not specified.
    */
   runTask?: StaticJsTaskRunner;
 
@@ -92,15 +96,12 @@ export interface StaticJsRealmOptions {
    *
    * The implementation should call .next() on the evaluator until it is done.
    * This must be done synchronously.  Failure to complete the task will result in an error.
+   *
+   * Used for {@link import("../StaticJsRealm.js").StaticJsRealm.evaluateExpressionSync} and
+   * {@link import("../StaticJsRealm.js").StaticJsRealm.evaluateScriptSync} when the
+   * {@link import("../StaticJsRealm.js").StaticJsRunTaskOptions.runTask} option is not specified.
    */
   runTaskSync?: StaticJsTaskRunner;
-
-  /**
-   * Invoked when an unhandled promise rejection occurs.
-   * This will implicitly handle the rejection.  If desired, you may re-throw a StaticJsUnhandledRejectionError to propagate the error.
-   * @param value The value with which the promise was rejected.
-   */
-  onUnhandledRejection?: (value: StaticJsValue) => Promise<void>;
 }
 
 /**

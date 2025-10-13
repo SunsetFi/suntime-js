@@ -1,12 +1,3 @@
-/**
- * A task in the StaticJs runtime.
- *
- * Tasks are implemented as generators.  Call .next() to run a single operation in the task.
- * Call it repeatedly until it returns { done: true }.
- *
- * Task execution can be done asynchronously, with pauses between operations,
- */
-
 export interface StaticJsTaskSourceLocation {
   /**
    * The 1-based line number of the current location in the source code.
@@ -49,6 +40,14 @@ export interface StaticJsTaskIteratorOperation {
   get location(): StaticJsTaskIteratorLocation;
 }
 
+/**
+ * A task in the StaticJs runtime.
+ *
+ * Tasks are implemented as generators.  Call .next() to run a single operation in the task.
+ * Call it repeatedly until it returns { done: true }.
+ *
+ * Task execution can be done asynchronously, with pauses between operations,
+ */
 export interface StaticJsTaskIterator {
   /**
    * Whether the task has completed execution.

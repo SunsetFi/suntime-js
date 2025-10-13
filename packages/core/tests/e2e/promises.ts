@@ -53,7 +53,7 @@ describe("E2E: Promises", () => {
     it("Fulfills when the promise is resolved", async () => {
       const cb = vitest.fn();
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             callback: cb,
           },
@@ -79,7 +79,7 @@ describe("E2E: Promises", () => {
     it("Invokes the fulfillment handler exactly once", async () => {
       const cb = vitest.fn();
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             callback: cb,
             log: (...args: unknown[]) => console.log(...args),
@@ -99,7 +99,7 @@ describe("E2E: Promises", () => {
     it("Does not fulfill when the promise is rejected", async () => {
       const cb = vitest.fn();
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             callback: cb,
           },
@@ -125,7 +125,7 @@ describe("E2E: Promises", () => {
     it("Rejects when the promise is rejected", async () => {
       const cb = vitest.fn();
       const realm = StaticJsRealm({
-        globalObject: {
+        global: {
           value: {
             callback: cb,
           },

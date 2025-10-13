@@ -1,12 +1,10 @@
 import type { Writable } from "type-fest";
 import { type Node } from "@babel/types";
-import traverseNs from "@babel/traverse";
-const traverse =
-  typeof traverseNs === "function" ? traverseNs : traverseNs.default;
 
 import parseScript from "../../../parser/parse-script.js";
 import parseModule from "../../../parser/parse-module.js";
 import parseExpression from "../../../parser/parse-expression.js";
+import hasTopLevelAwait from "../../../parser/has-top-level-await.js";
 
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
@@ -105,9 +103,6 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   private readonly _defaultRunTask: StaticJsTaskRunner;
   private readonly _defaultRunTaskSync: StaticJsTaskRunner;
-  private readonly _defaultOnUnhandledRejection: (
-    value: StaticJsValue,
-  ) => void | Promise<void>;
 
   private _invokeEvaluatorSyncDepth = 0;
   private _invokeEvaluatorSyncMicrotasks: (() => EvaluationGenerator<void>)[] =
@@ -116,18 +111,16 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private _idleCallbacks: (() => void)[] = [];
 
   constructor({
-    globalObject,
+    global: globalObject,
     globalThis,
     modules,
     resolveImportedModule: resolveModule,
     runTask,
     runTaskSync,
-    onUnhandledRejection,
   }: StaticJsRealmOptions = {}) {
     this._externalResolveModule = resolveModule;
     this._defaultRunTask = runTask ?? defaultTaskRunner;
     this._defaultRunTaskSync = runTaskSync ?? defaultTaskRunner;
-    this._defaultOnUnhandledRejection = onUnhandledRejection ?? (() => {});
 
     // Note: We could check to see if globalObject has factories or prototypes and use them
     // instead of these.
@@ -594,7 +587,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
 function resolveGlobalObject(
   realm: StaticJsRealm,
-  globalObject?: StaticJsRealmOptions["globalObject"],
+  globalObject?: StaticJsRealmOptions["global"],
 ) {
   let globalObjectResolved: StaticJsObject;
   if (!globalObject) {
@@ -728,27 +721,6 @@ function defaultTaskRunner(task: StaticJsTaskIterator) {
   while (!result.done) {
     result = task.next();
   }
-}
-
-function hasTopLevelAwait(node: Node) {
-  let found = false;
-  traverse(node, {
-    AwaitExpression(path) {
-      path.stop();
-      found = true;
-    },
-    FunctionExpression(path) {
-      path.skip();
-    },
-    FunctionDeclaration(path) {
-      path.skip();
-    },
-    ArrowFunctionExpression(path) {
-      path.skip();
-    },
-  });
-
-  return found;
 }
 
 function* doEvaluateNode(
