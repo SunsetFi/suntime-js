@@ -78,6 +78,7 @@ import type {
 
 import type {
   StaticJsEvaluateScriptOptions,
+  StaticJsEvaluateScriptSyncOptions,
   StaticJsEvaluator,
   StaticJsRealm,
   StaticJsRunTaskOptions,
@@ -214,10 +215,13 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   ): Promise<StaticJsValue> {
     const parsed = parseScript(script, {
       topLevelAwait: Boolean(opts?.topLevelAwait),
+      fileName: opts?.fileName,
     });
     const strict = parsed.program.directives.some(
       (directive) => directive.value.value === "use strict",
     );
+
+    let evaluator: StaticJsEvaluator<StaticJsValue>;
 
     const topLevelAwait = hasTopLevelAwait(parsed);
     if (topLevelAwait || opts?.topLevelAwait === true) {
@@ -227,21 +231,17 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         );
       }
 
-      return this.enqueueMacrotask(
-        doEvaluateNodeAsync(parsed.program, this, strict),
-        opts,
-      );
+      evaluator = doEvaluateNodeAsync(parsed.program, this, strict);
+    } else {
+      evaluator = doEvaluateNode(parsed.program, this, strict);
     }
 
-    return this.enqueueMacrotask(
-      doEvaluateNode(parsed.program, this, strict),
-      opts,
-    );
+    return this.enqueueMacrotask(evaluator, opts);
   }
 
   evaluateScriptSync(
     script: string,
-    opts?: StaticJsRunTaskOptions,
+    opts?: StaticJsEvaluateScriptSyncOptions,
   ): StaticJsValue {
     if (this._currentTask) {
       // FIXME: This should be allowed.  Use this for eval?
@@ -249,7 +249,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       throw new StaticJsConcurrentEvaluationError();
     }
 
-    const parsed = parseScript(script);
+    const parsed = parseScript(script, {
+      fileName: opts?.fileName,
+    });
     const strict = parsed.program.directives.some(
       (directive) => directive.value.value === "use strict",
     );
@@ -405,11 +407,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     evaluator: StaticJsEvaluator<TReturn>,
     { runTask = this._defaultRunTask } = {},
   ): Promise<TReturn> {
-    const macrotask = new Macrotask(
-      typeof evaluator === "function" ? evaluator : () => evaluator,
-      runTask,
-      (task) => this._assertTaskRunning(task),
-    );
+    const macrotask = this._createMacrotask(evaluator, runTask);
 
     macrotask.onComplete((err) => this._onTaskCompleted(err));
 
@@ -432,6 +430,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
 
     let result: TReturn | undefined = undefined;
+    let error: unknown | undefined = undefined;
     let complete = false;
     try {
       if (!runTask) {
@@ -442,29 +441,32 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         };
       }
 
-      const macrotask = new Macrotask(evaluator, runTask, (task) =>
-        this._assertTaskRunning(task),
-      );
-
-      this._currentTask = macrotask;
+      const macrotask = this._createMacrotask(evaluator, runTask);
       macrotask.onComplete((value, err) => {
         complete = true;
-        if (err) {
-          throw err;
-        }
+        error = err;
         result = value as TReturn;
       });
+
+      this._currentTask = macrotask;
 
       macrotask.invoke();
 
       if (!macrotask.done) {
-        throw new StaticJsEngineError("Task did not complete synchronously.");
+        throw new StaticJsEngineError(
+          `The task runner for invokeMacrotaskSync did not complete the task synchronously.  The provided runTask was '${runTask.name}'.`,
+        );
       }
 
       if (!complete) {
+        // This should never occur and indicates a bug in the Macrotask implementation.
         throw new StaticJsEngineError(
           "The macrotask did not complete correctly.",
         );
+      }
+
+      if (error) {
+        throw error;
       }
 
       return result!;
@@ -504,7 +506,19 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
   }
 
+  private _createMacrotask(
+    evaluator: StaticJsEvaluator,
+    taskRunner: StaticJsTaskRunner,
+  ) {
+    return new Macrotask(
+      typeof evaluator === "function" ? evaluator : () => evaluator,
+      taskRunner,
+      (task) => this._assertTaskRunning(task),
+    );
+  }
+
   private _assertTaskRunning(task: Macrotask) {
+    // This should never trigger, but is a sanity check against bugs in the task queuing system.
     if (this._currentTask !== task) {
       throw new StaticJsEngineError(
         "Cannot run a task that is not the current task.",
@@ -768,6 +782,9 @@ function* doEvaluateNodeAsync(
     yield* setupEnvironment(node, context);
     const evaluator = EvaluateNodeCommand(node, context);
     const invocation = new AsyncEvaluatorInvocation(evaluator, realm, true);
+
+    // Note that invocation.start() performs its own sandbox error handling, so nothing
+    // beyond here should throw abnormal completions.
     yield* invocation.start();
     return invocation.promise;
   } catch (e) {

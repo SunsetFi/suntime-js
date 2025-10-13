@@ -6,6 +6,7 @@ import toPropertyKey from "../../runtime/utils/to-property-key.js";
 import { isStaticJsNull } from "../../runtime/types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsObjectPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import toObject from "../../runtime/algorithms/to-object.js";
 
@@ -22,6 +23,14 @@ export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  const [, value] = yield* invokeMemberExpression(node, context);
+  return value;
+}
+
+export function* invokeMemberExpression(
+  node: MemberExpression,
+  context: EvaluationContext,
+): EvaluationGenerator<[thisArg: StaticJsValue, func: StaticJsValue]> {
   const propertyNode = node.property;
   let target = yield* EvaluateNodeCommand(node.object, context, {
     forNormalValue: "MemberExpression.object",
@@ -66,5 +75,5 @@ export default function* memberExpressionNodeEvaluator(
   }
 
   const value = yield* target.getPropertyEvaluator(propertyKey);
-  return value;
+  return [target, value];
 }

@@ -73,7 +73,27 @@ describe("E2E: Promises", () => {
         fulfill.callEvaluator(realm.types.undefined),
       );
 
-      expect(cb).toBeCalled();
+      expect(cb).toBeCalledTimes(1);
+    });
+
+    it("Invokes the fulfillment handler exactly once", async () => {
+      const cb = vitest.fn();
+      const realm = StaticJsRealm({
+        globalObject: {
+          value: {
+            callback: cb,
+            log: (...args: unknown[]) => console.log(...args),
+          },
+        },
+      });
+
+      const code = `
+      let count = 0;
+      Promise.resolve(4).then(callback);
+    `;
+
+      await realm.evaluateScript(code);
+      expect(cb).toBeCalledTimes(1);
     });
 
     it("Does not fulfill when the promise is rejected", async () => {

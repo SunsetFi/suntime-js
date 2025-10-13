@@ -24,6 +24,7 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import nameNode from "./name-node.js";
 import setupEnvironment from "./setup-environment.js";
+import { invokeMemberExpression } from "./MemberExpression.js";
 
 export default function* callExpressionNodeEvaluator(
   node: CallExpression,
@@ -37,16 +38,20 @@ export default function* callExpressionNodeEvaluator(
   // This is suprising, but we pass undefined if we have none.
   // The function itself decides what to and (maybe) inherits globalThis when undefined is passed.
   let thisArg: StaticJsValue = context.realm.types.undefined;
+  let callee: StaticJsValue;
 
   if (node.callee.type === "MemberExpression") {
-    thisArg = yield* EvaluateNodeCommand(node.callee.object, context, {
-      forNormalValue: "CallExpression.callee.object",
+    const [target, property] = yield* invokeMemberExpression(
+      node.callee,
+      context,
+    );
+    thisArg = target;
+    callee = property;
+  } else {
+    callee = yield* EvaluateNodeCommand(node.callee, context, {
+      forNormalValue: "CallExpression.callee",
     });
   }
-
-  const callee = yield* EvaluateNodeCommand(node.callee, context, {
-    forNormalValue: "CallExpression.callee",
-  });
 
   if (!isStaticJsFunction(callee)) {
     throw new ThrowCompletion(

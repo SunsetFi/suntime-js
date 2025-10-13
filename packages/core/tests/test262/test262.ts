@@ -89,6 +89,10 @@ function defineTest(test: string) {
 
     // This isn't documented in INTERPRETING.md,
     // I can only infer its extistence from CONTRIBUTING.md
+    // Based on how our realm operates, this being a promise is overkill, as
+    // in theory all our microtasks SHOULD complete before evaluateScript returns.
+    // However, some tests do weird things with agents, which we currently don't support,
+    // so we will need something like this eventually.
     let awaitPromise: Promise<void> = Promise.resolve();
     if (testMeta.async) {
       awaitPromise = new Promise((resolve, reject) => {
@@ -111,7 +115,13 @@ function defineTest(test: string) {
       await realm.evaluateScript(testMeta.contents);
       await Promise.race([
         awaitPromise,
-        delay(5000).then(() => Promise.reject(new Error("Test timed out"))),
+        delay(5000).then(() =>
+          Promise.reject(
+            new Error(
+              "Async test did not call $DONE within 5 seconds of completion",
+            ),
+          ),
+        ),
       ]);
 
       if (testMeta.attrs.negative) {

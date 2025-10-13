@@ -29,6 +29,11 @@ export interface StaticJsRunTaskOptions {
 
 export interface StaticJsEvaluateScriptOptions extends StaticJsRunTaskOptions {
   /**
+   * An optional file name to associate with the script.
+   */
+  fileName?: string;
+
+  /**
    * Whether to support top-level await in the script.
    * If true, evaluateScript will always return a promise.
    * If "auto", evaluateScript will return a promise if top-level await is used, otherwise it will return the result directly.
@@ -39,6 +44,11 @@ export interface StaticJsEvaluateScriptOptions extends StaticJsRunTaskOptions {
    */
   topLevelAwait?: boolean | "auto";
 }
+
+export type StaticJsEvaluateScriptSyncOptions = Omit<
+  StaticJsEvaluateScriptOptions,
+  "topLevelAwait"
+>;
 
 export type StaticJsEvaluator<T = unknown> =
   | EvaluationGenerator<T>
@@ -113,7 +123,7 @@ export interface StaticJsRealm {
    */
   evaluateScriptSync(
     script: string,
-    opts?: StaticJsRunTaskOptions,
+    opts?: StaticJsEvaluateScriptSyncOptions,
   ): StaticJsValue;
 
   /**

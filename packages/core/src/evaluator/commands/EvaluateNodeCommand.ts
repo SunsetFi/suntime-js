@@ -38,6 +38,11 @@ export function* EvaluateNodeCommand(
   context: EvaluationContext,
   { forNormalValue, ...evaluateOptions }: EvaluateNodeCommandOptions = {},
 ): EvaluationGenerator<unknown> {
+  // At one point, our commands were evaluated by a handler at the root of the evaluation chain,
+  // and our result would come out of this yield statement.
+  // However, that made it hard to implement async functions, as we would need to teach that system
+  // how to handle an async yield.
+  // Instead, this acts more as an advisory and "ask permission to continue" step.
   yield {
     kind: "evalute-node",
     node,
