@@ -195,8 +195,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     expression: string,
     opts?: StaticJsRunTaskOptions,
   ): StaticJsValue {
-    if (this._currentTask) {
-      throw new StaticJsConcurrentEvaluationError();
+    if (this._currentTask && !this._currentTask.entered) {
+      throw new StaticJsConcurrentEvaluationError(
+        "Synchronous script evaluations from outside the current task cannot be performed while another task is running.",
+      );
     }
 
     const parsed = parseExpression(expression);
