@@ -83,6 +83,12 @@ For more information, including solutions for breaking loops, see [Quick Start](
 
 - Fix 'all' [Test262](https://github.com/tc39/test262) tests.
   - Currently only running tests in the language folder. Need to add built-ins
+- Figure out public API for invoking evaluators.
+  - Probably hide evaluators and provide non-evaluator non-sync APIs from intrinsic types.
+  - Figure out what it looks like for a consumer to want to call functions or invoke other evaluators as part of an api surface exposed within
+    the sandbox (IE global scope functions, external modules).
+    - Not good to have it start a new macrotask, as the task runner API should see calls to these apis happening while a task is active as
+      continuations of the same task, not new nested tasks.
 - Fix host throwing error inside a sandbox promise continuation causing sandbox unhandled rejections.
 - Fix circular imports on modules. There's a skipped test for this.
 - Fix task runner not bound to continuations of promises

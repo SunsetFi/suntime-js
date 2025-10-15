@@ -167,7 +167,7 @@ export default class ScriptInvocation {
     }
 
     const realm = StaticJsRealm({
-      globalObject: {
+      global: {
         value: {
           console: {
             log: this._consoleLog.bind(this),
