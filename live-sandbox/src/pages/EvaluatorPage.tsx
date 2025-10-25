@@ -43,6 +43,12 @@ const EvaluatorPage = () => {
   const onRun = React.useCallback(() => {
     let inv = invocation;
     if (!inv || status !== "paused") {
+      if (inv) {
+        try {
+          inv.abort();
+        } catch {}
+      }
+
       inv = new ScriptInvocation(code);
       setInvocation(inv);
     }

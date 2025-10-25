@@ -1,12 +1,14 @@
 import { defineConfig } from "vitest/config";
 import { readFileSync } from "fs";
 
+const tsconfigRaw = readFileSync("./tsconfig.tests.json", "utf-8");
+
 export default defineConfig({
   test: {
     projects: [
       {
         esbuild: {
-          tsconfigRaw: readFileSync("./tsconfig.tests.json", "utf-8"),
+          tsconfigRaw,
         },
         test: {
           name: "e2e",
@@ -16,7 +18,7 @@ export default defineConfig({
       },
       {
         esbuild: {
-          tsconfigRaw: readFileSync("./tsconfig.tests.json", "utf-8"),
+          tsconfigRaw,
         },
         test: {
           name: "Test262",
