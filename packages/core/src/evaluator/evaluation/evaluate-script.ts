@@ -72,7 +72,7 @@ export function evaluateScriptSync(
     if (error instanceof StaticJsRuntimeError) {
       error = error.thrown.toJsSync();
     } else if (error instanceof StaticJsSyntaxError) {
-      throw new SyntaxError(error.message);
+      error = SyntaxError(error.message);
     }
 
     throw error;

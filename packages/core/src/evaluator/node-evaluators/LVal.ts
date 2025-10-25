@@ -87,7 +87,7 @@ export default function* setLVal(
           value = context.realm.types.undefined;
         } else {
           const next = yield* iteratorStepValue(iterator, context.realm);
-          if (next === false) {
+          if (!next) {
             foundEnd = true;
             value = context.realm.types.undefined;
           } else {
@@ -112,7 +112,7 @@ export default function* setLVal(
           // And then get the rest of them.
           while (true) {
             const next = yield* iteratorStepValue(iterator, context.realm);
-            if (next === false) {
+            if (!next) {
               // babel should enforce no more elements after a rest element, but just in case...
               foundEnd = true;
               break;

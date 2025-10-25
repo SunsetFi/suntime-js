@@ -1,11 +1,11 @@
-import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import toString from "../../../algorithms/to-string.js";
 import toNumber from "../../../algorithms/to-number.js";
 
-const stringProtoCharAtDeclaration: FunctionIntrinsicPropertyDeclaration = {
+const stringProtoCharAtDeclaration: IntrinsicPropertyDeclaration = {
   key: "charAt",
   func: function* (realm, thisArg, indexValue?: StaticJsValue) {
     thisArg = yield* toString(thisArg, realm);

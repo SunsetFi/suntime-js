@@ -12,11 +12,12 @@ import { populateStringPrototype } from "./String/index.js";
 import { populateNumberPrototype } from "./Number/index.js";
 import { populateBooleanPrototype } from "./Boolean.js";
 import { populatePromisePrototype } from "./Promise/index.js";
+import { populateIteratorPrototype } from "./Iterator.js";
+import { populateSetPrototype } from "./Set/index.js";
 import { populateErrorPrototype } from "./Error/index.js";
 import { populateTypeErrorPrototype } from "./TypeError.js";
 import { populateReferenceErrorPrototype } from "./ReferenceError.js";
 import { populateSyntaxErrorPrototype } from "./SyntaxError.js";
-import { populateIteratorPrototype } from "./Iterator.js";
 import { populateRangeErrorPrototype } from "./RangeError.js";
 
 export function createPrototypes(realm: StaticJsRealm): Prototypes {
@@ -30,14 +31,14 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
   const arrayProto = new StaticJsObjectImpl(realm, objectProto);
 
   const promiseProto = new StaticJsObjectImpl(realm, objectProto);
+  const iteratorProto = new StaticJsObjectImpl(realm, objectProto);
+  const setProto = new StaticJsObjectImpl(realm, objectProto);
 
   const errorProto = new StaticJsObjectImpl(realm, objectProto);
   const typeErrorProto = new StaticJsObjectImpl(realm, errorProto);
   const referenceErrorProto = new StaticJsObjectImpl(realm, errorProto);
   const syntaxErrorProto = new StaticJsObjectImpl(realm, errorProto);
   const rangeErrorProto = new StaticJsObjectImpl(realm, errorProto);
-
-  const iteratorProto = new StaticJsObjectImpl(realm, objectProto);
 
   return {
     stringProto,
@@ -48,12 +49,13 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
     arrayProto,
     functionProto,
     promiseProto,
+    iteratorProto,
+    setProto,
     errorProto,
     typeErrorProto,
     referenceErrorProto,
     syntaxErrorProto,
     rangeErrorProto,
-    iteratorProto,
   };
 }
 
@@ -71,12 +73,12 @@ export function instantiatePrototypes(realm: StaticJsRealm) {
   populateArrayPrototype(realm, prototypes.arrayProto);
 
   populatePromisePrototype(realm, prototypes.promiseProto);
+  populateIteratorPrototype(realm, prototypes.iteratorProto);
+  populateSetPrototype(realm, prototypes.setProto);
 
   populateErrorPrototype(realm, prototypes.errorProto);
   populateTypeErrorPrototype(realm, prototypes.typeErrorProto);
   populateReferenceErrorPrototype(realm, prototypes.referenceErrorProto);
   populateSyntaxErrorPrototype(realm, prototypes.syntaxErrorProto);
   populateRangeErrorPrototype(realm, prototypes.rangeErrorProto);
-
-  populateIteratorPrototype(realm, prototypes.iteratorProto);
 }

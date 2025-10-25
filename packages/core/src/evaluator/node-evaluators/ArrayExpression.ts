@@ -34,7 +34,7 @@ export default function* arrayExpressionNodeEvaluator(
 
       while (true) {
         const value = yield* iteratorStepValue(iterator, context.realm);
-        if (value === false) {
+        if (!value) {
           break;
         }
 

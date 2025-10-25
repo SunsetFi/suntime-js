@@ -6,9 +6,11 @@ import { createBooleanConstructor } from "./Boolean.js";
 import { createFunctionConstructor } from "./Function/index.js";
 import { createNumberConstructor } from "./Number/index.js";
 import { createObjectConstructor } from "./Object/index.js";
-import { createPromiseConstructor } from "./Promise/index.js";
 import { createStringConstructor } from "./String/index.js";
 import { createSymbolConstructor } from "./Symbol/index.js";
+import { createPromiseConstructor } from "./Promise/index.js";
+import { createIteratorConstructor } from "./Iterator.js";
+import { createSetConstructor } from "./Set/index.js";
 import { createErrorConstructor } from "./Error/index.js";
 import { createTypeErrorConstructor } from "./TypeError.js";
 import { createReferenceErrorConstructor } from "./ReferenceError.js";
@@ -44,10 +46,15 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
     realm,
     realm.types.prototypes.functionProto,
   );
+  const Iterator = createIteratorConstructor(
+    realm,
+    realm.types.prototypes.iteratorProto,
+  );
   const Promise = createPromiseConstructor(
     realm,
     realm.types.prototypes.promiseProto,
   );
+  const Set = createSetConstructor(realm, realm.types.prototypes.setProto);
   const Error = createErrorConstructor(
     realm,
     realm.types.prototypes.errorProto,
@@ -77,7 +84,9 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
     Symbol,
     Array,
     Function,
+    Iterator,
     Promise,
+    Set,
     Error,
     TypeError,
     ReferenceError,

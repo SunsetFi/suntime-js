@@ -99,13 +99,22 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   ): EvaluationGenerator<boolean>;
 }
 
+// This is a little bit rediculous.  We should probably just use a flag or something.
+const objectLikeRuntimeTypes = [
+  "object",
+  "array",
+  "function",
+  "promise",
+  "symbol",
+  "set",
+  "iterator",
+];
 export function isStaticJsObjectLike(
   value: unknown,
 ): value is StaticJsObjectLike {
   if (!isStaticJsValue(value)) {
     return false;
   }
-  return ["object", "array", "function", "promise", "symbol"].includes(
-    value.runtimeTypeOf,
-  );
+
+  return objectLikeRuntimeTypes.includes(value.runtimeTypeOf);
 }

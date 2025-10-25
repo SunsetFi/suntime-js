@@ -9,8 +9,9 @@ export interface Prototypes {
   objectProto: StaticJsObject;
   arrayProto: StaticJsObject;
   functionProto: StaticJsObject;
-  promiseProto: StaticJsObject;
   symbolProto: StaticJsObject;
+  promiseProto: StaticJsObject;
+  setProto: StaticJsObject;
 
   errorProto: StaticJsObject;
   typeErrorProto: StaticJsObject;
@@ -29,7 +30,9 @@ export interface Constructors {
   Symbol: StaticJsFunction;
   Array: StaticJsFunction;
   Function: StaticJsFunction;
+  Iterator: StaticJsFunction;
   Promise: StaticJsFunction;
+  Set: StaticJsFunction;
   Error: StaticJsFunction;
   TypeError: StaticJsFunction;
   ReferenceError: StaticJsFunction;

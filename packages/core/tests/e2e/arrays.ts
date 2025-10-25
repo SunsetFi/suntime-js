@@ -177,21 +177,16 @@ describe("E2E: Arrays", () => {
       it("Returns an iterator", async () => {
         const code = `
           const a = [1, 2, 3];
-          a.entries();
+          a.entries() instanceof Iterator;
         `;
         const result = await evaluateScript(code);
-        expect(result).toEqual(expect.any(Object));
+        expect(result).toBe(true);
       });
 
       it("Iterates the entries", async () => {
         const code = `
           const a = [1, 2, 3];
-          const iterator = a.entries();
-          const results = [];
-          for (const entry of iterator) {
-            results.push(entry);
-          }
-          results;
+          Array.from(a.entries());
         `;
         const result = await evaluateScript(code);
         expect(result).toEqual([
@@ -886,21 +881,16 @@ describe("E2E: Arrays", () => {
       it("Returns an iterator", async () => {
         const code = `
           const a = [1, 2, 3];
-          a.keys();
+          a.keys() instanceof Iterator;
         `;
         const result = await evaluateScript(code);
-        expect(result).toEqual(expect.any(Object));
+        expect(result).toBe(true);
       });
 
       it("Iterates the keys", async () => {
         const code = `
           const a = [1, 2, 3];
-          const iterator = a.keys();
-          const results = [];
-          for (const key of iterator) {
-            results.push(key);
-          }
-          results;
+          Array.from(a.keys());
         `;
         const result = await evaluateScript(code);
         expect(result).toEqual([0, 1, 2]);
@@ -1661,7 +1651,7 @@ describe("E2E: Arrays", () => {
         const code = `
           const a = [1, 2, 3];
           const it = a[Symbol.iterator]();
-          typeof it.next === "function";
+          it instanceof Iterator;
         `;
         const result = await evaluateScript(code);
         expect(result).toBe(true);

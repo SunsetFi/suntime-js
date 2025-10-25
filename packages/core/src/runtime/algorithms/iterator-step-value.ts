@@ -15,7 +15,7 @@ import toBoolean from "./to-boolean.js";
 export default function* iteratorStepValue(
   iterator: StaticJsObjectLike,
   realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsValue | false> {
+): EvaluationGenerator<StaticJsValue | undefined> {
   const nextMethod = yield* iterator.getPropertyEvaluator("next");
   if (!isStaticJsFunction(nextMethod)) {
     throw new ThrowCompletion(
@@ -33,7 +33,7 @@ export default function* iteratorStepValue(
   const done = yield* next.getPropertyEvaluator("done");
   const doneResult = yield* toBoolean.js(done, realm);
   if (doneResult) {
-    return false;
+    return undefined;
   }
 
   const value = yield* next.getPropertyEvaluator("value");

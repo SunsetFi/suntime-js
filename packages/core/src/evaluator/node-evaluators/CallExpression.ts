@@ -81,7 +81,7 @@ export default function* callExpressionNodeEvaluator(
 
       while (true) {
         const value = yield* iteratorStepValue(iterator, context.realm);
-        if (value === false) {
+        if (!value) {
           break;
         }
         args.push(value);

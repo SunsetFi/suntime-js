@@ -23,6 +23,7 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 - Strict directive
 - Primitives
 - Arrays
+- Sets
 - Math
 - Error (and variants), try / catch
 - Promises
@@ -50,7 +51,7 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 
 - Generator functions
 - All well-known symbols not listed above
-- Map, Set
+- Map
 - WeakMap, WeakRef, FinalizationRegistry
 - Class syntax
 - Date
