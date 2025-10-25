@@ -4,10 +4,14 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
+import type { StaticJsIterator } from "../StaticJsIterator.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
-export default class StaticJsIteratorImpl extends StaticJsObjectLikeImpl {
+export default class StaticJsIteratorImpl
+  extends StaticJsObjectLikeImpl
+  implements StaticJsIterator
+{
   private _done = false;
 
   constructor(

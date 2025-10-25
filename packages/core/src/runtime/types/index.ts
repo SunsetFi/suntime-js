@@ -1,6 +1,7 @@
 export * from "./StaticJsArray.js";
 export * from "./StaticJsBoolean.js";
 export * from "./StaticJsFunction.js";
+export * from "./StaticJsIterator.js";
 export * from "./StaticJsNull.js";
 export * from "./StaticJsNumber.js";
 export * from "./StaticJsObject.js";
@@ -9,6 +10,7 @@ export * from "./StaticJsPrimitive.js";
 export * from "./StaticJsPromise.js";
 export * from "./StaticJsPropertyDescriptor.js";
 export * from "./StaticJsScalar.js";
+export * from "./StaticJsSet.js";
 export * from "./StaticJsString.js";
 export * from "./StaticJsSymbol.js";
 export * from "./StaticJsTypeFactory.js";

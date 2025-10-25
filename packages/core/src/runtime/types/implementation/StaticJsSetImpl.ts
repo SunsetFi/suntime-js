@@ -4,6 +4,7 @@ import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js"
 
 import getIterator from "../../algorithms/get-iterator.js";
 import iteratorStepValue from "../../algorithms/iterator-step-value.js";
+import toBoolean from "../../algorithms/to-boolean.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -20,7 +21,6 @@ import type { StaticJsSet } from "../StaticJsSet.js";
 
 import StaticJsIteratorImpl from "./StaticJsIteratorImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
-import toBoolean from "../../algorithms/to-boolean.js";
 
 // TODO: Take shortcuts for difference and friends if otherSet is also a StaticJsSetImpl
 
@@ -52,7 +52,7 @@ export default class StaticJsSetImpl
       );
     }
 
-    const [result, resultAdd] = yield* setSpeciesCreate(this, this.realm);
+    const [result, resultAdd] = yield* setCreate(this, this.realm);
 
     const otherHas = yield* otherSet.getPropertyEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
@@ -87,7 +87,7 @@ export default class StaticJsSetImpl
       );
     }
 
-    const [result, resultAdd] = yield* setSpeciesCreate(this, this.realm);
+    const [result, resultAdd] = yield* setCreate(this, this.realm);
 
     const otherHas = yield* otherSet.getPropertyEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
@@ -201,7 +201,7 @@ export default class StaticJsSetImpl
       );
     }
 
-    const [result, resultAdd] = yield* setSpeciesCreate(this, this.realm);
+    const [result, resultAdd] = yield* setCreate(this, this.realm);
 
     const otherHas = yield* otherSet.getPropertyEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
@@ -237,7 +237,7 @@ export default class StaticJsSetImpl
   }
 
   *unionEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue> {
-    const [result, resultAdd] = yield* setSpeciesCreate(this, this.realm);
+    const [result, resultAdd] = yield* setCreate(this, this.realm);
 
     for (const value of this._backingStore) {
       const wrapped = toRuntimeWrap(value, this.realm);
@@ -326,7 +326,7 @@ export default class StaticJsSetImpl
   }
 }
 
-function* setSpeciesCreate(
+function* setCreate(
   _from: StaticJsSetImpl,
   realm: StaticJsRealm,
 ): EvaluationGenerator<[set: StaticJsValue, add: StaticJsFunction]> {

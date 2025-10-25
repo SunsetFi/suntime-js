@@ -1,9 +1,9 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
+import { isStaticJsIterator } from "../types/StaticJsIterator.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
-import StaticJsIteratorImpl from "../types/implementation/StaticJsIteratorImpl.js";
 
 export function populateIteratorPrototype(
   realm: StaticJsRealm,
@@ -27,7 +27,7 @@ export function populateIteratorPrototype(
     value: new StaticJsFunctionImpl(realm, "next", function* (
       thisArg: StaticJsValue,
     ) {
-      if (thisArg instanceof StaticJsIteratorImpl === false) {
+      if (!isStaticJsIterator(thisArg)) {
         throw realm.types.error("TypeError", "Not an iterator");
       }
 
