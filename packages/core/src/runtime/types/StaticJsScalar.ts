@@ -23,5 +23,5 @@ export function isStaticJsScalar(
     return false;
   }
 
-  return Boolean(value.runtimeTypeCode & StaticJsTypeCode.ScalarMask);
+  return Boolean(value.runtimeTypeCode & StaticJsTypeCode.IsScalarFlag);
 }

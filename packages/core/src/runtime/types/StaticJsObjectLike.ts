@@ -110,5 +110,5 @@ export function isStaticJsObjectLike(
     return false;
   }
 
-  return Boolean(value.runtimeTypeCode & StaticJsTypeCode.ObjectMask);
+  return Boolean(value.runtimeTypeCode & StaticJsTypeCode.IsObjectLikeFlag);
 }
