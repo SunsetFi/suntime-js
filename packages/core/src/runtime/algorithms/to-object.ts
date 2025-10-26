@@ -11,12 +11,14 @@ import { isStaticJsNumber } from "../types/StaticJsNumber.js";
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsString } from "../types/StaticJsString.js";
+import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import StaticJsBooleanBoxed from "../types/implementation/StaticJsBooleanBoxed.js";
 import StaticJsNumberBoxed from "../types/implementation/StaticJsNumberBoxed.js";
 import StaticJsStringBoxed from "../types/implementation/StaticJsStringBoxed.js";
+import StaticJsSymbolBoxed from "../types/implementation/StaticJsSymbolBoxed.js";
 
 export default function* toObject(
   value: StaticJsValue,
@@ -41,6 +43,10 @@ export default function* toObject(
 
   if (isStaticJsString(value)) {
     return new StaticJsStringBoxed(realm, value.value);
+  }
+
+  if (isStaticJsSymbol(value)) {
+    return new StaticJsSymbolBoxed(realm, value);
   }
 
   if (isStaticJsObjectLike(value)) {

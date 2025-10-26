@@ -21,6 +21,7 @@ import type { StaticJsSet } from "../StaticJsSet.js";
 
 import StaticJsIteratorImpl from "./StaticJsIteratorImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
 
 // TODO: Take shortcuts for difference and friends if otherSet is also a StaticJsSetImpl
 
@@ -36,6 +37,10 @@ export default class StaticJsSetImpl
 
   get runtimeTypeOf(): "set" {
     return "set";
+  }
+
+  get runtimeTypeCode() {
+    return StaticJsTypeCode.Set;
   }
 
   *addEvaluator(value: StaticJsValue): EvaluationGenerator<void> {

@@ -1,5 +1,6 @@
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
 
 export default class StaticJsNullImpl implements StaticJsNull {
   constructor(private readonly _realm: StaticJsRealm) {}
@@ -15,6 +16,10 @@ export default class StaticJsNullImpl implements StaticJsNull {
 
   get runtimeTypeOf() {
     return "null" as const;
+  }
+
+  get runtimeTypeCode() {
+    return StaticJsTypeCode.Null;
   }
 
   get value() {

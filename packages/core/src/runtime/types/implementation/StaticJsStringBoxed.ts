@@ -7,6 +7,7 @@ import type { StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
 import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
 
 export default class StaticJsStringBoxed extends StaticJsAbstractObject {
   constructor(
@@ -18,6 +19,10 @@ export default class StaticJsStringBoxed extends StaticJsAbstractObject {
 
   get runtimeTypeOf(): string {
     return "object";
+  }
+
+  get runtimeTypeCode() {
+    return StaticJsTypeCode.Object;
   }
 
   get value(): string {
@@ -71,6 +76,6 @@ export default class StaticJsStringBoxed extends StaticJsAbstractObject {
   }
 
   toJsSync(): unknown {
-    return this._value;
+    return new Object(this._value);
   }
 }

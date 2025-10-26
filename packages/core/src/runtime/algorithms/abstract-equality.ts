@@ -17,6 +17,7 @@ import { isStaticJsScalar } from "../types/StaticJsScalar.js";
 import strictEquality from "./strict-equality.js";
 import toNumber from "./to-number.js";
 import toPrimitive from "./to-primitive.js";
+import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 export default function* abstractEquality(
   a: StaticJsValue,
@@ -24,7 +25,7 @@ export default function* abstractEquality(
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsBoolean> {
   // Same type
-  if (a.runtimeTypeOf === b.runtimeTypeOf) {
+  if (a.runtimeTypeCode === b.runtimeTypeCode) {
     return yield* strictEquality(a, b, realm);
   }
 
@@ -53,6 +54,10 @@ export default function* abstractEquality(
   if (isStaticJsBoolean(b)) {
     const bNumber = yield* toNumber(b, realm);
     return yield* abstractEquality(a, bNumber, realm);
+  }
+
+  if (isStaticJsSymbol(a) || isStaticJsSymbol(b)) {
+    return realm.types.boolean(Object.is(a, b));
   }
 
   // Object and Primitive

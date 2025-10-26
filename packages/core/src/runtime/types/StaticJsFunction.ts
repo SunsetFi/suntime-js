@@ -1,6 +1,7 @@
 import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
+import StaticJsTypeCode from "./StaticJsTypeCode.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
@@ -31,7 +32,7 @@ export function isStaticJsFunction(value: unknown): value is StaticJsFunction {
   if (!isStaticJsValue(value)) {
     return false;
   }
-  return value.runtimeTypeOf === "function";
+  return value.runtimeTypeCode === StaticJsTypeCode.Function;
 }
 
 export function isStaticJsBoundFunction(

@@ -1,6 +1,7 @@
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsBoolean } from "../StaticJsBoolean.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 
@@ -21,6 +22,10 @@ export default class StaticJsBooleanImpl
 
   get typeOf() {
     return "boolean" as const;
+  }
+
+  get runtimeTypeCode() {
+    return StaticJsTypeCode.Boolean;
   }
 
   get value() {

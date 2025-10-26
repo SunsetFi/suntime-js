@@ -13,6 +13,7 @@ import type {
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
 
 /**
  * A static object that wraps a native javascript object.
@@ -33,6 +34,10 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
 
   get runtimeTypeOf() {
     return "object" as const;
+  }
+
+  get runtimeTypeCode() {
+    return StaticJsTypeCode.Object;
   }
 
   get extensible(): boolean {

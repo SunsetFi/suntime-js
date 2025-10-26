@@ -14,8 +14,7 @@ export default function createStringConstructor(
     realm,
     "String",
     function* (_thisArg, value) {
-      const str = yield* toString(value ?? realm.types.undefined, realm);
-      return new StaticJsStringBoxed(realm, str.value);
+      return yield* toString(value ?? realm.types.undefined, realm);
     },
     {
       *construct(_thisArg, value) {

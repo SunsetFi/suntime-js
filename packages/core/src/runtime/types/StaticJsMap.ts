@@ -2,6 +2,7 @@ import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsFunction } from "./StaticJsFunction.js";
 import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
+import StaticJsTypeCode from "./StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsMap extends StaticJsObjectLike {
@@ -35,5 +36,9 @@ export interface StaticJsMap extends StaticJsObjectLike {
 }
 
 export function isStaticJsMap(value: unknown): value is StaticJsMap {
-  return isStaticJsValue(value) && value.runtimeTypeOf === "map";
+  if (!isStaticJsValue(value)) {
+    return false;
+  }
+
+  return value.runtimeTypeCode === StaticJsTypeCode.Map;
 }

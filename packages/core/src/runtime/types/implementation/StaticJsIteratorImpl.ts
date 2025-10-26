@@ -7,6 +7,7 @@ import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import type { StaticJsIterator } from "../StaticJsIterator.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
 
 export default class StaticJsIteratorImpl
   extends StaticJsObjectLikeImpl
@@ -25,6 +26,10 @@ export default class StaticJsIteratorImpl
 
   get runtimeTypeOf(): "iterator" {
     return "iterator";
+  }
+
+  get runtimeTypeCode() {
+    return StaticJsTypeCode.Iterator;
   }
 
   *nextEvaluator(): EvaluationGenerator<StaticJsObjectLike> {

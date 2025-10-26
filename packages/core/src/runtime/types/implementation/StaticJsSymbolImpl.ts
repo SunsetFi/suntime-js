@@ -3,6 +3,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
@@ -43,6 +44,14 @@ export default class StaticJsSymbolImpl
 
   get typeOf(): string {
     return "symbol";
+  }
+
+  get runtimeTypeCode() {
+    return StaticJsTypeCode.Symbol;
+  }
+
+  get value(): StaticJsSymbol {
+    return this;
   }
 
   get description(): string | undefined {

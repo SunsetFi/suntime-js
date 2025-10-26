@@ -7,7 +7,7 @@ export default function isStrictlyEqual(
   x: StaticJsValue,
   y: StaticJsValue,
 ): boolean {
-  if (x.runtimeTypeOf !== y.runtimeTypeOf) {
+  if (x.runtimeTypeCode !== y.runtimeTypeCode) {
     return false;
   }
 

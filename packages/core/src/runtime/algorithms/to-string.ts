@@ -17,6 +17,8 @@ import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import toPrimitive from "./to-primitive.js";
+import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
+import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
 
 function* toString(
   value: StaticJsValue,
@@ -43,6 +45,12 @@ function* toString(
   }
 
   // TODO: Symbol: throw TypeError
+  // TODO: Is this really what we do?
+  if (isStaticJsSymbol(value)) {
+    throw new StaticJsRuntimeError(
+      realm.types.error("TypeError", "Cannot convert symbol to string"),
+    );
+  }
 
   if (isStaticJsObjectLike(value)) {
     const primitive = yield* toPrimitive(value, "string", realm);

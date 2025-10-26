@@ -15,6 +15,7 @@ import {
 import { type StaticJsPromise } from "../StaticJsPromise.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
@@ -43,6 +44,10 @@ export default class StaticJsPromiseImpl
 
   get runtimeTypeOf() {
     return "promise" as const;
+  }
+
+  get runtimeTypeCode() {
+    return StaticJsTypeCode.Promise;
   }
 
   resolve(value: StaticJsValue) {

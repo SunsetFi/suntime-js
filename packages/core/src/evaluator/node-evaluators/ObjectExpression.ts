@@ -7,11 +7,12 @@ import type {
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
+import toPropertyKey from "../../runtime/utils/to-property-key.js";
+
 import type { StaticJsObject } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
-import toPropertyKey from "../../runtime/utils/to-property-key.js";
 import type { StaticJsObjectPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
-import toString from "../../runtime/algorithms/to-string.js";
+import { isStaticJsSymbol } from "../../runtime/types/StaticJsSymbol.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -81,8 +82,11 @@ function* objectExpressionPropertyObjectMethodEvaluator(
       forNormalValue: "ObjectMethod.key",
     });
     propertyKey = yield* toPropertyKey(property, context.realm);
-    const propertyName = yield* toString(property, context.realm);
-    functionName = propertyName.value;
+    if (isStaticJsSymbol(propertyKey)) {
+      functionName = `Symbol(${propertyKey.description})`;
+    } else {
+      functionName = propertyKey;
+    }
   }
 
   const method = createFunction(

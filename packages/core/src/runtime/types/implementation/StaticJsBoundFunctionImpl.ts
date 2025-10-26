@@ -6,6 +6,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import { isStaticJsString } from "../StaticJsString.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
@@ -59,12 +60,16 @@ class StaticJsBoundFunction
     super(realm, prototype ?? realm.types.prototypes.functionProto);
   }
 
+  get typeOf(): "function" {
+    return "function";
+  }
+
   get runtimeTypeOf(): "function" {
     return "function";
   }
 
-  get typeOf(): "function" {
-    return "function";
+  get runtimeTypeCode() {
+    return StaticJsTypeCode.Function;
   }
 
   get isConstructor(): boolean {

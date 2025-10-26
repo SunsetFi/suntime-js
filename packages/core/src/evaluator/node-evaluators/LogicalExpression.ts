@@ -7,6 +7,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
+import StaticJsTypeCode from "../../runtime/types/StaticJsTypeCode.js";
 
 export default function logicalExpressionNodeEvaluator(
   node: LogicalExpression,
@@ -74,7 +75,10 @@ function* logicalExpressionNullishCoalescing(
     forNormalValue: "LogicalExpression.left",
   });
 
-  if (["null", "undefined"].includes(left.runtimeTypeOf)) {
+  if (
+    left.runtimeTypeCode === StaticJsTypeCode.Null ||
+    left.runtimeTypeCode === StaticJsTypeCode.Undefined
+  ) {
     const right = yield* EvaluateNodeCommand(node.right, context, {
       forNormalValue: "LogicalExpression.right",
     });

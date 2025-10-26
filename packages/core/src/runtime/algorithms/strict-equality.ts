@@ -4,6 +4,7 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsScalar } from "../types/StaticJsScalar.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 export default function* strictEquality(
@@ -11,14 +12,15 @@ export default function* strictEquality(
   b: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsBoolean> {
-  if (a.runtimeTypeOf !== b.runtimeTypeOf) {
+  if (a.runtimeTypeCode !== b.runtimeTypeCode) {
     return realm.types.false;
   }
 
-  if (isStaticJsObjectLike(a) || isStaticJsObjectLike(b)) {
+  if (isStaticJsObjectLike(a)) {
     return realm.types.boolean(a === b);
   }
 
   // Value is a scalar value.
-  return realm.types.boolean(a.value === b.value);
+  const bScalar = b as StaticJsScalar;
+  return realm.types.boolean(a.value === bScalar.value);
 }

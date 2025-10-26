@@ -5,6 +5,7 @@ import type { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js
 import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 import type { StaticJsSymbol } from "./StaticJsSymbol.js";
+import StaticJsTypeCode from "./StaticJsTypeCode.js";
 
 export type StaticJsObjectPropertyKey = string | StaticJsSymbol;
 
@@ -102,17 +103,6 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   ): EvaluationGenerator<boolean>;
 }
 
-// This is a little bit rediculous.  We should probably just use a flag or something.
-const objectLikeRuntimeTypes = [
-  "object",
-  "array",
-  "function",
-  "promise",
-  "symbol",
-  "set",
-  "map",
-  "iterator",
-];
 export function isStaticJsObjectLike(
   value: unknown,
 ): value is StaticJsObjectLike {
@@ -120,5 +110,5 @@ export function isStaticJsObjectLike(
     return false;
   }
 
-  return objectLikeRuntimeTypes.includes(value.runtimeTypeOf);
+  return Boolean(value.runtimeTypeCode & StaticJsTypeCode.ObjectMask);
 }

@@ -1,6 +1,7 @@
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsNumber } from "../StaticJsNumber.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 
@@ -21,12 +22,16 @@ export default class StaticJsNumberImpl
     this._value = value;
   }
 
+  get typeOf() {
+    return "number" as const;
+  }
+
   get runtimeTypeOf() {
     return "number" as const;
   }
 
-  get typeOf() {
-    return "number" as const;
+  get runtimeTypeCode() {
+    return StaticJsTypeCode.Number;
   }
 
   get value() {

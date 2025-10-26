@@ -19,6 +19,6 @@ export default class StaticJsBooleanBoxed extends StaticJsObjectImpl {
   }
 
   toJsSync(): unknown {
-    return this._value;
+    return new Object(this._value);
   }
 }

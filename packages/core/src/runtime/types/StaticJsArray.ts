@@ -1,6 +1,7 @@
 import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
+import StaticJsTypeCode from "./StaticJsTypeCode.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
@@ -18,5 +19,5 @@ export function isStaticJsArray(value: unknown): value is StaticJsArray {
   if (!isStaticJsValue(value)) {
     return false;
   }
-  return value.runtimeTypeOf === "array";
+  return value.runtimeTypeCode === StaticJsTypeCode.Array;
 }

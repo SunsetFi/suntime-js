@@ -12,7 +12,10 @@ export type StaticJsValue =
   | StaticJsFunction;
 
 export function isStaticJsValue(value: unknown): value is StaticJsValue {
-  // This is kinda nasty.
-  const type = (value as unknown as StaticJsValue)?.runtimeTypeOf;
-  return typeof type === "string";
+  return (
+    value != null &&
+    typeof value === "object" &&
+    "runtimeTypeCode" in value &&
+    typeof value.runtimeTypeCode === "number"
+  );
 }

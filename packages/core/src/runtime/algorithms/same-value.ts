@@ -5,7 +5,7 @@ import { sameValueNonNumber } from "./same-value-non-number.js";
 import { sameValueNumber } from "./same-value-number.js";
 
 export default function sameValue(x: StaticJsValue, y: StaticJsValue): boolean {
-  if (x.runtimeTypeOf !== y.runtimeTypeOf) {
+  if (x.runtimeTypeCode !== y.runtimeTypeCode) {
     return false;
   }
 

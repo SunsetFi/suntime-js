@@ -2,6 +2,7 @@ import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsFunction } from "./StaticJsFunction.js";
 import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
+import StaticJsTypeCode from "./StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsSet extends StaticJsObjectLike {
@@ -41,5 +42,5 @@ export function isStaticJsSet(value: unknown): value is StaticJsSet {
   if (!isStaticJsValue(value)) {
     return false;
   }
-  return value.runtimeTypeOf === "set";
+  return value.runtimeTypeCode === StaticJsTypeCode.Set;
 }

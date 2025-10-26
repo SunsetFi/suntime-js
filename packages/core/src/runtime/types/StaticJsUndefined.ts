@@ -1,4 +1,5 @@
 import type { StaticJsPrimitive } from "./StaticJsPrimitive.js";
+import StaticJsTypeCode from "./StaticJsTypeCode.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsUndefined extends StaticJsPrimitive {
@@ -13,5 +14,5 @@ export function isStaticJsUndefined(
   if (!isStaticJsValue(value)) {
     return false;
   }
-  return value.runtimeTypeOf === "undefined";
+  return value.runtimeTypeCode === StaticJsTypeCode.Undefined;
 }

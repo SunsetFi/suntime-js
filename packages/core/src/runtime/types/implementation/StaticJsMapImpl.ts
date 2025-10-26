@@ -11,6 +11,7 @@ import {
   type StaticJsFunction,
 } from "../StaticJsFunction.js";
 import type { StaticJsMap } from "../StaticJsMap.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 
 import StaticJsIteratorImpl from "./StaticJsIteratorImpl.js";
@@ -29,6 +30,10 @@ export default class StaticJsMapImpl
 
   get runtimeTypeOf(): "map" {
     return "map";
+  }
+
+  get runtimeTypeCode() {
+    return StaticJsTypeCode.Map;
   }
 
   *clearEvaluator(): EvaluationGenerator<void> {

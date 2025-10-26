@@ -1,6 +1,7 @@
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsString } from "../StaticJsString.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 
@@ -27,6 +28,10 @@ export default class StaticJsStringImpl
 
   get runtimeTypeOf() {
     return "string" as const;
+  }
+
+  get runtimeTypeCode() {
+    return StaticJsTypeCode.String;
   }
 
   get value() {

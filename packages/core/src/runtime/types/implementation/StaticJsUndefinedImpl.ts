@@ -1,4 +1,5 @@
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
 import type { StaticJsUndefined } from "../StaticJsUndefined.js";
 
 export default class StaticJsUndefinedImpl implements StaticJsUndefined {
@@ -14,6 +15,10 @@ export default class StaticJsUndefinedImpl implements StaticJsUndefined {
 
   get runtimeTypeOf() {
     return "undefined" as const;
+  }
+
+  get runtimeTypeCode() {
+    return StaticJsTypeCode.Undefined;
   }
 
   get value() {

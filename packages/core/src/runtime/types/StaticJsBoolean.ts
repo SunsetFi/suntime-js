@@ -1,4 +1,5 @@
 import type { StaticJsPrimitive } from "./StaticJsPrimitive.js";
+import StaticJsTypeCode from "./StaticJsTypeCode.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsBoolean extends StaticJsPrimitive {
@@ -10,5 +11,5 @@ export function isStaticJsBoolean(value: unknown): value is StaticJsBoolean {
   if (!isStaticJsValue(value)) {
     return false;
   }
-  return value.runtimeTypeOf === "boolean";
+  return value.runtimeTypeCode === StaticJsTypeCode.Boolean;
 }

@@ -1,6 +1,7 @@
 import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 import type { StaticJsFunction } from "./StaticJsFunction.js";
 import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
+import StaticJsTypeCode from "./StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsPromise extends StaticJsObjectLike {
@@ -26,5 +27,5 @@ export function isStaticJsPromise(value: unknown): value is StaticJsPromise {
     return false;
   }
 
-  return value.runtimeTypeOf === "promise";
+  return value.runtimeTypeCode === StaticJsTypeCode.Promise;
 }

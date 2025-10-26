@@ -1,4 +1,5 @@
 import type { StaticJsPrimitive } from "./StaticJsPrimitive.js";
+import StaticJsTypeCode from "./StaticJsTypeCode.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsString extends StaticJsPrimitive {
@@ -9,5 +10,5 @@ export function isStaticJsString(value: unknown): value is StaticJsString {
   if (!isStaticJsValue(value)) {
     return false;
   }
-  return value.runtimeTypeOf === "string";
+  return value.runtimeTypeCode === StaticJsTypeCode.String;
 }

@@ -2,6 +2,7 @@ import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompleti
 
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import StaticJsTypeCode from "../../../types/StaticJsTypeCode.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -17,7 +18,8 @@ const objectCtorCreateDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const proto = protoValue.runtimeTypeOf === "null" ? null : protoValue;
+    const proto =
+      protoValue.runtimeTypeCode === StaticJsTypeCode.Null ? null : protoValue;
     const obj = realm.types.object(undefined, proto);
     return obj;
   },

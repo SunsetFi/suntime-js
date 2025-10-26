@@ -2,6 +2,7 @@ import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js"
 
 import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletion.js";
 import { ControlFlowCompletion } from "../../../evaluator/completions/ControlFlowCompletion.js";
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -11,11 +12,11 @@ import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import { isStaticJsObjectLike } from "../StaticJsObjectLike.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
 
 import StaticJsStringImpl from "./StaticJsStringImpl.js";
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
 export interface StaticJsFunctionImplOptions {
   length?: number;
@@ -81,6 +82,10 @@ export default class StaticJsFunctionImpl
 
   get runtimeTypeOf() {
     return "function" as const;
+  }
+
+  get runtimeTypeCode() {
+    return StaticJsTypeCode.Function;
   }
 
   get isConstructor() {

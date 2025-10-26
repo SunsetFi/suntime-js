@@ -8,7 +8,7 @@ export function sameValueNonNumber(
   x: StaticJsValue,
   y: StaticJsValue,
 ): boolean {
-  if (x.runtimeTypeOf !== y.runtimeTypeOf) {
+  if (x.runtimeTypeCode !== y.runtimeTypeCode) {
     return false;
   }
 

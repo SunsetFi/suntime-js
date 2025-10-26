@@ -31,6 +31,7 @@ import { type StaticJsObject } from "../StaticJsObject.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";
+import type StaticJsTypeCode from "../StaticJsTypeCode.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 
@@ -62,6 +63,8 @@ export default abstract class StaticJsAbstractObject
   }
 
   abstract readonly runtimeTypeOf: StaticJsObjectLike["runtimeTypeOf"];
+
+  abstract readonly runtimeTypeCode: StaticJsTypeCode;
 
   get prototype(): StaticJsObjectLike | null {
     return this._prototype;
