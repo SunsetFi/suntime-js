@@ -16,12 +16,12 @@ import {
   applyIntrinsicProperties,
 } from "../../utils.js";
 
-import mapConstructorGroupByDeclaration from "./groupBy.js";
-import mapConstructorSymbolSpeciesDeclaration from "./symbol_species.js";
+import mapCtorGroupByDeclaration from "./groupBy.js";
+import mapCtorSymbolSpeciesDeclaration from "./symbol_species.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
-  mapConstructorGroupByDeclaration,
-  mapConstructorSymbolSpeciesDeclaration,
+  mapCtorGroupByDeclaration,
+  mapCtorSymbolSpeciesDeclaration,
 ];
 
 export default function createMapConstructor(

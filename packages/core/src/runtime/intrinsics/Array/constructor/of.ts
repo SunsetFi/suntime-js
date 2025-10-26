@@ -12,7 +12,7 @@ import type { StaticJsFunction } from "../../../types/StaticJsFunction.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const arrayConstructorOfDeclaration: IntrinsicPropertyDeclaration = {
+const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "of",
   *func(realm, thisArg, ...items) {
     const thisIsConstructor = yield* isConstructor(thisArg, realm);
@@ -58,4 +58,4 @@ const arrayConstructorOfDeclaration: IntrinsicPropertyDeclaration = {
   },
 };
 
-export default arrayConstructorOfDeclaration;
+export default arrayCtorIsArrayDeclarationOfDeclaration;

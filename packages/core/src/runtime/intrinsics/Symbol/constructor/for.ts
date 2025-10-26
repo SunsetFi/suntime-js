@@ -2,7 +2,7 @@ import toString from "../../../algorithms/to-string.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const symbolConstructorForDeclaration: IntrinsicPropertyDeclaration = {
+const symbolCtorForDeclaration: IntrinsicPropertyDeclaration = {
   key: "for",
   *func(realm, thisArg, keyArg) {
     const keyStringValue = yield* toString(
@@ -21,4 +21,4 @@ const symbolConstructorForDeclaration: IntrinsicPropertyDeclaration = {
   },
 };
 
-export default symbolConstructorForDeclaration;
+export default symbolCtorForDeclaration;

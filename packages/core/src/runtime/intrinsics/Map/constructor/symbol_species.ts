@@ -1,6 +1,6 @@
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const mapConstructorSymbolSpeciesDeclaration: IntrinsicPropertyDeclaration = {
+const mapCtorSymbolSpeciesDeclaration: IntrinsicPropertyDeclaration = {
   key(realm) {
     return realm.types.symbols.species;
   },
@@ -11,4 +11,4 @@ const mapConstructorSymbolSpeciesDeclaration: IntrinsicPropertyDeclaration = {
   },
 };
 
-export default mapConstructorSymbolSpeciesDeclaration;
+export default mapCtorSymbolSpeciesDeclaration;

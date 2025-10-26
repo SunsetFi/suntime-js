@@ -26,7 +26,7 @@ import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const arrayConstructorFromDeclaration: IntrinsicPropertyDeclaration = {
+const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
   key: "from",
   *func(realm, thisArg, items, mapper, mapperThisArg) {
     let mapperFunc: StaticJsFunction | undefined = undefined;
@@ -67,7 +67,7 @@ const arrayConstructorFromDeclaration: IntrinsicPropertyDeclaration = {
   },
 };
 
-export default arrayConstructorFromDeclaration;
+export default arrayCtorFromDeclaration;
 
 function* fromIterator(
   C: StaticJsValue,

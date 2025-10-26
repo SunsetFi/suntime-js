@@ -1,6 +1,6 @@
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const setConstructorSymbolSpeciesDeclaration: IntrinsicPropertyDeclaration = {
+const setCtorSymbolSpeciesDeclaration: IntrinsicPropertyDeclaration = {
   key(realm) {
     return realm.types.symbols.species;
   },
@@ -11,4 +11,4 @@ const setConstructorSymbolSpeciesDeclaration: IntrinsicPropertyDeclaration = {
   },
 };
 
-export default setConstructorSymbolSpeciesDeclaration;
+export default setCtorSymbolSpeciesDeclaration;

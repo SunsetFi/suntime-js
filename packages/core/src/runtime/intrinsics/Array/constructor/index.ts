@@ -12,16 +12,16 @@ import {
   type IntrinsicPropertyDeclaration,
 } from "../../utils.js";
 
-import arrayConstructorFromDeclaration from "./from.js";
-import arrayConstructorIsArrayDeclaration from "./isArray.js";
-import arrayConstructorOfDeclaration from "./of.js";
-import arrayConstructorSymbolSpeciesDeclaration from "./symbol_species.js";
+import arrayCtorFromDeclaration from "./from.js";
+import arrayCtorIsArrayDeclaration from "./isArray.js";
+import arrayCtorOfDeclaration from "./of.js";
+import arrayCtorSymbolSpeciesDeclaration from "./symbol_species.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
-  arrayConstructorFromDeclaration,
-  arrayConstructorIsArrayDeclaration,
-  arrayConstructorOfDeclaration,
-  arrayConstructorSymbolSpeciesDeclaration,
+  arrayCtorFromDeclaration,
+  arrayCtorIsArrayDeclaration,
+  arrayCtorOfDeclaration,
+  arrayCtorSymbolSpeciesDeclaration,
 ];
 
 export default function createArrayConstructor(

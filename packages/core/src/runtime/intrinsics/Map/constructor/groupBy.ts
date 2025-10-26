@@ -9,7 +9,7 @@ import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const mapConstructorGroupByDeclaration: IntrinsicPropertyDeclaration = {
+const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
   key: "groupBy",
   *func(realm, _thisArg, items, callbackFn) {
     const collection = new Map<StaticJsValue, StaticJsValue[]>();
@@ -58,4 +58,4 @@ const mapConstructorGroupByDeclaration: IntrinsicPropertyDeclaration = {
   },
 };
 
-export default mapConstructorGroupByDeclaration;
+export default mapCtorGroupByDeclaration;

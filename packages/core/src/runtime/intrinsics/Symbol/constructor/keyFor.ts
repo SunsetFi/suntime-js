@@ -2,7 +2,7 @@ import { isStaticJsSymbol } from "../../../types/StaticJsSymbol.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const symbolConstructorKeyForDeclaration: IntrinsicPropertyDeclaration = {
+const symbolCtorKeyForDeclaration: IntrinsicPropertyDeclaration = {
   key: "keyFor",
   *func(realm, thisArg, symbolArg) {
     if (!isStaticJsSymbol(symbolArg)) {
@@ -19,4 +19,4 @@ const symbolConstructorKeyForDeclaration: IntrinsicPropertyDeclaration = {
   },
 };
 
-export default symbolConstructorKeyForDeclaration;
+export default symbolCtorKeyForDeclaration;

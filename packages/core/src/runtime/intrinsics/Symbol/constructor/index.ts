@@ -14,12 +14,12 @@ import {
   type IntrinsicPropertyDeclaration,
 } from "../../utils.js";
 
-import symbolConstructorForDeclaration from "./for.js";
-import symbolConstructorKeyForDeclaration from "./keyFor.js";
+import symbolCtorForDeclaration from "./for.js";
+import symbolCtorKeyForDeclaration from "./keyFor.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
-  symbolConstructorForDeclaration,
-  symbolConstructorKeyForDeclaration,
+  symbolCtorForDeclaration,
+  symbolCtorKeyForDeclaration,
 ];
 
 export default function createSymbolConstructor(

@@ -12,25 +12,25 @@ import {
   type IntrinsicPropertyDeclaration,
 } from "../../utils.js";
 
-import numberConstructorEpsilonDeclaration from "./EPSILON.js";
-import numberConstructorMaxSafeIntegerDeclaration from "./MAX_SAFE_INTEGER.js";
-import numberConstructorMaxValueDeclaration from "./MAX_VALUE.js";
-import numberConstructorMinSafeIntegerDeclaration from "./MIN_SAFE_INTEGER.js";
-import numberConstructorMinValueDeclaration from "./MIN_VALUE.js";
-import numberConstructorNanDeclaration from "./NaN.js";
-import numberConstructorNegativeInfinityDeclaration from "./NEGATIVE_INFINITY.js";
-import numberConstructorPositiveInfinityDeclaration from "./POSITIVE_INFINITY.js";
+import numberCtorEpsilonDeclaration from "./EPSILON.js";
+import numberCtorMaxSafeIntegerDeclaration from "./MAX_SAFE_INTEGER.js";
+import numberCtorMaxValueDeclaration from "./MAX_VALUE.js";
+import numberCtorMinSafeIntegerDeclaration from "./MIN_SAFE_INTEGER.js";
+import numberCtorMinValueDeclaration from "./MIN_VALUE.js";
+import numberCtorNanDeclaration from "./NaN.js";
+import numberCtorNegativeInfinityDeclaration from "./NEGATIVE_INFINITY.js";
+import numberCtorPositiveInfinityDeclaration from "./POSITIVE_INFINITY.js";
 import StaticJsNumberBoxed from "../../../types/implementation/StaticJsNumberBoxed.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
-  numberConstructorEpsilonDeclaration,
-  numberConstructorMaxSafeIntegerDeclaration,
-  numberConstructorMaxValueDeclaration,
-  numberConstructorMinSafeIntegerDeclaration,
-  numberConstructorMinValueDeclaration,
-  numberConstructorNanDeclaration,
-  numberConstructorNegativeInfinityDeclaration,
-  numberConstructorPositiveInfinityDeclaration,
+  numberCtorEpsilonDeclaration,
+  numberCtorMaxSafeIntegerDeclaration,
+  numberCtorMaxValueDeclaration,
+  numberCtorMinSafeIntegerDeclaration,
+  numberCtorMinValueDeclaration,
+  numberCtorNanDeclaration,
+  numberCtorNegativeInfinityDeclaration,
+  numberCtorPositiveInfinityDeclaration,
 ];
 
 export default function createNumberConstructor(

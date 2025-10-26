@@ -1,7 +1,7 @@
 import StaticJsNumberImpl from "../../../types/implementation/StaticJsNumberImpl.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const numberConstructorNanDeclaration: IntrinsicPropertyDeclaration = {
+const numberCtorNanDeclaration: IntrinsicPropertyDeclaration = {
   key: "NaN",
   value(realm) {
     // We can't use our prebaked NaN as that isn't initialized yet.
@@ -12,4 +12,4 @@ const numberConstructorNanDeclaration: IntrinsicPropertyDeclaration = {
   configurable: false,
 };
 
-export default numberConstructorNanDeclaration;
+export default numberCtorNanDeclaration;

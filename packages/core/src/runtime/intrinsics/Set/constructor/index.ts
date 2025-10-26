@@ -15,10 +15,10 @@ import {
   applyIntrinsicProperties,
 } from "../../utils.js";
 
-import setConstructorSymbolSpeciesDeclaration from "./symbol_species.js";
+import setCtorSymbolSpeciesDeclaration from "./symbol_species.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
-  setConstructorSymbolSpeciesDeclaration,
+  setCtorSymbolSpeciesDeclaration,
 ];
 
 export default function createSetConstructor(

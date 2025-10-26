@@ -2,7 +2,7 @@ import isArray from "../../../algorithms/is-array.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const arrayConstructorIsArrayDeclaration: IntrinsicPropertyDeclaration = {
+const arrayCtorIsArrayDeclaration: IntrinsicPropertyDeclaration = {
   key: "isArray",
   *func(realm, _thisArg, arg) {
     const argIsArray = yield* isArray(arg ?? realm.types.undefined, realm);
@@ -10,4 +10,4 @@ const arrayConstructorIsArrayDeclaration: IntrinsicPropertyDeclaration = {
   },
 };
 
-export default arrayConstructorIsArrayDeclaration;
+export default arrayCtorIsArrayDeclaration;

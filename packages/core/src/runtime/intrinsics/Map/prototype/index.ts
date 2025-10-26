@@ -15,6 +15,7 @@ import mapProtoGetDeclaration from "./get.js";
 import mapProtoKeysDeclaration from "./keys.js";
 import mapProtoSetDeclaration from "./set.js";
 import mapProtoSizeDeclaration from "./size.js";
+import mapProtoSymbolIteratorDeclaration from "./symbol_iterator.js";
 import mapProtoValuesDeclaration from "./values.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
@@ -26,6 +27,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   mapProtoKeysDeclaration,
   mapProtoSetDeclaration,
   mapProtoSizeDeclaration,
+  mapProtoSymbolIteratorDeclaration,
   mapProtoValuesDeclaration,
 ];
 
