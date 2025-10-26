@@ -1,9 +1,6 @@
 import toObject from "../../../algorithms/to-object.js";
 
-import {
-  isStaticJsAccessorPropertyDescriptor,
-  isStaticJsDataPropertyDescriptor,
-} from "../../../types/StaticJsPropertyDescriptor.js";
+import propertyDescriptorToObject from "../../../utils/property-descriptor-to-object.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -24,58 +21,12 @@ const objectCtorGetOwnPropertyDescriptorsDeclaration: IntrinsicPropertyDeclarati
           continue;
         }
 
-        const descObj = realm.types.object({
-          enumerable: {
-            enumerable: true,
-            writable: true,
-            configurable: true,
-            value: realm.types.boolean(descriptor.enumerable ?? false),
-          },
-          configurable: {
-            enumerable: true,
-            writable: true,
-            configurable: true,
-            value: realm.types.boolean(descriptor.configurable ?? false),
-          },
-        });
-
-        if (isStaticJsDataPropertyDescriptor(descriptor)) {
-          yield* descObj.definePropertyEvaluator("value", {
-            enumerable: true,
-            writable: true,
-            configurable: true,
-            value: descriptor.value ?? realm.types.undefined,
-          });
-          yield* descObj.definePropertyEvaluator("writable", {
-            enumerable: true,
-            writable: true,
-            configurable: true,
-            value: realm.types.boolean(descriptor.writable ?? false),
-          });
-        } else if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
-          if (descriptor.get) {
-            yield* descObj.definePropertyEvaluator("get", {
-              enumerable: true,
-              writable: true,
-              configurable: true,
-              value: descriptor.get,
-            });
-          }
-          if (descriptor.set) {
-            yield* descObj.definePropertyEvaluator("set", {
-              enumerable: true,
-              writable: true,
-              configurable: true,
-              value: descriptor.set,
-            });
-          }
-        }
-
+        const descObject = yield* propertyDescriptorToObject(descriptor, realm);
         yield* descriptorsObj.definePropertyEvaluator(key, {
           enumerable: true,
           writable: true,
           configurable: true,
-          value: descObj,
+          value: descObject,
         });
       }
 

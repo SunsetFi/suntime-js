@@ -44,4 +44,17 @@ describe("E2E: Maps", () => {
       ]);
     });
   });
+
+  describe("Map prototype", () => {
+    describe("Map.prototype.clear", () => {
+      it("Clears the entries", async () => {
+        const result = await evaluateScript(`
+          const map = new Map([[1, 2]]);
+          map.clear()
+          Array.from(map)
+        `);
+        expect(result).toEqual([]);
+      });
+    });
+  });
 });

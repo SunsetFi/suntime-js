@@ -6,7 +6,7 @@ import { isStaticJsScalar } from "../../../types/StaticJsScalar.js";
 import { validateStaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
-import toPropertyDescriptor from "../../../utils/to-property-descriptor.js";
+import objectToPropertyDescriptor from "../../../utils/object-to-property-descriptor.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -47,7 +47,10 @@ const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const descriptor = yield* toPropertyDescriptor(realm, propertyDescriptor);
+    const descriptor = yield* objectToPropertyDescriptor(
+      propertyDescriptor,
+      realm,
+    );
     try {
       validateStaticJsPropertyDescriptor(descriptor);
     } catch (e: unknown) {

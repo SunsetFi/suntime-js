@@ -4,7 +4,7 @@ import toObject from "../../../algorithms/to-object.js";
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 import { validateStaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
 
-import toPropertyDescriptor from "../../../utils/to-property-descriptor.js";
+import objectToPropertyDescriptor from "../../../utils/object-to-property-descriptor.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -37,7 +37,10 @@ const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
           ),
         );
       }
-      const descriptor = yield* toPropertyDescriptor(realm, descriptorObj);
+      const descriptor = yield* objectToPropertyDescriptor(
+        descriptorObj,
+        realm,
+      );
       try {
         validateStaticJsPropertyDescriptor(descriptor);
       } catch (e: unknown) {

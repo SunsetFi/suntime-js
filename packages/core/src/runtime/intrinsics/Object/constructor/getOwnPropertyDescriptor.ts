@@ -2,13 +2,10 @@ import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsScalar } from "../../../types/StaticJsScalar.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
-import {
-  isStaticJsAccessorPropertyDescriptor,
-  isStaticJsDataPropertyDescriptor,
-} from "../../../types/StaticJsPropertyDescriptor.js";
+import propertyDescriptorToObject from "../../../utils/property-descriptor-to-object.js";
+import toObject from "../../../algorithms/to-object.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-import toObject from "../../../algorithms/to-object.js";
 
 const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaration =
   {
@@ -33,54 +30,7 @@ const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaratio
         return realm.types.undefined;
       }
 
-      const result = realm.types.object({
-        enumerable: {
-          enumerable: true,
-          writable: true,
-          configurable: true,
-          value: realm.types.boolean(descriptor.enumerable ?? false),
-        },
-        configurable: {
-          enumerable: true,
-          writable: true,
-          configurable: true,
-          value: realm.types.boolean(descriptor.configurable ?? false),
-        },
-      });
-
-      if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
-        if (descriptor.get) {
-          result.definePropertySync("get", {
-            enumerable: true,
-            writable: true,
-            configurable: true,
-            value: descriptor.get,
-          });
-        }
-        if (descriptor.set) {
-          result.definePropertySync("set", {
-            enumerable: true,
-            writable: true,
-            configurable: true,
-            value: descriptor.set,
-          });
-        }
-      } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
-        result.definePropertySync("value", {
-          enumerable: true,
-          writable: true,
-          configurable: true,
-          value: descriptor.value,
-        });
-        result.definePropertySync("writable", {
-          enumerable: true,
-          writable: true,
-          configurable: true,
-          value: realm.types.boolean(descriptor.writable ?? false),
-        });
-      }
-
-      return result;
+      return yield* propertyDescriptorToObject(descriptor, realm);
     },
   };
 

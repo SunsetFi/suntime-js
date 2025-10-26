@@ -14,9 +14,9 @@ import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import toBoolean from "../algorithms/to-boolean.js";
 
-export default function* toPropertyDescriptor(
-  realm: StaticJsRealm,
+export default function* objectToPropertyDescriptor(
   obj: StaticJsObjectLike,
+  realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsPropertyDescriptor> {
   let enumerable: boolean | undefined;
   const hasEnumerable = yield* obj.hasPropertyEvaluator("enumerable");

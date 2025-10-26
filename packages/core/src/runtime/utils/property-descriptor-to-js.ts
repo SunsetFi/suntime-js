@@ -6,7 +6,7 @@ import {
   isStaticJsDataPropertyDescriptor,
 } from "../types/StaticJsPropertyDescriptor.js";
 
-export default function staticJsDescriptorToObjectDescriptor(
+export default function properrtyDescriptorToJs(
   realm: StaticJsRealm,
   descriptor: StaticJsPropertyDescriptor,
 ): PropertyDescriptor {
