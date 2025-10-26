@@ -23,7 +23,7 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 - Strict directive
 - Primitives
 - Arrays
-- Sets
+- Set, Map
 - Math
 - Error (and variants), try / catch
 - Promises
@@ -51,7 +51,6 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 
 - Generator functions
 - All well-known symbols not listed above
-- Map
 - WeakMap, WeakRef, FinalizationRegistry
 - Class syntax
 - Date
@@ -84,6 +83,8 @@ For more information, including solutions for breaking loops, see [Quick Start](
 
 - Fix 'all' [Test262](https://github.com/tc39/test262) tests.
   - Currently only running tests in the language folder. Need to add built-ins
+- Tests for Object.\* functions
+- Tests for Map
 - Figure out public API for invoking evaluators.
   - Probably hide evaluators and provide non-evaluator non-sync APIs from intrinsic types.
   - Figure out what it looks like for a consumer to want to call functions or invoke other evaluators as part of an api surface exposed within
