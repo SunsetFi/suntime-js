@@ -34,6 +34,12 @@ export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObj
     return Array.from(this._contents.keys()).filter(isStringProperty);
   }
 
+  *getOwnSymbolsEvaluator(): EvaluationGenerator<StaticJsSymbol[]> {
+    return Array.from(this._contents.keys()).filter(
+      (key): key is StaticJsSymbol => !isStringProperty(key),
+    );
+  }
+
   *getOwnPropertyDescriptorEvaluator(
     name: string,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {

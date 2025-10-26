@@ -46,6 +46,9 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   getOwnKeysSync(): string[];
   getOwnKeysEvaluator(): EvaluationGenerator<string[]>;
 
+  getOwnSymbolsSync(): StaticJsSymbol[];
+  getOwnSymbolsEvaluator(): EvaluationGenerator<StaticJsSymbol[]>;
+
   getOwnEnumerableKeysSync(): string[];
   getOwnEnumerableKeysEvaluator(): EvaluationGenerator<string[]>;
 
@@ -107,6 +110,7 @@ const objectLikeRuntimeTypes = [
   "promise",
   "symbol",
   "set",
+  "map",
   "iterator",
 ];
 export function isStaticJsObjectLike(

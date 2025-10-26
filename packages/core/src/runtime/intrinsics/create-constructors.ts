@@ -1,4 +1,5 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+
 import type { Constructors } from "./intrinsics.js";
 
 import { createArrayConstructor } from "./Array/index.js";
@@ -11,6 +12,7 @@ import { createSymbolConstructor } from "./Symbol/index.js";
 import { createPromiseConstructor } from "./Promise/index.js";
 import { createIteratorConstructor } from "./Iterator.js";
 import { createSetConstructor } from "./Set/index.js";
+import { createMapConstructor } from "./Map/index.js";
 import { createErrorConstructor } from "./Error/index.js";
 import { createTypeErrorConstructor } from "./TypeError.js";
 import { createReferenceErrorConstructor } from "./ReferenceError.js";
@@ -55,6 +57,7 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
     realm.types.prototypes.promiseProto,
   );
   const Set = createSetConstructor(realm, realm.types.prototypes.setProto);
+  const Map = createMapConstructor(realm, realm.types.prototypes.mapProto);
   const Error = createErrorConstructor(
     realm,
     realm.types.prototypes.errorProto,
@@ -87,6 +90,7 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
     Iterator,
     Promise,
     Set,
+    Map,
     Error,
     TypeError,
     ReferenceError,

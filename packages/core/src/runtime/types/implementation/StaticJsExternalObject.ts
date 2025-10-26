@@ -4,11 +4,13 @@ import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js"
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
+import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 import type {
   StaticJsPropertyDescriptor,
   StaticJsAccessorPropertyDescriptor,
   StaticJsDataPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
+
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
 
@@ -40,6 +42,12 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
   *getOwnKeysEvaluator(): EvaluationGenerator<string[]> {
     // This only returns own keys that are enumerable (and not symbols).
     return Object.keys(this._obj);
+  }
+
+  *getOwnSymbolsEvaluator(): EvaluationGenerator<StaticJsSymbol[]> {
+    // External objects do not expose symbol properties.
+    // TODO: Expose well-known symbols?
+    return [];
   }
 
   toJsSync() {

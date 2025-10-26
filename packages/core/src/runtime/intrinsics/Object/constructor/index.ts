@@ -17,9 +17,15 @@ import objectCtorDefinePropertyDeclaration from "./defineProperty.js";
 import objectCtorEntriesDeclaration from "./entries.js";
 import objectCtorFreezeDeclaration from "./freeze.js";
 import objectCtorGetOwnPropertyDescriptorDeclaration from "./getOwnPropertyDescriptor.js";
+import objectCtorGetOwnPropertyDescriptorsDeclaration from "./getOwnPropertyDescriptors.js";
 import objectCtorGetOwnPropertyNamesDeclaration from "./getOwnPropertyNames.js";
+import objectCtorGetOwnPropertySymbolsDeclaration from "./getOwnPropertySymbols.js";
 import objectCtorGetPrototypeOfDeclaration from "./getPrototypeOf.js";
 import objectCtorHasOwnDeclaration from "./hasOwn.js";
+import objectCtorIsDeclaration from "./is.js";
+import objectCtorIsExtensibleDeclaration from "./isExtensible.js";
+import objectCtorIsFrozenDeclaration from "./isFrozen.js";
+import objectCtorIsSealedDeclaration from "./isSealed.js";
 import objectCtorKeysDeclaration from "./keys.js";
 import objectCtorPreventExtensionsDeclaration from "./preventExtensions.js";
 import objectCtorSealDeclaration from "./seal.js";
@@ -34,9 +40,16 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   objectCtorEntriesDeclaration,
   objectCtorFreezeDeclaration,
   objectCtorGetOwnPropertyDescriptorDeclaration,
+  objectCtorGetOwnPropertyDescriptorsDeclaration,
   objectCtorGetOwnPropertyNamesDeclaration,
+  objectCtorGetOwnPropertySymbolsDeclaration,
   objectCtorGetPrototypeOfDeclaration,
+  // TODO: groupBy
   objectCtorHasOwnDeclaration,
+  objectCtorIsDeclaration,
+  objectCtorIsExtensibleDeclaration,
+  objectCtorIsFrozenDeclaration,
+  objectCtorIsSealedDeclaration,
   objectCtorKeysDeclaration,
   objectCtorPreventExtensionsDeclaration,
   objectCtorSealDeclaration,

@@ -2,6 +2,7 @@ export * from "./StaticJsArray.js";
 export * from "./StaticJsBoolean.js";
 export * from "./StaticJsFunction.js";
 export * from "./StaticJsIterator.js";
+export * from "./StaticJsMap.js";
 export * from "./StaticJsNull.js";
 export * from "./StaticJsNumber.js";
 export * from "./StaticJsObject.js";

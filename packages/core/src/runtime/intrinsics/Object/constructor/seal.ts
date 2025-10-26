@@ -17,7 +17,9 @@ const objectCtorSealDeclaration: IntrinsicPropertyDeclaration = {
     const obj = yield* toObject(targetValue, realm);
 
     const keys = yield* obj.getOwnKeysEvaluator();
-    for (const key of keys) {
+    const symbols = yield* obj.getOwnSymbolsEvaluator();
+
+    for (const key of [...keys, ...symbols]) {
       yield* obj.definePropertyEvaluator(key, {
         configurable: false,
       });

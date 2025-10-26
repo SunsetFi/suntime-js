@@ -12,6 +12,7 @@ export interface Prototypes {
   symbolProto: StaticJsObject;
   promiseProto: StaticJsObject;
   setProto: StaticJsObject;
+  mapProto: StaticJsObject;
 
   errorProto: StaticJsObject;
   typeErrorProto: StaticJsObject;
@@ -33,6 +34,7 @@ export interface Constructors {
   Iterator: StaticJsFunction;
   Promise: StaticJsFunction;
   Set: StaticJsFunction;
+  Map: StaticJsFunction;
   Error: StaticJsFunction;
   TypeError: StaticJsFunction;
   ReferenceError: StaticJsFunction;

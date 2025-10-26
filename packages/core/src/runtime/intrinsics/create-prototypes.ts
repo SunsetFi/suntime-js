@@ -14,6 +14,7 @@ import { populateBooleanPrototype } from "./Boolean.js";
 import { populatePromisePrototype } from "./Promise/index.js";
 import { populateIteratorPrototype } from "./Iterator.js";
 import { populateSetPrototype } from "./Set/index.js";
+import { populateMapPrototype } from "./Map/index.js";
 import { populateErrorPrototype } from "./Error/index.js";
 import { populateTypeErrorPrototype } from "./TypeError.js";
 import { populateReferenceErrorPrototype } from "./ReferenceError.js";
@@ -33,6 +34,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
   const promiseProto = new StaticJsObjectImpl(realm, objectProto);
   const iteratorProto = new StaticJsObjectImpl(realm, objectProto);
   const setProto = new StaticJsObjectImpl(realm, objectProto);
+  const mapProto = new StaticJsObjectImpl(realm, objectProto);
 
   const errorProto = new StaticJsObjectImpl(realm, objectProto);
   const typeErrorProto = new StaticJsObjectImpl(realm, errorProto);
@@ -51,6 +53,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
     promiseProto,
     iteratorProto,
     setProto,
+    mapProto,
     errorProto,
     typeErrorProto,
     referenceErrorProto,
@@ -75,6 +78,7 @@ export function instantiatePrototypes(realm: StaticJsRealm) {
   populatePromisePrototype(realm, prototypes.promiseProto);
   populateIteratorPrototype(realm, prototypes.iteratorProto);
   populateSetPrototype(realm, prototypes.setProto);
+  populateMapPrototype(realm, prototypes.mapProto);
 
   populateErrorPrototype(realm, prototypes.errorProto);
   populateTypeErrorPrototype(realm, prototypes.typeErrorProto);
