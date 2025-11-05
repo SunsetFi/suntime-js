@@ -37,8 +37,8 @@ export default function* unaryExpressionNodeEvaluator(
   const types = context.realm.types;
   switch (node.operator) {
     case "!": {
-      const boolVal = yield* toBoolean(value, context.realm);
-      return types.boolean(!boolVal.value);
+      const boolVal = yield* toBoolean.js(value, context.realm);
+      return types.boolean(!boolVal);
     }
     // I'm reasonably sure native javascript converts these to number for these operations.
     // Typescript doesn't like it though, so let's cast it ourselves.

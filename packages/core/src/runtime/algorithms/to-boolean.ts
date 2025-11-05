@@ -14,34 +14,42 @@ import { isStaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-function* toBoolean(
+function* toBooleanJs(
   value: StaticJsValue,
-  realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsBoolean> {
+  _realm: StaticJsRealm,
+): EvaluationGenerator<boolean> {
   if (isStaticJsUndefined(value)) {
-    return realm.types.false;
+    return false;
   }
 
   if (isStaticJsNull(value)) {
-    return realm.types.false;
+    return false;
   }
 
   if (isStaticJsBoolean(value) && !value.value) {
-    return realm.types.false;
+    return false;
   }
 
   if (
     isStaticJsNumber(value) &&
     (value.value === 0 || Number.isNaN(value.value))
   ) {
-    return realm.types.false;
+    return false;
   }
 
   if (isStaticJsString(value) && value.value.length === 0) {
-    return realm.types.false;
+    return false;
   }
 
-  return realm.types.true;
+  return true;
+}
+
+export function* toBoolean(
+  value: StaticJsValue,
+  realm: StaticJsRealm,
+): EvaluationGenerator<StaticJsBoolean> {
+  const result = yield* toBooleanJs(value, realm);
+  return realm.types.boolean(result);
 }
 
 export default typedMerge(toBoolean, {
@@ -49,7 +57,6 @@ export default typedMerge(toBoolean, {
     value: StaticJsValue,
     realm: StaticJsRealm,
   ): EvaluationGenerator<boolean> {
-    const result = yield* toBoolean(value, realm);
-    return result.value;
+    return yield* toBooleanJs(value, realm);
   },
 });

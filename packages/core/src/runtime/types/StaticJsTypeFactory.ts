@@ -9,7 +9,10 @@ import type { StaticJsFunction } from "./StaticJsFunction.js";
 import type { StaticJsBoolean } from "./StaticJsBoolean.js";
 import type { StaticJsNull } from "./StaticJsNull.js";
 import type { StaticJsNumber } from "./StaticJsNumber.js";
-import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
+import type {
+  StaticJsObjectLike,
+  StaticJsObjectPropertyKey,
+} from "./StaticJsObjectLike.js";
 import type { StaticJsObject } from "./StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
@@ -60,7 +63,9 @@ export default interface StaticJsTypeFactory {
   string(value: string): StaticJsString;
 
   object(
-    properties?: Record<string, StaticJsPropertyDescriptor>,
+    properties?:
+      | Record<string, StaticJsPropertyDescriptor>
+      | Map<StaticJsObjectPropertyKey, StaticJsPropertyDescriptor>,
     prototype?: StaticJsTypeCreationPrototype,
   ): StaticJsObject;
 

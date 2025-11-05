@@ -22,8 +22,8 @@ export function populateBooleanPrototype(
     enumerable: false,
     writable: true,
     value: new StaticJsFunctionImpl(realm, "toString", function* (thisArg) {
-      thisArg = yield* toBoolean(thisArg, realm);
-      return realm.types.string(thisArg.value ? "true" : "false");
+      const value = yield* toBoolean.js(thisArg, realm);
+      return realm.types.string(value ? "true" : "false");
     }),
   });
 

@@ -30,15 +30,14 @@ const arrayProtoFindIndexDeclaration: IntrinsicPropertyDeclaration = {
 
     for (let i = 0; i < length; i++) {
       const value = yield* thisObj.getPropertyEvaluator(String(i));
-      let result = yield* callback.callEvaluator(
+      const resultValue = yield* callback.callEvaluator(
         thisObj,
         value,
         realm.types.number(i),
         thisObj,
       );
-      result = yield* toBoolean(result, realm);
-
-      if (result.value) {
+      const condition = yield* toBoolean.js(resultValue, realm);
+      if (condition) {
         return realm.types.number(i);
       }
     }

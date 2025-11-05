@@ -48,11 +48,11 @@ function* forStatementNodeEvaluator(
   let lastValue: StaticJsValue | null = null;
   do {
     if (node.test) {
-      let testResult = yield* EvaluateNodeCommand(node.test, forContext, {
+      const testResult = yield* EvaluateNodeCommand(node.test, forContext, {
         forNormalValue: "ForStatement.test",
       });
-      testResult = yield* toBoolean(testResult, context.realm);
-      if (!testResult.value) {
+      const condition = yield* toBoolean.js(testResult, context.realm);
+      if (!condition) {
         break;
       }
     }

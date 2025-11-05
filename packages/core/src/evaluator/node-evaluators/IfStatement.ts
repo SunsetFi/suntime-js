@@ -9,12 +9,12 @@ export default function* ifStatementNodeEvaluator(
   node: IfStatement,
   context: EvaluationContext,
 ) {
-  let testResult = yield* EvaluateNodeCommand(node.test, context, {
+  const testResult = yield* EvaluateNodeCommand(node.test, context, {
     forNormalValue: "IfStatement.test",
   });
-  testResult = yield* toBoolean(testResult, context.realm);
+  const condition = yield* toBoolean.js(testResult, context.realm);
 
-  if (testResult.value) {
+  if (condition) {
     return yield* EvaluateNodeCommand(node.consequent, context);
   } else if (node.alternate) {
     return yield* EvaluateNodeCommand(node.alternate, context);

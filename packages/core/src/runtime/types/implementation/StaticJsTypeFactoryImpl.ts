@@ -4,7 +4,10 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsArray } from "../StaticJsArray.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
-import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
+import type {
+  StaticJsObjectLike,
+  StaticJsObjectPropertyKey,
+} from "../StaticJsObjectLike.js";
 import type { StaticJsObject } from "../StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 import type {
@@ -160,7 +163,9 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   object(
-    properties?: Record<string, StaticJsPropertyDescriptor>,
+    properties?:
+      | Record<string, StaticJsPropertyDescriptor>
+      | Map<StaticJsObjectPropertyKey, StaticJsPropertyDescriptor>,
     prototype?: StaticJsObjectLike | StaticJsNull | null,
   ): StaticJsObject {
     if (prototype === undefined) {
@@ -172,7 +177,11 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     );
 
     if (properties) {
-      for (const [key, value] of Object.entries(properties)) {
+      const iterator =
+        properties instanceof Map
+          ? properties.entries()
+          : Object.entries(properties);
+      for (const [key, value] of iterator) {
         obj.definePropertySync(key, value);
       }
     }

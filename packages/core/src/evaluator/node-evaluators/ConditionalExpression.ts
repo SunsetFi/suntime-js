@@ -11,12 +11,13 @@ export default function* conditionalExpressionNodeEvaluator(
   node: ConditionalExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  let testResult = yield* EvaluateNodeCommand(node.test, context, {
+  const testResult = yield* EvaluateNodeCommand(node.test, context, {
     forNormalValue: "ConditionalExpression.test",
   });
-  testResult = yield* toBoolean(testResult, context.realm);
 
-  if (testResult.value) {
+  const condition = yield* toBoolean.js(testResult, context.realm);
+
+  if (condition) {
     return yield* EvaluateNodeCommand(node.consequent, context);
   } else {
     return yield* EvaluateNodeCommand(node.alternate, context);

@@ -21,17 +21,15 @@ export default function* objectToPropertyDescriptor(
   let enumerable: boolean | undefined;
   const hasEnumerable = yield* obj.hasPropertyEvaluator("enumerable");
   if (hasEnumerable) {
-    let enumerableValue = yield* obj.getPropertyEvaluator("enumerable");
-    enumerableValue = yield* toBoolean(enumerableValue, realm);
-    enumerable = enumerableValue.value;
+    const enumerableValue = yield* obj.getPropertyEvaluator("enumerable");
+    enumerable = yield* toBoolean.js(enumerableValue, realm);
   }
 
   let configurable: boolean | undefined;
   const hasConfigurable = yield* obj.hasPropertyEvaluator("configurable");
   if (hasConfigurable) {
-    let configurableValue = yield* obj.getPropertyEvaluator("configurable");
-    configurableValue = yield* toBoolean(configurableValue, realm);
-    configurable = configurableValue.value;
+    const configurableValue = yield* obj.getPropertyEvaluator("configurable");
+    configurable = yield* toBoolean.js(configurableValue, realm);
   }
 
   // For the sake of not duplicating error handling, we will intentionally allow this to
@@ -57,9 +55,8 @@ export default function* objectToPropertyDescriptor(
 
   const hasWritable = yield* obj.hasPropertyEvaluator("writable");
   if (hasWritable) {
-    let writableValue = yield* obj.getPropertyEvaluator("writable");
-    writableValue = yield* toBoolean(writableValue, realm);
-    descriptor.writable = writableValue.value;
+    const writableValue = yield* obj.getPropertyEvaluator("writable");
+    descriptor.writable = yield* toBoolean.js(writableValue, realm);
   }
 
   const hasGetter = yield* obj.hasPropertyEvaluator("get");

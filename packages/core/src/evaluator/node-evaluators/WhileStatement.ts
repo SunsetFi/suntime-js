@@ -28,12 +28,12 @@ function* whileStatementNodeEvaluator(
 
   let lastResult: StaticJsValue | null = null;
   while (true) {
-    let testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
+    const testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
       forNormalValue: "WhileStatement.test",
     });
-    testResult = yield* toBoolean(testResult, context.realm);
+    const condition = yield* toBoolean.js(testResult, context.realm);
 
-    if (!testResult.value) {
+    if (!condition) {
       break;
     }
 

@@ -34,9 +34,9 @@ function* logicalExpressionAnd(
   const left = yield* EvaluateNodeCommand(node.left, context, {
     forNormalValue: "LogicalExpression.left",
   });
-  const leftBoolean = yield* toBoolean(left, context.realm);
+  const leftBoolean = yield* toBoolean.js(left, context.realm);
 
-  if (leftBoolean.value) {
+  if (leftBoolean) {
     const right = yield* EvaluateNodeCommand(node.right, context, {
       forNormalValue: "LogicalExpression.right",
     });
@@ -54,9 +54,9 @@ function* logicalExpressionOr(
   const left = yield* EvaluateNodeCommand(node.left, context, {
     forNormalValue: "LogicalExpression.left",
   });
-  const leftBoolean = yield* toBoolean(left, context.realm);
+  const leftBoolean = yield* toBoolean.js(left, context.realm);
 
-  if (leftBoolean.value) {
+  if (leftBoolean) {
     return left;
   }
 

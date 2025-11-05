@@ -48,11 +48,11 @@ function* doWhileStatementNodeEvaluator(
       }
     }
 
-    let testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
+    const testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
       forNormalValue: "DoWhileStatement.test",
     });
-    testResult = yield* toBoolean(testResult, whileContext.realm);
-    if (!testResult.value) {
+    const condition = yield* toBoolean.js(testResult, whileContext.realm);
+    if (!condition) {
       break;
     }
   }

@@ -3,6 +3,7 @@ import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsObject } from "../types/StaticJsObject.js";
+
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
@@ -13,7 +14,7 @@ export default function* propertyDescriptorToObject(
   descriptor: StaticJsPropertyDescriptor,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObject> {
-  const result = realm.types.object({
+  const properties: Record<string, StaticJsPropertyDescriptor> = {
     enumerable: {
       enumerable: true,
       writable: true,
@@ -26,39 +27,39 @@ export default function* propertyDescriptorToObject(
       configurable: true,
       value: realm.types.boolean(descriptor.configurable ?? false),
     },
-  });
+  };
 
   if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
     if (descriptor.get) {
-      yield* result.definePropertyEvaluator("get", {
+      properties.get = {
         enumerable: true,
         writable: true,
         configurable: true,
         value: descriptor.get,
-      });
+      };
     }
     if (descriptor.set) {
-      yield* result.definePropertyEvaluator("set", {
+      properties.set = {
         enumerable: true,
         writable: true,
         configurable: true,
         value: descriptor.set,
-      });
+      };
     }
   } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
-    yield* result.definePropertyEvaluator("value", {
+    properties.value = {
       enumerable: true,
       writable: true,
       configurable: true,
       value: descriptor.value,
-    });
-    yield* result.definePropertyEvaluator("writable", {
+    };
+    properties.writable = {
       enumerable: true,
       writable: true,
       configurable: true,
       value: realm.types.boolean(descriptor.writable ?? false),
-    });
+    };
   }
 
-  return result;
+  return realm.types.object(properties);
 }
