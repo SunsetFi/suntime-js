@@ -1,10 +1,8 @@
 import type { IntrinsicPropertyDeclaration } from "./utils.js";
 
-import StaticJsUndefinedImpl from "../types/implementation/StaticJsUndefinedImpl.js";
-
 const globalObjectUndefinedDeclaration: IntrinsicPropertyDeclaration = {
   key: "undefined",
-  value: (realm) => new StaticJsUndefinedImpl(realm),
+  value: (realm) => realm.types.undefined,
 };
 
 export default globalObjectUndefinedDeclaration;

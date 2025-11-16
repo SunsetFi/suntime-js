@@ -45,7 +45,7 @@ import {
 export class StaticJsModuleImpl extends StaticJsModuleBase {
   private _linked = false;
 
-  private _enviornment: StaticJsModuleEnvironmentRecord | undefined;
+  private _enviornmentRecord: StaticJsModuleEnvironmentRecord | undefined;
   private _context: EvaluationContext | undefined;
 
   private _status: StaticJsModuleStatus = "uninstantiated";
@@ -129,11 +129,11 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
     this._status = "instantiating";
 
-    this._enviornment = new StaticJsModuleEnvironmentRecord(this._realm);
+    this._enviornmentRecord = new StaticJsModuleEnvironmentRecord(this._realm);
 
     const env = new StaticJsLexicalEnvironment(
       this._realm,
-      this._enviornment,
+      this._enviornmentRecord,
       this._realm.globalEnv,
     );
 
@@ -175,6 +175,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       yield* module.moduleDeclarationInstantiationEvaluator();
     }
 
+    // Create import bindings
     for (const entry of this._importEntries) {
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
@@ -187,14 +188,14 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       }
 
       if (entry.importName === "namespace") {
-        yield* this._enviornment.createImmutableBindingEvaluator(
+        yield* this._enviornmentRecord.createImmutableBindingEvaluator(
           entry.localName,
           false,
         );
 
         const ns = yield* module.getModuleNamespaceEvaluator();
 
-        yield* this._enviornment.initializeBindingEvaluator(
+        yield* this._enviornmentRecord.initializeBindingEvaluator(
           entry.localName,
           ns,
         );
@@ -219,7 +220,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
           );
         }
 
-        yield* this._enviornment.createImportBindingEvaluator(
+        yield* this._enviornmentRecord.createImportBindingEvaluator(
           entry.localName,
           resolved.module,
           resolved.bindingName,
@@ -233,7 +234,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         continue;
       }
 
-      const hasBinding = yield* this._enviornment.hasBindingEvaluator(
+      const hasBinding = yield* this._enviornmentRecord.hasBindingEvaluator(
         entry.localName,
       );
       if (!hasBinding) {
@@ -458,11 +459,11 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
   *getOwnBindingValueEvaluator(
     bindingName: string,
   ): EvaluationGenerator<StaticJsValue | null> {
-    if (this._enviornment == null) {
+    if (this._enviornmentRecord == null) {
       return null;
     }
 
-    const value = yield* this._enviornment.getBindingValueEvaluator(
+    const value = yield* this._enviornmentRecord.getBindingValueEvaluator(
       bindingName,
       false,
     );
