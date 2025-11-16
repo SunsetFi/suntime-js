@@ -100,12 +100,12 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
     this._linked = true;
 
     const importNames = this._importEntries.map((x) => x.moduleRequest);
-    const exportNames = this._exportEntries
+    const indirectExportNames = this._exportEntries
       .filter(isStaticJsIndirectExportEntry)
       .map((x) => x.moduleRequest);
 
     const moduleSpecifiers = Array.from(
-      new Set<string>([...importNames, ...exportNames]),
+      new Set([...importNames, ...indirectExportNames]),
     );
     const modules = await Promise.all(
       moduleSpecifiers.map((moduleSpecifier) =>
