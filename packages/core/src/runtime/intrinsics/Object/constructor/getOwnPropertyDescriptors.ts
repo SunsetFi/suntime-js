@@ -1,3 +1,6 @@
+import type { StaticJsObjectPropertyKey } from "../../../types/StaticJsObjectLike.js";
+import type { StaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
+
 import toObject from "../../../algorithms/to-object.js";
 
 import propertyDescriptorToObject from "../../../utils/property-descriptor-to-object.js";
@@ -13,7 +16,10 @@ const objectCtorGetOwnPropertyDescriptorsDeclaration: IntrinsicPropertyDeclarati
       const keys = yield* obj.getOwnKeysEvaluator();
       const symbols = yield* obj.getOwnSymbolsEvaluator();
 
-      const descriptorsObj = realm.types.object();
+      const descriptors = new Map<
+        StaticJsObjectPropertyKey,
+        StaticJsPropertyDescriptor
+      >();
 
       for (const key of [...keys, ...symbols]) {
         const descriptor = yield* obj.getOwnPropertyDescriptorEvaluator(key);
@@ -22,7 +28,7 @@ const objectCtorGetOwnPropertyDescriptorsDeclaration: IntrinsicPropertyDeclarati
         }
 
         const descObject = yield* propertyDescriptorToObject(descriptor, realm);
-        yield* descriptorsObj.definePropertyEvaluator(key, {
+        descriptors.set(key, {
           enumerable: true,
           writable: true,
           configurable: true,
@@ -30,7 +36,7 @@ const objectCtorGetOwnPropertyDescriptorsDeclaration: IntrinsicPropertyDeclarati
         });
       }
 
-      return descriptorsObj;
+      return realm.types.object(descriptors);
     },
   };
 
