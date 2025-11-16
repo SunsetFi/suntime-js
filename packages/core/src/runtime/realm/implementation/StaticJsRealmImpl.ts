@@ -85,7 +85,6 @@ import type {
 } from "../StaticJsRealm.js";
 
 import Macrotask from "./Macrotask.js";
-import StaticJsProxyModule from "../../modules/implementation/StaticJsProxyModule.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;
@@ -377,18 +376,11 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
 
     if (!module && this._externalResolveModule) {
-      // Create a temporary proxy so that circular dependencies can be resolved.
-      const proxied = new StaticJsProxyModule(referencingModule, specifier);
-      this._resolvedModules.set(specifier, proxied);
-
       const resolved = await this._externalResolveModule(
         referencingModule,
         specifier,
       );
       module = realmModuleToModule(this, specifier, resolved);
-
-      // Resolve the proxy now.
-      proxied.resolve(module);
       this._resolvedModules.set(specifier, module);
     }
 

@@ -92,7 +92,6 @@ For more information, including solutions for breaking loops, see [Quick Start](
     the sandbox (IE global scope functions, external modules).
     - Not good to have it start a new macrotask, as the task runner API should see calls to these apis happening while a task is active as
       continuations of the same task, not new nested tasks.
-- Fix circular imports on modules. There's a skipped test for this.
 - Fix task runner not bound to continuations of promises
   - This is really thorny. On the surface, its suprising that a task runner passed to evaluateModule will only work for
     the initial evaluation and not for any runs after await, but it would also be suprising if the await is triggered
