@@ -347,6 +347,7 @@ describe("E2E: Module", () => {
     });
 
     it("Handles circular dependencies", async () => {
+      const receiver = vitest.fn();
       const realm = StaticJsRealm({
         modules: {
           "module-1": `
@@ -360,13 +361,22 @@ describe("E2E: Module", () => {
               return "b" + getMod1();
             };`,
         },
+        global: {
+          value: {
+            setResult: receiver,
+          },
+        },
       });
 
       const code = `
           import { getValue } from "module-1";
-          getValue();
+          const result = getValue();
+          setResult(result);
         `;
-      await expect(evaluateModule(code, { realm })).resolves.toBeDefined();
+
+      await evaluateModule(code, { realm });
+
+      expect(receiver).toBeCalledWith("abc");
     });
 
     it("Throws on syntax errors", async () => {
