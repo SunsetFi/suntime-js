@@ -346,21 +346,27 @@ describe("E2E: Module", () => {
       expect(receiver).toBeCalledWith([0, 4]);
     });
 
-    // FIXME: Make this work.
-    // Should be easy.  This is a sign we are not caching the module resolutions.
-    it.skip("Handled circular dependencies", async () => {
-      // Circular dependencies should resolve to undefined values during initialization.
-      // Is this supposed to throw for uninitialized access?
-      // Right now, we spin in circles until we fill up the stack...
+    it("Handles circular dependencies", async () => {
       const realm = StaticJsRealm({
         modules: {
-          "module-1": `import { a } from "module-2"; export const b = 42 + a;`,
-          "module-2": `import { b } from "module-1"; export const a = 64 + b;`,
+          "module-1": `
+            import { getMod2 } from "module-2";
+            export function getValue() { return "a" + getMod2(); };
+            export function getMod1() { return "c"; }
+          `,
+          "module-2": `
+            import { getMod1 } from "module-1";
+            export function getMod2() {
+              return "b" + getMod1();
+            };`,
         },
       });
-      await expect(
-        evaluateModule('import { value } from "module-1";', { realm }),
-      ).resolves.toBeDefined();
+
+      const code = `
+          import { getValue } from "module-1";
+          getValue();
+        `;
+      await expect(evaluateModule(code, { realm })).resolves.toBeDefined();
     });
 
     it("Throws on syntax errors", async () => {

@@ -85,6 +85,7 @@ import type {
 } from "../StaticJsRealm.js";
 
 import Macrotask from "./Macrotask.js";
+import StaticJsProxyModule from "../../modules/implementation/StaticJsProxyModule.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;
@@ -95,6 +96,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _staticModules = new Map<
     string,
     StaticJsModuleImplementation | null
+  >();
+  private readonly _resolvedModules = new Map<
+    string,
+    StaticJsModuleImplementation
   >();
   private readonly _externalResolveModule: StaticJsModuleResolver | undefined;
 
@@ -361,13 +366,30 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     specifier: string,
   ): Promise<StaticJsModuleImplementation | null> {
     let module = this._staticModules.get(specifier);
+    if (module) {
+      return module;
+    }
+
+    const key = getResolverModuleKey(referencingModule, specifier);
+    module = this._resolvedModules.get(key);
+    if (module) {
+      return module;
+    }
 
     if (!module && this._externalResolveModule) {
+      // Create a temporary proxy so that circular dependencies can be resolved.
+      const proxied = new StaticJsProxyModule(referencingModule, specifier);
+      this._resolvedModules.set(specifier, proxied);
+
       const resolved = await this._externalResolveModule(
         referencingModule,
         specifier,
       );
       module = realmModuleToModule(this, specifier, resolved);
+
+      // Resolve the proxy now.
+      proxied.resolve(module);
+      this._resolvedModules.set(specifier, module);
     }
 
     return module ?? null;
@@ -623,6 +645,15 @@ function realmModuleToModule(
       `StaticJsRealm resolveModule for module ${specifier} did not return source code, a valid module, or an object with an exports property.`,
     );
   }
+}
+
+function getResolverModuleKey(
+  referencingModule: StaticJsModule,
+  specifier: string,
+) {
+  // Trying not to use any characters that might appear in module names.
+  // Its still possible someone might use this sequence, but its unlikely.
+  return `${referencingModule.name}\x1E${specifier}`;
 }
 
 function globalDeclToDescriptor(

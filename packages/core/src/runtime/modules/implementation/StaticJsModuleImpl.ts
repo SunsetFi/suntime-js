@@ -127,6 +127,8 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       return null;
     }
 
+    this._status = "instantiating";
+
     this._enviornment = new StaticJsModuleEnvironmentRecord(this._realm);
 
     const env = new StaticJsLexicalEnvironment(

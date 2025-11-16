@@ -10,6 +10,7 @@ import type { StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
 
 export type StaticJsModuleStatus =
   | "uninstantiated"
+  | "instantiating"
   | "instantiated"
   | "evaluating"
   | "evaluated";
