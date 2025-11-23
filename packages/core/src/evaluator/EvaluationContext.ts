@@ -1,8 +1,11 @@
+import type { Node } from "@babel/types";
+
 import type { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
 
 import type { StaticJsEnvironment } from "../runtime/environments/StaticJsEnvironment.js";
 import StaticJsLexicalEnvironment from "../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
+import StaticJsDeclarativeEnvironmentRecord from "../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 export default abstract class EvaluationContext {
   private _parent: EvaluationContext | null;
@@ -56,6 +59,11 @@ export default abstract class EvaluationContext {
     return this._parent;
   }
 
+  get block(): Node | null {
+    // Does not inherit.
+    return null;
+  }
+
   static createRootContext(
     strict: boolean,
     realm: StaticJsRealm,
@@ -72,6 +80,18 @@ export default abstract class EvaluationContext {
     return new EnvironmentEvaluationContext(
       new StaticJsLexicalEnvironment(this.realm, record, this.lexicalEnv),
       null,
+      this,
+    );
+  }
+
+  createBlockContext(node: Node): EvaluationContext {
+    return new BlockEvaluationContext(
+      new StaticJsLexicalEnvironment(
+        this.realm,
+        new StaticJsDeclarativeEnvironmentRecord(this.realm),
+        this.lexicalEnv,
+      ),
+      node,
       this,
     );
   }
@@ -198,5 +218,28 @@ class StackEvaluationContext extends EvaluationContext {
 
   get function(): StaticJsFunction {
     return this._function;
+  }
+}
+
+class BlockEvaluationContext extends EvaluationContext {
+  private _env: StaticJsEnvironment;
+  private _node: Node;
+
+  constructor(env: StaticJsEnvironment, node: Node, parent: EvaluationContext) {
+    super(parent);
+    this._env = env;
+    this._node = node;
+  }
+
+  get lexicalEnv(): StaticJsEnvironment {
+    return this._env;
+  }
+
+  get variableEnv(): StaticJsEnvironment {
+    return this._env;
+  }
+
+  get block(): Node | null {
+    return this._node;
   }
 }

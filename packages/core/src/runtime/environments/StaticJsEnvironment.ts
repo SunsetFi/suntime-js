@@ -33,6 +33,14 @@ export interface StaticJsEnvironment {
     deletable: boolean,
   ): EvaluationGenerator<void>;
 
+  canDeclareGlobalFunctionEvaluator(name: string): EvaluationGenerator<boolean>;
+
+  createGlobalFunctionBindingEvaluator(
+    name: string,
+    value: StaticJsValue,
+    configurable: boolean,
+  ): EvaluationGenerator<void>;
+
   initializeBindingEvaluator(
     name: string,
     value: StaticJsValue,

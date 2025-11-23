@@ -1,7 +1,9 @@
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsModule } from "../../modules/StaticJsModule.js";
-import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
+import type {
+  StaticJsModuleResolution,
+  StaticJsModuleResolver,
+} from "../StaticJsModuleResolver.js";
 
 import type { StaticJsRealm as IStaticJsRealm } from "../StaticJsRealm.js";
 
@@ -22,36 +24,18 @@ export interface StaticJsRealmGlobalAccessorPropertyDecl {
   get?(): unknown | EvaluationGenerator<unknown>;
   set?(value: unknown): void | EvaluationGenerator<void>;
 }
+
 export type StaticJsRealmGlobalDeclProperty =
   | StaticJsRealmGlobalDataPropertyDecl
   | StaticJsRealmGlobalAccessorPropertyDecl;
+
 export interface StaticJsRealmGlobalDecl {
   properties: Record<string, StaticJsRealmGlobalDeclProperty>;
 }
+
 export interface StaticJsRealmGlobalValue {
   value: object;
 }
-
-export interface StaticJsRealmModuleExports {
-  exports: Record<string, unknown>;
-}
-
-/**
- * Valid types for an ECMAScript Module resolution.
- */
-export type StaticJsModuleResolution =
-  | StaticJsRealmModuleExports
-  | StaticJsModule
-  | StaticJsModuleImplementation
-  | string;
-
-/**
- * A factory function to resolve an imported ECMAScript Module.
- */
-export type StaticJsModuleResolver = (
-  referencingModule: StaticJsModule,
-  specifier: string,
-) => Promise<StaticJsModuleResolution>;
 
 /**
  * Options for creating a StaticJsRealm.

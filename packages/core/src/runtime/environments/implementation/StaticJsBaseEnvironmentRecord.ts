@@ -48,6 +48,22 @@ export default abstract class StaticJsBaseEnvironmentRecord
     );
   }
 
+  *canDeclareGlobalFunctionEvaluator(
+    _name: string,
+  ): EvaluationGenerator<boolean> {
+    return false;
+  }
+
+  *createGlobalFunctionBindingEvaluator(
+    _name: string,
+    _value: StaticJsValue,
+    _configurable: boolean,
+  ): EvaluationGenerator<void> {
+    throw new Error(
+      "Cannot create global function binding in non-global environment.",
+    );
+  }
+
   *initializeBindingEvaluator(
     name: string,
     value: StaticJsValue,

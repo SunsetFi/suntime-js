@@ -46,7 +46,22 @@ function* functionDeclarationEnvironmentSetup(
     functionContext,
   );
 
-  if (functionName) {
+  declare: if (functionName) {
+    const varScope = context.variableEnv;
+    // HACK: We need to check if we're in a block to determine if we should
+    // create a global function binding or a normal function binding.
+    const isInBlock = !!context.block;
+    if (!isInBlock) {
+      if (yield* varScope.canDeclareGlobalFunctionEvaluator(functionName)) {
+        yield* varScope.createGlobalFunctionBindingEvaluator(
+          functionName,
+          func,
+          true,
+        );
+        break declare;
+      }
+    }
+
     yield* context.lexicalEnv.createFunctionBindingEvaluator(
       functionName,
       func,

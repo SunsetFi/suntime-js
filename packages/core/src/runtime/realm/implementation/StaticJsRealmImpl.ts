@@ -66,10 +66,10 @@ import { StaticJsModuleImpl } from "../../modules/implementation/StaticJsModuleI
 
 import type {
   StaticJsRealmGlobalDeclProperty,
-  StaticJsModuleResolution,
-  StaticJsModuleResolver,
   StaticJsRealmOptions,
 } from "../factories/StaticJsRealm.js";
+import type { StaticJsModuleResolution } from "../StaticJsModuleResolver.js";
+import type { StaticJsModuleResolver } from "../StaticJsModuleResolver.js";
 
 import type {
   StaticJsTaskIterator,
