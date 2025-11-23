@@ -28,7 +28,9 @@ const objectCtorHasOwnDeclaration: IntrinsicPropertyDeclaration = {
       return realm.types.false;
     }
 
-    const hasProperty = yield* obj.hasPropertyEvaluator(String(keyValue.value));
+    const hasProperty = yield* obj.hasOwnPropertyEvaluator(
+      String(keyValue.value),
+    );
 
     return realm.types.boolean(hasProperty);
   },

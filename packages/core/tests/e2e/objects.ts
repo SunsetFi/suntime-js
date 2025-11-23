@@ -887,5 +887,107 @@ describe("E2E: Object", () => {
         });
       });
     });
+
+    describe("Object.getOwnPropertyNames", () => {
+      it("Should return all own property names", async () => {
+        const code = `
+          const obj = {};
+          Object.defineProperty(obj, 'a', { value: 1, enumerable: true });
+          Object.defineProperty(obj, 'b', { value: 2, enumerable: false });
+          Object.getOwnPropertyNames(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual(["a", "b"]);
+      });
+
+      it("Should not return Symbol-keyed properties", async () => {
+        const code = `
+          const sym = Symbol('mySymbol');
+          const obj = {};
+          Object.defineProperty(obj, sym, { value: 42, enumerable: true });
+          Object.getOwnPropertyNames(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([]);
+      });
+    });
+
+    describe("Object.getOwnPropertySymbols", () => {
+      it("Should return all own Symbol-keyed properties", async () => {
+        const code = `
+          const sym1 = Symbol('sym1');
+          const sym2 = Symbol('sym2');
+          const obj = {};
+          Object.defineProperty(obj, sym1, { value: 1, enumerable: true });
+          Object.defineProperty(obj, sym2, { value: 2, enumerable: false });
+          Object.getOwnPropertySymbols(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual(
+          expect.arrayContaining([expect.any(Symbol), expect.any(Symbol)]),
+        );
+      });
+
+      it("Should not return string-keyed properties", async () => {
+        const code = `
+          const obj = {};
+          Object.defineProperty(obj, 'a', { value: 1, enumerable: true });
+          Object.getOwnPropertySymbols(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([]);
+      });
+    });
+
+    describe("Object.getPrototypeOf", () => {
+      it("Should return the prototype of an object", async () => {
+        const code = `
+          const proto = { a: 1 };
+          const obj = Object.create(proto);
+          Object.getPrototypeOf(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual({ a: 1 });
+      });
+
+      it("Should return null for an object with null prototype", async () => {
+        const code = `
+          const obj = Object.create(null);
+          Object.getPrototypeOf(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBeNull();
+      });
+    });
+
+    describe("Object.hasOwn", () => {
+      it("Should return true for own properties", async () => {
+        const code = `
+          const obj = { a: 1 };
+          Object.hasOwn(obj, 'a');
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(true);
+      });
+
+      it("Should return false for inherited properties", async () => {
+        const code = `
+          const proto = { a: 1 };
+          const obj = Object.create(proto);
+          Object.hasOwn(obj, 'a');
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(false);
+      });
+
+      it("Should return false for non-existing properties", async () => {
+        const code = `
+          const obj = { };
+          Object.hasOwn(obj, 'a');
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(false);
+      });
+    });
   });
 });

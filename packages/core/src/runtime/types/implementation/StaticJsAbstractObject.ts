@@ -176,6 +176,17 @@ export default abstract class StaticJsAbstractObject
     return decl !== undefined;
   }
 
+  hasOwnPropertySync(key: StaticJsObjectPropertyKey): boolean {
+    return this.realm.invokeEvaluatorSync(this.hasOwnPropertyEvaluator(key));
+  }
+
+  *hasOwnPropertyEvaluator(
+    key: StaticJsObjectPropertyKey,
+  ): EvaluationGenerator<boolean> {
+    const decl = yield* this.getOwnPropertyDescriptorEvaluator(key);
+    return decl !== undefined;
+  }
+
   getPropertyDescriptorSync(
     key: StaticJsObjectPropertyKey,
   ): StaticJsPropertyDescriptor | undefined {
