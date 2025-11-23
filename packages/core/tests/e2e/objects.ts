@@ -1124,6 +1124,17 @@ describe("E2E: Object", () => {
         const result = await evaluateScript(code);
         expect(result).toEqual(["a"]);
       });
+
+      it("Should not include prototype properties", async () => {
+        const code = `
+          const proto = { a: 1 };
+          const obj = Object.create(proto);
+          obj.b = 2;
+          Object.keys(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual(["b"]);
+      });
     });
 
     describe("Object.preventExtensions", () => {
@@ -1198,6 +1209,17 @@ describe("E2E: Object", () => {
       `;
       const result = await evaluateScript(code);
       expect(result).toEqual([1]);
+    });
+
+    it("Should not include prototype properties", async () => {
+      const code = `
+        const proto = { a: 1 };
+        const obj = Object.create(proto);
+        obj.b = 2;
+        Object.values(obj);
+      `;
+      const result = await evaluateScript(code);
+      expect(result).toEqual([2]);
     });
   });
 });

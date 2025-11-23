@@ -18,6 +18,22 @@ Instead, while the code in the sandbox **will** have access to eval() and the fu
 
 [More information on StaticJs security](docs/02-security.md)
 
+## Quick Usage (native JS interop)
+
+StaticJs provides quick functions for evaluating simple code: `evaluateExpressionSync` and `evaluateScriptSync`. These functions take strings as their first argument, and return a [coerced native value](docs/03-type-coersion.md).
+
+Note that these functions will drain all microtasks enqueued during their evaluation before returning. This means that any promise resolutions in the scripts will also be ran to completion.
+
+```ts
+import { evaluateExpressionSync } from "@suntime-js/core";
+
+const result = evaluateExpressionSync("2 + 2");
+```
+
+**Warning**: Using StaticJs this way is vulnurable to deadlocks with infinite loops, and can introduce security complications where VM code can be unexpectedly invoked through interacting with the resulting values (eg: property getters and setters).
+
+For more information, including solutions for breaking loops, see [Quick Start](docs/01-quick-start.md).
+
 ## What is supported
 
 - Strict directive
@@ -63,28 +79,11 @@ This project is slowly working its way through the [Test262](https://github.com/
 
 Currently, around 4800 of the language tests are passing, or about 20%. Further work is ongoing in this area.
 
-## Quick Usage (native JS interop)
-
-StaticJs provides quick functions for evaluating simple code: `evaluateExpressionSync` and `evaluateScriptSync`. These functions take strings as their first argument, and return a [coerced native value](docs/03-type-coersion.md).
-
-Note that these functions will drain all microtasks enqueued during their evaluation before returning. This means that any promise resolutions in the scripts will also be ran to completion.
-
-```ts
-import { evaluateExpressionSync } from "@suntime-js/core";
-
-const result = evaluateExpressionSync("2 + 2");
-```
-
-**Warning**: Using StaticJs this way is vulnurable to deadlocks with infinite loops, and can introduce security complications where VM code can be unexpectedly invoked through interacting with the resulting values (eg: property getters and setters).
-
-For more information, including solutions for breaking loops, see [Quick Start](docs/01-quick-start.md).
-
 ## TODO:
 
 - Fix 'all' [Test262](https://github.com/tc39/test262) tests.
   - Currently only running tests in the language folder. Need to add built-ins
 - Make invokeEvaluatorSync use runTaskSync
-- Tests for Object.\* functions
 - Fix task runner not bound to continuations of promises
   - This is really thorny. On the surface, its suprising that a task runner passed to evaluateModule will only work for
     the initial evaluation and not for any runs after await, but it would also be suprising if the await is triggered by code that has its own runTask and that runTask isn't used in favor of the root runTask.
