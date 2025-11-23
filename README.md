@@ -85,7 +85,6 @@ For more information, including solutions for breaking loops, see [Quick Start](
   - Currently only running tests in the language folder. Need to add built-ins
 - Make invokeEvaluatorSync use runTaskSync
 - Tests for Object.\* functions
-- Tests for Map
 - Figure out public API for invoking evaluators.
   - Probably hide evaluators and provide non-evaluator non-sync APIs from intrinsic types.
   - Figure out what it looks like for a consumer to want to call functions or invoke other evaluators as part of an api surface exposed within
@@ -107,3 +106,8 @@ For more information, including solutions for breaking loops, see [Quick Start](
 - Investigate debugger for monaco
   [Example implementation?](https://github.com/polylith/monaco-debugger)
   [Docs](https://microsoft.github.io/debug-adapter-protocol/overview)
+
+## Think about
+
+- Host fingerprinting using Math.sin - different results between firefox and chrome. Problem? Use a manual implementation?
+- Date being a pass-through to engine date might be finger printable, or even worrying for manipulating the host?

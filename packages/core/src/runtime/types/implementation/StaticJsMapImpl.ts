@@ -41,7 +41,8 @@ export default class StaticJsMapImpl
   }
 
   *deleteEvaluator(key: StaticJsValue): EvaluationGenerator<boolean> {
-    return this._backingStore.delete(key);
+    const keyUnwrapped = toNativeUnwrap(key);
+    return this._backingStore.delete(keyUnwrapped);
   }
 
   *entriesEvaluator(): EvaluationGenerator<StaticJsValue> {
@@ -81,8 +82,7 @@ export default class StaticJsMapImpl
 
   *getEvaluator(key: StaticJsValue): EvaluationGenerator<StaticJsValue> {
     const keyUnwrapped = toNativeUnwrap(key);
-    const result = this._backingStore.get(keyUnwrapped);
-    return toRuntimeWrap(result, this.realm);
+    return this._backingStore.get(keyUnwrapped) ?? this.realm.types.undefined;
   }
 
   *hasEvaluator(key: StaticJsValue): EvaluationGenerator<boolean> {

@@ -37,7 +37,6 @@ const intrinsicSymbols: Record<keyof IntrinsicSymbols, symbol> = {
   // TODO: Implement in engine.
   search: Symbol.search,
 
-  // TODO: Implement in engine.
   species: Symbol.species,
 
   // TODO: Implement in engine.
