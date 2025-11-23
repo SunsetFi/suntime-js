@@ -126,10 +126,7 @@ export default abstract class StaticJsBaseEnvironmentRecord
 
     if (strict) {
       throw new ThrowCompletion(
-        this._realm.types.error(
-          "ReferenceError",
-          `Assignment to undeclared variable '${name}'.`,
-        ),
+        this._realm.types.error("ReferenceError", `${name} is not defined`),
       );
     }
   }
@@ -146,7 +143,7 @@ export default abstract class StaticJsBaseEnvironmentRecord
       throw new ThrowCompletion(
         this.realm.types.error(
           "ReferenceError",
-          `Cannot get binding ${name}: Binding does not exist.`,
+          `Cannot get binding ${name}: Binding does not exist`,
         ),
       );
     }

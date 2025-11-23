@@ -197,7 +197,7 @@ describe("E2E: Variables", () => {
   });
 
   describe("implicit globals", () => {
-    it("Defines an identifier var on the global object", async () => {
+    it("Defines an identifier var on the global object in non-strict mode", async () => {
       const code = `
         x = 10;
         x;
@@ -208,6 +208,16 @@ describe("E2E: Variables", () => {
       expect(globalValue).toBeDefined();
       expect(isStaticJsNumber(globalValue)).toBe(true);
       expect((globalValue as StaticJsNumber).value).toBe(10);
+    });
+
+    it("Throws a ReferenceError in strict mode", async () => {
+      const code = `
+        'use strict';
+        x = 10;
+      `;
+      await expect(evaluateScript(code)).rejects.toThrow(
+        /ReferenceError: x is not defined/,
+      );
     });
   });
 });

@@ -4,7 +4,8 @@
   "packageManager": "pnpm@10.6.2",
   "scripts": {
     "prepare": "husky",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "build": "pnpm -r --filter=@suntime-js/core build"
   },
   "devDependencies": {
     "husky": "^9.1.7",

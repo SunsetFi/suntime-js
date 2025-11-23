@@ -221,6 +221,9 @@ class StackEvaluationContext extends EvaluationContext {
   }
 }
 
+// FIXME: This only exists because I designed setupEnvironment before knowing what the spec wanted, and it currently cannot / does not handle
+// function and var environments properly.  This is here so that the runtime can diferrentiate it and handle that for us.
+// Mainly this is for handling function hoisting properly
 class BlockEvaluationContext extends EvaluationContext {
   private _env: StaticJsEnvironment;
   private _node: Node;
@@ -232,10 +235,6 @@ class BlockEvaluationContext extends EvaluationContext {
   }
 
   get lexicalEnv(): StaticJsEnvironment {
-    return this._env;
-  }
-
-  get variableEnv(): StaticJsEnvironment {
     return this._env;
   }
 

@@ -143,11 +143,25 @@ export default function* assignmentExpressionNodeEvaluator(
   }
 
   yield* setLVal(left, value, context, function* (name, value) {
-    return yield* context.lexicalEnv.setMutableBindingEvaluator(
-      name,
-      value,
-      context.strict,
-    );
+    // TODO: The real spec has this Reference system where we get objects representing references,
+    // and that system is supposed to take care of this.
+    const hasBinding = yield* context.lexicalEnv.hasBindingEvaluator(name);
+    if (!hasBinding) {
+      if (!context.strict) {
+        // Spec says DO NOT USE var here!  It's a set on the global object!
+        yield* context.realm.global.setPropertyEvaluator(name, value, false);
+      } else {
+        throw new ThrowCompletion(
+          context.realm.types.error("ReferenceError", `${name} is not defined`),
+        );
+      }
+    } else {
+      return yield* context.lexicalEnv.setMutableBindingEvaluator(
+        name,
+        value,
+        context.strict,
+      );
+    }
   });
 
   // Pass the value for chaining.
