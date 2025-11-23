@@ -78,14 +78,7 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
     deletable: boolean,
     isVarDecl: boolean,
   ): EvaluationGenerator<void> {
-    if (yield* this._globalObject.hasPropertyEvaluator(name)) {
-      throw new ThrowCompletion(
-        this.realm.types.error(
-          "SyntaxError",
-          `Identifier ${name} has already been declared`,
-        ),
-      );
-    }
+    yield* this._ensureBindingNotDeclared(name);
 
     return yield* this._declarativeRecord.createMutableBindingEvaluator(
       name,
@@ -98,15 +91,7 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
     name: string,
     strict: boolean,
   ): EvaluationGenerator<void> {
-    // Both need to be checked first
-    if (yield* this.hasBindingEvaluator(name)) {
-      throw new ThrowCompletion(
-        this.realm.types.error(
-          "SyntaxError",
-          `Identifier ${name} has already been declared`,
-        ),
-      );
-    }
+    yield* this._ensureBindingNotDeclared(name);
 
     yield* this._declarativeRecord.createImmutableBindingEvaluator(
       name,
@@ -172,5 +157,16 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
     }
 
     return yield* this._objectRecord[StaticJsEnvironmentGetBinding](name);
+  }
+
+  private *_ensureBindingNotDeclared(name: string): EvaluationGenerator<void> {
+    if (yield* this.hasBindingEvaluator(name)) {
+      throw new ThrowCompletion(
+        this.realm.types.error(
+          "SyntaxError",
+          `Identifier ${name} has already been declared`,
+        ),
+      );
+    }
   }
 }

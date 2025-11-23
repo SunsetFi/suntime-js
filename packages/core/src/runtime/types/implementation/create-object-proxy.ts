@@ -217,7 +217,8 @@ export default function createStaticJsObjectLikeProxy(
       }
       const staticJsValue = obj.realm.types.toStaticJsValue(value);
       obj.setPropertySync(staticJsPropertyKey, staticJsValue, false);
-      return false;
+      // TODO: What if we aren't writable?
+      return true;
     },
     setPrototypeOf() {
       return false;

@@ -218,6 +218,114 @@ describe("E2E: Object", () => {
     });
   });
 
+  describe("Host Proxy", () => {
+    it("Should provide object keys through the proxy", async () => {
+      const realm = StaticJsRealm();
+
+      const result = await realm.evaluateScript(`
+        const obj = {
+          a: 1,
+          b: 2,
+          c: 3,
+        };
+        obj;
+      `);
+      const objNative = result.toJsSync() as Record<string, number>;
+
+      const keys = Object.keys(objNative);
+      expect(keys).toEqual(["a", "b", "c"]);
+    });
+
+    it("Should get properties through the proxy", async () => {
+      const realm = StaticJsRealm();
+
+      const result = await realm.evaluateScript(`
+        const obj = {
+          a: 1,
+          b: 2,
+          c: 3,
+        };
+        obj;
+      `);
+      const objNative = result.toJsSync() as Record<string, number>;
+
+      expect(objNative.a).toBe(1);
+      expect(objNative.b).toBe(2);
+      expect(objNative.c).toBe(3);
+    });
+
+    it("Should set properties through the proxy", async () => {
+      const realm = StaticJsRealm();
+
+      const result = await realm.evaluateScript(`
+        const obj = {};
+        globalThis.__nativeObj = obj;
+        obj;
+      `);
+      const objNative = result.toJsSync() as Record<string, number>;
+
+      objNative.a = 42;
+      const aValue = await realm.evaluateScript(`
+        globalThis.__nativeObj.a;
+      `);
+      expect(aValue.toJsSync()).toBe(42);
+    });
+
+    it("Should get symbols through the proxy", async () => {
+      const realm = StaticJsRealm();
+
+      const result = await realm.evaluateScript(`
+        const sym = Symbol('mySymbol');
+        const obj = {};
+        obj[sym] = 42;
+        [sym, obj];
+      `);
+      const [sym, objVm] = result.toJsSync() as [
+        symbol,
+        Record<symbol, number>,
+      ];
+
+      expect(objVm[sym]).toBe(42);
+    });
+
+    it("Should set symbols through the proxy", async () => {
+      const realm = StaticJsRealm();
+
+      const result = await realm.evaluateScript(`
+        const sym = Symbol.for('mySymbol');
+        const obj = {};
+        globalThis.__nativeObj = obj;
+        [sym, obj];
+      `);
+      const [sym, objVm] = result.toJsSync() as [
+        symbol,
+        Record<symbol, number>,
+      ];
+
+      objVm[sym] = 99;
+
+      const symbolValue = await realm.evaluateScript(`
+        const sym = Symbol.for('mySymbol');
+        const obj = globalThis.__nativeObj;
+        obj[sym];
+      `);
+      expect(symbolValue.toJsSync()).toBe(99);
+    });
+
+    it("Should preserve well-known symbols between realms", async () => {
+      const realm = StaticJsRealm();
+
+      const result = await realm.evaluateScript(`
+        const obj = {
+          [Symbol.iterator]: 42
+        };
+        obj;
+      `);
+      const obj = result.toJsSync() as Record<string | symbol, unknown>;
+      expect(obj[Symbol.iterator]).toBe(42);
+    });
+  });
+
   describe("Statics", () => {
     describe("Object.assign", () => {
       it("Should assign properties from source to target", async () => {

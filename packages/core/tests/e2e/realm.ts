@@ -90,6 +90,15 @@ describe("E2E: Realm", () => {
       expect(result.toJsSync()).toBe(4);
     });
 
+    it("Creates a new lexical environment for each evaluation", async () => {
+      const realm = StaticJsRealm({});
+
+      await realm.evaluateScript("const x = 42;");
+      await expect(realm.evaluateScript("x")).rejects.toThrow(
+        "ReferenceError: x is not defined",
+      );
+    });
+
     describe("runTask", () => {
       it("Handles evaluation with a StaticJsRealm runTask option", async () => {
         const runTask = vitest.fn((task: StaticJsTaskIterator) => {

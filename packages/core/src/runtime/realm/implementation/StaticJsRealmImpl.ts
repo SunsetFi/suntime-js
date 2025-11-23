@@ -85,6 +85,7 @@ import type {
 } from "../StaticJsRealm.js";
 
 import Macrotask from "./Macrotask.js";
+import StaticJsDeclarativeEnvironmentRecord from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;
@@ -700,7 +701,10 @@ function* doEvaluateNode(
   realm: StaticJsRealm,
   strict?: boolean,
 ): EvaluationGenerator<StaticJsValue> {
-  const context = EvaluationContext.createRootContext(strict ?? false, realm);
+  const context = EvaluationContext.createRootContext(
+    strict ?? false,
+    realm,
+  ).createLexicalEnvContext(new StaticJsDeclarativeEnvironmentRecord(realm));
   try {
     yield* setupEnvironment(node, context);
     const result = yield* EvaluateNodeCommand(node, context);
@@ -719,7 +723,10 @@ function* doEvaluateNodeAsync(
   realm: StaticJsRealm,
   strict?: boolean,
 ): EvaluationGenerator<StaticJsValue> {
-  const context = EvaluationContext.createRootContext(strict ?? false, realm);
+  const context = EvaluationContext.createRootContext(
+    strict ?? false,
+    realm,
+  ).createLexicalEnvContext(new StaticJsDeclarativeEnvironmentRecord(realm));
   try {
     yield* setupEnvironment(node, context);
     const evaluator = EvaluateNodeCommand(node, context);
