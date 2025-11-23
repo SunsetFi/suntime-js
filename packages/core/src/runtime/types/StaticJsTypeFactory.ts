@@ -90,6 +90,7 @@ export default interface StaticJsTypeFactory {
   toStaticJsValue(value: object): StaticJsObject;
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   toStaticJsValue(value: Function): StaticJsFunction;
+  toStaticJsValue(value: symbol): StaticJsSymbol;
   toStaticJsValue(value: null): StaticJsNull;
   toStaticJsValue(value: undefined): StaticJsUndefined;
   toStaticJsValue(value: unknown): StaticJsValue;

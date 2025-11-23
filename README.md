@@ -85,16 +85,9 @@ For more information, including solutions for breaking loops, see [Quick Start](
   - Currently only running tests in the language folder. Need to add built-ins
 - Make invokeEvaluatorSync use runTaskSync
 - Tests for Object.\* functions
-- Figure out public API for invoking evaluators.
-  - Probably hide evaluators and provide non-evaluator non-sync APIs from intrinsic types.
-  - Figure out what it looks like for a consumer to want to call functions or invoke other evaluators as part of an api surface exposed within
-    the sandbox (IE global scope functions, external modules).
-    - Not good to have it start a new macrotask, as the task runner API should see calls to these apis happening while a task is active as
-      continuations of the same task, not new nested tasks.
 - Fix task runner not bound to continuations of promises
   - This is really thorny. On the surface, its suprising that a task runner passed to evaluateModule will only work for
-    the initial evaluation and not for any runs after await, but it would also be suprising if the await is triggered
-    by code that has its own runTask and that runTask isn't used in favor of the root runTask.
+    the initial evaluation and not for any runs after await, but it would also be suprising if the await is triggered by code that has its own runTask and that runTask isn't used in favor of the root runTask.
     Either way, this probably means we need to store the runTask on the context.
 - Report code coverage in repo
   coveralls.io?
@@ -102,12 +95,25 @@ For more information, including solutions for breaking loops, see [Quick Start](
 - Get api-extractor working. The only holdup right now is the combine and re-export of the interface and factory function of StaticJsRealm
   - Combine these into one file to make this work?
 - Rename toJs to toNative
+
+### API for host implementation of functions using evaluators
+
+Figure out public API for invoking evaluators.
+
+- Probably hide evaluators and provide non-evaluator non-sync APIs from intrinsic types.
+- Figure out what it looks like for a consumer to want to call functions or invoke other evaluators as part of an api surface exposed within
+  the sandbox (IE global scope functions, external modules).
+  - Not good to have it start a new macrotask, as the task runner API should see calls to these apis happening while a task is active as
+    continuations of the same task, not new nested tasks.
+
+### Debugging
+
 - Add scope, variable, and stack info to StaticJsTaskIterator for debugging.
-- Investigate debugger for monaco
+- Add support for monaco debugger
   [Example implementation?](https://github.com/polylith/monaco-debugger)
   [Docs](https://microsoft.github.io/debug-adapter-protocol/overview)
 
-## Think about
+### Think about
 
 - Host fingerprinting using Math.sin - different results between firefox and chrome. Problem? Use a manual implementation?
 - Date being a pass-through to engine date might be finger printable, or even worrying for manipulating the host?

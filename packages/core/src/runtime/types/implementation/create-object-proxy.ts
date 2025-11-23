@@ -1,5 +1,8 @@
 import type { StaticJsValue } from "../StaticJsValue.js";
-import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
+import type {
+  StaticJsObjectLike,
+  StaticJsObjectPropertyKey,
+} from "../StaticJsObjectLike.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
@@ -25,12 +28,14 @@ export default function createStaticJsObjectLikeProxy(
   additionalTraps: ProxyHandler<object> = {},
 ): unknown {
   const getOwnPropertyDescriptor = (propertyName: string | symbol) => {
-    if (typeof propertyName !== "string") {
-      // TODO: Support well-known symbols.
-      return undefined;
+    let staticJsPropertyKey: StaticJsObjectPropertyKey;
+    if (typeof propertyName === "symbol") {
+      staticJsPropertyKey = obj.realm.types.toStaticJsValue(propertyName);
+    } else {
+      staticJsPropertyKey = propertyName;
     }
 
-    const descriptor = obj.getOwnPropertyDescriptorSync(propertyName);
+    const descriptor = obj.getOwnPropertyDescriptorSync(staticJsPropertyKey);
     if (!descriptor) {
       return undefined;
     }
@@ -50,7 +55,7 @@ export default function createStaticJsObjectLikeProxy(
       if (isStaticJsDataPropertyDescriptor(descriptor) && descriptor.writable) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (target as any)[propertyName] = obj
-          .getPropertySync(propertyName)
+          .getPropertySync(staticJsPropertyKey)
           .toJsSync();
         return Object.getOwnPropertyDescriptor(target, propertyName);
       }
@@ -68,13 +73,13 @@ export default function createStaticJsObjectLikeProxy(
     if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
       if (descriptor.get) {
         jsDescriptor.get = () => {
-          return obj.getPropertySync(propertyName).toJsSync();
+          return obj.getPropertySync(staticJsPropertyKey).toJsSync();
         };
       }
       if (descriptor.set) {
         jsDescriptor.set = (value: unknown) => {
           const staticJsValue = obj.realm.types.toStaticJsValue(value);
-          obj.setPropertySync(propertyName, staticJsValue, false);
+          obj.setPropertySync(staticJsPropertyKey, staticJsValue, false);
         };
       } else {
         // Huh... This needs to be set apparently.
@@ -83,7 +88,7 @@ export default function createStaticJsObjectLikeProxy(
       }
     } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
       jsDescriptor.writable = descriptor.writable;
-      jsDescriptor.value = obj.getPropertySync(propertyName).toJsSync();
+      jsDescriptor.value = obj.getPropertySync(staticJsPropertyKey).toJsSync();
     }
 
     // Proxy is incredibly stupid in that it forces you to have the target match.
@@ -95,7 +100,10 @@ export default function createStaticJsObjectLikeProxy(
   };
 
   const ownKeys = () => {
-    const keys = obj.getOwnKeysSync();
+    const keys = [
+      ...obj.getOwnKeysSync(),
+      ...obj.getOwnSymbolsSync().map((s) => s.toJsSync() as symbol),
+    ];
     for (const key of keys) {
       // Do this to poke the descriptors...
       // Sigh...
@@ -152,9 +160,11 @@ export default function createStaticJsObjectLikeProxy(
       return false;
     },
     defineProperty(_target, p, descriptor) {
-      if (typeof p !== "string") {
-        // FIXME: Support symbols in the registry.
-        return false;
+      let staticJsPropertyKey: StaticJsObjectPropertyKey;
+      if (typeof p === "symbol") {
+        staticJsPropertyKey = obj.realm.types.toStaticJsValue(p);
+      } else {
+        staticJsPropertyKey = p;
       }
 
       if (descriptor.get || descriptor.set) {
@@ -168,7 +178,7 @@ export default function createStaticJsObjectLikeProxy(
         if (descriptor.set) {
           sjsDescriptor.set = obj.realm.types.toStaticJsValue(descriptor.set);
         }
-        obj.definePropertySync(p, sjsDescriptor);
+        obj.definePropertySync(staticJsPropertyKey, sjsDescriptor);
       } else {
         const sjsDescriptor: StaticJsPropertyDescriptor = {
           configurable: descriptor.configurable ?? false,
@@ -176,17 +186,19 @@ export default function createStaticJsObjectLikeProxy(
           writable: descriptor.writable ?? false,
           value: obj.realm.types.toStaticJsValue(descriptor.value),
         };
-        obj.definePropertySync(p, sjsDescriptor);
+        obj.definePropertySync(staticJsPropertyKey, sjsDescriptor);
       }
 
       return false;
     },
     deleteProperty(_target, p) {
-      if (typeof p !== "string") {
-        // FIXME: Support symbols in the registry.
-        return false;
+      let staticJsPropertyKey: StaticJsObjectPropertyKey;
+      if (typeof p === "symbol") {
+        staticJsPropertyKey = obj.realm.types.toStaticJsValue(p);
+      } else {
+        staticJsPropertyKey = p;
       }
-      obj.deletePropertySync(p);
+      obj.deletePropertySync(staticJsPropertyKey);
       return false;
     },
     isExtensible() {
@@ -197,13 +209,14 @@ export default function createStaticJsObjectLikeProxy(
       return true;
     },
     set(_target, p, value) {
-      if (typeof p !== "string") {
-        // FIXME: Support symbols in the registry.
-        return false;
+      let staticJsPropertyKey: StaticJsObjectPropertyKey;
+      if (typeof p === "symbol") {
+        staticJsPropertyKey = obj.realm.types.toStaticJsValue(p);
+      } else {
+        staticJsPropertyKey = p;
       }
-
       const staticJsValue = obj.realm.types.toStaticJsValue(value);
-      obj.setPropertySync(p, staticJsValue, false);
+      obj.setPropertySync(staticJsPropertyKey, staticJsValue, false);
       return false;
     },
     setPrototypeOf() {

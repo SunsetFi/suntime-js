@@ -1,7 +1,10 @@
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import {
+  isStaticJsObjectLike,
+  type StaticJsObjectPropertyKey,
+} from "../../../types/StaticJsObjectLike.js";
 import { isStaticJsScalar } from "../../../types/StaticJsScalar.js";
 import { validateStaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
@@ -9,6 +12,8 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import objectToPropertyDescriptor from "../../../utils/object-to-property-descriptor.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import { isStaticJsSymbol } from "../../../types/StaticJsSymbol.js";
+import toString from "../../../algorithms/to-string.js";
 
 const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
   key: "defineProperty",
@@ -36,7 +41,12 @@ const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const propertyKey = propertyNameValue.toStringSync();
+    let propertyKey: StaticJsObjectPropertyKey;
+    if (isStaticJsSymbol(propertyNameValue)) {
+      propertyKey = propertyNameValue;
+    } else {
+      propertyKey = yield* toString.js(propertyNameValue, realm);
+    }
 
     if (!isStaticJsObjectLike(propertyDescriptor)) {
       throw new ThrowCompletion(

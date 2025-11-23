@@ -166,10 +166,13 @@ describe("E2E: Arrays", () => {
           const a = [1, 2, 3];
           const b = [4, 5];
           b[Symbol.isConcatSpreadable] = false;
-          a.concat(b);
+          [a.concat(b), b];
         `;
-        const result = await evaluateScript(code);
-        expect(result).toEqual([1, 2, 3, [4, 5]]);
+        const [value, b] = (await evaluateScript(code)) as [
+          unknown[],
+          unknown[],
+        ];
+        expect(value).toEqual([1, 2, 3, b]);
       });
     });
 

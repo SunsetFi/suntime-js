@@ -5,15 +5,15 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorEntriesDeclaration: IntrinsicPropertyDeclaration = {
   key: "entries",
-  *func(realm, thisArg) {
+  *func(realm, thisArg, obj) {
     // TODO: This should return an iterator.
-    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
+    obj = yield* toObject(obj ?? realm.types.undefined, realm);
 
-    const ownKeys = yield* thisObj.getOwnKeysEvaluator();
+    const ownKeys = yield* obj.getOwnEnumerableKeysEvaluator();
 
     const values: StaticJsValue[] = new Array(ownKeys.length);
     for (let i = 0; i < ownKeys.length; i++) {
-      const value = yield* thisObj.getPropertyEvaluator(ownKeys[i]);
+      const value = yield* obj.getPropertyEvaluator(ownKeys[i]);
       const item = realm.types.array([realm.types.string(ownKeys[i]), value]);
       values[i] = item;
     }

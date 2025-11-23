@@ -274,6 +274,36 @@ describe("E2E: Object", () => {
       });
     });
 
+    describe("Object.create", () => {
+      it("Should create an object with the specified prototype", async () => {
+        const code = `
+          const proto = { a: 1 };
+          const obj = Object.create(proto);
+          obj;
+        `;
+        const result = await evaluateScript(code);
+        expect(Object.getPrototypeOf(result)).toEqual({ a: 1 });
+      });
+
+      it("Should create an object with null prototype", async () => {
+        const code = `
+          const obj = Object.create(null);
+          obj;
+        `;
+        const result = await evaluateScript(code);
+        expect(Object.getPrototypeOf(result)).toBeNull();
+      });
+
+      it("Should throw when prototype is not an object or null", async () => {
+        const code = `
+          Object.create(42);
+        `;
+        await expect(evaluateScript(code)).rejects.toThrow(
+          "Object prototype may only be an Object or null",
+        );
+      });
+    });
+
     describe("Object.defineProperties", () => {
       it("Should define multiple properties on an object", async () => {
         const code = `
@@ -434,6 +464,319 @@ describe("E2E: Object", () => {
         await expect(evaluateScript(code)).rejects.toThrow(
           "Invalid property descriptor.  Cannot both specify accessors and a value or writable",
         );
+      });
+    });
+
+    describe("Object.defineProperty", () => {
+      describe("Value properties", () => {
+        it("Should define a single value property on an object", async () => {
+          const code = `
+          const obj = {};
+          Object.defineProperty(obj, 'a', { value: 1, writable: true, enumerable: true });
+          obj;
+        `;
+          const result = await evaluateScript(code);
+          expect(result).toEqual({
+            a: 1,
+          });
+        });
+
+        it("Applies defaults for value properties", async () => {
+          const result = await evaluateScript(`
+          const obj = {};
+          Object.defineProperty(obj, "x", { value: 42 });
+          Object.getOwnPropertyDescriptor(obj, "x");
+        `);
+          expect(result).toEqual({
+            value: 42,
+            writable: false,
+            enumerable: false,
+            configurable: false,
+          });
+        });
+      });
+
+      describe("Accessor properties", () => {
+        it("Should define a single accessor property on an object", async () => {
+          const code = `
+          const obj = {};
+          let backing = 0;
+          Object.defineProperty(obj, 'a', {
+            get: () => backing,
+            set: (v) => backing = v,
+            enumerable: true,
+          });
+          obj.a = 42;
+          obj.a;
+        `;
+          const result = await evaluateScript(code);
+          expect(result).toBe(42);
+        });
+
+        it("Can define accessor properties with only a getter", async () => {
+          const code = `
+          const obj = {};
+          Object.defineProperty(obj, 'a', {
+            get: () => 5,
+          });
+          obj.a;
+        `;
+          const result = await evaluateScript(code);
+          expect(result).toBe(5);
+        });
+
+        it("Applies defaults for accessor properties", async () => {
+          const result = await evaluateScript(`
+          const obj = {};
+          Object.defineProperty(obj, "x", {
+            get: () => 5
+          });
+          Object.getOwnPropertyDescriptor(obj, "x");
+        `);
+          expect(result).toEqual({
+            get: expect.any(Function),
+            set: undefined,
+            enumerable: false,
+            configurable: false,
+          });
+        });
+      });
+
+      describe("Strictness", () => {
+        it("Cannot re-define a non-configurable property", async () => {
+          const code = `
+          const obj = {};
+          Object.defineProperty(obj, "x", {
+            value: 1,
+            configurable: false,
+          });
+          Object.defineProperty(obj, "x", {
+            value: 2,
+          });
+        `;
+          await expect(evaluateScript(code)).rejects.toThrow(
+            /Cannot redefine property/,
+          );
+        });
+
+        it("Can redefine a configurable property", async () => {
+          const result = await evaluateScript(`
+          const obj = {};
+          Object.defineProperty(obj, "x", {
+            value: 1,
+            configurable: true,
+          });
+          Object.defineProperty(obj, "x", {
+            value: 2,
+          });
+          obj.x;
+        `);
+          expect(result).toBe(2);
+        });
+
+        it("Can restrict a property's writability", async () => {
+          const result = await evaluateScript(`
+          const obj = {};
+          Object.defineProperty(obj, "x", {
+            value: 1,
+            writable: true,
+          });
+          Object.defineProperty(obj, "x", {
+            writable: false,
+          });
+          obj.x;
+        `);
+          expect(result).toBe(1);
+        });
+
+        it("Cannot make a non-writable property writable", async () => {
+          const code = `
+          const obj = {};
+          Object.defineProperty(obj, "x", {
+            value: 1,
+            writable: false,
+          });
+          Object.defineProperty(obj, "x", {
+            writable: true,
+          });
+        `;
+          await expect(evaluateScript(code)).rejects.toThrow(
+            /Cannot redefine property/,
+          );
+        });
+      });
+    });
+
+    describe("Object.entries", () => {
+      it("Should return an array of [key, value] pairs for own enumerable properties", async () => {
+        const code = `
+          const obj = { a: 1, b: 2 };
+          Object.entries(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([
+          ["a", 1],
+          ["b", 2],
+        ]);
+      });
+
+      it("Should not include non-enumerable properties", async () => {
+        const code = `
+          const obj = {};
+          Object.defineProperty(obj, 'a', { value: 1, enumerable: false });
+          Object.defineProperty(obj, 'b', { value: 2, enumerable: true });
+          Object.entries(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([["b", 2]]);
+      });
+
+      it("Should not include prototype properties", async () => {
+        const code = `
+          const proto = { a: 1 };
+          const obj = Object.create(proto);
+          obj.b = 2;
+          Object.entries(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([["b", 2]]);
+      });
+    });
+
+    describe("Object.freeze", () => {
+      it("Should make an object non-extensible", async () => {
+        const code = `
+          const obj = { a: 1 };
+          Object.freeze(obj);
+          Object.isExtensible(obj);
+        `;
+        const isExtensible = await evaluateScript(code);
+        expect(isExtensible).toBe(false);
+
+        const propDesc = await evaluateScript(`
+          const obj = { a: 1 };
+          Object.freeze(obj);
+          Object.getOwnPropertyDescriptor(obj, 'a');
+        `);
+        expect(propDesc).toEqual({
+          value: 1,
+          writable: false,
+          enumerable: true,
+          configurable: false,
+        });
+      });
+
+      it("Should make all data-properties non-writable", async () => {
+        const code = `
+          const obj = { };
+          Object.defineProperty(obj, 'a', { value: 1, writable: true, enumerable: true });
+          let backing = 2;
+          Object.defineProperty(obj, 'b', { get: () => backing, set: (v) => backing = v, enumerable: true });
+          Object.freeze(obj);
+          obj.a = 3;
+          obj.b = 4;
+          [obj.a, obj.b];
+        `;
+
+        const result = await evaluateScript(code);
+        return expect(result).toEqual([1, 4]);
+      });
+
+      it("Should make all properties non-configurable", async () => {
+        const code = `
+          const obj = { };
+          Object.defineProperty(obj, 'a', { value: 1, writable: true, enumerable: true });
+          Object.defineProperty(obj, 'b', { get: () => backing, set: (v) => backing = v, enumerable: true });
+          Object.freeze(obj);
+          [Object.getOwnPropertyDescriptor(obj, 'a'), Object.getOwnPropertyDescriptor(obj, 'b')];
+        `;
+
+        const result = await evaluateScript(code);
+        expect(result).toEqual([
+          {
+            value: 1,
+            writable: false,
+            enumerable: true,
+            configurable: false,
+          },
+          {
+            get: expect.any(Function),
+            set: expect.any(Function),
+            enumerable: true,
+            configurable: false,
+          },
+        ]);
+      });
+    });
+
+    describe("Object.getOwnPropertyDescriptor", () => {
+      it("Should return the property descriptor for an existing property", async () => {
+        const code = `
+          const obj = {};
+          Object.defineProperty(obj, 'a', { value: 1, writable: true, enumerable: true });
+          Object.getOwnPropertyDescriptor(obj, 'a');
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual({
+          value: 1,
+          writable: true,
+          enumerable: true,
+          configurable: false,
+        });
+      });
+
+      it("Should return undefined for a non-existing property", async () => {
+        const code = `
+          const obj = {};
+          Object.getOwnPropertyDescriptor(obj, 'a');
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBeUndefined();
+      });
+    });
+
+    describe("Object.getOwnPropertyDescriptors", () => {
+      it("Should return all property descriptors for an object", async () => {
+        const code = `
+          const obj = {};
+          Object.defineProperty(obj, 'a', { value: 1, writable: true, enumerable: true });
+          Object.defineProperty(obj, 'b', { get: () => 2, enumerable: false });
+          Object.getOwnPropertyDescriptors(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual({
+          a: {
+            value: 1,
+            writable: true,
+            enumerable: true,
+            configurable: false,
+          },
+          b: {
+            get: expect.any(Function),
+            set: undefined,
+            enumerable: false,
+            configurable: false,
+          },
+        });
+      });
+
+      it("Should return Symbol-keyed property descriptors", async () => {
+        const code = `
+          const sym = Symbol('mySymbol');
+          const obj = {};
+          Object.defineProperty(obj, sym, { value: 42, enumerable: true });
+          [sym, Object.getOwnPropertyDescriptors(obj)];
+        `;
+        const result = (await evaluateScript(code)) as [symbol, object];
+        const [sym, descriptors] = result;
+        expect(descriptors).toEqual({
+          [sym]: {
+            value: 42,
+            writable: false,
+            enumerable: true,
+            configurable: false,
+          },
+        });
       });
     });
   });
