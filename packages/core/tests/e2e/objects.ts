@@ -989,5 +989,215 @@ describe("E2E: Object", () => {
         expect(result).toBe(false);
       });
     });
+
+    describe("Object.is", () => {
+      it("Should return true for the same value", async () => {
+        const code = `
+          const obj = { a: 1 };
+          Object.is(obj, obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(true);
+      });
+
+      it("Should return false for different values", async () => {
+        const code = `
+          const obj1 = { a: 1 };
+          const obj2 = { a: 1 };
+          Object.is(obj1, obj2);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(false);
+      });
+
+      it("Should handle NaN correctly", async () => {
+        const code = `
+          Object.is(NaN, NaN);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(true);
+      });
+
+      it("Should distinguish +0 and -0", async () => {
+        const code = `
+          Object.is(+0, -0);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(false);
+      });
+    });
+
+    describe("Object.isExtensible", () => {
+      it("Should return true for extensible objects", async () => {
+        const code = `
+          const obj = { a: 1 };
+          Object.isExtensible(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(true);
+      });
+
+      it("Should return false for non-extensible objects", async () => {
+        const code = `
+          const obj = { a: 1 };
+          Object.preventExtensions(obj);
+          Object.isExtensible(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(false);
+      });
+    });
+
+    describe("Object.isFrozen", () => {
+      it("Should return true for frozen objects", async () => {
+        const code = `
+          const obj = { a: 1 };
+          Object.preventExtensions(obj);
+          Object.defineProperty(obj, 'a', { writable: false, configurable: false });
+          Object.isFrozen(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(true);
+      });
+
+      it("Should return false for non-frozen objects", async () => {
+        const code = `
+          const obj = { a: 1 };
+          Object.isFrozen(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(false);
+      });
+
+      it("Should return false for non-extensible objects with writable properties", async () => {
+        const code = `
+          const obj = { };
+          Object.defineProperty(obj, 'a', { writable: true, configurable: false });
+          Object.preventExtensions(obj);
+          Object.isFrozen(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(false);
+      });
+    });
+
+    describe("Object.isSealed", () => {
+      it("Should return true for sealed objects", async () => {
+        const code = `
+          const obj = { a: 1 };
+          Object.seal(obj);
+          Object.isSealed(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(true);
+      });
+
+      it("Should return false for non-sealed objects", async () => {
+        const code = `
+          const obj = { a: 1 };
+          Object.isSealed(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(false);
+      });
+
+      it("Should return false for non-extensible objects with configurable properties", async () => {
+        const code = `
+          const obj = { };
+          Object.defineProperty(obj, 'a', { value: 0, writable: false, configurable: true });
+          Object.preventExtensions(obj);
+          Object.isSealed(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(false);
+      });
+    });
+
+    describe("Object.keys", () => {
+      it("Should return all own enumerable property names", async () => {
+        const code = `
+          const obj = {};
+          Object.defineProperty(obj, 'a', { value: 1, enumerable: true });
+          Object.defineProperty(obj, 'b', { value: 2, enumerable: false });
+          Object.keys(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual(["a"]);
+      });
+    });
+
+    describe("Object.preventExtensions", () => {
+      it("Should make an object non-extensible", async () => {
+        const code = `
+          const obj = { a: 1 };
+          Object.preventExtensions(obj);
+          Object.isExtensible(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(false);
+      });
+    });
+
+    describe("Object.seal", () => {
+      it("Should make an object non-extensible and all properties non-configurable", async () => {
+        const code = `
+          const obj = { a: 1 };
+          Object.seal(obj);
+          Object.isExtensible(obj);
+        `;
+        const isExtensible = await evaluateScript(code);
+        expect(isExtensible).toBe(false);
+
+        const propDesc = await evaluateScript(`
+          const obj = { };
+          Object.defineProperty(obj, 'a', { value: 1, writable: true, enumerable: true });
+          Object.seal(obj);
+          Object.getOwnPropertyDescriptor(obj, 'a');
+        `);
+        expect(propDesc).toEqual({
+          value: 1,
+          writable: true,
+          enumerable: true,
+          configurable: false,
+        });
+      });
+    });
+  });
+
+  describe("Object.setPrototypeOf", () => {
+    it("Should set the prototype of an object", async () => {
+      const code = `
+        const proto = { a: 1 };
+        const obj = {};
+        Object.setPrototypeOf(obj, proto);
+        Object.getPrototypeOf(obj);
+      `;
+      const result = await evaluateScript(code);
+      expect(result).toEqual({ a: 1 });
+    });
+
+    it("Should throw when setting prototype to non-object or non-null", async () => {
+      const code = `
+        const obj = {};
+        Object.setPrototypeOf(obj, 42);
+      `;
+      await expect(evaluateScript(code)).rejects.toThrow(
+        "Object prototype may only be an Object or null",
+      );
+    });
+  });
+
+  describe("Object.values", () => {
+    it("Should return all own enumerable property values", async () => {
+      const code = `
+        const obj = {};
+        Object.defineProperty(obj, 'a', { value: 1, enumerable: true });
+        Object.defineProperty(obj, 'b', { value: 2, enumerable: false });
+        Object.defineProperty(obj, Symbol('c'), { value: 3, enumerable: true });
+        Object.values(obj);
+      `;
+      const result = await evaluateScript(code);
+      expect(result).toEqual([1]);
+    });
   });
 });
