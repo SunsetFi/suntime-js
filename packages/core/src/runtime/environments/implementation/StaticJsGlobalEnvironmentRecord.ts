@@ -3,34 +3,26 @@ import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js"
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import type { StaticJsObject } from "../../types/StaticJsObject.js";
-import {
-  isStaticJsDataPropertyDescriptor,
-  type StaticJsPropertyDescriptor,
-} from "../../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import StaticJsBaseEnvironmentRecord from "./StaticJsBaseEnvironmentRecord.js";
-import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
+import type StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
 import type StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
 import { StaticJsEnvironmentGetBinding } from "./StaticJsEnvironmentBindingProvider.js";
-import StaticJsObjectEnvironmentRecord from "./StaticJsObjectEnvironmentRecord.js";
+import type StaticJsObjectEnvironmentRecord from "./StaticJsObjectEnvironmentRecord.js";
 
 export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnvironmentRecord {
-  private readonly _declarativeRecord;
-  private readonly _objectRecord;
-
   constructor(
     realm: StaticJsRealm,
     private readonly _globalThis: StaticJsValue,
-    private readonly _globalObject: StaticJsObject,
+    private readonly _declarativeRecord: StaticJsDeclarativeEnvironmentRecord,
+    private readonly _objectRecord: StaticJsObjectEnvironmentRecord,
   ) {
     super(realm);
-    this._declarativeRecord = new StaticJsDeclarativeEnvironmentRecord(realm);
-    this._objectRecord = new StaticJsObjectEnvironmentRecord(
-      realm,
-      _globalObject,
-    );
+  }
+
+  get objectRecord(): StaticJsObjectEnvironmentRecord {
+    return this._objectRecord;
   }
 
   *setMutableBindingEvaluator(
@@ -69,7 +61,7 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
       );
     }
 
-    yield* this._globalObject.definePropertyEvaluator(name, {
+    yield* this._objectRecord.bindingObject.definePropertyEvaluator(name, {
       value,
       writable: true,
       enumerable: true,
@@ -80,14 +72,12 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
   *createMutableBindingEvaluator(
     name: string,
     deletable: boolean,
-    isVarDecl: boolean,
   ): EvaluationGenerator<void> {
     yield* this._ensureBindingNotDeclared(name);
 
     return yield* this._declarativeRecord.createMutableBindingEvaluator(
       name,
       deletable,
-      isVarDecl,
     );
   }
 
@@ -107,93 +97,8 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
     name: string,
     value: StaticJsValue,
   ): EvaluationGenerator<void> {
-    yield* this._objectRecord.createMutableBindingEvaluator(name, false, false);
+    yield* this._objectRecord.createMutableBindingEvaluator(name, false);
     yield* this._objectRecord.setMutableBindingEvaluator(name, value, true);
-  }
-
-  *canDeclareGlobalVarEvaluator(name: string): EvaluationGenerator<boolean> {
-    if (yield* this._globalObject.hasPropertyEvaluator(name)) {
-      return true;
-    }
-
-    return this._globalObject.extensible;
-  }
-
-  *createGlobalVarBindingEvaluator(
-    name: string,
-    deletable: boolean,
-  ): EvaluationGenerator<void> {
-    const hasProperty = yield* this._globalObject.hasPropertyEvaluator(name);
-    const extensible = this._globalObject.extensible;
-
-    if (!hasProperty && extensible) {
-      yield* this._objectRecord.createMutableBindingEvaluator(
-        name,
-        deletable,
-        true,
-      );
-      yield* this._objectRecord.initializeBindingEvaluator(
-        name,
-        this.realm.types.undefined,
-      );
-    }
-  }
-
-  *canDeclareGlobalFunctionEvaluator(
-    name: string,
-  ): EvaluationGenerator<boolean> {
-    const existingProp =
-      yield* this._globalObject.getOwnPropertyDescriptorEvaluator(name);
-    if (!existingProp) {
-      return this._globalObject.extensible;
-    }
-
-    if (existingProp.configurable) {
-      return true;
-    }
-
-    if (
-      isStaticJsDataPropertyDescriptor(existingProp) &&
-      existingProp.writable &&
-      existingProp.enumerable
-    ) {
-      return true;
-    }
-
-    return false;
-  }
-
-  *createGlobalFunctionBindingEvaluator(
-    name: string,
-    value: StaticJsValue,
-    configurable: boolean,
-  ): EvaluationGenerator<void> {
-    const existingProp =
-      yield* this._globalObject.getOwnPropertyDescriptorEvaluator(name);
-
-    let desc: StaticJsPropertyDescriptor;
-    if (!existingProp || existingProp.configurable) {
-      desc = {
-        value,
-        writable: true,
-        enumerable: true,
-        configurable,
-      };
-    } else {
-      desc = { value };
-    }
-
-    if (!(yield* this._globalObject.definePropertyEvaluator(name, desc))) {
-      throw new ThrowCompletion(
-        this.realm.types.error(
-          "TypeError",
-          `Cannot redefine property: ${name}`,
-        ),
-      );
-    }
-
-    // The above should set, but we apparently call set anyway?
-    yield* this._objectRecord.setMutableBindingEvaluator(name, value, false);
   }
 
   *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {

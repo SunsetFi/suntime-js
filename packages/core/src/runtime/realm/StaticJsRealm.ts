@@ -85,6 +85,17 @@ export interface StaticJsRealm {
   readonly globalEnv: StaticJsEnvironment;
 
   /**
+   * The environment record for the global object.
+   * @internal
+   */
+  readonly objectEnv: StaticJsEnvironment;
+
+  /**
+   * The environment record for declarative bindings.
+   */
+  readonly declarativeRecord: StaticJsEnvironment;
+
+  /**
    * Evaluates the expression in the realm, returning a promise that resolves to the result.
    * @param expression The expression to evaluate.
    * @param opts Options for running the task.

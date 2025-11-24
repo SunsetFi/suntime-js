@@ -79,11 +79,7 @@ function* variableDeclarationEnvironmentSetup(
     case "var":
       variableCreator = function* (name) {
         const varScope = context.variableEnv;
-        if (yield* varScope.canDeclareGlobalVarEvaluator(name)) {
-          yield* varScope.createGlobalVarBindingEvaluator(name, false);
-        } else {
-          yield* varScope.createMutableBindingEvaluator(name, false, true);
-        }
+        yield* varScope.createMutableBindingEvaluator(name, false);
 
         // Vars are initialized immediately with undefined.
         varScope.initializeBindingEvaluator(

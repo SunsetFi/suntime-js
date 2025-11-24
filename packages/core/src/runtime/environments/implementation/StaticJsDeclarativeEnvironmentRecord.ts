@@ -13,11 +13,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
   private readonly _bindings: Map<string, DeclarativeEnvironmentBinding> =
     new Map();
 
-  *createMutableBindingEvaluator(
-    name: string,
-    deletable: boolean,
-    isVarDecl: boolean,
-  ) {
+  *createMutableBindingEvaluator(name: string, deletable: boolean) {
     if (deletable) {
       throw new ThrowCompletion(
         this.realm.types.error(
@@ -27,23 +23,11 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
       );
     }
 
-    // HACK: Per the spec, we need to process all var decls in a batch and dedup var decls.
-    // But, we aren't set up to do that easily...
-    if (isVarDecl && this._bindings.get(name)?.isVarDecl) {
-      return;
-    }
-
     this._assertBindingNotDeclared(name);
 
     this._bindings.set(
       name,
-      new DeclarativeEnvironmentBinding(
-        name,
-        true,
-        isVarDecl,
-        null,
-        this.realm,
-      ),
+      new DeclarativeEnvironmentBinding(name, true, null, this.realm),
     );
   }
 
@@ -56,7 +40,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsBaseEn
 
     this._bindings.set(
       name,
-      new DeclarativeEnvironmentBinding(name, false, false, null, this.realm),
+      new DeclarativeEnvironmentBinding(name, false, null, this.realm),
     );
   }
 
@@ -84,7 +68,6 @@ class DeclarativeEnvironmentBinding implements StaticJsEnvironmentBinding {
   constructor(
     public readonly name: string,
     public readonly isMutable: boolean,
-    public readonly isVarDecl: boolean,
     value: StaticJsValue | null,
     private readonly _realm: StaticJsRealm,
   ) {

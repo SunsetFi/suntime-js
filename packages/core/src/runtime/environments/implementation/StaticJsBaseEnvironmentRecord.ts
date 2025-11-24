@@ -27,42 +27,12 @@ export default abstract class StaticJsBaseEnvironmentRecord
   abstract createMutableBindingEvaluator(
     name: string,
     deletable: boolean,
-    canReferenceUninitialized: boolean,
   ): EvaluationGenerator<void>;
 
   abstract createImmutableBindingEvaluator(
     name: string,
     strict: boolean,
   ): EvaluationGenerator<void>;
-
-  *canDeclareGlobalVarEvaluator(_name: string): EvaluationGenerator<boolean> {
-    return false;
-  }
-
-  *createGlobalVarBindingEvaluator(
-    _name: string,
-    _deletable: boolean,
-  ): EvaluationGenerator<void> {
-    throw new Error(
-      "Cannot create global var binding in non-global environment.",
-    );
-  }
-
-  *canDeclareGlobalFunctionEvaluator(
-    _name: string,
-  ): EvaluationGenerator<boolean> {
-    return false;
-  }
-
-  *createGlobalFunctionBindingEvaluator(
-    _name: string,
-    _value: StaticJsValue,
-    _configurable: boolean,
-  ): EvaluationGenerator<void> {
-    throw new Error(
-      "Cannot create global function binding in non-global environment.",
-    );
-  }
 
   *initializeBindingEvaluator(
     name: string,
@@ -95,7 +65,7 @@ export default abstract class StaticJsBaseEnvironmentRecord
     name: string,
     value: StaticJsValue,
   ): EvaluationGenerator<void> {
-    yield* this.createMutableBindingEvaluator(name, false, false);
+    yield* this.createMutableBindingEvaluator(name, false);
     yield* this.setMutableBindingEvaluator(name, value, true);
   }
 

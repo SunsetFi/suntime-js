@@ -89,12 +89,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
     }
   }
 
-  const method = createFunction(
-    functionName,
-    property,
-    context.strict ? "strict" : "lexical",
-    context,
-  );
+  const method = createFunction(functionName, property, context);
 
   switch (property.kind) {
     case "method": {

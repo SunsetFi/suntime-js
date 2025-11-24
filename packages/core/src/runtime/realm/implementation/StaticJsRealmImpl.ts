@@ -15,12 +15,12 @@ import StaticJsSynchronousTaskIncompleteError from "../../../errors/StaticJsSync
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 import StaticJsConcurrentEvaluationError from "../../../errors/StaticJsConcurrentEvaluationError.js";
 
+import StaticJsDeclarativeEnvironmentRecord from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
 import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
-
-import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
 
 import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
 
@@ -28,9 +28,10 @@ import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCom
 
 import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import globalDeclarationInstantiation from "../../../evaluator/algorithms/global-declaration-instantiation.js";
 
-import type { StaticJsEnvironment } from "../../environments/StaticJsEnvironment.js";
 import StaticJsGlobalEnvironmentRecord from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+import StaticJsObjectEnvironmentRecord from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
 
 import {
   createPrototypes,
@@ -85,12 +86,13 @@ import type {
 } from "../StaticJsRealm.js";
 
 import Macrotask from "./Macrotask.js";
-import StaticJsDeclarativeEnvironmentRecord from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;
   private readonly _globalThis: StaticJsValue;
-  private readonly _globalEnv: StaticJsEnvironment;
+  private readonly _objectEnv: StaticJsObjectEnvironmentRecord;
+  private readonly _declarativeEnv: StaticJsDeclarativeEnvironmentRecord;
+  private readonly _globalEnv: StaticJsGlobalEnvironmentRecord;
   private readonly _typeFactory: StaticJsTypeFactory;
 
   private readonly _staticModules = new Map<
@@ -154,10 +156,14 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     this._global = globalObjectResolved;
     this._globalThis = globalThisResolved;
 
+    this._objectEnv = new StaticJsObjectEnvironmentRecord(this, this._global);
+    this._declarativeEnv = new StaticJsDeclarativeEnvironmentRecord(this);
+
     this._globalEnv = new StaticJsGlobalEnvironmentRecord(
       this,
       globalThisResolved,
-      globalObjectResolved,
+      this._declarativeEnv,
+      this._objectEnv,
     );
 
     populateGlobal(this, this._global);
@@ -178,6 +184,14 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   get globalEnv() {
     return this._globalEnv;
+  }
+
+  get objectEnv() {
+    return this._objectEnv;
+  }
+
+  get declarativeRecord() {
+    return this._declarativeEnv;
   }
 
   get types() {
@@ -706,7 +720,8 @@ function* doEvaluateNode(
     realm,
   ).createLexicalEnvContext(new StaticJsDeclarativeEnvironmentRecord(realm));
   try {
-    yield* setupEnvironment(node, context);
+    // yield* setupEnvironment(node, context);
+    yield* globalDeclarationInstantiation(node, context);
     const result = yield* EvaluateNodeCommand(node, context);
     return result ?? realm.types.undefined;
   } catch (e) {
@@ -728,7 +743,8 @@ function* doEvaluateNodeAsync(
     realm,
   ).createLexicalEnvContext(new StaticJsDeclarativeEnvironmentRecord(realm));
   try {
-    yield* setupEnvironment(node, context);
+    // yield* setupEnvironment(node, context);
+    yield* globalDeclarationInstantiation(node, context);
     const evaluator = EvaluateNodeCommand(node, context);
     const invocation = new AsyncEvaluatorInvocation(evaluator, realm, true);
 

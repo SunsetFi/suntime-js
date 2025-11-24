@@ -1,4 +1,4 @@
-import { isBlock, type FunctionDeclaration } from "@babel/types";
+import { type FunctionDeclaration } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
@@ -11,14 +11,29 @@ import type EvaluationContext from "../EvaluationContext.js";
 
 import createFunction from "./Function.js";
 
+interface FunctionDeclarationExtra {
+  function?: StaticJsFunction;
+  annexBHoisted?: string;
+}
+
 function* functionDeclarationNodeEvaluator(
   node: FunctionDeclaration,
+  context: EvaluationContext,
 ): EvaluationGenerator {
-  const { function: func } = node.extra ?? {};
+  const { function: func, annexBHoisted } = (node.extra ??
+    {}) as FunctionDeclarationExtra;
+
   if (!func) {
     throw new StaticJsEngineError(
       "Could not resolve function declaration at evaluation time.",
     );
+  }
+
+  if (annexBHoisted) {
+    const gEnv = context.variableEnv;
+    const bEnv = context.lexicalEnv;
+    const fObj = yield* bEnv.getBindingValueEvaluator(annexBHoisted, false);
+    yield* gEnv.setMutableBindingEvaluator(annexBHoisted, fObj, false);
   }
 
   return func as StaticJsFunction;
@@ -30,38 +45,9 @@ function* functionDeclarationEnvironmentSetup(
 ): EvaluationGenerator<boolean> {
   const functionName = node.id?.name ?? null;
 
-  let functionContext = context;
+  const func = createFunction(functionName, node, context);
 
-  if (
-    isBlock(node.body) &&
-    node.body.directives.some(({ value }) => value.value === "use strict")
-  ) {
-    functionContext = context.createStrictContext();
-  }
-
-  const func = createFunction(
-    functionName,
-    node,
-    functionContext.strict ? "strict" : "lexical",
-    functionContext,
-  );
-
-  declare: if (functionName) {
-    const varScope = context.variableEnv;
-    // HACK: We need to check if we're in a block to determine if we should
-    // create a global function binding or a normal function binding.
-    const isInBlock = !!context.block;
-    if (!isInBlock) {
-      if (yield* varScope.canDeclareGlobalFunctionEvaluator(functionName)) {
-        yield* varScope.createGlobalFunctionBindingEvaluator(
-          functionName,
-          func,
-          true,
-        );
-        break declare;
-      }
-    }
-
+  if (functionName) {
     yield* context.lexicalEnv.createFunctionBindingEvaluator(
       functionName,
       func,

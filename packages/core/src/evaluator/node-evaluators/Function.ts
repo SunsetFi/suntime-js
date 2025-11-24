@@ -1,4 +1,4 @@
-import { type Function } from "@babel/types";
+import { isBlock, type Function } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
@@ -16,9 +16,15 @@ import type EvaluationContext from "../EvaluationContext.js";
 export default function createFunction(
   name: string | null,
   node: Function,
-  thisMode: "lexical" | "strict",
-  functionContext: EvaluationContext,
+  context: EvaluationContext,
 ): StaticJsFunction {
+  if (
+    isBlock(node.body) &&
+    node.body.directives.some(({ value }) => value.value === "use strict")
+  ) {
+    context = context.createStrictContext();
+  }
+
   if (node.generator) {
     // TODO: Support these when an Iterator primitive is in.
     throw new StaticJsEngineError("Generator functions are not supported");
@@ -29,20 +35,20 @@ export default function createFunction(
 
   if (node.async) {
     return new StaticJsAsyncDeclFunction(
-      functionContext.realm,
+      context.realm,
       name,
       params,
-      functionContext,
+      context,
       node.body,
     );
   }
 
   return new StaticJsDeclFunction(
-    functionContext.realm,
+    context.realm,
     name,
-    thisMode,
+    context.strict ? "strict" : "lexical",
     params,
-    functionContext,
+    context,
     node.body,
   );
 }

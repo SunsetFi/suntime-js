@@ -11,6 +11,15 @@ export default defineConfig({
           tsconfigRaw,
         },
         test: {
+          name: "spec",
+          include: ["./src/**/*.spec.ts"],
+        },
+      },
+      {
+        esbuild: {
+          tsconfigRaw,
+        },
+        test: {
           name: "e2e",
           include: ["./tests/e2e/**/*.ts"],
           exclude: ["./tests/e2e/**/utils/*.ts"],

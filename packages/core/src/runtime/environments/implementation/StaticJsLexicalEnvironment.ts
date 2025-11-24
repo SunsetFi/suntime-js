@@ -30,24 +30,8 @@ export default class StaticJsLexicalEnvironment extends StaticJsBaseEnvironment 
     this._parent = parent ? environmentToBindingProvider(parent) : null;
   }
 
-  canDeclareGlobalVarEvaluator(name: string) {
-    return this._record.canDeclareGlobalVarEvaluator(name);
-  }
-
-  createGlobalVarBindingEvaluator(name: string, deletable: boolean) {
-    return this._record.createGlobalVarBindingEvaluator(name, deletable);
-  }
-
-  *createMutableBindingEvaluator(
-    name: string,
-    deletable: boolean,
-    isVarDecl: boolean,
-  ) {
-    yield* this._record.createMutableBindingEvaluator(
-      name,
-      deletable,
-      isVarDecl,
-    );
+  *createMutableBindingEvaluator(name: string, deletable: boolean) {
+    yield* this._record.createMutableBindingEvaluator(name, deletable);
   }
 
   *createImmutableBindingEvaluator(

@@ -1,6 +1,4 @@
-import { isStaticJsString } from "../runtime/types/StaticJsString.js";
 import { isStaticJsObjectLike } from "../runtime/types/StaticJsObjectLike.js";
-import { isStaticJsScalar } from "../runtime/types/StaticJsScalar.js";
 import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
 
 export default class StaticJsRuntimeError extends Error {
@@ -10,8 +8,7 @@ export default class StaticJsRuntimeError extends Error {
   ) {
     super("StaticJsRuntimeError");
     this.name = "StaticJsRuntimeError";
-    this.message =
-      prefix + getName(this._thrown) + ": " + getMessage(this._thrown);
+    this.message = prefix + getMessage(this._thrown);
   }
 
   get thrown(): StaticJsValue {
@@ -24,28 +21,6 @@ export default class StaticJsRuntimeError extends Error {
       message: this.message,
     };
   }
-}
-
-function getName(value: StaticJsValue): string {
-  if (!isStaticJsObjectLike(value)) {
-    return `[${value.runtimeTypeOf}]`;
-  }
-
-  const hasName = value.hasPropertySync("name");
-  if (hasName) {
-    const name = value.getPropertySync("name");
-    if (!isStaticJsScalar(name)) {
-      return `[${value.runtimeTypeOf}]`;
-    }
-
-    if (isStaticJsString(name)) {
-      return name.value;
-    }
-
-    return `[${name.toStringSync()}]`;
-  }
-
-  return `[${value.runtimeTypeOf}]`;
 }
 
 function getMessage(value: StaticJsValue): string {

@@ -8,12 +8,6 @@ export interface StaticJsEnvironment {
   createMutableBindingEvaluator(
     name: string,
     deletable: boolean,
-    // Extremely gross.
-    // Normally, all variable declarations are processed in bulk by a single source,
-    // but our system is not set up to do that at the moment.
-    // Instead, we need to allow the caller to indicate if this is a var declaration or not.
-    // This is entirely so that vars can be re-declared.
-    isVarBinding?: boolean,
   ): EvaluationGenerator<void>;
 
   createImmutableBindingEvaluator(
@@ -24,21 +18,6 @@ export interface StaticJsEnvironment {
   createFunctionBindingEvaluator(
     name: string,
     func: StaticJsValue,
-  ): EvaluationGenerator<void>;
-
-  canDeclareGlobalVarEvaluator(name: string): EvaluationGenerator<boolean>;
-
-  createGlobalVarBindingEvaluator(
-    name: string,
-    deletable: boolean,
-  ): EvaluationGenerator<void>;
-
-  canDeclareGlobalFunctionEvaluator(name: string): EvaluationGenerator<boolean>;
-
-  createGlobalFunctionBindingEvaluator(
-    name: string,
-    value: StaticJsValue,
-    configurable: boolean,
   ): EvaluationGenerator<void>;
 
   initializeBindingEvaluator(
