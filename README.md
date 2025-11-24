@@ -103,7 +103,9 @@ eval no longer throws on strict + var - needs fixing. Eval probably has its own 
 
 Blocks re-run setupEnvironment which doubles up variable declarations.
 
-Do non-global instantiation for stuff
+Do non-global instantiation for stuff.
+
+See about removing createFunctionBindingEvaluator from StaticJsEnvironment as its probably an instantiation-only primitive.
 
 ### API for host implementation of functions using evaluators
 

@@ -20,23 +20,32 @@ function* functionDeclarationNodeEvaluator(
   node: FunctionDeclaration,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const { function: func, annexBHoisted } = (node.extra ??
-    {}) as FunctionDeclarationExtra;
+  const { annexBHoisted } = (node.extra ?? {}) as FunctionDeclarationExtra;
 
-  if (!func) {
+  const id = node.id;
+  if (!id) {
     throw new StaticJsEngineError(
-      "Could not resolve function declaration at evaluation time.",
+      "Function declarations must have an identifier",
     );
   }
 
+  if (id.type !== "Identifier") {
+    throw new StaticJsEngineError(
+      `Unsupported function declaration id type: ${id.type}`,
+    );
+  }
+
+  const F = id.name;
+
+  const bEnv = context.lexicalEnv;
+  const fObj = yield* bEnv.getBindingValueEvaluator(F, false);
+
   if (annexBHoisted) {
     const gEnv = context.variableEnv;
-    const bEnv = context.lexicalEnv;
-    const fObj = yield* bEnv.getBindingValueEvaluator(annexBHoisted, false);
     yield* gEnv.setMutableBindingEvaluator(annexBHoisted, fObj, false);
   }
 
-  return func as StaticJsFunction;
+  return fObj;
 }
 
 function* functionDeclarationEnvironmentSetup(
@@ -53,13 +62,6 @@ function* functionDeclarationEnvironmentSetup(
       func,
     );
   }
-
-  // FIXME: We have been so careful to get away with not mutating the node, but here
-  // we have to preserve the reference for evaluation time...
-  // Do we at least want to use a symbol?  A WeakMap?
-  node.extra = {
-    function: func,
-  };
 
   return false;
 }

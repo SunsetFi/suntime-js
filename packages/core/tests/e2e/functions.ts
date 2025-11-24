@@ -62,65 +62,69 @@ describe("E2E: Functions", () => {
     describe("Hosting", () => {
       it("Is hoisted", async () => {
         const code = `
-        let result = a();
-        function a() {
-          return 42;
-        }
-        a();
-      `;
-        expect(await evaluateScript(code)).toBe(42);
+          let result = a();
+          function a() {
+            return 42;
+          }
+          a();
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(42);
       });
 
       it("Is hoisted across multiple declarations", async () => {
         const code = `
-        function test() {
-          return a() + b() + c();
-        }
-        
-        function a() { return 1; }
-        let result = test();
-        function b() { return 2; }
-        result += test();
-        function c() { return 3; }
-        result;
-      `;
-        expect(await evaluateScript(code)).toBe(12); // (1+2+3) + (1+2+3)
+          function test() {
+            return a() + b() + c();
+          }
+          
+          function a() { return 1; }
+          let result = test();
+          function b() { return 2; }
+          result += test();
+          function c() { return 3; }
+          result;
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(12); // (1+2+3) + (1+2+3)
       });
 
       it("Is hoisted but respects scope boundaries", async () => {
         const code = `
-        function outer() {
-          // This should call the inner 'inner' function, not the outer one
-          return inner();
+          function outer() {
+            // This should call the inner 'inner' function, not the outer one
+            return inner();
+            
+            function inner() {
+              return "inner";
+            }
+          }
           
           function inner() {
-            return "inner";
+            return "outer";
           }
-        }
-        
-        function inner() {
-          return "outer";
-        }
-        
-        outer();
-      `;
-        expect(await evaluateScript(code)).toBe("inner");
+          
+          outer();
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe("inner");
       });
 
       it("Hoisting works with conditional blocks", async () => {
         const code = `
-        let result;
-        if (true) {
-          result = getValue();
-        }
-        
-        function getValue() {
-          return 42;
-        }
-        
-        result;
-      `;
-        expect(await evaluateScript(code)).toBe(42);
+          let result;
+          if (true) {
+            result = getValue();
+          }
+          
+          function getValue() {
+            return 42;
+          }
+          
+          result;
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(42);
       });
 
       describe("Global Object Assignment", () => {
@@ -131,16 +135,17 @@ describe("E2E: Functions", () => {
             }
             global.a;  
           `;
-          expect(await evaluateScript(code)).toBeTypeOf("function");
+          const result = await evaluateScript(code);
+          expect(result).toBeTypeOf("function");
         });
 
         it("Does not put function expressions on the global object", async () => {
           const realm = StaticJsRealm();
           const code = `
-          const myFunc = function namedFunc() {
-            return 42;
-          };
-        `;
+            const myFunc = function namedFunc() {
+              return 42;
+            };
+          `;
           await evaluateScript(code, { realm });
           expect(realm.global.hasPropertySync("myFunc")).toBe(false);
           expect(realm.global.hasPropertySync("namedFunc")).toBe(false);
@@ -149,12 +154,12 @@ describe("E2E: Functions", () => {
         it("Does not put functions declared in blocks on the global object", async () => {
           const realm = StaticJsRealm();
           const code = `
-          {
-            function blockFunc() {
-              return 42;
+            {
+              function blockFunc() {
+                return 42;
+              }
             }
-          }
-        `;
+          `;
           await evaluateScript(code, { realm });
           expect(realm.global.hasPropertySync("blockFunc")).toBe(false);
         });
@@ -162,14 +167,14 @@ describe("E2E: Functions", () => {
         it("Does not put functions declared in function scope on the global object", async () => {
           const realm = StaticJsRealm();
           const code = `
-          function outer() {
-            function inner() {
-              return 42;
+            function outer() {
+              function inner() {
+                return 42;
+              }
+              return inner;
             }
-            return inner;
-          }
-          outer();
-        `;
+            outer();
+          `;
           await evaluateScript(code, { realm });
           expect(realm.global.hasPropertySync("inner")).toBe(false);
         });
@@ -177,10 +182,10 @@ describe("E2E: Functions", () => {
         it("Puts var-assigned function expressions on the global object", async () => {
           const realm = StaticJsRealm();
           const code = `
-          var globalFunc = function() {
-            return 42;
-          };
-        `;
+            var globalFunc = function() {
+              return 42;
+            };
+          `;
           await evaluateScript(code, { realm });
           expect(realm.global.hasPropertySync("globalFunc")).toBe(true);
         });
@@ -188,10 +193,10 @@ describe("E2E: Functions", () => {
         it("Does not put let-assigned function expressions on the global object", async () => {
           const realm = StaticJsRealm();
           const code = `
-          let notGlobalFunc = function() {
-            return 42;
-          };
-        `;
+            let notGlobalFunc = function() {
+              return 42;
+            };
+          `;
           await evaluateScript(code, { realm });
           expect(realm.global.hasPropertySync("notGlobalFunc")).toBe(false);
         });
@@ -199,10 +204,10 @@ describe("E2E: Functions", () => {
         it("Does not put const-assigned function expressions on the global object", async () => {
           const realm = StaticJsRealm();
           const code = `
-          const alsoNotGlobalFunc = function() {
-            return 42;
-          };
-        `;
+            const alsoNotGlobalFunc = function() {
+              return 42;
+            };
+          `;
           await evaluateScript(code, { realm });
           expect(realm.global.hasPropertySync("alsoNotGlobalFunc")).toBe(false);
         });
@@ -210,98 +215,98 @@ describe("E2E: Functions", () => {
         it("Handles function assignment in loops", async () => {
           const realm = StaticJsRealm();
           const code = `
-          for (let i = 0; i < 1; i++) {
-            function loopFunc() {
-              return i;
+            for (let i = 0; i < 1; i++) {
+              function loopFunc() {
+                return i;
+              }
             }
-          }
-        `;
+          `;
           await evaluateScript(code, { realm });
           expect(realm.global.hasPropertySync("loopFunc")).toBe(false);
         });
 
         it("Can access global functions from nested scopes", async () => {
           const code = `
-          function topLevel() {
-            return 42;
-          }
-          
-          function testAccess() {
-            return topLevel();
-          }
-          
-          testAccess();
-        `;
-          expect(await evaluateScript(code)).toBe(42);
+            function topLevel() {
+              return 42;
+            }
+            
+            function testAccess() {
+              return topLevel();
+            }
+            
+            testAccess();
+          `;
+          const result = await evaluateScript(code);
+          expect(result).toBe(42);
         });
 
         it("Global functions can be reassigned", async () => {
           const code = `
-          function original() {
-            return "original";
-          }
-          
-          const saved = original;
-          
-          // Reassign the global function
-          original = function() {
-            return "reassigned";
-          };
-          
-          [saved(), original(), global.original()];
-        `;
-          expect(await evaluateScript(code)).toEqual([
-            "original",
-            "reassigned",
-            "reassigned",
-          ]);
+            function original() {
+              return "original";
+            }
+            
+            const saved = original;
+            
+            // Reassign the global function
+            original = function() {
+              return "reassigned";
+            };
+            
+            [saved(), original(), global.original()];
+          `;
+          const result = await evaluateScript(code);
+          expect(result).toEqual(["original", "reassigned", "reassigned"]);
         });
 
         it("Function declarations override var declarations", async () => {
           const code = `
-          var myFunc = "initial";
-          function myFunc() {
-            return "function";
-          }
-          var myFunc = "after";
-          
-          typeof myFunc;
-        `;
-          expect(await evaluateScript(code)).toBe("function");
+            function myFunc() {
+              return "function";
+            }
+            var myFunc;
+            
+            typeof myFunc;
+          `;
+          const result = await evaluateScript(code);
+          expect(result).toBe("function");
         });
 
         it("Multiple function declarations with same name - last one wins", async () => {
           const code = `
-          function duplicateFunc() {
-            return "first";
-          }
-          
-          function duplicateFunc() {
-            return "second";
-          }
-          
-          function duplicateFunc() {
-            return "third";
-          }
-          
-          duplicateFunc();
-        `;
-          expect(await evaluateScript(code)).toBe("third");
+            function duplicateFunc() {
+              return "first";
+            }
+            
+            function duplicateFunc() {
+              return "second";
+            }
+            
+            function duplicateFunc() {
+              return "third";
+            }
+            
+            duplicateFunc();
+          `;
+          const result = await evaluateScript(code);
+          expect(result).toBe("third");
         });
 
         it("Function hoisting works with var hoisting", async () => {
           const code = `
-          var result = getValue() + " " + otherValue;
-          
-          function getValue() {
-            return "function";
-          }
-          
-          var otherValue = "variable";
-          
-          result;
-        `;
-          expect(await evaluateScript(code)).toBe("function undefined");
+            var result = getValue() + " " + otherValue;
+            
+            function getValue() {
+              return "function";
+            }
+            
+            var otherValue = "variable";
+            
+            result;
+          `;
+          const result = await evaluateScript(code);
+          expect(result).toBe("function undefined");
         });
       });
     });

@@ -117,15 +117,18 @@ function* declarationStatementEvaluator(
   ) => EvaluationGenerator<void>,
 ): EvaluationGenerator {
   let value: StaticJsValue | null = null;
+
   if (declarator.init) {
     value = yield* EvaluateNodeCommand(declarator.init, context, {
       forNormalValue: "VariableDeclarator.init",
     });
+
+    if (declarator.id.type === "VoidPattern") {
+      return context.realm.types.undefined;
+    }
+
+    return yield* setLVal(declarator.id, value, context, variableCreator);
   }
 
-  if (declarator.id.type === "VoidPattern") {
-    return context.realm.types.undefined;
-  }
-
-  return yield* setLVal(declarator.id, value, context, variableCreator);
+  return context.realm.types.undefined;
 }

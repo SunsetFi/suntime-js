@@ -81,9 +81,8 @@ function topLevelVarDeclaredNames(node: Node): string[] {
       return topLevelVarDeclaredNames(node.program);
     case "Program":
       return node.body.flatMap(topLevelVarDeclaredNames);
-    case "FunctionDeclaration": {
+    case "FunctionDeclaration":
       return boundNames(node);
-    }
     case "LabeledStatement":
       return topLevelVarDeclaredNames(node.body);
     /* BEGIN Statement */

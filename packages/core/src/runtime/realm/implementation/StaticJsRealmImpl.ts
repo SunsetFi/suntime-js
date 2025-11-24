@@ -28,7 +28,7 @@ import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCom
 
 import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
-import globalDeclarationInstantiation from "../../../evaluator/algorithms/global-declaration-instantiation.js";
+import globalDeclarationInstantiation from "../../../initialization/global-declaration-instantiation.js";
 
 import StaticJsGlobalEnvironmentRecord from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import StaticJsObjectEnvironmentRecord from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";

@@ -5,20 +5,21 @@ import { evaluateScript } from "../../src/index.js";
 describe("E2E: Thrown Error Handling", () => {
   it("Should throw the value", async () => {
     const code = `
-        throw {message: "Test Error"};
-      `;
+      throw {message: "Test Error"};
+    `;
     await expect(evaluateScript(code)).rejects.toThrow("Test Error");
   });
 
-  it("Should support declarative enviroments", async () => {
+  it("Should support lexical enviroments", async () => {
     const code = `
-      try {
-        var test = 1;
-        test;
-      }
-      catch (e) {}
-      `;
-    expect(await evaluateScript(code)).toBe(1);
+    try {
+      let test = 1;
+      test;
+    }
+    catch (e) {}
+    `;
+    const result = await evaluateScript(code);
+    expect(result).toBe(1);
   });
 
   describe("Try / Catch / Finally", () => {
