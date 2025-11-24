@@ -95,17 +95,17 @@ Currently, around 4800 of the language tests are passing, or about 20%. Further 
   - Combine these into one file to make this work?
 - Rename toJs to toNative
 
-### Rework to replace setupEnvironment with the real instantiation functions
+### Refactor setupEnvironment to use real instantiation functions
 
-Partial work is done. Need lexical bindings.
+- [ ] EvalDeclarationInstantiation
+- [x] BlockDeclarationInstantiation
+- [x] GlobalDeclarationInstantiation
+- [ ] FunctionDeclarationInstantiation
+- [ ] ForDeclarationBindingInstantiation
+- [ ] Remove createFunctionBinding from StaticJsEnvironment
 
-eval no longer throws on strict + var - needs fixing. Eval probably has its own instantiation.
-
-Blocks re-run setupEnvironment which doubles up variable declarations.
-
-Do non-global instantiation for stuff.
-
-See about removing createFunctionBindingEvaluator from StaticJsEnvironment as its probably an instantiation-only primitive.
+- [ ] Return ReferenceRecord from Identifier
+- [ ] Consume ReferenceRecords with GetValue everywhere
 
 ### API for host implementation of functions using evaluators
 

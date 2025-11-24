@@ -15,10 +15,13 @@ describe("E2E: Object", () => {
 
       const objNative = objVm.toJsSync();
 
-      const comparerFn = await realm.evaluateScript(`
+      const checkSameCode = `
         function checkSame(obj) {
           return obj === globalThis.__nativeObj;
-        }`);
+        }
+        checkSame;
+      `;
+      const comparerFn = await realm.evaluateScript(checkSameCode);
 
       const comparer = comparerFn.toJsSync() as (obj: unknown) => boolean;
       const result = comparer(objNative);
@@ -29,11 +32,13 @@ describe("E2E: Object", () => {
       const realm = StaticJsRealm();
       const objNative = {};
 
-      const compare = await realm.evaluateScript(`
+      const compareCode = `
         function compare(obj1, obj2) {
           return obj1 === obj2;
         }
-    `);
+        compare;
+      `;
+      const compare = await realm.evaluateScript(compareCode);
       const compareFn = compare.toJsSync() as (
         obj1: unknown,
         obj2: unknown,

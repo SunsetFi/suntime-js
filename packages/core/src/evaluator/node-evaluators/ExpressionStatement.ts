@@ -8,5 +8,9 @@ export default function* expressionStatementNodeEvaluator(
   node: ExpressionStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  return yield* EvaluateNodeCommand(node.expression, context);
+  // Convert whatever it was into a value.
+  // Needed so that "obj.a" evaluates when nothing else is done to it.
+  return yield* EvaluateNodeCommand(node.expression, context, {
+    forNormalValue: "ExpressionStatement.expression",
+  });
 }

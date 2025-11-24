@@ -24,3 +24,18 @@ export interface StaticJsPropertyReferenceRecord
 export type StaticJsReferenceRecord =
   | StaticJsUnresolvedReferenceRecord
   | StaticJsResolvedReferenceRecord;
+
+export function isStaticJsReferenceRecord(
+  value: unknown,
+): value is StaticJsReferenceRecord {
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+
+  return (
+    "referencedName" in value &&
+    "strict" in value &&
+    "thisValue" in value &&
+    "base" in value
+  );
+}
