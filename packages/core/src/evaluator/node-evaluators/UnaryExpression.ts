@@ -18,6 +18,9 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import { isStaticJsSymbol } from "../../runtime/index.js";
+import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
+import getValue from "../algorithms/get-value.js";
+import { isUnresolvableReference } from "../../runtime/references/is-unresolvable-reference.js";
 
 export default function* unaryExpressionNodeEvaluator(
   node: UnaryExpression,
@@ -115,8 +118,19 @@ function* typeofExpressionNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const argument = node.argument;
-  const value = yield* EvaluateNodeCommand(argument, context, {
-    forNormalValue: "UnaryExpression<typeof>.argument",
-  });
-  return context.realm.types.string(value.typeOf);
+  let value = yield* EvaluateNodeCommand(argument, context);
+
+  if (isStaticJsReferenceRecord(value)) {
+    if (isUnresolvableReference(value)) {
+      return context.realm.types.string("undefined");
+    }
+
+    value = yield* getValue(value, context.realm);
+  }
+
+  if (isStaticJsValue(value)) {
+    return context.realm.types.string(value.typeOf);
+  } else {
+    return context.realm.types.string("undefined");
+  }
 }
