@@ -26,7 +26,7 @@ export interface FunctionIntrinsicPropertyDeclaration
     realm: StaticJsRealm,
     thisArg: StaticJsValue,
     ...args: (StaticJsValue | undefined)[]
-  ) => EvaluationGenerator;
+  ) => EvaluationGenerator<StaticJsValue>;
 }
 function isFunctionIntrinsicPropertyDeclaration(
   prop: IntrinsicPropertyDeclaration,
@@ -46,12 +46,15 @@ function isDataIntrinsicPropertyDeclaration(
 
 export interface AccessorIntrinsicPropertyDeclaration
   extends IntrinsicPropertyDeclarationBase {
-  get?: (realm: StaticJsRealm, thisArg: StaticJsValue) => EvaluationGenerator;
+  get?: (
+    realm: StaticJsRealm,
+    thisArg: StaticJsValue,
+  ) => EvaluationGenerator<StaticJsValue>;
   set?: (
     realm: StaticJsRealm,
     thisArg: StaticJsValue,
     value: StaticJsValue,
-  ) => EvaluationGenerator;
+  ) => EvaluationGenerator<StaticJsValue>;
 }
 
 function isAccessorIntrinsicPropertyDeclaration(

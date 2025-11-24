@@ -10,6 +10,8 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 import setLVal from "./LVal.js";
 import toNumber from "../../runtime/algorithms/to-number.js";
 import addition from "../../runtime/algorithms/addition.js";
+import { getIdentifierReference } from "../../runtime/references/get-identifier-reference.js";
+import putValue from "../algorithms/put-value.js";
 
 export default function* assignmentExpressionNodeEvaluator(
   node: AssignmentExpression,
@@ -36,38 +38,19 @@ export default function* assignmentExpressionNodeEvaluator(
       break;
     case "+=":
       {
-        if (left.type !== "Identifier") {
-          throw new ThrowCompletion(
-            context.realm.types.error(
-              "SyntaxError",
-              "Invalid left-hand side in assignment",
-            ),
-          );
-        }
-
-        const leftValue = yield* context.lexicalEnv.getBindingValueEvaluator(
-          left.name,
-          true,
-        );
+        const leftValue = yield* EvaluateNodeCommand(left, context, {
+          forNormalValue: "AssignmentExpression.left",
+        });
 
         value = yield* addition(leftValue, value, context.realm);
       }
       break;
     case "-=":
       {
-        if (left.type !== "Identifier") {
-          throw new ThrowCompletion(
-            context.realm.types.error(
-              "SyntaxError",
-              "Invalid left-hand side in assignment",
-            ),
-          );
-        }
+        let leftValue = yield* EvaluateNodeCommand(left, context, {
+          forNormalValue: "AssignmentExpression.left",
+        });
 
-        let leftValue = yield* context.lexicalEnv.getBindingValueEvaluator(
-          left.name,
-          true,
-        );
         leftValue = yield* toNumber(leftValue, context.realm);
         value = yield* toNumber(value, context.realm);
 
@@ -76,19 +59,9 @@ export default function* assignmentExpressionNodeEvaluator(
       break;
     case "<<=":
       {
-        if (left.type !== "Identifier") {
-          throw new ThrowCompletion(
-            context.realm.types.error(
-              "SyntaxError",
-              "Invalid left-hand side in assignment",
-            ),
-          );
-        }
-
-        let leftValue = yield* context.lexicalEnv.getBindingValueEvaluator(
-          left.name,
-          true,
-        );
+        let leftValue = yield* EvaluateNodeCommand(left, context, {
+          forNormalValue: "AssignmentExpression.left",
+        });
 
         leftValue = yield* toNumber(leftValue, context.realm);
         value = yield* toNumber(value, context.realm);
@@ -98,19 +71,9 @@ export default function* assignmentExpressionNodeEvaluator(
       break;
     case ">>=":
       {
-        if (left.type !== "Identifier") {
-          throw new ThrowCompletion(
-            context.realm.types.error(
-              "SyntaxError",
-              "Invalid left-hand side in assignment",
-            ),
-          );
-        }
-
-        let leftValue = yield* context.lexicalEnv.getBindingValueEvaluator(
-          left.name,
-          true,
-        );
+        let leftValue = yield* EvaluateNodeCommand(left, context, {
+          forNormalValue: "AssignmentExpression.left",
+        });
 
         leftValue = yield* toNumber(leftValue, context.realm);
         value = yield* toNumber(value, context.realm);
@@ -120,19 +83,9 @@ export default function* assignmentExpressionNodeEvaluator(
       break;
     case ">>>=":
       {
-        if (left.type !== "Identifier") {
-          throw new ThrowCompletion(
-            context.realm.types.error(
-              "SyntaxError",
-              "Invalid left-hand side in assignment",
-            ),
-          );
-        }
-
-        let leftValue = yield* context.lexicalEnv.getBindingValueEvaluator(
-          left.name,
-          true,
-        );
+        let leftValue = yield* EvaluateNodeCommand(left, context, {
+          forNormalValue: "AssignmentExpression.left",
+        });
 
         leftValue = yield* toNumber(leftValue, context.realm);
         value = yield* toNumber(value, context.realm);
@@ -143,25 +96,13 @@ export default function* assignmentExpressionNodeEvaluator(
   }
 
   yield* setLVal(left, value, context, function* (name, value) {
-    // TODO: The real spec has this Reference system where we get objects representing references,
-    // and that system is supposed to take care of this.
-    const hasBinding = yield* context.lexicalEnv.hasBindingEvaluator(name);
-    if (!hasBinding) {
-      if (!context.strict) {
-        // Spec says DO NOT USE var here!  It's a set on the global object!
-        yield* context.realm.global.setPropertyEvaluator(name, value, false);
-      } else {
-        throw new ThrowCompletion(
-          context.realm.types.error("ReferenceError", `${name} is not defined`),
-        );
-      }
-    } else {
-      return yield* context.lexicalEnv.setMutableBindingEvaluator(
-        name,
-        value,
-        context.strict,
-      );
-    }
+    // TODO: We should be getting ref from the expression directly.
+    const ref = yield* getIdentifierReference(
+      context.lexicalEnv,
+      name,
+      context.strict,
+    );
+    yield* putValue(ref, value, context.realm);
   });
 
   // Pass the value for chaining.

@@ -1,11 +1,15 @@
 import type { UnaryExpression } from "@babel/types";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import {
-  isStaticJsObjectLike,
-  type StaticJsObjectPropertyKey,
-} from "../../runtime/types/StaticJsObjectLike.js";
 import toPropertyKey from "../../runtime/utils/to-property-key.js";
+
+import toBoolean from "../../runtime/algorithms/to-boolean.js";
+import toNumber from "../../runtime/algorithms/to-number.js";
+import toObject from "../../runtime/algorithms/to-object.js";
+
+import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
+
+import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -13,8 +17,7 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
-import toBoolean from "../../runtime/algorithms/to-boolean.js";
-import toNumber from "../../runtime/algorithms/to-number.js";
+import { isStaticJsSymbol } from "../../runtime/index.js";
 
 export default function* unaryExpressionNodeEvaluator(
   node: UnaryExpression,
@@ -66,43 +69,24 @@ function* deleteExpressionNodeEvaluator(
   node: UnaryExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  // FIXME: This seems weird and jank.  Validate that this logic is correct.
-  // https://tc39.es/ecma262/#sec-delete-operator
-  // Seems to be some ReferenceRecord we aren't doing.
+  const ref = yield* EvaluateNodeCommand(node.argument, context, {
+    forReference: "UnaryExpression<delete>.argument",
+  });
 
-  const argument = node.argument;
-  if (argument.type === "MemberExpression") {
-    const object = yield* EvaluateNodeCommand(argument.object, context, {
-      forNormalValue: "UnaryExpression.argument<MemberExpression>.object",
-    });
-
-    if (!isStaticJsObjectLike(object)) {
-      // FIXME: This might actualy be allowed... Delete is weird.
-      throw new ThrowCompletion(
-        context.realm.types.error(
-          "TypeError",
-          "Cannot delete property of non-object.",
-        ),
-      );
-    }
-
-    const propertyNode = argument.property;
-    let propertyKey: StaticJsObjectPropertyKey;
-    if (!argument.computed && propertyNode.type === "Identifier") {
-      propertyKey = propertyNode.name;
-    } else {
-      const propertyValue = yield* EvaluateNodeCommand(propertyNode, context, {
-        forNormalValue: "UnaryExpression.argument<MemberExpression>.property",
-      });
-
-      propertyKey = yield* toPropertyKey(propertyValue, context.realm);
-    }
-
-    const result = yield* object.deletePropertyEvaluator(propertyKey);
+  if (isStaticJsValue(ref.base)) {
+    const obj = yield* toObject(ref.base, context.realm);
+    const propertyKey = yield* toPropertyKey(ref.referencedName, context.realm);
+    const result = yield* obj.deletePropertyEvaluator(propertyKey);
     return context.realm.types.boolean(result);
-  } else if (argument.type === "Identifier") {
-    const env = context.lexicalEnv;
-    const name = argument.name;
+  } else if (ref.base) {
+    const env = ref.base as StaticJsEnvironmentRecord;
+    const name = ref.referencedName;
+
+    // TODO: Spec doesn't show this, but we don't suport symbols in env records.
+    // This needs to be resolved...
+    if (isStaticJsSymbol(name)) {
+      return context.realm.types.true;
+    }
 
     if (!(yield* env.hasBindingEvaluator(name))) {
       return context.realm.types.true;
@@ -118,7 +102,6 @@ function* deleteExpressionNodeEvaluator(
       );
     }
 
-    // We just return true regardless apparently?
     return context.realm.types.boolean(deleted);
   }
 
@@ -132,23 +115,8 @@ function* typeofExpressionNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const argument = node.argument;
-  if (argument.type === "Identifier") {
-    const name = argument.name;
-    const env = context.lexicalEnv;
-
-    const hasBinding = yield* env.hasBindingEvaluator(name);
-
-    if (hasBinding) {
-      const bindingValue = yield* env.getBindingValueEvaluator(name, false);
-      return context.realm.types.string(bindingValue.typeOf);
-    }
-
-    return context.realm.types.string("undefined");
-  } else {
-    const value = yield* EvaluateNodeCommand(argument, context, {
-      forNormalValue: "UnaryExpression<typeof>.argument",
-    });
-
-    return context.realm.types.string(value.typeOf);
-  }
+  const value = yield* EvaluateNodeCommand(argument, context, {
+    forNormalValue: "UnaryExpression<typeof>.argument",
+  });
+  return context.realm.types.string(value.typeOf);
 }

@@ -46,7 +46,7 @@ export default class StaticJsFunctionImpl
     private readonly _call: (
       thisArg: StaticJsValue,
       ...args: StaticJsValue[]
-    ) => EvaluationGenerator,
+    ) => EvaluationGenerator<StaticJsValue>,
     { construct, length, prototype }: StaticJsFunctionImplOptions = {},
   ) {
     super(realm, prototype ?? realm.types.prototypes.functionProto);

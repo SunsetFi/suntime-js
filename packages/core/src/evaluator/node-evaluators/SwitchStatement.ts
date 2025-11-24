@@ -1,10 +1,9 @@
 import type { SwitchStatement } from "@babel/types";
 
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-
 import isStrictlyEqual from "../../runtime/algorithms/is-structly-equal.js";
 
 import { BreakCompletion } from "../completions/BreakCompletion.js";
+import type { NormalCompletion } from "../completions/NormalCompletion.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -22,7 +21,7 @@ export default function* switchStatementNodeEvaluator(
   );
 
   let matched = false;
-  let lastValue: null | StaticJsValue = null;
+  let lastCompletion: NormalCompletion = null;
 
   for (const switchCase of statement.cases) {
     if (!matched) {
@@ -42,10 +41,10 @@ export default function* switchStatementNodeEvaluator(
     if (matched) {
       for (const consequent of switchCase.consequent) {
         try {
-          lastValue = yield* EvaluateNodeCommand(consequent, context);
+          lastCompletion = yield* EvaluateNodeCommand(consequent, context);
         } catch (e) {
           if (BreakCompletion.isBreakForLabel(e, context.label)) {
-            return lastValue;
+            return lastCompletion;
           }
           throw e;
         }
@@ -53,5 +52,5 @@ export default function* switchStatementNodeEvaluator(
     }
   }
 
-  return lastValue;
+  return lastCompletion;
 }

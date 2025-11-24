@@ -1,17 +1,18 @@
 import type { Block } from "@babel/types";
 
-import type EvaluationGenerator from "../evaluator/EvaluationGenerator.js";
-import type EvaluationContext from "../evaluator/EvaluationContext.js";
+import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 
-import type { StaticJsEnvironment } from "../runtime/environments/StaticJsEnvironment.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
+
+import createFunction from "../node-evaluators/Function.js";
 
 import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
 import boundNames from "./algorithms/bound-names.js";
-import createFunction from "../evaluator/node-evaluators/Function.js";
 
 export default function* blockDeclarationInstantiation(
   node: Block,
-  env: StaticJsEnvironment,
+  env: StaticJsEnvironmentRecord,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
   // FIXME: The spec just shows lexicallyScopedDeclarations called on 'code', whatever that is.
@@ -32,7 +33,7 @@ export default function* blockDeclarationInstantiation(
     if (d.type === "FunctionDeclaration") {
       const fn = boundNames(d)[0];
       const fo = createFunction(fn, d, context);
-      const isInitialized = yield* env.isInitialized(fn);
+      const isInitialized = yield* env.isInitializedEvaluator(fn);
       if (!isInitialized) {
         yield* env.initializeBindingEvaluator(fn, fo);
       } else {

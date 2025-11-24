@@ -12,6 +12,7 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
+import type { NormalCompletion } from "../completions/NormalCompletion.js";
 
 import setLVal from "./LVal.js";
 
@@ -22,12 +23,12 @@ function* tryStatementNodeEvaluator(
   // Due to the way Environment Records are handled for try/catch/finally,
   // we manually handle blocks ourselves instead of delegating to the BlockStatement node evaluator.
 
-  let returnValue: StaticJsValue | null = null;
+  let lastCompletion: NormalCompletion = null;
   try {
-    returnValue = yield* EvaluateNodeCommand(node.block, context);
+    lastCompletion = yield* EvaluateNodeCommand(node.block, context);
   } catch (e) {
     if (e instanceof ThrowCompletion && node.handler) {
-      returnValue = yield* runCatch(node.handler, e.value, context);
+      lastCompletion = yield* runCatch(node.handler, e.value, context);
     } else {
       throw e;
     }
@@ -38,12 +39,12 @@ function* tryStatementNodeEvaluator(
         context,
       );
       if (finalizerValue !== null) {
-        returnValue = finalizerValue;
+        lastCompletion = finalizerValue;
       }
     }
   }
 
-  return returnValue;
+  return lastCompletion;
 }
 
 function* runCatch(
@@ -52,7 +53,7 @@ function* runCatch(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const catchContext = context.createLexicalEnvContext(
-    new StaticJsDeclarativeEnvironmentRecord(context.realm),
+    StaticJsDeclarativeEnvironmentRecord.from(context),
   );
 
   if (node.param) {

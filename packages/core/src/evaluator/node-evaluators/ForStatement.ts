@@ -6,7 +6,6 @@ import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/imp
 
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
 
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
@@ -14,6 +13,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { ContinueCompletion } from "../completions/ContinueCompletion.js";
 import { BreakCompletion } from "../completions/BreakCompletion.js";
+import type { NormalCompletion } from "../completions/NormalCompletion.js";
 
 import setupEnvironment from "./setup-environment.js";
 
@@ -25,7 +25,7 @@ function* forStatementNodeEvaluator(
 
   if (node.init || node.update || node.test) {
     forContext = context.createLexicalEnvContext(
-      new StaticJsDeclarativeEnvironmentRecord(context.realm),
+      StaticJsDeclarativeEnvironmentRecord.from(context),
     );
 
     if (node.init) {
@@ -45,7 +45,7 @@ function* forStatementNodeEvaluator(
     }
   }
 
-  let lastValue: StaticJsValue | null = null;
+  let lastCompletion: NormalCompletion = null;
   do {
     if (node.test) {
       const testResult = yield* EvaluateNodeCommand(node.test, forContext, {
@@ -58,13 +58,13 @@ function* forStatementNodeEvaluator(
     }
 
     const bodyContext = forContext.createLexicalEnvContext(
-      new StaticJsDeclarativeEnvironmentRecord(context.realm),
+      StaticJsDeclarativeEnvironmentRecord.from(context),
     );
 
     yield* setupEnvironment(node.body, bodyContext);
 
     try {
-      lastValue = yield* EvaluateNodeCommand(node.body, bodyContext);
+      lastCompletion = yield* EvaluateNodeCommand(node.body, bodyContext);
     } catch (e) {
       if (BreakCompletion.isBreakForLabel(e, context.label)) {
         break;
@@ -82,7 +82,7 @@ function* forStatementNodeEvaluator(
     }
   } while (true);
 
-  return lastValue;
+  return lastCompletion;
 }
 
 export default typedMerge(forStatementNodeEvaluator, {

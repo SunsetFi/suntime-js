@@ -1,3 +1,4 @@
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
@@ -5,20 +6,41 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
-import StaticJsBaseEnvironmentRecord from "./StaticJsBaseEnvironmentRecord.js";
-import type StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
-import { StaticJsEnvironmentGetBinding } from "./StaticJsEnvironmentBindingProvider.js";
+import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
-export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnvironmentRecord {
+import StaticJsEnvironmentRecordBase from "./StaticJsEnvironmentRecordBase.js";
+
+export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   constructor(
-    realm: StaticJsRealm,
     private readonly _obj: StaticJsObjectLike,
+    private readonly _isWithEnvironment: boolean,
+    outerEnv: StaticJsEnvironmentRecord | null,
+    private readonly _realm: StaticJsRealm,
   ) {
-    super(realm);
+    super(outerEnv);
   }
 
   get bindingObject(): StaticJsObjectLike {
     return this._obj;
+  }
+
+  *hasBindingEvaluator(name: string): EvaluationGenerator<boolean> {
+    const hasProp = yield* this._obj.hasPropertyEvaluator(name);
+    return hasProp;
+  }
+
+  *isInitializedEvaluator(name: string): EvaluationGenerator<boolean> {
+    const hasProp = yield* this._obj.hasPropertyEvaluator(name);
+    if (!hasProp) {
+      throw new ThrowCompletion(
+        this._realm.types.error(
+          "ReferenceError",
+          `Binding ${name} does not exist in this environment`,
+        ),
+      );
+    }
+
+    return true;
   }
 
   *createMutableBindingEvaluator(
@@ -26,7 +48,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
     deletable: boolean,
   ): EvaluationGenerator<void> {
     yield* this._obj.definePropertyEvaluator(name, {
-      value: this.realm.types.undefined,
+      value: this._realm.types.undefined,
       writable: true,
       enumerable: true,
       configurable: deletable,
@@ -44,31 +66,69 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsBaseEnviron
     yield* this._obj.setPropertyEvaluator(name, value, false);
   }
 
-  *[StaticJsEnvironmentGetBinding](
+  *setMutableBindingEvaluator(
     name: string,
-  ): EvaluationGenerator<StaticJsEnvironmentBinding | undefined> {
-    const obj = this._obj;
-    const descriptor = yield* obj.getPropertyDescriptorEvaluator(name);
-    if (!descriptor) {
-      return undefined;
+    value: StaticJsValue,
+    strict: boolean,
+  ): EvaluationGenerator<void> {
+    const exists = yield* this._obj.hasPropertyEvaluator(name);
+    if (!exists && strict) {
+      throw new ThrowCompletion(
+        this._realm.types.error(
+          "ReferenceError",
+          `Cannot set uninitialized binding ${name} in strict mode`,
+        ),
+      );
     }
 
-    return {
-      isInitialized: true,
-      isDeletable: descriptor.configurable,
-      isMutable: true,
-      *initialize() {
-        throw new Error("Cannot reinitialize binding.");
-      },
-      *get() {
-        return yield* obj.getPropertyEvaluator(name);
-      },
-      *set(value: StaticJsValue) {
-        yield* obj.setPropertyEvaluator(name, value, false);
-      },
-      *delete() {
-        yield* obj.deletePropertyEvaluator(name);
-      },
-    } as StaticJsEnvironmentBinding;
+    yield* this._obj.setPropertyEvaluator(name, value, strict);
+  }
+
+  *getBindingValueEvaluator(
+    name: string,
+    strict: boolean,
+  ): EvaluationGenerator<StaticJsValue> {
+    const hasProp = yield* this._obj.hasPropertyEvaluator(name);
+    if (!hasProp) {
+      if (strict) {
+        throw new ThrowCompletion(
+          this._realm.types.error(
+            "ReferenceError",
+            `Binding ${name} does not exist in this environment`,
+          ),
+        );
+      } else {
+        return this._realm.types.undefined;
+      }
+    }
+
+    return yield* this._obj.getPropertyEvaluator(name);
+  }
+
+  *deleteBindingEvaluator(name: string): EvaluationGenerator<boolean> {
+    return yield* this._obj.deletePropertyEvaluator(name);
+  }
+
+  *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {
+    return false;
+  }
+
+  *getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue> {
+    return this._realm.types.undefined;
+  }
+
+  *hasSuperBindingEvaluator(): EvaluationGenerator<boolean> {
+    return false;
+  }
+
+  *getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue> {
+    return this._realm.types.undefined;
+  }
+
+  *withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue> {
+    if (this._isWithEnvironment) {
+      return this._obj;
+    }
+    return this._realm.types.undefined;
   }
 }

@@ -6,11 +6,10 @@ import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js"
 
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 import { ContinueCompletion } from "../completions/ContinueCompletion.js";
 import { BreakCompletion } from "../completions/BreakCompletion.js";
+import type { NormalCompletion } from "../completions/NormalCompletion.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -62,11 +61,11 @@ function* forInStatementNodeEvaluator(
     lVal = node.left;
   }
 
-  let lastValue: StaticJsValue | null = null;
+  let lastCompletion: NormalCompletion = null;
   const keys = yield* right.getEnumerableKeysEvaluator();
   for (const key of keys) {
     const bodyContext = context.createLexicalEnvContext(
-      new StaticJsDeclarativeEnvironmentRecord(context.realm),
+      StaticJsDeclarativeEnvironmentRecord.from(context),
     );
 
     // From testing NodeJs, the decl is in the body scope
@@ -88,7 +87,7 @@ function* forInStatementNodeEvaluator(
     );
 
     try {
-      lastValue = yield* EvaluateNodeCommand(node.body, bodyContext);
+      lastCompletion = yield* EvaluateNodeCommand(node.body, bodyContext);
     } catch (e) {
       if (BreakCompletion.isBreakForLabel(e, context.label)) {
         break;
@@ -102,7 +101,7 @@ function* forInStatementNodeEvaluator(
     }
   }
 
-  return lastValue;
+  return lastCompletion;
 }
 
 export default typedMerge(forInStatementNodeEvaluator, {

@@ -6,13 +6,15 @@ import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import {
+  isStaticJsValue,
+  type StaticJsValue,
+} from "../../runtime/types/StaticJsValue.js";
 
 import getIterator from "../../runtime/algorithms/get-iterator.js";
 import iteratorStepValue from "../../runtime/algorithms/iterator-step-value.js";
 import toString from "../../runtime/algorithms/to-string.js";
 
-import StaticJsDirectEvalEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDirectEvalEnvironmentRecord.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -22,9 +24,11 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
+import getValue from "../algorithms/get-value.js";
+
 import nameNode from "./name-node.js";
 import setupEnvironment from "./setup-environment.js";
-import { invokeMemberExpression } from "./MemberExpression.js";
+import { isPropertyReference } from "../../runtime/references/is-property-reference.js";
 
 export default function* callExpressionNodeEvaluator(
   node: CallExpression,
@@ -35,22 +39,26 @@ export default function* callExpressionNodeEvaluator(
     throw new StaticJsEngineError("Intrinsics are not supported");
   }
 
+  const calleeRaw = yield* EvaluateNodeCommand(node.callee, context);
+
   // This is suprising, but we pass undefined if we have none.
   // The function itself decides what to and (maybe) inherits globalThis when undefined is passed.
   let thisArg: StaticJsValue = context.realm.types.undefined;
   let callee: StaticJsValue;
 
-  if (node.callee.type === "MemberExpression") {
-    const [target, property] = yield* invokeMemberExpression(
-      node.callee,
-      context,
+  if (!calleeRaw) {
+    throw new StaticJsEngineError(
+      "CallExpression callee evaluated to no value",
     );
-    thisArg = target;
-    callee = property;
+  }
+
+  if (isStaticJsValue(calleeRaw)) {
+    callee = calleeRaw;
   } else {
-    callee = yield* EvaluateNodeCommand(node.callee, context, {
-      forNormalValue: "CallExpression.callee",
-    });
+    callee = yield* getValue(calleeRaw, context.realm);
+    if (isPropertyReference(calleeRaw)) {
+      thisArg = calleeRaw.base;
+    }
   }
 
   if (!isStaticJsFunction(callee)) {
@@ -64,7 +72,7 @@ export default function* callExpressionNodeEvaluator(
 
   const args: StaticJsValue[] = [];
   const parameterInitContext = context.createLexicalAndVariableEnvContext(
-    new StaticJsDeclarativeEnvironmentRecord(context.realm),
+    StaticJsDeclarativeEnvironmentRecord.from(context),
   );
   for (let i = 0; i < node.arguments.length; i++) {
     const argument = node.arguments[i];
@@ -127,10 +135,8 @@ function* callEvalEvaluator(
 
   let evalContext = context;
   if (strict) {
-    // Weird hack because we don't preparse all the nodes to see if var is used.
-    // Under the hood, this is also a LexicalEnvironment as the spec requires.
     evalContext = context.createLexicalAndVariableEnvContext(
-      new StaticJsDirectEvalEnvironmentRecord(realm, true),
+      StaticJsDeclarativeEnvironmentRecord.from(context),
     );
   }
 

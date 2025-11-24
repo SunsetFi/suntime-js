@@ -2,30 +2,27 @@ import type { UpdateExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import toString from "../../runtime/algorithms/to-string.js";
 import toNumber from "../../runtime/algorithms/to-number.js";
 
-import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
-
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-
-import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
-import nameNode from "./name-node.js";
+import getValue from "../algorithms/get-value.js";
+import putValue from "../algorithms/put-value.js";
 
 export default function* updateExpressionNodeEvaluator(
   node: UpdateExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const originalValue = yield* EvaluateNodeCommand(node.argument, context, {
-    forNormalValue: "UpdateExpression.argument",
+  const ref = yield* EvaluateNodeCommand(node.argument, context, {
+    forReference: "UpdateExpression.argument",
   });
 
   // Note: NodeJs throws an error if the value is a string or something, but
   // thats not what the spec says to do!
+  const originalValue = yield* getValue(ref, context.realm);
   const asNumber = yield* toNumber(originalValue, context.realm);
 
   let targetValue = asNumber.value;
@@ -44,48 +41,7 @@ export default function* updateExpressionNodeEvaluator(
 
   const setValue = context.realm.types.number(targetValue);
 
-  switch (node.argument.type) {
-    case "Identifier":
-      yield* context.lexicalEnv.setMutableBindingEvaluator(
-        node.argument.name,
-        setValue,
-        context.strict,
-      );
-      break;
-    case "MemberExpression": {
-      const target = yield* EvaluateNodeCommand(node.argument.object, context, {
-        forNormalValue: "UpdateExpression.argument object",
-      });
-      if (!isStaticJsObjectLike(target)) {
-        throw new ThrowCompletion(
-          context.realm.types.error(
-            "TypeError",
-            `Cannot read properties of ${target.runtimeTypeOf} (reading '${nameNode(node.argument.object)}')`,
-          ),
-        );
-      }
-
-      let propertyName: string;
-      if (node.argument.computed) {
-        let propValue = yield* EvaluateNodeCommand(
-          node.argument.property,
-          context,
-          { forNormalValue: "UpdateExpression.argument property" },
-        );
-        propValue = yield* toString(propValue, context.realm);
-        propertyName = propValue.value;
-      } else if (node.argument.property.type === "Identifier") {
-        propertyName = node.argument.property.name;
-      } else {
-        throw new StaticJsEngineError(
-          `Unsupported property type in update expression: ${node.argument.property.type}.`,
-        );
-      }
-
-      yield* target.setPropertyEvaluator(propertyName, setValue, false);
-      break;
-    }
-  }
+  yield* putValue(ref, setValue, context.realm);
 
   return node.prefix ? setValue : originalValue;
 }

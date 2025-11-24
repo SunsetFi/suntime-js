@@ -7,14 +7,15 @@ import {
 import {
   isStaticJsDataPropertyDescriptor,
   type StaticJsPropertyDescriptor,
-} from "../runtime/types/StaticJsPropertyDescriptor.js";
+} from "../../runtime/types/StaticJsPropertyDescriptor.js";
 
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
-import { ThrowCompletion } from "../evaluator/completions/ThrowCompletion.js";
+import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
-import type EvaluationGenerator from "../evaluator/EvaluationGenerator.js";
-import type EvaluationContext from "../evaluator/EvaluationContext.js";
+import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type EvaluationContext from "../EvaluationContext.js";
+import createFunction from "../node-evaluators/Function.js";
 
 import lexicallyDeclaredNames from "./algorithms/lexically-declared-names.js";
 import varDeclaredNames from "./algorithms/var-declared-names.js";
@@ -22,7 +23,6 @@ import hasRestrictedGlobalProperty from "./algorithms/has-restricted-global-prop
 import varScopedDeclarations from "./algorithms/var-scoped-declarations.js";
 import boundNames from "./algorithms/bound-names.js";
 import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
-import createFunction from "../evaluator/node-evaluators/Function.js";
 
 export default function* globalDeclarationInstantiation(
   node: Node,

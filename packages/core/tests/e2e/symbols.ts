@@ -74,10 +74,13 @@ describe("E2E: Symbols", () => {
 
       const objNative = objVm.toJsSync();
 
-      const comparerFn = await realm.evaluateScript(`
+      const comparerCode = `
         function checkSame(obj) {
           return obj === globalThis.__nativeObj;
-        }`);
+        }
+        checkSame;
+      `;
+      const comparerFn = await realm.evaluateScript(comparerCode);
 
       const comparer = comparerFn.toJsSync() as (obj: unknown) => boolean;
       const result = comparer(objNative);
@@ -92,6 +95,7 @@ describe("E2E: Symbols", () => {
         function isSymbol(obj) {
           return typeof obj === "symbol";
         }
+        isSymbol;
       `);
 
       const isSymbol = result.toJsSync() as (obj: unknown) => boolean;
@@ -103,10 +107,14 @@ describe("E2E: Symbols", () => {
 
     it("Should preserve the references of native symbols", async () => {
       const realm = StaticJsRealm();
-      const comparerFn = await realm.evaluateScript(`
+
+      const comparerCode = `
         function checkSame(obj1, obj2) {
           return obj1 === obj2;
-        }`);
+        }
+        checkSame;
+      `;
+      const comparerFn = await realm.evaluateScript(comparerCode);
 
       const comparer = comparerFn.toJsSync() as (
         obj1: unknown,
@@ -121,10 +129,14 @@ describe("E2E: Symbols", () => {
 
     it("Should preserve the references of registry symbols", async () => {
       const realm = StaticJsRealm();
-      const comparerFn = await realm.evaluateScript(`
+
+      const comparerCode = `
         function checkSame(obj1, obj2) {
           return obj1 === obj2;
-        }`);
+        }
+        checkSame;
+      `;
+      const comparerFn = await realm.evaluateScript(comparerCode);
 
       const comparer = comparerFn.toJsSync() as (
         obj1: unknown,
@@ -141,12 +153,16 @@ describe("E2E: Symbols", () => {
 
     it("Should preserve the native symbol through a round trip", async () => {
       const realm = StaticJsRealm();
-      const comparerFn = await realm.evaluateScript(`
+
+      const returnCode = `
         function returnObj(obj1) {
           return obj1;
-        }`);
+        }
+        returnObj;
+      `;
+      const returnFn = await realm.evaluateScript(returnCode);
 
-      const returnObj = comparerFn.toJsSync() as (obj1: unknown) => unknown;
+      const returnObj = returnFn.toJsSync() as (obj1: unknown) => unknown;
 
       const sym1 = Symbol("mySymbol");
       const obj2 = returnObj(sym1);
@@ -155,12 +171,16 @@ describe("E2E: Symbols", () => {
 
     it("Preserves native symbols in the sandbox", async () => {
       const realm = StaticJsRealm();
-      const comparerFn = await realm.evaluateScript(`
+
+      const checkCode = `
         function checkIsIterator(x) {
           return x === Symbol.iterator;
-        }`);
+        }
+        checkIsIterator;
+      `;
+      const checkFn = await realm.evaluateScript(checkCode);
 
-      const checkIsIterator = comparerFn.toJsSync() as (x: unknown) => boolean;
+      const checkIsIterator = checkFn.toJsSync() as (x: unknown) => boolean;
 
       const result = checkIsIterator(Symbol.iterator);
       expect(result).toBe(true);

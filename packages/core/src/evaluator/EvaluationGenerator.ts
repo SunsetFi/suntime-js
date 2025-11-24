@@ -1,9 +1,9 @@
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
 import type { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
+import type { NormalCompletion } from "./completions/NormalCompletion.js";
 
-type EvaluationGenerator<TReturn = StaticJsValue | null> = Generator<
+type EvaluationGenerator<TReturn = NormalCompletion> = Generator<
   EvaluatorCommand,
   TReturn,
-  StaticJsValue | null
+  NormalCompletion
 >;
 export default EvaluationGenerator;

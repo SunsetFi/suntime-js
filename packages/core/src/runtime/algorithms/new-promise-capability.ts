@@ -57,7 +57,8 @@ export default function* newPromiseCapability(
 
     resolveFunc = resolve;
     rejectFunc = reject;
-    return null;
+
+    return realm.types.undefined;
   });
 
   const promise = yield* constructor.constructEvaluator(resolver);

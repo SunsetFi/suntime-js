@@ -23,7 +23,7 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
 
   setPrototypeOfEvaluator(
     prototype: StaticJsObjectLike | null,
-  ): EvaluationGenerator;
+  ): EvaluationGenerator<void>;
 
   preventExtensionsSync(): void;
 
@@ -95,12 +95,12 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     key: StaticJsObjectPropertyKey,
     value: StaticJsValue,
     strict: boolean,
-  ): void;
+  ): boolean;
   setPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
     value: StaticJsValue,
     strict: boolean,
-  ): EvaluationGenerator<void>;
+  ): EvaluationGenerator<boolean>;
 
   deletePropertySync(key: StaticJsObjectPropertyKey): boolean;
   deletePropertyEvaluator(

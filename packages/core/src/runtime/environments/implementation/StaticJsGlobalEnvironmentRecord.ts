@@ -2,27 +2,60 @@ import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
-import StaticJsBaseEnvironmentRecord from "./StaticJsBaseEnvironmentRecord.js";
 import type StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
-import type StaticJsEnvironmentBinding from "./StaticJsEnvironmentBinding.js";
-import { StaticJsEnvironmentGetBinding } from "./StaticJsEnvironmentBindingProvider.js";
+import StaticJsEnvironmentRecordBase from "./StaticJsEnvironmentRecordBase.js";
 import type StaticJsObjectEnvironmentRecord from "./StaticJsObjectEnvironmentRecord.js";
 
-export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnvironmentRecord {
+export default class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   constructor(
-    realm: StaticJsRealm,
     private readonly _globalThis: StaticJsValue,
     private readonly _declarativeRecord: StaticJsDeclarativeEnvironmentRecord,
     private readonly _objectRecord: StaticJsObjectEnvironmentRecord,
+    private readonly _realm: StaticJsRealm,
   ) {
-    super(realm);
+    super(null);
   }
 
   get objectRecord(): StaticJsObjectEnvironmentRecord {
     return this._objectRecord;
+  }
+
+  *hasBindingEvaluator(name: string): EvaluationGenerator<boolean> {
+    const hasDeclarativeBinding =
+      yield* this._declarativeRecord.hasBindingEvaluator(name);
+    if (hasDeclarativeBinding) {
+      return true;
+    }
+
+    return yield* this._objectRecord.hasBindingEvaluator(name);
+  }
+
+  *isInitializedEvaluator(name: string): EvaluationGenerator<boolean> {
+    const hasDeclarativeBinding =
+      yield* this._declarativeRecord.hasBindingEvaluator(name);
+    if (hasDeclarativeBinding) {
+      return yield* this._declarativeRecord.isInitializedEvaluator(name);
+    }
+
+    return yield* this._objectRecord.isInitializedEvaluator(name);
+  }
+
+  *initializeBindingEvaluator(
+    name: string,
+    value: StaticJsValue,
+  ): EvaluationGenerator<void> {
+    const hasDeclarativeBinding =
+      yield* this._declarativeRecord.hasBindingEvaluator(name);
+    if (hasDeclarativeBinding) {
+      return yield* this._declarativeRecord.initializeBindingEvaluator(
+        name,
+        value,
+      );
+    }
+
+    yield* this._objectRecord.initializeBindingEvaluator(name, value);
   }
 
   *setMutableBindingEvaluator(
@@ -32,41 +65,17 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
   ): EvaluationGenerator<void> {
     // FIXME: Theres a whole reference thing we aren't doing which should be taking care of this (ResolveBinding, GetValue, PutValue).
 
-    const binding = yield* this[StaticJsEnvironmentGetBinding](name);
-
-    if (binding) {
-      if (!binding.isMutable) {
-        if (strict) {
-          throw new ThrowCompletion(
-            this.realm.types.error(
-              "TypeError",
-              `Assignment to constant variable '${name}'.`,
-            ),
-          );
-        }
-
-        return;
-      }
-
-      yield* binding.set(value);
-      return;
-    }
-
-    if (strict) {
-      throw new ThrowCompletion(
-        this.realm.types.error(
-          "ReferenceError",
-          `Assignment to undeclared variable '${name}'.`,
-        ),
+    const hasDeclarativeBinding =
+      yield* this._declarativeRecord.hasBindingEvaluator(name);
+    if (hasDeclarativeBinding) {
+      return yield* this._declarativeRecord.setMutableBindingEvaluator(
+        name,
+        value,
+        strict,
       );
     }
 
-    yield* this._objectRecord.bindingObject.definePropertyEvaluator(name, {
-      value,
-      writable: true,
-      enumerable: true,
-      configurable: true,
-    });
+    yield* this._objectRecord.setMutableBindingEvaluator(name, value, strict);
   }
 
   *createMutableBindingEvaluator(
@@ -93,12 +102,30 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
     );
   }
 
-  *createFunctionBindingEvaluator(
+  *getBindingValueEvaluator(
     name: string,
-    value: StaticJsValue,
-  ): EvaluationGenerator<void> {
-    yield* this._objectRecord.createMutableBindingEvaluator(name, false);
-    yield* this._objectRecord.setMutableBindingEvaluator(name, value, true);
+    strict: boolean,
+  ): EvaluationGenerator<StaticJsValue> {
+    const hasDeclarativeBinding =
+      yield* this._declarativeRecord.hasBindingEvaluator(name);
+    if (hasDeclarativeBinding) {
+      return yield* this._declarativeRecord.getBindingValueEvaluator(
+        name,
+        strict,
+      );
+    }
+
+    return yield* this._objectRecord.getBindingValueEvaluator(name, strict);
+  }
+
+  *deleteBindingEvaluator(name: string): EvaluationGenerator<boolean> {
+    const hasDeclarativeBinding =
+      yield* this._declarativeRecord.hasBindingEvaluator(name);
+    if (hasDeclarativeBinding) {
+      return yield* this._declarativeRecord.deleteBindingEvaluator(name);
+    }
+
+    return yield* this._objectRecord.deleteBindingEvaluator(name);
   }
 
   *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {
@@ -109,22 +136,27 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsBaseEnviron
     return this._globalThis;
   }
 
-  *[StaticJsEnvironmentGetBinding](
-    name: string,
-  ): EvaluationGenerator<StaticJsEnvironmentBinding | undefined> {
-    const declarativeValue =
-      yield* this._declarativeRecord[StaticJsEnvironmentGetBinding](name);
-    if (declarativeValue) {
-      return declarativeValue;
-    }
+  *hasSuperBindingEvaluator(): EvaluationGenerator<boolean> {
+    return false;
+  }
 
-    return yield* this._objectRecord[StaticJsEnvironmentGetBinding](name);
+  *getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue> {
+    throw new ThrowCompletion(
+      this._realm.types.error(
+        "ReferenceError",
+        "Global environment does not have a super base",
+      ),
+    );
+  }
+
+  *withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue> {
+    return this._realm.types.undefined;
   }
 
   private *_ensureBindingNotDeclared(name: string): EvaluationGenerator<void> {
     if (yield* this.hasBindingEvaluator(name)) {
       throw new ThrowCompletion(
-        this.realm.types.error(
+        this._realm.types.error(
           "SyntaxError",
           `Identifier ${name} has already been declared`,
         ),

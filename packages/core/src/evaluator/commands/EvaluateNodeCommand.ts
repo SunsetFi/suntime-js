@@ -2,7 +2,10 @@ import type { Node } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import {
+  isStaticJsValue,
+  type StaticJsValue,
+} from "../../runtime/types/StaticJsValue.js";
 
 import type { EvaluateNodeOptions } from "../node-evaluators/evaluate-node.js";
 import evaluateNode from "../node-evaluators/evaluate-node.js";
@@ -11,9 +14,12 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
+import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
+import getValue from "../algorithms/get-value.js";
 
 export interface EvaluateNodeCommandOptions extends EvaluateNodeOptions {
   forNormalValue?: string;
+  forReference?: string;
 }
 
 export interface EvaluateNodeCommand extends EvaluatorCommandBase {
@@ -31,12 +37,21 @@ export function EvaluateNodeCommand(
 export function EvaluateNodeCommand(
   node: Node,
   context: EvaluationContext,
+  options: EvaluateNodeCommandOptions & { forReference: string },
+): EvaluationGenerator<StaticJsReferenceRecord>;
+export function EvaluateNodeCommand(
+  node: Node,
+  context: EvaluationContext,
   options?: EvaluateNodeCommandOptions,
 ): EvaluationGenerator;
 export function* EvaluateNodeCommand(
   node: Node,
   context: EvaluationContext,
-  { forNormalValue, ...evaluateOptions }: EvaluateNodeCommandOptions = {},
+  {
+    forNormalValue,
+    forReference,
+    ...evaluateOptions
+  }: EvaluateNodeCommandOptions = {},
 ): EvaluationGenerator<unknown> {
   // At one point, our commands were evaluated by a handler at the root of the evaluation chain,
   // and our result would come out of this yield statement.
@@ -50,11 +65,23 @@ export function* EvaluateNodeCommand(
     options: evaluateOptions,
   };
 
-  const result = yield* evaluateNode(node, context, evaluateOptions);
+  let result = yield* evaluateNode(node, context, evaluateOptions);
   if (forNormalValue) {
-    if (result == null) {
+    if (result) {
+      result = yield* getValue(result, context.realm);
+    }
+
+    if (!isStaticJsValue(result)) {
       throw new StaticJsEngineError(
-        `Expected ${forNormalValue} to return a normal value completion, but got an empty value.`,
+        `Expected ${forNormalValue} to return a normal value completion.`,
+      );
+    }
+  }
+
+  if (forReference) {
+    if (result === null || isStaticJsValue(result)) {
+      throw new StaticJsEngineError(
+        `Expected ${forReference} to return a reference completion.`,
       );
     }
   }

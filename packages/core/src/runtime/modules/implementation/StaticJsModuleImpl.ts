@@ -10,7 +10,6 @@ import {
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import StaticJsModuleEnvironmentRecord from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
-import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
 
 import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
@@ -131,13 +130,11 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
     this._enviornmentRecord = new StaticJsModuleEnvironmentRecord(this._realm);
 
-    const env = new StaticJsLexicalEnvironment(
+    this._context = EvaluationContext.createRootContext(
+      true,
       this._realm,
       this._enviornmentRecord,
-      this._realm.globalEnv,
     );
-
-    this._context = EvaluationContext.createRootContext(true, this._realm, env);
 
     yield* setupEnvironment(this._ast, this._context);
 

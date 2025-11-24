@@ -2,28 +2,27 @@ import type { BlockStatement } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
-import blockDeclarationInstantiation from "../../initialization/block-declaration-instantiation.js";
+import blockDeclarationInstantiation from "../initialization/block-declaration-instantiation.js";
 
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { BreakCompletion } from "../completions/BreakCompletion.js";
+import type { NormalCompletion } from "../completions/NormalCompletion.js";
 
 function* blockStatementNodeEvaluator(
   node: BlockStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const env = new StaticJsDeclarativeEnvironmentRecord(context.realm);
+  const env = StaticJsDeclarativeEnvironmentRecord.from(context);
   const blockContext = context.createLexicalEnvContext(env);
 
   yield* blockDeclarationInstantiation(node, env, blockContext);
 
-  let lastValue: StaticJsValue | null = null;
+  let lastCompletion: NormalCompletion = null;
 
   // Directives are values too!
   // Inherit the last one as a value.
@@ -32,22 +31,22 @@ function* blockStatementNodeEvaluator(
   // We may want to consider making these evaluator nodes as anything else...
   const lastDirective = node.directives.at(-1);
   if (lastDirective) {
-    lastValue = context.realm.types.string(lastDirective.value.value);
+    lastCompletion = context.realm.types.string(lastDirective.value.value);
   }
 
   for (const statement of node.body) {
     try {
-      lastValue = yield* EvaluateNodeCommand(statement, blockContext);
+      lastCompletion = yield* EvaluateNodeCommand(statement, blockContext);
     } catch (e) {
       // Breaks apply to blocks, but only if we have a label.
       if (context.label && BreakCompletion.isBreakForLabel(e, context.label)) {
-        return lastValue;
+        return lastCompletion;
       }
       throw e;
     }
   }
 
-  return lastValue;
+  return lastCompletion;
 }
 
 export default typedMerge(blockStatementNodeEvaluator, {

@@ -1,6 +1,6 @@
 import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsEnvironment } from "../environments/StaticJsEnvironment.js";
+import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type StaticJsTypeFactory from "../types/StaticJsTypeFactory.js";
@@ -82,18 +82,18 @@ export interface StaticJsRealm {
    * The global-scope Environment of the realm.
    * @internal
    */
-  readonly globalEnv: StaticJsEnvironment;
+  readonly globalEnv: StaticJsEnvironmentRecord;
 
   /**
    * The environment record for the global object.
    * @internal
    */
-  readonly objectEnv: StaticJsEnvironment;
+  readonly objectEnv: StaticJsEnvironmentRecord;
 
   /**
    * The environment record for declarative bindings.
    */
-  readonly declarativeRecord: StaticJsEnvironment;
+  readonly declarativeRecord: StaticJsEnvironmentRecord;
 
   /**
    * Evaluates the expression in the realm, returning a promise that resolves to the result.

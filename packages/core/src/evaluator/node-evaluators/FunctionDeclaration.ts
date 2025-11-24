@@ -35,17 +35,15 @@ function* functionDeclarationNodeEvaluator(
     );
   }
 
-  const F = id.name;
-
-  const bEnv = context.lexicalEnv;
-  const fObj = yield* bEnv.getBindingValueEvaluator(F, false);
-
   if (annexBHoisted) {
+    const F = id.name;
+    const bEnv = context.lexicalEnv;
+    const fObj = yield* bEnv.getBindingValueEvaluator(F, false);
     const gEnv = context.variableEnv;
     yield* gEnv.setMutableBindingEvaluator(annexBHoisted, fObj, false);
   }
 
-  return fObj;
+  return null;
 }
 
 function* functionDeclarationEnvironmentSetup(
@@ -57,10 +55,11 @@ function* functionDeclarationEnvironmentSetup(
   const func = createFunction(functionName, node, context);
 
   if (functionName) {
-    yield* context.lexicalEnv.createFunctionBindingEvaluator(
+    yield* context.lexicalEnv.createMutableBindingEvaluator(
       functionName,
-      func,
+      false,
     );
+    yield* context.lexicalEnv.initializeBindingEvaluator(functionName, func);
   }
 
   return false;

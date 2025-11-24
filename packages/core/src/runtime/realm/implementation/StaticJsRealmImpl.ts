@@ -28,7 +28,6 @@ import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCom
 
 import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
-import globalDeclarationInstantiation from "../../../initialization/global-declaration-instantiation.js";
 
 import StaticJsGlobalEnvironmentRecord from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import StaticJsObjectEnvironmentRecord from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
@@ -86,6 +85,8 @@ import type {
 } from "../StaticJsRealm.js";
 
 import Macrotask from "./Macrotask.js";
+import globalDeclarationInstantiation from "../../../evaluator/initialization/global-declaration-instantiation.js";
+import getValue from "../../../evaluator/algorithms/get-value.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;
@@ -156,14 +157,19 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     this._global = globalObjectResolved;
     this._globalThis = globalThisResolved;
 
-    this._objectEnv = new StaticJsObjectEnvironmentRecord(this, this._global);
-    this._declarativeEnv = new StaticJsDeclarativeEnvironmentRecord(this);
+    this._objectEnv = new StaticJsObjectEnvironmentRecord(
+      this._global,
+      false,
+      null,
+      this,
+    );
+    this._declarativeEnv = new StaticJsDeclarativeEnvironmentRecord(null, this);
 
     this._globalEnv = new StaticJsGlobalEnvironmentRecord(
-      this,
       globalThisResolved,
       this._declarativeEnv,
       this._objectEnv,
+      this,
     );
 
     populateGlobal(this, this._global);
@@ -718,12 +724,17 @@ function* doEvaluateNode(
   const context = EvaluationContext.createRootContext(
     strict ?? false,
     realm,
-  ).createLexicalEnvContext(new StaticJsDeclarativeEnvironmentRecord(realm));
+  ).createLexicalEnvContext(
+    new StaticJsDeclarativeEnvironmentRecord(realm.globalEnv, realm),
+  );
   try {
-    // yield* setupEnvironment(node, context);
     yield* globalDeclarationInstantiation(node, context);
     const result = yield* EvaluateNodeCommand(node, context);
-    return result ?? realm.types.undefined;
+    if (result) {
+      return yield* getValue(result, realm);
+    }
+
+    return realm.types.undefined;
   } catch (e) {
     if (e instanceof AbnormalCompletion) {
       throw e.toRuntime();
@@ -741,7 +752,9 @@ function* doEvaluateNodeAsync(
   const context = EvaluationContext.createRootContext(
     strict ?? false,
     realm,
-  ).createLexicalEnvContext(new StaticJsDeclarativeEnvironmentRecord(realm));
+  ).createLexicalEnvContext(
+    new StaticJsDeclarativeEnvironmentRecord(realm.globalEnv, realm),
+  );
   try {
     // yield* setupEnvironment(node, context);
     yield* globalDeclarationInstantiation(node, context);

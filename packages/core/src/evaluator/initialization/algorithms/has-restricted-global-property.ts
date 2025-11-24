@@ -1,5 +1,5 @@
-import type EvaluationContext from "../../evaluator/EvaluationContext.js";
-import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+import type EvaluationContext from "../../EvaluationContext.js";
+import type EvaluationGenerator from "../../EvaluationGenerator.js";
 
 export default function* hasRestrictedGlobalProperty(
   name: string,

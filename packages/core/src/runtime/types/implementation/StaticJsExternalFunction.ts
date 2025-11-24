@@ -19,7 +19,7 @@ export default class StaticJsExternalFunction extends StaticJsFunctionImpl {
   private *_invoke(
     thisArg: StaticJsValue,
     ...args: StaticJsValue[]
-  ): EvaluationGenerator {
+  ): EvaluationGenerator<StaticJsValue> {
     const thisArgResolved = thisArg.toJsSync();
     const valueArgsResolved = args.map((arg) => arg.toJsSync());
     try {

@@ -17,6 +17,7 @@ import setupEnvironment from "../../evaluator/node-evaluators/setup-environment.
 import toString from "../algorithms/to-string.js";
 
 import type { IntrinsicPropertyDeclaration } from "./utils.js";
+import getValue from "../../evaluator/algorithms/get-value.js";
 
 const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
   key: "eval",
@@ -44,12 +45,16 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
 
     // FIXME: Only do this if strict mode.
     context = context.createLexicalEnvContext(
-      new StaticJsDeclarativeEnvironmentRecord(realm),
+      StaticJsDeclarativeEnvironmentRecord.from(context),
     );
 
     yield* setupEnvironment(node, context);
     const result = yield* EvaluateNodeCommand(node, context);
-    return result ?? realm.types.undefined;
+    if (!result) {
+      return realm.types.undefined;
+    }
+
+    return yield* getValue(result, context.realm);
   },
 };
 

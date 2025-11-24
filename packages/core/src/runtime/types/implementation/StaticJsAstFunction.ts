@@ -16,7 +16,6 @@ import setLVal from "../../../evaluator/node-evaluators/LVal.js";
 import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
-import StaticJsLexicalEnvironment from "../../environments/implementation/StaticJsLexicalEnvironment.js";
 import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 
 import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
@@ -31,6 +30,7 @@ import StaticJsFunctionBase, {
   type StaticJsFunctionImplOptions,
 } from "./StaticJsFunctionImpl.js";
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import getValue from "../../../evaluator/algorithms/get-value.js";
 
 export type StaticJsAstFunctionArgumentDeclaration =
   | Identifier
@@ -60,7 +60,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
   protected *_invoke(
     thisArg: StaticJsValue,
     args: StaticJsValue[],
-  ): EvaluationGenerator {
+  ): EvaluationGenerator<StaticJsValue> {
     const functionContext = yield* this._createContext(thisArg, args);
 
     yield* this._declareArguments(args, functionContext);
@@ -79,7 +79,12 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     } else {
       yield* setupEnvironment(this._body, functionContext);
 
-      return yield* EvaluateNodeCommand(this._body, functionContext);
+      const result = yield* EvaluateNodeCommand(this._body, functionContext);
+      if (result) {
+        return yield* getValue(result, this.realm);
+      }
+
+      return this.realm.types.undefined;
     }
   }
 
@@ -87,13 +92,14 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     thisArg: StaticJsValue,
     args: StaticJsValue[],
   ): EvaluationGenerator<EvaluationContext> {
-    const functionEnv = new StaticJsLexicalEnvironment(
-      this.realm,
-      new StaticJsFunctionEnvironmentRecord(this.realm, thisArg, args),
+    const functionEnv = new StaticJsFunctionEnvironmentRecord(
+      thisArg,
+      args,
       this._context.lexicalEnv,
+      this.realm,
     );
 
-    return this._context.createStackContext(functionEnv, this);
+    return this._context.createFunctionInvocationContext(functionEnv, this);
   }
 
   protected *_declareArguments(

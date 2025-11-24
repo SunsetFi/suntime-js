@@ -26,7 +26,9 @@ const objectCtorSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    return yield* obj.setPrototypeOfEvaluator(proto);
+    yield* obj.setPrototypeOfEvaluator(proto);
+
+    return realm.types.undefined;
   },
 };
 

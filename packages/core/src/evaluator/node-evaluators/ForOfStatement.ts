@@ -7,11 +7,10 @@ import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/imp
 import getIterator from "../../runtime/algorithms/get-iterator.js";
 import iteratorStepValue from "../../runtime/algorithms/iterator-step-value.js";
 
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 import { ContinueCompletion } from "../completions/ContinueCompletion.js";
 import { BreakCompletion } from "../completions/BreakCompletion.js";
+import type { NormalCompletion } from "../completions/NormalCompletion.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -60,7 +59,7 @@ function* forOfStatementNodeEvaluator(
     lVal = node.left;
   }
 
-  let lastValue: StaticJsValue | null = null;
+  let lastCompletion: NormalCompletion = null;
   while (true) {
     const value = yield* iteratorStepValue(iterator, context.realm);
     if (!value) {
@@ -68,7 +67,7 @@ function* forOfStatementNodeEvaluator(
     }
 
     const bodyContext = context.createLexicalEnvContext(
-      new StaticJsDeclarativeEnvironmentRecord(context.realm),
+      StaticJsDeclarativeEnvironmentRecord.from(context),
     );
 
     yield* setupEnvironment(node.left, bodyContext);
@@ -83,7 +82,7 @@ function* forOfStatementNodeEvaluator(
     });
 
     try {
-      lastValue = yield* EvaluateNodeCommand(node.body, bodyContext);
+      lastCompletion = yield* EvaluateNodeCommand(node.body, bodyContext);
     } catch (e) {
       if (BreakCompletion.isBreakForLabel(e, context.label)) {
         break;
@@ -97,7 +96,7 @@ function* forOfStatementNodeEvaluator(
     }
   }
 
-  return lastValue;
+  return lastCompletion;
 }
 
 export default typedMerge(forOfStatementNodeEvaluator, {

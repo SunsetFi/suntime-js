@@ -53,7 +53,7 @@ export default class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
   protected *_invoke(
     thisArg: StaticJsValue,
     args: StaticJsValue[],
-  ): EvaluationGenerator {
+  ): EvaluationGenerator<StaticJsValue> {
     const functionContext = yield* this._createContext(thisArg, args);
 
     // Base implementation takes an array of statements for the function constructor, which we don't support.

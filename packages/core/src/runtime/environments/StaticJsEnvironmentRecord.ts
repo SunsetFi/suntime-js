@@ -2,7 +2,9 @@ import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-export interface StaticJsEnvironment {
+export interface StaticJsEnvironmentRecord {
+  get outerEnv(): StaticJsEnvironmentRecord | null;
+
   hasBindingEvaluator(name: string): EvaluationGenerator<boolean>;
 
   createMutableBindingEvaluator(
@@ -15,12 +17,7 @@ export interface StaticJsEnvironment {
     strict: boolean,
   ): EvaluationGenerator<void>;
 
-  createFunctionBindingEvaluator(
-    name: string,
-    func: StaticJsValue,
-  ): EvaluationGenerator<void>;
-
-  isInitialized(name: string): EvaluationGenerator<boolean>;
+  isInitializedEvaluator(name: string): EvaluationGenerator<boolean>;
 
   initializeBindingEvaluator(
     name: string,
@@ -40,18 +37,14 @@ export interface StaticJsEnvironment {
 
   deleteBindingEvaluator(name: string): EvaluationGenerator<boolean>;
 
-  // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
+  // TODO: The following should only be implemented on the relevant environments.
   hasThisBindingEvaluator(): EvaluationGenerator<boolean>;
 
-  // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   hasSuperBindingEvaluator(): EvaluationGenerator<boolean>;
 
-  // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue>;
 
-  // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue>;
 
-  // FIXME: DOesnt change or evaluate, doesn't need to be an Evaluator.
   getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue>;
 }

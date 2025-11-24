@@ -1,0 +1,26 @@
+import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsSymbol } from "../types/StaticJsSymbol.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
+
+export interface StaticJsUnresolvedReferenceRecord {
+  referencedName: string | StaticJsSymbol;
+  strict: boolean;
+  thisValue: null;
+  base: null;
+}
+
+export interface StaticJsResolvedReferenceRecord {
+  referencedName: string | StaticJsSymbol;
+  strict: boolean;
+  thisValue: StaticJsValue | null;
+  base: StaticJsEnvironmentRecord | StaticJsValue;
+}
+
+export interface StaticJsPropertyReferenceRecord
+  extends StaticJsResolvedReferenceRecord {
+  base: StaticJsValue;
+}
+
+export type StaticJsReferenceRecord =
+  | StaticJsUnresolvedReferenceRecord
+  | StaticJsResolvedReferenceRecord;

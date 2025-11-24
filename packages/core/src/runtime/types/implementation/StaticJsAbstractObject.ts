@@ -80,7 +80,7 @@ export default abstract class StaticJsAbstractObject
 
   *setPrototypeOfEvaluator(
     proto: StaticJsObjectLike | null,
-  ): EvaluationGenerator {
+  ): EvaluationGenerator<void> {
     if (!isStaticJsObjectLike(proto) && proto !== null) {
       throw new TypeError(`Prototype must be a StaticJsObjectLike or null`);
     }
@@ -92,7 +92,6 @@ export default abstract class StaticJsAbstractObject
     }
 
     this._prototype = proto;
-    return null;
   }
 
   preventExtensionsSync(): void {
@@ -410,8 +409,8 @@ export default abstract class StaticJsAbstractObject
     key: StaticJsObjectPropertyKey,
     value: StaticJsValue,
     strict: boolean,
-  ): void {
-    this.realm.invokeEvaluatorSync(
+  ): boolean {
+    return this.realm.invokeEvaluatorSync(
       this.setPropertyEvaluator(key, value, strict),
     );
   }
@@ -420,7 +419,7 @@ export default abstract class StaticJsAbstractObject
     key: StaticJsObjectPropertyKey,
     value: StaticJsValue,
     strict: boolean,
-  ): EvaluationGenerator<void> {
+  ): EvaluationGenerator<boolean> {
     if (!isStaticJsValue(value)) {
       throw new TypeError(`Value must be a StaticJsValue instance`);
     }
@@ -431,7 +430,7 @@ export default abstract class StaticJsAbstractObject
       if (isStaticJsAccessorPropertyDescriptor(ownDecl)) {
         if (ownDecl.set) {
           yield* ownDecl.set.callEvaluator(this, value);
-          return;
+          return true;
         }
       } else if (isStaticJsDataPropertyDescriptor(ownDecl)) {
         if (ownDecl.writable) {
@@ -439,7 +438,7 @@ export default abstract class StaticJsAbstractObject
             ...ownDecl,
             value,
           });
-          return;
+          return true;
         }
       }
 
@@ -452,7 +451,7 @@ export default abstract class StaticJsAbstractObject
         );
       }
 
-      return;
+      return false;
     }
 
     const decl = yield* this.getPropertyDescriptorEvaluator(key);
@@ -461,7 +460,7 @@ export default abstract class StaticJsAbstractObject
         // Its an inherited accessor property, invoke the accessor
         if (decl.set) {
           yield* decl.set.callEvaluator(this, value);
-          return;
+          return true;
         }
 
         if (strict) {
@@ -472,7 +471,8 @@ export default abstract class StaticJsAbstractObject
             ),
           );
         }
-        return;
+
+        return false;
       }
 
       // Inherited value is not an accessor, fall through to creating a new property on us.
@@ -489,10 +489,11 @@ export default abstract class StaticJsAbstractObject
           ),
         );
       }
-      return;
+
+      return false;
     }
 
-    yield* this._setPropertyDescriptorEvaluator(key, {
+    return yield* this._setPropertyDescriptorEvaluator(key, {
       configurable: true,
       enumerable: true,
       writable: true,

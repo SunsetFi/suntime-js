@@ -16,8 +16,11 @@ import type { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
 
 import { ReturnCompletion } from "./completions/ReturnCompletion.js";
 import { ThrowCompletion } from "./completions/ThrowCompletion.js";
+import type { NormalCompletion } from "./completions/NormalCompletion.js";
 
 import type EvaluationGenerator from "./EvaluationGenerator.js";
+
+import getValue from "./algorithms/get-value.js";
 
 export default class AsyncEvaluatorInvocation {
   private _capability!: PromiseCapabilityRecord;
@@ -71,7 +74,7 @@ export default class AsyncEvaluatorInvocation {
   }
 
   private *_continue(
-    continueWith: StaticJsValue | null,
+    continueWith: NormalCompletion,
     continueMode: "next" | "throw" = "next",
   ): EvaluationGenerator<void> {
     if (this._state !== "started" && this._state !== "awaiting") {
@@ -84,8 +87,9 @@ export default class AsyncEvaluatorInvocation {
 
     try {
       while (true) {
-        let result: IteratorResult<EvaluatorCommand, StaticJsValue | null>;
+        let result: IteratorResult<EvaluatorCommand, NormalCompletion>;
         if (continueMode === "throw" && continueWith !== null) {
+          continueWith = yield* getValue(continueWith, this._realm);
           result = this._evaluator.throw(new ThrowCompletion(continueWith));
         } else {
           result = this._evaluator.next(continueWith);
@@ -98,7 +102,7 @@ export default class AsyncEvaluatorInvocation {
           // Hit the end of the generator, no more function to run.
           let result: StaticJsValue = this._realm.types.undefined;
           if (this._resolveToEvaluatorResult && value != null) {
-            result = value;
+            result = yield* getValue(value, this._realm);
           }
           yield* this._resolve(result);
           return;

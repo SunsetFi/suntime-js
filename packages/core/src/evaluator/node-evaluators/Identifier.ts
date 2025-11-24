@@ -3,26 +3,16 @@ import type { Identifier } from "@babel/types";
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
-import { ThrowCompletion } from "../completions/ThrowCompletion.js";
+import { getIdentifierReference } from "../../runtime/references/get-identifier-reference.js";
 
 export default function* identifierNodeEvaluator(
   node: Identifier,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const hasBinding = yield* context.lexicalEnv.hasBindingEvaluator(node.name);
-
-  if (!hasBinding) {
-    throw new ThrowCompletion(
-      context.realm.types.error(
-        "ReferenceError",
-        `${node.name} is not defined`,
-      ),
-    );
-  }
-
-  const value = yield* context.lexicalEnv.getBindingValueEvaluator(
+  const ref = yield* getIdentifierReference(
+    context.lexicalEnv,
     node.name,
     context.strict,
   );
-  return value;
+  return ref;
 }
