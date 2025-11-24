@@ -4,23 +4,24 @@ import typedMerge from "../../internal/typed-merge.js";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
+import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+
+import blockDeclarationInstantiation from "../../initialization/block-declaration-instantiation.js";
+
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { BreakCompletion } from "../completions/BreakCompletion.js";
 
-import setupEnvironment from "./setup-environment.js";
-
 function* blockStatementNodeEvaluator(
   node: BlockStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const blockContext = context.createBlockContext(node);
+  const env = new StaticJsDeclarativeEnvironmentRecord(context.realm);
+  const blockContext = context.createLexicalEnvContext(env);
 
-  for (const child of node.body) {
-    yield* setupEnvironment(child, blockContext);
-  }
+  yield* blockDeclarationInstantiation(node, env, blockContext);
 
   let lastValue: StaticJsValue | null = null;
 

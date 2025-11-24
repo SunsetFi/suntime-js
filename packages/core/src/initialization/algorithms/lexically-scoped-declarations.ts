@@ -18,18 +18,24 @@ export default function lexicallyScopedDefinitions(
       return lexicallyScopedDefinitions(node.program);
     case "Program":
       return node.body.flatMap(topLevelLexicallyScopedDefinitions);
+    case "LabeledStatement":
+      return lexicallyScopedDefinitions(node.body);
+    /* BEGIN Declaration */
+    case "FunctionDeclaration":
+      return [node];
+    case "ClassDeclaration":
+      return [node];
     case "VariableDeclaration": {
       if (node.kind === "var") {
         return [];
       }
       return [node];
     }
+    /* END Declaration */
     case "SwitchStatement":
       return node.cases.flatMap(lexicallyScopedDefinitions);
     case "SwitchCase":
       return node.consequent.flatMap(lexicallyScopedDefinitions);
-    case "ClassDeclaration":
-      return [node];
   }
   return [];
 }

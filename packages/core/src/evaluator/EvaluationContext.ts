@@ -5,7 +5,6 @@ import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
 
 import type { StaticJsEnvironment } from "../runtime/environments/StaticJsEnvironment.js";
 import StaticJsLexicalEnvironment from "../runtime/environments/implementation/StaticJsLexicalEnvironment.js";
-import StaticJsDeclarativeEnvironmentRecord from "../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 export default abstract class EvaluationContext {
   private _parent: EvaluationContext | null;
@@ -80,18 +79,6 @@ export default abstract class EvaluationContext {
     return new EnvironmentEvaluationContext(
       new StaticJsLexicalEnvironment(this.realm, record, this.lexicalEnv),
       null,
-      this,
-    );
-  }
-
-  createBlockContext(node: Node): EvaluationContext {
-    return new BlockEvaluationContext(
-      new StaticJsLexicalEnvironment(
-        this.realm,
-        new StaticJsDeclarativeEnvironmentRecord(this.realm),
-        this.lexicalEnv,
-      ),
-      node,
       this,
     );
   }
@@ -218,27 +205,5 @@ class StackEvaluationContext extends EvaluationContext {
 
   get function(): StaticJsFunction {
     return this._function;
-  }
-}
-
-// FIXME: This only exists because I designed setupEnvironment before knowing what the spec wanted, and it currently cannot / does not handle
-// function and var environments properly.  This is here so that the runtime can diferrentiate it and handle that for us.
-// Mainly this is for handling function hoisting properly
-class BlockEvaluationContext extends EvaluationContext {
-  private _env: StaticJsEnvironment;
-  private _node: Node;
-
-  constructor(env: StaticJsEnvironment, node: Node, parent: EvaluationContext) {
-    super(parent);
-    this._env = env;
-    this._node = node;
-  }
-
-  get lexicalEnv(): StaticJsEnvironment {
-    return this._env;
-  }
-
-  get block(): Node | null {
-    return this._node;
   }
 }

@@ -7,18 +7,23 @@ export default function lexicallyDeclaredNames(node: Node): string[] {
       return lexicallyDeclaredNames(node.program);
     case "Program":
       return node.body.flatMap(topLevelLexicallyDeclaredNames);
+    case "LabeledStatement":
+      return lexicallyDeclaredNames(node.body);
+    /* BEGIN Declaration */
+    case "FunctionDeclaration":
+    case "ClassDeclaration":
+      return boundNames(node);
     case "VariableDeclaration": {
       if (node.kind === "var") {
         return [];
       }
       return boundNames(node);
     }
+    /* END Declaration */
     case "SwitchStatement":
       return node.cases.flatMap(lexicallyDeclaredNames);
     case "SwitchCase":
       return node.consequent.flatMap(lexicallyDeclaredNames);
-    case "ClassDeclaration":
-      return boundNames(node);
   }
   return [];
 }

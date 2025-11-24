@@ -20,6 +20,8 @@ export interface StaticJsEnvironment {
     func: StaticJsValue,
   ): EvaluationGenerator<void>;
 
+  isInitialized(name: string): EvaluationGenerator<boolean>;
+
   initializeBindingEvaluator(
     name: string,
     value: StaticJsValue,

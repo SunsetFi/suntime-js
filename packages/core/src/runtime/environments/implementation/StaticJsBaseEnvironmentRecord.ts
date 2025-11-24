@@ -34,6 +34,15 @@ export default abstract class StaticJsBaseEnvironmentRecord
     strict: boolean,
   ): EvaluationGenerator<void>;
 
+  *isInitialized(name: string): EvaluationGenerator<boolean> {
+    const binding = yield* this[StaticJsEnvironmentGetBinding](name);
+    if (!binding) {
+      return false;
+    }
+
+    return binding.isInitialized;
+  }
+
   *initializeBindingEvaluator(
     name: string,
     value: StaticJsValue,

@@ -22,6 +22,18 @@ describe("E2E: Thrown Error Handling", () => {
     expect(result).toBe(1);
   });
 
+  it("Should support var", async () => {
+    const code = `
+    try {
+      var test = 1;
+      test;
+    }
+    catch (e) {}
+    `;
+    const result = await evaluateScript(code);
+    expect(result).toBe(1);
+  });
+
   describe("Try / Catch / Finally", () => {
     it("Should catch an error", async () => {
       const code = `

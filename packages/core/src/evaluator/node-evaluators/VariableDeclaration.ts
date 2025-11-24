@@ -49,6 +49,7 @@ function* variableDeclarationNodeEvaluator(
   for (const declarator of node.declarations) {
     yield* declarationStatementEvaluator(
       declarator,
+      node.kind,
       context,
       variableInitializer,
     );
@@ -110,24 +111,43 @@ export default typedMerge(variableDeclarationNodeEvaluator, {
 
 function* declarationStatementEvaluator(
   declarator: VariableDeclarator,
+  kind: "const" | "let" | "var",
   context: EvaluationContext,
   variableCreator: (
     name: string,
     value: StaticJsValue | null,
   ) => EvaluationGenerator<void>,
 ): EvaluationGenerator {
-  let value: StaticJsValue | null = null;
+  const id = declarator.id;
+  if (id.type === "VoidPattern") {
+    // FIXME: What is this?  It just appeared in babel typings one day.
+    // Assuming its a way to avoid declaring a variable but still having the side effect.
+    // Which is silly, because the variable still exists, and won't be initialized.
+    // Something for a rest pattern, maybe?
+
+    if (declarator.init) {
+      yield* EvaluateNodeCommand(declarator.init, context, {
+        forNormalValue: "VariableDeclarator.init",
+      });
+    }
+
+    return context.realm.types.undefined;
+  }
 
   if (declarator.init) {
-    value = yield* EvaluateNodeCommand(declarator.init, context, {
+    const value = yield* EvaluateNodeCommand(declarator.init, context, {
       forNormalValue: "VariableDeclarator.init",
     });
 
-    if (declarator.id.type === "VoidPattern") {
-      return context.realm.types.undefined;
-    }
-
-    return yield* setLVal(declarator.id, value, context, variableCreator);
+    return yield* setLVal(id, value, context, variableCreator);
+  } else if (kind === "let") {
+    // Let declarations without initializers are initialized to undefined.
+    return yield* setLVal(
+      id,
+      context.realm.types.undefined,
+      context,
+      variableCreator,
+    );
   }
 
   return context.realm.types.undefined;
