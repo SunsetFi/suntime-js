@@ -1,25 +1,45 @@
-import type {
-  VariableDeclaration,
-  FunctionDeclaration,
-  ClassDeclaration,
-  Node,
+import {
+  type VariableDeclaration,
+  type FunctionDeclaration,
+  type ClassDeclaration,
+  type ExportDefaultDeclaration,
+  type Node,
+  isAssignmentExpression,
 } from "@babel/types";
 
 export type LexicallyScopedDeclNode =
   | VariableDeclaration
   | FunctionDeclaration
-  | ClassDeclaration;
+  | ClassDeclaration
+  | ExportDefaultDeclaration;
 
-export default function lexicallyScopedDefinitions(
+function isLexicallyScopedDeclaration(
+  node: Node,
+): node is LexicallyScopedDeclNode {
+  return (
+    node.type === "VariableDeclaration" ||
+    node.type === "FunctionDeclaration" ||
+    node.type === "ClassDeclaration" ||
+    node.type === "ExportDefaultDeclaration"
+  );
+}
+
+export default function lexicallyScopedDeclarations(
   node: Node,
 ): LexicallyScopedDeclNode[] {
   switch (node.type) {
     case "File":
-      return lexicallyScopedDefinitions(node.program);
-    case "Program":
-      return node.body.flatMap(topLevelLexicallyScopedDefinitions);
+      return lexicallyScopedDeclarations(node.program);
+    case "Program": {
+      if (node.sourceType === "module") {
+        // Really?  varScopedDeclarations?
+        // Spec says it is...
+        return node.body.flatMap(lexicallyScopedDeclarations);
+      }
+      return node.body.flatMap(topLevelLexicallyScopedDeclarations);
+    }
     case "LabeledStatement":
-      return lexicallyScopedDefinitions(node.body);
+      return lexicallyScopedDeclarations(node.body);
     /* BEGIN Declaration */
     case "FunctionDeclaration":
       return [node];
@@ -33,23 +53,45 @@ export default function lexicallyScopedDefinitions(
     }
     /* END Declaration */
     case "SwitchStatement":
-      return node.cases.flatMap(lexicallyScopedDefinitions);
+      return node.cases.flatMap(lexicallyScopedDeclarations);
     case "SwitchCase":
-      return node.consequent.flatMap(lexicallyScopedDefinitions);
+      return node.consequent.flatMap(lexicallyScopedDeclarations);
+    case "ExportNamedDeclaration": {
+      if (
+        !node.declaration ||
+        !isLexicallyScopedDeclaration(node.declaration)
+      ) {
+        return [];
+      }
+
+      return [node.declaration];
+    }
+    case "ExportDefaultDeclaration": {
+      if (node.declaration.type === "FunctionDeclaration") {
+        return [node.declaration];
+      }
+      if (node.declaration.type === "ClassDeclaration") {
+        return [node.declaration];
+      }
+
+      if (isAssignmentExpression(node.declaration)) {
+        return [node];
+      }
+    }
   }
   return [];
 }
 
-function topLevelLexicallyScopedDefinitions(
+function topLevelLexicallyScopedDeclarations(
   node: Node,
 ): LexicallyScopedDeclNode[] {
   switch (node.type) {
     case "File":
-      return topLevelLexicallyScopedDefinitions(node.program);
+      return topLevelLexicallyScopedDeclarations(node.program);
     case "Program":
-      return node.body.flatMap(topLevelLexicallyScopedDefinitions);
+      return node.body.flatMap(topLevelLexicallyScopedDeclarations);
     case "LabeledStatement":
-      return topLevelLexicallyScopedDefinitions(node.body);
+      return topLevelLexicallyScopedDeclarations(node.body);
     /* BEGIN Declaration */
     case "FunctionDeclaration":
       return [];
@@ -79,7 +121,7 @@ function topLevelLexicallyScopedDefinitions(
     case "ThrowStatement":
     case "TryStatement":
     case "DebuggerStatement" /* END Statement */:
-      return lexicallyScopedDefinitions(node);
+      return lexicallyScopedDeclarations(node);
   }
 
   return [];

@@ -10,8 +10,8 @@ import {
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import StaticJsModuleEnvironmentRecord from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
+import StaticJsDeclarativeEnvironmentRecord from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
-import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
@@ -40,11 +40,16 @@ import {
   isStaticJsLocalExportEntry,
   isStaticJsIndirectExportEntry,
 } from "./StaticJsExportEntry.js";
+import varScopedDeclarations from "../../../evaluator/initialization/algorithms/var-scoped-declarations.js";
+import boundNames from "../../../evaluator/initialization/algorithms/bound-names.js";
+import lexicallyScopedDeclarations from "../../../evaluator/initialization/algorithms/lexically-scoped-declarations.js";
+import createFunction from "../../../evaluator/node-evaluators/Function.js";
 
 export class StaticJsModuleImpl extends StaticJsModuleBase {
   private _linked = false;
 
-  private _enviornmentRecord: StaticJsModuleEnvironmentRecord | undefined;
+  private _moduleEnv: StaticJsModuleEnvironmentRecord | undefined;
+  private _envRec: StaticJsDeclarativeEnvironmentRecord | undefined;
   private _context: EvaluationContext | undefined;
 
   private _status: StaticJsModuleStatus = "uninstantiated";
@@ -128,15 +133,8 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
     this._status = "instantiating";
 
-    this._enviornmentRecord = new StaticJsModuleEnvironmentRecord(this._realm);
-
-    this._context = EvaluationContext.createRootContext(
-      true,
-      this._realm,
-      this._enviornmentRecord,
-    );
-
-    yield* setupEnvironment(this._ast, this._context);
+    // FIXME: Where does the spec want this done?
+    // Implement this for real!
 
     // Instaniate export modules
     for (const entry of this._exportEntries) {
@@ -172,58 +170,8 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       yield* module.moduleDeclarationInstantiationEvaluator();
     }
 
-    // Create import bindings
-    for (const entry of this._importEntries) {
-      const module = this._linkedModules.get(entry.moduleRequest);
-      if (!module) {
-        throw new ThrowCompletion(
-          this._realm.types.error(
-            "ReferenceError",
-            `Module ${entry.moduleRequest} not found.`,
-          ),
-        );
-      }
-
-      if (entry.importName === "namespace") {
-        yield* this._enviornmentRecord.createImmutableBindingEvaluator(
-          entry.localName,
-          false,
-        );
-
-        const ns = yield* module.getModuleNamespaceEvaluator();
-
-        yield* this._enviornmentRecord.initializeBindingEvaluator(
-          entry.localName,
-          ns,
-        );
-      } else {
-        const resolved = yield* module.resolveExportEvaluator(entry.importName);
-
-        if (!resolved) {
-          throw new ThrowCompletion(
-            this._realm.types.error(
-              "SyntaxError",
-              `Module ${entry.moduleRequest} does not export ${entry.importName}.`,
-            ),
-          );
-        }
-
-        if (resolved === "ambiguous") {
-          throw new ThrowCompletion(
-            this._realm.types.error(
-              "SyntaxError",
-              `Ambiguous export ${entry.importName} in module ${entry.moduleRequest}.`,
-            ),
-          );
-        }
-
-        yield* this._enviornmentRecord.createImportBindingEvaluator(
-          entry.localName,
-          resolved.module,
-          resolved.bindingName,
-        );
-      }
-    }
+    // Actual speccy stuff
+    yield* this._initializeEnvironment();
 
     // Verify local exports
     for (const entry of this._exportEntries) {
@@ -231,7 +179,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         continue;
       }
 
-      const hasBinding = yield* this._enviornmentRecord.hasBindingEvaluator(
+      const hasBinding = yield* this._envRec!.hasBindingEvaluator(
         entry.localName,
       );
       if (!hasBinding) {
@@ -456,11 +404,11 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
   *getOwnBindingValueEvaluator(
     bindingName: string,
   ): EvaluationGenerator<StaticJsValue | null> {
-    if (this._enviornmentRecord == null) {
+    if (this._envRec! == null) {
       return null;
     }
 
-    const value = yield* this._enviornmentRecord.getBindingValueEvaluator(
+    const value = yield* this._envRec!.getBindingValueEvaluator(
       bindingName,
       false,
     );
@@ -469,6 +417,123 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
     }
 
     return value;
+  }
+
+  private *_initializeEnvironment(): EvaluationGenerator<void> {
+    for (const entry of this._exportEntries) {
+      if (!isStaticJsIndirectExportEntry(entry)) {
+        continue;
+      }
+
+      const resolution = yield* this.resolveExportEvaluator(entry.exportName!);
+      if (!resolution || resolution === "ambiguous") {
+        throw new ThrowCompletion(
+          this._realm.types.error(
+            "ReferenceError",
+            `Cannot resolve export ${entry.exportName} for module ${this._name}.`,
+          ),
+        );
+      }
+    }
+
+    this._moduleEnv = new StaticJsModuleEnvironmentRecord(this._realm);
+    this._envRec = new StaticJsDeclarativeEnvironmentRecord(
+      this._moduleEnv,
+      this._realm,
+    );
+
+    for (const entry of this._importEntries) {
+      const importedModule = this._linkedModules.get(entry.moduleRequest);
+      if (!importedModule) {
+        throw new ThrowCompletion(
+          this._realm.types.error(
+            "ReferenceError",
+            `Module ${entry.moduleRequest} not found.`,
+          ),
+        );
+      }
+
+      if (entry.importName === "namespace") {
+        const ns = yield* importedModule.getModuleNamespaceEvaluator();
+
+        yield* this._envRec.createImmutableBindingEvaluator(
+          entry.localName,
+          true,
+        );
+        yield* this._envRec.initializeBindingEvaluator(entry.localName, ns);
+      } else {
+        const resolved = yield* importedModule.resolveExportEvaluator(
+          entry.importName,
+        );
+
+        if (!resolved || resolved === "ambiguous") {
+          throw new ThrowCompletion(
+            this._realm.types.error(
+              "SyntaxError",
+              `Module ${entry.moduleRequest} does not export ${entry.importName}.`,
+            ),
+          );
+        }
+
+        if (resolved.bindingName === "namespace") {
+          const namespace =
+            yield* resolved.module.getModuleNamespaceEvaluator();
+
+          yield* this._envRec.createImmutableBindingEvaluator(
+            entry.localName,
+            true,
+          );
+          yield* this._envRec.initializeBindingEvaluator(
+            entry.localName,
+            namespace,
+          );
+        } else {
+          yield* this._moduleEnv.createImportBindingEvaluator(
+            entry.localName,
+            resolved.module,
+            resolved.bindingName,
+          );
+        }
+      }
+    }
+
+    this._context = EvaluationContext.createRootContext(
+      true,
+      this._realm,
+      this._envRec,
+    );
+
+    const varDeclarations = varScopedDeclarations(this._ast);
+    const declaredVarNames = new Set<string>();
+    for (const d of varDeclarations) {
+      for (const dn of boundNames(d)) {
+        if (declaredVarNames.has(dn)) {
+          continue;
+        }
+        declaredVarNames.add(dn);
+        yield* this._envRec.createMutableBindingEvaluator(dn, false);
+        yield* this._envRec.initializeBindingEvaluator(
+          dn,
+          this._realm.types.undefined,
+        );
+      }
+    }
+
+    const lexDeclarations = lexicallyScopedDeclarations(this._ast);
+    for (const d of lexDeclarations) {
+      for (const dn of boundNames(d)) {
+        if (d.type === "VariableDeclaration" && d.kind === "const") {
+          yield* this._envRec.createImmutableBindingEvaluator(dn, true);
+        } else {
+          yield* this._envRec.createMutableBindingEvaluator(dn, false);
+        }
+
+        if (d.type === "FunctionDeclaration") {
+          const fn = createFunction(dn, d, this._context!);
+          yield* this._envRec.initializeBindingEvaluator(dn, fn);
+        }
+      }
+    }
   }
 }
 
