@@ -72,48 +72,4 @@ describe("E2E: Constructors", () => {
     `);
     expect(result).toBe(true);
   });
-
-  it.skip("class constructor requires new", async () => {
-    const result = await evaluateScript(`
-      class Foo {
-        constructor() {
-          this.ok = true;
-        }
-      }
-
-      try {
-        Foo();
-      } catch (e) {
-        e instanceof TypeError;
-      }
-    `);
-    expect(result).toBe(true);
-  });
-
-  it.skip("class with new sets this properly", async () => {
-    const result = await evaluateScript(`
-      class Box {
-        constructor(x) {
-          this.value = x;
-        }
-      }
-      const b = new Box(100);
-      b.value;
-    `);
-    expect(result).toBe(100);
-  });
-
-  it.skip("class constructor ignores return of primitive", async () => {
-    const result = await evaluateScript(`
-      class Example {
-        constructor() {
-          this.name = "kept";
-          return 123;
-        }
-      }
-      const e = new Example();
-      e.name;
-    `);
-    expect(result).toBe("kept");
-  });
 });

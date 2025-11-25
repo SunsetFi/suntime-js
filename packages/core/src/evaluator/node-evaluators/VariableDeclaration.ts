@@ -4,12 +4,16 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
+import { getIdentifierReference } from "../../runtime/references/get-identifier-reference.js";
+
 import typedMerge from "../../internal/typed-merge.js";
+
+import putValue from "../algorithms/put-value.js";
+
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
-
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import setLVal, { environmentSetupLVal } from "./LVal.js";
 
@@ -33,10 +37,15 @@ function* variableDeclarationNodeEvaluator(
       break;
     case "var":
       variableInitializer = function* (name, value) {
-        return yield* context.lexicalEnv.setMutableBindingEvaluator(
+        const lhs = yield* getIdentifierReference(
+          context.lexicalEnv,
           name,
-          value ?? context.realm.types.undefined,
           context.strict,
+        );
+        yield* putValue(
+          lhs,
+          value ?? context.realm.types.undefined,
+          context.realm,
         );
       };
       break;
