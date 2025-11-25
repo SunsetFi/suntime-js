@@ -4,8 +4,9 @@ import {
   type ClassDeclaration,
   type ExportDefaultDeclaration,
   type Node,
-  isAssignmentExpression,
 } from "@babel/types";
+
+import isAssignmentGrammar from "../../../grammar/is-assignment-grammar.js";
 
 export type LexicallyScopedDeclNode =
   | VariableDeclaration
@@ -59,6 +60,7 @@ export default function lexicallyScopedDeclarations(
     case "ExportNamedDeclaration": {
       if (
         !node.declaration ||
+        // Mostly to filter out other babel garbage that isn't 'real' ecmascript syntax.
         !isLexicallyScopedDeclaration(node.declaration)
       ) {
         return [];
@@ -74,9 +76,11 @@ export default function lexicallyScopedDeclarations(
         return [node.declaration];
       }
 
-      if (isAssignmentExpression(node.declaration)) {
+      if (isAssignmentGrammar(node.declaration)) {
         return [node];
       }
+
+      return [];
     }
   }
   return [];

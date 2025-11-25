@@ -22,20 +22,20 @@ function* functionDeclarationNodeEvaluator(
 ): EvaluationGenerator {
   const { annexBHoisted } = (node.extra ?? {}) as FunctionDeclarationExtra;
 
-  const id = node.id;
-  if (!id) {
-    throw new StaticJsEngineError(
-      "Function declarations must have an identifier",
-    );
-  }
-
-  if (id.type !== "Identifier") {
-    throw new StaticJsEngineError(
-      `Unsupported function declaration id type: ${id.type}`,
-    );
-  }
-
   if (annexBHoisted) {
+    const id = node.id;
+    if (!id) {
+      throw new StaticJsEngineError(
+        "Hoisted function declarations must have an identifier",
+      );
+    }
+
+    if (id.type !== "Identifier") {
+      throw new StaticJsEngineError(
+        `Unsupported hoisted function declaration id type: ${id.type}`,
+      );
+    }
+
     const F = id.name;
     const bEnv = context.lexicalEnv;
     const fObj = yield* bEnv.getBindingValueEvaluator(F, false);

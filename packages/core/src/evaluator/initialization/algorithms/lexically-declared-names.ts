@@ -1,30 +1,6 @@
-import {
-  type VariableDeclaration,
-  type FunctionDeclaration,
-  type ClassDeclaration,
-  type ExportDefaultDeclaration,
-  type Node,
-  isAssignmentExpression,
-} from "@babel/types";
+import { type Node } from "@babel/types";
 
 import boundNames from "./bound-names.js";
-
-export type LexicallyScopedDeclNode =
-  | VariableDeclaration
-  | FunctionDeclaration
-  | ClassDeclaration
-  | ExportDefaultDeclaration;
-
-function isLexicallyScopedDeclaration(
-  node: Node,
-): node is LexicallyScopedDeclNode {
-  return (
-    node.type === "VariableDeclaration" ||
-    node.type === "FunctionDeclaration" ||
-    node.type === "ClassDeclaration" ||
-    node.type === "ExportDefaultDeclaration"
-  );
-}
 
 export default function lexicallyDeclaredNames(node: Node): string[] {
   switch (node.type) {
@@ -51,25 +27,16 @@ export default function lexicallyDeclaredNames(node: Node): string[] {
       return node.consequent.flatMap(lexicallyDeclaredNames);
     case "ExportNamedDeclaration": {
       if (
-        !node.declaration ||
-        !isLexicallyScopedDeclaration(node.declaration)
+        node.declaration?.type === "VariableDeclaration" &&
+        node.declaration.kind === "var"
       ) {
         return [];
       }
 
-      return boundNames(node.declaration);
+      return boundNames(node);
     }
     case "ExportDefaultDeclaration": {
-      if (node.declaration.type === "FunctionDeclaration") {
-        return boundNames(node.declaration);
-      }
-      if (node.declaration.type === "ClassDeclaration") {
-        return boundNames(node.declaration);
-      }
-
-      if (isAssignmentExpression(node.declaration)) {
-        return [];
-      }
+      return boundNames(node.declaration);
     }
   }
   return [];

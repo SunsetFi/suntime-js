@@ -11,6 +11,9 @@ export default function varScopedDeclarations(node: Node): VarScopedDeclNode[] {
     case "File":
       return varScopedDeclarations(node.program);
     case "Program":
+      if (node.sourceType === "module") {
+        return node.body.flatMap(varScopedDeclarations);
+      }
       return node.body.flatMap(topLevelVarScopedDeclarations);
     case "VariableDeclaration": {
       if (node.kind !== "var") {

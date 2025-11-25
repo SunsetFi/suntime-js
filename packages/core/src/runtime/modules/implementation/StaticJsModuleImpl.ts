@@ -1,22 +1,21 @@
 import type { Program } from "@babel/types";
-import {
-  isExportSpecifier,
-  isFunctionDeclaration,
-  isIdentifier,
-  isImportDeclaration,
-  isVariableDeclaration,
-} from "@babel/types";
 
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
-import StaticJsModuleEnvironmentRecord from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
-import StaticJsDeclarativeEnvironmentRecord from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import varScopedDeclarations from "../../../evaluator/initialization/algorithms/var-scoped-declarations.js";
+import boundNames from "../../../evaluator/initialization/algorithms/bound-names.js";
+import lexicallyScopedDeclarations from "../../../evaluator/initialization/algorithms/lexically-scoped-declarations.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+
+import createFunction from "../../../evaluator/node-evaluators/Function.js";
+
+import StaticJsModuleEnvironmentRecord from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
+import StaticJsDeclarativeEnvironmentRecord from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -40,10 +39,9 @@ import {
   isStaticJsLocalExportEntry,
   isStaticJsIndirectExportEntry,
 } from "./StaticJsExportEntry.js";
-import varScopedDeclarations from "../../../evaluator/initialization/algorithms/var-scoped-declarations.js";
-import boundNames from "../../../evaluator/initialization/algorithms/bound-names.js";
-import lexicallyScopedDeclarations from "../../../evaluator/initialization/algorithms/lexically-scoped-declarations.js";
-import createFunction from "../../../evaluator/node-evaluators/Function.js";
+
+import parseImportEntries from "./parse-import-entries.js";
+import parseExportEntries from "./parse-export-entries.js";
 
 export class StaticJsModuleImpl extends StaticJsModuleBase {
   private _linked = false;
@@ -541,170 +539,4 @@ function cloneFreezeObjectArray<T>(x: readonly T[]): readonly Readonly<T>[] {
   return Object.freeze(
     x.map((value) => Object.freeze(Object.assign({}, value))),
   );
-}
-
-function parseImportEntries(
-  moduleName: string,
-  ast: Program,
-): StaticJsImportEntry[] {
-  const importEntries: StaticJsImportEntry[] = [];
-  const seenImports = new Set<string>();
-  function throwIfImportSeen(importName: string) {
-    if (seenImports.has(importName)) {
-      // It seems babel/parser gates this for us
-      throw new StaticJsEngineError(
-        `Duplicate import name "${importName}" in module ${moduleName}.`,
-      );
-    }
-    seenImports.add(importName);
-  }
-
-  for (const node of ast.body) {
-    if (!isImportDeclaration(node)) {
-      continue;
-    }
-
-    for (const specifier of node.specifiers) {
-      switch (specifier.type) {
-        case "ImportDefaultSpecifier":
-          {
-            const localName = specifier.local.name;
-            throwIfImportSeen(localName);
-            importEntries.push({
-              moduleRequest: node.source.value,
-              localName,
-              importName: "default",
-            });
-          }
-          break;
-        case "ImportNamespaceSpecifier":
-          {
-            const localName = specifier.local.name;
-            throwIfImportSeen(localName);
-            importEntries.push({
-              moduleRequest: node.source.value,
-              localName,
-              importName: "namespace",
-            });
-          }
-          break;
-        case "ImportSpecifier":
-          {
-            if (!isIdentifier(specifier.imported)) {
-              // Not sure when this happens but might have something to do with specifier.importKind
-              // I was unable to get this to be anything using a sandbox of babel/parser.
-              throw new StaticJsEngineError(
-                `Import specifier is importing unknown node type ${specifier.imported.type}`,
-              );
-            }
-
-            const localName = specifier.local.name;
-            const importName = specifier.imported.name;
-            throwIfImportSeen(importName);
-            importEntries.push({
-              moduleRequest: node.source.value,
-              localName,
-              importName,
-            });
-          }
-          break;
-      }
-    }
-  }
-
-  return importEntries;
-}
-
-function parseExportEntries(
-  moduleName: string,
-  ast: Program,
-): StaticJsExportEntry[] {
-  const exportEntries: StaticJsExportEntry[] = [];
-  const seenExports = new Set<string>();
-  function throwIfExportSeen(exportName: string) {
-    if (seenExports.has(exportName)) {
-      throw new Error(
-        `Duplicate export name "${exportName}" in module ${moduleName}.`,
-      );
-    }
-    seenExports.add(exportName);
-  }
-
-  for (const node of ast.body) {
-    switch (node.type) {
-      case "ExportAllDeclaration":
-        exportEntries.push({
-          moduleRequest: node.source.value,
-          exportName: null,
-          importName: null,
-        });
-        break;
-      case "ExportNamedDeclaration":
-        // FIXME: THis can be a LOT of weird things!w
-        if (isVariableDeclaration(node.declaration)) {
-          for (const decl of node.declaration.declarations) {
-            if (!isIdentifier(decl.id)) {
-              throw new Error(
-                `Exported variable ${node.declaration.type} does not have an identifier.`,
-              );
-            }
-            const { name } = decl.id;
-            throwIfExportSeen(name);
-            exportEntries.push({
-              localName: name,
-              exportName: name,
-            });
-          }
-        } else if (isFunctionDeclaration(node.declaration)) {
-          if (!isIdentifier(node.declaration.id)) {
-            throw new Error(
-              `Exported variable ${node.declaration.type} does not have an identifier.`,
-            );
-          }
-          const { name } = node.declaration.id;
-          throwIfExportSeen(name);
-          exportEntries.push({
-            localName: name,
-            exportName: name,
-          });
-        } else if (node.declaration) {
-          throw new StaticJsEngineError(
-            `Not implemented: Module export of type ${node.declaration.type}`,
-          );
-        }
-
-        for (const specifier of node.specifiers) {
-          if (isExportSpecifier(specifier)) {
-            if (
-              !isIdentifier(specifier.local) ||
-              !isIdentifier(specifier.exported)
-            ) {
-              throw new Error(
-                `Exported variable ${specifier.type} is not an identifier.`,
-              );
-            }
-
-            const localName = specifier.local.name;
-            const exportName = specifier.exported.name;
-
-            throwIfExportSeen(exportName);
-            exportEntries.push({
-              localName,
-              exportName,
-            });
-            continue;
-          }
-        }
-        break;
-      case "ExportDefaultDeclaration":
-        throwIfExportSeen("default");
-        exportEntries.push({
-          exportName: "default",
-          localName: "*default*",
-        });
-        break;
-    }
-  }
-
-  return exportEntries;
 }

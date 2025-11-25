@@ -92,15 +92,63 @@ describe("E2E: Module", () => {
       expect(module.getExport("foo")).toBe(42);
     });
 
-    it("Can export a default export", async () => {
+    it("Can export a default variable export", async () => {
       const moduleCode = `
-          const foo = 42;
-          export default foo;
-        `;
+        const foo = 42;
+        export default foo;
+      `;
       const realm = StaticJsRealm();
 
       const module = await evaluateModule(moduleCode, { realm });
       expect(module.getExport("default")).toBe(42);
+    });
+
+    it("Can export a default anonymous function export", async () => {
+      const moduleCode = `
+        export default function(a, b) {
+          return a + b;
+        };
+      `;
+      const realm = StaticJsRealm();
+
+      const module = await evaluateModule(moduleCode, { realm });
+      expect(module.getExport("default")).toBeTypeOf("function");
+    });
+
+    it("Can export a default named function export", async () => {
+      const moduleCode = `
+        export default function foo(a, b) {
+          return a + b;
+        };
+      `;
+      const realm = StaticJsRealm();
+
+      const module = await evaluateModule(moduleCode, { realm });
+      expect(module.getExport("default")).toBeTypeOf("function");
+    });
+
+    it("Can export an indirect export", async () => {
+      const moduleCode = `
+        const foo = 42;
+        export { foo }
+      `;
+
+      const realm = StaticJsRealm();
+
+      const module = await evaluateModule(moduleCode, { realm });
+      expect(module.getExport("foo")).toBe(42);
+    });
+
+    it("Can export a named indirect export", async () => {
+      const moduleCode = `
+        const foo = 42;
+        export { foo as bar }
+      `;
+
+      const realm = StaticJsRealm();
+
+      const module = await evaluateModule(moduleCode, { realm });
+      expect(module.getExport("bar")).toBe(42);
     });
 
     it("Can obtain a namespace", async () => {
@@ -198,7 +246,7 @@ describe("E2E: Module", () => {
       expect(receiver).toBeCalledWith(3);
     });
 
-    it("Can import a default export", async () => {
+    it("Can import a default function export", async () => {
       const receiver = vitest.fn();
 
       const moduleCode = `
