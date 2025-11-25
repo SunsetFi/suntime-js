@@ -5,6 +5,8 @@ import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js"
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
+import type { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
+
 import type { StaticJsValue } from "../StaticJsValue.js";
 
 import StaticJsAstFunction, {
@@ -52,8 +54,21 @@ export default class StaticJsDeclFunction extends StaticJsAstFunction {
     if (this._thisMode === "strict") {
       resolvedThisArg = thisArg;
     } else if (isStaticJsUndefined(thisArg) || isStaticJsNull(thisArg)) {
-      resolvedThisArg =
-        yield* this._context.lexicalEnv.getThisBindingEvaluator();
+      let env: StaticJsEnvironmentRecord | null = this._context.lexicalEnv;
+      while (env) {
+        const hasThisBinding = yield* env.hasThisBindingEvaluator();
+        if (hasThisBinding) {
+          break;
+        }
+        env = env.outerEnv;
+      }
+
+      if (env) {
+        resolvedThisArg = yield* env.getThisBindingEvaluator();
+      } else {
+        // Should never get hit in theory...
+        resolvedThisArg = this.realm.globalThis;
+      }
     } else {
       resolvedThisArg = yield* toObject(thisArg, this.realm);
     }
