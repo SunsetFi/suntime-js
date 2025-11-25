@@ -12,12 +12,11 @@ import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js"
 
 import { EvaluateNodeCommand } from "../../evaluator/commands/EvaluateNodeCommand.js";
 
-import setupEnvironment from "../../evaluator/node-evaluators/setup-environment.js";
-
 import toString from "../algorithms/to-string.js";
 
 import type { IntrinsicPropertyDeclaration } from "./utils.js";
 import getValue from "../../evaluator/algorithms/get-value.js";
+import globalDeclarationInstantiation from "../../evaluator/initialization/global-declaration-instantiation.js";
 
 const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
   key: "eval",
@@ -48,7 +47,8 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
       StaticJsDeclarativeEnvironmentRecord.from(context),
     );
 
-    yield* setupEnvironment(node, context);
+    yield* globalDeclarationInstantiation(node, context);
+
     const result = yield* EvaluateNodeCommand(node, context);
     if (!result) {
       return realm.types.undefined;

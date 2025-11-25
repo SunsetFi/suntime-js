@@ -17,6 +17,8 @@ import toString from "../../runtime/algorithms/to-string.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
+import { isPropertyReference } from "../../runtime/references/is-property-reference.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
@@ -28,7 +30,6 @@ import getValue from "../algorithms/get-value.js";
 
 import nameNode from "./name-node.js";
 import setupEnvironment from "./setup-environment.js";
-import { isPropertyReference } from "../../runtime/references/is-property-reference.js";
 
 export default function* callExpressionNodeEvaluator(
   node: CallExpression,

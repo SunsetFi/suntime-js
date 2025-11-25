@@ -9,8 +9,6 @@ import type { NormalCompletion } from "../completions/NormalCompletion.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
-import setupEnvironment from "./setup-environment.js";
-
 function* programNodeEvaluator(
   node: Program,
   context: EvaluationContext,
@@ -40,11 +38,5 @@ function* programNodeEvaluator(
 }
 
 export default typedMerge(programNodeEvaluator, {
-  environmentSetup: function* (node: Program, context: EvaluationContext) {
-    for (const statement of node.body) {
-      yield* setupEnvironment(statement, context);
-    }
-
-    return false;
-  },
+  environmentSetup: false,
 });

@@ -5,16 +5,17 @@ import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js"
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import type { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
+import toObject from "../../algorithms/to-object.js";
+
+import getThisBinding from "../../environments/has-this-binding.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
+import { isStaticJsUndefined } from "../StaticJsUndefined.js";
+import { isStaticJsNull } from "../StaticJsNull.js";
 
 import StaticJsAstFunction, {
   type StaticJsAstFunctionArgumentDeclaration,
 } from "./StaticJsAstFunction.js";
-import { isStaticJsUndefined } from "../StaticJsUndefined.js";
-import { isStaticJsNull } from "../StaticJsNull.js";
-import toObject from "../../algorithms/to-object.js";
 
 export default class StaticJsDeclFunction extends StaticJsAstFunction {
   constructor(
@@ -54,21 +55,7 @@ export default class StaticJsDeclFunction extends StaticJsAstFunction {
     if (this._thisMode === "strict") {
       resolvedThisArg = thisArg;
     } else if (isStaticJsUndefined(thisArg) || isStaticJsNull(thisArg)) {
-      let env: StaticJsEnvironmentRecord | null = this._context.lexicalEnv;
-      while (env) {
-        const hasThisBinding = yield* env.hasThisBindingEvaluator();
-        if (hasThisBinding) {
-          break;
-        }
-        env = env.outerEnv;
-      }
-
-      if (env) {
-        resolvedThisArg = yield* env.getThisBindingEvaluator();
-      } else {
-        // Should never get hit in theory...
-        resolvedThisArg = this.realm.globalThis;
-      }
+      resolvedThisArg = yield* getThisBinding(this._context.lexicalEnv);
     } else {
       resolvedThisArg = yield* toObject(thisArg, this.realm);
     }
