@@ -84,6 +84,7 @@ Currently, around 4800 of the language tests are passing, or about 20%. Further 
 - Fix 'all' [Test262](https://github.com/tc39/test262) tests.
   - Currently only running tests in the language folder. Need to add built-ins
 - Make invokeEvaluatorSync use runTaskSync
+- Rework modules to be more spec compliant with regard to linking and evaluation.
 - Fix task runner not bound to continuations of promises
   - This is really thorny. On the surface, its suprising that a task runner passed to evaluateModule will only work for
     the initial evaluation and not for any runs after await, but it would also be suprising if the await is triggered by code that has its own runTask and that runTask isn't used in favor of the root runTask.
@@ -102,10 +103,11 @@ Currently, around 4800 of the language tests are passing, or about 20%. Further 
 - [x] GlobalDeclarationInstantiation
 - [ ] FunctionDeclarationInstantiation
 - [ ] ForDeclarationBindingInstantiation
-- [ ] Remove createFunctionBinding from StaticJsEnvironment
+- [x]: module.LinkEnvironment
+- [x] Remove createFunctionBinding from StaticJsEnvironment
 
-- [ ] Return ReferenceRecord from Identifier
-- [ ] Consume ReferenceRecords with GetValue everywhere
+- [x] Return ReferenceRecord from Identifier
+- [x] Consume ReferenceRecords with GetValue everywhere
 
 ### API for host implementation of functions using evaluators
 
@@ -116,6 +118,7 @@ Figure out public API for invoking evaluators.
   the sandbox (IE global scope functions, external modules).
   - Not good to have it start a new macrotask, as the task runner API should see calls to these apis happening while a task is active as
     continuations of the same task, not new nested tasks.
+  - Should have the current macrotask inline these new tasks. Some sort of evaluator stack.
 
 ### Debugging
 
@@ -126,5 +129,8 @@ Figure out public API for invoking evaluators.
 
 ### Think about
 
-- Host fingerprinting using Math.sin - different results between firefox and chrome. Problem? Use a manual implementation?
-- Date being a pass-through to engine date might be finger printable, or even worrying for manipulating the host?
+- Host fingerprinting using Math trig functions - different results between firefox and chrome. Problem? Use a manual implementation?
+  - Same problems with most pass-throughs; Date and Regex if we pass those through to.
+- More control for host over environment
+  - 'intrinsics' on the realm that can be replacable? Math funcs, Date.now(), performance.\*, other stuff the engine would be interested in controling
+    - Support the intrinsics keyword for these? Or would the host want to keep them hidden?
