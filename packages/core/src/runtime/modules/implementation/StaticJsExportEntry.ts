@@ -10,15 +10,16 @@ export function isStaticJsLocalExportEntry(
   }
 
   const entry = x as StaticJsLocalExportEntry;
-  return (
-    typeof entry.exportName === "string" && typeof entry.localName === "string"
-  );
+  return "exportName" in entry && "localName" in entry;
 }
+
+export const ImportAllButDefault = Symbol("*");
+export type ImportAllButDefault = typeof ImportAllButDefault;
 
 export interface StaticJsIndirectExportEntry {
   readonly exportName: string | null;
   readonly moduleRequest: string;
-  readonly importName: string | null;
+  readonly importName: string | ImportAllButDefault;
 }
 export function isStaticJsIndirectExportEntry(
   x: unknown,
@@ -28,7 +29,9 @@ export function isStaticJsIndirectExportEntry(
   }
 
   const entry = x as StaticJsIndirectExportEntry;
-  return typeof entry.moduleRequest === "string";
+  return (
+    "moduleRequest" in entry && "importName" in entry && "exportName" in entry
+  );
 }
 
 export type StaticJsExportEntry =

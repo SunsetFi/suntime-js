@@ -2,7 +2,10 @@ import { isIdentifier, isImportDeclaration, type Program } from "@babel/types";
 
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
-import type { StaticJsImportEntry } from "./StaticJsImportEntry.js";
+import {
+  NamespaceImportName,
+  type StaticJsImportEntry,
+} from "./StaticJsImportEntry.js";
 
 export default function parseImportEntries(
   moduleName: string,
@@ -45,7 +48,7 @@ export default function parseImportEntries(
             importEntries.push({
               moduleRequest: node.source.value,
               localName,
-              importName: "namespace",
+              importName: NamespaceImportName,
             });
           }
           break;

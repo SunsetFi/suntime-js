@@ -98,11 +98,11 @@ Currently, around 4800 of the language tests are passing, or about 20%. Further 
 
 ### Refactor setupEnvironment to use real instantiation functions
 
-- [ ] EvalDeclarationInstantiation
-- [x] BlockDeclarationInstantiation
 - [x] GlobalDeclarationInstantiation
+- [x] BlockDeclarationInstantiation
 - [ ] FunctionDeclarationInstantiation
 - [ ] ForDeclarationBindingInstantiation
+- [ ] EvalDeclarationInstantiation
 - [x]: module.LinkEnvironment
 - [x] Remove createFunctionBinding from StaticJsEnvironment
 

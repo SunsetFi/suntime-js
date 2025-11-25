@@ -1,4 +1,5 @@
 import type { Node } from "@babel/types";
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 export default function boundNames(node: Node): string[] {
   switch (node.type) {
@@ -103,3 +104,13 @@ export default function boundNames(node: Node): string[] {
 
   return [];
 }
+
+boundNames.soleElementOf = function (node: Node): string {
+  const names = boundNames(node);
+  if (names.length !== 1) {
+    throw new StaticJsEngineError(
+      `Expected exactly one bound name, but found ${names.length}.`,
+    );
+  }
+  return names[0];
+};

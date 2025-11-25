@@ -45,7 +45,7 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsEnvironment
     throw new ThrowCompletion(
       this._realm.types.error(
         "TypeError",
-        "Cannot create mutable bindings in a module environment record.",
+        "Cannot create mutable bindings in a module environment record",
       ),
     );
   }
@@ -54,7 +54,7 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsEnvironment
     throw new ThrowCompletion(
       this._realm.types.error(
         "TypeError",
-        "Cannot create immutable bindings in a module environment record.",
+        "Cannot create immutable bindings in a module environment recor",
       ),
     );
   }
@@ -66,20 +66,26 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsEnvironment
     throw new ThrowCompletion(
       this._realm.types.error(
         "TypeError",
-        "Cannot initialize bindings in a module environment record.",
+        "Cannot initialize bindings in a module environment record",
       ),
     );
   }
 
   *setMutableBindingEvaluator(
-    _name: string,
+    name: string,
     _value: StaticJsValue,
     _strict: boolean,
   ): EvaluationGenerator<void> {
+    if (this._moduleBindings.has(name)) {
+      throw new ThrowCompletion(
+        this._realm.types.error("TypeError", "Assignment to constant"),
+      );
+    }
+
     throw new ThrowCompletion(
       this._realm.types.error(
-        "TypeError",
-        "Cannot set mutable bindings in a module environment record.",
+        "ReferenceError",
+        `Binding ${name} does not exist in this module environment`,
       ),
     );
   }

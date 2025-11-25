@@ -5,7 +5,7 @@ import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import type { StaticJsResolvedBinding } from "../StaticJsResolvedBinding.js";
+import type { StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
 import type { StaticJsModule } from "../StaticJsModule.js";
 
 import { StaticJsModuleBase } from "./StaticJsModuleBase.js";

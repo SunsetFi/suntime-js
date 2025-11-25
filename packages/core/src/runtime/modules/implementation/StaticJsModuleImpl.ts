@@ -25,23 +25,28 @@ import type {
   StaticJsModuleStatus,
   StaticJsModuleImplementation,
 } from "../StaticJsModuleImplementation.js";
-import type {
-  StaticJsModuleResolvedBinding,
-  StaticJsResolvedBinding,
-} from "../StaticJsResolvedBinding.js";
+import {
+  BindingNameNamespace,
+  type StaticJsModuleResolvedBinding,
+  type StaticJsResolvedBinding,
+} from "./StaticJsResolvedBinding.js";
 
 import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
 
-import type { StaticJsImportEntry } from "./StaticJsImportEntry.js";
+import {
+  NamespaceImportName,
+  type StaticJsImportEntry,
+} from "./StaticJsImportEntry.js";
 
 import type { StaticJsExportEntry } from "./StaticJsExportEntry.js";
 import {
   isStaticJsLocalExportEntry,
   isStaticJsIndirectExportEntry,
+  ImportAllButDefault,
 } from "./StaticJsExportEntry.js";
 
 import parseImportEntries from "./parse-import-entries.js";
-import parseExportEntries from "./parse-export-entries.js";
+import exportEntries from "./export-entries.js";
 
 export class StaticJsModuleImpl extends StaticJsModuleBase {
   private _linked = false;
@@ -78,12 +83,8 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       );
     }
 
-    this._importEntries = cloneFreezeObjectArray(
-      parseImportEntries(name, _ast),
-    );
-    this._exportEntries = cloneFreezeObjectArray(
-      parseExportEntries(name, _ast),
-    );
+    this._importEntries = parseImportEntries(name, _ast);
+    this._exportEntries = exportEntries(this._ast);
   }
 
   get name() {
@@ -168,6 +169,43 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       yield* module.moduleDeclarationInstantiationEvaluator();
     }
 
+    // Done somewhere in ParseModule according to the spec.
+    // NOTE: Not 1-1 with the spec, need to review this.
+    // Resolve Re-exports
+    for (const entry of this._exportEntries) {
+      if (!isStaticJsIndirectExportEntry(entry)) {
+        continue;
+      }
+
+      const module = this._linkedModules.get(entry.moduleRequest);
+      if (!module) {
+        throw new ThrowCompletion(
+          this._realm.types.error(
+            "ReferenceError",
+            `Module ${entry.moduleRequest} not found.`,
+          ),
+        );
+      }
+
+      const { importName, exportName } = entry;
+
+      if (importName === ImportAllButDefault) {
+        this._starExports.push(module);
+        continue;
+      }
+
+      if (!exportName) {
+        throw new StaticJsEngineError(
+          `Export name is null for named export from module ${module.name} in module ${this._name}.`,
+        );
+      }
+
+      this._indirectExports.set(exportName, {
+        module,
+        targetExportName: importName,
+      });
+    }
+
     // Actual speccy stuff
     yield* this._initializeEnvironment();
 
@@ -188,41 +226,6 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
           ),
         );
       }
-    }
-
-    // Resolve Re-exports
-    for (const entry of this._exportEntries) {
-      if (!isStaticJsIndirectExportEntry(entry)) {
-        continue;
-      }
-
-      const module = this._linkedModules.get(entry.moduleRequest);
-      if (!module) {
-        throw new ThrowCompletion(
-          this._realm.types.error(
-            "ReferenceError",
-            `Module ${entry.moduleRequest} not found.`,
-          ),
-        );
-      }
-
-      const { importName, exportName } = entry;
-
-      if (exportName === null) {
-        this._starExports.push(module);
-        continue;
-      }
-
-      if (!importName) {
-        throw new StaticJsEngineError(
-          `Import name is null for named export from module ${module.name} in module ${this._name}.`,
-        );
-      }
-
-      this._indirectExports.set(exportName, {
-        module,
-        targetExportName: importName,
-      });
     }
 
     this._status = "instantiated";
@@ -254,75 +257,81 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
   }
 
   *resolveExportEvaluator(
-    bindingName: string,
+    exportName: string,
     resolveSet = new Set<string>(),
   ): EvaluationGenerator<StaticJsResolvedBinding> {
-    const key = `${this._name}::${bindingName}`;
+    const key = `${this._name}::${exportName}`;
     if (resolveSet.has(key)) {
       return null;
     }
 
     resolveSet.add(key);
 
-    // Check direct exports.
-    for (const entry of this._exportEntries) {
-      if (
-        !isStaticJsLocalExportEntry(entry) ||
-        entry.exportName !== bindingName
-      ) {
+    for (const e of this._exportEntries) {
+      if (!isStaticJsLocalExportEntry(e)) {
         continue;
       }
 
-      return {
-        module: this,
-        bindingName: entry.localName,
-      };
+      if (e.exportName === exportName) {
+        return {
+          module: this,
+          bindingName: e.localName,
+        };
+      }
     }
 
-    // Check indirect exports
-    for (const entry of this._exportEntries) {
-      if (
-        !isStaticJsIndirectExportEntry(entry) ||
-        entry.importName === null ||
-        entry.exportName !== bindingName
-      ) {
+    for (const e of this._exportEntries) {
+      if (!isStaticJsIndirectExportEntry(e)) {
         continue;
       }
 
-      const module = this._linkedModules.get(entry.moduleRequest);
-      if (!module) {
-        throw new ThrowCompletion(
-          this._realm.types.error(
-            "ReferenceError",
-            `Module ${entry.moduleRequest} not found.`,
-          ),
+      if (e.exportName !== exportName) {
+        continue;
+      }
+
+      const importedModule = this._linkedModules.get(e.moduleRequest);
+      if (!importedModule) {
+        throw new StaticJsEngineError(
+          `Module ${e.moduleRequest} not found for indirect export ${exportName} in module ${this._name}.`,
         );
       }
 
-      return yield* module.resolveExportEvaluator(entry.importName, resolveSet);
+      // Note: Spec says ALL which seems to be different than AllButDefault???
+      if (e.importName === ImportAllButDefault) {
+        return {
+          module: importedModule,
+          bindingName: BindingNameNamespace,
+        };
+      } else {
+        return yield* importedModule.resolveExportEvaluator(
+          e.importName,
+          resolveSet,
+        );
+      }
     }
 
-    // Star exports
+    if (exportName === "default") {
+      return null;
+    }
 
     let starResolution: StaticJsModuleResolvedBinding | null = null;
-
-    for (const entry of this._exportEntries) {
-      if (!isStaticJsIndirectExportEntry(entry) || entry.exportName !== null) {
+    for (const e of this._exportEntries) {
+      if (
+        !isStaticJsIndirectExportEntry(e) ||
+        e.importName !== ImportAllButDefault
+      ) {
         continue;
       }
 
-      const module = this._linkedModules.get(entry.moduleRequest);
-      if (!module) {
-        throw new ThrowCompletion(
-          this._realm.types.error(
-            "ReferenceError",
-            `Module ${entry.moduleRequest} not found.`,
-          ),
+      const importedModule = this._linkedModules.get(e.moduleRequest);
+      if (!importedModule) {
+        throw new StaticJsEngineError(
+          `Module ${e.moduleRequest} not found for star export in module ${this._name}.`,
         );
       }
 
-      const resolution = yield* module.resolveExportEvaluator(
-        bindingName,
+      const resolution = yield* importedModule.resolveExportEvaluator(
+        exportName,
         resolveSet,
       );
 
@@ -330,15 +339,17 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         return resolution;
       }
 
-      if (resolution != null) {
-        if (starResolution == null) {
-          starResolution = resolution;
-        } else if (
-          starResolution.module !== resolution.module ||
-          starResolution.bindingName !== resolution.bindingName
-        ) {
-          return "ambiguous";
-        }
+      if (resolution === null) {
+        continue;
+      }
+
+      if (starResolution == null) {
+        starResolution = resolution;
+      } else if (
+        starResolution.module !== resolution.module ||
+        starResolution.bindingName !== resolution.bindingName
+      ) {
+        return "ambiguous";
       }
     }
 
@@ -378,11 +389,8 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        throw new ThrowCompletion(
-          this._realm.types.error(
-            "ReferenceError",
-            `Module ${entry.moduleRequest} not found.`,
-          ),
+        throw new StaticJsEngineError(
+          `Module ${entry.moduleRequest} not found for star export in module ${this._name}.`,
         );
       }
 
@@ -408,7 +416,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
     const value = yield* this._envRec!.getBindingValueEvaluator(
       bindingName,
-      false,
+      true,
     );
     if (value == null) {
       return null;
@@ -418,17 +426,13 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
   }
 
   private *_initializeEnvironment(): EvaluationGenerator<void> {
-    for (const entry of this._exportEntries) {
-      if (!isStaticJsIndirectExportEntry(entry)) {
-        continue;
-      }
-
-      const resolution = yield* this.resolveExportEvaluator(entry.exportName!);
+    for (const exportName of this._indirectExports.keys()) {
+      const resolution = yield* this.resolveExportEvaluator(exportName!);
       if (!resolution || resolution === "ambiguous") {
         throw new ThrowCompletion(
           this._realm.types.error(
             "ReferenceError",
-            `Cannot resolve export ${entry.exportName} for module ${this._name}.`,
+            `Cannot resolve export ${exportName} for module ${this._name}.`,
           ),
         );
       }
@@ -451,7 +455,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         );
       }
 
-      if (entry.importName === "namespace") {
+      if (entry.importName === NamespaceImportName) {
         const ns = yield* importedModule.getModuleNamespaceEvaluator();
 
         yield* this._envRec.createImmutableBindingEvaluator(
@@ -473,7 +477,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
           );
         }
 
-        if (resolved.bindingName === "namespace") {
+        if (resolved.bindingName === BindingNameNamespace) {
           const namespace =
             yield* resolved.module.getModuleNamespaceEvaluator();
 
@@ -533,10 +537,4 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       }
     }
   }
-}
-
-function cloneFreezeObjectArray<T>(x: readonly T[]): readonly Readonly<T>[] {
-  return Object.freeze(
-    x.map((value) => Object.freeze(Object.assign({}, value))),
-  );
 }

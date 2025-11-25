@@ -73,7 +73,7 @@ export default function* globalDeclarationInstantiation(
       continue;
     }
 
-    const fnName = boundNames(d)[0];
+    const fnName = boundNames.soleElementOf(d);
     if (declaredFunctionNames.has(fnName)) {
       continue;
     }
@@ -164,7 +164,7 @@ export default function* globalDeclarationInstantiation(
   }
 
   for (const f of functionsToInitialize) {
-    const fnName = boundNames(f)[0];
+    const fnName = boundNames.soleElementOf(f);
     const fn = createFunction(fnName, f, context);
     yield* createGlobalFunctionBinding(fnName, fn, false, context);
   }

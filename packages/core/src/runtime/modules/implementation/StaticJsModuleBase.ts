@@ -1,5 +1,3 @@
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
@@ -7,7 +5,6 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
-import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
 
 import type { StaticJsModule } from "../StaticJsModule.js";
 import type {
@@ -15,8 +12,12 @@ import type {
   StaticJsModuleStatus,
 } from "../StaticJsModuleImplementation.js";
 
-import type { StaticJsResolvedBinding } from "../StaticJsResolvedBinding.js";
+import {
+  BindingNameNamespace,
+  type StaticJsResolvedBinding,
+} from "./StaticJsResolvedBinding.js";
 import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
+import StaticJsNamespaceExoticObject from "./NamespaceExoticObject.js";
 
 export abstract class StaticJsModuleBase
   implements StaticJsModule, StaticJsModuleImplementation
@@ -86,9 +87,13 @@ export abstract class StaticJsModuleBase
         );
       }
 
-      return yield* resolution.module.getOwnBindingValueEvaluator(
-        resolution.bindingName,
-      );
+      const { bindingName, module } = resolution;
+
+      if (bindingName === BindingNameNamespace) {
+        return yield* module.getModuleNamespaceEvaluator();
+      }
+
+      return yield* module.getOwnBindingValueEvaluator(bindingName);
     }
 
     try {
@@ -115,39 +120,24 @@ export abstract class StaticJsModuleBase
       return this._cachedNamespaceObject;
     }
 
-    const ns = this._realm.types.object();
     const exportedNames = yield* this.getExportedNamesEvaluator();
-
-    for (const exportName of exportedNames) {
-      const resolution = yield* this.resolveExportEvaluator(exportName);
-      if (resolution === null || resolution === "ambiguous") {
-        continue;
+    const unambiguousNames: string[] = [];
+    for (const name of exportedNames) {
+      const resolution = yield* this.resolveExportEvaluator(name);
+      if (resolution && resolution !== "ambiguous") {
+        unambiguousNames.push(name);
       }
-
-      const { module, bindingName } = resolution;
-
-      const realm = this._realm;
-      yield* ns.definePropertyEvaluator(exportName, {
-        enumerable: true,
-        configurable: false,
-        get: new StaticJsFunctionImpl(realm, "get", function* () {
-          const result = yield* module.getOwnBindingValueEvaluator(bindingName);
-
-          if (!result) {
-            throw new StaticJsEngineError(
-              `Module ${module.name} binding ${bindingName} for export ${exportName} not returned by getOwnBindingValueEvaluator.`,
-            );
-          }
-
-          return result;
-        }),
-      });
     }
 
-    yield* ns.preventExtensionsEvaluator();
+    // TODO: Apparently we need to sort the names here according to their code unit order.
+    // As that potentially spans across multiple modules, I have no idea what that means for us.
 
+    const ns = new StaticJsNamespaceExoticObject(
+      this,
+      unambiguousNames,
+      this._realm,
+    );
     this._cachedNamespaceObject = ns;
-
     return ns;
   }
 }

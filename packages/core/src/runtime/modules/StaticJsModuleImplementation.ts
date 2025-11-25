@@ -6,7 +6,7 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsModule } from "./StaticJsModule.js";
 
-import type { StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
+import type { StaticJsResolvedBinding } from "./implementation/StaticJsResolvedBinding.js";
 
 export type StaticJsModuleStatus =
   | "uninstantiated"

@@ -31,7 +31,7 @@ export default function* blockDeclarationInstantiation(
     }
 
     if (d.type === "FunctionDeclaration") {
-      const fn = boundNames(d)[0];
+      const fn = boundNames.soleElementOf(d);
       const fo = createFunction(fn, d, context);
       const isInitialized = yield* env.isInitializedEvaluator(fn);
       if (!isInitialized) {

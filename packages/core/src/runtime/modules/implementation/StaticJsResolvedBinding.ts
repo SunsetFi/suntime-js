@@ -1,8 +1,10 @@
-import type { StaticJsModuleImplementation } from "./StaticJsModuleImplementation.js";
+import type { StaticJsModuleImplementation } from "../StaticJsModuleImplementation.js";
 
+export const BindingNameNamespace = Symbol("namespace");
+export type BindingNameNamespace = typeof BindingNameNamespace;
 export interface StaticJsModuleResolvedBinding {
   module: StaticJsModuleImplementation;
-  bindingName: string;
+  bindingName: string | BindingNameNamespace;
 }
 export function isStaticJsModuleResolvedBinding(
   x: unknown,
@@ -15,7 +17,7 @@ export function isStaticJsModuleResolvedBinding(
   return (
     binding.module != null &&
     typeof binding.module === "object" &&
-    typeof binding.bindingName === "string"
+    "bindingName" in binding
   );
 }
 
