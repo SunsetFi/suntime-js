@@ -8,14 +8,7 @@ export function* getIdentifierReference(
   env: StaticJsEnvironmentRecord | null,
   name: string,
   strict: boolean,
-  depth = 0,
 ): EvaluationGenerator<StaticJsReferenceRecord> {
-  if (depth > 50) {
-    throw new Error(
-      "Maximum environment depth exceeded while resolving identifier reference.",
-    );
-  }
-
   if (env === null) {
     return {
       referencedName: name,
@@ -36,5 +29,5 @@ export function* getIdentifierReference(
     };
   }
 
-  return yield* getIdentifierReference(env.outerEnv, name, strict, depth++);
+  return yield* getIdentifierReference(env.outerEnv, name, strict);
 }
