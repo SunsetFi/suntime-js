@@ -9,25 +9,25 @@ export function* getIdentifierReference(
   name: string,
   strict: boolean,
 ): EvaluationGenerator<StaticJsReferenceRecord> {
-  if (env === null) {
-    return {
-      referencedName: name,
-      strict,
-      thisValue: null,
-      base: null,
-    };
+  let current = env;
+  while (current) {
+    const exists = yield* current.hasBindingEvaluator(name);
+    if (exists) {
+      return {
+        referencedName: name,
+        strict,
+        thisValue: null,
+        base: env,
+      };
+    }
+
+    current = current.outerEnv;
   }
 
-  const exists = yield* env.hasBindingEvaluator(name);
-
-  if (exists) {
-    return {
-      referencedName: name,
-      strict,
-      thisValue: null,
-      base: env,
-    };
-  }
-
-  return yield* getIdentifierReference(env.outerEnv, name, strict);
+  return {
+    referencedName: name,
+    strict,
+    thisValue: null,
+    base: null,
+  };
 }
