@@ -16,7 +16,7 @@ import { BreakCompletion } from "../completions/BreakCompletion.js";
 import type { NormalCompletion } from "../completions/NormalCompletion.js";
 
 import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
-import getValue from "../algorithms/get-value.js";
+import getValue from "../../runtime/algorithms/get-value.js";
 import boundNames from "../initialization/algorithms/bound-names.js";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 

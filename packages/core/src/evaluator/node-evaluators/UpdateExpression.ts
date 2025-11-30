@@ -9,8 +9,8 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
-import getValue from "../algorithms/get-value.js";
-import putValue from "../algorithms/put-value.js";
+import getValue from "../../runtime/algorithms/get-value.js";
+import putValue from "../../runtime/algorithms/put-value.js";
 
 export default function* updateExpressionNodeEvaluator(
   node: UpdateExpression,

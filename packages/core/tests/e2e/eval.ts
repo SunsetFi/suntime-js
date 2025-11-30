@@ -21,14 +21,19 @@ describe("E2E: Eval", () => {
 
     it("Should affect the calling scope", async () => {
       const code = `
+        let results = [];
+        let y = 10;
         function testEval() {
-          eval("var y = 20");
-          return y;
+          let y = 15;
+          eval("y = 20");
+          results.push(y);
         }
         testEval();
+        results.push(y);
+        results;
       `;
       const result = await evaluateScript(code);
-      expect(result).toBe(20);
+      expect(result).toEqual([20, 10]);
     });
 
     it("Should not affect the global scope when called within an inner scope", async () => {
@@ -45,6 +50,23 @@ describe("E2E: Eval", () => {
   });
 
   describe("Indirect calls", () => {
+    it("Should not affect the calling scope", async () => {
+      const code = `
+        let results = [];
+        let x = 10;
+        function indirectEval() {
+          let x = "string";
+          (1, eval)("x = 12");
+          results.push(x);
+        }
+        indirectEval();
+        results.push(x);
+        results;
+      `;
+      const result = await evaluateScript(code);
+      expect(result).toEqual(["string", 12]);
+    });
+
     it("Should affect the global scope when called indirectly", async () => {
       const code = `
         function indirectEval() {

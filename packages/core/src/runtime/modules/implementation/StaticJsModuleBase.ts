@@ -16,7 +16,7 @@ import {
   BindingNameNamespace,
   type StaticJsResolvedBinding,
 } from "./StaticJsResolvedBinding.js";
-import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
+import { AbnormalCompletionBase } from "../../../evaluator/completions/AbnormalCompletionBase.js";
 import StaticJsNamespaceExoticObject from "./NamespaceExoticObject.js";
 
 export abstract class StaticJsModuleBase
@@ -47,7 +47,7 @@ export abstract class StaticJsModuleBase
         this.resolveExportEvaluator(exportName),
       );
     } catch (e) {
-      AbnormalCompletion.handleToJs(e);
+      AbnormalCompletionBase.handleToJs(e);
     }
   }
 
@@ -60,7 +60,7 @@ export abstract class StaticJsModuleBase
     try {
       return this._realm.invokeEvaluatorSync(this.getExportedNamesEvaluator());
     } catch (e) {
-      AbnormalCompletion.handleToJs(e);
+      AbnormalCompletionBase.handleToJs(e);
     }
   }
 
@@ -100,7 +100,7 @@ export abstract class StaticJsModuleBase
       const result = this._realm.invokeEvaluatorSync(getExport());
       return result ? result.toJsSync() : null;
     } catch (e) {
-      AbnormalCompletion.handleToJs(e);
+      AbnormalCompletionBase.handleToJs(e);
     }
   }
 
@@ -111,7 +111,7 @@ export abstract class StaticJsModuleBase
       );
       return result.toJsSync() as Record<string, unknown>;
     } catch (e) {
-      AbnormalCompletion.handleToJs(e);
+      AbnormalCompletionBase.handleToJs(e);
     }
   }
 

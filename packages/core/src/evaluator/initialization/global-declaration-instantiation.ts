@@ -1,15 +1,4 @@
-import {
-  type Node,
-  type FunctionDeclaration,
-  isVariableDeclaration,
-} from "@babel/types";
-
-import {
-  isStaticJsDataPropertyDescriptor,
-  type StaticJsPropertyDescriptor,
-} from "../../runtime/types/StaticJsPropertyDescriptor.js";
-
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { type Node, isVariableDeclaration } from "@babel/types";
 
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
@@ -23,6 +12,12 @@ import hasRestrictedGlobalProperty from "./algorithms/has-restricted-global-prop
 import varScopedDeclarations from "./algorithms/var-scoped-declarations.js";
 import boundNames from "./algorithms/bound-names.js";
 import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
+import hasLexicalDeclaration from "./algorithms/has-lexical-declaration.js";
+import canDeclareGlobalVar from "./algorithms/can-declare-global-var.js";
+import canDeclareGlobalFunction from "./algorithms/can-declare-global-function.js";
+import collectAnnexBFunctionDeclarations from "./algorithms/collect-annex-b-function-declarations.js";
+import createGlobalVarBinding from "./algorithms/create-global-var-binding.js";
+import createGlobalFunctionBinding from "./algorithms/create-global-function-binding.js";
 
 export default function* globalDeclarationInstantiation(
   node: Node,
@@ -118,18 +113,18 @@ export default function* globalDeclarationInstantiation(
 
   if (!context.strict) {
     // Annex B.3.3.3 Global var instantiation for web compatibility
-    const declaredFunctionOrVarNames = [
+    const declaredFunctionOrVarNames = new Set<string>([
       ...declaredFunctionNames,
       ...declaredVarNames,
-    ];
-    const declarations = yield* collectAnnexBFunctionDeclarations(node);
+    ]);
+    const declarations = collectAnnexBFunctionDeclarations(node);
     for (const f of declarations) {
       if (!f.id || f.id.type !== "Identifier") {
         continue;
       }
 
       const F = f.id.name;
-      // There's some notes about "if replacing the FunctionDeclaration with a VariableStatement ... would not produce any EarlyErrors for script"
+      // TODO: There's some notes about "if replacing the FunctionDeclaration with a VariableStatement ... would not produce any EarlyErrors for script"
       // What does that mean?  How can we tell?
       const hasDeclaration = context.lexicalEnv.hasBindingEvaluator(F);
       if (hasDeclaration) {
@@ -141,12 +136,12 @@ export default function* globalDeclarationInstantiation(
         continue;
       }
 
-      if (declaredFunctionOrVarNames.includes(F)) {
+      if (declaredFunctionOrVarNames.has(F)) {
         continue;
       }
 
       yield* createGlobalVarBinding(F, false, context);
-      declaredFunctionOrVarNames.push(F);
+      declaredFunctionOrVarNames.add(F);
 
       f.extra = { ...f.extra, annexBHoisted: F };
     }
@@ -171,149 +166,5 @@ export default function* globalDeclarationInstantiation(
 
   for (const vn of declaredVarNames) {
     yield* createGlobalVarBinding(vn, false, context);
-  }
-}
-
-function* hasLexicalDeclaration(
-  name: string,
-  context: EvaluationContext,
-): EvaluationGenerator<boolean> {
-  const dclRec = context.realm.declarativeRecord;
-  return yield* dclRec.hasBindingEvaluator(name);
-}
-
-function* canDeclareGlobalFunction(
-  name: string,
-  context: EvaluationContext,
-): EvaluationGenerator<boolean> {
-  const existingProp =
-    yield* context.realm.global.getOwnPropertyDescriptorEvaluator(name);
-  if (!existingProp) {
-    return context.realm.global.extensible;
-  }
-
-  if (existingProp.configurable) {
-    return true;
-  }
-
-  if (isStaticJsDataPropertyDescriptor(existingProp)) {
-    return Boolean(existingProp.writable && existingProp.enumerable);
-  }
-
-  return false;
-}
-
-function* createGlobalFunctionBinding(
-  name: string,
-  value: StaticJsValue,
-  deletable: boolean,
-  context: EvaluationContext,
-): EvaluationGenerator<void> {
-  const globalObject = context.realm.global;
-
-  const existingProp =
-    yield* globalObject.getOwnPropertyDescriptorEvaluator(name);
-
-  let desc: StaticJsPropertyDescriptor;
-  if (!existingProp || existingProp.configurable) {
-    desc = {
-      value,
-      writable: true,
-      enumerable: true,
-      configurable: deletable,
-    };
-  } else {
-    desc = {
-      value,
-    };
-  }
-
-  const result = yield* globalObject.definePropertyEvaluator(name, desc);
-  if (!result) {
-    throw new ThrowCompletion(
-      context.realm.types.error(
-        "TypeError",
-        `Cannot create global function binding for ${name}`,
-      ),
-    );
-  }
-
-  yield* globalObject.setPropertyEvaluator(name, value, false);
-}
-
-function* canDeclareGlobalVar(
-  name: string,
-  context: EvaluationContext,
-): EvaluationGenerator<boolean> {
-  const hasOwnProp = yield* context.realm.global.hasOwnPropertyEvaluator(name);
-  if (hasOwnProp) {
-    return true;
-  }
-
-  return context.realm.global.extensible;
-}
-
-function* createGlobalVarBinding(
-  name: string,
-  deletable: boolean,
-  context: EvaluationContext,
-): EvaluationGenerator<void> {
-  const objRec = context.realm.objectEnv;
-  const globalObject = context.realm.global;
-  const hasProperty = yield* globalObject.hasOwnPropertyEvaluator(name);
-  const extensible = globalObject.extensible;
-
-  if (!hasProperty && extensible) {
-    yield* objRec.createMutableBindingEvaluator(name, deletable);
-    yield* objRec.initializeBindingEvaluator(
-      name,
-      context.realm.types.undefined,
-    );
-  }
-}
-
-function* collectAnnexBFunctionDeclarations(
-  node: Node,
-): EvaluationGenerator<FunctionDeclaration[]> {
-  switch (node.type) {
-    case "File":
-      return yield* collectAnnexBFunctionDeclarations(node.program);
-    case "Program": {
-      let funcs: FunctionDeclaration[] = [];
-      for (const stmt of node.body) {
-        const innerFuncs = yield* collectAnnexBFunctionDeclarations(stmt);
-        funcs = funcs.concat(innerFuncs);
-      }
-      return funcs;
-    }
-    case "BlockStatement": {
-      let funcs: FunctionDeclaration[] = [];
-      for (const stmt of node.body) {
-        const innerFuncs = yield* collectAnnexBFunctionDeclarations(stmt);
-        funcs = funcs.concat(innerFuncs);
-      }
-      return funcs;
-    }
-    case "SwitchStatement": {
-      for (const switchCase of node.cases) {
-        let funcs: FunctionDeclaration[] = [];
-        const innerFuncs = yield* collectAnnexBFunctionDeclarations(switchCase);
-        funcs = funcs.concat(innerFuncs);
-        return funcs;
-      }
-      return [];
-    }
-    case "SwitchCase": {
-      let funcs: FunctionDeclaration[] = [];
-      for (const stmt of node.consequent) {
-        const innerFuncs = yield* collectAnnexBFunctionDeclarations(stmt);
-        funcs = funcs.concat(innerFuncs);
-      }
-      return funcs;
-    }
-    case "FunctionDeclaration":
-      return [node];
-    default:
-      return [];
   }
 }

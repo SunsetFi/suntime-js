@@ -15,7 +15,7 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
-import getValue from "../algorithms/get-value.js";
+import getValue from "../../runtime/algorithms/get-value.js";
 
 export interface EvaluateNodeCommandOptions extends EvaluateNodeOptions {
   forNormalValue?: string;

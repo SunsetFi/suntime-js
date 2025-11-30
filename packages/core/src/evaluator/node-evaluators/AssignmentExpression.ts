@@ -11,7 +11,7 @@ import setLVal from "./LVal.js";
 import toNumber from "../../runtime/algorithms/to-number.js";
 import addition from "../../runtime/algorithms/addition.js";
 import { getIdentifierReference } from "../../runtime/references/get-identifier-reference.js";
-import putValue from "../algorithms/put-value.js";
+import putValue from "../../runtime/algorithms/put-value.js";
 
 export default function* assignmentExpressionNodeEvaluator(
   node: AssignmentExpression,

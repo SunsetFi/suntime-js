@@ -26,7 +26,7 @@ import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocatio
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
-import { AbnormalCompletion } from "../../../evaluator/completions/AbnormalCompletion.js";
+import { AbnormalCompletionBase } from "../../../evaluator/completions/AbnormalCompletionBase.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
 import StaticJsGlobalEnvironmentRecord from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
@@ -86,7 +86,7 @@ import type {
 
 import Macrotask from "./Macrotask.js";
 import globalDeclarationInstantiation from "../../../evaluator/initialization/global-declaration-instantiation.js";
-import getValue from "../../../evaluator/algorithms/get-value.js";
+import getValue from "../../algorithms/get-value.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;
@@ -338,7 +338,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       ]);
       return mod;
     } catch (e) {
-      if (e instanceof AbnormalCompletion) {
+      if (e instanceof AbnormalCompletionBase) {
         throw e.toRuntime();
       }
       throw e;
@@ -721,12 +721,8 @@ function* doEvaluateNode(
   realm: StaticJsRealm,
   strict?: boolean,
 ): EvaluationGenerator<StaticJsValue> {
-  const context = EvaluationContext.createRootContext(
-    strict ?? false,
-    realm,
-  ).createLexicalEnvContext(
-    new StaticJsDeclarativeEnvironmentRecord(realm.globalEnv, realm),
-  );
+  // Keep going back and forth on whether this should create its own lexical env.
+  const context = EvaluationContext.createRootContext(strict ?? false, realm);
   try {
     yield* globalDeclarationInstantiation(node, context);
     const result = yield* EvaluateNodeCommand(node, context);
@@ -736,7 +732,7 @@ function* doEvaluateNode(
 
     return realm.types.undefined;
   } catch (e) {
-    if (e instanceof AbnormalCompletion) {
+    if (e instanceof AbnormalCompletionBase) {
       throw e.toRuntime();
     }
 
@@ -749,12 +745,7 @@ function* doEvaluateNodeAsync(
   realm: StaticJsRealm,
   strict?: boolean,
 ): EvaluationGenerator<StaticJsValue> {
-  const context = EvaluationContext.createRootContext(
-    strict ?? false,
-    realm,
-  ).createLexicalEnvContext(
-    new StaticJsDeclarativeEnvironmentRecord(realm.globalEnv, realm),
-  );
+  const context = EvaluationContext.createRootContext(strict ?? false, realm);
   try {
     // yield* setupEnvironment(node, context);
     yield* globalDeclarationInstantiation(node, context);
@@ -766,7 +757,7 @@ function* doEvaluateNodeAsync(
     yield* invocation.start();
     return invocation.promise;
   } catch (e) {
-    if (e instanceof AbnormalCompletion) {
+    if (e instanceof AbnormalCompletionBase) {
       throw e.toRuntime();
     }
 

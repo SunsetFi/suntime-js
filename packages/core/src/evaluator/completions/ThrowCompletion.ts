@@ -1,8 +1,8 @@
 import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import { AbnormalCompletion } from "./AbnormalCompletion.js";
+import { AbnormalCompletionBase } from "./AbnormalCompletionBase.js";
 
-export class ThrowCompletion extends AbnormalCompletion {
+export class ThrowCompletion extends AbnormalCompletionBase {
   constructor(public readonly value: StaticJsValue) {
     super("throw");
   }

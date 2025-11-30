@@ -1,21 +1,21 @@
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import { BreakCompletion } from "./BreakCompletion.js";
+import { ContinueCompletion } from "./ContinueCompletion.js";
+import { ReturnCompletion } from "./ReturnCompletion.js";
+import { ThrowCompletion } from "./ThrowCompletion.js";
 
-export class AbnormalCompletion {
-  constructor(public readonly type: string) {}
+export type AbnormalCompletion =
+  | BreakCompletion
+  | ContinueCompletion
+  | ReturnCompletion
+  | ThrowCompletion;
 
-  toJs(): unknown {
-    return new StaticJsEngineError("Unexpected completion type: " + this.type);
-  }
-
-  static handleToJs(e: unknown): never {
-    if (e instanceof AbnormalCompletion) {
-      throw e.toJs();
-    }
-
-    throw e;
-  }
-
-  toRuntime(): Error {
-    return new StaticJsEngineError("Unexpected completion type: " + this.type);
-  }
+export function isAbnormalCompletion(
+  value: unknown,
+): value is AbnormalCompletion {
+  return (
+    value instanceof BreakCompletion ||
+    value instanceof ContinueCompletion ||
+    value instanceof ReturnCompletion ||
+    value instanceof ThrowCompletion
+  );
 }

@@ -11,6 +11,8 @@ import {
   type Statement,
 } from "@babel/types";
 
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+
 import setLVal from "../../../evaluator/node-evaluators/LVal.js";
 
 import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
@@ -22,6 +24,8 @@ import setupEnvironment from "../../../evaluator/node-evaluators/setup-environme
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
+import getValue from "../../algorithms/get-value.js";
+
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
@@ -29,8 +33,6 @@ import type { StaticJsValue } from "../StaticJsValue.js";
 import StaticJsFunctionBase, {
   type StaticJsFunctionImplOptions,
 } from "./StaticJsFunctionImpl.js";
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-import getValue from "../../../evaluator/algorithms/get-value.js";
 
 export type StaticJsAstFunctionArgumentDeclaration =
   | Identifier

@@ -310,9 +310,9 @@ describe("E2E: Object", () => {
       objVm[sym] = 99;
 
       const symbolValue = await realm.evaluateScript(`
-        const sym = Symbol.for('mySymbol');
-        const obj = globalThis.__nativeObj;
-        obj[sym];
+        const sym2 = Symbol.for('mySymbol');
+        const obj2 = globalThis.__nativeObj;
+        obj2[sym2];
       `);
       expect(symbolValue.toJsSync()).toBe(99);
     });

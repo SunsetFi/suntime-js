@@ -8,7 +8,7 @@ import { getIdentifierReference } from "../../runtime/references/get-identifier-
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import putValue from "../algorithms/put-value.js";
+import putValue from "../../runtime/algorithms/put-value.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 

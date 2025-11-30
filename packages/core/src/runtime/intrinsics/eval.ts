@@ -10,13 +10,14 @@ import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 
+import evalDeclarationInstantiation from "../../evaluator/initialization/eval-declaration-instantiation.js";
+
 import { EvaluateNodeCommand } from "../../evaluator/commands/EvaluateNodeCommand.js";
 
 import toString from "../algorithms/to-string.js";
+import getValue from "../algorithms/get-value.js";
 
 import type { IntrinsicPropertyDeclaration } from "./utils.js";
-import getValue from "../../evaluator/algorithms/get-value.js";
-import globalDeclarationInstantiation from "../../evaluator/initialization/global-declaration-instantiation.js";
 
 const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
   key: "eval",
@@ -47,7 +48,7 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
       StaticJsDeclarativeEnvironmentRecord.from(context),
     );
 
-    yield* globalDeclarationInstantiation(node, context);
+    yield* evalDeclarationInstantiation(node, context.strict, context);
 
     const result = yield* EvaluateNodeCommand(node, context);
     if (!result) {

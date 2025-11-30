@@ -20,7 +20,7 @@ import type { NormalCompletion } from "./completions/NormalCompletion.js";
 
 import type EvaluationGenerator from "./EvaluationGenerator.js";
 
-import getValue from "./algorithms/get-value.js";
+import getValue from "../runtime/algorithms/get-value.js";
 
 export default class AsyncEvaluatorInvocation {
   private _capability!: PromiseCapabilityRecord;

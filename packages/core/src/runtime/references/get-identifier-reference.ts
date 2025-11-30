@@ -17,7 +17,7 @@ export function* getIdentifierReference(
         referencedName: name,
         strict,
         thisValue: null,
-        base: env,
+        base: current,
       };
     }
 

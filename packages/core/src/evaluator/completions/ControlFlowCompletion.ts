@@ -1,9 +1,9 @@
 import type { StaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
 
-import { AbnormalCompletion } from "./AbnormalCompletion.js";
+import { AbnormalCompletionBase } from "./AbnormalCompletionBase.js";
 import { ThrowCompletion } from "./ThrowCompletion.js";
 
-export abstract class ControlFlowCompletion extends AbnormalCompletion {
+export abstract class ControlFlowCompletion extends AbnormalCompletionBase {
   constructor(type: string) {
     super(type);
   }

@@ -19,7 +19,7 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import { isStaticJsSymbol } from "../../runtime/index.js";
 import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
-import getValue from "../algorithms/get-value.js";
+import getValue from "../../runtime/algorithms/get-value.js";
 import { isUnresolvableReference } from "../../runtime/references/is-unresolvable-reference.js";
 
 export default function* unaryExpressionNodeEvaluator(

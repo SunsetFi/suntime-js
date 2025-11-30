@@ -1,23 +1,21 @@
-import {
-  isStaticJsValue,
-  type StaticJsValue,
-} from "../../runtime/types/StaticJsValue.js";
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type { StaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
+import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
+import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
-import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
-import { isUnresolvableReference } from "../../runtime/references/is-unresolvable-reference.js";
-import { isPropertyReference } from "../../runtime/references/is-property-reference.js";
+import type { StaticJsReferenceRecord } from "../references/StaticJsReferenceRecord.js";
+import { isUnresolvableReference } from "../references/is-unresolvable-reference.js";
+import { isPropertyReference } from "../references/is-property-reference.js";
 
-import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 
-import toObject from "../../runtime/algorithms/to-object.js";
+import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
-import { ThrowCompletion } from "../completions/ThrowCompletion.js";
+import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 
-import type EvaluationGenerator from "../EvaluationGenerator.js";
-import { isStaticJsSymbol } from "../../runtime/index.js";
-import toPropertyKey from "../../runtime/utils/to-property-key.js";
+import toPropertyKey from "../utils/to-property-key.js";
+
+import toObject from "./to-object.js";
 
 export default function* getValue(
   v: StaticJsReferenceRecord | StaticJsValue,

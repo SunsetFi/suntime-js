@@ -26,10 +26,11 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
-import getValue from "../algorithms/get-value.js";
+import getValue from "../../runtime/algorithms/get-value.js";
+
+import evalDeclarationInstantiation from "../initialization/eval-declaration-instantiation.js";
 
 import nameNode from "./name-node.js";
-import setupEnvironment from "./setup-environment.js";
 
 export default function* callExpressionNodeEvaluator(
   node: CallExpression,
@@ -141,7 +142,7 @@ function* callEvalEvaluator(
     );
   }
 
-  yield* setupEnvironment(node, evalContext);
+  yield* evalDeclarationInstantiation(node, strict, evalContext);
 
   const result = yield* EvaluateNodeCommand(node, evalContext);
   return result ?? realm.types.undefined;
