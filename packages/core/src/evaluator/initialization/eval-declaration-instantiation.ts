@@ -128,7 +128,6 @@ export default function* evalDeclarationInstantiation(
     }
   }
 
-  // TODO: 13 NORMATIVE OPTIONAL
   if (!strict) {
     const declaredFunctionOrVarNames = new Set<string>([
       ...declaredFunctionNames,

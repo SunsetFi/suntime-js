@@ -6,6 +6,7 @@ import handleParseError from "./parse-error.js";
 export default function parseExpression(script: string) {
   try {
     return parseAst(script, {
+      strictMode: false,
       ...parserOptions,
     });
   } catch (e) {

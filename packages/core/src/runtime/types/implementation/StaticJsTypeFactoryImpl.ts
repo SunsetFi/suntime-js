@@ -274,7 +274,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
           enumerable: false,
           writable: true,
           configurable: true,
-          value: this.string(`${name}: ${message}`),
+          value: this.string(`${message}`),
         },
       },
       proto,

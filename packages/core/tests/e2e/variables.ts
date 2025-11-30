@@ -215,9 +215,10 @@ describe("E2E: Variables", () => {
         'use strict';
         x = 10;
       `;
-      await expect(evaluateScript(code)).rejects.toThrow(
-        /ReferenceError: x is not defined/,
-      );
+      await expect(evaluateScript(code)).rejects.toMatchObject({
+        name: "ReferenceError",
+        message: "x is not defined",
+      });
     });
   });
 });

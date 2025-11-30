@@ -4,7 +4,7 @@ import { type Node } from "@babel/types";
 import parseScript from "../../../parser/parse-script.js";
 import parseModule from "../../../parser/parse-module.js";
 import parseExpression from "../../../parser/parse-expression.js";
-import hasTopLevelAwait from "../../../parser/has-top-level-await.js";
+import findTopLevelAwait from "../../../parser/has-top-level-await.js";
 
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
@@ -240,11 +240,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
     let evaluator: StaticJsEvaluator<StaticJsValue>;
 
-    const topLevelAwait = hasTopLevelAwait(parsed);
+    const topLevelAwait = findTopLevelAwait(parsed);
     if (topLevelAwait || opts?.topLevelAwait === true) {
       if (opts?.topLevelAwait === false) {
         throw new StaticJsSyntaxError(
           "Top-level await is not allowed in this script.",
+          topLevelAwait?.loc?.start ?? null,
         );
       }
 

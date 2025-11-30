@@ -7,6 +7,7 @@ import handleParseError from "./parse-error.js";
 export default function parseFunctionBody(script: string): Statement[] {
   try {
     const parsed = parseAst(script, {
+      strictMode: false,
       ...parserOptions,
       allowReturnOutsideFunction: true,
     });

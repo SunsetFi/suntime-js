@@ -13,6 +13,7 @@ export default function parseScript(
 ) {
   try {
     return parseAst(script, {
+      strictMode: false,
       ...parserOptions,
       sourceType: "script",
       sourceFilename: fileName,
