@@ -22,6 +22,7 @@ import type { StaticJsSet } from "../StaticJsSet.js";
 import StaticJsIteratorImpl from "./StaticJsIteratorImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import iteratorClose from "../../algorithms/iterator-close.js";
 
 // TODO: Take shortcuts for difference and friends if otherSet is also a StaticJsSetImpl
 
@@ -178,19 +179,23 @@ export default class StaticJsSetImpl
 
     const iterator = yield* getIterator(otherSet, this.realm);
 
-    while (true) {
-      const nextResult = yield* iteratorStepValue(iterator, this.realm);
-      if (!nextResult) {
-        break;
+    const realm = this.realm;
+    const backingStore = this._backingStore;
+    return yield* iteratorClose.handle(iterator, realm, function* () {
+      while (true) {
+        const nextResult = yield* iteratorStepValue(iterator, realm);
+        if (!nextResult) {
+          break;
+        }
+
+        const unwrapped = toNativeUnwrap(nextResult);
+        if (!backingStore.has(unwrapped)) {
+          return false;
+        }
       }
 
-      const unwrapped = toNativeUnwrap(nextResult);
-      if (!this._backingStore.has(unwrapped)) {
-        return false;
-      }
-    }
-
-    return true;
+      return true;
+    });
   }
 
   keysEvaluator(): EvaluationGenerator<StaticJsValue> {
@@ -225,18 +230,21 @@ export default class StaticJsSetImpl
     }
 
     const iterator = yield* getIterator(otherSet, this.realm);
+    const realm = this.realm;
+    const backingStore = this._backingStore;
+    yield* iteratorClose.handle(iterator, this.realm, function* () {
+      while (true) {
+        const nextResult = yield* iteratorStepValue(iterator, realm);
+        if (!nextResult) {
+          break;
+        }
 
-    while (true) {
-      const nextResult = yield* iteratorStepValue(iterator, this.realm);
-      if (!nextResult) {
-        break;
+        const unwrapped = toNativeUnwrap(nextResult);
+        if (!backingStore.has(unwrapped)) {
+          yield* resultAdd.callEvaluator(result, nextResult);
+        }
       }
-
-      const unwrapped = toNativeUnwrap(nextResult);
-      if (!this._backingStore.has(unwrapped)) {
-        yield* resultAdd.callEvaluator(result, nextResult);
-      }
-    }
+    });
 
     return result;
   }
@@ -250,18 +258,21 @@ export default class StaticJsSetImpl
     }
 
     const iterator = yield* getIterator(otherSet, this.realm);
+    const realm = this.realm;
+    const backingStore = this._backingStore;
+    yield* iteratorClose.handle(iterator, realm, function* () {
+      while (true) {
+        const nextResult = yield* iteratorStepValue(iterator, realm);
+        if (!nextResult) {
+          break;
+        }
 
-    while (true) {
-      const nextResult = yield* iteratorStepValue(iterator, this.realm);
-      if (!nextResult) {
-        break;
+        const unwrapped = toNativeUnwrap(nextResult);
+        if (!backingStore.has(unwrapped)) {
+          yield* resultAdd.callEvaluator(result, nextResult);
+        }
       }
-
-      const unwrapped = toNativeUnwrap(nextResult);
-      if (!this._backingStore.has(unwrapped)) {
-        yield* resultAdd.callEvaluator(result, nextResult);
-      }
-    }
+    });
 
     return result;
   }

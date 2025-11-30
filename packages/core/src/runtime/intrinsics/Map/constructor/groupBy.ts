@@ -1,6 +1,7 @@
 import StaticJsRuntimeError from "../../../../errors/StaticJsRuntimeError.js";
 
 import getIterator from "../../../algorithms/get-iterator.js";
+import iteratorClose from "../../../algorithms/iterator-close.js";
 import iteratorStepValue from "../../../algorithms/iterator-step-value.js";
 
 import StaticJsMapImpl from "../../../types/implementation/StaticJsMapImpl.js";
@@ -25,29 +26,31 @@ const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
 
     const iterator = yield* getIterator(items ?? realm.types.undefined, realm);
 
-    let index = 0;
-    while (true) {
-      const next = yield* iteratorStepValue(iterator, realm);
-      if (!next) {
-        break;
+    yield* iteratorClose.handle(iterator, realm, function* () {
+      let index = 0;
+      while (true) {
+        const next = yield* iteratorStepValue(iterator, realm);
+        if (!next) {
+          break;
+        }
+
+        const key = yield* callbackFn.callEvaluator(
+          realm.types.undefined,
+          next,
+          realm.types.number(index),
+        );
+
+        index++;
+
+        let group = collection.get(key);
+        if (!group) {
+          group = [];
+          collection.set(key, group);
+        }
+
+        group.push(next);
       }
-
-      const key = yield* callbackFn.callEvaluator(
-        realm.types.undefined,
-        next,
-        realm.types.number(index),
-      );
-
-      index++;
-
-      let group = collection.get(key);
-      if (!group) {
-        group = [];
-        collection.set(key, group);
-      }
-
-      group.push(next);
-    }
+    });
 
     const result = new StaticJsMapImpl(realm);
     for (const [key, items] of collection) {

@@ -9,6 +9,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
+import iteratorClose from "../../runtime/algorithms/iterator-close.js";
 
 export default function* arrayExpressionNodeEvaluator(
   node: ArrayExpression,
@@ -32,14 +33,16 @@ export default function* arrayExpressionNodeEvaluator(
 
       const iterator = yield* getIterator(spreadValue, context.realm);
 
-      while (true) {
-        const value = yield* iteratorStepValue(iterator, context.realm);
-        if (!value) {
-          break;
-        }
+      yield* iteratorClose.handle(iterator, context.realm, function* () {
+        while (true) {
+          const value = yield* iteratorStepValue(iterator, context.realm);
+          if (!value) {
+            break;
+          }
 
-        items.push(value);
-      }
+          items.push(value);
+        }
+      });
     } else {
       const value = yield* EvaluateNodeCommand(element, context, {
         forNormalValue: "ArrayExpression.elements[]",

@@ -273,6 +273,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     const strict = parsed.program.directives.some(
       (directive) => directive.value.value === "use strict",
     );
+
     return this.invokeMacrotaskSync(
       doEvaluateNode(parsed.program, this, strict),
       opts,

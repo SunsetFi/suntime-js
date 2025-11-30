@@ -19,6 +19,8 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import setLVal from "./LVal.js";
 import setupEnvironment from "./setup-environment.js";
+import iteratorClose from "../../runtime/algorithms/iterator-close.js";
+import { isAbnormalCompletion } from "../completions/AbnormalCompletion.js";
 
 function* forOfStatementNodeEvaluator(
   node: ForOfStatement,
@@ -84,6 +86,10 @@ function* forOfStatementNodeEvaluator(
     try {
       lastCompletion = yield* EvaluateNodeCommand(node.body, bodyContext);
     } catch (e) {
+      if (isAbnormalCompletion(e)) {
+        yield* iteratorClose(iterator, e, context.realm, false);
+      }
+
       if (BreakCompletion.isBreakForLabel(e, context.label)) {
         break;
       }

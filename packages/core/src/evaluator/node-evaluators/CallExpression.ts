@@ -31,6 +31,7 @@ import getValue from "../../runtime/algorithms/get-value.js";
 import evalDeclarationInstantiation from "../initialization/eval-declaration-instantiation.js";
 
 import nameNode from "./name-node.js";
+import iteratorClose from "../../runtime/algorithms/iterator-close.js";
 
 export default function* callExpressionNodeEvaluator(
   node: CallExpression,
@@ -89,13 +90,15 @@ export default function* callExpressionNodeEvaluator(
 
       const iterator = yield* getIterator(iterable, context.realm);
 
-      while (true) {
-        const value = yield* iteratorStepValue(iterator, context.realm);
-        if (!value) {
-          break;
+      yield* iteratorClose.handle(iterator, context.realm, function* () {
+        while (true) {
+          const value = yield* iteratorStepValue(iterator, context.realm);
+          if (!value) {
+            break;
+          }
+          args.push(value);
         }
-        args.push(value);
-      }
+      });
     } else {
       const arg = yield* EvaluateNodeCommand(argument, parameterInitContext, {
         forNormalValue: "CallExpression.arguments[]",

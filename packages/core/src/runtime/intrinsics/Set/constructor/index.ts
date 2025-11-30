@@ -1,9 +1,12 @@
 import StaticJsRuntimeError from "../../../../errors/StaticJsRuntimeError.js";
-import getIterator from "../../../algorithms/get-iterator.js";
-import iteratorStepValue from "../../../algorithms/iterator-step-value.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+
+import getIterator from "../../../algorithms/get-iterator.js";
+import iteratorClose from "../../../algorithms/iterator-close.js";
+import iteratorStepValue from "../../../algorithms/iterator-step-value.js";
+
+import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
@@ -46,13 +49,15 @@ export default function createSetConstructor(
         }
 
         const iterator = yield* getIterator(iterable, realm);
-        while (true) {
-          const next = yield* iteratorStepValue(iterator, realm);
-          if (!next) {
-            break;
+        yield* iteratorClose.handle(iterator, realm, function* () {
+          while (true) {
+            const next = yield* iteratorStepValue(iterator, realm);
+            if (!next) {
+              break;
+            }
+            yield* set.addEvaluator(next);
           }
-          yield* set.addEvaluator(next);
-        }
+        });
 
         return set;
       },

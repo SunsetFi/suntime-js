@@ -25,6 +25,7 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import iteratorClose from "../../../algorithms/iterator-close.js";
 
 const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
   key: "from",
@@ -82,44 +83,46 @@ function* fromIterator(
 
   let k = 0;
 
-  while (true) {
-    if (k > MAX_ARRAY_LENGTH_INCLUSIVE) {
-      throw new ThrowCompletion(
-        realm.types.error("TypeError", "Too many items from iterator"),
-      );
+  yield* iteratorClose.handle(iterator, realm, function* () {
+    while (true) {
+      if (k > MAX_ARRAY_LENGTH_INCLUSIVE) {
+        throw new ThrowCompletion(
+          realm.types.error("TypeError", "Too many items from iterator"),
+        );
+      }
+
+      const Pk = String(k);
+
+      const next = yield* iteratorStepValue(iterator, realm);
+      if (!next) {
+        break;
+      }
+
+      // TODO: Spec compliance requires us to call the return method
+      // on the iterator if setting stuff goes wrong.
+
+      let mappedValue: StaticJsValue;
+      if (mapFn) {
+        mappedValue = yield* mapFn.callEvaluator(
+          thisArg,
+          next,
+          realm.types.number(k),
+        );
+      } else {
+        mappedValue = next;
+      }
+
+      // Per spec: Use define, not set.
+      yield* A.definePropertyEvaluator(Pk, {
+        value: mappedValue,
+        writable: true,
+        enumerable: true,
+        configurable: true,
+      });
+
+      k++;
     }
-
-    const Pk = String(k);
-
-    const next = yield* iteratorStepValue(iterator, realm);
-    if (!next) {
-      break;
-    }
-
-    // TODO: Spec compliance requires us to call the return method
-    // on the iterator if setting stuff goes wrong.
-
-    let mappedValue: StaticJsValue;
-    if (mapFn) {
-      mappedValue = yield* mapFn.callEvaluator(
-        thisArg,
-        next,
-        realm.types.number(k),
-      );
-    } else {
-      mappedValue = next;
-    }
-
-    // Per spec: Use define, not set.
-    yield* A.definePropertyEvaluator(Pk, {
-      value: mappedValue,
-      writable: true,
-      enumerable: true,
-      configurable: true,
-    });
-
-    k++;
-  }
+  });
 
   yield* A.setPropertyEvaluator("length", realm.types.number(k), true);
   return A;

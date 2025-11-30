@@ -6,6 +6,7 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import toObject from "../../runtime/algorithms/to-object.js";
 import getIterator from "../../runtime/algorithms/get-iterator.js";
 import iteratorStepValue from "../../runtime/algorithms/iterator-step-value.js";
+import iteratorClose from "../../runtime/algorithms/iterator-close.js";
 
 import { type StaticJsObjectPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
@@ -78,60 +79,62 @@ export default function* setLVal(
 
       const iterator = yield* getIterator(value, context.realm);
 
-      let foundEnd = false;
-      for (let index = 0; index < lval.elements.length; index++) {
-        const element = lval.elements[index];
+      yield* iteratorClose.handle(iterator, context.realm, function* () {
+        let foundEnd = false;
+        for (let index = 0; index < lval.elements.length; index++) {
+          const element = lval.elements[index];
 
-        let value: StaticJsValue;
-        if (foundEnd) {
-          value = context.realm.types.undefined;
-        } else {
-          const next = yield* iteratorStepValue(iterator, context.realm);
-          if (!next) {
-            foundEnd = true;
+          let value: StaticJsValue;
+          if (foundEnd) {
             value = context.realm.types.undefined;
           } else {
-            value = next;
-          }
-        }
-
-        if (element === null) {
-          continue;
-        }
-
-        if (element.type === "VoidPattern") {
-          continue;
-        }
-
-        if (element.type === "RestElement") {
-          const restItems: StaticJsValue[] = [];
-
-          // Add the current value!
-          restItems.push(value);
-
-          // And then get the rest of them.
-          while (true) {
             const next = yield* iteratorStepValue(iterator, context.realm);
             if (!next) {
-              // babel should enforce no more elements after a rest element, but just in case...
               foundEnd = true;
-              break;
+              value = context.realm.types.undefined;
+            } else {
+              value = next;
             }
-
-            restItems.push(next);
           }
 
-          const restValue = context.realm.types.array(restItems);
-          yield* setLVal(
-            element.argument,
-            restValue,
-            context,
-            setNamedVariable,
-          );
-        } else {
-          yield* setLVal(element, value, context, setNamedVariable);
+          if (element === null) {
+            continue;
+          }
+
+          if (element.type === "VoidPattern") {
+            continue;
+          }
+
+          if (element.type === "RestElement") {
+            const restItems: StaticJsValue[] = [];
+
+            // Add the current value!
+            restItems.push(value);
+
+            // And then get the rest of them.
+            while (true) {
+              const next = yield* iteratorStepValue(iterator, context.realm);
+              if (!next) {
+                // babel should enforce no more elements after a rest element, but just in case...
+                foundEnd = true;
+                break;
+              }
+
+              restItems.push(next);
+            }
+
+            const restValue = context.realm.types.array(restItems);
+            yield* setLVal(
+              element.argument,
+              restValue,
+              context,
+              setNamedVariable,
+            );
+          } else {
+            yield* setLVal(element, value, context, setNamedVariable);
+          }
         }
-      }
+      });
 
       return null;
     }

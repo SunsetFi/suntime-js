@@ -16,12 +16,13 @@ export default function* iteratorClose(
   iterator: StaticJsObjectLike,
   completion: Completion,
   realm: StaticJsRealm,
+  unwrap: boolean = true,
 ): EvaluationGenerator<Completion> {
   const returnMethod = yield* iterator.getPropertyEvaluator("return");
 
   let innerResult: Completion;
   if (isStaticJsNull(returnMethod) || isStaticJsUndefined(returnMethod)) {
-    return unwrapCompletion(completion);
+    return unwrap ? unwrapCompletion(completion) : completion;
   } else if (!isStaticJsFunction(returnMethod)) {
     throw new ThrowCompletion(
       realm.types.error("TypeError", "'return' is not a function"),
@@ -40,16 +41,33 @@ export default function* iteratorClose(
   }
 
   if (completion instanceof ThrowCompletion) {
-    return unwrapCompletion(completion);
+    return unwrap ? unwrapCompletion(completion) : completion;
   }
 
   if (innerResult instanceof ThrowCompletion) {
-    return unwrapCompletion(innerResult);
+    return unwrap ? unwrapCompletion(innerResult) : innerResult;
   }
 
   // TODO: Spec says if this is a normal completion that's not an object, we should throw a TypeError
   // But that doesn't make sense as other sources say iterator.return() has no return value
   // I must be misunderstanding something.
 
-  return unwrapCompletion(completion);
+  return unwrap ? unwrapCompletion(completion) : completion;
 }
+
+iteratorClose.handle = function* handleIteratorClose<T>(
+  iterator: StaticJsObjectLike,
+  realm: StaticJsRealm,
+  handler: () => EvaluationGenerator<T>,
+): EvaluationGenerator<T> {
+  try {
+    const result = yield* handler();
+    return result;
+  } catch (e) {
+    if (isAbnormalCompletion(e)) {
+      // If the handler threw an abnormal completion, we need to close the iterator
+      yield* iteratorClose(iterator, e, realm);
+    }
+    throw e;
+  }
+};
