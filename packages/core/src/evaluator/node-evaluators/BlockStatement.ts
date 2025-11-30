@@ -4,7 +4,7 @@ import typedMerge from "../../internal/typed-merge.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
-import blockDeclarationInstantiation from "../initialization/block-declaration-instantiation.js";
+import blockDeclarationInstantiation from "../instantiation/block-declaration-instantiation.js";
 
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";

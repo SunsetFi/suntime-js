@@ -55,22 +55,62 @@ describe("E2E: Variables", () => {
       expect(await evaluateScript(code)).toBe(1);
     });
 
-    it("Can be destructured with objects", async () => {
-      const code = `
+    describe("destructuring", () => {
+      it("Can be destructured with objects", async () => {
+        const code = `
         const a = { x: 1, y: 2 };
         const { x, y } = a;
         [x, y];
       `;
-      expect(await evaluateScript(code)).toEqual([1, 2]);
-    });
+        expect(await evaluateScript(code)).toEqual([1, 2]);
+      });
 
-    it("Can be destructured with arrays", async () => {
-      const code = `
+      it("Can be destructured with computed keys", async () => {
+        const code = `
+        const a = { x: 1, y: 2 };
+        const key1 = 'x';
+        const key2 = 'y';
+        const { [key1]: x, [key2]: y } = a;
+        [x, y];
+      `;
+        expect(await evaluateScript(code)).toEqual([1, 2]);
+      });
+
+      it("Applies destructuring defaults", async () => {
+        const code = `
+        const a = { x: 1 };
+        const { x, y = 2 } = a;
+        [x, y];
+      `;
+        expect(await evaluateScript(code)).toEqual([1, 2]);
+      });
+
+      it("Can nest destructuring", async () => {
+        const code = `
+        const a = { p: { x: 1, y: 2 } };
+        const { p: { x, y } } = a;
+        [x, y];
+      `;
+        expect(await evaluateScript(code)).toEqual([1, 2]);
+      });
+
+      it("Can be destructured with arrays", async () => {
+        const code = `
         const a = [1, 2];
         const [ x, y ] = a;
         [x, y];
       `;
-      expect(await evaluateScript(code)).toEqual([1, 2]);
+        expect(await evaluateScript(code)).toEqual([1, 2]);
+      });
+
+      it("Can be destructured with empty slots", async () => {
+        const code = `
+        const a = [1, 2, 3];
+        const [ , , x ] = a;
+        x;
+      `;
+        expect(await evaluateScript(code)).toBe(3);
+      });
     });
   });
 

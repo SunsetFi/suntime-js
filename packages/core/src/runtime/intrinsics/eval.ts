@@ -10,7 +10,7 @@ import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 
-import evalDeclarationInstantiation from "../../evaluator/initialization/eval-declaration-instantiation.js";
+import evalDeclarationInstantiation from "../../evaluator/instantiation/eval-declaration-instantiation.js";
 
 import { EvaluateNodeCommand } from "../../evaluator/commands/EvaluateNodeCommand.js";
 

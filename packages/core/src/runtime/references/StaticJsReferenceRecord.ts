@@ -21,6 +21,12 @@ export interface StaticJsPropertyReferenceRecord
   base: StaticJsValue;
 }
 
+export interface StaticJsEnvironmentReferenceRecord
+  extends StaticJsResolvedReferenceRecord {
+  base: StaticJsEnvironmentRecord;
+  referencedName: string;
+}
+
 export type StaticJsReferenceRecord =
   | StaticJsUnresolvedReferenceRecord
   | StaticJsResolvedReferenceRecord;

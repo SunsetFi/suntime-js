@@ -4,7 +4,7 @@ import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import isAssignmentGrammar from "../../../grammar/is-assignment-grammar.js";
 
-import boundNames from "../../../evaluator/initialization/algorithms/bound-names.js";
+import boundNames from "../../../evaluator/instantiation/algorithms/bound-names.js";
 
 import {
   ImportAllButDefault,

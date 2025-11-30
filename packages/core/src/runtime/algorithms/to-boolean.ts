@@ -1,5 +1,3 @@
-import typedMerge from "../../internal/typed-merge.js";
-
 import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
@@ -44,7 +42,7 @@ function* toBooleanJs(
   return true;
 }
 
-export function* toBoolean(
+export default function* toBoolean(
   value: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsBoolean> {
@@ -52,11 +50,4 @@ export function* toBoolean(
   return realm.types.boolean(result);
 }
 
-export default typedMerge(toBoolean, {
-  *js(
-    value: StaticJsValue,
-    realm: StaticJsRealm,
-  ): EvaluationGenerator<boolean> {
-    return yield* toBooleanJs(value, realm);
-  },
-});
+toBoolean.js = toBooleanJs;

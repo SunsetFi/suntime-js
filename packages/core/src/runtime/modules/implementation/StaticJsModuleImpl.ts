@@ -2,9 +2,9 @@ import type { Program } from "@babel/types";
 
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
-import varScopedDeclarations from "../../../evaluator/initialization/algorithms/var-scoped-declarations.js";
-import boundNames from "../../../evaluator/initialization/algorithms/bound-names.js";
-import lexicallyScopedDeclarations from "../../../evaluator/initialization/algorithms/lexically-scoped-declarations.js";
+import varScopedDeclarations from "../../../evaluator/instantiation/algorithms/var-scoped-declarations.js";
+import boundNames from "../../../evaluator/instantiation/algorithms/bound-names.js";
+import lexicallyScopedDeclarations from "../../../evaluator/instantiation/algorithms/lexically-scoped-declarations.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";

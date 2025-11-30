@@ -28,7 +28,7 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import getValue from "../../runtime/algorithms/get-value.js";
 
-import evalDeclarationInstantiation from "../initialization/eval-declaration-instantiation.js";
+import evalDeclarationInstantiation from "../instantiation/eval-declaration-instantiation.js";
 
 import nameNode from "./name-node.js";
 import iteratorClose from "../../runtime/algorithms/iterator-close.js";

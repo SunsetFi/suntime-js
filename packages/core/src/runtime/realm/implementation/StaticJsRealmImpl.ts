@@ -85,7 +85,7 @@ import type {
 } from "../StaticJsRealm.js";
 
 import Macrotask from "./Macrotask.js";
-import globalDeclarationInstantiation from "../../../evaluator/initialization/global-declaration-instantiation.js";
+import globalDeclarationInstantiation from "../../../evaluator/instantiation/global-declaration-instantiation.js";
 import getValue from "../../algorithms/get-value.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
