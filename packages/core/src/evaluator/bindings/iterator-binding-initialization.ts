@@ -54,37 +54,71 @@ export default function* iteratorBindingInitialization(
 
   switch (node.type) {
     case "RestElement": {
-      if (node.argument.type !== "Identifier") {
-        throw new StaticJsEngineError(
-          "Iterator binding initialization rest element argument must be an identifier",
+      if (node.argument.type === "Identifier") {
+        const lhs = yield* getIdentifierReference(
+          context.lexicalEnv,
+          node.argument.name,
+          context.strict,
         );
-      }
-      const lhs = yield* getIdentifierReference(
-        context.lexicalEnv,
-        node.argument.name,
-        context.strict,
-      );
 
-      const A = context.realm.types.array();
-      let n = 0;
-      while (true) {
-        const next = yield* iteratorStepValue(iteratorRecord, context.realm);
-        if (!next) {
-          if (!environment) {
-            yield* putValue(lhs, A, context.realm);
-          } else {
-            yield* initializeReferencedBinding(lhs, A);
+        const A = context.realm.types.array();
+        let n = 0;
+
+        //  Only do this if not DONE, to be spec compliant.
+        // Spec doesn't want us pumping empty iterators.
+        const done = yield* iteratorDone(iteratorRecord, context);
+        if (!done) {
+          while (true) {
+            const next = yield* iteratorStepValue(
+              iteratorRecord,
+              context.realm,
+            );
+            if (!next) {
+              break;
+            }
+
+            yield* A.definePropertyEvaluator(n.toString(), {
+              value: next,
+              writable: true,
+              enumerable: true,
+              configurable: true,
+            });
+            n++;
           }
-          return;
         }
 
-        yield* A.definePropertyEvaluator(n.toString(), {
-          value: next,
-          writable: true,
-          enumerable: true,
-          configurable: true,
-        });
-        n++;
+        if (!environment) {
+          yield* putValue(lhs, A, context.realm);
+        } else {
+          yield* initializeReferencedBinding(lhs, A);
+        }
+        return;
+      } else {
+        const A = context.realm.types.array();
+        let n = 0;
+        const done = yield* iteratorDone(iteratorRecord, context);
+        if (!done) {
+          while (true) {
+            const next = yield* iteratorStepValue(
+              iteratorRecord,
+              context.realm,
+            );
+            if (!next) {
+              break;
+            }
+
+            yield* A.definePropertyEvaluator(n.toString(), {
+              value: next,
+              writable: true,
+              enumerable: true,
+              configurable: true,
+            });
+            n++;
+          }
+        }
+
+        yield* bindingInitialization(node.argument, A, environment, context);
+        return;
       }
     }
     case "Identifier": {
