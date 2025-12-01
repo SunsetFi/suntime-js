@@ -22,16 +22,17 @@ export default function* updateExpressionNodeEvaluator(
 
   // Note: NodeJs throws an error if the value is a string or something, but
   // thats not what the spec says to do!
-  const originalValue = yield* getValue(ref, context.realm);
-  const asNumber = yield* toNumber(originalValue, context.realm);
+  const refValue = yield* getValue(ref, context.realm);
 
-  let targetValue = asNumber.value;
+  const oldValue = yield* toNumber(refValue, context.realm);
+
+  let newValueJs = oldValue.value;
   switch (node.operator) {
     case "++":
-      targetValue++;
+      newValueJs++;
       break;
     case "--":
-      targetValue--;
+      newValueJs--;
       break;
     default:
       throw new StaticJsEngineError(
@@ -39,9 +40,9 @@ export default function* updateExpressionNodeEvaluator(
       );
   }
 
-  const setValue = context.realm.types.number(targetValue);
+  const newValue = context.realm.types.number(newValueJs);
 
-  yield* putValue(ref, setValue, context.realm);
+  yield* putValue(ref, newValue, context.realm);
 
-  return node.prefix ? setValue : originalValue;
+  return node.prefix ? newValue : oldValue;
 }
