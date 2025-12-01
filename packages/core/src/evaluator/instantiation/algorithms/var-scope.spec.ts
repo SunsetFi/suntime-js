@@ -26,7 +26,7 @@ const objectProperty: typeof babelObjectProperty = (
   return result;
 };
 
-import parseScript from "../../parser/parse-script.js";
+import parseScript from "../../../parser/parse-script.js";
 
 import varDeclaredNames from "./var-declared-names.js";
 import varScopedDeclarations from "./var-scoped-declarations.js";
