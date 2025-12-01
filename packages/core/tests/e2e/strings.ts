@@ -11,6 +11,13 @@ describe("E2E: Strings", () => {
   });
 
   describe("Casting", () => {
+    it("Defaults to empty string", async () => {
+      const code = `
+        String();
+      `;
+      expect(await evaluateScript(code)).toBe("");
+    });
+
     it("Supports casting a number to string", async () => {
       const code = `
         String(1);
@@ -41,6 +48,20 @@ describe("E2E: Strings", () => {
       const result = await evaluateScript(code);
       expect(result).toBe("abcfoo");
     });
+  });
+
+  it("Supports equality comparisons", async () => {
+    const code = `
+      new String("abc") == "abc";
+    `;
+    expect(await evaluateScript(code)).toBe(true);
+  });
+
+  it("Defaults to empty string", async () => {
+    const code = `
+      new String() == "";
+    `;
+    expect(await evaluateScript(code)).toBe(true);
   });
 
   describe("Boxing", () => {
