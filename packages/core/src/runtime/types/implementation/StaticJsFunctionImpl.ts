@@ -93,9 +93,7 @@ export default class StaticJsFunctionImpl
   }
 
   toStringSync() {
-    const nameValue = this.realm.invokeEvaluatorSync(
-      this.getPropertyEvaluator("name"),
-    );
+    const nameValue = this.realm.invokeEvaluatorSync(this.getEvaluator("name"));
     const name = nameValue.toStringSync();
 
     return `function ${name ?? ""}() { [native code] }`;
@@ -145,7 +143,7 @@ export default class StaticJsFunctionImpl
     // Just hacking together something that works.
     // What even is [[ConstructorKind]]?
 
-    let proto = yield* this.getPropertyEvaluator("prototype");
+    let proto = yield* this.getEvaluator("prototype");
     if (!proto || !isStaticJsObjectLike(proto)) {
       // This appears to be what node does
       proto = this.realm.types.null;

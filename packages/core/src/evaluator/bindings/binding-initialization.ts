@@ -78,7 +78,7 @@ export default function* bindingInitialization(
         environment,
         context,
       );
-      const doneValue = yield* iterator.getPropertyEvaluator("done");
+      const doneValue = yield* iterator.getEvaluator("done");
       const done = yield* toBoolean.js(doneValue, context.realm);
       if (!done) {
         yield* iteratorClose(iterator, null, context.realm);
@@ -150,7 +150,7 @@ function* keyedBindingInitialization(
     case "ObjectPattern":
     case "ArrayPattern": {
       const obj = yield* toObject(value, context.realm);
-      let v = yield* obj.getPropertyEvaluator(property);
+      let v = yield* obj.getEvaluator(property);
       if (initializer && isStaticJsUndefined(v)) {
         const defaultValue = yield* EvaluateNodeCommand(initializer, context, {
           forNormalValue: "keyedBindingInitialization.initializer",
@@ -168,7 +168,7 @@ function* keyedBindingInitialization(
         context.strict,
       );
       const obj = yield* toObject(value, context.realm);
-      let v = yield* obj.getPropertyEvaluator(property);
+      let v = yield* obj.getEvaluator(property);
       if (initializer && isStaticJsUndefined(v)) {
         const defaultValue = yield* EvaluateNodeCommand(initializer, context, {
           forNormalValue: "keyedBindingInitialization.initializer",
@@ -217,7 +217,7 @@ function* restBindingInitialization(
       continue;
     }
 
-    const value = yield* from.getPropertyEvaluator(key);
+    const value = yield* from.getEvaluator(key);
     yield* restObject.definePropertyEvaluator(key, {
       value,
       writable: true,

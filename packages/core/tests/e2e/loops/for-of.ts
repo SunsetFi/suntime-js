@@ -31,7 +31,7 @@ describe("E2E: For Of loops", () => {
   it("Breaks out of the closest for-of loop", async () => {
     const code = `
         let sum = 0;
-        outer: for (const i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
+        for (const i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
           for (const j of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
             sum += j;
             if (j === 5) {
@@ -130,6 +130,33 @@ describe("E2E: For Of loops", () => {
     expect(await evaluateScript(code)).toBe(10);
   });
 
+  it("Calls iterator.return when abruptly terminated", async () => {
+    const code = `
+        let finalized = false;
+        const iterable = {
+          [Symbol.iterator]: function() {
+            let count = 0;
+            return {
+              next: function() {
+                return { value: count++, done: false };
+              },
+              return: function() {
+                finalized = true;
+                return { done: true };
+              }
+            };
+          }
+        };
+        for (const i of iterable) {
+          if (i === 5) {
+            break;
+          }
+        }
+        finalized;
+      `;
+    expect(await evaluateScript(code)).toBe(true);
+  });
+
   it("Does not conflict iteration variable with outer scope", async () => {
     const code = `
         let i = -1;
@@ -163,5 +190,89 @@ describe("E2E: For Of loops", () => {
         }
       `;
     expect(await evaluateScript(code)).toBe("value: 9");
+  });
+
+  describe("Variable declarations", () => {
+    it("Supports let declarations", async () => {
+      const code = `
+          let sum = 0;
+          for (let i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
+            sum += i;
+          }
+          sum;
+        `;
+      expect(await evaluateScript(code)).toBe(45);
+    });
+
+    it("Supports const declarations", async () => {
+      const code = `
+          let sum = 0;
+          for (const i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
+            sum += i;
+          }
+          sum;
+        `;
+      expect(await evaluateScript(code)).toBe(45);
+    });
+
+    it("Supports object destructuring", async () => {
+      const code = `
+          let sum = 0;
+          const array = [{ val: 1 }, { val: 2 }, { val: 3 }];
+          for (const { val } of array) {
+            sum += val;
+          }
+          sum;
+        `;
+      expect(await evaluateScript(code)).toBe(6);
+    });
+
+    it("Supports array destructuring", async () => {
+      const code = `
+          let sum = 0;
+          const array = [[1, 2], [3, 4], [5, 6]];
+          for (const [a, b] of array) {
+            sum += a + b;
+          }
+          sum;
+        `;
+      expect(await evaluateScript(code)).toBe(21);
+    });
+
+    it("Supports array-in-object destructuring", async () => {
+      const code = `
+          let sum = 0;
+          const array = [{ vals: [1, 2] }, { vals: [3, 4] }, { vals: [5, 6] }];
+          for (const { vals: [a, b] } of array) {
+            sum += a + b;
+          }
+          sum;
+        `;
+      expect(await evaluateScript(code)).toBe(21);
+    });
+
+    it("Supports object-in-array destructuring", async () => {
+      const code = `
+          let sum = 0;
+          const array = [[{ val: 1 }, { val: 2 }], [{ val: 3 }, { val: 4 }], [{ val: 5 }, { val: 6 }]];
+          for (const [{ val: a }, { val: b }] of array) {
+            sum += a + b;
+          }
+          sum;
+        `;
+      expect(await evaluateScript(code)).toBe(21);
+    });
+
+    it("Supports defaults in destructuring", async () => {
+      const code = `
+          let sum = 0;
+          const array = [{}, { val: 2 }, { val: 3 }];
+          for (const { val = 1 } of array) {
+            sum += val;
+          }
+          sum;
+        `;
+      expect(await evaluateScript(code)).toBe(6);
+    });
   });
 });

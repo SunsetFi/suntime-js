@@ -60,7 +60,7 @@ export default class StaticJsSetImpl
 
     const [result, resultAdd] = yield* setCreate(this, this.realm);
 
-    const otherHas = yield* otherSet.getPropertyEvaluator("has");
+    const otherHas = yield* otherSet.getEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "has is not a function"),
@@ -95,7 +95,7 @@ export default class StaticJsSetImpl
 
     const [result, resultAdd] = yield* setCreate(this, this.realm);
 
-    const otherHas = yield* otherSet.getPropertyEvaluator("has");
+    const otherHas = yield* otherSet.getEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "has is not a function"),
@@ -123,7 +123,7 @@ export default class StaticJsSetImpl
       );
     }
 
-    const otherHas = yield* otherSet.getPropertyEvaluator("has");
+    const otherHas = yield* otherSet.getEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "has is not a function"),
@@ -149,7 +149,7 @@ export default class StaticJsSetImpl
       );
     }
 
-    const otherHas = yield* otherSet.getPropertyEvaluator("has");
+    const otherHas = yield* otherSet.getEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "has is not a function"),
@@ -213,7 +213,7 @@ export default class StaticJsSetImpl
 
     const [result, resultAdd] = yield* setCreate(this, this.realm);
 
-    const otherHas = yield* otherSet.getPropertyEvaluator("has");
+    const otherHas = yield* otherSet.getEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "has is not a function"),
@@ -360,7 +360,7 @@ function* setCreate(
       realm.types.error("TypeError", "Failed to create Set"),
     );
   }
-  const resultAdd = yield* result.getPropertyEvaluator("add");
+  const resultAdd = yield* result.getEvaluator("add");
   if (!isStaticJsFunction(resultAdd)) {
     throw new StaticJsRuntimeError(
       realm.types.error("TypeError", "add is not a function"),

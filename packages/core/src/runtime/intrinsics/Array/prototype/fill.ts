@@ -52,7 +52,7 @@ const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     for (let i = start; i < end; i++) {
-      yield* thisObj.setPropertyEvaluator(String(i), value, true);
+      yield* thisObj.setEvaluator(String(i), value, true);
     }
 
     return thisObj;

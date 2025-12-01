@@ -34,7 +34,7 @@ const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
 
-      const elementValue = yield* thisObj.getPropertyEvaluator(property);
+      const elementValue = yield* thisObj.getEvaluator(property);
       yield* callback.callEvaluator(
         providedThisArg ?? thisObj,
         elementValue,

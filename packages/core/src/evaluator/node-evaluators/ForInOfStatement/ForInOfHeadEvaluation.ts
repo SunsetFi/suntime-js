@@ -1,0 +1,55 @@
+import type { Expression } from "@babel/types";
+
+import type EvaluationGenerator from "../../EvaluationGenerator.js";
+import type EvaluationContext from "../../EvaluationContext.js";
+
+import { isStaticJsNull } from "../../../runtime/types/StaticJsNull.js";
+import { isStaticJsUndefined } from "../../../runtime/types/StaticJsUndefined.js";
+import type { StaticJsObjectLike } from "../../../runtime/types/StaticJsObjectLike.js";
+
+import StaticJsDeclarativeEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+
+import toObject from "../../../runtime/algorithms/to-object.js";
+import enumerateObjectProperties from "../../../runtime/algorithms/enumerate-object-properties.js";
+import getIterator from "../../../runtime/algorithms/get-iterator.js";
+
+import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
+
+import { BreakCompletion } from "../../completions/BreakCompletion.js";
+
+export default function* forInOfHeadEvaluation(
+  uninitializedBoundNames: string[],
+  expr: Expression,
+  iterationKind: "enumerate" | "iterate",
+  context: EvaluationContext,
+): EvaluationGenerator<StaticJsObjectLike> {
+  const oldEnv = context.lexicalEnv;
+
+  let exprContext: EvaluationContext = context;
+  if (uninitializedBoundNames.length > 0) {
+    const newEnv = new StaticJsDeclarativeEnvironmentRecord(
+      oldEnv,
+      context.realm,
+    );
+    for (const name of uninitializedBoundNames) {
+      yield* newEnv.createMutableBindingEvaluator(name, false);
+    }
+    exprContext = context.createLexicalEnvContext(newEnv);
+  }
+
+  const exprValue = yield* EvaluateNodeCommand(expr, exprContext, {
+    forNormalValue: "ForInOfStatement.right",
+  });
+
+  if (iterationKind === "enumerate") {
+    if (isStaticJsUndefined(exprValue) || isStaticJsNull(exprValue)) {
+      throw new BreakCompletion();
+    }
+
+    const obj = yield* toObject(exprValue, context.realm);
+    const enumerator = yield* enumerateObjectProperties(obj, context.realm);
+    return enumerator;
+  } else {
+    return yield* getIterator(exprValue, context.realm);
+  }
+}

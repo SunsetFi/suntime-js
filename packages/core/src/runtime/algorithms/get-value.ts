@@ -38,7 +38,7 @@ export default function* getValue(
 
     const propertyKey = yield* toPropertyKey(v.referencedName, realm);
 
-    return yield* baseObj.getPropertyEvaluator(
+    return yield* baseObj.getEvaluator(
       propertyKey,
       // TODO: thisObj
     );

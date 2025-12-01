@@ -80,7 +80,7 @@ export default class StaticJsMapImpl
     }
   }
 
-  *getEvaluator(key: StaticJsValue): EvaluationGenerator<StaticJsValue> {
+  *getValueEvaluator(key: StaticJsValue): EvaluationGenerator<StaticJsValue> {
     const keyUnwrapped = toNativeUnwrap(key);
     return this._backingStore.get(keyUnwrapped) ?? this.realm.types.undefined;
   }
@@ -104,7 +104,7 @@ export default class StaticJsMapImpl
     }, realm);
   }
 
-  *setEvaluator(
+  *setValueEvaluator(
     key: StaticJsValue,
     value: StaticJsValue,
   ): EvaluationGenerator<void> {

@@ -367,11 +367,11 @@ export default abstract class StaticJsAbstractObject
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
-  getPropertySync(key: StaticJsObjectPropertyKey): StaticJsValue {
-    return this.realm.invokeEvaluatorSync(this.getPropertyEvaluator(key));
+  getSync(key: StaticJsObjectPropertyKey): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.getEvaluator(key));
   }
 
-  *getPropertyEvaluator(
+  *getEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsValue> {
     const decl = yield* this.getPropertyDescriptorEvaluator(key);
@@ -405,17 +405,17 @@ export default abstract class StaticJsAbstractObject
     return value;
   }
 
-  setPropertySync(
+  setSync(
     key: StaticJsObjectPropertyKey,
     value: StaticJsValue,
     strict: boolean,
   ): boolean {
     return this.realm.invokeEvaluatorSync(
-      this.setPropertyEvaluator(key, value, strict),
+      this.setEvaluator(key, value, strict),
     );
   }
 
-  *setPropertyEvaluator(
+  *setEvaluator(
     key: StaticJsObjectPropertyKey,
     value: StaticJsValue,
     strict: boolean,

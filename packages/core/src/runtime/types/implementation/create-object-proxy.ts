@@ -55,7 +55,7 @@ export default function createStaticJsObjectLikeProxy(
       if (isStaticJsDataPropertyDescriptor(descriptor) && descriptor.writable) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (target as any)[propertyName] = obj
-          .getPropertySync(staticJsPropertyKey)
+          .getSync(staticJsPropertyKey)
           .toJsSync();
         return Object.getOwnPropertyDescriptor(target, propertyName);
       }
@@ -73,13 +73,13 @@ export default function createStaticJsObjectLikeProxy(
     if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
       if (descriptor.get) {
         jsDescriptor.get = () => {
-          return obj.getPropertySync(staticJsPropertyKey).toJsSync();
+          return obj.getSync(staticJsPropertyKey).toJsSync();
         };
       }
       if (descriptor.set) {
         jsDescriptor.set = (value: unknown) => {
           const staticJsValue = obj.realm.types.toStaticJsValue(value);
-          obj.setPropertySync(staticJsPropertyKey, staticJsValue, false);
+          obj.setSync(staticJsPropertyKey, staticJsValue, false);
         };
       } else {
         // Huh... This needs to be set apparently.
@@ -88,7 +88,7 @@ export default function createStaticJsObjectLikeProxy(
       }
     } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
       jsDescriptor.writable = descriptor.writable;
-      jsDescriptor.value = obj.getPropertySync(staticJsPropertyKey).toJsSync();
+      jsDescriptor.value = obj.getSync(staticJsPropertyKey).toJsSync();
     }
 
     // Proxy is incredibly stupid in that it forces you to have the target match.
@@ -216,7 +216,7 @@ export default function createStaticJsObjectLikeProxy(
         staticJsPropertyKey = p;
       }
       const staticJsValue = obj.realm.types.toStaticJsValue(value);
-      obj.setPropertySync(staticJsPropertyKey, staticJsValue, false);
+      obj.setSync(staticJsPropertyKey, staticJsValue, false);
       // TODO: What if we aren't writable?
       return true;
     },

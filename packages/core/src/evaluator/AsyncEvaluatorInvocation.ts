@@ -150,7 +150,7 @@ export default class AsyncEvaluatorInvocation {
     const continueInvocation = this._continue.bind(this);
 
     if (isStaticJsObjectLike(awaitable)) {
-      const awaitableThen = yield* awaitable.getPropertyEvaluator("then");
+      const awaitableThen = yield* awaitable.getEvaluator("then");
       if (isStaticJsFunction(awaitableThen)) {
         // Register with the function.
         // The function will be responsible for queueing us on the microtask.

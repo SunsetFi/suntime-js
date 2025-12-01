@@ -42,7 +42,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
 
     let hasIterator = false;
     if (isStaticJsObjectLike(items)) {
-      const iteratorMethod = yield* items.getPropertyEvaluator(
+      const iteratorMethod = yield* items.getEvaluator(
         realm.types.symbols.iterator,
       );
       hasIterator = isStaticJsFunction(iteratorMethod);
@@ -124,7 +124,7 @@ function* fromIterator(
     }
   });
 
-  yield* A.setPropertyEvaluator("length", realm.types.number(k), true);
+  yield* A.setEvaluator("length", realm.types.number(k), true);
   return A;
 }
 
@@ -144,7 +144,7 @@ function* fromArrayLike(
   let k = 0;
   while (k < len) {
     const pK = String(k);
-    const kValue = yield* arrayLike.getPropertyEvaluator(pK);
+    const kValue = yield* arrayLike.getEvaluator(pK);
 
     let mappedValue: StaticJsValue;
     if (mapFn) {
@@ -170,7 +170,7 @@ function* fromArrayLike(
 
   // Per spec: Use set, not define
   // This doesn't actually hit setters, as the array ctor uses define for initializing length.
-  yield* A.setPropertyEvaluator("length", realm.types.number(len), true);
+  yield* A.setEvaluator("length", realm.types.number(len), true);
 
   return A;
 }

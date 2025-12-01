@@ -3,7 +3,8 @@ import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 import type { Completion } from "../../evaluator/completions/Completion.js";
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 import { unwrapCompletion } from "../../evaluator/completions/unwrapCompletion.js";
-import { isAbnormalCompletion } from "../../evaluator/completions/AbnormalCompletion.js";
+import { isAbruptCompletion } from "../../evaluator/completions/AbruptCompletion.js";
+import type { NormalCompletion } from "../../evaluator/completions/NormalCompletion.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
@@ -12,13 +13,25 @@ import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 
+export default function iteratorClose(
+  iterator: StaticJsObjectLike,
+  completion: Completion,
+  realm: StaticJsRealm,
+  unwrap?: true,
+): EvaluationGenerator<NormalCompletion>;
+export default function iteratorClose(
+  iterator: StaticJsObjectLike,
+  completion: Completion,
+  realm: StaticJsRealm,
+  unwrap: false,
+): EvaluationGenerator<Completion>;
 export default function* iteratorClose(
   iterator: StaticJsObjectLike,
   completion: Completion,
   realm: StaticJsRealm,
   unwrap: boolean = true,
 ): EvaluationGenerator<Completion> {
-  const returnMethod = yield* iterator.getPropertyEvaluator("return");
+  const returnMethod = yield* iterator.getEvaluator("return");
 
   let innerResult: Completion;
   if (isStaticJsNull(returnMethod) || isStaticJsUndefined(returnMethod)) {
@@ -31,7 +44,7 @@ export default function* iteratorClose(
     try {
       innerResult = yield* returnMethod.callEvaluator(iterator);
     } catch (e) {
-      if (isAbnormalCompletion(e)) {
+      if (isAbruptCompletion(e)) {
         // Store it, because
         innerResult = e;
       }
@@ -64,7 +77,7 @@ iteratorClose.handle = function* handleIteratorClose<T>(
     const result = yield* handler();
     return result;
   } catch (e) {
-    if (isAbnormalCompletion(e)) {
+    if (isAbruptCompletion(e)) {
       // If the handler threw an abnormal completion, we need to close the iterator
       yield* iteratorClose(iterator, e, realm);
     }

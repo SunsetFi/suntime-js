@@ -16,7 +16,7 @@ const mapProtoSetDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    yield* thisArg.setEvaluator(
+    yield* thisArg.setValueEvaluator(
       key ?? realm.types.undefined,
       value ?? realm.types.undefined,
     );

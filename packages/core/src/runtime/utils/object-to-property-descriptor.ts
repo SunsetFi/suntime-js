@@ -21,14 +21,14 @@ export default function* objectToPropertyDescriptor(
   let enumerable: boolean | undefined;
   const hasEnumerable = yield* obj.hasPropertyEvaluator("enumerable");
   if (hasEnumerable) {
-    const enumerableValue = yield* obj.getPropertyEvaluator("enumerable");
+    const enumerableValue = yield* obj.getEvaluator("enumerable");
     enumerable = yield* toBoolean.js(enumerableValue, realm);
   }
 
   let configurable: boolean | undefined;
   const hasConfigurable = yield* obj.hasPropertyEvaluator("configurable");
   if (hasConfigurable) {
-    const configurableValue = yield* obj.getPropertyEvaluator("configurable");
+    const configurableValue = yield* obj.getEvaluator("configurable");
     configurable = yield* toBoolean.js(configurableValue, realm);
   }
 
@@ -49,19 +49,19 @@ export default function* objectToPropertyDescriptor(
 
   const hasValue = yield* obj.hasPropertyEvaluator("value");
   if (hasValue) {
-    const value = yield* obj.getPropertyEvaluator("value");
+    const value = yield* obj.getEvaluator("value");
     descriptor.value = value;
   }
 
   const hasWritable = yield* obj.hasPropertyEvaluator("writable");
   if (hasWritable) {
-    const writableValue = yield* obj.getPropertyEvaluator("writable");
+    const writableValue = yield* obj.getEvaluator("writable");
     descriptor.writable = yield* toBoolean.js(writableValue, realm);
   }
 
   const hasGetter = yield* obj.hasPropertyEvaluator("get");
   if (hasGetter) {
-    const getter = yield* obj.getPropertyEvaluator("get");
+    const getter = yield* obj.getEvaluator("get");
     if (!isStaticJsFunction(getter)) {
       throw new ThrowCompletion(
         realm.types.error("TypeError", `get must be a function`),
@@ -73,7 +73,7 @@ export default function* objectToPropertyDescriptor(
 
   const hasSetter = yield* obj.hasPropertyEvaluator("set");
   if (hasSetter) {
-    const setter = yield* obj.getPropertyEvaluator("set");
+    const setter = yield* obj.getEvaluator("set");
     if (!isStaticJsFunction(setter)) {
       throw new ThrowCompletion(
         realm.types.error("TypeError", `set must be a function`),

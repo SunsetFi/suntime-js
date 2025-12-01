@@ -20,7 +20,7 @@ export default function* toPrimitive(
     return value;
   }
 
-  const exoticToPrim = yield* value.getPropertyEvaluator(
+  const exoticToPrim = yield* value.getEvaluator(
     realm.types.symbols.toPrimitive,
   );
   if (isStaticJsFunction(exoticToPrim)) {
@@ -66,7 +66,7 @@ function* ordinaryToPrimitive(
   }
 
   for (const methodName of methodNames) {
-    const method = yield* value.getPropertyEvaluator(methodName);
+    const method = yield* value.getEvaluator(methodName);
     if (!isStaticJsFunction(method)) {
       continue;
     }

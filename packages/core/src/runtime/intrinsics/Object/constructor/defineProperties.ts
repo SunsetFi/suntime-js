@@ -28,7 +28,7 @@ const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
     // but testing on NodeJs shows that this is own enumerable.
     const keys = yield* propertiesObj.getOwnEnumerableKeysEvaluator();
     for (const key of keys) {
-      const descriptorObj = yield* propertiesObj.getPropertyEvaluator(key);
+      const descriptorObj = yield* propertiesObj.getEvaluator(key);
       if (!isStaticJsObjectLike(descriptorObj)) {
         throw new ThrowCompletion(
           realm.types.error(

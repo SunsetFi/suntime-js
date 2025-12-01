@@ -42,7 +42,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
 
-      const currentItem = yield* thisObj.getPropertyEvaluator(String(i));
+      const currentItem = yield* thisObj.getEvaluator(String(i));
       const result = yield* callback.callEvaluator(
         thisObj,
         currentItem,
@@ -64,7 +64,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
             continue;
           }
 
-          const value = yield* result.getPropertyEvaluator(String(k));
+          const value = yield* result.getEvaluator(String(k));
           yield* A.definePropertyEvaluator(String(n), {
             value: value,
             writable: true,

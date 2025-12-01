@@ -17,7 +17,7 @@ export default function* isConcatSpreadable(
     return false;
   }
 
-  const spreadable = yield* O.getPropertyEvaluator(
+  const spreadable = yield* O.getEvaluator(
     O.realm.types.symbols.isConcatSpreadable,
   );
   if (!isStaticJsUndefined(spreadable)) {

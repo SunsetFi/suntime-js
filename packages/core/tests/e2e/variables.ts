@@ -314,7 +314,7 @@ describe("E2E: Variables", () => {
       `;
       const realm = StaticJsRealm();
       await evaluateScript(code, { realm });
-      const globalValue = realm.global.getPropertySync("x");
+      const globalValue = realm.global.getSync("x");
       expect(globalValue).toBeDefined();
       expect(isStaticJsNumber(globalValue)).toBe(true);
       expect((globalValue as StaticJsNumber).value).toBe(10);

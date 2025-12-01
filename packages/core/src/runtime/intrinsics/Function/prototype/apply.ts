@@ -25,7 +25,7 @@ const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
       const argsArrayObj = yield* toObject(argsArray, realm);
       const length = yield* lengthOfArrayLike(argsArrayObj, realm);
       for (let i = 0; i < length; i++) {
-        const element = yield* argsArrayObj.getPropertyEvaluator(String(i));
+        const element = yield* argsArrayObj.getEvaluator(String(i));
         args.push(element);
       }
     }

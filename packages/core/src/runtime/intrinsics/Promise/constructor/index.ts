@@ -50,7 +50,7 @@ export default function createPromiseConstructor(
 
       // Our implementation requires us to take over the object instance,
       // but still obey the prototype in case someone subclasses us.
-      let proto = yield* thisArg.getPropertyEvaluator("prototype");
+      let proto = yield* thisArg.getEvaluator("prototype");
       if (!isStaticJsObjectLike(proto)) {
         proto = realm.types.prototypes.promiseProto;
       }
@@ -123,7 +123,7 @@ function createPromiseResolveFunction(
 
     let then;
     try {
-      then = yield* resolution.getPropertyEvaluator("then");
+      then = yield* resolution.getEvaluator("then");
     } catch (e) {
       if (e instanceof ThrowCompletion) {
         promise.reject(e.value);

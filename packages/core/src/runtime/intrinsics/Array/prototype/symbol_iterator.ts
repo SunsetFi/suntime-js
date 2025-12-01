@@ -19,7 +19,7 @@ const arrayProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
         return undefined;
       }
 
-      const result = yield* thisArg.getPropertyEvaluator(String(index));
+      const result = yield* thisArg.getEvaluator(String(index));
 
       index++;
 

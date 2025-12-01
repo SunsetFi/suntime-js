@@ -11,11 +11,11 @@ const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
     const length = yield* lengthOfArrayLike(thisObj, realm);
 
     if (length <= 0) {
-      yield* thisObj.setPropertyEvaluator("length", realm.types.zero, true);
+      yield* thisObj.setEvaluator("length", realm.types.zero, true);
       return realm.types.undefined;
     }
 
-    const value = yield* thisObj.getPropertyEvaluator("0");
+    const value = yield* thisObj.getEvaluator("0");
 
     for (let i = 0; i < length - 1; i++) {
       const fromProperty = String(i + 1);
@@ -28,16 +28,12 @@ const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
 
-      const fromValue = yield* thisObj.getPropertyEvaluator(fromProperty);
-      yield* thisObj.setPropertyEvaluator(toProperty, fromValue, true);
+      const fromValue = yield* thisObj.getEvaluator(fromProperty);
+      yield* thisObj.setEvaluator(toProperty, fromValue, true);
     }
 
     yield* thisObj.deletePropertyEvaluator(String(length - 1));
-    yield* thisObj.setPropertyEvaluator(
-      "length",
-      realm.types.number(length - 1),
-      true,
-    );
+    yield* thisObj.setEvaluator("length", realm.types.number(length - 1), true);
 
     return value;
   },

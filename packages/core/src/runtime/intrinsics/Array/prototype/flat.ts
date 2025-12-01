@@ -55,7 +55,7 @@ function* performFlat(
       continue;
     }
 
-    const itemValue = yield* thisObj.getPropertyEvaluator(String(i));
+    const itemValue = yield* thisObj.getEvaluator(String(i));
     if (depth > 0 && isStaticJsArray(itemValue)) {
       target = yield* performFlat(realm, itemValue, depth - 1, target);
     } else {

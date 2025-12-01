@@ -34,7 +34,7 @@ const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
 
-      const elementValue = yield* thisObj.getPropertyEvaluator(property);
+      const elementValue = yield* thisObj.getEvaluator(property);
       if (isStaticJsUndefined(elementValue) || isStaticJsNull(elementValue)) {
         // join treats these as empty.
         s.push("");

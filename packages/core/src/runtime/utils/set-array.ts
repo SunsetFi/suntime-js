@@ -16,13 +16,9 @@ export default function* setArray(
     if (!value || !hasOwnProperty(values, i)) {
       yield* obj.deletePropertyEvaluator(property);
     } else {
-      yield* obj.setPropertyEvaluator(property, value, true);
+      yield* obj.setEvaluator(property, value, true);
     }
   }
 
-  yield* obj.setPropertyEvaluator(
-    "length",
-    realm.types.number(values.length),
-    true,
-  );
+  yield* obj.setEvaluator("length", realm.types.number(values.length), true);
 }

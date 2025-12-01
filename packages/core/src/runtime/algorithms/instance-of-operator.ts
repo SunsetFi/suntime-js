@@ -26,7 +26,7 @@ export default function* instanceOfOperator(
     );
   }
 
-  const instOfHandler = yield* target.getPropertyEvaluator(
+  const instOfHandler = yield* target.getEvaluator(
     realm.types.symbols.hasInstance,
   );
   if (isStaticJsFunction(instOfHandler)) {

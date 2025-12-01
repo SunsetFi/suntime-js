@@ -4,6 +4,7 @@ import { evaluateScript } from "../../src/index.js";
 
 interface BindingScenarioDefinition {
   title: string;
+  exclude?: string[];
   bindingsCode: string;
   valueCode: string;
   resultCollector: string;
@@ -180,6 +181,8 @@ const bindingScenarios: BindingScenarioDefinition[] = [
   },
   {
     title: "Default initializer referencing earlier binding",
+    // 'var' can access the variable being initialized, unlike 'let' and 'const'
+    exclude: ["var"],
     bindingsCode: `{ a = b, b = 1 }`,
     valueCode: `{}`,
     resultCollector: `[a, b]`,
@@ -201,8 +204,15 @@ const bindingScenarios: BindingScenarioDefinition[] = [
   },
 ];
 
+function scenariosFor(declarationType: string) {
+  return bindingScenarios.filter(
+    (scenario) =>
+      !scenario.exclude || !scenario.exclude.includes(declarationType),
+  );
+}
+
 describe("E2E: Binding Initialization", () => {
-  it.each(bindingScenarios)(
+  it.each(scenariosFor("let"))(
     "let: $title",
     async ({
       bindingsCode,
@@ -228,7 +238,7 @@ describe("E2E: Binding Initialization", () => {
       assert({ result, error });
     },
   );
-  it.each(bindingScenarios)(
+  it.each(scenariosFor("const"))(
     "const: $title",
     async ({
       bindingsCode,
@@ -241,6 +251,61 @@ describe("E2E: Binding Initialization", () => {
         ${setupCode}
         const ${bindingsCode} = ${valueCode};
         ${resultCollector};
+      `;
+
+      let result: unknown;
+      let error: unknown;
+      try {
+        result = await evaluateScript(script);
+      } catch (err) {
+        error = err;
+      }
+
+      assert({ result, error });
+    },
+  );
+
+  it.each(scenariosFor("var"))(
+    "var: $title",
+    async ({
+      bindingsCode,
+      valueCode,
+      resultCollector,
+      setupCode = "",
+      assert,
+    }) => {
+      const script = `
+        ${setupCode}
+        var ${bindingsCode} = ${valueCode};
+        ${resultCollector};
+      `;
+
+      let result: unknown;
+      let error: unknown;
+      try {
+        result = await evaluateScript(script);
+      } catch (err) {
+        error = err;
+      }
+
+      assert({ result, error });
+    },
+  );
+
+  it.each(scenariosFor("forOf"))(
+    "for-of: $title",
+    async ({
+      bindingsCode,
+      valueCode,
+      resultCollector,
+      setupCode = "",
+      assert,
+    }) => {
+      const script = `
+        ${setupCode}
+        for (let ${bindingsCode} of [${valueCode}]) {
+          ${resultCollector};
+        }
       `;
 
       let result: unknown;

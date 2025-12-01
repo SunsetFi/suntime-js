@@ -63,7 +63,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
     name: string,
     value: StaticJsValue,
   ): EvaluationGenerator<void> {
-    yield* this._obj.setPropertyEvaluator(name, value, false);
+    yield* this._obj.setEvaluator(name, value, false);
   }
 
   *setMutableBindingEvaluator(
@@ -81,7 +81,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
       );
     }
 
-    yield* this._obj.setPropertyEvaluator(name, value, strict);
+    yield* this._obj.setEvaluator(name, value, strict);
   }
 
   *getBindingValueEvaluator(
@@ -102,7 +102,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
       }
     }
 
-    return yield* this._obj.getPropertyEvaluator(name);
+    return yield* this._obj.getEvaluator(name);
   }
 
   *deleteBindingEvaluator(name: string): EvaluationGenerator<boolean> {

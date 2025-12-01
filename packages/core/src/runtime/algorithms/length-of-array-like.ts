@@ -11,7 +11,7 @@ export default function* lengthOfArrayLike(
   obj: StaticJsObjectLike,
   realm: StaticJsRealm,
 ): EvaluationGenerator<number> {
-  let lengthValue = yield* obj.getPropertyEvaluator("length");
+  let lengthValue = yield* obj.getEvaluator("length");
   lengthValue = yield* toInteger(lengthValue, realm);
   let length = lengthValue.value;
 

@@ -54,7 +54,7 @@ const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
 
     const result = new StaticJsMapImpl(realm);
     for (const [key, items] of collection) {
-      yield* result.setEvaluator(key, realm.types.array(items));
+      yield* result.setValueEvaluator(key, realm.types.array(items));
     }
 
     return result;

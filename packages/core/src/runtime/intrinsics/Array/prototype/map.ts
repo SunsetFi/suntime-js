@@ -43,7 +43,7 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
 
-      const elementValue = yield* thisArg.getPropertyEvaluator(property);
+      const elementValue = yield* thisArg.getEvaluator(property);
       const result = yield* callback.callEvaluator(
         providedThisArg ?? thisArg,
         elementValue,

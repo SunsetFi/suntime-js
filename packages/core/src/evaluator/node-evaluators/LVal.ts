@@ -159,12 +159,8 @@ export default function* setLVal(
           const keys = yield* value.getOwnKeysEvaluator();
           for (const key in keys) {
             if (!seenProperties.has(key)) {
-              const propertyValue = yield* value.getPropertyEvaluator(key);
-              yield* restValue.setPropertyEvaluator(
-                key,
-                propertyValue,
-                context.strict,
-              );
+              const propertyValue = yield* value.getEvaluator(key);
+              yield* restValue.setEvaluator(key, propertyValue, context.strict);
             }
           }
 
@@ -190,7 +186,7 @@ export default function* setLVal(
             seenProperties.add(propertyKey);
           }
 
-          const propertyValue = yield* value.getPropertyEvaluator(propertyKey);
+          const propertyValue = yield* value.getEvaluator(propertyKey);
 
           if (!property.computed && property.value.type === "Identifier") {
             yield* setNamedVariable(property.value.name, propertyValue);
@@ -253,7 +249,7 @@ export default function* setLVal(
       const object = yield* toObject(objectValue, context.realm);
 
       // FIXME: Is this correct?  We set the object directly???
-      yield* object.setPropertyEvaluator(propertyKey, value, context.strict);
+      yield* object.setEvaluator(propertyKey, value, context.strict);
 
       return null;
     }

@@ -19,13 +19,13 @@ export interface StaticJsMap extends StaticJsObjectLike {
     thisArg?: StaticJsValue,
   ): EvaluationGenerator<void>;
 
-  getEvaluator(key: StaticJsValue): EvaluationGenerator<StaticJsValue>;
+  getValueEvaluator(key: StaticJsValue): EvaluationGenerator<StaticJsValue>;
 
   hasEvaluator(key: StaticJsValue): EvaluationGenerator<boolean>;
 
   keysEvaluator(): EvaluationGenerator<StaticJsValue>;
 
-  setEvaluator(
+  setValueEvaluator(
     key: StaticJsValue,
     value: StaticJsValue,
   ): EvaluationGenerator<void>;

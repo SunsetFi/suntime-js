@@ -26,7 +26,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
     for (let i = 0; i < length; i++) {
       const property = String(i);
       if (yield* O.hasPropertyEvaluator(property)) {
-        const E = yield* O.getPropertyEvaluator(property);
+        const E = yield* O.getEvaluator(property);
         // Per spec, must be defineProperty
         yield* A.definePropertyEvaluator(String(n), {
           value: E,
@@ -59,7 +59,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
           const Pk = String(k);
           const exists = yield* objE.hasPropertyEvaluator(Pk);
           if (exists) {
-            const subElement = yield* objE.getPropertyEvaluator(Pk);
+            const subElement = yield* objE.getEvaluator(Pk);
 
             // Per spec, must be defineProperty
             yield* A.definePropertyEvaluator(String(n), {
@@ -91,7 +91,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     // Per spec, must be set
-    yield* A.setPropertyEvaluator("length", realm.types.number(n), true);
+    yield* A.setEvaluator("length", realm.types.number(n), true);
 
     return A;
   },

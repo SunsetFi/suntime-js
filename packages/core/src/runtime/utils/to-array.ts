@@ -19,7 +19,7 @@ export default function* toArray(
     const property = String(i);
     const hasProperty = yield* obj.hasPropertyEvaluator(property);
     if (hasProperty) {
-      const item = yield* obj.getPropertyEvaluator(property);
+      const item = yield* obj.getEvaluator(property);
       result[i] = item;
     }
   }

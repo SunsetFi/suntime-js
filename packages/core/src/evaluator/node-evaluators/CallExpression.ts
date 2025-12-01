@@ -108,7 +108,7 @@ export default function* callExpressionNodeEvaluator(
   }
 
   if (isIdentifier(node.callee) && node.callee.name === "eval") {
-    const globalEval = yield* context.realm.global.getPropertyEvaluator("eval");
+    const globalEval = yield* context.realm.global.getEvaluator("eval");
     if (globalEval === callee && isStaticJsFunction(callee)) {
       return yield* callEvalEvaluator(context, args[0]);
     }

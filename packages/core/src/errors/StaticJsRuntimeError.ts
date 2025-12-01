@@ -30,7 +30,7 @@ function getMessage(value: StaticJsValue): string {
 
   const hasMessage = value.hasPropertySync("message");
   if (hasMessage) {
-    const message = value.getPropertySync("message");
+    const message = value.getSync("message");
     return message.toStringSync();
   }
 

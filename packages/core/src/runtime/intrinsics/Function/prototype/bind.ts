@@ -23,7 +23,7 @@ const functionProtoBindDeclaration: IntrinsicPropertyDeclaration = {
       thisArg = realm.globalThis;
     }
 
-    let name = yield* self.getPropertyEvaluator("name");
+    let name = yield* self.getEvaluator("name");
     if (!isStaticJsString(name)) {
       name = realm.types.string("<anonymous>");
     }

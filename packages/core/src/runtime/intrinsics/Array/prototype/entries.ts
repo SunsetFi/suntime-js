@@ -18,7 +18,7 @@ const arrayProtoEntriesDeclaration: IntrinsicPropertyDeclaration = {
         return undefined;
       }
 
-      const itemValue = yield* thisArg.getPropertyEvaluator(String(index));
+      const itemValue = yield* thisArg.getEvaluator(String(index));
       const result = realm.types.array([realm.types.number(index), itemValue]);
 
       index++;

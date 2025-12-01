@@ -81,7 +81,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
       const property = String(i);
       const hasProperty = yield* thisObj.hasPropertyEvaluator(property);
       if (hasProperty) {
-        const item = yield* thisObj.getPropertyEvaluator(property);
+        const item = yield* thisObj.getEvaluator(property);
         a[i] = item;
         b[i] = item;
       }
@@ -95,7 +95,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
         // Preserve missing items.
         yield* thisObj.deletePropertyEvaluator(property);
       } else {
-        yield* thisObj.setPropertyEvaluator(property, b[i], true);
+        yield* thisObj.setEvaluator(property, b[i], true);
       }
     }
 

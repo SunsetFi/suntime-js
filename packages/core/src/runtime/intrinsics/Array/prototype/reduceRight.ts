@@ -67,12 +67,12 @@ const arrayProtoReduceRightDeclaration: IntrinsicPropertyDeclaration = {
       value = initialValue;
       startIndex = length - 1;
     } else {
-      value = yield* thisArray.getPropertyEvaluator(String(length - 1));
+      value = yield* thisArray.getEvaluator(String(length - 1));
       startIndex = length - 2;
     }
 
     for (let i = startIndex; i >= 0; i--) {
-      const elementValue = yield* thisArray.getPropertyEvaluator(String(i));
+      const elementValue = yield* thisArray.getEvaluator(String(i));
       const result = yield* callback.callEvaluator(
         thisArray,
         value,

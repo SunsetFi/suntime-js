@@ -383,7 +383,7 @@ describe("E2E: Realm", () => {
         })
       `);
 
-      const result = realm.global.getPropertySync("result");
+      const result = realm.global.getSync("result");
       expect(result.toJsSync()).toBe(5);
     });
 

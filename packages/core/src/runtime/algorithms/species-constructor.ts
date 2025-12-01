@@ -17,7 +17,7 @@ export default function* speciesConstructor(
   defaultConstructor: StaticJsFunction,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsFunction> {
-  const C = yield* O.getPropertyEvaluator("constructor");
+  const C = yield* O.getEvaluator("constructor");
 
   if (isStaticJsUndefined(C)) {
     return defaultConstructor;
@@ -33,7 +33,7 @@ export default function* speciesConstructor(
     );
   }
 
-  const S = yield* C.getPropertyEvaluator(realm.types.symbols.species);
+  const S = yield* C.getEvaluator(realm.types.symbols.species);
   if (isStaticJsNull(S) || isStaticJsUndefined(S)) {
     return defaultConstructor;
   }

@@ -22,7 +22,7 @@ export default function* sliceArrayNative(
       continue;
     }
 
-    const value = yield* array.getEvaluator(i);
+    const value = yield* array.getEvaluator(String(i));
     copy.push(value);
   }
 

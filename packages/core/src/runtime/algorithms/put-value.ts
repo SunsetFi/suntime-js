@@ -43,7 +43,7 @@ export default function* putValue(
     const propertyKey = yield* toPropertyKey(v.referencedName, realm);
 
     const globalObj = realm.global;
-    yield* globalObj.setPropertyEvaluator(propertyKey, w, false);
+    yield* globalObj.setEvaluator(propertyKey, w, false);
     return;
   }
 
@@ -54,7 +54,7 @@ export default function* putValue(
 
     const propertyKey = yield* toPropertyKey(v.referencedName, realm);
 
-    const succeeded = yield* baseObj.setPropertyEvaluator(
+    const succeeded = yield* baseObj.setEvaluator(
       propertyKey,
       w,
       v.strict,

@@ -3,15 +3,13 @@ import { ContinueCompletion } from "./ContinueCompletion.js";
 import { ReturnCompletion } from "./ReturnCompletion.js";
 import { ThrowCompletion } from "./ThrowCompletion.js";
 
-export type AbnormalCompletion =
+export type AbruptCompletion =
   | BreakCompletion
   | ContinueCompletion
   | ReturnCompletion
   | ThrowCompletion;
 
-export function isAbnormalCompletion(
-  value: unknown,
-): value is AbnormalCompletion {
+export function isAbruptCompletion(value: unknown): value is AbruptCompletion {
   return (
     value instanceof BreakCompletion ||
     value instanceof ContinueCompletion ||

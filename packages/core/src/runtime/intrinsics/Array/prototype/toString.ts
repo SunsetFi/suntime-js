@@ -22,7 +22,7 @@ const arrayProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
 
     const segments = new Array<string>(length);
     for (let i = 0; i < length; i++) {
-      const item = yield* thisArg.getPropertyEvaluator(i.toString());
+      const item = yield* thisArg.getEvaluator(i.toString());
       const string = yield* toString(item, realm);
       segments[i] = string.value;
     }

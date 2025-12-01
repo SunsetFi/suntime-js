@@ -21,9 +21,7 @@ export default function* getIterator(
     );
   }
 
-  const iteratorFunc = yield* value.getPropertyEvaluator(
-    realm.types.symbols.iterator,
-  );
+  const iteratorFunc = yield* value.getEvaluator(realm.types.symbols.iterator);
   if (!isStaticJsFunction(iteratorFunc)) {
     throw new ThrowCompletion(
       realm.types.error("TypeError", "Value is not iterable"),

@@ -37,19 +37,19 @@ export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
 
-      const value = yield* thisObj.getPropertyEvaluator(property);
-      yield* thisObj.setPropertyEvaluator(nextProperty, value, true);
+      const value = yield* thisObj.getEvaluator(property);
+      yield* thisObj.setEvaluator(nextProperty, value, true);
     }
 
     // Set the new values
     for (let i = 0; i < args.length; i++) {
       const value = args[i]!;
-      yield* thisObj.setPropertyEvaluator(String(i), value, true);
+      yield* thisObj.setEvaluator(String(i), value, true);
     }
 
     const newLengthValue = realm.types.number(length + args.length);
 
-    yield* thisObj.setPropertyEvaluator("length", newLengthValue, true);
+    yield* thisObj.setEvaluator("length", newLengthValue, true);
 
     // Return the new length
     // This returns our computed length, even if the object has a getter

@@ -30,7 +30,7 @@ export default function* arraySpeciesCreate(
     return realm.types.array(new Array(length));
   }
 
-  let constructor = yield* originalArray.getPropertyEvaluator("constructor");
+  let constructor = yield* originalArray.getEvaluator("constructor");
   if (isStaticJsNull(constructor)) {
     constructor = realm.types.undefined;
   }

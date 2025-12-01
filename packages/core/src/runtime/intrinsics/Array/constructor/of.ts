@@ -52,7 +52,7 @@ const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
 
     // Per spec, must be set
     // Does not invoke setters; array ctor uses define to create length.
-    yield* A.setPropertyEvaluator("length", len, true);
+    yield* A.setEvaluator("length", len, true);
 
     return A;
   },

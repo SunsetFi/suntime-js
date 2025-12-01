@@ -27,7 +27,7 @@ const arrayProtoAtDeclaration: IntrinsicPropertyDeclaration = {
       return realm.types.undefined;
     }
 
-    const value = yield* thisObj.getPropertyEvaluator(String(index));
+    const value = yield* thisObj.getEvaluator(String(index));
     return value;
   },
 };

@@ -56,10 +56,10 @@ export default function createMapConstructor(
           }
 
           const asObj = yield* toObject(next, realm);
-          const key = yield* asObj.getPropertyEvaluator("0");
-          const value = yield* asObj.getPropertyEvaluator("1");
+          const key = yield* asObj.getEvaluator("0");
+          const value = yield* asObj.getEvaluator("1");
 
-          yield* map.setEvaluator(key, value);
+          yield* map.setValueEvaluator(key, value);
         }
 
         return map;

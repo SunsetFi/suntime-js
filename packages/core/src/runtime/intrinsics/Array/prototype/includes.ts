@@ -37,7 +37,7 @@ const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
     startFrom = Math.max(0, startFrom);
 
     for (let i = startFrom; i < length; i++) {
-      const elementValue = yield* thisObj.getPropertyEvaluator(String(i));
+      const elementValue = yield* thisObj.getEvaluator(String(i));
       const comparison = yield* sameValueZero(elementValue, value, realm);
       if (comparison.value) {
         return realm.types.true;

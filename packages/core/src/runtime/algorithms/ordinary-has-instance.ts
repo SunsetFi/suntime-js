@@ -26,7 +26,7 @@ export default function* ordinaryHasInstance(
     return yield* instanceOfOperator(O, BC, realm);
   }
 
-  const hasInstanceFunc = yield* C.getPropertyEvaluator(
+  const hasInstanceFunc = yield* C.getEvaluator(
     realm.types.symbols.hasInstance,
   );
   if (isStaticJsFunction(hasInstanceFunc)) {
@@ -38,7 +38,7 @@ export default function* ordinaryHasInstance(
     return false;
   }
 
-  const P = yield* C.getPropertyEvaluator("prototype");
+  const P = yield* C.getEvaluator("prototype");
   if (!isStaticJsObjectLike(P)) {
     throw new ThrowCompletion(
       realm.types.error("TypeError", "Function has non-object prototype"),

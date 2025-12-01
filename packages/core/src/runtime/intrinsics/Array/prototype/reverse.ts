@@ -18,20 +18,20 @@ const arrayProtoReverseDeclaration: IntrinsicPropertyDeclaration = {
       const hasRightValue = yield* thisObj.hasPropertyEvaluator(rightProperty);
 
       const leftValue = hasLeftValue
-        ? yield* thisObj.getPropertyEvaluator(leftProperty)
+        ? yield* thisObj.getEvaluator(leftProperty)
         : null;
       const rightValue = hasRightValue
-        ? yield* thisObj.getPropertyEvaluator(rightProperty)
+        ? yield* thisObj.getEvaluator(rightProperty)
         : null;
 
       if (leftValue) {
-        yield* thisObj.setPropertyEvaluator(rightProperty, leftValue, true);
+        yield* thisObj.setEvaluator(rightProperty, leftValue, true);
       } else if (hasRightValue) {
         yield* thisObj.deletePropertyEvaluator(rightProperty);
       }
 
       if (rightValue) {
-        yield* thisObj.setPropertyEvaluator(leftProperty, rightValue, true);
+        yield* thisObj.setEvaluator(leftProperty, rightValue, true);
       } else if (hasLeftValue) {
         yield* thisObj.deletePropertyEvaluator(leftProperty);
       }

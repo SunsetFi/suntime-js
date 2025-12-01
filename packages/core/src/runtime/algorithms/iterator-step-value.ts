@@ -16,7 +16,7 @@ export default function* iteratorStepValue(
   iterator: StaticJsObjectLike,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsValue | undefined> {
-  const nextMethod = yield* iterator.getPropertyEvaluator("next");
+  const nextMethod = yield* iterator.getEvaluator("next");
   if (!isStaticJsFunction(nextMethod)) {
     throw new ThrowCompletion(
       realm.types.error("TypeError", "next is not a function"),
@@ -30,12 +30,12 @@ export default function* iteratorStepValue(
     );
   }
 
-  const done = yield* next.getPropertyEvaluator("done");
+  const done = yield* next.getEvaluator("done");
   const doneResult = yield* toBoolean.js(done, realm);
   if (doneResult) {
     return undefined;
   }
 
-  const value = yield* next.getPropertyEvaluator("value");
+  const value = yield* next.getEvaluator("value");
   return value;
 }

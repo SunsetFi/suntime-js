@@ -11,8 +11,8 @@ const objectCtorAssignDeclaration: IntrinsicPropertyDeclaration = {
       const sourceObj = yield* toObject(source!, realm);
       const keys = yield* sourceObj.getOwnEnumerableKeysEvaluator();
       for (const key of keys) {
-        const value = yield* sourceObj.getPropertyEvaluator(key);
-        yield* target.setPropertyEvaluator(key, value, true);
+        const value = yield* sourceObj.getEvaluator(key);
+        yield* target.setEvaluator(key, value, true);
       }
     }
 

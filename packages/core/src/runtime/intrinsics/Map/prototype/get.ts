@@ -16,7 +16,7 @@ const mapProtoGetDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    return yield* thisArg.getEvaluator(key ?? realm.types.undefined);
+    return yield* thisArg.getValueEvaluator(key ?? realm.types.undefined);
   },
 };
 

@@ -28,7 +28,7 @@ class StaticJsBoundFunction
       boundArgs,
     );
 
-    const boundLength = yield* targetFunc.getPropertyEvaluator("length");
+    const boundLength = yield* targetFunc.getEvaluator("length");
     const length = yield* toInteger(boundLength, realm);
     yield* instance.definePropertyEvaluator("length", {
       value: realm.types.number(Math.max(0, length.value - boundArgs.length)),
@@ -37,7 +37,7 @@ class StaticJsBoundFunction
       configurable: true,
     });
 
-    const name = yield* targetFunc.getPropertyEvaluator("name");
+    const name = yield* targetFunc.getEvaluator("name");
     yield* instance.definePropertyEvaluator("name", {
       value: realm.types.string(
         isStaticJsString(name) ? `bound ${name.value}` : "bound",

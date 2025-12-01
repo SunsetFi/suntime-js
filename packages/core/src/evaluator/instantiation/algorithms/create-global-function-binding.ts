@@ -41,5 +41,5 @@ export default function* createGlobalFunctionBinding(
     );
   }
 
-  yield* globalObject.setPropertyEvaluator(name, value, false);
+  yield* globalObject.setEvaluator(name, value, false);
 }

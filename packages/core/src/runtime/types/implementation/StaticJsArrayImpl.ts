@@ -124,17 +124,6 @@ export default class StaticJsArrayImpl
     }
   }
 
-  *getEvaluator(index: number): EvaluationGenerator<StaticJsValue> {
-    return yield* this.getPropertyEvaluator(String(index));
-  }
-
-  *setEvaluator(
-    index: number,
-    value: StaticJsValue,
-  ): EvaluationGenerator<void> {
-    yield* this.setPropertyEvaluator(String(index), value, false);
-  }
-
   protected _createToJsProxyTarget(): object {
     return [];
   }
