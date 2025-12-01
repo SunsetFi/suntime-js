@@ -126,7 +126,7 @@ export default function* globalDeclarationInstantiation(
       const F = f.id.name;
       // TODO: There's some notes about "if replacing the FunctionDeclaration with a VariableStatement ... would not produce any EarlyErrors for script"
       // What does that mean?  How can we tell?
-      const hasDeclaration = context.lexicalEnv.hasBindingEvaluator(F);
+      const hasDeclaration = yield* hasLexicalDeclaration(F, context);
       if (hasDeclaration) {
         continue;
       }
@@ -136,12 +136,10 @@ export default function* globalDeclarationInstantiation(
         continue;
       }
 
-      if (declaredFunctionOrVarNames.has(F)) {
-        continue;
+      if (!declaredFunctionOrVarNames.has(F)) {
+        yield* createGlobalVarBinding(F, false, context);
+        declaredFunctionOrVarNames.add(F);
       }
-
-      yield* createGlobalVarBinding(F, false, context);
-      declaredFunctionOrVarNames.add(F);
 
       f.extra = { ...f.extra, annexBHoisted: F };
     }

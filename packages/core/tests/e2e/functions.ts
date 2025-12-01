@@ -151,7 +151,7 @@ describe("E2E: Functions", () => {
           expect(realm.global.hasPropertySync("namedFunc")).toBe(false);
         });
 
-        it("Does not put functions declared in blocks on the global object", async () => {
+        it("Puts functions declared in blocks on the global object in non-strict mode", async () => {
           const realm = StaticJsRealm();
           const code = `
             {
@@ -161,7 +161,21 @@ describe("E2E: Functions", () => {
             }
           `;
           await evaluateScript(code, { realm });
-          expect(realm.global.hasPropertySync("blockFunc")).toBe(false);
+          expect(realm.global.hasPropertySync("blockFunc")).toBe(true);
+        });
+
+        it("Does not put functions declared in blocks on the global object in strict mode", async () => {
+          const realm = StaticJsRealm();
+          const code = `
+            "use strict";
+            {
+              function strictBlockFunc() {
+                return 42;
+              }
+            }
+          `;
+          await evaluateScript(code, { realm });
+          expect(realm.global.hasPropertySync("strictBlockFunc")).toBe(false);
         });
 
         it("Does not put functions declared in function scope on the global object", async () => {

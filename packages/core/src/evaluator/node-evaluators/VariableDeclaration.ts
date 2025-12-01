@@ -39,7 +39,11 @@ function* declarationStatementEvaluator(
   declarator: VariableDeclarator,
   kind: "const" | "let" | "var",
   context: EvaluationContext,
-): EvaluationGenerator {
+): EvaluationGenerator<void> {
+  if (kind === "var" && !declarator.init) {
+    return;
+  }
+
   if (declarator.id.type === "Identifier") {
     const bindingId = declarator.id.name;
     const lhs = yield* getIdentifierReference(
@@ -80,8 +84,6 @@ function* declarationStatementEvaluator(
     const env = context.lexicalEnv;
     yield* bindingInitialization(declarator.id, value, env, context);
   }
-
-  return context.realm.types.undefined;
 }
 
 function* variableDeclarationEnvironmentSetup(
