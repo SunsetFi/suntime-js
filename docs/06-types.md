@@ -114,6 +114,22 @@ Instance Properties:
 - `typeOf`: `undefined`
 - `runtimeTypeOf`: `undefined`
 
+### symbol
+
+Factory:
+
+`realm.types.symbol`
+
+Instances:
+
+`StaticJsSymbol`
+
+Instance Properties:
+
+- `typeOf`: `symbol`
+- `runtimeTypeOf`: `symbol`
+- `description`: string
+
 ### object
 
 Factory:
@@ -141,32 +157,30 @@ Instance Properties:
   **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `preventExtensionsSync()`: Synchronously prevents extensions on this object.
   **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
-- `getKeysSync()`: Synchronously gets the keys (enumerable and not, own and inherited) of this object.
+- `ownPropertyKeysSync()`: Synchronously gets the keys (strings and symbols, enumerable and not, own and inherited) of this object. Symbols will be instance of [StaticJsSymbol](#symbol)
   **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
-- `getEnumerableKeysSync()`: Synchronously gets all enumerable keys (own and inherited) of this object.
+- `ownEnumerableKeysSync()`: Synchronously gets all own enumerable keys of this object.
   **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
-- `getOwnKeysSync()`: Synchronously gets all own keys (enumerable and not) of this object.
+- `hasPropertySync(property)`: Synchronously returns a value indicating if the object has the given property anywhere in its inheritence chain.
   **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
-- `getOwnEnumerableKeysSync()`: Synchronously gets all own enumerable keys of this object.
+- `hasOwnPropertySync(property)`: Synchronously returns a value indicating if the object has the given property.
   **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
-- `hasPropertySync(property)`: Synchronously returns a value indicating if the object has the given property.
-  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
-- `getPropertyDescriptorSync(property)`: Synchronously gets the property descriptor for the given property, either from this object or down the prototype chain.
+- `getPropertySync(property)`: Synchronously gets the property descriptor for the given property, either from this object or down the prototype chain.
   This returns a StaticJsObjectPropertyDescriptor, so the value and accessors will be StaticJsValues
   **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
-- `getOwnPropertyDescriptorSync(property)`: Synchronously gets this object's property descriptor for the given property.
+- `getOwnPropertySync(property)`: Synchronously gets this object's property descriptor for the given property.
   This returns a StaticJsObjectPropertyDescriptor, so the value and accessors will be StaticJsValues
   **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `definePropertySync(property, descriptor)`: Synchronously defines a property on this object.
   This accepts a StaticJsObjectPropertyDescriptor, so the value and accessors must be StaticJsValues
   **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
-- `getPropertySync(property)`: Synchronously gets the value of a property, either for this object or down the prototype chain.
+- `getSync(property)`: Synchronously gets the value of a property, either for this object or down the prototype chain.
   The value will be a StaticJsValue.
   **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
-- `setPropertySync(property, value, strict)`: Synchronously sets the value of a property.
+- `setSync(property, value, strict)`: Synchronously sets the value of a property.
   The value must be a StaticJsValue
   **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
-- `deletePropertySync(property)`: Synchronously deletes a property.
+- `deleteSync(property)`: Synchronously deletes a property.
   **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 
 Examples:
