@@ -1,30 +1,36 @@
 import { readdirSync, readFileSync } from "node:fs";
-import { basename } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { parseFile as parseTest262 } from "test262-parser";
 
 import { describe, it, expect } from "vitest";
+
+import { StaticJsRealm, createTimeBoundTaskRunner } from "../../src/index.js";
 
 import test262Path from "./utils/test262-path.js";
 import getFilesSync from "./utils/get-files.js";
 
 import bootstrapTest262 from "./utils/bootstrap.js";
 
-import { StaticJsRealm, createTimeBoundTaskRunner } from "../../src/index.js";
+import getBaselineFailures from "../get-baseline-failures.js";
 
 const LanguageCategories = readdirSync(test262Path("test/language"));
+
+const baselineFailures = process.env.VITEST_COMPARE_BASELINE
+  ? getBaselineFailures(fileURLToPath(import.meta.url))
+  : [];
 
 describe("Test262", () => {
   describe("Language", () => {
     for (const category of LanguageCategories) {
       describe(category, () => {
-        describeCategory(category);
+        describeCategory(category, ["Test262", "Language", category]);
       });
     }
   });
 });
 
-function describeCategory(category: string) {
+function describeCategory(category: string, ancestorTitles: string[]) {
   const categoryDir = test262Path("test/language", category);
   const tests = getFilesSync(categoryDir, (file) => file.endsWith(".js"));
 
@@ -34,13 +40,22 @@ function describeCategory(category: string) {
   }
 
   for (const test of tests) {
-    defineTest(test);
+    const parts = test.split(/\/|\\/);
+    const testName = parts.splice(-1, 1)[0];
+    describePath(parts, () => {
+      defineTest(testName, test, [...ancestorTitles, ...parts]);
+    });
   }
 }
 
-function defineTest(test: string) {
-  const testName = basename(test);
-  const testContents = readFileSync(test, "utf-8");
+const testTimeout = 5000;
+
+function defineTest(
+  testName: string,
+  testPath: string,
+  ancestorTitles: string[],
+) {
+  const testContents = readFileSync(testPath, "utf-8");
   const testMeta = parseTest262(testContents);
 
   if (!testMeta.isATest) {
@@ -72,74 +87,86 @@ function defineTest(test: string) {
     return;
   }
 
+  let factory: typeof it | typeof it.fails = it;
+
+  if (containsTest([...ancestorTitles, testName], baselineFailures)) {
+    factory = it.fails.bind(it);
+  }
+
   // TODO: Run in strict and nostrict mode
   // (Unless noStrict, onlyStrict, module, raw)
   // See repo/INTERPRETING.md
-  it(testName, async () => {
-    const realm = StaticJsRealm({
-      runTask: createTimeBoundTaskRunner({ maxRunTime: 5000 }),
-    });
-    createHostApi(realm);
-
-    const includes = testMeta.attrs.includes;
-    if (!testMeta.attrs.flags.raw) {
-      includes.unshift("sta.js", "assert.js");
-    }
-    await bootstrapTest262(realm, includes);
-
-    // This isn't documented in INTERPRETING.md,
-    // I can only infer its extistence from CONTRIBUTING.md
-    // Based on how our realm operates, this being a promise is overkill, as
-    // in theory all our microtasks SHOULD complete before evaluateScript returns.
-    // However, some tests do weird things with agents, which we currently don't support,
-    // so we will need something like this eventually.
-    let awaitPromise: Promise<void> = Promise.resolve();
-    if (testMeta.async) {
-      awaitPromise = new Promise((resolve, reject) => {
-        realm.global.definePropertySync("$DONE", {
-          writable: true,
-          configurable: true,
-          enumerable: false,
-          value: realm.types.toStaticJsValue((err?: unknown) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(undefined);
-            }
-          }),
-        });
+  factory(
+    testName,
+    {
+      timeout: testTimeout,
+    },
+    async () => {
+      const realm = StaticJsRealm({
+        runTask: createTimeBoundTaskRunner({ maxRunTime: testTimeout - 100 }),
       });
-    }
+      createHostApi(realm);
 
-    try {
-      await realm.evaluateScript(testMeta.contents);
-      await Promise.race([
-        awaitPromise,
-        delay(5000).then(() =>
-          Promise.reject(
-            new Error(
-              "Async test did not call $DONE within 5 seconds of completion",
+      const includes = testMeta.attrs.includes;
+      if (!testMeta.attrs.flags.raw) {
+        includes.unshift("sta.js", "assert.js");
+      }
+      await bootstrapTest262(realm, includes);
+
+      // This isn't documented in INTERPRETING.md,
+      // I can only infer its extistence from CONTRIBUTING.md
+      // Based on how our realm operates, this being a promise is overkill, as
+      // in theory all our microtasks SHOULD complete before evaluateScript returns.
+      // However, some tests do weird things with agents, which we currently don't support,
+      // so we will need something like this eventually.
+      let awaitPromise: Promise<void> = Promise.resolve();
+      if (testMeta.async) {
+        awaitPromise = new Promise((resolve, reject) => {
+          realm.global.definePropertySync("$DONE", {
+            writable: true,
+            configurable: true,
+            enumerable: false,
+            value: realm.types.toStaticJsValue((err?: unknown) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(undefined);
+              }
+            }),
+          });
+        });
+      }
+
+      try {
+        await realm.evaluateScript(testMeta.contents);
+        await Promise.race([
+          awaitPromise,
+          delay(5000).then(() =>
+            Promise.reject(
+              new Error(
+                "Async test did not call $DONE within 5 seconds of completion",
+              ),
             ),
           ),
-        ),
-      ]);
+        ]);
 
-      if (testMeta.attrs.negative) {
-        throw new Error("Test should have failed to run, but it did not.");
-      }
-    } catch (e) {
-      if (e instanceof Error == false) {
+        if (testMeta.attrs.negative) {
+          throw new Error("Test should have failed to run, but it did not.");
+        }
+      } catch (e) {
+        if (e instanceof Error == false) {
+          throw e;
+        }
+
+        if (testMeta.attrs.negative?.phase === "runtime") {
+          expect(e.name).toBe(testMeta.attrs.negative.type);
+          return;
+        }
+
         throw e;
       }
-
-      if (testMeta.attrs.negative?.phase === "runtime") {
-        expect(e.name).toBe(testMeta.attrs.negative.type);
-        return;
-      }
-
-      throw e;
-    }
-  });
+    },
+  );
 }
 
 function createHostApi(realm: StaticJsRealm) {
@@ -194,4 +221,32 @@ function delay(ms: number) {
   return new Promise<void>((resolve) => {
     setTimeout(() => resolve(), ms);
   });
+}
+
+function containsTest(testTile: string[], fullTitles: string[][]) {
+  for (const titles of fullTitles) {
+    if (titles.length !== testTile.length) {
+      continue;
+    }
+
+    if (testTile.every((title, i) => title === titles[i])) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+export function describePath(pathSegments: string[], body: () => void) {
+  const run = (index: number) => {
+    if (index >= pathSegments.length) {
+      body();
+      return;
+    }
+
+    const name = pathSegments[index];
+    describe(name, () => run(index + 1));
+  };
+
+  run(0);
 }

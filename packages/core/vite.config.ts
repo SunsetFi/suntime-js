@@ -38,11 +38,3 @@ export default defineConfig({
     reporters: ["default", "html"],
   },
 });
-
-// coverage: {
-//             provider: "v8",
-//             reporter: ["text", "json-summary", "json"] as const,
-//             reportOnFailure: true,
-//             include: ["src/**/*.ts"],
-//             exclude: ["**/*.spec.ts"],
-//           },

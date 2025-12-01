@@ -23,6 +23,9 @@
     "build": "tsc -p tsconfig.lib.json",
     "check": "tsc -p tsconfig.lib.json --noEmit",
     "test": "vitest",
+    "test:baseline": "VITEST_COMPARE_BASELINE=1 vitest",
+    "test:create-baseline": "vitest run --reporter=default --reporter=json --outputFile=tests/test-results-baseline.json --update",
+    "test:view": "vite serve html",
     "format": "prettier --write ./src",
     "format:staged": "prettier --write",
     "lint": "eslint"
@@ -47,6 +50,7 @@
     "test262-parser": "^2.2.0",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.28.0",
+    "vite": "^6.2.4",
     "vitest": "^4.0.14"
   },
   "dependencies": {
