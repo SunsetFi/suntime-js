@@ -24,6 +24,7 @@ import putValue from "../../runtime/algorithms/put-value.js";
 import toObject from "../../runtime/algorithms/to-object.js";
 import getIterator from "../../runtime/algorithms/get-iterator.js";
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
+import copyDataProperties from "../../runtime/algorithms/copy-data-properties.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -205,26 +206,7 @@ function* restBindingInitialization(
 
   const restObject = context.realm.types.object();
 
-  const from = yield* toObject(value, context.realm);
-  const keys = yield* from.getOwnKeysEvaluator();
-  for (const key of keys) {
-    if (excludedNames.includes(key)) {
-      continue;
-    }
-
-    const desc = yield* from.getOwnPropertyDescriptorEvaluator(key);
-    if (!desc || !desc.enumerable) {
-      continue;
-    }
-
-    const value = yield* from.getEvaluator(key);
-    yield* restObject.definePropertyEvaluator(key, {
-      value,
-      writable: true,
-      enumerable: true,
-      configurable: true,
-    });
-  }
+  yield* copyDataProperties(restObject, value, excludedNames, context.realm);
 
   if (environment) {
     yield* initializeReferencedBinding(lhs, restObject);

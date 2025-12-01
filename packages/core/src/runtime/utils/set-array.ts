@@ -14,7 +14,7 @@ export default function* setArray(
     const property = String(i);
     const value = values[i];
     if (!value || !hasOwnProperty(values, i)) {
-      yield* obj.deletePropertyEvaluator(property);
+      yield* obj.deleteEvaluator(property);
     } else {
       yield* obj.setEvaluator(property, value, true);
     }

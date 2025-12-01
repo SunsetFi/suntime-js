@@ -27,6 +27,8 @@ import {
   type StaticJsArray,
 } from "../StaticJsArray.js";
 import { isStaticJsNumber } from "../StaticJsNumber.js";
+import { isStaticJsSymbol } from "../StaticJsSymbol.js";
+import type { StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
 
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
@@ -104,7 +106,7 @@ export default class StaticJsArrayImpl
   }
 
   *getLengthEvaluator(): EvaluationGenerator<number> {
-    const descr = yield* this.getOwnPropertyDescriptorEvaluator("length");
+    const descr = yield* this.getOwnPropertyEvaluator("length");
     if (!descr) {
       return 0;
     }
@@ -137,7 +139,7 @@ export default class StaticJsArrayImpl
     }
 
     if (isArrayIndex(key)) {
-      let lengthDesc = yield* this.getOwnPropertyDescriptorEvaluator("length");
+      let lengthDesc = yield* this.getOwnPropertyEvaluator("length");
       if (!lengthDesc) {
         throw new StaticJsEngineError(
           "Null length descriptor on array intrinsic",
@@ -215,7 +217,7 @@ export default class StaticJsArrayImpl
       value: this.realm.types.number(newLen),
     };
 
-    const oldLenDesc = yield* this.getOwnPropertyDescriptorEvaluator("length");
+    const oldLenDesc = yield* this.getOwnPropertyEvaluator("length");
     if (oldLenDesc === undefined) {
       throw new StaticJsEngineError(
         "Null length descriptor on array intrinsic",
@@ -260,7 +262,7 @@ export default class StaticJsArrayImpl
       return false;
     }
 
-    const keys = yield* this.getOwnKeysEvaluator();
+    const keys = yield* this.ownPropertyKeysEvaluator();
     // Madness to do the equivalent of toUInt32, which would be inefficient to use on account of being a generator.
     // We probably should make a non-generator version of it.
     const indicies = keys
@@ -273,9 +275,7 @@ export default class StaticJsArrayImpl
         break;
       }
 
-      const deleteSucceeded = yield* this.deletePropertyEvaluator(
-        String(index),
-      );
+      const deleteSucceeded = yield* this.deleteEvaluator(String(index));
       if (!deleteSucceeded) {
         newLenDesc.value = this.realm.types.number(index + 1);
         if (!newWritable) {
@@ -303,8 +303,12 @@ export default class StaticJsArrayImpl
   }
 }
 
-function isArrayIndex(number: number | string): boolean {
-  const parsed = typeof number === "number" ? number : parseInt(number, 10);
+function isArrayIndex(value: StaticJsObjectPropertyKey): value is string {
+  if (isStaticJsSymbol(value)) {
+    return false;
+  }
+
+  const parsed = parseInt(value, 10);
   return (
     !Number.isNaN(parsed) &&
     parsed >= 0 &&

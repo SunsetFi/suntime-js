@@ -8,31 +8,26 @@ import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 export interface StaticJsMap extends StaticJsObjectLike {
   readonly runtimeTypeOf: "map";
 
-  clearEvaluator(): EvaluationGenerator<void>;
-
-  deleteEvaluator(key: StaticJsValue): EvaluationGenerator<boolean>;
+  sizeEvaluator(): EvaluationGenerator<number>;
 
   entriesEvaluator(): EvaluationGenerator<StaticJsValue>;
-
-  forEachEvaluator(
-    callback: StaticJsFunction,
-    thisArg?: StaticJsValue,
-  ): EvaluationGenerator<void>;
-
-  getValueEvaluator(key: StaticJsValue): EvaluationGenerator<StaticJsValue>;
+  keysEvaluator(): EvaluationGenerator<StaticJsValue>;
+  valuesEvaluator(): EvaluationGenerator<StaticJsValue>;
 
   hasEvaluator(key: StaticJsValue): EvaluationGenerator<boolean>;
-
-  keysEvaluator(): EvaluationGenerator<StaticJsValue>;
+  getValueEvaluator(key: StaticJsValue): EvaluationGenerator<StaticJsValue>;
 
   setValueEvaluator(
     key: StaticJsValue,
     value: StaticJsValue,
   ): EvaluationGenerator<void>;
+  deleteValueEvaluator(key: StaticJsValue): EvaluationGenerator<boolean>;
+  clearEvaluator(): EvaluationGenerator<void>;
 
-  valuesEvaluator(): EvaluationGenerator<StaticJsValue>;
-
-  sizeEvaluator(): EvaluationGenerator<number>;
+  forEachEvaluator(
+    callback: StaticJsFunction,
+    thisArg?: StaticJsValue,
+  ): EvaluationGenerator<void>;
 }
 
 export function isStaticJsMap(value: unknown): value is StaticJsMap {

@@ -7,10 +7,9 @@ const objectCtorGetOwnPropertyNamesDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, _thisArg, arg) {
     arg = yield* toObject(arg ?? realm.types.undefined, realm);
 
-    const propertyNames = yield* arg.getOwnKeysEvaluator();
-    return realm.types.array(
-      propertyNames.map((key) => realm.types.string(key)),
-    );
+    const keys = yield* arg.ownPropertyKeysEvaluator();
+    const names = keys.filter((key) => typeof key === "string");
+    return realm.types.array(names.map((key) => realm.types.string(key)));
   },
 };
 

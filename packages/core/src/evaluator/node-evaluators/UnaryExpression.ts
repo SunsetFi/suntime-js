@@ -79,7 +79,7 @@ function* deleteExpressionNodeEvaluator(
   if (isStaticJsValue(ref.base)) {
     const obj = yield* toObject(ref.base, context.realm);
     const propertyKey = yield* toPropertyKey(ref.referencedName, context.realm);
-    const result = yield* obj.deletePropertyEvaluator(propertyKey);
+    const result = yield* obj.deleteEvaluator(propertyKey);
     return context.realm.types.boolean(result);
   } else if (ref.base) {
     const env = ref.base as StaticJsEnvironmentRecord;

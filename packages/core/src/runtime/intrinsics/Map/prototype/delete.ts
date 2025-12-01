@@ -16,7 +16,9 @@ const mapProtoDeleteDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const result = yield* thisArg.deleteEvaluator(key ?? realm.types.undefined);
+    const result = yield* thisArg.deleteValueEvaluator(
+      key ?? realm.types.undefined,
+    );
     return realm.types.boolean(result);
   },
 };

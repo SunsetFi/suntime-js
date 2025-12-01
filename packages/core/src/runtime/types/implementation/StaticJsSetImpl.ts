@@ -44,7 +44,7 @@ export default class StaticJsSetImpl
     return StaticJsTypeCode.Set;
   }
 
-  *addEvaluator(value: StaticJsValue): EvaluationGenerator<void> {
+  *addValueEvaluator(value: StaticJsValue): EvaluationGenerator<void> {
     const unwrapped = toNativeUnwrap(value);
     this._backingStore.add(unwrapped);
   }
@@ -295,7 +295,7 @@ export default class StaticJsSetImpl
     this._backingStore.clear();
   }
 
-  *deleteEvaluator(value: StaticJsValue): EvaluationGenerator<boolean> {
+  *deleteValueEvaluator(value: StaticJsValue): EvaluationGenerator<boolean> {
     const unwrapped = toNativeUnwrap(value);
     return this._backingStore.delete(unwrapped);
   }

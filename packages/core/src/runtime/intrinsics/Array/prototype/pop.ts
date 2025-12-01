@@ -20,7 +20,7 @@ export const arrayProtoPopDeclaration: IntrinsicPropertyDeclaration = {
     const index = length - 1;
     const value = yield* thisObj.getEvaluator(String(index));
 
-    yield* thisObj.deletePropertyEvaluator(String(index));
+    yield* thisObj.deleteEvaluator(String(index));
     yield* thisObj.setEvaluator("length", realm.types.number(length - 1), true);
 
     return value;

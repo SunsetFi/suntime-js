@@ -9,12 +9,16 @@ const objectCtorEntriesDeclaration: IntrinsicPropertyDeclaration = {
     // TODO: This should return an iterator.
     obj = yield* toObject(obj ?? realm.types.undefined, realm);
 
-    const ownKeys = yield* obj.getOwnEnumerableKeysEvaluator();
+    const ownKeys = yield* obj.ownEnumerableKeysEvaluator();
 
     const values: StaticJsValue[] = new Array(ownKeys.length);
     for (let i = 0; i < ownKeys.length; i++) {
-      const value = yield* obj.getEvaluator(ownKeys[i]);
-      const item = realm.types.array([realm.types.string(ownKeys[i]), value]);
+      const key = ownKeys[i];
+      const value = yield* obj.getEvaluator(key);
+
+      const keyWrapped =
+        typeof key === "string" ? realm.types.string(key) : key;
+      const item = realm.types.array([keyWrapped, value]);
       values[i] = item;
     }
 

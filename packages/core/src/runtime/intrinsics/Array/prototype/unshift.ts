@@ -33,7 +33,7 @@ export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
 
       const hasProperty = yield* thisObj.hasPropertyEvaluator(property);
       if (!hasProperty) {
-        yield* thisObj.deletePropertyEvaluator(nextProperty);
+        yield* thisObj.deleteEvaluator(nextProperty);
         continue;
       }
 

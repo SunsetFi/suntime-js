@@ -18,6 +18,7 @@ import { isStaticJsNull } from "../../runtime/types/StaticJsNull.js";
 
 import toObject from "../../runtime/algorithms/to-object.js";
 import putValue from "../../runtime/algorithms/put-value.js";
+import copyDataProperties from "../../runtime/algorithms/copy-data-properties.js";
 
 import toPropertyKey from "../../runtime/utils/to-property-key.js";
 
@@ -125,26 +126,7 @@ function* restDestructuringAssignmentEvaluation(
 
   const restObject = context.realm.types.object();
 
-  const from = yield* toObject(value, context.realm);
-  const keys = yield* from.getOwnKeysEvaluator();
-  for (const key of keys) {
-    if (excludedNames.includes(key)) {
-      continue;
-    }
-
-    const desc = yield* from.getOwnPropertyDescriptorEvaluator(key);
-    if (!desc || !desc.enumerable) {
-      continue;
-    }
-
-    const value = yield* from.getEvaluator(key);
-    yield* restObject.definePropertyEvaluator(key, {
-      value,
-      writable: true,
-      enumerable: true,
-      configurable: true,
-    });
-  }
+  yield* copyDataProperties(restObject, value, excludedNames, context.realm);
 
   yield* putValue(lRef, restObject, context.realm);
 }

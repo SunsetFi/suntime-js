@@ -106,7 +106,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
   }
 
   *deleteBindingEvaluator(name: string): EvaluationGenerator<boolean> {
-    return yield* this._obj.deletePropertyEvaluator(name);
+    return yield* this._obj.deleteEvaluator(name);
   }
 
   *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {

@@ -5,8 +5,7 @@ export default function* hasRestrictedGlobalProperty(
   name: string,
   context: EvaluationContext,
 ): EvaluationGenerator<boolean> {
-  const decl =
-    yield* context.realm.global.getOwnPropertyDescriptorEvaluator(name);
+  const decl = yield* context.realm.global.getOwnPropertyEvaluator(name);
   if (!decl || !decl.configurable) {
     return false;
   }

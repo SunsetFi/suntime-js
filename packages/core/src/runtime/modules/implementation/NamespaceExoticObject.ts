@@ -17,7 +17,6 @@ import {
   type StaticJsDataPropertyDescriptor,
   type StaticJsPropertyDescriptor,
 } from "../../types/StaticJsPropertyDescriptor.js";
-import type { StaticJsSymbol } from "../../types/StaticJsSymbol.js";
 import StaticJsTypeCode from "../../types/StaticJsTypeCode.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
@@ -49,6 +48,12 @@ export default class StaticJsNamespaceExoticObject extends StaticJsAbstractObjec
     return false;
   }
 
+  *ownPropertyKeysEvaluator(): EvaluationGenerator<
+    StaticJsObjectPropertyKey[]
+  > {
+    return Array.from(this._exports);
+  }
+
   *setPrototypeOfEvaluator(
     _prototype: StaticJsObjectLike | null,
   ): EvaluationGenerator<void> {
@@ -59,15 +64,7 @@ export default class StaticJsNamespaceExoticObject extends StaticJsAbstractObjec
     // No-op for namespace exotic objects.
   }
 
-  *getOwnKeysEvaluator(): EvaluationGenerator<string[]> {
-    return Array.from(this._exports);
-  }
-
-  *getOwnSymbolsEvaluator(): EvaluationGenerator<StaticJsSymbol[]> {
-    return [];
-  }
-
-  *getOwnPropertyDescriptorEvaluator(
+  *getOwnPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsDataPropertyDescriptor | undefined> {
     if (typeof key !== "string") {
@@ -127,7 +124,7 @@ export default class StaticJsNamespaceExoticObject extends StaticJsAbstractObjec
       return false;
     }
 
-    const current = yield* this.getOwnPropertyDescriptorEvaluator(key);
+    const current = yield* this.getOwnPropertyEvaluator(key);
     if (!current) {
       return false;
     }

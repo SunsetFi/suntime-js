@@ -13,16 +13,15 @@ const objectCtorGetOwnPropertyDescriptorsDeclaration: IntrinsicPropertyDeclarati
     *func(realm, _thisArg, objValue) {
       const obj = yield* toObject(objValue ?? realm.types.undefined, realm);
 
-      const keys = yield* obj.getOwnKeysEvaluator();
-      const symbols = yield* obj.getOwnSymbolsEvaluator();
+      const keys = yield* obj.ownPropertyKeysEvaluator();
 
       const descriptors = new Map<
         StaticJsObjectPropertyKey,
         StaticJsPropertyDescriptor
       >();
 
-      for (const key of [...keys, ...symbols]) {
-        const descriptor = yield* obj.getOwnPropertyDescriptorEvaluator(key);
+      for (const key of keys) {
+        const descriptor = yield* obj.getOwnPropertyEvaluator(key);
         if (!descriptor) {
           continue;
         }

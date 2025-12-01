@@ -4,16 +4,16 @@ import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js"
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 import type {
   StaticJsPropertyDescriptor,
   StaticJsAccessorPropertyDescriptor,
   StaticJsDataPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import type { StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
-import StaticJsTypeCode from "../StaticJsTypeCode.js";
 
 /**
  * A static object that wraps a native javascript object.
@@ -44,22 +44,24 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
     return false;
   }
 
-  *getOwnKeysEvaluator(): EvaluationGenerator<string[]> {
-    // This only returns own keys that are enumerable (and not symbols).
-    return Object.keys(this._obj);
-  }
+  *ownPropertyKeysEvaluator(): EvaluationGenerator<
+    StaticJsObjectPropertyKey[]
+  > {
+    const keys = Reflect.ownKeys(this._obj);
+    return keys.map((key) => {
+      if (typeof key === "symbol") {
+        return this.realm.types.toStaticJsValue(key);
+      }
 
-  *getOwnSymbolsEvaluator(): EvaluationGenerator<StaticJsSymbol[]> {
-    // External objects do not expose symbol properties.
-    // TODO: Expose well-known symbols?
-    return [];
+      return key;
+    });
   }
 
   toJsSync() {
     return this._obj;
   }
 
-  *getOwnPropertyDescriptorEvaluator(
+  *getOwnPropertyEvaluator(
     name: string,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
     const objDescr = Object.getOwnPropertyDescriptor(this._obj, name);

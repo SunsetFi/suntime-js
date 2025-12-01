@@ -24,7 +24,7 @@ const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
       const hasFromProperty = yield* thisObj.hasPropertyEvaluator(fromProperty);
 
       if (!hasFromProperty) {
-        yield* thisObj.deletePropertyEvaluator(toProperty);
+        yield* thisObj.deleteEvaluator(toProperty);
         continue;
       }
 
@@ -32,7 +32,7 @@ const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
       yield* thisObj.setEvaluator(toProperty, fromValue, true);
     }
 
-    yield* thisObj.deletePropertyEvaluator(String(length - 1));
+    yield* thisObj.deleteEvaluator(String(length - 1));
     yield* thisObj.setEvaluator("length", realm.types.number(length - 1), true);
 
     return value;

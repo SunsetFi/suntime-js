@@ -30,12 +30,12 @@ import {
 import { type StaticJsObject } from "../StaticJsObject.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
-import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 import type StaticJsTypeCode from "../StaticJsTypeCode.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 
 import createStaticJsObjectLikeProxy from "./create-object-proxy.js";
+import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 
 export default abstract class StaticJsAbstractObject
   extends StaticJsAbstractPrimitive
@@ -102,61 +102,28 @@ export default abstract class StaticJsAbstractObject
     this._extensible = false;
   }
 
-  getKeysSync(): string[] {
-    return this.realm.invokeEvaluatorSync(this.getKeysEvaluator());
+  ownPropertyKeysSync(): StaticJsObjectPropertyKey[] {
+    return this.realm.invokeEvaluatorSync(this.ownPropertyKeysEvaluator());
   }
 
-  *getKeysEvaluator(): EvaluationGenerator<string[]> {
-    const keys: string[] = [];
+  abstract ownPropertyKeysEvaluator(): EvaluationGenerator<
+    StaticJsObjectPropertyKey[]
+  >;
 
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    let target: StaticJsObjectLike | null = this;
-    do {
-      const targetKeys = yield* target!.getOwnKeysEvaluator();
-      keys.push(...targetKeys);
-    } while ((target = target!.prototype));
-
-    return keys;
+  ownEnumerableKeysSync(): string[] {
+    return this.realm.invokeEvaluatorSync(this.ownEnumerableKeysEvaluator());
   }
 
-  getEnumerableKeysSync(): string[] {
-    return this.realm.invokeEvaluatorSync(this.getEnumerableKeysEvaluator());
-  }
-
-  *getEnumerableKeysEvaluator(): EvaluationGenerator<string[]> {
-    const keys: string[] = [];
-
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    let target: StaticJsObjectLike | null = this;
-    do {
-      const targetKeys = yield* target!.getOwnEnumerableKeysEvaluator();
-      keys.push(...targetKeys);
-    } while ((target = target!.prototype));
-
-    return keys;
-  }
-
-  getOwnKeysSync(): string[] {
-    return this.realm.invokeEvaluatorSync(this.getOwnKeysEvaluator());
-  }
-
-  abstract getOwnKeysEvaluator(): EvaluationGenerator<string[]>;
-
-  getOwnSymbolsSync(): StaticJsSymbol[] {
-    return this.realm.invokeEvaluatorSync(this.getOwnSymbolsEvaluator());
-  }
-
-  abstract getOwnSymbolsEvaluator(): EvaluationGenerator<StaticJsSymbol[]>;
-
-  getOwnEnumerableKeysSync(): string[] {
-    return this.realm.invokeEvaluatorSync(this.getOwnEnumerableKeysEvaluator());
-  }
-
-  *getOwnEnumerableKeysEvaluator(): EvaluationGenerator<string[]> {
-    const ownKeys = yield* this.getOwnKeysEvaluator();
+  *ownEnumerableKeysEvaluator(): EvaluationGenerator<string[]> {
+    const ownKeys = yield* this.ownPropertyKeysEvaluator();
     const filtered: string[] = [];
     for (const key of ownKeys) {
-      const decl = yield* this.getPropertyDescriptorEvaluator(key);
+      // Symbols are never enumerable
+      if (isStaticJsSymbol(key)) {
+        continue;
+      }
+
+      const decl = yield* this.getPropertyEvaluator(key);
       if (decl?.enumerable) {
         filtered.push(key);
       }
@@ -171,7 +138,7 @@ export default abstract class StaticJsAbstractObject
   *hasPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<boolean> {
-    const decl = yield* this.getPropertyDescriptorEvaluator(key);
+    const decl = yield* this.getPropertyEvaluator(key);
     return decl !== undefined;
   }
 
@@ -182,36 +149,32 @@ export default abstract class StaticJsAbstractObject
   *hasOwnPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<boolean> {
-    const decl = yield* this.getOwnPropertyDescriptorEvaluator(key);
+    const decl = yield* this.getOwnPropertyEvaluator(key);
     return decl !== undefined;
   }
 
-  getPropertyDescriptorSync(
+  getPropertySync(
     key: StaticJsObjectPropertyKey,
   ): StaticJsPropertyDescriptor | undefined {
-    return this.realm.invokeEvaluatorSync(
-      this.getPropertyDescriptorEvaluator(key),
-    );
+    return this.realm.invokeEvaluatorSync(this.getPropertyEvaluator(key));
   }
 
-  *getPropertyDescriptorEvaluator(
+  *getPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     let target: StaticJsObjectLike | null = this;
     let descr: StaticJsPropertyDescriptor | undefined;
     do {
-      descr = yield* target!.getOwnPropertyDescriptorEvaluator(key);
+      descr = yield* target!.getOwnPropertyEvaluator(key);
     } while (descr === undefined && (target = target!.prototype));
     return descr;
   }
 
-  getOwnPropertyDescriptorSync(
+  getOwnPropertySync(
     key: StaticJsObjectPropertyKey,
   ): StaticJsPropertyDescriptor | undefined {
-    return this.realm.invokeEvaluatorSync(
-      this.getOwnPropertyDescriptorEvaluator(key),
-    );
+    return this.realm.invokeEvaluatorSync(this.getOwnPropertyEvaluator(key));
   }
 
   definePropertySync(
@@ -233,7 +196,7 @@ export default abstract class StaticJsAbstractObject
 
     validateStaticJsPropertyDescriptor(desc);
 
-    const current = yield* this.getOwnPropertyDescriptorEvaluator(key);
+    const current = yield* this.getOwnPropertyEvaluator(key);
 
     const isCurrentAccessor = isStaticJsAccessorPropertyDescriptor(current);
     // const isCurrentData = isStaticJsDataPropertyDescriptor(current);
@@ -363,7 +326,7 @@ export default abstract class StaticJsAbstractObject
     }
   }
 
-  abstract getOwnPropertyDescriptorEvaluator(
+  abstract getOwnPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
@@ -374,7 +337,7 @@ export default abstract class StaticJsAbstractObject
   *getEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsValue> {
-    const decl = yield* this.getPropertyDescriptorEvaluator(key);
+    const decl = yield* this.getPropertyEvaluator(key);
     if (decl === undefined) {
       return this.realm.types.undefined;
     }
@@ -424,7 +387,7 @@ export default abstract class StaticJsAbstractObject
       throw new TypeError(`Value must be a StaticJsValue instance`);
     }
 
-    const ownDecl = yield* this.getOwnPropertyDescriptorEvaluator(key);
+    const ownDecl = yield* this.getOwnPropertyEvaluator(key);
     if (ownDecl) {
       // It's our own.  Set it.
       if (isStaticJsAccessorPropertyDescriptor(ownDecl)) {
@@ -454,7 +417,7 @@ export default abstract class StaticJsAbstractObject
       return false;
     }
 
-    const decl = yield* this.getPropertyDescriptorEvaluator(key);
+    const decl = yield* this.getPropertyEvaluator(key);
     if (decl) {
       if (isStaticJsAccessorPropertyDescriptor(decl)) {
         // Its an inherited accessor property, invoke the accessor
@@ -501,18 +464,18 @@ export default abstract class StaticJsAbstractObject
     });
   }
 
-  deletePropertySync(key: StaticJsObjectPropertyKey): boolean {
-    return this.realm.invokeEvaluatorSync(this.deletePropertyEvaluator(key));
+  deleteSync(key: StaticJsObjectPropertyKey): boolean {
+    return this.realm.invokeEvaluatorSync(this.deleteEvaluator(key));
   }
 
-  *deletePropertyEvaluator(
+  *deleteEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<boolean> {
     if (!this.extensible) {
       return false;
     }
 
-    const decl = yield* this.getOwnPropertyDescriptorEvaluator(key);
+    const decl = yield* this.getOwnPropertyEvaluator(key);
     if (decl === undefined || !decl.configurable) {
       return false;
     }

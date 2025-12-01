@@ -8,7 +8,7 @@ export default function* canDeclareGlobalFunction(
   context: EvaluationContext,
 ): EvaluationGenerator<boolean> {
   const existingProp =
-    yield* context.realm.global.getOwnPropertyDescriptorEvaluator(name);
+    yield* context.realm.global.getOwnPropertyEvaluator(name);
   if (!existingProp) {
     return context.realm.global.extensible;
   }

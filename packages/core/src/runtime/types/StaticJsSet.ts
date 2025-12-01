@@ -8,18 +8,27 @@ import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 export interface StaticJsSet extends StaticJsObjectLike {
   readonly runtimeTypeOf: "set";
 
-  addEvaluator(value: StaticJsValue): EvaluationGenerator<void>;
-  clearEvaluator(value: StaticJsValue): EvaluationGenerator<void>;
-  deleteEvaluator(value: StaticJsValue): EvaluationGenerator<boolean>;
-  differenceEvaluator(
-    otherSet: StaticJsValue,
-  ): EvaluationGenerator<StaticJsValue>;
+  sizeEvaluator(): EvaluationGenerator<number>;
+
+  keysEvaluator(): EvaluationGenerator<StaticJsValue>;
+  valuesEvaluator(): EvaluationGenerator<StaticJsValue>;
   entriesEvaluator(): EvaluationGenerator<StaticJsValue>;
+
+  hasEvaluator(value: StaticJsValue): EvaluationGenerator<boolean>;
+
+  addValueEvaluator(value: StaticJsValue): EvaluationGenerator<void>;
+  deleteValueEvaluator(value: StaticJsValue): EvaluationGenerator<boolean>;
+  clearEvaluator(): EvaluationGenerator<void>;
+
   forEachEvaluator(
     callback: StaticJsFunction,
     thisArg?: StaticJsValue,
   ): EvaluationGenerator<void>;
-  hasEvaluator(value: StaticJsValue): EvaluationGenerator<boolean>;
+
+  differenceEvaluator(
+    otherSet: StaticJsValue,
+  ): EvaluationGenerator<StaticJsValue>;
+
   intersectionEvaluator(
     otherSet: StaticJsValue,
   ): EvaluationGenerator<StaticJsValue>;
@@ -28,14 +37,10 @@ export interface StaticJsSet extends StaticJsObjectLike {
   ): EvaluationGenerator<boolean>;
   isSubsetOfEvaluator(otherSet: StaticJsValue): EvaluationGenerator<boolean>;
   isSupersetOfEvaluator(otherSet: StaticJsValue): EvaluationGenerator<boolean>;
-  keysEvaluator(): EvaluationGenerator<StaticJsValue>;
   symmetricDifferenceEvaluator(
     otherSet: StaticJsValue,
   ): EvaluationGenerator<StaticJsValue>;
   unionEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue>;
-  valuesEvaluator(): EvaluationGenerator<StaticJsValue>;
-
-  sizeEvaluator(): EvaluationGenerator<number>;
 }
 
 export function isStaticJsSet(value: unknown): value is StaticJsSet {

@@ -156,7 +156,7 @@ function* objectExpressionPropertySpreadElementEvaluator(
     return null;
   }
 
-  const ownKeys = yield* value.getOwnKeysEvaluator();
+  const ownKeys = yield* value.ownPropertyKeysEvaluator();
   for (const key of ownKeys) {
     const propertyValue = yield* value.getEvaluator(key);
     yield* target.setEvaluator(key, propertyValue, context.strict);

@@ -8,7 +8,7 @@ const objectCtorValuesDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, _thisArg, obj) {
     obj = yield* toObject(obj ?? realm.types.undefined, realm);
 
-    const ownKeys = yield* obj.getOwnEnumerableKeysEvaluator();
+    const ownKeys = yield* obj.ownEnumerableKeysEvaluator();
 
     const values: StaticJsValue[] = new Array(ownKeys.length);
     for (let i = 0; i < ownKeys.length; i++) {

@@ -152,12 +152,12 @@ export default function* setLVal(
 
       value = yield* toObject(value, context.realm);
 
-      const seenProperties = new Set<string>();
+      const seenProperties = new Set<StaticJsObjectPropertyKey>();
       for (const property of lval.properties) {
         if (property.type === "RestElement") {
           const restValue = context.realm.types.object();
-          const keys = yield* value.getOwnKeysEvaluator();
-          for (const key in keys) {
+          const keys = yield* value.ownPropertyKeysEvaluator();
+          for (const key of keys) {
             if (!seenProperties.has(key)) {
               const propertyValue = yield* value.getEvaluator(key);
               yield* restValue.setEvaluator(key, propertyValue, context.strict);

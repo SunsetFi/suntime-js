@@ -55,7 +55,7 @@ export default function createSetConstructor(
             if (!next) {
               break;
             }
-            yield* set.addEvaluator(next);
+            yield* set.addValueEvaluator(next);
           }
         });
 

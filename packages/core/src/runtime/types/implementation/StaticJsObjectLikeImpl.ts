@@ -13,7 +13,6 @@ import type {
   StaticJsObjectLike,
   StaticJsObjectPropertyKey,
 } from "../StaticJsObjectLike.js";
-import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 
@@ -30,17 +29,13 @@ export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObj
     super(realm, prototype);
   }
 
-  *getOwnKeysEvaluator(): EvaluationGenerator<string[]> {
-    return Array.from(this._contents.keys()).filter(isStringProperty);
+  *ownPropertyKeysEvaluator(): EvaluationGenerator<
+    StaticJsObjectPropertyKey[]
+  > {
+    return Array.from(this._contents.keys());
   }
 
-  *getOwnSymbolsEvaluator(): EvaluationGenerator<StaticJsSymbol[]> {
-    return Array.from(this._contents.keys()).filter(
-      (key): key is StaticJsSymbol => !isStringProperty(key),
-    );
-  }
-
-  *getOwnPropertyDescriptorEvaluator(
+  *getOwnPropertyEvaluator(
     name: string,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
     const descriptor = this._contents.get(name);
@@ -86,8 +81,4 @@ export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObj
   ): EvaluationGenerator<boolean> {
     return this._contents.delete(name);
   }
-}
-
-function isStringProperty(x: string | StaticJsSymbol): x is string {
-  return typeof x === "string";
 }

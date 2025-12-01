@@ -40,7 +40,7 @@ export default class StaticJsMapImpl
     this._backingStore.clear();
   }
 
-  *deleteEvaluator(key: StaticJsValue): EvaluationGenerator<boolean> {
+  *deleteValueEvaluator(key: StaticJsValue): EvaluationGenerator<boolean> {
     const keyUnwrapped = toNativeUnwrap(key);
     return this._backingStore.delete(keyUnwrapped);
   }

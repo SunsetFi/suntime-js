@@ -1,9 +1,11 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
+
+import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
 import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
-import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
 export default function* enumerateObjectProperties(
   obj: StaticJsObjectLike,
@@ -15,7 +17,7 @@ export default function* enumerateObjectProperties(
   // to avoid deletions shifting things around, we will just snapshot the keys at each object start.
   let currentObject: StaticJsObjectLike = obj;
   const visited = new Set<string>();
-  let currentKeys = yield* currentObject.getOwnKeysEvaluator();
+  let currentKeys = yield* currentObject.ownPropertyKeysEvaluator();
   let nextIndex = 0;
   const next = new StaticJsFunctionImpl(realm, "next", function* () {
     while (true) {
@@ -40,17 +42,21 @@ export default function* enumerateObjectProperties(
 
         nextIndex = 0;
         currentObject = currentObject.prototype;
-        currentKeys = yield* currentObject.getOwnKeysEvaluator();
+        currentKeys = yield* currentObject.ownPropertyKeysEvaluator();
       }
 
       const key = currentKeys[nextIndex++];
+      if (isStaticJsSymbol(key)) {
+        continue;
+      }
+
       if (visited.has(key)) {
         continue;
       }
 
       visited.add(key);
 
-      const desc = yield* currentObject.getOwnPropertyDescriptorEvaluator(key);
+      const desc = yield* currentObject.getOwnPropertyEvaluator(key);
       if (!desc?.enumerable) {
         continue;
       }

@@ -2,7 +2,6 @@ import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js"
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 import type { StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
 import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 
@@ -29,16 +28,13 @@ export default class StaticJsStringBoxed extends StaticJsAbstractObject {
     return this._value;
   }
 
-  *getOwnKeysEvaluator(): EvaluationGenerator<string[]> {
+  *ownPropertyKeysEvaluator(): EvaluationGenerator<
+    StaticJsObjectPropertyKey[]
+  > {
     return Object.keys(this._value).map((_, i) => i.toString());
   }
 
-  *getOwnSymbolsEvaluator(): EvaluationGenerator<StaticJsSymbol[]> {
-    // Our prototype will have some symbols, but we don't.
-    return [];
-  }
-
-  *getOwnPropertyDescriptorEvaluator(
+  *getOwnPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
     if (typeof key !== "string") {

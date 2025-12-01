@@ -14,8 +14,7 @@ export default function* createGlobalFunctionBinding(
 ): EvaluationGenerator<void> {
   const globalObject = context.realm.global;
 
-  const existingProp =
-    yield* globalObject.getOwnPropertyDescriptorEvaluator(name);
+  const existingProp = yield* globalObject.getOwnPropertyEvaluator(name);
 
   let desc: StaticJsPropertyDescriptor;
   if (!existingProp || existingProp.configurable) {

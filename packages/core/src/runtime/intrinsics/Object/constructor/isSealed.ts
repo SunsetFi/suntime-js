@@ -12,12 +12,9 @@ const objectCtorIsSealedDeclaration: IntrinsicPropertyDeclaration = {
       return realm.types.false;
     }
 
-    const keys = yield* obj.getOwnKeysEvaluator();
-    const symbols = yield* obj.getOwnSymbolsEvaluator();
-    const allKeys = [...keys, ...symbols];
-
-    for (const key of allKeys) {
-      const descriptor = yield* obj.getOwnPropertyDescriptorEvaluator(key);
+    const keys = yield* obj.ownPropertyKeysEvaluator();
+    for (const key of keys) {
+      const descriptor = yield* obj.getOwnPropertyEvaluator(key);
       if (!descriptor) {
         continue;
       }

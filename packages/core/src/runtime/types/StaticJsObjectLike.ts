@@ -29,29 +29,11 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
 
   preventExtensionsEvaluator(): EvaluationGenerator<void>;
 
-  /**
-   * Gets all property keys, including non-enumerable and inherited ones.
-   * Excludes symbol keys.
-   */
-  getKeysSync(): string[];
+  ownPropertyKeysSync(): StaticJsObjectPropertyKey[];
+  ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsObjectPropertyKey[]>;
 
-  /**
-   * Gets an evaluator to get all property keys, including non-enumerable and inherited ones.
-   * Excludes symbol keys.
-   */
-  getKeysEvaluator(): EvaluationGenerator<string[]>;
-
-  getEnumerableKeysSync(): string[];
-  getEnumerableKeysEvaluator(): EvaluationGenerator<string[]>;
-
-  getOwnKeysSync(): string[];
-  getOwnKeysEvaluator(): EvaluationGenerator<string[]>;
-
-  getOwnSymbolsSync(): StaticJsSymbol[];
-  getOwnSymbolsEvaluator(): EvaluationGenerator<StaticJsSymbol[]>;
-
-  getOwnEnumerableKeysSync(): string[];
-  getOwnEnumerableKeysEvaluator(): EvaluationGenerator<string[]>;
+  ownEnumerableKeysSync(): string[];
+  ownEnumerableKeysEvaluator(): EvaluationGenerator<string[]>;
 
   hasPropertySync(key: StaticJsObjectPropertyKey): boolean;
   hasPropertyEvaluator(
@@ -63,17 +45,17 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<boolean>;
 
-  getPropertyDescriptorSync(
+  getPropertySync(
     key: StaticJsObjectPropertyKey,
   ): StaticJsPropertyDescriptor | undefined;
-  getPropertyDescriptorEvaluator(
+  getPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
-  getOwnPropertyDescriptorSync(
+  getOwnPropertySync(
     key: StaticJsObjectPropertyKey,
   ): StaticJsPropertyDescriptor | undefined;
-  getOwnPropertyDescriptorEvaluator(
+  getOwnPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
@@ -102,10 +84,8 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     strict: boolean,
   ): EvaluationGenerator<boolean>;
 
-  deletePropertySync(key: StaticJsObjectPropertyKey): boolean;
-  deletePropertyEvaluator(
-    key: StaticJsObjectPropertyKey,
-  ): EvaluationGenerator<boolean>;
+  deleteSync(key: StaticJsObjectPropertyKey): boolean;
+  deleteEvaluator(key: StaticJsObjectPropertyKey): EvaluationGenerator<boolean>;
 }
 
 export function isStaticJsObjectLike(

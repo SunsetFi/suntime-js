@@ -9,7 +9,7 @@ const setProtoAddDeclaration: IntrinsicPropertyDeclaration = {
       throw realm.types.error("TypeError", "Not a Set");
     }
 
-    yield* thisArg.addEvaluator(value ?? realm.types.undefined);
+    yield* thisArg.addValueEvaluator(value ?? realm.types.undefined);
 
     return thisArg;
   },

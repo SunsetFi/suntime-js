@@ -22,7 +22,7 @@ const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaratio
         return realm.types.undefined;
       }
 
-      const descriptor = yield* obj.getOwnPropertyDescriptorEvaluator(
+      const descriptor = yield* obj.getOwnPropertyEvaluator(
         propValue.toStringSync(),
       );
 

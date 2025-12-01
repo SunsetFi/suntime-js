@@ -26,7 +26,7 @@ const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
     );
     // Don't see it defined whether this should be all keys or own keys and whether enumerable plays in,
     // but testing on NodeJs shows that this is own enumerable.
-    const keys = yield* propertiesObj.getOwnEnumerableKeysEvaluator();
+    const keys = yield* propertiesObj.ownEnumerableKeysEvaluator();
     for (const key of keys) {
       const descriptorObj = yield* propertiesObj.getEvaluator(key);
       if (!isStaticJsObjectLike(descriptorObj)) {

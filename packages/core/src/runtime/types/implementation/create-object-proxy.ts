@@ -9,6 +9,7 @@ import {
   type StaticJsPropertyDescriptor,
   type StaticJsAccessorPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
+import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 
 const ProxyOwnerKey = Symbol("StaticJsObjectLikeProxyOwner");
 
@@ -35,7 +36,7 @@ export default function createStaticJsObjectLikeProxy(
       staticJsPropertyKey = propertyName;
     }
 
-    const descriptor = obj.getOwnPropertyDescriptorSync(staticJsPropertyKey);
+    const descriptor = obj.getOwnPropertySync(staticJsPropertyKey);
     if (!descriptor) {
       return undefined;
     }
@@ -100,15 +101,19 @@ export default function createStaticJsObjectLikeProxy(
   };
 
   const ownKeys = () => {
-    const keys = [
-      ...obj.getOwnKeysSync(),
-      ...obj.getOwnSymbolsSync().map((s) => s.toJsSync() as symbol),
-    ];
+    const keys = obj.ownPropertyKeysSync().map((key) => {
+      if (isStaticJsSymbol(key)) {
+        return key.toJsSync() as symbol;
+      }
+      return key;
+    });
+
     for (const key of keys) {
       // Do this to poke the descriptors...
       // Sigh...
       getOwnPropertyDescriptor(key);
     }
+
     return keys;
   };
 
@@ -198,7 +203,7 @@ export default function createStaticJsObjectLikeProxy(
       } else {
         staticJsPropertyKey = p;
       }
-      obj.deletePropertySync(staticJsPropertyKey);
+      obj.deleteSync(staticJsPropertyKey);
       return false;
     },
     isExtensible() {
