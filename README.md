@@ -110,6 +110,11 @@ Currently, around 4800 of the language tests are passing, or about 20%. Further 
 - [x] Return ReferenceRecord from Identifier
 - [x] Consume ReferenceRecords with GetValue everywhere
 
+- [ ]: BindingInitialization
+- [ ]: IteratorBindingInitialization
+
+- [ ]: Replace setLVal with BindingInitialization
+
 ### API for host implementation of functions using evaluators
 
 Figure out public API for invoking evaluators.

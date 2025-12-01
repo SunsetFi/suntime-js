@@ -32,6 +32,7 @@ import type EvaluationContext from "../EvaluationContext.js";
 import iteratorClose from "../../runtime/algorithms/iterator-close.js";
 import initializeReferencedBinding from "./initialize-referenced-binding.js";
 import initializeBoundName from "./initialize-bound-name.js";
+import iteratorBindingInitialization from "./iterator-binding-initialization.js";
 
 export default function* bindingInitialization(
   node: LVal,
@@ -71,7 +72,12 @@ export default function* bindingInitialization(
     }
     case "ArrayPattern": {
       const iterator = yield* getIterator(value, context.realm);
-      // TODO: IteratorBindingInitialization
+      yield* iteratorBindingInitialization.arrayBindingPattern(
+        node,
+        iterator,
+        environment,
+        context,
+      );
       const doneValue = yield* iterator.getPropertyEvaluator("done");
       const done = yield* toBoolean.js(doneValue, context.realm);
       if (!done) {
@@ -182,7 +188,7 @@ function* keyedBindingInitialization(
 function* restBindingInitialization(
   node: RestElement,
   value: StaticJsValue,
-  excludedName: StaticJsObjectPropertyKey[],
+  excludedNames: StaticJsObjectPropertyKey[],
   environment: StaticJsEnvironmentRecord | null,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
@@ -202,7 +208,7 @@ function* restBindingInitialization(
   const from = yield* toObject(value, context.realm);
   const keys = yield* from.getOwnKeysEvaluator();
   for (const key of keys) {
-    if (excludedName.includes(key)) {
+    if (excludedNames.includes(key)) {
       continue;
     }
 

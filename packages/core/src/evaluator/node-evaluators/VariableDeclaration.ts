@@ -35,6 +35,55 @@ function* variableDeclarationNodeEvaluator(
   return null;
 }
 
+function* declarationStatementEvaluator(
+  declarator: VariableDeclarator,
+  kind: "const" | "let" | "var",
+  context: EvaluationContext,
+): EvaluationGenerator {
+  if (declarator.id.type === "Identifier") {
+    const bindingId = declarator.id.name;
+    const lhs = yield* getIdentifierReference(
+      context.lexicalEnv,
+      bindingId,
+      context.strict,
+    );
+
+    let value: StaticJsValue = context.realm.types.undefined;
+    if (declarator.init) {
+      const rhs = yield* EvaluateNodeCommand(declarator.init, context, {
+        forNormalValue: "VariableDeclarator.init",
+      });
+      value = rhs;
+    }
+
+    if (kind === "var") {
+      yield* putValue(lhs, value, context.realm);
+    } else {
+      yield* initializeReferencedBinding(lhs, value);
+    }
+  } else {
+    if (!declarator.init) {
+      throw new StaticJsEngineError(
+        `Destructuring variable declaration must have an initializer`,
+      );
+    }
+
+    const value = yield* EvaluateNodeCommand(declarator.init, context, {
+      forNormalValue: "VariableDeclarator.init",
+    });
+
+    // No idea what VoidPattern is...
+    if (declarator.id.type === "VoidPattern") {
+      throw new StaticJsEngineError("Declarator VoidPattern is not supported");
+    }
+
+    const env = context.lexicalEnv;
+    yield* bindingInitialization(declarator.id, value, env, context);
+  }
+
+  return context.realm.types.undefined;
+}
+
 function* variableDeclarationEnvironmentSetup(
   node: VariableDeclaration,
   context: EvaluationContext,
@@ -85,52 +134,3 @@ function* variableDeclarationEnvironmentSetup(
 export default typedMerge(variableDeclarationNodeEvaluator, {
   environmentSetup: variableDeclarationEnvironmentSetup,
 });
-
-function* declarationStatementEvaluator(
-  declarator: VariableDeclarator,
-  kind: "const" | "let" | "var",
-  context: EvaluationContext,
-): EvaluationGenerator {
-  if (declarator.id.type === "Identifier") {
-    const bindingId = declarator.id.name;
-    const lhs = yield* getIdentifierReference(
-      context.lexicalEnv,
-      bindingId,
-      context.strict,
-    );
-
-    let value: StaticJsValue = context.realm.types.undefined;
-    if (declarator.init) {
-      const rhs = yield* EvaluateNodeCommand(declarator.init, context, {
-        forNormalValue: "VariableDeclarator.init",
-      });
-      value = rhs;
-    }
-
-    if (kind === "var") {
-      yield* putValue(lhs, value, context.realm);
-    } else {
-      yield* initializeReferencedBinding(lhs, value);
-    }
-  } else {
-    if (!declarator.init) {
-      throw new StaticJsEngineError(
-        `Destructuring variable declaration must have an initializer`,
-      );
-    }
-
-    const value = yield* EvaluateNodeCommand(declarator.init, context, {
-      forNormalValue: "VariableDeclarator.init",
-    });
-
-    // No idea what VoidPattern is...
-    if (declarator.id.type === "VoidPattern") {
-      throw new StaticJsEngineError("Declarator VoidPattern is not supported");
-    }
-
-    const env = context.lexicalEnv;
-    yield* bindingInitialization(declarator.id, value, env, context);
-  }
-
-  return context.realm.types.undefined;
-}
