@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { relative } from "node:path";
 
 import { parseFile as parseTest262 } from "test262-parser";
 
@@ -24,13 +25,13 @@ describe("Test262", () => {
   describe("Language", () => {
     for (const category of LanguageCategories) {
       describe(category, () => {
-        describeCategory(category, ["Test262", "Language", category]);
+        describeLanguageCategory(category, ["Test262", "Language", category]);
       });
     }
   });
 });
 
-function describeCategory(category: string, ancestorTitles: string[]) {
+function describeLanguageCategory(category: string, ancestorTitles: string[]) {
   const categoryDir = test262Path("test/language", category);
   const tests = getFilesSync(categoryDir, (file) => file.endsWith(".js"));
 
@@ -40,7 +41,8 @@ function describeCategory(category: string, ancestorTitles: string[]) {
   }
 
   for (const test of tests) {
-    const parts = test.split(/\/|\\/);
+    const relPath = relative(categoryDir, test);
+    const parts = relPath.split(/\/|\\/);
     const testName = parts.splice(-1, 1)[0];
     describePath(parts, () => {
       defineTest(testName, test, [...ancestorTitles, ...parts]);
