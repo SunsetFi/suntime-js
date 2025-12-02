@@ -304,6 +304,19 @@ describe("E2E: Variables", () => {
       await evaluateScript(code, { realm });
       expect(realm.global.hasPropertySync("a")).toBe(false);
     });
+
+    it("Shadows variables in a function scope", async () => {
+      const code = `
+        var a = 1;
+        function f() {
+          var a = 2;
+          return a;
+        }
+        const fnResult = f();
+        [a, fnResult];
+      `;
+      expect(await evaluateScript(code)).toEqual([1, 2]);
+    });
   });
 
   describe("implicit globals", () => {
