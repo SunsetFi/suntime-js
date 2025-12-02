@@ -15,8 +15,6 @@ import { ContinueCompletion } from "../completions/ContinueCompletion.js";
 import { BreakCompletion } from "../completions/BreakCompletion.js";
 import type { NormalCompletion } from "../completions/NormalCompletion.js";
 
-import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
-import getValue from "../../runtime/algorithms/get-value.js";
 import boundNames from "../instantiation/algorithms/bound-names.js";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
@@ -62,10 +60,7 @@ function* forStatementNodeEvaluator(
         perIterationLets = names;
       }
     } else {
-      const initResult = yield* EvaluateNodeCommand(init, context);
-      if (isStaticJsReferenceRecord(initResult)) {
-        yield* getValue(initResult, context.realm);
-      }
+      yield* EvaluateNodeCommand(init, context);
     }
   }
 

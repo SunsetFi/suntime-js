@@ -12,6 +12,7 @@ import toNumber from "../../runtime/algorithms/to-number.js";
 import addition from "../../runtime/algorithms/addition.js";
 import { getIdentifierReference } from "../../runtime/references/get-identifier-reference.js";
 import putValue from "../../runtime/algorithms/put-value.js";
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 export default function* assignmentExpressionNodeEvaluator(
   node: AssignmentExpression,
@@ -57,6 +58,42 @@ export default function* assignmentExpressionNodeEvaluator(
         value = context.realm.types.number(leftValue.value - value.value);
       }
       break;
+    case "*=":
+      {
+        let leftValue = yield* EvaluateNodeCommand(left, context, {
+          forNormalValue: "AssignmentExpression.left",
+        });
+
+        leftValue = yield* toNumber(leftValue, context.realm);
+        value = yield* toNumber(value, context.realm);
+
+        value = context.realm.types.number(leftValue.value * value.value);
+      }
+      break;
+    case "/=":
+      {
+        let leftValue = yield* EvaluateNodeCommand(left, context, {
+          forNormalValue: "AssignmentExpression.left",
+        });
+
+        leftValue = yield* toNumber(leftValue, context.realm);
+        value = yield* toNumber(value, context.realm);
+
+        value = context.realm.types.number(leftValue.value / value.value);
+      }
+      break;
+    case "%=":
+      {
+        let leftValue = yield* EvaluateNodeCommand(left, context, {
+          forNormalValue: "AssignmentExpression.left",
+        });
+
+        leftValue = yield* toNumber(leftValue, context.realm);
+        value = yield* toNumber(value, context.realm);
+
+        value = context.realm.types.number(leftValue.value % value.value);
+      }
+      break;
     case "<<=":
       {
         let leftValue = yield* EvaluateNodeCommand(left, context, {
@@ -93,6 +130,10 @@ export default function* assignmentExpressionNodeEvaluator(
         value = context.realm.types.number(leftValue.value >>> value.value);
       }
       break;
+    default:
+      throw new StaticJsEngineError(
+        `Unsupported assignment operator: ${node.operator}`,
+      );
   }
 
   yield* setLVal(left, value, context, function* (name, value) {
