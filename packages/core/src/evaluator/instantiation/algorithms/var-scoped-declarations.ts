@@ -118,3 +118,5 @@ function topLevelVarScopedDeclarations(node: Node): VarScopedDeclNode[] {
 
   return [];
 }
+
+varScopedDeclarations.topLevel = topLevelVarScopedDeclarations;

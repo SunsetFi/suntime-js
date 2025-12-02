@@ -11,6 +11,8 @@ import StaticJsAsyncArrowFunction from "../../runtime/types/implementation/Stati
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 
+import createFunction from "./Function.js";
+
 function* arrowFunctionExpressionNodeEvaluator(
   node: ArrowFunctionExpression,
   context: EvaluationContext,
@@ -31,6 +33,7 @@ function* arrowFunctionExpressionNodeEvaluator(
       node.params,
       context,
       node.body,
+      createFunction,
     );
   }
 
@@ -40,6 +43,7 @@ function* arrowFunctionExpressionNodeEvaluator(
     node.params,
     context,
     node.body,
+    createFunction,
   );
 
   return func;

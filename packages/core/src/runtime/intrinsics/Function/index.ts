@@ -1,16 +1,18 @@
-import { type Statement } from "@babel/types";
+import type { Program } from "@babel/types";
 
 import parseFunctionBody from "../../../parser/parse-function-body.js";
 
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import createFunction from "../../../evaluator/node-evaluators/Function.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
 import StaticJsDeclFunction from "../../types/implementation/StaticJsDeclFunction.js";
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
-import { isStaticJsString } from "../../types/StaticJsString.js";
+
+import toString from "../../algorithms/to-string.js";
 
 export { default as populateFunctionPrototype } from "./prototype/index.js";
 
@@ -21,33 +23,32 @@ export function createFunctionConstructor(
   const ctor = new StaticJsFunctionImpl(
     realm,
     "Function",
-    function* (_thisArg, nameValue, bodyStrValue) {
-      let name = "anonymous";
-      if (isStaticJsString(nameValue)) {
-        name = nameValue.value;
-      }
+    function* (_thisArg, ...args) {
+      // TODO: Previous args are formal parameters
+      const bodyStrValue =
+        args.length > 0 ? args[args.length - 1] : realm.types.string("");
 
-      // Node seems to be very loose about this.
-      let statements: Statement[] = [];
-      if (isStaticJsString(bodyStrValue)) {
-        try {
-          statements = parseFunctionBody(bodyStrValue.value);
-        } catch {
-          throw new ThrowCompletion(
-            realm.types.error("SyntaxError", "Failed to parse function body"),
-          );
-        }
+      const bodyStr = yield* toString(bodyStrValue, realm);
+
+      // We don't really have a proper Node type to represent a function body...
+      let body: Program;
+      try {
+        body = parseFunctionBody(bodyStr.value);
+      } catch {
+        throw new ThrowCompletion(
+          realm.types.error("SyntaxError", "Failed to parse function body"),
+        );
       }
 
       const context = EvaluationContext.createRootContext(false, realm);
 
       return new StaticJsDeclFunction(
         realm,
-        name,
-        "lexical",
+        "anonymous",
         [],
         context,
-        statements,
+        body,
+        createFunction,
       );
     },
     { prototype: functionProto, construct: true },

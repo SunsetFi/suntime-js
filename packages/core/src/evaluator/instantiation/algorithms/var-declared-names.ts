@@ -110,3 +110,5 @@ function topLevelVarDeclaredNames(node: Node): string[] {
 
   return [];
 }
+
+varDeclaredNames.topLevel = topLevelVarDeclaredNames;

@@ -12,6 +12,7 @@ export default defineConfig({
         },
         test: {
           name: "spec",
+          setupFiles: ["./tests/setup.ts"],
           include: ["./src/**/*.spec.ts"],
         },
       },
@@ -21,6 +22,7 @@ export default defineConfig({
         },
         test: {
           name: "e2e",
+          setupFiles: ["./tests/setup.ts"],
           include: ["./tests/e2e/**/*.ts"],
           exclude: ["./tests/e2e/**/utils/*.ts"],
         },

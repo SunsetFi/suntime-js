@@ -1,4 +1,4 @@
-import { isStaticJsUndefined } from "../index.js";
+import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsString } from "../types/StaticJsString.js";

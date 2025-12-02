@@ -1,4 +1,9 @@
-import { type Expression, type LVal, type ArrayPattern } from "@babel/types";
+import {
+  type Expression,
+  type LVal,
+  type ArrayPattern,
+  type VoidPattern,
+} from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
@@ -23,12 +28,27 @@ import initializeReferencedBinding from "./initialize-referenced-binding.js";
 import bindingInitialization from "./binding-initialization.js";
 import iteratorDestructuringAssignmentEvaluation from "./iterator-destructuring-assignment-evaluation.js";
 
+// WHAT IS VOID PATTERN???
+export type IteratorBindingInitializationNode = LVal | VoidPattern;
+
 export default function* iteratorBindingInitialization(
-  node: LVal,
+  node: IteratorBindingInitializationNode | IteratorBindingInitializationNode[],
   iteratorRecord: StaticJsObjectLike,
   environment: StaticJsEnvironmentRecord | null,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
+  if (Array.isArray(node)) {
+    for (const element of node) {
+      yield* iteratorBindingInitialization(
+        element,
+        iteratorRecord,
+        environment,
+        context,
+      );
+    }
+    return;
+  }
+
   let initializer: Expression | null = null;
   if (node.type === "AssignmentPattern") {
     initializer = node.right;

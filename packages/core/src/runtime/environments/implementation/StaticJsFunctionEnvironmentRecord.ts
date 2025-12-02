@@ -1,27 +1,66 @@
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsFunction } from "../../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
+
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
 
 export default class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnvironmentRecord {
+  private _thisBindingStatus: "lexical" | "initialized" | "uninitialized";
+  private _thisValue: StaticJsValue | null;
+  private _functionObject: StaticJsFunction;
+  private _newTarget: StaticJsValue | null;
+
   constructor(
-    private readonly _thisArg: StaticJsValue,
-    _args: StaticJsValue[],
+    functionObject: StaticJsFunction,
+    lexical: boolean,
+    newTarget: StaticJsValue | null,
     outerEnv: StaticJsEnvironmentRecord,
     realm: StaticJsRealm,
   ) {
     super(outerEnv, realm);
-    // TODO: add arguments array-not-array-object.
-    // Should be alias to real values in non-strict mode.
+    this._functionObject = functionObject;
+    this._thisBindingStatus = lexical ? "lexical" : "uninitialized";
+    this._thisValue = null;
+    this._newTarget = newTarget;
+  }
+
+  initializeThis(thisValue: StaticJsValue): void {
+    if (this._thisBindingStatus !== "uninitialized") {
+      throw new StaticJsEngineError(
+        "This binding has already been initialized.",
+      );
+    }
+
+    this._thisValue = thisValue;
+    this._thisBindingStatus = "initialized";
   }
 
   *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {
-    return true;
+    return this._thisBindingStatus !== "lexical";
   }
 
   *getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue> {
-    return this._thisArg;
+    if (this._thisBindingStatus === "lexical") {
+      throw new StaticJsEngineError(
+        "Cannot get 'this' binding from lexical function environment.",
+      );
+    }
+
+    if (this._thisBindingStatus === "initialized") {
+      return this._thisValue!;
+    }
+
+    throw new ThrowCompletion(
+      this._realm.types.error(
+        "ReferenceError",
+        "This binding is uninitialized",
+      ),
+    );
   }
 }

@@ -9,19 +9,28 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
 
-import StaticJsAstFunction, {
-  type StaticJsAstFunctionArgumentDeclaration,
-} from "./StaticJsAstFunction.js";
+import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
+import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
+import StaticJsAstFunction from "./StaticJsAstFunction.js";
 
 export default class StaticJsArrowFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
     name: string | null,
-    argumentDeclarations: StaticJsAstFunctionArgumentDeclaration[],
+    argumentDeclarations: StaticJsAstFunctionArgument[],
     context: EvaluationContext,
     body: BlockStatement | Expression,
+    functionFactory: StaticJsFunctionFactory,
   ) {
-    super(realm, name, argumentDeclarations, context, body);
+    super(
+      realm,
+      name,
+      "lexical-this",
+      argumentDeclarations,
+      context,
+      body,
+      functionFactory,
+    );
   }
 
   *constructEvaluator(): EvaluationGenerator<StaticJsValue> {
@@ -34,12 +43,5 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
     throw new ThrowCompletion(
       this.realm.types.error("TypeError", `${name} is not a constructor`),
     );
-  }
-
-  protected *_createContext(
-    _thisArg: StaticJsValue,
-    args: StaticJsValue[],
-  ): EvaluationGenerator<EvaluationContext> {
-    return yield* super._createContext(this.realm.types.undefined, args);
   }
 }

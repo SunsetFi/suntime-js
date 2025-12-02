@@ -103,7 +103,8 @@ Currently, around 4800 of the language tests are passing, or about 20%. Further 
 
 - [x] GlobalDeclarationInstantiation
 - [x] BlockDeclarationInstantiation
-- [ ] FunctionDeclarationInstantiation
+- [x] FunctionDeclarationInstantiation
+  - [ ]: `arguments` object
 - [x] ForDeclarationBindingInstantiation
 - [x] EvalDeclarationInstantiation
 - [x]: module.LinkEnvironment

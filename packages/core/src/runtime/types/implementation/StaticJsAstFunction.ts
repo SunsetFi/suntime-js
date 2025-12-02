@@ -1,62 +1,89 @@
 import {
-  isIdentifier,
-  isPattern,
-  isRestElement,
   type Node,
   type BlockStatement,
   type Expression,
-  type Identifier,
-  type Pattern,
-  type RestElement,
-  type Statement,
+  type Program,
 } from "@babel/types";
-
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-
-import setLVal from "../../../evaluator/node-evaluators/LVal.js";
 
 import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
-import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
-
-import setupEnvironment from "../../../evaluator/node-evaluators/setup-environment.js";
+import functionDeclarationInstantiation from "../../../evaluator/instantiation/function-declaration-instantiation.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
-import getValue from "../../algorithms/get-value.js";
+import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
+import getValue from "../../algorithms/get-value.js";
+import toObject from "../../algorithms/to-object.js";
+
 import type { StaticJsValue } from "../StaticJsValue.js";
+import { isStaticJsNull } from "../StaticJsNull.js";
+import { isStaticJsUndefined } from "../StaticJsUndefined.js";
 
 import StaticJsFunctionBase, {
   type StaticJsFunctionImplOptions,
 } from "./StaticJsFunctionImpl.js";
 
-export type StaticJsAstFunctionArgumentDeclaration =
-  | Identifier
-  | Pattern
-  | RestElement;
-export function isStaticJsAstFunctionArgumentDeclaration(
-  node: Node,
-): node is StaticJsAstFunctionArgumentDeclaration {
-  return isIdentifier(node) || isPattern(node) || isRestElement(node);
-}
+import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
+import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
 
 export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
+  private _strict: boolean;
+  private _thisMode: "lexical" | "strict" | "global";
+
   constructor(
     realm: StaticJsRealm,
     name: string | null,
-    private readonly _argumentDeclarations: StaticJsAstFunctionArgumentDeclaration[],
+    thisMode: "lexical-this" | "non-lexical-this",
+    private readonly _argumentDeclarations: StaticJsAstFunctionArgument[],
     protected readonly _context: EvaluationContext,
-    protected readonly _body: BlockStatement | Expression | Statement[],
+    protected readonly _body: BlockStatement | Expression | Program,
+    // Gross circular dependency workaround.
+    private readonly _createFunction: StaticJsFunctionFactory,
     opts?: StaticJsFunctionImplOptions,
   ) {
     super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args), {
       length: _argumentDeclarations.length,
       ...opts,
     });
+
+    if (_context.strict) {
+      this._strict = true;
+    } else if (
+      (_body.type === "BlockStatement" || _body.type === "Program") &&
+      _body.directives.some(({ value }) => value.value === "use strict")
+    ) {
+      this._strict = true;
+    } else {
+      this._strict = false;
+    }
+
+    if (thisMode === "lexical-this") {
+      this._thisMode = "lexical";
+    } else if (this._strict) {
+      this._thisMode = "strict";
+    } else {
+      this._thisMode = "global";
+    }
+  }
+
+  get ECMAScriptCode(): Node | Expression {
+    return this._body;
+  }
+
+  get strict(): boolean {
+    return this._thisMode === "strict";
+  }
+
+  get formalParameters(): StaticJsAstFunctionArgument[] {
+    return this._argumentDeclarations;
+  }
+
+  get thisMode(): "lexical" | "strict" | "global" {
+    return this._thisMode;
   }
 
   protected *_invoke(
@@ -65,86 +92,62 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
   ): EvaluationGenerator<StaticJsValue> {
     const functionContext = yield* this._createContext(thisArg, args);
 
-    yield* this._declareArguments(args, functionContext);
-
-    if (Array.isArray(this._body)) {
-      for (const stmt of this._body) {
-        yield* setupEnvironment(stmt, functionContext);
-      }
-
-      for (const stmt of this._body) {
-        yield* EvaluateNodeCommand(stmt, functionContext);
-      }
-
-      // ReturnCompletion is a throwable, so if we get here we just return undefined.
-      return functionContext.realm.types.undefined;
-    } else {
-      yield* setupEnvironment(this._body, functionContext);
-
-      const result = yield* EvaluateNodeCommand(this._body, functionContext);
-      if (result) {
-        return yield* getValue(result, this.realm);
-      }
-
-      return this.realm.types.undefined;
+    const result = yield* EvaluateNodeCommand(this._body, functionContext);
+    if (result) {
+      return yield* getValue(result, this.realm);
     }
+
+    return this.realm.types.undefined;
   }
 
   protected *_createContext(
     thisArg: StaticJsValue,
     args: StaticJsValue[],
   ): EvaluationGenerator<EvaluationContext> {
-    const functionEnv = new StaticJsFunctionEnvironmentRecord(
-      thisArg,
-      args,
+    // This is a mess of PrepareForOrdinaryCall, OrdinaryCallBindThis and parts of OrdinaryCallEvaluateBody.
+
+    // Note: Spec says we use the function's [[Environment]] here, which I haven't tracked down, but I'm assuming is the lexical environment of
+    // the function binding.
+    const localEnv = new StaticJsFunctionEnvironmentRecord(
+      this,
+      this._thisMode === "lexical",
+      null,
       this._context.lexicalEnv,
       this.realm,
     );
+    const calleeContext = this._context.createFunctionInvocationContext(
+      localEnv,
+      localEnv,
+      this,
+    );
 
-    return this._context.createFunctionInvocationContext(functionEnv, this);
-  }
-
-  protected *_declareArguments(
-    args: StaticJsValue[],
-    context: EvaluationContext,
-  ): EvaluationGenerator<void> {
-    const seen = new Set<string>();
-
-    function* setArgument(name: string, value: StaticJsValue) {
-      if (seen.has(name)) {
-        return;
-      }
-
-      seen.add(name);
-      yield* context.lexicalEnv.createMutableBindingEvaluator(name, false);
-      yield* context.lexicalEnv.initializeBindingEvaluator(name, value);
-    }
-
-    // Start from the end and work backwards.
-    for (let i = this._argumentDeclarations.length - 1; i >= 0; i--) {
-      const decl = this._argumentDeclarations[i];
-
-      if (decl.type === "VoidPattern") {
-        continue;
-      }
-
-      if (decl.type === "RestElement") {
-        if (i !== this._argumentDeclarations.length - 1) {
-          // I think babel should catch this for us...
-          throw new StaticJsEngineError(
-            "Function rest argument not at last position.",
-          );
+    const thisMode = this._thisMode;
+    if (thisMode === "lexical") {
+      // Do nothing.
+    } else {
+      const calleeRealm = this._context.realm;
+      let thisValue: StaticJsValue;
+      if (thisMode === "strict") {
+        thisValue = thisArg;
+      } else {
+        if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
+          thisValue = calleeRealm.globalThis;
+        } else {
+          thisValue = yield* toObject(thisArg, calleeRealm);
         }
-
-        const value = this.realm.types.array(args.slice(i));
-        yield* setLVal(decl.argument, value, context, setArgument);
-        continue;
       }
 
-      // We might not get enough arguments, so fill in the rest with undefined.
-      const value: StaticJsValue = args[i] ?? this.realm.types.undefined;
-
-      yield* setLVal(decl, value, context, setArgument);
+      localEnv.initializeThis(thisValue);
     }
+
+    yield* functionDeclarationInstantiation(
+      this,
+      args,
+      calleeContext,
+      // Gross circular dependency workaround.
+      this._createFunction,
+    );
+
+    return calleeContext;
   }
 }

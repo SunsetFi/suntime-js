@@ -2,6 +2,8 @@ import type { Expression, ForStatement, Statement } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
@@ -16,7 +18,6 @@ import { BreakCompletion } from "../completions/BreakCompletion.js";
 import type { NormalCompletion } from "../completions/NormalCompletion.js";
 
 import boundNames from "../instantiation/algorithms/bound-names.js";
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 function* forStatementNodeEvaluator(
   node: ForStatement,

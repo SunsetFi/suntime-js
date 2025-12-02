@@ -26,7 +26,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
 
   constructor(
     outerEnv: StaticJsEnvironmentRecord | null,
-    private readonly _realm: StaticJsRealm,
+    protected readonly _realm: StaticJsRealm,
   ) {
     super(outerEnv);
   }

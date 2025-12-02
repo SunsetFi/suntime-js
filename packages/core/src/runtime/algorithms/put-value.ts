@@ -8,13 +8,15 @@ import type { StaticJsReferenceRecord } from "../references/StaticJsReferenceRec
 import { isUnresolvableReference } from "../references/is-unresolvable-reference.js";
 import { isPropertyReference } from "../references/is-property-reference.js";
 
-import toObject from "./to-object.js";
-
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 
 import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+
+import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
+
 import toPropertyKey from "../utils/to-property-key.js";
-import { isStaticJsSymbol } from "../index.js";
+
+import toObject from "./to-object.js";
 
 export default function* putValue(
   v: StaticJsReferenceRecord | StaticJsValue,

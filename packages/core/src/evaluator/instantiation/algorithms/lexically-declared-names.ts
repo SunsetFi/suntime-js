@@ -84,3 +84,5 @@ function topLevelLexicallyDeclaredNames(node: Node): string[] {
 
   return [];
 }
+
+lexicallyDeclaredNames.topLevel = topLevelLexicallyDeclaredNames;

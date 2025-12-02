@@ -4,6 +4,7 @@ import type { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
 
 import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
+import StaticJsEngineError from "../errors/StaticJsEngineError.js";
 
 export default abstract class EvaluationContext {
   private _parent: EvaluationContext | null;
@@ -38,6 +39,14 @@ export default abstract class EvaluationContext {
     );
   }
 
+  set lexicalEnv(env: StaticJsEnvironmentRecord) {
+    // The spec supports getting and setting these arbitrarily, but that doesn't fit with our context stack system.
+    // Might want to support this for whatever.
+    throw new StaticJsEngineError(
+      "Cannot set lexical environment on this evaluation context.",
+    );
+  }
+
   get variableEnv(): StaticJsEnvironmentRecord {
     if (this._parent) {
       return this._parent.variableEnv;
@@ -45,6 +54,14 @@ export default abstract class EvaluationContext {
 
     throw new Error(
       "Variable Environment is not set in the evaluation context.",
+    );
+  }
+
+  set variableEnv(env: StaticJsEnvironmentRecord) {
+    // The spec supports getting and setting these arbitrarily, but that doesn't fit with our context stack system.
+    // Might want to support this for whatever.
+    throw new StaticJsEngineError(
+      "Cannot set variable environment on this evaluation context.",
     );
   }
 
@@ -78,6 +95,10 @@ export default abstract class EvaluationContext {
     return new EnvironmentEvaluationContext(env, null, this);
   }
 
+  createVariableEnvContext(env: StaticJsEnvironmentRecord): EvaluationContext {
+    return new EnvironmentEvaluationContext(null, env, this);
+  }
+
   createLexicalAndVariableEnvContext(
     env: StaticJsEnvironmentRecord,
   ): EvaluationContext {
@@ -85,10 +106,16 @@ export default abstract class EvaluationContext {
   }
 
   createFunctionInvocationContext(
-    env: StaticJsEnvironmentRecord,
+    lexicalEnv: StaticJsEnvironmentRecord,
+    variableEnv: StaticJsEnvironmentRecord,
     func: StaticJsFunction,
   ): EvaluationContext {
-    return new FunctionInvocationEvaluationContext(env, func, this);
+    return new FunctionInvocationEvaluationContext(
+      lexicalEnv,
+      variableEnv,
+      func,
+      this,
+    );
   }
 
   createStrictContext(): EvaluationContext {
@@ -172,25 +199,36 @@ class EnvironmentEvaluationContext extends EvaluationContext {
 }
 
 class FunctionInvocationEvaluationContext extends EvaluationContext {
-  private _env: StaticJsEnvironmentRecord;
+  private _lexicalEnv: StaticJsEnvironmentRecord;
+  private _variableEnv: StaticJsEnvironmentRecord;
   private _function: StaticJsFunction;
 
   constructor(
-    env: StaticJsEnvironmentRecord,
+    lexicalEnv: StaticJsEnvironmentRecord,
+    variableEnv: StaticJsEnvironmentRecord,
     func: StaticJsFunction,
     parent: EvaluationContext,
   ) {
     super(parent);
-    this._env = env;
+    this._lexicalEnv = lexicalEnv;
+    this._variableEnv = variableEnv;
     this._function = func;
   }
 
   get lexicalEnv(): StaticJsEnvironmentRecord {
-    return this._env;
+    return this._lexicalEnv;
+  }
+
+  set lexicalEnv(env: StaticJsEnvironmentRecord) {
+    this._lexicalEnv = env;
   }
 
   get variableEnv(): StaticJsEnvironmentRecord {
-    return this._env;
+    return this._variableEnv;
+  }
+
+  set variableEnv(env: StaticJsEnvironmentRecord) {
+    this._variableEnv = env;
   }
 
   get function(): StaticJsFunction {

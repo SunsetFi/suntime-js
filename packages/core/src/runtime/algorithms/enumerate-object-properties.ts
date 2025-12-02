@@ -1,11 +1,13 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
+import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
-import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+import { createIteratorResultObject } from "./create-iterator-result-object.js";
 
 export default function* enumerateObjectProperties(
   obj: StaticJsObjectLike,
@@ -24,20 +26,11 @@ export default function* enumerateObjectProperties(
       if (nextIndex >= currentKeys.length) {
         // If we've gone past the last key, we need to reset
         if (currentObject.prototype === null) {
-          return realm.types.object({
-            done: {
-              value: realm.types.true,
-              writable: false,
-              enumerable: false,
-              configurable: true,
-            },
-            value: {
-              value: realm.types.undefined,
-              writable: false,
-              enumerable: false,
-              configurable: true,
-            },
-          });
+          return yield* createIteratorResultObject(
+            realm.types.undefined,
+            true,
+            realm,
+          );
         }
 
         nextIndex = 0;
@@ -61,20 +54,11 @@ export default function* enumerateObjectProperties(
         continue;
       }
 
-      return realm.types.object({
-        done: {
-          value: realm.types.false,
-          writable: false,
-          enumerable: false,
-          configurable: true,
-        },
-        value: {
-          value: realm.types.string(key),
-          writable: false,
-          enumerable: false,
-          configurable: true,
-        },
-      });
+      return yield* createIteratorResultObject(
+        realm.types.string(key),
+        false,
+        realm,
+      );
     }
   });
 
