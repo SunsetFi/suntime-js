@@ -50,7 +50,8 @@ function describeLanguageCategory(category: string, ancestorTitles: string[]) {
   }
 }
 
-const testTimeout = 5000;
+const testTimeout = 10000;
+const scriptTimeout = 5000;
 
 function defineTest(
   testName: string,
@@ -105,7 +106,7 @@ function defineTest(
     },
     async () => {
       const realm = StaticJsRealm({
-        runTask: createTimeBoundTaskRunner({ maxRunTime: testTimeout - 100 }),
+        runTask: createTimeBoundTaskRunner({ maxRunTime: scriptTimeout }),
       });
       createHostApi(realm);
 
@@ -140,16 +141,9 @@ function defineTest(
       }
 
       try {
-        await realm.evaluateScript(testMeta.contents);
-        await Promise.race([
+        await Promise.all([
+          realm.evaluateScript(testMeta.contents),
           awaitPromise,
-          delay(5000).then(() =>
-            Promise.reject(
-              new Error(
-                "Async test did not call $DONE within 5 seconds of completion",
-              ),
-            ),
-          ),
         ]);
 
         if (testMeta.attrs.negative) {
@@ -216,12 +210,6 @@ function createHostApi(realm: StaticJsRealm) {
         value: realm.global,
       },
     }),
-  });
-}
-
-function delay(ms: number) {
-  return new Promise<void>((resolve) => {
-    setTimeout(() => resolve(), ms);
   });
 }
 

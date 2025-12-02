@@ -180,7 +180,11 @@ export default class Macrotask {
     reject: (reason: unknown) => void,
   ) {
     const taskIterator = this._createTaskIterator(evaluator, accept, reject);
-    this._taskRunner(taskIterator);
+    try {
+      this._taskRunner(taskIterator);
+    } catch (e) {
+      reject(e);
+    }
   }
 
   private _createTaskIterator(
