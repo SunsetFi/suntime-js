@@ -1,16 +1,17 @@
+import type StaticJsGlobalEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import { isStaticJsDataPropertyDescriptor } from "../../../runtime/types/StaticJsPropertyDescriptor.js";
 
-import type EvaluationContext from "../../EvaluationContext.js";
 import type EvaluationGenerator from "../../EvaluationGenerator.js";
 
 export default function* canDeclareGlobalFunction(
   name: string,
-  context: EvaluationContext,
+  env: StaticJsGlobalEnvironmentRecord,
 ): EvaluationGenerator<boolean> {
-  const existingProp =
-    yield* context.realm.global.getOwnPropertyEvaluator(name);
+  const objRec = env.objectRecord;
+  const globalObject = objRec.bindingObject;
+  const existingProp = yield* globalObject.getOwnPropertyEvaluator(name);
   if (!existingProp) {
-    return context.realm.global.extensible;
+    return globalObject.extensible;
   }
 
   if (existingProp.configurable) {

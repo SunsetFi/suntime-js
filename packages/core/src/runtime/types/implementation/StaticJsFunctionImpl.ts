@@ -92,6 +92,10 @@ export default class StaticJsFunctionImpl
     return this._construct !== null;
   }
 
+  get strict(): boolean {
+    return false;
+  }
+
   toStringSync() {
     const nameValue = this.realm.invokeEvaluatorSync(this.getEvaluator("name"));
     const name = nameValue.toStringSync();

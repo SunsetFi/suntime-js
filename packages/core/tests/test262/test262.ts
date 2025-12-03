@@ -93,7 +93,7 @@ function defineTest(
   let factory: typeof it | typeof it.fails = it;
 
   if (containsTest([...ancestorTitles, testName], baselineFailures)) {
-    factory = it.fails.bind(it);
+    factory = it.skip.bind(it);
   }
 
   // TODO: Run in strict and nostrict mode
@@ -140,11 +140,13 @@ function defineTest(
         });
       }
 
+      let code = testMeta.contents;
+      if (testMeta.attrs.flags.onlyStrict) {
+        code = `"use strict";\n${code}`;
+      }
+
       try {
-        await Promise.all([
-          realm.evaluateScript(testMeta.contents),
-          awaitPromise,
-        ]);
+        await Promise.all([realm.evaluateScript(code), awaitPromise]);
 
         if (testMeta.attrs.negative) {
           throw new Error("Test should have failed to run, but it did not.");

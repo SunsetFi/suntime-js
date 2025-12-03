@@ -154,4 +154,52 @@ describe("E2E: For loops", () => {
       `;
     expect(await evaluateScript(code)).toBe("value: 9");
   });
+
+  describe("Bindings", async () => {
+    it("Supports let bindings", async () => {
+      const code = `
+          let sum = 0;
+          for (let i = 0; i < 10; i++) {
+            sum += i;
+          }
+          sum;
+        `;
+      expect(await evaluateScript(code)).toBe(45);
+    });
+
+    it("Supports var bindings", async () => {
+      const code = `
+          let sum = 0;
+          for (var i = 0; i < 10; i++) {
+            sum += i;
+          }
+          [i, sum];
+        `;
+      expect(await evaluateScript(code)).toEqual([10, 45]);
+    });
+
+    it("Supports no bindings", async () => {
+      const code = `
+          let i = 0;
+          let sum = 0;
+          for (; i < 10; i++) {
+            sum += i;
+          }
+          [i, sum];
+        `;
+      expect(await evaluateScript(code)).toEqual([10, 45]);
+    });
+
+    it("Supports object destructuring bindings", async () => {
+      const code = `
+          let sum = 0;
+          const arr = [{ val: 1 }, { val: 2 }, { val: 3 }];
+          for (const { val } of arr) {
+            sum += val;
+          }
+          sum;
+        `;
+      expect(await evaluateScript(code)).toBe(6);
+    });
+  });
 });

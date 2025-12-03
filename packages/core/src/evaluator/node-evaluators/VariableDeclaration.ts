@@ -81,7 +81,7 @@ function* declarationStatementEvaluator(
       throw new StaticJsEngineError("Declarator VoidPattern is not supported");
     }
 
-    const env = context.lexicalEnv;
+    const env = kind === "var" ? null : context.lexicalEnv;
     yield* bindingInitialization(declarator.id, value, env, context);
   }
 }

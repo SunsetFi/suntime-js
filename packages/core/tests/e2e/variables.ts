@@ -46,13 +46,16 @@ describe("E2E: Variables", () => {
 
     it("Can be redeclared in block scopes", async () => {
       const code = `
+        const results = [];
         const a = 1;
         {
           const a = 2;
+          results.push(a);
         }
-        a;
+        results.push(a);
+        results;
       `;
-      expect(await evaluateScript(code)).toBe(1);
+      expect(await evaluateScript(code)).toEqual([2, 1]);
     });
 
     describe("destructuring", () => {
@@ -182,6 +185,15 @@ describe("E2E: Variables", () => {
         expect(await evaluateScript(code)).toEqual([1, [2, 3]]);
       });
     });
+
+    it("Can shadow globals", async () => {
+      const code = `
+        let Array = 1;
+        Array;
+      `;
+      const result = await evaluateScript(code);
+      expect(result).toBe(1);
+    });
   });
 
   describe("let", () => {
@@ -246,13 +258,25 @@ describe("E2E: Variables", () => {
 
     it("Can be redeclared in block scopes", async () => {
       const code = `
+        const results = [];
         let a = 1;
         {
           let a = 2;
+          results.push(a);
         }
-        a;
+        results.push(a);
+        results;
       `;
-      expect(await evaluateScript(code)).toBe(1);
+      expect(await evaluateScript(code)).toEqual([2, 1]);
+    });
+
+    it("Can shadow globals", async () => {
+      const code = `
+        let Array = 1;
+        Array;
+      `;
+      const result = await evaluateScript(code);
+      expect(result).toBe(1);
     });
   });
 

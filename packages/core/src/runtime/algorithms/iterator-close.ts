@@ -31,24 +31,22 @@ export default function* iteratorClose(
   realm: StaticJsRealm,
   unwrap: boolean = true,
 ): EvaluationGenerator<Completion> {
-  const returnMethod = yield* iterator.getEvaluator("return");
-
   let innerResult: Completion;
-  if (isStaticJsNull(returnMethod) || isStaticJsUndefined(returnMethod)) {
-    return unwrap ? unwrapCompletion(completion) : completion;
-  } else if (!isStaticJsFunction(returnMethod)) {
-    throw new ThrowCompletion(
-      realm.types.error("TypeError", "'return' is not a function"),
-    );
-  } else {
-    try {
+  try {
+    const returnMethod = yield* iterator.getEvaluator("return");
+    if (isStaticJsNull(returnMethod) || isStaticJsUndefined(returnMethod)) {
+      return unwrap ? unwrapCompletion(completion) : completion;
+    } else if (!isStaticJsFunction(returnMethod)) {
+      innerResult = new ThrowCompletion(
+        realm.types.error("TypeError", "'return' is not a function"),
+      );
+    } else {
       innerResult = yield* returnMethod.callEvaluator(iterator);
-    } catch (e) {
-      if (isAbruptCompletion(e)) {
-        // Store it, because
-        innerResult = e;
-      }
-
+    }
+  } catch (e) {
+    if (isAbruptCompletion(e)) {
+      innerResult = e;
+    } else {
       throw e;
     }
   }

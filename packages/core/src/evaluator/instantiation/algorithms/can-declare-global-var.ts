@@ -1,14 +1,16 @@
-import type EvaluationContext from "../../EvaluationContext.js";
+import type StaticJsGlobalEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import type EvaluationGenerator from "../../EvaluationGenerator.js";
 
 export default function* canDeclareGlobalVar(
   name: string,
-  context: EvaluationContext,
+  env: StaticJsGlobalEnvironmentRecord,
 ): EvaluationGenerator<boolean> {
-  const hasOwnProp = yield* context.realm.global.hasOwnPropertyEvaluator(name);
+  const objRec = env.objectRecord;
+  const globalObject = objRec.bindingObject;
+  const hasOwnProp = yield* globalObject.hasOwnPropertyEvaluator(name);
   if (hasOwnProp) {
     return true;
   }
 
-  return context.realm.global.extensible;
+  return globalObject.extensible;
 }

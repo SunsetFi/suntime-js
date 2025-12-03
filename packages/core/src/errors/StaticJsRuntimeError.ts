@@ -25,7 +25,7 @@ export default class StaticJsRuntimeError extends Error {
 
 function getMessage(value: StaticJsValue): string {
   if (!isStaticJsObjectLike(value)) {
-    return ``;
+    return value.toStringSync();
   }
 
   const hasMessage = value.hasPropertySync("message");

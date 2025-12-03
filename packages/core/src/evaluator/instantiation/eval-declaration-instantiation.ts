@@ -27,7 +27,7 @@ export default function* evalDeclarationInstantiation(
   strict: boolean,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
-  const { variableEnv: varEnv, lexicalEnv: lexEnv } = context;
+  const { variableEnv: varEnv, lexicalEnv: lexEnv, realm } = context;
 
   const varNames = varDeclaredNames(body);
   const varDeclarations = varScopedDeclarations(body);
@@ -35,10 +35,10 @@ export default function* evalDeclarationInstantiation(
   if (!strict) {
     if (varEnv instanceof StaticJsGlobalEnvironmentRecord) {
       for (const name of varNames) {
-        const hasLexical = yield* hasLexicalDeclaration(name, context);
+        const hasLexical = yield* hasLexicalDeclaration(name, varEnv);
         if (hasLexical) {
           throw new ThrowCompletion(
-            context.realm.types.error(
+            realm.types.error(
               "SyntaxError",
               `${name} has already been declared`,
             ),
@@ -54,7 +54,7 @@ export default function* evalDeclarationInstantiation(
           const hasBinding = yield* thisEnv.hasBindingEvaluator(name);
           if (hasBinding) {
             throw new ThrowCompletion(
-              context.realm.types.error(
+              realm.types.error(
                 "SyntaxError",
                 `${name} has already been declared`,
               ),
@@ -85,10 +85,10 @@ export default function* evalDeclarationInstantiation(
       }
 
       if (varEnv instanceof StaticJsGlobalEnvironmentRecord) {
-        const fnDefinable = yield* canDeclareGlobalFunction(fn, context);
+        const fnDefinable = yield* canDeclareGlobalFunction(fn, varEnv);
         if (!fnDefinable) {
           throw new ThrowCompletion(
-            context.realm.types.error(
+            realm.types.error(
               "TypeError",
               `Cannot declare global function ${fn}`,
             ),
@@ -113,10 +113,10 @@ export default function* evalDeclarationInstantiation(
       }
 
       if (varEnv instanceof StaticJsGlobalEnvironmentRecord) {
-        const fnDefinable = yield* canDeclareGlobalVar(vn, context);
+        const fnDefinable = yield* canDeclareGlobalVar(vn, varEnv);
         if (!fnDefinable) {
           throw new ThrowCompletion(
-            context.realm.types.error(
+            realm.types.error(
               "TypeError",
               `Cannot declare global variable ${vn}`,
             ),
@@ -160,8 +160,8 @@ export default function* evalDeclarationInstantiation(
 
       let fnDefinable: boolean;
       if (!bindingExists && varEnv instanceof StaticJsGlobalEnvironmentRecord) {
-        if (!hasLexicalDeclaration(F, context)) {
-          fnDefinable = yield* canDeclareGlobalVar(F, context);
+        if (!hasLexicalDeclaration(F, varEnv)) {
+          fnDefinable = yield* canDeclareGlobalVar(F, varEnv);
         } else {
           fnDefinable = false;
         }
@@ -172,14 +172,14 @@ export default function* evalDeclarationInstantiation(
       if (!bindingExists && fnDefinable) {
         if (!declaredFunctionOrVarNames.has(F)) {
           if (varEnv instanceof StaticJsGlobalEnvironmentRecord) {
-            yield* createGlobalVarBinding(F, false, context);
+            yield* createGlobalVarBinding(F, false, varEnv, realm);
           } else {
             bindingExists = yield* varEnv.hasBindingEvaluator(F);
             if (!bindingExists) {
               yield* varEnv.createMutableBindingEvaluator(F, true);
               yield* varEnv.initializeBindingEvaluator(
                 F,
-                context.realm.types.undefined,
+                realm.types.undefined,
               );
             }
           }
@@ -206,7 +206,7 @@ export default function* evalDeclarationInstantiation(
     const fn = boundNames.soleElementOf(f);
     const fo = createFunction(fn, f, context);
     if (varEnv instanceof StaticJsGlobalEnvironmentRecord) {
-      yield* createGlobalFunctionBinding(fn, fo, true, context);
+      yield* createGlobalFunctionBinding(fn, fo, true, varEnv, realm);
     } else {
       const bindingExists = yield* varEnv.hasBindingEvaluator(fn);
       if (!bindingExists) {
@@ -220,15 +220,12 @@ export default function* evalDeclarationInstantiation(
 
   for (const vn of declaredVarNames) {
     if (varEnv instanceof StaticJsGlobalEnvironmentRecord) {
-      yield* createGlobalVarBinding(vn, true, context);
+      yield* createGlobalVarBinding(vn, true, varEnv, realm);
     } else {
       const bindingExists = yield* varEnv.hasBindingEvaluator(vn);
       if (!bindingExists) {
         yield* varEnv.createMutableBindingEvaluator(vn, true);
-        yield* varEnv.initializeBindingEvaluator(
-          vn,
-          context.realm.types.undefined,
-        );
+        yield* varEnv.initializeBindingEvaluator(vn, realm.types.undefined);
       }
     }
   }

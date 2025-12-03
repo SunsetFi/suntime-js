@@ -140,6 +140,8 @@ export function* forInOfBodyEvaluation(
           yield* iteratorClose(iteratorRecord, e, context.realm, false);
         }
 
+        // Note: Officially, the spec wants to return the BreakCompletion, but with this value, so that
+        // the LabelledEvaluation logic can catch the break and unwrap the value.
         return V;
       } else if (isAbruptCompletion(e)) {
         if (iterationKind === "iterate") {

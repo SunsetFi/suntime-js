@@ -1,9 +1,14 @@
 import { type Node, isVariableDeclaration } from "@babel/types";
 
+import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+
+import StaticJsGlobalEnvironmentRecord from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+
+import type EvaluationContext from "../EvaluationContext.js";
+
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import type EvaluationGenerator from "../EvaluationGenerator.js";
-import type EvaluationContext from "../EvaluationContext.js";
 import createFunction from "../node-evaluators/Function.js";
 
 import lexicallyDeclaredNames from "./algorithms/lexically-declared-names.js";
@@ -21,26 +26,33 @@ import createGlobalFunctionBinding from "./algorithms/create-global-function-bin
 
 export default function* globalDeclarationInstantiation(
   node: Node,
+  // Note: Officially we should take in the GlobalEnvironmentRecord, but our createFunction needs
+  // the context...  Should take a look at the 'official' way to create functions and fix this.
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
+  const { strict, realm } = context;
+  const env = context.lexicalEnv;
+  if (!(env instanceof StaticJsGlobalEnvironmentRecord)) {
+    throw new StaticJsEngineError(
+      "globalDeclarationInstantiation called with non-global environment",
+    );
+  }
+
   const lexNames = lexicallyDeclaredNames(node);
   const varNames = varDeclaredNames(node);
 
   for (const name of lexNames) {
-    const hasBinding = yield* hasLexicalDeclaration(name, context);
+    const hasBinding = yield* hasLexicalDeclaration(name, env);
     if (hasBinding) {
       throw new ThrowCompletion(
-        context.realm.types.error(
-          "SyntaxError",
-          `${name} has already been declared`,
-        ),
+        realm.types.error("SyntaxError", `${name} has already been declared`),
       );
     }
 
-    const restricted = yield* hasRestrictedGlobalProperty(name, context);
+    const restricted = yield* hasRestrictedGlobalProperty(name, env);
     if (restricted) {
       throw new ThrowCompletion(
-        context.realm.types.error(
+        realm.types.error(
           "SyntaxError",
           `Cannot declare lexically scoped variable ${name} in global scope`,
         ),
@@ -49,13 +61,10 @@ export default function* globalDeclarationInstantiation(
   }
 
   for (const name of varNames) {
-    const hasBinding = yield* hasLexicalDeclaration(name, context);
+    const hasBinding = yield* hasLexicalDeclaration(name, env);
     if (hasBinding) {
       throw new ThrowCompletion(
-        context.realm.types.error(
-          "SyntaxError",
-          `${name} has already been declared`,
-        ),
+        realm.types.error("SyntaxError", `${name} has already been declared`),
       );
     }
   }
@@ -72,10 +81,10 @@ export default function* globalDeclarationInstantiation(
     if (declaredFunctionNames.has(fnName)) {
       continue;
     }
-    const isDefinable = yield* canDeclareGlobalFunction(fnName, context);
+    const isDefinable = yield* canDeclareGlobalFunction(fnName, env);
     if (!isDefinable) {
       throw new ThrowCompletion(
-        context.realm.types.error(
+        realm.types.error(
           "TypeError",
           `Cannot declare global function ${fnName}`,
         ),
@@ -97,10 +106,10 @@ export default function* globalDeclarationInstantiation(
         continue;
       }
 
-      const definable = yield* canDeclareGlobalVar(vn, context);
+      const definable = yield* canDeclareGlobalVar(vn, env);
       if (!definable) {
         throw new ThrowCompletion(
-          context.realm.types.error(
+          realm.types.error(
             "TypeError",
             `Cannot declare global variable ${vn}`,
           ),
@@ -111,7 +120,7 @@ export default function* globalDeclarationInstantiation(
     }
   }
 
-  if (!context.strict) {
+  if (!strict) {
     // Annex B.3.3.3 Global var instantiation for web compatibility
     const declaredFunctionOrVarNames = new Set<string>([
       ...declaredFunctionNames,
@@ -126,18 +135,18 @@ export default function* globalDeclarationInstantiation(
       const F = f.id.name;
       // TODO: There's some notes about "if replacing the FunctionDeclaration with a VariableStatement ... would not produce any EarlyErrors for script"
       // What does that mean?  How can we tell?
-      const hasDeclaration = yield* hasLexicalDeclaration(F, context);
+      const hasDeclaration = yield* hasLexicalDeclaration(F, env);
       if (hasDeclaration) {
         continue;
       }
 
-      const fnDefinable = yield* canDeclareGlobalFunction(F, context);
+      const fnDefinable = yield* canDeclareGlobalFunction(F, env);
       if (!fnDefinable) {
         continue;
       }
 
       if (!declaredFunctionOrVarNames.has(F)) {
-        yield* createGlobalVarBinding(F, false, context);
+        yield* createGlobalVarBinding(F, false, env, realm);
         declaredFunctionOrVarNames.add(F);
       }
 
@@ -149,9 +158,9 @@ export default function* globalDeclarationInstantiation(
   for (const d of lexDeclarations) {
     for (const dn of boundNames(d)) {
       if (isVariableDeclaration(d) && d.kind === "const") {
-        yield* context.lexicalEnv.createImmutableBindingEvaluator(dn, false);
+        yield* env.createImmutableBindingEvaluator(dn, false);
       } else {
-        yield* context.lexicalEnv.createMutableBindingEvaluator(dn, false);
+        yield* env.createMutableBindingEvaluator(dn, false);
       }
     }
   }
@@ -159,10 +168,10 @@ export default function* globalDeclarationInstantiation(
   for (const f of functionsToInitialize) {
     const fnName = boundNames.soleElementOf(f);
     const fn = createFunction(fnName, f, context);
-    yield* createGlobalFunctionBinding(fnName, fn, false, context);
+    yield* createGlobalFunctionBinding(fnName, fn, false, env, realm);
   }
 
   for (const vn of declaredVarNames) {
-    yield* createGlobalVarBinding(vn, false, context);
+    yield* createGlobalVarBinding(vn, false, env, realm);
   }
 }

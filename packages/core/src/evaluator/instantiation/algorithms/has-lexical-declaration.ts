@@ -1,10 +1,11 @@
-import type EvaluationContext from "../../EvaluationContext.js";
+import type StaticJsGlobalEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+
 import type EvaluationGenerator from "../../EvaluationGenerator.js";
 
 export default function* hasLexicalDeclaration(
   name: string,
-  context: EvaluationContext,
+  env: StaticJsGlobalEnvironmentRecord,
 ): EvaluationGenerator<boolean> {
-  const dclRec = context.realm.declarativeRecord;
+  const dclRec = env.declarativeRecord;
   return yield* dclRec.hasBindingEvaluator(name);
 }

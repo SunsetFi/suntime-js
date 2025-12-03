@@ -4,16 +4,6 @@ import { evaluateScript, StaticJsRealm } from "../../src/index.js";
 
 describe("E2E: Functions", () => {
   describe("Declaration", () => {
-    describe("Arguments", () => {
-      it("Sets the argument length property", async () => {
-        const code = `
-          function a(x, y, z) {}
-          a.length;
-        `;
-        expect(await evaluateScript(code)).toBe(3);
-      });
-    });
-
     it("Can be declared", async () => {
       const code = `
         function a() {
@@ -89,10 +79,9 @@ describe("E2E: Functions", () => {
         expect(result).toBe(12); // (1+2+3) + (1+2+3)
       });
 
-      it("Is hoisted but respects scope boundaries", async () => {
+      it("Is hoisted within scope boundaries", async () => {
         const code = `
           function outer() {
-            // This should call the inner 'inner' function, not the outer one
             return inner();
             
             function inner() {
@@ -330,17 +319,65 @@ describe("E2E: Functions", () => {
       await evaluateScript("function x() { return 42; }", { realm });
       expect(await evaluateScript("x()", { realm })).toEqual(42);
     });
+  });
 
-    it("Can contain properties", async () => {
+  describe("Strict", () => {
+    it("Is strict when the body has the strict directive", async () => {
       const code = `
+        function a() {
+          "use strict";
+          return this;
+        }
+        a();
+      `;
+      expect(await evaluateScript(code)).toBeUndefined();
+    });
+
+    it("Is non-strict when the body does not have the strict directive", async () => {
+      const code = `
+        function a() {
+          return this;
+        }
+        a() === globalThis;
+      `;
+      expect(await evaluateScript(code)).toBe(true);
+    });
+
+    it("Is strict when the parent scope is strict", async () => {
+      const code = `
+        "use strict";
+        function a() {
+          return this;
+        }
+        a();
+      `;
+      expect(await evaluateScript(code)).toBeUndefined();
+    });
+
+    it("Is strict when the parent function is strict", async () => {
+      const code = `
+        function parent() {
+          "use strict";
+          function a() {
+            return this;
+          }
+          return a();
+        }
+        parent();
+      `;
+      expect(await evaluateScript(code)).toBeUndefined();
+    });
+  });
+
+  it("Can contain properties", async () => {
+    const code = `
         function a() {
           return 42;
         }
         a.prop = 42;
         a.prop;
       `;
-      expect(await evaluateScript(code)).toBe(42);
-    });
+    expect(await evaluateScript(code)).toBe(42);
   });
 
   describe("Invalid Calls", () => {
@@ -497,7 +534,14 @@ describe("E2E: Functions", () => {
   });
 
   describe("Arguments", () => {
-    // TODO: We want to test LVals in a lot of places, so let's code-gen this.
+    it("Sets the argument length property", async () => {
+      const code = `
+          function a(x, y, z) {}
+          a.length;
+        `;
+      expect(await evaluateScript(code)).toBe(3);
+    });
+
     it("Supports identifier arguments", async () => {
       const code = `
         function a(x) {
@@ -641,6 +685,19 @@ describe("E2E: Functions", () => {
 
       expect(await evaluateScript(code)).toEqual([2, 2, "outer"]);
     });
+
+    it("Supports var", async () => {
+      const code = `
+        function a() {
+          if (true) {
+            var x = 42;
+          }
+          return x;
+        }
+        a();
+      `;
+      expect(await evaluateScript(code)).toBe(42);
+    });
   });
 
   describe("Prototype", () => {
@@ -685,6 +742,29 @@ describe("E2E: Functions", () => {
         `;
         expect(await evaluateScript(code)).toBe(42);
       });
+    });
+  });
+
+  describe("thisArg", () => {
+    it("Is undefined in strict mode", async () => {
+      const code = `
+        function a() {
+          "use strict";
+          return this;
+        }
+        a();
+      `;
+      expect(await evaluateScript(code)).toBeUndefined();
+    });
+
+    it("Is the global object in non-strict mode", async () => {
+      const code = `
+        function a() {
+          return this;
+        }
+        a() === global;
+      `;
+      expect(await evaluateScript(code)).toBe(true);
     });
   });
 });

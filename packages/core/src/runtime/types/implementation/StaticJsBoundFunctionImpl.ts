@@ -76,8 +76,12 @@ class StaticJsBoundFunction
     return this.targetFunc.isConstructor;
   }
 
+  get strict(): boolean {
+    return this.targetFunc.strict;
+  }
+
   callEvaluator(
-    thisArg: StaticJsValue,
+    _thisArg: StaticJsValue,
     ...args: StaticJsValue[]
   ): EvaluationGenerator<StaticJsValue> {
     return this.targetFunc.callEvaluator(

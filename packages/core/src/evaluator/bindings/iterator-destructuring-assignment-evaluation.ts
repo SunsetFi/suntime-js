@@ -17,9 +17,13 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import destructuringAssignmentEvaluation from "./destructuring-assignment-evaluation.js";
+import createDataPropertyOrThrow from "../../runtime/algorithms/create-data-property-or-throw.js";
 
+export type IteratorDestructuringAssignmentType = PatternLike | null;
 export default function* iteratorDestructuringAssignmentEvaluation(
-  node: PatternLike | null,
+  node:
+    | IteratorDestructuringAssignmentType
+    | IteratorDestructuringAssignmentType[],
   iteratorRecord: StaticJsObjectLike,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
@@ -50,36 +54,72 @@ export default function* iteratorDestructuringAssignmentEvaluation(
   }
 
   let lRef: StaticJsReferenceRecord | null = null;
-  if (node.type !== "ObjectPattern" && node.type !== "ArrayPattern") {
-    lRef = yield* EvaluateNodeCommand(node, context, {
-      forReference: "iteratorDestructuringAssignmentEvaluation.lRef",
-    });
-  }
+  let assignmentTarget: IteratorDestructuringAssignmentType;
+  let v: StaticJsValue;
+  if (node.type === "RestElement") {
+    assignmentTarget = node.argument;
+    if (
+      assignmentTarget.type !== "ObjectPattern" &&
+      assignmentTarget.type !== "ArrayPattern"
+    ) {
+      lRef = yield* EvaluateNodeCommand(assignmentTarget, context, {
+        forReference: "iteratorDestructuringAssignmentEvaluation.lRef",
+      });
+    }
 
-  let value: StaticJsValue = context.realm.types.undefined;
-  const done = yield* iteratorDone(iteratorRecord, context);
-  if (!done) {
-    const next = yield* iteratorStepValue(iteratorRecord, context.realm);
-    if (next) {
-      value = next;
+    const A = context.realm.types.array();
+    let n = 0;
+    const done = yield* iteratorDone(iteratorRecord, context);
+    if (!done) {
+      while (true) {
+        const next = yield* iteratorStepValue(iteratorRecord, context.realm);
+        if (!next) {
+          break;
+        }
+
+        yield* createDataPropertyOrThrow(A, String(n), next, context.realm);
+        n += 1;
+      }
+    }
+    v = A;
+  } else {
+    assignmentTarget = node;
+    if (
+      assignmentTarget.type !== "ObjectPattern" &&
+      assignmentTarget.type !== "ArrayPattern"
+    ) {
+      lRef = yield* EvaluateNodeCommand(assignmentTarget, context, {
+        forReference: "iteratorDestructuringAssignmentEvaluation.lRef",
+      });
+    }
+
+    let value: StaticJsValue = context.realm.types.undefined;
+    const done = yield* iteratorDone(iteratorRecord, context);
+    if (!done) {
+      const next = yield* iteratorStepValue(iteratorRecord, context.realm);
+      if (next) {
+        value = next;
+      }
+    }
+
+    if (initializer && isStaticJsUndefined(value)) {
+      const defaultValue = yield* EvaluateNodeCommand(initializer, context, {
+        forNormalValue: "iteratorDestructuringAssignmentEvaluation.initializer",
+      });
+      v = defaultValue;
+    } else {
+      v = value;
     }
   }
 
-  if (initializer && !isStaticJsUndefined(value)) {
-    const defaultValue = yield* EvaluateNodeCommand(initializer, context, {
-      forNormalValue: "iteratorDestructuringAssignmentEvaluation.initializer",
-    });
-    value = defaultValue;
-  }
-
   if (lRef) {
-    yield* putValue(lRef, value, context.realm);
+    yield* putValue(lRef, v, context.realm);
   } else {
-    // TODO:
-    yield* destructuringAssignmentEvaluation(node, value, context);
+    yield* destructuringAssignmentEvaluation(assignmentTarget, v, context);
   }
 }
 
+// FIXME: Replace with IteratorRecord.[[Done]]
 function* iteratorDone(
   iterator: StaticJsObjectLike,
   context: EvaluationContext,

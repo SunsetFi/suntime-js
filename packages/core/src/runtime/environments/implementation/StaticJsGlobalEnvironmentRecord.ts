@@ -18,6 +18,10 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironment
     super(null);
   }
 
+  get declarativeRecord(): StaticJsDeclarativeEnvironmentRecord {
+    return this._declarativeRecord;
+  }
+
   get objectRecord(): StaticJsObjectEnvironmentRecord {
     return this._objectRecord;
   }
@@ -82,7 +86,7 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironment
     name: string,
     deletable: boolean,
   ): EvaluationGenerator<void> {
-    yield* this._ensureBindingNotDeclared(name);
+    yield* this._ensureDeclarativeBindingNotDeclared(name);
 
     return yield* this._declarativeRecord.createMutableBindingEvaluator(
       name,
@@ -94,7 +98,7 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironment
     name: string,
     strict: boolean,
   ): EvaluationGenerator<void> {
-    yield* this._ensureBindingNotDeclared(name);
+    yield* this._ensureDeclarativeBindingNotDeclared(name);
 
     yield* this._declarativeRecord.createImmutableBindingEvaluator(
       name,
@@ -153,8 +157,10 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironment
     return this._realm.types.undefined;
   }
 
-  private *_ensureBindingNotDeclared(name: string): EvaluationGenerator<void> {
-    if (yield* this.hasBindingEvaluator(name)) {
+  private *_ensureDeclarativeBindingNotDeclared(
+    name: string,
+  ): EvaluationGenerator<void> {
+    if (yield* this.declarativeRecord.hasBindingEvaluator(name)) {
       throw new ThrowCompletion(
         this._realm.types.error(
           "SyntaxError",

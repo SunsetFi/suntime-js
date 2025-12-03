@@ -1,15 +1,16 @@
-import type { LVal, VariableDeclaration } from "@babel/types";
+import type { LVal, VariableDeclaration, VoidPattern } from "@babel/types";
 
 export default function isDestructuring(
-  node: VariableDeclaration | LVal,
+  node: VariableDeclaration | LVal | VoidPattern,
 ): boolean {
-  if (node.type !== "VariableDeclaration") {
-    // Really?  How can left be LVal directly here?  That can be destructuring patterns too...
-    return false;
+  if (node.type === "AssignmentPattern") {
+    return isDestructuring(node.left);
+  }
+  if (node.type === "VariableDeclaration") {
+    return isDestructuring(node.declarations[0].id);
   }
 
-  const declarator = node.declarations[0];
-  switch (declarator.id.type) {
+  switch (node.type) {
     case "ArrayPattern":
     case "ObjectPattern":
       return true;

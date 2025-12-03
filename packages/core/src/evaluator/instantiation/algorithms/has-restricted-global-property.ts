@@ -1,12 +1,15 @@
-import type EvaluationContext from "../../EvaluationContext.js";
+import type StaticJsGlobalEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+
 import type EvaluationGenerator from "../../EvaluationGenerator.js";
 
 export default function* hasRestrictedGlobalProperty(
   name: string,
-  context: EvaluationContext,
+  env: StaticJsGlobalEnvironmentRecord,
 ): EvaluationGenerator<boolean> {
-  const decl = yield* context.realm.global.getOwnPropertyEvaluator(name);
-  if (!decl || !decl.configurable) {
+  const objRec = env.objectRecord;
+  const globalObj = objRec.bindingObject;
+  const decl = yield* globalObj.getOwnPropertyEvaluator(name);
+  if (!decl || decl.configurable) {
     return false;
   }
 

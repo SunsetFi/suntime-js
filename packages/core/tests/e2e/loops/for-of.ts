@@ -192,7 +192,17 @@ describe("E2E: For Of loops", () => {
     expect(await evaluateScript(code)).toBe("value: 9");
   });
 
-  describe("Variable declarations", () => {
+  describe("Left Hand Side", () => {
+    it("Supports var declarations", async () => {
+      const code = `
+          let sum = 0;
+          for (var i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
+            sum += i;
+          }
+          sum;
+        `;
+      expect(await evaluateScript(code)).toBe(45);
+    });
     it("Supports let declarations", async () => {
       const code = `
           let sum = 0;
@@ -208,6 +218,19 @@ describe("E2E: For Of loops", () => {
       const code = `
           let sum = 0;
           for (const i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
+            sum += i;
+          }
+          sum;
+        `;
+      expect(await evaluateScript(code)).toBe(45);
+    });
+
+    it("Supports loose identifiers", async () => {
+      const code = `
+          let sum = 0;
+          const array = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+          var i;
+          for (i of array) {
             sum += i;
           }
           sum;
@@ -273,6 +296,126 @@ describe("E2E: For Of loops", () => {
           sum;
         `;
       expect(await evaluateScript(code)).toBe(6);
+    });
+
+    it("Supports loose destructuring", async () => {
+      const code = `
+          let sum = 0;
+          const array = [{ val: 1 }, { val: 2 }, { val: 3 }];
+          let val;
+          for ({ val } of array) {
+            sum += val;
+          }
+          sum;
+        `;
+      expect(await evaluateScript(code)).toBe(6);
+    });
+
+    it("Supports loose member expressions in destructuring", async () => {
+      const code = `
+          let sum = 0;
+          const array = [{ val: 1 }, { val: 2 }, { val: 3 }];
+          const obj = {};
+          for ({ val: obj.val } of array) {
+            sum += obj.val;
+          }
+          sum;
+        `;
+      expect(await evaluateScript(code)).toBe(6);
+    });
+  });
+
+  describe("Iterators", () => {
+    it("Supports iterators", async () => {
+      const code = `
+        const iterator = {
+          current: 0,
+          last: 9,
+          [Symbol.iterator]() {
+            return this;
+          },
+          next() {
+            if (this.current <= this.last) {
+              return { value: this.current++, done: false };
+            } else {
+              return { value: undefined, done: true };
+            }
+          }
+        };
+        let sum = 0;
+        for (const value of iterator) {
+          sum += value;
+        }
+        sum;
+      `;
+      expect(await evaluateScript(code)).toBe(45);
+    });
+
+    it("Closes iterators on error", async () => {
+      const code = `
+        let closed = false;
+        const iterator = {
+          current: 0,
+          last: 9,
+          [Symbol.iterator]() {
+            return this;
+          },
+          next() {
+            if (this.current <= this.last) {
+              return { value: this.current++, done: false };
+            } else {
+              return { value: undefined, done: true };
+            }
+          },
+          return() {
+            closed = true;
+            return { value: undefined, done: true };
+          }
+        };
+        try {
+          for (const value of iterator) {
+            if (value === 5) {
+              throw new Error("Test error");
+            }
+          }
+        } catch (e) {
+          // Ignore
+        }
+        closed;
+      `;
+      expect(await evaluateScript(code)).toBe(true);
+    });
+
+    it("Does not shadow a thrown error with an iterator close error", async () => {
+      const code = `
+        const iterator = {
+          current: 0,
+          last: 9,
+          [Symbol.iterator]() {
+            return this;
+          },
+          next() {
+            if (this.current <= this.last) {
+              return { value: this.current++, done: false };
+            } else {
+              return { value: undefined, done: true };
+            }
+          },
+          return() {
+            throw new Error("Iterator close error");
+          }
+        };
+        try {
+          for (const value of iterator) {
+            if (value === 5) {
+              throw new Error("Test error");
+            }
+          }
+        } catch (e) {
+          e.message;
+        }
+      `;
+      expect(await evaluateScript(code)).toBe("Test error");
     });
   });
 });

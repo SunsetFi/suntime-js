@@ -215,6 +215,10 @@ class FunctionInvocationEvaluationContext extends EvaluationContext {
     this._function = func;
   }
 
+  get strict() {
+    return this._function.strict;
+  }
+
   get lexicalEnv(): StaticJsEnvironmentRecord {
     return this._lexicalEnv;
   }

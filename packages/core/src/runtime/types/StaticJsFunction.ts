@@ -12,6 +12,8 @@ export interface StaticJsFunction extends StaticJsObjectLike {
 
   readonly isConstructor: boolean;
 
+  readonly strict: boolean;
+
   callEvaluator(
     thisArg: StaticJsValue,
     ...args: StaticJsValue[]
