@@ -6,43 +6,38 @@ import { unwrapCompletion } from "../../evaluator/completions/unwrapCompletion.j
 import { isAbruptCompletion } from "../../evaluator/completions/AbruptCompletion.js";
 import type { NormalCompletion } from "../../evaluator/completions/NormalCompletion.js";
 
+import { AwaitCommand } from "../../evaluator/commands/AwaitCommand.js";
+
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
-import { isStaticJsFunction } from "../types/StaticJsFunction.js";
-import { isStaticJsNull } from "../types/StaticJsNull.js";
-import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
+import call from "../algorithms/call.js";
 
-export default function iteratorClose(
-  iterator: StaticJsObjectLike,
+import type { IteratorRecord } from "./IteratorRecord.js";
+
+export default function asyncIteratorClose(
+  iteratorRecord: IteratorRecord,
   completion: Completion,
   realm: StaticJsRealm,
   unwrap?: true,
 ): EvaluationGenerator<NormalCompletion>;
-export default function iteratorClose(
-  iterator: StaticJsObjectLike,
+export default function asyncIteratorClose(
+  iteratorRecord: IteratorRecord,
   completion: Completion,
   realm: StaticJsRealm,
   unwrap: false,
 ): EvaluationGenerator<Completion>;
-export default function* iteratorClose(
-  iterator: StaticJsObjectLike,
+export default function* asyncIteratorClose(
+  iteratorRecord: IteratorRecord,
   completion: Completion,
   realm: StaticJsRealm,
   unwrap: boolean = true,
 ): EvaluationGenerator<Completion> {
+  const iterator = iteratorRecord.iterator;
   let innerResult: Completion;
   try {
     const returnMethod = yield* iterator.getEvaluator("return");
-    if (isStaticJsNull(returnMethod) || isStaticJsUndefined(returnMethod)) {
-      return unwrap ? unwrapCompletion(completion) : completion;
-    } else if (!isStaticJsFunction(returnMethod)) {
-      innerResult = new ThrowCompletion(
-        realm.types.error("TypeError", "'return' is not a function"),
-      );
-    } else {
-      innerResult = yield* returnMethod.callEvaluator(iterator);
-    }
+    innerResult = yield* call(returnMethod, iterator, [], realm);
+    innerResult = yield* AwaitCommand(innerResult);
   } catch (e) {
     if (isAbruptCompletion(e)) {
       innerResult = e;
@@ -66,8 +61,8 @@ export default function* iteratorClose(
   return unwrap ? unwrapCompletion(completion) : completion;
 }
 
-iteratorClose.handle = function* handleIteratorClose<T>(
-  iterator: StaticJsObjectLike,
+asyncIteratorClose.handle = function* handleIteratorClose<T>(
+  iteratorRecord: IteratorRecord,
   realm: StaticJsRealm,
   handler: () => EvaluationGenerator<T>,
 ): EvaluationGenerator<T> {
@@ -77,7 +72,7 @@ iteratorClose.handle = function* handleIteratorClose<T>(
   } catch (e) {
     if (isAbruptCompletion(e)) {
       // If the handler threw an abnormal completion, we need to close the iterator
-      yield* iteratorClose(iterator, e, realm);
+      yield* asyncIteratorClose(iteratorRecord, e, realm);
     }
     throw e;
   }

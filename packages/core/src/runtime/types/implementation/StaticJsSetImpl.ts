@@ -2,8 +2,8 @@ import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
-import getIterator from "../../algorithms/get-iterator.js";
-import iteratorStepValue from "../../algorithms/iterator-step-value.js";
+import getIterator from "../../iterators/get-iterator.js";
+import iteratorStepValue from "../../iterators/iterator-step-value.js";
 import toBoolean from "../../algorithms/to-boolean.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
@@ -22,7 +22,7 @@ import type { StaticJsSet } from "../StaticJsSet.js";
 import StaticJsIteratorImpl from "./StaticJsIteratorImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 import StaticJsTypeCode from "../StaticJsTypeCode.js";
-import iteratorClose from "../../algorithms/iterator-close.js";
+import iteratorClose from "../../iterators/iterator-close.js";
 
 // TODO: Take shortcuts for difference and friends if otherSet is also a StaticJsSetImpl
 
@@ -177,7 +177,7 @@ export default class StaticJsSetImpl
       );
     }
 
-    const iterator = yield* getIterator(otherSet, this.realm);
+    const iterator = yield* getIterator(otherSet, "sync", this.realm);
 
     const realm = this.realm;
     const backingStore = this._backingStore;
@@ -229,7 +229,7 @@ export default class StaticJsSetImpl
       }
     }
 
-    const iterator = yield* getIterator(otherSet, this.realm);
+    const iterator = yield* getIterator(otherSet, "sync", this.realm);
     const realm = this.realm;
     const backingStore = this._backingStore;
     yield* iteratorClose.handle(iterator, this.realm, function* () {
@@ -257,7 +257,7 @@ export default class StaticJsSetImpl
       yield* resultAdd.callEvaluator(result, wrapped);
     }
 
-    const iterator = yield* getIterator(otherSet, this.realm);
+    const iterator = yield* getIterator(otherSet, "sync", this.realm);
     const realm = this.realm;
     const backingStore = this._backingStore;
     yield* iteratorClose.handle(iterator, realm, function* () {

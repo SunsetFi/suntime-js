@@ -11,13 +11,12 @@ import type { StaticJsEnvironmentRecord } from "../../runtime/environments/Stati
 
 import { getIdentifierReference } from "../../runtime/references/get-identifier-reference.js";
 
-import type { StaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
+import type { IteratorRecord } from "../../runtime/iterators/IteratorRecord.js";
+
 import putValue from "../../runtime/algorithms/put-value.js";
-import iteratorStepValue from "../../runtime/algorithms/iterator-step-value.js";
-import toBoolean from "../../runtime/algorithms/to-boolean.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -27,13 +26,14 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 import initializeReferencedBinding from "./initialize-referenced-binding.js";
 import bindingInitialization from "./binding-initialization.js";
 import iteratorDestructuringAssignmentEvaluation from "./iterator-destructuring-assignment-evaluation.js";
+import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
 
 // WHAT IS VOID PATTERN???
 export type IteratorBindingInitializationNode = LVal | VoidPattern;
 
 export default function* iteratorBindingInitialization(
   node: IteratorBindingInitializationNode | IteratorBindingInitializationNode[],
-  iteratorRecord: StaticJsObjectLike,
+  iteratorRecord: IteratorRecord,
   environment: StaticJsEnvironmentRecord | null,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
@@ -67,27 +67,22 @@ export default function* iteratorBindingInitialization(
         const A = context.realm.types.array();
         let n = 0;
 
-        //  Only do this if not DONE, to be spec compliant.
-        // Spec doesn't want us pumping empty iterators.
-        const done = yield* iteratorDone(iteratorRecord, context);
-        if (!done) {
-          while (true) {
-            const next = yield* iteratorStepValue(
-              iteratorRecord,
-              context.realm,
-            );
-            if (!next) {
-              break;
-            }
-
-            yield* A.definePropertyEvaluator(n.toString(), {
-              value: next,
-              writable: true,
-              enumerable: true,
-              configurable: true,
-            });
-            n++;
+        while (true) {
+          let next: StaticJsValue | null = null;
+          if (!iteratorRecord.done) {
+            next = yield* iteratorStepValue(iteratorRecord, context.realm);
           }
+          if (!next) {
+            break;
+          }
+
+          yield* A.definePropertyEvaluator(n.toString(), {
+            value: next,
+            writable: true,
+            enumerable: true,
+            configurable: true,
+          });
+          n++;
         }
 
         if (!environment) {
@@ -98,26 +93,24 @@ export default function* iteratorBindingInitialization(
         return;
       } else {
         const A = context.realm.types.array();
-        let n = 0;
-        const done = yield* iteratorDone(iteratorRecord, context);
-        if (!done) {
-          while (true) {
-            const next = yield* iteratorStepValue(
-              iteratorRecord,
-              context.realm,
-            );
-            if (!next) {
-              break;
-            }
 
-            yield* A.definePropertyEvaluator(n.toString(), {
-              value: next,
-              writable: true,
-              enumerable: true,
-              configurable: true,
-            });
-            n++;
+        let n = 0;
+        while (true) {
+          let next: StaticJsValue | null = null;
+          if (!iteratorRecord.done) {
+            next = yield* iteratorStepValue(iteratorRecord, context.realm);
           }
+          if (!next) {
+            break;
+          }
+
+          yield* A.definePropertyEvaluator(n.toString(), {
+            value: next,
+            writable: true,
+            enumerable: true,
+            configurable: true,
+          });
+          n++;
         }
 
         yield* bindingInitialization(node.argument, A, environment, context);
@@ -131,14 +124,15 @@ export default function* iteratorBindingInitialization(
         bindingId,
         context.strict,
       );
+
       let v: StaticJsValue = context.realm.types.undefined;
-      const done = yield* iteratorDone(iteratorRecord, context);
-      if (!done) {
+      if (!iteratorRecord.done) {
         const next = yield* iteratorStepValue(iteratorRecord, context.realm);
         if (next) {
           v = next;
         }
       }
+
       if (initializer && isStaticJsUndefined(v)) {
         const defaultValue = yield* EvaluateNodeCommand(initializer, context, {
           forNormalValue: "iteratorBindingInitialization.initializer",
@@ -157,8 +151,7 @@ export default function* iteratorBindingInitialization(
     case "ArrayPattern":
     case "ObjectPattern": {
       let v: StaticJsValue = context.realm.types.undefined;
-      const done = yield* iteratorDone(iteratorRecord, context);
-      if (!done) {
+      if (!iteratorRecord.done) {
         const next = yield* iteratorStepValue(iteratorRecord, context.realm);
         if (next) {
           v = next;
@@ -186,7 +179,7 @@ export default function* iteratorBindingInitialization(
 // to the spec's grammar productions.
 iteratorBindingInitialization.arrayBindingPattern = function* (
   node: ArrayPattern,
-  iteratorRecord: StaticJsObjectLike,
+  iteratorRecord: IteratorRecord,
   environment: StaticJsEnvironmentRecord | null,
   context: EvaluationContext,
 ) {
@@ -224,13 +217,3 @@ iteratorBindingInitialization.arrayBindingPattern = function* (
     }
   }
 };
-
-function* iteratorDone(
-  iterator: StaticJsObjectLike,
-  context: EvaluationContext,
-): EvaluationGenerator<boolean> {
-  return yield* toBoolean.js(
-    yield* iterator.getEvaluator("done"),
-    context.realm,
-  );
-}

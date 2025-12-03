@@ -2,8 +2,9 @@ import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
+import type { IteratorRecord } from "../iterators/IteratorRecord.js";
+
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { createIteratorResultObject } from "./create-iterator-result-object.js";
@@ -11,7 +12,7 @@ import { createIteratorResultObject } from "./create-iterator-result-object.js";
 export default function* createListIteratorRecord(
   values: StaticJsValue[],
   realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsObjectLike> {
+): EvaluationGenerator<IteratorRecord> {
   let index = 0;
   const next = new StaticJsFunctionImpl(realm, "next", function* () {
     if (index >= values.length) {
@@ -27,6 +28,7 @@ export default function* createListIteratorRecord(
   });
 
   const iterator = realm.types.object();
+
   yield* iterator.definePropertyEvaluator("next", {
     value: next,
     writable: true,
@@ -55,5 +57,11 @@ export default function* createListIteratorRecord(
     configurable: true,
   });
 
-  return iterator;
+  const nextMethod = yield* iterator.getEvaluator("next");
+
+  return {
+    iterator,
+    nextMethod,
+    done: false,
+  };
 }

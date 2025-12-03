@@ -10,19 +10,13 @@ import {
 } from "../types/StaticJsFunction.js";
 import {
   isStaticJsPromise,
-  type StaticJsPromise,
+  type StaticJsPromiseCapabilityRecord,
 } from "../types/StaticJsPromise.js";
-
-export interface PromiseCapabilityRecord {
-  promise: StaticJsPromise;
-  resolve: StaticJsFunction;
-  reject: StaticJsFunction;
-}
 
 export default function* newPromiseCapability(
   constructor: StaticJsFunction,
   realm: StaticJsRealm,
-): EvaluationGenerator<PromiseCapabilityRecord> {
+): EvaluationGenerator<StaticJsPromiseCapabilityRecord> {
   if (!constructor.isConstructor) {
     throw new ThrowCompletion(
       realm.types.error(

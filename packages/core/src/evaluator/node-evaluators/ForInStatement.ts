@@ -43,6 +43,7 @@ function* forInStatementNodeEvaluator(
         keyResult,
         "enumerate",
         left.kind === "var" ? "varBinding" : "lexicalBinding",
+        "sync",
         context,
       );
     } else {
@@ -58,6 +59,7 @@ function* forInStatementNodeEvaluator(
         keyResult,
         "enumerate",
         "assignment",
+        "sync",
         context,
       );
     }

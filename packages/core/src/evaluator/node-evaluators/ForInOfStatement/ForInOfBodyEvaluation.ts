@@ -10,14 +10,13 @@ import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
-import type { StaticJsObjectLike } from "../../../runtime/types/StaticJsObjectLike.js";
-
 import { getIdentifierReference } from "../../../runtime/references/get-identifier-reference.js";
 
-import iteratorStepValue from "../../../runtime/algorithms/iterator-step-value.js";
 import putValue from "../../../runtime/algorithms/put-value.js";
-import iteratorClose from "../../../runtime/algorithms/iterator-close.js";
 import boundNames from "../../instantiation/algorithms/bound-names.js";
+
+import type { IteratorRecord } from "../../../runtime/iterators/IteratorRecord.js";
+import iteratorClose from "../../../runtime/iterators/iterator-close.js";
 
 import bindingInitialization from "../../bindings/binding-initialization.js";
 import destructuringAssignmentEvaluation from "../../bindings/destructuring-assignment-evaluation.js";
@@ -36,15 +35,24 @@ import type EvaluationGenerator from "../../EvaluationGenerator.js";
 import forDeclarationBindingInitialization from "./for-declaration-binding-initialization.js";
 import forDeclarationBindingInstantiation from "./for-declaration-binding-instantiation.js";
 import isDestructuring from "./is-destructuring.js";
+import call from "../../../runtime/algorithms/call.js";
+import { AwaitCommand } from "../../commands/AwaitCommand.js";
+import { isStaticJsObjectLike } from "../../../runtime/index.js";
+import { ThrowCompletion } from "../../completions/ThrowCompletion.js";
+import { iteratorComplete } from "../../../runtime/iterators/iterator-complete.js";
+import iteratorValue from "../../../runtime/iterators/iterator-value.js";
+import asyncIteratorClose from "../../../runtime/iterators/async-iterator-close.js";
 
 export function* forInOfBodyEvaluation(
   lhs: VariableDeclaration | LVal,
   stmt: Statement,
-  iteratorRecord: StaticJsObjectLike,
+  iteratorRecord: IteratorRecord,
   iterationKind: "enumerate" | "iterate",
   lhsKind: "assignment" | "varBinding" | "lexicalBinding",
+  iteratorKind: "sync" | "async",
   context: EvaluationContext,
 ): EvaluationGenerator {
+  const { realm, label } = context;
   const oldEnv = context.lexicalEnv;
 
   let V: NormalCompletion = null;
@@ -55,11 +63,29 @@ export function* forInOfBodyEvaluation(
     assignmentPattern = lhs as ObjectPattern | ArrayPattern;
   }
   while (true) {
-    const nextValue = yield* iteratorStepValue(iteratorRecord, context.realm);
-    if (!nextValue) {
+    let nextResult = yield* call(
+      iteratorRecord.nextMethod,
+      iteratorRecord.iterator,
+      [],
+      realm,
+    );
+
+    if (iteratorKind === "async") {
+      nextResult = yield* AwaitCommand(nextResult);
+    }
+
+    if (!isStaticJsObjectLike(nextResult)) {
+      throw new ThrowCompletion(
+        realm.types.error("TypeError", "Iterator result is not an object"),
+      );
+    }
+
+    const done = yield* iteratorComplete(nextResult, realm);
+    if (done) {
       return V;
     }
 
+    const nextValue = yield* iteratorValue(nextResult);
     let iterationContext: EvaluationContext = context;
     try {
       if (lhsKind === "assignment" || lhsKind === "varBinding") {
@@ -84,7 +110,7 @@ export function* forInOfBodyEvaluation(
           });
           // TODO:  Spec says if lhsKind is assignment and lhs target is WEB-COMPAT throw a ReferenceError, but
           // I have no idea what AssignmentType or WEB-COMPAT is.  Skipping for now.
-          yield* putValue(lhsRef, nextValue, iterationContext.realm);
+          yield* putValue(lhsRef, nextValue, realm);
         }
       } else {
         if (lhs.type !== "VariableDeclaration") {
@@ -120,7 +146,11 @@ export function* forInOfBodyEvaluation(
     } catch (e) {
       if (isAbruptCompletion(e)) {
         if (iterationKind === "iterate") {
-          return yield* iteratorClose(iteratorRecord, e, context.realm);
+          if (iteratorKind === "async") {
+            return yield* asyncIteratorClose(iteratorRecord, e, context.realm);
+          } else {
+            return yield* iteratorClose(iteratorRecord, e, context.realm);
+          }
         }
       }
 
@@ -133,25 +163,23 @@ export function* forInOfBodyEvaluation(
         V = result;
       }
     } catch (e) {
-      if (ContinueCompletion.isContinueForLabel(e, context.label)) {
-        // Fall through to the next iteration
-      } else if (BreakCompletion.isBreakForLabel(e, context.label)) {
-        if (iterationKind === "iterate") {
-          yield* iteratorClose(iteratorRecord, e, context.realm, false);
-        }
-
-        // Note: Officially, the spec wants to return the BreakCompletion, but with this value, so that
-        // the LabelledEvaluation logic can catch the break and unwrap the value.
-        return V;
+      if (ContinueCompletion.isContinueForLabel(e, label)) {
+        continue;
       } else if (isAbruptCompletion(e)) {
         if (iterationKind === "iterate") {
-          yield* iteratorClose(iteratorRecord, e, context.realm, false);
+          if (iteratorKind === "async") {
+            yield* asyncIteratorClose(iteratorRecord, e, realm, false);
+          } else {
+            yield* iteratorClose(iteratorRecord, e, realm, false);
+          }
         }
 
-        throw e;
-      } else {
-        throw e;
+        if (BreakCompletion.isBreakForLabel(e, label)) {
+          return V;
+        }
       }
+
+      throw e;
     }
   }
 }

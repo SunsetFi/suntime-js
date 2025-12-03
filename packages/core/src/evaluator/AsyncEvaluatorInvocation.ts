@@ -2,14 +2,16 @@ import StaticJsEngineError from "../errors/StaticJsEngineError.js";
 
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
 
-import type { PromiseCapabilityRecord } from "../runtime/algorithms/new-promise-capability.js";
 import newPromiseCapability from "../runtime/algorithms/new-promise-capability.js";
 
 import StaticJsFunctionImpl from "../runtime/types/implementation/StaticJsFunctionImpl.js";
 
 import { isStaticJsFunction } from "../runtime/types/StaticJsFunction.js";
 import { isStaticJsObjectLike } from "../runtime/types/StaticJsObjectLike.js";
-import type { StaticJsPromise } from "../runtime/types/StaticJsPromise.js";
+import type {
+  StaticJsPromise,
+  StaticJsPromiseCapabilityRecord,
+} from "../runtime/types/StaticJsPromise.js";
 import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
 
 import type { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
@@ -23,7 +25,7 @@ import type EvaluationGenerator from "./EvaluationGenerator.js";
 import getValue from "../runtime/algorithms/get-value.js";
 
 export default class AsyncEvaluatorInvocation {
-  private _capability!: PromiseCapabilityRecord;
+  private _capability!: StaticJsPromiseCapabilityRecord;
   private _state: "pending" | "started" | "running" | "awaiting" | "halted" =
     "pending";
 

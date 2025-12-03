@@ -22,15 +22,14 @@ import toPropertyKey from "../../runtime/utils/to-property-key.js";
 
 import putValue from "../../runtime/algorithms/put-value.js";
 import toObject from "../../runtime/algorithms/to-object.js";
-import getIterator from "../../runtime/algorithms/get-iterator.js";
-import toBoolean from "../../runtime/algorithms/to-boolean.js";
+import getIterator from "../../runtime/iterators/get-iterator.js";
 import copyDataProperties from "../../runtime/algorithms/copy-data-properties.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
-import iteratorClose from "../../runtime/algorithms/iterator-close.js";
+import iteratorClose from "../../runtime/iterators/iterator-close.js";
 import initializeReferencedBinding from "./initialize-referenced-binding.js";
 import initializeBoundName from "./initialize-bound-name.js";
 import iteratorBindingInitialization from "./iterator-binding-initialization.js";
@@ -72,17 +71,15 @@ export default function* bindingInitialization(
       return;
     }
     case "ArrayPattern": {
-      const iterator = yield* getIterator(value, context.realm);
+      const iteratorRecord = yield* getIterator(value, "sync", context.realm);
       yield* iteratorBindingInitialization.arrayBindingPattern(
         node,
-        iterator,
+        iteratorRecord,
         environment,
         context,
       );
-      const doneValue = yield* iterator.getEvaluator("done");
-      const done = yield* toBoolean.js(doneValue, context.realm);
-      if (!done) {
-        yield* iteratorClose(iterator, null, context.realm);
+      if (!iteratorRecord.done) {
+        yield* iteratorClose(iteratorRecord, null, context.realm);
       }
       return;
     }

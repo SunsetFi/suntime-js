@@ -7,8 +7,8 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import isConstructor from "../../../algorithms/is-constructor.js";
 import toObject from "../../../algorithms/to-object.js";
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
-import getIterator from "../../../algorithms/get-iterator.js";
-import iteratorStepValue from "../../../algorithms/iterator-step-value.js";
+import getIterator from "../../../iterators/get-iterator.js";
+import iteratorStepValue from "../../../iterators/iterator-step-value.js";
 
 import StaticJsArrayImpl from "../../../types/implementation/StaticJsArrayImpl.js";
 
@@ -25,7 +25,7 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-import iteratorClose from "../../../algorithms/iterator-close.js";
+import iteratorClose from "../../../iterators/iterator-close.js";
 
 const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
   key: "from",
@@ -79,7 +79,7 @@ function* fromIterator(
 ): EvaluationGenerator<StaticJsValue> {
   const A = yield* createArrayFromConstructor(C, 0, realm);
 
-  const iterator = yield* getIterator(items, realm);
+  const iterator = yield* getIterator(items, "sync", realm);
 
   let k = 0;
 

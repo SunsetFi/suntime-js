@@ -4,15 +4,16 @@ import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import speciesConstructor from "../../algorithms/species-constructor.js";
-import newPromiseCapability, {
-  type PromiseCapabilityRecord,
-} from "../../algorithms/new-promise-capability.js";
+import newPromiseCapability from "../../algorithms/new-promise-capability.js";
 
 import {
   isStaticJsFunction,
   type StaticJsFunction,
 } from "../StaticJsFunction.js";
-import { type StaticJsPromise } from "../StaticJsPromise.js";
+import {
+  type StaticJsPromiseCapabilityRecord,
+  type StaticJsPromise,
+} from "../StaticJsPromise.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import StaticJsTypeCode from "../StaticJsTypeCode.js";
@@ -20,7 +21,7 @@ import StaticJsTypeCode from "../StaticJsTypeCode.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
 interface ReactionRecord {
-  capability: PromiseCapabilityRecord;
+  capability: StaticJsPromiseCapabilityRecord;
   handler: StaticJsFunction | null;
   type: "fulfill" | "reject";
 }
@@ -89,13 +90,15 @@ export default class StaticJsPromiseImpl
   *thenEvaluator(
     onFulfilled?: StaticJsFunction,
     onRejected?: StaticJsFunction,
+    resultCapability: StaticJsPromiseCapabilityRecord | null = null,
   ): EvaluationGenerator<StaticJsPromise> {
     const c = yield* speciesConstructor(
       this,
       this.realm.types.constructors.Promise,
       this.realm,
     );
-    const resultCapability = yield* newPromiseCapability(c, this.realm);
+
+    resultCapability ??= yield* newPromiseCapability(c, this.realm);
 
     const fulfillHandler = isStaticJsFunction(onFulfilled) ? onFulfilled : null;
     const rejectHandler = isStaticJsFunction(onRejected) ? onRejected : null;

@@ -1,6 +1,6 @@
 import StaticJsRuntimeError from "../../../../errors/StaticJsRuntimeError.js";
-import getIterator from "../../../algorithms/get-iterator.js";
-import iteratorStepValue from "../../../algorithms/iterator-step-value.js";
+import getIterator from "../../../iterators/get-iterator.js";
+import iteratorStepValue from "../../../iterators/iterator-step-value.js";
 import toObject from "../../../algorithms/to-object.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
@@ -48,7 +48,7 @@ export default function createMapConstructor(
           return map;
         }
 
-        const iterator = yield* getIterator(iterable, realm);
+        const iterator = yield* getIterator(iterable, "sync", realm);
         while (true) {
           const next = yield* iteratorStepValue(iterator, realm);
           if (!next) {

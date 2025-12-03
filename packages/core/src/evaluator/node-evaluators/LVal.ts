@@ -4,9 +4,9 @@ import { isLVal } from "@babel/types";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import toObject from "../../runtime/algorithms/to-object.js";
-import getIterator from "../../runtime/algorithms/get-iterator.js";
-import iteratorStepValue from "../../runtime/algorithms/iterator-step-value.js";
-import iteratorClose from "../../runtime/algorithms/iterator-close.js";
+import getIterator from "../../runtime/iterators/get-iterator.js";
+import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
+import iteratorClose from "../../runtime/iterators/iterator-close.js";
 
 import { type StaticJsObjectPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
@@ -77,7 +77,7 @@ export default function* setLVal(
         );
       }
 
-      const iterator = yield* getIterator(value, context.realm);
+      const iterator = yield* getIterator(value, "sync", context.realm);
 
       yield* iteratorClose.handle(iterator, context.realm, function* () {
         let foundEnd = false;

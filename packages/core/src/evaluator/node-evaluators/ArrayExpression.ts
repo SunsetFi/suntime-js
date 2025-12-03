@@ -2,14 +2,14 @@ import type { ArrayExpression } from "@babel/types";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
-import getIterator from "../../runtime/algorithms/get-iterator.js";
-import iteratorStepValue from "../../runtime/algorithms/iterator-step-value.js";
+import getIterator from "../../runtime/iterators/get-iterator.js";
+import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
-import iteratorClose from "../../runtime/algorithms/iterator-close.js";
+import iteratorClose from "../../runtime/iterators/iterator-close.js";
 
 export default function* arrayExpressionNodeEvaluator(
   node: ArrayExpression,
@@ -31,7 +31,7 @@ export default function* arrayExpressionNodeEvaluator(
         },
       );
 
-      const iterator = yield* getIterator(spreadValue, context.realm);
+      const iterator = yield* getIterator(spreadValue, "sync", context.realm);
 
       yield* iteratorClose.handle(iterator, context.realm, function* () {
         while (true) {

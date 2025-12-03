@@ -11,20 +11,17 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 import { getIdentifierReference } from "../../runtime/references/get-identifier-reference.js";
 
-import type {
-  StaticJsObjectLike,
-  StaticJsObjectPropertyKey,
-} from "../../runtime/types/StaticJsObjectLike.js";
+import type { StaticJsObjectPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import { isStaticJsNull } from "../../runtime/types/StaticJsNull.js";
 
+import getIterator from "../../runtime/iterators/get-iterator.js";
+import iteratorClose from "../../runtime/iterators/iterator-close.js";
+
 import toObject from "../../runtime/algorithms/to-object.js";
 import putValue from "../../runtime/algorithms/put-value.js";
 import copyDataProperties from "../../runtime/algorithms/copy-data-properties.js";
-import getIterator from "../../runtime/algorithms/get-iterator.js";
-import toBoolean from "../../runtime/algorithms/to-boolean.js";
-import iteratorClose from "../../runtime/algorithms/iterator-close.js";
 
 import toPropertyKey from "../../runtime/utils/to-property-key.js";
 
@@ -75,14 +72,13 @@ export default function* destructuringAssignmentEvaluation(
       return;
     }
     case "ArrayPattern": {
-      const iteratorRecord = yield* getIterator(value, context.realm);
+      const iteratorRecord = yield* getIterator(value, "sync", context.realm);
       yield* iteratorDestructuringAssignmentEvaluation(
         node.elements,
         iteratorRecord,
         context,
       );
-      const done = yield* iteratorDone(iteratorRecord, context);
-      if (!done) {
+      if (!iteratorRecord.done) {
         yield* iteratorClose(iteratorRecord, null, context.realm);
       }
       return;
@@ -194,15 +190,4 @@ function* keyedDestructuringAssignmentEvaluation(
   } else {
     yield* destructuringAssignmentEvaluation(node, v, context);
   }
-}
-
-// FIXME: Replace with IteratorRecord.[[Done]]
-function* iteratorDone(
-  iterator: StaticJsObjectLike,
-  context: EvaluationContext,
-): EvaluationGenerator<boolean> {
-  return yield* toBoolean.js(
-    yield* iterator.getEvaluator("done"),
-    context.realm,
-  );
 }

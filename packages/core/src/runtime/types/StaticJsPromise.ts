@@ -4,6 +4,12 @@ import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
 import StaticJsTypeCode from "./StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
+export interface StaticJsPromiseCapabilityRecord {
+  promise: StaticJsPromise;
+  resolve: StaticJsFunction;
+  reject: StaticJsFunction;
+}
+
 export interface StaticJsPromise extends StaticJsObjectLike {
   readonly runtimeTypeOf: "promise";
 
@@ -13,6 +19,7 @@ export interface StaticJsPromise extends StaticJsObjectLike {
   thenEvaluator(
     onFulfilled?: StaticJsFunction | undefined,
     onRejected?: StaticJsFunction | undefined,
+    resultCapability?: StaticJsPromiseCapabilityRecord | null,
   ): EvaluationGenerator<StaticJsPromise>;
 
   catchEvaluator(

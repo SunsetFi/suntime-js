@@ -1,8 +1,8 @@
 import StaticJsRuntimeError from "../../../../errors/StaticJsRuntimeError.js";
 
-import getIterator from "../../../algorithms/get-iterator.js";
-import iteratorClose from "../../../algorithms/iterator-close.js";
-import iteratorStepValue from "../../../algorithms/iterator-step-value.js";
+import getIterator from "../../../iterators/get-iterator.js";
+import iteratorClose from "../../../iterators/iterator-close.js";
+import iteratorStepValue from "../../../iterators/iterator-step-value.js";
 
 import StaticJsMapImpl from "../../../types/implementation/StaticJsMapImpl.js";
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
@@ -24,7 +24,11 @@ const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const iterator = yield* getIterator(items ?? realm.types.undefined, realm);
+    const iterator = yield* getIterator(
+      items ?? realm.types.undefined,
+      "sync",
+      realm,
+    );
 
     yield* iteratorClose.handle(iterator, realm, function* () {
       let index = 0;

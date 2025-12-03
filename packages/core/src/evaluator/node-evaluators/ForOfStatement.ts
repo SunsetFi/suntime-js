@@ -16,20 +16,14 @@ function* forOfStatementNodeEvaluator(
   node: ForOfStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const { left, right, body } = node;
-
-  if (node.await) {
-    throw new StaticJsEngineError(
-      "Async iteration in for-of statements is not supported.",
-    );
-  }
+  const { await: isAsync, left, right, body } = node;
 
   try {
     if (left.type === "VariableDeclaration") {
       const keyResult = yield* forInOfHeadEvaluation(
         [],
         right,
-        "iterate",
+        isAsync ? "async-iterate" : "iterate",
         context,
       );
       let lhs: VariableDeclaration | LVal = left;
@@ -49,13 +43,14 @@ function* forOfStatementNodeEvaluator(
         keyResult,
         "iterate",
         left.kind === "var" ? "varBinding" : "lexicalBinding",
+        isAsync ? "async" : "sync",
         context,
       );
     } else {
       const keyResult = yield* forInOfHeadEvaluation(
         [],
         right,
-        "iterate",
+        isAsync ? "async-iterate" : "iterate",
         context,
       );
       return yield* forInOfBodyEvaluation(
@@ -64,6 +59,7 @@ function* forOfStatementNodeEvaluator(
         keyResult,
         "iterate",
         "assignment",
+        isAsync ? "async" : "sync",
         context,
       );
     }
