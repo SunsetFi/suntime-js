@@ -2,6 +2,7 @@ import type { Node, FunctionDeclaration } from "@babel/types";
 
 export default function collectAnnexBFunctionDeclarations(
   node: Node,
+  inCollectionNOde = false,
 ): FunctionDeclaration[] {
   switch (node.type) {
     case "File":
@@ -17,7 +18,7 @@ export default function collectAnnexBFunctionDeclarations(
     case "BlockStatement": {
       const funcs: FunctionDeclaration[] = [];
       for (const stmt of node.body) {
-        const innerFuncs = collectAnnexBFunctionDeclarations(stmt);
+        const innerFuncs = collectAnnexBFunctionDeclarations(stmt, true);
         funcs.push(...innerFuncs);
       }
       return funcs;
@@ -25,7 +26,7 @@ export default function collectAnnexBFunctionDeclarations(
     case "SwitchStatement": {
       for (const switchCase of node.cases) {
         const funcs: FunctionDeclaration[] = [];
-        const innerFuncs = collectAnnexBFunctionDeclarations(switchCase);
+        const innerFuncs = collectAnnexBFunctionDeclarations(switchCase, true);
         funcs.push(...innerFuncs);
         return funcs;
       }
@@ -40,8 +41,10 @@ export default function collectAnnexBFunctionDeclarations(
       return funcs;
     }
     case "FunctionDeclaration":
-      return [node];
-    default:
-      return [];
+      if (inCollectionNOde) {
+        return [node];
+      }
   }
+
+  return [];
 }

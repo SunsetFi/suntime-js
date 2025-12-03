@@ -1,4 +1,4 @@
-import type { BlockStatement, Expression, Program } from "@babel/types";
+import type { BlockStatement, Expression } from "@babel/types";
 
 import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
@@ -14,7 +14,7 @@ export default class StaticJsDeclFunction extends StaticJsAstFunction {
     name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
     context: EvaluationContext,
-    body: BlockStatement | Expression | Program,
+    body: BlockStatement | Expression,
     functionFactory: StaticJsFunctionFactory,
   ) {
     // Non-arrow and non-class-method functions are always constructors.

@@ -1,9 +1,4 @@
-import {
-  type Node,
-  type BlockStatement,
-  type Expression,
-  type Program,
-} from "@babel/types";
+import { type Node, type BlockStatement, type Expression } from "@babel/types";
 
 import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
@@ -29,6 +24,7 @@ import StaticJsFunctionBase, {
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
+import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletion.js";
 
 export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
   private _strict: boolean;
@@ -40,7 +36,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     thisMode: "lexical-this" | "non-lexical-this",
     private readonly _argumentDeclarations: StaticJsAstFunctionArgument[],
     protected readonly _context: EvaluationContext,
-    protected readonly _body: BlockStatement | Expression | Program,
+    protected readonly _body: BlockStatement | Expression,
     // Gross circular dependency workaround.
     private readonly _createFunction: StaticJsFunctionFactory,
     opts?: StaticJsFunctionImplOptions,
@@ -53,7 +49,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     if (_context.strict) {
       this._strict = true;
     } else if (
-      (_body.type === "BlockStatement" || _body.type === "Program") &&
+      _body.type === "BlockStatement" &&
       _body.directives.some(({ value }) => value.value === "use strict")
     ) {
       this._strict = true;
@@ -92,12 +88,24 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
   ): EvaluationGenerator<StaticJsValue> {
     const functionContext = yield* this._createContext(thisArg, args);
 
-    const result = yield* EvaluateNodeCommand(this._body, functionContext);
-    if (result) {
-      return yield* getValue(result, this.realm);
+    let result: StaticJsValue | null = null;
+    try {
+      const completion = yield* EvaluateNodeCommand(
+        this._body,
+        functionContext,
+      );
+      if (completion) {
+        result = yield* getValue(completion, this.realm);
+      }
+    } catch (e) {
+      if (e instanceof ReturnCompletion) {
+        result = e.value;
+      } else {
+        throw e;
+      }
     }
 
-    return this.realm.types.undefined;
+    return result ?? this.realm.types.undefined;
   }
 
   protected *_createContext(

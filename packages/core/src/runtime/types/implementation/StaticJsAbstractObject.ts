@@ -406,12 +406,7 @@ export default abstract class StaticJsAbstractObject
       }
 
       if (strict) {
-        throw new ThrowCompletion(
-          this.realm.types.error(
-            "TypeError",
-            `Cannot set property ${key} of ${this.toStringSync()}`,
-          ),
-        );
+        yield* this._throwCannotSet(key);
       }
 
       return false;
@@ -427,12 +422,7 @@ export default abstract class StaticJsAbstractObject
         }
 
         if (strict) {
-          throw new ThrowCompletion(
-            this.realm.types.error(
-              "TypeError",
-              `Cannot set property ${key} of ${this.toStringSync()}`,
-            ),
-          );
+          yield* this._throwCannotSet(key);
         }
 
         return false;
@@ -445,12 +435,7 @@ export default abstract class StaticJsAbstractObject
 
     if (!this.extensible) {
       if (strict) {
-        throw new ThrowCompletion(
-          this.realm.types.error(
-            "TypeError",
-            `Cannot set property ${key} of ${this.toStringSync()}`,
-          ),
-        );
+        yield* this._throwCannotSet(key);
       }
 
       return false;
@@ -516,4 +501,16 @@ export default abstract class StaticJsAbstractObject
   protected abstract _deleteConfigurablePropertyEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<boolean>;
+
+  private *_throwCannotSet(
+    property: StaticJsObjectPropertyKey,
+  ): EvaluationGenerator<never> {
+    const str = yield* toString(this, this.realm);
+    throw new ThrowCompletion(
+      this.realm.types.error(
+        "TypeError",
+        `Cannot set property ${String(property)} of ${str}`,
+      ),
+    );
+  }
 }

@@ -13,6 +13,8 @@ import addition from "../../runtime/algorithms/addition.js";
 import { getIdentifierReference } from "../../runtime/references/get-identifier-reference.js";
 import putValue from "../../runtime/algorithms/put-value.js";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import toBoolean from "../../runtime/algorithms/to-boolean.js";
+import { isStaticJsNull, isStaticJsUndefined } from "../../runtime/index.js";
 
 export default function* assignmentExpressionNodeEvaluator(
   node: AssignmentExpression,
@@ -92,6 +94,65 @@ export default function* assignmentExpressionNodeEvaluator(
         value = yield* toNumber(value, context.realm);
 
         value = context.realm.types.number(leftValue.value % value.value);
+      }
+      break;
+    case "|=":
+      {
+        let leftValue = yield* EvaluateNodeCommand(left, context, {
+          forNormalValue: "AssignmentExpression.left",
+        });
+
+        leftValue = yield* toNumber(leftValue, context.realm);
+        value = yield* toNumber(value, context.realm);
+
+        value = context.realm.types.number(leftValue.value | value.value);
+      }
+      break;
+    case "^=":
+      {
+        let leftValue = yield* EvaluateNodeCommand(left, context, {
+          forNormalValue: "AssignmentExpression.left",
+        });
+
+        leftValue = yield* toNumber(leftValue, context.realm);
+        value = yield* toNumber(value, context.realm);
+
+        value = context.realm.types.number(leftValue.value ^ value.value);
+      }
+      break;
+    case "||=":
+      {
+        const leftValue = yield* EvaluateNodeCommand(left, context, {
+          forNormalValue: "AssignmentExpression.left",
+        });
+
+        const value = yield* toBoolean.js(leftValue, context.realm);
+        if (value) {
+          return leftValue;
+        }
+      }
+      break;
+    case "&&=":
+      {
+        const leftValue = yield* EvaluateNodeCommand(left, context, {
+          forNormalValue: "AssignmentExpression.left",
+        });
+
+        const value = yield* toBoolean.js(leftValue, context.realm);
+        if (!value) {
+          return leftValue;
+        }
+      }
+      break;
+    case "??=":
+      {
+        const leftValue = yield* EvaluateNodeCommand(left, context, {
+          forNormalValue: "AssignmentExpression.left",
+        });
+
+        if (!isStaticJsNull(leftValue) && isStaticJsUndefined(leftValue)) {
+          return leftValue;
+        }
       }
       break;
     case "<<=":

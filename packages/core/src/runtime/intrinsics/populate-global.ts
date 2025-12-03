@@ -7,7 +7,6 @@ import {
 } from "./utils.js";
 
 import globalObjectEvalDeclaration from "./eval.js";
-import globalObjectGlobalDeclaration from "./global.js";
 import globalObjectGlobalThisDeclaration from "./globalThis.js";
 import globalObjectInfinityDeclaration from "./Infinity.js";
 import globalObjectIsFiniteDeclaration from "./isFinite.js";
@@ -21,7 +20,6 @@ import { createMathStatic } from "./Math/index.js";
 
 const globalPropertyDeclarations: IntrinsicPropertyDeclaration[] = [
   globalObjectEvalDeclaration,
-  globalObjectGlobalDeclaration,
   globalObjectGlobalThisDeclaration,
   globalObjectInfinityDeclaration,
   globalObjectIsFiniteDeclaration,

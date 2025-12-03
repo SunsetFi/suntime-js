@@ -3,13 +3,16 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import toPropertyKey from "../../runtime/utils/to-property-key.js";
 
+import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
+import { isUnresolvableReference } from "../../runtime/references/is-unresolvable-reference.js";
+import { isPropertyReference } from "../../runtime/references/is-property-reference.js";
+
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
 import toNumber from "../../runtime/algorithms/to-number.js";
 import toObject from "../../runtime/algorithms/to-object.js";
+import getValue from "../../runtime/algorithms/get-value.js";
 
 import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
-
-import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -17,10 +20,6 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
-import { isStaticJsSymbol } from "../../runtime/index.js";
-import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
-import getValue from "../../runtime/algorithms/get-value.js";
-import { isUnresolvableReference } from "../../runtime/references/is-unresolvable-reference.js";
 
 export default function* unaryExpressionNodeEvaluator(
   node: UnaryExpression,
@@ -72,45 +71,37 @@ function* deleteExpressionNodeEvaluator(
   node: UnaryExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const ref = yield* EvaluateNodeCommand(node.argument, context, {
-    forReference: "UnaryExpression<delete>.argument",
-  });
+  const ref = yield* EvaluateNodeCommand(node.argument, context);
 
-  if (isStaticJsValue(ref.base)) {
-    const obj = yield* toObject(ref.base, context.realm);
+  if (!isStaticJsReferenceRecord(ref)) {
+    return context.realm.types.true;
+  }
+
+  if (isUnresolvableReference(ref)) {
+    return context.realm.types.true;
+  }
+
+  if (isPropertyReference(ref)) {
+    // TODO: if is super reference, throw.
+    const baseObj = yield* toObject(ref.base, context.realm);
     const propertyKey = yield* toPropertyKey(ref.referencedName, context.realm);
-    const result = yield* obj.deleteEvaluator(propertyKey);
-    return context.realm.types.boolean(result);
-  } else if (ref.base) {
-    const env = ref.base as StaticJsEnvironmentRecord;
-    const name = ref.referencedName;
-
-    // TODO: Spec doesn't show this, but we don't suport symbols in env records.
-    // This needs to be resolved...
-    if (isStaticJsSymbol(name)) {
-      return context.realm.types.true;
-    }
-
-    if (!(yield* env.hasBindingEvaluator(name))) {
-      return context.realm.types.true;
-    }
-
-    const deleted = yield* env.deleteBindingEvaluator(name);
-    if (!deleted && context.strict) {
+    const result = yield* baseObj.deleteEvaluator(propertyKey);
+    if (!result && context.strict) {
       throw new ThrowCompletion(
         context.realm.types.error(
-          "ReferenceError",
-          `Cannot delete binding ${name}: Binding does not exist.`,
+          "TypeError",
+          `Cannot delete property ${String(
+            propertyKey,
+          )} of object: Property is non-configurable.`,
         ),
       );
     }
-
-    return context.realm.types.boolean(deleted);
+    return context.realm.types.boolean(result);
+  } else {
+    const base = ref.base;
+    const result = yield* base.deleteBindingEvaluator(ref.referencedName);
+    return context.realm.types.boolean(result);
   }
-
-  // ???
-  // `delete 4` returns true???
-  return context.realm.types.true;
 }
 
 function* typeofExpressionNodeEvaluator(

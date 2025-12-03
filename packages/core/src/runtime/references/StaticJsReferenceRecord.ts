@@ -29,7 +29,8 @@ export interface StaticJsEnvironmentReferenceRecord
 
 export type StaticJsReferenceRecord =
   | StaticJsUnresolvedReferenceRecord
-  | StaticJsResolvedReferenceRecord;
+  | StaticJsPropertyReferenceRecord
+  | StaticJsEnvironmentReferenceRecord;
 
 export function isStaticJsReferenceRecord(
   value: unknown,
