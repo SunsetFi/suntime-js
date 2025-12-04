@@ -1,12 +1,13 @@
 import { type Node, type BlockStatement, type Expression } from "@babel/types";
 
-import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
+import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
 
 import functionDeclarationInstantiation from "../../../evaluator/instantiation/function-declaration-instantiation.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
+import type { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
 import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
@@ -29,13 +30,14 @@ import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletio
 export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
   private _strict: boolean;
   private _thisMode: "lexical" | "strict" | "global";
+  private _environment: StaticJsEnvironmentRecord;
 
   constructor(
     realm: StaticJsRealm,
     name: string | null,
     thisMode: "lexical-this" | "non-lexical-this",
     private readonly _argumentDeclarations: StaticJsAstFunctionArgument[],
-    protected readonly _context: EvaluationContext,
+    context: EvaluationContext,
     protected readonly _body: BlockStatement | Expression,
     // Gross circular dependency workaround.
     private readonly _createFunction: StaticJsFunctionFactory,
@@ -46,7 +48,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
       ...opts,
     });
 
-    if (_context.strict) {
+    if (context.strict) {
       this._strict = true;
     } else if (
       _body.type === "BlockStatement" &&
@@ -64,6 +66,8 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     } else {
       this._thisMode = "global";
     }
+
+    this._environment = context.lexicalEnv;
   }
 
   get ECMAScriptCode(): Node | Expression {
@@ -120,20 +124,20 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
       this,
       this._thisMode === "lexical",
       null,
-      this._context.lexicalEnv,
+      this._environment,
       this.realm,
     );
-    const calleeContext = this._context.createFunctionInvocationContext(
-      localEnv,
-      localEnv,
+    const calleeContext = EvaluationContext.createFunctionInvocationContext(
       this,
+      this.realm,
+      localEnv,
     );
 
     const thisMode = this._thisMode;
     if (thisMode === "lexical") {
       // Do nothing.
     } else {
-      const calleeRealm = this._context.realm;
+      const calleeRealm = this.realm;
       let thisValue: StaticJsValue;
       if (thisMode === "strict") {
         thisValue = thisArg;

@@ -87,6 +87,15 @@ export default abstract class EvaluationContext {
     return new RootEvaluationContext(strict, realm, env);
   }
 
+  static createFunctionInvocationContext(
+    func: StaticJsFunction,
+    realm: StaticJsRealm,
+    env: StaticJsEnvironmentRecord,
+  ): EvaluationContext {
+    const context = new RootEvaluationContext(func.strict, realm);
+    return context.createFunctionInvocationContext(env, env, func);
+  }
+
   createLabelContext(label: string | null): EvaluationContext {
     return new LabelEvalationContext(label, this);
   }
@@ -101,8 +110,9 @@ export default abstract class EvaluationContext {
 
   createLexicalAndVariableEnvContext(
     env: StaticJsEnvironmentRecord,
+    varEnv?: StaticJsEnvironmentRecord,
   ): EvaluationContext {
-    return new EnvironmentEvaluationContext(env, env, this);
+    return new EnvironmentEvaluationContext(env, varEnv ?? env, this);
   }
 
   createFunctionInvocationContext(

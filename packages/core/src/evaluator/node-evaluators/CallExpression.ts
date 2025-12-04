@@ -123,7 +123,7 @@ function* callEvalEvaluator(
   context: EvaluationContext,
   strArg: StaticJsValue | undefined,
 ): EvaluationGenerator {
-  const { realm, strict } = context;
+  const { realm } = context;
 
   const str = yield* toString(strArg ?? realm.types.undefined, realm);
 
@@ -138,12 +138,20 @@ function* callEvalEvaluator(
     throw e;
   }
 
-  let evalContext = context;
-  if (strict) {
-    evalContext = context.createLexicalAndVariableEnvContext(
-      StaticJsDeclarativeEnvironmentRecord.from(context),
-    );
-  }
+  const strict =
+    context.strict ||
+    node.program.directives.some((dir) => dir.value.value === "use strict");
+
+  const lexEnv = new StaticJsDeclarativeEnvironmentRecord(
+    context.lexicalEnv,
+    realm,
+  );
+  const varEnv = strict ? lexEnv : context.variableEnv;
+
+  const evalContext = context.createLexicalAndVariableEnvContext(
+    lexEnv,
+    varEnv,
+  );
 
   yield* evalDeclarationInstantiation(node, strict, evalContext);
 

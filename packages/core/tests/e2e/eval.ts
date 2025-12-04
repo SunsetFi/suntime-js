@@ -152,6 +152,16 @@ describe("E2E: Eval", () => {
   });
 
   describe("Strict mode", () => {
+    it("does not cause var declartions to conflict when called indirectly", async () => {
+      const code = `
+      let x = 1;
+      (0,eval)('"use strict"; var x = 2;');
+      x;
+      `;
+      const result = await evaluateScript(code);
+      expect(result).toBe(1);
+    });
+
     it("prevents deleting bindings in strict direct eval", async () => {
       const code = `
         function strictDelete() {

@@ -1,4 +1,4 @@
-import type { Node } from "@babel/types";
+import type { File } from "@babel/types";
 
 import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
 
@@ -24,7 +24,7 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, _thisArg, str) {
     str = yield* toString(str ?? realm.types.undefined, realm);
 
-    let node: Node;
+    let node: File;
     try {
       node = parseScript(str.value);
     } catch (e: unknown) {
@@ -35,18 +35,20 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
       throw e;
     }
 
-    // FIXME: If this is a direct call, we need to inherit the context
-    // from the caller!
+    const strict = node.program.directives.some(
+      (dir) => dir.value.value === "use strict",
+    );
+
     let context = EvaluationContext.createRootContext(
-      false,
+      strict,
       realm,
       realm.globalEnv,
     );
 
-    // FIXME: Only do this if strict mode.
-    context = context.createLexicalEnvContext(
-      StaticJsDeclarativeEnvironmentRecord.from(context),
-    );
+    const lexEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
+    const varEnv = strict ? lexEnv : context.variableEnv;
+
+    context = context.createLexicalAndVariableEnvContext(lexEnv, varEnv);
 
     yield* evalDeclarationInstantiation(node, context.strict, context);
 

@@ -85,14 +85,11 @@ Currently, around 4800 of the language tests are passing, or about 20%. Further 
   - Currently only running tests in the language folder. Need to add built-ins
 - Make invokeEvaluatorSync use runTaskSync
 - Rework modules to be more spec compliant with regard to linking and evaluation.
-- Create a real IteratorRecord and use it in place of the direct ObjectLike usages.
-  - enumerateObjectProperties
-  - IteratorBindingInitialization repeatedly has to invoke the done property get.
-- for-await-of
 - Fix task runner not bound to continuations of promises
   - This is really thorny. On the surface, its suprising that a task runner passed to evaluateModule will only work for
     the initial evaluation and not for any runs after await, but it would also be suprising if the await is triggered by code that has its own runTask and that runTask isn't used in favor of the root runTask.
     Either way, this probably means we need to store the runTask on the context.
+- Strict mode reserved identifiers - Need to implement Early Errors phase.
 - Report code coverage in repo
   coveralls.io?
   [vitest-coverage-report-action](https://github.com/marketplace/actions/vitest-coverage-report)?

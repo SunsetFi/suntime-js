@@ -41,6 +41,7 @@ import returnStatementNodeEvaluator from "./ReturnStatement.js";
 import sequenceExpressionNodeEvaluator from "./SequenceExpression.js";
 import stringLiteralNodeEvaluator from "./StringLiteral.js";
 import switchStatementNodeEvaluator from "./SwitchStatement.js";
+import templateLiteralNodeEvaluator from "./TemplateLiteral.js";
 import thisExpressionNodeEvaluator from "./ThisExpression.js";
 import throwStatementNodeEvaluator from "./ThrowStatement.js";
 import tryStatementNodeEvaluator from "./TryStatement.js";
@@ -94,6 +95,7 @@ const nodeEvaluators: NodeEvaluators = {
   SequenceExpression: sequenceExpressionNodeEvaluator,
   StringLiteral: stringLiteralNodeEvaluator,
   SwitchStatement: switchStatementNodeEvaluator,
+  TemplateLiteral: templateLiteralNodeEvaluator,
   ThisExpression: thisExpressionNodeEvaluator,
   ThrowStatement: throwStatementNodeEvaluator,
   TryStatement: tryStatementNodeEvaluator,
