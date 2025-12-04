@@ -2,7 +2,7 @@ import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
 import type { Completion } from "../../evaluator/completions/Completion.js";
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
-import { unwrapCompletion } from "../../evaluator/completions/unwrap-completion.js";
+import rethrowCompletion from "../../evaluator/completions/rethrow-completion.js";
 import { isAbruptCompletion } from "../../evaluator/completions/AbruptCompletion.js";
 import type { NormalCompletion } from "../../evaluator/completions/NormalCompletion.js";
 
@@ -36,7 +36,7 @@ export default function* iteratorClose(
   try {
     const returnMethod = yield* iterator.getEvaluator("return");
     if (isStaticJsUndefined(returnMethod)) {
-      return unwrap ? unwrapCompletion(completion) : completion;
+      return unwrap ? rethrowCompletion(completion) : completion;
     }
     innerResult = yield* call(returnMethod, iterator, [], realm);
   } catch (e) {
@@ -48,18 +48,18 @@ export default function* iteratorClose(
   }
 
   if (completion instanceof ThrowCompletion) {
-    return unwrap ? unwrapCompletion(completion) : completion;
+    return unwrap ? rethrowCompletion(completion) : completion;
   }
 
   if (innerResult instanceof ThrowCompletion) {
-    return unwrap ? unwrapCompletion(innerResult) : innerResult;
+    return unwrap ? rethrowCompletion(innerResult) : innerResult;
   }
 
   // TODO: Spec says if this is a normal completion that's not an object, we should throw a TypeError
   // But that doesn't make sense as other sources say iterator.return() has no return value
   // I must be misunderstanding something.
 
-  return unwrap ? unwrapCompletion(completion) : completion;
+  return unwrap ? rethrowCompletion(completion) : completion;
 }
 
 iteratorClose.handle = function* handleIteratorClose<T>(

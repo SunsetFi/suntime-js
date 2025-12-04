@@ -12,7 +12,7 @@ import {
 
 import type { NormalCompletion } from "../completions/NormalCompletion.js";
 import { isAbruptCompletion } from "../completions/AbruptCompletion.js";
-import { unwrapCompletion } from "../completions/unwrap-completion.js";
+import rethrowCompletion from "../completions/rethrow-completion.js";
 import { completionValue } from "../completions/completion-value.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
@@ -32,7 +32,7 @@ const doWhileStatementNodeEvaluator = labelledStatementEvaluation(
         if (isAbruptCompletion(stmtResult)) {
           stmtResult.updateEmpty(V);
         }
-        return unwrapCompletion(stmtResult);
+        return rethrowCompletion(stmtResult);
       }
 
       const stmtValue = completionValue(stmtResult);

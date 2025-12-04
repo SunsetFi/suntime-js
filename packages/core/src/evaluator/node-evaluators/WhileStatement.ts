@@ -11,7 +11,7 @@ import {
 } from "../commands/EvaluateNodeCommand.js";
 
 import type { NormalCompletion } from "../completions/NormalCompletion.js";
-import { unwrapCompletion } from "../completions/unwrap-completion.js";
+import rethrowCompletion from "../completions/rethrow-completion.js";
 import { isAbruptCompletion } from "../completions/AbruptCompletion.js";
 import { completionValue } from "../completions/completion-value.js";
 
@@ -42,7 +42,7 @@ const whileStatementNodeEvaluator = labelledStatementEvaluation(
         if (isAbruptCompletion(stmtResult)) {
           stmtResult.updateEmpty(V);
         }
-        return unwrapCompletion(stmtResult);
+        return rethrowCompletion(stmtResult);
       }
 
       const stmtResultValue = completionValue(stmtResult);

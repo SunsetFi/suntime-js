@@ -5,10 +5,9 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import type NodeEvaluator from "../NodeEvaluator.js";
 
-import type { Completion } from "../completions/Completion.js";
 import { BreakCompletion } from "../completions/BreakCompletion.js";
-import { unwrapCompletion } from "../completions/unwrap-completion.js";
-import { isAbruptCompletion } from "../completions/AbruptCompletion.js";
+import captureCompletion from "../completions/capture-completion.js";
+import rethrowCompletion from "../completions/rethrow-completion.js";
 
 export default function labelledStatementEvaluation<TNode extends Node>(
   evaluator: NodeEvaluator<TNode>,
@@ -17,7 +16,7 @@ export default function labelledStatementEvaluation<TNode extends Node>(
     node: TNode,
     context: EvaluationContext,
   ): EvaluationGenerator {
-    let stmtResult = yield* flattenEvaluation(() => evaluator(node, context));
+    let stmtResult = yield* captureCompletion(() => evaluator(node, context));
     if (stmtResult instanceof BreakCompletion) {
       if (stmtResult.target === null) {
         if (stmtResult.value === null) {
@@ -30,20 +29,6 @@ export default function labelledStatementEvaluation<TNode extends Node>(
       }
     }
 
-    return unwrapCompletion(stmtResult);
+    return rethrowCompletion(stmtResult);
   };
-}
-
-function* flattenEvaluation(
-  evaluator: () => EvaluationGenerator,
-): EvaluationGenerator<Completion> {
-  try {
-    return yield* evaluator();
-  } catch (e) {
-    if (isAbruptCompletion(e)) {
-      return e;
-    }
-
-    throw e;
-  }
 }

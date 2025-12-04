@@ -131,7 +131,9 @@ const value = await realm.evaluateScript(
 
 ### Throwing errors in task runners
 
-Beyond the abort() method, you can simply throw your own errors in the task runner, and they will bubble up to a promise rejection of the original request. This has the same effect as aborting tasks, and can be used to expose details on the nature of the evaluation cancellation.
+Beyond the `abort()` method, you can also throw your own errors in the task runner using `throw()`, and they will bubble up to a promise rejection of the original request. This has the same effect as aborting tasks, and can be used to expose details on the nature of the evaluation cancellation.
+
+Note that this isn't the same as `throw new Error()`. While that will work for synchronous tasks when no time-sharing is present, this will cause unhandled rejections if the task is ticked beyond the initial invoke of `runTask`.
 
 ```ts
 function runTask(task) {
@@ -139,11 +141,13 @@ function runTask(task) {
   let endTime = Date.now() + 60 * 1000;
   while (!task.done) {
     if (--opBudget <= 0) {
-      throw new Error("Script evaluation exceeded 100,000 operations.");
+      task.throw(new Error("Script evaluation exceeded 100,000 operations."));
+      return;
     }
 
     if (Date.now() > endTime) {
-      throw new Error("Script evaluation exceeded one minute.");
+      task.throw(new Error("Script evaluation exceeded one minute."));
+      return;
     }
 
     task.next();

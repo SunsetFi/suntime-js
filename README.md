@@ -90,6 +90,7 @@ Currently, around 5700 of the language tests are passing, or about 24%. Further 
   - This is really thorny. On the surface, its suprising that a task runner passed to evaluateModule will only work for
     the initial evaluation and not for any runs after await, but it would also be suprising if the await is triggered by code that has its own runTask and that runTask isn't used in favor of the root runTask.
     Either way, this probably means we need to store the runTask on the context.
+- Only call runTask once per evaluate call, and transparently use the same task iterator for all microtasks.
 - Strict mode reserved identifiers - Need to implement Early Errors phase.
 - Report code coverage in repo
   coveralls.io?

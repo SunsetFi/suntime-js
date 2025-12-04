@@ -12,6 +12,7 @@ import type EvaluationContext from "../EvaluationContext.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { BreakCompletion } from "../completions/BreakCompletion.js";
 import type { NormalCompletion } from "../completions/NormalCompletion.js";
+import { isAbruptCompletion } from "../completions/AbruptCompletion.js";
 
 function* blockStatementNodeEvaluator(
   node: BlockStatement,
@@ -38,9 +39,13 @@ function* blockStatementNodeEvaluator(
     try {
       lastCompletion = yield* EvaluateNodeCommand(statement, blockContext);
     } catch (e) {
+      if (isAbruptCompletion(e)) {
+        e.updateEmpty(lastCompletion);
+      }
+
       // Breaks apply to blocks, but only if we have a label.
       if (context.label && BreakCompletion.isBreakForLabel(e, context.label)) {
-        return e.value ?? lastCompletion;
+        return e.value;
       }
 
       throw e;
