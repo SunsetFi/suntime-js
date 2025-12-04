@@ -2,6 +2,10 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
+import {
+  type StaticJsObjectPropertyKey,
+  isStaticJsObjectPropertyKey,
+} from "../types/StaticJsObjectLike.js";
 
 import type { StaticJsReferenceRecord } from "../references/StaticJsReferenceRecord.js";
 import { isUnresolvableReference } from "../references/is-unresolvable-reference.js";
@@ -36,12 +40,17 @@ export default function* getValue(
 
     // TODO: Private references
 
-    const propertyKey = yield* toPropertyKey(v.referencedName, realm);
+    let propertyKey: StaticJsObjectPropertyKey;
+    if (!isStaticJsObjectPropertyKey(v.referencedName)) {
+      propertyKey = v.referencedName = yield* toPropertyKey(
+        v.referencedName,
+        realm,
+      );
+    } else {
+      propertyKey = v.referencedName;
+    }
 
-    return yield* baseObj.getEvaluator(
-      propertyKey,
-      // TODO: thisObj
-    );
+    return yield* baseObj.getEvaluator(propertyKey);
   }
 
   // TODO: Spec doesn't show this, but we don't suport symbols in env records.

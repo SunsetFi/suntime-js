@@ -71,7 +71,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
   }
 
   get strict(): boolean {
-    return this._thisMode === "strict";
+    return this._strict;
   }
 
   get formalParameters(): StaticJsAstFunctionArgument[] {

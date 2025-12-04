@@ -16,7 +16,6 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 import initializeReferencedBinding from "../bindings/initialize-referenced-binding.js";
 import bindingInitialization from "../bindings/binding-initialization.js";
 
-import { environmentSetupLVal } from "./LVal.js";
 import putValue from "../../runtime/algorithms/put-value.js";
 
 function* variableDeclarationNodeEvaluator(
@@ -86,53 +85,6 @@ function* declarationStatementEvaluator(
   }
 }
 
-function* variableDeclarationEnvironmentSetup(
-  node: VariableDeclaration,
-  context: EvaluationContext,
-): EvaluationGenerator<boolean> {
-  let variableCreator: (name: string) => EvaluationGenerator<void>;
-  switch (node.kind) {
-    case "const":
-      variableCreator = function* (name) {
-        yield* context.lexicalEnv.createImmutableBindingEvaluator(
-          name,
-          context.strict,
-        );
-      };
-      break;
-    case "let":
-      variableCreator = function* (name) {
-        yield* context.lexicalEnv.createMutableBindingEvaluator(name, false);
-      };
-      break;
-    case "var":
-      variableCreator = function* (name) {
-        const varScope = context.variableEnv;
-        yield* varScope.createMutableBindingEvaluator(name, false);
-
-        // Vars are initialized immediately with undefined.
-        varScope.initializeBindingEvaluator(
-          name,
-          context.realm.types.undefined,
-        );
-      };
-      break;
-    default:
-      throw new StaticJsEngineError(
-        `Unsupported variable declaration kind: ${node.kind}`,
-      );
-  }
-
-  for (const declarator of node.declarations) {
-    if (declarator.id.type === "VoidPattern") {
-      continue;
-    }
-    yield* environmentSetupLVal(declarator.id, context, variableCreator);
-  }
-
-  return false;
-}
-
 export default typedMerge(variableDeclarationNodeEvaluator, {
-  environmentSetup: variableDeclarationEnvironmentSetup,
+  environmentSetup: false,
 });

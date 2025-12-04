@@ -7,6 +7,13 @@ import {
   type StaticJsValue,
 } from "../../runtime/types/StaticJsValue.js";
 
+import {
+  isStaticJsReferenceRecord,
+  type StaticJsReferenceRecord,
+} from "../../runtime/references/StaticJsReferenceRecord.js";
+
+import getValue from "../../runtime/algorithms/get-value.js";
+
 import type { EvaluateNodeOptions } from "../node-evaluators/evaluate-node.js";
 import evaluateNode from "../node-evaluators/evaluate-node.js";
 
@@ -14,8 +21,6 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
-import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
-import getValue from "../../runtime/algorithms/get-value.js";
 
 export interface EvaluateNodeCommandOptions extends EvaluateNodeOptions {
   forNormalValue?: string;
@@ -79,7 +84,7 @@ export function* EvaluateNodeCommand(
   }
 
   if (forReference) {
-    if (result === null || isStaticJsValue(result)) {
+    if (result === null || !isStaticJsReferenceRecord(result)) {
       throw new StaticJsEngineError(
         `Expected ${forReference} to return a reference completion.`,
       );

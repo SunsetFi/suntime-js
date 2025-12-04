@@ -76,7 +76,7 @@ describe("E2E: Realm", () => {
 
     it("Persists globals across invocations", async () => {
       const realm = StaticJsRealm();
-      await evaluateScript("global.x = 42;", { realm });
+      await evaluateScript("globalThis.x = 42;", { realm });
       const result = await evaluateScript("x", { realm });
       expect(result).toEqual(42);
     });
@@ -379,7 +379,7 @@ describe("E2E: Realm", () => {
 
       realm.evaluateScriptSync(`
         Promise.resolve(5).then(v => {
-          global.result = v;
+          globalThis.result = v;
         })
       `);
 

@@ -2,56 +2,26 @@ import type { MemberExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import toPropertyKey from "../../runtime/utils/to-property-key.js";
-
-import { isStaticJsNull } from "../../runtime/types/StaticJsNull.js";
-import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
-import type { StaticJsObjectPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 
-import toObject from "../../runtime/algorithms/to-object.js";
-
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-
-import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
-
-import nameNode from "./name-node.js";
 
 export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const propertyNode = node.property;
-  let target = yield* EvaluateNodeCommand(node.object, context, {
+  const target = yield* EvaluateNodeCommand(node.object, context, {
     forNormalValue: "MemberExpression.object",
   });
 
-  if (isStaticJsNull(target)) {
-    throw new ThrowCompletion(
-      context.realm.types.error(
-        "TypeError",
-        `Cannot read properties of null (reading '${nameNode(propertyNode)}')`,
-      ),
-    );
-  }
+  const propertyNode = node.property;
 
-  if (isStaticJsUndefined(target)) {
-    throw new ThrowCompletion(
-      context.realm.types.error(
-        "TypeError",
-        `Cannot read properties of undefined (reading '${nameNode(propertyNode)}')`,
-      ),
-    );
-  }
-
-  // Perform boxing if needed.
-  target = yield* toObject(target, context.realm);
-
-  let propertyKey: StaticJsObjectPropertyKey;
+  let propertyKey: StaticJsValue;
   if (propertyNode.type === "PrivateName") {
     // TODO: Support private fields
     // We just need to know if the target is a 'this' and we are inside the class.
@@ -60,17 +30,18 @@ export default function* memberExpressionNodeEvaluator(
   }
 
   if (!node.computed && propertyNode.type === "Identifier") {
-    propertyKey = propertyNode.name;
+    propertyKey = context.realm.types.string(propertyNode.name);
   } else {
-    const property = yield* EvaluateNodeCommand(propertyNode, context, {
+    // Do NOT cast this to string yet!
+    // Assignment requires us to not compute this until after the rhs is computed.
+    propertyKey = yield* EvaluateNodeCommand(propertyNode, context, {
       forNormalValue: "MemberExpression.property",
     });
-    propertyKey = yield* toPropertyKey(property, context.realm);
   }
 
   return {
     referencedName: propertyKey,
-    strict: true,
+    strict: context.strict,
     base: target,
     thisValue: target,
   } satisfies StaticJsReferenceRecord;

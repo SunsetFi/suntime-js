@@ -9,6 +9,16 @@ import StaticJsTypeCode from "./StaticJsTypeCode.js";
 
 export type StaticJsObjectPropertyKey = string | StaticJsSymbol;
 
+export function isStaticJsObjectPropertyKey(
+  value: unknown,
+): value is StaticJsObjectPropertyKey {
+  return (
+    typeof value === "string" ||
+    (isStaticJsValue(value) &&
+      value.runtimeTypeCode === StaticJsTypeCode.Symbol)
+  );
+}
+
 export interface StaticJsObjectLike extends StaticJsPrimitive {
   // We MUST NOT RESTRICT THIS to "object" | "array" | "function", or else
   // type guards for those specific types will include this, even if we use

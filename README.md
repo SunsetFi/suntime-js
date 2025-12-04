@@ -117,7 +117,7 @@ Currently, around 4800 of the language tests are passing, or about 20%. Further 
 - [x]: BindingInitialization
 - [x]: IteratorBindingInitialization
 
-- [ ]: Replace setLVal with BindingInitialization
+- [x]: Replace setLVal with BindingInitialization
 
 ### API for host implementation of functions using evaluators
 

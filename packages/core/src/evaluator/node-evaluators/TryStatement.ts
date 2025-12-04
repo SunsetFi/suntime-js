@@ -14,7 +14,8 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 import type { NormalCompletion } from "../completions/NormalCompletion.js";
 
-import setLVal from "./LVal.js";
+import boundNames from "../instantiation/algorithms/bound-names.js";
+import bindingInitialization from "../bindings/binding-initialization.js";
 
 function* tryStatementNodeEvaluator(
   node: TryStatement,
@@ -49,18 +50,30 @@ function* tryStatementNodeEvaluator(
 
 function* runCatch(
   node: CatchClause,
-  value: StaticJsValue,
+  thrownValue: StaticJsValue,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const catchContext = context.createLexicalEnvContext(
-    StaticJsDeclarativeEnvironmentRecord.from(context),
-  );
+  const oldEnv = context.lexicalEnv;
+
+  let catchContext = context;
 
   if (node.param) {
-    yield* setLVal(node.param, value, catchContext, function* (name, value) {
-      yield* catchContext.lexicalEnv.createMutableBindingEvaluator(name, false);
-      yield* catchContext.lexicalEnv.initializeBindingEvaluator(name, value);
-    });
+    const catchEnv = new StaticJsDeclarativeEnvironmentRecord(
+      oldEnv,
+      context.realm,
+    );
+    for (const argName of boundNames(node.param)) {
+      yield* catchEnv.createMutableBindingEvaluator(argName, false);
+    }
+
+    catchContext = context.createLexicalEnvContext(catchEnv);
+
+    yield* bindingInitialization(
+      node.param,
+      thrownValue,
+      catchEnv,
+      catchContext,
+    );
   }
 
   return yield* EvaluateNodeCommand(node.body, catchContext);

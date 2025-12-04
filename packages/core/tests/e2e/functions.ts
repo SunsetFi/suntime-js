@@ -122,7 +122,7 @@ describe("E2E: Functions", () => {
             function a() {
               return 42;
             }
-            global.a;  
+            globalThis.a;  
           `;
           const result = await evaluateScript(code);
           expect(result).toBeTypeOf("function");
@@ -257,7 +257,7 @@ describe("E2E: Functions", () => {
               return "reassigned";
             };
             
-            [saved(), original(), global.original()];
+            [saved(), original(), globalThis.original()];
           `;
           const result = await evaluateScript(code);
           expect(result).toEqual(["original", "reassigned", "reassigned"]);
@@ -762,7 +762,7 @@ describe("E2E: Functions", () => {
         function a() {
           return this;
         }
-        a() === global;
+        a() === globalThis;
       `;
       expect(await evaluateScript(code)).toBe(true);
     });

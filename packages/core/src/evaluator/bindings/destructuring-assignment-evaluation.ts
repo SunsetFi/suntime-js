@@ -130,7 +130,16 @@ function* propertyDestructuringAssignmentEvaluation(
     });
   } else if (node.key.type === "Identifier") {
     name = context.realm.types.string(node.key.name);
+  } else if (node.key.type === "StringLiteral") {
+    name = context.realm.types.string(node.key.value);
+  } else if (node.key.type === "NumericLiteral") {
+    name = context.realm.types.number(node.key.value);
+  } else if (node.key.type === "BooleanLiteral") {
+    name = context.realm.types.boolean(node.key.value);
+  } else if (node.key.type === "NullLiteral") {
+    name = context.realm.types.null;
   } else {
+    // TODO: BigIntLiteral
     throw new StaticJsEngineError(
       `Unsupported property destructuring assignment property key type: ${node.key.type}`,
     );

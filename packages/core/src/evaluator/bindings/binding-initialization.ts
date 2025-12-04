@@ -114,6 +114,14 @@ function* propertyBindingInitialization(
     key = yield* toPropertyKey(p, context.realm);
   } else if (node.key.type === "Identifier") {
     key = node.key.name;
+  } else if (node.key.type === "StringLiteral") {
+    key = String(node.key.value);
+  } else if (node.key.type === "NumericLiteral") {
+    key = String(node.key.value);
+  } else if (node.key.type === "BooleanLiteral") {
+    key = String(node.key.value);
+  } else if (node.key.type === "NullLiteral") {
+    key = String(null);
   } else {
     throw new StaticJsEngineError(
       `Unsupported object property key type: ${node.key.type}`,
