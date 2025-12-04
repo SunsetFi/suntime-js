@@ -3,7 +3,7 @@ import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 import type { Completion } from "../../evaluator/completions/Completion.js";
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 import rethrowCompletion from "../../evaluator/completions/rethrow-completion.js";
-import { isAbruptCompletion } from "../../evaluator/completions/AbruptCompletion.js";
+import isAbruptCompletion from "../../evaluator/completions/AbruptCompletion.js";
 import type { NormalCompletion } from "../../evaluator/completions/NormalCompletion.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";

@@ -18,6 +18,8 @@ import { createTypeErrorConstructor } from "./TypeError.js";
 import { createReferenceErrorConstructor } from "./ReferenceError.js";
 import { createSyntaxErrorConstructor } from "./SyntaxError.js";
 import { createRangeErrorConstructor } from "./RangeError.js";
+import { createEvalErrorConstructor } from "./EvalError.js";
+import { createURIErrorConstructor } from "./URIError.js";
 
 export function createConstructors(realm: StaticJsRealm): Constructors {
   const String = createStringConstructor(
@@ -78,6 +80,14 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
     realm,
     realm.types.prototypes.rangeErrorProto,
   );
+  const EvalError = createEvalErrorConstructor(
+    realm,
+    realm.types.prototypes.evalErrorProto,
+  );
+  const URIError = createURIErrorConstructor(
+    realm,
+    realm.types.prototypes.uriErrorProto,
+  );
 
   return {
     String,
@@ -96,5 +106,7 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
     ReferenceError,
     SyntaxError,
     RangeError,
+    EvalError,
+    URIError,
   };
 }

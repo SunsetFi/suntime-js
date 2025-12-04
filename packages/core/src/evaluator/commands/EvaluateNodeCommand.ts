@@ -21,7 +21,7 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
 import type { Completion } from "../completions/Completion.js";
-import { isAbruptCompletion } from "../completions/AbruptCompletion.js";
+import isAbruptCompletion from "../completions/AbruptCompletion.js";
 
 import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 

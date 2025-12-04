@@ -11,16 +11,16 @@ import {
 } from "../commands/EvaluateNodeCommand.js";
 
 import type { NormalCompletion } from "../completions/NormalCompletion.js";
-import { isAbruptCompletion } from "../completions/AbruptCompletion.js";
 import rethrowCompletion from "../completions/rethrow-completion.js";
-import { completionValue } from "../completions/completion-value.js";
+import completionValue from "../completions/completion-value.js";
+import updateEmpty from "../completions/update-empty.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
-import labelledStatementEvaluation from "./LabelledStatementEvaluation.js";
+import labeledStatementEvaluation from "./LabeledStatementEvaluation.js";
 
-const doWhileStatementNodeEvaluator = labelledStatementEvaluation(
+const doWhileStatementNodeEvaluator = labeledStatementEvaluation(
   function* doWhileStatementNodeEvaluator(
     node: DoWhileStatement,
     context: EvaluationContext,
@@ -29,9 +29,7 @@ const doWhileStatementNodeEvaluator = labelledStatementEvaluation(
     while (true) {
       const stmtResult = yield* EvaluateNodeForCompletion(node.body, context);
       if (!loopContinues(stmtResult, context)) {
-        if (isAbruptCompletion(stmtResult)) {
-          stmtResult.updateEmpty(V);
-        }
+        updateEmpty(stmtResult, V);
         return rethrowCompletion(stmtResult);
       }
 

@@ -19,6 +19,8 @@ export interface Prototypes {
   referenceErrorProto: StaticJsObject;
   syntaxErrorProto: StaticJsObject;
   rangeErrorProto: StaticJsObject;
+  evalErrorProto: StaticJsObject;
+  uriErrorProto: StaticJsObject;
 
   iteratorProto: StaticJsObject;
 }
@@ -40,6 +42,8 @@ export interface Constructors {
   ReferenceError: StaticJsFunction;
   SyntaxError: StaticJsFunction;
   RangeError: StaticJsFunction;
+  EvalError: StaticJsFunction;
+  URIError: StaticJsFunction;
 }
 
 export interface IntrinsicSymbols {

@@ -6,7 +6,11 @@ import {
   type IntrinsicPropertyDeclaration,
 } from "../../utils.js";
 
-const declarations: IntrinsicPropertyDeclaration[] = [];
+import errorProtoToStringDeclaration from "./toString.js";
+
+const declarations: IntrinsicPropertyDeclaration[] = [
+  errorProtoToStringDeclaration,
+];
 
 export default function populateErrorPrototype(
   realm: StaticJsRealm,

@@ -9,7 +9,7 @@ import { BreakCompletion } from "../completions/BreakCompletion.js";
 import captureCompletion from "../completions/capture-completion.js";
 import rethrowCompletion from "../completions/rethrow-completion.js";
 
-export default function labelledStatementEvaluation<TNode extends Node>(
+export default function labeledStatementEvaluation<TNode extends Node>(
   evaluator: NodeEvaluator<TNode>,
 ): NodeEvaluator<TNode> {
   return function* labelledStatementEvaluationWrapper(

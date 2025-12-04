@@ -1,5 +1,5 @@
 import type { Completion } from "../../evaluator/completions/Completion.js";
-import { isAbruptCompletion } from "../../evaluator/completions/AbruptCompletion.js";
+import isAbruptCompletion from "../../evaluator/completions/AbruptCompletion.js";
 import { ContinueCompletion } from "../../evaluator/completions/ContinueCompletion.js";
 
 import type EvaluationContext from "../../evaluator/EvaluationContext.js";

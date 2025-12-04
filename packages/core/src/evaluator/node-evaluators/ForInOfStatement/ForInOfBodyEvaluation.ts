@@ -22,7 +22,7 @@ import bindingInitialization from "../../bindings/binding-initialization.js";
 import destructuringAssignmentEvaluation from "../../bindings/destructuring-assignment-evaluation.js";
 import initializeReferencedBinding from "../../bindings/initialize-referenced-binding.js";
 
-import { isAbruptCompletion } from "../../completions/AbruptCompletion.js";
+import isAbruptCompletion from "../../completions/AbruptCompletion.js";
 import type { NormalCompletion } from "../../completions/NormalCompletion.js";
 import { ContinueCompletion } from "../../completions/ContinueCompletion.js";
 

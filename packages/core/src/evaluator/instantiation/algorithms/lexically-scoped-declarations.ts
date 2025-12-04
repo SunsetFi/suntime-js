@@ -53,8 +53,6 @@ export default function lexicallyScopedDeclarations(
       return [node];
     }
     /* END Declaration */
-    case "SwitchStatement":
-      return node.cases.flatMap(lexicallyScopedDeclarations);
     case "SwitchCase":
       return node.consequent.flatMap(lexicallyScopedDeclarations);
     case "ExportNamedDeclaration": {

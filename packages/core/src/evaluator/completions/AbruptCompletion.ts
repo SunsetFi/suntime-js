@@ -9,7 +9,9 @@ export type AbruptCompletion =
   | ReturnCompletion
   | ThrowCompletion;
 
-export function isAbruptCompletion(value: unknown): value is AbruptCompletion {
+export default function isAbruptCompletion(
+  value: unknown,
+): value is AbruptCompletion {
   return (
     value instanceof BreakCompletion ||
     value instanceof ContinueCompletion ||

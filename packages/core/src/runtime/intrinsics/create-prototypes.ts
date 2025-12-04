@@ -20,6 +20,8 @@ import { populateTypeErrorPrototype } from "./TypeError.js";
 import { populateReferenceErrorPrototype } from "./ReferenceError.js";
 import { populateSyntaxErrorPrototype } from "./SyntaxError.js";
 import { populateRangeErrorPrototype } from "./RangeError.js";
+import { populateEvalErrorPrototype } from "./EvalError.js";
+import { populateURIErrorPrototype } from "./URIError.js";
 
 export function createPrototypes(realm: StaticJsRealm): Prototypes {
   const objectProto = new StaticJsObjectImpl(realm, null);
@@ -41,6 +43,8 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
   const referenceErrorProto = new StaticJsObjectImpl(realm, errorProto);
   const syntaxErrorProto = new StaticJsObjectImpl(realm, errorProto);
   const rangeErrorProto = new StaticJsObjectImpl(realm, errorProto);
+  const evalErrorProto = new StaticJsObjectImpl(realm, errorProto);
+  const uriErrorProto = new StaticJsObjectImpl(realm, errorProto);
 
   return {
     stringProto,
@@ -59,6 +63,8 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
     referenceErrorProto,
     syntaxErrorProto,
     rangeErrorProto,
+    evalErrorProto,
+    uriErrorProto,
   };
 }
 
@@ -85,4 +91,6 @@ export function instantiatePrototypes(realm: StaticJsRealm) {
   populateReferenceErrorPrototype(realm, prototypes.referenceErrorProto);
   populateSyntaxErrorPrototype(realm, prototypes.syntaxErrorProto);
   populateRangeErrorPrototype(realm, prototypes.rangeErrorProto);
+  populateEvalErrorPrototype(realm, prototypes.evalErrorProto);
+  populateURIErrorPrototype(realm, prototypes.uriErrorProto);
 }

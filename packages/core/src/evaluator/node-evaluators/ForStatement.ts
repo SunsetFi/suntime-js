@@ -18,15 +18,15 @@ import {
 } from "../commands/EvaluateNodeCommand.js";
 
 import type { NormalCompletion } from "../completions/NormalCompletion.js";
-import { isAbruptCompletion } from "../completions/AbruptCompletion.js";
 import rethrowCompletion from "../completions/rethrow-completion.js";
-import { completionValue } from "../completions/completion-value.js";
+import completionValue from "../completions/completion-value.js";
+import updateEmpty from "../completions/update-empty.js";
 
 import boundNames from "../instantiation/algorithms/bound-names.js";
 
-import labelledStatementEvaluation from "./LabelledStatementEvaluation.js";
+import labeledStatementEvaluation from "./LabeledStatementEvaluation.js";
 
-const forStatementNodeEvaluator = labelledStatementEvaluation(
+const forStatementNodeEvaluator = labeledStatementEvaluation(
   function* forStatementNodeEvaluator(
     node: ForStatement,
     context: EvaluationContext,
@@ -105,9 +105,7 @@ function* forBodyEvaluation(
 
     const result = yield* EvaluateNodeForCompletion(statement, context);
     if (!loopContinues(result, context)) {
-      if (isAbruptCompletion(result)) {
-        result.updateEmpty(V);
-      }
+      updateEmpty(result, V);
       return rethrowCompletion(result);
     }
 

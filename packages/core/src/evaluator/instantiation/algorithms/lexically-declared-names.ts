@@ -21,8 +21,6 @@ export default function lexicallyDeclaredNames(node: Node): string[] {
       return boundNames(node);
     }
     /* END Declaration */
-    case "SwitchStatement":
-      return node.cases.flatMap(lexicallyDeclaredNames);
     case "SwitchCase":
       return node.consequent.flatMap(lexicallyDeclaredNames);
     case "ExportNamedDeclaration": {

@@ -260,6 +260,9 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       case "RangeError":
         proto = this._prototypes.rangeErrorProto;
         break;
+      case "EvalError":
+        proto = this._prototypes.evalErrorProto;
+        break;
     }
 
     const error = this.object(

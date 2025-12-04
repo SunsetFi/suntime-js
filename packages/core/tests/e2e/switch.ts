@@ -79,4 +79,17 @@ describe("E2E: Switch statements", () => {
       `;
     expect(await evaluateScript(code)).toBe(30);
   });
+
+  it("Creates a declarative environment", async () => {
+    const code = `
+      let x = "outer";
+      switch ("test") {
+        case "test":
+          let x = "inner";
+          break;
+      }
+      x;
+    `;
+    expect(await evaluateScript(code)).toBe("outer");
+  });
 });

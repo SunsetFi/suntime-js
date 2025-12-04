@@ -12,7 +12,7 @@ import type EvaluationGenerator from "../EvaluationGenerator.js";
 import { EvaluateNodeForCompletion } from "../commands/EvaluateNodeCommand.js";
 
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
-import { isAbruptCompletion } from "../completions/AbruptCompletion.js";
+import isAbruptCompletion from "../completions/AbruptCompletion.js";
 import type { Completion } from "../completions/Completion.js";
 
 import boundNames from "../instantiation/algorithms/bound-names.js";
