@@ -77,12 +77,13 @@ For more information, including solutions for breaking loops, see [Quick Start](
 
 This project is slowly working its way through the [Test262](https://github.com/tc39/test262) suite of JavaScript tests in order to ensure compliance with the spec.
 
-Currently, around 4800 of the language tests are passing, or about 20%. Further work is ongoing in this area.
+Currently, around 5700 of the language tests are passing, or about 24%. Further work is ongoing in this area.
 
 ## TODO:
 
 - Fix 'all' [Test262](https://github.com/tc39/test262) tests.
   - Currently only running tests in the language folder. Need to add built-ins
+- function `arguments` object
 - Make invokeEvaluatorSync use runTaskSync
 - Rework modules to be more spec compliant with regard to linking and evaluation.
 - Fix task runner not bound to continuations of promises
@@ -96,25 +97,6 @@ Currently, around 4800 of the language tests are passing, or about 20%. Further 
 - Get api-extractor working. The only holdup right now is the combine and re-export of the interface and factory function of StaticJsRealm
   - Combine these into one file to make this work?
 - Rename toJs to toNative
-
-### Refactor setupEnvironment to use real instantiation functions
-
-- [x] GlobalDeclarationInstantiation
-- [x] BlockDeclarationInstantiation
-- [x] FunctionDeclarationInstantiation
-  - [ ]: `arguments` object
-- [x] ForDeclarationBindingInstantiation
-- [x] EvalDeclarationInstantiation
-- [x]: module.LinkEnvironment
-- [x] Remove createFunctionBinding from StaticJsEnvironment
-
-- [x] Return ReferenceRecord from Identifier
-- [x] Consume ReferenceRecords with GetValue everywhere
-
-- [x]: BindingInitialization
-- [x]: IteratorBindingInitialization
-
-- [x]: Replace setLVal with BindingInitialization
 
 ### API for host implementation of functions using evaluators
 

@@ -28,15 +28,6 @@ describe("E2E: Eval", () => {
       expect(result).toBe(99);
     });
 
-    it("Declares let and const declarations in the caller's lexical scope", async () => {
-      const code = `
-        eval("let value1 = 44; const value2 = 13;");
-        [value1, value2];
-      `;
-      const result = await evaluateScript(code);
-      expect(result).toEqual([44, 13]);
-    });
-
     it("Should affect the calling scope", async () => {
       const code = `
         let results = [];
@@ -207,21 +198,6 @@ describe("E2E: Eval", () => {
       `;
       const result = await evaluateScript(code);
       expect(result).toBe(true);
-    });
-
-    it("attaches var declarations from indirect eval to the global object", async () => {
-      const code = `
-        (function () {
-          "use strict";
-          const indirect = (0, eval);
-          indirect("'use strict'; var leaked = 99;");
-          const outcome = [typeof leaked, globalThis.leaked];
-          delete globalThis.leaked;
-          return outcome;
-        })();
-      `;
-      const result = await evaluateScript(code);
-      expect(result).toEqual(["number", 99]);
     });
   });
 });
