@@ -2,6 +2,8 @@ import type { SwitchCase, SwitchStatement } from "@babel/types";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
+import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+
 import isStrictlyEqual from "../../runtime/algorithms/is-structly-equal.js";
 
 import type { NormalCompletion } from "../completions/NormalCompletion.js";
@@ -12,9 +14,12 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
-import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import blockDeclarationInstantiation from "../instantiation/block-declaration-instantiation.js";
+
+import type { Completion } from "../completions/Completion.js";
 import updateEmpty from "../completions/update-empty.js";
+
+import blockDeclarationInstantiation from "../instantiation/block-declaration-instantiation.js";
+
 import labeledStatementEvaluation from "./LabeledStatementEvaluation.js";
 
 const switchStatementNodeEvaluator = labeledStatementEvaluation(
@@ -141,14 +146,16 @@ function* caseClauseIsSelected(
 function* evaluateSwitchCase(
   C: SwitchCase,
   context: EvaluationContext,
-): EvaluationGenerator {
+): EvaluationGenerator<Completion> {
   let V: NormalCompletion = null;
   for (const statement of C.consequent) {
     try {
       V = yield* EvaluateNodeCommand(statement, context);
     } catch (e) {
-      updateEmpty(e, V);
-      throw e;
+      if (isAbruptCompletion(e)) {
+        updateEmpty(e, V);
+        return e;
+      }
     }
   }
 
