@@ -17,56 +17,107 @@ import toNumber from "../../runtime/algorithms/to-number.js";
 import addition from "../../runtime/algorithms/addition.js";
 import toObject from "../../runtime/algorithms/to-object.js";
 import instanceOfOperator from "../../runtime/algorithms/instance-of-operator.js";
+import isLessThan from "../../runtime/algorithms/is-less-than.js";
 
-export default function binaryExpressionNodeEvaluator(
+export default function* binaryExpressionNodeEvaluator(
   node: BinaryExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  const { realm } = context;
+
   switch (node.operator) {
     case "+":
-      return binaryExpressionAdd(node, context);
+      return yield* binaryExpressionAdd(node, context);
     case "-":
-      return numericComputation((a, b) => a - b, node, context);
+      return yield* numericComputation((a, b) => a - b, node, context);
     case "*":
-      return numericComputation((a, b) => a * b, node, context);
+      return yield* numericComputation((a, b) => a * b, node, context);
     case "/":
-      return numericComputation((a, b) => a / b, node, context);
+      return yield* numericComputation((a, b) => a / b, node, context);
     case "%":
-      return numericComputation((a, b) => a % b, node, context);
+      return yield* numericComputation((a, b) => a % b, node, context);
     case "**":
-      return numericComputation((a, b) => a ** b, node, context);
+      return yield* numericComputation((a, b) => a ** b, node, context);
     case "^":
-      return numericComputation((a, b) => a ^ b, node, context);
+      return yield* numericComputation((a, b) => a ^ b, node, context);
     case "<<":
-      return numericComputation((a, b) => a << b, node, context);
+      return yield* numericComputation((a, b) => a << b, node, context);
     case ">>":
-      return numericComputation((a, b) => a >> b, node, context);
+      return yield* numericComputation((a, b) => a >> b, node, context);
     case "&":
-      return numericComputation((a, b) => a & b, node, context);
+      return yield* numericComputation((a, b) => a & b, node, context);
     case "|":
-      return numericComputation((a, b) => a | b, node, context);
+      return yield* numericComputation((a, b) => a | b, node, context);
     case "==":
-      return binaryExpressionDoubleEquals(node, context, false);
+      return yield* binaryExpressionDoubleEquals(node, context, false);
     case "!=":
-      return binaryExpressionDoubleEquals(node, context, true);
+      return yield* binaryExpressionDoubleEquals(node, context, true);
     case "===":
-      return binaryExpressionStrictEquals(node, context, false);
+      return yield* binaryExpressionStrictEquals(node, context, false);
     case "!==":
-      return binaryExpressionStrictEquals(node, context, true);
-    case "<":
-      return numericComputation((a, b) => a < b, node, context);
-    case "<=":
-      return numericComputation((a, b) => a <= b, node, context);
-    case ">":
-      return numericComputation((a, b) => a > b, node, context);
-    case ">=":
-      return numericComputation((a, b) => a >= b, node, context);
+      return yield* binaryExpressionStrictEquals(node, context, true);
+    case "<": {
+      const lVal = yield* EvaluateNodeCommand(node.left, context, {
+        forNormalValue: "BinaryExpression.left",
+      });
+      const rVal = yield* EvaluateNodeCommand(node.right, context, {
+        forNormalValue: "BinaryExpression.right",
+      });
+      const r = yield* isLessThan(lVal, rVal, true, realm);
+      if (r === undefined) {
+        return realm.types.false;
+      }
+
+      return realm.types.boolean(r);
+    }
+    case "<=": {
+      const lVal = yield* EvaluateNodeCommand(node.left, context, {
+        forNormalValue: "BinaryExpression.left",
+      });
+      const rVal = yield* EvaluateNodeCommand(node.right, context, {
+        forNormalValue: "BinaryExpression.right",
+      });
+      const r = yield* isLessThan(rVal, lVal, false, realm);
+      if (r || r === undefined) {
+        return realm.types.false;
+      }
+
+      return realm.types.true;
+    }
+    case ">": {
+      const lVal = yield* EvaluateNodeCommand(node.left, context, {
+        forNormalValue: "BinaryExpression.left",
+      });
+      const rVal = yield* EvaluateNodeCommand(node.right, context, {
+        forNormalValue: "BinaryExpression.right",
+      });
+      const r = yield* isLessThan(rVal, lVal, false, realm);
+      if (r === undefined) {
+        return realm.types.false;
+      }
+
+      return realm.types.boolean(r);
+    }
+    case ">=": {
+      const lVal = yield* EvaluateNodeCommand(node.left, context, {
+        forNormalValue: "BinaryExpression.left",
+      });
+      const rVal = yield* EvaluateNodeCommand(node.right, context, {
+        forNormalValue: "BinaryExpression.right",
+      });
+      const r = yield* isLessThan(lVal, rVal, true, realm);
+      if (r || r === undefined) {
+        return realm.types.false;
+      }
+
+      return realm.types.true;
+    }
     case ">>>":
-      return numericComputation((a, b) => a >>> b, node, context);
+      return yield* numericComputation((a, b) => a >>> b, node, context);
     case "in":
-      return inExpression(node, context);
+      return yield* inExpression(node, context);
     case "instanceof":
-      return instanceOfExpression(node, context);
+      return yield* instanceOfExpression(node, context);
     default:
       throw new StaticJsEngineError(
         `BinaryExpression operator ${node.operator} is not supported`,

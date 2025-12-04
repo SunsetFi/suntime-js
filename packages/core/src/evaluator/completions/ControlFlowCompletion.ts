@@ -1,11 +1,13 @@
 import type { StaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
 
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+
 import { AbnormalCompletionBase } from "./AbnormalCompletionBase.js";
 import { ThrowCompletion } from "./ThrowCompletion.js";
 
 export abstract class ControlFlowCompletion extends AbnormalCompletionBase {
-  constructor(type: string) {
-    super(type);
+  constructor(type: string, value?: StaticJsValue | null) {
+    super(type, value);
   }
 
   static handleUnexpected(realm: StaticJsRealm, e: unknown) {

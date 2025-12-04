@@ -164,6 +164,9 @@ export function* forInOfBodyEvaluation(
       }
     } catch (e) {
       if (ContinueCompletion.isContinueForLabel(e, label)) {
+        if (e.value) {
+          V = e.value;
+        }
         continue;
       } else if (isAbruptCompletion(e)) {
         if (iterationKind === "iterate") {
@@ -175,7 +178,7 @@ export function* forInOfBodyEvaluation(
         }
 
         if (BreakCompletion.isBreakForLabel(e, label)) {
-          return V;
+          return e.value ?? V;
         }
       }
 

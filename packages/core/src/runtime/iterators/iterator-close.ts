@@ -2,7 +2,7 @@ import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
 import type { Completion } from "../../evaluator/completions/Completion.js";
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
-import { unwrapCompletion } from "../../evaluator/completions/unwrapCompletion.js";
+import { unwrapCompletion } from "../../evaluator/completions/unwrap-completion.js";
 import { isAbruptCompletion } from "../../evaluator/completions/AbruptCompletion.js";
 import type { NormalCompletion } from "../../evaluator/completions/NormalCompletion.js";
 

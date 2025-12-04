@@ -232,6 +232,49 @@ export default class Macrotask {
       };
     };
 
+    const next = (err?: unknown): IteratorResult<void, void> => {
+      if (aborted) {
+        throw new StaticJsTaskAbortedError(
+          "Cannot call next() on an aborted task.",
+        );
+      }
+
+      if (done) {
+        throw new StaticJsEngineError(
+          "Cannot call next() on a completed task.",
+        );
+      }
+
+      this._assertIsRunning(this);
+
+      this._isEntered = true;
+      try {
+        const result = err ? iterator.throw(err) : iterator.next();
+        if (result.done) {
+          done = true;
+          accept(result.value);
+        }
+        return {
+          value: undefined,
+          done: result.done,
+        };
+      } catch (e) {
+        if (!done) {
+          // Normally we should pass this to the generator's throw method,
+          // but we are passed generators that handle all of that for us, so the only
+          // throws we should be getting here are final throws.
+          done = true;
+          reject(e);
+        }
+        return {
+          value: undefined,
+          done: true,
+        };
+      } finally {
+        this._isEntered = false;
+      }
+    };
+
     return {
       get done() {
         return done;
@@ -242,49 +285,8 @@ export default class Macrotask {
       get operation() {
         return getCurrentOperation();
       },
-      next: () => {
-        if (aborted) {
-          throw new StaticJsTaskAbortedError(
-            "Cannot call next() on an aborted task.",
-          );
-        }
-
-        if (done) {
-          throw new StaticJsEngineError(
-            "Cannot call next() on a completed task.",
-          );
-        }
-
-        this._assertIsRunning(this);
-
-        this._isEntered = true;
-        try {
-          const result = iterator.next();
-          if (result.done) {
-            done = true;
-            accept(result.value);
-          }
-          return {
-            value: undefined,
-            done: result.done,
-          };
-        } catch (e) {
-          if (!done) {
-            // Normally we should pass this to the generator's throw method,
-            // but we are passed generators that handle all of that for us, so the only
-            // throws we should be getting here are final throws.
-            done = true;
-            reject(e);
-          }
-          return {
-            value: undefined,
-            done: true,
-          };
-        } finally {
-          this._isEntered = false;
-        }
-      },
-
+      next: () => next(),
+      throw: (err: unknown) => next(err),
       abort: () => {
         if (done) {
           throw new StaticJsEngineError(

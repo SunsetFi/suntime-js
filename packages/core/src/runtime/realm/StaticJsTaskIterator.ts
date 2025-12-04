@@ -74,6 +74,12 @@ export interface StaticJsTaskIterator {
   next(): IteratorResult<void, void>;
 
   /**
+   * Raise an error at the current operation, aborting the task.
+   * @param error The error to raise.
+   */
+  throw(error: unknown): IteratorResult<void, void>;
+
+  /**
    * Abort the evaluation of this task.
    *
    * This will raise a StaticJsTaskAbortedError on the promise that represents this evaluation.

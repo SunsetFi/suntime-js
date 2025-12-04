@@ -1,8 +1,23 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 
-import { evaluateScript } from "../../../src/index.js";
+import {
+  createTimeBoundTaskRunner,
+  evaluateScript as evaluateScriptCore,
+} from "../../../src/index.js";
+
+const debug = false;
 
 describe("E2E: Do While loops", () => {
+  let evaluateScript: typeof evaluateScriptCore;
+  beforeEach(() => {
+    const taskRunner = createTimeBoundTaskRunner({
+      maxRunTime: debug ? Infinity : 1000,
+    });
+    evaluateScript = (code: string) => {
+      return evaluateScriptCore(code, { taskRunner });
+    };
+  });
+
   it("Can loop with a do while loop", async () => {
     const code = `
         let sum = 0;

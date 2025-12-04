@@ -7,72 +7,81 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
+import loopContinues from "../../runtime/algorithms/loop-continues.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import {
+  EvaluateNodeCommand,
+  EvaluateNodeForCompletion,
+} from "../commands/EvaluateNodeCommand.js";
 
-import { ContinueCompletion } from "../completions/ContinueCompletion.js";
-import { BreakCompletion } from "../completions/BreakCompletion.js";
 import type { NormalCompletion } from "../completions/NormalCompletion.js";
+import { isAbruptCompletion } from "../completions/AbruptCompletion.js";
+import { unwrapCompletion } from "../completions/unwrap-completion.js";
+import { completionValue } from "../completions/completion-value.js";
 
 import boundNames from "../instantiation/algorithms/bound-names.js";
 
-function* forStatementNodeEvaluator(
-  node: ForStatement,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { label } = context;
-  const { init, test, update, body } = node;
+import labelledStatementEvaluation from "./LabelledStatementEvaluation.js";
 
-  let perIterationLets: string[] = [];
+const forStatementNodeEvaluator = labelledStatementEvaluation(
+  function* forStatementNodeEvaluator(
+    node: ForStatement,
+    context: EvaluationContext,
+  ): EvaluationGenerator {
+    const { label } = context;
+    const { init, test, update, body } = node;
 
-  if (init) {
-    if (
-      init.type === "VariableDeclaration" &&
-      ["let", "const"].includes(init.kind)
-    ) {
-      const oldEnv = context.lexicalEnv;
-      const loopEnv = new StaticJsDeclarativeEnvironmentRecord(
-        oldEnv,
-        context.realm,
-      );
-      const isConst = init.kind === "const";
-      const names = boundNames(init);
-      for (const dn of names) {
-        if (isConst) {
-          yield* loopEnv.createImmutableBindingEvaluator(dn, true);
-        } else {
-          yield* loopEnv.createMutableBindingEvaluator(dn, false);
+    let perIterationLets: string[] = [];
+
+    if (init) {
+      if (
+        init.type === "VariableDeclaration" &&
+        ["let", "const"].includes(init.kind)
+      ) {
+        const oldEnv = context.lexicalEnv;
+        const loopEnv = new StaticJsDeclarativeEnvironmentRecord(
+          oldEnv,
+          context.realm,
+        );
+        const isConst = init.kind === "const";
+        const names = boundNames(init);
+        for (const dn of names) {
+          if (isConst) {
+            yield* loopEnv.createImmutableBindingEvaluator(dn, true);
+          } else {
+            yield* loopEnv.createMutableBindingEvaluator(dn, false);
+          }
         }
-      }
 
-      // Change the for loop context to use the new environment.
-      // This should flow through and be used for forBodyEvaluation.
-      context = context
-        .createLexicalEnvContext(loopEnv)
-        // Preserve the label, as it is not inherited.
-        // FIXME: Make this an inherited array on the context as the spec specifies.
-        .createLabelContext(label);
-      yield* EvaluateNodeCommand(init, context);
+        // Change the for loop context to use the new environment.
+        // This should flow through and be used for forBodyEvaluation.
+        context = context
+          .createLexicalEnvContext(loopEnv)
+          // Preserve the label, as it is not inherited.
+          // FIXME: Make this an inherited array on the context as the spec specifies.
+          .createLabelContext(label);
+        yield* EvaluateNodeCommand(init, context);
 
-      if (!isConst) {
-        perIterationLets = names;
+        if (!isConst) {
+          perIterationLets = names;
+        }
+      } else {
+        yield* EvaluateNodeCommand(init, context);
       }
-    } else {
-      yield* EvaluateNodeCommand(init, context);
     }
-  }
 
-  return yield* forBodyEvaluation(
-    test ?? null,
-    update ?? null,
-    body,
-    perIterationLets,
-    context,
-  );
-}
+    return yield* forBodyEvaluation(
+      test ?? null,
+      update ?? null,
+      body,
+      perIterationLets,
+      context,
+    );
+  },
+);
 
 function* forBodyEvaluation(
   test: Expression | null,
@@ -81,57 +90,42 @@ function* forBodyEvaluation(
   perIterationBindings: string[],
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const { label, realm } = context;
-
-  let V: NormalCompletion = null;
-  let iterationContext = yield* createPerIterationEnvironment(
-    perIterationBindings,
-    context,
-  );
-
+  let V: NormalCompletion = context.realm.types.undefined;
+  yield* createPerIterationEnvironment(perIterationBindings, context);
   while (true) {
     if (test) {
-      const testResult = yield* EvaluateNodeCommand(test, iterationContext, {
+      const testValue = yield* EvaluateNodeCommand(test, context, {
         forNormalValue: "ForStatement.test",
       });
-      const condition = yield* toBoolean.js(testResult, realm);
+      const condition = yield* toBoolean.js(testValue, context.realm);
       if (!condition) {
         return V;
       }
     }
 
-    try {
-      V = yield* EvaluateNodeCommand(statement, iterationContext);
-    } catch (e) {
-      // FIXME: There's odd behavior around UpdateEmpty here which seems to imply if we get a
-      // Continue, Break, Return, or Throw that has no value, we need to update its value to be our value.
-      // Is this actually visible behavior?  We don't support anything like that with the thrown AbnormalCompletions
-
-      if (BreakCompletion.isBreakForLabel(e, label)) {
-        return V;
-      } else if (ContinueCompletion.isContinueForLabel(e, label)) {
-        /* No-op, continue to the next iteration */
-      } else {
-        throw e; // Rethrow any other error
+    const result = yield* EvaluateNodeForCompletion(statement, context);
+    if (!loopContinues(result, context)) {
+      if (isAbruptCompletion(result)) {
+        result.updateEmpty(V);
       }
+      return unwrapCompletion(result);
     }
 
-    // Always do this even if no increment.
-    iterationContext = yield* createPerIterationEnvironment(
-      perIterationBindings,
-      iterationContext,
-    );
+    const resultValue = completionValue(result);
+    if (resultValue) {
+      V = resultValue;
+    }
+
+    yield* createPerIterationEnvironment(perIterationBindings, context);
 
     if (increment) {
-      yield* EvaluateNodeCommand(increment, iterationContext, {
+      yield* EvaluateNodeCommand(increment, context, {
         // Spec says we always call getValue on this without seeming to allow
         // for it to be empty
         forNormalValue: "ForStatement.increment",
       });
     }
   }
-
-  return V;
 }
 
 function* createPerIterationEnvironment(

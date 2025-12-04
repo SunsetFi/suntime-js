@@ -52,7 +52,7 @@ import whileStatementNodeEvaluator from "./WhileStatement.js";
 import withStatementNodeEvaluator from "./WithStatement.js";
 
 type NodeEvaluators = {
-  [key in Node["type"]]?: NodeEvaluator<key>;
+  [key in Node["type"]]?: NodeEvaluator<Extract<Node, { type: key }>>;
 };
 
 const nodeEvaluators: NodeEvaluators = {
@@ -108,7 +108,7 @@ const nodeEvaluators: NodeEvaluators = {
 
 export function getEvaluator<TType extends Node["type"]>(
   node: Node & { type: TType },
-): NodeEvaluator<TType> | null {
+): NodeEvaluator<Extract<Node, { type: TType }>> | null {
   const evaluator = nodeEvaluators[node.type];
   return evaluator ?? null;
 }

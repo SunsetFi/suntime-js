@@ -9,50 +9,46 @@ import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/imp
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import { EvaluateNodeForCompletion } from "../commands/EvaluateNodeCommand.js";
 
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
-import type { NormalCompletion } from "../completions/NormalCompletion.js";
+import { isAbruptCompletion } from "../completions/AbruptCompletion.js";
+import type { Completion } from "../completions/Completion.js";
 
 import boundNames from "../instantiation/algorithms/bound-names.js";
+
 import bindingInitialization from "../bindings/binding-initialization.js";
 
 function* tryStatementNodeEvaluator(
   node: TryStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  // Due to the way Environment Records are handled for try/catch/finally,
-  // we manually handle blocks ourselves instead of delegating to the BlockStatement node evaluator.
+  let result = yield* EvaluateNodeForCompletion(node.block, context);
 
-  let lastCompletion: NormalCompletion = null;
-  try {
-    lastCompletion = yield* EvaluateNodeCommand(node.block, context);
-  } catch (e) {
-    if (e instanceof ThrowCompletion && node.handler) {
-      lastCompletion = yield* runCatch(node.handler, e.value, context);
-    } else {
-      throw e;
-    }
-  } finally {
-    if (node.finalizer) {
-      const finalizerValue = yield* EvaluateNodeCommand(
-        node.finalizer,
-        context,
-      );
-      if (finalizerValue !== null) {
-        lastCompletion = finalizerValue;
-      }
+  if (node.handler && result instanceof ThrowCompletion) {
+    result = yield* runCatch(node.handler, result.value, context);
+  }
+
+  if (node.finalizer) {
+    const F = yield* EvaluateNodeForCompletion(node.finalizer, context);
+    if (isAbruptCompletion(F)) {
+      result = F;
     }
   }
 
-  return lastCompletion;
+  if (isAbruptCompletion(result)) {
+    result.updateEmpty(context.realm.types.undefined);
+    throw result;
+  }
+
+  return result ?? context.realm.types.undefined;
 }
 
 function* runCatch(
   node: CatchClause,
   thrownValue: StaticJsValue,
   context: EvaluationContext,
-): EvaluationGenerator {
+): EvaluationGenerator<Completion> {
   const oldEnv = context.lexicalEnv;
 
   let catchContext = context;
@@ -76,7 +72,7 @@ function* runCatch(
     );
   }
 
-  return yield* EvaluateNodeCommand(node.body, catchContext);
+  return yield* EvaluateNodeForCompletion(node.body, catchContext);
 }
 
 export default typedMerge(tryStatementNodeEvaluator, {

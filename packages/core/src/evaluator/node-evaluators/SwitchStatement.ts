@@ -44,7 +44,7 @@ export default function* switchStatementNodeEvaluator(
           lastCompletion = yield* EvaluateNodeCommand(consequent, context);
         } catch (e) {
           if (BreakCompletion.isBreakForLabel(e, context.label)) {
-            return lastCompletion;
+            return e.value ?? lastCompletion;
           }
           throw e;
         }

@@ -22,7 +22,9 @@ export default function* evaluateNode(
 
   // Always reset the label when drilling into a node,
   // unless we have explicitly been given one.
-  context = context.createLabelContext(label ?? null);
+  if (label || context.label !== null) {
+    context = context.createLabelContext(label ?? null);
+  }
   const result = yield* evaluator(node, context);
 
   return result;

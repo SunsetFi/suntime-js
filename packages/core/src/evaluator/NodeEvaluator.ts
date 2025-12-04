@@ -8,14 +8,9 @@ type NodeEnvironmentSetupCallback<TNode extends Node> = (
   context: EvaluationContext,
 ) => EvaluationGenerator<boolean>;
 
-type NodeEvaluator<TKey extends Node["type"] = Node["type"]> = {
-  (
-    node: Extract<Node, { type: TKey }>,
-    context: EvaluationContext,
-  ): EvaluationGenerator;
-  environmentSetup?:
-    | NodeEnvironmentSetupCallback<Extract<Node, { type: TKey }>>
-    | boolean;
+type NodeEvaluator<TNode extends Node = Node> = {
+  (node: TNode, context: EvaluationContext): EvaluationGenerator;
+  environmentSetup?: NodeEnvironmentSetupCallback<TNode> | boolean;
 };
 
 export default NodeEvaluator;

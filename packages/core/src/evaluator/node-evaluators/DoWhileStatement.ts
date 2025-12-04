@@ -2,62 +2,55 @@ import type { DoWhileStatement } from "@babel/types";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
+import loopContinues from "../../runtime/algorithms/loop-continues.js";
 
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import {
+  EvaluateNodeCommand,
+  EvaluateNodeForCompletion,
+} from "../commands/EvaluateNodeCommand.js";
 
-import { BreakCompletion } from "../completions/BreakCompletion.js";
-import { ContinueCompletion } from "../completions/ContinueCompletion.js";
 import type { NormalCompletion } from "../completions/NormalCompletion.js";
+import { isAbruptCompletion } from "../completions/AbruptCompletion.js";
+import { unwrapCompletion } from "../completions/unwrap-completion.js";
+import { completionValue } from "../completions/completion-value.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
-import setupEnvironment from "./setup-environment.js";
+import labelledStatementEvaluation from "./LabelledStatementEvaluation.js";
 
-function* doWhileStatementNodeEvaluator(
-  node: DoWhileStatement,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const whileContext = context.createLexicalEnvContext(
-    StaticJsDeclarativeEnvironmentRecord.from(context),
-  );
-
-  let lastCompletion: NormalCompletion = null;
-  while (true) {
-    const bodyContext = whileContext.createLexicalEnvContext(
-      StaticJsDeclarativeEnvironmentRecord.from(context),
-    );
-
-    yield* setupEnvironment(node.body, bodyContext);
-
-    try {
-      lastCompletion = yield* EvaluateNodeCommand(node.body, bodyContext);
-    } catch (e) {
-      if (BreakCompletion.isBreakForLabel(e, context.label)) {
-        break;
+const doWhileStatementNodeEvaluator = labelledStatementEvaluation(
+  function* doWhileStatementNodeEvaluator(
+    node: DoWhileStatement,
+    context: EvaluationContext,
+  ): EvaluationGenerator {
+    let V: NormalCompletion = context.realm.types.undefined;
+    while (true) {
+      const stmtResult = yield* EvaluateNodeForCompletion(node.body, context);
+      if (!loopContinues(stmtResult, context)) {
+        if (isAbruptCompletion(stmtResult)) {
+          stmtResult.updateEmpty(V);
+        }
+        return unwrapCompletion(stmtResult);
       }
 
-      if (ContinueCompletion.isContinueForLabel(e, context.label)) {
-        // Flow through to the test.
-      } else {
-        throw e;
+      const stmtValue = completionValue(stmtResult);
+      if (stmtValue) {
+        V = stmtValue;
+      }
+
+      const exprValue = yield* EvaluateNodeCommand(node.test, context, {
+        forNormalValue: "DoWhileStatement.test",
+      });
+
+      const exprBoolean = yield* toBoolean.js(exprValue, context.realm);
+      if (!exprBoolean) {
+        return V;
       }
     }
-
-    const testResult = yield* EvaluateNodeCommand(node.test, whileContext, {
-      forNormalValue: "DoWhileStatement.test",
-    });
-    const condition = yield* toBoolean.js(testResult, whileContext.realm);
-    if (!condition) {
-      break;
-    }
-  }
-
-  return lastCompletion;
-}
+  },
+);
 
 export default typedMerge(doWhileStatementNodeEvaluator, {
   environmentSetup: false,

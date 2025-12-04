@@ -40,8 +40,9 @@ function* blockStatementNodeEvaluator(
     } catch (e) {
       // Breaks apply to blocks, but only if we have a label.
       if (context.label && BreakCompletion.isBreakForLabel(e, context.label)) {
-        return lastCompletion;
+        return e.value ?? lastCompletion;
       }
+
       throw e;
     }
   }

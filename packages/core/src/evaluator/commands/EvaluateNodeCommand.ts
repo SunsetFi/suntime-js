@@ -20,6 +20,9 @@ import evaluateNode from "../node-evaluators/evaluate-node.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
 
+import type { Completion } from "../completions/Completion.js";
+import { isAbruptCompletion } from "../completions/AbruptCompletion.js";
+
 import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 
 export interface EvaluateNodeCommandOptions extends EvaluateNodeOptions {
@@ -92,4 +95,19 @@ export function* EvaluateNodeCommand(
   }
 
   return result;
+}
+
+export function* EvaluateNodeForCompletion(
+  node: Node,
+  context: EvaluationContext,
+  options?: EvaluateNodeCommandOptions,
+): EvaluationGenerator<Completion> {
+  try {
+    return yield* EvaluateNodeCommand(node, context, options);
+  } catch (e) {
+    if (isAbruptCompletion(e)) {
+      return e;
+    }
+    throw e;
+  }
 }
