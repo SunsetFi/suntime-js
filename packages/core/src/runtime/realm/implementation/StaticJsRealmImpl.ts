@@ -517,7 +517,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
   }
 
-  invokeEvaluatorAsync<TReturn>(
+  async invokeEvaluatorAsync<TReturn>(
     evaluator: EvaluationGenerator<TReturn>,
   ): Promise<TReturn> {
     if (this._currentTask) {
@@ -532,7 +532,11 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     this._tasks.push(macrotask);
     this._tryDrainTaskQueue();
 
-    return macrotask.await() as Promise<TReturn>;
+    try {
+      return (await macrotask.await()) as Promise<TReturn>;
+    } catch (e) {
+      AbnormalCompletionBase.handleToJs(e);
+    }
   }
 
   private _createMacrotask(
