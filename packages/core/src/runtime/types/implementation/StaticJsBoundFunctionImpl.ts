@@ -80,6 +80,19 @@ class StaticJsBoundFunction
     return this.targetFunc.strict;
   }
 
+  callAsync(
+    thisArg: StaticJsValue,
+    ...args: StaticJsValue[]
+  ): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(
+      this.callEvaluator(thisArg, ...args),
+    );
+  }
+
+  callSync(thisArg: StaticJsValue, ...args: StaticJsValue[]): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.callEvaluator(thisArg, ...args));
+  }
+
   callEvaluator(
     _thisArg: StaticJsValue,
     ...args: StaticJsValue[]
@@ -89,6 +102,14 @@ class StaticJsBoundFunction
       ...this._boundArgs,
       ...args,
     );
+  }
+
+  constructAsync(...args: StaticJsValue[]): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(...args));
+  }
+
+  constructSync(...args: StaticJsValue[]): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.constructEvaluator(...args));
   }
 
   constructEvaluator(

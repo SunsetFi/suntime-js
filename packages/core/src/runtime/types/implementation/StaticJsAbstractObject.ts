@@ -74,6 +74,12 @@ export default abstract class StaticJsAbstractObject
     return this._extensible;
   }
 
+  async setPrototypeOfAsync(prototype: StaticJsObject | null): Promise<void> {
+    return this.realm.invokeEvaluatorAsync(
+      this.setPrototypeOfEvaluator(prototype),
+    );
+  }
+
   setPrototypeOfSync(prototype: StaticJsObject | null): void {
     this.realm.invokeEvaluatorSync(this.setPrototypeOfEvaluator(prototype));
   }
@@ -94,12 +100,20 @@ export default abstract class StaticJsAbstractObject
     this._prototype = proto;
   }
 
+  async preventExtensionsAsync(): Promise<void> {
+    return this.realm.invokeEvaluatorAsync(this.preventExtensionsEvaluator());
+  }
+
   preventExtensionsSync(): void {
     this.realm.invokeEvaluatorSync(this.preventExtensionsEvaluator());
   }
 
   *preventExtensionsEvaluator(): EvaluationGenerator<void> {
     this._extensible = false;
+  }
+
+  ownPropertyKeysAsync(): Promise<StaticJsObjectPropertyKey[]> {
+    return this.realm.invokeEvaluatorAsync(this.ownPropertyKeysEvaluator());
   }
 
   ownPropertyKeysSync(): StaticJsObjectPropertyKey[] {
@@ -109,6 +123,10 @@ export default abstract class StaticJsAbstractObject
   abstract ownPropertyKeysEvaluator(): EvaluationGenerator<
     StaticJsObjectPropertyKey[]
   >;
+
+  ownEnumerableKeysAsync(): Promise<string[]> {
+    return this.realm.invokeEvaluatorAsync(this.ownEnumerableKeysEvaluator());
+  }
 
   ownEnumerableKeysSync(): string[] {
     return this.realm.invokeEvaluatorSync(this.ownEnumerableKeysEvaluator());
@@ -131,6 +149,9 @@ export default abstract class StaticJsAbstractObject
     return filtered;
   }
 
+  hasPropertyAsync(key: StaticJsObjectPropertyKey): Promise<boolean> {
+    return this.realm.invokeEvaluatorAsync(this.hasPropertyEvaluator(key));
+  }
   hasPropertySync(key: StaticJsObjectPropertyKey): boolean {
     return this.realm.invokeEvaluatorSync(this.hasPropertyEvaluator(key));
   }
@@ -142,6 +163,9 @@ export default abstract class StaticJsAbstractObject
     return decl !== undefined;
   }
 
+  hasOwnPropertyAsync(key: StaticJsObjectPropertyKey): Promise<boolean> {
+    return this.realm.invokeEvaluatorAsync(this.hasOwnPropertyEvaluator(key));
+  }
   hasOwnPropertySync(key: StaticJsObjectPropertyKey): boolean {
     return this.realm.invokeEvaluatorSync(this.hasOwnPropertyEvaluator(key));
   }
@@ -151,6 +175,12 @@ export default abstract class StaticJsAbstractObject
   ): EvaluationGenerator<boolean> {
     const decl = yield* this.getOwnPropertyEvaluator(key);
     return decl !== undefined;
+  }
+
+  getPropertyAsync(
+    key: StaticJsObjectPropertyKey,
+  ): Promise<StaticJsPropertyDescriptor | undefined> {
+    return this.realm.invokeEvaluatorAsync(this.getPropertyEvaluator(key));
   }
 
   getPropertySync(
@@ -171,10 +201,24 @@ export default abstract class StaticJsAbstractObject
     return descr;
   }
 
+  getOwnPropertyAsync(
+    key: StaticJsObjectPropertyKey,
+  ): Promise<StaticJsPropertyDescriptor | undefined> {
+    return this.realm.invokeEvaluatorAsync(this.getOwnPropertyEvaluator(key));
+  }
   getOwnPropertySync(
     key: StaticJsObjectPropertyKey,
   ): StaticJsPropertyDescriptor | undefined {
     return this.realm.invokeEvaluatorSync(this.getOwnPropertyEvaluator(key));
+  }
+
+  definePropertyAsync(
+    key: StaticJsObjectPropertyKey,
+    descriptor: StaticJsPropertyDescriptor,
+  ): Promise<boolean> {
+    return this.realm.invokeEvaluatorAsync(
+      this.definePropertyEvaluator(key, descriptor),
+    );
   }
 
   definePropertySync(
@@ -330,6 +374,10 @@ export default abstract class StaticJsAbstractObject
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
+  getAsync(name: StaticJsObjectPropertyKey): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(this.getEvaluator(name));
+  }
+
   getSync(key: StaticJsObjectPropertyKey): StaticJsValue {
     return this.realm.invokeEvaluatorSync(this.getEvaluator(key));
   }
@@ -366,6 +414,16 @@ export default abstract class StaticJsAbstractObject
     }
 
     return value;
+  }
+
+  setAsync(
+    key: StaticJsObjectPropertyKey,
+    value: StaticJsValue,
+    strict: boolean,
+  ): Promise<boolean> {
+    return this.realm.invokeEvaluatorAsync(
+      this.setEvaluator(key, value, strict),
+    );
   }
 
   setSync(
@@ -447,6 +505,10 @@ export default abstract class StaticJsAbstractObject
       writable: true,
       value,
     });
+  }
+
+  deleteAsync(key: StaticJsObjectPropertyKey): Promise<boolean> {
+    return this.realm.invokeEvaluatorAsync(this.deleteEvaluator(key));
   }
 
   deleteSync(key: StaticJsObjectPropertyKey): boolean {

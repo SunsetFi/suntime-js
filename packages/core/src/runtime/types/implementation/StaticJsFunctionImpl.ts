@@ -131,6 +131,19 @@ export default class StaticJsFunctionImpl
     }
   }
 
+  callAsync(
+    thisArg: StaticJsValue,
+    ...args: StaticJsValue[]
+  ): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(
+      this.callEvaluator(thisArg, ...args),
+    );
+  }
+
+  callSync(thisArg: StaticJsValue, ...args: StaticJsValue[]): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.callEvaluator(thisArg, ...args));
+  }
+
   *constructEvaluator(
     ...args: StaticJsValue[]
   ): EvaluationGenerator<StaticJsValue> {
@@ -160,6 +173,14 @@ export default class StaticJsFunctionImpl
     }
 
     return thisObj;
+  }
+
+  constructAsync(...args: StaticJsValue[]): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(...args));
+  }
+
+  constructSync(...args: StaticJsValue[]): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.constructEvaluator(...args));
   }
 
   toJsSync(): (...args: unknown[]) => unknown {

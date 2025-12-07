@@ -224,6 +224,16 @@ export interface StaticJsRealm {
   invokeEvaluatorSync<TReturn>(
     evaluator: EvaluationGenerator<TReturn>,
   ): TReturn;
+
+  /**
+   * Invokes the given evaluator asynchronously, returning a promise that resolves to the result.
+   * TODO: If there is a current task running, inline this invocation into that task.  Else, start it as a macrotask.
+   * @internal
+   * @param evaluator The evaluator to invoke.
+   */
+  invokeEvaluatorAsync<TReturn>(
+    evaluator: EvaluationGenerator<TReturn>,
+  ): Promise<TReturn>;
 }
 
 export function isStaticJsRealm(value: unknown): value is StaticJsRealm {

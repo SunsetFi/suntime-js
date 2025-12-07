@@ -1,6 +1,11 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vitest } from "vitest";
 
-import { evaluateScript, StaticJsRealm } from "../../src/index.js";
+import {
+  evaluateScript,
+  isStaticJsFunction,
+  isStaticJsNumber,
+  StaticJsRealm,
+} from "../../src/index.js";
 
 describe("E2E: Functions", () => {
   describe("Declaration", () => {
@@ -765,6 +770,68 @@ describe("E2E: Functions", () => {
         a() === globalThis;
       `;
       expect(await evaluateScript(code)).toBe(true);
+    });
+  });
+
+  describe("Invocation", () => {
+    describe("callAsync", () => {
+      it("Can be invoked async", async () => {
+        const realm = StaticJsRealm();
+
+        const code = `
+        function a() {
+          return 42;
+        }
+      `;
+
+        await realm.evaluateScript(code);
+        const func = realm.global.getSync("a");
+        if (!isStaticJsFunction(func)) {
+          expect.fail("Expected a function");
+        }
+
+        const result = await func.callAsync(realm.globalThis);
+
+        if (!isStaticJsNumber(result)) {
+          expect.fail("Expected a number");
+        }
+        expect(result.value).toBe(42);
+      });
+
+      it("Uses the taskRunner", async () => {
+        const runTask = vitest.fn((task) => {
+          while (!task.done) {
+            task.next();
+          }
+        });
+
+        const realm = StaticJsRealm({ runTask });
+
+        const code = `
+        function a() {
+          return 42;
+        }
+      `;
+
+        await realm.evaluateScript(code);
+        const func = realm.global.getSync("a");
+        if (!isStaticJsFunction(func)) {
+          expect.fail("Expected a function");
+        }
+
+        runTask.mockReset();
+
+        expect(runTask).not.toHaveBeenCalled();
+
+        const result = await func.callAsync(realm.globalThis);
+
+        if (!isStaticJsNumber(result)) {
+          expect.fail("Expected a number");
+        }
+        expect(result.value).toBe(42);
+
+        expect(runTask).toHaveBeenCalled();
+      });
     });
   });
 });

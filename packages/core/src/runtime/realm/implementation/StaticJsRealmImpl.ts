@@ -517,6 +517,24 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
   }
 
+  invokeEvaluatorAsync<TReturn>(
+    evaluator: EvaluationGenerator<TReturn>,
+  ): Promise<TReturn> {
+    if (this._currentTask) {
+      throw new StaticJsConcurrentEvaluationError(
+        "Cannot invoke evaluator while another task is running.",
+      );
+    }
+
+    const macrotask = this._createMacrotask(evaluator, this._defaultRunTask);
+    macrotask.onComplete((err) => this._onTaskCompleted(err));
+
+    this._tasks.push(macrotask);
+    this._tryDrainTaskQueue();
+
+    return macrotask.await() as Promise<TReturn>;
+  }
+
   private _createMacrotask(
     evaluator: StaticJsEvaluator,
     taskRunner: StaticJsTaskRunner,

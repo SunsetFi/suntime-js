@@ -29,32 +29,39 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
 
   get extensible(): boolean;
 
+  setPrototypeOfAsync(prototype: StaticJsObjectLike | null): Promise<void>;
   setPrototypeOfSync(prototype: StaticJsObjectLike | null): void;
-
   setPrototypeOfEvaluator(
     prototype: StaticJsObjectLike | null,
   ): EvaluationGenerator<void>;
 
+  preventExtensionsAsync(): Promise<void>;
   preventExtensionsSync(): void;
-
   preventExtensionsEvaluator(): EvaluationGenerator<void>;
 
+  ownPropertyKeysAsync(): Promise<StaticJsObjectPropertyKey[]>;
   ownPropertyKeysSync(): StaticJsObjectPropertyKey[];
   ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsObjectPropertyKey[]>;
 
+  ownEnumerableKeysAsync(): Promise<string[]>;
   ownEnumerableKeysSync(): string[];
   ownEnumerableKeysEvaluator(): EvaluationGenerator<string[]>;
 
+  hasPropertyAsync(key: StaticJsObjectPropertyKey): Promise<boolean>;
   hasPropertySync(key: StaticJsObjectPropertyKey): boolean;
   hasPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<boolean>;
 
+  hasOwnPropertyAsync(key: StaticJsObjectPropertyKey): Promise<boolean>;
   hasOwnPropertySync(key: StaticJsObjectPropertyKey): boolean;
   hasOwnPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<boolean>;
 
+  getPropertyAsync(
+    key: StaticJsObjectPropertyKey,
+  ): Promise<StaticJsPropertyDescriptor | undefined>;
   getPropertySync(
     key: StaticJsObjectPropertyKey,
   ): StaticJsPropertyDescriptor | undefined;
@@ -62,6 +69,9 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
+  getOwnPropertyAsync(
+    key: StaticJsObjectPropertyKey,
+  ): Promise<StaticJsPropertyDescriptor | undefined>;
   getOwnPropertySync(
     key: StaticJsObjectPropertyKey,
   ): StaticJsPropertyDescriptor | undefined;
@@ -69,6 +79,10 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
+  definePropertyAsync(
+    key: StaticJsObjectPropertyKey,
+    descriptor: StaticJsPropertyDescriptor,
+  ): Promise<boolean>;
   definePropertySync(
     key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
@@ -78,11 +92,17 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean>;
 
+  getAsync(name: StaticJsObjectPropertyKey): Promise<StaticJsValue>;
   getSync(name: StaticJsObjectPropertyKey): StaticJsValue;
   getEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsValue>;
 
+  setAsync(
+    key: StaticJsObjectPropertyKey,
+    value: StaticJsValue,
+    strict: boolean,
+  ): Promise<boolean>;
   setSync(
     key: StaticJsObjectPropertyKey,
     value: StaticJsValue,
@@ -94,6 +114,7 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     strict: boolean,
   ): EvaluationGenerator<boolean>;
 
+  deleteAsync(key: StaticJsObjectPropertyKey): Promise<boolean>;
   deleteSync(key: StaticJsObjectPropertyKey): boolean;
   deleteEvaluator(key: StaticJsObjectPropertyKey): EvaluationGenerator<boolean>;
 }
