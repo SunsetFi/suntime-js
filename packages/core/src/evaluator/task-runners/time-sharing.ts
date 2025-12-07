@@ -1,6 +1,6 @@
 import StaticJsTaskAbortedError from "../../errors/StaticJsTaskAbortedError.js";
 
-import type { StaticJsTaskRunner } from "../../runtime/realm/StaticJsTaskIterator.js";
+import type { StaticJsTaskRunner } from "../../runtime/tasks/StaticJsTaskIterator.js";
 
 export interface TimeSharingTaskRunnerOptions {
   /**

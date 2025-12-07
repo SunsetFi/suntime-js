@@ -11,9 +11,8 @@ export default function* promiseReject(
     realm.types.constructors.Promise,
     realm,
   );
-  yield* capability.reject.callEvaluator(
-    realm.types.undefined,
+  yield* capability.reject.callEvaluator(realm.types.undefined, [
     value ?? realm.types.undefined,
-  );
+  ]);
   return capability.promise;
 }

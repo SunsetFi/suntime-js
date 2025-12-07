@@ -69,10 +69,10 @@ export default class StaticJsSetImpl
 
     for (const value of this._backingStore) {
       const wrapped = toRuntimeWrap(value, this.realm);
-      const otherHasResult = yield* otherHas.callEvaluator(otherSet, wrapped);
+      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [wrapped]);
       const isInOther = yield* toBoolean.js(otherHasResult, this.realm);
       if (!isInOther) {
-        yield* resultAdd.callEvaluator(result, wrapped);
+        yield* resultAdd.callEvaluator(result, [wrapped]);
       }
     }
 
@@ -104,10 +104,10 @@ export default class StaticJsSetImpl
 
     for (const value of this._backingStore) {
       const wrapped = toRuntimeWrap(value, this.realm);
-      const otherHasResult = yield* otherHas.callEvaluator(otherSet, wrapped);
+      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [wrapped]);
       const isInOther = yield* toBoolean.js(otherHasResult, this.realm);
       if (isInOther) {
-        yield* resultAdd.callEvaluator(result, wrapped);
+        yield* resultAdd.callEvaluator(result, [wrapped]);
       }
     }
 
@@ -132,7 +132,7 @@ export default class StaticJsSetImpl
 
     for (const value of this._backingStore) {
       const wrapped = toRuntimeWrap(value, this.realm);
-      const otherHasResult = yield* otherHas.callEvaluator(otherSet, wrapped);
+      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [wrapped]);
       const isInOther = yield* toBoolean.js(otherHasResult, this.realm);
       if (isInOther) {
         return false;
@@ -158,7 +158,7 @@ export default class StaticJsSetImpl
 
     for (const value of this._backingStore) {
       const wrapped = toRuntimeWrap(value, this.realm);
-      const otherHasResult = yield* otherHas.callEvaluator(otherSet, wrapped);
+      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [wrapped]);
       const isInOther = yield* toBoolean.js(otherHasResult, this.realm);
       if (!isInOther) {
         return false;
@@ -222,10 +222,10 @@ export default class StaticJsSetImpl
 
     for (const value of this._backingStore) {
       const wrapped = toRuntimeWrap(value, this.realm);
-      const otherHasResult = yield* otherHas.callEvaluator(otherSet, wrapped);
+      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [wrapped]);
       const isInOther = yield* toBoolean.js(otherHasResult, this.realm);
       if (!isInOther) {
-        yield* resultAdd.callEvaluator(result, wrapped);
+        yield* resultAdd.callEvaluator(result, [wrapped]);
       }
     }
 
@@ -241,7 +241,7 @@ export default class StaticJsSetImpl
 
         const unwrapped = toNativeUnwrap(nextResult);
         if (!backingStore.has(unwrapped)) {
-          yield* resultAdd.callEvaluator(result, nextResult);
+          yield* resultAdd.callEvaluator(result, [nextResult]);
         }
       }
     });
@@ -254,7 +254,7 @@ export default class StaticJsSetImpl
 
     for (const value of this._backingStore) {
       const wrapped = toRuntimeWrap(value, this.realm);
-      yield* resultAdd.callEvaluator(result, wrapped);
+      yield* resultAdd.callEvaluator(result, [wrapped]);
     }
 
     const iterator = yield* getIterator(otherSet, "sync", this.realm);
@@ -269,7 +269,7 @@ export default class StaticJsSetImpl
 
         const unwrapped = toNativeUnwrap(nextResult);
         if (!backingStore.has(unwrapped)) {
-          yield* resultAdd.callEvaluator(result, nextResult);
+          yield* resultAdd.callEvaluator(result, [nextResult]);
         }
       }
     });
@@ -333,7 +333,7 @@ export default class StaticJsSetImpl
 
     for (const value of this._backingStore) {
       const wrapped = toRuntimeWrap(value, this.realm);
-      yield* callback.callEvaluator(thisArg, wrapped, wrapped, this);
+      yield* callback.callEvaluator(thisArg, [wrapped, wrapped, this]);
     }
   }
 

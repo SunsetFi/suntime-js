@@ -155,17 +155,20 @@ function queuePromiseReactionJob(
       if (!handler) {
         const capabilityFunc =
           reaction.type === "fulfill" ? capability.resolve : capability.reject;
-        yield* capabilityFunc.callEvaluator(realm.types.undefined, argument);
+        yield* capabilityFunc.callEvaluator(realm.types.undefined, [argument]);
       } else {
-        const result = yield* handler.callEvaluator(
-          realm.types.undefined,
+        const result = yield* handler.callEvaluator(realm.types.undefined, [
           argument,
-        );
-        yield* capability.resolve.callEvaluator(realm.types.undefined, result);
+        ]);
+        yield* capability.resolve.callEvaluator(realm.types.undefined, [
+          result,
+        ]);
       }
     } catch (e) {
       if (e instanceof ThrowCompletion) {
-        yield* capability.reject.callEvaluator(realm.types.undefined, e.value);
+        yield* capability.reject.callEvaluator(realm.types.undefined, [
+          e.value,
+        ]);
         return;
       }
 

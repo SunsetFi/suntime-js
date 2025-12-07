@@ -31,5 +31,5 @@ export default function* newExpressionNodeEvaluator(
     args[i] = arg;
   }
 
-  return yield* callee.constructEvaluator(...args);
+  return yield* callee.constructEvaluator(args);
 }

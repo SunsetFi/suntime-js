@@ -43,12 +43,11 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const currentItem = yield* thisObj.getEvaluator(String(i));
-      const result = yield* callback.callEvaluator(
-        thisObj,
+      const result = yield* callback.callEvaluator(thisObj, [
         currentItem,
         realm.types.number(i),
         thisObj,
-      );
+      ]);
       // flatMap does not flatten non-array array-likes.
       if (isStaticJsArray(result)) {
         const len = yield* lengthOfArrayLike(result, realm);

@@ -53,8 +53,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
       if (compareFnValue) {
         let result = yield* compareFnValue.callEvaluator(
           realm.types.undefined,
-          a,
-          b,
+          [a, b],
         );
 
         result = yield* toNumber(result, realm);

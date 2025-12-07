@@ -30,7 +30,7 @@ export default function* ordinaryHasInstance(
     realm.types.symbols.hasInstance,
   );
   if (isStaticJsFunction(hasInstanceFunc)) {
-    const result = yield* hasInstanceFunc.callEvaluator(C, O);
+    const result = yield* hasInstanceFunc.callEvaluator(C, [O]);
     return yield* toBoolean.js(result, realm);
   }
 

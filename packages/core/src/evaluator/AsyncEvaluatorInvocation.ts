@@ -156,8 +156,7 @@ export default class AsyncEvaluatorInvocation {
       if (isStaticJsFunction(awaitableThen)) {
         // Register with the function.
         // The function will be responsible for queueing us on the microtask.
-        yield* awaitableThen.callEvaluator(
-          awaitable,
+        yield* awaitableThen.callEvaluator(awaitable, [
           new StaticJsFunctionImpl(realm, "resolve", function* (
             _thisArg,
             value,
@@ -172,7 +171,7 @@ export default class AsyncEvaluatorInvocation {
             yield* continueInvocation(value, "throw");
             return realm.types.undefined;
           }),
-        );
+        ]);
         return;
       }
     }
@@ -190,10 +189,9 @@ export default class AsyncEvaluatorInvocation {
 
     this._halt();
 
-    yield* this._capability.resolve.callEvaluator(
-      this._realm.types.undefined,
+    yield* this._capability.resolve.callEvaluator(this._realm.types.undefined, [
       value,
-    );
+    ]);
 
     this._callbacks.forEach((callback) => {
       callback(value);
@@ -211,7 +209,7 @@ export default class AsyncEvaluatorInvocation {
 
     const result = this._realm.types.undefined;
 
-    yield* this._capability.reject.callEvaluator(result, reason);
+    yield* this._capability.reject.callEvaluator(result, [reason]);
 
     this._callbacks.forEach((callback) => {
       callback(result, reason);

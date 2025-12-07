@@ -48,9 +48,9 @@ export default function* arraySpeciesCreate(
     );
   }
 
-  const result = yield* constructor.constructEvaluator(
+  const result = yield* constructor.constructEvaluator([
     realm.types.number(length),
-  );
+  ]);
   if (!isStaticJsObjectLike(result)) {
     // This isn't in the spec but... we always want to be able to set properties.
     // FIXME: According to the spec, it throws when trying to create the property,

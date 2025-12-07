@@ -71,12 +71,11 @@ export default class StaticJsMapImpl
     }
 
     for (const [key, value] of this._backingStore) {
-      yield* callback.callEvaluator(
-        thisArg,
+      yield* callback.callEvaluator(thisArg, [
         value,
         toRuntimeWrap(key, this.realm),
         this,
-      );
+      ]);
     }
   }
 

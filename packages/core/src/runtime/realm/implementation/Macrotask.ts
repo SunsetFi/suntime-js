@@ -14,7 +14,7 @@ import type {
   StaticJsTaskIterator,
   StaticJsTaskIteratorOperation,
   StaticJsTaskRunner,
-} from "../StaticJsTaskIterator.js";
+} from "../../tasks/StaticJsTaskIterator.js";
 
 export default class Macrotask {
   private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";

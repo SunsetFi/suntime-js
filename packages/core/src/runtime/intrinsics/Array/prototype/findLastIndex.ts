@@ -30,12 +30,11 @@ const arrayProtoFindLastIndexDeclaration: IntrinsicPropertyDeclaration = {
 
     for (let i = length - 1; i >= 0; i--) {
       const value = yield* thisObj.getEvaluator(String(i));
-      const resultValue = yield* callback.callEvaluator(
-        thisObj,
+      const resultValue = yield* callback.callEvaluator(thisObj, [
         value,
         realm.types.number(i),
         thisObj,
-      );
+      ]);
       const condition = yield* toBoolean.js(resultValue, realm);
       if (condition) {
         return realm.types.number(i);

@@ -18,5 +18,5 @@ export default function* call(
     );
   }
 
-  return yield* F.callEvaluator(V, ...args);
+  return yield* F.callEvaluator(V, args);
 }

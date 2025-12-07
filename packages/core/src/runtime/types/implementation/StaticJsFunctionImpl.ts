@@ -105,7 +105,7 @@ export default class StaticJsFunctionImpl
 
   *callEvaluator(
     thisArg: StaticJsValue,
-    ...args: StaticJsValue[]
+    args: StaticJsValue[] = [],
   ): EvaluationGenerator<StaticJsValue> {
     if (!isStaticJsValue(thisArg)) {
       throw new TypeError("thisArg must be a StaticJsValue instance.");
@@ -133,19 +133,17 @@ export default class StaticJsFunctionImpl
 
   callAsync(
     thisArg: StaticJsValue,
-    ...args: StaticJsValue[]
+    args?: StaticJsValue[],
   ): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(
-      this.callEvaluator(thisArg, ...args),
-    );
+    return this.realm.invokeEvaluatorAsync(this.callEvaluator(thisArg, args));
   }
 
-  callSync(thisArg: StaticJsValue, ...args: StaticJsValue[]): StaticJsValue {
-    return this.realm.invokeEvaluatorSync(this.callEvaluator(thisArg, ...args));
+  callSync(thisArg: StaticJsValue, args?: StaticJsValue[]): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.callEvaluator(thisArg, args));
   }
 
   *constructEvaluator(
-    ...args: StaticJsValue[]
+    args: StaticJsValue[] = [],
   ): EvaluationGenerator<StaticJsValue> {
     if (!this._construct) {
       throw new ThrowCompletion(
@@ -175,12 +173,12 @@ export default class StaticJsFunctionImpl
     return thisObj;
   }
 
-  constructAsync(...args: StaticJsValue[]): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(...args));
+  constructAsync(args: StaticJsValue[]): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args));
   }
 
-  constructSync(...args: StaticJsValue[]): StaticJsValue {
-    return this.realm.invokeEvaluatorSync(this.constructEvaluator(...args));
+  constructSync(args: StaticJsValue[]): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.constructEvaluator(args));
   }
 
   toJsSync(): (...args: unknown[]) => unknown {
@@ -240,7 +238,7 @@ export default class StaticJsFunctionImpl
       const thisArgValue = this.realm.types.toStaticJsValue(thisArg);
 
       const result = this.realm.invokeEvaluatorSync(
-        this.callEvaluator(thisArgValue, ...argValues),
+        this.callEvaluator(thisArgValue, argValues),
       );
 
       return result.toJsSync();

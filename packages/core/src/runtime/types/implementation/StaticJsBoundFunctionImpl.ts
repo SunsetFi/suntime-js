@@ -82,40 +82,37 @@ class StaticJsBoundFunction
 
   callAsync(
     thisArg: StaticJsValue,
-    ...args: StaticJsValue[]
+    args?: StaticJsValue[],
   ): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(
-      this.callEvaluator(thisArg, ...args),
-    );
+    return this.realm.invokeEvaluatorAsync(this.callEvaluator(thisArg, args));
   }
 
-  callSync(thisArg: StaticJsValue, ...args: StaticJsValue[]): StaticJsValue {
-    return this.realm.invokeEvaluatorSync(this.callEvaluator(thisArg, ...args));
+  callSync(thisArg: StaticJsValue, args?: StaticJsValue[]): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.callEvaluator(thisArg, args));
   }
 
   callEvaluator(
     _thisArg: StaticJsValue,
-    ...args: StaticJsValue[]
+    args: StaticJsValue[] = [],
   ): EvaluationGenerator<StaticJsValue> {
-    return this.targetFunc.callEvaluator(
-      this._boundThis,
+    return this.targetFunc.callEvaluator(this._boundThis, [
       ...this._boundArgs,
       ...args,
-    );
+    ]);
   }
 
-  constructAsync(...args: StaticJsValue[]): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(...args));
+  constructAsync(args: StaticJsValue[]): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args));
   }
 
-  constructSync(...args: StaticJsValue[]): StaticJsValue {
-    return this.realm.invokeEvaluatorSync(this.constructEvaluator(...args));
+  constructSync(args: StaticJsValue[]): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.constructEvaluator(args));
   }
 
   constructEvaluator(
-    ...args: StaticJsValue[]
+    args: StaticJsValue[],
   ): EvaluationGenerator<StaticJsValue> {
-    return this.targetFunc.constructEvaluator(...this._boundArgs, ...args);
+    return this.targetFunc.constructEvaluator([...this._boundArgs, ...args]);
   }
 
   toJsSync(): (...args: unknown[]) => unknown {

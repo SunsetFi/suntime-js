@@ -450,7 +450,7 @@ export default abstract class StaticJsAbstractObject
       // It's our own.  Set it.
       if (isStaticJsAccessorPropertyDescriptor(ownDecl)) {
         if (ownDecl.set) {
-          yield* ownDecl.set.callEvaluator(this, value);
+          yield* ownDecl.set.callEvaluator(this, [value]);
           return true;
         }
       } else if (isStaticJsDataPropertyDescriptor(ownDecl)) {
@@ -475,7 +475,7 @@ export default abstract class StaticJsAbstractObject
       if (isStaticJsAccessorPropertyDescriptor(decl)) {
         // Its an inherited accessor property, invoke the accessor
         if (decl.set) {
-          yield* decl.set.callEvaluator(this, value);
+          yield* decl.set.callEvaluator(this, [value]);
           return true;
         }
 

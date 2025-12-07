@@ -22,7 +22,7 @@ const functionProtoCallDeclaration: IntrinsicPropertyDeclaration = {
       thisArg ?? realm.types.undefined,
       // These will never be value-undefined.  Undefined is only used to force
       // non-spread args to consider the argument might be missing.
-      ...args.filter(isNotUndefined),
+      args.filter(isNotUndefined),
     );
     return result;
   },

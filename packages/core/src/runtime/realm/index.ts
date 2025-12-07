@@ -21,9 +21,4 @@ type StaticJsRealm = IStaticJsRealm;
 
 export { StaticJsRealm };
 
-export type {
-  StaticJsRunTaskOptions,
-  isStaticJsRealm,
-} from "./StaticJsRealm.js";
-
-export * from "./StaticJsTaskIterator.js";
+export type { isStaticJsRealm } from "./StaticJsRealm.js";

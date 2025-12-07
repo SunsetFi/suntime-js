@@ -35,12 +35,11 @@ const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const elementValue = yield* thisObj.getEvaluator(property);
-      yield* callback.callEvaluator(
-        providedThisArg ?? thisObj,
+      yield* callback.callEvaluator(providedThisArg ?? thisObj, [
         elementValue,
         realm.types.number(i),
         thisObj,
-      );
+      ]);
     }
 
     return realm.types.undefined;

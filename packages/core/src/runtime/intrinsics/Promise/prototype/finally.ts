@@ -36,7 +36,9 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
           realm.types.constructors.Promise,
           realm,
         );
-        yield* capability.resolve.callEvaluator(realm.types.undefined, result);
+        yield* capability.resolve.callEvaluator(realm.types.undefined, [
+          result,
+        ]);
         const p = capability.promise;
         const returnValue = new StaticJsFunctionImpl(
           realm,
@@ -56,10 +58,9 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
             realm.types.constructors.Promise,
             realm,
           );
-          yield* capability.resolve.callEvaluator(
-            realm.types.undefined,
+          yield* capability.resolve.callEvaluator(realm.types.undefined, [
             result,
-          );
+          ]);
           const p = capability.promise;
           const thrower = new StaticJsFunctionImpl(
             realm,

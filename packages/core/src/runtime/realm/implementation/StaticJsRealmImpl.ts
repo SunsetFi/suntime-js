@@ -74,15 +74,15 @@ import type { StaticJsModuleResolver } from "../StaticJsModuleResolver.js";
 import type {
   StaticJsTaskIterator,
   StaticJsTaskRunner,
-} from "../StaticJsTaskIterator.js";
+} from "../../tasks/StaticJsTaskIterator.js";
 
 import type {
   StaticJsEvaluateScriptOptions,
   StaticJsEvaluateScriptSyncOptions,
   StaticJsEvaluator,
   StaticJsRealm,
-  StaticJsRunTaskOptions,
 } from "../StaticJsRealm.js";
+import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 
 import Macrotask from "./Macrotask.js";
 import globalDeclarationInstantiation from "../../../evaluator/instantiation/global-declaration-instantiation.js";

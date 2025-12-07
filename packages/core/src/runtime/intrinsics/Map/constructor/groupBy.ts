@@ -38,11 +38,10 @@ const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
           break;
         }
 
-        const key = yield* callbackFn.callEvaluator(
-          realm.types.undefined,
+        const key = yield* callbackFn.callEvaluator(realm.types.undefined, [
           next,
           realm.types.number(index),
-        );
+        ]);
 
         index++;
 

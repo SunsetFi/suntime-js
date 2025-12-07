@@ -40,8 +40,7 @@ const objectCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
 
         const keyValue = yield* callbackFn.callEvaluator(
           realm.types.undefined,
-          next,
-          realm.types.number(index),
+          [next, realm.types.number(index)],
         );
 
         index++;

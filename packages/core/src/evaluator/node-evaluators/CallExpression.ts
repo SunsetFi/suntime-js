@@ -114,7 +114,7 @@ export default function* callExpressionNodeEvaluator(
     }
   }
 
-  const callResult = yield* callee.callEvaluator(thisArg, ...args);
+  const callResult = yield* callee.callEvaluator(thisArg, args);
 
   return callResult ?? context.realm.types.undefined;
 }

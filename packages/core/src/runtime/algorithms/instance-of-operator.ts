@@ -30,7 +30,7 @@ export default function* instanceOfOperator(
     realm.types.symbols.hasInstance,
   );
   if (isStaticJsFunction(instOfHandler)) {
-    const result = yield* instOfHandler.callEvaluator(target, V);
+    const result = yield* instOfHandler.callEvaluator(target, [V]);
     return yield* toBoolean.js(result, realm);
   } else if (!isStaticJsUndefined(instOfHandler)) {
     throw realm.types.error(

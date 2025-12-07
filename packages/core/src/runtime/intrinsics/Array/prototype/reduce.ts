@@ -73,13 +73,12 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
 
     for (let i = startIndex; i < length; i++) {
       const elementValue = yield* thisArray.getEvaluator(String(i));
-      const result = yield* callback.callEvaluator(
-        thisArray,
+      const result = yield* callback.callEvaluator(thisArray, [
         value,
         elementValue,
         realm.types.number(i),
         thisArray,
-      );
+      ]);
 
       value = result;
     }

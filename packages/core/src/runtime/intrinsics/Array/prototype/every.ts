@@ -43,12 +43,11 @@ const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
 
       const elementValue = yield* thisObj.getEvaluator(property);
 
-      const resultValue = yield* callback.callEvaluator(
-        thisObj,
+      const resultValue = yield* callback.callEvaluator(thisObj, [
         elementValue,
         realm.types.number(i),
         thisObj,
-      );
+      ]);
       const condition = yield* toBoolean.js(resultValue, realm);
       if (!condition) {
         return realm.types.false;

@@ -55,7 +55,7 @@ export default function* newPromiseCapability(
     return realm.types.undefined;
   });
 
-  const promise = yield* constructor.constructEvaluator(resolver);
+  const promise = yield* constructor.constructEvaluator([resolver]);
   if (resolveFunc == null || rejectFunc == null) {
     throw new ThrowCompletion(
       realm.types.error("TypeError", "Promise resolver did not get called"),

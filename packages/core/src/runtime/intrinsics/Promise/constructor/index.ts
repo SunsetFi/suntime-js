@@ -61,7 +61,7 @@ export default function createPromiseConstructor(
       const reject = createPromiseRejectFunction(promise, realm);
 
       try {
-        yield* func.callEvaluator(realm.types.undefined, resolve, reject);
+        yield* func.callEvaluator(realm.types.undefined, [resolve, reject]);
       } catch (e) {
         if (e instanceof ThrowCompletion) {
           promise.reject(e.value);
@@ -142,7 +142,7 @@ function createPromiseResolveFunction(
       try {
         const resolve = createPromiseResolveFunction(promise, realm);
         const reject = createPromiseRejectFunction(promise, realm);
-        yield* then.callEvaluator(resolution, resolve, reject);
+        yield* then.callEvaluator(resolution, [resolve, reject]);
       } catch (e) {
         if (e instanceof ThrowCompletion) {
           promise.reject(e.value);

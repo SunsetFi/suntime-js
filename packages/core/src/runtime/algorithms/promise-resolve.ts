@@ -15,9 +15,8 @@ export default function* promiseResolve(
     realm.types.constructors.Promise,
     realm,
   );
-  yield* capability.resolve.callEvaluator(
-    realm.types.undefined,
+  yield* capability.resolve.callEvaluator(realm.types.undefined, [
     value ?? realm.types.undefined,
-  );
+  ]);
   return capability.promise;
 }

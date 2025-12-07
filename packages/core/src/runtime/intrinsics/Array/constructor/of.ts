@@ -21,7 +21,7 @@ const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
     if (thisIsConstructor) {
       const constructed = yield* (
         thisArg as StaticJsFunction
-      ).constructEvaluator(len);
+      ).constructEvaluator([len]);
       // FIXME: Not spec complaint.  The spec should throw trying to define the property, not ahead of time
       if (!isStaticJsObjectLike(constructed)) {
         throw new ThrowCompletion(

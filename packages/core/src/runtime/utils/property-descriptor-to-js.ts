@@ -29,7 +29,7 @@ export default function properrtyDescriptorToJs(
         const thisValue = realm.types.toStaticJsValue(this);
         const staticJsValue = realm.types.toStaticJsValue(value);
         realm.invokeEvaluatorSync(
-          descriptor.set!.callEvaluator(thisValue, staticJsValue),
+          descriptor.set!.callEvaluator(thisValue, [staticJsValue]),
         );
       };
     }

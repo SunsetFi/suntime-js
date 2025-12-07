@@ -32,7 +32,7 @@ const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
 
     const result = yield* thisFunc.callEvaluator(
       thisArg ?? realm.types.undefined,
-      ...args,
+      args,
     );
     return result;
   },

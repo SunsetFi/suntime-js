@@ -33,10 +33,9 @@ export default function* toPrimitive(
       hint = "number";
     }
 
-    const result = yield* exoticToPrim.callEvaluator(
-      value,
+    const result = yield* exoticToPrim.callEvaluator(value, [
       realm.types.string(hint),
-    );
+    ]);
     if (!isStaticJsObjectLike(result)) {
       return result;
     }

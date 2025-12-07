@@ -14,22 +14,21 @@ export interface StaticJsFunction extends StaticJsObjectLike {
 
   readonly strict: boolean;
 
-  callEvaluator(
-    thisArg: StaticJsValue,
-    ...args: StaticJsValue[]
-  ): EvaluationGenerator<StaticJsValue>;
   callAsync(
     thisArg: StaticJsValue,
-    ...args: StaticJsValue[]
+    args?: StaticJsValue[],
   ): Promise<StaticJsValue>;
-  callSync(thisArg: StaticJsValue, ...args: StaticJsValue[]): StaticJsValue;
-
-  constructEvaluator(
-    ...args: StaticJsValue[]
+  callSync(thisArg: StaticJsValue, args?: StaticJsValue[]): StaticJsValue;
+  callEvaluator(
+    thisArg: StaticJsValue,
+    args?: StaticJsValue[],
   ): EvaluationGenerator<StaticJsValue>;
 
-  constructAsync(...args: StaticJsValue[]): Promise<StaticJsValue>;
-  constructSync(...args: StaticJsValue[]): StaticJsValue;
+  constructAsync(args?: StaticJsValue[]): Promise<StaticJsValue>;
+  constructSync(args?: StaticJsValue[]): StaticJsValue;
+  constructEvaluator(
+    args?: StaticJsValue[],
+  ): EvaluationGenerator<StaticJsValue>;
 
   toJsSync(): (...args: unknown[]) => unknown;
 }
