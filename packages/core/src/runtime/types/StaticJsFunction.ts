@@ -1,5 +1,7 @@
 import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
 
+import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
+
 import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
 import StaticJsTypeCode from "./StaticJsTypeCode.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
@@ -17,6 +19,7 @@ export interface StaticJsFunction extends StaticJsObjectLike {
   callAsync(
     thisArg: StaticJsValue,
     args?: StaticJsValue[],
+    opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsValue>;
   callSync(thisArg: StaticJsValue, args?: StaticJsValue[]): StaticJsValue;
   callEvaluator(
@@ -24,7 +27,10 @@ export interface StaticJsFunction extends StaticJsObjectLike {
     args?: StaticJsValue[],
   ): EvaluationGenerator<StaticJsValue>;
 
-  constructAsync(args?: StaticJsValue[]): Promise<StaticJsValue>;
+  constructAsync(
+    args?: StaticJsValue[],
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsValue>;
   constructSync(args?: StaticJsValue[]): StaticJsValue;
   constructEvaluator(
     args?: StaticJsValue[],

@@ -3,6 +3,8 @@ import toInteger from "../../algorithms/to-integer.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
+import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+
 import type { StaticJsFunction } from "../StaticJsFunction.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import { isStaticJsString } from "../StaticJsString.js";
@@ -83,8 +85,12 @@ class StaticJsBoundFunction
   callAsync(
     thisArg: StaticJsValue,
     args?: StaticJsValue[],
+    opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(this.callEvaluator(thisArg, args));
+    return this.realm.invokeEvaluatorAsync(
+      this.callEvaluator(thisArg, args),
+      opts,
+    );
   }
 
   callSync(thisArg: StaticJsValue, args?: StaticJsValue[]): StaticJsValue {
@@ -101,8 +107,11 @@ class StaticJsBoundFunction
     ]);
   }
 
-  constructAsync(args: StaticJsValue[]): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args));
+  constructAsync(
+    args: StaticJsValue[],
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args), opts);
   }
 
   constructSync(args: StaticJsValue[]): StaticJsValue {

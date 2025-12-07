@@ -6,6 +6,8 @@ import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
+import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+
 import type { StaticJsNull } from "../StaticJsNull.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
@@ -134,8 +136,12 @@ export default class StaticJsFunctionImpl
   callAsync(
     thisArg: StaticJsValue,
     args?: StaticJsValue[],
+    opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(this.callEvaluator(thisArg, args));
+    return this.realm.invokeEvaluatorAsync(
+      this.callEvaluator(thisArg, args),
+      opts,
+    );
   }
 
   callSync(thisArg: StaticJsValue, args?: StaticJsValue[]): StaticJsValue {
@@ -173,8 +179,11 @@ export default class StaticJsFunctionImpl
     return thisObj;
   }
 
-  constructAsync(args: StaticJsValue[]): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args));
+  constructAsync(
+    args: StaticJsValue[],
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args), opts);
   }
 
   constructSync(args: StaticJsValue[]): StaticJsValue {

@@ -218,6 +218,7 @@ export interface StaticJsRealm {
    */
   invokeEvaluatorAsync<TReturn>(
     evaluator: EvaluationGenerator<TReturn>,
+    opts?: StaticJsRunTaskOptions,
   ): Promise<TReturn>;
 }
 

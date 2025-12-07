@@ -519,6 +519,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   async invokeEvaluatorAsync<TReturn>(
     evaluator: EvaluationGenerator<TReturn>,
+    { runTask = this._defaultRunTask }: StaticJsRunTaskOptions = {},
   ): Promise<TReturn> {
     if (this._currentTask) {
       throw new StaticJsConcurrentEvaluationError(
@@ -526,7 +527,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       );
     }
 
-    const macrotask = this._createMacrotask(evaluator, this._defaultRunTask);
+    const macrotask = this._createMacrotask(evaluator, runTask);
     macrotask.onComplete((err) => this._onTaskCompleted(err));
 
     this._tasks.push(macrotask);

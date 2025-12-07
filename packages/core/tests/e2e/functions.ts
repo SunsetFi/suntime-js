@@ -5,6 +5,7 @@ import {
   isStaticJsFunction,
   isStaticJsNumber,
   StaticJsRealm,
+  type StaticJsTaskIterator,
 } from "../../src/index.js";
 
 describe("E2E: Functions", () => {
@@ -798,7 +799,7 @@ describe("E2E: Functions", () => {
         expect(result.value).toBe(42);
       });
 
-      it("Uses the taskRunner", async () => {
+      it("Uses default realm runTask", async () => {
         const runTask = vitest.fn((task) => {
           while (!task.done) {
             task.next();
@@ -831,6 +832,48 @@ describe("E2E: Functions", () => {
         expect(result.value).toBe(42);
 
         expect(runTask).toHaveBeenCalled();
+      });
+
+      it("Uses provided runTask", async () => {
+        function runToCompletion(task: StaticJsTaskIterator) {
+          while (!task.done) {
+            task.next();
+          }
+        }
+        const realmRunTask = vitest.fn(runToCompletion);
+        const runTask = vitest.fn(runToCompletion);
+
+        const realm = StaticJsRealm({
+          runTask: realmRunTask,
+        });
+
+        const code = `
+        function a() {
+          return 42;
+        }
+      `;
+
+        await realm.evaluateScript(code);
+        const func = realm.global.getSync("a");
+        if (!isStaticJsFunction(func)) {
+          expect.fail("Expected a function");
+        }
+
+        expect(runTask).not.toHaveBeenCalled();
+
+        realmRunTask.mockReset();
+
+        const result = await func.callAsync(realm.globalThis, [], {
+          runTask,
+        });
+
+        if (!isStaticJsNumber(result)) {
+          expect.fail("Expected a number");
+        }
+        expect(result.value).toBe(42);
+
+        expect(runTask).toHaveBeenCalled();
+        expect(realmRunTask).not.toHaveBeenCalled();
       });
     });
   });

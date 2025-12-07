@@ -9,6 +9,8 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import toString from "../../algorithms/to-string.js";
 import sameValue from "../../algorithms/same-value.js";
 
+import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+
 import type {
   StaticJsAccessorPropertyDescriptor,
   StaticJsDataPropertyDescriptor,
@@ -74,9 +76,13 @@ export default abstract class StaticJsAbstractObject
     return this._extensible;
   }
 
-  async setPrototypeOfAsync(prototype: StaticJsObject | null): Promise<void> {
+  async setPrototypeOfAsync(
+    prototype: StaticJsObject | null,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<void> {
     return this.realm.invokeEvaluatorAsync(
       this.setPrototypeOfEvaluator(prototype),
+      opts,
     );
   }
 
@@ -100,8 +106,11 @@ export default abstract class StaticJsAbstractObject
     this._prototype = proto;
   }
 
-  async preventExtensionsAsync(): Promise<void> {
-    return this.realm.invokeEvaluatorAsync(this.preventExtensionsEvaluator());
+  async preventExtensionsAsync(opts?: StaticJsRunTaskOptions): Promise<void> {
+    return this.realm.invokeEvaluatorAsync(
+      this.preventExtensionsEvaluator(),
+      opts,
+    );
   }
 
   preventExtensionsSync(): void {
@@ -112,8 +121,13 @@ export default abstract class StaticJsAbstractObject
     this._extensible = false;
   }
 
-  ownPropertyKeysAsync(): Promise<StaticJsObjectPropertyKey[]> {
-    return this.realm.invokeEvaluatorAsync(this.ownPropertyKeysEvaluator());
+  ownPropertyKeysAsync(
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsObjectPropertyKey[]> {
+    return this.realm.invokeEvaluatorAsync(
+      this.ownPropertyKeysEvaluator(),
+      opts,
+    );
   }
 
   ownPropertyKeysSync(): StaticJsObjectPropertyKey[] {
@@ -124,8 +138,11 @@ export default abstract class StaticJsAbstractObject
     StaticJsObjectPropertyKey[]
   >;
 
-  ownEnumerableKeysAsync(): Promise<string[]> {
-    return this.realm.invokeEvaluatorAsync(this.ownEnumerableKeysEvaluator());
+  ownEnumerableKeysAsync(opts?: StaticJsRunTaskOptions): Promise<string[]> {
+    return this.realm.invokeEvaluatorAsync(
+      this.ownEnumerableKeysEvaluator(),
+      opts,
+    );
   }
 
   ownEnumerableKeysSync(): string[] {
@@ -149,8 +166,14 @@ export default abstract class StaticJsAbstractObject
     return filtered;
   }
 
-  hasPropertyAsync(key: StaticJsObjectPropertyKey): Promise<boolean> {
-    return this.realm.invokeEvaluatorAsync(this.hasPropertyEvaluator(key));
+  hasPropertyAsync(
+    key: StaticJsObjectPropertyKey,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<boolean> {
+    return this.realm.invokeEvaluatorAsync(
+      this.hasPropertyEvaluator(key),
+      opts,
+    );
   }
   hasPropertySync(key: StaticJsObjectPropertyKey): boolean {
     return this.realm.invokeEvaluatorSync(this.hasPropertyEvaluator(key));
@@ -163,8 +186,14 @@ export default abstract class StaticJsAbstractObject
     return decl !== undefined;
   }
 
-  hasOwnPropertyAsync(key: StaticJsObjectPropertyKey): Promise<boolean> {
-    return this.realm.invokeEvaluatorAsync(this.hasOwnPropertyEvaluator(key));
+  hasOwnPropertyAsync(
+    key: StaticJsObjectPropertyKey,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<boolean> {
+    return this.realm.invokeEvaluatorAsync(
+      this.hasOwnPropertyEvaluator(key),
+      opts,
+    );
   }
   hasOwnPropertySync(key: StaticJsObjectPropertyKey): boolean {
     return this.realm.invokeEvaluatorSync(this.hasOwnPropertyEvaluator(key));
@@ -179,8 +208,12 @@ export default abstract class StaticJsAbstractObject
 
   getPropertyAsync(
     key: StaticJsObjectPropertyKey,
+    opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsPropertyDescriptor | undefined> {
-    return this.realm.invokeEvaluatorAsync(this.getPropertyEvaluator(key));
+    return this.realm.invokeEvaluatorAsync(
+      this.getPropertyEvaluator(key),
+      opts,
+    );
   }
 
   getPropertySync(
@@ -203,8 +236,12 @@ export default abstract class StaticJsAbstractObject
 
   getOwnPropertyAsync(
     key: StaticJsObjectPropertyKey,
+    opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsPropertyDescriptor | undefined> {
-    return this.realm.invokeEvaluatorAsync(this.getOwnPropertyEvaluator(key));
+    return this.realm.invokeEvaluatorAsync(
+      this.getOwnPropertyEvaluator(key),
+      opts,
+    );
   }
   getOwnPropertySync(
     key: StaticJsObjectPropertyKey,
@@ -215,9 +252,11 @@ export default abstract class StaticJsAbstractObject
   definePropertyAsync(
     key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
+    opts?: StaticJsRunTaskOptions,
   ): Promise<boolean> {
     return this.realm.invokeEvaluatorAsync(
       this.definePropertyEvaluator(key, descriptor),
+      opts,
     );
   }
 
@@ -374,8 +413,11 @@ export default abstract class StaticJsAbstractObject
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
-  getAsync(name: StaticJsObjectPropertyKey): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(this.getEvaluator(name));
+  getAsync(
+    name: StaticJsObjectPropertyKey,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(this.getEvaluator(name), opts);
   }
 
   getSync(key: StaticJsObjectPropertyKey): StaticJsValue {
@@ -420,9 +462,11 @@ export default abstract class StaticJsAbstractObject
     key: StaticJsObjectPropertyKey,
     value: StaticJsValue,
     strict: boolean,
+    opts?: StaticJsRunTaskOptions,
   ): Promise<boolean> {
     return this.realm.invokeEvaluatorAsync(
       this.setEvaluator(key, value, strict),
+      opts,
     );
   }
 
@@ -507,8 +551,11 @@ export default abstract class StaticJsAbstractObject
     });
   }
 
-  deleteAsync(key: StaticJsObjectPropertyKey): Promise<boolean> {
-    return this.realm.invokeEvaluatorAsync(this.deleteEvaluator(key));
+  deleteAsync(
+    key: StaticJsObjectPropertyKey,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<boolean> {
+    return this.realm.invokeEvaluatorAsync(this.deleteEvaluator(key), opts);
   }
 
   deleteSync(key: StaticJsObjectPropertyKey): boolean {
