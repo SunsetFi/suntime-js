@@ -117,6 +117,7 @@ Figure out public API for invoking evaluators.
   - [ ]: Promises
   - [ ]: ...others
 - [ ]: Option to specify task runners in async methods
+- [ ]: Documentation
 
 ### Debugging
 
