@@ -1,7 +1,6 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
-import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 import {
   type StaticJsObjectPropertyKey,
   isStaticJsObjectPropertyKey,
@@ -51,18 +50,6 @@ export default function* getValue(
     }
 
     return yield* baseObj.getEvaluator(propertyKey);
-  }
-
-  // TODO: Spec doesn't show this, but we don't suport symbols in env records.
-  // This needs to be resolved...
-  if (isStaticJsSymbol(v.referencedName)) {
-    if (v.strict) {
-      throw new ThrowCompletion(
-        realm.types.error("ReferenceError", `${name} is not defined`),
-      );
-    }
-
-    return realm.types.undefined;
   }
 
   const env = v.base as StaticJsEnvironmentRecord;
