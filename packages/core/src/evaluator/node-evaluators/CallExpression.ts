@@ -13,6 +13,8 @@ import {
 
 import getIterator from "../../runtime/iterators/get-iterator.js";
 import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
+import iteratorClose from "../../runtime/iterators/iterator-close.js";
+
 import toString from "../../runtime/algorithms/to-string.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
@@ -31,7 +33,6 @@ import getValue from "../../runtime/algorithms/get-value.js";
 import evalDeclarationInstantiation from "../instantiation/eval-declaration-instantiation.js";
 
 import nameNode from "./name-node.js";
-import iteratorClose from "../../runtime/iterators/iterator-close.js";
 
 export default function* callExpressionNodeEvaluator(
   node: CallExpression,

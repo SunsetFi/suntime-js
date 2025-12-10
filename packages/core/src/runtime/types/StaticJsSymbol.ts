@@ -9,6 +9,8 @@ export interface StaticJsSymbol extends StaticJsObjectLike {
   readonly value: StaticJsSymbol;
 
   readonly description: string | undefined;
+
+  toJsSync(): symbol;
 }
 
 export function isStaticJsSymbol(value: unknown): value is StaticJsSymbol {

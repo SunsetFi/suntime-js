@@ -58,7 +58,7 @@ export default class StaticJsSymbolImpl
     return this._description;
   }
 
-  toJsSync(): unknown {
+  toJsSync(): symbol {
     if (this._nativeSymbol === null) {
       this._nativeSymbol = Symbol(this.description);
       // Gross typing switcheroo to get around TS not allowing symbols as keys in WeakMap.

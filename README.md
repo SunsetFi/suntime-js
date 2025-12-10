@@ -84,6 +84,8 @@ Currently, around 5700 of the language tests are passing, or about 24%. Further 
 - Fix 'all' [Test262](https://github.com/tc39/test262) tests.
   - Currently only running tests in the language folder. Need to add built-ins
 - function `arguments` object
+- toStaticJsValue option to convert objects deeply so that their prototypes still function; but still mask the Object and Function prototypes.
+  - Test against engine-native iterators
 - Make invokeEvaluatorSync use runTaskSync
 - Rework modules to be more spec compliant with regard to linking and evaluation.
 - Fix task runner not bound to continuations of promises

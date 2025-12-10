@@ -14,6 +14,7 @@ import type { StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
+import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 
 /**
  * A static object that wraps a native javascript object.
@@ -62,14 +63,22 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
   }
 
   *getOwnPropertyEvaluator(
-    name: string,
+    name: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
-    const objDescr = Object.getOwnPropertyDescriptor(this._obj, name);
+    let property: PropertyKey;
+    if (isStaticJsSymbol(name)) {
+      // This is a safe operation and will not invoke any evaluator code that could loop.
+      property = name.toJsSync();
+    } else {
+      property = name as string;
+    }
+
+    const objDescr = Object.getOwnPropertyDescriptor(this._obj, property);
     if (!objDescr) {
       return undefined;
     }
 
-    const { enumerable, value, get: descrGet, set: descrSet } = objDescr;
+    const { enumerable, value, get: descrGet } = objDescr;
 
     if (!enumerable) {
       return undefined;
@@ -94,13 +103,15 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
       );
     }
 
-    if (descrSet) {
-      staticJsDescr.set = new StaticJsExternalFunction(
-        this.realm,
-        "set",
-        descrSet,
-      );
-    }
+    // Had this enabled at one point, but we really want to be read-only, at least until
+    // we provide the option not to be.
+    // if (descrSet) {
+    //   staticJsDescr.set = new StaticJsExternalFunction(
+    //     this.realm,
+    //     "set",
+    //     descrSet,
+    //   );
+    // }
 
     if (value) {
       staticJsDescr.value = this.realm.types.toStaticJsValue(value);
