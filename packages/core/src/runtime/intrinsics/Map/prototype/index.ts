@@ -12,6 +12,7 @@ import mapProtoDeleteDeclaration from "./delete.js";
 import mapProtoEntriesDeclaration from "./entries.js";
 import mapProtoForEachDeclaration from "./forEach.js";
 import mapProtoGetDeclaration from "./get.js";
+import mapProtoHasDeclaration from "./has.js";
 import mapProtoKeysDeclaration from "./keys.js";
 import mapProtoSetDeclaration from "./set.js";
 import mapProtoSizeDeclaration from "./size.js";
@@ -24,6 +25,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   mapProtoEntriesDeclaration,
   mapProtoForEachDeclaration,
   mapProtoGetDeclaration,
+  mapProtoHasDeclaration,
   mapProtoKeysDeclaration,
   mapProtoSetDeclaration,
   mapProtoSizeDeclaration,
