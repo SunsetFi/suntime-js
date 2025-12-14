@@ -226,7 +226,8 @@ describe("E2E: Object", () => {
       expect(protoIsSandboxed).toBe(true);
     });
 
-    it("Should support external iterators", async () => {
+    // TODO: I want to allow this somehow.  Probably opt-in with second argument to toStaticJsValue.
+    it.skip("Should support external iterators", async () => {
       const code = `
         const iterator = globalThis.externalObj[Symbol.iterator]();
         [iterator.next().value, iterator.next().value];

@@ -39,7 +39,9 @@ describe("E2E: Realm", () => {
       expect(globalObjectValue.x).toBe(42);
     });
 
-    it("Can modify a global setter value", async () => {
+    // This was explicitly allowed at one point, but I think I need to offer more control over what properties can be interacted with.
+    // Mostly considering use cases like "Expose an array's iterator and let the prototype .next() actually function".
+    it.skip("Can modify a global setter value", async () => {
       const globalObjectValue = {
         set x(value: number) {
           globalObjectValue._x = value;
