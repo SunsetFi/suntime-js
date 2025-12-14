@@ -64,12 +64,12 @@ export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObj
   }
 
   protected *_setPropertyDescriptorEvaluator(
-    name: StaticJsObjectPropertyKey,
+    key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean> {
     // Note: At one point, we merged the descriptor with the existing one.
     // No longer; that's done in AbstractObject.definePropertyEvaluator according to the spec.
-    this._contents.set(name, {
+    this._contents.set(key, {
       ...descriptor,
     });
 

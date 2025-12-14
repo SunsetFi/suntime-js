@@ -62,16 +62,8 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   // when the runtime is no longer using them, but we want to keep the instance the same
   // so long as an instance actually exists in the runtime.
   // We do NOT want or need a weak key, because:
-  // - StaticJsObject needs to keep the backing object around for property access, and thus
+  // - StaticJsExternalObject needs to keep the backing object around for property access, and thus
   //   requires a strong reference to the key.
-  // - StaticJsSymbol keeps the backing symbol around for .toJsSync()
-  //   We could in theory use a weak key for StaticJsSymbol as once no references exist in the host
-  //   it becomes impossible to verify who the original was, but that adds more complexity for little benefit,
-  //   and I don't expect the memory pressure of keeping the originals around to be particularly problematic.
-  private readonly _nativeSymbolMap = new WeakValueMap<
-    symbol,
-    StaticJsSymbol
-  >();
   private readonly _externalObjectMap = new WeakValueMap<
     object,
     StaticJsObject
@@ -400,12 +392,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
         return this._symbols.unscopables;
     }
 
-    let sym = this._nativeSymbolMap.get(value);
-    if (!sym) {
-      sym = new StaticJsSymbolImpl(this._realm, value);
-      this._nativeSymbolMap.set(value, sym);
-    }
-    return sym;
+    return new StaticJsSymbolImpl(this._realm, value);
   }
 
   private _toStaticJsValueArray(value: unknown[]): StaticJsArray {

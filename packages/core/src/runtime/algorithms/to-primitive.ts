@@ -13,7 +13,7 @@ import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 
 export default function* toPrimitive(
   value: StaticJsValue,
-  preferredType: "string" | "number" | "default",
+  preferredType: "string" | "number" | "default" | undefined,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsScalar> {
   if (!isStaticJsObjectLike(value)) {
@@ -48,7 +48,7 @@ export default function* toPrimitive(
     );
   }
 
-  return yield* ordinaryToPrimitive(value, preferredType, realm);
+  return yield* ordinaryToPrimitive(value, preferredType ?? "number", realm);
 }
 
 function* ordinaryToPrimitive(

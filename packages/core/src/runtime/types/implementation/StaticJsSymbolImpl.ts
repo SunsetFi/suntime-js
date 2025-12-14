@@ -23,7 +23,7 @@ export default class StaticJsSymbolImpl
   implements StaticJsSymbol
 {
   private _description: string | undefined = undefined;
-  private _nativeSymbol: symbol | null = null;
+  private _nativeSymbol: symbol;
 
   constructor(
     realm: StaticJsRealm,
@@ -33,8 +33,17 @@ export default class StaticJsSymbolImpl
     super(realm, prototype ?? realm.types.prototypes.symbolProto);
     if (typeof descriptionOrSymbol === "string") {
       this._description = descriptionOrSymbol;
+      this._nativeSymbol = Symbol(descriptionOrSymbol);
     } else if (typeof descriptionOrSymbol === "symbol") {
       this._nativeSymbol = descriptionOrSymbol;
+    } else {
+      this._nativeSymbol = Symbol();
+    }
+
+    // Symbols not in the registry can go into weak maps.
+    if (!Symbol.keyFor(this._nativeSymbol)) {
+      // ...But we have to do shennanigans for typescript to accept that.
+      proxySymbolOwners.set(this._nativeSymbol as unknown as object, this);
     }
   }
 
@@ -50,8 +59,8 @@ export default class StaticJsSymbolImpl
     return StaticJsTypeCode.Symbol;
   }
 
-  get value(): StaticJsSymbol {
-    return this;
+  get value() {
+    return this._nativeSymbol;
   }
 
   get description(): string | undefined {
@@ -59,11 +68,6 @@ export default class StaticJsSymbolImpl
   }
 
   toJsSync(): symbol {
-    if (this._nativeSymbol === null) {
-      this._nativeSymbol = Symbol(this.description);
-      // Gross typing switcheroo to get around TS not allowing symbols as keys in WeakMap.
-      proxySymbolOwners.set(this._nativeSymbol as unknown as object, this);
-    }
     return this._nativeSymbol;
   }
 }

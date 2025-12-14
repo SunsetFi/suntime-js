@@ -12,7 +12,7 @@ import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type EvaluationGenerator from "../EvaluationGenerator.js";
-import abstractEquality from "../../runtime/algorithms/abstract-equality.js";
+import isLooselyEqual from "../../runtime/algorithms/is-loosely-equal.js";
 import toNumber from "../../runtime/algorithms/to-number.js";
 import addition from "../../runtime/algorithms/addition.js";
 import toObject from "../../runtime/algorithms/to-object.js";
@@ -138,7 +138,7 @@ function* binaryExpressionDoubleEquals(
     forNormalValue: "BinaryExpression.right",
   });
 
-  const value = yield* abstractEquality(left, right, context.realm);
+  const value = yield* isLooselyEqual(left, right, context.realm);
 
   if (negate) {
     return context.realm.types.boolean(!value.value);

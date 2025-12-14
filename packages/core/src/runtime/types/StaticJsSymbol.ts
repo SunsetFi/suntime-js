@@ -5,8 +5,7 @@ import StaticJsTypeCode from "./StaticJsTypeCode.js";
 export interface StaticJsSymbol extends StaticJsObjectLike {
   readonly runtimeTypeOf: "symbol";
 
-  // Here so that all scalars have a value.
-  readonly value: StaticJsSymbol;
+  readonly value: symbol;
 
   readonly description: string | undefined;
 
