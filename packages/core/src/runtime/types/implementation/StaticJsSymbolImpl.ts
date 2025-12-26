@@ -70,4 +70,8 @@ export default class StaticJsSymbolImpl
   toJsSync(): symbol {
     return this._nativeSymbol;
   }
+
+  toStringSync(): string {
+    return this._nativeSymbol.toString();
+  }
 }

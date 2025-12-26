@@ -1,4 +1,5 @@
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsPrimitive } from "../StaticJsPrimitive.js";
@@ -53,7 +54,7 @@ export default abstract class StaticJsAbstractPrimitive
   abstract toStringSync(): string;
 
   [Symbol.toStringTag](): string {
-    return `StaticJsValue ${this.runtimeTypeOf}`;
+    return `StaticJsValue ${this.runtimeTypeOf} [${this.toStringSync()}]`;
   }
 
   protected _alloc() {
