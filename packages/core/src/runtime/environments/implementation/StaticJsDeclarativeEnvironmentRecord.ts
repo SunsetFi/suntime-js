@@ -76,7 +76,6 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
         true,
         false,
         deletable,
-        null,
         this._realm,
       ),
     );
@@ -96,7 +95,6 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
         false,
         strict,
         false,
-        null,
         this._realm,
       ),
     );
@@ -166,6 +164,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
       return false;
     }
 
+    binding.dispose();
     this._bindings.delete(name);
     return true;
   }
@@ -203,18 +202,15 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
 }
 
 class DeclarativeEnvironmentBinding {
-  private _value: StaticJsValue | null;
+  private _value: StaticJsValue | null = null;
 
   constructor(
     public readonly name: string,
     public readonly isMutable: boolean,
     public readonly isStrict: boolean,
     public readonly isDeletable: boolean,
-    value: StaticJsValue | null,
     private readonly _realm: StaticJsRealm,
-  ) {
-    this._value = value;
-  }
+  ) {}
 
   get isInitialized(): boolean {
     return this._value !== null;
@@ -228,6 +224,7 @@ class DeclarativeEnvironmentBinding {
     }
 
     this._value = value;
+    this._value.ref();
   }
 
   *get(): EvaluationGenerator<StaticJsValue> {
@@ -248,10 +245,18 @@ class DeclarativeEnvironmentBinding {
       throw new Error(`Cannot set value of immutable binding ${this.name}`);
     }
 
+    if (this._value) {
+      this._value.unref();
+    }
+
     this._value = value;
+    this._value.ref();
   }
 
-  *delete(): EvaluationGenerator<void> {
-    throw new Error("Cannot delete bindings in declarative environments");
+  dispose(): void {
+    if (this._value) {
+      this._value.unref();
+    }
+    this._value = null;
   }
 }

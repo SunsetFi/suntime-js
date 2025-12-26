@@ -9,7 +9,6 @@ import toBoolean from "../../algorithms/to-boolean.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import toNativeUnwrap from "../../utils/to-native-unwrap.js";
-import toRuntimeWrap from "../../utils/to-runtime-wrap.js";
 
 import {
   isStaticJsFunction,
@@ -30,7 +29,7 @@ export default class StaticJsSetImpl
   extends StaticJsObjectLikeImpl
   implements StaticJsSet
 {
-  private _backingStore = new Set<unknown>();
+  private _backingStore = new Map<unknown, StaticJsValue>();
 
   constructor(realm: StaticJsRealm) {
     super(realm, realm.types.prototypes.setProto);
@@ -46,7 +45,11 @@ export default class StaticJsSetImpl
 
   *addValueEvaluator(value: StaticJsValue): EvaluationGenerator<void> {
     const unwrapped = toNativeUnwrap(value);
-    this._backingStore.add(unwrapped);
+    if (this._backingStore.has(unwrapped)) {
+      return;
+    }
+    this._backingStore.set(unwrapped, value);
+    value.ref();
   }
 
   *differenceEvaluator(
@@ -67,12 +70,11 @@ export default class StaticJsSetImpl
       );
     }
 
-    for (const value of this._backingStore) {
-      const wrapped = toRuntimeWrap(value, this.realm);
-      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [wrapped]);
+    for (const value of this._backingStore.values()) {
+      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [value]);
       const isInOther = yield* toBoolean.js(otherHasResult, this.realm);
       if (!isInOther) {
-        yield* resultAdd.callEvaluator(result, [wrapped]);
+        yield* resultAdd.callEvaluator(result, [value]);
       }
     }
 
@@ -102,12 +104,11 @@ export default class StaticJsSetImpl
       );
     }
 
-    for (const value of this._backingStore) {
-      const wrapped = toRuntimeWrap(value, this.realm);
-      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [wrapped]);
+    for (const value of this._backingStore.values()) {
+      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [value]);
       const isInOther = yield* toBoolean.js(otherHasResult, this.realm);
       if (isInOther) {
-        yield* resultAdd.callEvaluator(result, [wrapped]);
+        yield* resultAdd.callEvaluator(result, [value]);
       }
     }
 
@@ -130,9 +131,8 @@ export default class StaticJsSetImpl
       );
     }
 
-    for (const value of this._backingStore) {
-      const wrapped = toRuntimeWrap(value, this.realm);
-      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [wrapped]);
+    for (const value of this._backingStore.values()) {
+      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [value]);
       const isInOther = yield* toBoolean.js(otherHasResult, this.realm);
       if (isInOther) {
         return false;
@@ -156,9 +156,8 @@ export default class StaticJsSetImpl
       );
     }
 
-    for (const value of this._backingStore) {
-      const wrapped = toRuntimeWrap(value, this.realm);
-      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [wrapped]);
+    for (const value of this._backingStore.values()) {
+      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [value]);
       const isInOther = yield* toBoolean.js(otherHasResult, this.realm);
       if (!isInOther) {
         return false;
@@ -220,12 +219,11 @@ export default class StaticJsSetImpl
       );
     }
 
-    for (const value of this._backingStore) {
-      const wrapped = toRuntimeWrap(value, this.realm);
-      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [wrapped]);
+    for (const value of this._backingStore.values()) {
+      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [value]);
       const isInOther = yield* toBoolean.js(otherHasResult, this.realm);
       if (!isInOther) {
-        yield* resultAdd.callEvaluator(result, [wrapped]);
+        yield* resultAdd.callEvaluator(result, [value]);
       }
     }
 
@@ -252,9 +250,8 @@ export default class StaticJsSetImpl
   *unionEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue> {
     const [result, resultAdd] = yield* setCreate(this, this.realm);
 
-    for (const value of this._backingStore) {
-      const wrapped = toRuntimeWrap(value, this.realm);
-      yield* resultAdd.callEvaluator(result, [wrapped]);
+    for (const value of this._backingStore.values()) {
+      yield* resultAdd.callEvaluator(result, [value]);
     }
 
     const iterator = yield* getIterator(otherSet, "sync", this.realm);
@@ -282,21 +279,30 @@ export default class StaticJsSetImpl
 
     const realm = this.realm;
     return new StaticJsIteratorImpl(function* () {
-      const next = backingIterator.next();
-      if (next.done) {
+      const n = backingIterator.next();
+      if (n.done) {
         return undefined;
       }
 
-      return toRuntimeWrap(next.value, realm);
+      return n.value;
     }, realm);
   }
 
   *clearEvaluator(): EvaluationGenerator<void> {
+    for (const value of this._backingStore.values()) {
+      value.unref();
+    }
     this._backingStore.clear();
   }
 
   *deleteValueEvaluator(value: StaticJsValue): EvaluationGenerator<boolean> {
     const unwrapped = toNativeUnwrap(value);
+    const storedValue = this._backingStore.get(unwrapped)!;
+    if (!storedValue) {
+      return false;
+    }
+
+    storedValue.unref();
     return this._backingStore.delete(unwrapped);
   }
 
@@ -305,12 +311,12 @@ export default class StaticJsSetImpl
 
     const realm = this.realm;
     return new StaticJsIteratorImpl(function* () {
-      const next = backingIterator.next();
-      if (next.done) {
+      const n = backingIterator.next();
+      if (n.done) {
         return undefined;
       }
 
-      const value = toRuntimeWrap(next.value, realm);
+      const value = n.value;
       return realm.types.array([value, value]);
     }, realm);
   }
@@ -331,9 +337,8 @@ export default class StaticJsSetImpl
       );
     }
 
-    for (const value of this._backingStore) {
-      const wrapped = toRuntimeWrap(value, this.realm);
-      yield* callback.callEvaluator(thisArg, [wrapped, wrapped, this]);
+    for (const value of this._backingStore.values()) {
+      yield* callback.callEvaluator(thisArg, [value, value, this]);
     }
   }
 

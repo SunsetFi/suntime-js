@@ -28,6 +28,7 @@ import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCom
 
 import { AbnormalCompletionBase } from "../../../evaluator/completions/AbnormalCompletionBase.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import globalDeclarationInstantiation from "../../../evaluator/instantiation/global-declaration-instantiation.js";
 
 import StaticJsGlobalEnvironmentRecord from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import StaticJsObjectEnvironmentRecord from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
@@ -82,11 +83,13 @@ import type {
   StaticJsEvaluator,
   StaticJsRealm,
 } from "../StaticJsRealm.js";
+import getValue from "../../algorithms/get-value.js";
+
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 
+import StaticJsMemoryMonitorImpl from "../../memory/impl/StaticJsMemoryMonitorImpl.js";
+
 import Macrotask from "./Macrotask.js";
-import globalDeclarationInstantiation from "../../../evaluator/instantiation/global-declaration-instantiation.js";
-import getValue from "../../algorithms/get-value.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;
@@ -94,6 +97,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _objectEnv: StaticJsObjectEnvironmentRecord;
   private readonly _declarativeEnv: StaticJsDeclarativeEnvironmentRecord;
   private readonly _globalEnv: StaticJsGlobalEnvironmentRecord;
+
+  private readonly _memory = new StaticJsMemoryMonitorImpl();
   private readonly _typeFactory: StaticJsTypeFactory;
 
   private readonly _staticModules = new Map<
@@ -178,6 +183,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       const module = realmModuleToModule(this, name, moduleDef);
       this._staticModules.set(name, module);
     }
+  }
+
+  get memory() {
+    return this._memory;
   }
 
   get global() {

@@ -9,6 +9,7 @@ import type { StaticJsModule } from "../modules/StaticJsModule.js";
 import type { StaticJsModuleImplementation } from "../modules/StaticJsModuleImplementation.js";
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+import type StaticJsMemoryMonitor from "../memory/StaticJsMemoryMonitor.js";
 
 import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
 
@@ -52,6 +53,8 @@ export interface StaticJsRealm {
    * The type factory for the realm.
    */
   readonly types: StaticJsTypeFactory;
+
+  readonly memory: StaticJsMemoryMonitor;
 
   /**
    * The global-scope global object of the realm.

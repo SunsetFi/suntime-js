@@ -9,6 +9,10 @@ export interface StaticJsPrimitive {
   readonly runtimeTypeOf: string;
   readonly runtimeTypeCode: StaticJsTypeCode;
 
+  readonly refCount: number;
+  ref(): void;
+  unref(): void;
+
   toJsSync(): unknown;
   toStringSync(): string;
 }

@@ -1,12 +1,16 @@
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+
 import StaticJsTypeCode from "../StaticJsTypeCode.js";
 import type { StaticJsUndefined } from "../StaticJsUndefined.js";
 
-export default class StaticJsUndefinedImpl implements StaticJsUndefined {
-  constructor(private readonly _realm: StaticJsRealm) {}
+import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 
-  get realm() {
-    return this._realm;
+export default class StaticJsUndefinedImpl
+  extends StaticJsAbstractPrimitive
+  implements StaticJsUndefined
+{
+  constructor(realm: StaticJsRealm) {
+    super(realm);
   }
 
   get typeOf() {

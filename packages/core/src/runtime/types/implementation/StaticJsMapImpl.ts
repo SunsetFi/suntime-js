@@ -4,8 +4,6 @@ import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js"
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import toNativeUnwrap from "../../utils/to-native-unwrap.js";
 
-import toRuntimeWrap from "../../utils/to-runtime-wrap.js";
-
 import {
   isStaticJsFunction,
   type StaticJsFunction,
@@ -18,11 +16,16 @@ import StaticJsIteratorImpl from "./StaticJsIteratorImpl.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
+interface MapValue {
+  key: StaticJsValue;
+  value: StaticJsValue;
+}
+
 export default class StaticJsMapImpl
   extends StaticJsObjectLikeImpl
   implements StaticJsMap
 {
-  private readonly _backingStore = new Map<unknown, StaticJsValue>();
+  private readonly _backingStore = new Map<unknown, MapValue>();
 
   constructor(realm: StaticJsRealm) {
     super(realm, realm.types.prototypes.mapProto);
@@ -37,26 +40,43 @@ export default class StaticJsMapImpl
   }
 
   *clearEvaluator(): EvaluationGenerator<void> {
+    for (const [, { key, value }] of this._backingStore) {
+      key.unref();
+      value.unref();
+    }
+
     this._backingStore.clear();
   }
 
   *deleteValueEvaluator(key: StaticJsValue): EvaluationGenerator<boolean> {
     const keyUnwrapped = toNativeUnwrap(key);
-    return this._backingStore.delete(keyUnwrapped);
+    const data = this._backingStore.get(keyUnwrapped);
+    if (!data) {
+      return false;
+    }
+
+    const { key: internalKey, value } = data;
+
+    internalKey.unref();
+    value.unref();
+
+    this._backingStore.delete(keyUnwrapped);
+
+    return true;
   }
 
   *entriesEvaluator(): EvaluationGenerator<StaticJsValue> {
-    const backingIterator = this._backingStore.entries();
+    const backingIterator = this._backingStore.values();
 
     const realm = this.realm;
     return new StaticJsIteratorImpl(function* () {
-      const value = backingIterator.next();
-      if (value.done) {
+      const n = backingIterator.next();
+      if (n.done) {
         return;
       }
 
-      const [key, val] = value.value;
-      return realm.types.array([toRuntimeWrap(key, realm), val]);
+      const { key, value } = n.value;
+      return realm.types.array([key, value]);
     }, realm);
   }
 
@@ -70,18 +90,19 @@ export default class StaticJsMapImpl
       );
     }
 
-    for (const [key, value] of this._backingStore) {
-      yield* callback.callEvaluator(thisArg, [
-        value,
-        toRuntimeWrap(key, this.realm),
-        this,
-      ]);
+    for (const { key, value } of this._backingStore.values()) {
+      yield* callback.callEvaluator(thisArg, [value, key, this]);
     }
   }
 
   *getValueEvaluator(key: StaticJsValue): EvaluationGenerator<StaticJsValue> {
     const keyUnwrapped = toNativeUnwrap(key);
-    return this._backingStore.get(keyUnwrapped) ?? this.realm.types.undefined;
+    const data = this._backingStore.get(keyUnwrapped);
+    if (!data) {
+      return this.realm.types.undefined;
+    }
+
+    return data.value;
   }
 
   *hasEvaluator(key: StaticJsValue): EvaluationGenerator<boolean> {
@@ -90,16 +111,16 @@ export default class StaticJsMapImpl
   }
 
   *keysEvaluator(): EvaluationGenerator<StaticJsValue> {
-    const backingIterator = this._backingStore.keys();
+    const backingIterator = this._backingStore.values();
 
     const realm = this.realm;
     return new StaticJsIteratorImpl(function* () {
-      const value = backingIterator.next();
-      if (value.done) {
+      const n = backingIterator.next();
+      if (n.done) {
         return;
       }
 
-      return toRuntimeWrap(value.value, realm);
+      return n.value.key;
     }, realm);
   }
 
@@ -108,7 +129,18 @@ export default class StaticJsMapImpl
     value: StaticJsValue,
   ): EvaluationGenerator<void> {
     const keyUnwrapped = toNativeUnwrap(key);
-    this._backingStore.set(keyUnwrapped, value);
+    let data = this._backingStore.get(keyUnwrapped);
+    if (data) {
+      data.value.unref();
+      data.value = value;
+    } else {
+      key.ref();
+      data = { key, value };
+    }
+
+    value.ref();
+
+    this._backingStore.set(keyUnwrapped, data);
   }
 
   *valuesEvaluator(): EvaluationGenerator<StaticJsValue> {
@@ -116,12 +148,12 @@ export default class StaticJsMapImpl
 
     const realm = this.realm;
     return new StaticJsIteratorImpl(function* () {
-      const value = backingIterator.next();
-      if (value.done) {
+      const n = backingIterator.next();
+      if (n.done) {
         return;
       }
 
-      return value.value;
+      return n.value.value;
     }, realm);
   }
 
