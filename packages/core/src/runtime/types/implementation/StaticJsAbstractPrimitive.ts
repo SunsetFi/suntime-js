@@ -3,6 +3,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsPrimitive } from "../StaticJsPrimitive.js";
 import type StaticJsTypeCode from "../StaticJsTypeCode.js";
+import type { StaticJsValue } from "../StaticJsValue.js";
 
 export default abstract class StaticJsAbstractPrimitive
   implements StaticJsPrimitive
@@ -52,10 +53,14 @@ export default abstract class StaticJsAbstractPrimitive
   abstract toStringSync(): string;
 
   [Symbol.toStringTag](): string {
-    return `StaticJsValue ${this.runtimeTypeOf} [${this.toStringSync()}]`;
+    return `StaticJsValue ${this.runtimeTypeOf}`;
   }
 
-  protected _alloc() {}
+  protected _alloc() {
+    this.realm.memory._alloc(this as unknown as StaticJsValue);
+  }
 
-  protected _unalloc() {}
+  protected _unalloc() {
+    this.realm.memory._release(this as unknown as StaticJsValue);
+  }
 }

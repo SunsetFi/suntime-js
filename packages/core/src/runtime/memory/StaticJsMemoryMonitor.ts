@@ -1,6 +1,8 @@
-export default interface StaticJsMemoryMonitor {
-  getUsedMemoryBytes(): number;
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-  _alloc(bytes: number): void;
-  _release(bytes: number): void;
+export default interface StaticJsMemoryMonitor {
+  readonly totalObjects: number;
+
+  _alloc(value: StaticJsValue): void;
+  _release(value: StaticJsValue): void;
 }

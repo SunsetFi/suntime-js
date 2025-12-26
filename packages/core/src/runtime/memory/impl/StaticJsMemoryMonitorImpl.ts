@@ -1,27 +1,27 @@
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import type StaticJsMemoryMonitor from "../StaticJsMemoryMonitor.js";
 
 export default class StaticJsMemoryMonitorImpl
   implements StaticJsMemoryMonitor
 {
-  private _usedMemoryBytes = 0;
-
-  getUsedMemoryBytes(): number {
-    return this._usedMemoryBytes;
+  private _totalObjects = 0;
+  get totalObjects(): number {
+    return this._totalObjects;
   }
 
-  _alloc(bytes: number): void {
-    this._usedMemoryBytes += bytes;
+  _alloc(_value: StaticJsValue): void {
+    this._totalObjects += 1;
   }
 
-  _release(bytes: number): void {
-    if (bytes > this._usedMemoryBytes) {
+  _release(_value: StaticJsValue): void {
+    if (this._totalObjects === 0) {
       throw new StaticJsEngineError(
-        `Attempted to release more memory (${bytes} bytes) than is currently allocated (${this._usedMemoryBytes} bytes).`,
+        `Attempted to release an object, but no objects in the monitor.`,
       );
     }
 
-    this._usedMemoryBytes -= bytes;
+    this._totalObjects -= 1;
   }
 }

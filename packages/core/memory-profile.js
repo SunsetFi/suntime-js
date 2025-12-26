@@ -6,10 +6,16 @@ function toMb(bytes) {
 
 const realm = StaticJsRealm();
 
+const createFunction = await realm.evaluateExpression(`(a) => 12`);
+global.gc();
+
 const preRunMemory = process.memoryUsage().heapTotal;
 console.log(`Initial memory usage: ${toMb(preRunMemory)}`);
 
-const count = 5_000_000;
+const initialCount = realm.memory.totalObjects;
+console.log(`Initial Realm object count:`, initialCount);
+
+const count = 1; //_000_000;
 
 // Array overhead (5 million unique numbers): 18 bytes per item.
 const arrayOverhead = 18 * count;
@@ -31,7 +37,9 @@ for (let i = 0; i < count; i++) {
   if (i % 100000 === 0) {
     console.log(`Created ${i.toLocaleString()} objects`);
   }
-  items.push({});
+  items.push(
+    createFunction.callSync(realm.types.undefined, [realm.types.string(`{}`)])
+  );
 }
 
 global.gc();
@@ -51,3 +59,4 @@ global.gc();
 
 const finalMemory = process.memoryUsage().heapTotal;
 console.log(`Final memory usage: ${toMb(finalMemory)}`);
+console.log("New realm objects:", realm.memory.totalObjects - initialCount);

@@ -101,6 +101,13 @@ Currently, around 5700 of the language tests are passing, or about 24%. Further 
   - Combine these into one file to make this work?
 - Rename toJs to toNative
 
+### Memory Management
+
+- [ ]: Track references to EnvironmentRecords so they can free all their declarations.
+- [ ]: Allow passing a memory manager to the realm to determine how to handle various primitives.
+- [ ]: Implement and Out Of Memory error to unwind the stack, throwable by memory manager.
+- [ ]: Obtain estimates for various primitive weights and provide a default memory manager for specifying MB limits.
+
 ### API for host implementation of functions using evaluators
 
 Figure out public API for invoking evaluators.
