@@ -1,5 +1,10 @@
 # Test262 Authoring Guidelines
 
+## So You Want To Write Tests For A Stage 2.7 Proposal
+
+If you are writing tests for a whole proposal (not just for a few lines in the spec) please read about [testing plans](docs/testing-plan-guide.md).
+A **testing plan** showing what is and isn't intended to be covered, and **several small pull requests** implementing it in easily reviewable chunks is much preferred above a single pull request with all the tests.
+
 ## Source Material
 
 - https://tc39.github.io/ecma262/
@@ -285,6 +290,7 @@ Function | Purpose
 `assert.sameValue(actual, expected, message)` | throw a new Test262Error instance if the first two arguments are not [the same value](https://tc39.github.io/ecma262/#sec-samevalue); accepts an optional string message explaining the scenario and what should have happened
 `assert.notSameValue(actual, unexpected, message)` | throw a new Test262Error instance if the first two arguments are [the same value](https://tc39.github.io/ecma262/#sec-samevalue); accepts an optional string message explaining the scenario and what should have happened
 `assert.throws(expectedErrorConstructor, fn, message)` | throw a new Test262Error instance if the provided function does not throw an error or if the constructor of the value thrown does not match the provided constructor; accepts an optional string message explaining the scenario and what should have happened
+`assert.compareArray(actual, expected, message)` | throw a new Test262Error instance if the first two arguments have differing `length` or there is an array index less than that length at which their respective elements are not [the same value](https://tc39.github.io/ecma262/#sec-samevalue); accepts an optional string message explaining the scenario and what should have happened
 `$DONOTEVALUATE()` | throw an exception if the code gets evaluated. This may only be used in [negative test cases for parsing errors](#handling-errors-and-negative-test-cases).
 `throw "Test262: This statement should not be evaluated.";` | throw an exception if the code gets evaluated. Use this if the test file has the `raw` flag and it's a negative test case for parsing error.
 
@@ -465,6 +471,7 @@ Tests expressed with this convention are built automatically following the sourc
 - [Hermes](https://github.com/facebook/hermes/issues/new?labels%5B%5D=need+triage&labels%5B%5D=bug&template=01_bug_report.md&title=)
 - [JavaScriptCore](https://bugs.webkit.org/enter_bug.cgi?product=WebKit&component=JavaScriptCore)
 - [Kiesel](https://codeberg.org/kiesel-js/kiesel/issues/new)
+- [Ladybird LibJS](https://github.com/LadybirdBrowser/ladybird/issues/new?template=bug_report.yml)
 - [Moddable XS](https://github.com/Moddable-OpenSource/moddable/issues/new?assignees=&labels=&template=bug_report.md&title=)
 - [QuickJS](https://github.com/bellard/quickjs/issues/new)
 - [SpiderMonkey](https://bugzilla.mozilla.org/enter_bug.cgi?product=Core&component=JavaScript%20Engine)
