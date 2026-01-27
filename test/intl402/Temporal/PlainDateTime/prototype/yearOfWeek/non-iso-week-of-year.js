@@ -4,19 +4,33 @@
 /*---
 esid: sec-temporal.plaindatetime.prototype.yearofweek
 description: >
-  Temporal.PlainDateTime.prototype.yearOfWeek returns undefined for all 
+  Temporal.PlainDateTime.prototype.yearOfWeek returns undefined for all
   non-ISO calendars without a well-defined week numbering system.
-features: [Temporal]
+features: [Temporal, Intl.Era-monthcode]
 ---*/
 
-// Gregorian calendar has a well defined week-numbering system.
+const nonIsoCalendars = [
+  "buddhist",
+  "chinese",
+  "coptic",
+  "dangi",
+  "ethioaa",
+  "ethiopic",
+  "gregory",
+  "hebrew",
+  "indian",
+  "islamic-civil",
+  "islamic-tbla",
+  "islamic-umalqura",
+  "japanese",
+  "persian",
+  "roc"
+];
 
-let calendar = "gregory";
-const date = new Temporal.PlainDateTime(2024, 1, 1, 12, 34, 56, 987, 654, 321, calendar);
-
-assert.sameValue(date.yearOfWeek, 2024);
-
-calendar = "hebrew";
-const nonisodate = new Temporal.PlainDateTime(2024, 1, 1, 12, 34, 56, 987, 654, 321, calendar);
-
-assert.sameValue(nonisodate.yearOfWeek, undefined);
+for (const calendar of nonIsoCalendars) {
+  assert.sameValue(
+    new Temporal.PlainDateTime(2024, 1, 1, 12, 34, 56, 987, 654, 321, calendar).yearOfWeek,
+    undefined,
+    `${calendar} does not provide week numbers`
+  );
+}

@@ -56,6 +56,7 @@ info: |
       a. Let _timeZoneIdentifierRecord_ be GetAvailableNamedTimeZoneIdentifier(_timeZone_).
       b. If _timeZoneIdentifierRecord_ is ~empty~, throw a RangeError exception.
       c. Set _timeZone_ to _timeZoneIdentifierRecord_.[[PrimaryIdentifier]].
+features: [canonical-tz]
 ---*/
 
 const timeZones = [
@@ -93,10 +94,10 @@ const timeZones = [
   ["Etc/GMT0", "UTC"]
 ];
 
-for (const [timeZone, expected] of timeZones) {
+for (const [timeZone, linkTarget] of timeZones) {
   assert.sameValue(
     new Intl.DateTimeFormat([], { timeZone }).resolvedOptions().timeZone,
-    expected,
-    "Time zone name " + timeZone + " should be canonicalized to " + expected
+    timeZone,
+    "Time zone name " + timeZone + " should be preserved and not canonicalized to " + linkTarget
   );
 }
