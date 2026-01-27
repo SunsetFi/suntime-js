@@ -5,7 +5,8 @@
   "scripts": {
     "prepare": "husky",
     "lint-staged": "lint-staged",
-    "build": "pnpm -r --filter=@suntime-js/core build"
+    "build": "pnpm -r --filter=@suntime-js/core build",
+    "update:test262": "git subtree pull --prefix=packages/core/tests/test262/repo test262 main --squash"
   },
   "devDependencies": {
     "husky": "^9.1.7",
