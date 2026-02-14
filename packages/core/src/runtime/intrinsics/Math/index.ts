@@ -156,6 +156,11 @@ function createMathNumericFunctionHookDeclaration(
 
       // @ts-expect-error - We know the shape of the hook and we ensure the arguments above.
       const computed = hook.apply(undefined, [realm, ...asNumbers]);
+      if (typeof computed !== "number") {
+        throw new StaticJsEngineError(
+          `Math hook ${key} did not return a number, got ${typeof computed}`,
+        );
+      }
       const asRuntime = realm.types.number(computed);
       return asRuntime;
     },
