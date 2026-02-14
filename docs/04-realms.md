@@ -88,15 +88,55 @@ Tasks passed to this function MUST either fully complete or be aborted before th
 
 The hooks property allows providing custom behavior to various engine internals. All hooks provide sensible defaults, but can be overriden as-needed.
 
-All hooks take the current realm as the first argument. Hooks may take additional arguments as-needed.
+All hooks recieve the current realm as the first argument. Hooks may take additional arguments as-needed.
 
-##### hooks.math.random
+##### hooks.math.{key}
 
-Type: **function**
+Type: **object**
 
-Provides the implementation behind Math.random().
+hooks.math accepts an object taking various Math.\* implementations.
 
-Defaults to the host's Math.random().
+You may want to override these to provide deterministic implementations of the Math functions across engines, as many of these are left as **implementation-specific** in the spec and may cause nondeterministic behavior across engies.
+
+Signature: `hook(realm, ...args) => number`
+**Note: The hooks in hooks.math are configured to recieve all arguments passed by the sandbox, coerced to native numbers. As such, the number and values of the arguments are specified by sandboxed code. Be aware that you may recieve more or fewer arguments than expected.**
+
+Supported methods:
+
+- acos
+- acosh
+- asin
+- asinh
+- atan
+- atan2
+- atanh
+- cbrt
+- cos
+- cosh
+- exp
+- expm1
+- random
+- sin
+- sinh
+- tan
+- tanh
+
+Example:
+
+```ts
+import { Random } from "random";
+
+// Create a seeded RNG
+const r = new Random("my-seed");
+
+const realm = StaticJsRealm({
+  hooks: {
+    math: {
+      random: () => r.float(),
+    },
+  },
+});
+```
 
 ## Realm methods
 
