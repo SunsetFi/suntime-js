@@ -11,7 +11,7 @@ import typedMerge from "../../internal/typed-merge.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import initializeReferencedBinding from "../bindings/initialize-referenced-binding.js";
 import bindingInitialization from "../bindings/binding-initialization.js";

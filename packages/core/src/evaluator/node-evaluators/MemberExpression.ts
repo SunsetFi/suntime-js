@@ -9,7 +9,7 @@ import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsR
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,

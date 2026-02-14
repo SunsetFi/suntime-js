@@ -2,7 +2,7 @@ import { isBlock, type Block, type SwitchStatement } from "@babel/types";
 
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 
 import createFunction from "../node-evaluators/Function.js";

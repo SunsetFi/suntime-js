@@ -13,7 +13,7 @@ import isAbruptCompletion from "../completions/AbruptCompletion.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import type { Completion } from "../completions/Completion.js";
 import updateEmpty from "../completions/update-empty.js";

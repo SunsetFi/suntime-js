@@ -1,4 +1,4 @@
-import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import toInteger from "../../algorithms/to-integer.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";

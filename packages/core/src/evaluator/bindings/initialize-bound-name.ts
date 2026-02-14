@@ -6,7 +6,7 @@ import putValue from "../../runtime/algorithms/put-value.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* initializeBoundName(
   name: string,

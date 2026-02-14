@@ -1,7 +1,7 @@
 import type { ExpressionStatement } from "@babel/types";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 export default function* expressionStatementNodeEvaluator(

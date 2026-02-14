@@ -12,7 +12,7 @@ import { isPropertyReference } from "../references/is-property-reference.js";
 
 import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 
-import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 

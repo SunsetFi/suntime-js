@@ -8,7 +8,7 @@ import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
 import bindingInitialization from "../../bindings/binding-initialization.js";
 
-import type EvaluationGenerator from "../../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import type EvaluationContext from "../../EvaluationContext.js";
 
 export default function* forDeclarationBindingInitialization(

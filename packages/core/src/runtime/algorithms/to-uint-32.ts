@@ -1,4 +1,4 @@
-import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import typedMerge from "../../internal/typed-merge.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";

@@ -17,7 +17,7 @@ import StaticJsConcurrentEvaluationError from "../../../errors/StaticJsConcurren
 
 import StaticJsDeclarativeEnvironmentRecord from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
-import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
 import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
@@ -64,10 +64,8 @@ import { isStaticJsModule } from "../../modules/StaticJsModule.js";
 import StaticJsExternalModuleImpl from "../../modules/implementation/StaticJsExternalModuleImpl.js";
 import { StaticJsModuleImpl } from "../../modules/implementation/StaticJsModuleImpl.js";
 
-import type {
-  StaticJsRealmGlobalDeclProperty,
-  StaticJsRealmOptions,
-} from "../factories/StaticJsRealm.js";
+import type { StaticJsRealmOptions } from "../factories/StaticJsRealm.js";
+import type { StaticJsRealmGlobalDeclProperty } from "../factories/StaticJsRealmGlobalOptions.js";
 import type { StaticJsModuleResolution } from "../StaticJsModuleResolver.js";
 import type { StaticJsModuleResolver } from "../StaticJsModuleResolver.js";
 
@@ -76,12 +74,13 @@ import type {
   StaticJsTaskRunner,
 } from "../../tasks/StaticJsTaskIterator.js";
 
+import type { StaticJsRealm } from "../StaticJsRealm.js";
+import type { StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 import type {
-  StaticJsEvaluateScriptOptions,
-  StaticJsEvaluateScriptSyncOptions,
-  StaticJsEvaluator,
-  StaticJsRealm,
-} from "../StaticJsRealm.js";
+  StaticJsRealmEvaluateScriptOptions,
+  StaticJsRealmEvaluateScriptSyncOptions,
+} from "../StaticJsRealmEvaluateScriptOptions.js";
+
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 
 import Macrotask from "./Macrotask.js";
@@ -116,7 +115,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   constructor({
     global: globalObject,
-    globalThis,
+    globalThis: globalThisOpt,
     modules,
     resolveImportedModule: resolveModule,
     runTask,
@@ -151,7 +150,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     const globalThisResolved = resolveGlobalThis(
       this,
       globalObjectResolved,
-      globalThis,
+      globalThisOpt,
     );
 
     this._global = globalObjectResolved;
@@ -228,7 +227,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   async evaluateScript(
     script: string,
-    opts?: StaticJsEvaluateScriptOptions,
+    opts?: StaticJsRealmEvaluateScriptOptions,
   ): Promise<StaticJsValue> {
     const parsed = parseScript(script, {
       topLevelAwait: Boolean(opts?.topLevelAwait),
@@ -259,7 +258,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   evaluateScriptSync(
     script: string,
-    opts?: StaticJsEvaluateScriptSyncOptions,
+    opts?: StaticJsRealmEvaluateScriptSyncOptions,
   ): StaticJsValue {
     if (this._currentTask && !this._currentTask.entered) {
       throw new StaticJsConcurrentEvaluationError(
@@ -639,11 +638,11 @@ function resolveGlobalObject(
 function resolveGlobalThis(
   realm: StaticJsRealm,
   globalObject: StaticJsObject,
-  globalThis?: StaticJsRealmOptions["globalThis"],
+  globalThisOpt?: StaticJsRealmOptions["globalThis"],
 ) {
   let globalThisResolved: StaticJsValue;
-  if (globalThis) {
-    globalThisResolved = realm.types.toStaticJsValue(globalThis.value);
+  if (globalThisOpt) {
+    globalThisResolved = realm.types.toStaticJsValue(globalThisOpt.value);
   } else {
     globalThisResolved = globalObject;
   }

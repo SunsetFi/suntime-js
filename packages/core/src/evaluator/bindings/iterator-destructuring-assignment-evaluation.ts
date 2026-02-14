@@ -12,7 +12,7 @@ import putValue from "../../runtime/algorithms/put-value.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import destructuringAssignmentEvaluation from "./destructuring-assignment-evaluation.js";
 import createDataPropertyOrThrow from "../../runtime/algorithms/create-data-property-or-throw.js";

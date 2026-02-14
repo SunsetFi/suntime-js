@@ -4,7 +4,7 @@ import type { StaticJsEnvironmentRecord } from "../../../runtime/environments/St
 
 import boundNames from "../../instantiation/algorithms/bound-names.js";
 
-import type EvaluationGenerator from "../../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 export default function* forDeclarationBindingInstantiation(
   node: VariableDeclaration,

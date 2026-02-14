@@ -18,7 +18,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 
 export default function* unaryExpressionNodeEvaluator(

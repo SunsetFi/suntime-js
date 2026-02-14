@@ -16,7 +16,7 @@ import completionValue from "../completions/completion-value.js";
 import updateEmpty from "../completions/update-empty.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import labeledStatementEvaluation from "./LabeledStatementEvaluation.js";
 

@@ -13,6 +13,13 @@ import {
 } from "../../src/index.js";
 
 describe("E2E: Realm", () => {
+  describe("Instance", () => {
+    it("Supports instanceof checks", () => {
+      const realm = StaticJsRealm();
+      expect(realm instanceof StaticJsRealm).toBe(true);
+    });
+  });
+
   describe("Globals", () => {
     it("Sets a global value", async () => {
       const realm = StaticJsRealm({

@@ -27,7 +27,7 @@ import copyDataProperties from "../../runtime/algorithms/copy-data-properties.js
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import iteratorClose from "../../runtime/iterators/iterator-close.js";
 import initializeReferencedBinding from "./initialize-referenced-binding.js";

@@ -1,4 +1,4 @@
-import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 
@@ -11,38 +11,16 @@ import type { StaticJsModuleImplementation } from "../modules/StaticJsModuleImpl
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
-
-export interface StaticJsEvaluateScriptOptions extends StaticJsRunTaskOptions {
-  /**
-   * An optional file name to associate with the script.
-   */
-  fileName?: string;
-
-  /**
-   * Whether to support top-level await in the script.
-   * If true, evaluateScript will always return a promise.
-   * If "auto", evaluateScript will return a promise if top-level await is used, otherwise it will return the result directly.
-   * If false or omitted, top-level await is not supported and will throw a syntax error if used.
-   *
-   * Default: false
-   * @see {@link StaticJsRealm["evaluateScript"]}
-   */
-  topLevelAwait?: boolean | "auto";
-}
-
-export type StaticJsEvaluateScriptSyncOptions = Omit<
-  StaticJsEvaluateScriptOptions,
-  "topLevelAwait"
->;
-
-export type StaticJsEvaluator<T = unknown> =
-  | EvaluationGenerator<T>
-  | (() => EvaluationGenerator<T>);
+import type {
+  StaticJsRealmEvaluateScriptOptions,
+  StaticJsRealmEvaluateScriptSyncOptions,
+} from "./StaticJsRealmEvaluateScriptOptions.js";
+import type { StaticJsEvaluator } from "../../evaluator/StaticJsEvaluator.js";
 
 /**
  * A top-level construct describing the overall environment in which a javascript program is executed.
  * This is not to be confused with an Environment, or Environment Record, which is a lower-level
- * construct that describes the lexical scope of a function.
+ * construct that describes a variable scope.
  *
  * This class is analogous to a [Realm](https://tc39.es/ecma262/#sec-code-realms) in the ECMAScript specification.
  * @public
@@ -62,23 +40,6 @@ export interface StaticJsRealm {
    * The global-scope `this` value of the realm.
    */
   readonly globalThis: StaticJsValue;
-
-  /**
-   * The global-scope Environment of the realm.
-   * @internal
-   */
-  readonly globalEnv: StaticJsEnvironmentRecord;
-
-  /**
-   * The environment record for the global object.
-   * @internal
-   */
-  readonly objectEnv: StaticJsEnvironmentRecord;
-
-  /**
-   * The environment record for declarative bindings.
-   */
-  readonly declarativeRecord: StaticJsEnvironmentRecord;
 
   /**
    * Evaluates the expression in the realm, returning a promise that resolves to the result.
@@ -108,7 +69,7 @@ export interface StaticJsRealm {
    */
   evaluateScript(
     script: string,
-    opts?: StaticJsEvaluateScriptOptions,
+    opts?: StaticJsRealmEvaluateScriptOptions,
   ): Promise<StaticJsValue>;
 
   /**
@@ -119,7 +80,7 @@ export interface StaticJsRealm {
    */
   evaluateScriptSync(
     script: string,
-    opts?: StaticJsEvaluateScriptSyncOptions,
+    opts?: StaticJsRealmEvaluateScriptSyncOptions,
   ): StaticJsValue;
 
   /**
@@ -151,10 +112,28 @@ export interface StaticJsRealm {
   */
 
   /**
+   * The global-scope Environment of the realm.
+   * @internal
+   */
+  readonly globalEnv: StaticJsEnvironmentRecord;
+
+  /**
+   * The environment record for the global object.
+   * @internal
+   */
+  readonly objectEnv: StaticJsEnvironmentRecord;
+
+  /**
+   * The environment record for declarative bindings.
+   * @internal
+   */
+  readonly declarativeRecord: StaticJsEnvironmentRecord;
+
+  /**
    * Raises an uncaught error in the realm.
+   * @internal
    * @param error The error to raise.
    * @returns A function that, when called, will clear the uncaught error.
-   * @internal
    */
   raiseUnhandledRejection(error: StaticJsValue): () => void;
 
@@ -223,12 +202,24 @@ export interface StaticJsRealm {
 }
 
 export function isStaticJsRealm(value: unknown): value is StaticJsRealm {
+  // We don't use this internally, so we can afford to be a bit more strict and a bit less performant.
+  // Check a splattering of properties.
+  // This isn't everything a realm requires, and errors might still happen, but this should be Good Enough.
   return (
     value != null &&
     typeof value === "object" &&
-    "strict" in value &&
-    "globalObject" in value &&
-    "globalEnv" in value &&
-    "types" in value
+    "types" in value &&
+    "evaluateExpression" in value &&
+    typeof value.evaluateExpression === "function" &&
+    "evaluateScript" in value &&
+    typeof value.evaluateScript === "function" &&
+    "evaluateModule" in value &&
+    typeof value.evaluateModule === "function" &&
+    "resolveImportedModule" in value &&
+    typeof value.resolveImportedModule === "function" &&
+    "enqueueMicrotask" in value &&
+    typeof value.enqueueMicrotask === "function" &&
+    "enqueueMacrotask" in value &&
+    typeof value.enqueueMacrotask === "function"
   );
 }

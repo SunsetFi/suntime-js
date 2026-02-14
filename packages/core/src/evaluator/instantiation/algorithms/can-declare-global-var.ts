@@ -1,5 +1,5 @@
 import type StaticJsGlobalEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
-import type EvaluationGenerator from "../../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 export default function* canDeclareGlobalVar(
   name: string,

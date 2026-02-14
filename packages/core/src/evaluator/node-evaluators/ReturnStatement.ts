@@ -5,7 +5,7 @@ import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import { ReturnCompletion } from "../completions/ReturnCompletion.js";
 
 export default function* returnStatementNodeEvaluator(

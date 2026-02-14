@@ -8,7 +8,7 @@ import type EvaluationContext from "../EvaluationContext.js";
 
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import createFunction from "../node-evaluators/Function.js";
 
 import lexicallyDeclaredNames from "./algorithms/lexically-declared-names.js";

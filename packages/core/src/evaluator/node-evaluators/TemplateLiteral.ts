@@ -3,7 +3,7 @@ import type { TemplateLiteral } from "@babel/types";
 import toString from "../../runtime/algorithms/to-string.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 

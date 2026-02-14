@@ -1,4 +1,4 @@
-import type EvaluationGenerator from "../../../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
@@ -24,8 +24,9 @@ import {
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import iteratorClose from "../../../iterators/iterator-close.js";
+
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
   key: "from",

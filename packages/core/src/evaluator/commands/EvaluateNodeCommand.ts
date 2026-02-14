@@ -18,7 +18,7 @@ import type { EvaluateNodeOptions } from "../node-evaluators/evaluate-node.js";
 import evaluateNode from "../node-evaluators/evaluate-node.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import type { Completion } from "../completions/Completion.js";
 import isAbruptCompletion from "../completions/AbruptCompletion.js";

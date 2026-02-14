@@ -1,6 +1,6 @@
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 
-import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 

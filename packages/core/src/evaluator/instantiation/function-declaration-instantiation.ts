@@ -10,7 +10,7 @@ import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/imp
 import createListIteratorRecord from "../../runtime/algorithms/create-list-iterator-record.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import iteratorBindingInitialization from "../bindings/iterator-binding-initialization.js";
 
@@ -131,7 +131,7 @@ export default function* functionDeclarationInstantiation(
   let varEnv: StaticJsEnvironmentRecord;
   let lexEnv: StaticJsEnvironmentRecord;
 
-  let instantiatedVarNames: string[] = [];
+  let instantiatedVarNames: string[];
   if (!hasParameterExpressions) {
     instantiatedVarNames = [...parameterBindings];
     for (const n of varNames) {

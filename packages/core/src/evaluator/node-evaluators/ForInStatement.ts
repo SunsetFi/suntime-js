@@ -7,7 +7,7 @@ import typedMerge from "../../internal/typed-merge.js";
 import { BreakCompletion } from "../completions/BreakCompletion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import forInOfHeadEvaluation from "./ForInOfStatement/ForInOfHeadEvaluation.js";
 import { forInOfBodyEvaluation } from "./ForInOfStatement/ForInOfBodyEvaluation.js";

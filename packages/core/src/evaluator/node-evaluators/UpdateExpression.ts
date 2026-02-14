@@ -7,7 +7,7 @@ import toNumber from "../../runtime/algorithms/to-number.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import getValue from "../../runtime/algorithms/get-value.js";
 import putValue from "../../runtime/algorithms/put-value.js";

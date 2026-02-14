@@ -7,7 +7,7 @@ import { ControlFlowCompletion } from "../completions/ControlFlowCompletion.js";
 import type { NormalCompletion } from "../completions/NormalCompletion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 function* programNodeEvaluator(
   node: Program,

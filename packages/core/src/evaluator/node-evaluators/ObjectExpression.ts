@@ -17,7 +17,7 @@ import { isStaticJsSymbol } from "../../runtime/types/StaticJsSymbol.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import createFunction from "./Function.js";
 

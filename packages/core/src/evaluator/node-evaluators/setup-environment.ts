@@ -4,7 +4,7 @@ import { isNode } from "@babel/types";
 import typedKeys from "../../internal/typed-keys.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { getEvaluator } from "./nodes.js";
 

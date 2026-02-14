@@ -1,7 +1,7 @@
 import { type Node, type BlockStatement, type Expression } from "@babel/types";
 
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
-import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import functionDeclarationInstantiation from "../../../evaluator/instantiation/function-declaration-instantiation.js";
 

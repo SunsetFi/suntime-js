@@ -1,4 +1,4 @@
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import type { Completion } from "./Completion.js";
 import isAbruptCompletion from "./AbruptCompletion.js";

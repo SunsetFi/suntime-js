@@ -1,6 +1,6 @@
 import type { Node } from "@babel/types";
 
-import type EvaluationGenerator from "./EvaluationGenerator.js";
+import type { EvaluationGenerator } from "./EvaluationGenerator.js";
 
 export interface EvaluateCommandsOptions {
   onBeforeNode?(node: Node): void;
@@ -35,7 +35,6 @@ export function* evaluateCommands<TReturn>(
       currentNode = null;
     }
 
-    // If this is waiting on a node, continuing will evaluate that node.
     if (done) {
       return value;
     }

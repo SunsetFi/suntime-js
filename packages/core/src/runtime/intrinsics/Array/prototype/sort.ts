@@ -1,6 +1,6 @@
 import hasOwnProperty from "../../../../internal/has-own-property.js";
 
-import type EvaluationGenerator from "../../../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
 
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";

@@ -8,7 +8,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* newExpressionNodeEvaluator(
   node: NewExpression,

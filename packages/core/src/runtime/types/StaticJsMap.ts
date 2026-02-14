@@ -1,4 +1,4 @@
-import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsFunction } from "./StaticJsFunction.js";
 import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";

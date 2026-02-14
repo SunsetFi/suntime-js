@@ -20,7 +20,7 @@ import { ReturnCompletion } from "./completions/ReturnCompletion.js";
 import { ThrowCompletion } from "./completions/ThrowCompletion.js";
 import type { NormalCompletion } from "./completions/NormalCompletion.js";
 
-import type EvaluationGenerator from "./EvaluationGenerator.js";
+import type { EvaluationGenerator } from "./EvaluationGenerator.js";
 
 import getValue from "../runtime/algorithms/get-value.js";
 
@@ -48,7 +48,8 @@ export default class AsyncEvaluatorInvocation {
     callback: (value: StaticJsValue, error?: StaticJsValue) => void,
   ): void {
     if (this._state === "halted") {
-      // We can take a reference to the result and return it to callback here if we really need to.
+      // We can take a reference to the result and return it to callback here if we really need to,
+      // but be careful of keeping object references alive.
       throw new StaticJsEngineError(
         "Async function can not be listened to after it has completed.",
       );
@@ -96,6 +97,7 @@ export default class AsyncEvaluatorInvocation {
         } else {
           result = this._evaluator.next(continueWith);
         }
+
         continueMode = "next";
 
         const { value, done } = result;
@@ -106,6 +108,7 @@ export default class AsyncEvaluatorInvocation {
           if (this._resolveToEvaluatorResult && value != null) {
             result = yield* getValue(value, this._realm);
           }
+
           yield* this._resolve(result);
           return;
         }
@@ -207,10 +210,11 @@ export default class AsyncEvaluatorInvocation {
 
     this._halt();
 
+    yield* this._capability.reject.callEvaluator(this._realm.types.undefined, [
+      reason,
+    ]);
+
     const result = this._realm.types.undefined;
-
-    yield* this._capability.reject.callEvaluator(result, [reason]);
-
     this._callbacks.forEach((callback) => {
       callback(result, reason);
     });

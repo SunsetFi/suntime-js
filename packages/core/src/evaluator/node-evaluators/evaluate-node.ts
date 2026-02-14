@@ -3,7 +3,7 @@ import type { Node } from "@babel/types";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { getEvaluator } from "./nodes.js";
 

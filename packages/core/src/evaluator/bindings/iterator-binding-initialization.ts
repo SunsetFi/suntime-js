@@ -21,7 +21,7 @@ import putValue from "../../runtime/algorithms/put-value.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import initializeReferencedBinding from "./initialize-referenced-binding.js";
 import bindingInitialization from "./binding-initialization.js";

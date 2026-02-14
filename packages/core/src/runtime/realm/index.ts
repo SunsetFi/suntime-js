@@ -1,23 +1,30 @@
+export type { StaticJsRealmOptions } from "./factories/StaticJsRealm.js";
+
 export type {
+  StaticJsRealmGlobalAccessorPropertyDecl,
+  StaticJsRealmGlobalDataPropertyDecl,
   StaticJsRealmGlobalDecl,
+  StaticJsRealmGlobalDeclProperty,
+  StaticJsRealmGlobalOption,
   StaticJsRealmGlobalValue,
-  StaticJsRealmOptions,
-} from "./factories/StaticJsRealm.js";
+} from "./factories/StaticJsRealmGlobalOptions.js";
+
+export type {
+  StaticJsRealmEvaluateScriptSyncOptions as StaticJsEvaluateScriptSyncOptions,
+  StaticJsRealmEvaluateScriptOptions,
+} from "./StaticJsRealmEvaluateScriptOptions.js";
+
+export type { StaticJsEvaluator as StaticJsRealmEvaluator } from "../../evaluator/StaticJsEvaluator.js";
 
 import fStaticJsRealm from "./factories/StaticJsRealm.js";
 import type { StaticJsRealm as IStaticJsRealm } from "./StaticJsRealm.js";
 
-/**
- * {@inheritdoc fStaticJsRealm}
- * @public
- */
 const StaticJsRealm = fStaticJsRealm;
+type StaticJsRealm = IStaticJsRealm;
 
 /**
- * {@inheritdoc IStaticJsRealm}
- * @public
+ * @typedef StaticJsRealm {fStaticJsRealm & IStaticJsRealm}
  */
-type StaticJsRealm = IStaticJsRealm;
 
 export { StaticJsRealm };
 

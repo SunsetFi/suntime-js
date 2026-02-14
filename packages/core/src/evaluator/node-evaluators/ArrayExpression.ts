@@ -7,7 +7,7 @@ import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import iteratorClose from "../../runtime/iterators/iterator-close.js";
 

@@ -1,6 +1,7 @@
 import type { EvaluationOptions } from "./options.js";
 
 import StaticJsRealm from "../../runtime/realm/factories/StaticJsRealm.js";
+import { isStaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
@@ -11,6 +12,7 @@ import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
  * Evaluates a string as a javascript program, and returns the result.
  * @param expression The string containing javascript code to evaluate.
  * @param opts The options for the evaluation.
+ * @param callback An optional callback to receive and process the results of the expression.  This can be used to differentiate promises returned by the expression from the promise returned by this function, and to handle errors without throwing them.
  * @returns The native javascript result of evaluating the code.
  * @public
  */
@@ -24,6 +26,9 @@ export async function evaluateExpression(
   const { taskRunner } = opts;
 
   realm ??= StaticJsRealm();
+  if (!isStaticJsRealm(realm)) {
+    throw new TypeError("Provided realm is not a StaticJsRealm");
+  }
 
   let result: StaticJsValue;
   try {
@@ -64,7 +69,7 @@ export async function evaluateExpression(
  * @public
  */
 export function evaluateExpressionSync(
-  code: string,
+  expression: string,
   opts?: EvaluationOptions,
 ): unknown {
   opts ??= {};
@@ -75,7 +80,7 @@ export function evaluateExpressionSync(
 
   let result: StaticJsValue;
   try {
-    result = realm.evaluateExpressionSync(code, { runTask: taskRunner });
+    result = realm.evaluateExpressionSync(expression, { runTask: taskRunner });
   } catch (e) {
     let error = e;
 

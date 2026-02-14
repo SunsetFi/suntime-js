@@ -4,7 +4,7 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
 import StaticJsTypeCode from "../../runtime/types/StaticJsTypeCode.js";

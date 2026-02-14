@@ -1,5 +1,3 @@
-import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
-
 import type {
   StaticJsModuleResolution,
   StaticJsModuleResolver,
@@ -8,34 +6,11 @@ import type {
 import type { StaticJsRealm as IStaticJsRealm } from "../StaticJsRealm.js";
 
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskIterator.js";
+import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 
 import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
 
-export interface StaticJsRealmGlobalDataPropertyDecl {
-  readonly configurable?: boolean;
-  readonly enumerable?: boolean;
-  readonly writable?: boolean;
-  readonly value: unknown;
-}
-
-export interface StaticJsRealmGlobalAccessorPropertyDecl {
-  readonly configurable?: boolean;
-  readonly enumerable?: boolean;
-  get?(): unknown | EvaluationGenerator<unknown>;
-  set?(value: unknown): void | EvaluationGenerator<void>;
-}
-
-export type StaticJsRealmGlobalDeclProperty =
-  | StaticJsRealmGlobalDataPropertyDecl
-  | StaticJsRealmGlobalAccessorPropertyDecl;
-
-export interface StaticJsRealmGlobalDecl {
-  properties: Record<string, StaticJsRealmGlobalDeclProperty>;
-}
-
-export interface StaticJsRealmGlobalValue {
-  value: object;
-}
+import type { StaticJsRealmGlobalOption } from "./StaticJsRealmGlobalOptions.js";
 
 /**
  * Options for creating a StaticJsRealm.
@@ -49,7 +24,7 @@ export interface StaticJsRealmOptions {
   /**
    * Settings for the global object in the realm.
    */
-  global?: StaticJsRealmGlobalDecl | StaticJsRealmGlobalValue;
+  global?: StaticJsRealmGlobalOption;
 
   /**
    * Statically defined ECMA Modules.
@@ -57,7 +32,7 @@ export interface StaticJsRealmOptions {
   modules?: Record<string, StaticJsModuleResolution>;
 
   /**
-   * A resolver function to resolve imported ECMA Modules not found in @see modules
+   * A resolver function to resolve imported ECMA Modules not found in {@link StaticJsRealmOptions.modules}
    */
   resolveImportedModule?: StaticJsModuleResolver;
 
@@ -68,10 +43,10 @@ export interface StaticJsRealmOptions {
    * This may be done synchronously or asynchronously.
    *
    * Used for
-   * {@link import("../StaticJsRealm.js").StaticJsRealm.evaluateExpression},
-   * {@link import("../StaticJsRealm.js").StaticJsRealm.evaluateScriptSync}, and
-   * {@link import("../StaticJsRealm.js").StaticJsRealm.evaluateModule} when the
-   * {@link import("../StaticJsRealm.js").StaticJsRunTaskOptions.runTask} option is not specified.
+   * {@link IStaticJsRealm.evaluateExpression},
+   * {@link IStaticJsRealm.evaluateScriptSync}, and
+   * {@link IStaticJsRealm.evaluateModule} when the
+   * {@link StaticJsRunTaskOptions.runTask} option is not specified.
    */
   runTask?: StaticJsTaskRunner;
 
@@ -81,9 +56,9 @@ export interface StaticJsRealmOptions {
    * The implementation should call .next() on the evaluator until it is done.
    * This must be done synchronously.  Failure to complete the task will result in an error.
    *
-   * Used for {@link import("../StaticJsRealm.js").StaticJsRealm.evaluateExpressionSync} and
-   * {@link import("../StaticJsRealm.js").StaticJsRealm.evaluateScriptSync} when the
-   * {@link import("../StaticJsRealm.js").StaticJsRunTaskOptions.runTask} option is not specified.
+   * Used for {@link IStaticJsRealm.evaluateExpressionSync} and
+   * {@link IStaticJsRealm.evaluateScriptSync} when the
+   * {@link StaticJsRunTaskOptions.runTask} option is not specified.
    */
   runTaskSync?: StaticJsTaskRunner;
 }
@@ -94,8 +69,22 @@ export interface StaticJsRealmOptions {
  * @returns The created realm.
  * @public
  */
-export default function StaticJsRealm(
-  opts: StaticJsRealmOptions = {},
-): IStaticJsRealm {
+function fStaticJsRealm(opts: StaticJsRealmOptions = {}): IStaticJsRealm {
   return new StaticJsRealmImpl(opts);
 }
+
+// Let the function be used in instanceof checks.
+// Delegate to StaticJsRealmImpl since it is the actual implementation of the realm.
+Object.setPrototypeOf(fStaticJsRealm, {
+  [Symbol.hasInstance](instance: unknown) {
+    return instance instanceof StaticJsRealmImpl;
+  },
+});
+
+interface StaticJsRealm {
+  (opts?: StaticJsRealmOptions): IStaticJsRealm;
+  new (opts?: StaticJsRealmOptions): IStaticJsRealm;
+}
+
+const StaticJsRealm: StaticJsRealm = fStaticJsRealm as StaticJsRealm;
+export default StaticJsRealm;

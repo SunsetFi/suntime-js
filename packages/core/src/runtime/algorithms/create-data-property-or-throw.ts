@@ -4,7 +4,7 @@ import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import type { StaticJsObjectPropertyKey } from "../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 
 import createDataProperty from "./create-data-property.js";

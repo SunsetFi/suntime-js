@@ -3,7 +3,7 @@ import type { FunctionExpression } from "@babel/types";
 import typedMerge from "../../internal/typed-merge.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import createFunction from "./Function.js";
 

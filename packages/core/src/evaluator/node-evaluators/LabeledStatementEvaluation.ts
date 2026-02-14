@@ -1,9 +1,9 @@
 import type { Node } from "@babel/types";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import type NodeEvaluator from "../NodeEvaluator.js";
+import type { NodeEvaluator } from "../NodeEvaluator.js";
 
 import { BreakCompletion } from "../completions/BreakCompletion.js";
 import captureCompletion from "../completions/capture-completion.js";

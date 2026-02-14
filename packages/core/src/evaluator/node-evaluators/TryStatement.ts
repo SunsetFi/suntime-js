@@ -7,7 +7,7 @@ import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { EvaluateNodeForCompletion } from "../commands/EvaluateNodeCommand.js";
 

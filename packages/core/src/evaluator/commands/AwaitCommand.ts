@@ -5,7 +5,7 @@ import {
   type StaticJsValue,
 } from "../../runtime/types/StaticJsValue.js";
 
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 

@@ -10,7 +10,7 @@ import toBoolean from "../../runtime/algorithms/to-boolean.js";
 import loopContinues from "../../runtime/algorithms/loop-continues.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import {
   EvaluateNodeCommand,

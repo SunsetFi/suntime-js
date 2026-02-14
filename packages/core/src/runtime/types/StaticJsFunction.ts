@@ -1,4 +1,4 @@
-import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
 

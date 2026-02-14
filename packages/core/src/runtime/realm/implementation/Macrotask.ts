@@ -7,9 +7,9 @@ import StaticJsTaskAbortedError from "../../../errors/StaticJsTaskAbortedError.j
 import StaticJsUnhandledRejectionError from "../../../errors/StaticJsUnhandledRejectionError.js";
 
 import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
-import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsEvaluator } from "../StaticJsRealm.js";
+import type { StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 import type {
   StaticJsTaskIterator,
   StaticJsTaskIteratorOperation,

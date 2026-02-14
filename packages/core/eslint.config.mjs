@@ -1,10 +1,11 @@
 // @ts-check
 
-import { globalIgnores } from "eslint/config";
+import { defineConfig, globalIgnores } from "eslint/config";
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
+import { jsdoc } from "eslint-plugin-jsdoc";
 
-export default tseslint.config(
+export default defineConfig(
   globalIgnores([
     "**/*",
     "!src/",
@@ -15,6 +16,16 @@ export default tseslint.config(
   ]),
   eslint.configs.recommended,
   tseslint.configs.recommended,
+  jsdoc({
+    config: "flat/recommended",
+    rules: {
+      // Would be nice to restrict this to only exported artifacts.
+      "jsdoc/require-jsdoc": "off",
+      // Typescript takes care of these.
+      "jsdoc/require-param-type": "off",
+      "jsdoc/require-returns-type": "off",
+    }
+  }),
   {
     rules: {
       // All of our node evaluators are generators, but they don't always need to send commands.

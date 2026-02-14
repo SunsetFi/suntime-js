@@ -1,4 +1,4 @@
-import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import type { Completion } from "../../evaluator/completions/Completion.js";
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";

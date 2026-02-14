@@ -5,7 +5,7 @@ import StaticJsGlobalEnvironmentRecord from "../../runtime/environments/implemen
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import createFunction from "../node-evaluators/Function.js";
 

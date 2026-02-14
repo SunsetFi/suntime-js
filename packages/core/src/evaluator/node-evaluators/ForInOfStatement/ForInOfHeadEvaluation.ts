@@ -1,6 +1,6 @@
 import type { Expression } from "@babel/types";
 
-import type EvaluationGenerator from "../../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import type EvaluationContext from "../../EvaluationContext.js";
 
 import { isStaticJsNull } from "../../../runtime/types/StaticJsNull.js";

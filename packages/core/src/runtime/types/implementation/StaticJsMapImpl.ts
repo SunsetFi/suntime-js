@@ -1,5 +1,5 @@
 import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
-import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import toNativeUnwrap from "../../utils/to-native-unwrap.js";

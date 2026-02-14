@@ -11,7 +11,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { ThrowCompletion } from "../completions/ThrowCompletion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import isLooselyEqual from "../../runtime/algorithms/is-loosely-equal.js";
 import toNumber from "../../runtime/algorithms/to-number.js";
 import addition from "../../runtime/algorithms/addition.js";

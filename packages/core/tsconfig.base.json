@@ -6,6 +6,7 @@
     "esModuleInterop": true,
     "moduleDetection": "force",
     "isolatedModules": true,
+    "verbatimModuleSyntax": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "baseUrl": "./node_modules",

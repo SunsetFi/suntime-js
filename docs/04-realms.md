@@ -8,6 +8,8 @@ Once you have created a realm, you can use it to evaluate scripts.
 
 You can create a realm using `StaticJsRealm(opts?)`.
 
+_Note: Realms are pseudo-classes. They can be constructed with or without `new`, and `instanceof` should behave correctly. However, Suntime-JS never relies on this check, and uses duck-typing interally._
+
 ### Realm factory options
 
 #### globalThis

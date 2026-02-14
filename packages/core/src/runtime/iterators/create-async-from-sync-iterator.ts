@@ -5,7 +5,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 
-import type EvaluationGenerator from "../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import newPromiseCapability from "../algorithms/new-promise-capability.js";
 import call from "../algorithms/call.js";

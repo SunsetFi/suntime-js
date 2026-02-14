@@ -1,6 +1,6 @@
 import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
-import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import getIterator from "../../iterators/get-iterator.js";
 import iteratorStepValue from "../../iterators/iterator-step-value.js";

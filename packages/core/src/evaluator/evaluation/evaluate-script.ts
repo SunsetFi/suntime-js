@@ -1,6 +1,7 @@
 import type { EvaluationOptions } from "./options.js";
 
 import StaticJsRealm from "../../runtime/realm/factories/StaticJsRealm.js";
+import { isStaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
@@ -11,6 +12,7 @@ import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
  * Evaluates a string as a javascript program, and returns the result.
  * @param script The string containing javascript code to evaluate.
  * @param opts The options for the evaluation.
+ * @param callback An optional callback to receive and process the results of the expression.  This can be used to differentiate promises returned by the expression from the promise returned by this function, and to handle errors without throwing them.
  * @returns The native javascript result of evaluating the code.
  * @public
  */
@@ -24,6 +26,9 @@ export async function evaluateScript(
   const { taskRunner } = opts;
 
   realm ??= StaticJsRealm();
+  if (!isStaticJsRealm(realm)) {
+    throw new TypeError("Provided realm is not a StaticJsRealm");
+  }
 
   let result: StaticJsValue;
   try {

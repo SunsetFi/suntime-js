@@ -7,7 +7,7 @@ import boundNames from "../../../evaluator/instantiation/algorithms/bound-names.
 import lexicallyScopedDeclarations from "../../../evaluator/instantiation/algorithms/lexically-scoped-declarations.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
-import type EvaluationGenerator from "../../../evaluator/EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";

@@ -1,6 +1,8 @@
 import type { EvaluationOptions } from "./options.js";
 
 import StaticJsRealm from "../../runtime/realm/factories/StaticJsRealm.js";
+import { isStaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
+
 import type { StaticJsModule } from "../../runtime/modules/StaticJsModule.js";
 
 import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
@@ -22,6 +24,9 @@ export async function evaluateModule(
   const { taskRunner } = opts;
 
   realm ??= StaticJsRealm();
+  if (!isStaticJsRealm(realm)) {
+    throw new TypeError("Provided realm is not a StaticJsRealm");
+  }
 
   try {
     return await realm.evaluateModule(code, { runTask: taskRunner });
@@ -31,7 +36,9 @@ export async function evaluateModule(
     if (error instanceof StaticJsRuntimeError) {
       error = error.thrown.toJsSync();
     } else if (error instanceof StaticJsSyntaxError) {
-      throw new SyntaxError(error.message);
+      const syntaxError = new SyntaxError(error.message);
+      syntaxError.cause = error;
+      error = syntaxError;
     }
 
     throw error;

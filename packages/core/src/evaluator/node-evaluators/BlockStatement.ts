@@ -6,7 +6,7 @@ import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/imp
 
 import blockDeclarationInstantiation from "../instantiation/block-declaration-instantiation.js";
 
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";

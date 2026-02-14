@@ -8,7 +8,7 @@ import typedMerge from "../../internal/typed-merge.js";
 
 import StaticJsAsyncArrowFunction from "../../runtime/types/implementation/StaticJsAsyncArrowFunction.js";
 
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 
 import createFunction from "./Function.js";

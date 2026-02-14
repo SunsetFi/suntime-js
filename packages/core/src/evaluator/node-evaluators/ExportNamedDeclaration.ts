@@ -2,7 +2,7 @@ import type { ExportNamedDeclaration } from "@babel/types";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import type EvaluationGenerator from "../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 
 function* exportNamedDeclarationNodeEvaluator(

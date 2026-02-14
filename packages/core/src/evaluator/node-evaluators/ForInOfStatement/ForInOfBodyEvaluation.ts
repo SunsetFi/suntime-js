@@ -30,7 +30,7 @@ import { BreakCompletion } from "../../completions/BreakCompletion.js";
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 
 import type EvaluationContext from "../../EvaluationContext.js";
-import type EvaluationGenerator from "../../EvaluationGenerator.js";
+import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 import forDeclarationBindingInitialization from "./for-declaration-binding-initialization.js";
 import forDeclarationBindingInstantiation from "./for-declaration-binding-instantiation.js";

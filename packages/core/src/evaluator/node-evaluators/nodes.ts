@@ -1,6 +1,6 @@
 import type { Node } from "@babel/types";
 
-import type NodeEvaluator from "../NodeEvaluator.js";
+import type { NodeEvaluator } from "../NodeEvaluator.js";
 
 import arrayExpressionNodeEvaluator from "./ArrayExpression.js";
 import arrowFunctionExpressionNodeEvaluator from "./ArrowFunctionExpression.js";
