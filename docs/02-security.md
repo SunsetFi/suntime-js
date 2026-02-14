@@ -61,33 +61,15 @@ Despite this, this code will still remain secure. This is because incoming objec
 
 ## Host Fingerprinting and Determinism
 
-Many areas of JavaScript are left up to "host-implementation". As such, these functions can vary across runtimes. This has a few undesirable effects when used in a sandbox:
+Many areas of JavaScript are left up to "host-implementation". As such, these function implementations can vary across runtimes. This has a few undesirable effects when used in a sandbox:
 
 - Identical sandboxed code may behave differently on different engines
 - The host engine may be determined by inspecting variance in these behaviors
 
-Additionally, you may wish to make the sandbox fully deterministic, by overriding the implmentations of Math.random(), Date.now(), and other constructs.
+For example, Math.sin can yield different values for the same input between Chrome and Firefox browsers.
 
-These issues can be solved by providing deterministic implementations for such behaviors. Suntime-Js provides [Host Hooks](./04-realms.md#hooks) for this purpose.
+Beyond this, there are some methods that by their nature return inconsistent values, such as Math.random() and Date.now().
 
-Note: By default, Suntime-Js reverts to the **engine-implemented behavior** for such methods. You will need to provide your own implementations if you want to make them consistent.
+All of these can be made consistent across invocations providing deterministic implementations to the Suntime-Js engine for such behaviors. This can be done through utilizing the StaticJsRealm's [Host Hooks](./04-realms.md#hooks) option.
 
-The following methods may need to be overriden with hooks:
-
-- Math.acos()
-- Math.acosh()
-- Math.asin()
-- Math.asinh()
-- Math.atan()
-- Math.atan2()
-- Math.atanh()
-- Math.cbrt()
-- Math.cos()
-- Math.cosh()
-- Math.exp()
-- Math.expm1()
-- Math.random()
-- Math.sin()
-- Math.sinh()
-- Math.tan()
-- Math.tanh()
+Note that Suntime-Js defaults to the **engine-implemented behavior** for all hooks. You will need to provide your own implementations if you want to make them deterministic.

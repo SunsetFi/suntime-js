@@ -39,7 +39,7 @@ export default function* callExpressionNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   if (node.callee.type === "V8IntrinsicIdentifier") {
-    // TODO: We can absolutely support these with the generator command stuff.
+    // TODO: Support with realm hooks.
     throw new StaticJsEngineError("Intrinsics are not supported");
   }
 

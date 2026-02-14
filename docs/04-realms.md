@@ -98,7 +98,10 @@ hooks.math accepts an object taking various Math.\* implementations.
 
 You may want to override these to provide deterministic implementations of the Math functions across engines, as many of these are left as **implementation-specific** in the spec and may cause nondeterministic behavior across engies.
 
+All values not provided will default to using the host's Math.\* implementation.
+
 Signature: `hook(realm, ...args) => number`
+
 **Note: The hooks in hooks.math are configured to recieve all arguments passed by the sandbox, coerced to native numbers. As such, the number and values of the arguments are specified by sandboxed code. Be aware that you may recieve more or fewer arguments than expected.**
 
 Supported methods:
@@ -115,18 +118,23 @@ Supported methods:
 - cosh
 - exp
 - expm1
+- hypot
+- log
+- log10
+- log1p
+- log2
 - random
 - sin
 - sinh
+- sqrt
 - tan
 - tanh
 
-Example:
+##### Example: Seeding the Math.random() value
 
 ```ts
 import { Random } from "random";
 
-// Create a seeded RNG
 const r = new Random("my-seed");
 
 const realm = StaticJsRealm({
