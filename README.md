@@ -71,7 +71,6 @@ For more information, including solutions for breaking loops, see [Quick Start](
 - Class syntax
 - Date
 - Regex
-- Iterator.return calls
 
 ## Test262 coverage
 
