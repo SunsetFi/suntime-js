@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vitest } from "vitest";
 
-import { evaluateExpression } from "../../src/index.js";
+import { StaticJsRealm, evaluateExpression } from "../../src/index.js";
 
 describe("E2E: Math", () => {
   describe("Properties", () => {
@@ -42,6 +42,28 @@ describe("E2E: Math", () => {
     it("Defines SQRT2", async () => {
       const result = await evaluateExpression("Math.SQRT2");
       expect(result).toBeCloseTo(Math.SQRT2);
+    });
+  });
+
+  describe("Random", () => {
+    it("Returns a number between 0 and 1", async () => {
+      const result = await evaluateExpression("Math.random()");
+      expect(result).toBeGreaterThanOrEqual(0);
+      expect(result).toBeLessThan(1);
+    });
+
+    it("Supports the hook override", async () => {
+      const random = vitest.fn().mockReturnValue(0.5);
+      const realm = StaticJsRealm({
+        hooks: {
+          math: {
+            random,
+          },
+        },
+      });
+      const result = await evaluateExpression("Math.random()", { realm });
+      expect(result).toBe(0.5);
+      expect(random).toHaveBeenCalled();
     });
   });
 });

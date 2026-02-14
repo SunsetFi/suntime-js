@@ -1,3 +1,8 @@
+import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskIterator.js";
+import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+
+import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
+
 import type {
   StaticJsModuleResolution,
   StaticJsModuleResolver,
@@ -5,12 +10,11 @@ import type {
 
 import type { StaticJsRealm as IStaticJsRealm } from "../StaticJsRealm.js";
 
-import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskIterator.js";
-import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
-
-import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
+import { realmDefaultHooks } from "../hooks/index.js";
 
 import type { StaticJsRealmGlobalOption } from "./StaticJsRealmGlobalOptions.js";
+import type { StaticJsRealmHookOptions } from "./StaticJsRealmHooksOptions.js";
+import mergeDeep from "../../../utils/merge-deep.js";
 
 /**
  * Options for creating a StaticJsRealm.
@@ -30,6 +34,11 @@ export interface StaticJsRealmOptions {
    * Statically defined ECMA Modules.
    */
   modules?: Record<string, StaticJsModuleResolution>;
+
+  /**
+   * Optional hooks to override engine behavior for various operations.
+   */
+  hooks?: StaticJsRealmHookOptions;
 
   /**
    * A resolver function to resolve imported ECMA Modules not found in {@link StaticJsRealmOptions.modules}
@@ -70,7 +79,12 @@ export interface StaticJsRealmOptions {
  * @public
  */
 function fStaticJsRealm(opts: StaticJsRealmOptions = {}): IStaticJsRealm {
-  return new StaticJsRealmImpl(opts);
+  // Can't do this in the function signature as eslint gets irrational about it.
+  const { hooks, ...restOpts } = opts;
+  return new StaticJsRealmImpl(
+    restOpts,
+    mergeDeep(realmDefaultHooks, hooks ?? {}),
+  );
 }
 
 // Let the function be used in instanceof checks.

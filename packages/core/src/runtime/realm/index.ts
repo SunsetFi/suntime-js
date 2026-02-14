@@ -8,11 +8,14 @@ export type {
   StaticJsRealmGlobalOption,
   StaticJsRealmGlobalValue,
 } from "./factories/StaticJsRealmGlobalOptions.js";
+export type { StaticJsRealmHookOptions } from "./factories/StaticJsRealmHooksOptions.js";
 
 export type {
   StaticJsRealmEvaluateScriptSyncOptions as StaticJsEvaluateScriptSyncOptions,
   StaticJsRealmEvaluateScriptOptions,
 } from "./StaticJsRealmEvaluateScriptOptions.js";
+
+export type { RealmHooks } from "./hooks/index.js";
 
 export type { StaticJsEvaluator as StaticJsRealmEvaluator } from "../../evaluator/StaticJsEvaluator.js";
 

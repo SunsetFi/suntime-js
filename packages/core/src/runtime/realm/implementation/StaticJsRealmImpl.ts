@@ -86,6 +86,7 @@ import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.
 import Macrotask from "./Macrotask.js";
 import globalDeclarationInstantiation from "../../../evaluator/instantiation/global-declaration-instantiation.js";
 import getValue from "../../algorithms/get-value.js";
+import type { RealmHooks } from "../hooks/index.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;
@@ -113,14 +114,17 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   private _idleCallbacks: (() => void)[] = [];
 
-  constructor({
-    global: globalObject,
-    globalThis: globalThisOpt,
-    modules,
-    resolveImportedModule: resolveModule,
-    runTask,
-    runTaskSync,
-  }: StaticJsRealmOptions = {}) {
+  constructor(
+    {
+      global: globalObject,
+      globalThis: globalThisOpt,
+      modules,
+      resolveImportedModule: resolveModule,
+      runTask,
+      runTaskSync,
+    }: StaticJsRealmOptions,
+    private readonly _hooks: RealmHooks,
+  ) {
     this._externalResolveModule = resolveModule;
     this._defaultRunTask = runTask ?? defaultTaskRunner;
     this._defaultRunTaskSync = runTaskSync ?? defaultTaskRunner;
@@ -201,6 +205,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   get types() {
     return this._typeFactory;
+  }
+
+  get hooks() {
+    return this._hooks;
   }
 
   evaluateExpression(

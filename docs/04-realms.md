@@ -84,6 +84,20 @@ Synchronous tasks can be used to enforce task time limits and abort ongoing sand
 
 Tasks passed to this function MUST either fully complete or be aborted before the function ends. If neither occurs, a `StaticJsSynchronousTaskIncompleteError` error will be thrown.
 
+#### hooks
+
+The hooks property allows providing custom behavior to various engine internals. All hooks provide sensible defaults, but can be overriden as-needed.
+
+All hooks take the current realm as the first argument. Hooks may take additional arguments as-needed.
+
+##### hooks.math.random
+
+Type: **function**
+
+Provides the implementation behind Math.random().
+
+Defaults to the host's Math.random().
+
 ## Realm methods
 
 ### `evaluateExpression(expression: string, opts?: StaticJsRunTaskOptions)`

@@ -16,6 +16,7 @@ import type {
   StaticJsRealmEvaluateScriptSyncOptions,
 } from "./StaticJsRealmEvaluateScriptOptions.js";
 import type { StaticJsEvaluator } from "../../evaluator/StaticJsEvaluator.js";
+import type { RealmHooks } from "./hooks/index.js";
 
 /**
  * A top-level construct describing the overall environment in which a javascript program is executed.
@@ -128,6 +129,12 @@ export interface StaticJsRealm {
    * @internal
    */
   readonly declarativeRecord: StaticJsEnvironmentRecord;
+
+  /**
+   * Engine behavior hooks for the host.
+   * @internal
+   */
+  readonly hooks: RealmHooks;
 
   /**
    * Raises an uncaught error in the realm.
