@@ -148,9 +148,8 @@ function createMathNumericFunctionHookDeclaration(
       const hook = realm.hooks.math[key];
 
       // All of our hooks are fixed argument length.
-      const numArgs = hook.length - 1;
-      const asNumbers = new Array<number>(numArgs);
-      for (let i = 0; i < numArgs; i++) {
+      const asNumbers = new Array<number>(args.length);
+      for (let i = 0; i < args.length; i++) {
         const arg = args[i] ?? realm.types.undefined;
         const asNumber = yield* toNumber(arg, realm);
         asNumbers[i] = asNumber.value;
