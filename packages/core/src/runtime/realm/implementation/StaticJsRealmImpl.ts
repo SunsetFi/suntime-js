@@ -21,13 +21,15 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
 import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
-
 import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
+import type { StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import { AbnormalCompletionBase } from "../../../evaluator/completions/AbnormalCompletionBase.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+
+import globalDeclarationInstantiation from "../../../evaluator/instantiation/global-declaration-instantiation.js";
 
 import StaticJsGlobalEnvironmentRecord from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import StaticJsObjectEnvironmentRecord from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
@@ -64,29 +66,29 @@ import { isStaticJsModule } from "../../modules/StaticJsModule.js";
 import StaticJsExternalModuleImpl from "../../modules/implementation/StaticJsExternalModuleImpl.js";
 import { StaticJsModuleImpl } from "../../modules/implementation/StaticJsModuleImpl.js";
 
+import type {
+  StaticJsTaskIterator,
+  StaticJsTaskRunner,
+} from "../../tasks/StaticJsTaskIterator.js";
+import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+
+import getValue from "../../algorithms/get-value.js";
+
+import type { RealmHooks } from "../../hooks/index.js";
+
 import type { StaticJsRealmOptions } from "../factories/StaticJsRealm.js";
 import type { StaticJsRealmGlobalDeclProperty } from "../factories/StaticJsRealmGlobalOptions.js";
 import type { StaticJsModuleResolution } from "../StaticJsModuleResolver.js";
 import type { StaticJsModuleResolver } from "../StaticJsModuleResolver.js";
 
-import type {
-  StaticJsTaskIterator,
-  StaticJsTaskRunner,
-} from "../../tasks/StaticJsTaskIterator.js";
-
 import type { StaticJsRealm } from "../StaticJsRealm.js";
-import type { StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
+
 import type {
   StaticJsRealmEvaluateScriptOptions,
   StaticJsRealmEvaluateScriptSyncOptions,
 } from "../StaticJsRealmEvaluateScriptOptions.js";
 
-import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
-
 import Macrotask from "./Macrotask.js";
-import globalDeclarationInstantiation from "../../../evaluator/instantiation/global-declaration-instantiation.js";
-import getValue from "../../algorithms/get-value.js";
-import type { RealmHooks } from "../hooks/index.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;

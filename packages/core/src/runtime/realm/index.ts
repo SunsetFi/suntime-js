@@ -15,8 +15,6 @@ export type {
   StaticJsRealmEvaluateScriptOptions,
 } from "./StaticJsRealmEvaluateScriptOptions.js";
 
-export type { RealmHooks } from "./hooks/index.js";
-
 export type { StaticJsEvaluator as StaticJsRealmEvaluator } from "../../evaluator/StaticJsEvaluator.js";
 
 import fStaticJsRealm from "./factories/StaticJsRealm.js";

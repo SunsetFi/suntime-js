@@ -16,7 +16,7 @@ import type {
   StaticJsRealmEvaluateScriptSyncOptions,
 } from "./StaticJsRealmEvaluateScriptOptions.js";
 import type { StaticJsEvaluator } from "../../evaluator/StaticJsEvaluator.js";
-import type { RealmHooks } from "./hooks/index.js";
+import type { RealmHooks } from "../hooks/index.js";
 
 /**
  * A top-level construct describing the overall environment in which a javascript program is executed.

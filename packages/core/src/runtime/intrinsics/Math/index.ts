@@ -1,7 +1,7 @@
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { mathDefaultHooks } from "../../realm/hooks/Math/index.js";
+import { mathDefaultHooks } from "../../hooks/Math/index.js";
 
 import StaticJsObjectImpl from "../../types/implementation/StaticJsObjectImpl.js";
 import StaticJsNumberImpl from "../../types/implementation/StaticJsNumberImpl.js";

@@ -10,7 +10,7 @@ import type {
 
 import type { StaticJsRealm as IStaticJsRealm } from "../StaticJsRealm.js";
 
-import { realmDefaultHooks } from "../hooks/index.js";
+import { realmDefaultHooks } from "../../hooks/index.js";
 
 import type { StaticJsRealmGlobalOption } from "./StaticJsRealmGlobalOptions.js";
 import type { StaticJsRealmHookOptions } from "./StaticJsRealmHooksOptions.js";
