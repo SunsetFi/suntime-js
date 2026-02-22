@@ -39,6 +39,7 @@ import arrayProtoSymbolIteratorDeclaration from "./symbol_iterator.js";
 import arrayProtoSymbolUnscopables from "./symbol_unscopables.js";
 import arrayProtoToStringDeclaration from "./toString.js";
 import arrayProtoUnshiftDeclaration from "./unshift.js";
+import arrayProtoValuesDeclaration from "./values.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoAtDeclaration,
@@ -75,7 +76,10 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoSymbolIteratorDeclaration,
   arrayProtoSymbolUnscopables,
   arrayProtoToStringDeclaration,
+  // TOOD: toReversed, and so on
   arrayProtoUnshiftDeclaration,
+  arrayProtoValuesDeclaration,
+  // TODO: with
 ];
 
 export default function populateArrayPrototype(

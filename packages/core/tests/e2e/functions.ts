@@ -648,6 +648,85 @@ describe("E2E: Functions", () => {
     });
   });
 
+  describe("Arguments Object", () => {
+    describe("Unmapped / Strict", () => {
+      it("Defines an arguments object", async () => {
+        const code = `
+          "use strict";
+          function a() {
+            return arguments;
+          }
+          a();
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBeTypeOf("object");
+      });
+
+      it("Arguments object has correct length", async () => {
+        const code = `
+          "use strict";
+          function a() {
+            return arguments.length;
+          }
+          a(1, 2);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(2);
+      });
+
+      it("Arguments object has the correct values", async () => {
+        const code = `
+          "use strict";
+          function a() {
+            return arguments[0] + arguments[1];
+          }
+          a(40, 2);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(42);
+      });
+
+      it("Arguments object is not affected by parameter mutations", async () => {
+        const code = `
+          "use strict";
+          function a(x) {
+            x = 42;
+            return arguments[0];
+          }
+          a(1);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(1);
+      });
+
+      it("Arguments object throws TypeError when accessing callee", async () => {
+        const code = `
+          "use strict";
+          function a() {
+            return arguments.callee;
+          }
+          a();
+        `;
+        expect(() => evaluateScript(code)).rejects.toHaveProperty(
+          "name",
+          "TypeError",
+        );
+      });
+
+      it("Arguments object is iterable", async () => {
+        const code = `
+          "use strict";
+          function a() {
+            return [...arguments];
+          }
+          a(1, 2, 3);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual([1, 2, 3]);
+      });
+    });
+  });
+
   describe("Scopes", () => {
     it("Can access outer scope", async () => {
       const code = `
