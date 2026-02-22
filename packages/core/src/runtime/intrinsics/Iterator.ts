@@ -9,7 +9,7 @@ export function populateIteratorPrototype(
   realm: StaticJsRealm,
   iteratorProto: StaticJsObject,
 ) {
-  iteratorProto.definePropertySync(realm.types.symbols.iterator, {
+  iteratorProto.defineOwnPropertySync(realm.types.symbols.iterator, {
     writable: true,
     enumerable: false,
     configurable: true,
@@ -20,7 +20,7 @@ export function populateIteratorPrototype(
     }),
   });
 
-  iteratorProto.definePropertySync("next", {
+  iteratorProto.defineOwnPropertySync("next", {
     writable: true,
     enumerable: false,
     configurable: true,
@@ -48,13 +48,13 @@ export function createIteratorConstructor(
     );
   });
 
-  ctor.definePropertySync("prototype", {
+  ctor.defineOwnPropertySync("prototype", {
     writable: false,
     enumerable: false,
     configurable: false,
     value: iteratorProto,
   });
-  iteratorProto.definePropertySync("constructor", {
+  iteratorProto.defineOwnPropertySync("constructor", {
     writable: true,
     enumerable: false,
     configurable: true,

@@ -6,7 +6,6 @@ import definePropertyOrThrow from "../../../runtime/algorithms/define-property-o
 import type { StaticJsObjectLike } from "../../../runtime/types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
-import StaticJsArgumentsExoticObject from "../../../runtime/types/implementation/StaticJsArgumentsExoticObject.js";
 import StaticJsFunctionImpl from "../../../runtime/types/implementation/StaticJsFunctionImpl.js";
 
 import { ThrowCompletion } from "../../completions/ThrowCompletion.js";
@@ -19,7 +18,7 @@ export default function* createUnmappedArgumentsObject(
 ): EvaluationGenerator<StaticJsObjectLike> {
   const len = argumentsList.length;
 
-  const obj = new StaticJsArgumentsExoticObject(undefined, realm);
+  const obj = realm.types.object();
 
   yield* definePropertyOrThrow(
     obj,

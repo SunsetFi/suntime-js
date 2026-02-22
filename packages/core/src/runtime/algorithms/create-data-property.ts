@@ -16,5 +16,5 @@ export default function* createDataProperty(
     enumerable: true,
     configurable: true,
   };
-  return yield* O.definePropertyEvaluator(P, desc);
+  return yield* O.defineOwnPropertyEvaluator(P, desc);
 }

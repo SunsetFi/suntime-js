@@ -45,13 +45,13 @@ export default function createArrayConstructor(
     { construct: true },
   );
 
-  ctor.definePropertySync("prototype", {
+  ctor.defineOwnPropertySync("prototype", {
     value: arrayProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
-  arrayProto.definePropertySync("constructor", {
+  arrayProto.defineOwnPropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

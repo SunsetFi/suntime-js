@@ -40,14 +40,14 @@ export function createReferenceErrorConstructor(
     { construct: true },
   );
 
-  ctor.definePropertySync("prototype", {
+  ctor.defineOwnPropertySync("prototype", {
     value: refernceErrorProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
 
-  refernceErrorProto.definePropertySync("constructor", {
+  refernceErrorProto.defineOwnPropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

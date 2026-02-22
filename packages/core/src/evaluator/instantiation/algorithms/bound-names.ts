@@ -1,7 +1,11 @@
 import type { Node } from "@babel/types";
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
-export default function boundNames(node: Node): string[] {
+export default function boundNames(node: Node | Node[]): string[] {
+  if (Array.isArray(node)) {
+    return node.flatMap(boundNames);
+  }
+
   switch (node.type) {
     case "Identifier":
       return [node.name];

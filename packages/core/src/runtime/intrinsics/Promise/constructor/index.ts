@@ -75,13 +75,13 @@ export default function createPromiseConstructor(
     { construct: true },
   );
 
-  ctor.definePropertySync("prototype", {
+  ctor.defineOwnPropertySync("prototype", {
     value: promiseProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
-  promiseProto.definePropertySync("constructor", {
+  promiseProto.defineOwnPropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

@@ -74,13 +74,13 @@ export default function createObjectConstructor(
     { construct: true },
   );
 
-  ctor.definePropertySync("prototype", {
+  ctor.defineOwnPropertySync("prototype", {
     value: objectProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
-  objectProto.definePropertySync("constructor", {
+  objectProto.defineOwnPropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

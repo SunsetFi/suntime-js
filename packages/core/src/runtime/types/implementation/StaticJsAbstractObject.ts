@@ -249,27 +249,27 @@ export default abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorSync(this.getOwnPropertyEvaluator(key));
   }
 
-  definePropertyAsync(
+  defineOwnPropertyAsync(
     key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean> {
     return this.realm.invokeEvaluatorAsync(
-      this.definePropertyEvaluator(key, descriptor),
+      this.defineOwnPropertyEvaluator(key, descriptor),
       opts,
     );
   }
 
-  definePropertySync(
+  defineOwnPropertySync(
     key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): boolean {
     return this.realm.invokeEvaluatorSync(
-      this.definePropertyEvaluator(key, descriptor),
+      this.defineOwnPropertyEvaluator(key, descriptor),
     );
   }
 
-  *definePropertyEvaluator(
+  *defineOwnPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
     desc: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean> {

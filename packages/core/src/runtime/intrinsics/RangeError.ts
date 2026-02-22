@@ -40,14 +40,14 @@ export function createRangeErrorConstructor(
     { construct: true },
   );
 
-  ctor.definePropertySync("prototype", {
+  ctor.defineOwnPropertySync("prototype", {
     value: rangeErrorProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
 
-  rangeErrorProto.definePropertySync("constructor", {
+  rangeErrorProto.defineOwnPropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

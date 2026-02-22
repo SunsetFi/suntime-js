@@ -23,13 +23,13 @@ export default function* createArrayIterator(
     const indexStr = String(index);
     switch (kind) {
       case "key+value": {
-        const key = realm.types.string(indexStr);
+        const key = realm.types.number(index);
         const val = yield* array.getEvaluator(indexStr);
         value = realm.types.array([key, val]);
         break;
       }
       case "key": {
-        value = realm.types.string(indexStr);
+        value = realm.types.number(index);
         break;
       }
       case "value": {

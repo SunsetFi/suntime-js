@@ -29,28 +29,28 @@ export default function* createListIteratorRecord(
 
   const iterator = realm.types.object();
 
-  yield* iterator.definePropertyEvaluator("next", {
+  yield* iterator.defineOwnPropertyEvaluator("next", {
     value: next,
     writable: true,
     enumerable: false,
     configurable: true,
   });
 
-  yield* iterator.definePropertyEvaluator("throw", {
+  yield* iterator.defineOwnPropertyEvaluator("throw", {
     value: realm.types.null,
     writable: true,
     enumerable: false,
     configurable: true,
   });
 
-  yield* iterator.definePropertyEvaluator("return", {
+  yield* iterator.defineOwnPropertyEvaluator("return", {
     value: realm.types.null,
     writable: true,
     enumerable: false,
     configurable: true,
   });
 
-  yield* iterator.definePropertyEvaluator(realm.types.symbols.iterator, {
+  yield* iterator.defineOwnPropertyEvaluator(realm.types.symbols.iterator, {
     value: iterator,
     writable: true,
     enumerable: false,

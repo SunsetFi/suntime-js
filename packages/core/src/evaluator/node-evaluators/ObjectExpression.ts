@@ -97,7 +97,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
       return null;
     }
     case "get": {
-      yield* target.definePropertyEvaluator(propertyKey, {
+      yield* target.defineOwnPropertyEvaluator(propertyKey, {
         enumerable: true,
         configurable: true,
         get: method,
@@ -105,7 +105,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
       return null;
     }
     case "set": {
-      yield* target.definePropertyEvaluator(propertyKey, {
+      yield* target.defineOwnPropertyEvaluator(propertyKey, {
         enumerable: true,
         configurable: true,
         set: method,

@@ -60,13 +60,13 @@ export default function createNumberConstructor(
     },
   );
 
-  ctor.definePropertySync("prototype", {
+  ctor.defineOwnPropertySync("prototype", {
     configurable: false,
     enumerable: false,
     writable: false,
     value: numberProto,
   });
-  numberProto.definePropertySync("constructor", {
+  numberProto.defineOwnPropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

@@ -32,7 +32,7 @@ class StaticJsBoundFunction
 
     const boundLength = yield* targetFunc.getEvaluator("length");
     const length = yield* toInteger(boundLength, realm);
-    yield* instance.definePropertyEvaluator("length", {
+    yield* instance.defineOwnPropertyEvaluator("length", {
       value: realm.types.number(Math.max(0, length.value - boundArgs.length)),
       writable: false,
       enumerable: false,
@@ -40,7 +40,7 @@ class StaticJsBoundFunction
     });
 
     const name = yield* targetFunc.getEvaluator("name");
-    yield* instance.definePropertyEvaluator("name", {
+    yield* instance.defineOwnPropertyEvaluator("name", {
       value: realm.types.string(
         isStaticJsString(name) ? `bound ${name.value}` : "bound",
       ),

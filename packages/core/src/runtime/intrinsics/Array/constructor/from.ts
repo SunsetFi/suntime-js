@@ -113,7 +113,7 @@ function* fromIterator(
       }
 
       // Per spec: Use define, not set.
-      yield* A.definePropertyEvaluator(Pk, {
+      yield* A.defineOwnPropertyEvaluator(Pk, {
         value: mappedValue,
         writable: true,
         enumerable: true,
@@ -157,7 +157,7 @@ function* fromArrayLike(
     }
 
     // Per spec: Use define, not set.
-    yield* A.definePropertyEvaluator(pK, {
+    yield* A.defineOwnPropertyEvaluator(pK, {
       value: mappedValue,
       writable: true,
       enumerable: true,

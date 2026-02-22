@@ -636,7 +636,7 @@ function resolveGlobalObject(
     for (const [name, descriptor] of Object.entries(globalObject.properties)) {
       const descr = globalDeclToDescriptor(realm, descriptor);
 
-      globalObjectResolved.definePropertySync(name, descr);
+      globalObjectResolved.defineOwnPropertySync(name, descr);
     }
   } else {
     throw new Error("Invalid globalObject");

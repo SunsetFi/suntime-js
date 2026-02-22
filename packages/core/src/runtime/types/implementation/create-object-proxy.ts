@@ -183,7 +183,7 @@ export default function createStaticJsObjectLikeProxy(
         if (descriptor.set) {
           sjsDescriptor.set = obj.realm.types.toStaticJsValue(descriptor.set);
         }
-        obj.definePropertySync(staticJsPropertyKey, sjsDescriptor);
+        obj.defineOwnPropertySync(staticJsPropertyKey, sjsDescriptor);
       } else {
         const sjsDescriptor: StaticJsPropertyDescriptor = {
           configurable: descriptor.configurable ?? false,
@@ -191,7 +191,7 @@ export default function createStaticJsObjectLikeProxy(
           writable: descriptor.writable ?? false,
           value: obj.realm.types.toStaticJsValue(descriptor.value),
         };
-        obj.definePropertySync(staticJsPropertyKey, sjsDescriptor);
+        obj.defineOwnPropertySync(staticJsPropertyKey, sjsDescriptor);
       }
 
       return false;

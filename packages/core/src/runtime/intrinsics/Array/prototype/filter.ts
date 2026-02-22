@@ -54,7 +54,7 @@ const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
       // Needs to be define, not set, for spec compliance.
       // This is only relevant for crazy things like a subclass of array
       // with setter props for index values.
-      yield* target.definePropertyEvaluator(String(to), {
+      yield* target.defineOwnPropertyEvaluator(String(to), {
         value: elementValue,
         writable: true,
         enumerable: true,

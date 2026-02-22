@@ -64,7 +64,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
           }
 
           const value = yield* result.getEvaluator(String(k));
-          yield* A.definePropertyEvaluator(String(n), {
+          yield* A.defineOwnPropertyEvaluator(String(n), {
             value: value,
             writable: true,
             enumerable: true,
@@ -79,7 +79,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
           );
         }
 
-        yield* A.definePropertyEvaluator(String(n), {
+        yield* A.defineOwnPropertyEvaluator(String(n), {
           value: result,
           writable: true,
           enumerable: true,

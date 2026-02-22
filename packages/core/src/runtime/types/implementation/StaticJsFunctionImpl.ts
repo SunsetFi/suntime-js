@@ -63,14 +63,14 @@ export default class StaticJsFunctionImpl
 
     // FIXME: Suspicious use of non-evaluator defineProperty during construction.
     // Invokes runEvaluatorUntilCompletion
-    this.definePropertySync("name", {
+    this.defineOwnPropertySync("name", {
       value: new StaticJsStringImpl(realm, name ?? ""),
       writable: false,
       enumerable: false,
       configurable: true,
     });
 
-    this.definePropertySync("length", {
+    this.defineOwnPropertySync("length", {
       value: new StaticJsNumberImpl(realm, length ?? _call.length - 1),
       writable: false,
       enumerable: false,

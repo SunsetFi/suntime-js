@@ -28,7 +28,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
       if (yield* O.hasPropertyEvaluator(property)) {
         const E = yield* O.getEvaluator(property);
         // Per spec, must be defineProperty
-        yield* A.definePropertyEvaluator(String(n), {
+        yield* A.defineOwnPropertyEvaluator(String(n), {
           value: E,
           writable: true,
           enumerable: true,
@@ -62,7 +62,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
             const subElement = yield* objE.getEvaluator(Pk);
 
             // Per spec, must be defineProperty
-            yield* A.definePropertyEvaluator(String(n), {
+            yield* A.defineOwnPropertyEvaluator(String(n), {
               value: subElement,
               writable: true,
               enumerable: true,
@@ -80,7 +80,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
         }
 
         // Per spec, must be defineProperty
-        yield* A.definePropertyEvaluator(String(n), {
+        yield* A.defineOwnPropertyEvaluator(String(n), {
           value: E,
           writable: true,
           enumerable: true,

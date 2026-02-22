@@ -18,7 +18,7 @@ const objectCtorFreezeDeclaration: IntrinsicPropertyDeclaration = {
 
     const keys = yield* obj.ownPropertyKeysEvaluator();
     for (const key of keys) {
-      yield* obj.definePropertyEvaluator(key, {
+      yield* obj.defineOwnPropertyEvaluator(key, {
         writable: false,
         configurable: false,
       });

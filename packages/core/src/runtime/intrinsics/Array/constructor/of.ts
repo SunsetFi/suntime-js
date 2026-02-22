@@ -41,7 +41,7 @@ const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
 
     while (k < items.length) {
       // Per spec, must be defineProperty
-      yield* A.definePropertyEvaluator(String(k), {
+      yield* A.defineOwnPropertyEvaluator(String(k), {
         value: items[k],
         writable: true,
         enumerable: true,

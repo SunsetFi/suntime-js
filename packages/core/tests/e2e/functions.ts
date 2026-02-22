@@ -649,7 +649,7 @@ describe("E2E: Functions", () => {
   });
 
   describe("Arguments Object", () => {
-    describe("Unmapped / Strict", () => {
+    describe("Unmapped", () => {
       it("Defines an arguments object", async () => {
         const code = `
           "use strict";
@@ -723,6 +723,89 @@ describe("E2E: Functions", () => {
         `;
         const result = await evaluateScript(code);
         expect(result).toEqual([1, 2, 3]);
+      });
+
+      it("Uses an unmapped arguments object for complex parameters", async () => {
+        const code = `
+          "use strict";
+          function a({ x }, b) {
+            b = 44;
+            return arguments[1];
+          }
+          a({ x: 42 }, 12);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(12);
+      });
+    });
+
+    describe("Mapped", () => {
+      it("Defines an arguments object", async () => {
+        const code = `
+          function a() {
+            return arguments;
+          }
+          a();
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBeTypeOf("object");
+      });
+
+      it("Arguments object has correct length", async () => {
+        const code = `
+          function a() {
+            return arguments.length;
+          }
+          a(1, 2);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(2);
+      });
+
+      it("Arguments object has the correct values", async () => {
+        const code = `
+          function a() {
+            return arguments[0] + arguments[1];
+          }
+          a(40, 2);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(42);
+      });
+
+      it("Arguments object is affected by parameter mutations", async () => {
+        const code = `
+          function a(x) {
+            x = 42;
+            return arguments[0];
+          }
+          a(1);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(42);
+      });
+
+      it("Arguments object mutations affect the parameters", async () => {
+        const code = `
+          function a(x) {
+            arguments[0] = 42;
+            return x;
+          }
+          a(1);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(42);
+      });
+
+      it("Arguments.callee is set to the function", async () => {
+        const code = `
+          function a() {
+            return arguments.callee;
+          }
+          a() === a;
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(true);
       });
     });
   });

@@ -50,7 +50,7 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
         thisArg,
       ]);
 
-      yield* A.definePropertyEvaluator(property, {
+      yield* A.defineOwnPropertyEvaluator(property, {
         value: result,
         writable: true,
         enumerable: true,

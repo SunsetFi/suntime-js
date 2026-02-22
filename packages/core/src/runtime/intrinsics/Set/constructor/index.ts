@@ -64,13 +64,13 @@ export default function createSetConstructor(
     },
   );
 
-  ctor.definePropertySync("prototype", {
+  ctor.defineOwnPropertySync("prototype", {
     configurable: false,
     enumerable: false,
     writable: false,
     value: setProto,
   });
-  setProto.definePropertySync("constructor", {
+  setProto.defineOwnPropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

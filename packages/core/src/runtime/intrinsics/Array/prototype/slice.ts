@@ -58,7 +58,7 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const value = yield* thisObj.getEvaluator(property);
-      yield* A.definePropertyEvaluator(String(i), {
+      yield* A.defineOwnPropertyEvaluator(String(i), {
         value: value,
         writable: true,
         enumerable: true,

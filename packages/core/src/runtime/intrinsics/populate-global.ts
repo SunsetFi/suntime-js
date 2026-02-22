@@ -37,7 +37,7 @@ export function populateGlobal(
   applyIntrinsicProperties(realm, globalObject, globalPropertyDeclarations);
 
   const Math = createMathStatic(realm);
-  globalObject.definePropertySync("Math", {
+  globalObject.defineOwnPropertySync("Math", {
     value: Math,
     writable: true,
     enumerable: false,
@@ -45,7 +45,7 @@ export function populateGlobal(
   });
 
   for (const [key, value] of Object.entries(realm.types.constructors)) {
-    globalObject.definePropertySync(key, {
+    globalObject.defineOwnPropertySync(key, {
       value,
       writable: true,
       enumerable: false,

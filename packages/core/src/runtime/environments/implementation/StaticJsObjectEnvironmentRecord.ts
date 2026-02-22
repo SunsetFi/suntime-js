@@ -47,7 +47,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
     name: string,
     deletable: boolean,
   ): EvaluationGenerator<void> {
-    yield* this._obj.definePropertyEvaluator(name, {
+    yield* this._obj.defineOwnPropertyEvaluator(name, {
       value: this._realm.types.undefined,
       writable: true,
       enumerable: true,

@@ -49,7 +49,7 @@ const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
         );
       }
 
-      yield* targetValue.definePropertyEvaluator(key, descriptor);
+      yield* targetValue.defineOwnPropertyEvaluator(key, descriptor);
     }
 
     return targetValue;

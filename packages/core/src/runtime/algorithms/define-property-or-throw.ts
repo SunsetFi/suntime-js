@@ -13,7 +13,7 @@ export default function* definePropertyOrThrow(
   desc: StaticJsPropertyDescriptor,
   realm: StaticJsRealm,
 ): EvaluationGenerator<void> {
-  const success = yield* O.definePropertyEvaluator(P, desc);
+  const success = yield* O.defineOwnPropertyEvaluator(P, desc);
 
   if (!success) {
     throw new ThrowCompletion(

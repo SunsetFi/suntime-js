@@ -94,14 +94,14 @@ export function applyIntrinsicProperties(
         ...args: (StaticJsValue | undefined)[]
       ) => prop.func(realm, thisArg, ...args);
 
-      obj.definePropertySync(key, {
+      obj.defineOwnPropertySync(key, {
         value: new StaticJsFunctionImpl(realm, name ?? "anonymous", func),
         enumerable: prop.enumerable ?? false,
         configurable: prop.configurable ?? true,
         writable: prop.writable ?? true,
       });
     } else if (isDataIntrinsicPropertyDeclaration(prop)) {
-      obj.definePropertySync(key, {
+      obj.defineOwnPropertySync(key, {
         value:
           typeof prop.value === "function" ? prop.value(realm) : prop.value,
         enumerable: prop.enumerable ?? false,
@@ -109,7 +109,7 @@ export function applyIntrinsicProperties(
         writable: prop.writable ?? false,
       });
     } else if (isAccessorIntrinsicPropertyDeclaration(prop)) {
-      obj.definePropertySync(key, {
+      obj.defineOwnPropertySync(key, {
         get: prop.get
           ? new StaticJsFunctionImpl(realm, "get", (thisArg) =>
               prop.get!(realm, thisArg),

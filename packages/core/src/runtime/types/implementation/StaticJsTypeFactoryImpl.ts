@@ -174,7 +174,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
           ? properties.entries()
           : Object.entries(properties);
       for (const [key, value] of iterator) {
-        obj.definePropertySync(key, value);
+        obj.defineOwnPropertySync(key, value);
       }
     }
 

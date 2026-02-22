@@ -27,6 +27,7 @@ import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarati
 import createUnmappedArgumentsObject from "./algorithms/create-unmapped-arguments-object.js";
 import type { StaticJsAstFunctionArgument } from "../../runtime/types/implementation/StaticJsAstFunctionArgument.js";
 import type { StaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
+import createMappedArgumentsObject from "./algorithms/create-mapped-arguments-object.js";
 
 export default function* functionDeclarationInstantiation(
   func: StaticJsAstFunction,
@@ -113,11 +114,17 @@ export default function* functionDeclarationInstantiation(
   }
 
   if (argumentsObjectNeeded) {
-    let ao: StaticJsObjectLike | undefined = undefined;
+    let ao: StaticJsObjectLike;
     if (strict || !simpleParameterList) {
       ao = yield* createUnmappedArgumentsObject(argumentsList, realm);
     } else {
-      // FIXME: Mapped arguments object
+      ao = yield* createMappedArgumentsObject(
+        func,
+        formals,
+        argumentsList,
+        env,
+        realm,
+      );
     }
 
     if (strict) {
@@ -126,13 +133,8 @@ export default function* functionDeclarationInstantiation(
       yield* env.createMutableBindingEvaluator("arguments", false);
     }
 
-    // Note: Remove if() when mapped arguments object is implemented.
-    if (ao) {
-      yield* env.initializeBindingEvaluator("arguments", ao);
-      parameterBindings = [...parameterNames, "arguments"];
-    } else {
-      parameterBindings = parameterNames;
-    }
+    yield* env.initializeBindingEvaluator("arguments", ao);
+    parameterBindings = [...parameterNames, "arguments"];
   } else {
     parameterBindings = parameterNames;
   }

@@ -94,16 +94,16 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
-  definePropertyAsync(
+  defineOwnPropertyAsync(
     key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean>;
-  definePropertySync(
+  defineOwnPropertySync(
     key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): boolean;
-  definePropertyEvaluator(
+  defineOwnPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean>;

@@ -58,7 +58,7 @@ const objectCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
 
     const result = realm.types.object();
     for (const [key, items] of collection) {
-      yield* result.definePropertyEvaluator(key, {
+      yield* result.defineOwnPropertyEvaluator(key, {
         enumerable: true,
         writable: true,
         configurable: true,

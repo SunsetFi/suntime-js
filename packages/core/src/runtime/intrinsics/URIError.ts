@@ -40,14 +40,14 @@ export function createURIErrorConstructor(
     { construct: true },
   );
 
-  ctor.definePropertySync("prototype", {
+  ctor.defineOwnPropertySync("prototype", {
     value: uriErrorProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
 
-  uriErrorProto.definePropertySync("constructor", {
+  uriErrorProto.defineOwnPropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

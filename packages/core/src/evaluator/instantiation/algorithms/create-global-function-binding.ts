@@ -35,7 +35,7 @@ export default function* createGlobalFunctionBinding(
     };
   }
 
-  const result = yield* globalObject.definePropertyEvaluator(name, desc);
+  const result = yield* globalObject.defineOwnPropertyEvaluator(name, desc);
   if (!result) {
     throw new ThrowCompletion(
       realm.types.error(

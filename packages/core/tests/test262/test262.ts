@@ -125,7 +125,7 @@ function defineTest(
       let awaitPromise: Promise<void> = Promise.resolve();
       if (testMeta.async) {
         awaitPromise = new Promise((resolve, reject) => {
-          realm.global.definePropertySync("$DONE", {
+          realm.global.defineOwnPropertySync("$DONE", {
             writable: true,
             configurable: true,
             enumerable: false,
@@ -173,11 +173,11 @@ function createHostApi(realm: StaticJsRealm) {
     configurable: true,
     enumerable: false,
   } as const;
-  realm.global.definePropertySync("print", {
+  realm.global.defineOwnPropertySync("print", {
     ...hostDefinedProperty,
     value: realm.types.toStaticJsValue((value: string) => console.log(value)),
   });
-  realm.global.definePropertySync("$262", {
+  realm.global.defineOwnPropertySync("$262", {
     ...hostDefinedProperty,
     value: realm.types.object({
       createRealm: {

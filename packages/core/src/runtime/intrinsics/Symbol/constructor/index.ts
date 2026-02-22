@@ -47,13 +47,13 @@ export default function createSymbolConstructor(
     },
   );
 
-  ctor.definePropertySync("prototype", {
+  ctor.defineOwnPropertySync("prototype", {
     configurable: false,
     enumerable: false,
     writable: false,
     value: symbolProto,
   });
-  symbolProto.definePropertySync("constructor", {
+  symbolProto.defineOwnPropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,
@@ -61,7 +61,7 @@ export default function createSymbolConstructor(
   });
 
   for (const [key, symbol] of Object.entries(realm.types.symbols)) {
-    ctor.definePropertySync(key, {
+    ctor.defineOwnPropertySync(key, {
       value: symbol,
       writable: false,
       enumerable: false,

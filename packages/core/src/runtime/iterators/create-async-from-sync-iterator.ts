@@ -23,7 +23,7 @@ export default function* createAsyncFromSyncIterator(
 
   // TODO: Should be implemented by prototypes.
 
-  yield* asyncIterator.definePropertyEvaluator(
+  yield* asyncIterator.defineOwnPropertyEvaluator(
     realm.types.symbols.asyncIterator,
     {
       value: asyncIterator,
@@ -33,7 +33,7 @@ export default function* createAsyncFromSyncIterator(
     },
   );
 
-  yield* asyncIterator.definePropertyEvaluator("next", {
+  yield* asyncIterator.defineOwnPropertyEvaluator("next", {
     value: new StaticJsFunctionImpl(realm, "next", function* (thisArg, value) {
       const promiseCapability = yield* newPromiseCapability(
         realm.types.constructors.Promise,

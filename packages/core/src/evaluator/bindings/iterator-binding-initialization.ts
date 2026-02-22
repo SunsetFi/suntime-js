@@ -76,7 +76,7 @@ export default function* iteratorBindingInitialization(
             break;
           }
 
-          yield* A.definePropertyEvaluator(n.toString(), {
+          yield* A.defineOwnPropertyEvaluator(n.toString(), {
             value: next,
             writable: true,
             enumerable: true,
@@ -104,7 +104,7 @@ export default function* iteratorBindingInitialization(
             break;
           }
 
-          yield* A.definePropertyEvaluator(n.toString(), {
+          yield* A.defineOwnPropertyEvaluator(n.toString(), {
             value: next,
             writable: true,
             enumerable: true,

@@ -40,14 +40,14 @@ export function createSyntaxErrorConstructor(
     { construct: true },
   );
 
-  ctor.definePropertySync("prototype", {
+  ctor.defineOwnPropertySync("prototype", {
     value: syntaxErrorProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
 
-  syntaxErrorProto.definePropertySync("constructor", {
+  syntaxErrorProto.defineOwnPropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

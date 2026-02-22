@@ -57,13 +57,13 @@ export default function createFunctionConstructor(
     { prototype: functionProto, construct: true },
   );
 
-  ctor.definePropertySync("prototype", {
+  ctor.defineOwnPropertySync("prototype", {
     value: functionProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
-  functionProto.definePropertySync("constructor", {
+  functionProto.defineOwnPropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

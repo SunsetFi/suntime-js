@@ -42,14 +42,14 @@ export default function createErrorConstructor(
     { construct: true },
   );
 
-  ctor.definePropertySync("prototype", {
+  ctor.defineOwnPropertySync("prototype", {
     value: errorProto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
 
-  errorProto.definePropertySync("constructor", {
+  errorProto.defineOwnPropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

@@ -69,7 +69,7 @@ export default class StaticJsArrayImpl
           continue;
         }
 
-        yield* array.definePropertyEvaluator(Pi, {
+        yield* array.defineOwnPropertyEvaluator(Pi, {
           value: itemsOrLen[i],
           writable: true,
           enumerable: true,

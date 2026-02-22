@@ -24,13 +24,13 @@ export default function createStringConstructor(
     },
   );
 
-  ctor.definePropertySync("prototype", {
+  ctor.defineOwnPropertySync("prototype", {
     configurable: false,
     enumerable: false,
     writable: false,
     value: stringProto,
   });
-  stringProto.definePropertySync("constructor", {
+  stringProto.defineOwnPropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

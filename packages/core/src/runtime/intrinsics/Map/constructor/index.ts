@@ -67,13 +67,13 @@ export default function createMapConstructor(
     },
   );
 
-  ctor.definePropertySync("prototype", {
+  ctor.defineOwnPropertySync("prototype", {
     configurable: false,
     enumerable: false,
     writable: false,
     value: mapProto,
   });
-  mapProto.definePropertySync("constructor", {
+  mapProto.defineOwnPropertySync("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

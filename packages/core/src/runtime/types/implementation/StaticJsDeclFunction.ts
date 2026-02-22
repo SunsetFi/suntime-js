@@ -32,7 +32,7 @@ export default class StaticJsDeclFunction extends StaticJsAstFunction {
     );
 
     // Create our prototype as we are implicitly a constructor.
-    this.definePropertySync("prototype", {
+    this.defineOwnPropertySync("prototype", {
       value: realm.types.object({
         constructor: {
           value: this,
