@@ -17,7 +17,7 @@ import {
   type StaticJsResolvedBinding,
 } from "./StaticJsResolvedBinding.js";
 import { AbnormalCompletionBase } from "../../../evaluator/completions/AbnormalCompletionBase.js";
-import StaticJsNamespaceExoticObject from "./NamespaceExoticObject.js";
+import StaticJsNamespaceExoticObject from "../../types/implementation/StaticJsNamespaceExoticObject.js";
 
 export abstract class StaticJsModuleBase
   implements StaticJsModule, StaticJsModuleImplementation

@@ -6,22 +6,22 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import sameValue from "../../algorithms/same-value.js";
 
-import StaticJsAbstractObject from "../../types/implementation/StaticJsAbstractObject.js";
+import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 import type {
   StaticJsObjectLike,
   StaticJsObjectPropertyKey,
-} from "../../types/StaticJsObjectLike.js";
+} from "../StaticJsObjectLike.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   type StaticJsDataPropertyDescriptor,
   type StaticJsPropertyDescriptor,
-} from "../../types/StaticJsPropertyDescriptor.js";
-import StaticJsTypeCode from "../../types/StaticJsTypeCode.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
+} from "../StaticJsPropertyDescriptor.js";
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import type { StaticJsValue } from "../StaticJsValue.js";
 
-import type { StaticJsModuleImplementation } from "../StaticJsModuleImplementation.js";
-import { BindingNameNamespace } from "./StaticJsResolvedBinding.js";
+import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
+import { BindingNameNamespace } from "../../modules/implementation/StaticJsResolvedBinding.js";
 
 export default class StaticJsNamespaceExoticObject extends StaticJsAbstractObject {
   constructor(

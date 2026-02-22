@@ -1,4 +1,8 @@
-import type { FunctionDeclaration, Node } from "@babel/types";
+import {
+  isIdentifier,
+  type FunctionDeclaration,
+  type Node,
+} from "@babel/types";
 
 import type StaticJsAstFunction from "../../runtime/types/implementation/StaticJsAstFunction.js";
 import type { StaticJsFunctionFactory } from "../../runtime/types/implementation/StaticJsFunctionFactory.js";
@@ -20,6 +24,9 @@ import varScopedDeclarations from "./algorithms/var-scoped-declarations.js";
 import lexicallyDeclaredNames from "./algorithms/lexically-declared-names.js";
 import collectAnnexBFunctionDeclarations from "./algorithms/collect-annex-b-function-declarations.js";
 import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
+import createUnmappedArgumentsObject from "./algorithms/create-unmapped-arguments-object.js";
+import type { StaticJsAstFunctionArgument } from "../../runtime/types/implementation/StaticJsAstFunctionArgument.js";
+import type { StaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
 
 export default function* functionDeclarationInstantiation(
   func: StaticJsAstFunction,
@@ -40,7 +47,7 @@ export default function* functionDeclarationInstantiation(
   const hasDuplicates = parameterNames.length !== new Set(parameterNames).size;
 
   // TODO: arguments object
-  // const simpleParameterList = isSimpleParameterList(formals);
+  const simpleParameterList = isSimpleParameterList(formals);
   const hasParameterExpressions = containsExpression(formals);
 
   // Weirdness because we have no "FunctionStatementList" node type and need
@@ -106,8 +113,26 @@ export default function* functionDeclarationInstantiation(
   }
 
   if (argumentsObjectNeeded) {
-    // TODO: 22 - Create the arguments object and bind it to "arguments"
-    parameterBindings = parameterNames;
+    let ao: StaticJsObjectLike | undefined = undefined;
+    if (strict || !simpleParameterList) {
+      ao = yield* createUnmappedArgumentsObject(argumentsList, realm);
+    } else {
+      // FIXME: Mapped arguments object
+    }
+
+    if (strict) {
+      yield* env.createImmutableBindingEvaluator("arguments", false);
+    } else {
+      yield* env.createMutableBindingEvaluator("arguments", false);
+    }
+
+    // Note: Remove if() when mapped arguments object is implemented.
+    if (ao) {
+      yield* env.initializeBindingEvaluator("arguments", ao);
+      parameterBindings = [...parameterNames, "arguments"];
+    } else {
+      parameterBindings = parameterNames;
+    }
   } else {
     parameterBindings = parameterNames;
   }
@@ -215,6 +240,16 @@ export default function* functionDeclarationInstantiation(
     const fo = createFunction(fn, f, calleeContext);
     yield* varEnv.setMutableBindingEvaluator(fn, fo, false);
   }
+}
+
+function isSimpleParameterList(
+  formals: StaticJsAstFunctionArgument[],
+): boolean {
+  if (formals.length === 0) {
+    return true;
+  }
+
+  return formals.every((formal) => isIdentifier(formal));
 }
 
 function containsExpression(node: Node | Node[]): boolean {
