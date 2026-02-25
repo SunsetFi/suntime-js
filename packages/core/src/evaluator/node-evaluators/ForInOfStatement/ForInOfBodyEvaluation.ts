@@ -171,9 +171,9 @@ export function* forInOfBodyEvaluation(
       } else if (isAbruptCompletion(e)) {
         if (iterationKind === "iterate") {
           if (iteratorKind === "async") {
-            yield* asyncIteratorClose(iteratorRecord, e, realm, false);
+            yield* asyncIteratorClose(iteratorRecord, e, realm, true);
           } else {
-            yield* iteratorClose(iteratorRecord, e, realm, false);
+            yield* iteratorClose(iteratorRecord, e, realm, true);
           }
         }
 

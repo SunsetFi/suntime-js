@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { relative } from "node:path";
 
-import { parseFile as parseTest262 } from "test262-parser";
+import { parseFile as parseTest262, type Test262File } from "test262-parser";
 
 import { describe, it, expect } from "vitest";
 
@@ -14,6 +14,7 @@ import getFilesSync from "./utils/get-files.js";
 import bootstrapTest262 from "./utils/bootstrap.js";
 
 import getBaselineFailures from "../get-baseline-failures.js";
+import { createHostApi } from "./host-api.js";
 
 const LanguageCategories = readdirSync(test262Path("test/language"));
 
@@ -21,11 +22,11 @@ const baselineFailures = process.env.VITEST_COMPARE_BASELINE
   ? getBaselineFailures(fileURLToPath(import.meta.url))
   : [];
 
-describe("Test262", () => {
-  describe("Language", () => {
+describe("test262", () => {
+  describe("language", () => {
     for (const category of LanguageCategories) {
       describe(category, () => {
-        describeLanguageCategory(category, ["Test262", "Language", category]);
+        describeLanguageCategory(category, ["test262", "language", category]);
       });
     }
   });
@@ -40,12 +41,20 @@ function describeLanguageCategory(category: string, ancestorTitles: string[]) {
     return;
   }
 
-  for (const test of tests) {
-    const relPath = relative(categoryDir, test);
+  for (const testPath of tests) {
+    const relPath = relative(categoryDir, testPath);
     const parts = relPath.split(/\/|\\/);
     const testName = parts.splice(-1, 1)[0];
+
+    const testContents = readFileSync(testPath, "utf-8");
+    const testMeta = parseTest262(testContents);
+
+    if (!testMeta.isATest) {
+      continue;
+    }
+
     describePath(parts, () => {
-      defineTest(testName, test, [...ancestorTitles, ...parts]);
+      defineTest(testName, testMeta, [...ancestorTitles, ...parts]);
     });
   }
 }
@@ -55,16 +64,9 @@ const scriptTimeout = 5000;
 
 function defineTest(
   testName: string,
-  testPath: string,
+  testMeta: Test262File,
   ancestorTitles: string[],
 ) {
-  const testContents = readFileSync(testPath, "utf-8");
-  const testMeta = parseTest262(testContents);
-
-  if (!testMeta.isATest) {
-    return;
-  }
-
   // if (testMeta.async) {
   //   it.skip("Ignored async test: " + testName, () => {});
   //   return;
@@ -167,54 +169,6 @@ function defineTest(
   );
 }
 
-function createHostApi(realm: StaticJsRealm) {
-  const hostDefinedProperty = {
-    writable: true,
-    configurable: true,
-    enumerable: false,
-  } as const;
-  realm.global.defineOwnPropertySync("print", {
-    ...hostDefinedProperty,
-    value: realm.types.toStaticJsValue((value: string) => console.log(value)),
-  });
-  realm.global.defineOwnPropertySync("$262", {
-    ...hostDefinedProperty,
-    value: realm.types.object({
-      createRealm: {
-        ...hostDefinedProperty,
-        value: realm.types.toStaticJsValue(() => {
-          const realm = StaticJsRealm({
-            runTask: createTimeBoundTaskRunner({ maxRunTime: 5000 }),
-          });
-          createHostApi(realm);
-        }),
-      },
-      detatchArrayBuffer: {
-        ...hostDefinedProperty,
-        value: realm.types.toStaticJsValue(() => {
-          throw new Error("Not implemented: detatchArrayBuffer");
-        }),
-      },
-      evalScript: {
-        ...hostDefinedProperty,
-        value: realm.types.toStaticJsValue((code: string) => {
-          return realm.evaluateScriptSync(code);
-        }),
-      },
-      gc: {
-        ...hostDefinedProperty,
-        value: realm.types.toStaticJsValue(() => {
-          throw new Error("No garbage collection mechanism implemented");
-        }),
-      },
-      global: {
-        ...hostDefinedProperty,
-        value: realm.global,
-      },
-    }),
-  });
-}
-
 function containsTest(testTile: string[], fullTitles: string[][]) {
   for (const titles of fullTitles) {
     if (titles.length !== testTile.length) {
@@ -229,7 +183,7 @@ function containsTest(testTile: string[], fullTitles: string[][]) {
   return false;
 }
 
-export function describePath(pathSegments: string[], body: () => void) {
+function describePath(pathSegments: string[], body: () => void) {
   const run = (index: number) => {
     if (index >= pathSegments.length) {
       body();

@@ -387,7 +387,11 @@ describe("E2E: Object", () => {
       it("Can enumerate own properties", async () => {
         const code = `
           const obj = { a: 1, b: 2 };
-          Object.keys(obj);
+          let results = [];
+          for (let key in obj) {
+            results.push(key);
+          }
+          results;
         `;
         const result = await evaluateScript(code);
         expect(result).toEqual(["a", "b"]);
@@ -419,6 +423,93 @@ describe("E2E: Object", () => {
         `;
         const result = await evaluateScript(code);
         expect(result).toEqual(["b", "a"]);
+      });
+
+      it("Enumerates string properties in definition order", async () => {
+        const code = `
+          const obj = { a: 1, b: 2, c: 3 };
+          let keys = [];
+          for (let key in obj) {
+            keys.push(key);
+          }
+          keys;
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual(["a", "b", "c"]);
+      });
+
+      it("Enumerates index properties in ascending order", async () => {
+        const code = `
+          const obj = { 2: 'b', 1: 'a', 3: 'c' };
+          let keys = [];
+          for (let key in obj) {
+            keys.push(key);
+          }
+          keys;
+        `;
+
+        const result = await evaluateScript(code);
+        expect(result).toEqual(["1", "2", "3"]);
+      });
+
+      it("Enumerates a mix of index and string properties in the correct order", async () => {
+        const code = `
+          const obj = { 2: 'b', a: 'x', 1: 'a', c: 'y' };
+          Object.keys(obj);
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toEqual(["1", "2", "a", "c"]);
+      });
+    });
+
+    describe("OwnPropertyKeys", () => {
+      it("Returns own string keys in definition order", async () => {
+        const code = `
+          const obj = { a: 1, b: 2 };
+          Object.defineProperty(obj, 'c', { value: 3 });
+          Object.getOwnPropertyNames(obj);
+        `;
+
+        const result = await evaluateScript(code);
+        expect(result).toEqual(["a", "b", "c"]);
+      });
+
+      it("Returns index properties in ascending order", async () => {
+        const code = `
+          const obj = { 2: 'b', 1: 'a', 3: 'c' };
+          Object.getOwnPropertyNames(obj);
+        `;
+
+        const result = await evaluateScript(code);
+        expect(result).toEqual(["1", "2", "3"]);
+      });
+
+      it("Returns index properties before string keys", async () => {
+        const code = `
+          const obj = { 2: 'b', a: 'x', 1: 'a', c: 'y' };
+          Object.getOwnPropertyNames(obj);
+        `;
+
+        const result = await evaluateScript(code);
+        expect(result).toEqual(["1", "2", "a", "c"]);
+      });
+
+      it("Returns symbol keys in definition order", async () => {
+        const code = `
+          const sym1 = Symbol('sym1');
+          const sym2 = Symbol('sym2');
+          const sym3 = Symbol('sym3');
+          const obj = { [sym1]: 'b', [sym2]: 'a' };
+          Object.defineProperty(obj, sym3, { value: 'c' });
+          Object.getOwnPropertySymbols(obj);
+        `;
+
+        const result = (await evaluateScript(code)) as unknown[];
+        expect(result.map(String)).toEqual([
+          "Symbol(sym1)",
+          "Symbol(sym2)",
+          "Symbol(sym3)",
+        ]);
       });
     });
   });

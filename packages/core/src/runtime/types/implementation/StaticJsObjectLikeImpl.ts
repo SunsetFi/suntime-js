@@ -15,6 +15,8 @@ import type {
 } from "../StaticJsObjectLike.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
+import isArrayIndex from "./is-array-index.js";
+import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 
 export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObject {
   private readonly _contents = new Map<
@@ -32,7 +34,22 @@ export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObj
   *ownPropertyKeysEvaluator(): EvaluationGenerator<
     StaticJsObjectPropertyKey[]
   > {
-    return Array.from(this._contents.keys());
+    // These keys have a special order they are returned in.
+    // We can probably precompute this rather than computing it on the fly...
+    const indexes: number[] = [];
+    const keys: string[] = [];
+    const symbols: StaticJsSymbol[] = [];
+    for (const key of this._contents.keys()) {
+      if (isArrayIndex(key)) {
+        indexes.push(Number(key));
+      } else if (typeof key === "string") {
+        keys.push(key);
+      } else {
+        symbols.push(key);
+      }
+    }
+
+    return [...indexes.sort((a, b) => a - b).map(String), ...keys, ...symbols];
   }
 
   *getOwnPropertyEvaluator(

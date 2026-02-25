@@ -22,16 +22,12 @@ import {
   isStaticJsDataPropertyDescriptor,
   isStaticJsAccessorPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
-import {
-  MAX_ARRAY_LENGTH_INCLUSIVE,
-  type StaticJsArray,
-} from "../StaticJsArray.js";
+import { type StaticJsArray } from "../StaticJsArray.js";
 import { isStaticJsNumber } from "../StaticJsNumber.js";
-import { isStaticJsSymbol } from "../StaticJsSymbol.js";
-import type { StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
 
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import isArrayIndex from "./is-array-index.js";
 
 export default class StaticJsArrayImpl
   extends StaticJsObjectLikeImpl
@@ -301,18 +297,4 @@ export default class StaticJsArrayImpl
 
     return true;
   }
-}
-
-function isArrayIndex(value: StaticJsObjectPropertyKey): value is string {
-  if (isStaticJsSymbol(value)) {
-    return false;
-  }
-
-  const parsed = parseInt(value, 10);
-  return (
-    !Number.isNaN(parsed) &&
-    parsed >= 0 &&
-    parsed <= MAX_ARRAY_LENGTH_INCLUSIVE &&
-    Math.floor(parsed) === parsed
-  );
 }

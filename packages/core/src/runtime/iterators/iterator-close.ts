@@ -9,9 +9,9 @@ import type { NormalCompletion } from "../../evaluator/completions/NormalComplet
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import call from "../algorithms/call.js";
+import getMethod from "../algorithms/get-method.js";
 
 import type { IteratorRecord } from "./IteratorRecord.js";
-import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 
 export default function iteratorClose(
   iteratorRecord: IteratorRecord,
@@ -34,11 +34,12 @@ export default function* iteratorClose(
   const iterator = iteratorRecord.iterator;
   let innerResult: Completion;
   try {
-    const returnMethod = yield* iterator.getEvaluator("return");
-    if (isStaticJsUndefined(returnMethod)) {
-      return unwrap ? rethrowCompletion(completion) : completion;
+    innerResult = yield* getMethod(iterator, "return", realm);
+    if (!innerResult) {
+      innerResult = completion;
+    } else {
+      innerResult = yield* call(innerResult, iterator, [], realm);
     }
-    innerResult = yield* call(returnMethod, iterator, [], realm);
   } catch (e) {
     if (isAbruptCompletion(e)) {
       innerResult = e;

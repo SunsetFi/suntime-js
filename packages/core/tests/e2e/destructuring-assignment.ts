@@ -244,4 +244,22 @@ describe("E2E: Destructuring Assignment", () => {
       assert({ result, error });
     },
   );
+
+  it("Resolves properties in correct enumeration order", async () => {
+    // Adapted from test262 language/statements/for-of/dstr/obj-rest-order.js
+    const code = `
+      var rest;
+      var calls = [];
+      var o = { get z() { calls.push('z') }, get a() { calls.push('a') } };
+      Object.defineProperty(o, 1, { get: () => { calls.push(1) }, enumerable: true });
+      Object.defineProperty(o, Symbol('foo'), { get: () => { calls.push("Symbol(foo)") }, enumerable: true });
+
+      for ({...rest} of [o]) {
+        calls;
+      }
+    `;
+
+    const result = await evaluateScript(code);
+    expect(result).toEqual([1, "z", "a", "Symbol(foo)"]);
+  });
 });
