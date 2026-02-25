@@ -9,10 +9,7 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import evaluateStatementList from "./StatementList.js";
 
-function* programNodeEvaluator(
-  node: Program,
-  context: EvaluationContext,
-): EvaluationGenerator {
+function* programNodeEvaluator(node: Program, context: EvaluationContext): EvaluationGenerator {
   if (node.body.length === 0) {
     // Directives are values too!
     // Inherit the last one as a value.

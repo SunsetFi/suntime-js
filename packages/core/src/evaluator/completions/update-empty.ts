@@ -14,10 +14,7 @@ export default function updateEmpty(
 
 updateEmpty.forCompletion = updateEmptyForCompletion;
 
-function updateEmptyForCompletion(
-  completion: Completion,
-  value: CompletionValue,
-): Completion {
+function updateEmptyForCompletion(completion: Completion, value: CompletionValue): Completion {
   if (isAbruptCompletion(completion)) {
     if (completion.value !== null) {
       return completion;

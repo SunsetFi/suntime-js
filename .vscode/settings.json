@@ -6,5 +6,8 @@
     "*.json": "jsonc"
   },
   "vitest.shellType": "child_process",
-  "vitest.logLevel": "verbose"
+  "vitest.logLevel": "verbose",
+  "[typescript]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  }
 }

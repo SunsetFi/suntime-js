@@ -13,13 +13,7 @@ export class ContinueCompletion extends ControlFlowCompletion {
     return newCompletion as this;
   }
 
-  static isContinueForLabel(
-    e: unknown,
-    label: string | null,
-  ): e is ContinueCompletion {
-    return (
-      e instanceof ContinueCompletion &&
-      (e.target === null || e.target === label)
-    );
+  static isContinueForLabel(e: unknown, label: string | null): e is ContinueCompletion {
+    return e instanceof ContinueCompletion && (e.target === null || e.target === label);
   }
 }

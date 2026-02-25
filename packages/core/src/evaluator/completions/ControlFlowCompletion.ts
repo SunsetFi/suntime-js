@@ -14,10 +14,7 @@ export abstract class ControlFlowCompletion extends AbnormalCompletionBase {
   static handleUnexpected(realm: StaticJsRealm, e: unknown) {
     if (e instanceof ControlFlowCompletion) {
       throw new ThrowCompletion(
-        realm.types.error(
-          "SyntaxError",
-          "Unexpected control flow completion: " + e.type,
-        ),
+        realm.types.error("SyntaxError", "Unexpected control flow completion: " + e.type),
       );
     }
 

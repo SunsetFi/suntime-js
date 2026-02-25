@@ -35,15 +35,9 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
       throw e;
     }
 
-    const strict = node.program.directives.some(
-      (dir) => dir.value.value === "use strict",
-    );
+    const strict = node.program.directives.some((dir) => dir.value.value === "use strict");
 
-    let context = EvaluationContext.createRootContext(
-      strict,
-      realm,
-      realm.globalEnv,
-    );
+    let context = EvaluationContext.createRootContext(strict, realm, realm.globalEnv);
 
     const lexEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
     const varEnv = strict ? lexEnv : context.variableEnv;

@@ -15,10 +15,7 @@ export default function* evaluateStatementList(
   statementList: Statement[],
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const result = yield* evaluateStatementListForCompletion(
-    statementList,
-    context,
-  );
+  const result = yield* evaluateStatementListForCompletion(statementList, context);
   return rethrowCompletion(result);
 }
 
