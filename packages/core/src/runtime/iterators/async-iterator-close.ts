@@ -13,6 +13,7 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import call from "../algorithms/call.js";
 
 import type { IteratorRecord } from "./IteratorRecord.js";
+import getMethod from "../algorithms/get-method.js";
 
 export default function asyncIteratorClose(
   iteratorRecord: IteratorRecord,
@@ -35,9 +36,13 @@ export default function* asyncIteratorClose(
   const iterator = iteratorRecord.iterator;
   let innerResult: Completion;
   try {
-    const returnMethod = yield* iterator.getEvaluator("return");
-    innerResult = yield* call(returnMethod, iterator, [], realm);
-    innerResult = yield* AwaitCommand(innerResult);
+    innerResult = yield* getMethod(iterator, "return", realm);
+    if (!innerResult) {
+      innerResult = completion;
+    } else {
+      innerResult = yield* call(innerResult, iterator, [], realm);
+      innerResult = yield* AwaitCommand(innerResult);
+    }
   } catch (e) {
     if (isAbruptCompletion(e)) {
       innerResult = e;
