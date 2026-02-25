@@ -171,15 +171,28 @@ describe("E2E: For loops", () => {
   });
 
   describe("Bindings", async () => {
-    it("Supports let bindings", async () => {
-      const code = `
+    describe("Let", async () => {
+      it("Supports let bindings", async () => {
+        const code = `
           let sum = 0;
           for (let i = 0; i < 10; i++) {
             sum += i;
           }
           sum;
         `;
-      expect(await evaluateScript(code)).toBe(45);
+        expect(await evaluateScript(code)).toBe(45);
+      });
+
+      it("Captures a closure per-iteration", async () => {
+        const code = `
+          let a = [];
+          for (let i = 0; a.push(function () { return i; }), i < 5; ++i) { }
+          a.slice(0, 5).map(k => k());
+        `;
+
+        const result = await evaluateScript(code);
+        expect(result).toEqual([0, 1, 2, 3, 4]);
+      });
     });
 
     it("Supports var bindings", async () => {

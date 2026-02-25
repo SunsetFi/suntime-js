@@ -91,10 +91,13 @@ function* forBodyEvaluation(
   context: EvaluationContext,
 ): EvaluationGenerator {
   let V: NormalCompletion = context.realm.types.undefined;
-  yield* createPerIterationEnvironment(perIterationBindings, context);
+  let iterationContext = yield* createPerIterationEnvironment(
+    perIterationBindings,
+    context,
+  );
   while (true) {
     if (test) {
-      const testValue = yield* EvaluateNodeCommand(test, context, {
+      const testValue = yield* EvaluateNodeCommand(test, iterationContext, {
         forNormalValue: "ForStatement.test",
       });
       const condition = yield* toBoolean.js(testValue, context.realm);
@@ -103,8 +106,11 @@ function* forBodyEvaluation(
       }
     }
 
-    const result = yield* EvaluateNodeForCompletion(statement, context);
-    if (!loopContinues(result, context)) {
+    const result = yield* EvaluateNodeForCompletion(
+      statement,
+      iterationContext,
+    );
+    if (!loopContinues(result, iterationContext)) {
       updateEmpty(result, V);
       return rethrowCompletion(result);
     }
@@ -114,10 +120,13 @@ function* forBodyEvaluation(
       V = resultValue;
     }
 
-    yield* createPerIterationEnvironment(perIterationBindings, context);
+    iterationContext = yield* createPerIterationEnvironment(
+      perIterationBindings,
+      iterationContext,
+    );
 
     if (increment) {
-      yield* EvaluateNodeCommand(increment, context, {
+      yield* EvaluateNodeCommand(increment, iterationContext, {
         // Spec says we always call getValue on this without seeming to allow
         // for it to be empty
         forNormalValue: "ForStatement.increment",
