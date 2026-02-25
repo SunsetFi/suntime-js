@@ -5,10 +5,12 @@ import typedMerge from "../../internal/typed-merge.js";
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
 import loopContinues from "../../runtime/algorithms/loop-continues.js";
 
-import { EvaluateNodeCommand, EvaluateNodeForCompletion } from "../commands/EvaluateNodeCommand.js";
+import {
+  EvaluateNodeCommand,
+  EvaluateNodeForCompletion,
+} from "../commands/EvaluateNodeCommand.js";
 
 import type { NormalCompletion } from "../completions/NormalCompletion.js";
-import rethrowCompletion from "../completions/rethrow-completion.js";
 import completionValue from "../completions/completion-value.js";
 import updateEmpty from "../completions/update-empty.js";
 
@@ -36,8 +38,7 @@ const whileStatementNodeEvaluator = labeledStatementEvaluation(
       const stmtResult = yield* EvaluateNodeForCompletion(node.body, context);
 
       if (!loopContinues(stmtResult, context)) {
-        updateEmpty(stmtResult, V);
-        return rethrowCompletion(stmtResult);
+        return updateEmpty(stmtResult, V);
       }
 
       const stmtResultValue = completionValue(stmtResult);

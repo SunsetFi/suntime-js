@@ -1,30 +1,26 @@
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import type { NormalCompletion } from "./NormalCompletion.js";
+import type { CompletionValue } from "./CompletionValue.js";
 
-export class AbnormalCompletionBase {
-  private _value: NormalCompletion;
+export abstract class AbnormalCompletionBase {
+  private _value: CompletionValue;
 
   constructor(
     public readonly type: string,
-    value: NormalCompletion | null = null,
+    value: CompletionValue = null,
   ) {
-    this._value = value!;
+    this._value = value;
   }
 
-  get value(): NormalCompletion {
+  get value(): CompletionValue {
     return this._value;
   }
 
-  set value(newValue: NormalCompletion) {
+  set value(newValue: CompletionValue) {
     this._value = newValue;
   }
 
-  updateEmpty(value: NormalCompletion): void {
-    if (this._value === null) {
-      this._value = value;
-    }
-  }
+  abstract withValue(value: CompletionValue): this;
 
   toJs(): unknown {
     return new StaticJsEngineError("Unexpected completion type: " + this.type);

@@ -1,6 +1,6 @@
 import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
 
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { AbnormalCompletionBase } from "./AbnormalCompletionBase.js";
 
@@ -13,8 +13,12 @@ export class ThrowCompletion extends AbnormalCompletionBase {
     return super.value as StaticJsValue;
   }
 
-  set value(newValue: StaticJsValue) {
-    super.value = newValue;
+  set value(value: StaticJsValue) {
+    super.value = value;
+  }
+
+  withValue(value: StaticJsValue): this {
+    return new ThrowCompletion(value) as this;
   }
 
   toJs(): unknown {

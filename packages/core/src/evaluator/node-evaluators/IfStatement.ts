@@ -1,21 +1,34 @@
 import type { IfStatement } from "@babel/types";
 
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import {
+  EvaluateNodeCommand,
+  EvaluateNodeForCompletion,
+} from "../commands/EvaluateNodeCommand.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
 
-export default function* ifStatementNodeEvaluator(node: IfStatement, context: EvaluationContext) {
+import type EvaluationContext from "../EvaluationContext.js";
+
+import type { Completion } from "../completions/Completion.js";
+import updateEmpty from "../completions/update-empty.js";
+
+export default function* ifStatementNodeEvaluator(
+  node: IfStatement,
+  context: EvaluationContext,
+) {
   const testResult = yield* EvaluateNodeCommand(node.test, context, {
     forNormalValue: "IfStatement.test",
   });
   const condition = yield* toBoolean.js(testResult, context.realm);
 
+  let stmtCompletion: Completion;
   if (condition) {
-    return yield* EvaluateNodeCommand(node.consequent, context);
+    stmtCompletion = yield* EvaluateNodeForCompletion(node.consequent, context);
   } else if (node.alternate) {
-    return yield* EvaluateNodeCommand(node.alternate, context);
+    stmtCompletion = yield* EvaluateNodeForCompletion(node.alternate, context);
+  } else {
+    return context.realm.types.undefined;
   }
 
-  return null;
+  return updateEmpty(stmtCompletion, context.realm.types.undefined);
 }

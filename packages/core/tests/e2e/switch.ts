@@ -92,4 +92,20 @@ describe("E2E: Switch statements", () => {
     `;
     expect(await evaluateScript(code)).toBe("outer");
   });
+
+  describe("Completions", () => {
+    it("Retains the last non-empty completion value", async () => {
+      const code = `
+        switch ("test") {
+          case "test":
+            "case value";
+          case "test2":
+          default:
+          case "test3":
+            break;
+        }
+      `;
+      expect(await evaluateScript(code)).toBe("case value");
+    });
+  });
 });

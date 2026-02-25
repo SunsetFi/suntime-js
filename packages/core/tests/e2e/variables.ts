@@ -58,7 +58,7 @@ describe("E2E: Variables", () => {
       expect(await evaluateScript(code)).toEqual([2, 1]);
     });
 
-    describe("destructuring", () => {
+    describe("Destructuring", () => {
       it("Can be destructured with objects", async () => {
         const code = `
         const a = { x: 1, y: 2 };
@@ -194,6 +194,16 @@ describe("E2E: Variables", () => {
       const result = await evaluateScript(code);
       expect(result).toBe(1);
     });
+
+    describe("Completions", () => {
+      it("Returns an empty completion", async () => {
+        const code = `
+          const a = 1;
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBeUndefined();
+      });
+    });
   });
 
   describe("let", () => {
@@ -277,6 +287,16 @@ describe("E2E: Variables", () => {
       `;
       const result = await evaluateScript(code);
       expect(result).toBe(1);
+    });
+
+    describe("Completions", () => {
+      it("Returns an empty completion", async () => {
+        const code = `
+          let a = 1;
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBeUndefined();
+      });
     });
   });
 

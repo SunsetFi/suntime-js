@@ -200,4 +200,14 @@ describe("E2E: Eval", () => {
       expect(result).toBe(true);
     });
   });
+
+  describe("Completions", () => {
+    it("Returns the last non-empty completion", async () => {
+      const code = `
+        eval("4; let a = 1;");
+      `;
+      const result = await evaluateScript(code);
+      expect(result).toBe(4);
+    });
+  });
 });

@@ -525,6 +525,17 @@ describe("E2E: Functions", () => {
       }
       expect(func()).toBe(42);
     });
+
+    it("Can reference itself", async () => {
+      const code = `
+        const a = function factorial(n) {
+          if (n <= 1) return 1;
+          return n * factorial(n - 1);
+        };
+        a(5);
+      `;
+      expect(await evaluateScript(code)).toBe(120);
+    });
   });
 
   describe("Return values", () => {

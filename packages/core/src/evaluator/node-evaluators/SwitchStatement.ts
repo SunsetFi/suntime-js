@@ -22,6 +22,8 @@ import blockDeclarationInstantiation from "../instantiation/block-declaration-in
 
 import labeledStatementEvaluation from "./LabeledStatementEvaluation.js";
 
+import evaluateStatementList from "./StatementList.js";
+
 const switchStatementNodeEvaluator = labeledStatementEvaluation(
   function* switchStatementNodeEvaluator(
     statement: SwitchStatement,
@@ -67,8 +69,7 @@ const switchStatementNodeEvaluator = labeledStatementEvaluation(
         }
 
         if (isAbruptCompletion(R)) {
-          R.updateEmpty(V);
-          throw R;
+          return updateEmpty(R, V);
         }
       }
     }
@@ -88,8 +89,7 @@ const switchStatementNodeEvaluator = labeledStatementEvaluation(
           }
 
           if (isAbruptCompletion(R)) {
-            R.updateEmpty(V);
-            throw R;
+            return updateEmpty(R, V);
           }
         }
       }
@@ -107,8 +107,7 @@ const switchStatementNodeEvaluator = labeledStatementEvaluation(
       }
 
       if (isAbruptCompletion(defaultR)) {
-        defaultR.updateEmpty(V);
-        throw defaultR;
+        return updateEmpty(defaultR, V);
       }
     }
 
@@ -120,8 +119,7 @@ const switchStatementNodeEvaluator = labeledStatementEvaluation(
       }
 
       if (isAbruptCompletion(R)) {
-        R.updateEmpty(V);
-        throw R;
+        return updateEmpty(R, V);
       }
     }
 
@@ -147,17 +145,6 @@ function* evaluateSwitchCase(
   C: SwitchCase,
   context: EvaluationContext,
 ): EvaluationGenerator<Completion> {
-  let V: NormalCompletion = null;
-  for (const statement of C.consequent) {
-    try {
-      V = yield* EvaluateNodeCommand(statement, context);
-    } catch (e) {
-      if (isAbruptCompletion(e)) {
-        updateEmpty(e, V);
-        return e;
-      }
-    }
-  }
-
-  return V;
+  // This is silly...
+  return yield* evaluateStatementList.forCompletion(C.consequent, context);
 }

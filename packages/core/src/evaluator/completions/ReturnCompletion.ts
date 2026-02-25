@@ -1,17 +1,21 @@
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../index.js";
 
 import { ControlFlowCompletion } from "./ControlFlowCompletion.js";
 
 export class ReturnCompletion extends ControlFlowCompletion {
-  constructor(value: StaticJsValue | null = null) {
+  constructor(value: StaticJsValue) {
     super("return", value);
   }
 
-  get value(): StaticJsValue | null {
-    return super.value as StaticJsValue | null;
+  get value(): StaticJsValue {
+    return super.value as StaticJsValue;
   }
 
-  set value(val: StaticJsValue | null) {
-    super.value = val;
+  set value(value: StaticJsValue) {
+    super.value = value;
+  }
+
+  withValue(value: StaticJsValue): this {
+    return new ReturnCompletion(value) as this;
   }
 }

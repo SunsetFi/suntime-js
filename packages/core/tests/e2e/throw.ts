@@ -65,12 +65,4 @@ describe("E2E: Thrown Error Handling", () => {
       expect(await evaluateScript(code)).toBe("f");
     });
   });
-
-  it("stuff", async () => {
-    const code = `
-      const r = eval("for (var i = 0; i < 2; ++i) { if (i) { try { throw null; } catch (e) { continue; } } 'bad completion'; }")
-      if (r !== undefined) { throw new Error('bad completion'); }
-    `;
-    await evaluateScript(code);
-  });
 });

@@ -18,6 +18,7 @@ import type { Completion } from "../completions/Completion.js";
 import boundNames from "../instantiation/algorithms/bound-names.js";
 
 import bindingInitialization from "../bindings/binding-initialization.js";
+import updateEmpty from "../completions/update-empty.js";
 
 function* tryStatementNodeEvaluator(
   node: TryStatement,
@@ -37,8 +38,7 @@ function* tryStatementNodeEvaluator(
   }
 
   if (isAbruptCompletion(result)) {
-    result.updateEmpty(context.realm.types.undefined);
-    throw result;
+    return updateEmpty(result, context.realm.types.undefined);
   }
 
   return result ?? context.realm.types.undefined;
@@ -54,14 +54,22 @@ function* runCatch(
   let catchContext = context;
 
   if (node.param) {
-    const catchEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
+    const catchEnv = new StaticJsDeclarativeEnvironmentRecord(
+      oldEnv,
+      context.realm,
+    );
     for (const argName of boundNames(node.param)) {
       yield* catchEnv.createMutableBindingEvaluator(argName, false);
     }
 
     catchContext = context.createLexicalEnvContext(catchEnv);
 
-    yield* bindingInitialization(node.param, thrownValue, catchEnv, catchContext);
+    yield* bindingInitialization(
+      node.param,
+      thrownValue,
+      catchEnv,
+      catchContext,
+    );
   }
 
   return yield* EvaluateNodeForCompletion(node.body, catchContext);

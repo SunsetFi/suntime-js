@@ -9,10 +9,9 @@ import blockDeclarationInstantiation from "../instantiation/block-declaration-in
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { BreakCompletion } from "../completions/BreakCompletion.js";
-import type { NormalCompletion } from "../completions/NormalCompletion.js";
-import updateEmpty from "../completions/update-empty.js";
+
+import evaluateStatementList from "./StatementList.js";
 
 function* blockStatementNodeEvaluator(
   node: BlockStatement,
@@ -23,34 +22,28 @@ function* blockStatementNodeEvaluator(
 
   yield* blockDeclarationInstantiation(node, env, blockContext);
 
-  let lastCompletion: NormalCompletion = null;
-
-  // Directives are values too!
-  // Inherit the last one as a value.
-  // This is important for eval(),
-  // with things like eval("'use strict'"); returning "use strict"
-  // We may want to consider making these evaluator nodes as anything else...
-  const lastDirective = node.directives.at(-1);
-  if (lastDirective) {
-    lastCompletion = context.realm.types.string(lastDirective.value.value);
-  }
-
-  for (const statement of node.body) {
-    try {
-      lastCompletion = yield* EvaluateNodeCommand(statement, blockContext);
-    } catch (e) {
-      updateEmpty(e, lastCompletion);
-
-      // Breaks apply to blocks, but only if we have a label.
-      if (context.label && BreakCompletion.isBreakForLabel(e, context.label)) {
-        return e.value;
-      }
-
-      throw e;
+  if (node.body.length === 0) {
+    // Directives are values too!
+    // Inherit the last one as a value.
+    // This is important for eval(),
+    // with things like eval("'use strict'"); returning "use strict"
+    // We may want to consider making these evaluator nodes as anything else...
+    const lastDirective = node.directives.at(-1);
+    if (lastDirective) {
+      return context.realm.types.string(lastDirective.value.value);
     }
-  }
 
-  return lastCompletion;
+    return null;
+  }
+  try {
+    return yield* evaluateStatementList(node.body, blockContext);
+  } catch (e) {
+    if (context.label && BreakCompletion.isBreakForLabel(e, context.label)) {
+      return e.value;
+    }
+
+    throw e;
+  }
 }
 
 export default typedMerge(blockStatementNodeEvaluator, {

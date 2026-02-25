@@ -5,13 +5,13 @@ import {
   createTimeBoundTaskRunner,
 } from "../../../src/index.js";
 
-const debug = false;
+import isDebuggerActive from "../../is-debugger-active.js";
 
 describe("E2E: For loops", () => {
   let evaluateScript: typeof evaluateScriptCore;
   beforeEach(() => {
     const taskRunner = createTimeBoundTaskRunner({
-      maxRunTime: debug ? Infinity : 1000,
+      maxRunTime: isDebuggerActive ? Infinity : 1000,
     });
     evaluateScript = (code: string) => {
       return evaluateScriptCore(code, { taskRunner });
