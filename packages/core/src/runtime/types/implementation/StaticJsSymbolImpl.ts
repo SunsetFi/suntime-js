@@ -18,10 +18,7 @@ export function getSymbolProxyOwner(sym: unknown): StaticJsSymbol | null {
   return proxySymbolOwners.get(sym as unknown as object) ?? null;
 }
 
-export default class StaticJsSymbolImpl
-  extends StaticJsObjectLikeImpl
-  implements StaticJsSymbol
-{
+export default class StaticJsSymbolImpl extends StaticJsObjectLikeImpl implements StaticJsSymbol {
   private _description: string | undefined = undefined;
   private _nativeSymbol: symbol;
 

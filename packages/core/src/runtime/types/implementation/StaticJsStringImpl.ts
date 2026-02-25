@@ -13,9 +13,7 @@ export default class StaticJsStringImpl
 
   constructor(realm: StaticJsRealm, value: string) {
     if (typeof value !== "string") {
-      throw new TypeError(
-        `Cannot convert ${value} to StaticJsString: Expected string.`,
-      );
+      throw new TypeError(`Cannot convert ${value} to StaticJsString: Expected string.`);
     }
 
     super(realm);

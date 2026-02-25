@@ -1,8 +1,4 @@
-import type {
-  FunctionDeclaration,
-  Node,
-  VariableDeclaration,
-} from "@babel/types";
+import type { FunctionDeclaration, Node, VariableDeclaration } from "@babel/types";
 
 export type VarScopedDeclNode = VariableDeclaration | FunctionDeclaration;
 

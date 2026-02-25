@@ -9,17 +9,11 @@ const mapProtoSetDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg, key, value) {
     if (!isStaticJsMap(thisArg)) {
       throw new StaticJsRuntimeError(
-        realm.types.error(
-          "TypeError",
-          "Map.prototype.set called on incompatible receiver",
-        ),
+        realm.types.error("TypeError", "Map.prototype.set called on incompatible receiver"),
       );
     }
 
-    yield* thisArg.setValueEvaluator(
-      key ?? realm.types.undefined,
-      value ?? realm.types.undefined,
-    );
+    yield* thisArg.setValueEvaluator(key ?? realm.types.undefined, value ?? realm.types.undefined);
     return thisArg;
   },
 };

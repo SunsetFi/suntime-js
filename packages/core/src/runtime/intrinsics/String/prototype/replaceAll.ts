@@ -6,12 +6,7 @@ import toString from "../../../algorithms/to-string.js";
 
 const stringProtoReplaceAllDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "replaceAll",
-  func: function* (
-    realm,
-    thisArg,
-    search?: StaticJsValue,
-    replace?: StaticJsValue,
-  ) {
+  func: function* (realm, thisArg, search?: StaticJsValue, replace?: StaticJsValue) {
     const thisStr = yield* toString(thisArg, realm);
 
     if (!replace) {

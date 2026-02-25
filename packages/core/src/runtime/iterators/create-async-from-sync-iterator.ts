@@ -23,15 +23,12 @@ export default function* createAsyncFromSyncIterator(
 
   // TODO: Should be implemented by prototypes.
 
-  yield* asyncIterator.defineOwnPropertyEvaluator(
-    realm.types.symbols.asyncIterator,
-    {
-      value: asyncIterator,
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    },
-  );
+  yield* asyncIterator.defineOwnPropertyEvaluator(realm.types.symbols.asyncIterator, {
+    value: asyncIterator,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
 
   yield* asyncIterator.defineOwnPropertyEvaluator("next", {
     value: new StaticJsFunctionImpl(realm, "next", function* (thisArg, value) {
@@ -44,12 +41,7 @@ export default function* createAsyncFromSyncIterator(
         result = yield* iteratorNext(syncIteratorRecord, value ?? null, realm);
       } catch (e) {
         if (e instanceof ThrowCompletion) {
-          yield* call(
-            promiseCapability.reject,
-            realm.types.undefined,
-            [e.value],
-            realm,
-          );
+          yield* call(promiseCapability.reject, realm.types.undefined, [e.value], realm);
           return promiseCapability.promise;
         }
 

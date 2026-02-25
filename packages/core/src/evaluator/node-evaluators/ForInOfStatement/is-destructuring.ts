@@ -1,8 +1,6 @@
 import type { LVal, VariableDeclaration, VoidPattern } from "@babel/types";
 
-export default function isDestructuring(
-  node: VariableDeclaration | LVal | VoidPattern,
-): boolean {
+export default function isDestructuring(node: VariableDeclaration | LVal | VoidPattern): boolean {
   if (node.type === "AssignmentPattern") {
     return isDestructuring(node.left);
   }

@@ -9,9 +9,7 @@ const setProtoSymmetricDifferenceDeclaration: IntrinsicPropertyDeclaration = {
       throw realm.types.error("TypeError", "Not a Set");
     }
 
-    return yield* thisArg.symmetricDifferenceEvaluator(
-      otherSet ?? realm.types.undefined,
-    );
+    return yield* thisArg.symmetricDifferenceEvaluator(otherSet ?? realm.types.undefined);
   },
 };
 

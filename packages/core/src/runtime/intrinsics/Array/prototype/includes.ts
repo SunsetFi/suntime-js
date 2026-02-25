@@ -23,10 +23,7 @@ const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
     let startFrom = 0;
     if (startFromValue) {
       // Passing undefined here actually does something different than not passing it.
-      startFromValue = yield* toInteger(
-        startFromValue ?? realm.types.undefined,
-        realm,
-      );
+      startFromValue = yield* toInteger(startFromValue ?? realm.types.undefined, realm);
       startFrom = startFromValue.value;
     }
 

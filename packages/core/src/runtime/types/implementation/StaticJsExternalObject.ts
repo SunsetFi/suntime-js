@@ -45,9 +45,7 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
     return false;
   }
 
-  *ownPropertyKeysEvaluator(): EvaluationGenerator<
-    StaticJsObjectPropertyKey[]
-  > {
+  *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsObjectPropertyKey[]> {
     const keys = Reflect.ownKeys(this._obj);
     return keys.map((key) => {
       if (typeof key === "symbol") {
@@ -85,9 +83,7 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
     }
 
     const staticJsDescr: Writable<
-      Partial<
-        StaticJsDataPropertyDescriptor & StaticJsAccessorPropertyDescriptor
-      >
+      Partial<StaticJsDataPropertyDescriptor & StaticJsAccessorPropertyDescriptor>
     > = {
       enumerable,
       configurable: false,
@@ -96,11 +92,7 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
     // Do we want to cache these?  The object can be changed from underneath us...
 
     if (descrGet) {
-      staticJsDescr.get = new StaticJsExternalFunction(
-        this.realm,
-        "get",
-        descrGet,
-      );
+      staticJsDescr.get = new StaticJsExternalFunction(this.realm, "get", descrGet);
     }
 
     // Had this enabled at one point, but we really want to be read-only, at least until

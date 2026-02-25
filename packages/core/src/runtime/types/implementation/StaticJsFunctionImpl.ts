@@ -23,12 +23,7 @@ import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 export interface StaticJsFunctionImplOptions {
   length?: number;
   prototype?: StaticJsObjectLike | StaticJsNull | null;
-  construct?:
-    | boolean
-    | ((
-        thisArg: StaticJsValue,
-        ...args: StaticJsValue[]
-      ) => EvaluationGenerator);
+  construct?: boolean | ((thisArg: StaticJsValue, ...args: StaticJsValue[]) => EvaluationGenerator);
 }
 
 export default class StaticJsFunctionImpl
@@ -36,10 +31,7 @@ export default class StaticJsFunctionImpl
   implements StaticJsFunction
 {
   private _construct:
-    | ((
-        thisArg: StaticJsValue,
-        ...args: StaticJsValue[]
-      ) => EvaluationGenerator)
+    | ((thisArg: StaticJsValue, ...args: StaticJsValue[]) => EvaluationGenerator)
     | null;
 
   constructor(
@@ -138,25 +130,17 @@ export default class StaticJsFunctionImpl
     args?: StaticJsValue[],
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(
-      this.callEvaluator(thisArg, args),
-      opts,
-    );
+    return this.realm.invokeEvaluatorAsync(this.callEvaluator(thisArg, args), opts);
   }
 
   callSync(thisArg: StaticJsValue, args?: StaticJsValue[]): StaticJsValue {
     return this.realm.invokeEvaluatorSync(this.callEvaluator(thisArg, args));
   }
 
-  *constructEvaluator(
-    args: StaticJsValue[] = [],
-  ): EvaluationGenerator<StaticJsValue> {
+  *constructEvaluator(args: StaticJsValue[] = []): EvaluationGenerator<StaticJsValue> {
     if (!this._construct) {
       throw new ThrowCompletion(
-        this.realm.types.error(
-          "TypeError",
-          "This function is not a constructor.",
-        ),
+        this.realm.types.error("TypeError", "This function is not a constructor."),
       );
     }
 
@@ -179,10 +163,7 @@ export default class StaticJsFunctionImpl
     return thisObj;
   }
 
-  constructAsync(
-    args: StaticJsValue[],
-    opts?: StaticJsRunTaskOptions,
-  ): Promise<StaticJsValue> {
+  constructAsync(args: StaticJsValue[], opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
     return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args), opts);
   }
 
@@ -200,10 +181,7 @@ export default class StaticJsFunctionImpl
   ): EvaluationGenerator {
     if (!this._construct) {
       throw new ThrowCompletion(
-        this.realm.types.error(
-          "TypeError",
-          "This function is not a constructor.",
-        ),
+        this.realm.types.error("TypeError", "This function is not a constructor."),
       );
     }
 
@@ -237,18 +215,14 @@ export default class StaticJsFunctionImpl
 
   protected _configureToJsProxy(_traps: ProxyHandler<object>): void {
     _traps.apply = (target: unknown, thisArg: unknown, args: unknown[]) => {
-      const argValues = args.map((value) =>
-        this.realm.types.toStaticJsValue(value),
-      );
+      const argValues = args.map((value) => this.realm.types.toStaticJsValue(value));
       // FIXME: This absolutely probably does not work right.
       // We should at least try to look up if we have a StaticJsValue representation of the global object.
       // At the very least, this is dangerous, and might inadvertently leak stuff from the runtime into the scripting engine.
       // They won't be able to grab prototypes, but...
       const thisArgValue = this.realm.types.toStaticJsValue(thisArg);
 
-      const result = this.realm.invokeEvaluatorSync(
-        this.callEvaluator(thisArgValue, argValues),
-      );
+      const result = this.realm.invokeEvaluatorSync(this.callEvaluator(thisArgValue, argValues));
 
       return result.toJsSync();
     };

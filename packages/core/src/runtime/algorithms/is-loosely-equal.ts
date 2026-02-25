@@ -7,10 +7,7 @@ import { isStaticJsNumber } from "../types/StaticJsNumber.js";
 import { isStaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
-import {
-  isStaticJsBoolean,
-  type StaticJsBoolean,
-} from "../types/StaticJsBoolean.js";
+import { isStaticJsBoolean, type StaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsScalar } from "../types/StaticJsScalar.js";
 

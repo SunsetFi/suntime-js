@@ -10,10 +10,7 @@ const mapProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg, callback, callbackThisArg) {
     if (!isStaticJsMap(thisArg)) {
       throw new StaticJsRuntimeError(
-        realm.types.error(
-          "TypeError",
-          "Map.prototype.forEach called on incompatible receiver",
-        ),
+        realm.types.error("TypeError", "Map.prototype.forEach called on incompatible receiver"),
       );
     }
 
@@ -26,10 +23,7 @@ const mapProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    yield* thisArg.forEachEvaluator(
-      callback,
-      callbackThisArg ?? realm.types.undefined,
-    );
+    yield* thisArg.forEachEvaluator(callback, callbackThisArg ?? realm.types.undefined);
     return realm.types.undefined;
   },
 };

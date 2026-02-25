@@ -9,10 +9,7 @@ const mapProtoHasDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg, key) {
     if (!isStaticJsMap(thisArg)) {
       throw new StaticJsRuntimeError(
-        realm.types.error(
-          "TypeError",
-          "Map.prototype.get called on incompatible receiver",
-        ),
+        realm.types.error("TypeError", "Map.prototype.get called on incompatible receiver"),
       );
     }
 

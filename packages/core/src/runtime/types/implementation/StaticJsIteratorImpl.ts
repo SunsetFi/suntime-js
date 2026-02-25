@@ -16,9 +16,7 @@ export default class StaticJsIteratorImpl
   private _done = false;
 
   constructor(
-    private readonly _nextFunc: () => EvaluationGenerator<
-      StaticJsValue | undefined
-    >,
+    private readonly _nextFunc: () => EvaluationGenerator<StaticJsValue | undefined>,
     realm: StaticJsRealm,
   ) {
     super(realm, realm.types.prototypes.iteratorProto);

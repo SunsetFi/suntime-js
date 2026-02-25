@@ -13,22 +13,14 @@ import type { StaticJsValue } from "../StaticJsValue.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
-class StaticJsBoundFunction
-  extends StaticJsObjectLikeImpl
-  implements StaticJsFunction
-{
+class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements StaticJsFunction {
   static *create(
     realm: StaticJsRealm,
     targetFunc: StaticJsFunction,
     thisArg: StaticJsValue,
     boundArgs: StaticJsValue[],
   ): EvaluationGenerator<StaticJsBoundFunction> {
-    const instance = new StaticJsBoundFunction(
-      realm,
-      targetFunc,
-      thisArg,
-      boundArgs,
-    );
+    const instance = new StaticJsBoundFunction(realm, targetFunc, thisArg, boundArgs);
 
     const boundLength = yield* targetFunc.getEvaluator("length");
     const length = yield* toInteger(boundLength, realm);
@@ -41,9 +33,7 @@ class StaticJsBoundFunction
 
     const name = yield* targetFunc.getEvaluator("name");
     yield* instance.defineOwnPropertyEvaluator("name", {
-      value: realm.types.string(
-        isStaticJsString(name) ? `bound ${name.value}` : "bound",
-      ),
+      value: realm.types.string(isStaticJsString(name) ? `bound ${name.value}` : "bound"),
       writable: false,
       enumerable: false,
       configurable: true,
@@ -87,10 +77,7 @@ class StaticJsBoundFunction
     args?: StaticJsValue[],
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(
-      this.callEvaluator(thisArg, args),
-      opts,
-    );
+    return this.realm.invokeEvaluatorAsync(this.callEvaluator(thisArg, args), opts);
   }
 
   callSync(thisArg: StaticJsValue, args?: StaticJsValue[]): StaticJsValue {
@@ -101,16 +88,10 @@ class StaticJsBoundFunction
     _thisArg: StaticJsValue,
     args: StaticJsValue[] = [],
   ): EvaluationGenerator<StaticJsValue> {
-    return this.targetFunc.callEvaluator(this._boundThis, [
-      ...this._boundArgs,
-      ...args,
-    ]);
+    return this.targetFunc.callEvaluator(this._boundThis, [...this._boundArgs, ...args]);
   }
 
-  constructAsync(
-    args: StaticJsValue[],
-    opts?: StaticJsRunTaskOptions,
-  ): Promise<StaticJsValue> {
+  constructAsync(args: StaticJsValue[], opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
     return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args), opts);
   }
 
@@ -118,9 +99,7 @@ class StaticJsBoundFunction
     return this.realm.invokeEvaluatorSync(this.constructEvaluator(args));
   }
 
-  constructEvaluator(
-    args: StaticJsValue[],
-  ): EvaluationGenerator<StaticJsValue> {
+  constructEvaluator(args: StaticJsValue[]): EvaluationGenerator<StaticJsValue> {
     return this.targetFunc.constructEvaluator([...this._boundArgs, ...args]);
   }
 

@@ -14,9 +14,7 @@ export type LexicallyScopedDeclNode =
   | ClassDeclaration
   | ExportDefaultDeclaration;
 
-function isLexicallyScopedDeclaration(
-  node: Node,
-): node is LexicallyScopedDeclNode {
+function isLexicallyScopedDeclaration(node: Node): node is LexicallyScopedDeclNode {
   return (
     node.type === "VariableDeclaration" ||
     node.type === "FunctionDeclaration" ||
@@ -25,9 +23,7 @@ function isLexicallyScopedDeclaration(
   );
 }
 
-export default function lexicallyScopedDeclarations(
-  node: Node,
-): LexicallyScopedDeclNode[] {
+export default function lexicallyScopedDeclarations(node: Node): LexicallyScopedDeclNode[] {
   switch (node.type) {
     case "File":
       return lexicallyScopedDeclarations(node.program);
@@ -84,9 +80,7 @@ export default function lexicallyScopedDeclarations(
   return [];
 }
 
-function topLevelLexicallyScopedDeclarations(
-  node: Node,
-): LexicallyScopedDeclNode[] {
+function topLevelLexicallyScopedDeclarations(node: Node): LexicallyScopedDeclNode[] {
   switch (node.type) {
     case "File":
       return topLevelLexicallyScopedDeclarations(node.program);

@@ -16,8 +16,7 @@ const objectCtorEntriesDeclaration: IntrinsicPropertyDeclaration = {
       const key = ownKeys[i];
       const value = yield* obj.getEvaluator(key);
 
-      const keyWrapped =
-        typeof key === "string" ? realm.types.string(key) : key;
+      const keyWrapped = typeof key === "string" ? realm.types.string(key) : key;
       const item = realm.types.array([keyWrapped, value]);
       values[i] = item;
     }

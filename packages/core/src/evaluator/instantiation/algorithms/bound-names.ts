@@ -81,10 +81,7 @@ export default function boundNames(node: Node | Node[]): string[] {
 
     case "ExportDefaultDeclaration": {
       const decl = node.declaration;
-      if (
-        decl.type === "FunctionDeclaration" ||
-        decl.type === "ClassDeclaration"
-      ) {
+      if (decl.type === "FunctionDeclaration" || decl.type === "ClassDeclaration") {
         const declarationNames = boundNames(decl);
         if (!declarationNames.includes("*default*")) {
           declarationNames.push("*default*");
@@ -112,9 +109,7 @@ export default function boundNames(node: Node | Node[]): string[] {
 boundNames.soleElementOf = function (node: Node): string {
   const names = boundNames(node);
   if (names.length !== 1) {
-    throw new StaticJsEngineError(
-      `Expected exactly one bound name, but found ${names.length}.`,
-    );
+    throw new StaticJsEngineError(`Expected exactly one bound name, but found ${names.length}.`);
   }
   return names[0];
 };

@@ -43,12 +43,7 @@ export default function* assignmentExpressionNodeEvaluator(
     case "&=":
     case "^=":
     case "|=":
-      return yield* algebraicAssignmentExpressionEvaluator(
-        node.operator,
-        left,
-        right,
-        context,
-      );
+      return yield* algebraicAssignmentExpressionEvaluator(node.operator, left, right, context);
     case "&&=": {
       const lRef = yield* EvaluateNodeCommand(left, context, {
         forReference: "AssignmentExpression.&&=.left",
@@ -98,9 +93,7 @@ export default function* assignmentExpressionNodeEvaluator(
     }
   }
 
-  throw new StaticJsEngineError(
-    `Unsupported assignment operator: ${node.operator}`,
-  );
+  throw new StaticJsEngineError(`Unsupported assignment operator: ${node.operator}`);
 }
 
 function* directAssignmentExpressionEvaluator(
@@ -192,9 +185,7 @@ function* algebraicAssignmentExpressionEvaluator(
       result = l | r;
       break;
     default:
-      throw new StaticJsEngineError(
-        `Unsupported assignment operator: ${operator}`,
-      );
+      throw new StaticJsEngineError(`Unsupported assignment operator: ${operator}`);
   }
 
   const resultVal = realm.types.number(result);

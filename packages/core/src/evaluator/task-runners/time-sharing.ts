@@ -46,18 +46,12 @@ export function createTimeSharingTaskRunner({
       while (!task.done && operations < operationsPerIteration) {
         const now = Date.now();
         if (now >= taskEnd) {
-          task.throw(
-            new StaticJsTaskAbortedError(`Task took too long to complete.`),
-          );
+          task.throw(new StaticJsTaskAbortedError(`Task took too long to complete.`));
           return;
         }
 
         if (now >= runEnd!) {
-          task.throw(
-            new StaticJsTaskAbortedError(
-              `Evaluation took too long to complete.`,
-            ),
-          );
+          task.throw(new StaticJsTaskAbortedError(`Evaluation took too long to complete.`));
           return;
         }
 

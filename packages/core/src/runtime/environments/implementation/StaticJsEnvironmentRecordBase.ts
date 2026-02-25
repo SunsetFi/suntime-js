@@ -4,9 +4,7 @@ import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
-export default abstract class StaticJsEnvironmentRecordBase
-  implements StaticJsEnvironmentRecord
-{
+export default abstract class StaticJsEnvironmentRecordBase implements StaticJsEnvironmentRecord {
   constructor(private readonly _outerEnv: StaticJsEnvironmentRecord | null) {}
 
   get outerEnv(): StaticJsEnvironmentRecord | null {

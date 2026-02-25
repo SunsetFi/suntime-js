@@ -42,42 +42,26 @@ export default function* destructuringAssignmentEvaluation(
     case "ObjectPattern": {
       if (isStaticJsUndefined(value) || isStaticJsNull(value)) {
         throw new ThrowCompletion(
-          context.realm.types.error(
-            "TypeError",
-            "Cannot destructure undefined or null",
-          ),
+          context.realm.types.error("TypeError", "Cannot destructure undefined or null"),
         );
       }
       const properties = node.properties.filter((p) => isObjectProperty(p));
       const excludedNames: StaticJsObjectPropertyKey[] = [];
       for (const property of properties) {
-        const result = yield* propertyDestructuringAssignmentEvaluation(
-          property,
-          value,
-          context,
-        );
+        const result = yield* propertyDestructuringAssignmentEvaluation(property, value, context);
         excludedNames.push(...result);
       }
 
       const rest = node.properties.find((p) => p.type === "RestElement");
       if (rest) {
-        yield* restDestructuringAssignmentEvaluation(
-          rest,
-          value,
-          excludedNames,
-          context,
-        );
+        yield* restDestructuringAssignmentEvaluation(rest, value, excludedNames, context);
       }
 
       return;
     }
     case "ArrayPattern": {
       const iteratorRecord = yield* getIterator(value, "sync", context.realm);
-      yield* iteratorDestructuringAssignmentEvaluation(
-        node.elements,
-        iteratorRecord,
-        context,
-      );
+      yield* iteratorDestructuringAssignmentEvaluation(node.elements, iteratorRecord, context);
       if (!iteratorRecord.done) {
         yield* iteratorClose(iteratorRecord, null, context.realm);
       }
@@ -104,11 +88,7 @@ function* propertyDestructuringAssignmentEvaluation(
     }
 
     const P = node.key.name;
-    const lRef = yield* getIdentifierReference(
-      context.lexicalEnv,
-      P,
-      context.strict,
-    );
+    const lRef = yield* getIdentifierReference(context.lexicalEnv, P, context.strict);
 
     const obj = yield* toObject(value, context.realm);
     let v = yield* obj.getEvaluator(P);

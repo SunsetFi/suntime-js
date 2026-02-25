@@ -8,10 +8,7 @@ import call from "../algorithms/call.js";
 
 import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
 
-import {
-  isStaticJsObjectLike,
-  type StaticJsObjectLike,
-} from "../types/StaticJsObjectLike.js";
+import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
 import type { IteratorRecord } from "./IteratorRecord.js";
 
@@ -23,19 +20,9 @@ export default function* iteratorNext(
   let result: StaticJsValue;
   try {
     if (!value) {
-      result = yield* call(
-        iteratorRecord.nextMethod,
-        iteratorRecord.iterator,
-        [],
-        realm,
-      );
+      result = yield* call(iteratorRecord.nextMethod, iteratorRecord.iterator, [], realm);
     } else {
-      result = yield* call(
-        iteratorRecord.nextMethod,
-        iteratorRecord.iterator,
-        [value],
-        realm,
-      );
+      result = yield* call(iteratorRecord.nextMethod, iteratorRecord.iterator, [value], realm);
     }
   } catch (e) {
     if (e instanceof ThrowCompletion) {
@@ -48,10 +35,7 @@ export default function* iteratorNext(
   if (!isStaticJsObjectLike(result)) {
     iteratorRecord.done = true;
     throw new ThrowCompletion(
-      realm.types.error(
-        "TypeError",
-        "Result of iterator next is not an object",
-      ),
+      realm.types.error("TypeError", "Result of iterator next is not an object"),
     );
   }
 

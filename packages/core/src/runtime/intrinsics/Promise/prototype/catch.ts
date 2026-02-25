@@ -9,15 +9,11 @@ const promiseProtoCatchDeclaration: IntrinsicPropertyDeclaration = {
   key: "catch",
   *func(realm, thisArg, onRejected) {
     if (!isStaticJsPromise(thisArg)) {
-      throw new ThrowCompletion(
-        realm.types.error("TypeError", "catch called on non-promise"),
-      );
+      throw new ThrowCompletion(realm.types.error("TypeError", "catch called on non-promise"));
     }
 
     if (!isStaticJsFunction(onRejected)) {
-      throw new ThrowCompletion(
-        realm.types.error("TypeError", "onRejected must be a function."),
-      );
+      throw new ThrowCompletion(realm.types.error("TypeError", "onRejected must be a function."));
     }
 
     return yield* thisArg.catchEvaluator(onRejected);

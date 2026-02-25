@@ -6,10 +6,7 @@ import isAssignmentGrammar from "../../../grammar/is-assignment-grammar.js";
 
 import boundNames from "../../../evaluator/instantiation/algorithms/bound-names.js";
 
-import {
-  ImportAllButDefault,
-  type StaticJsExportEntry,
-} from "./StaticJsExportEntry.js";
+import { ImportAllButDefault, type StaticJsExportEntry } from "./StaticJsExportEntry.js";
 
 export default function exportEntries(node: Node): StaticJsExportEntry[] {
   switch (node.type) {
@@ -84,17 +81,12 @@ export default function exportEntries(node: Node): StaticJsExportEntry[] {
   return [];
 }
 
-function exportEntriesForModule(
-  node: Node,
-  moduleRequest: string | null,
-): StaticJsExportEntry[] {
+function exportEntriesForModule(node: Node, moduleRequest: string | null): StaticJsExportEntry[] {
   switch (node.type) {
     case "ExportAllDeclaration": {
       // This would be a parse error, but I think babel handles it.
       if (!moduleRequest) {
-        throw new StaticJsEngineError(
-          "ExportAllDeclaration must have a module specifier.",
-        );
+        throw new StaticJsEngineError("ExportAllDeclaration must have a module specifier.");
       }
 
       // FIXME: The spec has a "* as foo", but babel doesn't seem to represent that?

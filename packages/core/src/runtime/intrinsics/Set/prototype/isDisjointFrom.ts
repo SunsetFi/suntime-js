@@ -9,9 +9,7 @@ const setProtoIsDisjointFromDeclaration: IntrinsicPropertyDeclaration = {
       throw realm.types.error("TypeError", "Not a Set");
     }
 
-    const result = yield* thisArg.isDisjointFromEvaluator(
-      otherSet ?? realm.types.undefined,
-    );
+    const result = yield* thisArg.isDisjointFromEvaluator(otherSet ?? realm.types.undefined);
 
     return realm.types.boolean(result);
   },

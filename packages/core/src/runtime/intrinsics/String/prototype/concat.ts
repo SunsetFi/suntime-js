@@ -17,10 +17,7 @@ const stringProtoConcatDeclaration: FunctionIntrinsicPropertyDeclaration = {
       argStrs.push(str);
     }
 
-    const result = argStrs.reduce(
-      (acc, str) => acc + str.value,
-      thisArgStr.value,
-    );
+    const result = argStrs.reduce((acc, str) => acc + str.value, thisArgStr.value);
 
     return realm.types.string(result);
   },

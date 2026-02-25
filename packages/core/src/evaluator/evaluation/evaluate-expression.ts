@@ -68,10 +68,7 @@ export async function evaluateExpression(
  * @returns The native javascript result of evaluating the code.
  * @public
  */
-export function evaluateExpressionSync(
-  expression: string,
-  opts?: EvaluationOptions,
-): unknown {
+export function evaluateExpressionSync(expression: string, opts?: EvaluationOptions): unknown {
   opts ??= {};
   let { realm } = opts;
   const { taskRunner } = opts;

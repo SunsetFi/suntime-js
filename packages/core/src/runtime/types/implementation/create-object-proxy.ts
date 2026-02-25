@@ -1,8 +1,5 @@
 import type { StaticJsValue } from "../StaticJsValue.js";
-import type {
-  StaticJsObjectLike,
-  StaticJsObjectPropertyKey,
-} from "../StaticJsObjectLike.js";
+import type { StaticJsObjectLike, StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
@@ -13,9 +10,7 @@ import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 
 const ProxyOwnerKey = Symbol("StaticJsObjectLikeProxyOwner");
 
-export function getStaticJsObjectLikeProxyOwner(
-  proxy: unknown,
-): StaticJsValue | null {
+export function getStaticJsObjectLikeProxyOwner(proxy: unknown): StaticJsValue | null {
   if (proxy && typeof proxy === "object" && ProxyOwnerKey in proxy) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (proxy as any)[ProxyOwnerKey] as StaticJsValue;
@@ -55,9 +50,7 @@ export default function createStaticJsObjectLikeProxy(
       // SIGH.............
       if (isStaticJsDataPropertyDescriptor(descriptor) && descriptor.writable) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (target as any)[propertyName] = obj
-          .getSync(staticJsPropertyKey)
-          .toJsSync();
+        (target as any)[propertyName] = obj.getSync(staticJsPropertyKey).toJsSync();
         return Object.getOwnPropertyDescriptor(target, propertyName);
       }
       return existingDef;

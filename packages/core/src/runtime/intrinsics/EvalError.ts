@@ -8,10 +8,7 @@ export function populateEvalErrorPrototype(
   _evalErrorProto: StaticJsObject,
 ) {}
 
-export function createEvalErrorConstructor(
-  realm: StaticJsRealm,
-  evalErrorProto: StaticJsObject,
-) {
+export function createEvalErrorConstructor(realm: StaticJsRealm, evalErrorProto: StaticJsObject) {
   const ctor = new StaticJsFunctionImpl(
     realm,
     "EvalError",

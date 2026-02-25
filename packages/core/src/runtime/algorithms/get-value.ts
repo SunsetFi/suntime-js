@@ -41,10 +41,7 @@ export default function* getValue(
 
     let propertyKey: StaticJsObjectPropertyKey;
     if (!isStaticJsObjectPropertyKey(v.referencedName)) {
-      propertyKey = v.referencedName = yield* toPropertyKey(
-        v.referencedName,
-        realm,
-      );
+      propertyKey = v.referencedName = yield* toPropertyKey(v.referencedName, realm);
     } else {
       propertyKey = v.referencedName;
     }

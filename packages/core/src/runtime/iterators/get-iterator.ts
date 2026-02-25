@@ -23,15 +23,9 @@ export default function* getIterator(
   if (kind === "async") {
     method = yield* getMethod(obj, realm.types.symbols.asyncIterator, realm);
     if (method === null) {
-      const syncMethod = yield* getMethod(
-        obj,
-        realm.types.symbols.iterator,
-        realm,
-      );
+      const syncMethod = yield* getMethod(obj, realm.types.symbols.iterator, realm);
       if (syncMethod === null) {
-        throw new ThrowCompletion(
-          realm.types.error("TypeError", "Value is not async iterable"),
-        );
+        throw new ThrowCompletion(realm.types.error("TypeError", "Value is not async iterable"));
       }
 
       const syncIteratorRecord = yield* getIteratorFromMethod(
@@ -48,9 +42,7 @@ export default function* getIterator(
   }
 
   if (method === null) {
-    throw new ThrowCompletion(
-      realm.types.error("TypeError", "Value is not iterable"),
-    );
+    throw new ThrowCompletion(realm.types.error("TypeError", "Value is not iterable"));
   }
 
   return yield* getIteratorFromMethod(obj as StaticJsObjectLike, method, realm);

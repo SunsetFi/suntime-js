@@ -58,12 +58,8 @@ const testCases: TestCase[] = [
     `,
     expectedVarNames: ["x", "y"],
     expectedNodes: [
-      variableDeclaration("let", [
-        variableDeclarator(identifier("x"), numericLiteral(10)),
-      ]),
-      variableDeclaration("const", [
-        variableDeclarator(identifier("y"), numericLiteral(20)),
-      ]),
+      variableDeclaration("let", [variableDeclarator(identifier("x"), numericLiteral(10))]),
+      variableDeclaration("const", [variableDeclarator(identifier("y"), numericLiteral(20))]),
     ],
   },
   {
@@ -104,12 +100,8 @@ const testCases: TestCase[] = [
       `,
     expectedVarNames: ["a", "b"],
     expectedNodes: [
-      variableDeclaration("let", [
-        variableDeclarator(identifier("a"), numericLiteral(1)),
-      ]),
-      variableDeclaration("const", [
-        variableDeclarator(identifier("b"), numericLiteral(2)),
-      ]),
+      variableDeclaration("let", [variableDeclarator(identifier("a"), numericLiteral(1))]),
+      variableDeclaration("const", [variableDeclarator(identifier("b"), numericLiteral(2))]),
     ],
   },
   {
@@ -406,15 +398,10 @@ const testCases: TestCase[] = [
     expectedNodes: [
       variableDeclaration("let", [
         variableDeclarator(
-          objectPattern([
-            objectProperty(identifier("a"), identifier("a"), false, true),
-          ]),
+          objectPattern([objectProperty(identifier("a"), identifier("a"), false, true)]),
           identifier("obj"),
         ),
-        variableDeclarator(
-          arrayPattern([identifier("b"), identifier("c")]),
-          identifier("arr"),
-        ),
+        variableDeclarator(arrayPattern([identifier("b"), identifier("c")]), identifier("arr")),
       ]),
     ],
   },
@@ -427,15 +414,10 @@ const testCases: TestCase[] = [
     expectedNodes: [
       variableDeclaration("const", [
         variableDeclarator(
-          objectPattern([
-            objectProperty(identifier("a"), identifier("a"), false, true),
-          ]),
+          objectPattern([objectProperty(identifier("a"), identifier("a"), false, true)]),
           identifier("obj"),
         ),
-        variableDeclarator(
-          arrayPattern([identifier("b"), identifier("c")]),
-          identifier("arr"),
-        ),
+        variableDeclarator(arrayPattern([identifier("b"), identifier("c")]), identifier("arr")),
       ]),
     ],
   },
@@ -451,9 +433,7 @@ const testCases: TestCase[] = [
           objectPattern([
             objectProperty(
               identifier("a"),
-              objectPattern([
-                objectProperty(identifier("b"), identifier("b"), false, true),
-              ]),
+              objectPattern([objectProperty(identifier("b"), identifier("b"), false, true)]),
               false,
               false,
             ),
@@ -475,9 +455,7 @@ const testCases: TestCase[] = [
           objectPattern([
             objectProperty(
               identifier("a"),
-              objectPattern([
-                objectProperty(identifier("b"), identifier("b"), false, true),
-              ]),
+              objectPattern([objectProperty(identifier("b"), identifier("b"), false, true)]),
               false,
               false,
             ),

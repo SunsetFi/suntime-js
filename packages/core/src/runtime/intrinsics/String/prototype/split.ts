@@ -12,11 +12,7 @@ const stringProtoSplitDeclaration: FunctionIntrinsicPropertyDeclaration = {
   func: function* (realm, thisArg, separator?: StaticJsValue) {
     thisArg = yield* toString(thisArg, realm);
 
-    if (
-      !separator ||
-      isStaticJsUndefined(separator) ||
-      isStaticJsNull(separator)
-    ) {
+    if (!separator || isStaticJsUndefined(separator) || isStaticJsNull(separator)) {
       return realm.types.array([thisArg]);
     }
 

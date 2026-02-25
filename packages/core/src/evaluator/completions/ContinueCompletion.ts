@@ -5,13 +5,7 @@ export class ContinueCompletion extends ControlFlowCompletion {
     super("continue");
   }
 
-  static isContinueForLabel(
-    e: unknown,
-    label: string | null,
-  ): e is ContinueCompletion {
-    return (
-      e instanceof ContinueCompletion &&
-      (e.target === null || e.target === label)
-    );
+  static isContinueForLabel(e: unknown, label: string | null): e is ContinueCompletion {
+    return e instanceof ContinueCompletion && (e.target === null || e.target === label);
   }
 }

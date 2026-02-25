@@ -19,9 +19,7 @@ import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsUndefined } from "../StaticJsUndefined.js";
 
-import StaticJsFunctionBase, {
-  type StaticJsFunctionImplOptions,
-} from "./StaticJsFunctionImpl.js";
+import StaticJsFunctionBase, { type StaticJsFunctionImplOptions } from "./StaticJsFunctionImpl.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
@@ -94,10 +92,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
 
     let result: StaticJsValue | null = null;
     try {
-      const completion = yield* EvaluateNodeCommand(
-        this._body,
-        functionContext,
-      );
+      const completion = yield* EvaluateNodeCommand(this._body, functionContext);
       if (completion) {
         result = yield* getValue(completion, this.realm);
       }

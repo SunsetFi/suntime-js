@@ -9,9 +9,7 @@ const setProtoDeleteDeclaration: IntrinsicPropertyDeclaration = {
       throw realm.types.error("TypeError", "Not a Set");
     }
 
-    const result = yield* thisArg.deleteValueEvaluator(
-      value ?? realm.types.undefined,
-    );
+    const result = yield* thisArg.deleteValueEvaluator(value ?? realm.types.undefined);
     return realm.types.boolean(result);
   },
 };

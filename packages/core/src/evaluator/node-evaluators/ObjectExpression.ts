@@ -1,9 +1,4 @@
-import type {
-  ObjectExpression,
-  ObjectMethod,
-  ObjectProperty,
-  SpreadElement,
-} from "@babel/types";
+import type { ObjectExpression, ObjectMethod, ObjectProperty, SpreadElement } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
@@ -33,25 +28,13 @@ export default function* objectExpressionNodeEvaluator(
   for (const property of node.properties) {
     switch (property.type) {
       case "ObjectMethod":
-        yield* objectExpressionPropertyObjectMethodEvaluator(
-          target,
-          property,
-          context,
-        );
+        yield* objectExpressionPropertyObjectMethodEvaluator(target, property, context);
         break;
       case "ObjectProperty":
-        yield* objectExpressionPropertyObjectPropertyEvaluator(
-          target,
-          property,
-          context,
-        );
+        yield* objectExpressionPropertyObjectPropertyEvaluator(target, property, context);
         break;
       case "SpreadElement": {
-        yield* objectExpressionPropertySpreadElementEvaluator(
-          target,
-          property,
-          context,
-        );
+        yield* objectExpressionPropertySpreadElementEvaluator(target, property, context);
         break;
       }
       default: {

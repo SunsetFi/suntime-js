@@ -8,10 +8,7 @@ export function populateTypeErrorPrototype(
   _typeErrorProto: StaticJsObject,
 ) {}
 
-export function createTypeErrorConstructor(
-  realm: StaticJsRealm,
-  typeErrorProto: StaticJsObject,
-) {
+export function createTypeErrorConstructor(realm: StaticJsRealm, typeErrorProto: StaticJsObject) {
   const ctor = new StaticJsFunctionImpl(
     realm,
     "TypeError",

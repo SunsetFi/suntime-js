@@ -28,9 +28,7 @@ export default class StaticJsStringBoxed extends StaticJsAbstractObject {
     return this._value;
   }
 
-  *ownPropertyKeysEvaluator(): EvaluationGenerator<
-    StaticJsObjectPropertyKey[]
-  > {
+  *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsObjectPropertyKey[]> {
     return Object.keys(this._value).map((_, i) => i.toString());
   }
 

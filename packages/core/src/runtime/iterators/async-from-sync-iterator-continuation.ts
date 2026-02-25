@@ -5,10 +5,7 @@ import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js"
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
-import type {
-  StaticJsPromise,
-  StaticJsPromiseCapabilityRecord,
-} from "../types/StaticJsPromise.js";
+import type { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../types/StaticJsPromise.js";
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import type { StaticJsFunction } from "../types/StaticJsFunction.js";
 
@@ -37,12 +34,7 @@ export default function* asyncFromSyncIteratorContinuation(
     value = yield* iteratorValue(result);
   } catch (e) {
     if (e instanceof ThrowCompletion) {
-      yield* call(
-        promiseCapability.reject,
-        realm.types.undefined,
-        [e.value],
-        realm,
-      );
+      yield* call(promiseCapability.reject, realm.types.undefined, [e.value], realm);
       return promiseCapability.promise;
     }
 
@@ -56,30 +48,17 @@ export default function* asyncFromSyncIteratorContinuation(
     if (e instanceof ThrowCompletion) {
       let completion = e;
       if (!done && closeOnRejection) {
-        completion = (yield* iteratorClose(
-          syncIteratorRecord,
-          e,
-          realm,
-          false,
-        )) as ThrowCompletion;
+        completion = (yield* iteratorClose(syncIteratorRecord, e, realm, false)) as ThrowCompletion;
       }
 
-      yield* call(
-        promiseCapability.reject,
-        realm.types.undefined,
-        [completion.value],
-        realm,
-      );
+      yield* call(promiseCapability.reject, realm.types.undefined, [completion.value], realm);
       return promiseCapability.promise;
     }
 
     throw e;
   }
 
-  const onFulfilled = new StaticJsFunctionImpl(realm, "", function* (
-    _thisArg,
-    v,
-  ) {
+  const onFulfilled = new StaticJsFunctionImpl(realm, "", function* (_thisArg, v) {
     return yield* createIteratorResultObject(v, done, realm);
   });
 

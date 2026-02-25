@@ -10,14 +10,12 @@ export interface StaticJsGenericPropertyDescriptor {
   readonly enumerable?: boolean;
 }
 
-export interface StaticJsDataPropertyDescriptor
-  extends StaticJsGenericPropertyDescriptor {
+export interface StaticJsDataPropertyDescriptor extends StaticJsGenericPropertyDescriptor {
   readonly writable?: boolean;
   readonly value?: StaticJsValue;
 }
 
-export interface StaticJsAccessorPropertyDescriptor
-  extends StaticJsGenericPropertyDescriptor {
+export interface StaticJsAccessorPropertyDescriptor extends StaticJsGenericPropertyDescriptor {
   get?: StaticJsFunction;
   set?: StaticJsFunction;
 }
@@ -67,10 +65,7 @@ export function isStaticJsGenericPropertyDescriptor(
     return false;
   }
 
-  return (
-    !isStaticJsAccessorPropertyDescriptor(value) &&
-    !isStaticJsDataPropertyDescriptor(value)
-  );
+  return !isStaticJsAccessorPropertyDescriptor(value) && !isStaticJsDataPropertyDescriptor(value);
 }
 
 export function isStaticJsDataPropertyDescriptor(

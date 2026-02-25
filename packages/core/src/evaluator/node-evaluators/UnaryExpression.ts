@@ -90,9 +90,7 @@ function* deleteExpressionNodeEvaluator(
       throw new ThrowCompletion(
         context.realm.types.error(
           "TypeError",
-          `Cannot delete property ${String(
-            propertyKey,
-          )} of object: Property is non-configurable.`,
+          `Cannot delete property ${String(propertyKey)} of object: Property is non-configurable.`,
         ),
       );
     }

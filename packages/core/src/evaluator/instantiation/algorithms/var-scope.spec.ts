@@ -44,9 +44,7 @@ const testCases: TestCase[] = [
     code: `var x = 10;`,
     expectedVarNames: ["x"],
     expectedNodes: [
-      variableDeclaration("var", [
-        variableDeclarator(identifier("x"), numericLiteral(10)),
-      ]),
+      variableDeclaration("var", [variableDeclarator(identifier("x"), numericLiteral(10))]),
     ],
   },
   {
@@ -58,9 +56,7 @@ const testCases: TestCase[] = [
     `,
     expectedVarNames: ["y"],
     expectedNodes: [
-      variableDeclaration("var", [
-        variableDeclarator(identifier("y"), numericLiteral(20)),
-      ]),
+      variableDeclaration("var", [variableDeclarator(identifier("y"), numericLiteral(20))]),
     ],
   },
   {
@@ -74,9 +70,7 @@ const testCases: TestCase[] = [
     `,
     expectedVarNames: ["y"],
     expectedNodes: [
-      variableDeclaration("var", [
-        variableDeclarator(identifier("y"), numericLiteral(20)),
-      ]),
+      variableDeclaration("var", [variableDeclarator(identifier("y"), numericLiteral(20))]),
     ],
   },
   {
@@ -93,12 +87,8 @@ const testCases: TestCase[] = [
       `,
     expectedVarNames: ["a", "b"],
     expectedNodes: [
-      variableDeclaration("var", [
-        variableDeclarator(identifier("a"), numericLiteral(1)),
-      ]),
-      variableDeclaration("var", [
-        variableDeclarator(identifier("b"), numericLiteral(2)),
-      ]),
+      variableDeclaration("var", [variableDeclarator(identifier("a"), numericLiteral(1))]),
+      variableDeclaration("var", [variableDeclarator(identifier("b"), numericLiteral(2))]),
     ],
   },
   {
@@ -123,9 +113,7 @@ const testCases: TestCase[] = [
       function foo() {}
     `,
     expectedVarNames: ["foo"],
-    expectedNodes: [
-      functionDeclaration(identifier("foo"), [], blockStatement([])),
-    ],
+    expectedNodes: [functionDeclaration(identifier("foo"), [], blockStatement([]))],
   },
   {
     // Note: This does hoist, but through a special process in Annex B.
@@ -150,9 +138,7 @@ const testCases: TestCase[] = [
       functionDeclaration(
         identifier("outer"),
         [],
-        blockStatement([
-          functionDeclaration(identifier("inner"), [], blockStatement([])),
-        ]),
+        blockStatement([functionDeclaration(identifier("inner"), [], blockStatement([]))]),
       ),
     ],
   },
@@ -165,12 +151,8 @@ const testCases: TestCase[] = [
     `,
     expectedVarNames: ["i", "j"],
     expectedNodes: [
-      variableDeclaration("var", [
-        variableDeclarator(identifier("i"), numericLiteral(0)),
-      ]),
-      variableDeclaration("var", [
-        variableDeclarator(identifier("j"), identifier("i")),
-      ]),
+      variableDeclaration("var", [variableDeclarator(identifier("i"), numericLiteral(0))]),
+      variableDeclaration("var", [variableDeclarator(identifier("j"), identifier("i"))]),
     ],
   },
   {
@@ -182,9 +164,7 @@ const testCases: TestCase[] = [
     `,
     expectedVarNames: ["j"],
     expectedNodes: [
-      variableDeclaration("var", [
-        variableDeclarator(identifier("j"), identifier("i")),
-      ]),
+      variableDeclaration("var", [variableDeclarator(identifier("j"), identifier("i"))]),
     ],
   },
   {
@@ -196,9 +176,7 @@ const testCases: TestCase[] = [
     `,
     expectedVarNames: ["i"],
     expectedNodes: [
-      variableDeclaration("var", [
-        variableDeclarator(identifier("i"), numericLiteral(0)),
-      ]),
+      variableDeclaration("var", [variableDeclarator(identifier("i"), numericLiteral(0))]),
     ],
   },
   {
@@ -208,9 +186,7 @@ const testCases: TestCase[] = [
       }
     `,
     expectedVarNames: ["key"],
-    expectedNodes: [
-      variableDeclaration("var", [variableDeclarator(identifier("key"), null)]),
-    ],
+    expectedNodes: [variableDeclaration("var", [variableDeclarator(identifier("key"), null)])],
   },
   {
     name: "For-of with var binding and body var",
@@ -221,12 +197,8 @@ const testCases: TestCase[] = [
     `,
     expectedVarNames: ["value", "count"],
     expectedNodes: [
-      variableDeclaration("var", [
-        variableDeclarator(identifier("value"), null),
-      ]),
-      variableDeclaration("var", [
-        variableDeclarator(identifier("count"), numericLiteral(1)),
-      ]),
+      variableDeclaration("var", [variableDeclarator(identifier("value"), null)]),
+      variableDeclaration("var", [variableDeclarator(identifier("count"), numericLiteral(1))]),
     ],
   },
   {
@@ -237,12 +209,8 @@ const testCases: TestCase[] = [
     `,
     expectedVarNames: ["yes", "no"],
     expectedNodes: [
-      variableDeclaration("var", [
-        variableDeclarator(identifier("yes"), numericLiteral(1)),
-      ]),
-      variableDeclaration("var", [
-        variableDeclarator(identifier("no"), numericLiteral(2)),
-      ]),
+      variableDeclaration("var", [variableDeclarator(identifier("yes"), numericLiteral(1))]),
+      variableDeclaration("var", [variableDeclarator(identifier("no"), numericLiteral(2))]),
     ],
   },
   {
@@ -258,15 +226,9 @@ const testCases: TestCase[] = [
     `,
     expectedVarNames: ["tried", "caught", "cleaned"],
     expectedNodes: [
-      variableDeclaration("var", [
-        variableDeclarator(identifier("tried"), numericLiteral(1)),
-      ]),
-      variableDeclaration("var", [
-        variableDeclarator(identifier("caught"), numericLiteral(2)),
-      ]),
-      variableDeclaration("var", [
-        variableDeclarator(identifier("cleaned"), numericLiteral(3)),
-      ]),
+      variableDeclaration("var", [variableDeclarator(identifier("tried"), numericLiteral(1))]),
+      variableDeclaration("var", [variableDeclarator(identifier("caught"), numericLiteral(2))]),
+      variableDeclaration("var", [variableDeclarator(identifier("cleaned"), numericLiteral(3))]),
     ],
   },
   {
@@ -305,9 +267,7 @@ const testCases: TestCase[] = [
     expectedNodes: [
       variableDeclaration("var", [
         variableDeclarator(
-          objectPattern([
-            objectProperty(identifier("key"), identifier("key"), false, true),
-          ]),
+          objectPattern([objectProperty(identifier("key"), identifier("key"), false, true)]),
           null,
         ),
       ]),
@@ -323,11 +283,7 @@ const testCases: TestCase[] = [
     expectedNodes: [
       variableDeclaration("var", [
         variableDeclarator(
-          arrayPattern([
-            identifier("first"),
-            null,
-            restElement(identifier("rest")),
-          ]),
+          arrayPattern([identifier("first"), null, restElement(identifier("rest"))]),
           null,
         ),
       ]),
@@ -344,17 +300,12 @@ const testCases: TestCase[] = [
     expectedNodes: [
       variableDeclaration("var", [
         variableDeclarator(
-          objectPattern([
-            objectProperty(identifier("i"), identifier("i"), false, true),
-          ]),
+          objectPattern([objectProperty(identifier("i"), identifier("i"), false, true)]),
           identifier("start"),
         ),
       ]),
       variableDeclaration("var", [
-        variableDeclarator(
-          arrayPattern([identifier("x"), identifier("y")]),
-          identifier("coords"),
-        ),
+        variableDeclarator(arrayPattern([identifier("x"), identifier("y")]), identifier("coords")),
       ]),
     ],
   },
@@ -367,9 +318,7 @@ const testCases: TestCase[] = [
     `,
     expectedVarNames: ["d"],
     expectedNodes: [
-      variableDeclaration("var", [
-        variableDeclarator(identifier("d"), numericLiteral(1)),
-      ]),
+      variableDeclaration("var", [variableDeclarator(identifier("d"), numericLiteral(1))]),
     ],
   },
   {
@@ -381,9 +330,7 @@ const testCases: TestCase[] = [
     `,
     expectedVarNames: ["w"],
     expectedNodes: [
-      variableDeclaration("var", [
-        variableDeclarator(identifier("w"), numericLiteral(2)),
-      ]),
+      variableDeclaration("var", [variableDeclarator(identifier("w"), numericLiteral(2))]),
     ],
   },
   {
@@ -393,9 +340,7 @@ const testCases: TestCase[] = [
     `,
     expectedVarNames: ["x"],
     expectedNodes: [
-      variableDeclaration("var", [
-        variableDeclarator(identifier("x"), numericLiteral(1)),
-      ]),
+      variableDeclaration("var", [variableDeclarator(identifier("x"), numericLiteral(1))]),
     ],
   },
   {
@@ -407,9 +352,7 @@ const testCases: TestCase[] = [
     `,
     expectedVarNames: ["y"],
     expectedNodes: [
-      variableDeclaration("var", [
-        variableDeclarator(identifier("y"), numericLiteral(2)),
-      ]),
+      variableDeclaration("var", [variableDeclarator(identifier("y"), numericLiteral(2))]),
     ],
   },
   {
@@ -432,9 +375,7 @@ const testCases: TestCase[] = [
       function* gen() {}
     `,
     expectedVarNames: ["gen"],
-    expectedNodes: [
-      functionDeclaration(identifier("gen"), [], blockStatement([]), true),
-    ],
+    expectedNodes: [functionDeclaration(identifier("gen"), [], blockStatement([]), true)],
   },
   {
     name: "Async function declaration",
@@ -442,15 +383,7 @@ const testCases: TestCase[] = [
       async function af() {}
     `,
     expectedVarNames: ["af"],
-    expectedNodes: [
-      functionDeclaration(
-        identifier("af"),
-        [],
-        blockStatement([]),
-        false,
-        true,
-      ),
-    ],
+    expectedNodes: [functionDeclaration(identifier("af"), [], blockStatement([]), false, true)],
   },
   {
     name: "Async generator function declaration",
@@ -458,9 +391,7 @@ const testCases: TestCase[] = [
       async function* ag() {}
     `,
     expectedVarNames: ["ag"],
-    expectedNodes: [
-      functionDeclaration(identifier("ag"), [], blockStatement([]), true, true),
-    ],
+    expectedNodes: [functionDeclaration(identifier("ag"), [], blockStatement([]), true, true)],
   },
   {
     name: "For-in without block",
@@ -468,9 +399,7 @@ const testCases: TestCase[] = [
       for (var i in obj);
     `,
     expectedVarNames: ["i"],
-    expectedNodes: [
-      variableDeclaration("var", [variableDeclarator(identifier("i"), null)]),
-    ],
+    expectedNodes: [variableDeclaration("var", [variableDeclarator(identifier("i"), null)])],
   },
   {
     name: "For-of without block",
@@ -478,9 +407,7 @@ const testCases: TestCase[] = [
       for (var i of list);
     `,
     expectedVarNames: ["i"],
-    expectedNodes: [
-      variableDeclaration("var", [variableDeclarator(identifier("i"), null)]),
-    ],
+    expectedNodes: [variableDeclaration("var", [variableDeclarator(identifier("i"), null)])],
   },
   {
     name: "Mixed patterns in one var declaration",
@@ -491,15 +418,10 @@ const testCases: TestCase[] = [
     expectedNodes: [
       variableDeclaration("var", [
         variableDeclarator(
-          objectPattern([
-            objectProperty(identifier("a"), identifier("a"), false, true),
-          ]),
+          objectPattern([objectProperty(identifier("a"), identifier("a"), false, true)]),
           identifier("obj"),
         ),
-        variableDeclarator(
-          arrayPattern([identifier("b"), identifier("c")]),
-          identifier("arr"),
-        ),
+        variableDeclarator(arrayPattern([identifier("b"), identifier("c")]), identifier("arr")),
       ]),
     ],
   },
@@ -512,9 +434,7 @@ const testCases: TestCase[] = [
     `,
     expectedVarNames: ["v"],
     expectedNodes: [
-      variableDeclaration("var", [
-        variableDeclarator(identifier("v"), numericLiteral(1)),
-      ]),
+      variableDeclaration("var", [variableDeclarator(identifier("v"), numericLiteral(1))]),
     ],
   },
   {
@@ -529,9 +449,7 @@ const testCases: TestCase[] = [
           objectPattern([
             objectProperty(
               identifier("a"),
-              objectPattern([
-                objectProperty(identifier("b"), identifier("b"), false, true),
-              ]),
+              objectPattern([objectProperty(identifier("b"), identifier("b"), false, true)]),
               false,
               false,
             ),

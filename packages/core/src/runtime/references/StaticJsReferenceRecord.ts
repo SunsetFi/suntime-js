@@ -15,13 +15,11 @@ export interface StaticJsResolvedReferenceRecord {
   base: StaticJsEnvironmentRecord | StaticJsValue;
 }
 
-export interface StaticJsPropertyReferenceRecord
-  extends StaticJsResolvedReferenceRecord {
+export interface StaticJsPropertyReferenceRecord extends StaticJsResolvedReferenceRecord {
   base: StaticJsValue;
 }
 
-export interface StaticJsEnvironmentReferenceRecord
-  extends StaticJsResolvedReferenceRecord {
+export interface StaticJsEnvironmentReferenceRecord extends StaticJsResolvedReferenceRecord {
   base: StaticJsEnvironmentRecord;
   referencedName: string;
 }
@@ -31,17 +29,10 @@ export type StaticJsReferenceRecord =
   | StaticJsPropertyReferenceRecord
   | StaticJsEnvironmentReferenceRecord;
 
-export function isStaticJsReferenceRecord(
-  value: unknown,
-): value is StaticJsReferenceRecord {
+export function isStaticJsReferenceRecord(value: unknown): value is StaticJsReferenceRecord {
   if (typeof value !== "object" || value === null) {
     return false;
   }
 
-  return (
-    "referencedName" in value &&
-    "strict" in value &&
-    "thisValue" in value &&
-    "base" in value
-  );
+  return "referencedName" in value && "strict" in value && "thisValue" in value && "base" in value;
 }

@@ -2,21 +2,13 @@ import type { ParseError } from "@babel/parser";
 
 import StaticJsSyntaxError from "../errors/StaticJsSyntaxError.js";
 
-export default function handleParseError(
-  e: unknown,
-  contextMessage = "Failed to parse",
-): never {
+export default function handleParseError(e: unknown, contextMessage = "Failed to parse"): never {
   if (!isParseError(e)) {
     throw e;
   }
 
   let message = contextMessage;
-  if (
-    e &&
-    typeof e === "object" &&
-    "message" in e &&
-    typeof e.message === "string"
-  ) {
+  if (e && typeof e === "object" && "message" in e && typeof e.message === "string") {
     message += `: ${e.message}`;
   }
 

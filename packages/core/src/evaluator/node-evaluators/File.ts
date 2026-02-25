@@ -9,10 +9,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import setupEnvironment from "./setup-environment.js";
 
-function* fileNodeEvaluator(
-  node: File,
-  context: EvaluationContext,
-): EvaluationGenerator {
+function* fileNodeEvaluator(node: File, context: EvaluationContext): EvaluationGenerator {
   yield* setupEnvironment(node.program, context);
 
   return yield* EvaluateNodeCommand(node.program, context);

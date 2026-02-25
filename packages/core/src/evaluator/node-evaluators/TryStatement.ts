@@ -54,22 +54,14 @@ function* runCatch(
   let catchContext = context;
 
   if (node.param) {
-    const catchEnv = new StaticJsDeclarativeEnvironmentRecord(
-      oldEnv,
-      context.realm,
-    );
+    const catchEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
     for (const argName of boundNames(node.param)) {
       yield* catchEnv.createMutableBindingEvaluator(argName, false);
     }
 
     catchContext = context.createLexicalEnvContext(catchEnv);
 
-    yield* bindingInitialization(
-      node.param,
-      thrownValue,
-      catchEnv,
-      catchContext,
-    );
+    yield* bindingInitialization(node.param, thrownValue, catchEnv, catchContext);
   }
 
   return yield* EvaluateNodeForCompletion(node.body, catchContext);

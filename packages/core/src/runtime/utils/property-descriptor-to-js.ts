@@ -28,15 +28,11 @@ export default function properrtyDescriptorToJs(
       objDescriptor.value = function (value: unknown) {
         const thisValue = realm.types.toStaticJsValue(this);
         const staticJsValue = realm.types.toStaticJsValue(value);
-        realm.invokeEvaluatorSync(
-          descriptor.set!.callEvaluator(thisValue, [staticJsValue]),
-        );
+        realm.invokeEvaluatorSync(descriptor.set!.callEvaluator(thisValue, [staticJsValue]));
       };
     }
   } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
-    objDescriptor.value = (
-      descriptor.value ?? realm.types.undefined
-    ).toJsSync();
+    objDescriptor.value = (descriptor.value ?? realm.types.undefined).toJsSync();
   }
 
   return objDescriptor;

@@ -11,13 +11,10 @@ import StaticJsTypeCode from "./StaticJsTypeCode.js";
 
 export type StaticJsObjectPropertyKey = string | StaticJsSymbol;
 
-export function isStaticJsObjectPropertyKey(
-  value: unknown,
-): value is StaticJsObjectPropertyKey {
+export function isStaticJsObjectPropertyKey(value: unknown): value is StaticJsObjectPropertyKey {
   return (
     typeof value === "string" ||
-    (isStaticJsValue(value) &&
-      value.runtimeTypeCode === StaticJsTypeCode.Symbol)
+    (isStaticJsValue(value) && value.runtimeTypeCode === StaticJsTypeCode.Symbol)
   );
 }
 
@@ -36,17 +33,13 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     opts?: StaticJsRunTaskOptions,
   ): Promise<void>;
   setPrototypeOfSync(prototype: StaticJsObjectLike | null): void;
-  setPrototypeOfEvaluator(
-    prototype: StaticJsObjectLike | null,
-  ): EvaluationGenerator<void>;
+  setPrototypeOfEvaluator(prototype: StaticJsObjectLike | null): EvaluationGenerator<void>;
 
   preventExtensionsAsync(opts?: StaticJsRunTaskOptions): Promise<void>;
   preventExtensionsSync(): void;
   preventExtensionsEvaluator(): EvaluationGenerator<void>;
 
-  ownPropertyKeysAsync(
-    opts?: StaticJsRunTaskOptions,
-  ): Promise<StaticJsObjectPropertyKey[]>;
+  ownPropertyKeysAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObjectPropertyKey[]>;
   ownPropertyKeysSync(): StaticJsObjectPropertyKey[];
   ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsObjectPropertyKey[]>;
 
@@ -54,31 +47,22 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   ownEnumerableKeysSync(): string[];
   ownEnumerableKeysEvaluator(): EvaluationGenerator<string[]>;
 
-  hasPropertyAsync(
-    key: StaticJsObjectPropertyKey,
-    opts?: StaticJsRunTaskOptions,
-  ): Promise<boolean>;
+  hasPropertyAsync(key: StaticJsObjectPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean>;
   hasPropertySync(key: StaticJsObjectPropertyKey): boolean;
-  hasPropertyEvaluator(
-    key: StaticJsObjectPropertyKey,
-  ): EvaluationGenerator<boolean>;
+  hasPropertyEvaluator(key: StaticJsObjectPropertyKey): EvaluationGenerator<boolean>;
 
   hasOwnPropertyAsync(
     key: StaticJsObjectPropertyKey,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean>;
   hasOwnPropertySync(key: StaticJsObjectPropertyKey): boolean;
-  hasOwnPropertyEvaluator(
-    key: StaticJsObjectPropertyKey,
-  ): EvaluationGenerator<boolean>;
+  hasOwnPropertyEvaluator(key: StaticJsObjectPropertyKey): EvaluationGenerator<boolean>;
 
   getPropertyAsync(
     key: StaticJsObjectPropertyKey,
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsPropertyDescriptor | undefined>;
-  getPropertySync(
-    key: StaticJsObjectPropertyKey,
-  ): StaticJsPropertyDescriptor | undefined;
+  getPropertySync(key: StaticJsObjectPropertyKey): StaticJsPropertyDescriptor | undefined;
   getPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
@@ -87,9 +71,7 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     key: StaticJsObjectPropertyKey,
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsPropertyDescriptor | undefined>;
-  getOwnPropertySync(
-    key: StaticJsObjectPropertyKey,
-  ): StaticJsPropertyDescriptor | undefined;
+  getOwnPropertySync(key: StaticJsObjectPropertyKey): StaticJsPropertyDescriptor | undefined;
   getOwnPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
@@ -108,14 +90,9 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean>;
 
-  getAsync(
-    name: StaticJsObjectPropertyKey,
-    opts?: StaticJsRunTaskOptions,
-  ): Promise<StaticJsValue>;
+  getAsync(name: StaticJsObjectPropertyKey, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue>;
   getSync(name: StaticJsObjectPropertyKey): StaticJsValue;
-  getEvaluator(
-    key: StaticJsObjectPropertyKey,
-  ): EvaluationGenerator<StaticJsValue>;
+  getEvaluator(key: StaticJsObjectPropertyKey): EvaluationGenerator<StaticJsValue>;
 
   setAsync(
     key: StaticJsObjectPropertyKey,
@@ -123,28 +100,19 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     strict: boolean,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean>;
-  setSync(
-    key: StaticJsObjectPropertyKey,
-    value: StaticJsValue,
-    strict: boolean,
-  ): boolean;
+  setSync(key: StaticJsObjectPropertyKey, value: StaticJsValue, strict: boolean): boolean;
   setEvaluator(
     key: StaticJsObjectPropertyKey,
     value: StaticJsValue,
     strict: boolean,
   ): EvaluationGenerator<boolean>;
 
-  deleteAsync(
-    key: StaticJsObjectPropertyKey,
-    opts?: StaticJsRunTaskOptions,
-  ): Promise<boolean>;
+  deleteAsync(key: StaticJsObjectPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean>;
   deleteSync(key: StaticJsObjectPropertyKey): boolean;
   deleteEvaluator(key: StaticJsObjectPropertyKey): EvaluationGenerator<boolean>;
 }
 
-export function isStaticJsObjectLike(
-  value: unknown,
-): value is StaticJsObjectLike {
+export function isStaticJsObjectLike(value: unknown): value is StaticJsObjectLike {
   if (!isStaticJsValue(value)) {
     return false;
   }

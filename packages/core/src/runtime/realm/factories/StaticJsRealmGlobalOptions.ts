@@ -26,6 +26,4 @@ export interface StaticJsRealmGlobalValue {
   value: object;
 }
 
-export type StaticJsRealmGlobalOption =
-  | StaticJsRealmGlobalDecl
-  | StaticJsRealmGlobalValue;
+export type StaticJsRealmGlobalOption = StaticJsRealmGlobalDecl | StaticJsRealmGlobalValue;

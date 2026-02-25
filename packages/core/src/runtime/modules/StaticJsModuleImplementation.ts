@@ -33,22 +33,16 @@ export interface StaticJsModuleImplementation extends StaticJsModule {
 
   // Note: This doesn't have to be an evaluator, except for the oddity that
   // we still want to throw new ThrowCompletions.  Should we just throw the RuntimeError?
-  getExportedNamesEvaluator(
-    exportStarSet?: Set<string>,
-  ): EvaluationGenerator<string[]>;
+  getExportedNamesEvaluator(exportStarSet?: Set<string>): EvaluationGenerator<string[]>;
 
   // TODO: Just expose the StaticJsEnvironment and
   // do this manually where needed.
-  getOwnBindingValueEvaluator(
-    bindingName: string,
-  ): EvaluationGenerator<StaticJsValue | null>;
+  getOwnBindingValueEvaluator(bindingName: string): EvaluationGenerator<StaticJsValue | null>;
 
   getModuleNamespaceEvaluator(): EvaluationGenerator<StaticJsObjectLike>;
 }
 
-export function isStaticJsModuleImplementation(
-  x: unknown,
-): x is StaticJsModuleImplementation {
+export function isStaticJsModuleImplementation(x: unknown): x is StaticJsModuleImplementation {
   if (typeof x !== "object" || x === null) {
     return false;
   }

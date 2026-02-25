@@ -2,10 +2,7 @@ import type { Node } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import {
-  isStaticJsValue,
-  type StaticJsValue,
-} from "../../runtime/types/StaticJsValue.js";
+import { isStaticJsValue, type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import {
   isStaticJsReferenceRecord,
@@ -55,11 +52,7 @@ export function EvaluateNodeCommand(
 export function* EvaluateNodeCommand(
   node: Node,
   context: EvaluationContext,
-  {
-    forNormalValue,
-    forReference,
-    ...evaluateOptions
-  }: EvaluateNodeCommandOptions = {},
+  { forNormalValue, forReference, ...evaluateOptions }: EvaluateNodeCommandOptions = {},
 ): EvaluationGenerator<unknown> {
   // At one point, our commands were evaluated by a handler at the root of the evaluation chain,
   // and our result would come out of this yield statement.
@@ -88,9 +81,7 @@ export function* EvaluateNodeCommand(
 
   if (forReference) {
     if (result === null || !isStaticJsReferenceRecord(result)) {
-      throw new StaticJsEngineError(
-        `Expected ${forReference} to return a reference completion.`,
-      );
+      throw new StaticJsEngineError(`Expected ${forReference} to return a reference completion.`);
     }
   }
 

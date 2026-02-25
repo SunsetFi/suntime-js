@@ -2,26 +2,20 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type {
-  StaticJsObjectLike,
-  StaticJsObjectPropertyKey,
-} from "../types/StaticJsObjectLike.js";
+import type { StaticJsObjectLike, StaticJsObjectPropertyKey } from "../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
 export interface IntrinsicPropertyDeclarationBase {
-  key:
-    | StaticJsObjectPropertyKey
-    | ((realm: StaticJsRealm) => StaticJsObjectPropertyKey);
+  key: StaticJsObjectPropertyKey | ((realm: StaticJsRealm) => StaticJsObjectPropertyKey);
   enumerable?: boolean;
   configurable?: boolean;
   writable?: boolean;
 }
 
-export interface FunctionIntrinsicPropertyDeclaration
-  extends IntrinsicPropertyDeclarationBase {
+export interface FunctionIntrinsicPropertyDeclaration extends IntrinsicPropertyDeclarationBase {
   func: (
     realm: StaticJsRealm,
     thisArg: StaticJsValue,
@@ -34,8 +28,7 @@ function isFunctionIntrinsicPropertyDeclaration(
   return "func" in prop;
 }
 
-export interface DataIntrinsicPropertyDeclaration
-  extends IntrinsicPropertyDeclarationBase {
+export interface DataIntrinsicPropertyDeclaration extends IntrinsicPropertyDeclarationBase {
   value: StaticJsValue | ((realm: StaticJsRealm) => StaticJsValue);
 }
 function isDataIntrinsicPropertyDeclaration(
@@ -44,12 +37,8 @@ function isDataIntrinsicPropertyDeclaration(
   return "value" in prop;
 }
 
-export interface AccessorIntrinsicPropertyDeclaration
-  extends IntrinsicPropertyDeclarationBase {
-  get?: (
-    realm: StaticJsRealm,
-    thisArg: StaticJsValue,
-  ) => EvaluationGenerator<StaticJsValue>;
+export interface AccessorIntrinsicPropertyDeclaration extends IntrinsicPropertyDeclarationBase {
+  get?: (realm: StaticJsRealm, thisArg: StaticJsValue) => EvaluationGenerator<StaticJsValue>;
   set?: (
     realm: StaticJsRealm,
     thisArg: StaticJsValue,
@@ -89,10 +78,8 @@ export function applyIntrinsicProperties(
         name = `Symbol(${key.description})`;
       }
 
-      const func = (
-        thisArg: StaticJsValue,
-        ...args: (StaticJsValue | undefined)[]
-      ) => prop.func(realm, thisArg, ...args);
+      const func = (thisArg: StaticJsValue, ...args: (StaticJsValue | undefined)[]) =>
+        prop.func(realm, thisArg, ...args);
 
       obj.defineOwnPropertySync(key, {
         value: new StaticJsFunctionImpl(realm, name ?? "anonymous", func),
@@ -102,8 +89,7 @@ export function applyIntrinsicProperties(
       });
     } else if (isDataIntrinsicPropertyDeclaration(prop)) {
       obj.defineOwnPropertySync(key, {
-        value:
-          typeof prop.value === "function" ? prop.value(realm) : prop.value,
+        value: typeof prop.value === "function" ? prop.value(realm) : prop.value,
         enumerable: prop.enumerable ?? false,
         configurable: prop.configurable ?? false,
         writable: prop.writable ?? false,
@@ -111,9 +97,7 @@ export function applyIntrinsicProperties(
     } else if (isAccessorIntrinsicPropertyDeclaration(prop)) {
       obj.defineOwnPropertySync(key, {
         get: prop.get
-          ? new StaticJsFunctionImpl(realm, "get", (thisArg) =>
-              prop.get!(realm, thisArg),
-            )
+          ? new StaticJsFunctionImpl(realm, "get", (thisArg) => prop.get!(realm, thisArg))
           : undefined,
         set: prop.set
           ? new StaticJsFunctionImpl(realm, "set", (thisArg, value) =>
@@ -124,9 +108,7 @@ export function applyIntrinsicProperties(
         configurable: prop.configurable ?? true,
       });
     } else {
-      throw new Error(
-        "Intrinsic property declaration must have a function property",
-      );
+      throw new Error("Intrinsic property declaration must have a function property");
     }
   }
 }

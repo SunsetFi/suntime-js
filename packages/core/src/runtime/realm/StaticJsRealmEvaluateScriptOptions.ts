@@ -1,8 +1,7 @@
 import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
 import type { StaticJsRealm } from "./StaticJsRealm.js";
 
-export interface StaticJsRealmEvaluateScriptOptions
-  extends StaticJsRunTaskOptions {
+export interface StaticJsRealmEvaluateScriptOptions extends StaticJsRunTaskOptions {
   /**
    * An optional file name to associate with the script.
    */

@@ -2,10 +2,7 @@ import { isIdentifier, isImportDeclaration, type Program } from "@babel/types";
 
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
-import {
-  NamespaceImportName,
-  type StaticJsImportEntry,
-} from "./StaticJsImportEntry.js";
+import { NamespaceImportName, type StaticJsImportEntry } from "./StaticJsImportEntry.js";
 
 export default function parseImportEntries(
   moduleName: string,

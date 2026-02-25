@@ -24,10 +24,7 @@ export default function lexicallyDeclaredNames(node: Node): string[] {
     case "SwitchCase":
       return node.consequent.flatMap(lexicallyDeclaredNames);
     case "ExportNamedDeclaration": {
-      if (
-        node.declaration?.type === "VariableDeclaration" &&
-        node.declaration.kind === "var"
-      ) {
+      if (node.declaration?.type === "VariableDeclaration" && node.declaration.kind === "var") {
         return [];
       }
 

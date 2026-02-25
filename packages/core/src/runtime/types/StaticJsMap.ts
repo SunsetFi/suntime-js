@@ -17,17 +17,11 @@ export interface StaticJsMap extends StaticJsObjectLike {
   hasEvaluator(key: StaticJsValue): EvaluationGenerator<boolean>;
   getValueEvaluator(key: StaticJsValue): EvaluationGenerator<StaticJsValue>;
 
-  setValueEvaluator(
-    key: StaticJsValue,
-    value: StaticJsValue,
-  ): EvaluationGenerator<void>;
+  setValueEvaluator(key: StaticJsValue, value: StaticJsValue): EvaluationGenerator<void>;
   deleteValueEvaluator(key: StaticJsValue): EvaluationGenerator<boolean>;
   clearEvaluator(): EvaluationGenerator<void>;
 
-  forEachEvaluator(
-    callback: StaticJsFunction,
-    thisArg?: StaticJsValue,
-  ): EvaluationGenerator<void>;
+  forEachEvaluator(callback: StaticJsFunction, thisArg?: StaticJsValue): EvaluationGenerator<void>;
 }
 
 export function isStaticJsMap(value: unknown): value is StaticJsMap {

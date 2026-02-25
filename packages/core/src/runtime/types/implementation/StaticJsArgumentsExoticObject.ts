@@ -5,10 +5,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import StaticJsTypeCode from "../StaticJsTypeCode.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
-import type {
-  StaticJsObjectLike,
-  StaticJsObjectPropertyKey,
-} from "../StaticJsObjectLike.js";
+import type { StaticJsObjectLike, StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
@@ -91,8 +88,7 @@ export default class StaticJsArgumentsExoticObject extends StaticJsObjectLikeImp
   }
 
   override *getEvaluator(property: string): EvaluationGenerator<StaticJsValue> {
-    const isMapped =
-      yield* this._parameterMap.hasOwnPropertyEvaluator(property);
+    const isMapped = yield* this._parameterMap.hasOwnPropertyEvaluator(property);
     if (!isMapped) {
       return yield* super.getEvaluator(property);
     }
@@ -113,9 +109,7 @@ export default class StaticJsArgumentsExoticObject extends StaticJsObjectLikeImp
     return yield* super.setEvaluator(key, value, strict);
   }
 
-  override *deleteEvaluator(
-    key: StaticJsObjectPropertyKey,
-  ): EvaluationGenerator<boolean> {
+  override *deleteEvaluator(key: StaticJsObjectPropertyKey): EvaluationGenerator<boolean> {
     const isMapped = yield* this._parameterMap.hasOwnPropertyEvaluator(key);
     const result = yield* super.deleteEvaluator(key);
     if (isMapped && result) {

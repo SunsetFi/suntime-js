@@ -63,9 +63,7 @@ export default function* objectToPropertyDescriptor(
   if (hasGetter) {
     const getter = yield* obj.getEvaluator("get");
     if (!isStaticJsFunction(getter)) {
-      throw new ThrowCompletion(
-        realm.types.error("TypeError", `get must be a function`),
-      );
+      throw new ThrowCompletion(realm.types.error("TypeError", `get must be a function`));
     }
 
     descriptor.get = getter;
@@ -75,9 +73,7 @@ export default function* objectToPropertyDescriptor(
   if (hasSetter) {
     const setter = yield* obj.getEvaluator("set");
     if (!isStaticJsFunction(setter)) {
-      throw new ThrowCompletion(
-        realm.types.error("TypeError", `set must be a function`),
-      );
+      throw new ThrowCompletion(realm.types.error("TypeError", `set must be a function`));
     }
 
     descriptor.set = setter;

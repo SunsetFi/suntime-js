@@ -51,19 +51,11 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
     // around when getters and setters are invoked.
     // FIXME: Use algo https://tc39.es/ecma262/multipage/indexed-collections.html#sec-array.prototype.splice
     const oldItems = yield* toArray(thisObj, realm);
-    const result = oldItems.splice(
-      start,
-      deleteCount,
-      ...items.filter(isNotUndefined),
-    );
+    const result = oldItems.splice(start, deleteCount, ...items.filter(isNotUndefined));
 
     yield* setArray(realm, thisObj, oldItems);
 
-    const resultItems = yield* arraySpeciesCreate(
-      thisObj,
-      oldItems.length,
-      realm,
-    );
+    const resultItems = yield* arraySpeciesCreate(thisObj, oldItems.length, realm);
     yield* setArray(realm, resultItems, result);
 
     return resultItems;

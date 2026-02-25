@@ -22,15 +22,7 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
     body: BlockStatement | Expression,
     functionFactory: StaticJsFunctionFactory,
   ) {
-    super(
-      realm,
-      name,
-      "lexical-this",
-      argumentDeclarations,
-      context,
-      body,
-      functionFactory,
-    );
+    super(realm, name, "lexical-this", argumentDeclarations, context, body, functionFactory);
   }
 
   *constructEvaluator(): EvaluationGenerator<StaticJsValue> {
@@ -40,8 +32,6 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
       name = "anonymous";
     }
 
-    throw new ThrowCompletion(
-      this.realm.types.error("TypeError", `${name} is not a constructor`),
-    );
+    throw new ThrowCompletion(this.realm.types.error("TypeError", `${name} is not a constructor`));
   }
 }

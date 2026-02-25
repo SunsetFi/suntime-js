@@ -11,15 +11,11 @@ const objectCtorCreateDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg, protoValue) {
     if (!isStaticJsNull(protoValue) && !isStaticJsObjectLike(protoValue)) {
       throw new ThrowCompletion(
-        realm.types.error(
-          "TypeError",
-          "Object prototype may only be an Object or null",
-        ),
+        realm.types.error("TypeError", "Object prototype may only be an Object or null"),
       );
     }
 
-    const proto =
-      protoValue.runtimeTypeCode === StaticJsTypeCode.Null ? null : protoValue;
+    const proto = protoValue.runtimeTypeCode === StaticJsTypeCode.Null ? null : protoValue;
     const obj = realm.types.object(undefined, proto);
     return obj;
   },

@@ -7,22 +7,13 @@ export interface StaticJsEnvironmentRecord {
 
   hasBindingEvaluator(name: string): EvaluationGenerator<boolean>;
 
-  createMutableBindingEvaluator(
-    name: string,
-    deletable: boolean,
-  ): EvaluationGenerator<void>;
+  createMutableBindingEvaluator(name: string, deletable: boolean): EvaluationGenerator<void>;
 
-  createImmutableBindingEvaluator(
-    name: string,
-    strict: boolean,
-  ): EvaluationGenerator<void>;
+  createImmutableBindingEvaluator(name: string, strict: boolean): EvaluationGenerator<void>;
 
   isInitializedEvaluator(name: string): EvaluationGenerator<boolean>;
 
-  initializeBindingEvaluator(
-    name: string,
-    value: StaticJsValue,
-  ): EvaluationGenerator<void>;
+  initializeBindingEvaluator(name: string, value: StaticJsValue): EvaluationGenerator<void>;
 
   setMutableBindingEvaluator(
     name: string,
@@ -30,10 +21,7 @@ export interface StaticJsEnvironmentRecord {
     strict: boolean,
   ): EvaluationGenerator<void>;
 
-  getBindingValueEvaluator(
-    name: string,
-    strict: boolean,
-  ): EvaluationGenerator<StaticJsValue>;
+  getBindingValueEvaluator(name: string, strict: boolean): EvaluationGenerator<StaticJsValue>;
 
   deleteBindingEvaluator(name: string): EvaluationGenerator<boolean>;
 

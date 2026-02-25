@@ -3,9 +3,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsPrimitive } from "../StaticJsPrimitive.js";
 import type StaticJsTypeCode from "../StaticJsTypeCode.js";
 
-export default abstract class StaticJsAbstractPrimitive
-  implements StaticJsPrimitive
-{
+export default abstract class StaticJsAbstractPrimitive implements StaticJsPrimitive {
   constructor(private readonly _realm: StaticJsRealm) {}
 
   get realm(): StaticJsRealm {

@@ -2,20 +2,14 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import {
-  isStaticJsBoolean,
-  type StaticJsBoolean,
-} from "../types/StaticJsBoolean.js";
+import { isStaticJsBoolean, type StaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsNumber } from "../types/StaticJsNumber.js";
 import { isStaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-function* toBooleanJs(
-  value: StaticJsValue,
-  _realm: StaticJsRealm,
-): EvaluationGenerator<boolean> {
+function* toBooleanJs(value: StaticJsValue, _realm: StaticJsRealm): EvaluationGenerator<boolean> {
   if (isStaticJsUndefined(value)) {
     return false;
   }
@@ -28,10 +22,7 @@ function* toBooleanJs(
     return false;
   }
 
-  if (
-    isStaticJsNumber(value) &&
-    (value.value === 0 || Number.isNaN(value.value))
-  ) {
+  if (isStaticJsNumber(value) && (value.value === 0 || Number.isNaN(value.value))) {
     return false;
   }
 

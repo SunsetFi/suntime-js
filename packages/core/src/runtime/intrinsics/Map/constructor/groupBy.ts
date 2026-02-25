@@ -17,18 +17,11 @@ const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
 
     if (!isStaticJsFunction(callbackFn)) {
       throw new StaticJsRuntimeError(
-        realm.types.error(
-          "TypeError",
-          "Map.groupBy callback must be a function",
-        ),
+        realm.types.error("TypeError", "Map.groupBy callback must be a function"),
       );
     }
 
-    const iterator = yield* getIterator(
-      items ?? realm.types.undefined,
-      "sync",
-      realm,
-    );
+    const iterator = yield* getIterator(items ?? realm.types.undefined, "sync", realm);
 
     yield* iteratorClose.handle(iterator, realm, function* () {
       let index = 0;

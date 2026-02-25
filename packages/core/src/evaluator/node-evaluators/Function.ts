@@ -37,14 +37,7 @@ export default function createFunction(
     );
   }
 
-  return new StaticJsDeclFunction(
-    context.realm,
-    name,
-    params,
-    context,
-    node.body,
-    createFunction,
-  );
+  return new StaticJsDeclFunction(context.realm, name, params, context, node.body, createFunction);
 }
 
 // Making a seperate function because the typescript type guard on filter isnt working...
@@ -53,9 +46,7 @@ function validateParams(
 ): asserts params is StaticJsAstFunctionArgument[] {
   for (const param of params) {
     if (!isStaticJsAstFunctionArgumentDeclaration(param)) {
-      throw new StaticJsEngineError(
-        "TypeScript parameter properties are not supported",
-      );
+      throw new StaticJsEngineError("TypeScript parameter properties are not supported");
     }
   }
 }

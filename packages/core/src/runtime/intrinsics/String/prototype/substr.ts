@@ -7,12 +7,7 @@ import toNumber from "../../../algorithms/to-number.js";
 
 const stringProtoSubstrDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "substr",
-  func: function* (
-    realm,
-    thisArg,
-    startValue?: StaticJsValue,
-    lengthValue?: StaticJsValue,
-  ) {
+  func: function* (realm, thisArg, startValue?: StaticJsValue, lengthValue?: StaticJsValue) {
     let start = 0;
     if (startValue) {
       const startNum = yield* toNumber(startValue, realm);

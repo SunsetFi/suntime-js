@@ -9,9 +9,7 @@ const setProtoIntersectionDeclaration: IntrinsicPropertyDeclaration = {
       throw realm.types.error("TypeError", "Not a Set");
     }
 
-    return yield* thisArg.intersectionEvaluator(
-      otherSet ?? realm.types.undefined,
-    );
+    return yield* thisArg.intersectionEvaluator(otherSet ?? realm.types.undefined);
   },
 };
 

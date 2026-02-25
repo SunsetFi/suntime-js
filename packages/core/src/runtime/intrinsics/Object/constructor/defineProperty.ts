@@ -20,10 +20,7 @@ const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, _thisArg, targetValue, propertyNameValue, propertyDescriptor) {
     if (!isStaticJsObjectLike(targetValue)) {
       throw new ThrowCompletion(
-        realm.types.error(
-          "TypeError",
-          "Object.defineProperties called on non-object",
-        ),
+        realm.types.error("TypeError", "Object.defineProperties called on non-object"),
       );
     }
 
@@ -34,10 +31,7 @@ const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
       isStaticJsUndefined(propertyNameValue)
     ) {
       throw new ThrowCompletion(
-        realm.types.error(
-          "TypeError",
-          "Object.defineProperties called with non-object",
-        ),
+        realm.types.error("TypeError", "Object.defineProperties called with non-object"),
       );
     }
 
@@ -50,41 +44,25 @@ const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
 
     if (!isStaticJsObjectLike(propertyDescriptor)) {
       throw new ThrowCompletion(
-        realm.types.error(
-          "TypeError",
-          "Property description must be an object",
-        ),
+        realm.types.error("TypeError", "Property description must be an object"),
       );
     }
 
-    const descriptor = yield* objectToPropertyDescriptor(
-      propertyDescriptor,
-      realm,
-    );
+    const descriptor = yield* objectToPropertyDescriptor(propertyDescriptor, realm);
     try {
       validateStaticJsPropertyDescriptor(descriptor);
     } catch (e: unknown) {
-      throw new ThrowCompletion(
-        realm.types.error("TypeError", (e as Error).message),
-      );
+      throw new ThrowCompletion(realm.types.error("TypeError", (e as Error).message));
     }
 
-    const success = yield* targetValue.defineOwnPropertyEvaluator(
-      propertyKey,
-      descriptor,
-    );
+    const success = yield* targetValue.defineOwnPropertyEvaluator(propertyKey, descriptor);
     if (!success) {
       if (!targetValue.extensible) {
-        throw new ThrowCompletion(
-          realm.types.error("TypeError", `Object is not extensible`),
-        );
+        throw new ThrowCompletion(realm.types.error("TypeError", `Object is not extensible`));
       } else {
         // FIXME: Just guessing.
         throw new ThrowCompletion(
-          realm.types.error(
-            "TypeError",
-            `Cannot redefine property ${propertyKey}`,
-          ),
+          realm.types.error("TypeError", `Cannot redefine property ${propertyKey}`),
         );
       }
     }

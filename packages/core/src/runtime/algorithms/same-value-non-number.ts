@@ -4,10 +4,7 @@ import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsString } from "../types/StaticJsString.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-export function sameValueNonNumber(
-  x: StaticJsValue,
-  y: StaticJsValue,
-): boolean {
+export function sameValueNonNumber(x: StaticJsValue, y: StaticJsValue): boolean {
   if (x.runtimeTypeCode !== y.runtimeTypeCode) {
     return false;
   }

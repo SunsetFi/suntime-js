@@ -2,9 +2,7 @@ export interface StaticJsLocalExportEntry {
   readonly exportName: string;
   readonly localName: string;
 }
-export function isStaticJsLocalExportEntry(
-  x: unknown,
-): x is StaticJsLocalExportEntry {
+export function isStaticJsLocalExportEntry(x: unknown): x is StaticJsLocalExportEntry {
   if (typeof x !== "object" || x === null) {
     return false;
   }
@@ -21,19 +19,13 @@ export interface StaticJsIndirectExportEntry {
   readonly moduleRequest: string;
   readonly importName: string | ImportAllButDefault;
 }
-export function isStaticJsIndirectExportEntry(
-  x: unknown,
-): x is StaticJsIndirectExportEntry {
+export function isStaticJsIndirectExportEntry(x: unknown): x is StaticJsIndirectExportEntry {
   if (typeof x !== "object" || x === null) {
     return false;
   }
 
   const entry = x as StaticJsIndirectExportEntry;
-  return (
-    "moduleRequest" in entry && "importName" in entry && "exportName" in entry
-  );
+  return "moduleRequest" in entry && "importName" in entry && "exportName" in entry;
 }
 
-export type StaticJsExportEntry =
-  | StaticJsLocalExportEntry
-  | StaticJsIndirectExportEntry;
+export type StaticJsExportEntry = StaticJsLocalExportEntry | StaticJsIndirectExportEntry;

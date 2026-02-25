@@ -21,9 +21,7 @@ export default function logicalExpressionNodeEvaluator(
     case "??":
       return logicalExpressionNullishCoalescing(node, context);
     default:
-      throw new StaticJsEngineError(
-        `LogicalExpression operator ${node.operator} is not supported`,
-      );
+      throw new StaticJsEngineError(`LogicalExpression operator ${node.operator} is not supported`);
   }
 }
 

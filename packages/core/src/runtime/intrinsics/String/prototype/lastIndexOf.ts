@@ -6,22 +6,21 @@ import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 
 import toString from "../../../algorithms/to-string.js";
 
-const stringProtoLastIndexOfDeclaration: FunctionIntrinsicPropertyDeclaration =
-  {
-    key: "lastIndexOf",
-    func: function* (realm, thisArg, value?: StaticJsValue) {
-      if (!value || isStaticJsUndefined(value) || isStaticJsNull(value)) {
-        return realm.types.number(-1);
-      }
+const stringProtoLastIndexOfDeclaration: FunctionIntrinsicPropertyDeclaration = {
+  key: "lastIndexOf",
+  func: function* (realm, thisArg, value?: StaticJsValue) {
+    if (!value || isStaticJsUndefined(value) || isStaticJsNull(value)) {
+      return realm.types.number(-1);
+    }
 
-      const valueStr = yield* toString(value ?? realm.types.undefined, realm);
+    const valueStr = yield* toString(value ?? realm.types.undefined, realm);
 
-      const thisStr = yield* toString(thisArg, realm);
+    const thisStr = yield* toString(thisArg, realm);
 
-      const result = thisStr.value.lastIndexOf(valueStr.value);
+    const result = thisStr.value.lastIndexOf(valueStr.value);
 
-      return realm.types.number(result);
-    },
-  };
+    return realm.types.number(result);
+  },
+};
 
 export default stringProtoLastIndexOfDeclaration;

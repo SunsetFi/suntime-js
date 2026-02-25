@@ -10,10 +10,7 @@ import type { StaticJsPromise } from "../../../types/StaticJsPromise.js";
 import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
 import StaticJsPromiseImpl from "../../../types/implementation/StaticJsPromiseImpl.js";
 
-import {
-  applyIntrinsicProperties,
-  type IntrinsicPropertyDeclaration,
-} from "../../utils.js";
+import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import promiseCtorRejectDeclaration from "./reject.js";
 import promiseCtorResolveDeclaration from "./resolve.js";
@@ -35,10 +32,7 @@ export default function createPromiseConstructor(
     function* (thisArg, func) {
       if (!isStaticJsObjectLike(thisArg)) {
         throw new ThrowCompletion(
-          realm.types.error(
-            "TypeError",
-            "Promise constructor called on a non-object",
-          ),
+          realm.types.error("TypeError", "Promise constructor called on a non-object"),
         );
       }
 
@@ -99,80 +93,77 @@ function createPromiseResolveFunction(
 ): StaticJsFunctionImpl {
   let alreadyResolved = false;
 
-  return new StaticJsFunctionImpl(realm, "resolve", function* (
-    _thisArg,
-    resolution = realm.types.undefined,
-  ) {
-    if (alreadyResolved) {
-      return realm.types.undefined;
-    }
-
-    alreadyResolved = true;
-
-    if (resolution === promise) {
-      promise.reject(
-        realm.types.error("TypeError", "Cannot resolve promise to itself"),
-      );
-      return realm.types.undefined;
-    }
-
-    if (!isStaticJsObjectLike(resolution)) {
-      promise.resolve(resolution);
-      return realm.types.undefined;
-    }
-
-    let then;
-    try {
-      then = yield* resolution.getEvaluator("then");
-    } catch (e) {
-      if (e instanceof ThrowCompletion) {
-        promise.reject(e.value);
+  return new StaticJsFunctionImpl(
+    realm,
+    "resolve",
+    function* (_thisArg, resolution = realm.types.undefined) {
+      if (alreadyResolved) {
         return realm.types.undefined;
       }
 
-      throw e;
-    }
+      alreadyResolved = true;
 
-    if (!isStaticJsFunction(then)) {
-      promise.resolve(resolution);
-      return realm.types.undefined;
-    }
+      if (resolution === promise) {
+        promise.reject(realm.types.error("TypeError", "Cannot resolve promise to itself"));
+        return realm.types.undefined;
+      }
 
-    realm.enqueueMicrotask(function* () {
+      if (!isStaticJsObjectLike(resolution)) {
+        promise.resolve(resolution);
+        return realm.types.undefined;
+      }
+
+      let then;
       try {
-        const resolve = createPromiseResolveFunction(promise, realm);
-        const reject = createPromiseRejectFunction(promise, realm);
-        yield* then.callEvaluator(resolution, [resolve, reject]);
+        then = yield* resolution.getEvaluator("then");
       } catch (e) {
         if (e instanceof ThrowCompletion) {
           promise.reject(e.value);
-          return;
+          return realm.types.undefined;
         }
 
         throw e;
       }
-    });
 
-    return realm.types.undefined;
-  });
+      if (!isStaticJsFunction(then)) {
+        promise.resolve(resolution);
+        return realm.types.undefined;
+      }
+
+      realm.enqueueMicrotask(function* () {
+        try {
+          const resolve = createPromiseResolveFunction(promise, realm);
+          const reject = createPromiseRejectFunction(promise, realm);
+          yield* then.callEvaluator(resolution, [resolve, reject]);
+        } catch (e) {
+          if (e instanceof ThrowCompletion) {
+            promise.reject(e.value);
+            return;
+          }
+
+          throw e;
+        }
+      });
+
+      return realm.types.undefined;
+    },
+  );
 }
 
-function createPromiseRejectFunction(
-  promise: StaticJsPromise,
-  realm: StaticJsRealm,
-) {
+function createPromiseRejectFunction(promise: StaticJsPromise, realm: StaticJsRealm) {
   let alreadyResolved = false;
 
-  return new StaticJsFunctionImpl(realm, "reject", function* (
-    _thisArg,
-    reason = realm.types.undefined,
-  ) {
-    if (alreadyResolved) {
-      return realm.types.undefined;
-    }
-    alreadyResolved = true;
+  return new StaticJsFunctionImpl(
+    realm,
+    "reject",
+    function* (_thisArg, reason = realm.types.undefined) {
+      if (alreadyResolved) {
+        return realm.types.undefined;
+      }
+      alreadyResolved = true;
 
-    promise.reject(reason);
-    return realm.types.undefined;
-  });
+      promise.reject(reason);
+      return realm.types.undefined;
+    },
+  );
 }

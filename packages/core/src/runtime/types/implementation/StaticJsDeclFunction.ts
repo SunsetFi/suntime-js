@@ -18,18 +18,9 @@ export default class StaticJsDeclFunction extends StaticJsAstFunction {
     functionFactory: StaticJsFunctionFactory,
   ) {
     // Non-arrow and non-class-method functions are always constructors.
-    super(
-      realm,
-      name,
-      "non-lexical-this",
-      argumentDeclarations,
-      context,
-      body,
-      functionFactory,
-      {
-        construct: true,
-      },
-    );
+    super(realm, name, "non-lexical-this", argumentDeclarations, context, body, functionFactory, {
+      construct: true,
+    });
 
     // Create our prototype as we are implicitly a constructor.
     this.defineOwnPropertySync("prototype", {

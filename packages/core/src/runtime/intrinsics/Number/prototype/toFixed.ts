@@ -14,10 +14,7 @@ const numberProtoToFixedDeclaration: FunctionIntrinsicPropertyDeclaration = {
 
     if (!isNumberLike(thisArg)) {
       throw new ThrowCompletion(
-        realm.types.error(
-          "TypeError",
-          "Number.prototype.toFixed requires that 'this' be a Number",
-        ),
+        realm.types.error("TypeError", "Number.prototype.toFixed requires that 'this' be a Number"),
       );
     }
 

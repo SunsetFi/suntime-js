@@ -81,10 +81,7 @@ export interface StaticJsRealmOptions {
 function fStaticJsRealm(opts: StaticJsRealmOptions = {}): IStaticJsRealm {
   // Can't do this in the function signature as eslint gets irrational about it.
   const { hooks, ...restOpts } = opts;
-  return new StaticJsRealmImpl(
-    restOpts,
-    mergeDeep(realmDefaultHooks, hooks ?? {}),
-  );
+  return new StaticJsRealmImpl(restOpts, mergeDeep(realmDefaultHooks, hooks ?? {}));
 }
 
 // Let the function be used in instanceof checks.

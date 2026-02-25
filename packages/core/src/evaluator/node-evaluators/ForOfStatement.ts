@@ -31,9 +31,7 @@ function* forOfStatementNodeEvaluator(
         const forBinding = left.declarations[0].id;
         if (forBinding.type === "VoidPattern") {
           // WHAT ARE THEEEESE!!!
-          throw new StaticJsEngineError(
-            `VoidPattern not supported in for-of statement LHS`,
-          );
+          throw new StaticJsEngineError(`VoidPattern not supported in for-of statement LHS`);
         }
         lhs = forBinding;
       }

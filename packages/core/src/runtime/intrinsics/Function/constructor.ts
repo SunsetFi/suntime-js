@@ -26,8 +26,7 @@ export default function createFunctionConstructor(
     "Function",
     function* (_thisArg, ...args) {
       // TODO: Handle formal parameters
-      const bodyStrValue =
-        args.length > 0 ? args[args.length - 1] : realm.types.string("");
+      const bodyStrValue = args.length > 0 ? args[args.length - 1] : realm.types.string("");
 
       const bodyStr = yield* toString(bodyStrValue, realm);
 
@@ -45,14 +44,7 @@ export default function createFunctionConstructor(
 
       const fnBody = blockStatement(body.body, body.directives);
 
-      return new StaticJsDeclFunction(
-        realm,
-        "anonymous",
-        [],
-        context,
-        fnBody,
-        createFunction,
-      );
+      return new StaticJsDeclFunction(realm, "anonymous", [], context, fnBody, createFunction);
     },
     { prototype: functionProto, construct: true },
   );

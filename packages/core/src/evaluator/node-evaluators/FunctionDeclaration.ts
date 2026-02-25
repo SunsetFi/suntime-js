@@ -25,15 +25,11 @@ function* functionDeclarationNodeEvaluator(
   if (annexBHoisted) {
     const id = node.id;
     if (!id) {
-      throw new StaticJsEngineError(
-        "Hoisted function declarations must have an identifier",
-      );
+      throw new StaticJsEngineError("Hoisted function declarations must have an identifier");
     }
 
     if (id.type !== "Identifier") {
-      throw new StaticJsEngineError(
-        `Unsupported hoisted function declaration id type: ${id.type}`,
-      );
+      throw new StaticJsEngineError(`Unsupported hoisted function declaration id type: ${id.type}`);
     }
 
     const F = id.name;
@@ -55,10 +51,7 @@ function* functionDeclarationEnvironmentSetup(
   const func = createFunction(functionName, node, context);
 
   if (functionName) {
-    yield* context.lexicalEnv.createMutableBindingEvaluator(
-      functionName,
-      false,
-    );
+    yield* context.lexicalEnv.createMutableBindingEvaluator(functionName, false);
     yield* context.lexicalEnv.initializeBindingEvaluator(functionName, func);
   }
 

@@ -20,26 +20,15 @@ export interface StaticJsSet extends StaticJsObjectLike {
   deleteValueEvaluator(value: StaticJsValue): EvaluationGenerator<boolean>;
   clearEvaluator(): EvaluationGenerator<void>;
 
-  forEachEvaluator(
-    callback: StaticJsFunction,
-    thisArg?: StaticJsValue,
-  ): EvaluationGenerator<void>;
+  forEachEvaluator(callback: StaticJsFunction, thisArg?: StaticJsValue): EvaluationGenerator<void>;
 
-  differenceEvaluator(
-    otherSet: StaticJsValue,
-  ): EvaluationGenerator<StaticJsValue>;
+  differenceEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue>;
 
-  intersectionEvaluator(
-    otherSet: StaticJsValue,
-  ): EvaluationGenerator<StaticJsValue>;
-  isDisjointFromEvaluator(
-    otherSet: StaticJsValue,
-  ): EvaluationGenerator<boolean>;
+  intersectionEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue>;
+  isDisjointFromEvaluator(otherSet: StaticJsValue): EvaluationGenerator<boolean>;
   isSubsetOfEvaluator(otherSet: StaticJsValue): EvaluationGenerator<boolean>;
   isSupersetOfEvaluator(otherSet: StaticJsValue): EvaluationGenerator<boolean>;
-  symmetricDifferenceEvaluator(
-    otherSet: StaticJsValue,
-  ): EvaluationGenerator<StaticJsValue>;
+  symmetricDifferenceEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue>;
   unionEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue>;
 }
 

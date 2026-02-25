@@ -19,10 +19,7 @@ const objectCtorSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
       proto = null;
     } else {
       throw new ThrowCompletion(
-        realm.types.error(
-          "TypeError",
-          "Object prototype may only be an Object or null",
-        ),
+        realm.types.error("TypeError", "Object prototype may only be an Object or null"),
       );
     }
 

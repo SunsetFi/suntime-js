@@ -23,13 +23,9 @@ export default function* arrayExpressionNodeEvaluator(
     }
 
     if (element.type === "SpreadElement") {
-      const spreadValue = yield* EvaluateNodeCommand(
-        element.argument,
-        context,
-        {
-          forNormalValue: "ArrayExpression.elements[].argument",
-        },
-      );
+      const spreadValue = yield* EvaluateNodeCommand(element.argument, context, {
+        forNormalValue: "ArrayExpression.elements[].argument",
+      });
 
       const iterator = yield* getIterator(spreadValue, "sync", context.realm);
 

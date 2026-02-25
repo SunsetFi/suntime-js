@@ -9,10 +9,7 @@ import type { NormalCompletion } from "../completions/NormalCompletion.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-function* programNodeEvaluator(
-  node: Program,
-  context: EvaluationContext,
-): EvaluationGenerator {
+function* programNodeEvaluator(node: Program, context: EvaluationContext): EvaluationGenerator {
   let lastCompletion: NormalCompletion = null;
 
   // Directives are values too!

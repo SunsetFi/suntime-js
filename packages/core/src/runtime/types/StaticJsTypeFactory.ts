@@ -1,18 +1,11 @@
-import type {
-  Constructors,
-  Prototypes,
-  IntrinsicSymbols,
-} from "../intrinsics/intrinsics.js";
+import type { Constructors, Prototypes, IntrinsicSymbols } from "../intrinsics/intrinsics.js";
 
 import type { StaticJsArray } from "./StaticJsArray.js";
 import type { StaticJsFunction } from "./StaticJsFunction.js";
 import type { StaticJsBoolean } from "./StaticJsBoolean.js";
 import type { StaticJsNull } from "./StaticJsNull.js";
 import type { StaticJsNumber } from "./StaticJsNumber.js";
-import type {
-  StaticJsObjectLike,
-  StaticJsObjectPropertyKey,
-} from "./StaticJsObjectLike.js";
+import type { StaticJsObjectLike, StaticJsObjectPropertyKey } from "./StaticJsObjectLike.js";
 import type { StaticJsObject } from "./StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
@@ -20,21 +13,13 @@ import type { StaticJsString } from "./StaticJsString.js";
 import type { StaticJsSymbol } from "./StaticJsSymbol.js";
 import type { StaticJsUndefined } from "./StaticJsUndefined.js";
 
-export type ErrorTypeName =
-  | "TypeError"
-  | "ReferenceError"
-  | "SyntaxError"
-  | "RangeError"
-  | "Error";
+export type ErrorTypeName = "TypeError" | "ReferenceError" | "SyntaxError" | "RangeError" | "Error";
 
 export function isErrorTypeName(name: string): name is ErrorTypeName {
   return ["TypeError", "ReferenceError", "SyntaxError", "Error"].includes(name);
 }
 
-export type StaticJsTypeCreationPrototype =
-  | StaticJsObjectLike
-  | StaticJsNull
-  | null;
+export type StaticJsTypeCreationPrototype = StaticJsObjectLike | StaticJsNull | null;
 
 export interface StaticJsFunctionTypeCreationOptions {
   isConstructor?: boolean;

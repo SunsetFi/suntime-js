@@ -8,9 +8,7 @@ const objectCtorKeysDeclaration: IntrinsicPropertyDeclaration = {
 
     const ownKeys = yield* obj.ownEnumerableKeysEvaluator();
 
-    const result = realm.types.array(
-      ownKeys.map((key) => realm.types.string(key)),
-    );
+    const result = realm.types.array(ownKeys.map((key) => realm.types.string(key)));
     return result;
   },
 };

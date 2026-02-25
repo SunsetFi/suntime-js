@@ -16,11 +16,7 @@ export default function* createListIteratorRecord(
   let index = 0;
   const next = new StaticJsFunctionImpl(realm, "next", function* () {
     if (index >= values.length) {
-      return yield* createIteratorResultObject(
-        realm.types.undefined,
-        true,
-        realm,
-      );
+      return yield* createIteratorResultObject(realm.types.undefined, true, realm);
     }
 
     const value = values[index++];

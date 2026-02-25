@@ -57,11 +57,7 @@ export function createIntrinsicSymbols(
 ): IntrinsicSymbols {
   const symbols: Partial<IntrinsicSymbols> = {};
   for (const [name, symbol] of typedEntries(intrinsicSymbols)) {
-    const realmSymbol = new StaticJsSymbolImpl(
-      realm,
-      symbol,
-      prototypes.symbolProto,
-    );
+    const realmSymbol = new StaticJsSymbolImpl(realm, symbol, prototypes.symbolProto);
     symbols[name] = realmSymbol;
   }
   return symbols as IntrinsicSymbols;

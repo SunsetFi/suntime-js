@@ -12,9 +12,7 @@ export default function* initializeReferencedBinding(
   w: StaticJsValue,
 ): EvaluationGenerator<void> {
   if (!isEnvironmentReference(v)) {
-    throw new StaticJsEngineError(
-      "Referenced binding is not an environment reference",
-    );
+    throw new StaticJsEngineError("Referenced binding is not an environment reference");
   }
 
   yield* v.base.initializeBindingEvaluator(v.referencedName, w);

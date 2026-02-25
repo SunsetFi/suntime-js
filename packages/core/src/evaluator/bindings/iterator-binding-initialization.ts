@@ -1,9 +1,4 @@
-import {
-  type Expression,
-  type LVal,
-  type ArrayPattern,
-  type VoidPattern,
-} from "@babel/types";
+import { type Expression, type LVal, type ArrayPattern, type VoidPattern } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
@@ -39,12 +34,7 @@ export default function* iteratorBindingInitialization(
 ): EvaluationGenerator<void> {
   if (Array.isArray(node)) {
     for (const element of node) {
-      yield* iteratorBindingInitialization(
-        element,
-        iteratorRecord,
-        environment,
-        context,
-      );
+      yield* iteratorBindingInitialization(element, iteratorRecord, environment, context);
     }
     return;
   }
@@ -119,11 +109,7 @@ export default function* iteratorBindingInitialization(
     }
     case "Identifier": {
       const bindingId = node.name;
-      const lhs = yield* getIdentifierReference(
-        context.lexicalEnv,
-        bindingId,
-        context.strict,
-      );
+      const lhs = yield* getIdentifierReference(context.lexicalEnv, bindingId, context.strict);
 
       let v: StaticJsValue = context.realm.types.undefined;
       if (!iteratorRecord.done) {
@@ -186,34 +172,18 @@ iteratorBindingInitialization.arrayBindingPattern = function* (
   // TODO: Spec shows no acknowledgement of initializer here, verify correctness
   for (const element of node.elements) {
     if (element?.type === "RestElement") {
-      yield* iteratorBindingInitialization(
-        element,
-        iteratorRecord,
-        environment,
-        context,
-      );
+      yield* iteratorBindingInitialization(element, iteratorRecord, environment, context);
 
       return;
     }
 
     if (element === null) {
-      yield* iteratorDestructuringAssignmentEvaluation(
-        element,
-        iteratorRecord,
-        context,
-      );
+      yield* iteratorDestructuringAssignmentEvaluation(element, iteratorRecord, context);
     } else if (element.type === "VoidPattern") {
       // What on earth is this?
-      throw new StaticJsEngineError(
-        `Unsupported void pattern in iterator binding initialization`,
-      );
+      throw new StaticJsEngineError(`Unsupported void pattern in iterator binding initialization`);
     } else {
-      yield* iteratorBindingInitialization(
-        element,
-        iteratorRecord,
-        environment,
-        context,
-      );
+      yield* iteratorBindingInitialization(element, iteratorRecord, environment, context);
     }
   }
 };

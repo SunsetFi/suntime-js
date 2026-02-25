@@ -11,10 +11,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import toNativeUnwrap from "../../utils/to-native-unwrap.js";
 import toRuntimeWrap from "../../utils/to-runtime-wrap.js";
 
-import {
-  isStaticJsFunction,
-  type StaticJsFunction,
-} from "../StaticJsFunction.js";
+import { isStaticJsFunction, type StaticJsFunction } from "../StaticJsFunction.js";
 import { isStaticJsObjectLike } from "../StaticJsObjectLike.js";
 import { isStaticJsValue, type StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsSet } from "../StaticJsSet.js";
@@ -26,10 +23,7 @@ import iteratorClose from "../../iterators/iterator-close.js";
 
 // TODO: Take shortcuts for difference and friends if otherSet is also a StaticJsSetImpl
 
-export default class StaticJsSetImpl
-  extends StaticJsObjectLikeImpl
-  implements StaticJsSet
-{
+export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsSet {
   private _backingStore = new Set<unknown>();
 
   constructor(realm: StaticJsRealm) {
@@ -49,9 +43,7 @@ export default class StaticJsSetImpl
     this._backingStore.add(unwrapped);
   }
 
-  *differenceEvaluator(
-    otherSet: StaticJsValue,
-  ): EvaluationGenerator<StaticJsValue> {
+  *differenceEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue> {
     if (!isStaticJsObjectLike(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
@@ -62,9 +54,7 @@ export default class StaticJsSetImpl
 
     const otherHas = yield* otherSet.getEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
-      throw new StaticJsRuntimeError(
-        this.realm.types.error("TypeError", "has is not a function"),
-      );
+      throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
     }
 
     for (const value of this._backingStore) {
@@ -84,9 +74,7 @@ export default class StaticJsSetImpl
     return this._backingStore.has(unwrapped);
   }
 
-  *intersectionEvaluator(
-    otherSet: StaticJsValue,
-  ): EvaluationGenerator<StaticJsValue> {
+  *intersectionEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue> {
     if (!isStaticJsObjectLike(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
@@ -97,9 +85,7 @@ export default class StaticJsSetImpl
 
     const otherHas = yield* otherSet.getEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
-      throw new StaticJsRuntimeError(
-        this.realm.types.error("TypeError", "has is not a function"),
-      );
+      throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
     }
 
     for (const value of this._backingStore) {
@@ -114,9 +100,7 @@ export default class StaticJsSetImpl
     return result;
   }
 
-  *isDisjointFromEvaluator(
-    otherSet: StaticJsValue,
-  ): EvaluationGenerator<boolean> {
+  *isDisjointFromEvaluator(otherSet: StaticJsValue): EvaluationGenerator<boolean> {
     if (!isStaticJsObjectLike(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
@@ -125,9 +109,7 @@ export default class StaticJsSetImpl
 
     const otherHas = yield* otherSet.getEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
-      throw new StaticJsRuntimeError(
-        this.realm.types.error("TypeError", "has is not a function"),
-      );
+      throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
     }
 
     for (const value of this._backingStore) {
@@ -151,9 +133,7 @@ export default class StaticJsSetImpl
 
     const otherHas = yield* otherSet.getEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
-      throw new StaticJsRuntimeError(
-        this.realm.types.error("TypeError", "has is not a function"),
-      );
+      throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
     }
 
     for (const value of this._backingStore) {
@@ -168,9 +148,7 @@ export default class StaticJsSetImpl
     return true;
   }
 
-  *isSupersetOfEvaluator(
-    otherSet: StaticJsValue,
-  ): EvaluationGenerator<boolean> {
+  *isSupersetOfEvaluator(otherSet: StaticJsValue): EvaluationGenerator<boolean> {
     if (!isStaticJsObjectLike(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
@@ -202,9 +180,7 @@ export default class StaticJsSetImpl
     return this.valuesEvaluator();
   }
 
-  *symmetricDifferenceEvaluator(
-    otherSet: StaticJsValue,
-  ): EvaluationGenerator<StaticJsValue> {
+  *symmetricDifferenceEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue> {
     if (!isStaticJsObjectLike(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
@@ -215,9 +191,7 @@ export default class StaticJsSetImpl
 
     const otherHas = yield* otherSet.getEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
-      throw new StaticJsRuntimeError(
-        this.realm.types.error("TypeError", "has is not a function"),
-      );
+      throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
     }
 
     for (const value of this._backingStore) {
@@ -326,9 +300,7 @@ export default class StaticJsSetImpl
     }
 
     if (!isStaticJsValue(thisArg)) {
-      throw new StaticJsRuntimeError(
-        this.realm.types.error("TypeError", "thisArg is not a value"),
-      );
+      throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "thisArg is not a value"));
     }
 
     for (const value of this._backingStore) {
@@ -356,15 +328,11 @@ function* setCreate(
   const result = yield* realm.types.constructors.Set.constructEvaluator();
 
   if (!isStaticJsObjectLike(result)) {
-    throw new StaticJsRuntimeError(
-      realm.types.error("TypeError", "Failed to create Set"),
-    );
+    throw new StaticJsRuntimeError(realm.types.error("TypeError", "Failed to create Set"));
   }
   const resultAdd = yield* result.getEvaluator("add");
   if (!isStaticJsFunction(resultAdd)) {
-    throw new StaticJsRuntimeError(
-      realm.types.error("TypeError", "add is not a function"),
-    );
+    throw new StaticJsRuntimeError(realm.types.error("TypeError", "add is not a function"));
   }
 
   return [result, resultAdd];

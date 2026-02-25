@@ -35,9 +35,7 @@ export default function* updateExpressionNodeEvaluator(
       newValueJs--;
       break;
     default:
-      throw new StaticJsEngineError(
-        `Unsupported operator for update expression ${node.operator}.`,
-      );
+      throw new StaticJsEngineError(`Unsupported operator for update expression ${node.operator}.`);
   }
 
   const newValue = context.realm.types.number(newValueJs);

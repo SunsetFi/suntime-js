@@ -13,9 +13,7 @@ export default function* sameValueZero(
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsBoolean> {
   if (isStaticJsNumber(a) && isStaticJsNumber(b)) {
-    return realm.types.boolean(
-      a.value === b.value || (a.value !== a.value && b.value !== b.value),
-    );
+    return realm.types.boolean(a.value === b.value || (a.value !== a.value && b.value !== b.value));
   }
 
   if (isStaticJsScalar(a) && isStaticJsScalar(b)) {

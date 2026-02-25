@@ -6,22 +6,13 @@ export interface StaticJsModuleResolvedBinding {
   module: StaticJsModuleImplementation;
   bindingName: string | BindingNameNamespace;
 }
-export function isStaticJsModuleResolvedBinding(
-  x: unknown,
-): x is StaticJsModuleResolvedBinding {
+export function isStaticJsModuleResolvedBinding(x: unknown): x is StaticJsModuleResolvedBinding {
   if (typeof x !== "object" || x === null) {
     return false;
   }
 
   const binding = x as StaticJsModuleResolvedBinding;
-  return (
-    binding.module != null &&
-    typeof binding.module === "object" &&
-    "bindingName" in binding
-  );
+  return binding.module != null && typeof binding.module === "object" && "bindingName" in binding;
 }
 
-export type StaticJsResolvedBinding =
-  | StaticJsModuleResolvedBinding
-  | "ambiguous"
-  | null;
+export type StaticJsResolvedBinding = StaticJsModuleResolvedBinding | "ambiguous" | null;

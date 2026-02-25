@@ -18,13 +18,9 @@ export default function* templateLiteralNodeEvaluator(
     str += node.quasis[i].value.cooked ?? "";
 
     if (i < node.expressions.length) {
-      const exprValue = yield* EvaluateNodeCommand(
-        node.expressions[i],
-        context,
-        {
-          forNormalValue: "TemplateLiteral.expression[]",
-        },
-      );
+      const exprValue = yield* EvaluateNodeCommand(node.expressions[i], context, {
+        forNormalValue: "TemplateLiteral.expression[]",
+      });
 
       const exprStr = yield* toString.js(exprValue, realm);
 

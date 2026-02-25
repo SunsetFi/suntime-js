@@ -13,17 +13,11 @@ const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, _thisArg, targetValue, propertiesValue) {
     if (!isStaticJsObjectLike(targetValue)) {
       throw new ThrowCompletion(
-        realm.types.error(
-          "TypeError",
-          "Object.defineProperties called on non-object",
-        ),
+        realm.types.error("TypeError", "Object.defineProperties called on non-object"),
       );
     }
 
-    const propertiesObj = yield* toObject(
-      propertiesValue ?? realm.types.undefined,
-      realm,
-    );
+    const propertiesObj = yield* toObject(propertiesValue ?? realm.types.undefined, realm);
     // Don't see it defined whether this should be all keys or own keys and whether enumerable plays in,
     // but testing on NodeJs shows that this is own enumerable.
     const keys = yield* propertiesObj.ownEnumerableKeysEvaluator();
@@ -31,22 +25,14 @@ const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
       const descriptorObj = yield* propertiesObj.getEvaluator(key);
       if (!isStaticJsObjectLike(descriptorObj)) {
         throw new ThrowCompletion(
-          realm.types.error(
-            "TypeError",
-            "Property description must be an object",
-          ),
+          realm.types.error("TypeError", "Property description must be an object"),
         );
       }
-      const descriptor = yield* objectToPropertyDescriptor(
-        descriptorObj,
-        realm,
-      );
+      const descriptor = yield* objectToPropertyDescriptor(descriptorObj, realm);
       try {
         validateStaticJsPropertyDescriptor(descriptor);
       } catch (e: unknown) {
-        throw new ThrowCompletion(
-          realm.types.error("TypeError", (e as Error).message),
-        );
+        throw new ThrowCompletion(realm.types.error("TypeError", (e as Error).message));
       }
 
       yield* targetValue.defineOwnPropertyEvaluator(key, descriptor);

@@ -10,8 +10,7 @@ export default function* forDeclarationBindingInstantiation(
   node: VariableDeclaration,
   environment: StaticJsEnvironmentRecord,
 ): EvaluationGenerator<void> {
-  const isConstantDeclaration =
-    node.type === "VariableDeclaration" && node.kind === "const";
+  const isConstantDeclaration = node.type === "VariableDeclaration" && node.kind === "const";
   for (const name of boundNames(node)) {
     if (isConstantDeclaration) {
       yield* environment.createImmutableBindingEvaluator(name, true);

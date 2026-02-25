@@ -9,31 +9,20 @@ import {
   isStaticJsDataPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
-import type {
-  StaticJsObjectLike,
-  StaticJsObjectPropertyKey,
-} from "../StaticJsObjectLike.js";
+import type { StaticJsObjectLike, StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 import isArrayIndex from "./is-array-index.js";
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 
 export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObject {
-  private readonly _contents = new Map<
-    StaticJsObjectPropertyKey,
-    StaticJsPropertyDescriptor
-  >();
+  private readonly _contents = new Map<StaticJsObjectPropertyKey, StaticJsPropertyDescriptor>();
 
-  constructor(
-    realm: StaticJsRealm,
-    prototype: StaticJsObjectLike | StaticJsNull | null = null,
-  ) {
+  constructor(realm: StaticJsRealm, prototype: StaticJsObjectLike | StaticJsNull | null = null) {
     super(realm, prototype);
   }
 
-  *ownPropertyKeysEvaluator(): EvaluationGenerator<
-    StaticJsObjectPropertyKey[]
-  > {
+  *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsObjectPropertyKey[]> {
     // These keys have a special order they are returned in.
     // We can probably precompute this rather than computing it on the fly...
     const indexes: number[] = [];

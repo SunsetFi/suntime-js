@@ -3,17 +3,11 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
-import {
-  applyIntrinsicProperties,
-  type IntrinsicPropertyDeclaration,
-} from "../../utils.js";
+import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [];
 
-export default function createErrorConstructor(
-  realm: StaticJsRealm,
-  errorProto: StaticJsObject,
-) {
+export default function createErrorConstructor(realm: StaticJsRealm, errorProto: StaticJsObject) {
   const ctor = new StaticJsFunctionImpl(
     realm,
     "Error",

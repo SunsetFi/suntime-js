@@ -19,10 +19,7 @@ const arrayProtoFindLastIndexDeclaration: IntrinsicPropertyDeclaration = {
 
     if (!isStaticJsFunction(callback)) {
       throw new ThrowCompletion(
-        realm.types.error(
-          "TypeError",
-          `${callback.toStringSync()} is not a function`,
-        ),
+        realm.types.error("TypeError", `${callback.toStringSync()} is not a function`),
       );
     }
 

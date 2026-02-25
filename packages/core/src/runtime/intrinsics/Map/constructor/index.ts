@@ -11,10 +11,7 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
 import StaticJsMapImpl from "../../../types/implementation/StaticJsMapImpl.js";
 
-import {
-  type IntrinsicPropertyDeclaration,
-  applyIntrinsicProperties,
-} from "../../utils.js";
+import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../../utils.js";
 
 import mapCtorGroupByDeclaration from "./groupBy.js";
 import mapCtorSymbolSpeciesDeclaration from "./symbol_species.js";
@@ -24,10 +21,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   mapCtorSymbolSpeciesDeclaration,
 ];
 
-export default function createMapConstructor(
-  realm: StaticJsRealm,
-  mapProto: StaticJsObject,
-) {
+export default function createMapConstructor(realm: StaticJsRealm, mapProto: StaticJsObject) {
   const ctor = new StaticJsFunctionImpl(
     realm,
     "Map",
@@ -40,11 +34,7 @@ export default function createMapConstructor(
       *construct(_thisArg, iterable) {
         const map = new StaticJsMapImpl(realm);
 
-        if (
-          !iterable ||
-          isStaticJsNull(iterable) ||
-          isStaticJsUndefined(iterable)
-        ) {
+        if (!iterable || isStaticJsNull(iterable) || isStaticJsUndefined(iterable)) {
           return map;
         }
 

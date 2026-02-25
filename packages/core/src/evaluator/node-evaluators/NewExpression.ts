@@ -18,9 +18,7 @@ export default function* newExpressionNodeEvaluator(
     forNormalValue: "NewExpression.callee",
   });
   if (!isStaticJsFunction(callee)) {
-    throw new ThrowCompletion(
-      context.realm.types.error("TypeError", "Not a function"),
-    );
+    throw new ThrowCompletion(context.realm.types.error("TypeError", "Not a function"));
   }
 
   const args = new Array<StaticJsValue>(node.arguments.length);

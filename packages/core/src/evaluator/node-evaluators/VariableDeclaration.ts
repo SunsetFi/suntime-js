@@ -24,9 +24,7 @@ function* variableDeclarationNodeEvaluator(
 ): EvaluationGenerator {
   for (const declarator of node.declarations) {
     if (node.kind === "using" || node.kind === "await using") {
-      throw new StaticJsEngineError(
-        `VariableDeclaration kind '${node.kind}' is not supported`,
-      );
+      throw new StaticJsEngineError(`VariableDeclaration kind '${node.kind}' is not supported`);
     }
     yield* declarationStatementEvaluator(declarator, node.kind, context);
   }
@@ -45,11 +43,7 @@ function* declarationStatementEvaluator(
 
   if (declarator.id.type === "Identifier") {
     const bindingId = declarator.id.name;
-    const lhs = yield* getIdentifierReference(
-      context.lexicalEnv,
-      bindingId,
-      context.strict,
-    );
+    const lhs = yield* getIdentifierReference(context.lexicalEnv, bindingId, context.strict);
 
     let value: StaticJsValue = context.realm.types.undefined;
     if (declarator.init) {
@@ -66,9 +60,7 @@ function* declarationStatementEvaluator(
     }
   } else {
     if (!declarator.init) {
-      throw new StaticJsEngineError(
-        `Destructuring variable declaration must have an initializer`,
-      );
+      throw new StaticJsEngineError(`Destructuring variable declaration must have an initializer`);
     }
 
     const value = yield* EvaluateNodeCommand(declarator.init, context, {

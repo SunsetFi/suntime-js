@@ -5,17 +5,12 @@ import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
-export function populateIteratorPrototype(
-  realm: StaticJsRealm,
-  iteratorProto: StaticJsObject,
-) {
+export function populateIteratorPrototype(realm: StaticJsRealm, iteratorProto: StaticJsObject) {
   iteratorProto.defineOwnPropertySync(realm.types.symbols.iterator, {
     writable: true,
     enumerable: false,
     configurable: true,
-    value: new StaticJsFunctionImpl(realm, "Symbol(iterator)", function* (
-      thisArg,
-    ) {
+    value: new StaticJsFunctionImpl(realm, "Symbol(iterator)", function* (thisArg) {
       return thisArg;
     }),
   });
@@ -24,9 +19,7 @@ export function populateIteratorPrototype(
     writable: true,
     enumerable: false,
     configurable: true,
-    value: new StaticJsFunctionImpl(realm, "next", function* (
-      thisArg: StaticJsValue,
-    ) {
+    value: new StaticJsFunctionImpl(realm, "next", function* (thisArg: StaticJsValue) {
       if (!isStaticJsIterator(thisArg)) {
         throw realm.types.error("TypeError", "Not an iterator");
       }
@@ -36,16 +29,10 @@ export function populateIteratorPrototype(
   });
 }
 
-export function createIteratorConstructor(
-  realm: StaticJsRealm,
-  iteratorProto: StaticJsObject,
-) {
+export function createIteratorConstructor(realm: StaticJsRealm, iteratorProto: StaticJsObject) {
   // TODO: This should be an abstract class and be extensible
   const ctor = new StaticJsFunctionImpl(realm, "Iterator", function* () {
-    throw realm.types.error(
-      "TypeError",
-      "Iterator constructor cannot be called",
-    );
+    throw realm.types.error("TypeError", "Iterator constructor cannot be called");
   });
 
   ctor.defineOwnPropertySync("prototype", {

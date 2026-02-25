@@ -69,8 +69,7 @@ export default function* createMappedArgumentsObject(
     }
   }
 
-  const arrayValuesProto =
-    yield* realm.types.prototypes.arrayProto.getEvaluator("values");
+  const arrayValuesProto = yield* realm.types.prototypes.arrayProto.getEvaluator("values");
 
   yield* definePropertyOrThrow(
     obj,

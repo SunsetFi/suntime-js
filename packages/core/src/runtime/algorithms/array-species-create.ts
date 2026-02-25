@@ -5,10 +5,7 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
-import {
-  isStaticJsObjectLike,
-  type StaticJsObjectLike,
-} from "../types/StaticJsObjectLike.js";
+import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
@@ -43,14 +40,10 @@ export default function* arraySpeciesCreate(
   // isStaticJsFunction is redundant,
   // but needed to type-guard constructor.
   if (!constructorIsConstructor || !isStaticJsFunction(constructor)) {
-    throw new ThrowCompletion(
-      realm.types.error("TypeError", "Constructor is not a constructor"),
-    );
+    throw new ThrowCompletion(realm.types.error("TypeError", "Constructor is not a constructor"));
   }
 
-  const result = yield* constructor.constructEvaluator([
-    realm.types.number(length),
-  ]);
+  const result = yield* constructor.constructEvaluator([realm.types.number(length)]);
   if (!isStaticJsObjectLike(result)) {
     // This isn't in the spec but... we always want to be able to set properties.
     // FIXME: According to the spec, it throws when trying to create the property,

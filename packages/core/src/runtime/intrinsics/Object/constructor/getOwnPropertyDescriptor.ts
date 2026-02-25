@@ -7,31 +7,28 @@ import toObject from "../../../algorithms/to-object.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaration =
-  {
-    key: "getOwnPropertyDescriptor",
-    *func(realm, _thisArg, objValue, propValue) {
-      const obj = yield* toObject(objValue ?? realm.types.undefined, realm);
+const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaration = {
+  key: "getOwnPropertyDescriptor",
+  *func(realm, _thisArg, objValue, propValue) {
+    const obj = yield* toObject(objValue ?? realm.types.undefined, realm);
 
-      if (
-        !propValue ||
-        !isStaticJsScalar(propValue) ||
-        isStaticJsNull(propValue) ||
-        isStaticJsUndefined(propValue)
-      ) {
-        return realm.types.undefined;
-      }
+    if (
+      !propValue ||
+      !isStaticJsScalar(propValue) ||
+      isStaticJsNull(propValue) ||
+      isStaticJsUndefined(propValue)
+    ) {
+      return realm.types.undefined;
+    }
 
-      const descriptor = yield* obj.getOwnPropertyEvaluator(
-        propValue.toStringSync(),
-      );
+    const descriptor = yield* obj.getOwnPropertyEvaluator(propValue.toStringSync());
 
-      if (!descriptor) {
-        return realm.types.undefined;
-      }
+    if (!descriptor) {
+      return realm.types.undefined;
+    }
 
-      return yield* propertyDescriptorToObject(descriptor, realm);
-    },
-  };
+    return yield* propertyDescriptorToObject(descriptor, realm);
+  },
+};
 
 export default objectCtorGetOwnPropertyDescriptorDeclaration;

@@ -8,10 +8,7 @@ export function populateRangeErrorPrototype(
   _rangeErrorProto: StaticJsObject,
 ) {}
 
-export function createRangeErrorConstructor(
-  realm: StaticJsRealm,
-  rangeErrorProto: StaticJsObject,
-) {
+export function createRangeErrorConstructor(realm: StaticJsRealm, rangeErrorProto: StaticJsObject) {
   const ctor = new StaticJsFunctionImpl(
     realm,
     "RangeError",

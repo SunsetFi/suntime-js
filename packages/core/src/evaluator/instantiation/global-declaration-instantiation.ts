@@ -84,10 +84,7 @@ export default function* globalDeclarationInstantiation(
     const isDefinable = yield* canDeclareGlobalFunction(fnName, env);
     if (!isDefinable) {
       throw new ThrowCompletion(
-        realm.types.error(
-          "TypeError",
-          `Cannot declare global function ${fnName}`,
-        ),
+        realm.types.error("TypeError", `Cannot declare global function ${fnName}`),
       );
     }
 
@@ -109,10 +106,7 @@ export default function* globalDeclarationInstantiation(
       const definable = yield* canDeclareGlobalVar(vn, env);
       if (!definable) {
         throw new ThrowCompletion(
-          realm.types.error(
-            "TypeError",
-            `Cannot declare global variable ${vn}`,
-          ),
+          realm.types.error("TypeError", `Cannot declare global variable ${vn}`),
         );
       }
 

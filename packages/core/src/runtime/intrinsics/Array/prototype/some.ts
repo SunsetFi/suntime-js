@@ -20,10 +20,7 @@ const arrayProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
       // FIXME: NodeJs is doing something aside from casting it to string.
       // Object appears as "#<Object>"
       throw new ThrowCompletion(
-        realm.types.error(
-          "TypeError",
-          `${callback.toStringSync()} is not a function`,
-        ),
+        realm.types.error("TypeError", `${callback.toStringSync()} is not a function`),
       );
     }
 

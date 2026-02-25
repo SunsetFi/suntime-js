@@ -26,12 +26,7 @@ const functionProtoBindDeclaration: IntrinsicPropertyDeclaration = {
     // to assume it might not get them for non-spread parameters.
     const cleanedArgs = args.filter(isNotUndefined);
 
-    return yield* StaticJsBoundFunction.create(
-      realm,
-      self,
-      thisArg,
-      cleanedArgs,
-    );
+    return yield* StaticJsBoundFunction.create(realm, self, thisArg, cleanedArgs);
   },
 };
 

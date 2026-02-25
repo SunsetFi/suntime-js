@@ -5,10 +5,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
-export default function toRuntimeWrap(
-  value: unknown,
-  realm: StaticJsRealm,
-): StaticJsValue {
+export default function toRuntimeWrap(value: unknown, realm: StaticJsRealm): StaticJsValue {
   if (value === null) {
     return realm.types.null;
   }
@@ -31,7 +28,5 @@ export default function toRuntimeWrap(
     return value;
   }
 
-  throw new StaticJsEngineError(
-    `Cannot wrap native value into runtime value: ${String(value)}`,
-  );
+  throw new StaticJsEngineError(`Cannot wrap native value into runtime value: ${String(value)}`);
 }

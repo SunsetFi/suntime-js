@@ -6,10 +6,7 @@ import toNativeUnwrap from "../../utils/to-native-unwrap.js";
 
 import toRuntimeWrap from "../../utils/to-runtime-wrap.js";
 
-import {
-  isStaticJsFunction,
-  type StaticJsFunction,
-} from "../StaticJsFunction.js";
+import { isStaticJsFunction, type StaticJsFunction } from "../StaticJsFunction.js";
 import type { StaticJsMap } from "../StaticJsMap.js";
 import StaticJsTypeCode from "../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
@@ -18,10 +15,7 @@ import StaticJsIteratorImpl from "./StaticJsIteratorImpl.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
-export default class StaticJsMapImpl
-  extends StaticJsObjectLikeImpl
-  implements StaticJsMap
-{
+export default class StaticJsMapImpl extends StaticJsObjectLikeImpl implements StaticJsMap {
   private readonly _backingStore = new Map<unknown, StaticJsValue>();
 
   constructor(realm: StaticJsRealm) {
@@ -71,11 +65,7 @@ export default class StaticJsMapImpl
     }
 
     for (const [key, value] of this._backingStore) {
-      yield* callback.callEvaluator(thisArg, [
-        value,
-        toRuntimeWrap(key, this.realm),
-        this,
-      ]);
+      yield* callback.callEvaluator(thisArg, [value, toRuntimeWrap(key, this.realm), this]);
     }
   }
 
@@ -103,10 +93,7 @@ export default class StaticJsMapImpl
     }, realm);
   }
 
-  *setValueEvaluator(
-    key: StaticJsValue,
-    value: StaticJsValue,
-  ): EvaluationGenerator<void> {
+  *setValueEvaluator(key: StaticJsValue, value: StaticJsValue): EvaluationGenerator<void> {
     const keyUnwrapped = toNativeUnwrap(key);
     this._backingStore.set(keyUnwrapped, value);
   }

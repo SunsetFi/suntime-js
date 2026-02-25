@@ -6,10 +6,7 @@ import StaticJsStringBoxed from "../../types/implementation/StaticJsStringBoxed.
 
 import toString from "../../algorithms/to-string.js";
 
-export default function createStringConstructor(
-  realm: StaticJsRealm,
-  stringProto: StaticJsObject,
-) {
+export default function createStringConstructor(realm: StaticJsRealm, stringProto: StaticJsObject) {
   const ctor = new StaticJsFunctionImpl(
     realm,
     "String",

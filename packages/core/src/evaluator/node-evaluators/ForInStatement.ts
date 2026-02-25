@@ -20,20 +20,13 @@ function* forInStatementNodeEvaluator(
 
   try {
     if (left.type === "VariableDeclaration") {
-      const keyResult = yield* forInOfHeadEvaluation(
-        [],
-        right,
-        "enumerate",
-        context,
-      );
+      const keyResult = yield* forInOfHeadEvaluation([], right, "enumerate", context);
       let lhs: VariableDeclaration | LVal = left;
       if (left.kind === "var") {
         const forBinding = left.declarations[0].id;
         if (forBinding.type === "VoidPattern") {
           // WHAT ARE THEEEESE!!!
-          throw new StaticJsEngineError(
-            `VoidPattern not supported in for-of statement LHS`,
-          );
+          throw new StaticJsEngineError(`VoidPattern not supported in for-of statement LHS`);
         }
         lhs = forBinding;
       }
@@ -47,12 +40,7 @@ function* forInStatementNodeEvaluator(
         context,
       );
     } else {
-      const keyResult = yield* forInOfHeadEvaluation(
-        [],
-        right,
-        "enumerate",
-        context,
-      );
+      const keyResult = yield* forInOfHeadEvaluation([], right, "enumerate", context);
       return yield* forInOfBodyEvaluation(
         left,
         body,

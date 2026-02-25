@@ -17,18 +17,11 @@ const objectCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
 
     if (!isStaticJsFunction(callbackFn)) {
       throw new StaticJsRuntimeError(
-        realm.types.error(
-          "TypeError",
-          "Object.groupBy callback must be a function",
-        ),
+        realm.types.error("TypeError", "Object.groupBy callback must be a function"),
       );
     }
 
-    const iterator = yield* getIterator(
-      items ?? realm.types.undefined,
-      "sync",
-      realm,
-    );
+    const iterator = yield* getIterator(items ?? realm.types.undefined, "sync", realm);
 
     yield* iteratorClose.handle(iterator, realm, function* () {
       let index = 0;
@@ -38,10 +31,10 @@ const objectCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
           break;
         }
 
-        const keyValue = yield* callbackFn.callEvaluator(
-          realm.types.undefined,
-          [next, realm.types.number(index)],
-        );
+        const keyValue = yield* callbackFn.callEvaluator(realm.types.undefined, [
+          next,
+          realm.types.number(index),
+        ]);
 
         index++;
 

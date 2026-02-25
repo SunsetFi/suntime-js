@@ -16,9 +16,7 @@ export type StaticJsScalar =
   | StaticJsSymbol
   | StaticJsUndefined;
 
-export function isStaticJsScalar(
-  value: StaticJsValue,
-): value is StaticJsScalar {
+export function isStaticJsScalar(value: StaticJsValue): value is StaticJsScalar {
   if (!isStaticJsValue(value)) {
     return false;
   }

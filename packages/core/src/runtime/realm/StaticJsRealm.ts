@@ -47,10 +47,7 @@ export interface StaticJsRealm {
    * @param expression The expression to evaluate.
    * @param opts Options for running the task.
    */
-  evaluateExpression(
-    expression: string,
-    opts?: StaticJsRunTaskOptions,
-  ): Promise<StaticJsValue>;
+  evaluateExpression(expression: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue>;
 
   /**
    * Evaluates the expression in the realm synchronously, returning the result.
@@ -58,20 +55,14 @@ export interface StaticJsRealm {
    * @param expression The expression to evaluate.
    * @param opts Options for running the task.
    */
-  evaluateExpressionSync(
-    expression: string,
-    opts?: StaticJsRunTaskOptions,
-  ): StaticJsValue;
+  evaluateExpressionSync(expression: string, opts?: StaticJsRunTaskOptions): StaticJsValue;
 
   /**
    * Runs the given script in the realm, returning a promise that resolves to the result.
    * @param script The script to run.
    * @param opts Options for running the task.
    */
-  evaluateScript(
-    script: string,
-    opts?: StaticJsRealmEvaluateScriptOptions,
-  ): Promise<StaticJsValue>;
+  evaluateScript(script: string, opts?: StaticJsRealmEvaluateScriptOptions): Promise<StaticJsValue>;
 
   /**
    * Evaluates the script in the realm synchronously, returning the result.
@@ -79,10 +70,7 @@ export interface StaticJsRealm {
    * @param script The script to evaluate.
    * @param opts Options for running the task.
    */
-  evaluateScriptSync(
-    script: string,
-    opts?: StaticJsRealmEvaluateScriptSyncOptions,
-  ): StaticJsValue;
+  evaluateScriptSync(script: string, opts?: StaticJsRealmEvaluateScriptSyncOptions): StaticJsValue;
 
   /**
    * Evaluates a module in the realm, returning a promise that resolves to the module.
@@ -91,10 +79,7 @@ export interface StaticJsRealm {
    * @param code The code of the module to evaluate.
    * @param opts Options for running the task.
    */
-  evaluateModule(
-    code: string,
-    opts?: StaticJsRunTaskOptions,
-  ): Promise<StaticJsModule>;
+  evaluateModule(code: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsModule>;
 
   /**
    * Returns a promise that resolves when the current task, and all resulting microtasks, have completed.
@@ -192,9 +177,7 @@ export interface StaticJsRealm {
    * @internal
    * @param evaluator The evaluator to invoke.
    */
-  invokeEvaluatorSync<TReturn>(
-    evaluator: EvaluationGenerator<TReturn>,
-  ): TReturn;
+  invokeEvaluatorSync<TReturn>(evaluator: EvaluationGenerator<TReturn>): TReturn;
 
   /**
    * Invokes the given evaluator asynchronously, returning a promise that resolves to the result.

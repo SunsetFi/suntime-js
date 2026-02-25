@@ -5,10 +5,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
 
-export default function* ifStatementNodeEvaluator(
-  node: IfStatement,
-  context: EvaluationContext,
-) {
+export default function* ifStatementNodeEvaluator(node: IfStatement, context: EvaluationContext) {
   const testResult = yield* EvaluateNodeCommand(node.test, context, {
     forNormalValue: "IfStatement.test",
   });

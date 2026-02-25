@@ -26,8 +26,7 @@
     "test:baseline": "VITEST_COMPARE_BASELINE=1 vitest --project=test262",
     "test:create-baseline": "vitest run --project=test262 --reporter=default --reporter=json --outputFile=tests/test-results-baseline.json --update",
     "test:view": "vite serve html",
-    "format": "prettier --write ./src",
-    "format:staged": "prettier --write",
+    "format": "oxfmt ./src",
     "lint": "eslint"
   },
   "keywords": [],
@@ -45,6 +44,7 @@
     "eslint-plugin-jsdoc": "^62.5.4",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
+    "oxfmt": "^0.35.0",
     "prettier": "^3.5.3",
     "rimraf": "^6.0.1",
     "test262-parser": "^2.2.0",

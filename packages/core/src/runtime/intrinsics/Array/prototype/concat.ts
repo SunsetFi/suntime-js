@@ -49,9 +49,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
         const objE = E as StaticJsObjectLike;
         const len = yield* lengthOfArrayLike(objE, realm);
         if (n + len > MAX_ARRAY_LENGTH_INCLUSIVE) {
-          throw new ThrowCompletion(
-            realm.types.error("TypeError", "Maximum array size exceeded"),
-          );
+          throw new ThrowCompletion(realm.types.error("TypeError", "Maximum array size exceeded"));
         }
 
         let k = 0;
@@ -74,9 +72,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
         }
       } else {
         if (n > MAX_ARRAY_LENGTH_INCLUSIVE) {
-          throw new ThrowCompletion(
-            realm.types.error("TypeError", "Maximum array size exceeded"),
-          );
+          throw new ThrowCompletion(realm.types.error("TypeError", "Maximum array size exceeded"));
         }
 
         // Per spec, must be defineProperty

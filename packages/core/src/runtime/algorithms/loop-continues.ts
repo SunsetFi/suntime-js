@@ -4,10 +4,7 @@ import { ContinueCompletion } from "../../evaluator/completions/ContinueCompleti
 
 import type EvaluationContext from "../../evaluator/EvaluationContext.js";
 
-export default function loopContinues(
-  completion: Completion,
-  context: EvaluationContext,
-): boolean {
+export default function loopContinues(completion: Completion, context: EvaluationContext): boolean {
   if (!isAbruptCompletion(completion)) {
     return true;
   }

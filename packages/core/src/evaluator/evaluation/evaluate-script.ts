@@ -58,10 +58,7 @@ export async function evaluateScript(
   return jsValue;
 }
 
-export function evaluateScriptSync(
-  script: string,
-  opts?: EvaluationOptions,
-): unknown {
+export function evaluateScriptSync(script: string, opts?: EvaluationOptions): unknown {
   opts ??= {};
   let { realm } = opts;
   const { taskRunner } = opts;

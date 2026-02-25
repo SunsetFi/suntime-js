@@ -24,15 +24,7 @@ export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
     body: BlockStatement | Expression,
     functionFactory: StaticJsFunctionFactory,
   ) {
-    super(
-      realm,
-      name,
-      "non-lexical-this",
-      argumentDeclarations,
-      context,
-      body,
-      functionFactory,
-    );
+    super(realm, name, "non-lexical-this", argumentDeclarations, context, body, functionFactory);
   }
 
   protected *_invoke(
@@ -42,10 +34,7 @@ export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
     const functionContext = yield* this._createContext(thisArg, args);
 
     const evaluator = EvaluateNodeCommand(this._body, functionContext);
-    const invocation = new AsyncEvaluatorInvocation(
-      evaluator,
-      functionContext.realm,
-    );
+    const invocation = new AsyncEvaluatorInvocation(evaluator, functionContext.realm);
 
     yield* invocation.start();
 

@@ -7,10 +7,7 @@ import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunction
 
 import toNumber from "../../../algorithms/to-number.js";
 
-import {
-  applyIntrinsicProperties,
-  type IntrinsicPropertyDeclaration,
-} from "../../utils.js";
+import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import numberCtorEpsilonDeclaration from "./EPSILON.js";
 import numberCtorMaxSafeIntegerDeclaration from "./MAX_SAFE_INTEGER.js";
@@ -33,10 +30,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   numberCtorPositiveInfinityDeclaration,
 ];
 
-export default function createNumberConstructor(
-  realm: StaticJsRealm,
-  numberProto: StaticJsObject,
-) {
+export default function createNumberConstructor(realm: StaticJsRealm, numberProto: StaticJsObject) {
   // FIXME: This is the casting function, but if it's invoked with 'new', we should
   // return the boxed version.
   const ctor = new StaticJsFunctionImpl(
@@ -51,10 +45,7 @@ export default function createNumberConstructor(
     },
     {
       *construct(_thisArg, value) {
-        const numVal = yield* toNumber.js(
-          value ?? realm.types.undefined,
-          realm,
-        );
+        const numVal = yield* toNumber.js(value ?? realm.types.undefined, realm);
         return new StaticJsNumberBoxed(realm, numVal);
       },
     },

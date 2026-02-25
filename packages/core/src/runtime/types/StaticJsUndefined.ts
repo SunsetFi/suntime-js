@@ -8,9 +8,7 @@ export interface StaticJsUndefined extends StaticJsPrimitive {
   readonly value: undefined;
 }
 
-export function isStaticJsUndefined(
-  value: unknown,
-): value is StaticJsUndefined {
+export function isStaticJsUndefined(value: unknown): value is StaticJsUndefined {
   if (!isStaticJsValue(value)) {
     return false;
   }

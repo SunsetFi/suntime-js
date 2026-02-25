@@ -17,11 +17,7 @@ export default function* initializeBoundName(
   if (environment) {
     yield* environment.initializeBindingEvaluator(name, value);
   } else {
-    const lhs = yield* getIdentifierReference(
-      context.lexicalEnv,
-      name,
-      context.strict,
-    );
+    const lhs = yield* getIdentifierReference(context.lexicalEnv, name, context.strict);
     yield* putValue(lhs, value, context.realm);
   }
 }

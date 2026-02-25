@@ -7,10 +7,7 @@ import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunction
 import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
-import {
-  applyIntrinsicProperties,
-  type IntrinsicPropertyDeclaration,
-} from "../../utils.js";
+import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import arrayCtorFromDeclaration from "./from.js";
 import arrayCtorIsArrayDeclaration from "./isArray.js";
@@ -24,10 +21,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayCtorSymbolSpeciesDeclaration,
 ];
 
-export default function createArrayConstructor(
-  realm: StaticJsRealm,
-  arrayProto: StaticJsObject,
-) {
+export default function createArrayConstructor(realm: StaticJsRealm, arrayProto: StaticJsObject) {
   const ctor = new StaticJsFunctionImpl(
     realm,
     "Array",

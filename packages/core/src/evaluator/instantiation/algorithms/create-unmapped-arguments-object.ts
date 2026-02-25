@@ -37,8 +37,7 @@ export default function* createUnmappedArgumentsObject(
     yield* createDataPropertyOrThrow(obj, String(index), val, realm);
   }
 
-  const arrayValues =
-    yield* realm.types.prototypes.arrayProto.getEvaluator("values");
+  const arrayValues = yield* realm.types.prototypes.arrayProto.getEvaluator("values");
 
   yield* definePropertyOrThrow(
     obj,
@@ -54,10 +53,7 @@ export default function* createUnmappedArgumentsObject(
 
   const calleeAccessor = new StaticJsFunctionImpl(realm, "get", function* () {
     throw new ThrowCompletion(
-      realm.types.error(
-        "TypeError",
-        "callee property is not accessible in strict mode",
-      ),
+      realm.types.error("TypeError", "callee property is not accessible in strict mode"),
     );
   });
 

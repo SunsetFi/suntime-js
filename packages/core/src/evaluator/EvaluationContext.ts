@@ -34,17 +34,13 @@ export default abstract class EvaluationContext {
       return this._parent.lexicalEnv;
     }
 
-    throw new Error(
-      "Lexical Environment is not set in the evaluation context.",
-    );
+    throw new Error("Lexical Environment is not set in the evaluation context.");
   }
 
   set lexicalEnv(env: StaticJsEnvironmentRecord) {
     // The spec supports getting and setting these arbitrarily, but that doesn't fit with our context stack system.
     // Might want to support this for whatever.
-    throw new StaticJsEngineError(
-      "Cannot set lexical environment on this evaluation context.",
-    );
+    throw new StaticJsEngineError("Cannot set lexical environment on this evaluation context.");
   }
 
   get variableEnv(): StaticJsEnvironmentRecord {
@@ -52,17 +48,13 @@ export default abstract class EvaluationContext {
       return this._parent.variableEnv;
     }
 
-    throw new Error(
-      "Variable Environment is not set in the evaluation context.",
-    );
+    throw new Error("Variable Environment is not set in the evaluation context.");
   }
 
   set variableEnv(env: StaticJsEnvironmentRecord) {
     // The spec supports getting and setting these arbitrarily, but that doesn't fit with our context stack system.
     // Might want to support this for whatever.
-    throw new StaticJsEngineError(
-      "Cannot set variable environment on this evaluation context.",
-    );
+    throw new StaticJsEngineError("Cannot set variable environment on this evaluation context.");
   }
 
   get label(): string | null {
@@ -120,12 +112,7 @@ export default abstract class EvaluationContext {
     variableEnv: StaticJsEnvironmentRecord,
     func: StaticJsFunction,
   ): EvaluationContext {
-    return new FunctionInvocationEvaluationContext(
-      lexicalEnv,
-      variableEnv,
-      func,
-      this,
-    );
+    return new FunctionInvocationEvaluationContext(lexicalEnv, variableEnv, func, this);
   }
 
   createStrictContext(): EvaluationContext {

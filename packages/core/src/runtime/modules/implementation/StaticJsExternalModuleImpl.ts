@@ -54,9 +54,7 @@ export default class StaticJsExternalModuleImpl
     return null;
   }
 
-  *resolveExportEvaluator(
-    name: string,
-  ): EvaluationGenerator<StaticJsResolvedBinding> {
+  *resolveExportEvaluator(name: string): EvaluationGenerator<StaticJsResolvedBinding> {
     if (!this._exportKeys.includes(name)) {
       return null;
     }
@@ -71,9 +69,7 @@ export default class StaticJsExternalModuleImpl
     return [...this._exportKeys].filter((x) => x !== "default");
   }
 
-  *getOwnBindingValueEvaluator(
-    bindingName: string,
-  ): EvaluationGenerator<StaticJsValue | null> {
+  *getOwnBindingValueEvaluator(bindingName: string): EvaluationGenerator<StaticJsValue | null> {
     if (bindingName === "*default*") {
       bindingName = "default";
     }

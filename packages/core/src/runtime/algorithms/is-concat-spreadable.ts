@@ -17,9 +17,7 @@ export default function* isConcatSpreadable(
     return false;
   }
 
-  const spreadable = yield* O.getEvaluator(
-    O.realm.types.symbols.isConcatSpreadable,
-  );
+  const spreadable = yield* O.getEvaluator(O.realm.types.symbols.isConcatSpreadable);
   if (!isStaticJsUndefined(spreadable)) {
     return yield* toBoolean.js(spreadable, realm);
   }

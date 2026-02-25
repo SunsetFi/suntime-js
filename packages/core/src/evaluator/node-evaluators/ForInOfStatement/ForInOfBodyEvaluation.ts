@@ -63,21 +63,14 @@ export function* forInOfBodyEvaluation(
     assignmentPattern = lhs as ObjectPattern | ArrayPattern;
   }
   while (true) {
-    let nextResult = yield* call(
-      iteratorRecord.nextMethod,
-      iteratorRecord.iterator,
-      [],
-      realm,
-    );
+    let nextResult = yield* call(iteratorRecord.nextMethod, iteratorRecord.iterator, [], realm);
 
     if (iteratorKind === "async") {
       nextResult = yield* AwaitCommand(nextResult);
     }
 
     if (!isStaticJsObjectLike(nextResult)) {
-      throw new ThrowCompletion(
-        realm.types.error("TypeError", "Iterator result is not an object"),
-      );
+      throw new ThrowCompletion(realm.types.error("TypeError", "Iterator result is not an object"));
     }
 
     const done = yield* iteratorComplete(nextResult, realm);
@@ -97,12 +90,7 @@ export function* forInOfBodyEvaluation(
               iterationContext,
             );
           } else {
-            yield* bindingInitialization(
-              lhs as LVal,
-              nextValue,
-              null,
-              iterationContext,
-            );
+            yield* bindingInitialization(lhs as LVal, nextValue, null, iterationContext);
           }
         } else {
           const lhsRef = yield* EvaluateNodeCommand(lhs, context, {
@@ -124,8 +112,7 @@ export function* forInOfBodyEvaluation(
           iterationContext.realm,
         );
         yield* forDeclarationBindingInstantiation(lhs, iterationEnv);
-        iterationContext =
-          iterationContext.createLexicalEnvContext(iterationEnv);
+        iterationContext = iterationContext.createLexicalEnvContext(iterationEnv);
         if (destructuring) {
           yield* forDeclarationBindingInitialization(
             lhs,

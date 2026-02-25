@@ -8,17 +8,12 @@ import StaticJsNumberImpl from "../../types/implementation/StaticJsNumberImpl.js
 
 import toNumber from "../../algorithms/to-number.js";
 
-import {
-  applyIntrinsicProperties,
-  type IntrinsicPropertyDeclaration,
-} from "../utils.js";
+import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../utils.js";
 
 // Since math is quite predictable in its inputs and outputs, we can do this programatically.
 
 type MathNumericFunctionKeys = {
-  [key in keyof typeof Math]: Math[key] extends (...args: number[]) => number
-    ? key
-    : never;
+  [key in keyof typeof Math]: Math[key] extends (...args: number[]) => number ? key : never;
 }[keyof typeof Math];
 
 // Note: This only works because we only want numeric values.
@@ -92,9 +87,7 @@ function createMathNumericFunctionDeclaration(
 ): IntrinsicPropertyDeclaration {
   const func = Math[key];
   if (typeof func !== "function") {
-    throw new StaticJsEngineError(
-      `Tried to make Math function from non-function Math.${key}`,
-    );
+    throw new StaticJsEngineError(`Tried to make Math function from non-function Math.${key}`);
   }
 
   return {

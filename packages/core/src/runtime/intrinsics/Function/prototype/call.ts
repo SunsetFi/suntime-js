@@ -11,10 +11,7 @@ const functionProtoCallDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisFunc, thisArg, ...args) {
     if (!isStaticJsFunction(thisFunc)) {
       throw new ThrowCompletion(
-        realm.types.error(
-          "TypeError",
-          "Function.prototype.call called on a non-function.",
-        ),
+        realm.types.error("TypeError", "Function.prototype.call called on a non-function."),
       );
     }
 

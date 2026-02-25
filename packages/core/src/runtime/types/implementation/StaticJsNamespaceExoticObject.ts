@@ -7,10 +7,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import sameValue from "../../algorithms/same-value.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
-import type {
-  StaticJsObjectLike,
-  StaticJsObjectPropertyKey,
-} from "../StaticJsObjectLike.js";
+import type { StaticJsObjectLike, StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
@@ -48,15 +45,11 @@ export default class StaticJsNamespaceExoticObject extends StaticJsAbstractObjec
     return false;
   }
 
-  *ownPropertyKeysEvaluator(): EvaluationGenerator<
-    StaticJsObjectPropertyKey[]
-  > {
+  *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsObjectPropertyKey[]> {
     return Array.from(this._exports);
   }
 
-  *setPrototypeOfEvaluator(
-    _prototype: StaticJsObjectLike | null,
-  ): EvaluationGenerator<void> {
+  *setPrototypeOfEvaluator(_prototype: StaticJsObjectLike | null): EvaluationGenerator<void> {
     // No-op for namespace exotic objects.
   }
 
@@ -90,9 +83,7 @@ export default class StaticJsNamespaceExoticObject extends StaticJsAbstractObjec
     } else {
       // Spec says we get it directly from the target module's env,
       // but that doesn't work for us due to external modules.
-      const resolved = yield* targetModule.getOwnBindingValueEvaluator(
-        binding.bindingName,
-      );
+      const resolved = yield* targetModule.getOwnBindingValueEvaluator(binding.bindingName);
       if (!resolved) {
         throw new ThrowCompletion(
           this.realm.types.error(

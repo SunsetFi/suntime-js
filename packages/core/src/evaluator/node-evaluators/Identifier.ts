@@ -9,10 +9,6 @@ export default function* identifierNodeEvaluator(
   node: Identifier,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const ref = yield* getIdentifierReference(
-    context.lexicalEnv,
-    node.name,
-    context.strict,
-  );
+  const ref = yield* getIdentifierReference(context.lexicalEnv, node.name, context.strict);
   return ref;
 }

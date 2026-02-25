@@ -43,10 +43,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
     return true;
   }
 
-  *createMutableBindingEvaluator(
-    name: string,
-    deletable: boolean,
-  ): EvaluationGenerator<void> {
+  *createMutableBindingEvaluator(name: string, deletable: boolean): EvaluationGenerator<void> {
     yield* this._obj.defineOwnPropertyEvaluator(name, {
       value: this._realm.types.undefined,
       writable: true,
@@ -59,10 +56,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
     // Do nothing; all the work is done in initializeBinding
   }
 
-  *initializeBindingEvaluator(
-    name: string,
-    value: StaticJsValue,
-  ): EvaluationGenerator<void> {
+  *initializeBindingEvaluator(name: string, value: StaticJsValue): EvaluationGenerator<void> {
     yield* this._obj.setEvaluator(name, value, false);
   }
 
@@ -84,10 +78,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
     yield* this._obj.setEvaluator(name, value, strict);
   }
 
-  *getBindingValueEvaluator(
-    name: string,
-    strict: boolean,
-  ): EvaluationGenerator<StaticJsValue> {
+  *getBindingValueEvaluator(name: string, strict: boolean): EvaluationGenerator<StaticJsValue> {
     const hasProp = yield* this._obj.hasPropertyEvaluator(name);
     if (!hasProp) {
       if (strict) {

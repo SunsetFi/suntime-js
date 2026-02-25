@@ -2,9 +2,7 @@ import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../StaticJsArray.js";
 import type { StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
 import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 
-export default function isArrayIndex(
-  value: StaticJsObjectPropertyKey,
-): value is string {
+export default function isArrayIndex(value: StaticJsObjectPropertyKey): value is string {
   if (isStaticJsSymbol(value)) {
     return false;
   }

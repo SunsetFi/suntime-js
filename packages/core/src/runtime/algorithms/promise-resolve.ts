@@ -11,12 +11,7 @@ export default function* promiseResolve(
   value: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsPromise> {
-  const capability = yield* newPromiseCapability(
-    realm.types.constructors.Promise,
-    realm,
-  );
-  yield* capability.resolve.callEvaluator(realm.types.undefined, [
-    value ?? realm.types.undefined,
-  ]);
+  const capability = yield* newPromiseCapability(realm.types.constructors.Promise, realm);
+  yield* capability.resolve.callEvaluator(realm.types.undefined, [value ?? realm.types.undefined]);
   return capability.promise;
 }

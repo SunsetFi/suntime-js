@@ -25,15 +25,7 @@ export default class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
     body: BlockStatement | Expression,
     functionFactory: StaticJsFunctionFactory,
   ) {
-    super(
-      realm,
-      name,
-      "lexical-this",
-      argumentDeclarations,
-      context,
-      body,
-      functionFactory,
-    );
+    super(realm, name, "lexical-this", argumentDeclarations, context, body, functionFactory);
   }
 
   *constructEvaluator(): EvaluationGenerator<StaticJsValue> {
@@ -43,9 +35,7 @@ export default class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
       name = "anonymous";
     }
 
-    throw new ThrowCompletion(
-      this.realm.types.error("TypeError", `${name} is not a constructor`),
-    );
+    throw new ThrowCompletion(this.realm.types.error("TypeError", `${name} is not a constructor`));
   }
 
   protected *_invoke(
@@ -55,11 +45,7 @@ export default class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
     const functionContext = yield* this._createContext(thisArg, args);
 
     const evaluator = EvaluateNodeCommand(this._body, functionContext);
-    const invocation = new AsyncEvaluatorInvocation(
-      evaluator,
-      functionContext.realm,
-      true,
-    );
+    const invocation = new AsyncEvaluatorInvocation(evaluator, functionContext.realm, true);
 
     yield* invocation.start();
 

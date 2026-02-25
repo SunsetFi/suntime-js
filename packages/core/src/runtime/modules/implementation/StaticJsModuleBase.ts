@@ -12,16 +12,11 @@ import type {
   StaticJsModuleStatus,
 } from "../StaticJsModuleImplementation.js";
 
-import {
-  BindingNameNamespace,
-  type StaticJsResolvedBinding,
-} from "./StaticJsResolvedBinding.js";
+import { BindingNameNamespace, type StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
 import { AbnormalCompletionBase } from "../../../evaluator/completions/AbnormalCompletionBase.js";
 import StaticJsNamespaceExoticObject from "../../types/implementation/StaticJsNamespaceExoticObject.js";
 
-export abstract class StaticJsModuleBase
-  implements StaticJsModule, StaticJsModuleImplementation
-{
+export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModuleImplementation {
   private _cachedNamespaceObject: StaticJsObjectLike | null = null;
 
   constructor(
@@ -43,9 +38,7 @@ export abstract class StaticJsModuleBase
 
   resolveExport(exportName: string): StaticJsResolvedBinding {
     try {
-      return this._realm.invokeEvaluatorSync(
-        this.resolveExportEvaluator(exportName),
-      );
+      return this._realm.invokeEvaluatorSync(this.resolveExportEvaluator(exportName));
     } catch (e) {
       AbnormalCompletionBase.handleToJs(e);
     }
@@ -106,9 +99,7 @@ export abstract class StaticJsModuleBase
 
   getModuleNamespace(): Record<string, unknown> {
     try {
-      const result = this._realm.invokeEvaluatorSync(
-        this.getModuleNamespaceEvaluator(),
-      );
+      const result = this._realm.invokeEvaluatorSync(this.getModuleNamespaceEvaluator());
       return result.toJsSync() as Record<string, unknown>;
     } catch (e) {
       AbnormalCompletionBase.handleToJs(e);
@@ -132,11 +123,7 @@ export abstract class StaticJsModuleBase
     // TODO: Apparently we need to sort the names here according to their code unit order.
     // As that potentially spans across multiple modules, I have no idea what that means for us.
 
-    const ns = new StaticJsNamespaceExoticObject(
-      this,
-      unambiguousNames,
-      this._realm,
-    );
+    const ns = new StaticJsNamespaceExoticObject(this, unambiguousNames, this._realm);
     this._cachedNamespaceObject = ns;
     return ns;
   }

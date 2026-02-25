@@ -38,10 +38,7 @@ export default function* evalDeclarationInstantiation(
         const hasLexical = yield* hasLexicalDeclaration(name, varEnv);
         if (hasLexical) {
           throw new ThrowCompletion(
-            realm.types.error(
-              "SyntaxError",
-              `${name} has already been declared`,
-            ),
+            realm.types.error("SyntaxError", `${name} has already been declared`),
           );
         }
       }
@@ -54,10 +51,7 @@ export default function* evalDeclarationInstantiation(
           const hasBinding = yield* thisEnv.hasBindingEvaluator(name);
           if (hasBinding) {
             throw new ThrowCompletion(
-              realm.types.error(
-                "SyntaxError",
-                `${name} has already been declared`,
-              ),
+              realm.types.error("SyntaxError", `${name} has already been declared`),
             );
           }
         }
@@ -88,10 +82,7 @@ export default function* evalDeclarationInstantiation(
         const fnDefinable = yield* canDeclareGlobalFunction(fn, varEnv);
         if (!fnDefinable) {
           throw new ThrowCompletion(
-            realm.types.error(
-              "TypeError",
-              `Cannot declare global function ${fn}`,
-            ),
+            realm.types.error("TypeError", `Cannot declare global function ${fn}`),
           );
         }
       }
@@ -116,10 +107,7 @@ export default function* evalDeclarationInstantiation(
         const fnDefinable = yield* canDeclareGlobalVar(vn, varEnv);
         if (!fnDefinable) {
           throw new ThrowCompletion(
-            realm.types.error(
-              "TypeError",
-              `Cannot declare global variable ${vn}`,
-            ),
+            realm.types.error("TypeError", `Cannot declare global variable ${vn}`),
           );
         }
       }
@@ -177,10 +165,7 @@ export default function* evalDeclarationInstantiation(
             bindingExists = yield* varEnv.hasBindingEvaluator(F);
             if (!bindingExists) {
               yield* varEnv.createMutableBindingEvaluator(F, true);
-              yield* varEnv.initializeBindingEvaluator(
-                F,
-                realm.types.undefined,
-              );
+              yield* varEnv.initializeBindingEvaluator(F, realm.types.undefined);
             }
           }
           declaredFunctionOrVarNames.add(F);

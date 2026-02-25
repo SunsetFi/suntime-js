@@ -65,8 +65,7 @@ export default class Macrotask {
    * This isn't the same as the promise, as we need to run synchronous checks and cleanups
    * in the realm based on macrotask completion.
    */
-  private _onCompletedCallbacks: ((value: unknown, err?: unknown) => void)[] =
-    [];
+  private _onCompletedCallbacks: ((value: unknown, err?: unknown) => void)[] = [];
 
   /**
    * Whether the task is currently evaluating code.
@@ -138,9 +137,7 @@ export default class Macrotask {
 
   invoke() {
     if (this._status !== "pending") {
-      throw new StaticJsEngineError(
-        `Cannot invoke a task that is already ${this._status}.`,
-      );
+      throw new StaticJsEngineError(`Cannot invoke a task that is already ${this._status}.`);
     }
 
     this._status = "running";
@@ -234,15 +231,11 @@ export default class Macrotask {
 
     const next = (err?: unknown): IteratorResult<void, void> => {
       if (aborted) {
-        throw new StaticJsTaskAbortedError(
-          "Cannot call next() on an aborted task.",
-        );
+        throw new StaticJsTaskAbortedError("Cannot call next() on an aborted task.");
       }
 
       if (done) {
-        throw new StaticJsEngineError(
-          "Cannot call next() on a completed task.",
-        );
+        throw new StaticJsEngineError("Cannot call next() on a completed task.");
       }
 
       this._assertIsRunning(this);
@@ -289,9 +282,7 @@ export default class Macrotask {
       throw: (err: unknown) => next(err),
       abort: () => {
         if (done) {
-          throw new StaticJsEngineError(
-            "Cannot abort a task that is already done or aborted.",
-          );
+          throw new StaticJsEngineError("Cannot abort a task that is already done or aborted.");
         }
 
         this._assertIsRunning(this);
@@ -320,17 +311,13 @@ export default class Macrotask {
     }
 
     if (this._uncaughtErrors.length > 0) {
-      this._reject(
-        new StaticJsUnhandledRejectionError(this._uncaughtErrors[0]),
-      );
+      this._reject(new StaticJsUnhandledRejectionError(this._uncaughtErrors[0]));
       return;
     }
 
     this._status = "fulfilled";
     this._acceptPromise(this._macrotaskCompletionValue);
-    this._onCompletedCallbacks.forEach((cb) =>
-      cb(this._macrotaskCompletionValue),
-    );
+    this._onCompletedCallbacks.forEach((cb) => cb(this._macrotaskCompletionValue));
     this._onCompletedCallbacks = [];
     this._macrotaskCompletionValue = undefined;
   }
@@ -350,9 +337,7 @@ export default class Macrotask {
   }
 }
 
-function invokeEvaluator<T>(
-  evaluator: StaticJsEvaluator<T>,
-): EvaluationGenerator<T> {
+function invokeEvaluator<T>(evaluator: StaticJsEvaluator<T>): EvaluationGenerator<T> {
   if (typeof evaluator === "function") {
     return evaluator();
   } else {

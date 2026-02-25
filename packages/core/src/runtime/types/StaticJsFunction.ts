@@ -22,19 +22,11 @@ export interface StaticJsFunction extends StaticJsObjectLike {
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsValue>;
   callSync(thisArg: StaticJsValue, args?: StaticJsValue[]): StaticJsValue;
-  callEvaluator(
-    thisArg: StaticJsValue,
-    args?: StaticJsValue[],
-  ): EvaluationGenerator<StaticJsValue>;
+  callEvaluator(thisArg: StaticJsValue, args?: StaticJsValue[]): EvaluationGenerator<StaticJsValue>;
 
-  constructAsync(
-    args?: StaticJsValue[],
-    opts?: StaticJsRunTaskOptions,
-  ): Promise<StaticJsValue>;
+  constructAsync(args?: StaticJsValue[], opts?: StaticJsRunTaskOptions): Promise<StaticJsValue>;
   constructSync(args?: StaticJsValue[]): StaticJsValue;
-  constructEvaluator(
-    args?: StaticJsValue[],
-  ): EvaluationGenerator<StaticJsValue>;
+  constructEvaluator(args?: StaticJsValue[]): EvaluationGenerator<StaticJsValue>;
 
   toJsSync(): (...args: unknown[]) => unknown;
 }
@@ -50,9 +42,7 @@ export function isStaticJsFunction(value: unknown): value is StaticJsFunction {
   return value.runtimeTypeCode === StaticJsTypeCode.Function;
 }
 
-export function isStaticJsBoundFunction(
-  value: unknown,
-): value is StaticJsBoundFunction {
+export function isStaticJsBoundFunction(value: unknown): value is StaticJsBoundFunction {
   if (!isStaticJsFunction(value)) {
     return false;
   }
