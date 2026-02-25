@@ -23,12 +23,12 @@ import type { NormalCompletion } from "./completions/NormalCompletion.js";
 import type { EvaluationGenerator } from "./EvaluationGenerator.js";
 
 import getValue from "../runtime/algorithms/get-value.js";
+import getMethod from "../runtime/algorithms/get-method.js";
 
 export default class AsyncEvaluatorInvocation {
   private _capability!: StaticJsPromiseCapabilityRecord;
-  private _state: "pending" | "started" | "running" | "awaiting" | "halted" = "pending";
-
-  private _callbacks: ((value: StaticJsValue, error?: StaticJsValue) => void)[] = [];
+  private _state: "pending" | "started" | "running" | "awaiting" | "halted" =
+    "pending";
 
   constructor(
     private readonly _evaluator: EvaluationGenerator,
@@ -40,7 +40,9 @@ export default class AsyncEvaluatorInvocation {
     return this._capability.promise;
   }
 
-  onComplete(callback: (value: StaticJsValue, error?: StaticJsValue) => void): void {
+  *then(
+    callback: (value: StaticJsValue, error?: StaticJsValue) => void,
+  ): EvaluationGenerator<void> {
     if (this._state === "halted") {
       // We can take a reference to the result and return it to callback here if we really need to,
       // but be careful of keeping object references alive.
@@ -49,7 +51,32 @@ export default class AsyncEvaluatorInvocation {
       );
     }
 
-    this._callbacks.push(callback);
+    yield* this._ensureCapability();
+
+    const thenMethod = yield* getMethod(this.promise, "then", this._realm);
+    if (!thenMethod) {
+      throw new StaticJsEngineError(
+        "Async function promise does not have a then method.",
+      );
+    }
+
+    const typeUndefined = this._realm.types.undefined;
+    yield* thenMethod.callEvaluator(this.promise, [
+      new StaticJsFunctionImpl(this._realm, "onFulfilled", function* (
+        _thisArg,
+        value,
+      ) {
+        callback(value);
+        return typeUndefined;
+      }),
+      new StaticJsFunctionImpl(this._realm, "onRejected", function* (
+        _thisArg,
+        reason,
+      ) {
+        callback(typeUndefined, reason);
+        return typeUndefined;
+      }),
+    ]);
   }
 
   *start(): EvaluationGenerator<StaticJsPromise> {
@@ -57,17 +84,25 @@ export default class AsyncEvaluatorInvocation {
       throw new StaticJsEngineError("Async function can only be started once.");
     }
 
-    this._state = "started";
+    yield* this._ensureCapability();
 
-    this._capability = yield* newPromiseCapability(
-      this._realm.types.constructors.Promise,
-      this._realm,
-    );
+    this._state = "started";
 
     // We start evaluating immediately, not on a microtask.
     yield* this._continue(null);
 
     return this._capability.promise;
+  }
+
+  private *_ensureCapability(): EvaluationGenerator<void> {
+    if (this._capability) {
+      return;
+    }
+
+    this._capability = yield* newPromiseCapability(
+      this._realm.types.constructors.Promise,
+      this._realm,
+    );
   }
 
   private *_continue(
@@ -134,9 +169,13 @@ export default class AsyncEvaluatorInvocation {
     }
   }
 
-  private *_registerContinuation(awaitable: StaticJsValue): EvaluationGenerator<void> {
+  private *_registerContinuation(
+    awaitable: StaticJsValue,
+  ): EvaluationGenerator<void> {
     if (this._state !== "running") {
-      throw new StaticJsEngineError("Async function can only register continuations when running.");
+      throw new StaticJsEngineError(
+        "Async function can only register continuations when running.",
+      );
     }
 
     this._state = "awaiting";
@@ -150,11 +189,17 @@ export default class AsyncEvaluatorInvocation {
         // Register with the function.
         // The function will be responsible for queueing us on the microtask.
         yield* awaitableThen.callEvaluator(awaitable, [
-          new StaticJsFunctionImpl(realm, "resolve", function* (_thisArg, value) {
+          new StaticJsFunctionImpl(realm, "resolve", function* (
+            _thisArg,
+            value,
+          ) {
             yield* continueInvocation(value);
             return realm.types.undefined;
           }),
-          new StaticJsFunctionImpl(realm, "reject", function* (_thisArg, value) {
+          new StaticJsFunctionImpl(realm, "reject", function* (
+            _thisArg,
+            value,
+          ) {
             yield* continueInvocation(value, "throw");
             return realm.types.undefined;
           }),
@@ -176,13 +221,9 @@ export default class AsyncEvaluatorInvocation {
 
     this._halt();
 
-    yield* this._capability.resolve.callEvaluator(this._realm.types.undefined, [value]);
-
-    this._callbacks.forEach((callback) => {
-      callback(value);
-    });
-
-    this._callbacks = [];
+    yield* this._capability.resolve.callEvaluator(this._realm.types.undefined, [
+      value,
+    ]);
   }
 
   private *_reject(reason: StaticJsValue): EvaluationGenerator<void> {
@@ -192,14 +233,9 @@ export default class AsyncEvaluatorInvocation {
 
     this._halt();
 
-    yield* this._capability.reject.callEvaluator(this._realm.types.undefined, [reason]);
-
-    const result = this._realm.types.undefined;
-    this._callbacks.forEach((callback) => {
-      callback(result, reason);
-    });
-
-    this._callbacks = [];
+    yield* this._capability.reject.callEvaluator(this._realm.types.undefined, [
+      reason,
+    ]);
   }
 
   private _halt() {

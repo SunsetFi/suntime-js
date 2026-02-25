@@ -1,4 +1,4 @@
-import type { StaticJsValue } from "../../index.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { ControlFlowCompletion } from "./ControlFlowCompletion.js";
 
