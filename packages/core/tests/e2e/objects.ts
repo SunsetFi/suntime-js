@@ -497,6 +497,26 @@ describe("E2E: Object", () => {
     });
   });
 
+  describe("Methods", () => {
+    describe("isPrototypeOf", () => {
+      it("Should return true for objects in the prototype chain", async () => {
+        const code = `
+          const proto1 = { proto1: true };
+          const proto2 = Object.create(proto1);
+          proto2.proto2 = true;
+
+          const obj = Object.create(proto2);
+          obj.obj = true;
+          
+          proto1.isPrototypeOf(obj);
+        `;
+
+        const result = await evaluateScript(code);
+        expect(result).toBe(true);
+      });
+    });
+  });
+
   describe("Statics", () => {
     describe("Object.assign", () => {
       it("Should assign properties from source to target", async () => {

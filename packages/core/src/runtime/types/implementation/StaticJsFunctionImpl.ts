@@ -150,8 +150,7 @@ export default class StaticJsFunctionImpl
 
     let proto = yield* this.getEvaluator("prototype");
     if (!proto || !isStaticJsObjectLike(proto)) {
-      // This appears to be what node does
-      proto = this.realm.types.null;
+      proto = this.realm.types.prototypes.objectProto;
     }
 
     const thisObj = this.realm.types.object(undefined, proto);
@@ -214,7 +213,7 @@ export default class StaticJsFunctionImpl
   }
 
   protected _configureToJsProxy(_traps: ProxyHandler<object>): void {
-    _traps.apply = (target: unknown, thisArg: unknown, args: unknown[]) => {
+    _traps.apply = (_target: unknown, thisArg: unknown, args: unknown[]) => {
       const argValues = args.map((value) => this.realm.types.toStaticJsValue(value));
       // FIXME: This absolutely probably does not work right.
       // We should at least try to look up if we have a StaticJsValue representation of the global object.

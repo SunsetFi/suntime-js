@@ -12,7 +12,6 @@ import StaticJsFunctionEnvironmentRecord from "../../environments/implementation
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import getValue from "../../algorithms/get-value.js";
 import toObject from "../../algorithms/to-object.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
@@ -90,12 +89,9 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
   ): EvaluationGenerator<StaticJsValue> {
     const functionContext = yield* this._createContext(thisArg, args);
 
-    let result: StaticJsValue | null = null;
+    let result: StaticJsValue = this.realm.types.undefined;
     try {
-      const completion = yield* EvaluateNodeCommand(this._body, functionContext);
-      if (completion) {
-        result = yield* getValue(completion, this.realm);
-      }
+      yield* EvaluateNodeCommand(this._body, functionContext);
     } catch (e) {
       if (e instanceof ReturnCompletion) {
         result = e.value;
@@ -104,7 +100,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
       }
     }
 
-    return result ?? this.realm.types.undefined;
+    return result;
   }
 
   protected *_createContext(

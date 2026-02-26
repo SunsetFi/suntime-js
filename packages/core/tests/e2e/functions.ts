@@ -931,8 +931,28 @@ describe("E2E: Functions", () => {
     });
   });
 
-  describe("Prototype", () => {
-    describe("Function.prototype.bind", () => {
+  describe("Properties", () => {
+    describe("prototype", () => {
+      it("Is created by default", async () => {
+        const code = `
+          function a() {}
+          a.prototype;
+        `;
+        expect(await evaluateScript(code)).toBeTypeOf("object");
+      });
+
+      it("Has a constructor property that points back to the function", async () => {
+        const code = `
+          function a() {}
+          a.prototype.constructor === a;
+        `;
+        expect(await evaluateScript(code)).toBe(true);
+      });
+    });
+  });
+
+  describe("Methods", () => {
+    describe("bind", () => {
       it("Exists", async () => {
         const code = `
           function a() {}
@@ -1100,6 +1120,50 @@ describe("E2E: Functions", () => {
         expect(runTask).toHaveBeenCalled();
         expect(realmRunTask).not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe("New", () => {
+    it("Can be invoked with new", async () => {
+      const code = `
+        function A() {
+          this.value = 42;
+        }
+        const a = new A();
+        a.value;
+      `;
+      expect(await evaluateScript(code)).toBe(42);
+    });
+
+    it("Supports returning objects", async () => {
+      const code = `
+        function A() {
+          return { value: 42 };
+        }
+        const a = new A();
+        a.value;
+      `;
+      expect(await evaluateScript(code)).toBe(42);
+    });
+
+    it("Sets the prototype correctly", async () => {
+      const code = `
+        function A() {}
+        A.prototype.value = 42;
+        const a = new A();
+        a.value;
+      `;
+      expect(await evaluateScript(code)).toBe(42);
+    });
+
+    it("Sets the prototype correctly if prototype is a non-object", async () => {
+      const code = `
+        function A() {}
+        A.prototype = 42;
+        const a = new A();
+        Object.getPrototypeOf(a) === Object.prototype;
+      `;
+      expect(await evaluateScript(code)).toBe(true);
     });
   });
 });

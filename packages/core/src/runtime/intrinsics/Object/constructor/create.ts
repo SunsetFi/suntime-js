@@ -8,7 +8,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorCreateDeclaration: IntrinsicPropertyDeclaration = {
   key: "create",
-  *func(realm, thisArg, protoValue) {
+  *func(realm, _thisArg, protoValue) {
     if (!isStaticJsNull(protoValue) && !isStaticJsObjectLike(protoValue)) {
       throw new ThrowCompletion(
         realm.types.error("TypeError", "Object prototype may only be an Object or null"),
