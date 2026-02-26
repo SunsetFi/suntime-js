@@ -52,6 +52,7 @@ For more information, including solutions for breaking loops, see [Quick Start](
   - Symbol.species
   - Symbol.isConcatSpreadable
   - Symbol.toPrimitive
+  - Symbol.unscopables
 - Control flow / loops
 - Unary and binary operators
 - Destructuring

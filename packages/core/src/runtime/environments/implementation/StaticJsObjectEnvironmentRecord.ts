@@ -1,9 +1,10 @@
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import toBoolean from "../../algorithms/to-boolean.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import type { StaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
+import { isStaticJsObjectLike, type StaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
@@ -25,8 +26,25 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
   }
 
   *hasBindingEvaluator(name: string): EvaluationGenerator<boolean> {
-    const hasProp = yield* this._obj.hasPropertyEvaluator(name);
-    return hasProp;
+    const foundBinding = yield* this._obj.hasPropertyEvaluator(name);
+    if (!foundBinding) {
+      return false;
+    }
+
+    if (!this._isWithEnvironment) {
+      return true;
+    }
+
+    const unscopables = yield* this._obj.getEvaluator(this._realm.types.symbols.unscopables);
+    if (isStaticJsObjectLike(unscopables)) {
+      const blockedValue = yield* unscopables.getEvaluator(name);
+      const isBlocked = yield* toBoolean.js(blockedValue, this._realm);
+      if (isBlocked) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   *isInitializedEvaluator(name: string): EvaluationGenerator<boolean> {
@@ -57,7 +75,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
   }
 
   *initializeBindingEvaluator(name: string, value: StaticJsValue): EvaluationGenerator<void> {
-    yield* this._obj.setEvaluator(name, value, false);
+    yield* this.setMutableBindingEvaluator(name, value, false);
   }
 
   *setMutableBindingEvaluator(
@@ -65,8 +83,8 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
     value: StaticJsValue,
     strict: boolean,
   ): EvaluationGenerator<void> {
-    const exists = yield* this._obj.hasPropertyEvaluator(name);
-    if (!exists && strict) {
+    const stillExists = yield* this._obj.hasPropertyEvaluator(name);
+    if (!stillExists && strict) {
       throw new ThrowCompletion(
         this._realm.types.error(
           "ReferenceError",

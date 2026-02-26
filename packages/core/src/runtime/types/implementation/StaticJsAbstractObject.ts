@@ -73,6 +73,18 @@ export default abstract class StaticJsAbstractObject
     return this._extensible;
   }
 
+  getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObjectLike | null> {
+    return this.realm.invokeEvaluatorAsync(this.getPrototypeOfEvaluator(), opts);
+  }
+
+  getPrototypeOfSync(): StaticJsObjectLike | null {
+    return this.realm.invokeEvaluatorSync(this.getPrototypeOfEvaluator());
+  }
+
+  *getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObjectLike | null> {
+    return this._prototype;
+  }
+
   async setPrototypeOfAsync(
     prototype: StaticJsObject | null,
     opts?: StaticJsRunTaskOptions,

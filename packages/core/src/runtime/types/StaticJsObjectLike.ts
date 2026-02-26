@@ -28,6 +28,10 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
 
   get extensible(): boolean;
 
+  getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObjectLike | null>;
+  getPrototypeOfSync(): StaticJsObjectLike | null;
+  getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObjectLike | null>;
+
   setPrototypeOfAsync(
     prototype: StaticJsObjectLike | null,
     opts?: StaticJsRunTaskOptions,

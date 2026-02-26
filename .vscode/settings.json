@@ -9,5 +9,7 @@
   "vitest.logLevel": "verbose",
   "[typescript]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
-  }
+  },
+  // Currently not used, but installing it is required for oxfmt
+  "oxc.enable.oxlint": false
 }
