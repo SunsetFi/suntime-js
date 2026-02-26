@@ -1,10 +1,7 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
-import {
-  type StaticJsObjectPropertyKey,
-  isStaticJsObjectPropertyKey,
-} from "../types/StaticJsObjectLike.js";
+import { type StaticJsPropertyKey, isStaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
 
 import type { StaticJsReferenceRecord } from "../references/StaticJsReferenceRecord.js";
 import { isUnresolvableReference } from "../references/is-unresolvable-reference.js";
@@ -39,8 +36,8 @@ export default function* getValue(
 
     // TODO: Private references
 
-    let propertyKey: StaticJsObjectPropertyKey;
-    if (!isStaticJsObjectPropertyKey(v.referencedName)) {
+    let propertyKey: StaticJsPropertyKey;
+    if (!isStaticJsPropertyKey(v.referencedName)) {
       propertyKey = v.referencedName = yield* toPropertyKey(v.referencedName, realm);
     } else {
       propertyKey = v.referencedName;

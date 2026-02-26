@@ -1,7 +1,7 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
-import type { StaticJsObjectPropertyKey } from "../types/StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
@@ -11,7 +11,7 @@ import createDataProperty from "./create-data-property.js";
 
 export default function* createDataPropertyOrThrow(
   O: StaticJsObjectLike,
-  P: StaticJsObjectPropertyKey,
+  P: StaticJsPropertyKey,
   V: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<void> {

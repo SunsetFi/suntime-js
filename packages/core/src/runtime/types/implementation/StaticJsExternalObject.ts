@@ -10,7 +10,7 @@ import type {
   StaticJsDataPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
 import StaticJsTypeCode from "../StaticJsTypeCode.js";
-import type { StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../StaticJsObjectLike.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
@@ -45,7 +45,7 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
     return false;
   }
 
-  *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsObjectPropertyKey[]> {
+  *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]> {
     const keys = Reflect.ownKeys(this._obj);
     return keys.map((key) => {
       if (typeof key === "symbol") {
@@ -61,7 +61,7 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
   }
 
   *getOwnPropertyEvaluator(
-    name: StaticJsObjectPropertyKey,
+    name: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
     let property: PropertyKey;
     if (isStaticJsSymbol(name)) {

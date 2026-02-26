@@ -7,7 +7,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import sameValue from "../../algorithms/same-value.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
-import type { StaticJsObjectLike, StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
+import type { StaticJsObjectLike, StaticJsPropertyKey } from "../StaticJsObjectLike.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
@@ -45,7 +45,7 @@ export default class StaticJsNamespaceExoticObject extends StaticJsAbstractObjec
     return false;
   }
 
-  *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsObjectPropertyKey[]> {
+  *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]> {
     return Array.from(this._exports);
   }
 
@@ -58,7 +58,7 @@ export default class StaticJsNamespaceExoticObject extends StaticJsAbstractObjec
   }
 
   *getOwnPropertyEvaluator(
-    key: StaticJsObjectPropertyKey,
+    key: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsDataPropertyDescriptor | undefined> {
     if (typeof key !== "string") {
       return undefined;
@@ -108,7 +108,7 @@ export default class StaticJsNamespaceExoticObject extends StaticJsAbstractObjec
   }
 
   protected *_setPropertyDescriptorEvaluator(
-    key: StaticJsObjectPropertyKey,
+    key: StaticJsPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean> {
     if (typeof key !== "string") {
@@ -149,7 +149,7 @@ export default class StaticJsNamespaceExoticObject extends StaticJsAbstractObjec
   }
 
   protected *_deleteConfigurablePropertyEvaluator(
-    key: StaticJsObjectPropertyKey,
+    key: StaticJsPropertyKey,
   ): EvaluationGenerator<boolean> {
     if (typeof key !== "string") {
       // true for no-ops

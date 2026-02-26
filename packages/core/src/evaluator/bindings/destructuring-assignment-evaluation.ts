@@ -11,7 +11,7 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 import { getIdentifierReference } from "../../runtime/references/get-identifier-reference.js";
 
-import type { StaticJsObjectPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import { isStaticJsNull } from "../../runtime/types/StaticJsNull.js";
@@ -46,7 +46,7 @@ export default function* destructuringAssignmentEvaluation(
         );
       }
       const properties = node.properties.filter((p) => isObjectProperty(p));
-      const excludedNames: StaticJsObjectPropertyKey[] = [];
+      const excludedNames: StaticJsPropertyKey[] = [];
       for (const property of properties) {
         const result = yield* propertyDestructuringAssignmentEvaluation(property, value, context);
         excludedNames.push(...result);
@@ -74,7 +74,7 @@ function* propertyDestructuringAssignmentEvaluation(
   node: ObjectProperty,
   value: StaticJsValue,
   context: EvaluationContext,
-): EvaluationGenerator<StaticJsObjectPropertyKey[]> {
+): EvaluationGenerator<StaticJsPropertyKey[]> {
   if (node.shorthand) {
     if (node.key.type !== "Identifier") {
       throw new StaticJsEngineError(
@@ -132,7 +132,7 @@ function* propertyDestructuringAssignmentEvaluation(
 function* restDestructuringAssignmentEvaluation(
   node: RestElement,
   value: StaticJsValue,
-  excludedNames: StaticJsObjectPropertyKey[],
+  excludedNames: StaticJsPropertyKey[],
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
   const lRef = yield* EvaluateNodeCommand(node.argument, context, {
@@ -149,7 +149,7 @@ function* restDestructuringAssignmentEvaluation(
 function* keyedDestructuringAssignmentEvaluation(
   node: Node,
   value: StaticJsValue,
-  property: StaticJsObjectPropertyKey,
+  property: StaticJsPropertyKey,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
   let initializer: Expression | null = null;

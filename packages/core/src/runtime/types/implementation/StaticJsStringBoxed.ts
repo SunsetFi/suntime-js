@@ -2,7 +2,7 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import type { StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../StaticJsObjectLike.js";
 import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
@@ -28,12 +28,12 @@ export default class StaticJsStringBoxed extends StaticJsAbstractObject {
     return this._value;
   }
 
-  *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsObjectPropertyKey[]> {
+  *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]> {
     return Object.keys(this._value).map((_, i) => i.toString());
   }
 
   *getOwnPropertyEvaluator(
-    key: StaticJsObjectPropertyKey,
+    key: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
     if (typeof key !== "string") {
       return undefined;
@@ -53,14 +53,14 @@ export default class StaticJsStringBoxed extends StaticJsAbstractObject {
   }
 
   protected *_setPropertyDescriptorEvaluator(
-    _key: StaticJsObjectPropertyKey,
+    _key: StaticJsPropertyKey,
     _descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean> {
     return false;
   }
 
   protected *_deleteConfigurablePropertyEvaluator(
-    _key: StaticJsObjectPropertyKey,
+    _key: StaticJsPropertyKey,
   ): EvaluationGenerator<boolean> {
     return false;
   }

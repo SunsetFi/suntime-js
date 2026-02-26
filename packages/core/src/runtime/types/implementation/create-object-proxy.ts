@@ -1,5 +1,5 @@
 import type { StaticJsValue } from "../StaticJsValue.js";
-import type { StaticJsObjectLike, StaticJsObjectPropertyKey } from "../StaticJsObjectLike.js";
+import type { StaticJsObjectLike, StaticJsPropertyKey } from "../StaticJsObjectLike.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
@@ -24,7 +24,7 @@ export default function createStaticJsObjectLikeProxy(
   additionalTraps: ProxyHandler<object> = {},
 ): unknown {
   const getOwnPropertyDescriptor = (propertyName: string | symbol) => {
-    let staticJsPropertyKey: StaticJsObjectPropertyKey;
+    let staticJsPropertyKey: StaticJsPropertyKey;
     if (typeof propertyName === "symbol") {
       staticJsPropertyKey = obj.realm.types.toStaticJsValue(propertyName);
     } else {
@@ -158,7 +158,7 @@ export default function createStaticJsObjectLikeProxy(
       return false;
     },
     defineProperty(_target, p, descriptor) {
-      let staticJsPropertyKey: StaticJsObjectPropertyKey;
+      let staticJsPropertyKey: StaticJsPropertyKey;
       if (typeof p === "symbol") {
         staticJsPropertyKey = obj.realm.types.toStaticJsValue(p);
       } else {
@@ -190,7 +190,7 @@ export default function createStaticJsObjectLikeProxy(
       return false;
     },
     deleteProperty(_target, p) {
-      let staticJsPropertyKey: StaticJsObjectPropertyKey;
+      let staticJsPropertyKey: StaticJsPropertyKey;
       if (typeof p === "symbol") {
         staticJsPropertyKey = obj.realm.types.toStaticJsValue(p);
       } else {
@@ -207,7 +207,7 @@ export default function createStaticJsObjectLikeProxy(
       return true;
     },
     set(_target, p, value) {
-      let staticJsPropertyKey: StaticJsObjectPropertyKey;
+      let staticJsPropertyKey: StaticJsPropertyKey;
       if (typeof p === "symbol") {
         staticJsPropertyKey = obj.realm.types.toStaticJsValue(p);
       } else {

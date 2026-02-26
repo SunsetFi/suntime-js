@@ -2,7 +2,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type { StaticJsObjectLike, StaticJsObjectPropertyKey } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObjectLike, StaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
@@ -12,7 +12,7 @@ import createDataPropertyOrThrow from "./create-data-property-or-throw.js";
 export default function* copyDataProperties(
   target: StaticJsObjectLike,
   source: StaticJsValue,
-  excludedItems: StaticJsObjectPropertyKey[],
+  excludedItems: StaticJsPropertyKey[],
   realm: StaticJsRealm,
 ): EvaluationGenerator<void> {
   if (isStaticJsNull(source) || isStaticJsUndefined(source)) {

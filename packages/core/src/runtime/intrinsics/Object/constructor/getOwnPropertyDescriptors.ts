@@ -1,4 +1,4 @@
-import type { StaticJsObjectPropertyKey } from "../../../types/StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../../../types/StaticJsObjectLike.js";
 import type { StaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
 
 import toObject from "../../../algorithms/to-object.js";
@@ -14,7 +14,7 @@ const objectCtorGetOwnPropertyDescriptorsDeclaration: IntrinsicPropertyDeclarati
 
     const keys = yield* obj.ownPropertyKeysEvaluator();
 
-    const descriptors = new Map<StaticJsObjectPropertyKey, StaticJsPropertyDescriptor>();
+    const descriptors = new Map<StaticJsPropertyKey, StaticJsPropertyDescriptor>();
 
     for (const key of keys) {
       const descriptor = yield* obj.getOwnPropertyEvaluator(key);

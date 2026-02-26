@@ -2,14 +2,14 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type { StaticJsObjectLike, StaticJsObjectPropertyKey } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObjectLike, StaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
 export interface IntrinsicPropertyDeclarationBase {
-  key: StaticJsObjectPropertyKey | ((realm: StaticJsRealm) => StaticJsObjectPropertyKey);
+  key: StaticJsPropertyKey | ((realm: StaticJsRealm) => StaticJsPropertyKey);
   enumerable?: boolean;
   configurable?: boolean;
   writable?: boolean;
@@ -63,7 +63,7 @@ export function applyIntrinsicProperties(
   properties: IntrinsicPropertyDeclaration[],
 ) {
   for (const prop of properties) {
-    let key: StaticJsObjectPropertyKey;
+    let key: StaticJsPropertyKey;
     if (typeof prop.key === "function") {
       key = prop.key(realm);
     } else {

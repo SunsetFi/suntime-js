@@ -3,7 +3,7 @@ import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompleti
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import {
   isStaticJsObjectLike,
-  type StaticJsObjectPropertyKey,
+  type StaticJsPropertyKey,
 } from "../../../types/StaticJsObjectLike.js";
 import { isStaticJsScalar } from "../../../types/StaticJsScalar.js";
 import { validatePartialStaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
@@ -35,7 +35,7 @@ const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    let propertyKey: StaticJsObjectPropertyKey;
+    let propertyKey: StaticJsPropertyKey;
     if (isStaticJsSymbol(propertyNameValue)) {
       propertyKey = propertyNameValue;
     } else {

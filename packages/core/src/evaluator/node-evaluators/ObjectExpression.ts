@@ -6,7 +6,7 @@ import toPropertyKey from "../../runtime/utils/to-property-key.js";
 
 import type { StaticJsObject } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
-import type { StaticJsObjectPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
 import { isStaticJsSymbol } from "../../runtime/types/StaticJsSymbol.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -54,7 +54,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const propertyKeyNode = property.key;
-  let propertyKey: StaticJsObjectPropertyKey;
+  let propertyKey: StaticJsPropertyKey;
   let functionName: string;
   if (!property.computed && propertyKeyNode.type === "Identifier") {
     // Identifiers evaluate to their values, but we want their name.
@@ -107,7 +107,7 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const propertyKeyNode = property.key;
-  let propertyKey: StaticJsObjectPropertyKey;
+  let propertyKey: StaticJsPropertyKey;
   if (!property.computed && propertyKeyNode.type === "Identifier") {
     propertyKey = propertyKeyNode.name;
   } else if (propertyKeyNode.type === "PrivateName") {

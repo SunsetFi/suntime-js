@@ -9,9 +9,9 @@ import { isStaticJsValue } from "./StaticJsValue.js";
 import type { StaticJsSymbol } from "./StaticJsSymbol.js";
 import StaticJsTypeCode from "./StaticJsTypeCode.js";
 
-export type StaticJsObjectPropertyKey = string | StaticJsSymbol;
+export type StaticJsPropertyKey = string | StaticJsSymbol;
 
-export function isStaticJsObjectPropertyKey(value: unknown): value is StaticJsObjectPropertyKey {
+export function isStaticJsPropertyKey(value: unknown): value is StaticJsPropertyKey {
   return (
     typeof value === "string" ||
     (isStaticJsValue(value) && value.runtimeTypeCode === StaticJsTypeCode.Symbol)
@@ -43,77 +43,74 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   preventExtensionsSync(): void;
   preventExtensionsEvaluator(): EvaluationGenerator<void>;
 
-  ownPropertyKeysAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObjectPropertyKey[]>;
-  ownPropertyKeysSync(): StaticJsObjectPropertyKey[];
-  ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsObjectPropertyKey[]>;
+  ownPropertyKeysAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsPropertyKey[]>;
+  ownPropertyKeysSync(): StaticJsPropertyKey[];
+  ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]>;
 
   ownEnumerableKeysAsync(opts?: StaticJsRunTaskOptions): Promise<string[]>;
   ownEnumerableKeysSync(): string[];
   ownEnumerableKeysEvaluator(): EvaluationGenerator<string[]>;
 
-  hasPropertyAsync(key: StaticJsObjectPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean>;
-  hasPropertySync(key: StaticJsObjectPropertyKey): boolean;
-  hasPropertyEvaluator(key: StaticJsObjectPropertyKey): EvaluationGenerator<boolean>;
+  hasPropertyAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean>;
+  hasPropertySync(key: StaticJsPropertyKey): boolean;
+  hasPropertyEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean>;
 
-  hasOwnPropertyAsync(
-    key: StaticJsObjectPropertyKey,
-    opts?: StaticJsRunTaskOptions,
-  ): Promise<boolean>;
-  hasOwnPropertySync(key: StaticJsObjectPropertyKey): boolean;
-  hasOwnPropertyEvaluator(key: StaticJsObjectPropertyKey): EvaluationGenerator<boolean>;
+  hasOwnPropertyAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean>;
+  hasOwnPropertySync(key: StaticJsPropertyKey): boolean;
+  hasOwnPropertyEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean>;
 
   getPropertyAsync(
-    key: StaticJsObjectPropertyKey,
+    key: StaticJsPropertyKey,
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsPropertyDescriptor | undefined>;
-  getPropertySync(key: StaticJsObjectPropertyKey): StaticJsPropertyDescriptor | undefined;
+  getPropertySync(key: StaticJsPropertyKey): StaticJsPropertyDescriptor | undefined;
   getPropertyEvaluator(
-    key: StaticJsObjectPropertyKey,
+    key: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
   getOwnPropertyAsync(
-    key: StaticJsObjectPropertyKey,
+    key: StaticJsPropertyKey,
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsPropertyDescriptor | undefined>;
-  getOwnPropertySync(key: StaticJsObjectPropertyKey): StaticJsPropertyDescriptor | undefined;
+  getOwnPropertySync(key: StaticJsPropertyKey): StaticJsPropertyDescriptor | undefined;
   getOwnPropertyEvaluator(
-    key: StaticJsObjectPropertyKey,
+    key: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
   defineOwnPropertyAsync(
-    key: StaticJsObjectPropertyKey,
+    key: StaticJsPropertyKey,
     descriptor: Partial<StaticJsPropertyDescriptor>,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean>;
   defineOwnPropertySync(
-    key: StaticJsObjectPropertyKey,
+    key: StaticJsPropertyKey,
     descriptor: Partial<StaticJsPropertyDescriptor>,
   ): boolean;
   defineOwnPropertyEvaluator(
-    key: StaticJsObjectPropertyKey,
+    key: StaticJsPropertyKey,
     descriptor: Partial<StaticJsPropertyDescriptor>,
   ): EvaluationGenerator<boolean>;
 
-  getAsync(name: StaticJsObjectPropertyKey, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue>;
-  getSync(name: StaticJsObjectPropertyKey): StaticJsValue;
-  getEvaluator(key: StaticJsObjectPropertyKey): EvaluationGenerator<StaticJsValue>;
+  getAsync(name: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue>;
+  getSync(name: StaticJsPropertyKey): StaticJsValue;
+  getEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<StaticJsValue>;
 
   setAsync(
-    key: StaticJsObjectPropertyKey,
+    key: StaticJsPropertyKey,
     value: StaticJsValue,
     strict: boolean,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean>;
-  setSync(key: StaticJsObjectPropertyKey, value: StaticJsValue, strict: boolean): boolean;
+  setSync(key: StaticJsPropertyKey, value: StaticJsValue, strict: boolean): boolean;
   setEvaluator(
-    key: StaticJsObjectPropertyKey,
+    key: StaticJsPropertyKey,
     value: StaticJsValue,
     strict: boolean,
   ): EvaluationGenerator<boolean>;
 
-  deleteAsync(key: StaticJsObjectPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean>;
-  deleteSync(key: StaticJsObjectPropertyKey): boolean;
-  deleteEvaluator(key: StaticJsObjectPropertyKey): EvaluationGenerator<boolean>;
+  deleteAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean>;
+  deleteSync(key: StaticJsPropertyKey): boolean;
+  deleteEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean>;
 }
 
 export function isStaticJsObjectLike(value: unknown): value is StaticJsObjectLike {

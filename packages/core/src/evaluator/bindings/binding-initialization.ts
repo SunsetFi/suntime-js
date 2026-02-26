@@ -13,7 +13,7 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import type { StaticJsObjectPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 
 import { getIdentifierReference } from "../../runtime/references/get-identifier-reference.js";
@@ -85,9 +85,9 @@ function* propertyBindingInitialization(
   value: StaticJsValue,
   environment: StaticJsEnvironmentRecord | null,
   context: EvaluationContext,
-): EvaluationGenerator<StaticJsObjectPropertyKey[]> {
+): EvaluationGenerator<StaticJsPropertyKey[]> {
   if (Array.isArray(node)) {
-    const excludedNames: StaticJsObjectPropertyKey[] = [];
+    const excludedNames: StaticJsPropertyKey[] = [];
     for (const property of node) {
       const result = yield* propertyBindingInitialization(property, value, environment, context);
       excludedNames.push(...result);
@@ -95,7 +95,7 @@ function* propertyBindingInitialization(
     return excludedNames;
   }
 
-  let key: StaticJsObjectPropertyKey;
+  let key: StaticJsPropertyKey;
   if (node.computed) {
     const p = yield* EvaluateNodeCommand(node.key, context, {
       forNormalValue: "propertyBindingInitialization.key",
@@ -123,7 +123,7 @@ function* propertyBindingInitialization(
 function* keyedBindingInitialization(
   node: Node,
   value: StaticJsValue,
-  property: StaticJsObjectPropertyKey,
+  property: StaticJsPropertyKey,
   environment: StaticJsEnvironmentRecord | null,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
@@ -171,7 +171,7 @@ function* keyedBindingInitialization(
 function* restBindingInitialization(
   node: RestElement,
   value: StaticJsValue,
-  excludedNames: StaticJsObjectPropertyKey[],
+  excludedNames: StaticJsPropertyKey[],
   environment: StaticJsEnvironmentRecord | null,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
