@@ -12,12 +12,13 @@ import type {
 } from "../types/StaticJsPropertyDescriptor.js";
 import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+
 import toBoolean from "../algorithms/to-boolean.js";
 
 export default function* objectToPropertyDescriptor(
   obj: StaticJsObjectLike,
   realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsPropertyDescriptor> {
+): EvaluationGenerator<Partial<StaticJsPropertyDescriptor>> {
   let enumerable: boolean | undefined;
   const hasEnumerable = yield* obj.hasPropertyEvaluator("enumerable");
   if (hasEnumerable) {

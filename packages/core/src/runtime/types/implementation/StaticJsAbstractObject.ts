@@ -20,7 +20,7 @@ import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   isStaticJsGenericPropertyDescriptor,
-  validateStaticJsPropertyDescriptor,
+  validatePartialStaticJsPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
@@ -235,18 +235,17 @@ export default abstract class StaticJsAbstractObject
 
   *defineOwnPropertyEvaluator(
     key: StaticJsObjectPropertyKey,
-    desc: StaticJsPropertyDescriptor,
+    desc: Partial<StaticJsPropertyDescriptor>,
   ): EvaluationGenerator<boolean> {
     // For abstract objects, implement the 'default' handling of object.[[DefineOwnProperty]], which ultimately
     // is an implementation of ValidateAndApplyPropertyDescriptor:
     // https://tc39.es/ecma262/multipage/ordinary-and-exotic-objects-behaviours.html#sec-validateandapplypropertydescriptor
 
-    validateStaticJsPropertyDescriptor(desc);
+    validatePartialStaticJsPropertyDescriptor(desc);
 
     const current = yield* this.getOwnPropertyEvaluator(key);
 
     const isCurrentAccessor = isStaticJsAccessorPropertyDescriptor(current);
-    // const isCurrentData = isStaticJsDataPropertyDescriptor(current);
 
     const isDescAccessor = isStaticJsAccessorPropertyDescriptor(desc);
     const isDescData = isStaticJsDataPropertyDescriptor(desc);
@@ -267,11 +266,8 @@ export default abstract class StaticJsAbstractObject
       } else {
         let value = isDescData ? desc.value : undefined;
         if (value === undefined) {
-          if (this.realm.types === undefined) {
-            throw new StaticJsEngineError(
-              "When defining object properties during realm initialization, value must be provided.",
-            );
-          }
+          // Note: We used to have issues with realm types not being resolved yet during intrinsic instantiation,
+          // but that should be solved now.
           value = this.realm.types.undefined;
         }
 
@@ -310,11 +306,12 @@ export default abstract class StaticJsAbstractObject
       const currentAsData = current as StaticJsDataPropertyDescriptor;
 
       if (isCurrentAccessor) {
-        if (current.get && current.get !== descriptorAsAccessor.get) {
+        const { get, set } = current;
+        if (get && get !== descriptorAsAccessor.get) {
           return false;
         }
 
-        if (current.set && current.set !== descriptorAsAccessor.set) {
+        if (set && set !== descriptorAsAccessor.set) {
           return false;
         }
       } else if (currentAsData.writable === false) {
@@ -383,7 +380,7 @@ export default abstract class StaticJsAbstractObject
     }
 
     try {
-      validateStaticJsPropertyDescriptor(decl);
+      validatePartialStaticJsPropertyDescriptor(decl);
     } catch (err: unknown) {
       throw new StaticJsEngineError(
         `Property ${key} has an invalid property descriptor: ${(err as Error).message}`,

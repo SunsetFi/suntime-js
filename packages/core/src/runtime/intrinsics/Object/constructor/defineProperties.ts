@@ -2,7 +2,7 @@ import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompleti
 import toObject from "../../../algorithms/to-object.js";
 
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
-import { validateStaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
+import { validatePartialStaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
 
 import objectToPropertyDescriptor from "../../../utils/object-to-property-descriptor.js";
 
@@ -30,7 +30,7 @@ const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
       }
       const descriptor = yield* objectToPropertyDescriptor(descriptorObj, realm);
       try {
-        validateStaticJsPropertyDescriptor(descriptor);
+        validatePartialStaticJsPropertyDescriptor(descriptor);
       } catch (e: unknown) {
         throw new ThrowCompletion(realm.types.error("TypeError", (e as Error).message));
       }

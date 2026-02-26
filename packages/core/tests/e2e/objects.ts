@@ -66,10 +66,7 @@ describe("E2E: Object", () => {
         obj[sym] = 42;
         [sym, obj];
       `);
-      const [sym, objVm] = result.toJsSync() as [
-        symbol,
-        Record<symbol, number>,
-      ];
+      const [sym, objVm] = result.toJsSync() as [symbol, Record<symbol, number>];
 
       expect(objVm[sym]).toBe(42);
     });
@@ -83,10 +80,7 @@ describe("E2E: Object", () => {
         globalThis.__nativeObj = obj;
         [sym, obj];
       `);
-      const [sym, objVm] = result.toJsSync() as [
-        symbol,
-        Record<symbol, number>,
-      ];
+      const [sym, objVm] = result.toJsSync() as [symbol, Record<symbol, number>];
 
       objVm[sym] = 99;
 
@@ -145,10 +139,7 @@ describe("E2E: Object", () => {
         compare;
       `;
       const compare = await realm.evaluateScript(compareCode);
-      const compareFn = compare.toJsSync() as (
-        obj1: unknown,
-        obj2: unknown,
-      ) => boolean;
+      const compareFn = compare.toJsSync() as (obj1: unknown, obj2: unknown) => boolean;
       const result = compareFn(objNative, objNative);
       expect(result).toBe(true);
     });
@@ -198,11 +189,7 @@ describe("E2E: Object", () => {
       });
 
       const result = await realm.evaluateScript(code);
-      expect(result.toJsSync()).toEqual([
-        Symbol.for("a"),
-        Symbol.for("b"),
-        Symbol.for("c"),
-      ]);
+      expect(result.toJsSync()).toEqual([Symbol.for("a"), Symbol.for("b"), Symbol.for("c")]);
     });
 
     it("Should mask the object prototype", async () => {
@@ -505,11 +492,7 @@ describe("E2E: Object", () => {
         `;
 
         const result = (await evaluateScript(code)) as unknown[];
-        expect(result.map(String)).toEqual([
-          "Symbol(sym1)",
-          "Symbol(sym2)",
-          "Symbol(sym3)",
-        ]);
+        expect(result.map(String)).toEqual(["Symbol(sym1)", "Symbol(sym2)", "Symbol(sym3)"]);
       });
     });
   });
@@ -654,9 +637,7 @@ describe("E2E: Object", () => {
             value: 2,
           });
         `;
-        await expect(evaluateScript(code)).rejects.toThrow(
-          /Cannot redefine property/,
-        );
+        await expect(evaluateScript(code)).rejects.toThrow(/Cannot redefine property/);
       });
 
       it("Can redefine a configurable property", async () => {
@@ -686,9 +667,7 @@ describe("E2E: Object", () => {
             writable: true,
           });
         `;
-        await expect(evaluateScript(code)).rejects.toThrow(
-          /Cannot redefine property/,
-        );
+        await expect(evaluateScript(code)).rejects.toThrow(/Cannot redefine property/);
       });
 
       it("Cannot add property to non-extensible object", async () => {
@@ -697,9 +676,7 @@ describe("E2E: Object", () => {
           Object.preventExtensions(obj);
           Object.defineProperty(obj, "x", { value: 1 });
         `;
-        await expect(evaluateScript(code)).rejects.toThrow(
-          "Object is not extensible",
-        );
+        await expect(evaluateScript(code)).rejects.toThrow("Object is not extensible");
       });
 
       it("Can modify existing configurable property on non-extensible object", async () => {
@@ -850,9 +827,7 @@ describe("E2E: Object", () => {
             value: 2,
           });
         `;
-          await expect(evaluateScript(code)).rejects.toThrow(
-            /Cannot redefine property/,
-          );
+          await expect(evaluateScript(code)).rejects.toThrow(/Cannot redefine property/);
         });
 
         it("Can redefine a configurable property", async () => {
@@ -896,9 +871,7 @@ describe("E2E: Object", () => {
             writable: true,
           });
         `;
-          await expect(evaluateScript(code)).rejects.toThrow(
-            /Cannot redefine property/,
-          );
+          await expect(evaluateScript(code)).rejects.toThrow(/Cannot redefine property/);
         });
       });
     });
@@ -1111,9 +1084,7 @@ describe("E2E: Object", () => {
           Object.getOwnPropertySymbols(obj);
         `;
         const result = await evaluateScript(code);
-        expect(result).toEqual(
-          expect.arrayContaining([expect.any(Symbol), expect.any(Symbol)]),
-        );
+        expect(result).toEqual(expect.arrayContaining([expect.any(Symbol), expect.any(Symbol)]));
       });
 
       it("Should not return string-keyed properties", async () => {
@@ -1361,53 +1332,53 @@ describe("E2E: Object", () => {
         });
       });
     });
-  });
 
-  describe("Object.setPrototypeOf", () => {
-    it("Should set the prototype of an object", async () => {
-      const code = `
+    describe("Object.setPrototypeOf", () => {
+      it("Should set the prototype of an object", async () => {
+        const code = `
         const proto = { a: 1 };
         const obj = {};
         Object.setPrototypeOf(obj, proto);
         Object.getPrototypeOf(obj);
       `;
-      const result = await evaluateScript(code);
-      expect(result).toEqual({ a: 1 });
-    });
+        const result = await evaluateScript(code);
+        expect(result).toEqual({ a: 1 });
+      });
 
-    it("Should throw when setting prototype to non-object or non-null", async () => {
-      const code = `
+      it("Should throw when setting prototype to non-object or non-null", async () => {
+        const code = `
         const obj = {};
         Object.setPrototypeOf(obj, 42);
       `;
-      await expect(evaluateScript(code)).rejects.toThrow(
-        "Object prototype may only be an Object or null",
-      );
+        await expect(evaluateScript(code)).rejects.toThrow(
+          "Object prototype may only be an Object or null",
+        );
+      });
     });
-  });
 
-  describe("Object.values", () => {
-    it("Should return all own enumerable property values", async () => {
-      const code = `
+    describe("Object.values", () => {
+      it("Should return all own enumerable property values", async () => {
+        const code = `
         const obj = {};
         Object.defineProperty(obj, 'a', { value: 1, enumerable: true });
         Object.defineProperty(obj, 'b', { value: 2, enumerable: false });
         Object.defineProperty(obj, Symbol('c'), { value: 3, enumerable: true });
         Object.values(obj);
       `;
-      const result = await evaluateScript(code);
-      expect(result).toEqual([1]);
-    });
+        const result = await evaluateScript(code);
+        expect(result).toEqual([1]);
+      });
 
-    it("Should not include prototype properties", async () => {
-      const code = `
+      it("Should not include prototype properties", async () => {
+        const code = `
         const proto = { a: 1 };
         const obj = Object.create(proto);
         obj.b = 2;
         Object.values(obj);
       `;
-      const result = await evaluateScript(code);
-      expect(result).toEqual([2]);
+        const result = await evaluateScript(code);
+        expect(result).toEqual([2]);
+      });
     });
   });
 });

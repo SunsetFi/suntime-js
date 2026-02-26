@@ -166,7 +166,7 @@ export default function createStaticJsObjectLikeProxy(
       }
 
       if (descriptor.get || descriptor.set) {
-        const sjsDescriptor: StaticJsAccessorPropertyDescriptor = {
+        const sjsDescriptor: Partial<StaticJsAccessorPropertyDescriptor> = {
           configurable: descriptor.configurable ?? false,
           enumerable: descriptor.enumerable ?? false,
         };
@@ -178,7 +178,7 @@ export default function createStaticJsObjectLikeProxy(
         }
         obj.defineOwnPropertySync(staticJsPropertyKey, sjsDescriptor);
       } else {
-        const sjsDescriptor: StaticJsPropertyDescriptor = {
+        const sjsDescriptor: Partial<StaticJsPropertyDescriptor> = {
           configurable: descriptor.configurable ?? false,
           enumerable: descriptor.enumerable ?? false,
           writable: descriptor.writable ?? false,

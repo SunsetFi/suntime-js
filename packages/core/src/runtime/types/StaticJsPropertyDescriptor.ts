@@ -6,18 +6,18 @@ import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsGenericPropertyDescriptor {
-  readonly configurable?: boolean;
-  readonly enumerable?: boolean;
+  readonly configurable: boolean;
+  readonly enumerable: boolean;
 }
 
 export interface StaticJsDataPropertyDescriptor extends StaticJsGenericPropertyDescriptor {
-  readonly writable?: boolean;
-  readonly value?: StaticJsValue;
+  readonly writable: boolean;
+  readonly value: StaticJsValue;
 }
 
 export interface StaticJsAccessorPropertyDescriptor extends StaticJsGenericPropertyDescriptor {
-  get?: StaticJsFunction;
-  set?: StaticJsFunction;
+  get: StaticJsFunction | undefined;
+  set: StaticJsFunction | undefined;
 }
 
 export type StaticJsPropertyDescriptor =
@@ -25,9 +25,9 @@ export type StaticJsPropertyDescriptor =
   | StaticJsDataPropertyDescriptor
   | StaticJsAccessorPropertyDescriptor;
 
-export function validateStaticJsPropertyDescriptor(
+export function validatePartialStaticJsPropertyDescriptor(
   value: unknown,
-): asserts value is StaticJsPropertyDescriptor {
+): asserts value is Partial<StaticJsPropertyDescriptor> {
   if (!value || typeof value !== "object") {
     throw new TypeError("Property description must be an object.");
   }
@@ -70,7 +70,7 @@ export function isStaticJsGenericPropertyDescriptor(
 
 export function isStaticJsDataPropertyDescriptor(
   value: unknown,
-): value is StaticJsDataPropertyDescriptor {
+): value is Partial<StaticJsDataPropertyDescriptor> {
   if (!value || typeof value !== "object") {
     return false;
   }
@@ -80,7 +80,7 @@ export function isStaticJsDataPropertyDescriptor(
 
 export function isStaticJsAccessorPropertyDescriptor(
   value: unknown,
-): value is StaticJsAccessorPropertyDescriptor {
+): value is Partial<StaticJsAccessorPropertyDescriptor> {
   if (!value || typeof value !== "object") {
     return false;
   }

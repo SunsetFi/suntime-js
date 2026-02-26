@@ -6,7 +6,7 @@ import {
   type StaticJsObjectPropertyKey,
 } from "../../../types/StaticJsObjectLike.js";
 import { isStaticJsScalar } from "../../../types/StaticJsScalar.js";
-import { validateStaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
+import { validatePartialStaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
 import objectToPropertyDescriptor from "../../../utils/object-to-property-descriptor.js";
@@ -50,7 +50,7 @@ const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
 
     const descriptor = yield* objectToPropertyDescriptor(propertyDescriptor, realm);
     try {
-      validateStaticJsPropertyDescriptor(descriptor);
+      validatePartialStaticJsPropertyDescriptor(descriptor);
     } catch (e: unknown) {
       throw new ThrowCompletion(realm.types.error("TypeError", (e as Error).message));
     }

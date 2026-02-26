@@ -22,7 +22,6 @@ import objectCtorHasOwnDeclaration from "./hasOwn.js";
 import objectCtorIsDeclaration from "./is.js";
 import objectCtorIsExtensibleDeclaration from "./isExtensible.js";
 import objectCtorIsFrozenDeclaration from "./isFrozen.js";
-import objectCtorIsPrototypeOfDeclaration from "./isPrototypeOf.js";
 import objectCtorIsSealedDeclaration from "./isSealed.js";
 import objectCtorKeysDeclaration from "./keys.js";
 import objectCtorPreventExtensionsDeclaration from "./preventExtensions.js";
@@ -47,7 +46,6 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   objectCtorIsDeclaration,
   objectCtorIsExtensibleDeclaration,
   objectCtorIsFrozenDeclaration,
-  objectCtorIsPrototypeOfDeclaration,
   objectCtorIsSealedDeclaration,
   objectCtorKeysDeclaration,
   objectCtorPreventExtensionsDeclaration,

@@ -51,15 +51,10 @@ export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObj
 
     if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
       return {
-        configurable: false,
-        enumerable: false,
         ...descriptor,
       };
     } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
       return {
-        configurable: false,
-        enumerable: false,
-        writable: false,
         ...descriptor,
       };
     } else {

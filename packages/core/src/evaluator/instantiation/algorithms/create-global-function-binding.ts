@@ -21,7 +21,7 @@ export default function* createGlobalFunctionBinding(
 
   const existingProp = yield* globalObject.getOwnPropertyEvaluator(name);
 
-  let desc: StaticJsPropertyDescriptor;
+  let desc: Partial<StaticJsPropertyDescriptor>;
   if (!existingProp || existingProp.configurable) {
     desc = {
       value,

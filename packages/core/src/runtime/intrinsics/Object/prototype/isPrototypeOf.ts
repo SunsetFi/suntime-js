@@ -8,7 +8,7 @@ import {
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const objectCtorIsPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
+const objectProtoIsPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "isPrototypeOf",
   *func(realm, thisArg, proto) {
     if (!isStaticJsObjectLike(proto)) {
@@ -30,4 +30,4 @@ const objectCtorIsPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   },
 };
 
-export default objectCtorIsPrototypeOfDeclaration;
+export default objectProtoIsPrototypeOfDeclaration;

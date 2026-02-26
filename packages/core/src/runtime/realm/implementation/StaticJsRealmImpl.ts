@@ -48,7 +48,7 @@ import type {
   StaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,
 } from "../../types/StaticJsPropertyDescriptor.js";
-import { validateStaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
+import { validatePartialStaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import StaticJsExternalFunction from "../../types/implementation/StaticJsExternalFunction.js";
 
@@ -659,7 +659,7 @@ function globalDeclToDescriptor(realm: StaticJsRealm, descriptor: StaticJsRealmG
     }
   }
 
-  validateStaticJsPropertyDescriptor(descr);
+  validatePartialStaticJsPropertyDescriptor(descr);
   return descr as StaticJsPropertyDescriptor;
 }
 
