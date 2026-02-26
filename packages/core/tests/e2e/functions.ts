@@ -395,9 +395,7 @@ describe("E2E: Functions", () => {
         a = null;
         a();
       `;
-      await expect(evaluateScript(code)).rejects.toThrow(
-        "TypeError: a is not a function",
-      );
+      await expect(evaluateScript(code)).rejects.toThrow("TypeError: a is not a function");
     });
 
     it("Throws the proper error for undefined functions", async () => {
@@ -718,10 +716,7 @@ describe("E2E: Functions", () => {
           }
           a();
         `;
-        expect(() => evaluateScript(code)).rejects.toHaveProperty(
-          "name",
-          "TypeError",
-        );
+        expect(() => evaluateScript(code)).rejects.toHaveProperty("name", "TypeError");
       });
 
       it("Arguments object is iterable", async () => {
@@ -876,6 +871,63 @@ describe("E2E: Functions", () => {
         a();
       `;
       expect(await evaluateScript(code)).toBe(42);
+    });
+  });
+
+  describe("Constructor", () => {
+    it("Can construct a function", async () => {
+      const code = `
+        const a = new Function("return 42;");
+        a();
+      `;
+      expect(await evaluateScript(code)).toBe(42);
+    });
+
+    it("Can construct a function with single-arg parameters", async () => {
+      const code = `
+        const a = new Function("x", "y", "return x + y;");
+        a(5, 10);
+      `;
+      expect(await evaluateScript(code)).toBe(15);
+    });
+
+    it("Can construct a function with multiple parameters in a single argument", async () => {
+      const code = `
+        const a = new Function("x, y", "return x + y;");
+        a(5, 10);
+      `;
+      expect(await evaluateScript(code)).toBe(15);
+    });
+
+    it("Can construct a function with destructured parameters", async () => {
+      const code = `
+        const a = new Function("{ x, y }", "return x + y;");
+        a({ x: 5, y: 10 });
+      `;
+      expect(await evaluateScript(code)).toBe(15);
+    });
+
+    describe("Syntax Errors", () => {
+      it("Throws syntax errors from parameter parsing", async () => {
+        const code = `
+          const a = new Function("x,,y", "return x + y;");
+        `;
+        await expect(evaluateScript(code)).rejects.toHaveProperty("name", "SyntaxError");
+      });
+
+      it("Throws syntax errors from body parsing", async () => {
+        const code = `
+          const a = new Function("x, y", "return x + ;");
+        `;
+        await expect(evaluateScript(code)).rejects.toHaveProperty("name", "SyntaxError");
+      });
+
+      it("Throws a syntax error for parse arg injection", async () => {
+        const code = `
+          const a = new Function("x) { return 42; }; function y(x", "return x;");
+        `;
+        await expect(evaluateScript(code)).rejects.toHaveProperty("name", "SyntaxError");
+      });
     });
   });
 
