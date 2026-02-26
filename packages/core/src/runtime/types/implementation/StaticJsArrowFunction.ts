@@ -1,6 +1,7 @@
 import type { BlockStatement, Expression } from "@babel/types";
 
 import getValue from "../../algorithms/get-value.js";
+import toString from "../../algorithms/to-string.js";
 
 import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
@@ -32,7 +33,7 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
 
   *constructEvaluator(): EvaluationGenerator<StaticJsValue> {
     const nameValue = yield* this.getEvaluator("name");
-    let name = nameValue.toStringSync();
+    let name = yield* toString.js(nameValue, this.realm);
     if (name === "") {
       name = "anonymous";
     }
