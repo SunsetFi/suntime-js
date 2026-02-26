@@ -12,10 +12,54 @@ import {
 } from "../../runtime/types/implementation/StaticJsAstFunctionArgument.js";
 import StaticJsAsyncArrowFunction from "../../runtime/types/implementation/StaticJsAsyncArrowFunction.js";
 import StaticJsArrowFunction from "../../runtime/types/implementation/StaticJsArrowFunction.js";
-
-import type EvaluationContext from "../EvaluationContext.js";
 import StaticJsAsyncMethodFunction from "../../runtime/types/implementation/StaticJsAsyncMethodFunction.js";
 import StaticJsMethodFunction from "../../runtime/types/implementation/StaticJsMethodFunction.js";
+
+import type EvaluationContext from "../EvaluationContext.js";
+
+interface NeverConstructor {
+  (): never;
+  new (): never;
+}
+
+const GeneratorNotSupported: NeverConstructor = function () {
+  throw new StaticJsEngineError("Generator functions are not supported");
+} as NeverConstructor;
+
+const ClassNotSupported: NeverConstructor = function () {
+  throw new StaticJsEngineError("Class methods are not supported");
+} as NeverConstructor;
+
+const FunctionConstructorMap = {
+  sync: {
+    generator: {
+      declaration: GeneratorNotSupported,
+      method: GeneratorNotSupported,
+      arrow: GeneratorNotSupported,
+      class: ClassNotSupported,
+    },
+    normal: {
+      declaration: StaticJsDeclFunction,
+      method: StaticJsMethodFunction,
+      arrow: StaticJsArrowFunction,
+      class: ClassNotSupported,
+    },
+  },
+  async: {
+    generator: {
+      declaration: GeneratorNotSupported,
+      method: GeneratorNotSupported,
+      arrow: GeneratorNotSupported,
+      class: ClassNotSupported,
+    },
+    normal: {
+      declaration: StaticJsAsyncDeclFunction,
+      method: StaticJsAsyncMethodFunction,
+      arrow: StaticJsAsyncArrowFunction,
+      class: ClassNotSupported,
+    },
+  },
+};
 
 export default function createFunction(
   name: string | null,
@@ -32,30 +76,31 @@ export default function createFunction(
   const params = node.params;
   validateParams(params);
 
-  let ctor:
-    | typeof StaticJsAsyncDeclFunction
-    | typeof StaticJsDeclFunction
-    | typeof StaticJsAsyncArrowFunction
-    | typeof StaticJsArrowFunction
-    | typeof StaticJsAsyncMethodFunction
-    | typeof StaticJsMethodFunction;
-
+  const syncMode = node.async ? "async" : "sync";
+  const generatorMode = node.generator ? "generator" : "normal";
+  let type: "declaration" | "method" | "arrow" | "class";
   switch (node.type) {
     case "ArrowFunctionExpression":
-      ctor = node.async ? StaticJsAsyncArrowFunction : StaticJsArrowFunction;
+      type = "arrow";
       break;
     case "FunctionDeclaration":
     case "FunctionExpression":
-      ctor = node.async ? StaticJsAsyncDeclFunction : StaticJsDeclFunction;
+      type = "declaration";
       break;
     case "ObjectMethod":
-      ctor = node.async ? StaticJsAsyncMethodFunction : StaticJsMethodFunction;
+      type = "method";
+      break;
+    case "ClassMethod":
+    case "ClassPrivateMethod":
+      type = "class";
       break;
     default:
+      // @ts-expect-error - Should be unreachable due to babel types, but just in case.
       throw new StaticJsEngineError(`Unsupported function node type ${node.type}`);
   }
 
-  return new ctor(context.realm, name, params, context, node.body, createFunction);
+  const Ctor = FunctionConstructorMap[syncMode][generatorMode][type];
+  return new Ctor(context.realm, name, params, context, node.body, createFunction);
 }
 
 // Making a seperate function because the typescript type guard on filter isnt working...
