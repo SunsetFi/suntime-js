@@ -15,7 +15,7 @@ import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
 import StaticJsAstFunction from "./StaticJsAstFunction.js";
 
-export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
+export default class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
     name: string | null,
@@ -25,11 +25,11 @@ export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
     functionFactory: StaticJsFunctionFactory,
   ) {
     super(realm, name, "non-lexical-this", argumentDeclarations, context, body, functionFactory, {
-      // Async methods are not constructable.
+      // Object methods are not constructable.
       construct: false,
     });
 
-    // Async methods get no prototype.
+    // Object methods get no prototype.
   }
 
   protected *_invoke(

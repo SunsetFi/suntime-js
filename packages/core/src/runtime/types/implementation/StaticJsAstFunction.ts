@@ -6,6 +6,7 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 import functionDeclarationInstantiation from "../../../evaluator/instantiation/function-declaration-instantiation.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
+import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletion.js";
 
 import type { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
 import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
@@ -22,7 +23,6 @@ import StaticJsFunctionBase, { type StaticJsFunctionImplOptions } from "./Static
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
-import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletion.js";
 
 export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
   private _strict: boolean;
