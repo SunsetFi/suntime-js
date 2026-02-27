@@ -1,6 +1,5 @@
 import { readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { relative } from "node:path";
 
 import { describe, it } from "vitest";
 
@@ -46,18 +45,15 @@ function defineTestsFromFolder(categoryDir: string) {
       continue;
     }
 
-    const relPath = relative(categoryDir, testPath);
-    const parts = relPath.split(/\/|\\/);
-    const testName = parts.splice(-1, 1)[0];
-
     const test = Test262File.fromFile(testPath);
 
     if (isIgnoredTest(test)) {
-      it.skip(testName);
+      it.skip(test.testName);
+      continue;
     }
 
     describePath(test.testPathParts.slice(0, -1), () => {
-      defineTest(testName, test);
+      defineTest(test.testName, test);
     });
 
     perf(`Defined test ${test.testPath}`);
