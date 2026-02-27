@@ -4,7 +4,7 @@ import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironm
 
 import type { StaticJsReferenceRecord } from "./StaticJsReferenceRecord.js";
 
-export function* getIdentifierReference(
+export default function* getIdentifierReference(
   env: StaticJsEnvironmentRecord | null,
   name: string,
   strict: boolean,

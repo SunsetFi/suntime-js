@@ -16,7 +16,7 @@ import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 
-import { getIdentifierReference } from "../../runtime/references/get-identifier-reference.js";
+import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
 
 import toPropertyKey from "../../runtime/utils/to-property-key.js";
 

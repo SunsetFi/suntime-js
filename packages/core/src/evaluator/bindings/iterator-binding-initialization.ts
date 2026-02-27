@@ -4,7 +4,7 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 
-import { getIdentifierReference } from "../../runtime/references/get-identifier-reference.js";
+import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
 
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";

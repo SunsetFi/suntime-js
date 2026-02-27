@@ -4,21 +4,16 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import typedMerge from "../../internal/typed-merge.js";
 
-import { BreakCompletion } from "../completions/BreakCompletion.js";
-
 import type EvaluationContext from "../EvaluationContext.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import forInOfHeadEvaluation from "./ForInOfStatement/ForInOfHeadEvaluation.js";
 import { forInOfBodyEvaluation } from "./ForInOfStatement/ForInOfBodyEvaluation.js";
+import labeledStatementEvaluation from "./LabeledStatementEvaluation.js";
 
-function* forInStatementNodeEvaluator(
-  node: ForInStatement,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { left, right, body } = node;
+const forInStatementNodeEvaluator = labeledStatementEvaluation(
+  function* forInStatementNodeEvaluator(node: ForInStatement, context: EvaluationContext) {
+    const { left, right, body } = node;
 
-  try {
     if (left.type === "VariableDeclaration") {
       const keyResult = yield* forInOfHeadEvaluation([], right, "enumerate", context);
       let lhs: VariableDeclaration | LVal = left;
@@ -51,18 +46,8 @@ function* forInStatementNodeEvaluator(
         context,
       );
     }
-  } catch (e) {
-    // Note: Officially, the spec wants forInOfBodyEvaluation to return a BreakCompletion that DOES have a value,
-    // and for LabelledEvaluation to unwrap the value to a normal return.
-    // We (currently) don't have values with our BreakCompletions, and the only time this is hit is when forInOfHeadEvaluation
-    // encounters a null or undefined right-hand side, so we just return..
-    if (BreakCompletion.isBreakForLabel(e, context.label)) {
-      return null;
-    }
-
-    throw e;
-  }
-}
+  },
+);
 
 export default typedMerge(forInStatementNodeEvaluator, {
   environmentSetup: false,

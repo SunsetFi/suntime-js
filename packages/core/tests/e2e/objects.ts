@@ -657,7 +657,7 @@ describe("E2E: Object", () => {
             value: 2,
           });
         `;
-        await expect(evaluateScript(code)).rejects.toThrow(/Cannot redefine property/);
+        await expect(evaluateScript(code)).rejects.toHaveProperty("name", "TypeError");
       });
 
       it("Can redefine a configurable property", async () => {
@@ -687,7 +687,7 @@ describe("E2E: Object", () => {
             writable: true,
           });
         `;
-        await expect(evaluateScript(code)).rejects.toThrow(/Cannot redefine property/);
+        await expect(evaluateScript(code)).rejects.toHaveProperty("name", "TypeError");
       });
 
       it("Cannot add property to non-extensible object", async () => {
@@ -696,7 +696,7 @@ describe("E2E: Object", () => {
           Object.preventExtensions(obj);
           Object.defineProperty(obj, "x", { value: 1 });
         `;
-        await expect(evaluateScript(code)).rejects.toThrow("Object is not extensible");
+        await expect(evaluateScript(code)).rejects.toHaveProperty("name", "TypeError");
       });
 
       it("Can modify existing configurable property on non-extensible object", async () => {
@@ -754,9 +754,7 @@ describe("E2E: Object", () => {
               get() { return 2; }
             });
         `;
-        await expect(evaluateScript(code)).rejects.toThrow(
-          "Invalid property descriptor.  Cannot both specify accessors and a value or writable",
-        );
+        await expect(evaluateScript(code)).rejects.toHaveProperty("name", "TypeError");
       });
     });
 
@@ -847,7 +845,7 @@ describe("E2E: Object", () => {
             value: 2,
           });
         `;
-          await expect(evaluateScript(code)).rejects.toThrow(/Cannot redefine property/);
+          await expect(evaluateScript(code)).rejects.toHaveProperty("name", "TypeError");
         });
 
         it("Can redefine a configurable property", async () => {
@@ -891,7 +889,7 @@ describe("E2E: Object", () => {
             writable: true,
           });
         `;
-          await expect(evaluateScript(code)).rejects.toThrow(/Cannot redefine property/);
+          await expect(evaluateScript(code)).rejects.toHaveProperty("name", "TypeError");
         });
       });
     });

@@ -1,5 +1,5 @@
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
-import { getIdentifierReference } from "../../runtime/references/get-identifier-reference.js";
+import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
 
 import putValue from "../../runtime/algorithms/put-value.js";
 

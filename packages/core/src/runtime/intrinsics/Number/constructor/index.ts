@@ -4,10 +4,11 @@ import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
-
-import toNumber from "../../../algorithms/to-number.js";
+import StaticJsNumberBoxed from "../../../types/implementation/StaticJsNumberBoxed.js";
 
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
+
+import toNumeric from "../../../algorithms/to-numeric.js";
 
 import numberCtorEpsilonDeclaration from "./EPSILON.js";
 import numberCtorMaxSafeIntegerDeclaration from "./MAX_SAFE_INTEGER.js";
@@ -17,7 +18,6 @@ import numberCtorMinValueDeclaration from "./MIN_VALUE.js";
 import numberCtorNanDeclaration from "./NaN.js";
 import numberCtorNegativeInfinityDeclaration from "./NEGATIVE_INFINITY.js";
 import numberCtorPositiveInfinityDeclaration from "./POSITIVE_INFINITY.js";
-import StaticJsNumberBoxed from "../../../types/implementation/StaticJsNumberBoxed.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   numberCtorEpsilonDeclaration,
@@ -37,16 +37,29 @@ export default function createNumberConstructor(realm: StaticJsRealm, numberProt
     realm,
     "Number",
     function* (_thisArg: StaticJsValue, value?: StaticJsValue) {
-      if (value === undefined) {
-        return realm.types.number(0);
+      let n: number;
+      if (value) {
+        const prim = yield* toNumeric(value, realm);
+        // BigInt stuff goes here
+        n = prim.value;
+      } else {
+        n = 0;
       }
 
-      return yield* toNumber(value, realm);
+      return realm.types.number(n);
     },
     {
       *construct(_thisArg, value) {
-        const numVal = yield* toNumber.js(value ?? realm.types.undefined, realm);
-        return new StaticJsNumberBoxed(realm, numVal);
+        let n: number;
+        if (value) {
+          const prim = yield* toNumeric(value, realm);
+          // BigInt stuff goes here
+          n = prim.value;
+        } else {
+          n = 0;
+        }
+
+        return new StaticJsNumberBoxed(realm, n);
       },
     },
   );

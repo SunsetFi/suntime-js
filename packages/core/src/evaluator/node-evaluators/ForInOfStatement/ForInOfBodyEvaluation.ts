@@ -10,24 +10,38 @@ import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
-import { getIdentifierReference } from "../../../runtime/references/get-identifier-reference.js";
+import getIdentifierReference from "../../../runtime/references/get-identifier-reference.js";
 
 import putValue from "../../../runtime/algorithms/put-value.js";
+import call from "../../../runtime/algorithms/call.js";
+import loopContinues from "../../../runtime/algorithms/loop-continues.js";
+
+import { isStaticJsObjectLike } from "../../../runtime/types/StaticJsObjectLike.js";
+
 import boundNames from "../../instantiation/algorithms/bound-names.js";
 
 import type { IteratorRecord } from "../../../runtime/iterators/IteratorRecord.js";
 import iteratorClose from "../../../runtime/iterators/iterator-close.js";
+import { iteratorComplete } from "../../../runtime/iterators/iterator-complete.js";
+import iteratorValue from "../../../runtime/iterators/iterator-value.js";
+import asyncIteratorClose from "../../../runtime/iterators/async-iterator-close.js";
 
 import bindingInitialization from "../../bindings/binding-initialization.js";
 import destructuringAssignmentEvaluation from "../../bindings/destructuring-assignment-evaluation.js";
 import initializeReferencedBinding from "../../bindings/initialize-referenced-binding.js";
 
-import isAbruptCompletion from "../../completions/AbruptCompletion.js";
+import { ThrowCompletion } from "../../completions/ThrowCompletion.js";
 import type { NormalCompletion } from "../../completions/NormalCompletion.js";
-import { ContinueCompletion } from "../../completions/ContinueCompletion.js";
+import isAbruptCompletion from "../../completions/AbruptCompletion.js";
+import updateEmpty from "../../completions/update-empty.js";
+import completionValue from "../../completions/completion-value.js";
+import rethrowCompletion from "../../completions/rethrow-completion.js";
 
-import { BreakCompletion } from "../../completions/BreakCompletion.js";
-import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
+import {
+  EvaluateNodeCommand,
+  EvaluateNodeForCompletion,
+} from "../../commands/EvaluateNodeCommand.js";
+import { AwaitCommand } from "../../commands/AwaitCommand.js";
 
 import type EvaluationContext from "../../EvaluationContext.js";
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
@@ -35,13 +49,6 @@ import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import forDeclarationBindingInitialization from "./for-declaration-binding-initialization.js";
 import forDeclarationBindingInstantiation from "./for-declaration-binding-instantiation.js";
 import isDestructuring from "./is-destructuring.js";
-import call from "../../../runtime/algorithms/call.js";
-import { AwaitCommand } from "../../commands/AwaitCommand.js";
-import { isStaticJsObjectLike } from "../../../runtime/index.js";
-import { ThrowCompletion } from "../../completions/ThrowCompletion.js";
-import { iteratorComplete } from "../../../runtime/iterators/iterator-complete.js";
-import iteratorValue from "../../../runtime/iterators/iterator-value.js";
-import asyncIteratorClose from "../../../runtime/iterators/async-iterator-close.js";
 
 export function* forInOfBodyEvaluation(
   lhs: VariableDeclaration | LVal,
@@ -52,16 +59,17 @@ export function* forInOfBodyEvaluation(
   iteratorKind: "sync" | "async",
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const { realm, label } = context;
+  const { realm } = context;
   const oldEnv = context.lexicalEnv;
 
-  let V: NormalCompletion = null;
+  let V: NormalCompletion = realm.types.undefined;
 
   const destructuring = isDestructuring(lhs);
   let assignmentPattern: ObjectPattern | ArrayPattern | null = null;
   if (destructuring && lhsKind === "assignment") {
     assignmentPattern = lhs as ObjectPattern | ArrayPattern;
   }
+
   while (true) {
     let nextResult = yield* call(iteratorRecord.nextMethod, iteratorRecord.iterator, [], realm);
 
@@ -79,18 +87,17 @@ export function* forInOfBodyEvaluation(
     }
 
     const nextValue = yield* iteratorValue(nextResult);
+
     let iterationContext: EvaluationContext = context;
+
+    // try = status
     try {
       if (lhsKind === "assignment" || lhsKind === "varBinding") {
         if (destructuring) {
-          if (assignmentPattern) {
-            yield* destructuringAssignmentEvaluation(
-              assignmentPattern,
-              nextValue,
-              iterationContext,
-            );
+          if (lhsKind === "assignment") {
+            yield* destructuringAssignmentEvaluation(assignmentPattern!, nextValue, context);
           } else {
-            yield* bindingInitialization(lhs as LVal, nextValue, null, iterationContext);
+            yield* bindingInitialization(lhs as LVal, nextValue, null, context);
           }
         } else {
           const lhsRef = yield* EvaluateNodeCommand(lhs, context, {
@@ -107,12 +114,11 @@ export function* forInOfBodyEvaluation(
           );
         }
 
-        const iterationEnv = new StaticJsDeclarativeEnvironmentRecord(
-          oldEnv,
-          iterationContext.realm,
-        );
+        const iterationEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
         yield* forDeclarationBindingInstantiation(lhs, iterationEnv);
+
         iterationContext = iterationContext.createLexicalEnvContext(iterationEnv);
+
         if (destructuring) {
           yield* forDeclarationBindingInitialization(
             lhs,
@@ -131,45 +137,37 @@ export function* forInOfBodyEvaluation(
         }
       }
     } catch (e) {
+      // Check status is abrupt completion
       if (isAbruptCompletion(e)) {
-        if (iterationKind === "iterate") {
-          if (iteratorKind === "async") {
-            return yield* asyncIteratorClose(iteratorRecord, e, context.realm);
-          } else {
-            return yield* iteratorClose(iteratorRecord, e, context.realm);
-          }
+        if (iterationKind === "enumerate") {
+          throw e;
+        } else if (iteratorKind === "async") {
+          return yield* asyncIteratorClose(iteratorRecord, e, context.realm);
+        } else {
+          return yield* iteratorClose(iteratorRecord, e, context.realm);
         }
       }
-
-      throw e;
     }
 
-    try {
-      const result = yield* EvaluateNodeCommand(stmt, iterationContext);
-      if (result) {
-        V = result;
-      }
-    } catch (e) {
-      if (ContinueCompletion.isContinueForLabel(e, label)) {
-        if (e.value) {
-          V = e.value;
-        }
-        continue;
-      } else if (isAbruptCompletion(e)) {
-        if (iterationKind === "iterate") {
-          if (iteratorKind === "async") {
-            yield* asyncIteratorClose(iteratorRecord, e, realm);
-          } else {
-            yield* iteratorClose(iteratorRecord, e, realm);
-          }
+    const result = yield* EvaluateNodeForCompletion(stmt, iterationContext);
+    // Note: oldEnv should be restored, so don't use iterationContext from here.
+
+    if (!loopContinues(result, context)) {
+      const status = updateEmpty.forCompletion(result, V);
+      if (iterationKind === "enumerate") {
+        return rethrowCompletion(status);
+      } else {
+        if (iteratorKind === "async") {
+          return yield* asyncIteratorClose(iteratorRecord, status, context.realm);
         }
 
-        if (BreakCompletion.isBreakForLabel(e, label)) {
-          return e.value ?? V;
-        }
+        return yield* iteratorClose(iteratorRecord, status, context.realm);
       }
+    }
 
-      throw e;
+    const resultValue = completionValue(result);
+    if (resultValue) {
+      V = resultValue;
     }
   }
 }

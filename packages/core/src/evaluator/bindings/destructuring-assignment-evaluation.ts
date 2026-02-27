@@ -9,7 +9,7 @@ import {
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
-import { getIdentifierReference } from "../../runtime/references/get-identifier-reference.js";
+import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
 
 import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";

@@ -4,7 +4,7 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
-import { getIdentifierReference } from "../../runtime/references/get-identifier-reference.js";
+import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
 
 import typedMerge from "../../internal/typed-merge.js";
 
