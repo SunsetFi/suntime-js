@@ -20,6 +20,10 @@ export interface StaticJsAccessorPropertyDescriptor extends StaticJsGenericPrope
   set: StaticJsFunction | undefined;
 }
 
+// FIXME: In most places we use Partial<StaticJsPropertyDescriptor>, and sometimes need
+// StaticJsAccessorPropertyDescriptor & StaticJsDataPropertyDescriptor.
+// We are clashing between performing validation enforced by typescript and matching the spec not caring
+// to rigidly define what is present.
 export type StaticJsPropertyDescriptor =
   | StaticJsGenericPropertyDescriptor
   | StaticJsDataPropertyDescriptor

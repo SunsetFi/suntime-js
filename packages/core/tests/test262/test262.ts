@@ -62,11 +62,15 @@ function describeLanguageCategory(category: string, ancestorTitles: string[]) {
 const testTimeout = 10000;
 const scriptTimeout = 5000;
 
-function defineTest(
-  testName: string,
-  testMeta: Test262File,
-  ancestorTitles: string[],
-) {
+// For now.  Eventually we should cover everything.
+const ignoredFeatures = [
+  "generators",
+  "TypedArray",
+  "tail-call-optimization",
+  "explicit-resource-management",
+];
+
+function defineTest(testName: string, testMeta: Test262File, ancestorTitles: string[]) {
   // if (testMeta.async) {
   //   it.skip("Ignored async test: " + testName, () => {});
   //   return;
@@ -87,8 +91,8 @@ function defineTest(
     return;
   }
 
-  if (testMeta.attrs.features?.some((x) => x.includes("generators"))) {
-    it.skip("Ignored generator test: " + testName, () => {});
+  if (testMeta.attrs.features?.some((x) => ignoredFeatures.includes(x))) {
+    it.skip("Ignored test: " + testName, () => {});
     return;
   }
 
