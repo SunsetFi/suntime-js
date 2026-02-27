@@ -4,6 +4,8 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 
+import boundNames from "../instantiation/algorithms/bound-names.js";
+
 import forInOfHeadEvaluation from "./ForInOfStatement/ForInOfHeadEvaluation.js";
 import { forInOfBodyEvaluation } from "./ForInOfStatement/ForInOfBodyEvaluation.js";
 import labeledStatementEvaluation from "./LabeledStatementEvaluation.js";
@@ -13,7 +15,15 @@ const forInStatementNodeEvaluator = labeledStatementEvaluation(
     const { left, right, body } = node;
 
     if (left.type === "VariableDeclaration") {
-      const keyResult = yield* forInOfHeadEvaluation([], right, "enumerate", context);
+      const uninitializedBoundNames = left.kind === "var" ? [] : boundNames(left);
+
+      const keyResult = yield* forInOfHeadEvaluation(
+        uninitializedBoundNames,
+        right,
+        "enumerate",
+        context,
+      );
+
       let lhs: VariableDeclaration | LVal = left;
       if (left.kind === "var") {
         const forBinding = left.declarations[0].id;
@@ -23,6 +33,7 @@ const forInStatementNodeEvaluator = labeledStatementEvaluation(
         }
         lhs = forBinding;
       }
+
       return yield* forInOfBodyEvaluation(
         lhs,
         body,

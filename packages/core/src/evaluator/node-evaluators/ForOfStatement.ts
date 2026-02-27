@@ -5,6 +5,8 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import boundNames from "../instantiation/algorithms/bound-names.js";
+
 import forInOfHeadEvaluation from "./ForInOfStatement/ForInOfHeadEvaluation.js";
 import { forInOfBodyEvaluation } from "./ForInOfStatement/ForInOfBodyEvaluation.js";
 import labeledStatementEvaluation from "./LabeledStatementEvaluation.js";
@@ -17,8 +19,10 @@ const forOfStatementNodeEvaluator = labeledStatementEvaluation(
     const { await: isAsync, left, right, body } = node;
 
     if (left.type === "VariableDeclaration") {
+      const uninitializedBoundNames = left.kind === "var" ? [] : boundNames(left);
+
       const keyResult = yield* forInOfHeadEvaluation(
-        [],
+        uninitializedBoundNames,
         right,
         isAsync ? "async-iterate" : "iterate",
         context,

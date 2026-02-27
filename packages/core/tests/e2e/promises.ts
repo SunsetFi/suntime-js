@@ -69,9 +69,7 @@ describe("E2E: Promises", () => {
 
       const fulfill = (await realm.evaluateScript(code)) as StaticJsFunction;
 
-      await realm.enqueueMacrotask(
-        fulfill.callEvaluator(realm.types.undefined),
-      );
+      await realm.enqueueMacrotask(fulfill.callEvaluator(realm.types.undefined));
 
       expect(cb).toBeCalledTimes(1);
     });
@@ -82,7 +80,6 @@ describe("E2E: Promises", () => {
         global: {
           value: {
             callback: cb,
-            log: (...args: unknown[]) => console.log(...args),
           },
         },
       });
@@ -115,9 +112,7 @@ describe("E2E: Promises", () => {
 
       const fulfill = (await realm.evaluateScript(code)) as StaticJsFunction;
 
-      await realm.enqueueMacrotask(
-        fulfill.callEvaluator(realm.types.undefined),
-      );
+      await realm.enqueueMacrotask(fulfill.callEvaluator(realm.types.undefined));
 
       expect(cb).not.toBeCalled();
     });
@@ -141,9 +136,7 @@ describe("E2E: Promises", () => {
 
       const fulfill = (await realm.evaluateScript(code)) as StaticJsFunction;
 
-      await realm.enqueueMacrotask(
-        fulfill.callEvaluator(realm.types.undefined),
-      );
+      await realm.enqueueMacrotask(fulfill.callEvaluator(realm.types.undefined));
 
       expect(cb).toBeCalled();
     });
@@ -157,8 +150,6 @@ describe("E2E: Promises", () => {
 
     const realm = StaticJsRealm();
 
-    await expect(() => realm.evaluateScript(code)).rejects.toThrow(
-      StaticJsUnhandledRejectionError,
-    );
+    await expect(() => realm.evaluateScript(code)).rejects.toThrow(StaticJsUnhandledRejectionError);
   });
 });

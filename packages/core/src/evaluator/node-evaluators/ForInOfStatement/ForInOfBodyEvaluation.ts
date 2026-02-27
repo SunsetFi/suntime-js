@@ -147,6 +147,8 @@ export function* forInOfBodyEvaluation(
           return yield* iteratorClose(iteratorRecord, e, context.realm);
         }
       }
+
+      throw e;
     }
 
     const result = yield* EvaluateNodeForCompletion(stmt, iterationContext);

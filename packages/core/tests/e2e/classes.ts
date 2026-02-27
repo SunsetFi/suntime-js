@@ -5,8 +5,8 @@ describe("E2E: Classes", () => {
   describe("Class Declarations", () => {
     it("Is not supported", async () => {
       const code = `
-      class MyClass { }
-    `;
+        class MyClass { }
+      `;
 
       await expect(evaluateScript(code)).rejects.toThrowError(
         expect.objectContaining({
@@ -19,8 +19,8 @@ describe("E2E: Classes", () => {
   describe("Class Expressions", () => {
     it("Is not supported", async () => {
       const code = `
-      const MyClass = class { };
-    `;
+        const MyClass = class { };
+      `;
 
       await expect(evaluateScript(code)).rejects.toThrowError(
         expect.objectContaining({

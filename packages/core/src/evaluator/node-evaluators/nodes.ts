@@ -12,6 +12,8 @@ import booleanLiteralNodeEvaluator from "./BooleanLiteral.js";
 import breakStatementNodeEvaluator from "./BreakStatement.js";
 import callExpressionNodeEvaluator from "./CallExpression.js";
 import catchClauseNodeEvaluator from "./CatchClause.js";
+import classDeclarationNodeEvaluator from "./ClassDeclaration.js";
+import classExpressionNodeEvaluator from "./ClassExpression.js";
 import conditionalExpressionNodeEvaluator from "./ConditionalExpression.js";
 import continueStatementNodeEvaluator from "./ContinueStatement.js";
 import doWhileStatementNodeEvaluator from "./DoWhileStatement.js";
@@ -66,6 +68,8 @@ const nodeEvaluators: NodeEvaluators = {
   BreakStatement: breakStatementNodeEvaluator,
   CallExpression: callExpressionNodeEvaluator,
   CatchClause: catchClauseNodeEvaluator,
+  ClassDeclaration: classDeclarationNodeEvaluator,
+  ClassExpression: classExpressionNodeEvaluator,
   ConditionalExpression: conditionalExpressionNodeEvaluator,
   ContinueStatement: continueStatementNodeEvaluator,
   DoWhileStatement: doWhileStatementNodeEvaluator,
