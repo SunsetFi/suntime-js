@@ -8,6 +8,8 @@ import type { NormalCompletion } from "../../evaluator/completions/NormalComplet
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
+import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+
 import call from "../algorithms/call.js";
 import getMethod from "../algorithms/get-method.js";
 
@@ -36,10 +38,10 @@ export default function* iteratorClose(
   try {
     innerResult = yield* getMethod(iterator, "return", realm);
     if (!innerResult) {
-      innerResult = completion;
-    } else {
-      innerResult = yield* call(innerResult, iterator, [], realm);
+      return completion;
     }
+
+    innerResult = yield* call(innerResult, iterator, [], realm);
   } catch (e) {
     if (isAbruptCompletion(e)) {
       innerResult = e;
@@ -56,9 +58,11 @@ export default function* iteratorClose(
     return unwrap ? rethrowCompletion(innerResult) : innerResult;
   }
 
-  // TODO: Spec says if this is a normal completion that's not an object, we should throw a TypeError
-  // But that doesn't make sense as other sources say iterator.return() has no return value
-  // I must be misunderstanding something.
+  if (!isStaticJsObjectLike(innerResult)) {
+    throw new ThrowCompletion(
+      realm.types.error("TypeError", "iterator.return() did not return an object"),
+    );
+  }
 
   return unwrap ? rethrowCompletion(completion) : completion;
 }
