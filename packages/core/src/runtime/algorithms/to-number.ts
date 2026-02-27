@@ -1,5 +1,3 @@
-import typedMerge from "../../internal/typed-merge.js";
-
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
@@ -52,9 +50,12 @@ function* toNumber(
   );
 }
 
-export default typedMerge(toNumber, {
-  *js(value: StaticJsValue, realm: StaticJsRealm): EvaluationGenerator<number> {
-    const numVal = yield* toNumber(value, realm);
-    return numVal.value;
-  },
-});
+toNumber.js = function* js(
+  value: StaticJsValue,
+  realm: StaticJsRealm,
+): EvaluationGenerator<number> {
+  const numVal = yield* toNumber(value, realm);
+  return numVal.value;
+};
+
+export default toNumber;

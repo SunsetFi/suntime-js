@@ -140,7 +140,7 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
         throw new StaticJsEngineError("Invalid length value on array intrinsic");
       }
 
-      const index = toUInt32.sync(key);
+      const index = toUInt32.native(key);
       if (index >= length.value && !lengthDesc.writable) {
         return false;
       }
@@ -224,7 +224,7 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
     const keys = yield* this.ownPropertyKeysEvaluator();
     // Madness to do the equivalent of toUInt32, which would be inefficient to use on account of being a generator.
     // We probably should make a non-generator version of it.
-    const indicies = keys.filter(isArrayIndex).map(toUInt32.sync).sort().reverse();
+    const indicies = keys.filter(isArrayIndex).map(toUInt32.native).sort().reverse();
     for (const index of indicies) {
       if (index < newLen) {
         break;
