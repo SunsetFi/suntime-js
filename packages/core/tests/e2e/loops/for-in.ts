@@ -150,4 +150,20 @@ describe("E2E: For In loops", () => {
       `;
     expect(await evaluateScript(code)).toBe("c");
   });
+
+  describe("Completions", () => {
+    it("Completes to undefined on abrupt completion", async () => {
+      const code = `
+        eval("1; for (var a in { x: 0 }) { break; }");
+      `;
+      expect(await evaluateScript(code)).toBeUndefined();
+    });
+
+    it("Completes to the last value on abrupt completion", async () => {
+      const code = `
+        eval("2; for (var b in { x: 0 }) { 3; break; }");
+      `;
+      expect(await evaluateScript(code)).toBe(3);
+    });
+  });
 });

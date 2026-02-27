@@ -17,6 +17,8 @@
   - [vitest-coverage-report-action](https://github.com/marketplace/actions/vitest-coverage-report)?
 - Get api-extractor working. The only holdup right now is the combine and re-export of the interface and factory function of StaticJsRealm
   - Combine these into one file to make this work?
+- Object.defineProperties/y used to give more helpful errors for if object was not extensible or cannot redefine property.
+  They got removed for "spec compliance". Put them back!
 
 ## Sandboxing / Security
 

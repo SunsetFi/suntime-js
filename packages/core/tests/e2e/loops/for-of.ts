@@ -418,4 +418,20 @@ describe("E2E: For Of loops", () => {
       expect(await evaluateScript(code)).toBe("Test error");
     });
   });
+
+  describe("Completions", () => {
+    it("Completes to undefined on abrupt completion", async () => {
+      const code = `
+        eval("1; for (var a of [0]) { break; }");
+      `;
+      expect(await evaluateScript(code)).toBeUndefined();
+    });
+
+    it("Completes to the last value on abrupt completion", async () => {
+      const code = `
+        eval("2; for (var b of [0]) { 3; break; }");
+      `;
+      expect(await evaluateScript(code)).toBe(3);
+    });
+  });
 });
