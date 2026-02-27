@@ -33,7 +33,8 @@ export default defineConfig({
         },
         test: {
           name: "Test262",
-          include: ["./tests/test262/test262.ts"],
+          include: ["./tests/test262/index.ts"],
+          isolate: false,
         },
       },
     ],

@@ -1,16 +1,18 @@
 import { createTimeBoundTaskRunner, StaticJsRealm } from "../../src/index.js";
 
-export function createHostApi(realm: StaticJsRealm) {
+export default async function createHostApi(realm: StaticJsRealm): Promise<void> {
   const hostDefinedProperty = {
     writable: true,
     configurable: true,
     enumerable: false,
   } as const;
-  realm.global.defineOwnPropertySync("print", {
+
+  await realm.global.defineOwnPropertyAsync("print", {
     ...hostDefinedProperty,
     value: realm.types.toStaticJsValue((value: string) => console.log(value)),
   });
-  realm.global.defineOwnPropertySync("$262", {
+
+  await realm.global.defineOwnPropertyAsync("$262", {
     ...hostDefinedProperty,
     value: realm.types.object({
       createRealm: {

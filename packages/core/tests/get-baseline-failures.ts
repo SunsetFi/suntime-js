@@ -21,7 +21,7 @@ interface AssertionResult {
   status: "passed" | "failed" | "skipped";
 }
 
-export default function getBaselineFailures(testFile: string) {
+export default function getBaseline(testFile: string) {
   const testFilePath = getFilepathRelativeToSelf(testFile);
   let data: string;
   try {
@@ -42,6 +42,6 @@ export default function getBaselineFailures(testFile: string) {
   }
 
   return target.assertionResults
-    .filter((result) => result.status === "failed")
+    .filter((result) => result.status === "passed")
     .map((result) => [...result.ancestorTitles, result.title]);
 }
