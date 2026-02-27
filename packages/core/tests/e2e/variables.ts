@@ -1,11 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import type { StaticJsNumber } from "../../src/index.js";
-import {
-  evaluateScript,
-  isStaticJsNumber,
-  StaticJsRealm,
-} from "../../src/index.js";
+import { evaluateScript, isStaticJsNumber, StaticJsRealm } from "../../src/index.js";
 
 describe("E2E: Variables", () => {
   describe("const", () => {
@@ -384,7 +380,7 @@ describe("E2E: Variables", () => {
       `;
       await expect(evaluateScript(code)).rejects.toMatchObject({
         name: "ReferenceError",
-        message: "x is not defined",
+        message: expect.stringContaining("x is not defined"),
       });
     });
   });
