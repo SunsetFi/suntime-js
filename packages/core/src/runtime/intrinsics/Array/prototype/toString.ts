@@ -27,7 +27,7 @@ const arrayProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
       segments[i] = string.value;
     }
 
-    return realm.types.string(segments.join(","));
+    return realm.types.string("[" + segments.join(",") + "]");
   },
 };
 

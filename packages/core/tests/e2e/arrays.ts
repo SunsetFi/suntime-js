@@ -168,10 +168,7 @@ describe("E2E: Arrays", () => {
           b[Symbol.isConcatSpreadable] = false;
           [a.concat(b), b];
         `;
-        const [value, b] = (await evaluateScript(code)) as [
-          unknown[],
-          unknown[],
-        ];
+        const [value, b] = (await evaluateScript(code)) as [unknown[], unknown[]];
         expect(value).toEqual([1, 2, 3, b]);
       });
     });
@@ -1430,12 +1427,12 @@ describe("E2E: Arrays", () => {
     describe("Array.prototype.sort", () => {
       it("Sorts numbers ascending", async () => {
         const code = `
-          const a = [3, 1, 2];
+          const a = [4,3,2,1,4,3,2,1,4,3,2,1];
           a.sort();
           a;
         `;
         const result = await evaluateScript(code);
-        expect(result).toEqual([1, 2, 3]);
+        expect(result).toEqual([1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4]);
       });
 
       it("Floats missing items to the end", async () => {
