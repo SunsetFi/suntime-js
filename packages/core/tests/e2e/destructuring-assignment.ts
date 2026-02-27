@@ -185,25 +185,29 @@ const destructuringScenarios: DestructuringScenarioDefinition[] = [
       expect(result).toEqual([42]);
     },
   },
+  {
+    title: "String into array destructuring",
+    varDeclare: "let a, b",
+    bindingsCode: `[a, b]`,
+    valueCode: `"hi"`,
+    resultCollector: `[a, b]`,
+    assert({ result, error }) {
+      expect(error).toBeUndefined();
+      expect(result).toEqual(["h", "i"]);
+    },
+  },
 ];
 
 function scenariosFor(declarationType: string) {
   return destructuringScenarios.filter(
-    (scenario) =>
-      !scenario.exclude || !scenario.exclude.includes(declarationType),
+    (scenario) => !scenario.exclude || !scenario.exclude.includes(declarationType),
   );
 }
 
 describe("E2E: Destructuring Assignment", () => {
   it.each(scenariosFor("for.of"))(
     "For Of: $title",
-    async ({
-      bindingsCode,
-      valueCode,
-      resultCollector,
-      varDeclare = "",
-      assert,
-    }) => {
+    async ({ bindingsCode, valueCode, resultCollector, varDeclare = "", assert }) => {
       const script = `
         ${varDeclare}
         for (${bindingsCode} of [${valueCode}]) {

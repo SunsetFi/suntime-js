@@ -22,6 +22,7 @@ import stringProtoSplitDeclaration from "./split.js";
 import stringProtoStartsWithDeclaration from "./startsWith.js";
 import stringProtoSubstrDeclaration from "./substr.js";
 import stringProtoSubstringDeclaration from "./substring.js";
+import stringProtoSymbolIteratorDeclaration from "./symbol_iterator.js";
 import stringProtoToLowerCaseDeclaration from "./toLowerCase.js";
 import stringProtoToStringDeclaration from "./toString.js";
 import stringProtoToUpperCaseDeclaration from "./toUpperCase.js";
@@ -49,6 +50,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   stringProtoStartsWithDeclaration,
   stringProtoSubstrDeclaration,
   stringProtoSubstringDeclaration,
+  stringProtoSymbolIteratorDeclaration,
   stringProtoToLowerCaseDeclaration,
   stringProtoToStringDeclaration,
   stringProtoToUpperCaseDeclaration,
