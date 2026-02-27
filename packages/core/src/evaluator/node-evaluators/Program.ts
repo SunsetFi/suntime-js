@@ -1,7 +1,5 @@
 import type { Program } from "@babel/types";
 
-import typedMerge from "../../internal/typed-merge.js";
-
 import { ControlFlowCompletion } from "../completions/ControlFlowCompletion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
@@ -32,6 +30,4 @@ function* programNodeEvaluator(node: Program, context: EvaluationContext): Evalu
   }
 }
 
-export default typedMerge(programNodeEvaluator, {
-  environmentSetup: false,
-});
+export default programNodeEvaluator;

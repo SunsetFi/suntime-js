@@ -2,8 +2,6 @@ import type { ForInStatement, LVal, VariableDeclaration } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import typedMerge from "../../internal/typed-merge.js";
-
 import type EvaluationContext from "../EvaluationContext.js";
 
 import forInOfHeadEvaluation from "./ForInOfStatement/ForInOfHeadEvaluation.js";
@@ -49,6 +47,4 @@ const forInStatementNodeEvaluator = labeledStatementEvaluation(
   },
 );
 
-export default typedMerge(forInStatementNodeEvaluator, {
-  environmentSetup: false,
-});
+export default forInStatementNodeEvaluator;

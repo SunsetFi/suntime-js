@@ -1,7 +1,5 @@
 import type { WhileStatement } from "@babel/types";
 
-import typedMerge from "../../internal/typed-merge.js";
-
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
 import loopContinues from "../../runtime/algorithms/loop-continues.js";
 
@@ -46,6 +44,4 @@ const whileStatementNodeEvaluator = labeledStatementEvaluation(
   },
 );
 
-export default typedMerge(whileStatementNodeEvaluator, {
-  environmentSetup: false,
-});
+export default whileStatementNodeEvaluator;

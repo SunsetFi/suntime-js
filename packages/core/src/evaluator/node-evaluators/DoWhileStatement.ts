@@ -1,7 +1,5 @@
 import type { DoWhileStatement } from "@babel/types";
 
-import typedMerge from "../../internal/typed-merge.js";
-
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
 import loopContinues from "../../runtime/algorithms/loop-continues.js";
 
@@ -45,6 +43,4 @@ const doWhileStatementNodeEvaluator = labeledStatementEvaluation(
   },
 );
 
-export default typedMerge(doWhileStatementNodeEvaluator, {
-  environmentSetup: false,
-});
+export default doWhileStatementNodeEvaluator;

@@ -1,7 +1,5 @@
 import type { BlockStatement } from "@babel/types";
 
-import typedMerge from "../../internal/typed-merge.js";
-
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import blockDeclarationInstantiation from "../instantiation/block-declaration-instantiation.js";
@@ -46,6 +44,4 @@ function* blockStatementNodeEvaluator(
   }
 }
 
-export default typedMerge(blockStatementNodeEvaluator, {
-  environmentSetup: false,
-});
+export default blockStatementNodeEvaluator;

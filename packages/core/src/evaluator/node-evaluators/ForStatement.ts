@@ -1,7 +1,5 @@
 import type { Expression, ForStatement, Statement } from "@babel/types";
 
-import typedMerge from "../../internal/typed-merge.js";
-
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
@@ -138,6 +136,4 @@ function* createPerIterationEnvironment(
   return iterationContext;
 }
 
-export default typedMerge(forStatementNodeEvaluator, {
-  environmentSetup: false,
-});
+export default forStatementNodeEvaluator;

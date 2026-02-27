@@ -1,7 +1,5 @@
 import type { ArrowFunctionExpression } from "@babel/types";
 
-import typedMerge from "../../internal/typed-merge.js";
-
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 
@@ -18,6 +16,4 @@ function* arrowFunctionExpressionNodeEvaluator(
   return createFunction(name, node, context);
 }
 
-export default typedMerge(arrowFunctionExpressionNodeEvaluator, {
-  environmentSetup: false,
-});
+export default arrowFunctionExpressionNodeEvaluator;

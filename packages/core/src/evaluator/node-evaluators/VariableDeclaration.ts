@@ -6,8 +6,6 @@ import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
 
-import typedMerge from "../../internal/typed-merge.js";
-
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
@@ -77,6 +75,4 @@ function* declarationStatementEvaluator(
   }
 }
 
-export default typedMerge(variableDeclarationNodeEvaluator, {
-  environmentSetup: false,
-});
+export default variableDeclarationNodeEvaluator;

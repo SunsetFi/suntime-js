@@ -1,7 +1,5 @@
 import type { FunctionExpression } from "@babel/types";
 
-import typedMerge from "../../internal/typed-merge.js";
-
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
@@ -26,6 +24,4 @@ function* expressionStatementNodeEvaluator(
   }
 }
 
-export default typedMerge(expressionStatementNodeEvaluator, {
-  environmentSetup: false,
-});
+export default expressionStatementNodeEvaluator;

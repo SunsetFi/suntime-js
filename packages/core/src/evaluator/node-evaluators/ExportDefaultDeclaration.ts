@@ -1,7 +1,5 @@
 import { type ExportDefaultDeclaration } from "@babel/types";
 
-import typedMerge from "../../internal/typed-merge.js";
-
 import isAssignmentGrammar from "../../grammar/is-assignment-grammar.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -28,6 +26,4 @@ function* exportDefaultDeclarationNodeEvaluator(
   return null;
 }
 
-export default typedMerge(exportDefaultDeclarationNodeEvaluator, {
-  environmentSetup: false,
-});
+export default exportDefaultDeclarationNodeEvaluator;
