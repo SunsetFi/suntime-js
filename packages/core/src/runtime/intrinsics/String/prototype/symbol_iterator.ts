@@ -22,19 +22,18 @@ const stringProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const str = yield* toString.js(thisArg, realm);
+    const iterator = str[Symbol.iterator]();
 
     // Note: Officially this should be implemented as a generator,
     // which is probably actually visible to the runtime.
 
-    let index = 0;
     return new StaticJsIteratorImpl(function* () {
-      if (index >= str.length) {
+      const { value, done } = iterator.next();
+      if (done) {
         return undefined;
       }
 
-      const char = str[index];
-      index += 1;
-      return realm.types.string(char);
+      return realm.types.string(value);
     }, realm);
   },
 };
