@@ -10,6 +10,8 @@ import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCom
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
+import promiseReject from "../../algorithms/promise-reject.js";
+
 import type { StaticJsValue } from "../StaticJsValue.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
@@ -42,7 +44,17 @@ export default class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
     thisArg: StaticJsValue,
     args: StaticJsValue[],
   ): EvaluationGenerator<StaticJsValue> {
-    const functionContext = yield* this._createContext(thisArg, args);
+    // Async functions capture errors thrown by their argument initializations
+    let functionContext: EvaluationContext;
+    try {
+      functionContext = yield* this._createContext(thisArg, args);
+    } catch (e) {
+      if (e instanceof ThrowCompletion) {
+        return yield* promiseReject(e.value, this.realm);
+      }
+
+      throw e;
+    }
 
     const evaluator = EvaluateNodeCommand(this._body, functionContext);
     const invocation = new AsyncEvaluatorInvocation(evaluator, functionContext.realm, true);
