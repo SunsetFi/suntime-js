@@ -77,4 +77,4 @@ For more information, including solutions for breaking loops, see [Quick Start](
 
 This project is slowly working its way through the [Test262](https://github.com/tc39/test262) suite of JavaScript tests in order to ensure compliance with the spec.
 
-Currently, around 5900 of the language tests are passing, or about 25%. Further work is ongoing in this area.
+Currently, around 6200 of the language tests are passing, or about 22%. Further work is ongoing in this area.
