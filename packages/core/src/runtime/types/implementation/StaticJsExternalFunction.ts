@@ -1,3 +1,4 @@
+import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
 
@@ -25,8 +26,13 @@ export default class StaticJsExternalFunction extends StaticJsFunctionImpl {
     try {
       const result = this._func.call(thisArgResolved, ...valueArgsResolved);
       return this.realm.types.toStaticJsValue(result);
-    } catch (error) {
-      throw new ThrowCompletion(this.realm.types.toStaticJsValue(error));
+    } catch (e) {
+      if (e instanceof StaticJsRuntimeError && e.thrown.realm === this.realm) {
+        throw new ThrowCompletion(e.thrown);
+      } else {
+        const converted = this.realm.types.toStaticJsValue(e);
+        throw new ThrowCompletion(converted);
+      }
     }
   }
 

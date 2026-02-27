@@ -61,6 +61,14 @@ export default class Macrotask {
   private _rejectPromise!: (reason?: unknown) => void;
 
   /**
+   * We have synchronous code that wants to know when Macrotask completes,
+   * and in those cases nothing is awaiting the promise.
+   *
+   * Suppress unhandled rejection warnings in those cases, as we will synchronously check for uncaught errors and reject the promise if needed.
+   */
+  private _promiseRejectSuppressed = false;
+
+  /**
    * Callbacks to inform external systems when the task completes.
    * This isn't the same as the promise, as we need to run synchronous checks and cleanups
    * in the realm based on macrotask completion.
@@ -107,6 +115,7 @@ export default class Macrotask {
 
   onComplete(callback: (value: unknown, err?: unknown) => void) {
     this._onCompletedCallbacks.push(callback);
+    this._trySuppressPromiseRejection(); /*  */
   }
 
   enqueueMicrotask(evaluator: StaticJsEvaluator<void>) {
@@ -147,6 +156,18 @@ export default class Macrotask {
       (value) => this._acceptMacrotask(value),
       (reason) => this._reject(reason),
     );
+  }
+
+  private _trySuppressPromiseRejection() {
+    if (this._promiseRejectSuppressed) {
+      return;
+    }
+
+    this._promise.catch(() => {
+      // No need to do anything here, we will synchronously check for uncaught errors and reject the promise if needed.
+    });
+
+    this._promiseRejectSuppressed = true;
   }
 
   private _tryDrainMicrotasks() {
