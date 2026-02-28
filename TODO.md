@@ -34,14 +34,17 @@
 
 ## API for host implementation of functions using evaluators
 
-Figure out public API for invoking evaluators.
+Figure out public API for invoking and implementing evaluators.
 
-- Probably hide evaluators and provide non-evaluator non-sync APIs from intrinsic types.
-- Figure out what it looks like for a consumer to want to call functions or invoke other evaluators as part of an api surface exposed within
-  the sandbox (IE global scope functions, external modules).
-  - Not good to have it start a new macrotask, as the task runner API should see calls to these apis happening while a task is active as
-    continuations of the same task, not new nested tasks.
-  - Should have the current macrotask inline these new tasks. Some sort of evaluator stack.
+- [ ] Export constructs needed
+  - [ ] Completion
+  - [ ] EvaluationGenerator
+- [ ] Rework TypeFactory.factory to require a generator function
+- [ ] Method for host to obtain an evaluator for evaluateScript, evaluateExpression, and StaticJsValue evaluators
+      Hide evaluators, make host use Async, and hide the async-nature of them?
+      Would require our TaskIterator to become an async iterator
+- [ ] Rework runTask in Realm to inline child tasks when re-entering runtime
+      IE: Sandbox invokes host function that delegates to realm.evaluateScript
 
 ## API cleanup
 
@@ -65,16 +68,12 @@ Figure out public API for invoking evaluators.
 
 - Host fingerprinting using Math trig functions - different results between firefox and chrome. Problem? Use a manual implementation?
   - Same problems with most pass-throughs; Date and Regex if we pass those through to.
-- More control for host over environment
-  - 'intrinsics' on the realm that can be replacable? Math funcs, Date.now(), performance.\*, other stuff the engine would be interested in controling
-    - Support the intrinsics keyword for these? Or would the host want to keep them hidden?
 
 ## Completion Refactor
 
-- Eliminate most throws for completions where not needed.
-- Use Q and X to capture throws
-  - Right now, changing all throws to use returns is too invasive as we rely on try/catch all over the place.
-- All node evaluators should return completions. Wrap their functions with captureCompletion
-- Keep throw completion as a shorthand for evaluators that isn't exposed by their implementations.
-- Create a wrapper factory function to capture completions for all functions?
-- Use generator.next instead of generator.throw for abnormal completions.
+- [ ] Rework EvaluationGenerator to accept and return Completions
+  - [ ] Accept and return Completions for all Node Evaluators
+  - [ ] Use generator.next instead of generator.throw for abnormal completions.
+- [x] Rework EvaluateNodeCommand to always return completions
+  - [x] Use Q() where needed to enforce NormalCompletion
+- [ ] Eliminate most throws for completions where not needed.
