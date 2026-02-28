@@ -9,14 +9,8 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import toNativeUnwrap from "../../utils/to-native-unwrap.js";
 import toRuntimeWrap from "../../utils/to-runtime-wrap.js";
 
-import {
-  isStaticJsFunction,
-  type StaticJsFunction,
-} from "../StaticJsFunction.js";
-import type {
-  StaticJsIterator,
-  StaticJsIteratorResult,
-} from "../StaticJsIterator.js";
+import { isStaticJsFunction, type StaticJsFunction } from "../StaticJsFunction.js";
+import type { StaticJsIterator, StaticJsIteratorResult } from "../StaticJsIterator.js";
 import type { StaticJsMap } from "../StaticJsMap.js";
 import StaticJsTypeCode from "../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
@@ -26,10 +20,7 @@ import StaticJsIteratorImpl from "./StaticJsIteratorImpl.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 
-export default class StaticJsMapImpl
-  extends StaticJsObjectLikeImpl
-  implements StaticJsMap
-{
+export default class StaticJsMapImpl extends StaticJsObjectLikeImpl implements StaticJsMap {
   private readonly _backingStore = new Map<unknown, StaticJsValue>();
 
   constructor(realm: StaticJsRealm) {
@@ -55,11 +46,7 @@ export default class StaticJsMapImpl
 
   *entriesEvaluator(): EvaluationGenerator<StaticJsIterator> {
     const backingIterator = this._backingStore.entries();
-    return new StaticJsMapIteratorImpl(
-      backingIterator,
-      "key+value",
-      this.realm,
-    );
+    return new StaticJsMapIteratorImpl(backingIterator, "key+value", this.realm);
   }
 
   *forEachEvaluator(
@@ -73,11 +60,7 @@ export default class StaticJsMapImpl
     }
 
     for (const [key, value] of this._backingStore) {
-      yield* callback.callEvaluator(thisArg, [
-        value,
-        toRuntimeWrap(key, this.realm),
-        this,
-      ]);
+      yield* callback.callEvaluator(thisArg, [value, toRuntimeWrap(key, this.realm), this]);
     }
   }
 
@@ -96,10 +79,7 @@ export default class StaticJsMapImpl
     return new StaticJsMapIteratorImpl(backingIterator, "key", this.realm);
   }
 
-  *setValueEvaluator(
-    key: StaticJsValue,
-    value: StaticJsValue,
-  ): EvaluationGenerator<void> {
+  *setValueEvaluator(key: StaticJsValue, value: StaticJsValue): EvaluationGenerator<void> {
     const keyUnwrapped = toNativeUnwrap(key);
     this._backingStore.set(keyUnwrapped, value);
   }
@@ -130,11 +110,7 @@ class StaticJsMapIteratorImpl extends StaticJsIteratorImpl {
     this.defineOwnPropertySync("next", {
       value: new StaticJsFunctionImpl(realm, "next", function* () {
         const result = yield* self.nextEvaluator();
-        return yield* createIteratorResultObject(
-          result.value,
-          result.done,
-          self.realm,
-        );
+        return yield* createIteratorResultObject(result.value, result.done, self.realm);
       }),
       writable: true,
       enumerable: false,

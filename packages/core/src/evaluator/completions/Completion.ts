@@ -9,10 +9,7 @@ import { ContinueCompletion } from "./completion-types/ContinueCompletion.js";
 import { NormalCompletion } from "./completion-types/NormalCompletion.js";
 import { ReturnCompletion } from "./completion-types/ReturnCompletion.js";
 import { ThrowCompletion } from "./completion-types/ThrowCompletion.js";
-import {
-  nameCompletionValue,
-  type CompletionValue,
-} from "./CompletionValue.js";
+import { nameCompletionValue, type CompletionValue } from "./CompletionValue.js";
 
 import nameCompletionLike from "./name-completion-like.js";
 
@@ -57,9 +54,7 @@ export namespace Completion {
 
   export function assert(value: unknown): asserts value is Completion {
     if (!Completion.is(value)) {
-      throw new StaticJsEngineError(
-        `Expected a completion, but got ${nameCompletionLike(value)}.`,
-      );
+      throw new StaticJsEngineError(`Expected a completion, but got ${nameCompletionLike(value)}.`);
     }
   }
 
@@ -71,10 +66,7 @@ export namespace Completion {
     return completion.value;
   }
 
-  export function updateEmpty(
-    completion: Completion,
-    value: CompletionValue,
-  ): Completion {
+  export function updateEmpty(completion: Completion, value: CompletionValue): Completion {
     if (AbruptCompletion.is(completion)) {
       if (completion.value !== null) {
         return completion;

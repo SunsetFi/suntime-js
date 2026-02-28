@@ -54,9 +54,7 @@ export default function createFunctionConstructor(
       try {
         body = parseFunctionBody(bodyStr.value);
       } catch {
-        throw Completion.Throw(
-          realm.types.error("SyntaxError", "Failed to parse function body"),
-        );
+        throw Completion.Throw(realm.types.error("SyntaxError", "Failed to parse function body"));
       }
 
       const context = EvaluationContext.createRootContext(false, realm);

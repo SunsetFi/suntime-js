@@ -30,10 +30,7 @@ const doWhileStatementNodeEvaluator = labeledStatementEvaluation(
         V = stmtValue;
       }
 
-      const exprValue = yield* Q.val(
-        EvaluateNodeCommand(node.test, context),
-        context.realm,
-      );
+      const exprValue = yield* Q.val(EvaluateNodeCommand(node.test, context), context.realm);
 
       const exprBoolean = yield* toBoolean.js(exprValue, context.realm);
       if (!exprBoolean) {

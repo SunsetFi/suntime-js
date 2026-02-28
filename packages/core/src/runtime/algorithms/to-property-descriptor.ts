@@ -64,9 +64,7 @@ export default function* toPropertyDescriptor(
     if (isStaticJsFunction(getter)) {
       desc.get = getter;
     } else if (!isStaticJsUndefined(getter)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Getter must be a function"),
-      );
+      throw Completion.Throw(realm.types.error("TypeError", "Getter must be a function"));
     }
   }
 
@@ -76,9 +74,7 @@ export default function* toPropertyDescriptor(
     if (isStaticJsFunction(setter)) {
       desc.set = setter;
     } else if (!isStaticJsUndefined(setter)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Setter must be a function"),
-      );
+      throw Completion.Throw(realm.types.error("TypeError", "Setter must be a function"));
     }
   }
 

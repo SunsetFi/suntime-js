@@ -38,10 +38,7 @@ export default function* createGlobalFunctionBinding(
   const result = yield* globalObject.defineOwnPropertyEvaluator(name, desc);
   if (!result) {
     throw Completion.Throw(
-      realm.types.error(
-        "TypeError",
-        `Cannot create global function binding for ${name}`,
-      ),
+      realm.types.error("TypeError", `Cannot create global function binding for ${name}`),
     );
   }
 

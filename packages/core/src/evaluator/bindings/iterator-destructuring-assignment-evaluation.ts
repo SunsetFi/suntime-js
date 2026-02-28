@@ -21,19 +21,13 @@ import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
 
 export type IteratorDestructuringAssignmentType = PatternLike | null;
 export default function* iteratorDestructuringAssignmentEvaluation(
-  node:
-    | IteratorDestructuringAssignmentType
-    | IteratorDestructuringAssignmentType[],
+  node: IteratorDestructuringAssignmentType | IteratorDestructuringAssignmentType[],
   iteratorRecord: IteratorRecord,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
   if (Array.isArray(node)) {
     for (const element of node) {
-      yield* iteratorDestructuringAssignmentEvaluation(
-        element,
-        iteratorRecord,
-        context,
-      );
+      yield* iteratorDestructuringAssignmentEvaluation(element, iteratorRecord, context);
     }
 
     return;
@@ -57,10 +51,7 @@ export default function* iteratorDestructuringAssignmentEvaluation(
   let v: StaticJsValue;
   if (node.type === "RestElement") {
     assignmentTarget = node.argument;
-    if (
-      assignmentTarget.type !== "ObjectPattern" &&
-      assignmentTarget.type !== "ArrayPattern"
-    ) {
+    if (assignmentTarget.type !== "ObjectPattern" && assignmentTarget.type !== "ArrayPattern") {
       lRef = yield* Q.ref(EvaluateNodeCommand(assignmentTarget, context));
     }
 
@@ -83,10 +74,7 @@ export default function* iteratorDestructuringAssignmentEvaluation(
     v = A;
   } else {
     assignmentTarget = node;
-    if (
-      assignmentTarget.type !== "ObjectPattern" &&
-      assignmentTarget.type !== "ArrayPattern"
-    ) {
+    if (assignmentTarget.type !== "ObjectPattern" && assignmentTarget.type !== "ArrayPattern") {
       lRef = yield* Q.ref(EvaluateNodeCommand(assignmentTarget, context));
     }
 
@@ -99,10 +87,7 @@ export default function* iteratorDestructuringAssignmentEvaluation(
     }
 
     if (initializer && isStaticJsUndefined(value)) {
-      const defaultValue = yield* Q.val(
-        EvaluateNodeCommand(initializer, context),
-        context.realm,
-      );
+      const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer, context), context.realm);
       v = defaultValue;
     } else {
       v = value;

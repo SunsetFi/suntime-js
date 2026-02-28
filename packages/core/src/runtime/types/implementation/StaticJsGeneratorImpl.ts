@@ -31,7 +31,7 @@ export default class StaticJsGeneratorImpl
     | "completed" = "suspended-start";
 
   constructor(
-    private readonly _closure: EvaluationGenerator<StaticJsValue>,
+    private readonly _closure: EvaluationGenerator,
     private readonly _generatorBrand: string | null,
     prototype: StaticJsObjectLike,
     realm: StaticJsRealm,
@@ -49,6 +49,10 @@ export default class StaticJsGeneratorImpl
 
   get generatorBrand() {
     return this._generatorBrand;
+  }
+
+  get generatorState() {
+    return this._generatorState;
   }
 
   *nextEvaluator(
@@ -128,12 +132,15 @@ export default class StaticJsGeneratorImpl
           continuation = yield* getValue(continuation!, this.realm);
           result = this._closure.throw(Completion.Throw(continuation));
         } else if (continuationMode === "return") {
-          // Note: Not the same as throw(Completion.return(value)).
-          // This is to triger the closure's finally blocks, if they exist.
-          // We may keep iterating after this, if finally does more yields.
+          // This is a throw, not a return.
+          // We need to surface the return to our infrastructure; return() would just invoke finalizers,
+          // and would NOT catch any EvaluateCommands waiting on a return.
 
           // return only happens on the initial run, so continuation is always a value.
-          result = this._closure.return(continuation as StaticJsValue);
+          const returnCompletion = Completion.Return(
+            continuation as StaticJsValue,
+          );
+          result = this._closure.throw(returnCompletion);
         } else {
           result = this._closure.next(continuation);
         }

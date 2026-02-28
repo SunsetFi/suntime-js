@@ -15,21 +15,13 @@ export default function createIteratorConstructor(
     realm,
     "Iterator",
     function* (_thisArg) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Iterator constructor requires 'new'"),
-      );
+      throw Completion.Throw(realm.types.error("TypeError", "Iterator constructor requires 'new'"));
     },
     {
       *construct(newTarget) {
-        if (
-          isStaticJsUndefined(newTarget) ||
-          newTarget === realm.types.constructors.Iterator
-        ) {
+        if (isStaticJsUndefined(newTarget) || newTarget === realm.types.constructors.Iterator) {
           throw Completion.Throw(
-            realm.types.error(
-              "TypeError",
-              "Iterator constructor requires 'new'",
-            ),
+            realm.types.error("TypeError", "Iterator constructor requires 'new'"),
           );
         }
 
@@ -51,17 +43,8 @@ export default function createIteratorConstructor(
     get: new StaticJsFunctionImpl(realm, "get", function* () {
       return ctor;
     }),
-    set: new StaticJsFunctionImpl(realm, "set", function* (
-      thisArg,
-      v = realm.types.undefined,
-    ) {
-      yield* setterThatIgnoresPrototypeProperties(
-        thisArg,
-        iteratorProto,
-        "constructor",
-        v,
-        realm,
-      );
+    set: new StaticJsFunctionImpl(realm, "set", function* (thisArg, v = realm.types.undefined) {
+      yield* setterThatIgnoresPrototypeProperties(thisArg, iteratorProto, "constructor", v, realm);
       return realm.types.undefined;
     }),
   });

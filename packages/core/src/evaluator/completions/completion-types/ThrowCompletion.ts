@@ -17,20 +17,11 @@ export function ThrowCompletion(value: StaticJsValue): ThrowCompletion {
   };
 }
 
-ThrowCompletion.is = function isThrowCompletion(
-  value: unknown,
-): value is ThrowCompletion {
-  return (
-    value != null &&
-    typeof value === "object" &&
-    "type" in value &&
-    value.type === "throw"
-  );
+ThrowCompletion.is = function isThrowCompletion(value: unknown): value is ThrowCompletion {
+  return value != null && typeof value === "object" && "type" in value && value.type === "throw";
 };
 
-ThrowCompletion.assert = function (
-  value: unknown,
-): asserts value is ThrowCompletion {
+ThrowCompletion.assert = function (value: unknown): asserts value is ThrowCompletion {
   if (!ThrowCompletion.is(value)) {
     throw new StaticJsEngineError(
       `Expected a throw completion, but got ${nameCompletionLike(value)}.`,

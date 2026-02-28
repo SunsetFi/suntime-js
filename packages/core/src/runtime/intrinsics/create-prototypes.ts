@@ -25,6 +25,7 @@ import { populateReferenceErrorPrototype } from "./ReferenceError.js";
 import { populateSyntaxErrorPrototype } from "./SyntaxError.js";
 import { populateTypeErrorPrototype } from "./TypeError.js";
 import { populateURIErrorPrototype } from "./URIError.js";
+import { populateGeneratorPrototype } from "./Generator/index.js";
 
 export function createPrototypes(realm: StaticJsRealm): Prototypes {
   const objectProto = new StaticJsObjectImpl(realm, null);
@@ -43,6 +44,8 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
   const iteratorProto = new StaticJsObjectImpl(realm, objectProto);
   const arrayIteratorProto = new StaticJsObjectImpl(realm, iteratorProto);
   const stringIteratorProto = new StaticJsObjectImpl(realm, iteratorProto);
+
+  const generatorProto = new StaticJsObjectImpl(realm, iteratorProto);
 
   const errorProto = new StaticJsObjectImpl(realm, objectProto);
   const typeErrorProto = new StaticJsObjectImpl(realm, errorProto);
@@ -64,6 +67,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
     iteratorProto,
     arrayIteratorProto,
     stringIteratorProto,
+    generatorProto,
     setProto,
     mapProto,
     errorProto,
@@ -92,6 +96,8 @@ export function instantiatePrototypes(realm: StaticJsRealm) {
   populateIteratorPrototype(realm, prototypes.iteratorProto);
   populateArrayIteratorPrototype(realm, prototypes.arrayIteratorProto);
   populateStringIteratorPrototype(realm, prototypes.stringIteratorProto);
+
+  populateGeneratorPrototype(realm, prototypes.generatorProto);
 
   populatePromisePrototype(realm, prototypes.promiseProto);
   populateIteratorPrototype(realm, prototypes.iteratorProto);

@@ -1,8 +1,4 @@
-import {
-  isIdentifier,
-  type FunctionDeclaration,
-  type Node,
-} from "@babel/types";
+import { isIdentifier, type FunctionDeclaration, type Node } from "@babel/types";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import type { StaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
@@ -83,10 +79,7 @@ export default function* functionDeclarationInstantiation(
   } else if (parameterNames.includes("arguments")) {
     argumentsObjectNeeded = false;
   } else if (!hasParameterExpressions) {
-    if (
-      functionNames.includes("arguments") ||
-      lexicalNames.includes("arguments")
-    ) {
+    if (functionNames.includes("arguments") || lexicalNames.includes("arguments")) {
       argumentsObjectNeeded = false;
     }
   }
@@ -118,13 +111,7 @@ export default function* functionDeclarationInstantiation(
     if (strict || !simpleParameterList) {
       ao = yield* createUnmappedArgumentsObject(argumentsList, realm);
     } else {
-      ao = yield* createMappedArgumentsObject(
-        func,
-        formals,
-        argumentsList,
-        env,
-        realm,
-      );
+      ao = yield* createMappedArgumentsObject(func, formals, argumentsList, env, realm);
     }
 
     if (strict) {
@@ -148,12 +135,7 @@ export default function* functionDeclarationInstantiation(
     usedEnv = env;
   }
 
-  yield* iteratorBindingInitialization(
-    formals,
-    iteratorRecord,
-    usedEnv,
-    calleeContext,
-  );
+  yield* iteratorBindingInitialization(formals, iteratorRecord, usedEnv, calleeContext);
 
   let varEnv: StaticJsEnvironmentRecord;
   let lexEnv: StaticJsEnvironmentRecord;
@@ -197,9 +179,7 @@ export default function* functionDeclarationInstantiation(
   if (strict) {
     lexEnv = varEnv;
   } else {
-    const annexBFunctions = collectAnnexBFunctionDeclarations(
-      func.ECMAScriptCode,
-    );
+    const annexBFunctions = collectAnnexBFunctionDeclarations(func.ECMAScriptCode);
     for (const f of annexBFunctions) {
       if (f.id?.type !== "Identifier") {
         continue;
@@ -222,9 +202,7 @@ export default function* functionDeclarationInstantiation(
 
   calleeContext.lexicalEnv = lexEnv;
 
-  const lexDeclarations = lexicallyScopedDeclarations.topLevel(
-    func.ECMAScriptCode,
-  );
+  const lexDeclarations = lexicallyScopedDeclarations.topLevel(func.ECMAScriptCode);
   for (const d of lexDeclarations) {
     for (const dn of boundNames(d)) {
       if (d.type == "VariableDeclaration" && d.kind === "const") {
@@ -244,9 +222,7 @@ export default function* functionDeclarationInstantiation(
   }
 }
 
-function isSimpleParameterList(
-  formals: StaticJsAstFunctionArgument[],
-): boolean {
+function isSimpleParameterList(formals: StaticJsAstFunctionArgument[]): boolean {
   if (formals.length === 0) {
     return true;
   }
@@ -268,9 +244,7 @@ function containsExpression(node: Node | Node[]): boolean {
   }
 
   if (node.type === "ArrayPattern") {
-    return node.elements.some(
-      (element) => element !== null && containsExpression(element),
-    );
+    return node.elements.some((element) => element !== null && containsExpression(element));
   }
 
   if (node.type === "ObjectPattern") {

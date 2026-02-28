@@ -44,12 +44,7 @@ export default function* assignmentExpressionNodeEvaluator(
     case "&=":
     case "^=":
     case "|=":
-      return yield* algebraicAssignmentExpressionEvaluator(
-        node.operator,
-        left,
-        right,
-        context,
-      );
+      return yield* algebraicAssignmentExpressionEvaluator(node.operator, left, right, context);
     case "&&=": {
       const lRef = yield* Q.ref(EvaluateNodeCommand(left, context));
       const lVal = yield* getValue(lRef, context.realm);
@@ -58,10 +53,7 @@ export default function* assignmentExpressionNodeEvaluator(
         return lVal;
       }
 
-      const rVal = yield* Q.val(
-        EvaluateNodeCommand(right, context),
-        context.realm,
-      );
+      const rVal = yield* Q.val(EvaluateNodeCommand(right, context), context.realm);
       yield* putValue(lRef, rVal, context.realm);
       return rVal;
     }
@@ -73,10 +65,7 @@ export default function* assignmentExpressionNodeEvaluator(
         return lVal;
       }
 
-      const rVal = yield* Q.val(
-        EvaluateNodeCommand(right, context),
-        context.realm,
-      );
+      const rVal = yield* Q.val(EvaluateNodeCommand(right, context), context.realm);
       yield* putValue(lRef, rVal, context.realm);
       return rVal;
     }
@@ -87,18 +76,13 @@ export default function* assignmentExpressionNodeEvaluator(
         return lVal;
       }
 
-      const rVal = yield* Q.val(
-        EvaluateNodeCommand(right, context),
-        context.realm,
-      );
+      const rVal = yield* Q.val(EvaluateNodeCommand(right, context), context.realm);
       yield* putValue(lRef, rVal, context.realm);
       return rVal;
     }
   }
 
-  throw new StaticJsEngineError(
-    `Unsupported assignment operator: ${node.operator}`,
-  );
+  throw new StaticJsEngineError(`Unsupported assignment operator: ${node.operator}`);
 }
 
 function* directAssignmentExpressionEvaluator(
@@ -109,10 +93,7 @@ function* directAssignmentExpressionEvaluator(
 ): EvaluationGenerator {
   if (left.type !== "ObjectPattern" && left.type !== "ArrayPattern") {
     const lRef = yield* Q.ref(EvaluateNodeCommand(left, context));
-    const rVal = yield* Q.val(
-      EvaluateNodeCommand(right, context),
-      context.realm,
-    );
+    const rVal = yield* Q.val(EvaluateNodeCommand(right, context), context.realm);
     yield* putValue(lRef, rVal, context.realm);
     return rVal;
   }
@@ -183,9 +164,7 @@ function* algebraicAssignmentExpressionEvaluator(
       result = l | r;
       break;
     default:
-      throw new StaticJsEngineError(
-        `Unsupported assignment operator: ${operator}`,
-      );
+      throw new StaticJsEngineError(`Unsupported assignment operator: ${operator}`);
   }
 
   const resultVal = realm.types.number(result);

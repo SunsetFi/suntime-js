@@ -42,10 +42,7 @@ export default function* arrayExpressionNodeEvaluator(
         }
       });
     } else {
-      const value = yield* Q.val(
-        EvaluateNodeCommand(element, context),
-        context.realm,
-      );
+      const value = yield* Q.val(EvaluateNodeCommand(element, context), context.realm);
       items.push(value);
     }
   }

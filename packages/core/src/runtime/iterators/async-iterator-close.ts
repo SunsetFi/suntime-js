@@ -60,10 +60,7 @@ export default function* asyncIteratorClose(
 
   if (!isStaticJsObjectLike(innerResult)) {
     throw Completion.Throw(
-      realm.types.error(
-        "TypeError",
-        "iterator.return() did not return an object",
-      ),
+      realm.types.error("TypeError", "iterator.return() did not return an object"),
     );
   }
 

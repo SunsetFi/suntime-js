@@ -52,6 +52,7 @@ import updateExpressionNodeEvaluator from "./UpdateExpression.js";
 import variableDeclarationNodeEvaluator from "./VariableDeclaration.js";
 import whileStatementNodeEvaluator from "./WhileStatement.js";
 import withStatementNodeEvaluator from "./WithStatement.js";
+import yieldExpressionNodeEvaluator from "./YieldExpression.js";
 
 type NodeEvaluators = {
   [key in Node["type"]]?: NodeEvaluator<Extract<Node, { type: key }>>;
@@ -108,6 +109,7 @@ const nodeEvaluators: NodeEvaluators = {
   VariableDeclaration: variableDeclarationNodeEvaluator,
   WhileStatement: whileStatementNodeEvaluator,
   WithStatement: withStatementNodeEvaluator,
+  YieldExpression: yieldExpressionNodeEvaluator,
 };
 
 export function getEvaluator<TType extends Node["type"]>(

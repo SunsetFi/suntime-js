@@ -45,10 +45,7 @@ Q.ref = function* qRef<T extends object | null = Completion.Normal>(
   return completion;
 };
 
-Q.val = function* qValue(
-  evaluator: CompletionEvaluator<Completion>,
-  realm: StaticJsRealm,
-) {
+Q.val = function* qValue(evaluator: CompletionEvaluator<Completion>, realm: StaticJsRealm) {
   const completion = yield* Q(evaluator);
   if (!completion) {
     throw new StaticJsEngineError(

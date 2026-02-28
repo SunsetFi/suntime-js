@@ -24,9 +24,7 @@ export default function logicalExpressionNodeEvaluator(
     case "??":
       return logicalExpressionNullishCoalescing(node, context);
     default:
-      throw new StaticJsEngineError(
-        `LogicalExpression operator ${node.operator} is not supported`,
-      );
+      throw new StaticJsEngineError(`LogicalExpression operator ${node.operator} is not supported`);
   }
 }
 
@@ -34,17 +32,11 @@ function* logicalExpressionAnd(
   node: LogicalExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const left = yield* Q.val(
-    EvaluateNodeCommand(node.left, context),
-    context.realm,
-  );
+  const left = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
   const leftBoolean = yield* toBoolean.js(left, context.realm);
 
   if (leftBoolean) {
-    const right = yield* Q.val(
-      EvaluateNodeCommand(node.right, context),
-      context.realm,
-    );
+    const right = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
 
     return right;
   }
@@ -56,20 +48,14 @@ function* logicalExpressionOr(
   node: LogicalExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const left = yield* Q.val(
-    EvaluateNodeCommand(node.left, context),
-    context.realm,
-  );
+  const left = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
   const leftBoolean = yield* toBoolean.js(left, context.realm);
 
   if (leftBoolean) {
     return left;
   }
 
-  const right = yield* Q.val(
-    EvaluateNodeCommand(node.right, context),
-    context.realm,
-  );
+  const right = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
 
   return right;
 }
@@ -78,19 +64,13 @@ function* logicalExpressionNullishCoalescing(
   node: LogicalExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const left = yield* Q.val(
-    EvaluateNodeCommand(node.left, context),
-    context.realm,
-  );
+  const left = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
 
   if (
     left.runtimeTypeCode === StaticJsTypeCode.Null ||
     left.runtimeTypeCode === StaticJsTypeCode.Undefined
   ) {
-    const right = yield* Q.val(
-      EvaluateNodeCommand(node.right, context),
-      context.realm,
-    );
+    const right = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
     return right;
   }
 

@@ -12,9 +12,6 @@ export default function* throwStatementNodeEvaluator(
   node: ThrowStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const value = yield* Q.val(
-    EvaluateNodeCommand(node.argument, context),
-    context.realm,
-  );
+  const value = yield* Q.val(EvaluateNodeCommand(node.argument, context), context.realm);
   throw Completion.Throw(value);
 }

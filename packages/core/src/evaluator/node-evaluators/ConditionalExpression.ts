@@ -12,10 +12,7 @@ export default function* conditionalExpressionNodeEvaluator(
   node: ConditionalExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const testResult = yield* Q.val(
-    EvaluateNodeCommand(node.test, context),
-    context.realm,
-  );
+  const testResult = yield* Q.val(EvaluateNodeCommand(node.test, context), context.realm);
 
   const condition = yield* toBoolean.js(testResult, context.realm);
 

@@ -59,10 +59,7 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsEnvironment
     );
   }
 
-  *initializeBindingEvaluator(
-    _name: string,
-    _value: StaticJsValue,
-  ): EvaluationGenerator<void> {
+  *initializeBindingEvaluator(_name: string, _value: StaticJsValue): EvaluationGenerator<void> {
     throw Completion.Throw(
       this._realm.types.error(
         "TypeError",
@@ -77,9 +74,7 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsEnvironment
     _strict: boolean,
   ): EvaluationGenerator<void> {
     if (this._moduleBindings.has(name)) {
-      throw Completion.Throw(
-        this._realm.types.error("TypeError", "Assignment to constant"),
-      );
+      throw Completion.Throw(this._realm.types.error("TypeError", "Assignment to constant"));
     }
 
     throw Completion.Throw(
@@ -90,10 +85,7 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsEnvironment
     );
   }
 
-  *getBindingValueEvaluator(
-    name: string,
-    _strict: boolean,
-  ): EvaluationGenerator<StaticJsValue> {
+  *getBindingValueEvaluator(name: string, _strict: boolean): EvaluationGenerator<StaticJsValue> {
     const binding = this._moduleBindings.get(name);
     if (!binding) {
       throw Completion.Throw(
@@ -107,9 +99,7 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsEnvironment
     const { module, bindingName } = binding;
     const value = yield* module.getOwnBindingValueEvaluator(bindingName);
     if (value == null) {
-      throw new StaticJsEngineError(
-        `Export ${name} not found in module ${module.name}.`,
-      );
+      throw new StaticJsEngineError(`Export ${name} not found in module ${module.name}.`);
     }
     return value;
   }

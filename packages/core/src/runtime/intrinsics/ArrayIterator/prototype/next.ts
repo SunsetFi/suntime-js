@@ -14,10 +14,7 @@ const arrayProtoNextDeclaration: IntrinsicPropertyDeclaration = {
     const O = thisArg;
     if (!isStaticJsObjectLike(O)) {
       throw Completion.Throw(
-        realm.types.error(
-          "TypeError",
-          "Array Iterator.prototype.next called on non-object",
-        ),
+        realm.types.error("TypeError", "Array Iterator.prototype.next called on non-object"),
       );
     }
 

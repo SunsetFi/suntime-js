@@ -4,10 +4,7 @@ import toBoolean from "../../algorithms/to-boolean.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import {
-  isStaticJsObjectLike,
-  type StaticJsObjectLike,
-} from "../../types/StaticJsObjectLike.js";
+import { isStaticJsObjectLike, type StaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
@@ -38,9 +35,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
       return true;
     }
 
-    const unscopables = yield* this._obj.getEvaluator(
-      this._realm.types.symbols.unscopables,
-    );
+    const unscopables = yield* this._obj.getEvaluator(this._realm.types.symbols.unscopables);
     if (isStaticJsObjectLike(unscopables)) {
       const blockedValue = yield* unscopables.getEvaluator(name);
       const isBlocked = yield* toBoolean.js(blockedValue, this._realm);
@@ -66,10 +61,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
     return true;
   }
 
-  *createMutableBindingEvaluator(
-    name: string,
-    deletable: boolean,
-  ): EvaluationGenerator<void> {
+  *createMutableBindingEvaluator(name: string, deletable: boolean): EvaluationGenerator<void> {
     yield* this._obj.defineOwnPropertyEvaluator(name, {
       value: this._realm.types.undefined,
       writable: true,
@@ -82,10 +74,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
     // Do nothing; all the work is done in initializeBinding
   }
 
-  *initializeBindingEvaluator(
-    name: string,
-    value: StaticJsValue,
-  ): EvaluationGenerator<void> {
+  *initializeBindingEvaluator(name: string, value: StaticJsValue): EvaluationGenerator<void> {
     yield* this.setMutableBindingEvaluator(name, value, false);
   }
 
@@ -107,10 +96,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
     yield* this._obj.setEvaluator(name, value, strict);
   }
 
-  *getBindingValueEvaluator(
-    name: string,
-    strict: boolean,
-  ): EvaluationGenerator<StaticJsValue> {
+  *getBindingValueEvaluator(name: string, strict: boolean): EvaluationGenerator<StaticJsValue> {
     const hasProp = yield* this._obj.hasPropertyEvaluator(name);
     if (!hasProp) {
       if (strict) {

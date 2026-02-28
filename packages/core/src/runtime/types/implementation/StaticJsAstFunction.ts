@@ -21,9 +21,7 @@ import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsUndefined } from "../StaticJsUndefined.js";
 
-import StaticJsFunctionBase, {
-  type StaticJsFunctionImplOptions,
-} from "./StaticJsFunctionImpl.js";
+import StaticJsFunctionBase, { type StaticJsFunctionImplOptions } from "./StaticJsFunctionImpl.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";

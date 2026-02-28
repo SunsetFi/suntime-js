@@ -17,10 +17,7 @@ function* exportDefaultDeclarationNodeEvaluator(
   }
 
   if (isAssignmentGrammar(node.declaration)) {
-    const rhs = yield* Q.val(
-      EvaluateNodeCommand(node.declaration, context),
-      context.realm,
-    );
+    const rhs = yield* Q.val(EvaluateNodeCommand(node.declaration, context), context.realm);
 
     yield* context.lexicalEnv.initializeBindingEvaluator("*default*", rhs);
   }

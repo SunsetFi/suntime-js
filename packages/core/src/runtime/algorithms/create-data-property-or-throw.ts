@@ -17,8 +17,6 @@ export default function* createDataPropertyOrThrow(
 ): EvaluationGenerator<void> {
   const success = yield* createDataProperty(O, P, V);
   if (!success) {
-    throw Completion.Throw(
-      realm.types.error("TypeError", "Cannot create data property"),
-    );
+    throw Completion.Throw(realm.types.error("TypeError", "Cannot create data property"));
   }
 }

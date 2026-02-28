@@ -9,9 +9,7 @@ const promiseProtoThenDeclaration: IntrinsicPropertyDeclaration = {
   key: "then",
   *func(realm, thisArg, onFulfilled, onRejected) {
     if (!isStaticJsPromise(thisArg)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "then called on non-promise"),
-      );
+      throw Completion.Throw(realm.types.error("TypeError", "then called on non-promise"));
     }
 
     // Spec says these can be unspecified and also non-functions

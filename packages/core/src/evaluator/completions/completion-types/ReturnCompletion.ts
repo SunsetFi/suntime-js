@@ -16,20 +16,11 @@ export function ReturnCompletion(value: StaticJsValue): ReturnCompletion {
   };
 }
 
-ReturnCompletion.is = function isReturnCompletion(
-  value: unknown,
-): value is ReturnCompletion {
-  return (
-    value != null &&
-    typeof value === "object" &&
-    "type" in value &&
-    value.type === "return"
-  );
+ReturnCompletion.is = function isReturnCompletion(value: unknown): value is ReturnCompletion {
+  return value != null && typeof value === "object" && "type" in value && value.type === "return";
 };
 
-ReturnCompletion.assert = function (
-  value: unknown,
-): asserts value is ReturnCompletion {
+ReturnCompletion.assert = function (value: unknown): asserts value is ReturnCompletion {
   if (!ReturnCompletion.is(value)) {
     throw new StaticJsEngineError(
       `Expected a return completion, but got ${nameCompletionLike(value)}.`,

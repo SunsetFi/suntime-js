@@ -14,12 +14,7 @@ export default function* createIteratorFromClosure(
   generatorPrototype: StaticJsObjectLike,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsGenerator> {
-  const generator = new StaticJsGeneratorImpl(
-    closure,
-    generatorBrand,
-    generatorPrototype,
-    realm,
-  );
+  const generator = new StaticJsGeneratorImpl(closure, generatorBrand, generatorPrototype, realm);
 
   return generator;
 }

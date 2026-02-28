@@ -19,31 +19,21 @@ export default function* instanceOfOperator(
 ): EvaluationGenerator<boolean> {
   if (!isStaticJsObjectLike(target)) {
     throw Completion.Throw(
-      realm.types.error(
-        "TypeError",
-        "Right-hand side of 'instanceof' is not an object",
-      ),
+      realm.types.error("TypeError", "Right-hand side of 'instanceof' is not an object"),
     );
   }
 
-  const instOfHandler = yield* target.getEvaluator(
-    realm.types.symbols.hasInstance,
-  );
+  const instOfHandler = yield* target.getEvaluator(realm.types.symbols.hasInstance);
   if (isStaticJsFunction(instOfHandler)) {
     const result = yield* instOfHandler.callEvaluator(target, [V]);
     return yield* toBoolean.js(result, realm);
   } else if (!isStaticJsUndefined(instOfHandler)) {
-    throw Completion.Throw(
-      realm.types.error("TypeError", "Symbol.hasInstance is not a function"),
-    );
+    throw Completion.Throw(realm.types.error("TypeError", "Symbol.hasInstance is not a function"));
   }
 
   if (!isStaticJsFunction(target)) {
     throw Completion.Throw(
-      realm.types.error(
-        "TypeError",
-        "Right-hand side of 'instanceof' is not callable",
-      ),
+      realm.types.error("TypeError", "Right-hand side of 'instanceof' is not callable"),
     );
   }
 

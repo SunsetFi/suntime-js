@@ -36,9 +36,7 @@ X.value = function xValue(value: CompletionEvaluator<Completion>) {
   const completion = captureThrownCompletion(value);
 
   if (!isStaticJsValue(completion)) {
-    throw new StaticJsEngineError(
-      `Expected a value, but got ${nameCompletionLike(completion)}.`,
-    );
+    throw new StaticJsEngineError(`Expected a value, but got ${nameCompletionLike(completion)}.`);
   }
 
   return completion;

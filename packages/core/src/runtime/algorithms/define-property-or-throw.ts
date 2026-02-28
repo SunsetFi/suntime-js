@@ -3,10 +3,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type {
-  StaticJsObjectLike,
-  StaticJsPropertyKey,
-} from "../types/StaticJsObjectLike.js";
+import type { StaticJsObjectLike, StaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
 import type { StaticJsPropertyDescriptor } from "../types/StaticJsPropertyDescriptor.js";
 
 export default function* definePropertyOrThrow(
@@ -18,8 +15,6 @@ export default function* definePropertyOrThrow(
   const success = yield* O.defineOwnPropertyEvaluator(P, desc);
 
   if (!success) {
-    throw Completion.Throw(
-      realm.types.error("TypeError", `Cannot define property ${String(P)}`),
-    );
+    throw Completion.Throw(realm.types.error("TypeError", `Cannot define property ${String(P)}`));
   }
 }

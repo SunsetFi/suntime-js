@@ -26,10 +26,7 @@ export default function* toObject(
 ): EvaluationGenerator<StaticJsObjectLike> {
   if (isStaticJsUndefined(value) || isStaticJsNull(value)) {
     throw Completion.Throw(
-      realm.types.error(
-        "TypeError",
-        "Cannot convert undefined or null to object",
-      ),
+      realm.types.error("TypeError", "Cannot convert undefined or null to object"),
     );
   }
 

@@ -1,9 +1,6 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 
-import {
-  isStaticJsFunction,
-  type StaticJsFunction,
-} from "../../../types/StaticJsFunction.js";
+import { isStaticJsFunction, type StaticJsFunction } from "../../../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
@@ -23,9 +20,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
     if (!comparatorArg || isStaticJsUndefined(comparatorArg)) {
       resolvedComparator = null;
     } else if (!isStaticJsFunction(comparatorArg)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Comparator must be a function"),
-      );
+      throw Completion.Throw(realm.types.error("TypeError", "Comparator must be a function"));
     } else {
       resolvedComparator = comparatorArg;
     }
@@ -37,12 +32,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
       return yield* compareArrayElements(x, y, resolvedComparator, realm);
     };
 
-    const sortedList = yield* sortIndexedProperties(
-      obj,
-      len,
-      sortCompare,
-      "skip-holes",
-    );
+    const sortedList = yield* sortIndexedProperties(obj, len, sortCompare, "skip-holes");
 
     const itemCount = sortedList.length;
 

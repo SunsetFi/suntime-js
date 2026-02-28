@@ -19,11 +19,7 @@ export default function* captureThrownCompletion<T = Completion.Normal>(
     let resolved: T | Completion.Abrupt;
     if (!evaluator) {
       resolved = evaluator;
-    } else if (
-      evaluator &&
-      typeof evaluator === "object" &&
-      "next" in evaluator
-    ) {
+    } else if (evaluator && typeof evaluator === "object" && "next" in evaluator) {
       resolved = yield* evaluator;
     } else {
       resolved = evaluator;

@@ -6,10 +6,7 @@ import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
-import {
-  isStaticJsValue,
-  type StaticJsValue,
-} from "../../runtime/types/StaticJsValue.js";
+import { isStaticJsValue, type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import getIterator from "../../runtime/iterators/get-iterator.js";
 import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
@@ -52,9 +49,7 @@ export default function* callExpressionNodeEvaluator(
   let callee: StaticJsValue;
 
   if (!calleeRaw) {
-    throw new StaticJsEngineError(
-      "CallExpression callee evaluated to no value",
-    );
+    throw new StaticJsEngineError("CallExpression callee evaluated to no value");
   }
 
   if (isStaticJsValue(calleeRaw)) {
@@ -139,19 +134,12 @@ function* callEvalEvaluator(
   }
 
   const strict =
-    context.strict ||
-    node.program.directives.some((dir) => dir.value.value === "use strict");
+    context.strict || node.program.directives.some((dir) => dir.value.value === "use strict");
 
-  const lexEnv = new StaticJsDeclarativeEnvironmentRecord(
-    context.lexicalEnv,
-    realm,
-  );
+  const lexEnv = new StaticJsDeclarativeEnvironmentRecord(context.lexicalEnv, realm);
   const varEnv = strict ? lexEnv : context.variableEnv;
 
-  const evalContext = context.createLexicalAndVariableEnvContext(
-    lexEnv,
-    varEnv,
-  );
+  const evalContext = context.createLexicalAndVariableEnvContext(lexEnv, varEnv);
 
   yield* evalDeclarationInstantiation(node, strict, evalContext);
 

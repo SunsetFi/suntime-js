@@ -29,21 +29,12 @@ export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
     body: BlockStatement | Expression,
     functionFactory: StaticJsFunctionFactory,
   ) {
-    super(
-      realm,
-      name,
-      "non-lexical-this",
-      argumentDeclarations,
-      context,
-      body,
-      functionFactory,
-      {
-        // Async methods are not constructable.
-        construct: false,
-      },
-    );
+    super(realm, name, "non-lexical-this", argumentDeclarations, context, body, functionFactory, {
+      // Async functions are not constructable.
+      construct: false,
+    });
 
-    // Async methods get no prototype.
+    // Async functions get no prototype.
   }
 
   protected *_invoke(
@@ -63,10 +54,7 @@ export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
     }
 
     const evaluator = Q(EvaluateNodeCommand(this._body, functionContext));
-    const invocation = new AsyncEvaluatorInvocation(
-      evaluator,
-      functionContext.realm,
-    );
+    const invocation = new AsyncEvaluatorInvocation(evaluator, functionContext.realm);
 
     yield* invocation.start();
 

@@ -20,10 +20,7 @@ const whileStatementNodeEvaluator = labeledStatementEvaluation(
   ): EvaluationGenerator {
     let V: Completion.Normal = context.realm.types.undefined;
     while (true) {
-      const exprValue = yield* Q.val(
-        EvaluateNodeCommand(node.test, context),
-        context.realm,
-      );
+      const exprValue = yield* Q.val(EvaluateNodeCommand(node.test, context), context.realm);
 
       const shouldContinue = yield* toBoolean.js(exprValue, context.realm);
       if (!shouldContinue) {

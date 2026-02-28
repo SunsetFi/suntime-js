@@ -25,19 +25,10 @@ export default class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
     body: BlockStatement | Expression,
     functionFactory: StaticJsFunctionFactory,
   ) {
-    super(
-      realm,
-      name,
-      "non-lexical-this",
-      argumentDeclarations,
-      context,
-      body,
-      functionFactory,
-      {
-        // Object methods are not constructable.
-        construct: false,
-      },
-    );
+    super(realm, name, "non-lexical-this", argumentDeclarations, context, body, functionFactory, {
+      // Object methods are not constructable.
+      construct: false,
+    });
 
     // Object methods get no prototype.
   }
@@ -49,10 +40,7 @@ export default class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
     const functionContext = yield* this._createContext(thisArg, args);
 
     const evaluator = Q(EvaluateNodeCommand(this._body, functionContext));
-    const invocation = new AsyncEvaluatorInvocation(
-      evaluator,
-      functionContext.realm,
-    );
+    const invocation = new AsyncEvaluatorInvocation(evaluator, functionContext.realm);
 
     yield* invocation.start();
 

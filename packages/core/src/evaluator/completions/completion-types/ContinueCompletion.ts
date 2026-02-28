@@ -22,20 +22,11 @@ export function ContinueCompletion(
   };
 }
 
-ContinueCompletion.is = function isContinueCompletion(
-  value: unknown,
-): value is ContinueCompletion {
-  return (
-    value != null &&
-    typeof value === "object" &&
-    "type" in value &&
-    value.type === "continue"
-  );
+ContinueCompletion.is = function isContinueCompletion(value: unknown): value is ContinueCompletion {
+  return value != null && typeof value === "object" && "type" in value && value.type === "continue";
 };
 
-ContinueCompletion.assert = function (
-  value: unknown,
-): asserts value is ContinueCompletion {
+ContinueCompletion.assert = function (value: unknown): asserts value is ContinueCompletion {
   if (!ContinueCompletion.is(value)) {
     throw new StaticJsEngineError(
       `Expected a continue completion, but got ${nameCompletionLike(value)}.`,

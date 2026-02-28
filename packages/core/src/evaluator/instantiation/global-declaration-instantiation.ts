@@ -44,9 +44,7 @@ export default function* globalDeclarationInstantiation(
   for (const name of lexNames) {
     const hasBinding = yield* hasLexicalDeclaration(name, env);
     if (hasBinding) {
-      throw Completion.Throw(
-        realm.types.error("SyntaxError", `${name} has already been declared`),
-      );
+      throw Completion.Throw(realm.types.error("SyntaxError", `${name} has already been declared`));
     }
 
     const restricted = yield* hasRestrictedGlobalProperty(name, env);
@@ -63,9 +61,7 @@ export default function* globalDeclarationInstantiation(
   for (const name of varNames) {
     const hasBinding = yield* hasLexicalDeclaration(name, env);
     if (hasBinding) {
-      throw Completion.Throw(
-        realm.types.error("SyntaxError", `${name} has already been declared`),
-      );
+      throw Completion.Throw(realm.types.error("SyntaxError", `${name} has already been declared`));
     }
   }
 
@@ -84,10 +80,7 @@ export default function* globalDeclarationInstantiation(
     const isDefinable = yield* canDeclareGlobalFunction(fnName, env);
     if (!isDefinable) {
       throw Completion.Throw(
-        realm.types.error(
-          "TypeError",
-          `Cannot declare global function ${fnName}`,
-        ),
+        realm.types.error("TypeError", `Cannot declare global function ${fnName}`),
       );
     }
 
@@ -109,10 +102,7 @@ export default function* globalDeclarationInstantiation(
       const definable = yield* canDeclareGlobalVar(vn, env);
       if (!definable) {
         throw Completion.Throw(
-          realm.types.error(
-            "TypeError",
-            `Cannot declare global variable ${vn}`,
-          ),
+          realm.types.error("TypeError", `Cannot declare global variable ${vn}`),
         );
       }
 

@@ -65,21 +65,14 @@ export function* forInOfBodyEvaluation(
   }
 
   while (true) {
-    let nextResult = yield* call(
-      iteratorRecord.nextMethod,
-      iteratorRecord.iterator,
-      [],
-      realm,
-    );
+    let nextResult = yield* call(iteratorRecord.nextMethod, iteratorRecord.iterator, [], realm);
 
     if (iteratorKind === "async") {
       nextResult = yield* AwaitCommand(nextResult);
     }
 
     if (!isStaticJsObjectLike(nextResult)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Iterator result is not an object"),
-      );
+      throw Completion.Throw(realm.types.error("TypeError", "Iterator result is not an object"));
     }
 
     const done = yield* iteratorComplete(nextResult, realm);
@@ -96,18 +89,12 @@ export function* forInOfBodyEvaluation(
       if (lhsKind === "assignment" || lhsKind === "varBinding") {
         if (destructuring) {
           if (lhsKind === "assignment") {
-            yield* destructuringAssignmentEvaluation(
-              assignmentPattern!,
-              nextValue,
-              context,
-            );
+            yield* destructuringAssignmentEvaluation(assignmentPattern!, nextValue, context);
           } else {
             yield* bindingInitialization(lhs as LVal, nextValue, null, context);
           }
         } else {
-          const lhsRef = yield* Q.ref(
-            EvaluateNodeCommand(lhs, context),
-          );
+          const lhsRef = yield* Q.ref(EvaluateNodeCommand(lhs, context));
           // TODO:  Spec says if lhsKind is assignment and lhs target is WEB-COMPAT throw a ReferenceError, but
           // I have no idea what AssignmentType or WEB-COMPAT is.  Skipping for now.
           yield* putValue(lhsRef, nextValue, realm);
@@ -119,14 +106,10 @@ export function* forInOfBodyEvaluation(
           );
         }
 
-        const iterationEnv = new StaticJsDeclarativeEnvironmentRecord(
-          oldEnv,
-          context.realm,
-        );
+        const iterationEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
         yield* forDeclarationBindingInstantiation(lhs, iterationEnv);
 
-        iterationContext =
-          iterationContext.createLexicalEnvContext(iterationEnv);
+        iterationContext = iterationContext.createLexicalEnvContext(iterationEnv);
 
         if (destructuring) {
           yield* forDeclarationBindingInitialization(
@@ -169,11 +152,7 @@ export function* forInOfBodyEvaluation(
         return rethrowCompletion(status);
       } else {
         if (iteratorKind === "async") {
-          return yield* asyncIteratorClose(
-            iteratorRecord,
-            status,
-            context.realm,
-          );
+          return yield* asyncIteratorClose(iteratorRecord, status, context.realm);
         }
 
         return yield* iteratorClose(iteratorRecord, status, context.realm);

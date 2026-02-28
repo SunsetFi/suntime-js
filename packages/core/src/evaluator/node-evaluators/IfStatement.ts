@@ -9,14 +9,8 @@ import type EvaluationContext from "../EvaluationContext.js";
 import { Completion } from "../completions/Completion.js";
 import Q from "../completions/Q.js";
 
-export default function* ifStatementNodeEvaluator(
-  node: IfStatement,
-  context: EvaluationContext,
-) {
-  const testResult = yield* Q.val(
-    EvaluateNodeCommand(node.test, context),
-    context.realm,
-  );
+export default function* ifStatementNodeEvaluator(node: IfStatement, context: EvaluationContext) {
+  const testResult = yield* Q.val(EvaluateNodeCommand(node.test, context), context.realm);
   const condition = yield* toBoolean.js(testResult, context.realm);
 
   let stmtCompletion: Completion;
@@ -28,7 +22,5 @@ export default function* ifStatementNodeEvaluator(
     return context.realm.types.undefined;
   }
 
-  return yield* Q(
-    Completion.updateEmpty(stmtCompletion, context.realm.types.undefined),
-  );
+  return yield* Q(Completion.updateEmpty(stmtCompletion, context.realm.types.undefined));
 }

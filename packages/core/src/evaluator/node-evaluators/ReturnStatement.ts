@@ -15,10 +15,7 @@ export default function* returnStatementNodeEvaluator(
 ): EvaluationGenerator {
   let value: StaticJsValue = context.realm.types.undefined;
   if (node.argument) {
-    value = yield* Q.val(
-      EvaluateNodeCommand(node.argument, context),
-      context.realm,
-    );
+    value = yield* Q.val(EvaluateNodeCommand(node.argument, context), context.realm);
   }
 
   throw Completion.Return(value);

@@ -13,9 +13,7 @@ const functionProtoBindDeclaration: IntrinsicPropertyDeclaration = {
   key: "bind",
   *func(realm, self, thisArg, ...args) {
     if (!isStaticJsFunction(self)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Bind must be called on a function"),
-      );
+      throw Completion.Throw(realm.types.error("TypeError", "Bind must be called on a function"));
     }
 
     if (!thisArg || isStaticJsUndefined(thisArg)) {

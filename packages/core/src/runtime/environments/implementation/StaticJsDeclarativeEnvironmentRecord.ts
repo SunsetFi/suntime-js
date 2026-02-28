@@ -15,14 +15,10 @@ import StaticJsEnvironmentRecordBase from "./StaticJsEnvironmentRecordBase.js";
 
 export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   static from(context: EvaluationContext) {
-    return new StaticJsDeclarativeEnvironmentRecord(
-      context.lexicalEnv,
-      context.realm,
-    );
+    return new StaticJsDeclarativeEnvironmentRecord(context.lexicalEnv, context.realm);
   }
 
-  private readonly _bindings: Map<string, DeclarativeEnvironmentBinding> =
-    new Map();
+  private readonly _bindings: Map<string, DeclarativeEnvironmentBinding> = new Map();
 
   constructor(
     outerEnv: StaticJsEnvironmentRecord | null,
@@ -49,10 +45,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
     return binding.isInitialized;
   }
 
-  *initializeBindingEvaluator(
-    name: string,
-    value: StaticJsValue,
-  ): EvaluationGenerator<void> {
+  *initializeBindingEvaluator(name: string, value: StaticJsValue): EvaluationGenerator<void> {
     const binding = this._bindings.get(name);
     if (!binding) {
       throw Completion.Throw(
@@ -71,34 +64,17 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
 
     this._bindings.set(
       name,
-      new DeclarativeEnvironmentBinding(
-        name,
-        true,
-        false,
-        deletable,
-        null,
-        this._realm,
-      ),
+      new DeclarativeEnvironmentBinding(name, true, false, deletable, null, this._realm),
     );
   }
 
-  *createImmutableBindingEvaluator(
-    name: string,
-    strict: boolean,
-  ): EvaluationGenerator<void> {
+  *createImmutableBindingEvaluator(name: string, strict: boolean): EvaluationGenerator<void> {
     // TODO: Do we throw if not strict?
     this._assertBindingNotDeclared(name);
 
     this._bindings.set(
       name,
-      new DeclarativeEnvironmentBinding(
-        name,
-        false,
-        strict,
-        false,
-        null,
-        this._realm,
-      ),
+      new DeclarativeEnvironmentBinding(name, false, strict, false, null, this._realm),
     );
   }
 
@@ -110,9 +86,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
     const binding = this._bindings.get(name);
     if (!binding) {
       if (strict) {
-        throw Completion.Throw(
-          this._realm.types.error("ReferenceError", `${name} is not defined`),
-        );
+        throw Completion.Throw(this._realm.types.error("ReferenceError", `${name} is not defined`));
       }
 
       yield* this.createMutableBindingEvaluator(name, true);
@@ -140,15 +114,10 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
     }
   }
 
-  *getBindingValueEvaluator(
-    name: string,
-    _strict: boolean,
-  ): EvaluationGenerator<StaticJsValue> {
+  *getBindingValueEvaluator(name: string, _strict: boolean): EvaluationGenerator<StaticJsValue> {
     const binding = this._bindings.get(name);
     if (!binding) {
-      throw Completion.Throw(
-        this._realm.types.error("ReferenceError", `${name} is not defined`),
-      );
+      throw Completion.Throw(this._realm.types.error("ReferenceError", `${name} is not defined`));
     }
 
     return yield* binding.get();
@@ -157,9 +126,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
   *deleteBindingEvaluator(name: string): EvaluationGenerator<boolean> {
     const binding = this._bindings.get(name);
     if (!binding) {
-      throw new StaticJsEngineError(
-        `Binding ${name} does not exist in this environment`,
-      );
+      throw new StaticJsEngineError(`Binding ${name} does not exist in this environment`);
     }
 
     if (!binding.isDeletable) {
@@ -193,10 +160,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
   protected _assertBindingNotDeclared(name: string) {
     if (this._bindings.has(name)) {
       throw Completion.Throw(
-        this._realm.types.error(
-          "SyntaxError",
-          `Identifier ${name} has already been declared`,
-        ),
+        this._realm.types.error("SyntaxError", `Identifier ${name} has already been declared`),
       );
     }
   }
@@ -222,9 +186,7 @@ class DeclarativeEnvironmentBinding {
 
   *initialize(value: StaticJsValue): EvaluationGenerator<void> {
     if (this.isInitialized) {
-      throw new Error(
-        `Cannot initialize binding ${this.name}: Already initialized`,
-      );
+      throw new Error(`Cannot initialize binding ${this.name}: Already initialized`);
     }
 
     this._value = value;

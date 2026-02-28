@@ -36,10 +36,7 @@ export default function* unaryExpressionNodeEvaluator(
 
   // Note: In the case of 'void', this is never used.
   // But it still can have side-effects.
-  const value = yield* Q.val(
-    EvaluateNodeCommand(node.argument, context),
-    context.realm,
-  );
+  const value = yield* Q.val(EvaluateNodeCommand(node.argument, context), context.realm);
 
   const types = context.realm.types;
   switch (node.operator) {

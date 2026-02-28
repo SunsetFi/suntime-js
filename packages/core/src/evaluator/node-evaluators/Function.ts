@@ -14,6 +14,7 @@ import StaticJsAsyncArrowFunction from "../../runtime/types/implementation/Stati
 import StaticJsArrowFunction from "../../runtime/types/implementation/StaticJsArrowFunction.js";
 import StaticJsAsyncMethodFunction from "../../runtime/types/implementation/StaticJsAsyncMethodFunction.js";
 import StaticJsMethodFunction from "../../runtime/types/implementation/StaticJsMethodFunction.js";
+import StaticJsGeneratorDeclFunction from "../../runtime/types/implementation/StaticJsGeneratorDeclFunction.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 
@@ -22,41 +23,39 @@ interface NeverConstructor {
   new (): never;
 }
 
-const GeneratorNotSupported: NeverConstructor = function () {
-  throw new StaticJsEngineError("Generator functions are not supported");
-} as NeverConstructor;
-
-const ClassNotSupported: NeverConstructor = function () {
-  throw new StaticJsEngineError("Class methods are not supported");
-} as NeverConstructor;
+function createNotSupported(message: string): NeverConstructor {
+  return function () {
+    throw new StaticJsEngineError(message);
+  } as NeverConstructor;
+}
 
 const FunctionConstructorMap = {
   sync: {
     generator: {
-      declaration: GeneratorNotSupported,
-      method: GeneratorNotSupported,
-      arrow: GeneratorNotSupported,
-      class: ClassNotSupported,
+      declaration: StaticJsGeneratorDeclFunction,
+      method: createNotSupported("Generator methods are not supported"),
+      arrow: createNotSupported("Generator arrow functions are not supported"),
+      class: createNotSupported("Generator class methods are not supported"),
     },
     normal: {
       declaration: StaticJsDeclFunction,
       method: StaticJsMethodFunction,
       arrow: StaticJsArrowFunction,
-      class: ClassNotSupported,
+      class: createNotSupported("Class methods are not supported"),
     },
   },
   async: {
     generator: {
-      declaration: GeneratorNotSupported,
-      method: GeneratorNotSupported,
-      arrow: GeneratorNotSupported,
-      class: ClassNotSupported,
+      declaration: createNotSupported("Async generator functions are not supported"),
+      method: createNotSupported("Async generator methods are not supported"),
+      arrow: createNotSupported("Async generator arrow functions are not supported"),
+      class: createNotSupported("Async generator class methods are not supported"),
     },
     normal: {
       declaration: StaticJsAsyncDeclFunction,
       method: StaticJsAsyncMethodFunction,
       arrow: StaticJsAsyncArrowFunction,
-      class: ClassNotSupported,
+      class: createNotSupported("Async class methods are not supported"),
     },
   },
 };
@@ -66,13 +65,6 @@ export default function createFunction(
   node: Function,
   context: EvaluationContext,
 ): StaticJsFunction {
-  if (node.generator) {
-    // TODO: Support these when an Iterator primitive is in.
-    // Note for the future, Generator function's 'prototype' is used to create the iterator,
-    // and is not constructable/
-    throw new StaticJsEngineError("Generator functions are not supported");
-  }
-
   const params = node.params;
   validateParams(params);
 
@@ -95,8 +87,10 @@ export default function createFunction(
       type = "class";
       break;
     default:
-      // @ts-expect-error - Should be unreachable due to babel types, but just in case.
-      throw new StaticJsEngineError(`Unsupported function node type ${node.type}`);
+      throw new StaticJsEngineError(
+        // @ts-expect-error - Should be unreachable due to babel types, but just in case.
+        `Unsupported function node type ${node.type}`,
+      );
   }
 
   const Ctor = FunctionConstructorMap[syncMode][generatorMode][type];

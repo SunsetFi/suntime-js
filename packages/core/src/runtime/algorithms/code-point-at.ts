@@ -6,15 +6,10 @@ export interface CodePointRecord {
   isUnpairedSurrogate: boolean;
 }
 
-export default function codePointAt(
-  str: string,
-  position: number,
-): CodePointRecord {
+export default function codePointAt(str: string, position: number): CodePointRecord {
   const size = str.length;
   if (position < 0 || position >= size) {
-    throw new StaticJsEngineError(
-      "Position must be a valid index within the string.",
-    );
+    throw new StaticJsEngineError("Position must be a valid index within the string.");
   }
 
   const first = str.charCodeAt(position);

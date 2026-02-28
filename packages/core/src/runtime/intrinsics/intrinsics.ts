@@ -25,6 +25,8 @@ export interface Prototypes {
   iteratorProto: StaticJsObject;
   arrayIteratorProto: StaticJsObject;
   stringIteratorProto: StaticJsObject;
+
+  generatorProto: StaticJsObject;
 }
 
 export interface Constructors {

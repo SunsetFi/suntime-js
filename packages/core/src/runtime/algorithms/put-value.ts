@@ -25,20 +25,14 @@ export default function* putValue(
 ): EvaluationGenerator<void> {
   if (isStaticJsValue(v)) {
     throw Completion.Throw(
-      realm.types.error(
-        "ReferenceError",
-        "Invalid left-hand side in assignment",
-      ),
+      realm.types.error("ReferenceError", "Invalid left-hand side in assignment"),
     );
   }
 
   if (isUnresolvableReference(v)) {
     if (v.strict) {
       throw Completion.Throw(
-        realm.types.error(
-          "ReferenceError",
-          `${v.referencedName} is not defined`,
-        ),
+        realm.types.error("ReferenceError", `${v.referencedName} is not defined`),
       );
     }
 
@@ -81,18 +75,12 @@ export default function* putValue(
   // This needs to be resolved...
   if (isStaticJsSymbol(v.referencedName)) {
     if (v.strict) {
-      throw Completion.Throw(
-        realm.types.error("ReferenceError", `${name} is not defined`),
-      );
+      throw Completion.Throw(realm.types.error("ReferenceError", `${name} is not defined`));
     }
 
     return;
   }
 
   const envRecord = v.base as StaticJsEnvironmentRecord;
-  return yield* envRecord.setMutableBindingEvaluator(
-    v.referencedName,
-    w,
-    v.strict,
-  );
+  return yield* envRecord.setMutableBindingEvaluator(v.referencedName, w, v.strict);
 }

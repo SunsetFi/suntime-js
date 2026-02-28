@@ -18,9 +18,7 @@ export default function* setterThatIgnoresPrototypeProperties(
   realm: StaticJsRealm,
 ): EvaluationGenerator<void> {
   if (!isStaticJsObjectLike(thisValue)) {
-    throw Completion.Throw(
-      realm.types.error("TypeError", "Setter called on non-object"),
-    );
+    throw Completion.Throw(realm.types.error("TypeError", "Setter called on non-object"));
   }
 
   if (sameValue(thisValue, home)) {

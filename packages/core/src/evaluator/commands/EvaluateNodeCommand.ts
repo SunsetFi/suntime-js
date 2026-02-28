@@ -35,7 +35,5 @@ export function* EvaluateNodeCommand(
     options: evaluateOptions,
   };
 
-  return yield* captureThrownCompletion(
-    evaluateNode(node, context, evaluateOptions),
-  );
+  return yield* captureThrownCompletion(evaluateNode(node, context, evaluateOptions));
 }

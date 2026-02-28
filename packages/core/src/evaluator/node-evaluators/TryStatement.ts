@@ -20,6 +20,10 @@ function* tryStatementNodeEvaluator(
   node: TryStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  // FIXME: Gross hack.
+  // We are starting to embrace completions as themselves, but we still have
+  // completions as generator throw/return.
+  // So we have to try/catch/finally this to catch our generator's return.
   let result = yield* EvaluateNodeCommand(node.block, context);
 
   if (node.handler && Completion.Throw.is(result)) {

@@ -4,10 +4,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import { Completion } from "../../evaluator/completions/Completion.js";
 
-import type {
-  StaticJsObjectLike,
-  StaticJsPropertyKey,
-} from "../types/StaticJsObjectLike.js";
+import type { StaticJsObjectLike, StaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
 
 export default function* deletePropertyOrThrow(
   obj: StaticJsObjectLike,
@@ -16,8 +13,6 @@ export default function* deletePropertyOrThrow(
 ): EvaluationGenerator<void> {
   const success = yield* obj.deleteEvaluator(p);
   if (!success) {
-    throw Completion.Throw(
-      realm.types.error("TypeError", "Cannot delete property"),
-    );
+    throw Completion.Throw(realm.types.error("TypeError", "Cannot delete property"));
   }
 }

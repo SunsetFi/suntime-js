@@ -13,38 +13,24 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
 import StaticJsSetImpl from "../../../types/implementation/StaticJsSetImpl.js";
 
-import {
-  type IntrinsicPropertyDeclaration,
-  applyIntrinsicProperties,
-} from "../../utils.js";
+import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../../utils.js";
 
 import setCtorSymbolSpeciesDeclaration from "./symbol_species.js";
 
-const declarations: IntrinsicPropertyDeclaration[] = [
-  setCtorSymbolSpeciesDeclaration,
-];
+const declarations: IntrinsicPropertyDeclaration[] = [setCtorSymbolSpeciesDeclaration];
 
-export default function createSetConstructor(
-  realm: StaticJsRealm,
-  setProto: StaticJsObject,
-) {
+export default function createSetConstructor(realm: StaticJsRealm, setProto: StaticJsObject) {
   const ctor = new StaticJsFunctionImpl(
     realm,
     "Set",
     function* (_thisArg) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Set constructor requires 'new'"),
-      );
+      throw Completion.Throw(realm.types.error("TypeError", "Set constructor requires 'new'"));
     },
     {
       *construct(_thisArg, iterable) {
         const set = new StaticJsSetImpl(realm);
 
-        if (
-          !iterable ||
-          isStaticJsNull(iterable) ||
-          isStaticJsUndefined(iterable)
-        ) {
+        if (!iterable || isStaticJsNull(iterable) || isStaticJsUndefined(iterable)) {
           return set;
         }
 

@@ -13,9 +13,7 @@ export default function* call(
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsValue> {
   if (!isStaticJsFunction(F)) {
-    throw Completion.Throw(
-      realm.types.error("TypeError", "Called object is not a function"),
-    );
+    throw Completion.Throw(realm.types.error("TypeError", "Called object is not a function"));
   }
 
   return yield* F.callEvaluator(V, args);

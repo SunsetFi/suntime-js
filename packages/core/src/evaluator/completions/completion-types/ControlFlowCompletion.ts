@@ -5,18 +5,11 @@ import { BreakCompletion } from "./BreakCompletion.js";
 import { ContinueCompletion } from "./ContinueCompletion.js";
 import { ReturnCompletion } from "./ReturnCompletion.js";
 
-export type ControlFlowCompletion =
-  | BreakCompletion
-  | ContinueCompletion
-  | ReturnCompletion;
+export type ControlFlowCompletion = BreakCompletion | ContinueCompletion | ReturnCompletion;
 
 export const ControlFlowCompletion = {
   is(value: unknown): value is ControlFlowCompletion {
-    return (
-      BreakCompletion.is(value) ||
-      ContinueCompletion.is(value) ||
-      ReturnCompletion.is(value)
-    );
+    return BreakCompletion.is(value) || ContinueCompletion.is(value) || ReturnCompletion.is(value);
   },
   assert(value: unknown): asserts value is ControlFlowCompletion {
     if (!ControlFlowCompletion.is(value)) {
@@ -27,9 +20,7 @@ export const ControlFlowCompletion = {
   },
   handleRuntime(value: unknown): void {
     if (ControlFlowCompletion.is(value)) {
-      throw new StaticJsEngineError(
-        `Unexpected control flow completion of type ${value.type}.`,
-      );
+      throw new StaticJsEngineError(`Unexpected control flow completion of type ${value.type}.`);
     }
   },
 };

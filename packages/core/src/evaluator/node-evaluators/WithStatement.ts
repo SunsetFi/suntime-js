@@ -15,25 +15,15 @@ export default function* withStatementNodeEvaluator(
   node: WithStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const val = yield* Q.val(
-    EvaluateNodeCommand(node.object, context),
-    context.realm,
-  );
+  const val = yield* Q.val(EvaluateNodeCommand(node.object, context), context.realm);
 
   const obj = yield* toObject(val, context.realm);
 
   const withContext = context.createLexicalEnvContext(
-    new StaticJsObjectEnvironmentRecord(
-      obj,
-      true,
-      context.lexicalEnv,
-      context.realm,
-    ),
+    new StaticJsObjectEnvironmentRecord(obj, true, context.lexicalEnv, context.realm),
   );
 
   const result = yield* EvaluateNodeCommand(node.body, withContext);
 
-  return yield* Q(
-    Completion.updateEmpty(result, context.realm.types.undefined),
-  );
+  return yield* Q(Completion.updateEmpty(result, context.realm.types.undefined));
 }

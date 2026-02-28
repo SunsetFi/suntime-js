@@ -22,20 +22,11 @@ export function BreakCompletion(
   };
 }
 
-BreakCompletion.is = function isBreakCompletion(
-  value: unknown,
-): value is BreakCompletion {
-  return (
-    value != null &&
-    typeof value === "object" &&
-    "type" in value &&
-    value.type === "break"
-  );
+BreakCompletion.is = function isBreakCompletion(value: unknown): value is BreakCompletion {
+  return value != null && typeof value === "object" && "type" in value && value.type === "break";
 };
 
-BreakCompletion.assert = function (
-  value: unknown,
-): asserts value is BreakCompletion {
+BreakCompletion.assert = function (value: unknown): asserts value is BreakCompletion {
   if (!BreakCompletion.is(value)) {
     throw new StaticJsEngineError(
       `Expected a break completion, but got ${nameCompletionLike(value)}.`,
