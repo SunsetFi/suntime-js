@@ -5,13 +5,12 @@ import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { Completion } from "./Completion.js";
+import type { CompletionEvaluator } from "./CompletionEvaluator.js";
 import captureThrownCompletion from "./capture-thrown-completion.js";
 import nameCompletionLike from "./name-completion-like.js";
 
-export default function* X<T extends object | null = Completion.Normal>(
-  value:
-    | EvaluationGenerator<T | Completion.Abrupt>
-    | (() => EvaluationGenerator<T | Completion.Abrupt>),
+export default function* X<T = Completion.Normal>(
+  value: CompletionEvaluator<T>,
 ): EvaluationGenerator<T> {
   const completion = yield* captureThrownCompletion<T>(value);
 
@@ -24,11 +23,7 @@ export default function* X<T extends object | null = Completion.Normal>(
   return completion;
 }
 
-X.ref = function xRef(
-  value:
-    | EvaluationGenerator<Completion>
-    | (() => EvaluationGenerator<Completion>),
-) {
+X.ref = function xRef(value: CompletionEvaluator<Completion>) {
   const completion = captureThrownCompletion(value);
   if (!isStaticJsReferenceRecord(completion)) {
     throw new StaticJsEngineError(
@@ -37,11 +32,7 @@ X.ref = function xRef(
   }
 };
 
-X.value = function xValue(
-  value:
-    | EvaluationGenerator<Completion>
-    | (() => EvaluationGenerator<Completion>),
-) {
+X.value = function xValue(value: CompletionEvaluator<Completion>) {
   const completion = captureThrownCompletion(value);
 
   if (!isStaticJsValue(completion)) {

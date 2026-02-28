@@ -20,6 +20,7 @@ import getMethod from "../runtime/algorithms/get-method.js";
 import type { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
 
 import { Completion } from "./completions/Completion.js";
+import type { CompletionValue } from "./completions/CompletionValue.js";
 
 import type { EvaluationGenerator } from "./EvaluationGenerator.js";
 
@@ -104,7 +105,7 @@ export default class AsyncEvaluatorInvocation {
   }
 
   private *_continue(
-    continueWith: Completion.Normal,
+    continueWith: CompletionValue,
     continueMode: "next" | "throw" = "next",
   ): EvaluationGenerator<void> {
     if (this._state !== "started" && this._state !== "awaiting") {

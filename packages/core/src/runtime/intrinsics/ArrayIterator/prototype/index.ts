@@ -14,7 +14,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoSymbolToStringTagDeclaration,
 ];
 
-export default function populateArrayPrototype(
+export default function populateArrayIteratorPrototype(
   realm: StaticJsRealm,
   arrayIteratorProto: StaticJsObject,
 ) {

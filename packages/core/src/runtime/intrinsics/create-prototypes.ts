@@ -15,6 +15,7 @@ import { populateObjectPrototype } from "./Object/index.js";
 import { populatePromisePrototype } from "./Promise/index.js";
 import { populateSetPrototype } from "./Set/index.js";
 import { populateStringPrototype } from "./String/index.js";
+import { populateStringIteratorPrototype } from "./StringIterator/index.js";
 import { populateSymbolPrototype } from "./Symbol/index.js";
 
 import { populateBooleanPrototype } from "./Boolean.js";
@@ -36,10 +37,12 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
   const arrayProto = new StaticJsObjectImpl(realm, objectProto);
 
   const promiseProto = new StaticJsObjectImpl(realm, objectProto);
-  const iteratorProto = new StaticJsObjectImpl(realm, objectProto);
-  const arrayIteratorProto = new StaticJsObjectImpl(realm, iteratorProto);
   const setProto = new StaticJsObjectImpl(realm, objectProto);
   const mapProto = new StaticJsObjectImpl(realm, objectProto);
+
+  const iteratorProto = new StaticJsObjectImpl(realm, objectProto);
+  const arrayIteratorProto = new StaticJsObjectImpl(realm, iteratorProto);
+  const stringIteratorProto = new StaticJsObjectImpl(realm, iteratorProto);
 
   const errorProto = new StaticJsObjectImpl(realm, objectProto);
   const typeErrorProto = new StaticJsObjectImpl(realm, errorProto);
@@ -60,6 +63,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
     promiseProto,
     iteratorProto,
     arrayIteratorProto,
+    stringIteratorProto,
     setProto,
     mapProto,
     errorProto,
@@ -87,6 +91,7 @@ export function instantiatePrototypes(realm: StaticJsRealm) {
 
   populateIteratorPrototype(realm, prototypes.iteratorProto);
   populateArrayIteratorPrototype(realm, prototypes.arrayIteratorProto);
+  populateStringIteratorPrototype(realm, prototypes.stringIteratorProto);
 
   populatePromisePrototype(realm, prototypes.promiseProto);
   populateIteratorPrototype(realm, prototypes.iteratorProto);

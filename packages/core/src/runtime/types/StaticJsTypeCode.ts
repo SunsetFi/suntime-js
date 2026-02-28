@@ -17,6 +17,7 @@ enum StaticJsTypeCode {
   Iterator = IsObjectLikeFlag + 4,
   Set = IsObjectLikeFlag + 5,
   Map = IsObjectLikeFlag + 6,
+  Generator = IsObjectLikeFlag + 7,
 }
 
 export default StaticJsTypeCode;

@@ -244,4 +244,17 @@ describe("E2E: Strings", () => {
 
     // TODO: All the rest
   });
+
+  describe("Iteration", () => {
+    it("Supports iterating over string characters", async () => {
+      const code = `
+        const chars = [];
+        for (const char of "abc") {
+          chars.push(char);
+        }
+        chars;
+      `;
+      expect(await evaluateScript(code)).toEqual(["a", "b", "c"]);
+    });
+  });
 });
