@@ -24,7 +24,7 @@ export default defineConfig(
       // Typescript takes care of these.
       "jsdoc/require-param-type": "off",
       "jsdoc/require-returns-type": "off",
-    }
+    },
   }),
   {
     rules: {
@@ -41,6 +41,7 @@ export default defineConfig(
         },
       ],
       "@typescript-eslint/consistent-type-imports": "error",
+      "@typescript-eslint/no-namespace": "off",
     },
-  }
+  },
 );

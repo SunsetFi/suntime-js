@@ -2,7 +2,7 @@ import { type Program, blockStatement } from "@babel/types";
 
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 
 import createFunction from "../../../evaluator/node-evaluators/Function.js";
 
@@ -38,7 +38,7 @@ export default function createFunctionConstructor(
           parameters.push(...parseParams);
         } catch (e) {
           if (e instanceof SyntaxError) {
-            throw new ThrowCompletion(
+            throw Completion.Throw(
               realm.types.error("SyntaxError", "Arg string terminates parameters early"),
             );
           }
@@ -54,7 +54,7 @@ export default function createFunctionConstructor(
       try {
         body = parseFunctionBody(bodyStr.value);
       } catch {
-        throw new ThrowCompletion(
+        throw Completion.Throw(
           realm.types.error("SyntaxError", "Failed to parse function body"),
         );
       }

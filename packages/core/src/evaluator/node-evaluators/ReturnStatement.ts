@@ -6,7 +6,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import { ReturnCompletion } from "../completions/ReturnCompletion.js";
+import { Completion } from "../completions/Completion.js";
 
 export default function* returnStatementNodeEvaluator(
   node: ReturnStatement,
@@ -19,5 +19,5 @@ export default function* returnStatementNodeEvaluator(
     });
   }
 
-  throw new ReturnCompletion(value);
+  throw Completion.Return(value);
 }

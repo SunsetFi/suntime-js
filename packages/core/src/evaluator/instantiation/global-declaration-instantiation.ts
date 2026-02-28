@@ -6,7 +6,7 @@ import StaticJsGlobalEnvironmentRecord from "../../runtime/environments/implemen
 
 import type EvaluationContext from "../EvaluationContext.js";
 
-import { ThrowCompletion } from "../completions/ThrowCompletion.js";
+import { Completion } from "../completions/Completion.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import createFunction from "../node-evaluators/Function.js";
@@ -44,14 +44,14 @@ export default function* globalDeclarationInstantiation(
   for (const name of lexNames) {
     const hasBinding = yield* hasLexicalDeclaration(name, env);
     if (hasBinding) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error("SyntaxError", `${name} has already been declared`),
       );
     }
 
     const restricted = yield* hasRestrictedGlobalProperty(name, env);
     if (restricted) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error(
           "SyntaxError",
           `Cannot declare lexically scoped variable ${name} in global scope`,
@@ -63,7 +63,7 @@ export default function* globalDeclarationInstantiation(
   for (const name of varNames) {
     const hasBinding = yield* hasLexicalDeclaration(name, env);
     if (hasBinding) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error("SyntaxError", `${name} has already been declared`),
       );
     }
@@ -83,8 +83,11 @@ export default function* globalDeclarationInstantiation(
     }
     const isDefinable = yield* canDeclareGlobalFunction(fnName, env);
     if (!isDefinable) {
-      throw new ThrowCompletion(
-        realm.types.error("TypeError", `Cannot declare global function ${fnName}`),
+      throw Completion.Throw(
+        realm.types.error(
+          "TypeError",
+          `Cannot declare global function ${fnName}`,
+        ),
       );
     }
 
@@ -105,8 +108,11 @@ export default function* globalDeclarationInstantiation(
 
       const definable = yield* canDeclareGlobalVar(vn, env);
       if (!definable) {
-        throw new ThrowCompletion(
-          realm.types.error("TypeError", `Cannot declare global variable ${vn}`),
+        throw Completion.Throw(
+          realm.types.error(
+            "TypeError",
+            `Cannot declare global variable ${vn}`,
+          ),
         );
       }
 

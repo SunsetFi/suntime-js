@@ -25,14 +25,14 @@ export interface StaticJsModuleImplementation extends StaticJsModule {
   moduleEvaluationEvaluator(): EvaluationGenerator;
 
   // Note: This doesn't have to be an evaluator, except for the oddity that
-  // we still want to throw new ThrowCompletions.  Should we just throw the RuntimeError?
+  // we still want to throw Completion.Throw.  Should we just throw the RuntimeError?
   resolveExportEvaluator(
     exportName: string,
     resolveSet?: Set<string>,
   ): EvaluationGenerator<StaticJsResolvedBinding>;
 
   // Note: This doesn't have to be an evaluator, except for the oddity that
-  // we still want to throw new ThrowCompletions.  Should we just throw the RuntimeError?
+  // we still want to throw Completion.Throw.  Should we just throw the RuntimeError?
   getExportedNamesEvaluator(exportStarSet?: Set<string>): EvaluationGenerator<string[]>;
 
   // TODO: Just expose the StaticJsEnvironment and

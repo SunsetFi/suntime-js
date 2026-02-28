@@ -1,4 +1,4 @@
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";
@@ -9,7 +9,9 @@ const promiseProtoThenDeclaration: IntrinsicPropertyDeclaration = {
   key: "then",
   *func(realm, thisArg, onFulfilled, onRejected) {
     if (!isStaticJsPromise(thisArg)) {
-      throw new ThrowCompletion(realm.types.error("TypeError", "then called on non-promise"));
+      throw Completion.Throw(
+        realm.types.error("TypeError", "then called on non-promise"),
+      );
     }
 
     // Spec says these can be unspecified and also non-functions

@@ -8,7 +8,7 @@ import type { StaticJsReferenceRecord } from "../references/StaticJsReferenceRec
 import { isUnresolvableReference } from "../references/is-unresolvable-reference.js";
 import { isPropertyReference } from "../references/is-property-reference.js";
 
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
@@ -24,15 +24,21 @@ export default function* putValue(
   realm: StaticJsRealm,
 ): EvaluationGenerator<void> {
   if (isStaticJsValue(v)) {
-    throw new ThrowCompletion(
-      realm.types.error("ReferenceError", "Invalid left-hand side in assignment"),
+    throw Completion.Throw(
+      realm.types.error(
+        "ReferenceError",
+        "Invalid left-hand side in assignment",
+      ),
     );
   }
 
   if (isUnresolvableReference(v)) {
     if (v.strict) {
-      throw new ThrowCompletion(
-        realm.types.error("ReferenceError", `${v.referencedName} is not defined`),
+      throw Completion.Throw(
+        realm.types.error(
+          "ReferenceError",
+          `${v.referencedName} is not defined`,
+        ),
       );
     }
 
@@ -58,7 +64,7 @@ export default function* putValue(
     );
 
     if (!succeeded && v.strict) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error(
           "TypeError",
           `Cannot assign to read only property '${String(
@@ -75,12 +81,18 @@ export default function* putValue(
   // This needs to be resolved...
   if (isStaticJsSymbol(v.referencedName)) {
     if (v.strict) {
-      throw new ThrowCompletion(realm.types.error("ReferenceError", `${name} is not defined`));
+      throw Completion.Throw(
+        realm.types.error("ReferenceError", `${name} is not defined`),
+      );
     }
 
     return;
   }
 
   const envRecord = v.base as StaticJsEnvironmentRecord;
-  return yield* envRecord.setMutableBindingEvaluator(v.referencedName, w, v.strict);
+  return yield* envRecord.setMutableBindingEvaluator(
+    v.referencedName,
+    w,
+    v.strict,
+  );
 }

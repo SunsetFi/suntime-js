@@ -1,4 +1,4 @@
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 
@@ -19,7 +19,7 @@ const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
     attributes = realm.types.undefined,
   ) {
     if (!isStaticJsObjectLike(O)) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error("TypeError", "Object.defineProperty called on non-object"),
       );
     }

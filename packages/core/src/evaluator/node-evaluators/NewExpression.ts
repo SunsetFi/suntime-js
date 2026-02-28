@@ -5,7 +5,7 @@ import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { ThrowCompletion } from "../completions/ThrowCompletion.js";
+import { Completion } from "../completions/Completion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
@@ -18,7 +18,9 @@ export default function* newExpressionNodeEvaluator(
     forNormalValue: "NewExpression.callee",
   });
   if (!isStaticJsFunction(callee)) {
-    throw new ThrowCompletion(context.realm.types.error("TypeError", "Not a function"));
+    throw Completion.Throw(
+      context.realm.types.error("TypeError", "Not a function"),
+    );
   }
 
   const args = new Array<StaticJsValue>(node.arguments.length);

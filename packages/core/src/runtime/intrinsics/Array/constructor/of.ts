@@ -1,4 +1,4 @@
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import isConstructor from "../../../algorithms/is-constructor.js";
 
@@ -19,11 +19,16 @@ const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
     const len = realm.types.number(items.length);
     let A: StaticJsObjectLike;
     if (thisIsConstructor) {
-      const constructed = yield* (thisArg as StaticJsFunction).constructEvaluator([len]);
+      const constructed = yield* (
+        thisArg as StaticJsFunction
+      ).constructEvaluator([len]);
       // FIXME: Not spec complaint.  The spec should throw trying to define the property, not ahead of time
       if (!isStaticJsObjectLike(constructed)) {
-        throw new ThrowCompletion(
-          realm.types.error("TypeError", "Constructor did not produce an object"),
+        throw Completion.Throw(
+          realm.types.error(
+            "TypeError",
+            "Constructor did not produce an object",
+          ),
         );
       }
 

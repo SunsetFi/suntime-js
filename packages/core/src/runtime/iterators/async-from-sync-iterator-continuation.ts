@@ -1,11 +1,14 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
-import type { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../types/StaticJsPromise.js";
+import type {
+  StaticJsPromise,
+  StaticJsPromiseCapabilityRecord,
+} from "../types/StaticJsPromise.js";
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import type { StaticJsFunction } from "../types/StaticJsFunction.js";
 
@@ -33,8 +36,13 @@ export default function* asyncFromSyncIteratorContinuation(
     done = yield* iteratorComplete(result, realm);
     value = yield* iteratorValue(result);
   } catch (e) {
-    if (e instanceof ThrowCompletion) {
-      yield* call(promiseCapability.reject, realm.types.undefined, [e.value], realm);
+    if (Completion.Throw.is(e)) {
+      yield* call(
+        promiseCapability.reject,
+        realm.types.undefined,
+        [e.value],
+        realm,
+      );
       return promiseCapability.promise;
     }
 
@@ -45,27 +53,40 @@ export default function* asyncFromSyncIteratorContinuation(
   try {
     valueWrapper = yield* promiseResolve(value, realm);
   } catch (e) {
-    if (e instanceof ThrowCompletion) {
+    if (Completion.Throw.is(e)) {
       let completion = e;
       if (!done && closeOnRejection) {
-        completion = (yield* iteratorClose(syncIteratorRecord, e, realm, false)) as ThrowCompletion;
+        completion = (yield* iteratorClose(
+          syncIteratorRecord,
+          e,
+          realm,
+          false,
+        )) as Completion.Throw;
       }
 
-      yield* call(promiseCapability.reject, realm.types.undefined, [completion.value], realm);
+      yield* call(
+        promiseCapability.reject,
+        realm.types.undefined,
+        [completion.value],
+        realm,
+      );
       return promiseCapability.promise;
     }
 
     throw e;
   }
 
-  const onFulfilled = new StaticJsFunctionImpl(realm, "", function* (_thisArg, v) {
+  const onFulfilled = new StaticJsFunctionImpl(realm, "", function* (
+    _thisArg,
+    v,
+  ) {
     return yield* createIteratorResultObject(v, done, realm);
   });
 
   let onRejected: StaticJsFunction | undefined;
   if (!done && closeOnRejection) {
     onRejected = new StaticJsFunctionImpl(realm, "", function* (_thisArg, e) {
-      yield* iteratorClose(syncIteratorRecord, new ThrowCompletion(e), realm);
+      yield* iteratorClose(syncIteratorRecord, Completion.Throw(e), realm);
       return realm.types.undefined;
     });
   }

@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
@@ -16,7 +16,7 @@ export default function* getIteratorFromMethod(
 ): EvaluationGenerator<IteratorRecord> {
   const iterator = yield* method.callEvaluator(obj);
   if (!isStaticJsObjectLike(iterator)) {
-    throw new ThrowCompletion(
+    throw Completion.Throw(
       realm.types.error("TypeError", "Result of the iterator method is not an object"),
     );
   }

@@ -1,6 +1,6 @@
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
@@ -17,7 +17,10 @@ import {
   type StaticJsObjectLike,
 } from "../../../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
-import { isStaticJsFunction, type StaticJsFunction } from "../../../types/StaticJsFunction.js";
+import {
+  isStaticJsFunction,
+  type StaticJsFunction,
+} from "../../../types/StaticJsFunction.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 
@@ -31,14 +34,18 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
     let mapperFunc: StaticJsFunction | undefined = undefined;
     if (!isStaticJsUndefined(mapper ?? realm.types.undefined)) {
       if (!isStaticJsFunction(mapper)) {
-        throw new ThrowCompletion(realm.types.error("TypeError", "mapper must be a function"));
+        throw Completion.Throw(
+          realm.types.error("TypeError", "mapper must be a function"),
+        );
       }
       mapperFunc = mapper;
     }
 
     let hasIterator = false;
     if (isStaticJsObjectLike(items)) {
-      const iteratorMethod = yield* items.getEvaluator(realm.types.symbols.iterator);
+      const iteratorMethod = yield* items.getEvaluator(
+        realm.types.symbols.iterator,
+      );
       hasIterator = isStaticJsFunction(iteratorMethod);
     }
 
@@ -80,7 +87,9 @@ function* fromIterator(
   yield* iteratorClose.handle(iterator, realm, function* () {
     while (true) {
       if (k > MAX_ARRAY_LENGTH_INCLUSIVE) {
-        throw new ThrowCompletion(realm.types.error("TypeError", "Too many items from iterator"));
+        throw Completion.Throw(
+          realm.types.error("TypeError", "Too many items from iterator"),
+        );
       }
 
       const Pk = String(k);
@@ -95,7 +104,10 @@ function* fromIterator(
 
       let mappedValue: StaticJsValue;
       if (mapFn) {
-        mappedValue = yield* mapFn.callEvaluator(thisArg, [next, realm.types.number(k)]);
+        mappedValue = yield* mapFn.callEvaluator(thisArg, [
+          next,
+          realm.types.number(k),
+        ]);
       } else {
         mappedValue = next;
       }
@@ -136,7 +148,10 @@ function* fromArrayLike(
 
     let mappedValue: StaticJsValue;
     if (mapFn) {
-      mappedValue = yield* mapFn.callEvaluator(thisArg, [kValue, realm.types.number(k)]);
+      mappedValue = yield* mapFn.callEvaluator(thisArg, [
+        kValue,
+        realm.types.number(k),
+      ]);
     } else {
       mappedValue = kValue;
     }
@@ -168,11 +183,13 @@ function* createArrayFromConstructor(
   const cIsConstructor = yield* isConstructor(C, realm);
   let A: StaticJsObjectLike;
   if (cIsConstructor) {
-    const created = yield* (C as StaticJsFunction).constructEvaluator([realm.types.number(len)]);
+    const created = yield* (C as StaticJsFunction).constructEvaluator([
+      realm.types.number(len),
+    ]);
     // FIXME: Not spec complaint.  Spec lets this be anything, then throws on
     // property set.
     if (!isStaticJsObjectLike(created)) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error("TypeError", "Constructor did not create an object"),
       );
     }

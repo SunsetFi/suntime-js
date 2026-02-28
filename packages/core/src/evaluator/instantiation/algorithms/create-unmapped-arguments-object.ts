@@ -8,7 +8,7 @@ import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
 import StaticJsFunctionImpl from "../../../runtime/types/implementation/StaticJsFunctionImpl.js";
 
-import { ThrowCompletion } from "../../completions/ThrowCompletion.js";
+import { Completion } from "../../completions/Completion.js";
 
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
@@ -37,7 +37,8 @@ export default function* createUnmappedArgumentsObject(
     yield* createDataPropertyOrThrow(obj, String(index), val, realm);
   }
 
-  const arrayValues = yield* realm.types.prototypes.arrayProto.getEvaluator("values");
+  const arrayValues =
+    yield* realm.types.prototypes.arrayProto.getEvaluator("values");
 
   yield* definePropertyOrThrow(
     obj,
@@ -52,8 +53,11 @@ export default function* createUnmappedArgumentsObject(
   );
 
   const calleeAccessor = new StaticJsFunctionImpl(realm, "get", function* () {
-    throw new ThrowCompletion(
-      realm.types.error("TypeError", "callee property is not accessible in strict mode"),
+    throw Completion.Throw(
+      realm.types.error(
+        "TypeError",
+        "callee property is not accessible in strict mode",
+      ),
     );
   });
 

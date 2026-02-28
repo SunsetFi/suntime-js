@@ -5,11 +5,8 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { EvaluateNodeForCompletion } from "../commands/EvaluateNodeCommand.js";
 
-import updateEmpty from "../completions/update-empty.js";
-import type { Completion } from "../completions/Completion.js";
-import completionValue from "../completions/completion-value.js";
+import { Completion } from "../completions/Completion.js";
 import rethrowCompletion from "../completions/rethrow-completion.js";
-import isAbruptCompletion from "../completions/AbruptCompletion.js";
 
 export default function* evaluateStatementList(
   statementList: Statement[],
@@ -31,8 +28,8 @@ function* evaluateStatementListForCompletion(
     const s = yield* EvaluateNodeForCompletion(statement, context);
 
     // This will throw for AbruptCompletions, which is what we want.
-    sl = updateEmpty.forCompletion(s, completionValue(sl));
-    if (isAbruptCompletion(s)) {
+    sl = Completion.updateEmpty(s, Completion.value(sl));
+    if (Completion.Abrupt.is(s)) {
       return sl;
     }
   }

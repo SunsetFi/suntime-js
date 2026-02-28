@@ -6,23 +6,19 @@ import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/imp
 
 import isStrictlyEqual from "../../runtime/algorithms/is-structly-equal.js";
 
-import type { NormalCompletion } from "../completions/NormalCompletion.js";
-import completionValue from "../completions/completion-value.js";
-import isAbruptCompletion from "../completions/AbruptCompletion.js";
+import { Completion } from "../completions/Completion.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import type { Completion } from "../completions/Completion.js";
-import updateEmpty from "../completions/update-empty.js";
-
 import blockDeclarationInstantiation from "../instantiation/block-declaration-instantiation.js";
 
 import labeledStatementEvaluation from "./LabeledStatementEvaluation.js";
 
 import evaluateStatementList from "./StatementList.js";
+import Q from "../completions/Q.js";
 
 const switchStatementNodeEvaluator = labeledStatementEvaluation(
   function* switchStatementNodeEvaluator(
@@ -53,7 +49,7 @@ const switchStatementNodeEvaluator = labeledStatementEvaluation(
       }
     }
 
-    let V: NormalCompletion = context.realm.types.undefined;
+    let V: Completion.Normal = context.realm.types.undefined;
 
     let found = false;
     for (const C of A) {
@@ -63,13 +59,13 @@ const switchStatementNodeEvaluator = labeledStatementEvaluation(
 
       if (found) {
         const R = yield* evaluateSwitchCase(C, blockContext);
-        const rValue = completionValue(R);
+        const rValue = Completion.value(R);
         if (rValue) {
           V = rValue;
         }
 
-        if (isAbruptCompletion(R)) {
-          return updateEmpty(R, V);
+        if (Completion.Abrupt.is(R)) {
+          return yield* Q(Completion.updateEmpty(R, V));
         }
       }
     }
@@ -83,13 +79,13 @@ const switchStatementNodeEvaluator = labeledStatementEvaluation(
 
         if (foundInB) {
           const R = yield* evaluateSwitchCase(C, blockContext);
-          const rValue = completionValue(R);
+          const rValue = Completion.value(R);
           if (rValue) {
             V = rValue;
           }
 
-          if (isAbruptCompletion(R)) {
-            return updateEmpty(R, V);
+          if (Completion.Abrupt.is(R)) {
+            return yield* Q(Completion.updateEmpty(R, V));
           }
         }
       }
@@ -101,25 +97,25 @@ const switchStatementNodeEvaluator = labeledStatementEvaluation(
 
     if (defaultClause) {
       const defaultR = yield* evaluateSwitchCase(defaultClause, blockContext);
-      const defaultRValue = completionValue(defaultR);
+      const defaultRValue = Completion.value(defaultR);
       if (defaultRValue) {
         V = defaultRValue;
       }
 
-      if (isAbruptCompletion(defaultR)) {
-        return updateEmpty(defaultR, V);
+      if (Completion.Abrupt.is(defaultR)) {
+        return yield* Q(Completion.updateEmpty(defaultR, V));
       }
     }
 
     for (const C of B) {
       const R = yield* evaluateSwitchCase(C, blockContext);
-      const rValue = completionValue(R);
+      const rValue = Completion.value(R);
       if (rValue) {
         V = rValue;
       }
 
-      if (isAbruptCompletion(R)) {
-        return updateEmpty(R, V);
+      if (Completion.Abrupt.is(R)) {
+        return yield* Q(Completion.updateEmpty(R, V));
       }
     }
 

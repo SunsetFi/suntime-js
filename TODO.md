@@ -68,3 +68,13 @@ Figure out public API for invoking evaluators.
 - More control for host over environment
   - 'intrinsics' on the realm that can be replacable? Math funcs, Date.now(), performance.\*, other stuff the engine would be interested in controling
     - Support the intrinsics keyword for these? Or would the host want to keep them hidden?
+
+## Completion Refactor
+
+- Eliminate most throws for completions where not needed.
+- Use Q and X to capture throws
+  - Right now, changing all throws to use returns is too invasive as we rely on try/catch all over the place.
+- All node evaluators should return completions. Wrap their functions with captureCompletion
+- Keep throw completion as a shorthand for evaluators that isn't exposed by their implementations.
+- Create a wrapper factory function to capture completions for all functions?
+- Use generator.next instead of generator.throw for abnormal completions.

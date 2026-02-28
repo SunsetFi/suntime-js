@@ -4,7 +4,7 @@ import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocatio
 import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
@@ -27,7 +27,15 @@ export default class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
     body: BlockStatement | Expression,
     functionFactory: StaticJsFunctionFactory,
   ) {
-    super(realm, name, "lexical-this", argumentDeclarations, context, body, functionFactory);
+    super(
+      realm,
+      name,
+      "lexical-this",
+      argumentDeclarations,
+      context,
+      body,
+      functionFactory,
+    );
   }
 
   *constructEvaluator(): EvaluationGenerator<StaticJsValue> {
@@ -37,7 +45,9 @@ export default class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
       name = "anonymous";
     }
 
-    throw new ThrowCompletion(this.realm.types.error("TypeError", `${name} is not a constructor`));
+    throw Completion.Throw(
+      this.realm.types.error("TypeError", `${name} is not a constructor`),
+    );
   }
 
   protected *_invoke(
@@ -49,7 +59,7 @@ export default class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
     try {
       functionContext = yield* this._createContext(thisArg, args);
     } catch (e) {
-      if (e instanceof ThrowCompletion) {
+      if (Completion.Throw.is(e)) {
         return yield* promiseReject(e.value, this.realm);
       }
 
@@ -57,7 +67,11 @@ export default class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
     }
 
     const evaluator = EvaluateNodeCommand(this._body, functionContext);
-    const invocation = new AsyncEvaluatorInvocation(evaluator, functionContext.realm, true);
+    const invocation = new AsyncEvaluatorInvocation(
+      evaluator,
+      functionContext.realm,
+      true,
+    );
 
     yield* invocation.start();
 

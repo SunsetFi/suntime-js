@@ -1,4 +1,4 @@
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import newPromiseCapability from "../../../algorithms/new-promise-capability.js";
 
@@ -13,7 +13,7 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
   key: "finally",
   *func(realm, thisArg, onFinally) {
     if (!isStaticJsPromise(thisArg)) {
-      throw new ThrowCompletion(realm.types.error("TypeError", "finally called on non-promise"));
+      throw Completion.Throw(realm.types.error("TypeError", "finally called on non-promise"));
     }
 
     if (!onFinally) {
@@ -39,7 +39,7 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
         yield* capability.resolve.callEvaluator(realm.types.undefined, [result]);
         const p = capability.promise;
         const thrower = new StaticJsFunctionImpl(realm, "<thrower>", function* () {
-          throw new ThrowCompletion(reason);
+          throw Completion.Throw(reason);
         });
         return yield* p.thenEvaluator(thrower);
       });

@@ -1,4 +1,4 @@
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 import toObject from "../../../algorithms/to-object.js";
 
 import { isStaticJsArray, MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
@@ -19,7 +19,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
     }
     if (!isStaticJsFunction(callback)) {
       // Yes, this error message is different from all the others!
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error("TypeError", "flatMap mapper function is not callable"),
       );
     }
@@ -46,7 +46,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       if (isStaticJsArray(result)) {
         const len = yield* lengthOfArrayLike(result, realm);
         if (n + len > MAX_ARRAY_LENGTH_INCLUSIVE) {
-          throw new ThrowCompletion(realm.types.error("TypeError", "Maximum array size exceeded"));
+          throw Completion.Throw(realm.types.error("TypeError", "Maximum array size exceeded"));
         }
 
         for (let k = 0; k < len; k++) {
@@ -66,7 +66,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
         }
       } else {
         if (n > MAX_ARRAY_LENGTH_INCLUSIVE) {
-          throw new ThrowCompletion(realm.types.error("TypeError", "Maximum array size exceeded"));
+          throw Completion.Throw(realm.types.error("TypeError", "Maximum array size exceeded"));
         }
 
         yield* A.defineOwnPropertyEvaluator(String(n), {

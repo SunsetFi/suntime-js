@@ -1,7 +1,10 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
-import { type StaticJsPropertyKey, isStaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
+import {
+  type StaticJsPropertyKey,
+  isStaticJsPropertyKey,
+} from "../types/StaticJsObjectLike.js";
 
 import type { StaticJsReferenceRecord } from "../references/StaticJsReferenceRecord.js";
 import { isUnresolvableReference } from "../references/is-unresolvable-reference.js";
@@ -11,7 +14,7 @@ import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironm
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 import toPropertyKey from "../utils/to-property-key.js";
 
@@ -26,7 +29,7 @@ export default function* getValue(
   }
 
   if (isUnresolvableReference(v)) {
-    throw new ThrowCompletion(
+    throw Completion.Throw(
       realm.types.error("ReferenceError", `${v.referencedName} is not defined`),
     );
   }
@@ -38,7 +41,10 @@ export default function* getValue(
 
     let propertyKey: StaticJsPropertyKey;
     if (!isStaticJsPropertyKey(v.referencedName)) {
-      propertyKey = v.referencedName = yield* toPropertyKey(v.referencedName, realm);
+      propertyKey = v.referencedName = yield* toPropertyKey(
+        v.referencedName,
+        realm,
+      );
     } else {
       propertyKey = v.referencedName;
     }

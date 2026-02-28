@@ -1,4 +1,4 @@
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
@@ -13,7 +13,9 @@ export default function* call(
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsValue> {
   if (!isStaticJsFunction(F)) {
-    throw new ThrowCompletion(realm.types.error("TypeError", "Called object is not a function"));
+    throw Completion.Throw(
+      realm.types.error("TypeError", "Called object is not a function"),
+    );
   }
 
   return yield* F.callEvaluator(V, args);

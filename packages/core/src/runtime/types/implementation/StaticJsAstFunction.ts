@@ -6,7 +6,8 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 import functionDeclarationInstantiation from "../../../evaluator/instantiation/function-declaration-instantiation.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
-import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletion.js";
+
+import { Completion } from "../../../evaluator/completions/Completion.js";
 
 import type { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
 import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
@@ -19,7 +20,9 @@ import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsUndefined } from "../StaticJsUndefined.js";
 
-import StaticJsFunctionBase, { type StaticJsFunctionImplOptions } from "./StaticJsFunctionImpl.js";
+import StaticJsFunctionBase, {
+  type StaticJsFunctionImplOptions,
+} from "./StaticJsFunctionImpl.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
@@ -93,7 +96,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     try {
       yield* EvaluateNodeCommand(this._body, functionContext);
     } catch (e) {
-      if (e instanceof ReturnCompletion) {
+      if (Completion.Return.is(e)) {
         result = e.value;
       } else {
         throw e;

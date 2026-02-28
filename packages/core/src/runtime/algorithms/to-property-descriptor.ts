@@ -1,7 +1,7 @@
 import type { Writable } from "type-fest";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
@@ -22,7 +22,7 @@ export default function* toPropertyDescriptor(
   realm: StaticJsRealm,
 ): EvaluationGenerator<Partial<StaticJsPropertyDescriptor>> {
   if (!isStaticJsObjectLike(obj)) {
-    throw new ThrowCompletion(
+    throw Completion.Throw(
       realm.types.error("TypeError", "Property description must be an object"),
     );
   }
@@ -64,7 +64,9 @@ export default function* toPropertyDescriptor(
     if (isStaticJsFunction(getter)) {
       desc.get = getter;
     } else if (!isStaticJsUndefined(getter)) {
-      throw new ThrowCompletion(realm.types.error("TypeError", "Getter must be a function"));
+      throw Completion.Throw(
+        realm.types.error("TypeError", "Getter must be a function"),
+      );
     }
   }
 
@@ -74,13 +76,15 @@ export default function* toPropertyDescriptor(
     if (isStaticJsFunction(setter)) {
       desc.set = setter;
     } else if (!isStaticJsUndefined(setter)) {
-      throw new ThrowCompletion(realm.types.error("TypeError", "Setter must be a function"));
+      throw Completion.Throw(
+        realm.types.error("TypeError", "Setter must be a function"),
+      );
     }
   }
 
   if (desc.get || desc.set) {
     if (desc.value || desc.writable != null) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error(
           "TypeError",
           "Invalid property descriptor. Cannot both specify accessors and a value or writable attribute",

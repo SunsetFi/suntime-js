@@ -1,6 +1,6 @@
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import isNumberLike from "../isNumberLike.js";
 
@@ -10,7 +10,7 @@ const numberProtoValueOfDeclaration: FunctionIntrinsicPropertyDeclaration = {
     // Node is really confusing here, it requires thisArg to be a function???
 
     if (!isNumberLike(thisArg)) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error(
           "TypeError",
           "Number.prototype.toLocaleString requires that 'this' be a Number",

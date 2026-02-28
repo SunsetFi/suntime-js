@@ -1,4 +1,4 @@
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import type { StaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
@@ -13,7 +13,7 @@ const arrayProtoReduceRightDeclaration: IntrinsicPropertyDeclaration = {
   key: "reduceRight",
   *func(realm, thisArg, callback, initialValue) {
     if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error("TypeError", "Array.prototype.reduce called on null or undefined"),
       );
     }
@@ -36,7 +36,7 @@ const arrayProtoReduceRightDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (!isStaticJsFunction(callback)) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error("TypeError", `${callback.toStringSync()} is not a function`),
       );
     }
@@ -44,7 +44,7 @@ const arrayProtoReduceRightDeclaration: IntrinsicPropertyDeclaration = {
     const length = yield* thisArray.getLengthEvaluator();
     if (length === 0) {
       if (initialValue == null) {
-        throw new ThrowCompletion(
+        throw Completion.Throw(
           realm.types.error("TypeError", "Reduce of empty array with no initial value"),
         );
       }

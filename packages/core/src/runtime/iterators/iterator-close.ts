@@ -1,10 +1,6 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import type { Completion } from "../../evaluator/completions/Completion.js";
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
-import rethrowCompletion from "../../evaluator/completions/rethrow-completion.js";
-import isAbruptCompletion from "../../evaluator/completions/AbruptCompletion.js";
-import type { NormalCompletion } from "../../evaluator/completions/NormalCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
@@ -14,13 +10,14 @@ import call from "../algorithms/call.js";
 import getMethod from "../algorithms/get-method.js";
 
 import type { IteratorRecord } from "./IteratorRecord.js";
+import rethrowCompletion from "../../evaluator/completions/rethrow-completion.js";
 
 export default function iteratorClose(
   iteratorRecord: IteratorRecord,
   completion: Completion,
   realm: StaticJsRealm,
   unwrap?: true,
-): EvaluationGenerator<NormalCompletion>;
+): EvaluationGenerator<Completion.Normal>;
 export default function iteratorClose(
   iteratorRecord: IteratorRecord,
   completion: Completion,
@@ -43,24 +40,27 @@ export default function* iteratorClose(
 
     innerResult = yield* call(innerResult, iterator, [], realm);
   } catch (e) {
-    if (isAbruptCompletion(e)) {
+    if (Completion.Abrupt.is(e)) {
       innerResult = e;
     } else {
       throw e;
     }
   }
 
-  if (completion instanceof ThrowCompletion) {
+  if (Completion.Throw.is(completion)) {
     return unwrap ? rethrowCompletion(completion) : completion;
   }
 
-  if (innerResult instanceof ThrowCompletion) {
+  if (Completion.Throw.is(innerResult)) {
     return unwrap ? rethrowCompletion(innerResult) : innerResult;
   }
 
   if (!isStaticJsObjectLike(innerResult)) {
-    throw new ThrowCompletion(
-      realm.types.error("TypeError", "iterator.return() did not return an object"),
+    throw Completion.Throw(
+      realm.types.error(
+        "TypeError",
+        "iterator.return() did not return an object",
+      ),
     );
   }
 
@@ -76,7 +76,7 @@ iteratorClose.handle = function* handleIteratorClose<T>(
     const result = yield* handler();
     return result;
   } catch (e) {
-    if (isAbruptCompletion(e)) {
+    if (Completion.Abrupt.is(e)) {
       // If the handler threw an abnormal completion, we need to close the iterator
       yield* iteratorClose(iteratorRecord, e, realm);
     }

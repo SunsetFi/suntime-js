@@ -1,4 +1,4 @@
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 import toObject from "../../../algorithms/to-object.js";
 
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
@@ -15,7 +15,7 @@ const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
     const length = yield* lengthOfArrayLike(thisObj, realm);
 
     if (args.length + length > MAX_ARRAY_LENGTH_INCLUSIVE) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error(
           "TypeError",
           `Pushing ${args.length} elements on an array-like of length ${length} is disallowed, as the total surpasses the maximum array length.`,

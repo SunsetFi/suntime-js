@@ -4,11 +4,15 @@ import StaticJsObjectEnvironmentRecord from "../../runtime/environments/implemen
 
 import toObject from "../../runtime/algorithms/to-object.js";
 
-import { EvaluateNodeCommand, EvaluateNodeForCompletion } from "../commands/EvaluateNodeCommand.js";
-import updateEmpty from "../completions/update-empty.js";
+import {
+  EvaluateNodeCommand,
+  EvaluateNodeForCompletion,
+} from "../commands/EvaluateNodeCommand.js";
+import { Completion } from "../completions/Completion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+import Q from "../completions/Q.js";
 
 export default function* withStatementNodeEvaluator(
   node: WithStatement,
@@ -21,10 +25,17 @@ export default function* withStatementNodeEvaluator(
   const obj = yield* toObject(val, context.realm);
 
   const withContext = context.createLexicalEnvContext(
-    new StaticJsObjectEnvironmentRecord(obj, true, context.lexicalEnv, context.realm),
+    new StaticJsObjectEnvironmentRecord(
+      obj,
+      true,
+      context.lexicalEnv,
+      context.realm,
+    ),
   );
 
   const result = yield* EvaluateNodeForCompletion(node.body, withContext);
 
-  return updateEmpty(result, context.realm.types.undefined);
+  return yield* Q(
+    Completion.updateEmpty(result, context.realm.types.undefined),
+  );
 }

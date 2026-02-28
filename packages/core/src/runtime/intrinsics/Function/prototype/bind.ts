@@ -1,6 +1,6 @@
 import isNotUndefined from "../../../../internal/is-not-undefined.js";
 
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import StaticJsBoundFunction from "../../../types/implementation/StaticJsBoundFunctionImpl.js";
 
@@ -13,7 +13,7 @@ const functionProtoBindDeclaration: IntrinsicPropertyDeclaration = {
   key: "bind",
   *func(realm, self, thisArg, ...args) {
     if (!isStaticJsFunction(self)) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error("TypeError", "Bind must be called on a function"),
       );
     }

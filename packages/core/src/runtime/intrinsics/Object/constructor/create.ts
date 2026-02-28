@@ -1,4 +1,4 @@
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
@@ -12,7 +12,7 @@ const objectCtorCreateDeclaration: IntrinsicPropertyDeclaration = {
   key: "create",
   *func(realm, _thisArg, protoValue = realm.types.undefined, properties = realm.types.undefined) {
     if (!isStaticJsNull(protoValue) && !isStaticJsObjectLike(protoValue)) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error("TypeError", "Object prototype may only be an Object or null"),
       );
     }

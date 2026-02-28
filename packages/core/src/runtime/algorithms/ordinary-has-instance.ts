@@ -1,10 +1,13 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
-import { isStaticJsBoundFunction, isStaticJsFunction } from "../types/StaticJsFunction.js";
+import {
+  isStaticJsBoundFunction,
+  isStaticJsFunction,
+} from "../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import toBoolean from "./to-boolean.js";
 import instanceOfOperator from "./instance-of-operator.js";
@@ -23,7 +26,9 @@ export default function* ordinaryHasInstance(
     return yield* instanceOfOperator(O, BC, realm);
   }
 
-  const hasInstanceFunc = yield* C.getEvaluator(realm.types.symbols.hasInstance);
+  const hasInstanceFunc = yield* C.getEvaluator(
+    realm.types.symbols.hasInstance,
+  );
   if (isStaticJsFunction(hasInstanceFunc)) {
     const result = yield* hasInstanceFunc.callEvaluator(C, [O]);
     return yield* toBoolean.js(result, realm);
@@ -35,7 +40,9 @@ export default function* ordinaryHasInstance(
 
   const P = yield* C.getEvaluator("prototype");
   if (!isStaticJsObjectLike(P)) {
-    throw new ThrowCompletion(realm.types.error("TypeError", "Function has non-object prototype"));
+    throw Completion.Throw(
+      realm.types.error("TypeError", "Function has non-object prototype"),
+    );
   }
 
   let current = O.prototype;

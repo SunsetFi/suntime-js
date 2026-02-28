@@ -2,7 +2,7 @@ import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import isNumberLike from "../isNumberLike.js";
 import toNumber from "../../../algorithms/to-number.js";
@@ -13,8 +13,11 @@ const numberProtoToFixedDeclaration: FunctionIntrinsicPropertyDeclaration = {
     // Node is really confusing here, it requires thisArg to be a function???
 
     if (!isNumberLike(thisArg)) {
-      throw new ThrowCompletion(
-        realm.types.error("TypeError", "Number.prototype.toFixed requires that 'this' be a Number"),
+      throw Completion.Throw(
+        realm.types.error(
+          "TypeError",
+          "Number.prototype.toFixed requires that 'this' be a Number",
+        ),
       );
     }
 

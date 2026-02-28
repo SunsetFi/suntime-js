@@ -1,4 +1,4 @@
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 import toBoolean from "../../../algorithms/to-boolean.js";
 import toObject from "../../../algorithms/to-object.js";
 
@@ -20,8 +20,11 @@ const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
     if (!isStaticJsFunction(callback)) {
       // FIXME: NodeJs is doing something aside from casting it to string.
       // Object appears as "#<Object>"
-      throw new ThrowCompletion(
-        realm.types.error("TypeError", `${callback.toStringSync()} is not a function`),
+      throw Completion.Throw(
+        realm.types.error(
+          "TypeError",
+          `${callback.toStringSync()} is not a function`,
+        ),
       );
     }
 

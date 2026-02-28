@@ -8,7 +8,7 @@ import StaticJsDeclarativeEnvironmentRecord from "../environments/implementation
 
 import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 import evalDeclarationInstantiation from "../../evaluator/instantiation/eval-declaration-instantiation.js";
 
@@ -29,15 +29,21 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
       node = parseScript(str.value);
     } catch (e: unknown) {
       if (e instanceof StaticJsSyntaxError) {
-        throw new ThrowCompletion(realm.types.error("SyntaxError", e.message));
+        throw Completion.Throw(realm.types.error("SyntaxError", e.message));
       }
 
       throw e;
     }
 
-    const strict = node.program.directives.some((dir) => dir.value.value === "use strict");
+    const strict = node.program.directives.some(
+      (dir) => dir.value.value === "use strict",
+    );
 
-    let context = EvaluationContext.createRootContext(strict, realm, realm.globalEnv);
+    let context = EvaluationContext.createRootContext(
+      strict,
+      realm,
+      realm.globalEnv,
+    );
 
     const lexEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
     const varEnv = strict ? lexEnv : context.variableEnv;

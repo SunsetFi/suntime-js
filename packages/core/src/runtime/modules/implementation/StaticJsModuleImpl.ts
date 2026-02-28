@@ -10,7 +10,7 @@ import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCom
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 
 import createFunction from "../../../evaluator/node-evaluators/Function.js";
 
@@ -133,7 +133,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        throw new ThrowCompletion(
+        throw Completion.Throw(
           this._realm.types.error("ReferenceError", `Module ${entry.moduleRequest} not found.`),
         );
       }
@@ -145,7 +145,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
     for (const entry of this._importEntries) {
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        throw new ThrowCompletion(
+        throw Completion.Throw(
           this._realm.types.error("ReferenceError", `Module ${entry.moduleRequest} not found.`),
         );
       }
@@ -163,7 +163,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        throw new ThrowCompletion(
+        throw Completion.Throw(
           this._realm.types.error("ReferenceError", `Module ${entry.moduleRequest} not found.`),
         );
       }
@@ -198,7 +198,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
       const hasBinding = yield* this._envRec!.hasBindingEvaluator(entry.localName);
       if (!hasBinding) {
-        throw new ThrowCompletion(
+        throw Completion.Throw(
           this._realm.types.error(
             "SyntaxError",
             `Exported local name not declared: ${entry.localName}`,
@@ -392,7 +392,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
     for (const exportName of this._indirectExports.keys()) {
       const resolution = yield* this.resolveExportEvaluator(exportName!);
       if (!resolution || resolution === "ambiguous") {
-        throw new ThrowCompletion(
+        throw Completion.Throw(
           this._realm.types.error(
             "ReferenceError",
             `Cannot resolve export ${exportName} for module ${this._name}.`,
@@ -407,7 +407,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
     for (const entry of this._importEntries) {
       const importedModule = this._linkedModules.get(entry.moduleRequest);
       if (!importedModule) {
-        throw new ThrowCompletion(
+        throw Completion.Throw(
           this._realm.types.error("ReferenceError", `Module ${entry.moduleRequest} not found.`),
         );
       }
@@ -421,7 +421,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         const resolved = yield* importedModule.resolveExportEvaluator(entry.importName);
 
         if (!resolved || resolved === "ambiguous") {
-          throw new ThrowCompletion(
+          throw Completion.Throw(
             this._realm.types.error(
               "SyntaxError",
               `Module ${entry.moduleRequest} does not export ${entry.importName}.`,

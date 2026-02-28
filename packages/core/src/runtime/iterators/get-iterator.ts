@@ -1,4 +1,4 @@
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
@@ -25,7 +25,7 @@ export default function* getIterator(
     if (method === null) {
       const syncMethod = yield* getMethod(obj, realm.types.symbols.iterator, realm);
       if (syncMethod === null) {
-        throw new ThrowCompletion(realm.types.error("TypeError", "Value is not async iterable"));
+        throw Completion.Throw(realm.types.error("TypeError", "Value is not async iterable"));
       }
 
       const syncIteratorRecord = yield* getIteratorFromMethod(
@@ -42,7 +42,7 @@ export default function* getIterator(
   }
 
   if (method === null) {
-    throw new ThrowCompletion(realm.types.error("TypeError", "Value is not iterable"));
+    throw Completion.Throw(realm.types.error("TypeError", "Value is not iterable"));
   }
 
   return yield* getIteratorFromMethod(obj as StaticJsObjectLike, method, realm);

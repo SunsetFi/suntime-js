@@ -16,7 +16,7 @@ import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { ThrowCompletion } from "../completions/ThrowCompletion.js";
+import { Completion } from "../completions/Completion.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
@@ -61,7 +61,7 @@ export default function* unaryExpressionNodeEvaluator(
     case "void":
       return types.undefined;
     case "throw":
-      throw new ThrowCompletion(value);
+      throw Completion.Throw(value);
   }
 
   throw new StaticJsEngineError(`Unknown unary operator: ${node.operator}.`);
@@ -87,7 +87,7 @@ function* deleteExpressionNodeEvaluator(
     const propertyKey = yield* toPropertyKey(ref.referencedName, context.realm);
     const result = yield* baseObj.deleteEvaluator(propertyKey);
     if (!result && context.strict) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         context.realm.types.error(
           "TypeError",
           `Cannot delete property ${String(propertyKey)} of object: Property is non-configurable.`,

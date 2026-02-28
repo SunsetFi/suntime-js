@@ -5,7 +5,7 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
 import StaticJsIteratorImpl from "../../../types/implementation/StaticJsIteratorImpl.js";
 
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -13,7 +13,7 @@ const stringProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
   key: (realm) => realm.types.symbols.iterator,
   *func(realm, thisArg = realm.types.undefined) {
     if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error(
           "TypeError",
           "String.prototype[Symbol.iterator] called on null or undefined",

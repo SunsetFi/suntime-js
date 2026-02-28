@@ -1,11 +1,14 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import type { StaticJsScalar } from "../types/StaticJsScalar.js";
-import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import {
+  isStaticJsObjectLike,
+  type StaticJsObjectLike,
+} from "../types/StaticJsObjectLike.js";
 import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 
 export default function* toPrimitive(
@@ -17,7 +20,9 @@ export default function* toPrimitive(
     return value;
   }
 
-  const exoticToPrim = yield* value.getEvaluator(realm.types.symbols.toPrimitive);
+  const exoticToPrim = yield* value.getEvaluator(
+    realm.types.symbols.toPrimitive,
+  );
   if (isStaticJsFunction(exoticToPrim)) {
     let hint: "string" | "number" | "default";
     if (!preferredType) {
@@ -28,13 +33,18 @@ export default function* toPrimitive(
       hint = "number";
     }
 
-    const result = yield* exoticToPrim.callEvaluator(value, [realm.types.string(hint)]);
+    const result = yield* exoticToPrim.callEvaluator(value, [
+      realm.types.string(hint),
+    ]);
     if (!isStaticJsObjectLike(result)) {
       return result;
     }
 
-    throw new ThrowCompletion(
-      realm.types.error("TypeError", `Object[Symbol.toPrimitive] returned an object.`),
+    throw Completion.Throw(
+      realm.types.error(
+        "TypeError",
+        `Object[Symbol.toPrimitive] returned an object.`,
+      ),
     );
   }
 
@@ -66,7 +76,7 @@ function* ordinaryToPrimitive(
     }
   }
 
-  throw new ThrowCompletion(
+  throw Completion.Throw(
     realm.types.error("TypeError", `Cannot convert object to primitive value`),
   );
 }

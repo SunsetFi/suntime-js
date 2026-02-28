@@ -1,5 +1,5 @@
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
@@ -32,7 +32,9 @@ export default class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarati
 
   initializeThis(thisValue: StaticJsValue): void {
     if (this._thisBindingStatus !== "uninitialized") {
-      throw new StaticJsEngineError("This binding has already been initialized.");
+      throw new StaticJsEngineError(
+        "This binding has already been initialized.",
+      );
     }
 
     this._thisValue = thisValue;
@@ -45,15 +47,20 @@ export default class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarati
 
   *getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue> {
     if (this._thisBindingStatus === "lexical") {
-      throw new StaticJsEngineError("Cannot get 'this' binding from lexical function environment.");
+      throw new StaticJsEngineError(
+        "Cannot get 'this' binding from lexical function environment.",
+      );
     }
 
     if (this._thisBindingStatus === "initialized") {
       return this._thisValue!;
     }
 
-    throw new ThrowCompletion(
-      this._realm.types.error("ReferenceError", "This binding is uninitialized"),
+    throw Completion.Throw(
+      this._realm.types.error(
+        "ReferenceError",
+        "This binding is uninitialized",
+      ),
     );
   }
 }

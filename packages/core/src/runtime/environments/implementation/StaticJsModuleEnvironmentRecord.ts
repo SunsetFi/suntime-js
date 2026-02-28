@@ -1,7 +1,7 @@
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -29,7 +29,7 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsEnvironment
   *isInitializedEvaluator(name: string): EvaluationGenerator<boolean> {
     const binding = this._moduleBindings.get(name);
     if (!binding) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         this._realm.types.error(
           "ReferenceError",
           `Binding ${name} does not exist in this module environment`,
@@ -42,7 +42,7 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsEnvironment
   }
 
   *createMutableBindingEvaluator(_name: string, _deletable: boolean) {
-    throw new ThrowCompletion(
+    throw Completion.Throw(
       this._realm.types.error(
         "TypeError",
         "Cannot create mutable bindings in a module environment record",
@@ -51,7 +51,7 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsEnvironment
   }
 
   *createImmutableBindingEvaluator(_name: string, _strict: boolean) {
-    throw new ThrowCompletion(
+    throw Completion.Throw(
       this._realm.types.error(
         "TypeError",
         "Cannot create immutable bindings in a module environment recor",
@@ -59,8 +59,11 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsEnvironment
     );
   }
 
-  *initializeBindingEvaluator(_name: string, _value: StaticJsValue): EvaluationGenerator<void> {
-    throw new ThrowCompletion(
+  *initializeBindingEvaluator(
+    _name: string,
+    _value: StaticJsValue,
+  ): EvaluationGenerator<void> {
+    throw Completion.Throw(
       this._realm.types.error(
         "TypeError",
         "Cannot initialize bindings in a module environment record",
@@ -74,10 +77,12 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsEnvironment
     _strict: boolean,
   ): EvaluationGenerator<void> {
     if (this._moduleBindings.has(name)) {
-      throw new ThrowCompletion(this._realm.types.error("TypeError", "Assignment to constant"));
+      throw Completion.Throw(
+        this._realm.types.error("TypeError", "Assignment to constant"),
+      );
     }
 
-    throw new ThrowCompletion(
+    throw Completion.Throw(
       this._realm.types.error(
         "ReferenceError",
         `Binding ${name} does not exist in this module environment`,
@@ -85,10 +90,13 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsEnvironment
     );
   }
 
-  *getBindingValueEvaluator(name: string, _strict: boolean): EvaluationGenerator<StaticJsValue> {
+  *getBindingValueEvaluator(
+    name: string,
+    _strict: boolean,
+  ): EvaluationGenerator<StaticJsValue> {
     const binding = this._moduleBindings.get(name);
     if (!binding) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         this._realm.types.error(
           "ReferenceError",
           `Binding ${name} does not exist in this module environment`,
@@ -99,13 +107,15 @@ export default class StaticJsModuleEnvironmentRecord extends StaticJsEnvironment
     const { module, bindingName } = binding;
     const value = yield* module.getOwnBindingValueEvaluator(bindingName);
     if (value == null) {
-      throw new StaticJsEngineError(`Export ${name} not found in module ${module.name}.`);
+      throw new StaticJsEngineError(
+        `Export ${name} not found in module ${module.name}.`,
+      );
     }
     return value;
   }
 
   *deleteBindingEvaluator(_name: string): EvaluationGenerator<boolean> {
-    throw new ThrowCompletion(
+    throw Completion.Throw(
       this._realm.types.error(
         "TypeError",
         "Cannot delete bindings in a module environment record.",

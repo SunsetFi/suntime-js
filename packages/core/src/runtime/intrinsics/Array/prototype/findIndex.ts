@@ -1,4 +1,4 @@
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 import toBoolean from "../../../algorithms/to-boolean.js";
 import toObject from "../../../algorithms/to-object.js";
 
@@ -18,8 +18,11 @@ const arrayProtoFindIndexDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (!isStaticJsFunction(callback)) {
-      throw new ThrowCompletion(
-        realm.types.error("TypeError", `${callback.toStringSync()} is not a function`),
+      throw Completion.Throw(
+        realm.types.error(
+          "TypeError",
+          `${callback.toStringSync()} is not a function`,
+        ),
       );
     }
 

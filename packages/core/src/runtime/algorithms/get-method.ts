@@ -1,11 +1,14 @@
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
-import { isStaticJsFunction, type StaticJsFunction } from "../types/StaticJsFunction.js";
+import {
+  isStaticJsFunction,
+  type StaticJsFunction,
+} from "../types/StaticJsFunction.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
@@ -24,7 +27,9 @@ export default function* getMethod(
   }
 
   if (!isStaticJsFunction(func)) {
-    throw new ThrowCompletion(realm.types.error("TypeError", "Method is not a function"));
+    throw Completion.Throw(
+      realm.types.error("TypeError", "Method is not a function"),
+    );
   }
 
   return func;

@@ -5,7 +5,7 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 
 import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
 
@@ -28,10 +28,19 @@ export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
     body: BlockStatement | Expression,
     functionFactory: StaticJsFunctionFactory,
   ) {
-    super(realm, name, "non-lexical-this", argumentDeclarations, context, body, functionFactory, {
-      // Async methods are not constructable.
-      construct: false,
-    });
+    super(
+      realm,
+      name,
+      "non-lexical-this",
+      argumentDeclarations,
+      context,
+      body,
+      functionFactory,
+      {
+        // Async methods are not constructable.
+        construct: false,
+      },
+    );
 
     // Async methods get no prototype.
   }
@@ -45,7 +54,7 @@ export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
     try {
       functionContext = yield* this._createContext(thisArg, args);
     } catch (e) {
-      if (e instanceof ThrowCompletion) {
+      if (Completion.Throw.is(e)) {
         return yield* promiseReject(e.value, this.realm);
       }
 
@@ -53,7 +62,10 @@ export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
     }
 
     const evaluator = EvaluateNodeCommand(this._body, functionContext);
-    const invocation = new AsyncEvaluatorInvocation(evaluator, functionContext.realm);
+    const invocation = new AsyncEvaluatorInvocation(
+      evaluator,
+      functionContext.realm,
+    );
 
     yield* invocation.start();
 

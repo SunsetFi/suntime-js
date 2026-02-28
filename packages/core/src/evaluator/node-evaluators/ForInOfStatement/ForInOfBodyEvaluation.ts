@@ -30,11 +30,7 @@ import bindingInitialization from "../../bindings/binding-initialization.js";
 import destructuringAssignmentEvaluation from "../../bindings/destructuring-assignment-evaluation.js";
 import initializeReferencedBinding from "../../bindings/initialize-referenced-binding.js";
 
-import { ThrowCompletion } from "../../completions/ThrowCompletion.js";
-import type { NormalCompletion } from "../../completions/NormalCompletion.js";
-import isAbruptCompletion from "../../completions/AbruptCompletion.js";
-import updateEmpty from "../../completions/update-empty.js";
-import completionValue from "../../completions/completion-value.js";
+import { Completion } from "../../completions/Completion.js";
 import rethrowCompletion from "../../completions/rethrow-completion.js";
 
 import {
@@ -62,7 +58,7 @@ export function* forInOfBodyEvaluation(
   const { realm } = context;
   const oldEnv = context.lexicalEnv;
 
-  let V: NormalCompletion = realm.types.undefined;
+  let V: Completion.Normal = realm.types.undefined;
 
   const destructuring = isDestructuring(lhs);
   let assignmentPattern: ObjectPattern | ArrayPattern | null = null;
@@ -71,14 +67,21 @@ export function* forInOfBodyEvaluation(
   }
 
   while (true) {
-    let nextResult = yield* call(iteratorRecord.nextMethod, iteratorRecord.iterator, [], realm);
+    let nextResult = yield* call(
+      iteratorRecord.nextMethod,
+      iteratorRecord.iterator,
+      [],
+      realm,
+    );
 
     if (iteratorKind === "async") {
       nextResult = yield* AwaitCommand(nextResult);
     }
 
     if (!isStaticJsObjectLike(nextResult)) {
-      throw new ThrowCompletion(realm.types.error("TypeError", "Iterator result is not an object"));
+      throw Completion.Throw(
+        realm.types.error("TypeError", "Iterator result is not an object"),
+      );
     }
 
     const done = yield* iteratorComplete(nextResult, realm);
@@ -95,7 +98,11 @@ export function* forInOfBodyEvaluation(
       if (lhsKind === "assignment" || lhsKind === "varBinding") {
         if (destructuring) {
           if (lhsKind === "assignment") {
-            yield* destructuringAssignmentEvaluation(assignmentPattern!, nextValue, context);
+            yield* destructuringAssignmentEvaluation(
+              assignmentPattern!,
+              nextValue,
+              context,
+            );
           } else {
             yield* bindingInitialization(lhs as LVal, nextValue, null, context);
           }
@@ -114,10 +121,14 @@ export function* forInOfBodyEvaluation(
           );
         }
 
-        const iterationEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
+        const iterationEnv = new StaticJsDeclarativeEnvironmentRecord(
+          oldEnv,
+          context.realm,
+        );
         yield* forDeclarationBindingInstantiation(lhs, iterationEnv);
 
-        iterationContext = iterationContext.createLexicalEnvContext(iterationEnv);
+        iterationContext =
+          iterationContext.createLexicalEnvContext(iterationEnv);
 
         if (destructuring) {
           yield* forDeclarationBindingInitialization(
@@ -138,7 +149,7 @@ export function* forInOfBodyEvaluation(
       }
     } catch (e) {
       // Check status is abrupt completion
-      if (isAbruptCompletion(e)) {
+      if (Completion.Abrupt.is(e)) {
         if (iterationKind === "enumerate") {
           throw e;
         } else if (iteratorKind === "async") {
@@ -155,19 +166,23 @@ export function* forInOfBodyEvaluation(
     // Note: oldEnv should be restored, so don't use iterationContext from here.
 
     if (!loopContinues(result, context)) {
-      const status = updateEmpty.forCompletion(result, V);
+      const status = Completion.updateEmpty(result, V);
       if (iterationKind === "enumerate") {
         return rethrowCompletion(status);
       } else {
         if (iteratorKind === "async") {
-          return yield* asyncIteratorClose(iteratorRecord, status, context.realm);
+          return yield* asyncIteratorClose(
+            iteratorRecord,
+            status,
+            context.realm,
+          );
         }
 
         return yield* iteratorClose(iteratorRecord, status, context.realm);
       }
     }
 
-    const resultValue = completionValue(result);
+    const resultValue = Completion.value(result);
     if (resultValue) {
       V = resultValue;
     }

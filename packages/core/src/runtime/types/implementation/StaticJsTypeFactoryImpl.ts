@@ -1,4 +1,4 @@
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -186,7 +186,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
           return result;
         } catch (e) {
           if (isStaticJsValue(e)) {
-            throw new ThrowCompletion(e);
+            throw Completion.Throw(e);
           }
 
           throw e;

@@ -1,4 +1,4 @@
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 import toObject from "../../../algorithms/to-object.js";
 
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
@@ -18,7 +18,7 @@ export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
     if (args.length + length > MAX_ARRAY_LENGTH_INCLUSIVE) {
       // Note: Not exactly what NodeJs does, it says "invalid array length".
       // Not sure on the exact situations of when it says that though.
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error(
           "TypeError",
           `Unshifting ${args.length} elements on an array-like of length ${length} is disallowed, as the total surpasses the maximum array length.`,

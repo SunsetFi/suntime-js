@@ -2,7 +2,7 @@ import type { ThrowStatement } from "@babel/types";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { ThrowCompletion } from "../completions/ThrowCompletion.js";
+import { Completion } from "../completions/Completion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
@@ -14,5 +14,5 @@ export default function* throwStatementNodeEvaluator(
   const value = yield* EvaluateNodeCommand(node.argument, context, {
     forNormalValue: "ThrowStatement.argument",
   });
-  throw new ThrowCompletion(value);
+  throw Completion.Throw(value);
 }

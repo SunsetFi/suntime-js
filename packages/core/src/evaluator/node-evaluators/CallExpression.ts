@@ -6,7 +6,10 @@ import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
-import { isStaticJsValue, type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import {
+  isStaticJsValue,
+  type StaticJsValue,
+} from "../../runtime/types/StaticJsValue.js";
 
 import getIterator from "../../runtime/iterators/get-iterator.js";
 import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
@@ -20,7 +23,7 @@ import { isPropertyReference } from "../../runtime/references/is-property-refere
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import { ThrowCompletion } from "../completions/ThrowCompletion.js";
+import { Completion } from "../completions/Completion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
@@ -48,7 +51,9 @@ export default function* callExpressionNodeEvaluator(
   let callee: StaticJsValue;
 
   if (!calleeRaw) {
-    throw new StaticJsEngineError("CallExpression callee evaluated to no value");
+    throw new StaticJsEngineError(
+      "CallExpression callee evaluated to no value",
+    );
   }
 
   if (isStaticJsValue(calleeRaw)) {
@@ -61,7 +66,7 @@ export default function* callExpressionNodeEvaluator(
   }
 
   if (!isStaticJsFunction(callee)) {
-    throw new ThrowCompletion(
+    throw Completion.Throw(
       context.realm.types.error(
         "TypeError",
         `TypeError: ${nameNode(node.callee)} is not a function`,
@@ -76,9 +81,13 @@ export default function* callExpressionNodeEvaluator(
   for (let i = 0; i < node.arguments.length; i++) {
     const argument = node.arguments[i];
     if (argument.type === "SpreadElement") {
-      const iterable = yield* EvaluateNodeCommand(argument.argument, parameterInitContext, {
-        forNormalValue: "ForInStatement.right",
-      });
+      const iterable = yield* EvaluateNodeCommand(
+        argument.argument,
+        parameterInitContext,
+        {
+          forNormalValue: "ForInStatement.right",
+        },
+      );
 
       const iterator = yield* getIterator(iterable, "sync", context.realm);
 
@@ -124,19 +133,26 @@ function* callEvalEvaluator(
     node = parseScript(str.value);
   } catch (e: unknown) {
     if (e instanceof StaticJsSyntaxError) {
-      throw new ThrowCompletion(realm.types.error("SyntaxError", e.message));
+      throw Completion.Throw(realm.types.error("SyntaxError", e.message));
     }
 
     throw e;
   }
 
   const strict =
-    context.strict || node.program.directives.some((dir) => dir.value.value === "use strict");
+    context.strict ||
+    node.program.directives.some((dir) => dir.value.value === "use strict");
 
-  const lexEnv = new StaticJsDeclarativeEnvironmentRecord(context.lexicalEnv, realm);
+  const lexEnv = new StaticJsDeclarativeEnvironmentRecord(
+    context.lexicalEnv,
+    realm,
+  );
   const varEnv = strict ? lexEnv : context.variableEnv;
 
-  const evalContext = context.createLexicalAndVariableEnvContext(lexEnv, varEnv);
+  const evalContext = context.createLexicalAndVariableEnvContext(
+    lexEnv,
+    varEnv,
+  );
 
   yield* evalDeclarationInstantiation(node, strict, evalContext);
 

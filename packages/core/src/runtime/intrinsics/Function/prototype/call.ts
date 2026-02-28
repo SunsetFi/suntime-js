@@ -1,6 +1,6 @@
 import isNotUndefined from "../../../../internal/is-not-undefined.js";
 
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
@@ -10,7 +10,7 @@ const functionProtoCallDeclaration: IntrinsicPropertyDeclaration = {
   key: "call",
   *func(realm, thisFunc, thisArg, ...args) {
     if (!isStaticJsFunction(thisFunc)) {
-      throw new ThrowCompletion(
+      throw Completion.Throw(
         realm.types.error("TypeError", "Function.prototype.call called on a non-function."),
       );
     }

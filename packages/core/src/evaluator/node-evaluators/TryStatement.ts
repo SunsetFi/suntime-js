@@ -9,14 +9,12 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { EvaluateNodeForCompletion } from "../commands/EvaluateNodeCommand.js";
 
-import { ThrowCompletion } from "../completions/ThrowCompletion.js";
-import isAbruptCompletion from "../completions/AbruptCompletion.js";
-import type { Completion } from "../completions/Completion.js";
+import { Completion } from "../completions/Completion.js";
 
 import boundNames from "../instantiation/algorithms/bound-names.js";
 
 import bindingInitialization from "../bindings/binding-initialization.js";
-import updateEmpty from "../completions/update-empty.js";
+import rethrowCompletion from "../completions/rethrow-completion.js";
 
 function* tryStatementNodeEvaluator(
   node: TryStatement,
@@ -24,19 +22,21 @@ function* tryStatementNodeEvaluator(
 ): EvaluationGenerator {
   let result = yield* EvaluateNodeForCompletion(node.block, context);
 
-  if (node.handler && result instanceof ThrowCompletion) {
+  if (node.handler && Completion.Throw.is(result)) {
     result = yield* runCatch(node.handler, result.value, context);
   }
 
   if (node.finalizer) {
     const F = yield* EvaluateNodeForCompletion(node.finalizer, context);
-    if (isAbruptCompletion(F)) {
+    if (Completion.Abrupt.is(F)) {
       result = F;
     }
   }
 
-  if (isAbruptCompletion(result)) {
-    return updateEmpty(result, context.realm.types.undefined);
+  if (Completion.Abrupt.is(result)) {
+    return rethrowCompletion(
+      Completion.updateEmpty(result, context.realm.types.undefined),
+    );
   }
 
   return result ?? context.realm.types.undefined;
@@ -52,14 +52,22 @@ function* runCatch(
   let catchContext = context;
 
   if (node.param) {
-    const catchEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
+    const catchEnv = new StaticJsDeclarativeEnvironmentRecord(
+      oldEnv,
+      context.realm,
+    );
     for (const argName of boundNames(node.param)) {
       yield* catchEnv.createMutableBindingEvaluator(argName, false);
     }
 
     catchContext = context.createLexicalEnvContext(catchEnv);
 
-    yield* bindingInitialization(node.param, thrownValue, catchEnv, catchContext);
+    yield* bindingInitialization(
+      node.param,
+      thrownValue,
+      catchEnv,
+      catchContext,
+    );
   }
 
   return yield* EvaluateNodeForCompletion(node.body, catchContext);

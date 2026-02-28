@@ -1,7 +1,7 @@
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
@@ -25,8 +25,11 @@ export default function* toObject(
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObjectLike> {
   if (isStaticJsUndefined(value) || isStaticJsNull(value)) {
-    throw new ThrowCompletion(
-      realm.types.error("TypeError", "Cannot convert undefined or null to object"),
+    throw Completion.Throw(
+      realm.types.error(
+        "TypeError",
+        "Cannot convert undefined or null to object",
+      ),
     );
   }
 

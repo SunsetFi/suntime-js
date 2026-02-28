@@ -8,8 +8,7 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
-import { ReturnCompletion } from "../../../evaluator/completions/ReturnCompletion.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -28,7 +27,15 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
     body: BlockStatement | Expression,
     functionFactory: StaticJsFunctionFactory,
   ) {
-    super(realm, name, "lexical-this", argumentDeclarations, context, body, functionFactory);
+    super(
+      realm,
+      name,
+      "lexical-this",
+      argumentDeclarations,
+      context,
+      body,
+      functionFactory,
+    );
   }
 
   *constructEvaluator(): EvaluationGenerator<StaticJsValue> {
@@ -38,7 +45,9 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
       name = "anonymous";
     }
 
-    throw new ThrowCompletion(this.realm.types.error("TypeError", `${name} is not a constructor`));
+    throw Completion.Throw(
+      this.realm.types.error("TypeError", `${name} is not a constructor`),
+    );
   }
 
   protected *_invoke(
@@ -49,12 +58,15 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
 
     let result: StaticJsValue = this.realm.types.undefined;
     try {
-      const completion = yield* EvaluateNodeCommand(this._body, functionContext);
+      const completion = yield* EvaluateNodeCommand(
+        this._body,
+        functionContext,
+      );
       if (completion) {
         result = yield* getValue(completion, this.realm);
       }
     } catch (e) {
-      if (e instanceof ReturnCompletion) {
+      if (Completion.Return.is(e)) {
         result = e.value;
       } else {
         throw e;

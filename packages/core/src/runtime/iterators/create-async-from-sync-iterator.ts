@@ -3,7 +3,7 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
@@ -23,12 +23,15 @@ export default function* createAsyncFromSyncIterator(
 
   // TODO: Should be implemented by prototypes.
 
-  yield* asyncIterator.defineOwnPropertyEvaluator(realm.types.symbols.asyncIterator, {
-    value: asyncIterator,
-    writable: true,
-    enumerable: false,
-    configurable: true,
-  });
+  yield* asyncIterator.defineOwnPropertyEvaluator(
+    realm.types.symbols.asyncIterator,
+    {
+      value: asyncIterator,
+      writable: true,
+      enumerable: false,
+      configurable: true,
+    },
+  );
 
   yield* asyncIterator.defineOwnPropertyEvaluator("next", {
     value: new StaticJsFunctionImpl(realm, "next", function* (thisArg, value) {
@@ -40,8 +43,13 @@ export default function* createAsyncFromSyncIterator(
       try {
         result = yield* iteratorNext(syncIteratorRecord, value ?? null, realm);
       } catch (e) {
-        if (e instanceof ThrowCompletion) {
-          yield* call(promiseCapability.reject, realm.types.undefined, [e.value], realm);
+        if (Completion.Throw.is(e)) {
+          yield* call(
+            promiseCapability.reject,
+            realm.types.undefined,
+            [e.value],
+            realm,
+          );
           return promiseCapability.promise;
         }
 

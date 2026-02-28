@@ -1,6 +1,6 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
@@ -22,7 +22,7 @@ export default function* iteratorStepValue(
   try {
     return yield* iteratorValue(result);
   } catch (e) {
-    if (e instanceof ThrowCompletion) {
+    if (Completion.Throw.is(e)) {
       iteratorRecord.done = true;
     }
 

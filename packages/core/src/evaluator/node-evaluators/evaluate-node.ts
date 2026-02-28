@@ -5,6 +5,8 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import { Completion } from "../completions/Completion.js";
+
 import { getEvaluator } from "./nodes.js";
 
 export interface EvaluateNodeOptions {
@@ -26,6 +28,12 @@ export default function* evaluateNode(
     context = context.createLabelContext(label ?? null);
   }
   const result = yield* evaluator(node, context);
+
+  // TODO: We want to only ever return Completion eventually,
+  // but for now, reinterpret it to the throw pattern.
+  if (Completion.Abrupt.is(result)) {
+    throw result;
+  }
 
   return result;
 }

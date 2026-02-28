@@ -10,58 +10,74 @@ import loopContinues from "../../runtime/algorithms/loop-continues.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import { EvaluateNodeCommand, EvaluateNodeForCompletion } from "../commands/EvaluateNodeCommand.js";
+import {
+  EvaluateNodeCommand,
+  EvaluateNodeForCompletion,
+} from "../commands/EvaluateNodeCommand.js";
 
-import type { NormalCompletion } from "../completions/NormalCompletion.js";
-import completionValue from "../completions/completion-value.js";
-import updateEmpty from "../completions/update-empty.js";
+import { Completion } from "../completions/Completion.js";
 
 import boundNames from "../instantiation/algorithms/bound-names.js";
 
 import labeledStatementEvaluation from "./LabeledStatementEvaluation.js";
+import Q from "../completions/Q.js";
 
-const forStatementNodeEvaluator = labeledStatementEvaluation(function* forStatementNodeEvaluator(
-  node: ForStatement,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { label } = context;
-  const { init, test, update, body } = node;
+const forStatementNodeEvaluator = labeledStatementEvaluation(
+  function* forStatementNodeEvaluator(
+    node: ForStatement,
+    context: EvaluationContext,
+  ): EvaluationGenerator {
+    const { label } = context;
+    const { init, test, update, body } = node;
 
-  let perIterationLets: string[] = [];
+    let perIterationLets: string[] = [];
 
-  if (init) {
-    if (init.type === "VariableDeclaration" && ["let", "const"].includes(init.kind)) {
-      const oldEnv = context.lexicalEnv;
-      const loopEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
-      const isConst = init.kind === "const";
-      const names = boundNames(init);
-      for (const dn of names) {
-        if (isConst) {
-          yield* loopEnv.createImmutableBindingEvaluator(dn, true);
-        } else {
-          yield* loopEnv.createMutableBindingEvaluator(dn, false);
+    if (init) {
+      if (
+        init.type === "VariableDeclaration" &&
+        ["let", "const"].includes(init.kind)
+      ) {
+        const oldEnv = context.lexicalEnv;
+        const loopEnv = new StaticJsDeclarativeEnvironmentRecord(
+          oldEnv,
+          context.realm,
+        );
+        const isConst = init.kind === "const";
+        const names = boundNames(init);
+        for (const dn of names) {
+          if (isConst) {
+            yield* loopEnv.createImmutableBindingEvaluator(dn, true);
+          } else {
+            yield* loopEnv.createMutableBindingEvaluator(dn, false);
+          }
         }
-      }
 
-      // Change the for loop context to use the new environment.
-      // This should flow through and be used for forBodyEvaluation.
-      context = context
-        .createLexicalEnvContext(loopEnv)
-        // Preserve the label, as it is not inherited.
-        // FIXME: Make this an inherited array on the context as the spec specifies.
-        .createLabelContext(label);
-      yield* EvaluateNodeCommand(init, context);
+        // Change the for loop context to use the new environment.
+        // This should flow through and be used for forBodyEvaluation.
+        context = context
+          .createLexicalEnvContext(loopEnv)
+          // Preserve the label, as it is not inherited.
+          // FIXME: Make this an inherited array on the context as the spec specifies.
+          .createLabelContext(label);
+        yield* EvaluateNodeCommand(init, context);
 
-      if (!isConst) {
-        perIterationLets = names;
+        if (!isConst) {
+          perIterationLets = names;
+        }
+      } else {
+        yield* EvaluateNodeCommand(init, context);
       }
-    } else {
-      yield* EvaluateNodeCommand(init, context);
     }
-  }
 
-  return yield* forBodyEvaluation(test ?? null, update ?? null, body, perIterationLets, context);
-});
+    return yield* forBodyEvaluation(
+      test ?? null,
+      update ?? null,
+      body,
+      perIterationLets,
+      context,
+    );
+  },
+);
 
 function* forBodyEvaluation(
   test: Expression | null,
@@ -70,8 +86,11 @@ function* forBodyEvaluation(
   perIterationBindings: string[],
   context: EvaluationContext,
 ): EvaluationGenerator {
-  let V: NormalCompletion = context.realm.types.undefined;
-  let iterationContext = yield* createPerIterationEnvironment(perIterationBindings, context);
+  let V: Completion.Normal = context.realm.types.undefined;
+  let iterationContext = yield* createPerIterationEnvironment(
+    perIterationBindings,
+    context,
+  );
   while (true) {
     if (test) {
       const testValue = yield* EvaluateNodeCommand(test, iterationContext, {
@@ -83,17 +102,23 @@ function* forBodyEvaluation(
       }
     }
 
-    const result = yield* EvaluateNodeForCompletion(statement, iterationContext);
+    const result = yield* EvaluateNodeForCompletion(
+      statement,
+      iterationContext,
+    );
     if (!loopContinues(result, iterationContext)) {
-      return updateEmpty(result, V);
+      return yield* Q(Completion.updateEmpty(result, V));
     }
 
-    const resultValue = completionValue(result);
+    const resultValue = Completion.value(result);
     if (resultValue) {
       V = resultValue;
     }
 
-    iterationContext = yield* createPerIterationEnvironment(perIterationBindings, iterationContext);
+    iterationContext = yield* createPerIterationEnvironment(
+      perIterationBindings,
+      iterationContext,
+    );
 
     if (increment) {
       yield* EvaluateNodeCommand(increment, iterationContext, {
@@ -121,11 +146,17 @@ function* createPerIterationEnvironment(
     );
   }
 
-  const thisIterationEnv = new StaticJsDeclarativeEnvironmentRecord(outer, context.realm);
+  const thisIterationEnv = new StaticJsDeclarativeEnvironmentRecord(
+    outer,
+    context.realm,
+  );
 
   for (const bn of perIterationBindings) {
     yield* thisIterationEnv.createMutableBindingEvaluator(bn, false);
-    const lastValue = yield* lastIterationEnv.getBindingValueEvaluator(bn, true);
+    const lastValue = yield* lastIterationEnv.getBindingValueEvaluator(
+      bn,
+      true,
+    );
     yield* thisIterationEnv.initializeBindingEvaluator(bn, lastValue);
   }
 

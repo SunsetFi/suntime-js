@@ -1,8 +1,11 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { ThrowCompletion } from "../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 import { type StaticJsFunction } from "../types/StaticJsFunction.js";
-import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import {
+  isStaticJsObjectLike,
+  type StaticJsObjectLike,
+} from "../types/StaticJsObjectLike.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 
@@ -25,7 +28,9 @@ export default function* speciesConstructor(
   }
 
   if (!isStaticJsObjectLike(C)) {
-    throw new ThrowCompletion(realm.types.error("TypeError", "Constructor is not an object"));
+    throw Completion.Throw(
+      realm.types.error("TypeError", "Constructor is not an object"),
+    );
   }
 
   const S = yield* C.getEvaluator(realm.types.symbols.species);
@@ -35,7 +40,9 @@ export default function* speciesConstructor(
 
   const speciesIsConstructor = yield* isConstructor(S, realm);
   if (!speciesIsConstructor) {
-    throw new ThrowCompletion(realm.types.error("TypeError", "Species is not a constructor"));
+    throw Completion.Throw(
+      realm.types.error("TypeError", "Species is not a constructor"),
+    );
   }
 
   return S as StaticJsFunction;

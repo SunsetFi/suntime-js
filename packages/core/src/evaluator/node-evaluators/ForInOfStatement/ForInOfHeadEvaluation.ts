@@ -16,7 +16,7 @@ import getIterator from "../../../runtime/iterators/get-iterator.js";
 
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 
-import { BreakCompletion } from "../../completions/BreakCompletion.js";
+import { Completion } from "../../completions/Completion.js";
 
 export default function* forInOfHeadEvaluation(
   uninitializedBoundNames: string[],
@@ -41,7 +41,7 @@ export default function* forInOfHeadEvaluation(
 
   if (iterationKind === "enumerate") {
     if (isStaticJsUndefined(exprValue) || isStaticJsNull(exprValue)) {
-      throw new BreakCompletion();
+      throw Completion.Break();
     }
 
     const obj = yield* toObject(exprValue, context.realm);

@@ -5,19 +5,19 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import { isStaticJsString } from "../../runtime/types/StaticJsString.js";
 
 import strictEquality from "../../runtime/algorithms/strict-equality.js";
-
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-
-import { ThrowCompletion } from "../completions/ThrowCompletion.js";
-
-import type EvaluationContext from "../EvaluationContext.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import isLooselyEqual from "../../runtime/algorithms/is-loosely-equal.js";
 import toNumber from "../../runtime/algorithms/to-number.js";
 import addition from "../../runtime/algorithms/addition.js";
 import toObject from "../../runtime/algorithms/to-object.js";
 import instanceOfOperator from "../../runtime/algorithms/instance-of-operator.js";
 import isLessThan from "../../runtime/algorithms/is-less-than.js";
+
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+
+import { Completion } from "../completions/Completion.js";
+
+import type EvaluationContext from "../EvaluationContext.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* binaryExpressionNodeEvaluator(
   node: BinaryExpression,
@@ -119,7 +119,9 @@ export default function* binaryExpressionNodeEvaluator(
     case "instanceof":
       return yield* instanceOfExpression(node, context);
     default:
-      throw new StaticJsEngineError(`BinaryExpression operator ${node.operator} is not supported`);
+      throw new StaticJsEngineError(
+        `BinaryExpression operator ${node.operator} is not supported`,
+      );
   }
 }
 
@@ -198,7 +200,10 @@ function* numericComputation(
   return context.realm.types.toStaticJsValue(func(left.value, right.value));
 }
 
-function* inExpression(node: BinaryExpression, context: EvaluationContext): EvaluationGenerator {
+function* inExpression(
+  node: BinaryExpression,
+  context: EvaluationContext,
+): EvaluationGenerator {
   const left = yield* EvaluateNodeCommand(node.left, context, {
     forNormalValue: "BinaryExpression.left",
   });
@@ -209,8 +214,11 @@ function* inExpression(node: BinaryExpression, context: EvaluationContext): Eval
   const rightObj = yield* toObject(right, context.realm);
 
   if (!isStaticJsString(left)) {
-    throw new ThrowCompletion(
-      context.realm.types.error("TypeError", "Left side of in operator must be a string"),
+    throw Completion.Throw(
+      context.realm.types.error(
+        "TypeError",
+        "Left side of in operator must be a string",
+      ),
     );
   }
 
@@ -218,7 +226,10 @@ function* inExpression(node: BinaryExpression, context: EvaluationContext): Eval
   return context.realm.types.boolean(hasProperty);
 }
 
-function* instanceOfExpression(node: BinaryExpression, context: EvaluationContext) {
+function* instanceOfExpression(
+  node: BinaryExpression,
+  context: EvaluationContext,
+) {
   const left = yield* EvaluateNodeCommand(node.left, context, {
     forNormalValue: "BinaryExpression.left",
   });

@@ -1,5 +1,5 @@
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
@@ -85,7 +85,7 @@ export default class StaticJsNamespaceExoticObject extends StaticJsAbstractObjec
       // but that doesn't work for us due to external modules.
       const resolved = yield* targetModule.getOwnBindingValueEvaluator(binding.bindingName);
       if (!resolved) {
-        throw new ThrowCompletion(
+        throw Completion.Throw(
           this.realm.types.error(
             "ReferenceError",
             // TODO: What error message?

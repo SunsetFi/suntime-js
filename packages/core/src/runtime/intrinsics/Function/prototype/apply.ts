@@ -1,4 +1,4 @@
-import { ThrowCompletion } from "../../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import toObject from "../../../algorithms/to-object.js";
@@ -12,8 +12,11 @@ const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
   key: "apply",
   *func(realm, thisFunc, thisArg, argsArray) {
     if (!isStaticJsFunction(thisFunc)) {
-      throw new ThrowCompletion(
-        realm.types.error("TypeError", "Function.prototype.call called on a non-function."),
+      throw Completion.Throw(
+        realm.types.error(
+          "TypeError",
+          "Function.prototype.call called on a non-function.",
+        ),
       );
     }
 
@@ -27,7 +30,10 @@ const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
       }
     }
 
-    const result = yield* thisFunc.callEvaluator(thisArg ?? realm.types.undefined, args);
+    const result = yield* thisFunc.callEvaluator(
+      thisArg ?? realm.types.undefined,
+      args,
+    );
     return result;
   },
 };

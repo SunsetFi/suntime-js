@@ -17,8 +17,7 @@ import evaluateNode from "../node-evaluators/evaluate-node.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import type { Completion } from "../completions/Completion.js";
-import isAbruptCompletion from "../completions/AbruptCompletion.js";
+import { Completion } from "../completions/Completion.js";
 
 import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 
@@ -96,7 +95,7 @@ export function* EvaluateNodeForCompletion(
   try {
     return yield* EvaluateNodeCommand(node, context, options);
   } catch (e) {
-    if (isAbruptCompletion(e)) {
+    if (Completion.Abrupt.is(e)) {
       return e;
     }
     throw e;

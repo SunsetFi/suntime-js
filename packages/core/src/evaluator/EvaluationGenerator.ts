@@ -1,8 +1,8 @@
 import type { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
-import type { NormalCompletion } from "./completions/NormalCompletion.js";
+import type { Completion } from "./completions/Completion.js";
 
-export type EvaluationGenerator<TReturn = NormalCompletion> = Generator<
+export type EvaluationGenerator<TReturn = Completion.Normal> = Generator<
   EvaluatorCommand,
   TReturn,
-  NormalCompletion
+  Completion.Normal
 >;

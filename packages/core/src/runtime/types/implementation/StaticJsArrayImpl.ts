@@ -3,7 +3,7 @@ import type { Writable } from "type-fest";
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import { ThrowCompletion } from "../../../evaluator/completions/ThrowCompletion.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -177,7 +177,7 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
 
     const numberLen = yield* toNumber(desc.value, this.realm);
     if (numberLen.value !== newLen) {
-      throw new ThrowCompletion(this.realm.types.error("RangeError", "Invalid array length"));
+      throw Completion.Throw(this.realm.types.error("RangeError", "Invalid array length"));
     }
 
     const newLenDesc: Writable<StaticJsDataPropertyDescriptor> = {

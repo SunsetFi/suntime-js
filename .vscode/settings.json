@@ -1,14 +1,14 @@
 {
   "editor.tabSize": 2,
-  "editor.defaultFormatter": "oxc.oxc-vscode",
-  "typescript.tsdk": "node_modules/typescript/lib",
+  // Used to be oxc.oxc-vscode, but that has a memory leak.
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "files.associations": {
     "*.json": "jsonc"
   },
   "vitest.shellType": "child_process",
   "vitest.logLevel": "verbose",
   "[typescript]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   // Currently not used, but installing it is required for oxfmt
   "oxc.enable.oxlint": false
