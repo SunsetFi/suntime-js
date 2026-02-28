@@ -6,6 +6,7 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import Q from "../completions/Q.js";
 
 export default function* templateLiteralNodeEvaluator(
   node: TemplateLiteral,
@@ -18,9 +19,10 @@ export default function* templateLiteralNodeEvaluator(
     str += node.quasis[i].value.cooked ?? "";
 
     if (i < node.expressions.length) {
-      const exprValue = yield* EvaluateNodeCommand(node.expressions[i], context, {
-        forNormalValue: "TemplateLiteral.expression[]",
-      });
+      const exprValue = yield* Q.val(
+        EvaluateNodeCommand(node.expressions[i], context),
+        context.realm,
+      );
 
       const exprStr = yield* toString.js(exprValue, realm);
 

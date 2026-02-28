@@ -17,6 +17,7 @@ import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../completions/Completion.js";
+import Q from "../completions/Q.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
@@ -35,9 +36,10 @@ export default function* unaryExpressionNodeEvaluator(
 
   // Note: In the case of 'void', this is never used.
   // But it still can have side-effects.
-  const value = yield* EvaluateNodeCommand(node.argument, context, {
-    forNormalValue: "UnaryExpression.argument",
-  });
+  const value = yield* Q.val(
+    EvaluateNodeCommand(node.argument, context),
+    context.realm,
+  );
 
   const types = context.realm.types;
   switch (node.operator) {
@@ -71,7 +73,7 @@ function* deleteExpressionNodeEvaluator(
   node: UnaryExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const ref = yield* EvaluateNodeCommand(node.argument, context);
+  const ref = yield* Q(EvaluateNodeCommand(node.argument, context));
 
   if (!isStaticJsReferenceRecord(ref)) {
     return context.realm.types.true;
@@ -107,7 +109,7 @@ function* typeofExpressionNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const argument = node.argument;
-  let value = yield* EvaluateNodeCommand(argument, context);
+  let value = yield* Q(EvaluateNodeCommand(argument, context));
 
   if (isStaticJsReferenceRecord(value)) {
     if (isUnresolvableReference(value)) {

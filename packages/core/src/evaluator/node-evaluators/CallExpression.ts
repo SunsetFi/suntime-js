@@ -24,6 +24,7 @@ import { isPropertyReference } from "../../runtime/references/is-property-refere
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../completions/Completion.js";
+import Q from "../completions/Q.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
@@ -43,7 +44,7 @@ export default function* callExpressionNodeEvaluator(
     throw new StaticJsEngineError("Intrinsics are not supported");
   }
 
-  const calleeRaw = yield* EvaluateNodeCommand(node.callee, context);
+  const calleeRaw = yield* Q(EvaluateNodeCommand(node.callee, context));
 
   // This is suprising, but we pass undefined if we have none.
   // The function itself decides what to and (maybe) inherits globalThis when undefined is passed.
@@ -81,12 +82,9 @@ export default function* callExpressionNodeEvaluator(
   for (let i = 0; i < node.arguments.length; i++) {
     const argument = node.arguments[i];
     if (argument.type === "SpreadElement") {
-      const iterable = yield* EvaluateNodeCommand(
-        argument.argument,
-        parameterInitContext,
-        {
-          forNormalValue: "ForInStatement.right",
-        },
+      const iterable = yield* Q.val(
+        EvaluateNodeCommand(argument.argument, parameterInitContext),
+        parameterInitContext.realm,
       );
 
       const iterator = yield* getIterator(iterable, "sync", context.realm);
@@ -101,9 +99,10 @@ export default function* callExpressionNodeEvaluator(
         }
       });
     } else {
-      const arg = yield* EvaluateNodeCommand(argument, parameterInitContext, {
-        forNormalValue: "CallExpression.arguments[]",
-      });
+      const arg = yield* Q.val(
+        EvaluateNodeCommand(argument, parameterInitContext),
+        parameterInitContext.realm,
+      );
       args.push(arg);
     }
   }
@@ -156,6 +155,6 @@ function* callEvalEvaluator(
 
   yield* evalDeclarationInstantiation(node, strict, evalContext);
 
-  const result = yield* EvaluateNodeCommand(node, evalContext);
+  const result = yield* Q(EvaluateNodeCommand(node, evalContext));
   return result ?? realm.types.undefined;
 }

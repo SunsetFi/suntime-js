@@ -7,6 +7,7 @@ import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import Q from "../completions/Q.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
@@ -15,9 +16,10 @@ export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const target = yield* EvaluateNodeCommand(node.object, context, {
-    forNormalValue: "MemberExpression.object",
-  });
+  const target = yield* Q.val(
+    EvaluateNodeCommand(node.object, context),
+    context.realm,
+  );
 
   const propertyNode = node.property;
 
@@ -34,9 +36,10 @@ export default function* memberExpressionNodeEvaluator(
   } else {
     // Do NOT cast this to string yet!
     // Assignment requires us to not compute this until after the rhs is computed.
-    propertyKey = yield* EvaluateNodeCommand(propertyNode, context, {
-      forNormalValue: "MemberExpression.property",
-    });
+    propertyKey = yield* Q.val(
+      EvaluateNodeCommand(propertyNode, context),
+      context.realm,
+    );
   }
 
   return {

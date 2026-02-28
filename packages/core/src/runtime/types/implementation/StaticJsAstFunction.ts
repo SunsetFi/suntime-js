@@ -8,6 +8,7 @@ import functionDeclarationInstantiation from "../../../evaluator/instantiation/f
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
+import Q from "../../../evaluator/completions/Q.js";
 
 import type { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
 import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
@@ -94,7 +95,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
 
     let result: StaticJsValue = this.realm.types.undefined;
     try {
-      yield* EvaluateNodeCommand(this._body, functionContext);
+      yield* Q(EvaluateNodeCommand(this._body, functionContext));
     } catch (e) {
       if (Completion.Return.is(e)) {
         result = e.value;

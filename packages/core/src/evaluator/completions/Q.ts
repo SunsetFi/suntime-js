@@ -1,20 +1,27 @@
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import getValue from "../../runtime/algorithms/get-value.js";
+import type { StaticJsRealm } from "../../runtime/index.js";
 
 import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
-
-import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { Completion } from "./Completion.js";
 import type { CompletionEvaluator } from "./CompletionEvaluator.js";
+import type { CompletionValue } from "./CompletionValue.js";
 
 import captureThrownCompletion from "./capture-thrown-completion.js";
 import nameCompletionLike from "./name-completion-like.js";
 
-export default function* Q<T extends object | null = Completion.Normal>(
+export default function Q(
+  evaluator: CompletionEvaluator<Completion>,
+): EvaluationGenerator<CompletionValue>;
+export default function Q<T extends object | null>(
   evaluator: CompletionEvaluator<T>,
-): EvaluationGenerator<T> {
+): EvaluationGenerator<Exclude<T, Completion.Abrupt>>;
+export default function* Q(
+  evaluator: CompletionEvaluator<object | null>,
+): EvaluationGenerator<object | null> {
   const completion = yield* captureThrownCompletion(evaluator);
 
   if (Completion.Abrupt.is(completion)) {
@@ -38,16 +45,16 @@ Q.ref = function* qRef<T extends object | null = Completion.Normal>(
   return completion;
 };
 
-Q.value = function* qValue<T extends object | null = Completion.Normal>(
-  evaluator: CompletionEvaluator<T>,
+Q.val = function* qValue(
+  evaluator: CompletionEvaluator<Completion>,
+  realm: StaticJsRealm,
 ) {
   const completion = yield* Q(evaluator);
-
-  if (!isStaticJsValue(completion)) {
+  if (!completion) {
     throw new StaticJsEngineError(
-      `Expected a value, but got ${nameCompletionLike(completion)}.`,
+      `Expected a completion value, but got ${nameCompletionLike(completion)}.`,
     );
   }
 
-  return completion;
+  return yield* getValue(completion, realm);
 };

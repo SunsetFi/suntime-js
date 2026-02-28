@@ -11,6 +11,7 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
+import Q from "../../../evaluator/completions/Q.js";
 
 import createFunction from "../../../evaluator/node-evaluators/Function.js";
 
@@ -33,7 +34,10 @@ import {
 
 import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
 
-import { NamespaceImportName, type StaticJsImportEntry } from "./StaticJsImportEntry.js";
+import {
+  NamespaceImportName,
+  type StaticJsImportEntry,
+} from "./StaticJsImportEntry.js";
 
 import type { StaticJsExportEntry } from "./StaticJsExportEntry.js";
 import {
@@ -57,7 +61,10 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
   private readonly _importEntries: readonly StaticJsImportEntry[];
   private readonly _exportEntries: readonly StaticJsExportEntry[];
 
-  private readonly _linkedModules = new Map<string, StaticJsModuleImplementation | null>();
+  private readonly _linkedModules = new Map<
+    string,
+    StaticJsModuleImplementation | null
+  >();
 
   private readonly _indirectExports = new Map<
     string,
@@ -72,7 +79,9 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
   ) {
     super(name, realm);
     if (_ast.sourceType !== "module") {
-      throw new Error(`Module ${name} is not a module.  Source type is ${_ast.sourceType}.`);
+      throw new Error(
+        `Module ${name} is not a module.  Source type is ${_ast.sourceType}.`,
+      );
     }
 
     this._importEntries = parseImportEntries(name, _ast);
@@ -99,7 +108,9 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       .filter(isStaticJsIndirectExportEntry)
       .map((x) => x.moduleRequest);
 
-    const moduleSpecifiers = Array.from(new Set([...importNames, ...indirectExportNames]));
+    const moduleSpecifiers = Array.from(
+      new Set([...importNames, ...indirectExportNames]),
+    );
     const modules = await Promise.all(
       moduleSpecifiers.map((moduleSpecifier) =>
         this._realm.resolveImportedModule(this, moduleSpecifier),
@@ -134,7 +145,10 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
         throw Completion.Throw(
-          this._realm.types.error("ReferenceError", `Module ${entry.moduleRequest} not found.`),
+          this._realm.types.error(
+            "ReferenceError",
+            `Module ${entry.moduleRequest} not found.`,
+          ),
         );
       }
 
@@ -146,7 +160,10 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
         throw Completion.Throw(
-          this._realm.types.error("ReferenceError", `Module ${entry.moduleRequest} not found.`),
+          this._realm.types.error(
+            "ReferenceError",
+            `Module ${entry.moduleRequest} not found.`,
+          ),
         );
       }
 
@@ -164,7 +181,10 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
         throw Completion.Throw(
-          this._realm.types.error("ReferenceError", `Module ${entry.moduleRequest} not found.`),
+          this._realm.types.error(
+            "ReferenceError",
+            `Module ${entry.moduleRequest} not found.`,
+          ),
         );
       }
 
@@ -196,7 +216,9 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         continue;
       }
 
-      const hasBinding = yield* this._envRec!.hasBindingEvaluator(entry.localName);
+      const hasBinding = yield* this._envRec!.hasBindingEvaluator(
+        entry.localName,
+      );
       if (!hasBinding) {
         throw Completion.Throw(
           this._realm.types.error(
@@ -228,7 +250,7 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       yield* module.moduleEvaluationEvaluator();
     }
 
-    const result = yield* EvaluateNodeCommand(this._ast, this._context!);
+    const result = yield* Q(EvaluateNodeCommand(this._ast, this._context!));
 
     this._status = "evaluated";
 
@@ -282,7 +304,10 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
           bindingName: BindingNameNamespace,
         };
       } else {
-        return yield* importedModule.resolveExportEvaluator(e.importName, resolveSet);
+        return yield* importedModule.resolveExportEvaluator(
+          e.importName,
+          resolveSet,
+        );
       }
     }
 
@@ -292,7 +317,10 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
 
     let starResolution: StaticJsModuleResolvedBinding | null = null;
     for (const e of this._exportEntries) {
-      if (!isStaticJsIndirectExportEntry(e) || e.importName !== ImportAllButDefault) {
+      if (
+        !isStaticJsIndirectExportEntry(e) ||
+        e.importName !== ImportAllButDefault
+      ) {
         continue;
       }
 
@@ -303,7 +331,10 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         );
       }
 
-      const resolution = yield* importedModule.resolveExportEvaluator(exportName, resolveSet);
+      const resolution = yield* importedModule.resolveExportEvaluator(
+        exportName,
+        resolveSet,
+      );
 
       if (resolution === "ambiguous") {
         return resolution;
@@ -326,7 +357,9 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
     return starResolution;
   }
 
-  *getExportedNamesEvaluator(exportStarSet = new Set<string>()): EvaluationGenerator<string[]> {
+  *getExportedNamesEvaluator(
+    exportStarSet = new Set<string>(),
+  ): EvaluationGenerator<string[]> {
     const visitedKey = this.name;
     if (exportStarSet.has(visitedKey)) {
       return [];
@@ -375,12 +408,17 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
     return Array.from(names);
   }
 
-  *getOwnBindingValueEvaluator(bindingName: string): EvaluationGenerator<StaticJsValue | null> {
+  *getOwnBindingValueEvaluator(
+    bindingName: string,
+  ): EvaluationGenerator<StaticJsValue | null> {
     if (this._envRec! == null) {
       return null;
     }
 
-    const value = yield* this._envRec!.getBindingValueEvaluator(bindingName, true);
+    const value = yield* this._envRec!.getBindingValueEvaluator(
+      bindingName,
+      true,
+    );
     if (value == null) {
       return null;
     }
@@ -402,23 +440,34 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
     }
 
     this._moduleEnv = new StaticJsModuleEnvironmentRecord(this._realm);
-    this._envRec = new StaticJsDeclarativeEnvironmentRecord(this._moduleEnv, this._realm);
+    this._envRec = new StaticJsDeclarativeEnvironmentRecord(
+      this._moduleEnv,
+      this._realm,
+    );
 
     for (const entry of this._importEntries) {
       const importedModule = this._linkedModules.get(entry.moduleRequest);
       if (!importedModule) {
         throw Completion.Throw(
-          this._realm.types.error("ReferenceError", `Module ${entry.moduleRequest} not found.`),
+          this._realm.types.error(
+            "ReferenceError",
+            `Module ${entry.moduleRequest} not found.`,
+          ),
         );
       }
 
       if (entry.importName === NamespaceImportName) {
         const ns = yield* importedModule.getModuleNamespaceEvaluator();
 
-        yield* this._envRec.createImmutableBindingEvaluator(entry.localName, true);
+        yield* this._envRec.createImmutableBindingEvaluator(
+          entry.localName,
+          true,
+        );
         yield* this._envRec.initializeBindingEvaluator(entry.localName, ns);
       } else {
-        const resolved = yield* importedModule.resolveExportEvaluator(entry.importName);
+        const resolved = yield* importedModule.resolveExportEvaluator(
+          entry.importName,
+        );
 
         if (!resolved || resolved === "ambiguous") {
           throw Completion.Throw(
@@ -430,10 +479,17 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         }
 
         if (resolved.bindingName === BindingNameNamespace) {
-          const namespace = yield* resolved.module.getModuleNamespaceEvaluator();
+          const namespace =
+            yield* resolved.module.getModuleNamespaceEvaluator();
 
-          yield* this._envRec.createImmutableBindingEvaluator(entry.localName, true);
-          yield* this._envRec.initializeBindingEvaluator(entry.localName, namespace);
+          yield* this._envRec.createImmutableBindingEvaluator(
+            entry.localName,
+            true,
+          );
+          yield* this._envRec.initializeBindingEvaluator(
+            entry.localName,
+            namespace,
+          );
         } else {
           yield* this._moduleEnv.createImportBindingEvaluator(
             entry.localName,
@@ -444,7 +500,11 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
       }
     }
 
-    this._context = EvaluationContext.createRootContext(true, this._realm, this._envRec);
+    this._context = EvaluationContext.createRootContext(
+      true,
+      this._realm,
+      this._envRec,
+    );
 
     const varDeclarations = varScopedDeclarations(this._ast);
     const declaredVarNames = new Set<string>();
@@ -455,7 +515,10 @@ export class StaticJsModuleImpl extends StaticJsModuleBase {
         }
         declaredVarNames.add(dn);
         yield* this._envRec.createMutableBindingEvaluator(dn, false);
-        yield* this._envRec.initializeBindingEvaluator(dn, this._realm.types.undefined);
+        yield* this._envRec.initializeBindingEvaluator(
+          dn,
+          this._realm.types.undefined,
+        );
       }
     }
 

@@ -7,5 +7,9 @@ export default function nameCompletionLike(value: unknown): string {
     return value.constructor.name;
   }
 
+  if (value == null) {
+    return String(value);
+  }
+
   return typeof value;
 }

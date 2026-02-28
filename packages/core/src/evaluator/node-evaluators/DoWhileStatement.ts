@@ -3,10 +3,7 @@ import type { DoWhileStatement } from "@babel/types";
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
 import loopContinues from "../../runtime/algorithms/loop-continues.js";
 
-import {
-  EvaluateNodeCommand,
-  EvaluateNodeForCompletion,
-} from "../commands/EvaluateNodeCommand.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../completions/Completion.js";
 
@@ -23,7 +20,7 @@ const doWhileStatementNodeEvaluator = labeledStatementEvaluation(
   ): EvaluationGenerator {
     let V: Completion.Normal = context.realm.types.undefined;
     while (true) {
-      const stmtResult = yield* EvaluateNodeForCompletion(node.body, context);
+      const stmtResult = yield* EvaluateNodeCommand(node.body, context);
       if (!loopContinues(stmtResult, context)) {
         return yield* Q(Completion.updateEmpty(stmtResult, V));
       }
@@ -33,9 +30,10 @@ const doWhileStatementNodeEvaluator = labeledStatementEvaluation(
         V = stmtValue;
       }
 
-      const exprValue = yield* EvaluateNodeCommand(node.test, context, {
-        forNormalValue: "DoWhileStatement.test",
-      });
+      const exprValue = yield* Q.val(
+        EvaluateNodeCommand(node.test, context),
+        context.realm,
+      );
 
       const exprBoolean = yield* toBoolean.js(exprValue, context.realm);
       if (!exprBoolean) {

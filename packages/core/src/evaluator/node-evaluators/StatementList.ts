@@ -3,7 +3,7 @@ import type { Statement } from "@babel/types";
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import { EvaluateNodeForCompletion } from "../commands/EvaluateNodeCommand.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../completions/Completion.js";
 import rethrowCompletion from "../completions/rethrow-completion.js";
@@ -25,7 +25,7 @@ function* evaluateStatementListForCompletion(
   let sl: Completion = null;
 
   for (const statement of statementList) {
-    const s = yield* EvaluateNodeForCompletion(statement, context);
+    const s = yield* EvaluateNodeCommand(statement, context);
 
     // This will throw for AbruptCompletions, which is what we want.
     sl = Completion.updateEmpty(s, Completion.value(sl));

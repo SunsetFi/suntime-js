@@ -20,7 +20,7 @@ export function* evaluateCommands<TReturn>(
   while (true) {
     // We accept that calling the generator immediately without waiting for a yield will
     // start executing code, but the proper use should be that we start with a
-    // NodeEvaluationCommand, which will first yield a value of kind "evalute-node".
+    // NodeEvaluationCommand, which will first yield a value of kind "evaluate-node".
     // It will then pause until the next run.
     // This effectively sets up the proper line and column that will be executed
     // when yield is called.
@@ -40,7 +40,7 @@ export function* evaluateCommands<TReturn>(
     }
 
     // We are queuing up a node to evaluate.
-    if (value.kind === "evalute-node") {
+    if (value.command === "evaluate-node") {
       currentNode = value.node;
       if (onBeforeNode) {
         onBeforeNode(currentNode);

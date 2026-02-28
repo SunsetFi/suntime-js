@@ -25,9 +25,10 @@ const switchStatementNodeEvaluator = labeledStatementEvaluation(
     statement: SwitchStatement,
     context: EvaluationContext,
   ): EvaluationGenerator {
-    const input = yield* EvaluateNodeCommand(statement.discriminant, context, {
-      forNormalValue: "SwitchStatement.discriminant",
-    });
+    const input = yield* Q.val(
+      EvaluateNodeCommand(statement.discriminant, context),
+      context.realm,
+    );
 
     const env = StaticJsDeclarativeEnvironmentRecord.from(context);
     const blockContext = context.createLexicalEnvContext(env);
@@ -130,9 +131,10 @@ function* caseClauseIsSelected(
   input: StaticJsValue,
   context: EvaluationContext,
 ): EvaluationGenerator<boolean> {
-  const clauseSelector = yield* EvaluateNodeCommand(C.test!, context, {
-    forNormalValue: "SwitchStatement.case.test",
-  });
+  const clauseSelector = yield* Q.val(
+    EvaluateNodeCommand(C.test!, context),
+    context.realm,
+  );
 
   return isStrictlyEqual(clauseSelector, input);
 }

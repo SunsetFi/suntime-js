@@ -4,10 +4,7 @@ import StaticJsObjectEnvironmentRecord from "../../runtime/environments/implemen
 
 import toObject from "../../runtime/algorithms/to-object.js";
 
-import {
-  EvaluateNodeCommand,
-  EvaluateNodeForCompletion,
-} from "../commands/EvaluateNodeCommand.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
@@ -18,9 +15,10 @@ export default function* withStatementNodeEvaluator(
   node: WithStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const val = yield* EvaluateNodeCommand(node.object, context, {
-    forNormalValue: "WithStatement.object",
-  });
+  const val = yield* Q.val(
+    EvaluateNodeCommand(node.object, context),
+    context.realm,
+  );
 
   const obj = yield* toObject(val, context.realm);
 
@@ -33,7 +31,7 @@ export default function* withStatementNodeEvaluator(
     ),
   );
 
-  const result = yield* EvaluateNodeForCompletion(node.body, withContext);
+  const result = yield* EvaluateNodeCommand(node.body, withContext);
 
   return yield* Q(
     Completion.updateEmpty(result, context.realm.types.undefined),

@@ -10,6 +10,7 @@ import type { IteratorRecord } from "../../runtime/iterators/IteratorRecord.js";
 import putValue from "../../runtime/algorithms/put-value.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import Q from "../completions/Q.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
@@ -20,13 +21,19 @@ import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
 
 export type IteratorDestructuringAssignmentType = PatternLike | null;
 export default function* iteratorDestructuringAssignmentEvaluation(
-  node: IteratorDestructuringAssignmentType | IteratorDestructuringAssignmentType[],
+  node:
+    | IteratorDestructuringAssignmentType
+    | IteratorDestructuringAssignmentType[],
   iteratorRecord: IteratorRecord,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
   if (Array.isArray(node)) {
     for (const element of node) {
-      yield* iteratorDestructuringAssignmentEvaluation(element, iteratorRecord, context);
+      yield* iteratorDestructuringAssignmentEvaluation(
+        element,
+        iteratorRecord,
+        context,
+      );
     }
 
     return;
@@ -50,10 +57,11 @@ export default function* iteratorDestructuringAssignmentEvaluation(
   let v: StaticJsValue;
   if (node.type === "RestElement") {
     assignmentTarget = node.argument;
-    if (assignmentTarget.type !== "ObjectPattern" && assignmentTarget.type !== "ArrayPattern") {
-      lRef = yield* EvaluateNodeCommand(assignmentTarget, context, {
-        forReference: "iteratorDestructuringAssignmentEvaluation.lRef",
-      });
+    if (
+      assignmentTarget.type !== "ObjectPattern" &&
+      assignmentTarget.type !== "ArrayPattern"
+    ) {
+      lRef = yield* Q.ref(EvaluateNodeCommand(assignmentTarget, context));
     }
 
     const A = context.realm.types.array();
@@ -75,10 +83,11 @@ export default function* iteratorDestructuringAssignmentEvaluation(
     v = A;
   } else {
     assignmentTarget = node;
-    if (assignmentTarget.type !== "ObjectPattern" && assignmentTarget.type !== "ArrayPattern") {
-      lRef = yield* EvaluateNodeCommand(assignmentTarget, context, {
-        forReference: "iteratorDestructuringAssignmentEvaluation.lRef",
-      });
+    if (
+      assignmentTarget.type !== "ObjectPattern" &&
+      assignmentTarget.type !== "ArrayPattern"
+    ) {
+      lRef = yield* Q.ref(EvaluateNodeCommand(assignmentTarget, context));
     }
 
     let value: StaticJsValue = context.realm.types.undefined;
@@ -90,9 +99,10 @@ export default function* iteratorDestructuringAssignmentEvaluation(
     }
 
     if (initializer && isStaticJsUndefined(value)) {
-      const defaultValue = yield* EvaluateNodeCommand(initializer, context, {
-        forNormalValue: "iteratorDestructuringAssignmentEvaluation.initializer",
-      });
+      const defaultValue = yield* Q.val(
+        EvaluateNodeCommand(initializer, context),
+        context.realm,
+      );
       v = defaultValue;
     } else {
       v = value;

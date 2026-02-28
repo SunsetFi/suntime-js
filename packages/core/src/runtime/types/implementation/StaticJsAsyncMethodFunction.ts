@@ -6,6 +6,7 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
+import Q from "../../../evaluator/completions/Q.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -24,10 +25,19 @@ export default class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
     body: BlockStatement | Expression,
     functionFactory: StaticJsFunctionFactory,
   ) {
-    super(realm, name, "non-lexical-this", argumentDeclarations, context, body, functionFactory, {
-      // Object methods are not constructable.
-      construct: false,
-    });
+    super(
+      realm,
+      name,
+      "non-lexical-this",
+      argumentDeclarations,
+      context,
+      body,
+      functionFactory,
+      {
+        // Object methods are not constructable.
+        construct: false,
+      },
+    );
 
     // Object methods get no prototype.
   }
@@ -38,8 +48,11 @@ export default class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
   ): EvaluationGenerator<StaticJsValue> {
     const functionContext = yield* this._createContext(thisArg, args);
 
-    const evaluator = EvaluateNodeCommand(this._body, functionContext);
-    const invocation = new AsyncEvaluatorInvocation(evaluator, functionContext.realm);
+    const evaluator = Q(EvaluateNodeCommand(this._body, functionContext));
+    const invocation = new AsyncEvaluatorInvocation(
+      evaluator,
+      functionContext.realm,
+    );
 
     yield* invocation.start();
 

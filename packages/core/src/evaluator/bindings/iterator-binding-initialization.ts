@@ -1,4 +1,9 @@
-import { type Expression, type LVal, type ArrayPattern, type VoidPattern } from "@babel/types";
+import {
+  type Expression,
+  type LVal,
+  type ArrayPattern,
+  type VoidPattern,
+} from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
@@ -14,6 +19,7 @@ import type { IteratorRecord } from "../../runtime/iterators/IteratorRecord.js";
 import putValue from "../../runtime/algorithms/put-value.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import Q from "../completions/Q.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
@@ -34,7 +40,12 @@ export default function* iteratorBindingInitialization(
 ): EvaluationGenerator<void> {
   if (Array.isArray(node)) {
     for (const element of node) {
-      yield* iteratorBindingInitialization(element, iteratorRecord, environment, context);
+      yield* iteratorBindingInitialization(
+        element,
+        iteratorRecord,
+        environment,
+        context,
+      );
     }
     return;
   }
@@ -109,7 +120,11 @@ export default function* iteratorBindingInitialization(
     }
     case "Identifier": {
       const bindingId = node.name;
-      const lhs = yield* getIdentifierReference(context.lexicalEnv, bindingId, context.strict);
+      const lhs = yield* getIdentifierReference(
+        context.lexicalEnv,
+        bindingId,
+        context.strict,
+      );
 
       let v: StaticJsValue = context.realm.types.undefined;
       if (!iteratorRecord.done) {
@@ -120,9 +135,10 @@ export default function* iteratorBindingInitialization(
       }
 
       if (initializer && isStaticJsUndefined(v)) {
-        const defaultValue = yield* EvaluateNodeCommand(initializer, context, {
-          forNormalValue: "iteratorBindingInitialization.initializer",
-        });
+        const defaultValue = yield* Q.val(
+          EvaluateNodeCommand(initializer, context),
+          context.realm,
+        );
         v = defaultValue;
       }
 
@@ -145,9 +161,10 @@ export default function* iteratorBindingInitialization(
       }
 
       if (initializer && isStaticJsUndefined(v)) {
-        const defaultValue = yield* EvaluateNodeCommand(initializer, context, {
-          forNormalValue: "iteratorBindingInitialization.initializer",
-        });
+        const defaultValue = yield* Q.val(
+          EvaluateNodeCommand(initializer, context),
+          context.realm,
+        );
         v = defaultValue;
       }
 
@@ -172,18 +189,34 @@ iteratorBindingInitialization.arrayBindingPattern = function* (
   // TODO: Spec shows no acknowledgement of initializer here, verify correctness
   for (const element of node.elements) {
     if (element?.type === "RestElement") {
-      yield* iteratorBindingInitialization(element, iteratorRecord, environment, context);
+      yield* iteratorBindingInitialization(
+        element,
+        iteratorRecord,
+        environment,
+        context,
+      );
 
       return;
     }
 
     if (element === null) {
-      yield* iteratorDestructuringAssignmentEvaluation(element, iteratorRecord, context);
+      yield* iteratorDestructuringAssignmentEvaluation(
+        element,
+        iteratorRecord,
+        context,
+      );
     } else if (element.type === "VoidPattern") {
       // What on earth is this?
-      throw new StaticJsEngineError(`Unsupported void pattern in iterator binding initialization`);
+      throw new StaticJsEngineError(
+        `Unsupported void pattern in iterator binding initialization`,
+      );
     } else {
-      yield* iteratorBindingInitialization(element, iteratorRecord, environment, context);
+      yield* iteratorBindingInitialization(
+        element,
+        iteratorRecord,
+        environment,
+        context,
+      );
     }
   }
 };

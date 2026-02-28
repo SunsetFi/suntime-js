@@ -10,10 +10,7 @@ import loopContinues from "../../runtime/algorithms/loop-continues.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import {
-  EvaluateNodeCommand,
-  EvaluateNodeForCompletion,
-} from "../commands/EvaluateNodeCommand.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../completions/Completion.js";
 
@@ -59,13 +56,13 @@ const forStatementNodeEvaluator = labeledStatementEvaluation(
           // Preserve the label, as it is not inherited.
           // FIXME: Make this an inherited array on the context as the spec specifies.
           .createLabelContext(label);
-        yield* EvaluateNodeCommand(init, context);
+        yield* Q(EvaluateNodeCommand(init, context));
 
         if (!isConst) {
           perIterationLets = names;
         }
       } else {
-        yield* EvaluateNodeCommand(init, context);
+        yield* Q(EvaluateNodeCommand(init, context));
       }
     }
 
@@ -93,16 +90,17 @@ function* forBodyEvaluation(
   );
   while (true) {
     if (test) {
-      const testValue = yield* EvaluateNodeCommand(test, iterationContext, {
-        forNormalValue: "ForStatement.test",
-      });
+      const testValue = yield* Q.val(
+        EvaluateNodeCommand(test, iterationContext),
+        iterationContext.realm,
+      );
       const condition = yield* toBoolean.js(testValue, context.realm);
       if (!condition) {
         return V;
       }
     }
 
-    const result = yield* EvaluateNodeForCompletion(
+    const result = yield* EvaluateNodeCommand(
       statement,
       iterationContext,
     );
@@ -121,11 +119,10 @@ function* forBodyEvaluation(
     );
 
     if (increment) {
-      yield* EvaluateNodeCommand(increment, iterationContext, {
-        // Spec says we always call getValue on this without seeming to allow
-        // for it to be empty
-        forNormalValue: "ForStatement.increment",
-      });
+      yield* Q.val(
+        EvaluateNodeCommand(increment, iterationContext),
+        iterationContext.realm,
+      );
     }
   }
 }

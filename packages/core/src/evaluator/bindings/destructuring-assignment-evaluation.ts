@@ -27,6 +27,7 @@ import toPropertyKey from "../../runtime/utils/to-property-key.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
+import Q from "../completions/Q.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
@@ -113,9 +114,10 @@ function* propertyDestructuringAssignmentEvaluation(
     const obj = yield* toObject(value, context.realm);
     let v = yield* obj.getEvaluator(P);
     if (initializer && isStaticJsUndefined(v)) {
-      const defaultValue = yield* EvaluateNodeCommand(initializer, context, {
-        forNormalValue: "propertyDestructuringAssignmentEvaluation.initializer",
-      });
+      const defaultValue = yield* Q.val(
+        EvaluateNodeCommand(initializer, context),
+        context.realm,
+      );
       v = defaultValue;
     }
 
@@ -125,9 +127,7 @@ function* propertyDestructuringAssignmentEvaluation(
 
   let name: StaticJsValue;
   if (node.computed) {
-    name = yield* EvaluateNodeCommand(node.key, context, {
-      forNormalValue: "propertyDestructuringAssignmentEvaluation.name",
-    });
+    name = yield* Q.val(EvaluateNodeCommand(node.key, context), context.realm);
   } else if (node.key.type === "Identifier") {
     name = context.realm.types.string(node.key.name);
   } else if (node.key.type === "StringLiteral") {
@@ -155,9 +155,7 @@ function* restDestructuringAssignmentEvaluation(
   excludedNames: StaticJsPropertyKey[],
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
-  const lRef = yield* EvaluateNodeCommand(node.argument, context, {
-    forReference: "restDestructuringAssignmentEvaluation.lRef",
-  });
+  const lRef = yield* Q.ref(EvaluateNodeCommand(node.argument, context));
 
   const restObject = context.realm.types.object();
 
@@ -180,17 +178,16 @@ function* keyedDestructuringAssignmentEvaluation(
 
   let lRef: StaticJsReferenceRecord | null = null;
   if (node.type !== "ObjectPattern" && node.type !== "ArrayPattern") {
-    lRef = yield* EvaluateNodeCommand(node, context, {
-      forReference: "keyedDestructuringAssignmentEvaluation.lRef",
-    });
+    lRef = yield* Q.ref(EvaluateNodeCommand(node, context));
   }
 
   const obj = yield* toObject(value, context.realm);
   let v = yield* obj.getEvaluator(property);
   if (initializer && isStaticJsUndefined(v)) {
-    const defaultValue = yield* EvaluateNodeCommand(initializer, context, {
-      forNormalValue: "keyedDestructuringAssignmentEvaluation.initializer",
-    });
+    const defaultValue = yield* Q.val(
+      EvaluateNodeCommand(initializer, context),
+      context.realm,
+    );
     v = defaultValue;
   }
 

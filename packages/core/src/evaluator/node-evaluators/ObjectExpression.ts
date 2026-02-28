@@ -1,4 +1,9 @@
-import type { ObjectExpression, ObjectMethod, ObjectProperty, SpreadElement } from "@babel/types";
+import type {
+  ObjectExpression,
+  ObjectMethod,
+  ObjectProperty,
+  SpreadElement,
+} from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
@@ -10,6 +15,7 @@ import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsObjectLike
 import { isStaticJsSymbol } from "../../runtime/types/StaticJsSymbol.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import Q from "../completions/Q.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
@@ -28,13 +34,25 @@ export default function* objectExpressionNodeEvaluator(
   for (const property of node.properties) {
     switch (property.type) {
       case "ObjectMethod":
-        yield* objectExpressionPropertyObjectMethodEvaluator(target, property, context);
+        yield* objectExpressionPropertyObjectMethodEvaluator(
+          target,
+          property,
+          context,
+        );
         break;
       case "ObjectProperty":
-        yield* objectExpressionPropertyObjectPropertyEvaluator(target, property, context);
+        yield* objectExpressionPropertyObjectPropertyEvaluator(
+          target,
+          property,
+          context,
+        );
         break;
       case "SpreadElement": {
-        yield* objectExpressionPropertySpreadElementEvaluator(target, property, context);
+        yield* objectExpressionPropertySpreadElementEvaluator(
+          target,
+          property,
+          context,
+        );
         break;
       }
       default: {
@@ -61,9 +79,10 @@ function* objectExpressionPropertyObjectMethodEvaluator(
     propertyKey = propertyKeyNode.name;
     functionName = propertyKeyNode.name;
   } else {
-    const property = yield* EvaluateNodeCommand(propertyKeyNode, context, {
-      forNormalValue: "ObjectMethod.key",
-    });
+    const property = yield* Q.val(
+      EvaluateNodeCommand(propertyKeyNode, context),
+      context.realm,
+    );
     propertyKey = yield* toPropertyKey(property, context.realm);
     if (isStaticJsSymbol(propertyKey)) {
       functionName = `Symbol(${propertyKey.description})`;
@@ -113,15 +132,17 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
   } else if (propertyKeyNode.type === "PrivateName") {
     throw new StaticJsEngineError("Private fields are not supported");
   } else {
-    const property = yield* EvaluateNodeCommand(propertyKeyNode, context, {
-      forNormalValue: "ObjectProperty.key",
-    });
+    const property = yield* Q.val(
+      EvaluateNodeCommand(propertyKeyNode, context),
+      context.realm,
+    );
     propertyKey = yield* toPropertyKey(property, context.realm);
   }
 
-  const value = yield* EvaluateNodeCommand(property.value, context, {
-    forNormalValue: "ObjectProperty.value",
-  });
+  const value = yield* Q.val(
+    EvaluateNodeCommand(property.value, context),
+    context.realm,
+  );
   yield* target.setEvaluator(propertyKey, value, context.strict);
   return null;
 }
@@ -131,9 +152,10 @@ function* objectExpressionPropertySpreadElementEvaluator(
   property: SpreadElement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const value = yield* EvaluateNodeCommand(property.argument, context, {
-    forNormalValue: "SpreadElement.argument",
-  });
+  const value = yield* Q.val(
+    EvaluateNodeCommand(property.argument, context),
+    context.realm,
+  );
   if (!isStaticJsObject(value)) {
     // Apparently we just ignore these
     return null;

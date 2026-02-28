@@ -5,6 +5,7 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import toNumber from "../../runtime/algorithms/to-number.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import Q from "../completions/Q.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
@@ -16,9 +17,7 @@ export default function* updateExpressionNodeEvaluator(
   node: UpdateExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const ref = yield* EvaluateNodeCommand(node.argument, context, {
-    forReference: "UpdateExpression.argument",
-  });
+  const ref = yield* Q.ref(EvaluateNodeCommand(node.argument, context));
 
   // Note: NodeJs throws an error if the value is a string or something, but
   // thats not what the spec says to do!
@@ -35,7 +34,9 @@ export default function* updateExpressionNodeEvaluator(
       newValueJs--;
       break;
     default:
-      throw new StaticJsEngineError(`Unsupported operator for update expression ${node.operator}.`);
+      throw new StaticJsEngineError(
+        `Unsupported operator for update expression ${node.operator}.`,
+      );
   }
 
   const newValue = context.realm.types.number(newValueJs);

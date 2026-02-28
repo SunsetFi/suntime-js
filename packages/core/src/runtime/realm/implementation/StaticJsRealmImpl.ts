@@ -27,6 +27,7 @@ import type { StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js"
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
+import Q from "../../../evaluator/completions/Q.js";
 
 import globalDeclarationInstantiation from "../../../evaluator/instantiation/global-declaration-instantiation.js";
 
@@ -758,7 +759,7 @@ function* doEvaluateNode(
   const context = EvaluationContext.createRootContext(strict ?? false, realm);
   try {
     yield* globalDeclarationInstantiation(node, context);
-    const result = yield* EvaluateNodeCommand(node, context);
+    const result = yield* Q(EvaluateNodeCommand(node, context));
     if (result) {
       return yield* getValue(result, realm);
     }
@@ -780,7 +781,7 @@ function* doEvaluateNodeAsync(
   try {
     // yield* setupEnvironment(node, context);
     yield* globalDeclarationInstantiation(node, context);
-    const evaluator = EvaluateNodeCommand(node, context);
+    const evaluator = Q(EvaluateNodeCommand(node, context));
     const invocation = new AsyncEvaluatorInvocation(evaluator, realm, true);
 
     // Note that invocation.start() performs its own sandbox error handling, so nothing

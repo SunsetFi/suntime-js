@@ -26,6 +26,7 @@ import getIterator from "../../runtime/iterators/get-iterator.js";
 import copyDataProperties from "../../runtime/algorithms/copy-data-properties.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import Q from "../completions/Q.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
@@ -59,7 +60,13 @@ export default function* bindingInitialization(
 
       const rest = node.properties.find((p) => isRestElement(p));
       if (rest) {
-        yield* restBindingInitialization(rest, obj, excludedNames, environment, context);
+        yield* restBindingInitialization(
+          rest,
+          obj,
+          excludedNames,
+          environment,
+          context,
+        );
       }
 
       return;
@@ -89,7 +96,12 @@ function* propertyBindingInitialization(
   if (Array.isArray(node)) {
     const excludedNames: StaticJsPropertyKey[] = [];
     for (const property of node) {
-      const result = yield* propertyBindingInitialization(property, value, environment, context);
+      const result = yield* propertyBindingInitialization(
+        property,
+        value,
+        environment,
+        context,
+      );
       excludedNames.push(...result);
     }
     return excludedNames;
@@ -97,9 +109,10 @@ function* propertyBindingInitialization(
 
   let key: StaticJsPropertyKey;
   if (node.computed) {
-    const p = yield* EvaluateNodeCommand(node.key, context, {
-      forNormalValue: "propertyBindingInitialization.key",
-    });
+    const p = yield* Q.val(
+      EvaluateNodeCommand(node.key, context),
+      context.realm,
+    );
     key = yield* toPropertyKey(p, context.realm);
   } else if (node.key.type === "Identifier") {
     key = node.key.name;
@@ -112,10 +125,18 @@ function* propertyBindingInitialization(
   } else if (node.key.type === "NullLiteral") {
     key = String(null);
   } else {
-    throw new StaticJsEngineError(`Unsupported object property key type: ${node.key.type}`);
+    throw new StaticJsEngineError(
+      `Unsupported object property key type: ${node.key.type}`,
+    );
   }
 
-  yield* keyedBindingInitialization(node.value, value, key, environment, context);
+  yield* keyedBindingInitialization(
+    node.value,
+    value,
+    key,
+    environment,
+    context,
+  );
 
   return [key];
 }
@@ -139,9 +160,10 @@ function* keyedBindingInitialization(
       const obj = yield* toObject(value, context.realm);
       let v = yield* obj.getEvaluator(property);
       if (initializer && isStaticJsUndefined(v)) {
-        const defaultValue = yield* EvaluateNodeCommand(initializer, context, {
-          forNormalValue: "keyedBindingInitialization.initializer",
-        });
+        const defaultValue = yield* Q.val(
+          EvaluateNodeCommand(initializer, context),
+          context.realm,
+        );
         v = defaultValue;
       }
       yield* bindingInitialization(node, v, environment, context);
@@ -149,13 +171,18 @@ function* keyedBindingInitialization(
     }
     case "Identifier": {
       const bindingId = node.name;
-      const lhs = yield* getIdentifierReference(context.lexicalEnv, bindingId, context.strict);
+      const lhs = yield* getIdentifierReference(
+        context.lexicalEnv,
+        bindingId,
+        context.strict,
+      );
       const obj = yield* toObject(value, context.realm);
       let v = yield* obj.getEvaluator(property);
       if (initializer && isStaticJsUndefined(v)) {
-        const defaultValue = yield* EvaluateNodeCommand(initializer, context, {
-          forNormalValue: "keyedBindingInitialization.initializer",
-        });
+        const defaultValue = yield* Q.val(
+          EvaluateNodeCommand(initializer, context),
+          context.realm,
+        );
         v = defaultValue;
       }
 
@@ -176,9 +203,15 @@ function* restBindingInitialization(
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
   if (node.argument.type !== "Identifier") {
-    throw new StaticJsEngineError("Rest element argument must be an identifier");
+    throw new StaticJsEngineError(
+      "Rest element argument must be an identifier",
+    );
   }
-  const lhs = yield* getIdentifierReference(context.lexicalEnv, node.argument.name, context.strict);
+  const lhs = yield* getIdentifierReference(
+    context.lexicalEnv,
+    node.argument.name,
+    context.strict,
+  );
 
   const restObject = context.realm.types.object();
 

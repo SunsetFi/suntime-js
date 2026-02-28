@@ -7,7 +7,7 @@ import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/imp
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import { EvaluateNodeForCompletion } from "../commands/EvaluateNodeCommand.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../completions/Completion.js";
 
@@ -20,14 +20,14 @@ function* tryStatementNodeEvaluator(
   node: TryStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  let result = yield* EvaluateNodeForCompletion(node.block, context);
+  let result = yield* EvaluateNodeCommand(node.block, context);
 
   if (node.handler && Completion.Throw.is(result)) {
     result = yield* runCatch(node.handler, result.value, context);
   }
 
   if (node.finalizer) {
-    const F = yield* EvaluateNodeForCompletion(node.finalizer, context);
+    const F = yield* EvaluateNodeCommand(node.finalizer, context);
     if (Completion.Abrupt.is(F)) {
       result = F;
     }
@@ -70,7 +70,7 @@ function* runCatch(
     );
   }
 
-  return yield* EvaluateNodeForCompletion(node.body, catchContext);
+  return yield* EvaluateNodeCommand(node.body, catchContext);
 }
 
 export default tryStatementNodeEvaluator;

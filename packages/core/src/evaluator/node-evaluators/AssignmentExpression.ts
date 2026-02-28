@@ -22,6 +22,7 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import destructuringAssignmentEvaluation from "../bindings/destructuring-assignment-evaluation.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import Q from "../completions/Q.js";
 
 export default function* assignmentExpressionNodeEvaluator(
   node: AssignmentExpression,
@@ -43,57 +44,61 @@ export default function* assignmentExpressionNodeEvaluator(
     case "&=":
     case "^=":
     case "|=":
-      return yield* algebraicAssignmentExpressionEvaluator(node.operator, left, right, context);
+      return yield* algebraicAssignmentExpressionEvaluator(
+        node.operator,
+        left,
+        right,
+        context,
+      );
     case "&&=": {
-      const lRef = yield* EvaluateNodeCommand(left, context, {
-        forReference: "AssignmentExpression.&&=.left",
-      });
+      const lRef = yield* Q.ref(EvaluateNodeCommand(left, context));
       const lVal = yield* getValue(lRef, context.realm);
       const lBool = yield* toBoolean.js(lVal, context.realm);
       if (!lBool) {
         return lVal;
       }
 
-      const rVal = yield* EvaluateNodeCommand(right, context, {
-        forNormalValue: "AssignmentExpression.&&=.right",
-      });
+      const rVal = yield* Q.val(
+        EvaluateNodeCommand(right, context),
+        context.realm,
+      );
       yield* putValue(lRef, rVal, context.realm);
       return rVal;
     }
     case "||=": {
-      const lRef = yield* EvaluateNodeCommand(left, context, {
-        forReference: "AssignmentExpression.||=.left",
-      });
+      const lRef = yield* Q.ref(EvaluateNodeCommand(left, context));
       const lVal = yield* getValue(lRef, context.realm);
       const lBool = yield* toBoolean.js(lVal, context.realm);
       if (lBool) {
         return lVal;
       }
 
-      const rVal = yield* EvaluateNodeCommand(right, context, {
-        forNormalValue: "AssignmentExpression.||=.right",
-      });
+      const rVal = yield* Q.val(
+        EvaluateNodeCommand(right, context),
+        context.realm,
+      );
       yield* putValue(lRef, rVal, context.realm);
       return rVal;
     }
     case "??=": {
-      const lRef = yield* EvaluateNodeCommand(left, context, {
-        forReference: "AssignmentExpression.??=.left",
-      });
+      const lRef = yield* Q.ref(EvaluateNodeCommand(left, context));
       const lVal = yield* getValue(lRef, context.realm);
       if (!isStaticJsNull(lVal) && !isStaticJsUndefined(lVal)) {
         return lVal;
       }
 
-      const rVal = yield* EvaluateNodeCommand(right, context, {
-        forNormalValue: "AssignmentExpression.??=.right",
-      });
+      const rVal = yield* Q.val(
+        EvaluateNodeCommand(right, context),
+        context.realm,
+      );
       yield* putValue(lRef, rVal, context.realm);
       return rVal;
     }
   }
 
-  throw new StaticJsEngineError(`Unsupported assignment operator: ${node.operator}`);
+  throw new StaticJsEngineError(
+    `Unsupported assignment operator: ${node.operator}`,
+  );
 }
 
 function* directAssignmentExpressionEvaluator(
@@ -103,19 +108,16 @@ function* directAssignmentExpressionEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   if (left.type !== "ObjectPattern" && left.type !== "ArrayPattern") {
-    const lRef = yield* EvaluateNodeCommand(left, context, {
-      forReference: "AssignmentExpression.=.left",
-    });
-    const rVal = yield* EvaluateNodeCommand(right, context, {
-      forNormalValue: "AssignmentExpression.=.right",
-    });
+    const lRef = yield* Q.ref(EvaluateNodeCommand(left, context));
+    const rVal = yield* Q.val(
+      EvaluateNodeCommand(right, context),
+      context.realm,
+    );
     yield* putValue(lRef, rVal, context.realm);
     return rVal;
   }
 
-  const rVal = yield* EvaluateNodeCommand(right, context, {
-    forNormalValue: "AssignmentExpression.=.right",
-  });
+  const rVal = yield* Q.val(EvaluateNodeCommand(right, context), context.realm);
 
   yield* destructuringAssignmentEvaluation(left, rVal, context);
 
@@ -130,15 +132,11 @@ function* algebraicAssignmentExpressionEvaluator(
 ): EvaluationGenerator {
   const { realm } = context;
 
-  const lRef = yield* EvaluateNodeCommand(left, context, {
-    forReference: `AssignmentExpression.${operator}.left`,
-  });
+  const lRef = yield* Q.ref(EvaluateNodeCommand(left, context));
 
   const lVal = yield* getValue(lRef, context.realm);
 
-  const rVal = yield* EvaluateNodeCommand(right, context, {
-    forNormalValue: `AssignmentExpression.${operator}.right`,
-  });
+  const rVal = yield* Q.val(EvaluateNodeCommand(right, context), context.realm);
 
   if (operator === "+=") {
     const result = yield* addition(lVal, rVal, context.realm);
@@ -185,7 +183,9 @@ function* algebraicAssignmentExpressionEvaluator(
       result = l | r;
       break;
     default:
-      throw new StaticJsEngineError(`Unsupported assignment operator: ${operator}`);
+      throw new StaticJsEngineError(
+        `Unsupported assignment operator: ${operator}`,
+      );
   }
 
   const resultVal = realm.types.number(result);

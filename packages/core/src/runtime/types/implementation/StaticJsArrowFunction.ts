@@ -9,6 +9,7 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
+import Q from "../../../evaluator/completions/Q.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -58,9 +59,8 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
 
     let result: StaticJsValue = this.realm.types.undefined;
     try {
-      const completion = yield* EvaluateNodeCommand(
-        this._body,
-        functionContext,
+      const completion = yield* Q(
+        EvaluateNodeCommand(this._body, functionContext),
       );
       if (completion) {
         result = yield* getValue(completion, this.realm);

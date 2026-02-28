@@ -33,11 +33,9 @@ import initializeReferencedBinding from "../../bindings/initialize-referenced-bi
 import { Completion } from "../../completions/Completion.js";
 import rethrowCompletion from "../../completions/rethrow-completion.js";
 
-import {
-  EvaluateNodeCommand,
-  EvaluateNodeForCompletion,
-} from "../../commands/EvaluateNodeCommand.js";
+import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { AwaitCommand } from "../../commands/AwaitCommand.js";
+import Q from "../../completions/Q.js";
 
 import type EvaluationContext from "../../EvaluationContext.js";
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
@@ -107,9 +105,9 @@ export function* forInOfBodyEvaluation(
             yield* bindingInitialization(lhs as LVal, nextValue, null, context);
           }
         } else {
-          const lhsRef = yield* EvaluateNodeCommand(lhs, context, {
-            forReference: "forInOfStatement.lhs",
-          });
+          const lhsRef = yield* Q.ref(
+            EvaluateNodeCommand(lhs, context),
+          );
           // TODO:  Spec says if lhsKind is assignment and lhs target is WEB-COMPAT throw a ReferenceError, but
           // I have no idea what AssignmentType or WEB-COMPAT is.  Skipping for now.
           yield* putValue(lhsRef, nextValue, realm);
@@ -162,7 +160,7 @@ export function* forInOfBodyEvaluation(
       throw e;
     }
 
-    const result = yield* EvaluateNodeForCompletion(stmt, iterationContext);
+    const result = yield* EvaluateNodeCommand(stmt, iterationContext);
     // Note: oldEnv should be restored, so don't use iterationContext from here.
 
     if (!loopContinues(result, context)) {

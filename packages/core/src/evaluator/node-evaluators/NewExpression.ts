@@ -4,6 +4,7 @@ import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import Q from "../completions/Q.js";
 
 import { Completion } from "../completions/Completion.js";
 
@@ -14,9 +15,10 @@ export default function* newExpressionNodeEvaluator(
   node: NewExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const callee = yield* EvaluateNodeCommand(node.callee, context, {
-    forNormalValue: "NewExpression.callee",
-  });
+  const callee = yield* Q.val(
+    EvaluateNodeCommand(node.callee, context),
+    context.realm,
+  );
   if (!isStaticJsFunction(callee)) {
     throw Completion.Throw(
       context.realm.types.error("TypeError", "Not a function"),
@@ -25,9 +27,10 @@ export default function* newExpressionNodeEvaluator(
 
   const args = new Array<StaticJsValue>(node.arguments.length);
   for (let i = 0; i < node.arguments.length; i++) {
-    const arg = yield* EvaluateNodeCommand(node.arguments[i], context, {
-      forNormalValue: `NewExpression.arguments[]`,
-    });
+    const arg = yield* Q.val(
+      EvaluateNodeCommand(node.arguments[i], context),
+      context.realm,
+    );
     args[i] = arg;
   }
 

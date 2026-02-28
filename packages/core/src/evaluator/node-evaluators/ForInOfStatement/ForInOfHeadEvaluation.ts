@@ -17,6 +17,7 @@ import getIterator from "../../../runtime/iterators/get-iterator.js";
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../../completions/Completion.js";
+import Q from "../../completions/Q.js";
 
 export default function* forInOfHeadEvaluation(
   uninitializedBoundNames: string[],
@@ -28,16 +29,20 @@ export default function* forInOfHeadEvaluation(
 
   let exprContext: EvaluationContext = context;
   if (uninitializedBoundNames.length > 0) {
-    const newEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
+    const newEnv = new StaticJsDeclarativeEnvironmentRecord(
+      oldEnv,
+      context.realm,
+    );
     for (const name of uninitializedBoundNames) {
       yield* newEnv.createMutableBindingEvaluator(name, false);
     }
     exprContext = context.createLexicalEnvContext(newEnv);
   }
 
-  const exprValue = yield* EvaluateNodeCommand(expr, exprContext, {
-    forNormalValue: "ForInOfStatement.right",
-  });
+  const exprValue = yield* Q.val(
+    EvaluateNodeCommand(expr, exprContext),
+    exprContext.realm,
+  );
 
   if (iterationKind === "enumerate") {
     if (isStaticJsUndefined(exprValue) || isStaticJsNull(exprValue)) {

@@ -6,6 +6,7 @@ import getIterator from "../../runtime/iterators/get-iterator.js";
 import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import Q from "../completions/Q.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
@@ -23,9 +24,10 @@ export default function* arrayExpressionNodeEvaluator(
     }
 
     if (element.type === "SpreadElement") {
-      const spreadValue = yield* EvaluateNodeCommand(element.argument, context, {
-        forNormalValue: "ArrayExpression.elements[].argument",
-      });
+      const spreadValue = yield* Q.val(
+        EvaluateNodeCommand(element.argument, context),
+        context.realm,
+      );
 
       const iterator = yield* getIterator(spreadValue, "sync", context.realm);
 
@@ -40,9 +42,10 @@ export default function* arrayExpressionNodeEvaluator(
         }
       });
     } else {
-      const value = yield* EvaluateNodeCommand(element, context, {
-        forNormalValue: "ArrayExpression.elements[]",
-      });
+      const value = yield* Q.val(
+        EvaluateNodeCommand(element, context),
+        context.realm,
+      );
       items.push(value);
     }
   }

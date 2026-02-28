@@ -14,6 +14,8 @@ import evalDeclarationInstantiation from "../../evaluator/instantiation/eval-dec
 
 import { EvaluateNodeCommand } from "../../evaluator/commands/EvaluateNodeCommand.js";
 
+import Q from "../../evaluator/completions/Q.js";
+
 import toString from "../algorithms/to-string.js";
 import getValue from "../algorithms/get-value.js";
 
@@ -52,7 +54,7 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
 
     yield* evalDeclarationInstantiation(node, context.strict, context);
 
-    const result = yield* EvaluateNodeCommand(node, context);
+    const result = yield* Q(EvaluateNodeCommand(node, context));
     if (!result) {
       return realm.types.undefined;
     }

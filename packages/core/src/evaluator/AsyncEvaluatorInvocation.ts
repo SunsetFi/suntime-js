@@ -140,7 +140,7 @@ export default class AsyncEvaluatorInvocation {
           return;
         }
 
-        if (value.kind === "await") {
+        if (value.command === "await") {
           // Signal for us to await.
           // Handle the awaitable and pause execution.
           yield* this._registerContinuation(value.awaitable);

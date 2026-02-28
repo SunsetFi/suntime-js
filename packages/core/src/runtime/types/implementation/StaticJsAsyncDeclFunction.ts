@@ -6,6 +6,7 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
+import Q from "../../../evaluator/completions/Q.js";
 
 import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
 
@@ -61,7 +62,7 @@ export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
       throw e;
     }
 
-    const evaluator = EvaluateNodeCommand(this._body, functionContext);
+    const evaluator = Q(EvaluateNodeCommand(this._body, functionContext));
     const invocation = new AsyncEvaluatorInvocation(
       evaluator,
       functionContext.realm,
