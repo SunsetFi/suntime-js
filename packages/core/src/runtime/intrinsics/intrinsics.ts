@@ -23,6 +23,7 @@ export interface Prototypes {
   uriErrorProto: StaticJsObject;
 
   iteratorProto: StaticJsObject;
+  arrayIteratorProto: StaticJsObject;
 }
 
 export interface Constructors {

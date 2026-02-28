@@ -1,4 +1,4 @@
-import StaticJsRuntimeError from "../../../../errors/StaticJsRuntimeError.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import getIterator from "../../../iterators/get-iterator.js";
 import iteratorClose from "../../../iterators/iterator-close.js";
@@ -16,12 +16,19 @@ const objectCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
     const collection = new Map<string, StaticJsValue[]>();
 
     if (!isStaticJsFunction(callbackFn)) {
-      throw new StaticJsRuntimeError(
-        realm.types.error("TypeError", "Object.groupBy callback must be a function"),
+      throw Completion.Throw(
+        realm.types.error(
+          "TypeError",
+          "Object.groupBy callback must be a function",
+        ),
       );
     }
 
-    const iterator = yield* getIterator(items ?? realm.types.undefined, "sync", realm);
+    const iterator = yield* getIterator(
+      items ?? realm.types.undefined,
+      "sync",
+      realm,
+    );
 
     yield* iteratorClose.handle(iterator, realm, function* () {
       let index = 0;
@@ -31,10 +38,10 @@ const objectCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
           break;
         }
 
-        const keyValue = yield* callbackFn.callEvaluator(realm.types.undefined, [
-          next,
-          realm.types.number(index),
-        ]);
+        const keyValue = yield* callbackFn.callEvaluator(
+          realm.types.undefined,
+          [next, realm.types.number(index)],
+        );
 
         index++;
 

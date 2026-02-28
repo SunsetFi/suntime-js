@@ -1,17 +1,23 @@
-import StaticJsRuntimeError from "../../../../errors/StaticJsRuntimeError.js";
 import getIterator from "../../../iterators/get-iterator.js";
 import iteratorStepValue from "../../../iterators/iterator-step-value.js";
-import toObject from "../../../algorithms/to-object.js";
+
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
+import { Completion } from "../../../../evaluator/completions/Completion.js";
+
+import toObject from "../../../algorithms/to-object.js";
+
 import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
 import StaticJsMapImpl from "../../../types/implementation/StaticJsMapImpl.js";
 
-import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../../utils.js";
+import {
+  type IntrinsicPropertyDeclaration,
+  applyIntrinsicProperties,
+} from "../../utils.js";
 
 import mapCtorGroupByDeclaration from "./groupBy.js";
 import mapCtorSymbolSpeciesDeclaration from "./symbol_species.js";
@@ -21,12 +27,15 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   mapCtorSymbolSpeciesDeclaration,
 ];
 
-export default function createMapConstructor(realm: StaticJsRealm, mapProto: StaticJsObject) {
+export default function createMapConstructor(
+  realm: StaticJsRealm,
+  mapProto: StaticJsObject,
+) {
   const ctor = new StaticJsFunctionImpl(
     realm,
     "Map",
     function* (_thisArg) {
-      throw new StaticJsRuntimeError(
+      throw Completion.Throw(
         realm.types.error("TypeError", "Map constructor requires 'new'"),
       );
     },
@@ -34,7 +43,11 @@ export default function createMapConstructor(realm: StaticJsRealm, mapProto: Sta
       *construct(_thisArg, iterable) {
         const map = new StaticJsMapImpl(realm);
 
-        if (!iterable || isStaticJsNull(iterable) || isStaticJsUndefined(iterable)) {
+        if (
+          !iterable ||
+          isStaticJsNull(iterable) ||
+          isStaticJsUndefined(iterable)
+        ) {
           return map;
         }
 

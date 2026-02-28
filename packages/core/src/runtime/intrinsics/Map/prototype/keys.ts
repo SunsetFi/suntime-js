@@ -1,4 +1,4 @@
-import StaticJsRuntimeError from "../../../../errors/StaticJsRuntimeError.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import { isStaticJsMap } from "../../../types/StaticJsMap.js";
 
@@ -8,8 +8,11 @@ const mapProtoKeysDeclaration: IntrinsicPropertyDeclaration = {
   key: "keys",
   *func(realm, thisArg) {
     if (!isStaticJsMap(thisArg)) {
-      throw new StaticJsRuntimeError(
-        realm.types.error("TypeError", "Map.prototype.keys called on incompatible receiver"),
+      throw Completion.Throw(
+        realm.types.error(
+          "TypeError",
+          "Map.prototype.keys called on incompatible receiver",
+        ),
       );
     }
 

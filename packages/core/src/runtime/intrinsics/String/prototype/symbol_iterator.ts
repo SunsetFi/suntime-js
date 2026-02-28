@@ -1,9 +1,11 @@
 import toString from "../../../algorithms/to-string.js";
 
+import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
+
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
-import StaticJsIteratorImpl from "../../../types/implementation/StaticJsIteratorImpl.js";
+import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 
@@ -22,19 +24,35 @@ const stringProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const str = yield* toString.js(thisArg, realm);
-    const iterator = str[Symbol.iterator]();
+    const strIterator = str[Symbol.iterator]();
 
     // Note: Officially this should be implemented as a generator,
     // which is probably actually visible to the runtime.
+    const returnIterator = realm.types.object(
+      {},
+      realm.types.prototypes.iteratorProto,
+    );
 
-    return new StaticJsIteratorImpl(function* () {
-      const { value, done } = iterator.next();
-      if (done) {
-        return undefined;
-      }
+    yield* returnIterator.defineOwnPropertyEvaluator("next", {
+      value: new StaticJsFunctionImpl(realm, "next", function* () {
+        const { value, done } = strIterator.next();
+        if (done) {
+          return yield* createIteratorResultObject(
+            realm.types.undefined,
+            true,
+            realm,
+          );
+        }
 
-      return realm.types.string(value);
-    }, realm);
+        return yield* createIteratorResultObject(
+          realm.types.string(value),
+          false,
+          realm,
+        );
+      }),
+    });
+
+    return returnIterator;
   },
 };
 

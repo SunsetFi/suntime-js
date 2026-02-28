@@ -35,7 +35,7 @@ export default class StaticJsFunctionImpl
 {
   private _construct:
     | ((
-        thisArg: StaticJsValue,
+        newTarget: StaticJsValue,
         ...args: StaticJsValue[]
       ) => EvaluationGenerator)
     | null;

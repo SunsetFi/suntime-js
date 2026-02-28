@@ -1,5 +1,3 @@
-import StaticJsRuntimeError from "../../../../errors/StaticJsRuntimeError.js";
-
 import getIterator from "../../../iterators/get-iterator.js";
 import iteratorClose from "../../../iterators/iterator-close.js";
 import iteratorStepValue from "../../../iterators/iterator-step-value.js";
@@ -7,6 +5,8 @@ import iteratorStepValue from "../../../iterators/iterator-step-value.js";
 import StaticJsMapImpl from "../../../types/implementation/StaticJsMapImpl.js";
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -16,12 +16,19 @@ const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
     const collection = new Map<StaticJsValue, StaticJsValue[]>();
 
     if (!isStaticJsFunction(callbackFn)) {
-      throw new StaticJsRuntimeError(
-        realm.types.error("TypeError", "Map.groupBy callback must be a function"),
+      throw Completion.Throw(
+        realm.types.error(
+          "TypeError",
+          "Map.groupBy callback must be a function",
+        ),
       );
     }
 
-    const iterator = yield* getIterator(items ?? realm.types.undefined, "sync", realm);
+    const iterator = yield* getIterator(
+      items ?? realm.types.undefined,
+      "sync",
+      realm,
+    );
 
     yield* iteratorClose.handle(iterator, realm, function* () {
       let index = 0;

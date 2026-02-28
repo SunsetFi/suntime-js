@@ -4,10 +4,16 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsArray } from "../StaticJsArray.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
-import type { StaticJsObjectLike, StaticJsPropertyKey } from "../StaticJsObjectLike.js";
+import type {
+  StaticJsObjectLike,
+  StaticJsPropertyKey,
+} from "../StaticJsObjectLike.js";
 import type { StaticJsObject } from "../StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
-import type { ErrorTypeName, StaticJsFunctionTypeCreationOptions } from "../StaticJsTypeFactory.js";
+import type {
+  ErrorTypeName,
+  StaticJsFunctionTypeCreationOptions,
+} from "../StaticJsTypeFactory.js";
 import type StaticJsTypeFactory from "../StaticJsTypeFactory.js";
 import { isErrorTypeName } from "../StaticJsTypeFactory.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
@@ -20,7 +26,11 @@ import type { StaticJsNumber } from "../StaticJsNumber.js";
 import type { StaticJsString } from "../StaticJsString.js";
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 
-import type { IntrinsicSymbols, Constructors, Prototypes } from "../../intrinsics/intrinsics.js";
+import type {
+  IntrinsicSymbols,
+  Constructors,
+  Prototypes,
+} from "../../intrinsics/intrinsics.js";
 
 import { WeakValueMap } from "../../../internal/WeakValueMap.js";
 
@@ -30,7 +40,9 @@ import StaticJsNullImpl from "./StaticJsNullImpl.js";
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectImpl from "./StaticJsObjectImpl.js";
 import StaticJsStringImpl from "./StaticJsStringImpl.js";
-import StaticJsSymbolImpl, { getSymbolProxyOwner } from "./StaticJsSymbolImpl.js";
+import StaticJsSymbolImpl, {
+  getSymbolProxyOwner,
+} from "./StaticJsSymbolImpl.js";
 import StaticJsUndefinedImpl from "./StaticJsUndefinedImpl.js";
 import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
 import StaticJsExternalObject from "./StaticJsExternalObject.js";
@@ -52,7 +64,10 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   // We do NOT want or need a weak key, because:
   // - StaticJsExternalObject needs to keep the backing object around for property access, and thus
   //   requires a strong reference to the key.
-  private readonly _externalObjectMap = new WeakValueMap<object, StaticJsObject>();
+  private readonly _externalObjectMap = new WeakValueMap<
+    object,
+    StaticJsObject
+  >();
 
   private readonly _zero: StaticJsNumber;
   private readonly _NaN: StaticJsNumber;
@@ -148,11 +163,16 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     if (prototype === undefined) {
       prototype = this._prototypes.objectProto;
     }
-    const obj = new StaticJsObjectImpl(this._realm, isStaticJsNull(prototype) ? null : prototype);
+    const obj = new StaticJsObjectImpl(
+      this._realm,
+      isStaticJsNull(prototype) ? null : prototype,
+    );
 
     if (properties) {
       const iterator =
-        properties instanceof Map ? properties.entries() : Object.entries(properties);
+        properties instanceof Map
+          ? properties.entries()
+          : Object.entries(properties);
       for (const [key, value] of iterator) {
         obj.defineOwnPropertySync(key, value);
       }
@@ -166,7 +186,9 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   array(itemsOrLength?: StaticJsValue[] | number): StaticJsArray {
-    return this._realm.invokeEvaluatorSync(StaticJsArrayImpl.create(this._realm, itemsOrLength));
+    return this._realm.invokeEvaluatorSync(
+      StaticJsArrayImpl.create(this._realm, itemsOrLength),
+    );
   }
 
   function(
@@ -181,7 +203,9 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
         try {
           const result = func.apply(thisArg, args);
           if (!isStaticJsValue(result)) {
-            throw new TypeError(`Function ${name} returned non-StaticJsValue: ${result}`);
+            throw new TypeError(
+              `Function ${name} returned non-StaticJsValue: ${result}`,
+            );
           }
           return result;
         } catch (e) {
@@ -245,7 +269,7 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
           enumerable: false,
           writable: true,
           configurable: true,
-          value: this.string(`${name}: ${message}`),
+          value: this.string(message),
         },
       },
       proto,
@@ -265,7 +289,8 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   toStaticJsValue(value: undefined): StaticJsUndefined;
   toStaticJsValue(value: unknown): StaticJsValue;
   toStaticJsValue(value: unknown): StaticJsValue {
-    const owner = getStaticJsObjectLikeProxyOwner(value) ?? getSymbolProxyOwner(value);
+    const owner =
+      getStaticJsObjectLikeProxyOwner(value) ?? getSymbolProxyOwner(value);
     if (owner) {
       value = owner;
     }
@@ -300,13 +325,17 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     } else if (typeof value === "object") {
       return this._toStaticJsValueObject(value);
     } else {
-      throw new Error(`Cannot convert ${value} to StaticJsValue: Unknown type.`);
+      throw new Error(
+        `Cannot convert ${value} to StaticJsValue: Unknown type.`,
+      );
     }
   }
 
   boolean(value: boolean): StaticJsBoolean {
     if (typeof value !== "boolean") {
-      throw new TypeError(`Cannot convert ${value} to StaticJsBoolean: Expected boolean.`);
+      throw new TypeError(
+        `Cannot convert ${value} to StaticJsBoolean: Expected boolean.`,
+      );
     }
 
     if (value) {
@@ -368,10 +397,14 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   private _toStaticJsValueArray(value: unknown[]): StaticJsArray {
     const values = value.map((v) => this.toStaticJsValue(v));
-    return this._realm.invokeEvaluatorSync(StaticJsArrayImpl.create(this._realm, values));
+    return this._realm.invokeEvaluatorSync(
+      StaticJsArrayImpl.create(this._realm, values),
+    );
   }
 
-  private _toStaticJsValueFunction(value: (...args: unknown[]) => unknown): StaticJsFunction {
+  private _toStaticJsValueFunction(
+    value: (...args: unknown[]) => unknown,
+  ): StaticJsFunction {
     return new StaticJsExternalFunction(this._realm, value.name, value);
   }
 

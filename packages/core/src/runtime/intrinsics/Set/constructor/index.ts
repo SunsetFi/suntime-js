@@ -1,4 +1,4 @@
-import StaticJsRuntimeError from "../../../../errors/StaticJsRuntimeError.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
@@ -13,18 +13,26 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
 import StaticJsSetImpl from "../../../types/implementation/StaticJsSetImpl.js";
 
-import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../../utils.js";
+import {
+  type IntrinsicPropertyDeclaration,
+  applyIntrinsicProperties,
+} from "../../utils.js";
 
 import setCtorSymbolSpeciesDeclaration from "./symbol_species.js";
 
-const declarations: IntrinsicPropertyDeclaration[] = [setCtorSymbolSpeciesDeclaration];
+const declarations: IntrinsicPropertyDeclaration[] = [
+  setCtorSymbolSpeciesDeclaration,
+];
 
-export default function createSetConstructor(realm: StaticJsRealm, setProto: StaticJsObject) {
+export default function createSetConstructor(
+  realm: StaticJsRealm,
+  setProto: StaticJsObject,
+) {
   const ctor = new StaticJsFunctionImpl(
     realm,
     "Set",
     function* (_thisArg) {
-      throw new StaticJsRuntimeError(
+      throw Completion.Throw(
         realm.types.error("TypeError", "Set constructor requires 'new'"),
       );
     },
@@ -32,7 +40,11 @@ export default function createSetConstructor(realm: StaticJsRealm, setProto: Sta
       *construct(_thisArg, iterable) {
         const set = new StaticJsSetImpl(realm);
 
-        if (!iterable || isStaticJsNull(iterable) || isStaticJsUndefined(iterable)) {
+        if (
+          !iterable ||
+          isStaticJsNull(iterable) ||
+          isStaticJsUndefined(iterable)
+        ) {
           return set;
         }
 

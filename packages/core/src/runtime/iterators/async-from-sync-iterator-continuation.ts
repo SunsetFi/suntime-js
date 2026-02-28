@@ -15,8 +15,9 @@ import type { StaticJsFunction } from "../types/StaticJsFunction.js";
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
 import call from "../algorithms/call.js";
-import { createIteratorResultObject } from "../algorithms/create-iterator-result-object.js";
 import promiseResolve from "../algorithms/promise-resolve.js";
+
+import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
 
 import type { IteratorRecord } from "./IteratorRecord.js";
 import { iteratorComplete } from "./iterator-complete.js";

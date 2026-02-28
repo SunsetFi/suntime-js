@@ -29,12 +29,19 @@ import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 import isArrayIndex from "./is-array-index.js";
 
-export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements StaticJsArray {
+export default class StaticJsArrayImpl
+  extends StaticJsObjectLikeImpl
+  implements StaticJsArray
+{
+  // FIXME: Create spec compliant CreateArrayFromList / CreateARray
   static create(
     realm: StaticJsRealm,
     items?: StaticJsValue[],
   ): EvaluationGenerator<StaticJsArrayImpl>;
-  static create(realm: StaticJsRealm, len?: number): EvaluationGenerator<StaticJsArrayImpl>;
+  static create(
+    realm: StaticJsRealm,
+    len?: number,
+  ): EvaluationGenerator<StaticJsArrayImpl>;
   // Redundant overload to help TS understand the union type
   static create(
     realm: StaticJsRealm,
@@ -46,7 +53,9 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
   ): EvaluationGenerator<StaticJsArrayImpl> {
     const array = new StaticJsArrayImpl(realm);
 
-    yield* array._init(typeof itemsOrLen === "number" ? itemsOrLen : itemsOrLen.length);
+    yield* array._init(
+      typeof itemsOrLen === "number" ? itemsOrLen : itemsOrLen.length,
+    );
 
     // Often in the spec, setting items on arrays is done through [[DefineOwnProperty]].
     if (Array.isArray(itemsOrLen)) {
@@ -100,7 +109,10 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
     }
 
     if (isStaticJsDataPropertyDescriptor(descr)) {
-      const value = yield* toNumber(descr.value ?? this.realm.types.undefined, this.realm);
+      const value = yield* toNumber(
+        descr.value ?? this.realm.types.undefined,
+        this.realm,
+      );
       return value.value;
     } else if (isStaticJsAccessorPropertyDescriptor(descr) && descr.get) {
       let result = yield* descr.get.callEvaluator(this);
@@ -126,18 +138,26 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
     if (isArrayIndex(key)) {
       let lengthDesc = yield* this.getOwnPropertyEvaluator("length");
       if (!lengthDesc) {
-        throw new StaticJsEngineError("Null length descriptor on array intrinsic");
+        throw new StaticJsEngineError(
+          "Null length descriptor on array intrinsic",
+        );
       }
       if (lengthDesc.configurable) {
-        throw new StaticJsEngineError("Configurable length descriptor on array intrinsic");
+        throw new StaticJsEngineError(
+          "Configurable length descriptor on array intrinsic",
+        );
       }
       if (!isStaticJsDataPropertyDescriptor(lengthDesc)) {
-        throw new StaticJsEngineError("Invalid length descriptor on array intrinsic");
+        throw new StaticJsEngineError(
+          "Invalid length descriptor on array intrinsic",
+        );
       }
 
       const length = lengthDesc.value;
       if (!isStaticJsNumber(length) || length.value < 0) {
-        throw new StaticJsEngineError("Invalid length value on array intrinsic");
+        throw new StaticJsEngineError(
+          "Invalid length value on array intrinsic",
+        );
       }
 
       const index = toUInt32.native(key);
@@ -156,9 +176,14 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
           value: new StaticJsNumberImpl(this.realm, index + 1),
         };
 
-        const success = yield* super._setPropertyDescriptorEvaluator("length", lengthDesc);
+        const success = yield* super._setPropertyDescriptorEvaluator(
+          "length",
+          lengthDesc,
+        );
         if (!success) {
-          throw new StaticJsEngineError("Failed to update array length after adding element");
+          throw new StaticJsEngineError(
+            "Failed to update array length after adding element",
+          );
         }
       }
 
@@ -168,7 +193,9 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
     return yield* super._setPropertyDescriptorEvaluator(key, desc);
   }
 
-  private *_setLength(desc: StaticJsPropertyDescriptor): EvaluationGenerator<boolean> {
+  private *_setLength(
+    desc: StaticJsPropertyDescriptor,
+  ): EvaluationGenerator<boolean> {
     if (!isStaticJsDataPropertyDescriptor(desc) || !desc.value) {
       return yield* super._setPropertyDescriptorEvaluator("length", desc);
     }
@@ -177,7 +204,9 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
 
     const numberLen = yield* toNumber(desc.value, this.realm);
     if (numberLen.value !== newLen) {
-      throw Completion.Throw(this.realm.types.error("RangeError", "Invalid array length"));
+      throw Completion.Throw(
+        this.realm.types.error("RangeError", "Invalid array length"),
+      );
     }
 
     const newLenDesc: Writable<StaticJsDataPropertyDescriptor> = {
@@ -187,13 +216,19 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
 
     const oldLenDesc = yield* this.getOwnPropertyEvaluator("length");
     if (oldLenDesc === undefined) {
-      throw new StaticJsEngineError("Null length descriptor on array intrinsic");
+      throw new StaticJsEngineError(
+        "Null length descriptor on array intrinsic",
+      );
     }
     if (!isStaticJsDataPropertyDescriptor(oldLenDesc)) {
-      throw new StaticJsEngineError("Invalid length descriptor on array intrinsic");
+      throw new StaticJsEngineError(
+        "Invalid length descriptor on array intrinsic",
+      );
     }
     if (oldLenDesc.configurable) {
-      throw new StaticJsEngineError("Configurable length descriptor on array intrinsic");
+      throw new StaticJsEngineError(
+        "Configurable length descriptor on array intrinsic",
+      );
     }
 
     const oldLenValue = oldLenDesc.value;
@@ -216,7 +251,10 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
       newLenDesc.writable = true;
     }
 
-    const succeeded = yield* super._setPropertyDescriptorEvaluator("length", newLenDesc);
+    const succeeded = yield* super._setPropertyDescriptorEvaluator(
+      "length",
+      newLenDesc,
+    );
     if (!succeeded) {
       return false;
     }
@@ -224,7 +262,11 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
     const keys = yield* this.ownPropertyKeysEvaluator();
     // Madness to do the equivalent of toUInt32, which would be inefficient to use on account of being a generator.
     // We probably should make a non-generator version of it.
-    const indicies = keys.filter(isArrayIndex).map(toUInt32.native).sort().reverse();
+    const indicies = keys
+      .filter(isArrayIndex)
+      .map(toUInt32.native)
+      .sort()
+      .reverse();
     for (const index of indicies) {
       if (index < newLen) {
         break;
@@ -248,7 +290,9 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
         writable: false,
       });
       if (!succeeded) {
-        throw new StaticJsEngineError("Failed to make array length non-writable");
+        throw new StaticJsEngineError(
+          "Failed to make array length non-writable",
+        );
       }
     }
 

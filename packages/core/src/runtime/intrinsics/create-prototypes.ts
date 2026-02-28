@@ -4,23 +4,25 @@ import StaticJsObjectImpl from "../types/implementation/StaticJsObjectImpl.js";
 
 import type { Prototypes } from "./intrinsics.js";
 
-import { populateObjectPrototype } from "./Object/index.js";
-import { populateSymbolPrototype } from "./Symbol/index.js";
 import { populateArrayPrototype } from "./Array/index.js";
-import { populateFunctionPrototype } from "./Function/index.js";
-import { populateStringPrototype } from "./String/index.js";
-import { populateNumberPrototype } from "./Number/index.js";
-import { populateBooleanPrototype } from "./Boolean.js";
-import { populatePromisePrototype } from "./Promise/index.js";
-import { populateIteratorPrototype } from "./Iterator.js";
-import { populateSetPrototype } from "./Set/index.js";
-import { populateMapPrototype } from "./Map/index.js";
+import { populateArrayIteratorPrototype } from "./ArrayIterator/index.js";
 import { populateErrorPrototype } from "./Error/index.js";
-import { populateTypeErrorPrototype } from "./TypeError.js";
+import { populateFunctionPrototype } from "./Function/index.js";
+import { populateIteratorPrototype } from "./Iterator/index.js";
+import { populateMapPrototype } from "./Map/index.js";
+import { populateNumberPrototype } from "./Number/index.js";
+import { populateObjectPrototype } from "./Object/index.js";
+import { populatePromisePrototype } from "./Promise/index.js";
+import { populateSetPrototype } from "./Set/index.js";
+import { populateStringPrototype } from "./String/index.js";
+import { populateSymbolPrototype } from "./Symbol/index.js";
+
+import { populateBooleanPrototype } from "./Boolean.js";
+import { populateEvalErrorPrototype } from "./EvalError.js";
+import { populateRangeErrorPrototype } from "./RangeError.js";
 import { populateReferenceErrorPrototype } from "./ReferenceError.js";
 import { populateSyntaxErrorPrototype } from "./SyntaxError.js";
-import { populateRangeErrorPrototype } from "./RangeError.js";
-import { populateEvalErrorPrototype } from "./EvalError.js";
+import { populateTypeErrorPrototype } from "./TypeError.js";
 import { populateURIErrorPrototype } from "./URIError.js";
 
 export function createPrototypes(realm: StaticJsRealm): Prototypes {
@@ -35,6 +37,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
 
   const promiseProto = new StaticJsObjectImpl(realm, objectProto);
   const iteratorProto = new StaticJsObjectImpl(realm, objectProto);
+  const arrayIteratorProto = new StaticJsObjectImpl(realm, iteratorProto);
   const setProto = new StaticJsObjectImpl(realm, objectProto);
   const mapProto = new StaticJsObjectImpl(realm, objectProto);
 
@@ -56,6 +59,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
     functionProto,
     promiseProto,
     iteratorProto,
+    arrayIteratorProto,
     setProto,
     mapProto,
     errorProto,
@@ -80,6 +84,9 @@ export function instantiatePrototypes(realm: StaticJsRealm) {
   populateBooleanPrototype(realm, prototypes.booleanProto);
 
   populateArrayPrototype(realm, prototypes.arrayProto);
+
+  populateIteratorPrototype(realm, prototypes.iteratorProto);
+  populateArrayIteratorPrototype(realm, prototypes.arrayIteratorProto);
 
   populatePromisePrototype(realm, prototypes.promiseProto);
   populateIteratorPrototype(realm, prototypes.iteratorProto);

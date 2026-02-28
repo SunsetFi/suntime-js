@@ -7,7 +7,7 @@ import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
-import { createIteratorResultObject } from "./create-iterator-result-object.js";
+import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
 
 export default function* enumerateObjectProperties(
   obj: StaticJsObjectLike,
@@ -26,7 +26,11 @@ export default function* enumerateObjectProperties(
       if (nextIndex >= currentKeys.length) {
         // If we've gone past the last key, we need to reset
         if (currentObject.prototype === null) {
-          return yield* createIteratorResultObject(realm.types.undefined, true, realm);
+          return yield* createIteratorResultObject(
+            realm.types.undefined,
+            true,
+            realm,
+          );
         }
 
         nextIndex = 0;
@@ -50,7 +54,11 @@ export default function* enumerateObjectProperties(
         continue;
       }
 
-      return yield* createIteratorResultObject(realm.types.string(key), false, realm);
+      return yield* createIteratorResultObject(
+        realm.types.string(key),
+        false,
+        realm,
+      );
     }
   });
 

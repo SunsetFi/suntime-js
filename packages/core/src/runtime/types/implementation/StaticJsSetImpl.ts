@@ -6,24 +6,39 @@ import getIterator from "../../iterators/get-iterator.js";
 import iteratorStepValue from "../../iterators/iterator-step-value.js";
 import toBoolean from "../../algorithms/to-boolean.js";
 
+import { createIteratorResultObject } from "../../iterators/create-iterator-result-object.js";
+
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import toNativeUnwrap from "../../utils/to-native-unwrap.js";
 import toRuntimeWrap from "../../utils/to-runtime-wrap.js";
 
-import { isStaticJsFunction, type StaticJsFunction } from "../StaticJsFunction.js";
+import iteratorClose from "../../iterators/iterator-close.js";
+
+import {
+  isStaticJsFunction,
+  type StaticJsFunction,
+} from "../StaticJsFunction.js";
 import { isStaticJsObjectLike } from "../StaticJsObjectLike.js";
 import { isStaticJsValue, type StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsSet } from "../StaticJsSet.js";
 
+import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import type {
+  StaticJsIterator,
+  StaticJsIteratorResult,
+} from "../StaticJsIterator.js";
+
 import StaticJsIteratorImpl from "./StaticJsIteratorImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
-import StaticJsTypeCode from "../StaticJsTypeCode.js";
-import iteratorClose from "../../iterators/iterator-close.js";
+import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
 
 // TODO: Take shortcuts for difference and friends if otherSet is also a StaticJsSetImpl
 
-export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsSet {
+export default class StaticJsSetImpl
+  extends StaticJsObjectLikeImpl
+  implements StaticJsSet
+{
   private _backingStore = new Set<unknown>();
 
   constructor(realm: StaticJsRealm) {
@@ -43,7 +58,9 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
     this._backingStore.add(unwrapped);
   }
 
-  *differenceEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue> {
+  *differenceEvaluator(
+    otherSet: StaticJsValue,
+  ): EvaluationGenerator<StaticJsValue> {
     if (!isStaticJsObjectLike(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
@@ -54,7 +71,9 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
 
     const otherHas = yield* otherSet.getEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
-      throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
+      throw new StaticJsRuntimeError(
+        this.realm.types.error("TypeError", "has is not a function"),
+      );
     }
 
     for (const value of this._backingStore) {
@@ -74,7 +93,9 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
     return this._backingStore.has(unwrapped);
   }
 
-  *intersectionEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue> {
+  *intersectionEvaluator(
+    otherSet: StaticJsValue,
+  ): EvaluationGenerator<StaticJsValue> {
     if (!isStaticJsObjectLike(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
@@ -85,7 +106,9 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
 
     const otherHas = yield* otherSet.getEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
-      throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
+      throw new StaticJsRuntimeError(
+        this.realm.types.error("TypeError", "has is not a function"),
+      );
     }
 
     for (const value of this._backingStore) {
@@ -100,7 +123,9 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
     return result;
   }
 
-  *isDisjointFromEvaluator(otherSet: StaticJsValue): EvaluationGenerator<boolean> {
+  *isDisjointFromEvaluator(
+    otherSet: StaticJsValue,
+  ): EvaluationGenerator<boolean> {
     if (!isStaticJsObjectLike(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
@@ -109,7 +134,9 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
 
     const otherHas = yield* otherSet.getEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
-      throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
+      throw new StaticJsRuntimeError(
+        this.realm.types.error("TypeError", "has is not a function"),
+      );
     }
 
     for (const value of this._backingStore) {
@@ -133,7 +160,9 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
 
     const otherHas = yield* otherSet.getEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
-      throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
+      throw new StaticJsRuntimeError(
+        this.realm.types.error("TypeError", "has is not a function"),
+      );
     }
 
     for (const value of this._backingStore) {
@@ -148,7 +177,9 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
     return true;
   }
 
-  *isSupersetOfEvaluator(otherSet: StaticJsValue): EvaluationGenerator<boolean> {
+  *isSupersetOfEvaluator(
+    otherSet: StaticJsValue,
+  ): EvaluationGenerator<boolean> {
     if (!isStaticJsObjectLike(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
@@ -180,7 +211,9 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
     return this.valuesEvaluator();
   }
 
-  *symmetricDifferenceEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue> {
+  *symmetricDifferenceEvaluator(
+    otherSet: StaticJsValue,
+  ): EvaluationGenerator<StaticJsValue> {
     if (!isStaticJsObjectLike(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
@@ -191,7 +224,9 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
 
     const otherHas = yield* otherSet.getEvaluator("has");
     if (!isStaticJsFunction(otherHas)) {
-      throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
+      throw new StaticJsRuntimeError(
+        this.realm.types.error("TypeError", "has is not a function"),
+      );
     }
 
     for (const value of this._backingStore) {
@@ -251,18 +286,12 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
     return result;
   }
 
-  *valuesEvaluator(): EvaluationGenerator<StaticJsValue> {
-    const backingIterator = this._backingStore.values();
-
-    const realm = this.realm;
-    return new StaticJsIteratorImpl(function* () {
-      const next = backingIterator.next();
-      if (next.done) {
-        return undefined;
-      }
-
-      return toRuntimeWrap(next.value, realm);
-    }, realm);
+  *valuesEvaluator(): EvaluationGenerator<StaticJsIterator> {
+    return new StaticJsSetIteratorImpl(
+      this._backingStore.values(),
+      "key",
+      this.realm,
+    );
   }
 
   *clearEvaluator(): EvaluationGenerator<void> {
@@ -275,18 +304,11 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
   }
 
   *entriesEvaluator(): EvaluationGenerator<StaticJsValue> {
-    const backingIterator = this._backingStore.values();
-
-    const realm = this.realm;
-    return new StaticJsIteratorImpl(function* () {
-      const next = backingIterator.next();
-      if (next.done) {
-        return undefined;
-      }
-
-      const value = toRuntimeWrap(next.value, realm);
-      return realm.types.array([value, value]);
-    }, realm);
+    return new StaticJsSetIteratorImpl(
+      this._backingStore.values(),
+      "key+value",
+      this.realm,
+    );
   }
 
   *forEachEvaluator(
@@ -300,7 +322,9 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
     }
 
     if (!isStaticJsValue(thisArg)) {
-      throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "thisArg is not a value"));
+      throw new StaticJsRuntimeError(
+        this.realm.types.error("TypeError", "thisArg is not a value"),
+      );
     }
 
     for (const value of this._backingStore) {
@@ -328,12 +352,76 @@ function* setCreate(
   const result = yield* realm.types.constructors.Set.constructEvaluator();
 
   if (!isStaticJsObjectLike(result)) {
-    throw new StaticJsRuntimeError(realm.types.error("TypeError", "Failed to create Set"));
+    throw new StaticJsRuntimeError(
+      realm.types.error("TypeError", "Failed to create Set"),
+    );
   }
   const resultAdd = yield* result.getEvaluator("add");
   if (!isStaticJsFunction(resultAdd)) {
-    throw new StaticJsRuntimeError(realm.types.error("TypeError", "add is not a function"));
+    throw new StaticJsRuntimeError(
+      realm.types.error("TypeError", "add is not a function"),
+    );
   }
 
   return [result, resultAdd];
+}
+
+class StaticJsSetIteratorImpl extends StaticJsIteratorImpl {
+  constructor(
+    private _backingIterator: IterableIterator<unknown> | null,
+    private readonly _kind: "key" | "key+value",
+    realm: StaticJsRealm,
+  ) {
+    super(realm);
+
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const self = this;
+
+    this.defineOwnPropertySync("next", {
+      value: new StaticJsFunctionImpl(realm, "next", function* () {
+        const result = yield* self.nextEvaluator();
+        return yield* createIteratorResultObject(
+          result.value,
+          result.done,
+          self.realm,
+        );
+      }),
+      writable: true,
+      enumerable: false,
+      configurable: true,
+    });
+  }
+
+  *nextEvaluator(): EvaluationGenerator<StaticJsIteratorResult> {
+    const iterator = this._backingIterator;
+    if (!iterator) {
+      return {
+        value: this.realm.types.undefined,
+        done: true,
+      };
+    }
+
+    const { value, done } = iterator.next();
+    if (done) {
+      this._backingIterator = null;
+      return {
+        value: this.realm.types.undefined,
+        done: true,
+      };
+    }
+
+    const resolved = toRuntimeWrap(value, this.realm);
+
+    let result: StaticJsValue;
+    if (this._kind === "key") {
+      result = resolved;
+    } else {
+      result = this.realm.types.array([resolved, resolved]);
+    }
+
+    return {
+      value: result,
+      done: false,
+    };
+  }
 }
