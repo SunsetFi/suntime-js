@@ -1,7 +1,7 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import Q from "../../../../evaluator/completions/Q.js";
 
-import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
+import getIteratorDirect from "../../../iterators/get-iterator-direct.js";
 import iteratorStepValue from "../../../iterators/iterator-step-value.js";
 
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";

@@ -135,7 +135,7 @@ export default class StaticJsFunctionImpl
     return this.realm.invokeEvaluatorSync(this.callEvaluator(thisArg, args));
   }
 
-  *constructEvaluator(args: StaticJsValue[] = []): EvaluationGenerator<StaticJsValue> {
+  *constructEvaluator(args: StaticJsValue[] = []): EvaluationGenerator<StaticJsObjectLike> {
     if (!this._construct) {
       throw Completion.Throw(
         this.realm.types.error("TypeError", "This function is not a constructor."),

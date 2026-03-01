@@ -15,6 +15,8 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
 
+import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
+
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
 import StaticJsAstFunction from "./StaticJsAstFunction.js";
@@ -31,7 +33,7 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
     super(realm, name, "lexical-this", argumentDeclarations, context, body, functionFactory);
   }
 
-  *constructEvaluator(): EvaluationGenerator<StaticJsValue> {
+  *constructEvaluator(): EvaluationGenerator<StaticJsObjectLike> {
     const nameValue = yield* this.getEvaluator("name");
     let name = yield* toString.js(nameValue, this.realm);
     if (name === "") {

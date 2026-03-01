@@ -1,5 +1,5 @@
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
-import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { isStaticJsValue, type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { AbruptCompletion } from "./completion-types/AbruptCompletion.js";
 import { ControlFlowCompletion } from "./completion-types/ControlFlowCompletion.js";
@@ -58,6 +58,9 @@ export namespace Completion {
     }
   }
 
+  export function value(completion: StaticJsValue): StaticJsValue;
+  export function value(completion: Completion.Normal): CompletionValue;
+  export function value(completion: Completion): CompletionValue;
   export function value(completion: Completion): CompletionValue {
     if (NormalCompletion.is(completion)) {
       return completion;

@@ -8,7 +8,7 @@ describe("E2E: Classes", () => {
         class MyClass { }
       `;
 
-      await expect(evaluateScript(code)).rejects.toThrowError(
+      await expect(evaluateScript(code)).rejects.toThrow(
         expect.objectContaining({
           name: "StaticJsEngineError",
           message: expect.stringContaining("not supported"),
@@ -22,7 +22,7 @@ describe("E2E: Classes", () => {
         const MyClass = class { };
       `;
 
-      await expect(evaluateScript(code)).rejects.toThrowError(
+      await expect(evaluateScript(code)).rejects.toThrow(
         expect.objectContaining({
           name: "StaticJsEngineError",
           message: expect.stringContaining("not supported"),

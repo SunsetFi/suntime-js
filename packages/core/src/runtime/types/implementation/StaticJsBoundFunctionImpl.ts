@@ -99,7 +99,7 @@ class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements StaticJsFu
     return this.realm.invokeEvaluatorSync(this.constructEvaluator(args));
   }
 
-  constructEvaluator(args: StaticJsValue[]): EvaluationGenerator<StaticJsValue> {
+  constructEvaluator(args: StaticJsValue[]): EvaluationGenerator<StaticJsObjectLike> {
     return this.targetFunc.constructEvaluator([...this._boundArgs, ...args]);
   }
 

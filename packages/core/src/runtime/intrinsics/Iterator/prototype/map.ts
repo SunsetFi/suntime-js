@@ -5,7 +5,7 @@ import captureThrownCompletion from "../../../../evaluator/completions/capture-t
 import Q from "../../../../evaluator/completions/Q.js";
 
 import createIteratorFromClosure from "../../../iterators/create-iterator-from-closure.js";
-import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
+import getIteratorDirect from "../../../iterators/get-iterator-direct.js";
 import iteratorClose from "../../../iterators/iterator-close.js";
 import iteratorStepValue from "../../../iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
@@ -61,7 +61,7 @@ const iteratorProtoMapDeclaration: IntrinsicPropertyDeclaration = {
           return yield* Q(iteratorClose(iterated, mapped, realm));
         }
 
-        const completion = captureThrownCompletion(YieldCommand(mapped));
+        const completion = yield* captureThrownCompletion(YieldCommand(mapped));
         if (Completion.Abrupt.is(completion)) {
           return yield* Q(iteratorClose(iterated, completion, realm));
         }

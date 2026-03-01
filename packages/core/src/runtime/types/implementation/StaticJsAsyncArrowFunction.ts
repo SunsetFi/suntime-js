@@ -14,6 +14,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import promiseReject from "../../algorithms/promise-reject.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
+import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
@@ -31,7 +32,7 @@ export default class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
     super(realm, name, "lexical-this", argumentDeclarations, context, body, functionFactory);
   }
 
-  *constructEvaluator(): EvaluationGenerator<StaticJsValue> {
+  *constructEvaluator(): EvaluationGenerator<StaticJsObjectLike> {
     const nameValue = yield* this.getEvaluator("name");
     let name = nameValue.toStringSync();
     if (name === "") {

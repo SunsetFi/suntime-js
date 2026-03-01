@@ -7,19 +7,19 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import getMethod from "../algorithms/get-method.js";
 
-import { isStaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
-import { getIteratorDirect } from "./get-iterator-direct.js";
+import getIteratorDirect from "./get-iterator-direct.js";
 
 export default function* getIteratorFlattenable(
   obj: StaticJsValue,
   primitiveHandling: "iterate-string-primitives" | "reject-primitives",
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsIteratorRecord> {
-  if (!isStaticJsObject(obj)) {
+  if (!isStaticJsObjectLike(obj)) {
     if (primitiveHandling === "reject-primitives") {
       throw Completion.Throw(
         realm.types.error("TypeError", "Value is not an object and cannot be iterated over"),
@@ -36,7 +36,7 @@ export default function* getIteratorFlattenable(
     iterator = yield* Q(method.callEvaluator(obj, []));
   }
 
-  if (!isStaticJsObject(iterator)) {
+  if (!isStaticJsObjectLike(iterator)) {
     throw Completion.Throw(
       realm.types.error(
         "TypeError",

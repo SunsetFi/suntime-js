@@ -3,7 +3,6 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
@@ -36,10 +35,7 @@ export default function* arraySpeciesCreate(
     return realm.types.array(new Array(length));
   }
 
-  const constructorIsConstructor = yield* isConstructor(constructor, realm);
-  // isStaticJsFunction is redundant,
-  // but needed to type-guard constructor.
-  if (!constructorIsConstructor || !isStaticJsFunction(constructor)) {
+  if (!isConstructor(constructor, realm)) {
     throw Completion.Throw(realm.types.error("TypeError", "Constructor is not a constructor"));
   }
 

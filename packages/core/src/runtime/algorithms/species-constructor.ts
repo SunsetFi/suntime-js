@@ -33,8 +33,7 @@ export default function* speciesConstructor(
     return defaultConstructor;
   }
 
-  const speciesIsConstructor = yield* isConstructor(S, realm);
-  if (!speciesIsConstructor) {
+  if (!isConstructor(S, realm)) {
     throw Completion.Throw(realm.types.error("TypeError", "Species is not a constructor"));
   }
 

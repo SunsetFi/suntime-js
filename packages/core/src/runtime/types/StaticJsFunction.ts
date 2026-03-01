@@ -26,7 +26,7 @@ export interface StaticJsFunction extends StaticJsObjectLike {
 
   constructAsync(args?: StaticJsValue[], opts?: StaticJsRunTaskOptions): Promise<StaticJsValue>;
   constructSync(args?: StaticJsValue[]): StaticJsValue;
-  constructEvaluator(args?: StaticJsValue[]): EvaluationGenerator<StaticJsValue>;
+  constructEvaluator(args?: StaticJsValue[]): EvaluationGenerator<StaticJsObjectLike>;
 
   toJsSync(): (...args: unknown[]) => unknown;
 }
