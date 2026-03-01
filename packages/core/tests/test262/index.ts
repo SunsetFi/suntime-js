@@ -14,7 +14,6 @@ import defineTest from "./define-test.js";
 
 // For now.  Eventually we should cover everything.
 const ignoredFeatures = [
-  "generators",
   "TypedArray",
   "tail-call-optimization",
   "explicit-resource-management",
@@ -65,7 +64,10 @@ function isIgnoredTest(test: Test262File) {
     return true;
   }
 
-  if (includeTests.length > 0 && !containsTest(test.testPathParts, includeTests)) {
+  if (
+    includeTests.length > 0 &&
+    !containsTest(test.testPathParts, includeTests)
+  ) {
     return true;
   }
 

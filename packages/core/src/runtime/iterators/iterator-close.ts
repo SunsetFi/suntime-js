@@ -14,10 +14,16 @@ import rethrowCompletion from "../../evaluator/completions/rethrow-completion.js
 
 export default function iteratorClose(
   iteratorRecord: IteratorRecord,
-  completion: Completion,
+  completion: Completion.Abrupt,
   realm: StaticJsRealm,
   unwrap?: true,
-): EvaluationGenerator<Completion.Normal>;
+): EvaluationGenerator<never>;
+export default function iteratorClose<T extends Completion>(
+  iteratorRecord: IteratorRecord,
+  completion: T,
+  realm: StaticJsRealm,
+  unwrap?: true,
+): EvaluationGenerator<T>;
 export default function iteratorClose(
   iteratorRecord: IteratorRecord,
   completion: Completion,

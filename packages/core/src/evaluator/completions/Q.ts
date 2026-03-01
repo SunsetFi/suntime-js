@@ -13,12 +13,12 @@ import type { CompletionValue } from "./CompletionValue.js";
 import captureThrownCompletion from "./capture-thrown-completion.js";
 import nameCompletionLike from "./name-completion-like.js";
 
-export default function Q(
-  evaluator: CompletionEvaluator<Completion>,
-): EvaluationGenerator<CompletionValue>;
 export default function Q<T extends object | null>(
   evaluator: CompletionEvaluator<T>,
 ): EvaluationGenerator<Exclude<T, Completion.Abrupt>>;
+export default function Q(
+  evaluator: CompletionEvaluator<Completion>,
+): EvaluationGenerator<CompletionValue>;
 export default function* Q(
   evaluator: CompletionEvaluator<object | null>,
 ): EvaluationGenerator<object | null> {

@@ -134,9 +134,9 @@ export function* forInOfBodyEvaluation(
         if (iterationKind === "enumerate") {
           throw e;
         } else if (iteratorKind === "async") {
-          return yield* asyncIteratorClose(iteratorRecord, e, context.realm);
+          return yield* Q(asyncIteratorClose(iteratorRecord, e, context.realm));
         } else {
-          return yield* iteratorClose(iteratorRecord, e, context.realm);
+          return yield* Q(iteratorClose(iteratorRecord, e, context.realm));
         }
       }
 
@@ -152,10 +152,10 @@ export function* forInOfBodyEvaluation(
         return rethrowCompletion(status);
       } else {
         if (iteratorKind === "async") {
-          return yield* asyncIteratorClose(iteratorRecord, status, context.realm);
+          return yield* Q(asyncIteratorClose(iteratorRecord, status, context.realm));
         }
 
-        return yield* iteratorClose(iteratorRecord, status, context.realm);
+        return yield* Q(iteratorClose(iteratorRecord, status, context.realm));
       }
     }
 
