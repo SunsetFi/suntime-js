@@ -1,0 +1,78 @@
+import { Completion } from "../../../../evaluator/completions/Completion.js";
+import captureThrownCompletion from "../../../../evaluator/completions/capture-thrown-completion.js";
+import Q from "../../../../evaluator/completions/Q.js";
+
+import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
+import iteratorClose from "../../../iterators/iterator-close.js";
+import iteratorStepValue from "../../../iterators/iterator-step-value.js";
+import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
+
+import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
+import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
+const iteratorProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
+  key: "reduce",
+  *func(realm, thisArg, reducer = realm.types.undefined, initialValue) {
+    const O = thisArg;
+    if (!isStaticJsObjectLike(O)) {
+      throw Completion.Throw(
+        realm.types.error("TypeError", "Iterator.prototype.reduce called on non-object"),
+      );
+    }
+
+    let iterated: StaticJsIteratorRecord = {
+      iterator: O,
+      nextMethod: realm.types.undefined,
+      done: false,
+    };
+
+    if (!isStaticJsFunction(reducer)) {
+      const error = Completion.Throw(realm.types.error("TypeError", "Reducer must be a function"));
+      return yield* Q(iteratorClose(iterated, error, realm));
+    }
+
+    iterated = yield* Q(getIteratorDirect(O));
+
+    let accumulator: StaticJsValue;
+    let counter = 0;
+
+    if (!initialValue) {
+      const firstValue = yield* Q(iteratorStepValue(iterated, realm));
+      if (firstValue === null) {
+        throw Completion.Throw(
+          realm.types.error("TypeError", "Reduce of empty iterator with no initial value"),
+        );
+      }
+      accumulator = firstValue;
+      counter = 1;
+    } else {
+      accumulator = initialValue;
+    }
+
+    while (true) {
+      const value = yield* Q(iteratorStepValue(iterated, realm));
+      if (value === null) {
+        return accumulator;
+      }
+
+      const result = yield* captureThrownCompletion(
+        reducer.callEvaluator(realm.types.undefined, [
+          accumulator,
+          value,
+          realm.types.number(counter),
+        ]),
+      );
+      if (Completion.Abrupt.is(result)) {
+        return yield* Q(iteratorClose(iterated, result, realm));
+      }
+
+      accumulator = result;
+      counter++;
+    }
+  },
+};
+
+export default iteratorProtoReduceDeclaration;

@@ -45,6 +45,7 @@ For more information, including solutions for breaking loops, see [Quick Start](
 - Promises
 - Functions / Arrow functions
 - Async Functions
+- Generator functions
 - Top-level await
 - Symbols (including engine behavior)
   - Symbol.iterator
@@ -66,7 +67,6 @@ For more information, including solutions for breaking loops, see [Quick Start](
 
 ### Notable things not (yet) supported
 
-- Generator functions
 - All well-known symbols not listed above
 - WeakMap, WeakRef, FinalizationRegistry
 - Class syntax
@@ -77,4 +77,4 @@ For more information, including solutions for breaking loops, see [Quick Start](
 
 This project is slowly working its way through the [Test262](https://github.com/tc39/test262) suite of JavaScript tests in order to ensure compliance with the spec.
 
-Currently, around 6200 of the language tests are passing, or about 22%. Further work is ongoing in this area.
+Currently, around 700 of the language tests are passing, or about 29%. Further work is ongoing in this area.

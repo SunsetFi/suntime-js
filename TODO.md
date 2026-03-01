@@ -77,3 +77,5 @@ Figure out public API for invoking and implementing evaluators.
 - [x] Rework EvaluateNodeCommand to always return completions
   - [x] Use Q() where needed to enforce NormalCompletion
 - [ ] Eliminate most throws for completions where not needed.
+- [ ] Convert All The Things to Q
+  - [ ] iteratorClose / asyncIteratorClose

@@ -96,7 +96,6 @@ export function instantiatePrototypes(realm: StaticJsRealm) {
 
   populateArrayPrototype(realm, prototypes.arrayProto);
 
-  populateIteratorPrototype(realm, prototypes.iteratorProto);
   populateIteratorHelperPrototype(realm, prototypes.iteratorHelperProto);
   populateArrayIteratorPrototype(realm, prototypes.arrayIteratorProto);
   populateStringIteratorPrototype(realm, prototypes.stringIteratorProto);

@@ -15,7 +15,7 @@ import createIteratorFromClosure from "../../../iterators/create-iterator-from-c
 import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
 import iteratorClose from "../../../iterators/iterator-close.js";
 import iteratorStep from "../../../iterators/iterator-step.js";
-import type { IteratorRecord } from "../../../iterators/IteratorRecord.js";
+import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
@@ -30,14 +30,14 @@ const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    let iterated: IteratorRecord = {
+    let iterated: StaticJsIteratorRecord = {
       iterator: O,
       nextMethod: realm.types.undefined,
       done: false,
     };
 
-    const numLimit = yield* toNumber(limit, realm);
-    if (Number.isNaN(numLimit.value)) {
+    const numLimit = yield* toNumber.js(limit, realm);
+    if (Number.isNaN(numLimit)) {
       const error = Completion.Throw(realm.types.error("RangeError", "Invalid count value"));
       yield* Q(iteratorClose(iterated, error, realm));
       throw new StaticJsEngineError("Unreachable code after iteratorClose with abrupt completion");

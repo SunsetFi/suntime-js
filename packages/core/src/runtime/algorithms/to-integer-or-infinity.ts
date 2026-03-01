@@ -14,10 +14,10 @@ export default function* toIntegerOrInfinity(
 }
 
 toIntegerOrInfinity.js = function* js(
-  value: StaticJsValue,
+  value: StaticJsValue | number,
   realm: StaticJsRealm,
 ): EvaluationGenerator<number> {
-  const number = yield* toNumber.js(value, realm);
+  const number = typeof value === "number" ? value : yield* toNumber.js(value, realm);
   if (Number.isNaN(number) || number === 0) {
     return 0;
   }
