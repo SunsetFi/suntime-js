@@ -5,6 +5,7 @@ import type { Constructors } from "./intrinsics.js";
 import { createArrayConstructor } from "./Array/index.js";
 import { createBooleanConstructor } from "./Boolean.js";
 import { createFunctionConstructor } from "./Function/index.js";
+import { createGeneratorFunctionConstructor } from "./GeneratorFunction/index.js";
 import { createNumberConstructor } from "./Number/index.js";
 import { createObjectConstructor } from "./Object/index.js";
 import { createStringConstructor } from "./String/index.js";
@@ -14,6 +15,7 @@ import { createIteratorConstructor } from "./Iterator/index.js";
 import { createSetConstructor } from "./Set/index.js";
 import { createMapConstructor } from "./Map/index.js";
 import { createErrorConstructor } from "./Error/index.js";
+
 import { createTypeErrorConstructor } from "./TypeError.js";
 import { createReferenceErrorConstructor } from "./ReferenceError.js";
 import { createSyntaxErrorConstructor } from "./SyntaxError.js";
@@ -29,6 +31,10 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
   const Symbol = createSymbolConstructor(realm, realm.types.prototypes.symbolProto);
   const Array = createArrayConstructor(realm, realm.types.prototypes.arrayProto);
   const Function = createFunctionConstructor(realm, realm.types.prototypes.functionProto);
+  const GeneratorFunction = createGeneratorFunctionConstructor(
+    realm,
+    realm.types.prototypes.generatorFunctionProto,
+  );
   const Iterator = createIteratorConstructor(realm, realm.types.prototypes.iteratorProto);
   const Promise = createPromiseConstructor(realm, realm.types.prototypes.promiseProto);
   const Set = createSetConstructor(realm, realm.types.prototypes.setProto);
@@ -52,6 +58,7 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
     Symbol,
     Array,
     Function,
+    GeneratorFunction,
     Iterator,
     Promise,
     Set,

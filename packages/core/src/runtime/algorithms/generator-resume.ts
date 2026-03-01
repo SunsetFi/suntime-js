@@ -29,6 +29,10 @@ export default function* generatorResume(
     );
   }
 
+  if (generator.generatorState === "completed") {
+    return yield* createIteratorResultObject(realm.types.undefined, true, realm);
+  }
+
   if (generator.generatorState === "executing") {
     throw Completion.Throw(realm.types.error("TypeError", "Generator is already running"));
   }

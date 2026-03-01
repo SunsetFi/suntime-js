@@ -53,14 +53,7 @@ describe("E2E: Generator Functions", () => {
     `;
 
     const result = await evaluateScript(code);
-    expect(result).toEqual([
-      "start",
-      "next-1",
-      "gen-start",
-      "next-2",
-      "gen-resumed",
-      "end",
-    ]);
+    expect(result).toEqual(["start", "next-1", "gen-start", "next-2", "gen-resumed", "end"]);
   });
 
   it("Can pass values back in", async () => {
@@ -121,5 +114,22 @@ describe("E2E: Generator Functions", () => {
 
     const result = await evaluateScript(code);
     expect(result).toEqual(["start", "gen-start", "return", "finally"]);
+  });
+
+  it("Returns done past termination", async () => {
+    const code = `
+      function* gen() {
+        yield 1;
+        yield 2;
+      }
+      const iter = gen();
+      iter.next();
+      iter.next();
+      iter.next();
+      iter.next();
+    `;
+
+    const result = await evaluateScript(code);
+    expect(result).toEqual({ value: undefined, done: true });
   });
 });

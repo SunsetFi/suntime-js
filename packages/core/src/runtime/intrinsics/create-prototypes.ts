@@ -8,6 +8,8 @@ import { populateArrayPrototype } from "./Array/index.js";
 import { populateArrayIteratorPrototype } from "./ArrayIterator/index.js";
 import { populateErrorPrototype } from "./Error/index.js";
 import { populateFunctionPrototype } from "./Function/index.js";
+import { populateGeneratorPrototype } from "./Generator/index.js";
+import { populateGeneratorFunctionPrototype } from "./GeneratorFunction/index.js";
 import { populateIteratorPrototype } from "./Iterator/index.js";
 import { populateMapPrototype } from "./Map/index.js";
 import { populateNumberPrototype } from "./Number/index.js";
@@ -25,7 +27,6 @@ import { populateReferenceErrorPrototype } from "./ReferenceError.js";
 import { populateSyntaxErrorPrototype } from "./SyntaxError.js";
 import { populateTypeErrorPrototype } from "./TypeError.js";
 import { populateURIErrorPrototype } from "./URIError.js";
-import { populateGeneratorPrototype } from "./Generator/index.js";
 import { populateIteratorHelperPrototype } from "./IteratorHelper/index.js";
 
 export function createPrototypes(realm: StaticJsRealm): Prototypes {
@@ -48,6 +49,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
   const stringIteratorProto = new StaticJsObjectImpl(realm, iteratorProto);
 
   const generatorProto = new StaticJsObjectImpl(realm, iteratorProto);
+  const generatorFunctionProto = new StaticJsObjectImpl(realm, functionProto);
 
   const errorProto = new StaticJsObjectImpl(realm, objectProto);
   const typeErrorProto = new StaticJsObjectImpl(realm, errorProto);
@@ -71,6 +73,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
     iteratorHelperProto,
     stringIteratorProto,
     generatorProto,
+    generatorFunctionProto,
     setProto,
     mapProto,
     errorProto,
@@ -101,6 +104,7 @@ export function instantiatePrototypes(realm: StaticJsRealm) {
   populateStringIteratorPrototype(realm, prototypes.stringIteratorProto);
 
   populateGeneratorPrototype(realm, prototypes.generatorProto);
+  populateGeneratorFunctionPrototype(realm, prototypes.generatorFunctionProto);
 
   populatePromisePrototype(realm, prototypes.promiseProto);
   populateIteratorPrototype(realm, prototypes.iteratorProto);

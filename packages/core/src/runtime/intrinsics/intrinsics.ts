@@ -28,6 +28,7 @@ export interface Prototypes {
   stringIteratorProto: StaticJsObject;
 
   generatorProto: StaticJsObject;
+  generatorFunctionProto: StaticJsObject;
 }
 
 export interface Constructors {
@@ -49,6 +50,7 @@ export interface Constructors {
   RangeError: StaticJsFunction;
   EvalError: StaticJsFunction;
   URIError: StaticJsFunction;
+  GeneratorFunction: StaticJsFunction;
 }
 
 export interface IntrinsicSymbols {
