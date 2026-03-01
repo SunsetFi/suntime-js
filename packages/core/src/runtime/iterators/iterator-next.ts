@@ -10,10 +10,10 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 
 import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
-import type { IteratorRecord } from "./IteratorRecord.js";
+import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
 export default function* iteratorNext(
-  iteratorRecord: IteratorRecord,
+  iteratorRecord: StaticJsIteratorRecord,
   value: StaticJsValue | null,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObjectLike> {

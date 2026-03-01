@@ -3,8 +3,8 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorIsExtensibleDeclaration: IntrinsicPropertyDeclaration = {
   key: "isExtensible",
-  *func(realm, _thisArg, objValue) {
-    const obj = yield* toObject(objValue ?? realm.types.undefined, realm);
+  *func(realm, _thisArg, objValue = realm.types.undefined) {
+    const obj = yield* toObject(objValue, realm);
 
     return realm.types.boolean(obj.extensible);
   },

@@ -12,8 +12,8 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
   key: "filter",
-  *func(realm, thisArg, callback) {
-    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
+  *func(realm, thisArg = realm.types.undefined, callback) {
+    const thisObj = yield* toObject(thisArg, realm);
 
     if (!callback) {
       callback = realm.types.undefined;

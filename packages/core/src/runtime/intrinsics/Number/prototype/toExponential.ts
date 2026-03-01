@@ -9,7 +9,7 @@ import toNumber from "../../../algorithms/to-number.js";
 
 const numberProtoToExponentialDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "toExponential",
-  func: function* (realm, thisArg, digits?: StaticJsValue) {
+  func: function* (realm, thisArg, digits: StaticJsValue = realm.types.undefined) {
     // Node is really confusing here, it requires thisArg to be a function???
 
     if (!isNumberLike(thisArg)) {
@@ -21,7 +21,7 @@ const numberProtoToExponentialDeclaration: FunctionIntrinsicPropertyDeclaration 
       );
     }
 
-    digits = yield* toNumber(digits ?? realm.types.undefined, realm);
+    digits = yield* toNumber(digits, realm);
 
     const value = thisArg.value.toExponential(digits.value);
 

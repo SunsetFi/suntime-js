@@ -4,12 +4,12 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const setProtoDifferenceDeclaration: IntrinsicPropertyDeclaration = {
   key: "difference",
-  *func(realm, thisArg, otherSet) {
+  *func(realm, thisArg, otherSet = realm.types.undefined) {
     if (!(thisArg instanceof StaticJsSetImpl)) {
       throw realm.types.error("TypeError", "Not a Set");
     }
 
-    return yield* thisArg.differenceEvaluator(otherSet ?? realm.types.undefined);
+    return yield* thisArg.differenceEvaluator(otherSet);
   },
 };
 

@@ -9,8 +9,8 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   key: "forEach",
-  *func(realm, thisArg, callback, providedThisArg) {
-    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
+  *func(realm, thisArg = realm.types.undefined, callback, providedThisArg) {
+    const thisObj = yield* toObject(thisArg, realm);
 
     if (!callback) {
       callback = realm.types.undefined;

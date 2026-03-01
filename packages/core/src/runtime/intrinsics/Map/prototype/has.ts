@@ -5,14 +5,14 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const mapProtoHasDeclaration: IntrinsicPropertyDeclaration = {
   key: "has",
-  *func(realm, thisArg, key) {
+  *func(realm, thisArg, key = realm.types.undefined) {
     if (!isStaticJsMap(thisArg)) {
       throw Completion.Throw(
         realm.types.error("TypeError", "Map.prototype.has called on incompatible receiver"),
       );
     }
 
-    const hasValue = yield* thisArg.hasEvaluator(key ?? realm.types.undefined);
+    const hasValue = yield* thisArg.hasEvaluator(key);
     return realm.types.boolean(hasValue);
   },
 };

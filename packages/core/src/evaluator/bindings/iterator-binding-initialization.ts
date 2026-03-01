@@ -9,7 +9,7 @@ import getIdentifierReference from "../../runtime/references/get-identifier-refe
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
-import type { IteratorRecord } from "../../runtime/iterators/IteratorRecord.js";
+import type { StaticJsIteratorRecord } from "../../runtime/iterators/StaticJsIteratorRecord.js";
 
 import putValue from "../../runtime/algorithms/put-value.js";
 
@@ -29,7 +29,7 @@ export type IteratorBindingInitializationNode = LVal | VoidPattern;
 
 export default function* iteratorBindingInitialization(
   node: IteratorBindingInitializationNode | IteratorBindingInitializationNode[],
-  iteratorRecord: IteratorRecord,
+  iteratorRecord: StaticJsIteratorRecord,
   environment: StaticJsEnvironmentRecord | null,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
@@ -162,7 +162,7 @@ export default function* iteratorBindingInitialization(
 // to the spec's grammar productions.
 iteratorBindingInitialization.arrayBindingPattern = function* (
   node: ArrayPattern,
-  iteratorRecord: IteratorRecord,
+  iteratorRecord: StaticJsIteratorRecord,
   environment: StaticJsEnvironmentRecord | null,
   context: EvaluationContext,
 ) {

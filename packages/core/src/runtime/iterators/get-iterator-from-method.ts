@@ -7,13 +7,13 @@ import { type StaticJsObjectLike, isStaticJsObjectLike } from "../types/StaticJs
 import type { StaticJsFunction } from "../types/StaticJsFunction.js";
 
 import { getIteratorDirect } from "./get-iterator-direct.js";
-import type { IteratorRecord } from "./IteratorRecord.js";
+import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
 export default function* getIteratorFromMethod(
   obj: StaticJsObjectLike,
   method: StaticJsFunction,
   realm: StaticJsRealm,
-): EvaluationGenerator<IteratorRecord> {
+): EvaluationGenerator<StaticJsIteratorRecord> {
   const iterator = yield* method.callEvaluator(obj);
   if (!isStaticJsObjectLike(iterator)) {
     throw Completion.Throw(

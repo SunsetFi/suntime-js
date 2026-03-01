@@ -4,8 +4,8 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectProtoToLocaleString: IntrinsicPropertyDeclaration = {
   key: "toLocaleString",
-  *func(realm, thisArg) {
-    const O = yield* toObject(thisArg ?? realm.types.undefined, realm);
+  *func(realm, thisArg = realm.types.undefined) {
+    const O = yield* toObject(thisArg, realm);
     return yield* invoke(O, "toString", [], realm);
   },
 };

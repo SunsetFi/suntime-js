@@ -9,30 +9,30 @@ import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import call from "../algorithms/call.js";
 import getMethod from "../algorithms/get-method.js";
 
-import type { IteratorRecord } from "./IteratorRecord.js";
+import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 import rethrowCompletion from "../../evaluator/completions/rethrow-completion.js";
 
 export default function iteratorClose(
-  iteratorRecord: IteratorRecord,
-  completion: Completion.Abrupt,
+  iteratorRecord: StaticJsIteratorRecord,
+  value: Completion.Abrupt,
   realm: StaticJsRealm,
   unwrap?: true,
 ): EvaluationGenerator<never>;
 export default function iteratorClose<T extends Completion>(
-  iteratorRecord: IteratorRecord,
-  completion: T,
+  iteratorRecord: StaticJsIteratorRecord,
+  value: T,
   realm: StaticJsRealm,
   unwrap?: true,
 ): EvaluationGenerator<T>;
 export default function iteratorClose(
-  iteratorRecord: IteratorRecord,
-  completion: Completion,
+  iteratorRecord: StaticJsIteratorRecord,
+  value: Completion,
   realm: StaticJsRealm,
   unwrap: false,
 ): EvaluationGenerator<Completion>;
 export default function* iteratorClose(
-  iteratorRecord: IteratorRecord,
-  completion: Completion,
+  iteratorRecord: StaticJsIteratorRecord,
+  value: Completion,
   realm: StaticJsRealm,
   unwrap: boolean = true,
 ): EvaluationGenerator<Completion> {
@@ -41,7 +41,7 @@ export default function* iteratorClose(
   try {
     innerResult = yield* getMethod(iterator, "return", realm);
     if (!innerResult) {
-      return completion;
+      return value;
     }
 
     innerResult = yield* call(innerResult, iterator, [], realm);
@@ -53,8 +53,8 @@ export default function* iteratorClose(
     }
   }
 
-  if (Completion.Throw.is(completion)) {
-    return unwrap ? rethrowCompletion(completion) : completion;
+  if (Completion.Throw.is(value)) {
+    return unwrap ? rethrowCompletion(value) : value;
   }
 
   if (Completion.Throw.is(innerResult)) {
@@ -67,11 +67,11 @@ export default function* iteratorClose(
     );
   }
 
-  return unwrap ? rethrowCompletion(completion) : completion;
+  return unwrap ? rethrowCompletion(value) : value;
 }
 
 iteratorClose.handle = function* handleIteratorClose<T>(
-  iteratorRecord: IteratorRecord,
+  iteratorRecord: StaticJsIteratorRecord,
   realm: StaticJsRealm,
   handler: () => EvaluationGenerator<T>,
 ): EvaluationGenerator<T> {

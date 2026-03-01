@@ -20,7 +20,7 @@ import { isStaticJsObjectLike } from "../../../runtime/types/StaticJsObjectLike.
 
 import boundNames from "../../instantiation/algorithms/bound-names.js";
 
-import type { IteratorRecord } from "../../../runtime/iterators/IteratorRecord.js";
+import type { StaticJsIteratorRecord } from "../../../runtime/iterators/StaticJsIteratorRecord.js";
 import iteratorClose from "../../../runtime/iterators/iterator-close.js";
 import { iteratorComplete } from "../../../runtime/iterators/iterator-complete.js";
 import iteratorValue from "../../../runtime/iterators/iterator-value.js";
@@ -47,7 +47,7 @@ import isDestructuring from "./is-destructuring.js";
 export function* forInOfBodyEvaluation(
   lhs: VariableDeclaration | LVal,
   stmt: Statement,
-  iteratorRecord: IteratorRecord,
+  iteratorRecord: StaticJsIteratorRecord,
   iterationKind: "enumerate" | "iterate",
   lhsKind: "assignment" | "varBinding" | "lexicalBinding",
   iteratorKind: "sync" | "async",

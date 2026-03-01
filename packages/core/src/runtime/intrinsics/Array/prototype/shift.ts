@@ -5,8 +5,8 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
   key: "shift",
-  *func(realm, thisArg) {
-    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
+  *func(realm, thisArg = realm.types.undefined) {
+    const thisObj = yield* toObject(thisArg, realm);
 
     const length = yield* lengthOfArrayLike(thisObj, realm);
 

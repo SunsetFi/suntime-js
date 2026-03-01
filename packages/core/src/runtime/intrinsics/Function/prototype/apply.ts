@@ -10,7 +10,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
   key: "apply",
-  *func(realm, thisFunc, thisArg, argsArray) {
+  *func(realm, thisFunc, thisArg = realm.types.undefined, argsArray) {
     if (!isStaticJsFunction(thisFunc)) {
       throw Completion.Throw(
         realm.types.error("TypeError", "Function.prototype.call called on a non-function."),
@@ -27,7 +27,7 @@ const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
       }
     }
 
-    const result = yield* thisFunc.callEvaluator(thisArg ?? realm.types.undefined, args);
+    const result = yield* thisFunc.callEvaluator(thisArg, args);
     return result;
   },
 };

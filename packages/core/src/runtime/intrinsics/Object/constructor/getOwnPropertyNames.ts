@@ -4,8 +4,8 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorGetOwnPropertyNamesDeclaration: IntrinsicPropertyDeclaration = {
   key: "getOwnPropertyNames",
-  *func(realm, _thisArg, arg) {
-    arg = yield* toObject(arg ?? realm.types.undefined, realm);
+  *func(realm, _thisArg, arg = realm.types.undefined) {
+    arg = yield* toObject(arg, realm);
 
     const keys = yield* arg.ownPropertyKeysEvaluator();
     const names = keys.filter((key) => typeof key === "string");

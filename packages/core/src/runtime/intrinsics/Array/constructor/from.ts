@@ -27,9 +27,15 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
   key: "from",
-  *func(realm, thisArg, items, mapper, mapperThisArg) {
+  *func(
+    realm,
+    thisArg,
+    items = realm.types.undefined,
+    mapper = realm.types.undefined,
+    mapperThisArg = realm.types.undefined,
+  ) {
     let mapperFunc: StaticJsFunction | undefined = undefined;
-    if (!isStaticJsUndefined(mapper ?? realm.types.undefined)) {
+    if (!isStaticJsUndefined(mapper)) {
       if (!isStaticJsFunction(mapper)) {
         throw Completion.Throw(realm.types.error("TypeError", "mapper must be a function"));
       }
@@ -43,21 +49,9 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (items && hasIterator) {
-      return yield* fromIterator(
-        thisArg,
-        items,
-        mapperFunc,
-        mapperThisArg ?? realm.types.undefined,
-        realm,
-      );
+      return yield* fromIterator(thisArg, items, mapperFunc, mapperThisArg, realm);
     } else {
-      return yield* fromArrayLike(
-        thisArg,
-        items ?? realm.types.undefined,
-        mapperFunc,
-        mapperThisArg ?? realm.types.undefined,
-        realm,
-      );
+      return yield* fromArrayLike(thisArg, items, mapperFunc, mapperThisArg, realm);
     }
   },
 };

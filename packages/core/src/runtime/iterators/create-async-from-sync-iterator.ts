@@ -12,13 +12,13 @@ import call from "../algorithms/call.js";
 
 import iteratorNext from "./iterator-next.js";
 
-import type { IteratorRecord } from "./IteratorRecord.js";
+import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 import asyncFromSyncIteratorContinuation from "./async-from-sync-iterator-continuation.js";
 
 export default function* createAsyncFromSyncIterator(
-  syncIteratorRecord: IteratorRecord,
+  syncIteratorRecord: StaticJsIteratorRecord,
   realm: StaticJsRealm,
-): EvaluationGenerator<IteratorRecord> {
+): EvaluationGenerator<StaticJsIteratorRecord> {
   const asyncIterator = realm.types.object();
 
   // TODO: Should be implemented by prototypes.

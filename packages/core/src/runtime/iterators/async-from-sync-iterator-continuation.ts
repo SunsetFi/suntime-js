@@ -16,7 +16,7 @@ import promiseResolve from "../algorithms/promise-resolve.js";
 
 import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
 
-import type { IteratorRecord } from "./IteratorRecord.js";
+import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 import { iteratorComplete } from "./iterator-complete.js";
 import iteratorValue from "./iterator-value.js";
 import iteratorClose from "./iterator-close.js";
@@ -24,7 +24,7 @@ import iteratorClose from "./iterator-close.js";
 export default function* asyncFromSyncIteratorContinuation(
   result: StaticJsObjectLike,
   promiseCapability: StaticJsPromiseCapabilityRecord,
-  syncIteratorRecord: IteratorRecord,
+  syncIteratorRecord: StaticJsIteratorRecord,
   closeOnRejection: boolean,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsPromise> {

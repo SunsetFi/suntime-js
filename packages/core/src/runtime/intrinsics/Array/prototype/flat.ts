@@ -16,8 +16,8 @@ import toObject from "../../../algorithms/to-object.js";
 
 const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
   key: "flat",
-  *func(realm, thisArg, depthValue) {
-    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
+  *func(realm, thisArg = realm.types.undefined, depthValue) {
+    const thisObj = yield* toObject(thisArg, realm);
 
     if (!depthValue) {
       depthValue = realm.types.number(1);

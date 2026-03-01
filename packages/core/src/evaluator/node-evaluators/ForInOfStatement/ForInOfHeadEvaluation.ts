@@ -11,7 +11,7 @@ import StaticJsDeclarativeEnvironmentRecord from "../../../runtime/environments/
 import toObject from "../../../runtime/algorithms/to-object.js";
 import enumerateObjectProperties from "../../../runtime/algorithms/enumerate-object-properties.js";
 
-import type { IteratorRecord } from "../../../runtime/iterators/IteratorRecord.js";
+import type { StaticJsIteratorRecord } from "../../../runtime/iterators/StaticJsIteratorRecord.js";
 import getIterator from "../../../runtime/iterators/get-iterator.js";
 
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
@@ -24,7 +24,7 @@ export default function* forInOfHeadEvaluation(
   expr: Expression,
   iterationKind: "enumerate" | "iterate" | "async-iterate",
   context: EvaluationContext,
-): EvaluationGenerator<IteratorRecord> {
+): EvaluationGenerator<StaticJsIteratorRecord> {
   const oldEnv = context.lexicalEnv;
 
   let exprContext: EvaluationContext = context;

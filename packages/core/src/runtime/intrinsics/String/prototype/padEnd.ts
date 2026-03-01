@@ -8,10 +8,15 @@ import toNumber from "../../../algorithms/to-number.js";
 
 const stringProtoPadEndDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "padEnd",
-  func: function* (realm, thisArg, length?: StaticJsValue, value?: StaticJsValue) {
+  func: function* (
+    realm,
+    thisArg,
+    length: StaticJsValue = realm.types.undefined,
+    value?: StaticJsValue,
+  ) {
     const thisStr = yield* toString(thisArg, realm);
 
-    length = yield* toNumber(length ?? realm.types.undefined, realm);
+    length = yield* toNumber(length, realm);
 
     let valueStr = " ";
     if (value && !isStaticJsUndefined(value)) {

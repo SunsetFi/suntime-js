@@ -9,7 +9,7 @@ import toNumber from "../../../algorithms/to-number.js";
 
 const numberProtoToFixedDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "toFixed",
-  func: function* (realm, thisArg, digits?: StaticJsValue) {
+  func: function* (realm, thisArg, digits: StaticJsValue = realm.types.undefined) {
     // Node is really confusing here, it requires thisArg to be a function???
 
     if (!isNumberLike(thisArg)) {
@@ -18,7 +18,7 @@ const numberProtoToFixedDeclaration: FunctionIntrinsicPropertyDeclaration = {
       );
     }
 
-    digits = yield* toNumber(digits ?? realm.types.undefined, realm);
+    digits = yield* toNumber(digits, realm);
 
     const value = thisArg.value.toFixed(digits.value);
 

@@ -7,8 +7,8 @@ import toNumber from "../../../algorithms/to-number.js";
 
 const stringProtoRepeatDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "repeat",
-  func: function* (realm, thisArg, value?: StaticJsValue) {
-    const count = yield* toNumber(value ?? realm.types.undefined, realm);
+  func: function* (realm, thisArg, value: StaticJsValue = realm.types.undefined) {
+    const count = yield* toNumber(value, realm);
 
     const thisStr = yield* toString(thisArg, realm);
 

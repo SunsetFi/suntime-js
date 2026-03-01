@@ -10,14 +10,14 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectProtoIsPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "isPrototypeOf",
-  *func(realm, thisArg, proto) {
+  *func(realm, thisArg = realm.types.undefined, proto) {
     if (!isStaticJsObjectLike(proto)) {
       return realm.types.false;
     }
 
     let V: StaticJsObjectLike | null = proto;
 
-    const O = yield* toObject(thisArg ?? realm.types.undefined, realm);
+    const O = yield* toObject(thisArg, realm);
     while (true) {
       V = yield* V.getPrototypeOfEvaluator();
       if (V === null) {

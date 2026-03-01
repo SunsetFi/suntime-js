@@ -5,7 +5,7 @@ import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsR
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
-import type { IteratorRecord } from "../../runtime/iterators/IteratorRecord.js";
+import type { StaticJsIteratorRecord } from "../../runtime/iterators/StaticJsIteratorRecord.js";
 
 import putValue from "../../runtime/algorithms/put-value.js";
 
@@ -22,7 +22,7 @@ import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
 export type IteratorDestructuringAssignmentType = PatternLike | null;
 export default function* iteratorDestructuringAssignmentEvaluation(
   node: IteratorDestructuringAssignmentType | IteratorDestructuringAssignmentType[],
-  iteratorRecord: IteratorRecord,
+  iteratorRecord: StaticJsIteratorRecord,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
   if (Array.isArray(node)) {

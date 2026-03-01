@@ -8,8 +8,8 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
   key: "includes",
-  *func(realm, thisArg, value, startFromValue) {
-    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
+  *func(realm, thisArg = realm.types.undefined, value, startFromValue) {
+    const thisObj = yield* toObject(thisArg, realm);
 
     if (!value) {
       return realm.types.false;

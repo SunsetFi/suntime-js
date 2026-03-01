@@ -6,12 +6,12 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import type { IteratorRecord } from "./IteratorRecord.js";
+import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 import iteratorStep from "./iterator-step.js";
 import iteratorValue from "./iterator-value.js";
 
 export default function* iteratorStepValue(
-  iteratorRecord: IteratorRecord,
+  iteratorRecord: StaticJsIteratorRecord,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsValue | null> {
   const result = yield* iteratorStep(iteratorRecord, realm);

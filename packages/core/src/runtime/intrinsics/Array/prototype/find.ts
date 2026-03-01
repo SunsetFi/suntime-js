@@ -10,8 +10,8 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoFindDeclaration: IntrinsicPropertyDeclaration = {
   key: "find",
-  *func(realm, thisArg, callback) {
-    const thisObj = yield* toObject(thisArg ?? realm.types.undefined, realm);
+  *func(realm, thisArg = realm.types.undefined, callback) {
+    const thisObj = yield* toObject(thisArg, realm);
 
     if (callback == null) {
       callback = realm.types.undefined;

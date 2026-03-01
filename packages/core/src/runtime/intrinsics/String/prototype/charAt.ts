@@ -7,10 +7,10 @@ import toNumber from "../../../algorithms/to-number.js";
 
 const stringProtoCharAtDeclaration: IntrinsicPropertyDeclaration = {
   key: "charAt",
-  func: function* (realm, thisArg, indexValue?: StaticJsValue) {
+  func: function* (realm, thisArg, indexValue: StaticJsValue = realm.types.undefined) {
     thisArg = yield* toString(thisArg, realm);
 
-    indexValue = yield* toNumber(indexValue ?? realm.types.undefined, realm);
+    indexValue = yield* toNumber(indexValue, realm);
 
     const result = thisArg.value.charAt(indexValue.value);
 

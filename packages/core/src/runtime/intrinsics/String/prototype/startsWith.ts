@@ -8,12 +8,12 @@ import toString from "../../../algorithms/to-string.js";
 
 const stringProtoStartsWithDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "startsWith",
-  func: function* (realm, thisArg, value?: StaticJsValue) {
+  func: function* (realm, thisArg, value: StaticJsValue = realm.types.undefined) {
     if (!value || isStaticJsUndefined(value) || isStaticJsNull(value)) {
       return realm.types.false;
     }
 
-    const valueStr = yield* toString(value ?? realm.types.undefined, realm);
+    const valueStr = yield* toString(value, realm);
 
     const thisStr = yield* toString(thisArg, realm);
 

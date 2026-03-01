@@ -9,8 +9,8 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaration = {
   key: "getOwnPropertyDescriptor",
-  *func(realm, _thisArg, objValue, propValue) {
-    const obj = yield* toObject(objValue ?? realm.types.undefined, realm);
+  *func(realm, _thisArg, objValue = realm.types.undefined, propValue) {
+    const obj = yield* toObject(objValue, realm);
 
     if (
       !propValue ||

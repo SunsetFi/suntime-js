@@ -46,16 +46,12 @@ export function createBooleanConstructor(realm: StaticJsRealm, booleanProto: Sta
   const ctor = new StaticJsFunctionImpl(
     realm,
     "Boolean",
-    function* (_thisArg, value) {
-      if (value === undefined) {
-        return realm.types.boolean(false);
-      }
-
+    function* (_thisArg, value = realm.types.undefined) {
       return yield* toBoolean(value, realm);
     },
     {
-      *construct(_thisArg, value) {
-        const boolVal = yield* toBoolean.js(value ?? realm.types.undefined, realm);
+      *construct(_thisArg, value = realm.types.undefined) {
+        const boolVal = yield* toBoolean.js(value, realm);
         return new StaticJsBooleanBoxed(realm, boolVal);
       },
     },

@@ -12,7 +12,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
   key: "groupBy",
-  *func(realm, _thisArg, items, callbackFn) {
+  *func(realm, _thisArg, items = realm.types.undefined, callbackFn) {
     const collection = new Map<StaticJsValue, StaticJsValue[]>();
 
     if (!isStaticJsFunction(callbackFn)) {
@@ -21,7 +21,7 @@ const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const iterator = yield* getIterator(items ?? realm.types.undefined, "sync", realm);
+    const iterator = yield* getIterator(items, "sync", realm);
 
     yield* iteratorClose.handle(iterator, realm, function* () {
       let index = 0;

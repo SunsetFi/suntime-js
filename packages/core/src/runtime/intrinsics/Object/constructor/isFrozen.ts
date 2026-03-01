@@ -5,9 +5,9 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorIsFrozenDeclaration: IntrinsicPropertyDeclaration = {
   key: "isFrozen",
-  *func(realm, _thisArg, objValue) {
+  *func(realm, _thisArg, objValue = realm.types.undefined) {
     // TODO: Is not extensible, all properties are nonconfigurable, all data properties are non writable.
-    const obj = yield* toObject(objValue ?? realm.types.undefined, realm);
+    const obj = yield* toObject(objValue, realm);
 
     if (obj.extensible) {
       return realm.types.false;

@@ -3,8 +3,8 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorKeysDeclaration: IntrinsicPropertyDeclaration = {
   key: "keys",
-  *func(realm, _thisArg, objValue) {
-    const obj = yield* toObject(objValue ?? realm.types.undefined, realm);
+  *func(realm, _thisArg, objValue = realm.types.undefined) {
+    const obj = yield* toObject(objValue, realm);
 
     const ownKeys = yield* obj.ownEnumerableKeysEvaluator();
 

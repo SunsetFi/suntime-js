@@ -8,7 +8,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const functionProtoCallDeclaration: IntrinsicPropertyDeclaration = {
   key: "call",
-  *func(realm, thisFunc, thisArg, ...args) {
+  *func(realm, thisFunc, thisArg = realm.types.undefined, ...args) {
     if (!isStaticJsFunction(thisFunc)) {
       throw Completion.Throw(
         realm.types.error("TypeError", "Function.prototype.call called on a non-function."),
@@ -16,7 +16,7 @@ const functionProtoCallDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const result = yield* thisFunc.callEvaluator(
-      thisArg ?? realm.types.undefined,
+      thisArg,
       // These will never be value-undefined.  Undefined is only used to force
       // non-spread args to consider the argument might be missing.
       args.filter(isNotUndefined),

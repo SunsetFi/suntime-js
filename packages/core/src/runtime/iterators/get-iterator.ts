@@ -7,7 +7,7 @@ import { type StaticJsFunction } from "../types/StaticJsFunction.js";
 import { type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import type { IteratorRecord } from "./IteratorRecord.js";
+import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
 import getMethod from "../algorithms/get-method.js";
 
@@ -18,7 +18,7 @@ export default function* getIterator(
   obj: StaticJsValue,
   kind: "sync" | "async",
   realm: StaticJsRealm,
-): EvaluationGenerator<IteratorRecord> {
+): EvaluationGenerator<StaticJsIteratorRecord> {
   let method: StaticJsFunction | null;
   if (kind === "async") {
     method = yield* getMethod(obj, realm.types.symbols.asyncIterator, realm);

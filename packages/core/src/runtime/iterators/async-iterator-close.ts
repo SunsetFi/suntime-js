@@ -12,22 +12,22 @@ import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import call from "../algorithms/call.js";
 import getMethod from "../algorithms/get-method.js";
 
-import type { IteratorRecord } from "./IteratorRecord.js";
+import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
 export default function asyncIteratorClose(
-  iteratorRecord: IteratorRecord,
+  iteratorRecord: StaticJsIteratorRecord,
   completion: Completion,
   realm: StaticJsRealm,
   unwrap?: true,
 ): EvaluationGenerator<Completion.Normal>;
 export default function asyncIteratorClose(
-  iteratorRecord: IteratorRecord,
+  iteratorRecord: StaticJsIteratorRecord,
   completion: Completion,
   realm: StaticJsRealm,
   unwrap: false,
 ): EvaluationGenerator<Completion>;
 export default function* asyncIteratorClose(
-  iteratorRecord: IteratorRecord,
+  iteratorRecord: StaticJsIteratorRecord,
   completion: Completion,
   realm: StaticJsRealm,
   unwrap: boolean = true,
@@ -68,7 +68,7 @@ export default function* asyncIteratorClose(
 }
 
 asyncIteratorClose.handle = function* handleIteratorClose<T>(
-  iteratorRecord: IteratorRecord,
+  iteratorRecord: StaticJsIteratorRecord,
   realm: StaticJsRealm,
   handler: () => EvaluationGenerator<T>,
 ): EvaluationGenerator<T> {
