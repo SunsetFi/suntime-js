@@ -31,7 +31,7 @@ export default class StaticJsGeneratorDeclFunction extends StaticJsAstFunction {
     });
 
     this.defineOwnPropertySync("prototype", {
-      value: realm.types.object({}, realm.types.prototypes.generatorProto),
+      value: realm.types.object({}, realm.types.prototypes.generatorFunctionProto),
       writable: true,
       enumerable: false,
       configurable: false,

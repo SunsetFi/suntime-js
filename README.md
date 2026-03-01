@@ -54,6 +54,7 @@ For more information, including solutions for breaking loops, see [Quick Start](
   - Symbol.isConcatSpreadable
   - Symbol.toPrimitive
   - Symbol.unscopables
+  - Symbol.toStringTag
 - Control flow / loops
 - Unary and binary operators
 - Destructuring
@@ -77,4 +78,4 @@ For more information, including solutions for breaking loops, see [Quick Start](
 
 This project is slowly working its way through the [Test262](https://github.com/tc39/test262) suite of JavaScript tests in order to ensure compliance with the spec.
 
-Currently, around 700 of the language tests are passing, or about 29%. Further work is ongoing in this area.
+Currently, around 7100 of the language tests are passing, or about 30%. Further work is ongoing in this area.
