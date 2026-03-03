@@ -109,7 +109,7 @@ export function* forInOfBodyEvaluation(
         const iterationEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
         yield* forDeclarationBindingInstantiation(lhs, iterationEnv);
 
-        iterationContext = iterationContext.createLexicalEnvContext(iterationEnv);
+        iterationContext = iterationContext.createLexicalEnvironmentContext(iterationEnv);
 
         if (destructuring) {
           yield* forDeclarationBindingInitialization(

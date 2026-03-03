@@ -38,9 +38,7 @@ function* tryStatementNodeEvaluator(
   }
 
   if (Completion.Abrupt.is(result)) {
-    return rethrowCompletion(
-      Completion.updateEmpty(result, context.realm.types.undefined),
-    );
+    return rethrowCompletion(Completion.updateEmpty(result, context.realm.types.undefined));
   }
 
   return result ?? context.realm.types.undefined;
@@ -56,22 +54,14 @@ function* runCatch(
   let catchContext = context;
 
   if (node.param) {
-    const catchEnv = new StaticJsDeclarativeEnvironmentRecord(
-      oldEnv,
-      context.realm,
-    );
+    const catchEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
     for (const argName of boundNames(node.param)) {
       yield* catchEnv.createMutableBindingEvaluator(argName, false);
     }
 
-    catchContext = context.createLexicalEnvContext(catchEnv);
+    catchContext = context.createLexicalEnvironmentContext(catchEnv);
 
-    yield* bindingInitialization(
-      node.param,
-      thrownValue,
-      catchEnv,
-      catchContext,
-    );
+    yield* bindingInitialization(node.param, thrownValue, catchEnv, catchContext);
   }
 
   return yield* EvaluateNodeCommand(node.body, catchContext);

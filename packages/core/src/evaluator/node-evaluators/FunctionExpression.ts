@@ -15,7 +15,7 @@ function* expressionStatementNodeEvaluator(
   if (functionName) {
     const funcEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
     yield* funcEnv.createImmutableBindingEvaluator(functionName, false);
-    const functionContext = context.createLexicalEnvContext(funcEnv);
+    const functionContext = context.createLexicalEnvironmentContext(funcEnv);
     const func = createFunction(functionName, node, functionContext);
     yield* funcEnv.initializeBindingEvaluator(functionName, func);
     return func;

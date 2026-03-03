@@ -28,7 +28,7 @@ const switchStatementNodeEvaluator = labeledStatementEvaluation(
     const input = yield* Q.val(EvaluateNodeCommand(statement.discriminant, context), context.realm);
 
     const env = StaticJsDeclarativeEnvironmentRecord.from(context);
-    const blockContext = context.createLexicalEnvContext(env);
+    const blockContext = context.createLexicalEnvironmentContext(env);
 
     yield* blockDeclarationInstantiation(statement, env, blockContext);
 

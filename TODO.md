@@ -79,3 +79,6 @@ Figure out public API for invoking and implementing evaluators.
 - [ ] Eliminate most throws for completions where not needed.
 - [ ] Convert All The Things to Q
   - [ ] iteratorClose / asyncIteratorClose
+- [ ] Rework EvaluationContext to not create so many child objects
+  - [x] Pass all options to a single class type
+  - [ ] Arbitrary params to support NamedEvaluation and such

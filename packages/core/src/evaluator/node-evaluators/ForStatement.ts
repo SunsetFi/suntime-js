@@ -45,7 +45,7 @@ const forStatementNodeEvaluator = labeledStatementEvaluation(function* forStatem
       // Change the for loop context to use the new environment.
       // This should flow through and be used for forBodyEvaluation.
       context = context
-        .createLexicalEnvContext(loopEnv)
+        .createLexicalEnvironmentContext(loopEnv)
         // Preserve the label, as it is not inherited.
         // FIXME: Make this an inherited array on the context as the spec specifies.
         .createLabelContext(label);
@@ -125,7 +125,7 @@ function* createPerIterationEnvironment(
     yield* thisIterationEnv.initializeBindingEvaluator(bn, lastValue);
   }
 
-  let iterationContext = context.createLexicalEnvContext(thisIterationEnv);
+  let iterationContext = context.createLexicalEnvironmentContext(thisIterationEnv);
   if (context.label) {
     iterationContext = iterationContext.createLabelContext(context.label);
   }

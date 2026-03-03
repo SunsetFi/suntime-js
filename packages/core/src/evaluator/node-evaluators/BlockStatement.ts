@@ -16,7 +16,7 @@ function* blockStatementNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const env = StaticJsDeclarativeEnvironmentRecord.from(context);
-  const blockContext = context.createLexicalEnvContext(env);
+  const blockContext = context.createLexicalEnvironmentContext(env);
 
   yield* blockDeclarationInstantiation(node, env, blockContext);
 

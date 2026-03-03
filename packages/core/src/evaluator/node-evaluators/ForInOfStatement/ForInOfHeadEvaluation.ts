@@ -33,7 +33,7 @@ export default function* forInOfHeadEvaluation(
     for (const name of uninitializedBoundNames) {
       yield* newEnv.createMutableBindingEvaluator(name, false);
     }
-    exprContext = context.createLexicalEnvContext(newEnv);
+    exprContext = context.createLexicalEnvironmentContext(newEnv);
   }
 
   const exprValue = yield* Q.val(EvaluateNodeCommand(expr, exprContext), exprContext.realm);

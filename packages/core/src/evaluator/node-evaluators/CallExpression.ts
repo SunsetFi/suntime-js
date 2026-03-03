@@ -71,7 +71,7 @@ export default function* callExpressionNodeEvaluator(
   }
 
   const args: StaticJsValue[] = [];
-  const parameterInitContext = context.createLexicalAndVariableEnvContext(
+  const parameterInitContext = context.createEnvironmentContext(
     StaticJsDeclarativeEnvironmentRecord.from(context),
   );
   for (let i = 0; i < node.arguments.length; i++) {
@@ -139,7 +139,7 @@ function* callEvalEvaluator(
   const lexEnv = new StaticJsDeclarativeEnvironmentRecord(context.lexicalEnv, realm);
   const varEnv = strict ? lexEnv : context.variableEnv;
 
-  const evalContext = context.createLexicalAndVariableEnvContext(lexEnv, varEnv);
+  const evalContext = context.createEnvironmentContext(lexEnv, varEnv);
 
   yield* evalDeclarationInstantiation(node, strict, evalContext);
 
