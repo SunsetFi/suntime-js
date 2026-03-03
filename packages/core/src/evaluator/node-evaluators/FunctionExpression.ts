@@ -10,17 +10,22 @@ function* expressionStatementNodeEvaluator(
   node: FunctionExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const functionName = node.id?.name ?? null;
+  const expressionFunctionName = node.id?.name ?? null;
+  const functionName =
+    context.parameter("NamedEvaluation::name", String) ?? expressionFunctionName ?? "";
 
-  if (functionName) {
+  if (expressionFunctionName) {
     const funcEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
-    yield* funcEnv.createImmutableBindingEvaluator(functionName, false);
+    yield* funcEnv.createImmutableBindingEvaluator(expressionFunctionName, false);
+
     const functionContext = context.createLexicalEnvironmentContext(funcEnv);
     const func = createFunction(functionName, node, functionContext);
-    yield* funcEnv.initializeBindingEvaluator(functionName, func);
+
+    yield* funcEnv.initializeBindingEvaluator(expressionFunctionName, func);
+
     return func;
   } else {
-    return createFunction(null, node, context);
+    return createFunction(functionName, node, context);
   }
 }
 

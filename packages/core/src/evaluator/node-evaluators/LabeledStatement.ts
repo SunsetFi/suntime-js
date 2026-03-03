@@ -10,5 +10,8 @@ export default function* labeledStatementNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const label = node.label.name;
-  return yield* Q(EvaluateNodeCommand(node.body, context, { label }));
+  context = context.create({
+    label,
+  });
+  return yield* Q(EvaluateNodeCommand(node.body, context));
 }

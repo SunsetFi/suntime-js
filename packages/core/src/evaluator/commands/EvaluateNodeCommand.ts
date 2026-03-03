@@ -1,6 +1,5 @@
 import type { Node } from "@babel/types";
 
-import type { EvaluateNodeOptions } from "../node-evaluators/evaluate-node.js";
 import evaluateNode from "../node-evaluators/evaluate-node.js";
 
 import type { Completion } from "../completions/Completion.js";
@@ -15,13 +14,11 @@ export interface EvaluateNodeCommand extends EvaluatorCommandBase {
   command: "evaluate-node";
   node: Node;
   context: EvaluationContext;
-  options?: EvaluateNodeOptions;
 }
 
 export function* EvaluateNodeCommand(
   node: Node,
   context: EvaluationContext,
-  evaluateOptions: EvaluateNodeOptions = {},
 ): EvaluationGenerator<Completion> {
   // At one point, our commands were evaluated by a handler at the root of the evaluation chain,
   // and our result would come out of this yield statement.
@@ -32,8 +29,7 @@ export function* EvaluateNodeCommand(
     command: "evaluate-node",
     node,
     context,
-    options: evaluateOptions,
   };
 
-  return yield* captureThrownCompletion(evaluateNode(node, context, evaluateOptions));
+  return yield* captureThrownCompletion(evaluateNode(node, context));
 }

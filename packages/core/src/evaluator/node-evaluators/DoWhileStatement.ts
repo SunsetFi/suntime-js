@@ -21,7 +21,7 @@ const doWhileStatementNodeEvaluator = labeledStatementEvaluation(
     let V: Completion.Normal = context.realm.types.undefined;
     while (true) {
       const stmtResult = yield* EvaluateNodeCommand(node.body, context);
-      if (!loopContinues(stmtResult, context)) {
+      if (!loopContinues(stmtResult, context.label)) {
         return yield* Q(Completion.updateEmpty(stmtResult, V));
       }
 

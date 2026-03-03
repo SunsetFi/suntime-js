@@ -23,6 +23,7 @@ const forStatementNodeEvaluator = labeledStatementEvaluation(function* forStatem
   node: ForStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  console.log("ForStatementNodeEvaluator with label", context.label);
   const { label } = context;
   const { init, test, update, body } = node;
 
@@ -44,11 +45,10 @@ const forStatementNodeEvaluator = labeledStatementEvaluation(function* forStatem
 
       // Change the for loop context to use the new environment.
       // This should flow through and be used for forBodyEvaluation.
-      context = context
-        .createLexicalEnvironmentContext(loopEnv)
-        // Preserve the label, as it is not inherited.
-        // FIXME: Make this an inherited array on the context as the spec specifies.
-        .createLabelContext(label);
+      context = context.create({
+        lexicalEnv: loopEnv,
+        label,
+      });
       yield* Q(EvaluateNodeCommand(init, context));
 
       if (!isConst) {
@@ -84,7 +84,9 @@ function* forBodyEvaluation(
     }
 
     const result = yield* EvaluateNodeCommand(statement, iterationContext);
-    if (!loopContinues(result, iterationContext)) {
+    // Using top-level context.
+    // The spec actually says this asks for the list of labels...
+    if (!loopContinues(result, context.label)) {
       return yield* Q(Completion.updateEmpty(result, V));
     }
 
@@ -125,11 +127,9 @@ function* createPerIterationEnvironment(
     yield* thisIterationEnv.initializeBindingEvaluator(bn, lastValue);
   }
 
-  let iterationContext = context.createLexicalEnvironmentContext(thisIterationEnv);
-  if (context.label) {
-    iterationContext = iterationContext.createLabelContext(context.label);
-  }
-  return iterationContext;
+  return context.create({
+    lexicalEnv: thisIterationEnv,
+  });
 }
 
 export default forStatementNodeEvaluator;

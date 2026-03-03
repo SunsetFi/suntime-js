@@ -146,7 +146,7 @@ export function* forInOfBodyEvaluation(
     const result = yield* EvaluateNodeCommand(stmt, iterationContext);
     // Note: oldEnv should be restored, so don't use iterationContext from here.
 
-    if (!loopContinues(result, context)) {
+    if (!loopContinues(result, context.label)) {
       const status = Completion.updateEmpty(result, V);
       if (iterationKind === "enumerate") {
         return rethrowCompletion(status);

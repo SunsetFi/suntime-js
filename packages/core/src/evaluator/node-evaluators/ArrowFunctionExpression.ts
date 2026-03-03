@@ -9,11 +9,8 @@ function* arrowFunctionExpressionNodeEvaluator(
   node: ArrowFunctionExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  // TODO: v8 uses the name of the variable the function is assigned to,
-  // if this is assigned to a variable.
-  const name = "";
-
-  return createFunction(name, node, context);
+  const functionName = context.parameter("NamedEvaluation::name", String) ?? "";
+  return createFunction(functionName, node, context);
 }
 
 export default arrowFunctionExpressionNodeEvaluator;

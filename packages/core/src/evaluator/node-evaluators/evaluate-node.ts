@@ -9,24 +9,12 @@ import { Completion } from "../completions/Completion.js";
 
 import { getEvaluator } from "./nodes.js";
 
-export interface EvaluateNodeOptions {
-  label?: string;
-}
-export default function* evaluateNode(
-  node: Node,
-  context: EvaluationContext,
-  { label }: EvaluateNodeOptions = {},
-): EvaluationGenerator {
+export default function* evaluateNode(node: Node, context: EvaluationContext): EvaluationGenerator {
   const evaluator = getEvaluator(node);
   if (evaluator == null) {
     throw new StaticJsEngineError(`No evaluator for node type ${node.type}`);
   }
 
-  // Always reset the label when drilling into a node,
-  // unless we have explicitly been given one.
-  if (label || context.label !== null) {
-    context = context.createLabelContext(label ?? null);
-  }
   const result = yield* evaluator(node, context);
 
   // TODO: We want to only ever return Completion eventually,

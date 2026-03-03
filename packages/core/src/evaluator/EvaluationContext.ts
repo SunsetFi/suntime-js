@@ -7,7 +7,7 @@ import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJs
 
 import typedEntries from "../internal/typed-entries.js";
 
-interface EvaluationContextProperties {
+export interface EvaluationContextProperties {
   strict?: boolean;
   lexicalEnv?: StaticJsEnvironmentRecord;
   variableEnv?: StaticJsEnvironmentRecord;
@@ -70,6 +70,12 @@ class EvaluationContext implements Required<EvaluationContextProperties> {
     this._properties = properties;
 
     for (const [prop, def] of typedEntries(EvaluationContextPropertyDefs)) {
+      if (!parent) {
+        if (def.required && !(prop in properties)) {
+          throw new StaticJsEngineError(`Missing required evaluation context property: ${prop}`);
+        }
+      }
+
       Object.defineProperty(this, prop, {
         get(this: EvaluationContext) {
           if (prop in this._properties) {
@@ -102,19 +108,40 @@ class EvaluationContext implements Required<EvaluationContextProperties> {
     return this._realm;
   }
 
+  get parent() {
+    return this._parent;
+  }
+
   strict!: boolean;
   lexicalEnv!: StaticJsEnvironmentRecord;
   variableEnv!: StaticJsEnvironmentRecord;
+
+  // Spec has this a list of labels.  We are somehow getting away without that.
   label!: string | null;
+
+  // Not actually a spec thing.  Attempt at getting NamedExpression support working.
   evaluationParameters!: Record<string, unknown>;
+
   function!: StaticJsFunction | null;
+
+  parameter<T = unknown>(name: string, converter: (value: unknown) => T = (v) => v as T): T | null {
+    const value = this.evaluationParameters[name];
+    if (value === undefined) {
+      return null;
+    }
+    return converter(value);
+  }
+
+  requireParameter<T = unknown>(name: string, converter: (value: unknown) => T = (v) => v as T): T {
+    const value = this.evaluationParameters[name];
+    if (value === undefined) {
+      throw new StaticJsEngineError(`Missing required evaluation parameter: ${name}`);
+    }
+    return converter(value);
+  }
 
   create(properties: Partial<EvaluationContextProperties>): EvaluationContext {
     return new EvaluationContext(this._realm, this, properties);
-  }
-
-  createStrictContext(realm: StaticJsRealm): EvaluationContext {
-    return new EvaluationContext(realm, this, { strict: true });
   }
 
   createLabelContext(label: string | null): EvaluationContext {

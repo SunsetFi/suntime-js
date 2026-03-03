@@ -36,6 +36,8 @@ function* blockStatementNodeEvaluator(
   try {
     return yield* evaluateStatementList(node.body, blockContext);
   } catch (e) {
+    // FIXME: How does the spec deal with this?
+    // This is a total guess.
     if (context.label && Completion.Break.isBreakForLabel(e, context.label)) {
       return e.value;
     }
