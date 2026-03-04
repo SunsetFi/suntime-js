@@ -21,6 +21,14 @@
   - [ ] iteratorClose / asyncIteratorClose
   - [ ] ...others
 
+## Less imidiate
+
+- [ ] Rework node evaluator so catagories of nodes can be processed in a tree
+      Get closer to how the spec wants these to work, with categories splitting into
+      narrower options
+  - [ ] LabelledStatement
+  - [ ] BreakableStatement
+
 ## General
 
 - Fix 'all' [Test262](https://github.com/tc39/test262) tests.

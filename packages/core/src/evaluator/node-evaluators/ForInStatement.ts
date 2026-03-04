@@ -8,9 +8,9 @@ import boundNames from "../instantiation/algorithms/bound-names.js";
 
 import forInOfHeadEvaluation from "./ForInOfStatement/ForInOfHeadEvaluation.js";
 import { forInOfBodyEvaluation } from "./ForInOfStatement/ForInOfBodyEvaluation.js";
-import labeledStatementEvaluation from "./LabeledStatementEvaluation.js";
+import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 
-const forInStatementNodeEvaluator = labeledStatementEvaluation(
+const forInStatementNodeEvaluator = breakableStatementEvaluation(
   function* forInStatementNodeEvaluator(node: ForInStatement, context: EvaluationContext) {
     const { left, right, body } = node;
 

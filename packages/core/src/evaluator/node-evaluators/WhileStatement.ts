@@ -6,14 +6,14 @@ import loopContinues from "../../runtime/algorithms/loop-continues.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../completions/Completion.js";
+import Q from "../completions/Q.js";
 
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import labeledStatementEvaluation from "./LabeledStatementEvaluation.js";
-import Q from "../completions/Q.js";
+import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 
-const whileStatementNodeEvaluator = labeledStatementEvaluation(
+const whileStatementNodeEvaluator = breakableStatementEvaluation(
   function* whileStatementNodeEvaluator(
     node: WhileStatement,
     context: EvaluationContext,

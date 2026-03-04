@@ -9,9 +9,10 @@ import boundNames from "../instantiation/algorithms/bound-names.js";
 
 import forInOfHeadEvaluation from "./ForInOfStatement/ForInOfHeadEvaluation.js";
 import { forInOfBodyEvaluation } from "./ForInOfStatement/ForInOfBodyEvaluation.js";
-import labeledStatementEvaluation from "./LabeledStatementEvaluation.js";
 
-const forOfStatementNodeEvaluator = labeledStatementEvaluation(
+import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
+
+const forOfStatementNodeEvaluator = breakableStatementEvaluation(
   function* forOfStatementNodeEvaluator(
     node: ForOfStatement,
     context: EvaluationContext,

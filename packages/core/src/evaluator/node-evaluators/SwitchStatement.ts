@@ -7,6 +7,7 @@ import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/imp
 import isStrictlyEqual from "../../runtime/algorithms/is-structly-equal.js";
 
 import { Completion } from "../completions/Completion.js";
+import Q from "../completions/Q.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -15,12 +16,11 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import blockDeclarationInstantiation from "../instantiation/block-declaration-instantiation.js";
 
-import labeledStatementEvaluation from "./LabeledStatementEvaluation.js";
+import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 
 import evaluateStatementList from "./StatementList.js";
-import Q from "../completions/Q.js";
 
-const switchStatementNodeEvaluator = labeledStatementEvaluation(
+const switchStatementNodeEvaluator = breakableStatementEvaluation(
   function* switchStatementNodeEvaluator(
     statement: SwitchStatement,
     context: EvaluationContext,
