@@ -18,7 +18,11 @@ const whileStatementNodeEvaluator = labeledStatementEvaluation(
     node: WhileStatement,
     context: EvaluationContext,
   ): EvaluationGenerator {
+    const { labelSet } = context;
+    context = context.create();
+
     let V: Completion.Normal = context.realm.types.undefined;
+
     while (true) {
       const exprValue = yield* Q.val(EvaluateNodeCommand(node.test, context), context.realm);
 
@@ -29,7 +33,7 @@ const whileStatementNodeEvaluator = labeledStatementEvaluation(
 
       const stmtResult = yield* EvaluateNodeCommand(node.body, context);
 
-      if (!loopContinues(stmtResult, context.label)) {
+      if (!loopContinues(stmtResult, labelSet)) {
         return yield* Q(Completion.updateEmpty(stmtResult, V));
       }
 

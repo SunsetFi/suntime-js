@@ -36,10 +36,7 @@ function* blockStatementNodeEvaluator(
   try {
     return yield* evaluateStatementList(node.body, blockContext);
   } catch (e) {
-    // FIXME: How does the spec deal with this?
-    // This is a total guess.
-    if (context.label && Completion.Break.isBreakForLabel(e, context.label)) {
-      console.log("Breaking out of block with label", context.label);
+    if (Completion.Break.is(e) && e.target !== null && context.labelSet.includes(e.target)) {
       return e.value;
     }
 

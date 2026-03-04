@@ -53,8 +53,7 @@ export function* forInOfBodyEvaluation(
   iteratorKind: "sync" | "async",
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const { realm } = context;
-  const oldEnv = context.lexicalEnv;
+  const { realm, labelSet, lexicalEnv: oldEnv } = context;
 
   let V: Completion.Normal = realm.types.undefined;
 
@@ -87,7 +86,7 @@ export function* forInOfBodyEvaluation(
     // label breaking for BlockStatement.
     // Important: If this is undone, we mutate lexicalEnv below, so that
     // will need to create a new context.
-    const iterationContext: EvaluationContext = context.create({});
+    const iterationContext: EvaluationContext = context.create();
 
     // try = status
     try {
@@ -111,7 +110,7 @@ export function* forInOfBodyEvaluation(
           );
         }
 
-        const iterationEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
+        const iterationEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, realm);
         yield* forDeclarationBindingInstantiation(lhs, iterationEnv);
 
         iterationContext.lexicalEnv = iterationEnv;
@@ -139,9 +138,9 @@ export function* forInOfBodyEvaluation(
         if (iterationKind === "enumerate") {
           throw e;
         } else if (iteratorKind === "async") {
-          return yield* Q(asyncIteratorClose(iteratorRecord, e, context.realm));
+          return yield* Q(asyncIteratorClose(iteratorRecord, e, realm));
         } else {
-          return yield* Q(iteratorClose(iteratorRecord, e, context.realm));
+          return yield* Q(iteratorClose(iteratorRecord, e, realm));
         }
       }
 
@@ -151,16 +150,16 @@ export function* forInOfBodyEvaluation(
     const result = yield* EvaluateNodeCommand(stmt, iterationContext);
     // Note: oldEnv should be restored, so don't use iterationContext from here.
 
-    if (!loopContinues(result, context.label)) {
+    if (!loopContinues(result, labelSet)) {
       const status = Completion.updateEmpty(result, V);
       if (iterationKind === "enumerate") {
         return rethrowCompletion(status);
       } else {
         if (iteratorKind === "async") {
-          return yield* Q(asyncIteratorClose(iteratorRecord, status, context.realm));
+          return yield* Q(asyncIteratorClose(iteratorRecord, status, realm));
         }
 
-        return yield* Q(iteratorClose(iteratorRecord, status, context.realm));
+        return yield* Q(iteratorClose(iteratorRecord, status, realm));
       }
     }
 

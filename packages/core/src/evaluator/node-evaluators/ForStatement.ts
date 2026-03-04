@@ -23,7 +23,7 @@ const forStatementNodeEvaluator = labeledStatementEvaluation(function* forStatem
   node: ForStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const { label } = context;
+  const { labelSet: label } = context;
   const { init, test, update, body } = node;
 
   let perIterationLets: string[] = [];
@@ -46,7 +46,7 @@ const forStatementNodeEvaluator = labeledStatementEvaluation(function* forStatem
       // This should flow through and be used for forBodyEvaluation.
       context = context.create({
         lexicalEnv: loopEnv,
-        label,
+        labelSet: label,
       });
       yield* Q(EvaluateNodeCommand(init, context));
 
@@ -68,8 +68,12 @@ function* forBodyEvaluation(
   perIterationBindings: string[],
   context: EvaluationContext,
 ): EvaluationGenerator {
+  const { labelSet } = context;
+
   let V: Completion.Normal = context.realm.types.undefined;
+
   let iterationContext = yield* createPerIterationEnvironment(perIterationBindings, context);
+
   while (true) {
     if (test) {
       const testValue = yield* Q.val(
@@ -83,9 +87,8 @@ function* forBodyEvaluation(
     }
 
     const result = yield* EvaluateNodeCommand(statement, iterationContext);
-    // Using top-level context.
-    // The spec actually says this asks for the list of labels...
-    if (!loopContinues(result, context.label)) {
+
+    if (!loopContinues(result, labelSet)) {
       return yield* Q(Completion.updateEmpty(result, V));
     }
 
@@ -107,7 +110,9 @@ function* createPerIterationEnvironment(
   context: EvaluationContext,
 ): EvaluationGenerator<EvaluationContext> {
   if (perIterationBindings.length === 0) {
-    return context;
+    // HACKish: We no longer reset label on EvaluateCommand,
+    // so the block is receiving it and think it owns it.
+    return context.create();
   }
 
   const lastIterationEnv = context.lexicalEnv;

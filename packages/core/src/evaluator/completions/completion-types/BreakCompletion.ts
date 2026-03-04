@@ -33,13 +33,3 @@ BreakCompletion.assert = function (value: unknown): asserts value is BreakComple
     );
   }
 };
-
-BreakCompletion.isBreakForLabel = function (
-  e: unknown,
-  label: string | null,
-): e is BreakCompletion {
-  if (!BreakCompletion.is(e)) {
-    return false;
-  }
-  return e.target === null || e.target === label;
-};

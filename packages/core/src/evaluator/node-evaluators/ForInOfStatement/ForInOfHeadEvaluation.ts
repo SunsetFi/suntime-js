@@ -35,7 +35,7 @@ export default function* forInOfHeadEvaluation(
     }
     exprContext = context.create({
       lexicalEnv: newEnv,
-      label: context.label,
+      labelSet: context.labelSet,
     });
   }
 

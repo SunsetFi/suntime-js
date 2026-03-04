@@ -7,14 +7,16 @@ import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJs
 
 import typedEntries from "../internal/typed-entries.js";
 
-export interface EvaluationContextProperties {
+export interface EvaluationContextOptions {
   strict?: boolean;
   lexicalEnv?: StaticJsEnvironmentRecord;
   variableEnv?: StaticJsEnvironmentRecord;
-  label?: string | null;
+  labelSet?: string[];
   evaluationParameters?: Record<string, unknown>;
   function?: StaticJsFunction | null;
 }
+
+type EvaluationContextAutoDefProperties = EvaluationContextOptions;
 
 interface EvaluationContextPropertyDef {
   inherits?: boolean;
@@ -23,18 +25,18 @@ interface EvaluationContextPropertyDef {
 }
 
 const EvaluationContextPropertyDefs: Record<
-  keyof EvaluationContextProperties,
+  keyof EvaluationContextAutoDefProperties,
   EvaluationContextPropertyDef
 > = {
   strict: { inherits: true, required: true },
   lexicalEnv: { inherits: true, required: true },
   variableEnv: { inherits: true, required: true },
-  label: { inherits: false, defaultValue: null },
+  labelSet: { inherits: false, defaultValue: [] },
   evaluationParameters: { inherits: true, defaultValue: Object.freeze({}) },
   function: { inherits: false, defaultValue: null },
 };
 
-class EvaluationContext implements Required<EvaluationContextProperties> {
+class EvaluationContext implements Required<EvaluationContextAutoDefProperties> {
   static createRootContext(
     strict: boolean,
     realm: StaticJsRealm,
@@ -58,12 +60,12 @@ class EvaluationContext implements Required<EvaluationContextProperties> {
 
   private readonly _realm: StaticJsRealm;
   private readonly _parent: EvaluationContext | null;
-  private readonly _properties: EvaluationContextProperties;
+  private readonly _properties: EvaluationContextOptions;
 
   constructor(
     realm: StaticJsRealm,
     parent: EvaluationContext | null,
-    properties: EvaluationContextProperties,
+    properties: EvaluationContextOptions,
   ) {
     this._realm = realm;
     this._parent = parent;
@@ -116,11 +118,10 @@ class EvaluationContext implements Required<EvaluationContextProperties> {
   lexicalEnv!: StaticJsEnvironmentRecord;
   variableEnv!: StaticJsEnvironmentRecord;
 
-  // Spec has this a list of labels.  We are somehow getting away without that.
-  label!: string | null;
-
   // Not actually a spec thing.  Attempt at getting NamedExpression support working.
   evaluationParameters!: Record<string, unknown>;
+
+  labelSet!: string[];
 
   function!: StaticJsFunction | null;
 
@@ -140,12 +141,8 @@ class EvaluationContext implements Required<EvaluationContextProperties> {
     return converter(value);
   }
 
-  create(properties: Partial<EvaluationContextProperties>): EvaluationContext {
+  create(properties: Partial<EvaluationContextOptions> = {}): EvaluationContext {
     return new EvaluationContext(this._realm, this, properties);
-  }
-
-  createLabelContext(label: string | null): EvaluationContext {
-    return new EvaluationContext(this._realm, this, { label });
   }
 
   createLexicalEnvironmentContext(env: StaticJsEnvironmentRecord): EvaluationContext {

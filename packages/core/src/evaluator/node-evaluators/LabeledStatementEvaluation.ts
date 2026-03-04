@@ -17,15 +17,25 @@ export default function labeledStatementEvaluation<TNode extends Node>(
     context: EvaluationContext,
   ): EvaluationGenerator {
     let stmtResult = yield* captureThrownCompletion(evaluator(node, context));
+
     if (Completion.Break.is(stmtResult)) {
+      // Note: The following is BreakableStatement
+      // and below is LabelledStatement.
+      // Presumably, this should apply to BlockStatement and SwitchStatement separately.
       if (stmtResult.target === null) {
         if (stmtResult.value === null) {
           stmtResult = context.realm.types.undefined;
         } else {
           stmtResult = stmtResult.value;
         }
-      } else if (stmtResult.target === context.label) {
-        stmtResult = stmtResult.value;
+      } else {
+        // The following is LabelledStatement
+        // It explicitly checks for the current LabelledStatement label,
+        // which means we have to get creative as we run downstream
+        const selfLabel = context.labelSet.at(-1) ?? null;
+        if (stmtResult.target === selfLabel) {
+          stmtResult = stmtResult.value;
+        }
       }
     }
 

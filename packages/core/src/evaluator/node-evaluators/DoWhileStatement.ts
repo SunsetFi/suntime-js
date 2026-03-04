@@ -19,9 +19,15 @@ const doWhileStatementNodeEvaluator = labeledStatementEvaluation(
     context: EvaluationContext,
   ): EvaluationGenerator {
     let V: Completion.Normal = context.realm.types.undefined;
+
+    const { labelSet } = context;
+
+    // Create a new context to stop block thinking the break is for itself.
+    context = context.create();
+
     while (true) {
       const stmtResult = yield* EvaluateNodeCommand(node.body, context);
-      if (!loopContinues(stmtResult, context.label)) {
+      if (!loopContinues(stmtResult, labelSet)) {
         return yield* Q(Completion.updateEmpty(stmtResult, V));
       }
 

@@ -57,6 +57,25 @@ describe("E2E: For loops", () => {
     expect(await evaluateScript(code)).toBe(15);
   });
 
+  it("Breaks out of a try/catch in a for loop", async () => {
+    const code = `
+      var x=0;
+      (function(){
+      FOR : for(;;){
+        try{
+          x++;
+          if(x===10)return;
+          throw 1;
+        } catch(e){
+          break FOR;
+        }	
+      }
+      })();
+      x;
+    `;
+    expect(await evaluateScript(code)).toBe(1);
+  });
+
   it("Breaks out of the closest for loop", async () => {
     const code = `
         let sum = 0;
