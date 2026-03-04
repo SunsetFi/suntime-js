@@ -1,5 +1,28 @@
 # TODO:
 
+## Immediate
+
+- [ ] Implement function auto names using EvaluationContext named parameters
+- [ ] Figure out why BlockStatement is weird with regard to labels.
+- [x] Rework EvaluationContext to not create so many child objects
+  - [x] Pass all options to a single class type
+  - [x] Arbitrary params to support NamedEvaluation and such
+  - [ ] Take bigger advantage of mutable properties on such
+
+### Completion Refactor
+
+- [ ] Rework EvaluationGenerator to accept and return Completions
+  - [ ] Accept and return Completions for all Node Evaluators
+  - [ ] Use generator.next instead of generator.throw for abnormal completions.
+- [x] Rework EvaluateNodeCommand to always return completions
+  - [x] Use Q() where needed to enforce NormalCompletion
+- [ ] Eliminate most throws for completions where not needed.
+- [ ] Convert All The Things to Q
+  - [ ] iteratorClose / asyncIteratorClose
+  - [ ] ...others
+
+## General
+
 - Fix 'all' [Test262](https://github.com/tc39/test262) tests.
   - Currently only running tests in the language folder. Need to add built-ins
 - function `arguments` object
@@ -68,17 +91,3 @@ Figure out public API for invoking and implementing evaluators.
 
 - Host fingerprinting using Math trig functions - different results between firefox and chrome. Problem? Use a manual implementation?
   - Same problems with most pass-throughs; Date and Regex if we pass those through to.
-
-## Completion Refactor
-
-- [ ] Rework EvaluationGenerator to accept and return Completions
-  - [ ] Accept and return Completions for all Node Evaluators
-  - [ ] Use generator.next instead of generator.throw for abnormal completions.
-- [x] Rework EvaluateNodeCommand to always return completions
-  - [x] Use Q() where needed to enforce NormalCompletion
-- [ ] Eliminate most throws for completions where not needed.
-- [ ] Convert All The Things to Q
-  - [ ] iteratorClose / asyncIteratorClose
-- [ ] Rework EvaluationContext to not create so many child objects
-  - [x] Pass all options to a single class type
-  - [ ] Arbitrary params to support NamedEvaluation and such

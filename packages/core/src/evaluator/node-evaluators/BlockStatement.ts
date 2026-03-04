@@ -39,6 +39,7 @@ function* blockStatementNodeEvaluator(
     // FIXME: How does the spec deal with this?
     // This is a total guess.
     if (context.label && Completion.Break.isBreakForLabel(e, context.label)) {
+      console.log("Breaking out of block with label", context.label);
       return e.value;
     }
 

@@ -82,7 +82,12 @@ export function* forInOfBodyEvaluation(
 
     const nextValue = yield* iteratorValue(nextResult);
 
-    let iterationContext: EvaluationContext = context;
+    // HACK: Create a new context so inner blocks do not inherit the label.
+    // This isn't a spec thing... I just don't know how I'm supposed to implement
+    // label breaking for BlockStatement.
+    // Important: If this is undone, we mutate lexicalEnv below, so that
+    // will need to create a new context.
+    const iterationContext: EvaluationContext = context.create({});
 
     // try = status
     try {
@@ -109,7 +114,7 @@ export function* forInOfBodyEvaluation(
         const iterationEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
         yield* forDeclarationBindingInstantiation(lhs, iterationEnv);
 
-        iterationContext = iterationContext.createLexicalEnvironmentContext(iterationEnv);
+        iterationContext.lexicalEnv = iterationEnv;
 
         if (destructuring) {
           yield* forDeclarationBindingInitialization(

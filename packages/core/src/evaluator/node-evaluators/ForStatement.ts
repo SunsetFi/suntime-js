@@ -23,7 +23,6 @@ const forStatementNodeEvaluator = labeledStatementEvaluation(function* forStatem
   node: ForStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  console.log("ForStatementNodeEvaluator with label", context.label);
   const { label } = context;
   const { init, test, update, body } = node;
 

@@ -29,13 +29,27 @@ describe("E2E: For loops", () => {
     expect(await evaluateScript(code)).toBe(45);
   });
 
-  it("Can break out of a for loop", async () => {
+  it("Breaks out of a for loop", async () => {
     const code = `
         let sum = 0;
         for (let i = 0; i < 10; i++) {
           sum += i;
           if (i === 5) {
             break;
+          }
+        }
+        sum;
+      `;
+    expect(await evaluateScript(code)).toBe(15);
+  });
+
+  it("Breaks out of a labeled for loop", async () => {
+    const code = `
+        let sum = 0;
+        outer: for (let i = 0; i < 10; i++) {
+          sum += i;
+          if (i === 5) {
+            break outer;
           }
         }
         sum;

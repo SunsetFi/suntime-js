@@ -30,6 +30,32 @@ describe("E2E: For In loops", () => {
     expect(await evaluateScript(code)).toEqual(["a", "b"]);
   });
 
+  it("Can break out of a labeled for-in loop with var", async () => {
+    const code = `
+        let keys = [];
+        const obj = { a: 1, b: 2, c: 3 };
+        outer: for (var key in obj) {
+          keys.push(key);
+          break outer;
+        }
+        keys;
+      `;
+    expect(await evaluateScript(code)).toEqual(["a"]);
+  });
+
+  it("Can break out of a labeled for-in loop with const", async () => {
+    const code = `
+        let keys = [];
+        const obj = { a: 1, b: 2, c: 3 };
+        outer: for (const key in obj) {
+          keys.push(key);
+          break outer;
+        }
+        keys;
+      `;
+    expect(await evaluateScript(code)).toEqual(["a"]);
+  });
+
   it("Breaks out of the closest for-in loop", async () => {
     const code = `
         let keys = [];
