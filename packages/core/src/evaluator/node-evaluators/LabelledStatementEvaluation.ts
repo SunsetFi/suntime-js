@@ -12,6 +12,9 @@ import rethrowCompletion from "../completions/rethrow-completion.js";
 export default function labeledStatementEvaluation<TNode extends Node>(
   evaluator: NodeEvaluator<TNode>,
 ): NodeEvaluator<TNode> {
+  // I swear I built this according to a spec entry, but I can't find it anymore.
+  // There is lots of jank and guesses around breakable / label / break; / continue; statements and loops,
+  // but the tests seem to pass.
   return function* labelledStatementEvaluationWrapper(
     node: TNode,
     context: EvaluationContext,
