@@ -8,10 +8,15 @@ import boundNames from "../instantiation/algorithms/bound-names.js";
 
 import forInOfHeadEvaluation from "./ForInOfStatement/ForInOfHeadEvaluation.js";
 import { forInOfBodyEvaluation } from "./ForInOfStatement/ForInOfBodyEvaluation.js";
+
+import labelledIterationStatementEvaluation from "./LabelledIterationStatementEvaluation.js";
 import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 
 const forInStatementNodeEvaluator = breakableStatementEvaluation(
-  function* forInStatementNodeEvaluator(node: ForInStatement, context: EvaluationContext) {
+  labelledIterationStatementEvaluation(function* forInStatementNodeEvaluator(
+    node: ForInStatement,
+    context: EvaluationContext,
+  ) {
     const { left, right, body } = node;
 
     if (left.type === "VariableDeclaration") {
@@ -55,7 +60,7 @@ const forInStatementNodeEvaluator = breakableStatementEvaluation(
         context,
       );
     }
-  },
+  }),
 );
 
 export default forInStatementNodeEvaluator;

@@ -10,10 +10,11 @@ import boundNames from "../instantiation/algorithms/bound-names.js";
 import forInOfHeadEvaluation from "./ForInOfStatement/ForInOfHeadEvaluation.js";
 import { forInOfBodyEvaluation } from "./ForInOfStatement/ForInOfBodyEvaluation.js";
 
+import labelledIterationStatementEvaluation from "./LabelledIterationStatementEvaluation.js";
 import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 
 const forOfStatementNodeEvaluator = breakableStatementEvaluation(
-  function* forOfStatementNodeEvaluator(
+  labelledIterationStatementEvaluation(function* forOfStatementNodeEvaluator(
     node: ForOfStatement,
     context: EvaluationContext,
   ): EvaluationGenerator {
@@ -63,7 +64,7 @@ const forOfStatementNodeEvaluator = breakableStatementEvaluation(
         context,
       );
     }
-  },
+  }),
 );
 
 export default forOfStatementNodeEvaluator;

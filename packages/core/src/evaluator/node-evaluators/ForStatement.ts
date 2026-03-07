@@ -13,53 +13,56 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../completions/Completion.js";
+import Q from "../completions/Q.js";
 
 import boundNames from "../instantiation/algorithms/bound-names.js";
 
-import labeledStatementEvaluation from "./LabeledStatementEvaluation.js";
-import Q from "../completions/Q.js";
+import labelledIterationStatementEvaluation from "./LabelledIterationStatementEvaluation.js";
+import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 
-const forStatementNodeEvaluator = labeledStatementEvaluation(function* forStatementNodeEvaluator(
-  node: ForStatement,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { labelSet: label } = context;
-  const { init, test, update, body } = node;
+const forStatementNodeEvaluator = breakableStatementEvaluation(
+  labelledIterationStatementEvaluation(function* forStatementNodeEvaluator(
+    node: ForStatement,
+    context: EvaluationContext,
+  ): EvaluationGenerator {
+    const { labelSet: label } = context;
+    const { init, test, update, body } = node;
 
-  let perIterationLets: string[] = [];
+    let perIterationLets: string[] = [];
 
-  if (init) {
-    if (init.type === "VariableDeclaration" && ["let", "const"].includes(init.kind)) {
-      const oldEnv = context.lexicalEnv;
-      const loopEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
-      const isConst = init.kind === "const";
-      const names = boundNames(init);
-      for (const dn of names) {
-        if (isConst) {
-          yield* loopEnv.createImmutableBindingEvaluator(dn, true);
-        } else {
-          yield* loopEnv.createMutableBindingEvaluator(dn, false);
+    if (init) {
+      if (init.type === "VariableDeclaration" && ["let", "const"].includes(init.kind)) {
+        const oldEnv = context.lexicalEnv;
+        const loopEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
+        const isConst = init.kind === "const";
+        const names = boundNames(init);
+        for (const dn of names) {
+          if (isConst) {
+            yield* loopEnv.createImmutableBindingEvaluator(dn, true);
+          } else {
+            yield* loopEnv.createMutableBindingEvaluator(dn, false);
+          }
         }
-      }
 
-      // Change the for loop context to use the new environment.
-      // This should flow through and be used for forBodyEvaluation.
-      context = context.create({
-        lexicalEnv: loopEnv,
-        labelSet: label,
-      });
-      yield* Q(EvaluateNodeCommand(init, context));
+        // Change the for loop context to use the new environment.
+        // This should flow through and be used for forBodyEvaluation.
+        context = context.create({
+          lexicalEnv: loopEnv,
+          labelSet: label,
+        });
+        yield* Q(EvaluateNodeCommand(init, context));
 
-      if (!isConst) {
-        perIterationLets = names;
+        if (!isConst) {
+          perIterationLets = names;
+        }
+      } else {
+        yield* Q(EvaluateNodeCommand(init, context));
       }
-    } else {
-      yield* Q(EvaluateNodeCommand(init, context));
     }
-  }
 
-  return yield* forBodyEvaluation(test ?? null, update ?? null, body, perIterationLets, context);
-});
+    return yield* forBodyEvaluation(test ?? null, update ?? null, body, perIterationLets, context);
+  }),
+);
 
 function* forBodyEvaluation(
   test: Expression | null,

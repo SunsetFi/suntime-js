@@ -11,10 +11,11 @@ import Q from "../completions/Q.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import labelledIterationStatementEvaluation from "./LabelledIterationStatementEvaluation.js";
 import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 
 const whileStatementNodeEvaluator = breakableStatementEvaluation(
-  function* whileStatementNodeEvaluator(
+  labelledIterationStatementEvaluation(function* whileStatementNodeEvaluator(
     node: WhileStatement,
     context: EvaluationContext,
   ): EvaluationGenerator {
@@ -42,7 +43,7 @@ const whileStatementNodeEvaluator = breakableStatementEvaluation(
         V = stmtResultValue;
       }
     }
-  },
+  }),
 );
 
 export default whileStatementNodeEvaluator;

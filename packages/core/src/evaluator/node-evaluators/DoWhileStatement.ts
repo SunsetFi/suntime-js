@@ -11,10 +11,11 @@ import Q from "../completions/Q.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import labelledIterationStatementEvaluation from "./LabelledIterationStatementEvaluation.js";
 import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 
 const doWhileStatementNodeEvaluator = breakableStatementEvaluation(
-  function* doWhileStatementNodeEvaluator(
+  labelledIterationStatementEvaluation(function* doWhileStatementNodeEvaluator(
     node: DoWhileStatement,
     context: EvaluationContext,
   ): EvaluationGenerator {
@@ -43,7 +44,7 @@ const doWhileStatementNodeEvaluator = breakableStatementEvaluation(
         return V;
       }
     }
-  },
+  }),
 );
 
 export default doWhileStatementNodeEvaluator;

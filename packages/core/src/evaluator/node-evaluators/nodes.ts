@@ -31,7 +31,7 @@ import functionExpressionNodeEvaluator from "./FunctionExpression.js";
 import ifStatementNodeEvaluator from "./IfStatement.js";
 import importDeclarationNodeEvaluator from "./ImportDeclaration.js";
 import identifierNodeEvaluator from "./Identifier.js";
-import labeledStatementNodeEvaluator from "./LabeledStatement.js";
+import labeledStatementNodeEvaluator from "./LabelledStatement.js";
 import logicalExpressionNodeEvaluator from "./LogicalExpression.js";
 import memberExpressionNodeEvaluator from "./MemberExpression.js";
 import newExpressionNodeEvaluator from "./NewExpression.js";
