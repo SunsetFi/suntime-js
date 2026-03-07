@@ -202,25 +202,58 @@ const bindingScenarios: BindingScenarioDefinition[] = [
       expect(result).toEqual([1, 3]);
     },
   },
+  {
+    title: "Array element initilalizer names function expressions without names",
+    bindingsCode: `[fn = function() {}]`,
+    valueCode: `[]`,
+    resultCollector: `fn.name`,
+    assert({ result, error }) {
+      expect(error).toBeUndefined();
+      expect(result).toBe("fn");
+    },
+  },
+  {
+    title: "Array element initilalizer does not name function expressions with names",
+    bindingsCode: `[fn = function named() {}]`,
+    valueCode: `[]`,
+    resultCollector: `fn.name`,
+    assert({ result, error }) {
+      expect(error).toBeUndefined();
+      expect(result).toBe("named");
+    },
+  },
+  {
+    title: "Object property initializer names function expressions without names",
+    bindingsCode: `{ fn = function() {} }`,
+    valueCode: `{}`,
+    resultCollector: `fn.name`,
+    assert({ result, error }) {
+      expect(error).toBeUndefined();
+      expect(result).toBe("fn");
+    },
+  },
+  {
+    title: "Object property initializer does not name function expressions with names",
+    bindingsCode: `{ fn = function named() {} }`,
+    valueCode: `{}`,
+    resultCollector: `fn.name`,
+    assert({ result, error }) {
+      expect(error).toBeUndefined();
+      expect(result).toBe("named");
+    },
+  },
 ];
 
 function scenariosFor(declarationType: string) {
   return bindingScenarios.filter(
-    (scenario) =>
-      !scenario.exclude || !scenario.exclude.includes(declarationType),
+    (scenario) => !scenario.exclude || !scenario.exclude.includes(declarationType),
   );
 }
 
 describe("E2E: Binding Initialization", () => {
   it.each(scenariosFor("let"))(
     "let: $title",
-    async ({
-      bindingsCode,
-      valueCode,
-      resultCollector,
-      setupCode = "",
-      assert,
-    }) => {
+    async ({ bindingsCode, valueCode, resultCollector, setupCode = "", assert }) => {
       const script = `
         ${setupCode}
         let ${bindingsCode} = ${valueCode};
@@ -240,13 +273,7 @@ describe("E2E: Binding Initialization", () => {
   );
   it.each(scenariosFor("const"))(
     "const: $title",
-    async ({
-      bindingsCode,
-      valueCode,
-      resultCollector,
-      setupCode = "",
-      assert,
-    }) => {
+    async ({ bindingsCode, valueCode, resultCollector, setupCode = "", assert }) => {
       const script = `
         ${setupCode}
         const ${bindingsCode} = ${valueCode};
@@ -267,13 +294,7 @@ describe("E2E: Binding Initialization", () => {
 
   it.each(scenariosFor("var"))(
     "var: $title",
-    async ({
-      bindingsCode,
-      valueCode,
-      resultCollector,
-      setupCode = "",
-      assert,
-    }) => {
+    async ({ bindingsCode, valueCode, resultCollector, setupCode = "", assert }) => {
       const script = `
         ${setupCode}
         var ${bindingsCode} = ${valueCode};
@@ -294,13 +315,7 @@ describe("E2E: Binding Initialization", () => {
 
   it.each(scenariosFor("forOf"))(
     "for-of: $title",
-    async ({
-      bindingsCode,
-      valueCode,
-      resultCollector,
-      setupCode = "",
-      assert,
-    }) => {
+    async ({ bindingsCode, valueCode, resultCollector, setupCode = "", assert }) => {
       const script = `
         ${setupCode}
         for (let ${bindingsCode} of [${valueCode}]) {

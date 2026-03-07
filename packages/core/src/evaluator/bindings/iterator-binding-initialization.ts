@@ -40,6 +40,8 @@ export default function* iteratorBindingInitialization(
     return;
   }
 
+  const { realm, strict, lexicalEnv } = context;
+
   let initializer: Expression | null = null;
   if (node.type === "AssignmentPattern") {
     initializer = node.right;
@@ -61,7 +63,7 @@ export default function* iteratorBindingInitialization(
         while (true) {
           let next: StaticJsValue | null = null;
           if (!iteratorRecord.done) {
-            next = yield* iteratorStepValue(iteratorRecord, context.realm);
+            next = yield* iteratorStepValue(iteratorRecord, realm);
           }
           if (!next) {
             break;
@@ -77,19 +79,19 @@ export default function* iteratorBindingInitialization(
         }
 
         if (!environment) {
-          yield* putValue(lhs, A, context.realm);
+          yield* putValue(lhs, A, realm);
         } else {
           yield* initializeReferencedBinding(lhs, A);
         }
         return;
       } else {
-        const A = context.realm.types.array();
+        const A = realm.types.array();
 
         let n = 0;
         while (true) {
           let next: StaticJsValue | null = null;
           if (!iteratorRecord.done) {
-            next = yield* iteratorStepValue(iteratorRecord, context.realm);
+            next = yield* iteratorStepValue(iteratorRecord, realm);
           }
           if (!next) {
             break;
@@ -110,41 +112,49 @@ export default function* iteratorBindingInitialization(
     }
     case "Identifier": {
       const bindingId = node.name;
-      const lhs = yield* getIdentifierReference(context.lexicalEnv, bindingId, context.strict);
+      const lhs = yield* getIdentifierReference(lexicalEnv, bindingId, strict);
 
-      let v: StaticJsValue = context.realm.types.undefined;
+      let v: StaticJsValue = realm.types.undefined;
       if (!iteratorRecord.done) {
-        const next = yield* iteratorStepValue(iteratorRecord, context.realm);
+        const next = yield* iteratorStepValue(iteratorRecord, realm);
         if (next) {
           v = next;
         }
       }
 
       if (initializer && isStaticJsUndefined(v)) {
-        const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer, context), context.realm);
+        const initializerContext = context.create({
+          evaluationParameters: {
+            "NamedEvaluation::name": bindingId,
+          },
+        });
+        const defaultValue = yield* Q.val(
+          EvaluateNodeCommand(initializer, initializerContext),
+          realm,
+        );
         v = defaultValue;
       }
 
       if (environment) {
         yield* initializeReferencedBinding(lhs, v);
       } else {
-        yield* putValue(lhs, v, context.realm);
+        yield* putValue(lhs, v, realm);
       }
 
       return;
     }
     case "ArrayPattern":
     case "ObjectPattern": {
-      let v: StaticJsValue = context.realm.types.undefined;
+      let v: StaticJsValue = realm.types.undefined;
       if (!iteratorRecord.done) {
-        const next = yield* iteratorStepValue(iteratorRecord, context.realm);
+        const next = yield* iteratorStepValue(iteratorRecord, realm);
         if (next) {
           v = next;
         }
       }
 
       if (initializer && isStaticJsUndefined(v)) {
-        const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer, context), context.realm);
+        const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer, context), realm);
         v = defaultValue;
       }
 

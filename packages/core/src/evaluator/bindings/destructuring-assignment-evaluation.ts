@@ -76,6 +76,7 @@ function* propertyDestructuringAssignmentEvaluation(
   value: StaticJsValue,
   context: EvaluationContext,
 ): EvaluationGenerator<StaticJsPropertyKey[]> {
+  const { strict, realm } = context;
   if (node.shorthand) {
     if (node.key.type !== "Identifier") {
       throw new StaticJsEngineError(
@@ -89,22 +90,31 @@ function* propertyDestructuringAssignmentEvaluation(
     }
 
     const P = node.key.name;
-    const lRef = yield* getIdentifierReference(context.lexicalEnv, P, context.strict);
+    const lRef = yield* getIdentifierReference(context.lexicalEnv, P, strict);
 
-    const obj = yield* toObject(value, context.realm);
+    const obj = yield* toObject(value, realm);
     let v = yield* obj.getEvaluator(P);
     if (initializer && isStaticJsUndefined(v)) {
-      const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer, context), context.realm);
+      const initializerContext = context.create({
+        evaluationParameters: {
+          "NamedEvaluation::name": lRef.referencedName,
+        },
+      });
+
+      const defaultValue = yield* Q.val(
+        EvaluateNodeCommand(initializer, initializerContext),
+        realm,
+      );
       v = defaultValue;
     }
 
-    yield* putValue(lRef, v, context.realm);
+    yield* putValue(lRef, v, realm);
     return [P];
   }
 
   let name: StaticJsValue;
   if (node.computed) {
-    name = yield* Q.val(EvaluateNodeCommand(node.key, context), context.realm);
+    name = yield* Q.val(EvaluateNodeCommand(node.key, context), realm);
   } else if (node.key.type === "Identifier") {
     name = context.realm.types.string(node.key.name);
   } else if (node.key.type === "StringLiteral") {
@@ -121,7 +131,7 @@ function* propertyDestructuringAssignmentEvaluation(
       `Unsupported property destructuring assignment property key type: ${node.key.type}`,
     );
   }
-  const P = yield* toPropertyKey(name, context.realm);
+  const P = yield* toPropertyKey(name, realm);
   yield* keyedDestructuringAssignmentEvaluation(node.value, value, P, context);
   return [P];
 }
@@ -147,6 +157,8 @@ function* keyedDestructuringAssignmentEvaluation(
   property: StaticJsPropertyKey,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
+  const { realm } = context;
+
   let initializer: Expression | null = null;
   if (node.type === "AssignmentPattern") {
     initializer = node.right;
@@ -158,15 +170,24 @@ function* keyedDestructuringAssignmentEvaluation(
     lRef = yield* Q.ref(EvaluateNodeCommand(node, context));
   }
 
-  const obj = yield* toObject(value, context.realm);
+  const obj = yield* toObject(value, realm);
   let v = yield* obj.getEvaluator(property);
   if (initializer && isStaticJsUndefined(v)) {
-    const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer, context), context.realm);
+    let initializerContext = context;
+    if (typeof property === "string") {
+      initializerContext = context.create({
+        evaluationParameters: {
+          "NamedEvaluation::name": property,
+        },
+      });
+    }
+
+    const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer, initializerContext), realm);
     v = defaultValue;
   }
 
   if (lRef) {
-    yield* putValue(lRef, v, context.realm);
+    yield* putValue(lRef, v, realm);
   } else {
     yield* destructuringAssignmentEvaluation(node, v, context);
   }

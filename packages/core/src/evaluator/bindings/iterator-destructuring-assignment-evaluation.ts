@@ -6,7 +6,9 @@ import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import type { StaticJsIteratorRecord } from "../../runtime/iterators/StaticJsIteratorRecord.js";
+import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
 
+import createDataPropertyOrThrow from "../../runtime/algorithms/create-data-property-or-throw.js";
 import putValue from "../../runtime/algorithms/put-value.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -16,8 +18,6 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import destructuringAssignmentEvaluation from "./destructuring-assignment-evaluation.js";
-import createDataPropertyOrThrow from "../../runtime/algorithms/create-data-property-or-throw.js";
-import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
 
 export type IteratorDestructuringAssignmentType = PatternLike | null;
 export default function* iteratorDestructuringAssignmentEvaluation(
@@ -87,7 +87,20 @@ export default function* iteratorDestructuringAssignmentEvaluation(
     }
 
     if (initializer && isStaticJsUndefined(value)) {
-      const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer, context), context.realm);
+      let initializerContext = context;
+      if (assignmentTarget.type === "Identifier") {
+        initializerContext = context.create({
+          evaluationParameters: {
+            "NamedEvaluation::name": assignmentTarget.name,
+          },
+        });
+      }
+
+      const defaultValue = yield* Q.val(
+        EvaluateNodeCommand(initializer, initializerContext),
+        context.realm,
+      );
+
       v = defaultValue;
     } else {
       v = value;

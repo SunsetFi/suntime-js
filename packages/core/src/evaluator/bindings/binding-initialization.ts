@@ -126,6 +126,8 @@ function* keyedBindingInitialization(
   environment: StaticJsEnvironmentRecord | null,
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
+  const { realm, strict, lexicalEnv } = context;
+
   let initializer: Expression | null = null;
   if (node.type === "AssignmentPattern") {
     initializer = node.right;
@@ -135,10 +137,10 @@ function* keyedBindingInitialization(
   switch (node.type) {
     case "ObjectPattern":
     case "ArrayPattern": {
-      const obj = yield* toObject(value, context.realm);
+      const obj = yield* toObject(value, realm);
       let v = yield* obj.getEvaluator(property);
       if (initializer && isStaticJsUndefined(v)) {
-        const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer, context), context.realm);
+        const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer, context), realm);
         v = defaultValue;
       }
       yield* bindingInitialization(node, v, environment, context);
@@ -146,18 +148,27 @@ function* keyedBindingInitialization(
     }
     case "Identifier": {
       const bindingId = node.name;
-      const lhs = yield* getIdentifierReference(context.lexicalEnv, bindingId, context.strict);
-      const obj = yield* toObject(value, context.realm);
+      const lhs = yield* getIdentifierReference(lexicalEnv, bindingId, strict);
+      const obj = yield* toObject(value, realm);
       let v = yield* obj.getEvaluator(property);
       if (initializer && isStaticJsUndefined(v)) {
-        const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer, context), context.realm);
+        const initializerContext = context.create({
+          evaluationParameters: {
+            "NamedEvaluation::name": bindingId,
+          },
+        });
+
+        const defaultValue = yield* Q.val(
+          EvaluateNodeCommand(initializer, initializerContext),
+          context.realm,
+        );
         v = defaultValue;
       }
 
       if (environment) {
         yield* initializeReferencedBinding(lhs, v);
       } else {
-        yield* putValue(lhs, v, context.realm);
+        yield* putValue(lhs, v, realm);
       }
     }
   }

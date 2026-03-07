@@ -12,7 +12,7 @@ function* expressionStatementNodeEvaluator(
 ): EvaluationGenerator {
   const expressionFunctionName = node.id?.name ?? null;
   const functionName =
-    context.parameter("NamedEvaluation::name", String) ?? expressionFunctionName ?? "";
+    expressionFunctionName ?? context.parameter("NamedEvaluation::name", String) ?? "";
 
   if (expressionFunctionName) {
     const funcEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
