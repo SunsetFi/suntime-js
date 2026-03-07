@@ -2,7 +2,9 @@ import type { BinaryExpression } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import { isStaticJsString } from "../../runtime/types/StaticJsString.js";
+import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
+
+import toPropertyKey from "../../runtime/utils/to-property-key.js";
 
 import strictEquality from "../../runtime/algorithms/strict-equality.js";
 import isLooselyEqual from "../../runtime/algorithms/is-loosely-equal.js";
@@ -171,15 +173,15 @@ function* inExpression(node: BinaryExpression, context: EvaluationContext): Eval
   const left = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
   const right = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
 
-  const rightObj = yield* toObject(right, context.realm);
-
-  if (!isStaticJsString(left)) {
+  if (!isStaticJsObjectLike(right)) {
     throw Completion.Throw(
-      context.realm.types.error("TypeError", "Left side of in operator must be a string"),
+      context.realm.types.error("TypeError", "Right side of in operator must be an object"),
     );
   }
+  const rightObj = yield* toObject(right, context.realm);
 
-  const hasProperty = yield* rightObj.hasPropertyEvaluator(left.toStringSync());
+  const propertyKey = yield* toPropertyKey(left, context.realm);
+  const hasProperty = yield* rightObj.hasPropertyEvaluator(propertyKey);
   return context.realm.types.boolean(hasProperty);
 }
 
