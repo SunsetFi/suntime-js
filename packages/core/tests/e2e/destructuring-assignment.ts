@@ -196,6 +196,39 @@ const destructuringScenarios: DestructuringScenarioDefinition[] = [
       expect(result).toEqual(["h", "i"]);
     },
   },
+  {
+    title: "Anonymous function into array element with initializer provides function name",
+    varDeclare: "let x",
+    bindingsCode: `[x = function() {}]`,
+    valueCode: `[]`,
+    resultCollector: `x.name`,
+    assert({ result, error }) {
+      expect(error).toBeUndefined();
+      expect(result).toEqual("x");
+    },
+  },
+  {
+    title: "Anonymous function into object property with initializer provides function name",
+    varDeclare: "let x",
+    bindingsCode: `{ x = function() {} }`,
+    valueCode: `{}`,
+    resultCollector: `x.name`,
+    assert({ result, error }) {
+      expect(error).toBeUndefined();
+      expect(result).toEqual("x");
+    },
+  },
+  {
+    title: "Anonymous function into object names property with initializer provides function name",
+    varDeclare: "let myFunc",
+    bindingsCode: `{ x: myFunc = function() {} }`,
+    valueCode: `{}`,
+    resultCollector: `myFunc.name`,
+    assert({ result, error }) {
+      expect(error).toBeUndefined();
+      expect(result).toEqual("myFunc");
+    },
+  },
 ];
 
 function scenariosFor(declarationType: string) {

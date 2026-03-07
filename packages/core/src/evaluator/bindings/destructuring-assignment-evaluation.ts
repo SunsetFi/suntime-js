@@ -117,24 +117,13 @@ function* propertyDestructuringAssignmentEvaluation(
   }
 
   let name: StaticJsValue;
-  if (node.computed) {
-    name = yield* Q.val(EvaluateNodeCommand(node.key, context), realm);
-  } else if (node.key.type === "Identifier") {
+  if (node.key.type === "Identifier" && !node.computed) {
     name = context.realm.types.string(node.key.name);
-  } else if (node.key.type === "StringLiteral") {
-    name = context.realm.types.string(node.key.value);
-  } else if (node.key.type === "NumericLiteral") {
-    name = context.realm.types.number(node.key.value);
-  } else if (node.key.type === "BooleanLiteral") {
-    name = context.realm.types.boolean(node.key.value);
-  } else if (node.key.type === "NullLiteral") {
-    name = context.realm.types.null;
   } else {
-    // TODO: BigIntLiteral
-    throw new StaticJsEngineError(
-      `Unsupported property destructuring assignment property key type: ${node.key.type}`,
-    );
+    name = yield* Q.val(EvaluateNodeCommand(node.key, context), realm);
   }
+  // Spec doesn't do this...  But it seems to get a property key anyway
+  // Probably due to the limitd options PropertyName / node.key can be
   const P = yield* toPropertyKey(name, realm);
   yield* keyedDestructuringAssignmentEvaluation(node.value, value, P, context);
   return [P];
@@ -177,11 +166,8 @@ function* keyedDestructuringAssignmentEvaluation(
   const obj = yield* toObject(value, realm);
   let v = yield* obj.getEvaluator(property);
   if (initializer && isStaticJsUndefined(v)) {
-    if (isAnonymousFunctionDefinition(initializer)) {
-      v = yield* Q.val(
-        NamedEvaluation(typeof property === "string" ? property : null, initializer, context),
-        realm,
-      );
+    if (isAnonymousFunctionDefinition(initializer) && node.type === "Identifier") {
+      v = yield* Q.val(NamedEvaluation(node.name, initializer, context), realm);
     } else {
       v = yield* Q.val(EvaluateNodeCommand(initializer, context), realm);
     }

@@ -350,7 +350,7 @@ describe("E2E: Binding Initialization", () => {
   );
 
   it.each(scenariosFor("forOfLet"))(
-    "for-of: $title",
+    "for-of let: $title",
     async ({ bindingsCode, valueCode, resultCollector, setupCode = "", assert }) => {
       const script = `
         ${setupCode}
@@ -370,19 +370,4 @@ describe("E2E: Binding Initialization", () => {
       assert({ result, error });
     },
   );
-
-  it("stuff", async () => {
-    const code = `
-      let gen;
-      async function fn() {
-        for await ({ x: gen = function*() {} } of [{}]) {
-          throw gen.name;
-        }
-      }
-
-      fn();
-    `;
-
-    await evaluateScript(code);
-  });
 });
