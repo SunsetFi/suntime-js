@@ -34,6 +34,8 @@ import iteratorClose from "../../runtime/iterators/iterator-close.js";
 import initializeReferencedBinding from "./initialize-referenced-binding.js";
 import initializeBoundName from "./initialize-bound-name.js";
 import iteratorBindingInitialization from "./iterator-binding-initialization.js";
+import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
+import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
 
 export default function* bindingInitialization(
   node: LVal,
@@ -140,8 +142,14 @@ function* keyedBindingInitialization(
       const obj = yield* toObject(value, realm);
       let v = yield* obj.getEvaluator(property);
       if (initializer && isStaticJsUndefined(v)) {
-        const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer, context), realm);
-        v = defaultValue;
+        if (isAnonymousFunctionDefinition(initializer)) {
+          v = yield* Q.val(
+            NamedEvaluation(typeof property === "string" ? property : null, initializer, context),
+            realm,
+          );
+        } else {
+          v = yield* Q.val(EvaluateNodeCommand(initializer, context), realm);
+        }
       }
       yield* bindingInitialization(node, v, environment, context);
       return;
@@ -152,17 +160,11 @@ function* keyedBindingInitialization(
       const obj = yield* toObject(value, realm);
       let v = yield* obj.getEvaluator(property);
       if (initializer && isStaticJsUndefined(v)) {
-        const initializerContext = context.create({
-          evaluationParameters: {
-            "NamedEvaluation::name": bindingId,
-          },
-        });
-
-        const defaultValue = yield* Q.val(
-          EvaluateNodeCommand(initializer, initializerContext),
-          context.realm,
-        );
-        v = defaultValue;
+        if (isAnonymousFunctionDefinition(initializer)) {
+          v = yield* Q.val(NamedEvaluation(bindingId, initializer, context), context.realm);
+        } else {
+          v = yield* Q.val(EvaluateNodeCommand(initializer, context), context.realm);
+        }
       }
 
       if (environment) {

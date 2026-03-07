@@ -23,6 +23,8 @@ import initializeReferencedBinding from "./initialize-referenced-binding.js";
 import bindingInitialization from "./binding-initialization.js";
 import iteratorDestructuringAssignmentEvaluation from "./iterator-destructuring-assignment-evaluation.js";
 import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
+import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
+import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
 
 // WHAT IS VOID PATTERN???
 export type IteratorBindingInitializationNode = LVal | VoidPattern;
@@ -123,16 +125,11 @@ export default function* iteratorBindingInitialization(
       }
 
       if (initializer && isStaticJsUndefined(v)) {
-        const initializerContext = context.create({
-          evaluationParameters: {
-            "NamedEvaluation::name": bindingId,
-          },
-        });
-        const defaultValue = yield* Q.val(
-          EvaluateNodeCommand(initializer, initializerContext),
-          realm,
-        );
-        v = defaultValue;
+        if (isAnonymousFunctionDefinition(initializer)) {
+          v = yield* Q.val(NamedEvaluation(bindingId, initializer, context), realm);
+        } else {
+          v = yield* Q.val(EvaluateNodeCommand(initializer, context), realm);
+        }
       }
 
       if (environment) {

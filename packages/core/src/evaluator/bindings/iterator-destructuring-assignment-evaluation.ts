@@ -18,6 +18,8 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import destructuringAssignmentEvaluation from "./destructuring-assignment-evaluation.js";
+import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
+import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
 
 export type IteratorDestructuringAssignmentType = PatternLike | null;
 export default function* iteratorDestructuringAssignmentEvaluation(
@@ -40,6 +42,8 @@ export default function* iteratorDestructuringAssignmentEvaluation(
     return;
   }
 
+  const { realm } = context;
+
   let initializer: Node | null = null;
   if (node.type === "AssignmentPattern") {
     initializer = node.right;
@@ -61,13 +65,13 @@ export default function* iteratorDestructuringAssignmentEvaluation(
     while (true) {
       let next: StaticJsValue | null = null;
       if (!iteratorRecord.done) {
-        next = yield* iteratorStepValue(iteratorRecord, context.realm);
+        next = yield* iteratorStepValue(iteratorRecord, realm);
       }
       if (!next) {
         break;
       }
 
-      yield* createDataPropertyOrThrow(A, String(n), next, context.realm);
+      yield* createDataPropertyOrThrow(A, String(n), next, realm);
       n += 1;
     }
 
@@ -78,37 +82,27 @@ export default function* iteratorDestructuringAssignmentEvaluation(
       lRef = yield* Q.ref(EvaluateNodeCommand(assignmentTarget, context));
     }
 
-    let value: StaticJsValue = context.realm.types.undefined;
+    let value: StaticJsValue = realm.types.undefined;
     if (!iteratorRecord.done) {
-      const next = yield* iteratorStepValue(iteratorRecord, context.realm);
+      const next = yield* iteratorStepValue(iteratorRecord, realm);
       if (next) {
         value = next;
       }
     }
 
     if (initializer && isStaticJsUndefined(value)) {
-      let initializerContext = context;
-      if (assignmentTarget.type === "Identifier") {
-        initializerContext = context.create({
-          evaluationParameters: {
-            "NamedEvaluation::name": assignmentTarget.name,
-          },
-        });
+      if (isAnonymousFunctionDefinition(initializer) && assignmentTarget.type === "Identifier") {
+        v = yield* Q.val(NamedEvaluation(assignmentTarget.name, initializer, context), realm);
+      } else {
+        v = yield* Q.val(EvaluateNodeCommand(initializer, context), realm);
       }
-
-      const defaultValue = yield* Q.val(
-        EvaluateNodeCommand(initializer, initializerContext),
-        context.realm,
-      );
-
-      v = defaultValue;
     } else {
       v = value;
     }
   }
 
   if (lRef) {
-    yield* putValue(lRef, v, context.realm);
+    yield* putValue(lRef, v, realm);
   } else {
     yield* destructuringAssignmentEvaluation(assignmentTarget, v, context);
   }

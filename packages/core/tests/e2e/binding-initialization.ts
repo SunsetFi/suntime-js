@@ -5,10 +5,10 @@ import { evaluateScript } from "../../src/index.js";
 interface BindingScenarioDefinition {
   title: string;
   exclude?: string[];
+  setupCode?: string;
   bindingsCode: string;
   valueCode: string;
   resultCollector: string;
-  setupCode?: string;
   assert(ctx: BindingAssertionContext): void;
 }
 
@@ -202,44 +202,80 @@ const bindingScenarios: BindingScenarioDefinition[] = [
       expect(result).toEqual([1, 3]);
     },
   },
-  {
-    title: "Array element initilalizer names function expressions without names",
-    bindingsCode: `[fn = function() {}]`,
-    valueCode: `[]`,
-    resultCollector: `fn.name`,
-    assert({ result, error }) {
-      expect(error).toBeUndefined();
-      expect(result).toBe("fn");
+  ...[
+    {
+      title: "Array element initializer",
+      surround: "[]",
     },
-  },
-  {
-    title: "Array element initilalizer does not name function expressions with names",
-    bindingsCode: `[fn = function named() {}]`,
-    valueCode: `[]`,
-    resultCollector: `fn.name`,
-    assert({ result, error }) {
-      expect(error).toBeUndefined();
-      expect(result).toBe("named");
+    {
+      title: "Object property initializer",
+      surround: "{}",
     },
-  },
+  ].flatMap(
+    ({ title, surround: [start, end] }) =>
+      [
+        {
+          title: `${title} names function expressions without names`,
+          bindingsCode: `${start}fn = function() {}${end}`,
+          valueCode: `${start}${end}`,
+          resultCollector: `fn.name`,
+          assert({ result, error }) {
+            expect(error).toBeUndefined();
+            expect(result).toBe("fn");
+          },
+        },
+        {
+          title: `${title} names generator function expressions without names`,
+          bindingsCode: `${start}fn = function*() {}${end}`,
+          valueCode: `${start}${end}`,
+          resultCollector: `fn.name`,
+          assert({ result, error }) {
+            expect(error).toBeUndefined();
+            expect(result).toBe("fn");
+          },
+        },
+        {
+          title: `${title} does not name function expressions with names`,
+          bindingsCode: `${start}fn = function named() {}${end}`,
+          valueCode: `${start}${end}`,
+          resultCollector: `fn.name`,
+          assert({ result, error }) {
+            expect(error).toBeUndefined();
+            expect(result).toBe("named");
+          },
+        },
+        {
+          title: `${title} does not name anonymous function expressions with indirected instantiation`,
+          bindingsCode: `${start}fn = (0, function() {})${end}`,
+          valueCode: `${start}${end}`,
+          resultCollector: `fn.name`,
+          assert({ result, error }) {
+            expect(error).toBeUndefined();
+            expect(result).toBe("");
+          },
+        },
+      ] as BindingScenarioDefinition[],
+  ),
   {
-    title: "Object property initializer names function expressions without names",
-    bindingsCode: `{ fn = function() {} }`,
+    title: "Object destructuring into named property names function expressions without names",
+    bindingsCode: `{ fn: myProp = function() {} }`,
     valueCode: `{}`,
-    resultCollector: `fn.name`,
+    resultCollector: `myProp.name`,
     assert({ result, error }) {
       expect(error).toBeUndefined();
-      expect(result).toBe("fn");
+      expect(result).toBe("myProp");
     },
   },
   {
-    title: "Object property initializer does not name function expressions with names",
-    bindingsCode: `{ fn = function named() {} }`,
+    title: "Object destructuring into variable property names function expressions without names",
+    setupCode: `let myFn;`,
+    exclude: ["let", "const", "var"],
+    bindingsCode: `{ fn: myFn = function() {} }`,
     valueCode: `{}`,
-    resultCollector: `fn.name`,
+    resultCollector: `myFn.name`,
     assert({ result, error }) {
       expect(error).toBeUndefined();
-      expect(result).toBe("named");
+      expect(result).toBe("myFn");
     },
   },
 ];
@@ -313,7 +349,7 @@ describe("E2E: Binding Initialization", () => {
     },
   );
 
-  it.each(scenariosFor("forOf"))(
+  it.each(scenariosFor("forOfLet"))(
     "for-of: $title",
     async ({ bindingsCode, valueCode, resultCollector, setupCode = "", assert }) => {
       const script = `
@@ -334,4 +370,19 @@ describe("E2E: Binding Initialization", () => {
       assert({ result, error });
     },
   );
+
+  it("stuff", async () => {
+    const code = `
+      let gen;
+      async function fn() {
+        for await ({ x: gen = function*() {} } of [{}]) {
+          throw gen.name;
+        }
+      }
+
+      fn();
+    `;
+
+    await evaluateScript(code);
+  });
 });

@@ -33,6 +33,8 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import iteratorDestructuringAssignmentEvaluation from "./iterator-destructuring-assignment-evaluation.js";
+import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
+import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
 
 export default function* destructuringAssignmentEvaluation(
   node: Node,
@@ -95,17 +97,19 @@ function* propertyDestructuringAssignmentEvaluation(
     const obj = yield* toObject(value, realm);
     let v = yield* obj.getEvaluator(P);
     if (initializer && isStaticJsUndefined(v)) {
-      const initializerContext = context.create({
-        evaluationParameters: {
-          "NamedEvaluation::name": lRef.referencedName,
-        },
-      });
-
-      const defaultValue = yield* Q.val(
-        EvaluateNodeCommand(initializer, initializerContext),
-        realm,
-      );
-      v = defaultValue;
+      if (isAnonymousFunctionDefinition(initializer)) {
+        v = yield* Q.val(
+          // ?? This can be a StaticJsValue?
+          NamedEvaluation(
+            typeof lRef.referencedName === "string" ? lRef.referencedName : null,
+            initializer,
+            context,
+          ),
+          realm,
+        );
+      } else {
+        v = yield* Q.val(EvaluateNodeCommand(initializer, context), realm);
+      }
     }
 
     yield* putValue(lRef, v, realm);
@@ -173,17 +177,14 @@ function* keyedDestructuringAssignmentEvaluation(
   const obj = yield* toObject(value, realm);
   let v = yield* obj.getEvaluator(property);
   if (initializer && isStaticJsUndefined(v)) {
-    let initializerContext = context;
-    if (typeof property === "string") {
-      initializerContext = context.create({
-        evaluationParameters: {
-          "NamedEvaluation::name": property,
-        },
-      });
+    if (isAnonymousFunctionDefinition(initializer)) {
+      v = yield* Q.val(
+        NamedEvaluation(typeof property === "string" ? property : null, initializer, context),
+        realm,
+      );
+    } else {
+      v = yield* Q.val(EvaluateNodeCommand(initializer, context), realm);
     }
-
-    const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer, initializerContext), realm);
-    v = defaultValue;
   }
 
   if (lRef) {
