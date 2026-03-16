@@ -254,28 +254,26 @@ export default class Macrotask {
         return null;
       }
 
-      return {
-        operationType: this._currentNode.type,
-      };
-    };
-
-    const getCurrentLocation = (): StaticJsTaskIteratorLocation | null => {
-      if (!this._currentNode || !this._currentNode.loc) {
-        return null;
+      let location: StaticJsTaskIteratorLocation | null = null;
+      if (this._currentNode.loc) {
+        location = {
+          sourceName: this._currentNode.loc.filename,
+          start: {
+            line: this._currentNode.loc.start.line,
+            column: this._currentNode.loc.start.column,
+            character: this._currentNode.loc.start.index,
+          },
+          end: {
+            line: this._currentNode.loc.end.line,
+            column: this._currentNode.loc.end.column,
+            character: this._currentNode.loc.end.index,
+          },
+        };
       }
 
       return {
-        sourceName: this._currentNode.loc.filename,
-        start: {
-          line: this._currentNode.loc.start.line,
-          column: this._currentNode.loc.start.column,
-          character: this._currentNode.loc.start.index,
-        },
-        end: {
-          line: this._currentNode.loc.end.line,
-          column: this._currentNode.loc.end.column,
-          character: this._currentNode.loc.end.index,
-        },
+        location,
+        operationType: this._currentNode.type,
       };
     };
 
@@ -331,9 +329,6 @@ export default class Macrotask {
       },
       get operation() {
         return getCurrentOperation();
-      },
-      get location() {
-        return getCurrentLocation();
       },
       next: () => next(),
       throw: (err: unknown) => next(err),

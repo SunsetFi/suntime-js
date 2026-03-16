@@ -478,8 +478,9 @@ describe("E2E: Modules", () => {
         const sourceNames = new Set<string>();
         const runTask = vitest.fn((task: StaticJsTaskIterator) => {
           while (true) {
-            if (task.location) {
-              sourceNames.add(task.location.sourceName);
+            const location = task.operation?.location;
+            if (location) {
+              sourceNames.add(location.sourceName);
             }
             const { done } = task.next();
             if (done) {

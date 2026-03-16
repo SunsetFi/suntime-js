@@ -123,8 +123,10 @@ describe("E2E: Realm", () => {
         expect(runTask).toHaveBeenCalledOnce();
         expect(runTask.mock.calls[0][0]).toEqual(
           expect.objectContaining({
-            location: expect.objectContaining({
-              sourceName: "test.js",
+            operation: expect.objectContaining({
+              location: expect.objectContaining({
+                sourceName: "test.js",
+              }),
             }),
           }),
         );

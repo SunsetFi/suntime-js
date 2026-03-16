@@ -41,9 +41,12 @@ describe("E2E: Stepping", () => {
             break;
           }
 
-          steps.push(
-            `Source: ${task.location.sourceName}, Line: ${task.location.start?.line}, Column: ${task.location.start?.column}`,
-          );
+          const location = task.operation?.location;
+          if (location) {
+            steps.push(
+              `Source: ${location.sourceName}, Line: ${location.start?.line}, Column: ${location.start?.column}`,
+            );
+          }
         }
       },
     });

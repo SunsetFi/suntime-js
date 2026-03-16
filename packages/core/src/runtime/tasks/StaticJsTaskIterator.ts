@@ -35,9 +35,14 @@ export interface StaticJsTaskIteratorLocation {
 
 export interface StaticJsTaskIteratorOperation {
   /**
+   * The location of the current operation queued for evaluation.
+   */
+  readonly location: StaticJsTaskIteratorLocation | null;
+
+  /**
    * Gets the type of the current operation queued for evaluation.
    */
-  get operationType(): string;
+  readonly operationType: string;
 }
 
 /**
@@ -67,11 +72,6 @@ export interface StaticJsTaskIterator {
    * If the task is done, this will be null.
    */
   get operation(): StaticJsTaskIteratorOperation | null;
-
-  /**
-   * The location of the current operation queued for evaluation.
-   */
-  get location(): StaticJsTaskIteratorLocation | null;
 
   /**
    * Evaluate the current operation and proceed the iterator to the next one.
