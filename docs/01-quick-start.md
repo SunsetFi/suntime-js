@@ -2,7 +2,7 @@
 
 ## StaticJs Basics
 
-The API functions `evaluateScriptSync(string)`, `evaluateExpressionSync(string)` will evaluate the given script, and return a promise resolving to the script's result after the task (and all microtasks) are completed.
+The API functions `evaluateScriptSync(string)`, `evaluateExpressionSync(string)` will evaluate the given script, and return the script's result after the task (and all microtasks) are completed.
 
 **Warning**: These functions will try to run the code until completion, and are vulnurable to infinite loops. See further sections on how to enforce execution limits or timeshare evaluation to avoid deadlocking the host.
 
@@ -138,15 +138,12 @@ const result = evaluateScriptSync(code, {
 });
 ```
 
-Note that calling abort() will result in the function throwing a `StaticJsTaskAbortedError`
+Calling task.abort() will result in the function throwing a `StaticJsTaskAbortedError`. If desired, you can use other exception types using task.throw().
 
 For convienence, the `createTimeBoundTaskRunner` utility function is provided to enforce both task and total time limits.
 
 ```ts
-import {
-  evaluateScriptSync,
-  createTimeBoundTaskRunner,
-} from "@suntime-js/core";
+import { evaluateScriptSync, createTimeBoundTaskRunner } from "@suntime-js/core";
 
 const code = `while(true) {}`;
 const result = evaluateScriptSync(code, {
@@ -284,6 +281,6 @@ const result = await evaluateScript(
     } catch {
       throw new Error("Script promise threw an error");
     }
-  }
+  },
 );
 ```
