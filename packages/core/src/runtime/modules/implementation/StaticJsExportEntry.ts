@@ -1,4 +1,12 @@
+import type {
+  ExportAllDeclaration,
+  ExportDefaultDeclaration,
+  ExportNamedDeclaration,
+  ExportSpecifier,
+} from "@babel/types";
+
 export interface StaticJsLocalExportEntry {
+  readonly sourceNode: ExportSpecifier | ExportDefaultDeclaration | ExportNamedDeclaration;
   readonly exportName: string;
   readonly localName: string;
 }
@@ -15,6 +23,7 @@ export const ImportAllButDefault = Symbol("*");
 export type ImportAllButDefault = typeof ImportAllButDefault;
 
 export interface StaticJsIndirectExportEntry {
+  readonly sourceNode: ExportSpecifier | ExportAllDeclaration;
   readonly exportName: string | null;
   readonly moduleRequest: string;
   readonly importName: string | ImportAllButDefault;

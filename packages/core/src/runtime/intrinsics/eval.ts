@@ -28,7 +28,7 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
 
     let node: File;
     try {
-      node = parseScript(str.value);
+      node = parseScript(str.value, "eval");
     } catch (e: unknown) {
       if (e instanceof StaticJsSyntaxError) {
         throw Completion.Throw(realm.types.error("SyntaxError", e.message));

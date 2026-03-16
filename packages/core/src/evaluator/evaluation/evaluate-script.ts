@@ -23,7 +23,7 @@ export async function evaluateScript(
 ): Promise<unknown> {
   opts ??= {};
   let { realm } = opts;
-  const { taskRunner } = opts;
+  const { taskRunner, sourceName } = opts;
 
   realm ??= StaticJsRealm();
   if (!isStaticJsRealm(realm)) {
@@ -32,7 +32,7 @@ export async function evaluateScript(
 
   let result: StaticJsValue;
   try {
-    result = await realm.evaluateScript(script, { runTask: taskRunner });
+    result = await realm.evaluateScript(script, { runTask: taskRunner, sourceName });
   } catch (e) {
     let error = e;
     if (error instanceof StaticJsRuntimeError) {

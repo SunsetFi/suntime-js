@@ -14,4 +14,9 @@ export interface StaticJsRunTaskOptions {
    * @param task The task to run.
    */
   runTask?: StaticJsTaskRunner;
+
+  /**
+   * The name of the source to use for the task.  This is used in stack traces and debugging.
+   */
+  sourceName?: string;
 }

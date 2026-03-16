@@ -12,6 +12,7 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 import type { StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 import type {
   StaticJsTaskIterator,
+  StaticJsTaskIteratorLocation,
   StaticJsTaskIteratorOperation,
   StaticJsTaskRunner,
 } from "../../tasks/StaticJsTaskIterator.js";
@@ -197,8 +198,15 @@ export default class Macrotask {
     accept: (value: unknown) => void,
     reject: (reason: unknown) => void,
   ) {
-    const taskIterator = this._createTaskIterator(evaluator, accept, reject);
     try {
+      // Note: This pumps the evaluator to get to the first node.
+      // For modules, this might throw during the linking process.
+      const taskIterator = this._createTaskIterator(evaluator, accept, reject);
+      if (!taskIterator) {
+        // For modules or other odd microtasks, this may complete synchronously during the initial pumping to find an evaluation node.
+        return;
+      }
+
       this._taskRunner(taskIterator);
     } catch (e) {
       reject(e);
@@ -209,10 +217,9 @@ export default class Macrotask {
     evaluator: StaticJsEvaluator,
     accept: (value: unknown) => void,
     reject: (reason: unknown) => void,
-  ): StaticJsTaskIterator {
+  ): StaticJsTaskIterator | null {
     const iterator = evaluateCommands(invokeEvaluator(evaluator), {
       onBeforeNode: (node) => {
-        // This is a bit of a hack, but we need
         this._currentNode = node;
       },
       onAfterNode: () => {
@@ -223,29 +230,51 @@ export default class Macrotask {
     let done = false;
     let aborted = false;
 
+    const trySkipIteratorNodes = () => {
+      // Prime the task to queue up the node we want to evaluate
+      // This may be more than one pump for modules.
+      while (!this._currentNode) {
+        try {
+          const { done, value } = iterator.next();
+          if (done) {
+            accept(value);
+            return false;
+          }
+        } catch (e) {
+          reject(e);
+          return false;
+        }
+      }
+
+      return true;
+    };
+
     const getCurrentOperation = (): StaticJsTaskIteratorOperation | null => {
-      if (
-        !this._currentNode ||
-        !this._currentNode.loc ||
-        this._currentNode.start == null ||
-        this._currentNode.end == null
-      ) {
+      if (!this._currentNode) {
         return null;
       }
 
       return {
         operationType: this._currentNode.type,
-        location: {
-          start: {
-            line: this._currentNode.loc.start.line,
-            column: this._currentNode.loc.start.column,
-            character: this._currentNode.start,
-          },
-          end: {
-            line: this._currentNode.loc.end.line,
-            column: this._currentNode.loc.end.column,
-            character: this._currentNode.end,
-          },
+      };
+    };
+
+    const getCurrentLocation = (): StaticJsTaskIteratorLocation | null => {
+      if (!this._currentNode || !this._currentNode.loc) {
+        return null;
+      }
+
+      return {
+        sourceName: this._currentNode.loc.filename,
+        start: {
+          line: this._currentNode.loc.start.line,
+          column: this._currentNode.loc.start.column,
+          character: this._currentNode.loc.start.index,
+        },
+        end: {
+          line: this._currentNode.loc.end.line,
+          column: this._currentNode.loc.end.column,
+          character: this._currentNode.loc.end.index,
         },
       };
     };
@@ -289,6 +318,10 @@ export default class Macrotask {
       }
     };
 
+    if (!trySkipIteratorNodes()) {
+      return null;
+    }
+
     return {
       get done() {
         return done;
@@ -298,6 +331,9 @@ export default class Macrotask {
       },
       get operation() {
         return getCurrentOperation();
+      },
+      get location() {
+        return getCurrentLocation();
       },
       next: () => next(),
       throw: (err: unknown) => next(err),

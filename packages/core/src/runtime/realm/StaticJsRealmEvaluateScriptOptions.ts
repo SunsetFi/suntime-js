@@ -3,11 +3,6 @@ import type { StaticJsRealm } from "./StaticJsRealm.js";
 
 export interface StaticJsRealmEvaluateScriptOptions extends StaticJsRunTaskOptions {
   /**
-   * An optional file name to associate with the script.
-   */
-  fileName?: string;
-
-  /**
    * Whether to support top-level await in the script.
    * If true, evaluateScript will always return a promise.
    * If "auto", evaluateScript will return a promise if top-level await is used, otherwise it will return the result directly.

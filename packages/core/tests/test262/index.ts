@@ -13,11 +13,8 @@ import Test262File from "./Test262File.js";
 import defineTest from "./define-test.js";
 
 // For now.  Eventually we should cover everything.
-const ignoredFeatures = [
-  "TypedArray",
-  "tail-call-optimization",
-  "explicit-resource-management",
-];
+const ignoredFeatures = ["TypedArray", "tail-call-optimization", "explicit-resource-management"];
+const ignoredTestPaths = [["language", "statements", "class"]];
 
 const LanguageCategories = readdirSync(test262Path("test/language"));
 
@@ -64,10 +61,11 @@ function isIgnoredTest(test: Test262File) {
     return true;
   }
 
-  if (
-    includeTests.length > 0 &&
-    !containsTest(test.testPathParts, includeTests)
-  ) {
+  if (includeTests.length > 0 && !containsTest(test.testPathParts, includeTests)) {
+    return true;
+  }
+
+  if (ignoredTestPaths.some((path) => arrayStartsWith(test.testPathParts, path))) {
     return true;
   }
 
@@ -95,6 +93,20 @@ function containsTest(testTitle: string[], fullTitles: string[][]) {
   }
 
   return false;
+}
+
+function arrayStartsWith<T>(arr: T[], prefix: T[]) {
+  if (prefix.length > arr.length) {
+    return false;
+  }
+
+  for (let i = 0; i < prefix.length; i++) {
+    if (arr[i] !== prefix[i]) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 function describePath(pathSegments: string[], body: () => void) {

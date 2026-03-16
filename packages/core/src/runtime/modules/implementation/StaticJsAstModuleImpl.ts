@@ -46,7 +46,7 @@ import {
 import parseImportEntries from "./parse-import-entries.js";
 import exportEntries from "./export-entries.js";
 
-export class StaticJsModuleImpl extends StaticJsModuleBase {
+export class StaticJsAstModuleImpl extends StaticJsModuleBase {
   private _linked = false;
 
   private _moduleEnv: StaticJsModuleEnvironmentRecord | undefined;

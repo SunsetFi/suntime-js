@@ -4,4 +4,5 @@ import type { StaticJsTaskRunner } from "../../runtime/tasks/StaticJsTaskIterato
 export interface EvaluationOptions {
   realm?: StaticJsRealm;
   taskRunner?: StaticJsTaskRunner;
+  sourceName?: string;
 }

@@ -17,12 +17,17 @@ export interface StaticJsTaskSourceLocation {
 
 export interface StaticJsTaskIteratorLocation {
   /**
-   * The starting location of the current operation in the source code.
+   * The name of the source file for the current operation.
+   */
+  readonly sourceName: string;
+
+  /**
+   * The starting location of the current operation in the source code, if any
    */
   readonly start: Readonly<StaticJsTaskSourceLocation>;
 
   /**
-   * The ending location of the current operation in the source code.
+   * The ending location of the current operation in the source code, if any.
    * This will be one past the last character of the operation.
    */
   readonly end: Readonly<StaticJsTaskSourceLocation>;
@@ -33,11 +38,6 @@ export interface StaticJsTaskIteratorOperation {
    * Gets the type of the current operation queued for evaluation.
    */
   get operationType(): string;
-
-  /**
-   * The location of the current operation queued for evaluation.
-   */
-  get location(): StaticJsTaskIteratorLocation;
 }
 
 /**
@@ -67,6 +67,11 @@ export interface StaticJsTaskIterator {
    * If the task is done, this will be null.
    */
   get operation(): StaticJsTaskIteratorOperation | null;
+
+  /**
+   * The location of the current operation queued for evaluation.
+   */
+  get location(): StaticJsTaskIteratorLocation | null;
 
   /**
    * Evaluate the current operation and proceed the iterator to the next one.

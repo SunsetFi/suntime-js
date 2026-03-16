@@ -29,44 +29,50 @@ export default function createPromiseConstructor(
   const ctor = new StaticJsFunctionImpl(
     realm,
     "Promise",
-    function* (thisArg, func) {
-      if (!isStaticJsObjectLike(thisArg)) {
-        throw Completion.Throw(
-          realm.types.error("TypeError", "Promise constructor called on a non-object"),
-        );
-      }
-
-      if (!isStaticJsFunction(func)) {
-        throw Completion.Throw(
-          realm.types.error("TypeError", "Promise resolver is not a function."),
-        );
-      }
-
-      // Our implementation requires us to take over the object instance,
-      // but still obey the prototype in case someone subclasses us.
-      let proto = yield* thisArg.getEvaluator("prototype");
-      if (!isStaticJsObjectLike(proto)) {
-        proto = realm.types.prototypes.promiseProto;
-      }
-
-      const promise = new StaticJsPromiseImpl(realm, proto);
-
-      const resolve = createPromiseResolveFunction(promise, realm);
-      const reject = createPromiseRejectFunction(promise, realm);
-
-      try {
-        yield* func.callEvaluator(realm.types.undefined, [resolve, reject]);
-      } catch (e) {
-        if (Completion.Throw.is(e)) {
-          promise.reject(e.value);
+    function* () {
+      throw Completion.Throw(
+        realm.types.error("TypeError", "Promise constructor cannot be called as a function"),
+      );
+    },
+    {
+      *construct(thisArg, func) {
+        if (!isStaticJsObjectLike(thisArg)) {
+          throw Completion.Throw(
+            realm.types.error("TypeError", "Promise constructor called on a non-object"),
+          );
         }
 
-        throw e;
-      }
+        if (!isStaticJsFunction(func)) {
+          throw Completion.Throw(
+            realm.types.error("TypeError", "Promise resolver is not a function."),
+          );
+        }
 
-      return promise;
+        // Our implementation requires us to take over the object instance,
+        // but still obey the prototype in case someone subclasses us.
+        let proto = yield* thisArg.getEvaluator("prototype");
+        if (!isStaticJsObjectLike(proto)) {
+          proto = realm.types.prototypes.promiseProto;
+        }
+
+        const promise = new StaticJsPromiseImpl(realm, proto);
+
+        const resolve = createPromiseResolveFunction(promise, realm);
+        const reject = createPromiseRejectFunction(promise, realm);
+
+        try {
+          yield* func.callEvaluator(realm.types.undefined, [resolve, reject]);
+        } catch (e) {
+          if (Completion.Throw.is(e)) {
+            promise.reject(e.value);
+          }
+
+          throw e;
+        }
+
+        return promise;
+      },
     },
-    { construct: true },
   );
 
   ctor.defineOwnPropertySync("prototype", {

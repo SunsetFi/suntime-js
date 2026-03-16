@@ -1,17 +1,14 @@
 import { describe, it, expect, vitest } from "vitest";
 
-import {
-  StaticJsRealm,
-  StaticJsSyntaxError,
-  evaluateModule,
-} from "../../src/index.js";
+import { StaticJsRealm, StaticJsSyntaxError, evaluateModule } from "../../src/index.js";
+import type { StaticJsTaskIterator } from "../../src/runtime/tasks/StaticJsTaskIterator.js";
 
-describe("E2E: Module", () => {
+describe("E2E: Modules", () => {
   it("Throws ReferenceError when a module is not found", async () => {
     const realm = StaticJsRealm();
-    await expect(
-      evaluateModule('import { foo } from "not-found";', { realm }),
-    ).rejects.toThrow(/not found/);
+    await expect(evaluateModule('import { foo } from "not-found";', { realm })).rejects.toThrow(
+      /not found/,
+    );
   });
 
   it("Throws ReferenceError when an indirect module is not found", async () => {
@@ -20,9 +17,9 @@ describe("E2E: Module", () => {
         "module-1": `import { foo } from "bar"; export const test = 42;`,
       },
     });
-    await expect(
-      evaluateModule('import { test } from "module-1";', { realm }),
-    ).rejects.toThrow(/not found/);
+    await expect(evaluateModule('import { test } from "module-1";', { realm })).rejects.toThrow(
+      /not found/,
+    );
   });
 
   describe("External Value Modules", () => {
@@ -474,6 +471,47 @@ describe("E2E: Module", () => {
 
       expect(moduleResolved).toBe(true);
       expect(receiver).toBeCalledWith(42);
+    });
+
+    describe("Tasks", () => {
+      it("Task provides the correct source names", async () => {
+        const sourceNames = new Set<string>();
+        const runTask = vitest.fn((task: StaticJsTaskIterator) => {
+          while (true) {
+            if (task.location) {
+              sourceNames.add(task.location.sourceName);
+            }
+            const { done } = task.next();
+            if (done) {
+              break;
+            }
+          }
+        });
+        const realm = StaticJsRealm({
+          runTask,
+          modules: {
+            "module-1.js": `export const foo = 42;`,
+          },
+        });
+
+        const code = `
+        import { foo } from "module-1.js";
+        let a = 1;
+        let b = 2;
+        let c = a + b;
+        export { c };
+        `;
+
+        await evaluateModule(code, { realm, sourceName: "test.js" });
+
+        // throw foo;
+
+        expect(runTask).toBeCalled();
+
+        const names = Array.from(sourceNames);
+        expect(names).toContain("test.js");
+        expect(names).toContain("module-1.js");
+      });
     });
   });
 

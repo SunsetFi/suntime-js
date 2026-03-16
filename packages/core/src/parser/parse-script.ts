@@ -4,12 +4,12 @@ import parserOptions from "./babel-parser-options.js";
 import handleParseError from "./parse-error.js";
 
 export interface ParseScriptOptions {
-  fileName?: string;
   topLevelAwait?: boolean;
 }
 export default function parseScript(
   script: string,
-  { topLevelAwait = false, fileName }: ParseScriptOptions = {},
+  fileName: string,
+  { topLevelAwait = false }: ParseScriptOptions = {},
 ) {
   try {
     return parseAst(script, {

@@ -37,10 +37,14 @@ export default function exportEntries(node: Node): StaticJsExportEntry[] {
           case "ClassDeclaration":
           case "VariableDeclaration": {
             const names = boundNames(node.declaration);
-            return names.map((name) => ({
-              localName: name,
-              exportName: name,
-            }));
+            return names.map(
+              (name) =>
+                ({
+                  sourceNode: node,
+                  localName: name,
+                  exportName: name,
+                }) satisfies StaticJsExportEntry,
+            );
           }
         }
       }
@@ -58,6 +62,7 @@ export default function exportEntries(node: Node): StaticJsExportEntry[] {
           const name = boundNames.soleElementOf(node.declaration);
           return [
             {
+              sourceNode: node,
               localName: name,
               exportName: "default",
             },
@@ -68,6 +73,7 @@ export default function exportEntries(node: Node): StaticJsExportEntry[] {
       if (isAssignmentGrammar(node.declaration)) {
         return [
           {
+            sourceNode: node,
             localName: "*default*",
             exportName: "default",
           },
@@ -93,6 +99,7 @@ function exportEntriesForModule(node: Node, moduleRequest: string | null): Stati
       // Maybe the web parser I'm using is out of date, but I don't see it in typings either.
       return [
         {
+          sourceNode: node,
           moduleRequest,
           importName: ImportAllButDefault,
           exportName: null,
@@ -108,6 +115,7 @@ function exportEntriesForModule(node: Node, moduleRequest: string | null): Stati
       if (moduleRequest === null) {
         return [
           {
+            sourceNode: node,
             localName: resolveName(node.local),
             exportName: resolveName(node.exported),
           },
@@ -115,6 +123,7 @@ function exportEntriesForModule(node: Node, moduleRequest: string | null): Stati
       } else {
         return [
           {
+            sourceNode: node,
             moduleRequest,
             importName: resolveName(node.local),
             exportName: resolveName(node.exported),

@@ -61,7 +61,7 @@ import type { StaticJsModule } from "../../modules/StaticJsModule.js";
 import { isStaticJsModule } from "../../modules/StaticJsModule.js";
 
 import StaticJsExternalModuleImpl from "../../modules/implementation/StaticJsExternalModuleImpl.js";
-import { StaticJsModuleImpl } from "../../modules/implementation/StaticJsModuleImpl.js";
+import { StaticJsAstModuleImpl } from "../../modules/implementation/StaticJsAstModuleImpl.js";
 
 import type { StaticJsTaskIterator, StaticJsTaskRunner } from "../../tasks/StaticJsTaskIterator.js";
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
@@ -195,7 +195,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   evaluateExpression(expression: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
-    const parsed = parseExpression(expression);
+    const parsed = parseExpression(expression, opts?.sourceName ?? this._createInlineSourceName());
     return this.enqueueMacrotask(doEvaluateNode(parsed, this), opts);
   }
 
@@ -206,7 +206,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       );
     }
 
-    const parsed = parseExpression(expression);
+    const parsed = parseExpression(expression, opts?.sourceName ?? this._createInlineSourceName());
     return this.invokeMacrotaskSync(doEvaluateNode(parsed, this), opts);
   }
 
@@ -214,9 +214,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     script: string,
     opts?: StaticJsRealmEvaluateScriptOptions,
   ): Promise<StaticJsValue> {
-    const parsed = parseScript(script, {
+    const parsed = parseScript(script, opts?.sourceName ?? this._createInlineSourceName(), {
       topLevelAwait: Boolean(opts?.topLevelAwait),
-      fileName: opts?.fileName,
     });
     const strict = parsed.program.directives.some(
       (directive) => directive.value.value === "use strict",
@@ -248,9 +247,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       );
     }
 
-    const parsed = parseScript(script, {
-      fileName: opts?.fileName,
-    });
+    const parsed = parseScript(script, opts?.sourceName ?? this._createInlineModuleSourceName());
     const strict = parsed.program.directives.some(
       (directive) => directive.value.value === "use strict",
     );
@@ -259,8 +256,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   async evaluateModule(code: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsModule> {
-    const parsed = parseModule(code);
-    const module = new StaticJsModuleImpl(`inline-module?${Date.now()}`, parsed.program, this);
+    const parsed = parseModule(code, opts?.sourceName ?? this._createInlineModuleSourceName());
+    const module = new StaticJsAstModuleImpl(
+      opts?.sourceName ?? this._createInlineModuleSourceName(),
+      parsed.program,
+      this,
+    );
 
     // Bit weird that we link immediately instead of when we are ready to perform the task?
     await module.linkModules();
@@ -303,11 +304,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       // the module async evaluation to complete.
       // In theory enqueueMacrotask will complete before or simultaniously with moduleEvaluationCompleted,
       // but await both at once to capture errors from either.
-      const [_, mod] = await Promise.all([
-        this.enqueueMacrotask(beginModuleEvaluation, opts),
-        moduleEvaluationCompleted,
-      ]);
-      return mod;
+      await this.enqueueMacrotask(beginModuleEvaluation, opts);
+
+      return await moduleEvaluationCompleted;
     } catch (e) {
       Completion.handleRuntime(e);
 
@@ -384,7 +383,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   enqueueMacrotask<TReturn>(
     evaluator: StaticJsEvaluator<TReturn>,
-    { runTask = this._defaultRunTask } = {},
+    { runTask = this._defaultRunTask }: StaticJsRunTaskOptions = {},
   ): Promise<TReturn> {
     const macrotask = this._createMacrotask(evaluator, runTask);
 
@@ -505,6 +504,14 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     );
   }
 
+  private _createInlineSourceName() {
+    return `inline-script?${Date.now()}`;
+  }
+
+  private _createInlineModuleSourceName() {
+    return `inline-module?${Date.now()}`;
+  }
+
   private _assertTaskRunning(task: Macrotask) {
     // This should never trigger, but is a sanity check against bugs in the task queuing system.
     if (this._currentTask !== task) {
@@ -605,8 +612,8 @@ function realmModuleToModule(
   module: StaticJsModuleResolution,
 ): StaticJsModuleImplementation {
   if (typeof module === "string") {
-    const parsed = parseModule(module);
-    return new StaticJsModuleImpl(specifier, parsed.program, realm);
+    const parsed = parseModule(module, specifier);
+    return new StaticJsAstModuleImpl(specifier, parsed.program, realm);
   } else if (isStaticJsModuleImplementation(module)) {
     return module;
   } else if (isStaticJsModule(module)) {

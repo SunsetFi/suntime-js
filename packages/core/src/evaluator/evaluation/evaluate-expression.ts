@@ -23,7 +23,7 @@ export async function evaluateExpression(
 ): Promise<unknown> {
   opts ??= {};
   let { realm } = opts;
-  const { taskRunner } = opts;
+  const { taskRunner, sourceName } = opts;
 
   realm ??= StaticJsRealm();
   if (!isStaticJsRealm(realm)) {
@@ -34,6 +34,7 @@ export async function evaluateExpression(
   try {
     result = await realm.evaluateExpression(expression, {
       runTask: taskRunner,
+      sourceName,
     });
   } catch (e) {
     let error = e;

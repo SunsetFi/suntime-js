@@ -13,13 +13,13 @@
     "lib"
   ],
   "type": "module",
-  "main": "lib/index.js",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
       "import": "./lib/index.js"
     }
   },
+  "sideEffects": false,
   "scripts": {
     "prepublish": "pnpm run clean && pnpm run build",
     "clean": "rimraf lib tsconfig.lib.tsbuildinfo",

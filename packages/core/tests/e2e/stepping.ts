@@ -27,9 +27,7 @@ describe("E2E: Stepping", () => {
     // Ensure that we are stepping through individual operations and not consuming
     // everything on one next() call.
     expect(iterations).toBeGreaterThan(10);
-    expect(
-      `Took ${iterations} iterations to run the script.`,
-    ).toMatchSnapshot();
+    expect(`Took ${iterations} iterations to run the script.`).toMatchSnapshot();
   });
 
   it("Records the line and column of each step", async () => {
@@ -43,10 +41,8 @@ describe("E2E: Stepping", () => {
             break;
           }
 
-          // Now that we ran, we should be paused at an operation.
-          const op = task.operation!;
           steps.push(
-            `Line: ${op.location.start.line}, Column: ${op.location.start.column}`,
+            `Source: ${task.location.sourceName}, Line: ${task.location.start?.line}, Column: ${task.location.start?.column}`,
           );
         }
       },
@@ -56,7 +52,7 @@ describe("E2E: Stepping", () => {
       for(let i = 0; i < 10; i++) {};
     `;
 
-    await realm.evaluateScript(code);
+    await realm.evaluateScript(code, { sourceName: "test.js" });
 
     expect(steps).toMatchSnapshot();
   });

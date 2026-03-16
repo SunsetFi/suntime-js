@@ -107,6 +107,30 @@ describe("E2E: Realm", () => {
       expect(result.toJsSync()).toBe(42);
     });
 
+    describe("sourceName", () => {
+      it("Accepts a sourceName option", async () => {
+        const runTask = vitest.fn();
+        const realm = StaticJsRealm({
+          runTask: runTask,
+        });
+
+        realm.evaluateScript("2 + 2", {
+          sourceName: "test.js",
+        });
+
+        await delay(0);
+
+        expect(runTask).toHaveBeenCalledOnce();
+        expect(runTask.mock.calls[0][0]).toEqual(
+          expect.objectContaining({
+            location: expect.objectContaining({
+              sourceName: "test.js",
+            }),
+          }),
+        );
+      });
+    });
+
     describe("runTask", () => {
       it("Handles evaluation with a StaticJsRealm runTask option", async () => {
         const runTask = vitest.fn((task: StaticJsTaskIterator) => {
@@ -144,9 +168,7 @@ describe("E2E: Realm", () => {
           } while (!result.done);
 
           if (queuedTask !== task) {
-            throw new Error(
-              "Queued task changed while draining previous task.",
-            );
+            throw new Error("Queued task changed while draining previous task.");
           }
           queuedTask = undefined;
         }
@@ -217,9 +239,7 @@ describe("E2E: Realm", () => {
             result = task.next();
           } while (!result.done);
           if (queuedTask !== task) {
-            throw new Error(
-              "Queued task changed while draining previous task.",
-            );
+            throw new Error("Queued task changed while draining previous task.");
           }
           queuedTask = undefined;
         }
@@ -236,9 +256,7 @@ describe("E2E: Realm", () => {
           runTask: runTask,
         });
 
-        const promise1 = realm.evaluateScript(
-          "for(let i = 0; i < 10000; i++) {  }",
-        );
+        const promise1 = realm.evaluateScript("for(let i = 0; i < 10000; i++) {  }");
         const promise2 = realm.evaluateScript("2 + 2");
 
         await delay(0); // Allow the first task to be queued
@@ -347,10 +365,9 @@ describe("E2E: Realm", () => {
         it("Returns a promise if top-level await is used", async () => {
           const realm = StaticJsRealm({});
 
-          const result = await realm.evaluateScript(
-            `await Promise.resolve(4);`,
-            { topLevelAwait: "auto" },
-          );
+          const result = await realm.evaluateScript(`await Promise.resolve(4);`, {
+            topLevelAwait: "auto",
+          });
           expect(isStaticJsPromise(result)).toBe(true);
         });
       });
@@ -430,9 +447,7 @@ describe("E2E: Realm", () => {
     it("Throws if called while a task is running from outside the task", () => {
       const realm = StaticJsRealm();
       realm.evaluateScript("2 + 2");
-      expect(() => realm.evaluateScriptSync("3 + 3")).toThrow(
-        StaticJsConcurrentEvaluationError,
-      );
+      expect(() => realm.evaluateScriptSync("3 + 3")).toThrow(StaticJsConcurrentEvaluationError);
     });
 
     it("Permits calls when nested inside another evaluateScript task", async () => {

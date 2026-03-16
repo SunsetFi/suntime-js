@@ -32,6 +32,7 @@ export default function parseImportEntries(
             const localName = specifier.local.name;
             throwIfImportSeen(localName);
             importEntries.push({
+              sourceNode: node,
               moduleRequest: node.source.value,
               localName,
               importName: "default",
@@ -43,6 +44,7 @@ export default function parseImportEntries(
             const localName = specifier.local.name;
             throwIfImportSeen(localName);
             importEntries.push({
+              sourceNode: node,
               moduleRequest: node.source.value,
               localName,
               importName: NamespaceImportName,
@@ -63,6 +65,7 @@ export default function parseImportEntries(
             const importName = specifier.imported.name;
             throwIfImportSeen(importName);
             importEntries.push({
+              sourceNode: node,
               moduleRequest: node.source.value,
               localName,
               importName,
