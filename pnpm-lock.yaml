@@ -172,6 +172,12 @@ importers:
 
   packages/dap:
     dependencies:
+      '@suntime-js/core':
+        specifier: workspace:*
+        version: link:../core
+      '@suntime-js/debugger':
+        specifier: workspace:*
+        version: link:../debugger
       '@vscode/debugadapter':
         specifier: ^1.68.0
         version: 1.68.0
@@ -185,6 +191,12 @@ importers:
       '@vscode/debugadapter-testsupport':
         specifier: ^1.68.0
         version: 1.68.0
+      oxfmt:
+        specifier: ^0.35.0
+        version: 0.35.0
+      oxlint:
+        specifier: ^1.50.0
+        version: 1.50.0
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -206,9 +218,6 @@ importers:
       '@babel/traverse':
         specifier: 'catalog:'
         version: 7.28.4
-      '@suntime-js/core':
-        specifier: workspace:*
-        version: link:../core
       uuid:
         specifier: ^13.0.0
         version: 13.0.0
@@ -216,6 +225,9 @@ importers:
       '@babel/types':
         specifier: 'catalog:'
         version: 7.28.4
+      '@suntime-js/core':
+        specifier: workspace:*
+        version: link:../core
       '@types/babel__traverse':
         specifier: 'catalog:'
         version: 7.28.0

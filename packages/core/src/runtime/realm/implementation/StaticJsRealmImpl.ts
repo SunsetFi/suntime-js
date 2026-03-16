@@ -256,12 +256,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   async evaluateModule(code: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsModule> {
-    const parsed = parseModule(code, opts?.sourceName ?? this._createInlineModuleSourceName());
-    const module = new StaticJsAstModuleImpl(
-      opts?.sourceName ?? this._createInlineModuleSourceName(),
-      parsed.program,
-      this,
-    );
+    const sourceName = opts?.sourceName ?? this._createInlineModuleSourceName();
+    const parsed = parseModule(code, sourceName);
+    const module = new StaticJsAstModuleImpl(sourceName, parsed.program, this);
 
     // Bit weird that we link immediately instead of when we are ready to perform the task?
     await module.linkModules();

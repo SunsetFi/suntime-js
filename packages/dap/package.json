@@ -1,15 +1,15 @@
 {
-  "name": "@suntime-js/debugger",
+  "name": "@suntime-js/dap",
   "version": "0.1.0",
   "private": false,
-  "description": "Runtime-agnostic debugger orchestration for Suntime-JS.",
+  "description": "Debug Adapter Protocol bootstrap for StaticJs.",
+  "keywords": [],
   "license": "ISC",
   "author": "SunsetFi",
   "files": [
     "lib"
   ],
   "type": "module",
-  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
@@ -19,29 +19,26 @@
   "scripts": {
     "prepublish": "pnpm run clean && pnpm run build",
     "clean": "rimraf lib tsconfig.lib.tsbuildinfo tsconfig.tests.tsbuildinfo",
-    "lint": "oxlint",
     "build": "tsc -p tsconfig.lib.json",
     "check": "tsc -p tsconfig.lib.json --noEmit && tsc -p tsconfig.tests.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "format": "oxfmt"
+    "format": "oxfmt",
+    "lint": "oxlint"
   },
   "dependencies": {
-    "@babel/parser": "catalog:",
-    "@babel/traverse": "catalog:",
-    "uuid": "^13.0.0"
-  },
-  "peerDependencies": {
-    "@suntime-js/core": "workspace:*"
+    "@suntime-js/core": "workspace:*",
+    "@suntime-js/debugger": "workspace:*",
+    "@vscode/debugadapter": "^1.68.0",
+    "@vscode/debugprotocol": "^1.68.0"
   },
   "devDependencies": {
-    "@babel/types": "catalog:",
-    "@types/babel__traverse": "catalog:",
-    "@suntime-js/core": "workspace:*",
     "@types/node": "^22.13.15",
+    "@vscode/debugadapter-testsupport": "^1.68.0",
     "oxfmt": "^0.35.0",
     "oxlint": "^1.50.0",
     "rimraf": "^6.0.1",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
   },

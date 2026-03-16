@@ -252,6 +252,69 @@ describe("StaticJsDebugSession", () => {
       expect(stopEvent?.snapshot).not.toBeNull();
     });
 
+    it("honors a cooperative pause request while running", async () => {
+      const debuggerInstance = createStaticJsDebugger({
+        realm: StaticJsRealm(),
+        runTask(task) {
+          const pump = () => {
+            if (task.done || task.aborted) {
+              return;
+            }
+
+            task.next();
+
+            if (!task.done && !task.aborted) {
+              setTimeout(pump, 0);
+            }
+          };
+
+          setTimeout(pump, 0);
+        },
+      });
+
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "pause-test.js",
+          sourceText: "let total = 0;\nfor (let i = 0; i < 100; i++) { total += i; }\ntotal;",
+        },
+      });
+
+      const stopPromise = session.start();
+      session.pause();
+
+      const stopEvent = await stopPromise;
+
+      expect(stopEvent?.reason).toBe("pause");
+      expect(session.state).toBe("paused");
+    });
+
+    it("marks breakpoint stops in promise callbacks as microtasks", async () => {
+      const debuggerInstance = createStaticJsDebugger({
+        realm: StaticJsRealm(),
+      });
+
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "microtask-test.js",
+          sourceText: "Promise.resolve(5).then(value => {\n  globalThis.result = value;\n});",
+          breakpoints: [
+            {
+              sourceName: "microtask-test.js",
+              line: 2,
+            },
+          ],
+        },
+      });
+
+      const stopEvent = await session.start();
+
+      expect(stopEvent?.reason).toBe("breakpoint");
+      expect(stopEvent?.snapshot?.taskKind).toBe("microtask");
+      expect(stopEvent?.snapshot?.line).toBe(2);
+    });
+
     it("runs to completion without stopping when no stop conditions are configured", async () => {
       const debuggerInstance = createStaticJsDebugger({
         realm: StaticJsRealm(),
