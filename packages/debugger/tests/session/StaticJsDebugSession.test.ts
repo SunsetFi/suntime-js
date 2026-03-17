@@ -23,7 +23,7 @@ describe("StaticJsDebugSession", () => {
         },
       });
 
-      const stopEvent = await session.start();
+      const stopEvent = await session.startAndWait();
 
       expect(stopEvent?.reason).toBe("entry");
       expect(session.state).toBe("paused");
@@ -43,7 +43,7 @@ describe("StaticJsDebugSession", () => {
         },
       });
 
-      const stopEvent = await session.start();
+      const stopEvent = await session.startAndWait();
 
       expect(stopEvent?.snapshot?.sourceName).toBe("entry-test.js");
     });
@@ -62,7 +62,7 @@ describe("StaticJsDebugSession", () => {
         },
       });
 
-      await session.start();
+      await session.startAndWait();
 
       expect(session.getStack()).toHaveLength(1);
       expect(session.getStack()[0]?.sourceName).toBe("entry-test.js");
@@ -89,7 +89,7 @@ describe("StaticJsDebugSession", () => {
         },
       });
 
-      const stopEvent = await session.start();
+      const stopEvent = await session.startAndWait();
 
       expect(stopEvent?.reason).toBe("breakpoint");
     });
@@ -113,7 +113,7 @@ describe("StaticJsDebugSession", () => {
         },
       });
 
-      const stopEvent = await session.start();
+      const stopEvent = await session.startAndWait();
 
       expect(stopEvent?.snapshot?.sourceName).toBe("breakpoint-test.js");
       expect(stopEvent?.snapshot?.line).toBe(2);
@@ -138,10 +138,10 @@ describe("StaticJsDebugSession", () => {
         },
       });
 
-      const firstStopEvent = await session.start();
+      const firstStopEvent = await session.startAndWait();
       expect(firstStopEvent?.reason).toBe("breakpoint");
 
-      const secondStopEvent = await session.continue();
+      const secondStopEvent = await session.continueAndWait();
 
       expect(secondStopEvent).toBeNull();
       expect(session.state).toBe("completed");
@@ -211,6 +211,85 @@ describe("StaticJsDebugSession", () => {
   });
 
   describe("other behavior", () => {
+    const createDeferredStartSession = () => {
+      const capturedTasks: StaticJsTaskIterator[] = [];
+
+      const debuggerInstance = createStaticJsDebugger({
+        realm: StaticJsRealm(),
+        runTask(task) {
+          capturedTasks.push(task);
+        },
+      });
+
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "start-immediate-test.js",
+          sourceText: "const value = 1;\nvalue + 1;",
+        },
+      });
+
+      const getCapturedTask = (): StaticJsTaskIterator => {
+        const task = capturedTasks[0];
+        if (!task) {
+          throw new Error("Expected runTask to capture the debug iterator.");
+        }
+
+        return task;
+      };
+
+      const exhaustEvaluation = (): void => {
+        const task = getCapturedTask();
+        while (!task.done && !task.aborted) {
+          task.next();
+        }
+      };
+
+      return {
+        session,
+        capturedTasks,
+        getCapturedTask,
+        exhaustEvaluation,
+      };
+    };
+
+    it("transitions to running on start", async () => {
+      const { session, capturedTasks } = createDeferredStartSession();
+
+      await session.start();
+
+      expect(session.state).toBe("running");
+      expect(capturedTasks).toHaveLength(1);
+    });
+
+    it("waitForStop throws when evaluation completes without stopping", async () => {
+      const { session, exhaustEvaluation } = createDeferredStartSession();
+
+      await session.start();
+      exhaustEvaluation();
+
+      await expect(session.waitForStop()).rejects.toThrow(
+        "Debug session terminated before stopping.",
+      );
+    });
+
+    it("transitions to completed on exhausting the evaluation", async () => {
+      const { session, exhaustEvaluation } = createDeferredStartSession();
+
+      const terminationPromise = new Promise<void>((resolve) => {
+        session.onDidTerminate(() => {
+          resolve();
+        });
+      });
+
+      await session.start();
+      exhaustEvaluation();
+
+      await terminationPromise;
+
+      expect(session.state).toBe("completed");
+    });
+
     it("pauses again after stepping from an entry stop", async () => {
       const debuggerInstance = createStaticJsDebugger({
         realm: StaticJsRealm(),
@@ -225,8 +304,8 @@ describe("StaticJsDebugSession", () => {
         },
       });
 
-      await session.start();
-      const stopEvent = await session.next();
+      await session.startAndWait();
+      const stopEvent = await session.nextAndWait();
 
       expect(stopEvent?.reason).toBe("step");
       expect(session.state).toBe("paused");
@@ -246,8 +325,8 @@ describe("StaticJsDebugSession", () => {
         },
       });
 
-      await session.start();
-      const stopEvent = await session.next();
+      await session.startAndWait();
+      const stopEvent = await session.nextAndWait();
 
       expect(stopEvent?.snapshot).not.toBeNull();
     });
@@ -280,7 +359,7 @@ describe("StaticJsDebugSession", () => {
         },
       });
 
-      const stopPromise = session.start();
+      const stopPromise = session.startAndWait();
       session.pause();
 
       const stopEvent = await stopPromise;
@@ -308,7 +387,7 @@ describe("StaticJsDebugSession", () => {
         },
       });
 
-      const stopEvent = await session.start();
+      const stopEvent = await session.startAndWait();
 
       expect(stopEvent?.reason).toBe("breakpoint");
       expect(stopEvent?.snapshot?.taskKind).toBe("microtask");
@@ -328,7 +407,7 @@ describe("StaticJsDebugSession", () => {
         },
       });
 
-      const stopEvent = await session.start();
+      const stopEvent = await session.startAndWait();
 
       expect(stopEvent).toBeNull();
       expect(session.state).toBe("completed");
@@ -419,7 +498,7 @@ describe("StaticJsDebugSession", () => {
         },
       });
 
-      const startPromise = session.start();
+      const startPromise = session.startAndWait();
       session.terminate();
 
       await expect(startPromise).resolves.toBeNull();
@@ -448,7 +527,7 @@ describe("StaticJsDebugSession", () => {
         terminateReason = event.reason;
       });
 
-      await session.start();
+      await session.startAndWait();
 
       expect(terminateReason).toBe("complete");
     });

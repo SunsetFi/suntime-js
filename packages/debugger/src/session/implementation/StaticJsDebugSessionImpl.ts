@@ -98,59 +98,28 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     return [...this._breakpointsById.values()];
   }
 
-  async start(): Promise<StaticJsDebugStopEvent | null> {
-    if (this._state !== "idle") {
-      throw new Error("Debug session has already started.");
-    }
-
-    this._stopOnEntryPending = Boolean(this._options.launch.stopOnEntry);
-
-    this._setState("starting");
-    emit(this._startListeners, {
-      sessionId: this.id,
-      state: "starting",
-    });
-
-    const request = this._beginControlRequest();
-
-    try {
-      this._launchEvaluation().then(this._onSessionComplete, this._onSessionError);
-    } catch (error) {
-      this._failStart(error);
-      throw error;
-    }
-
-    return request.promise;
+  start(): Promise<void> {
+    return this._startExecution(false);
   }
 
-  continue(): Promise<StaticJsDebugStopEvent | null> {
-    if (this._state === "completed" || this._state === "terminated") {
-      return Promise.resolve(null);
-    }
-
-    if (this._state !== "paused") {
-      throw new Error("Continue is only available while the session is paused.");
-    }
-
-    this._prepareToResume();
-    const request = this._beginControlRequest();
-    this._resumeActiveTask("continue");
-    return request.promise;
+  startAndWait(): Promise<StaticJsDebugStopEvent | null> {
+    return this._startExecution(true);
   }
 
-  next(): Promise<StaticJsDebugStopEvent | null> {
-    if (this._state === "completed" || this._state === "terminated") {
-      return Promise.resolve(null);
-    }
+  continue(): Promise<void> {
+    return this._resumeExecution("continue", false);
+  }
 
-    if (this._state !== "paused") {
-      throw new Error("Next is only available while the session is paused.");
-    }
+  continueAndWait(): Promise<StaticJsDebugStopEvent | null> {
+    return this._resumeExecution("continue", true);
+  }
 
-    this._prepareToResume();
-    const request = this._beginControlRequest();
-    this._resumeActiveTask("next");
-    return request.promise;
+  next(): Promise<void> {
+    return this._resumeExecution("next", false);
+  }
+
+  nextAndWait(): Promise<StaticJsDebugStopEvent | null> {
+    return this._resumeExecution("next", true);
   }
 
   pause(): void {
@@ -174,6 +143,79 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     }
 
     this._activeTask.abort();
+  }
+
+  private async _startExecution(waitForCompletion: false): Promise<void>;
+  private async _startExecution(waitForCompletion: true): Promise<StaticJsDebugStopEvent | null>;
+  private async _startExecution(
+    waitForCompletion: boolean,
+  ): Promise<void | StaticJsDebugStopEvent | null> {
+    const controlRequest = waitForCompletion ? this._beginControlRequest() : null;
+
+    if (this._state !== "idle") {
+      this._rejectControlRequest(new Error("Debug session has already started."));
+      throw new Error("Debug session has already started.");
+    }
+
+    this._stopOnEntryPending = Boolean(this._options.launch.stopOnEntry);
+
+    this._setState("starting");
+    emit(this._startListeners, {
+      sessionId: this.id,
+      state: "starting",
+    });
+
+    try {
+      this._launchEvaluation().then(this._onSessionComplete, this._onSessionError);
+    } catch (error) {
+      this._failStart(error);
+      throw error;
+    }
+
+    if (controlRequest) {
+      return controlRequest.promise;
+    }
+  }
+
+  private async _resumeExecution(waitMode: "continue", waitForCompletion: false): Promise<void>;
+  private async _resumeExecution(
+    waitMode: "continue",
+    waitForCompletion: true,
+  ): Promise<StaticJsDebugStopEvent | null>;
+  private async _resumeExecution(waitMode: "next", waitForCompletion: false): Promise<void>;
+  private async _resumeExecution(
+    waitMode: "next",
+    waitForCompletion: true,
+  ): Promise<StaticJsDebugStopEvent | null>;
+  private async _resumeExecution(
+    waitMode: ResumeMode,
+    waitForCompletion: boolean,
+  ): Promise<void | StaticJsDebugStopEvent | null> {
+    if (this._state === "completed" || this._state === "terminated") {
+      return waitForCompletion ? null : undefined;
+    }
+
+    if (this._state !== "paused") {
+      throw new Error(
+        waitMode === "continue"
+          ? "Continue is only available while the session is paused."
+          : "Next is only available while the session is paused.",
+      );
+    }
+
+    this._prepareToResume();
+    const controlRequest = waitForCompletion ? this._beginControlRequest() : null;
+
+    try {
+      this._resumeActiveTask(waitMode);
+    } catch (error) {
+      this._rejectControlRequest(error);
+      throw error;
+    }
+
+    if (controlRequest) {
+      return controlRequest.promise;
+    }
   }
 
   setBreakpoints(sourceName: string, lines: readonly number[]): void {
@@ -714,13 +756,23 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     }
   }
 
+  private _rejectControlRequest(error: unknown): void {
+    if (!this._controlRequest) {
+      return;
+    }
+
+    const resolvedError = error instanceof Error ? error : new Error(String(error));
+    this._controlRequest.reject(resolvedError);
+    this._controlRequest = null;
+  }
+
   private _failStart(error: unknown): void {
     this._pauseRequested = false;
     this._activeTask = null;
     this._lastStopEvent = null;
     this._skipBreakpointOnceForLine = null;
     this._stopOnEntryPending = false;
-    this._controlRequest = null;
+    this._rejectControlRequest(error);
 
     this._setState("terminated");
     emit(this._terminateListeners, {

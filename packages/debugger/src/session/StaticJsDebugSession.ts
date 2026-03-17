@@ -15,9 +15,12 @@ export interface StaticJsDebugSession {
   readonly state: StaticJsDebugSessionState;
   readonly breakpoints: readonly StaticJsDebugBreakpoint[];
 
-  start(): Promise<StaticJsDebugStopEvent | null>;
-  continue(): Promise<StaticJsDebugStopEvent | null>;
-  next(): Promise<StaticJsDebugStopEvent | null>;
+  start(): Promise<void>;
+  startAndWait(): Promise<StaticJsDebugStopEvent | null>;
+  continue(): Promise<void>;
+  continueAndWait(): Promise<StaticJsDebugStopEvent | null>;
+  next(): Promise<void>;
+  nextAndWait(): Promise<StaticJsDebugStopEvent | null>;
   pause(): void;
   terminate(): void;
 
