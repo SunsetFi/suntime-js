@@ -9,9 +9,11 @@
   "[typescript]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
-  "typescript.preferences.autoImportFileExcludePatterns": [
+  "js/ts.preferences.autoImportFileExcludePatterns": [
     "**/packages/*/src/**/index.ts"
   ],
-  // Currently not used, but installing it is required for oxfmt
-  "oxc.enable.oxlint": false
+  "search.exclude": {
+    "**/dist": true,
+    "**/lib": true
+  }
 }
