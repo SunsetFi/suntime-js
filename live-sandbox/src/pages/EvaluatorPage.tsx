@@ -1,15 +1,13 @@
 import React from "react";
 
-import numeral from "numeral";
-
-import Editor from "@monaco-editor/react";
-
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import ScriptInvocation from "@/models/ScriptInvocation";
 import { useObservation } from "@/hooks/use-observation";
+import { MonacoVscodeRoot, createSandboxWorkspace } from "@/monaco-vscode";
+import EvaluatorOperationStatus from "./EvaluatorOperationStatus";
 
 const defaultCode = `// Write your JavaScript code here
 console.log("Hello, world!");`;
@@ -17,25 +15,34 @@ console.log("Hello, world!");`;
 const EvaluatorPage = () => {
   const [code, setCode] = React.useState<string>(defaultCode);
   const [invocation, setInvocation] = React.useState<ScriptInvocation | null>(
-    null
+    null,
+  );
+  const initialWorkspace = React.useMemo(
+    () => createSandboxWorkspace(defaultCode),
+    [],
+  );
+  const onEditorEntryFileChange = React.useCallback((newCode: string) => {
+    setCode((currentCode) => (currentCode === newCode ? currentCode : newCode));
+  }, []);
+  const bootstrapOptions = React.useMemo(
+    () => ({
+      workspace: initialWorkspace,
+      vscodeApi: {
+        configurationDefaults: {
+          "editor.minimap.enabled": false,
+        },
+      },
+    }),
+    [initialWorkspace],
+  );
+  const editorOptions = React.useMemo(
+    () => ({
+      onEntryFileChange: onEditorEntryFileChange,
+    }),
+    [onEditorEntryFileChange],
   );
 
-  const onCodeChange = React.useCallback((newCode: string | undefined) => {
-    if (newCode !== undefined) {
-      setCode(newCode);
-    }
-  }, []);
-
   const status = useObservation(invocation?.status$) ?? "unstarted";
-  const log = useObservation(invocation?.log$) ?? [];
-  const ops = useObservation(invocation?.operations$);
-  const opsPerSecond = useObservation(invocation?.operationsPerSecond$) ?? 0;
-  const line = useObservation(invocation?.line$) ?? -1;
-  const column = useObservation(invocation?.column$) ?? -1;
-  const operationType = useObservation(invocation?.operationType$) ?? null;
-
-  const result = useObservation(invocation?.result$, { onError: "return" });
-
   const onAbort = React.useCallback(() => {
     invocation?.abort();
   }, [invocation]);
@@ -73,18 +80,30 @@ const EvaluatorPage = () => {
   }, [status, invocation]);
 
   const active = status === "running" || status === "paused";
-  const fmtOps = numeral(ops ?? 0).format("0.00a");
+
   return (
     <Box
       sx={{ display: "flex", flexDirection: "row", height: "100vh", gap: 1 }}
     >
-      <Editor
-        width="60vw"
-        height="100vh"
-        language="javascript"
-        value={code}
-        onChange={onCodeChange}
-      />
+      <Box sx={{ width: "60vw", height: "100vh" }}>
+        <MonacoVscodeRoot
+          bootstrapOptions={bootstrapOptions}
+          editorOptions={editorOptions}
+          fallback={
+            <Box
+              sx={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <CircularProgress size="1.25rem" />
+            </Box>
+          }
+        />
+      </Box>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Typography sx={{ px: 1, pt: 1 }}>
           This demo is configured to automatically adjust its execution rate to
@@ -97,34 +116,10 @@ const EvaluatorPage = () => {
           <button onClick={onStep}>Step</button>
           {active && <button onClick={onAbort}>Abort</button>}
         </Box>
-        <Typography>
-          {status === "running" && (
-            <>
-              <CircularProgress size="1rem" sx={{ mr: 1 }} />
-              Running ({fmtOps} ops, {numeral(opsPerSecond).format("0a")}/s)
-            </>
-          )}
-          {status === "paused" &&
-            `Paused at ${operationType} ${line}:${column} (${fmtOps} ops)`}
-          {status === "done" && `Done after ${fmtOps} ops`}
-        </Typography>
-        {log.map((message, i) => (
-          <Typography key={i} variant="body2">
-            {message}
-          </Typography>
-        ))}
-        {result !== undefined && stringify(result)}
+        <EvaluatorOperationStatus invocation={invocation} />
       </Box>
     </Box>
   );
 };
-
-function stringify(value: unknown): string {
-  if (value instanceof Error) {
-    return `${value.name}: ${value.message}`;
-  }
-
-  return JSON.stringify(value, null, 2);
-}
 
 export default EvaluatorPage;

@@ -4,7 +4,7 @@
     "jsx": "react",
 
     "module": "ES2020",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "isolatedModules": true,
@@ -14,11 +14,12 @@
     "lib": ["dom", "es2020"],
 
     "strict": true,
+    "skipLibCheck": true,
 
     "rootDir": "./src",
-    "baseUrl": "./node_modules",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["../src/*"]
+      "@/*": ["./src/*"]
     },
 
     "sourceMap": true,
