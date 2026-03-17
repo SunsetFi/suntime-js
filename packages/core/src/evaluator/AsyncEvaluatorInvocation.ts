@@ -38,6 +38,8 @@ export default class AsyncEvaluatorInvocation {
     return this._capability.promise;
   }
 
+  // Class is designed to represent a promise.
+  // oxlint-disable-next-line no-thenable
   *then(
     callback: (value: StaticJsValue, error?: StaticJsValue) => void,
   ): EvaluationGenerator<void> {

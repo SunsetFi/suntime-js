@@ -11,7 +11,7 @@ const objectCtorEntriesDeclaration: IntrinsicPropertyDeclaration = {
 
     const ownKeys = yield* obj.ownEnumerableKeysEvaluator();
 
-    const values: StaticJsValue[] = new Array(ownKeys.length);
+    const values: StaticJsValue[] = [];
     for (let i = 0; i < ownKeys.length; i++) {
       const key = ownKeys[i];
       const value = yield* obj.getEvaluator(key);

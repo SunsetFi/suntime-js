@@ -14,7 +14,7 @@ export default function* toArray(
 
   const length = yield* lengthOfArrayLike(obj, realm);
 
-  const result: StaticJsValue[] = new Array(length);
+  const result: StaticJsValue[] = [];
   for (let i = 0; i < length; i++) {
     const property = String(i);
     const hasProperty = yield* obj.hasPropertyEvaluator(property);

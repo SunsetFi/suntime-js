@@ -20,7 +20,7 @@ export default function* newExpressionNodeEvaluator(
     throw Completion.Throw(context.realm.types.error("TypeError", "Not a function"));
   }
 
-  const args = new Array<StaticJsValue>(node.arguments.length);
+  const args: StaticJsValue[] = [];
   for (let i = 0; i < node.arguments.length; i++) {
     const arg = yield* Q.val(EvaluateNodeCommand(node.arguments[i], context), context.realm);
     args[i] = arg;

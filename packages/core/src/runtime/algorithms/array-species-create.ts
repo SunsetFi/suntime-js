@@ -18,12 +18,12 @@ export default function* arraySpeciesCreate(
 ): EvaluationGenerator<StaticJsObjectLike> {
   const originalIsArray = yield* isArray(originalArray, realm);
   if (!originalIsArray) {
-    return realm.types.array(new Array(length));
+    return realm.types.array(Array.from({ length }));
   }
 
   // The above should guarentee this, but we want the type guard.
   if (!isStaticJsObjectLike(originalArray)) {
-    return realm.types.array(new Array(length));
+    return realm.types.array(Array.from({ length }));
   }
 
   let constructor = yield* originalArray.getEvaluator("constructor");
@@ -32,7 +32,7 @@ export default function* arraySpeciesCreate(
   }
 
   if (isStaticJsUndefined(constructor)) {
-    return realm.types.array(new Array(length));
+    return realm.types.array(Array.from({ length }));
   }
 
   if (!isConstructor(constructor, realm)) {

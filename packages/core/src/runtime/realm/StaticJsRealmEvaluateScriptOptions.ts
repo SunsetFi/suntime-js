@@ -1,5 +1,4 @@
 import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
-import type { StaticJsRealm } from "./StaticJsRealm.js";
 
 export interface StaticJsRealmEvaluateScriptOptions extends StaticJsRunTaskOptions {
   /**
@@ -9,7 +8,6 @@ export interface StaticJsRealmEvaluateScriptOptions extends StaticJsRunTaskOptio
    * If false or omitted, top-level await is not supported and will throw a syntax error if used.
    *
    * Default: false
-   * @see {@link StaticJsRealm["evaluateScript"]}
    */
   topLevelAwait?: boolean | "auto";
 }

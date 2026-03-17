@@ -95,13 +95,15 @@ function createMathNumericFunctionDeclaration(
     *func(realm, _thisObj, ...args) {
       // Building native JS value arrays from sandbox values is a little spicey, but
       // presumably there are no security exploits that can be gained by passing weird numbers to math functions.
-      const asNumbers = new Array<number>(args.length);
+      const asNumbers: number[] = [];
       for (let i = 0; i < args.length; i++) {
         const arg = args[i] ?? realm.types.undefined;
         const asNumber = yield* toNumber(arg, realm);
         asNumbers[i] = asNumber.value;
       }
+
       const computed = func.call(null, ...asNumbers);
+
       const asRuntime = realm.types.number(computed);
       return asRuntime;
     },
@@ -140,7 +142,7 @@ function createMathNumericFunctionHookDeclaration(
     *func(realm, _thisObj, ...args) {
       const hook = realm.hooks.math[key];
 
-      const asNumbers = new Array<number>(args.length);
+      const asNumbers: number[] = [];
       for (let i = 0; i < args.length; i++) {
         const arg = args[i] ?? realm.types.undefined;
         const asNumber = yield* toNumber(arg, realm);

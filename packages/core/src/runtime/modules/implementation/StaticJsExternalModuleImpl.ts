@@ -24,7 +24,7 @@ export default class StaticJsExternalModuleImpl
     realm: StaticJsRealm,
   ) {
     super(name, realm);
-    this._exportKeys = Object.freeze([...Object.keys(_obj)]);
+    this._exportKeys = Object.freeze(Object.keys(_obj));
   }
 
   get name() {
