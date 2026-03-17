@@ -1,69 +1,14 @@
 import { DebugClient } from "@vscode/debugadapter-testsupport";
-import type { DebugProtocol } from "@vscode/debugprotocol";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { resolve } from "node:path";
 
 import type { StaticJsLaunchRequestArguments } from "../src";
-
-const packageRoot = resolve(__dirname, "..");
-const adapterEntry = resolve(packageRoot, "src", "run.ts");
-const tsxRuntime = resolve(
-  packageRoot,
-  "node_modules",
-  ".bin",
-  process.platform === "win32" ? "tsx.cmd" : "tsx",
-);
-
-function createDebugClient(): DebugClient {
-  return new DebugClient(tsxRuntime, adapterEntry, "staticjs");
-}
-
-async function initialize(client: DebugClient): Promise<DebugProtocol.InitializeResponse> {
-  return client.initializeRequest({
-    adapterID: "staticjs",
-    clientID: "vitest",
-    columnsStartAt1: true,
-    linesStartAt1: true,
-    pathFormat: "path",
-  });
-}
-
-async function initializeAndLaunch(client: DebugClient): Promise<DebugProtocol.StackTraceResponse> {
-  const initialized = client.waitForEvent("initialized");
-
-  await initialize(client);
-
-  await initialized;
-
-  const stopped = client.waitForEvent("stopped");
-  const launchArgs: StaticJsLaunchRequestArguments = {
-    sourceKind: "script",
-    sourceName: "staticjs:///script/examples-hello.js",
-    sourceText: "const value = 1;\nvalue + 1;",
-    stopOnEntry: true,
-  };
-
-  await client.launchRequest(launchArgs);
-  await client.configurationDoneRequest();
-
-  await expect(stopped).resolves.toMatchObject({
-    body: {
-      reason: "entry",
-      threadId: 1,
-    },
-  });
-
-  return client.stackTraceRequest({ threadId: 1 });
-}
-
-async function launchStoppedScript(
-  client: DebugClient,
-  launchArgs: StaticJsLaunchRequestArguments,
-): Promise<void> {
-  await client.launchRequest(launchArgs);
-  await client.configurationDoneRequest();
-  await client.waitForEvent("stopped");
-}
+import {
+  createDebugClient,
+  initialize,
+  initializeAndWait,
+  launchStoppedScript,
+} from "./utils/debugClientTestUtils.js";
+import { MAIN_THREAD_ID, createScriptLaunchArgs } from "./utils/staticJsTestUtils.js";
 
 describe("StaticJsDebugAdapter", () => {
   let client: DebugClient;
@@ -77,9 +22,7 @@ describe("StaticJsDebugAdapter", () => {
     await client.stop();
   });
 
-  it("advertises supported capabilities and stops on entry", async () => {
-    const initialized = client.waitForEvent("initialized");
-
+  it("advertises supported capabilities", async () => {
     const response = await initialize(client);
     expect(response.body).toBeDefined();
 
@@ -88,25 +31,22 @@ describe("StaticJsDebugAdapter", () => {
       supportsTerminateRequest: true,
     });
     expect(response.body!.supportsEvaluateForHovers).not.toBe(true);
+  });
 
-    await initialized;
+  it("stops on entry and reports the main thread", async () => {
+    await initializeAndWait(client);
 
-    const stopped = client.waitForEvent("stopped");
-    const launchArgs: StaticJsLaunchRequestArguments = {
-      sourceKind: "script",
-      sourceName: "staticjs:///script/examples-hello.js",
-      sourceText: "const value = 1;\nvalue + 1;",
-      stopOnEntry: true,
-    };
+    const stopped = await launchStoppedScript(
+      client,
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/examples-hello.js",
+        sourceText: "const value = 1;\nvalue + 1;",
+      }),
+    );
 
-    await client.launchRequest(launchArgs);
-    await client.configurationDoneRequest();
-
-    await expect(stopped).resolves.toMatchObject({
-      body: {
-        reason: "entry",
-        threadId: 1,
-      },
+    expect(stopped.body).toMatchObject({
+      reason: "entry",
+      threadId: MAIN_THREAD_ID,
     });
 
     const threads = await client.threadsRequest();
@@ -120,16 +60,14 @@ describe("StaticJsDebugAdapter", () => {
   });
 
   it("returns verified breakpoints once a debug session exists", async () => {
-    await initialize(client);
+    await initializeAndWait(client);
 
-    const launchArgs: StaticJsLaunchRequestArguments = {
-      sourceKind: "script",
-      sourceName: "staticjs:///script/breakpoints.js",
-      sourceText: "const a = 1;\nconst b = 2;\na + b;",
-      stopOnEntry: true,
-    };
-
-    await client.launchRequest(launchArgs);
+    await client.launchRequest(
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/breakpoints.js",
+        sourceText: "const a = 1;\nconst b = 2;\na + b;",
+      }),
+    );
 
     const response = await client.setBreakpointsRequest({
       source: {
@@ -145,16 +83,14 @@ describe("StaticJsDebugAdapter", () => {
   });
 
   it("continues from entry to a configured breakpoint", async () => {
-    await initialize(client);
+    await initializeAndWait(client);
 
-    const launchArgs: StaticJsLaunchRequestArguments = {
-      sourceKind: "script",
-      sourceName: "staticjs:///script/continue-breakpoint.js",
-      sourceText: "const a = 1;\nconst b = 2;\na + b;",
-      stopOnEntry: true,
-    };
-
-    await client.launchRequest(launchArgs);
+    await client.launchRequest(
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/continue-breakpoint.js",
+        sourceText: "const a = 1;\nconst b = 2;\na + b;",
+      }),
+    );
     await client.setBreakpointsRequest({
       source: {
         path: "staticjs:///script/continue-breakpoint.js",
@@ -173,27 +109,36 @@ describe("StaticJsDebugAdapter", () => {
     await expect(continued).resolves.toMatchObject({
       body: {
         allThreadsContinued: true,
-        threadId: 1,
+        threadId: MAIN_THREAD_ID,
       },
     });
     await expect(stopped).resolves.toMatchObject({
       body: {
         allThreadsStopped: true,
         reason: "breakpoint",
-        threadId: 1,
+        threadId: MAIN_THREAD_ID,
       },
     });
 
-    const stackTrace = await client.stackTraceRequest({ threadId: 1 });
+    const stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
     expect(stackTrace.body.stackFrames[0]?.line).toBe(2);
   });
 
   it("reports paused stack frames from the debugger session", async () => {
-    const stackTrace = await initializeAndLaunch(client);
+    await initializeAndWait(client);
+    await launchStoppedScript(
+      client,
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/examples-hello.js",
+        sourceText: "const value = 1;\nvalue + 1;",
+      }),
+    );
+
+    const stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
     const [frame] = stackTrace.body.stackFrames;
 
     expect(frame).toMatchObject({
-      id: 1,
+      id: MAIN_THREAD_ID,
       line: 1,
       column: 1,
       source: {
@@ -204,18 +149,19 @@ describe("StaticJsDebugAdapter", () => {
 
     const terminated = client.waitForEvent("terminated");
 
-    await client.continueRequest({ threadId: 1 });
+    await client.continueRequest({ threadId: MAIN_THREAD_ID });
     await terminated;
   });
 
-  it("returns protocol errors for unsupported deferred requests", async () => {
-    await initialize(client);
-    await launchStoppedScript(client, {
-      sourceKind: "script",
-      sourceName: "staticjs:///script/unsupported.js",
-      sourceText: "const value = 1;\nvalue + 1;",
-      stopOnEntry: true,
-    });
+  it("rejects unsupported inspection requests", async () => {
+    await initializeAndWait(client);
+    await launchStoppedScript(
+      client,
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/unsupported.js",
+        sourceText: "const value = 1;\nvalue + 1;",
+      }),
+    );
 
     await expect(client.scopesRequest({ frameId: 1 })).rejects.toThrow(/scopes are not supported/i);
     await expect(client.variablesRequest({ variablesReference: 1 })).rejects.toThrow(
@@ -228,10 +174,29 @@ describe("StaticJsDebugAdapter", () => {
         frameId: 1,
       }),
     ).rejects.toThrow(/evaluate is not supported/i);
-    await expect(client.stepInRequest({ threadId: 1 })).rejects.toThrow(/stepIn is not supported/i);
+  });
+
+  it("rejects unsupported stepping requests", async () => {
+    await initializeAndWait(client);
+    await launchStoppedScript(
+      client,
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/unsupported-step.js",
+        sourceText: "const value = 1;\nvalue + 1;",
+      }),
+    );
+
+    await expect(client.stepInRequest({ threadId: MAIN_THREAD_ID })).rejects.toThrow(
+      /stepIn is not supported/i,
+    );
     await expect(client.stepOutRequest({ threadId: 1 })).rejects.toThrow(
       /stepOut is not supported/i,
     );
+  });
+
+  it("rejects unsupported attach-style requests", async () => {
+    await initializeAndWait(client);
+
     await expect(
       client.setExceptionBreakpointsRequest({
         filters: [],
@@ -243,40 +208,36 @@ describe("StaticJsDebugAdapter", () => {
         sourceText: "const value = 1;",
       } as StaticJsLaunchRequestArguments),
     ).rejects.toThrow(/attach is not supported/i);
-
-    const terminated = client.waitForEvent("terminated");
-
-    await client.terminateRequest();
-    await terminated;
   });
 
   it("rejects pause when no session is active", async () => {
-    await initialize(client);
+    await initializeAndWait(client);
 
-    await expect(client.pauseRequest({ threadId: 1 })).rejects.toThrow(
+    await expect(client.pauseRequest({ threadId: MAIN_THREAD_ID })).rejects.toThrow(
       /no active staticjs debug session/i,
     );
   });
 
   it("emits a pause stop after a pending pause request is observed", async () => {
-    await initialize(client);
-    await launchStoppedScript(client, {
-      sourceKind: "script",
-      sourceName: "staticjs:///script/pause.js",
-      sourceText: "let total = 0;\nfor (let i = 0; i < 100; i++) { total += i; }\ntotal;",
-      stopOnEntry: true,
-    });
+    await initializeAndWait(client);
+    await launchStoppedScript(
+      client,
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/pause.js",
+        sourceText: "let total = 0;\nfor (let i = 0; i < 100; i++) { total += i; }\ntotal;",
+      }),
+    );
 
-    await client.pauseRequest({ threadId: 1 });
+    await client.pauseRequest({ threadId: MAIN_THREAD_ID });
 
     const continued = client.waitForEvent("continued");
     const paused = client.waitForEvent("stopped");
 
-    await client.continueRequest({ threadId: 1 });
+    await client.continueRequest({ threadId: MAIN_THREAD_ID });
     await expect(continued).resolves.toMatchObject({
       body: {
         allThreadsContinued: true,
-        threadId: 1,
+        threadId: MAIN_THREAD_ID,
       },
     });
 
@@ -284,29 +245,30 @@ describe("StaticJsDebugAdapter", () => {
       body: {
         allThreadsStopped: true,
         reason: "pause",
-        threadId: 1,
+        threadId: MAIN_THREAD_ID,
       },
     });
   });
 
   it("emits a step stop for next", async () => {
-    await initialize(client);
-    await launchStoppedScript(client, {
-      sourceKind: "script",
-      sourceName: "staticjs:///script/step.js",
-      sourceText: "const value = 1;\nvalue + 1;",
-      stopOnEntry: true,
-    });
+    await initializeAndWait(client);
+    await launchStoppedScript(
+      client,
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/step.js",
+        sourceText: "const value = 1;\nvalue + 1;",
+      }),
+    );
 
     const continued = client.waitForEvent("continued");
     const stopped = client.waitForEvent("stopped");
 
-    await client.nextRequest({ threadId: 1 });
+    await client.nextRequest({ threadId: MAIN_THREAD_ID });
 
     await expect(continued).resolves.toMatchObject({
       body: {
         allThreadsContinued: true,
-        threadId: 1,
+        threadId: MAIN_THREAD_ID,
       },
     });
     await expect(stopped).resolves.toMatchObject({
@@ -315,11 +277,11 @@ describe("StaticJsDebugAdapter", () => {
         description: "Paused after one StaticJs operation.",
         reason: "step",
         text: "operation step",
-        threadId: 1,
+        threadId: MAIN_THREAD_ID,
       },
     });
 
-    const stackTrace = await client.stackTraceRequest({ threadId: 1 });
+    const stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
     expect(stackTrace.body.stackFrames[0]?.source?.path).toBe("staticjs:///script/step.js");
 
     const terminated = client.waitForEvent("terminated");
@@ -328,21 +290,52 @@ describe("StaticJsDebugAdapter", () => {
     await terminated;
   });
 
+  it.skip("known failing: advances to the next statement line on each next request", async () => {
+    await initializeAndWait(client);
+    await launchStoppedScript(
+      client,
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/step-lines.js",
+        sourceText: "const a = 1;\nconst b = 2;\nconst c = 3;",
+      }),
+    );
+
+    let stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
+    expect(stackTrace.body.stackFrames[0]?.line).toBe(1);
+
+    let continued = client.waitForEvent("continued");
+    let stopped = client.waitForEvent("stopped");
+    await client.nextRequest({ threadId: MAIN_THREAD_ID });
+    await continued;
+    await stopped;
+
+    stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
+    expect(stackTrace.body.stackFrames[0]?.line).toBe(2);
+
+    continued = client.waitForEvent("continued");
+    stopped = client.waitForEvent("stopped");
+    await client.nextRequest({ threadId: MAIN_THREAD_ID });
+    await continued;
+    await stopped;
+
+    stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
+    expect(stackTrace.body.stackFrames[0]?.line).toBe(3);
+
+    const terminated = client.waitForEvent("terminated");
+    await client.terminateRequest();
+    await terminated;
+  });
+
   it("synthesizes one stable sourceName when launch omits it", async () => {
-    await initialize(client);
+    await initializeAndWait(client);
+    await launchStoppedScript(
+      client,
+      createScriptLaunchArgs({
+        sourceText: "const value = 1;\nvalue + 1;",
+      }),
+    );
 
-    const launchArgs: StaticJsLaunchRequestArguments = {
-      sourceKind: "script",
-      sourceText: "const value = 1;\nvalue + 1;",
-      stopOnEntry: true,
-    };
-
-    await client.launchRequest(launchArgs);
-    await client.configurationDoneRequest();
-
-    await client.waitForEvent("stopped");
-
-    const stackTrace = await client.stackTraceRequest({ threadId: 1 });
+    const stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
     const sourcePath = stackTrace.body.stackFrames[0]?.source?.path;
 
     expect(sourcePath).toMatch(/^staticjs:\/\/\/script\/session-\d+\.js$/);
@@ -354,13 +347,14 @@ describe("StaticJsDebugAdapter", () => {
   });
 
   it("disconnects and emits termination cleanup", async () => {
-    await initialize(client);
-    await launchStoppedScript(client, {
-      sourceKind: "script",
-      sourceName: "staticjs:///script/disconnect.js",
-      sourceText: "const value = 1;\nvalue + 1;",
-      stopOnEntry: true,
-    });
+    await initializeAndWait(client);
+    await launchStoppedScript(
+      client,
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/disconnect.js",
+        sourceText: "const value = 1;\nvalue + 1;",
+      }),
+    );
 
     const terminated = client.waitForEvent("terminated");
 
@@ -373,7 +367,7 @@ describe("StaticJsDebugAdapter", () => {
   });
 
   it("rejects launch requests that do not provide sourceText and sourceKind", async () => {
-    await initialize(client);
+    await initializeAndWait(client);
 
     await expect(
       client.launchRequest({

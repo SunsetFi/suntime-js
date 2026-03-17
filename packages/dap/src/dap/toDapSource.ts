@@ -1,7 +1,10 @@
-import { Source } from "@vscode/debugadapter";
+import type { DebugProtocol } from "@vscode/debugprotocol";
 
-export function toDapSource(sourceName: string): Source {
-  return new Source(getSourceLabel(sourceName), sourceName);
+export function toDapSource(sourceName: string): DebugProtocol.Source {
+  return {
+    name: getSourceLabel(sourceName),
+    path: sourceName,
+  };
 }
 
 function getSourceLabel(sourceName: string): string {

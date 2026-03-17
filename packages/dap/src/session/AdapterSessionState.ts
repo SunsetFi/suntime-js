@@ -1,6 +1,6 @@
 import type { StaticJsDebugSession } from "@suntime-js/debugger";
 
-import type { NormalizedStaticJsLaunchRequestArguments } from "../adapter/StaticJsLaunchRequestArguments.js";
+import type { NormalizedStaticJsLaunchRequestArguments } from "../adapter/types/NormalizedStaticJsLaunchRequestArguments.js";
 
 export interface AdapterSessionState {
   configurationDone: boolean;

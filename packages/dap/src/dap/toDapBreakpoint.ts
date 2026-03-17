@@ -1,5 +1,8 @@
-import { Breakpoint } from "@vscode/debugadapter";
+import type { DebugProtocol } from "@vscode/debugprotocol";
 
-export function toDapBreakpoint(line: number, verified: boolean): Breakpoint {
-  return new Breakpoint(verified, line);
+export function toDapBreakpoint(line: number, verified: boolean): DebugProtocol.Breakpoint {
+  return {
+    verified,
+    line,
+  };
 }

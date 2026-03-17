@@ -1,13 +1,13 @@
 import type { StaticJsDebugStopEvent } from "@suntime-js/debugger";
-import { StoppedEvent } from "@vscode/debugadapter";
 import type { DebugProtocol } from "@vscode/debugprotocol";
 
-export function toDapStoppedEvent(event: StaticJsDebugStopEvent, threadId: number): StoppedEvent {
-  const stoppedEvent = new StoppedEvent(toDapStoppedReason(event), threadId);
+export function toDapStoppedEvent(
+  event: StaticJsDebugStopEvent,
+  threadId: number,
+): DebugProtocol.StoppedEvent {
   const body: DebugProtocol.StoppedEvent["body"] = {
-    ...stoppedEvent.body,
     allThreadsStopped: true,
-    reason: stoppedEvent.body.reason,
+    reason: toDapStoppedReason(event),
     threadId,
   };
 
@@ -16,9 +16,12 @@ export function toDapStoppedEvent(event: StaticJsDebugStopEvent, threadId: numbe
     body.text = "operation step";
   }
 
-  stoppedEvent.body = body;
-
-  return stoppedEvent;
+  return {
+    seq: 0,
+    type: "event",
+    event: "stopped",
+    body,
+  };
 }
 
 function toDapStoppedReason(

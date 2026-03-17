@@ -1,17 +1,6 @@
-import type { DebugProtocol } from "@vscode/debugprotocol";
-
-export type StaticJsSourceKind = "script" | "expression" | "module";
-
-export interface StaticJsLaunchRequestArguments extends DebugProtocol.LaunchRequestArguments {
-  sourceText: string;
-  sourceKind: StaticJsSourceKind;
-  sourceName?: string;
-  stopOnEntry?: boolean;
-}
-
-export interface NormalizedStaticJsLaunchRequestArguments extends StaticJsLaunchRequestArguments {
-  readonly sourceName: string;
-}
+import type { NormalizedStaticJsLaunchRequestArguments } from "./types/NormalizedStaticJsLaunchRequestArguments.js";
+import type { StaticJsLaunchRequestArguments } from "./types/StaticJsLaunchRequestArguments.js";
+import type { StaticJsSourceKind } from "./types/StaticJsSourceKind.js";
 
 let nextSyntheticSourceId = 1;
 

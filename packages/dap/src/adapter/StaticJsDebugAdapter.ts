@@ -9,11 +9,10 @@ import {
 } from "@vscode/debugadapter";
 import type { DebugProtocol } from "@vscode/debugprotocol";
 
-import type { StaticJsSyntaxError } from "@suntime-js/core";
-
 import { toDapBreakpoint } from "../dap/toDapBreakpoint.js";
 import { toDapStackFrame } from "../dap/toDapStackFrame.js";
 import { toDapStoppedEvent } from "../dap/toDapStoppedEvent.js";
+import { getStaticJsDebugAdapterErrorMessage } from "../utils/getStaticJsDebugAdapterErrorMessage.js";
 
 import {
   createAdapterSession,
@@ -21,12 +20,10 @@ import {
 } from "../session/createAdapterSession.js";
 import { createAdapterSessionState } from "../session/AdapterSessionState.js";
 
-import {
-  normalizeLaunchRequestArguments,
-  type NormalizedStaticJsLaunchRequestArguments,
-  type StaticJsLaunchRequestArguments,
-} from "./StaticJsLaunchRequestArguments.js";
+import { normalizeLaunchRequestArguments } from "./StaticJsLaunchRequestArguments.js";
 import { StaticJsDebugAdapterErrorCode } from "./StaticJsDebugAdapterErrorCode.js";
+import type { NormalizedStaticJsLaunchRequestArguments } from "./types/NormalizedStaticJsLaunchRequestArguments.js";
+import type { StaticJsLaunchRequestArguments } from "./types/StaticJsLaunchRequestArguments.js";
 
 const MAIN_THREAD_ID = 1;
 
@@ -34,6 +31,8 @@ export class StaticJsDebugAdapter extends DebugSession {
   public static readonly debuggerType = "staticjs";
 
   private readonly _sessionState = createAdapterSessionState();
+  private _deferStoppedEvents = 0;
+  private readonly _pendingStoppedEvents: DebugProtocol.StoppedEvent[] = [];
 
   public constructor() {
     super();
@@ -209,19 +208,7 @@ export class StaticJsDebugAdapter extends DebugSession {
       return;
     }
 
-    try {
-      void debugSession.next();
-    } catch (error) {
-      this.sendErrorResponse(
-        response,
-        StaticJsDebugAdapterErrorCode.DebugControlFailed,
-        this._getErrorMessage(error),
-      );
-      return;
-    }
-
-    this.sendResponse(response);
-    this.sendEvent(new ContinuedEvent(args.threadId ?? MAIN_THREAD_ID, true));
+    void this._handleNextRequestAsync(response, args, debugSession);
   }
 
   protected override stepInRequest(
@@ -256,23 +243,7 @@ export class StaticJsDebugAdapter extends DebugSession {
       return;
     }
 
-    try {
-      void debugSession.continue();
-    } catch (error) {
-      this.sendErrorResponse(
-        response,
-        StaticJsDebugAdapterErrorCode.DebugControlFailed,
-        this._getErrorMessage(error),
-      );
-      return;
-    }
-
-    response.body = {
-      allThreadsContinued: true,
-    };
-
-    this.sendResponse(response);
-    this.sendEvent(new ContinuedEvent(args.threadId ?? MAIN_THREAD_ID, true));
+    void this._handleContinueRequestAsync(response, args, debugSession);
   }
 
   protected override terminateRequest(
@@ -320,6 +291,87 @@ export class StaticJsDebugAdapter extends DebugSession {
     }
   }
 
+  private async _handleNextRequestAsync(
+    response: DebugProtocol.NextResponse,
+    args: DebugProtocol.NextArguments,
+    debugSession: NonNullable<typeof this._sessionState.debugSession>,
+  ): Promise<void> {
+    try {
+      this._beginStoppedEventDeferral();
+      await debugSession.next();
+    } catch (error) {
+      this._endStoppedEventDeferral();
+      this.sendErrorResponse(
+        response,
+        StaticJsDebugAdapterErrorCode.DebugControlFailed,
+        this._getErrorMessage(error),
+      );
+      return;
+    }
+
+    this.sendResponse(response);
+    this.sendEvent(new ContinuedEvent(args.threadId ?? MAIN_THREAD_ID, true));
+    this._endStoppedEventDeferral();
+  }
+
+  private async _handleContinueRequestAsync(
+    response: DebugProtocol.ContinueResponse,
+    args: DebugProtocol.ContinueArguments,
+    debugSession: NonNullable<typeof this._sessionState.debugSession>,
+  ): Promise<void> {
+    try {
+      this._beginStoppedEventDeferral();
+      await debugSession.continue();
+    } catch (error) {
+      this._endStoppedEventDeferral();
+      this.sendErrorResponse(
+        response,
+        StaticJsDebugAdapterErrorCode.DebugControlFailed,
+        this._getErrorMessage(error),
+      );
+      return;
+    }
+
+    response.body = {
+      allThreadsContinued: true,
+    };
+
+    this.sendResponse(response);
+    this.sendEvent(new ContinuedEvent(args.threadId ?? MAIN_THREAD_ID, true));
+    this._endStoppedEventDeferral();
+  }
+
+  private _beginStoppedEventDeferral(): void {
+    this._deferStoppedEvents++;
+  }
+
+  private _endStoppedEventDeferral(): void {
+    if (this._deferStoppedEvents === 0) {
+      return;
+    }
+
+    this._deferStoppedEvents--;
+    if (this._deferStoppedEvents !== 0) {
+      return;
+    }
+
+    while (this._pendingStoppedEvents.length > 0) {
+      const event = this._pendingStoppedEvents.shift();
+      if (event) {
+        this.sendEvent(event);
+      }
+    }
+  }
+
+  private _emitStoppedEvent(event: DebugProtocol.StoppedEvent): void {
+    if (this._deferStoppedEvents > 0) {
+      this._pendingStoppedEvents.push(event);
+      return;
+    }
+
+    this.sendEvent(event);
+  }
+
   private _createLaunchSession(
     response: DebugProtocol.Response,
     args: StaticJsLaunchRequestArguments,
@@ -344,7 +396,7 @@ export class StaticJsDebugAdapter extends DebugSession {
       const adapterSession = createAdapterSession({
         launchArgs,
         onDidStop: (event) => {
-          this.sendEvent(toDapStoppedEvent(event, MAIN_THREAD_ID));
+          this._emitStoppedEvent(toDapStoppedEvent(event, MAIN_THREAD_ID));
         },
         onDidTerminate: (event) => {
           if (event.reason === "error" && event.error) {
@@ -386,15 +438,7 @@ export class StaticJsDebugAdapter extends DebugSession {
   }
 
   private _getErrorMessage(error: unknown): string {
-    if (isStaticJsSyntaxError(error)) {
-      return error.message;
-    }
-
-    if (error instanceof Error) {
-      return error.message;
-    }
-
-    return "StaticJs debug adapter request failed.";
+    return getStaticJsDebugAdapterErrorMessage(error);
   }
 
   private _sendNotSupported(
@@ -424,8 +468,4 @@ export class StaticJsDebugAdapter extends DebugSession {
     this.sendEvent(new ExitedEvent(exitCode));
     this.sendEvent(new TerminatedEvent());
   }
-}
-
-function isStaticJsSyntaxError(error: unknown): error is StaticJsSyntaxError {
-  return error instanceof Error && error.name === "StaticJsSyntaxError";
 }
