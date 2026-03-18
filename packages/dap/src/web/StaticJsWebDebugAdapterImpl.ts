@@ -26,6 +26,7 @@ export class StaticJsWebDebugAdapterImpl implements StaticJsWebDebugAdapter {
   private readonly _messageBus = new StaticJsWebDebugAdapterMessageBus();
   private _deferStoppedEvents = 0;
   private readonly _pendingStoppedEvents: DebugProtocol.StoppedEvent["body"][] = [];
+  private _disposed = false;
 
   constructor(private readonly _options: StaticJsWebDebugAdapterOptions = {}) {}
 
@@ -130,6 +131,8 @@ export class StaticJsWebDebugAdapterImpl implements StaticJsWebDebugAdapter {
     if (this._messageBus.disposed) {
       return;
     }
+
+    this._disposed = true;
 
     this._disposeCurrentSession();
     this._messageBus.dispose();
@@ -352,7 +355,15 @@ export class StaticJsWebDebugAdapterImpl implements StaticJsWebDebugAdapter {
       return;
     }
 
-    this._messageBus.emitEvent("stopped", body);
+    // monaco-vscode-api does not detect stop events if they happen
+    // synchronously.
+    setTimeout(() => {
+      if (this._disposed) {
+        return;
+      }
+
+      this._messageBus.emitEvent("stopped", body);
+    }, 0);
   }
 
   private _emitNotSupported(
