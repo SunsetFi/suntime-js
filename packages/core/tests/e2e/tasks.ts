@@ -7,8 +7,11 @@ describe("E2E: Tasks", () => {
   it("Should step one AST node per task", async () => {
     const seenNodes: string[] = [];
     function runTask(task: StaticJsTaskIterator) {
-      while (!task.done) {
-        task.next();
+      while (true) {
+        const { done } = task.next();
+        if (done) {
+          break;
+        }
         seenNodes.push(task.operation?.operationType ?? "<missing>");
       }
     }
