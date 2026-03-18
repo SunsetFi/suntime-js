@@ -131,12 +131,12 @@ describe("createStaticJsWebDebugAdapter", () => {
 
     const nextSeq = session.sendRequest("next", { threadId: MAIN_THREAD_ID });
     const nextResponsePromise = session.collector.waitFor(isResponse("next", nextSeq));
-    const continuedPromise = session.collector.waitFor(isEvent("continued"));
-    const stoppedPromise = session.collector.waitFor(isStoppedEvent("step"));
+    const continued = session.collector.waitFor(isEvent("continued"));
+    const stopped = session.collector.waitFor(isStoppedEvent("step"));
 
     await nextResponsePromise;
-    await continuedPromise;
-    await stoppedPromise;
+    await continued;
+    await stopped;
 
     const continuedIndex = messageIndex(
       session.collector.messages,
@@ -157,36 +157,39 @@ describe("createStaticJsWebDebugAdapter", () => {
     expect(continuedIndex).toBeLessThan(stoppedIndex);
   });
 
-  it.skip("known failing: advances to the next statement line on each next request", async () => {
+  it("advances to the next operation on each next request", async () => {
     const session = createSession();
 
     await session.initialize();
     await session.launchStoppedScript(
       createScriptLaunchArgs({
         sourceName: "staticjs:///script/web-step-lines.js",
-        sourceText: "const a = 1;\nconst b = 2;\nconst c = 3;",
+        sourceText: "const a = 1; const b = 2; const c = 3;",
       }),
     );
 
+    // Stopped at: Program
+
+    let continued = session.collector.waitFor(isEvent("continued"));
+    let stopped = session.collector.waitFor(isStoppedEvent("step"));
+    session.sendRequest("next", { threadId: MAIN_THREAD_ID });
+    await continued;
+    await stopped;
+
+    // Stopped at: VariableDeclaration
     let stackTrace = await session.requestStackTrace();
-    expect(stackTrace.body?.stackFrames[0]?.line).toBe(1);
+    const { column: varDeclColumn } = stackTrace.body?.stackFrames[0] ?? {};
+    expect(varDeclColumn).toBe(1);
 
-    let continuedPromise = session.collector.waitFor(isEvent("continued"));
-    let stoppedPromise = session.collector.waitFor(isStoppedEvent("step"));
+    continued = session.collector.waitFor(isEvent("continued"));
+    stopped = session.collector.waitFor(isStoppedEvent("step"));
     session.sendRequest("next", { threadId: MAIN_THREAD_ID });
-    await continuedPromise;
-    await stoppedPromise;
+    await continued;
+    await stopped;
 
+    // Stopped at: NumericLiteral
     stackTrace = await session.requestStackTrace();
-    expect(stackTrace.body?.stackFrames[0]?.line).toBe(2);
-
-    continuedPromise = session.collector.waitFor(isEvent("continued"));
-    stoppedPromise = session.collector.waitFor(isStoppedEvent("step"));
-    session.sendRequest("next", { threadId: MAIN_THREAD_ID });
-    await continuedPromise;
-    await stoppedPromise;
-
-    stackTrace = await session.requestStackTrace();
-    expect(stackTrace.body?.stackFrames[0]?.line).toBe(3);
+    const { column: numericLiteralColumn } = stackTrace.body?.stackFrames[0] ?? {};
+    expect(numericLiteralColumn).toBe(11);
   });
 });

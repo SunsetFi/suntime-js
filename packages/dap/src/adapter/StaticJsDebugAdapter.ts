@@ -37,7 +37,7 @@ export class StaticJsDebugAdapter extends DebugSession {
   public constructor() {
     super();
     this.setDebuggerLinesStartAt1(true);
-    this.setDebuggerColumnsStartAt1(false);
+    this.setDebuggerColumnsStartAt1(true);
   }
 
   protected override initializeRequest(

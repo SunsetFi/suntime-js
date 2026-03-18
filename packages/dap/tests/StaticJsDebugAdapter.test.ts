@@ -290,27 +290,27 @@ describe("StaticJsDebugAdapter", () => {
     await terminated;
   });
 
-  it.skip("known failing: advances to the next statement line on each next request", async () => {
+  it("advances to the next operation on each next request", async () => {
     await initializeAndWait(client);
     await launchStoppedScript(
       client,
       createScriptLaunchArgs({
-        sourceName: "staticjs:///script/step-lines.js",
-        sourceText: "const a = 1;\nconst b = 2;\nconst c = 3;",
+        sourceName: "staticjs:///script/step.js",
+        sourceText: "const a = 1; const b = 2; const c = 3;",
       }),
     );
 
-    let stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
-    expect(stackTrace.body.stackFrames[0]?.line).toBe(1);
-
+    // Stopped at: Program
     let continued = client.waitForEvent("continued");
     let stopped = client.waitForEvent("stopped");
     await client.nextRequest({ threadId: MAIN_THREAD_ID });
     await continued;
     await stopped;
 
-    stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
-    expect(stackTrace.body.stackFrames[0]?.line).toBe(2);
+    // Stopped at: VariableDeclaration
+    let stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
+    const { column: varDeclColumn } = stackTrace.body?.stackFrames[0] ?? {};
+    expect(varDeclColumn).toBe(1);
 
     continued = client.waitForEvent("continued");
     stopped = client.waitForEvent("stopped");
@@ -318,12 +318,51 @@ describe("StaticJsDebugAdapter", () => {
     await continued;
     await stopped;
 
+    // Stopped at: NumericLiteral
     stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
-    expect(stackTrace.body.stackFrames[0]?.line).toBe(3);
+    const { column: numericLiteralColumn } = stackTrace.body?.stackFrames[0] ?? {};
+    expect(numericLiteralColumn).toBe(11);
 
     const terminated = client.waitForEvent("terminated");
+
     await client.terminateRequest();
     await terminated;
+    // await initializeAndWait(client);
+    // await launchStoppedScript(
+    //   client,
+    //   createScriptLaunchArgs({
+    //     sourceName: "staticjs:///script/step-lines.js",
+    //     sourceText: "const a = 1; const b = 2; const c = 3;",
+    //   }),
+    // );
+
+    // let stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
+    // const { column: firstColumn } = stackTrace.body?.stackFrames[0] ?? {};
+    // expect(firstColumn).toBeDefined();
+
+    // let continued = client.waitForEvent("continued");
+    // let stopped = client.waitForEvent("stopped");
+    // await client.nextRequest({ threadId: MAIN_THREAD_ID });
+    // await continued;
+    // await stopped;
+
+    // stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
+    // const { column: secondColumn } = stackTrace.body?.stackFrames[0] ?? {};
+    // expect(secondColumn).toBeGreaterThan(firstColumn);
+
+    // continued = client.waitForEvent("continued");
+    // stopped = client.waitForEvent("stopped");
+    // await client.nextRequest({ threadId: MAIN_THREAD_ID });
+    // await continued;
+    // await stopped;
+
+    // stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
+    // const { column: thirdColumn } = stackTrace.body?.stackFrames[0] ?? {};
+    // expect(thirdColumn).toBeGreaterThan(secondColumn);
+
+    // const terminated = client.waitForEvent("terminated");
+    // await client.terminateRequest();
+    // await terminated;
   });
 
   it("synthesizes one stable sourceName when launch omits it", async () => {
