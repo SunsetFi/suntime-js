@@ -1,14 +1,13 @@
 import { execSync } from "node:child_process";
 import { relative } from "node:path";
 
-let packagees;
+let packages;
 function getPackages() {
-  if (!packagees) {
-    const output = execSync("pnpm list --depth=0 --json").toString();
-    const { packages } = JSON.parse(output);
-    packagees = packages;
+  if (!packages) {
+    const output = execSync("pnpm list -r --depth -1 --json").toString();
+    packages = JSON.parse(output);
   }
-  return packagees;
+  return packages;
 }
 
 export function lintStagedWorkspaceCommand(packageName, command) {
