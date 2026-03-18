@@ -20,10 +20,8 @@ jobs:
           cache: "pnpm"
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
-      - name: Build StaticJS
-        run: pnpm run --filter @suntime-js/core build
-      - name: Build Sandbox
-        run: pnpm run --filter live-sandbox build
+      - name: Build
+        run: pnpm run --filter ...live-sandbox build
 
       - name: Upload sandbox
         id: deployment
