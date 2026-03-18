@@ -45,6 +45,7 @@ import {
 
 import parseImportEntries from "./parse-import-entries.js";
 import exportEntries from "./export-entries.js";
+import { StaticJsModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
 
 export class StaticJsAstModuleImpl extends StaticJsModuleBase {
   private _linked = false;
@@ -68,16 +69,19 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
 
   constructor(
     name: string,
-    private readonly _ast: Program,
+    private readonly _ecmaScriptSource: string,
+    private readonly _ecmaScriptCode: Program,
     realm: StaticJsRealm,
   ) {
     super(name, realm);
-    if (_ast.sourceType !== "module") {
-      throw new Error(`Module ${name} is not a module.  Source type is ${_ast.sourceType}.`);
+    if (_ecmaScriptCode.sourceType !== "module") {
+      throw new Error(
+        `Module ${name} is not a module.  Source type is ${_ecmaScriptCode.sourceType}.`,
+      );
     }
 
-    this._importEntries = parseImportEntries(name, _ast);
-    this._exportEntries = exportEntries(this._ast);
+    this._importEntries = parseImportEntries(name, _ecmaScriptCode);
+    this._exportEntries = exportEntries(this._ecmaScriptCode);
   }
 
   get name() {
@@ -229,7 +233,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       yield* module.moduleEvaluationEvaluator();
     }
 
-    const result = yield* Q(EvaluateNodeCommand(this._ast, this._context!));
+    const result = yield* Q(EvaluateNodeCommand(this._ecmaScriptCode, this._context!));
 
     this._status = "evaluated";
 
@@ -445,9 +449,14 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       }
     }
 
-    this._context = EvaluationContext.createRootContext(true, this._realm, this._envRec);
+    this._context = EvaluationContext.createRootContext(
+      StaticJsModuleRecord(this._ecmaScriptCode, this._ecmaScriptSource, this),
+      true,
+      this._realm,
+      this._envRec,
+    );
 
-    const varDeclarations = varScopedDeclarations(this._ast);
+    const varDeclarations = varScopedDeclarations(this._ecmaScriptCode);
     const declaredVarNames = new Set<string>();
     for (const d of varDeclarations) {
       for (const dn of boundNames(d)) {
@@ -460,7 +469,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       }
     }
 
-    const lexDeclarations = lexicallyScopedDeclarations(this._ast);
+    const lexDeclarations = lexicallyScopedDeclarations(this._ecmaScriptCode);
     for (const d of lexDeclarations) {
       for (const dn of boundNames(d)) {
         if (d.type === "VariableDeclaration" && d.kind === "const") {

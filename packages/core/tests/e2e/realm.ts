@@ -150,7 +150,7 @@ describe("E2E: Realm", () => {
 
         await delay(0); // Allow the task to be queued
 
-        expect(runTask).toBeCalledTimes(1);
+        expect(runTask).toHaveBeenCalledTimes(1);
 
         const result = await promise;
         expect(result.toJsSync()).toBe(4);
@@ -188,7 +188,7 @@ describe("E2E: Realm", () => {
 
         await delay(0); // Allow the first task to be queued
 
-        expect(runTask).toBeCalledTimes(1);
+        expect(runTask).toHaveBeenCalledTimes(1);
 
         drainTask();
 
@@ -197,7 +197,7 @@ describe("E2E: Realm", () => {
 
         expect(result1.toJsSync()).toBe(4);
 
-        expect(runTask).toBeCalledTimes(2);
+        expect(runTask).toHaveBeenCalledTimes(2);
 
         drainTask();
 
@@ -262,13 +262,13 @@ describe("E2E: Realm", () => {
         const promise2 = realm.evaluateScript("2 + 2");
 
         await delay(0); // Allow the first task to be queued
-        expect(runTask).toBeCalledTimes(1);
+        expect(runTask).toHaveBeenCalledTimes(1);
 
         abortTask();
 
         await expect(promise1).rejects.toThrow(StaticJsTaskAbortedError);
 
-        expect(runTask).toBeCalledTimes(2);
+        expect(runTask).toHaveBeenCalledTimes(2);
 
         drainTask();
 
@@ -289,7 +289,7 @@ describe("E2E: Realm", () => {
           const result = await realm.evaluateScript("2 + 2", {
             runTask,
           });
-          expect(runTask).toBeCalledTimes(1);
+          expect(runTask).toHaveBeenCalledTimes(1);
           expect(result.toJsSync()).toBe(4);
         });
 
@@ -309,8 +309,8 @@ describe("E2E: Realm", () => {
           const result = await realm.evaluateScript("2 + 2", {
             runTask: runTaskEvaluate,
           });
-          expect(runTaskRealm).toBeCalledTimes(0);
-          expect(runTaskEvaluate).toBeCalledTimes(1);
+          expect(runTaskRealm).toHaveBeenCalledTimes(0);
+          expect(runTaskEvaluate).toHaveBeenCalledTimes(1);
           expect(result.toJsSync()).toBe(4);
         });
       });
@@ -341,11 +341,11 @@ describe("E2E: Realm", () => {
           { topLevelAwait: true },
         );
         expect(isStaticJsPromise(result)).toBe(true);
-        expect(invocationCompleted).toBeCalledTimes(0);
+        expect(invocationCompleted).toHaveBeenCalledTimes(0);
         expect(resolver).toBeDefined();
         resolver!();
         await result.toJsSync();
-        expect(invocationCompleted).toBeCalledTimes(1);
+        expect(invocationCompleted).toHaveBeenCalledTimes(1);
       });
 
       describe("Auto", () => {
@@ -429,7 +429,7 @@ describe("E2E: Realm", () => {
 
       const result = realm.evaluateScriptSync("2 + 2");
 
-      expect(runTaskSync).toBeCalledTimes(1);
+      expect(runTaskSync).toHaveBeenCalledTimes(1);
 
       expect(result.toJsSync()).toBe(4);
     });
@@ -516,8 +516,8 @@ describe("E2E: Realm", () => {
     const result = realm.evaluateScriptSync("2 + 2", {
       runTask: runTaskEvaluate,
     });
-    expect(runTaskRealm).toBeCalledTimes(0);
-    expect(runTaskEvaluate).toBeCalledTimes(1);
+    expect(runTaskRealm).toHaveBeenCalledTimes(0);
+    expect(runTaskEvaluate).toHaveBeenCalledTimes(1);
     expect(result.toJsSync()).toBe(4);
   });
 });

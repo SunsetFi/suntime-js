@@ -1,14 +1,17 @@
 import type { Node } from "@babel/types";
 
 import type { EvaluationGenerator } from "./EvaluationGenerator.js";
+import type { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
 
 export interface EvaluateCommandsOptions {
   onBeforeNode?(node: Node): void;
   onAfterNode?(node: Node): void;
+  onFunctionEnter?(func: StaticJsFunction): void;
+  onFunctionExit?(): void;
 }
 export function* evaluateCommands<TReturn>(
   generator: EvaluationGenerator<TReturn>,
-  { onBeforeNode, onAfterNode }: EvaluateCommandsOptions = {},
+  { onBeforeNode, onAfterNode, onFunctionEnter, onFunctionExit }: EvaluateCommandsOptions = {},
 ): Generator<void, TReturn, void> {
   // At one point in time, all evaluators yielded 'evaluation requests', which we handled here in a stack.
   // However, we need to allow evaluators to suspend execution on their own, for async and generator functions.
@@ -17,7 +20,7 @@ export function* evaluateCommands<TReturn>(
 
   let currentNode: Node | null = null;
 
-  while (true) {
+  evaluate: while (true) {
     // We accept that calling the generator immediately without waiting for a yield will
     // start executing code, but the proper use should be that we start with a
     // NodeEvaluationCommand, which will first yield a value of kind "evaluate-node".
@@ -29,9 +32,7 @@ export function* evaluateCommands<TReturn>(
 
     // The above generator invocation will have invoked the node we were queued on.
     if (currentNode) {
-      if (onAfterNode) {
-        onAfterNode(currentNode);
-      }
+      onAfterNode?.(currentNode);
       currentNode = null;
     }
 
@@ -39,11 +40,22 @@ export function* evaluateCommands<TReturn>(
       return value;
     }
 
-    // We are queuing up a node to evaluate.
-    if (value.command === "evaluate-node") {
-      currentNode = value.node;
-      if (onBeforeNode) {
-        onBeforeNode(currentNode);
+    switch (value.command) {
+      case "evaluate-node": {
+        // We are queuing up a node to evaluate.
+        currentNode = value.node;
+        onBeforeNode?.(currentNode);
+        break;
+      }
+      case "function-enter": {
+        onFunctionEnter?.(value.func);
+        // Purely advisory, continue to find the next evaluation node.
+        continue evaluate;
+      }
+      case "function-exit": {
+        onFunctionExit?.();
+        // Purely advisory, continue to find the next evaluation node.
+        continue evaluate;
       }
     }
 

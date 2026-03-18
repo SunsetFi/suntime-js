@@ -1,6 +1,10 @@
+import type { Node } from "@babel/types";
+
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
+import { FunctionEvaluateBodyCommand } from "../../../evaluator/commands/FunctionEvaluate.js";
+import type { StaticJsScriptOrModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -80,6 +84,14 @@ export default class StaticJsFunctionImpl
     return StaticJsTypeCode.Function;
   }
 
+  get ecmaScriptCode(): Node | null {
+    return null;
+  }
+
+  get scriptOrModule(): StaticJsScriptOrModuleRecord | null {
+    return null;
+  }
+
   get isConstructor() {
     return this._construct !== null;
   }
@@ -107,20 +119,24 @@ export default class StaticJsFunctionImpl
       throw new TypeError("Arguments must be StaticJsValue instances.");
     }
 
-    try {
-      // For convienence, we support returning normal completions
-      // as being equivalent to a return completion.
-      const result = yield* this._call(thisArg, ...args);
-      return result ?? this.realm.types.undefined;
-    } catch (e) {
-      if (Completion.Return.is(e)) {
-        return e.value ?? this.realm.types.undefined;
+    // oxlint-disable-next-line typescript/no-this-alias
+    const func = this;
+    return yield* FunctionEvaluateBodyCommand(func, function* () {
+      try {
+        // For convienence, we support returning normal completions
+        // as being equivalent to a return completion.
+        const result = yield* func._call(thisArg, ...args);
+        return result ?? func.realm.types.undefined;
+      } catch (e) {
+        if (Completion.Return.is(e)) {
+          return e.value ?? func.realm.types.undefined;
+        }
+
+        Completion.ControlFlow.handleRuntime(e);
+
+        throw e;
       }
-
-      Completion.ControlFlow.handleRuntime(e);
-
-      throw e;
-    }
+    });
   }
 
   callAsync(

@@ -1,5 +1,7 @@
 import type { Node } from "@babel/types";
 
+import type { Writable } from "type-fest";
+
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
@@ -10,12 +12,16 @@ import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
-import type {
-  StaticJsTaskIterator,
-  StaticJsTaskIteratorLocation,
-  StaticJsTaskIteratorOperation,
-  StaticJsTaskRunner,
-} from "../../tasks/StaticJsTaskIterator.js";
+import type { StaticJsTaskIterator } from "../../tasks/StaticJsTaskIterator.js";
+import type { StaticJsTaskSourceLocation } from "../../tasks/StaticJsTaskSourceLocation.js";
+import type { StaticJsTaskIteratorOperation } from "../../tasks/StaticJsTaskIteratorOperation.js";
+import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
+import type { StaticJsFunction } from "../../types/StaticJsFunction.js";
+import type { StaticJsTaskIteratorStackFrame } from "../../tasks/StaticJsTaskIteratorStackFrame.js";
+import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
+import StaticJsAstFunction from "../../types/implementation/StaticJsAstFunction.js";
+import { isStaticJsUndefined } from "../../types/StaticJsUndefined.js";
+import { isStaticJsNull } from "../../types/StaticJsNull.js";
 
 export default class Macrotask {
   private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";
@@ -218,12 +224,39 @@ export default class Macrotask {
     accept: (value: unknown) => void,
     reject: (reason: unknown) => void,
   ): StaticJsTaskIterator | null {
+    interface TaskIteratorFrame {
+      currentNode: Node | null;
+      function: StaticJsFunction | null;
+    }
+    let frames: TaskIteratorFrame[] = [
+      {
+        currentNode: null,
+        function: null,
+      },
+    ];
     const iterator = evaluateCommands(invokeEvaluator(evaluator), {
       onBeforeNode: (node) => {
         this._currentNode = node;
+        const lastFrame = frames.at(0);
+        if (lastFrame) {
+          lastFrame.currentNode = node;
+        }
       },
       onAfterNode: () => {
         this._currentNode = null;
+        const lastFrame = frames.at(0);
+        if (lastFrame) {
+          lastFrame.currentNode = null;
+        }
+      },
+      onFunctionEnter(func) {
+        frames.unshift({
+          currentNode: func instanceof StaticJsFunctionImpl ? func.ecmaScriptCode : null,
+          function: func,
+        });
+      },
+      onFunctionExit() {
+        frames.shift();
       },
     });
 
@@ -254,25 +287,8 @@ export default class Macrotask {
         return null;
       }
 
-      let location: StaticJsTaskIteratorLocation | null = null;
-      if (this._currentNode.loc) {
-        location = {
-          sourceName: this._currentNode.loc.filename,
-          start: {
-            line: this._currentNode.loc.start.line,
-            column: this._currentNode.loc.start.column,
-            character: this._currentNode.loc.start.index,
-          },
-          end: {
-            line: this._currentNode.loc.end.line,
-            column: this._currentNode.loc.end.column,
-            character: this._currentNode.loc.end.index,
-          },
-        };
-      }
-
       return {
-        location,
+        location: captureLocation(this._currentNode),
         operationType: this._currentNode.type,
       };
     };
@@ -329,6 +345,37 @@ export default class Macrotask {
       },
       get operation() {
         return getCurrentOperation();
+      },
+      get stack() {
+        // Frames are mutated, so clone them if someone asks for the stack.
+        return frames
+          .map((frame) => ({ ...frame }))
+          .map(
+            (frame) =>
+              ({
+                get functionName() {
+                  const func = frame.function;
+                  if (!func) {
+                    return null;
+                  }
+
+                  const name = func.getSync("name");
+                  if (!name || isStaticJsUndefined(name) || isStaticJsNull(name)) {
+                    return "<anonymous>";
+                  }
+
+                  return name.toStringSync();
+                },
+                get sourceLocation() {
+                  const node = frame.currentNode;
+                  if (!node) {
+                    return null;
+                  }
+
+                  return captureLocation(node);
+                },
+              }) satisfies StaticJsTaskIteratorStackFrame,
+          );
       },
       next: () => next(),
       throw: (err: unknown) => next(err),
@@ -395,4 +442,18 @@ function invokeEvaluator<T>(evaluator: StaticJsEvaluator<T>): EvaluationGenerato
   } else {
     return evaluator;
   }
+}
+
+function captureLocation(node: Node): StaticJsTaskSourceLocation {
+  const loc = node.loc;
+  if (!loc) {
+    throw new StaticJsEngineError("Encountered a babel parse node without location data.");
+  }
+
+  return Object.freeze({
+    sourceName: loc.filename,
+    line: loc.start.line,
+    column: loc.start.column,
+    character: loc.start.index,
+  });
 }

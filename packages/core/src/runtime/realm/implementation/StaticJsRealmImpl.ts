@@ -63,7 +63,8 @@ import { isStaticJsModule } from "../../modules/StaticJsModule.js";
 import StaticJsExternalModuleImpl from "../../modules/implementation/StaticJsExternalModuleImpl.js";
 import { StaticJsAstModuleImpl } from "../../modules/implementation/StaticJsAstModuleImpl.js";
 
-import type { StaticJsTaskIterator, StaticJsTaskRunner } from "../../tasks/StaticJsTaskIterator.js";
+import type { StaticJsTaskIterator } from "../../tasks/StaticJsTaskIterator.js";
+import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 
 import getValue from "../../algorithms/get-value.js";
@@ -83,6 +84,8 @@ import type {
 } from "../StaticJsRealmEvaluateScriptOptions.js";
 
 import Macrotask from "./Macrotask.js";
+import { StaticJsScriptRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptRecord.js";
+import { StaticJsModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;
@@ -196,7 +199,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   evaluateExpression(expression: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
     const parsed = parseExpression(expression, opts?.sourceName ?? this._createInlineSourceName());
-    return this.enqueueMacrotask(doEvaluateNode(parsed, this), opts);
+    const record = StaticJsScriptRecord(parsed, expression);
+    const evaluator = doEvaluateScript(record, this);
+    return this.enqueueMacrotask(evaluator, opts);
   }
 
   evaluateExpressionSync(expression: string, opts?: StaticJsRunTaskOptions): StaticJsValue {
@@ -207,7 +212,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
 
     const parsed = parseExpression(expression, opts?.sourceName ?? this._createInlineSourceName());
-    return this.invokeMacrotaskSync(doEvaluateNode(parsed, this), opts);
+    const record = StaticJsScriptRecord(parsed, expression);
+    const evaluator = doEvaluateScript(record, this);
+    return this.invokeMacrotaskSync(evaluator, opts);
   }
 
   async evaluateScript(
@@ -221,6 +228,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       (directive) => directive.value.value === "use strict",
     );
 
+    const record = StaticJsScriptRecord(parsed, script);
+
     let evaluator: StaticJsEvaluator<StaticJsValue>;
 
     const topLevelAwait = findTopLevelAwait(parsed);
@@ -232,9 +241,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         );
       }
 
-      evaluator = doEvaluateNodeAsync(parsed.program, this, strict);
+      evaluator = doEvaluateScriptAsync(record, this, strict);
     } else {
-      evaluator = doEvaluateNode(parsed.program, this, strict);
+      evaluator = doEvaluateScript(record, this, strict);
     }
 
     return this.enqueueMacrotask(evaluator, opts);
@@ -252,13 +261,14 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       (directive) => directive.value.value === "use strict",
     );
 
-    return this.invokeMacrotaskSync(doEvaluateNode(parsed.program, this, strict), opts);
+    const record = StaticJsScriptRecord(parsed, script);
+    return this.invokeMacrotaskSync(doEvaluateScript(record, this, strict), opts);
   }
 
   async evaluateModule(code: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsModule> {
     const sourceName = opts?.sourceName ?? this._createInlineModuleSourceName();
     const parsed = parseModule(code, sourceName);
-    const module = new StaticJsAstModuleImpl(sourceName, parsed.program, this);
+    const module = new StaticJsAstModuleImpl(sourceName, code, parsed.program, this);
 
     // Bit weird that we link immediately instead of when we are ready to perform the task?
     await module.linkModules();
@@ -610,7 +620,7 @@ function realmModuleToModule(
 ): StaticJsModuleImplementation {
   if (typeof module === "string") {
     const parsed = parseModule(module, specifier);
-    return new StaticJsAstModuleImpl(specifier, parsed.program, realm);
+    return new StaticJsAstModuleImpl(module, specifier, parsed.program, realm);
   } else if (isStaticJsModuleImplementation(module)) {
     return module;
   } else if (isStaticJsModule(module)) {
@@ -682,16 +692,15 @@ function defaultTaskRunner(task: StaticJsTaskIterator) {
   }
 }
 
-function* doEvaluateNode(
-  node: Node,
+function* doEvaluateScript(
+  scriptRecord: StaticJsScriptRecord,
   realm: StaticJsRealm,
   strict?: boolean,
 ): EvaluationGenerator<StaticJsValue> {
-  // Keep going back and forth on whether this should create its own lexical env.
-  const context = EvaluationContext.createRootContext(strict ?? false, realm);
+  const context = EvaluationContext.createRootContext(scriptRecord, strict ?? false, realm);
   try {
-    yield* globalDeclarationInstantiation(node, context);
-    const result = yield* Q(EvaluateNodeCommand(node, context));
+    yield* globalDeclarationInstantiation(scriptRecord.ecmaScriptCode, context);
+    const result = yield* Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode, context));
     if (result) {
       return yield* getValue(result, realm);
     }
@@ -704,16 +713,15 @@ function* doEvaluateNode(
   }
 }
 
-function* doEvaluateNodeAsync(
-  node: Node,
+function* doEvaluateScriptAsync(
+  scriptRecord: StaticJsScriptRecord,
   realm: StaticJsRealm,
   strict?: boolean,
 ): EvaluationGenerator<StaticJsValue> {
-  const context = EvaluationContext.createRootContext(strict ?? false, realm);
+  const context = EvaluationContext.createRootContext(scriptRecord, strict ?? false, realm);
   try {
-    // yield* setupEnvironment(node, context);
-    yield* globalDeclarationInstantiation(node, context);
-    const evaluator = Q(EvaluateNodeCommand(node, context));
+    yield* globalDeclarationInstantiation(scriptRecord.ecmaScriptCode, context);
+    const evaluator = Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode, context));
     const invocation = new AsyncEvaluatorInvocation(evaluator, realm, true);
 
     // Note that invocation.start() performs its own sandbox error handling, so nothing

@@ -1,23 +1,23 @@
 import { blockStatement, type Program } from "@babel/types";
 
-import parseParameters from "../../../../parser/parse-parameters.js";
-import parseFunctionBody from "../../../../parser/parse-function-body.js";
+import parseParameters from "../../../parser/parse-parameters.js";
+import parseFunctionBody from "../../../parser/parse-function-body.js";
 
-import EvaluationContext from "../../../../evaluator/EvaluationContext.js";
+import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
-import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 
-import createFunction from "../../../../evaluator/node-evaluators/Function.js";
+import createFunction from "../../../evaluator/node-evaluators/Function.js";
 
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import toString from "../../../algorithms/to-string.js";
+import toString from "../../algorithms/to-string.js";
 
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
 
-import type { StaticJsAstFunctionArgument } from "../../../types/implementation/StaticJsAstFunctionArgument.js";
-import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
-import StaticJsGeneratorDeclFunction from "../../../types/implementation/StaticJsGeneratorDeclFunction.js";
+import type { StaticJsAstFunctionArgument } from "../../types/implementation/StaticJsAstFunctionArgument.js";
+import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
+import StaticJsGeneratorDeclFunction from "../../types/implementation/StaticJsGeneratorDeclFunction.js";
 
 export default function createGeneratorFunctionConstructor(
   realm: StaticJsRealm,
@@ -57,7 +57,10 @@ export default function createGeneratorFunctionConstructor(
         throw Completion.Throw(realm.types.error("SyntaxError", "Failed to parse function body"));
       }
 
-      const context = EvaluationContext.createRootContext(false, realm);
+      // FIXME: Should use the ScriptOrModule of the definer.
+      // This will break stack traces, once we get them.
+      // Normally, we would get this from GetActiveScriptOrModule, but we don't have any global state.
+      const context = EvaluationContext.createRootContext(null, false, realm);
 
       const fnBody = blockStatement(body.body, body.directives);
 

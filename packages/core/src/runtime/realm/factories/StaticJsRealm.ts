@@ -2,7 +2,7 @@ import mergeDeep from "../../../utils/merge-deep.js";
 
 import { realmDefaultHooks } from "../../hooks/index.js";
 
-import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskIterator.js";
+import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 
 import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
 

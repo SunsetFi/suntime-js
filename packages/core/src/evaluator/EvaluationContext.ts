@@ -6,6 +6,7 @@ import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
 import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
 
 import typedEntries from "../internal/typed-entries.js";
+import type { StaticJsScriptOrModuleRecord } from "./ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 
 export interface EvaluationContextOptions {
   strict?: boolean;
@@ -16,7 +17,9 @@ export interface EvaluationContextOptions {
   function?: StaticJsFunction | null;
 }
 
-type EvaluationContextAutoDefProperties = EvaluationContextOptions;
+type EvaluationContextAutoDefProperties = EvaluationContextOptions & {
+  scriptOrModule?: StaticJsScriptOrModuleRecord | null;
+};
 
 interface EvaluationContextPropertyDef {
   inherits?: boolean;
@@ -28,6 +31,7 @@ const EvaluationContextPropertyDefs: Record<
   keyof EvaluationContextAutoDefProperties,
   EvaluationContextPropertyDef
 > = {
+  scriptOrModule: { inherits: true, required: true },
   strict: { inherits: true, required: true },
   lexicalEnv: { inherits: true, required: true },
   variableEnv: { inherits: true, required: true },
@@ -36,21 +40,34 @@ const EvaluationContextPropertyDefs: Record<
   function: { inherits: false, defaultValue: null },
 };
 
+/**
+ * ECMAScript equivalent to ExecutionContext.
+ * Note: Code evaluation state is implicit to the generators being used,
+ * which are a consumer of this rather than contained within it.
+ */
 class EvaluationContext implements Required<EvaluationContextAutoDefProperties> {
   static createRootContext(
+    scriptOrModule: StaticJsScriptOrModuleRecord | null,
     strict: boolean,
     realm: StaticJsRealm,
     env: StaticJsEnvironmentRecord = realm.globalEnv,
   ): EvaluationContext {
-    return new EvaluationContext(realm, null, { strict, lexicalEnv: env, variableEnv: env });
+    return new EvaluationContext(realm, null, {
+      scriptOrModule,
+      strict,
+      lexicalEnv: env,
+      variableEnv: env,
+    });
   }
 
   static createFunctionInvocationContext(
     func: StaticJsFunction,
+    scriptOrModule: StaticJsScriptOrModuleRecord | null,
     realm: StaticJsRealm,
     env: StaticJsEnvironmentRecord,
   ): EvaluationContext {
     return new EvaluationContext(realm, null, {
+      scriptOrModule: scriptOrModule,
       strict: func.strict,
       function: func,
       lexicalEnv: env,
@@ -60,12 +77,12 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
 
   private readonly _realm: StaticJsRealm;
   private readonly _parent: EvaluationContext | null;
-  private readonly _properties: EvaluationContextOptions;
+  private readonly _properties: EvaluationContextAutoDefProperties;
 
   constructor(
     realm: StaticJsRealm,
     parent: EvaluationContext | null,
-    properties: EvaluationContextOptions,
+    properties: EvaluationContextAutoDefProperties,
   ) {
     this._realm = realm;
     this._parent = parent;
@@ -73,7 +90,7 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
 
     for (const [prop, def] of typedEntries(EvaluationContextPropertyDefs)) {
       if (!parent) {
-        if (def.required && !(prop in properties)) {
+        if (def.required && !(prop in properties) && (!def.inherits || !parent)) {
           throw new StaticJsEngineError(`Missing required evaluation context property: ${prop}`);
         }
       }
@@ -114,7 +131,14 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
     return this._parent;
   }
 
+  scriptOrModule!: StaticJsScriptOrModuleRecord;
+
+  // This isn't in the spec for evaluation contexts.
+  // It seems to be determined by walking the tree.
+  // Sadly babel's nodes don't have a parent property,
+  // but perhaps we could add one in parsing?
   strict!: boolean;
+
   lexicalEnv!: StaticJsEnvironmentRecord;
   variableEnv!: StaticJsEnvironmentRecord;
 

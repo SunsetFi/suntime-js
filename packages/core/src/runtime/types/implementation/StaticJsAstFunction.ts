@@ -25,10 +25,12 @@ import StaticJsFunctionBase, { type StaticJsFunctionImplOptions } from "./Static
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
+import type { StaticJsScriptOrModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 
 export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
   private _strict: boolean;
   private _thisMode: "lexical" | "strict" | "global";
+  private _scriptOrModule: StaticJsScriptOrModuleRecord;
   private _environment: StaticJsEnvironmentRecord;
 
   constructor(
@@ -67,10 +69,16 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     }
 
     this._environment = context.lexicalEnv;
+
+    this._scriptOrModule = context.scriptOrModule;
   }
 
-  get ECMAScriptCode(): Node | Expression {
+  get ecmaScriptCode(): Node {
     return this._body;
+  }
+
+  get scriptOrModule(): StaticJsScriptOrModuleRecord | null {
+    return this._scriptOrModule;
   }
 
   get strict(): boolean {
@@ -122,6 +130,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     );
     const calleeContext = EvaluationContext.createFunctionInvocationContext(
       this,
+      this.scriptOrModule,
       this.realm,
       localEnv,
     );

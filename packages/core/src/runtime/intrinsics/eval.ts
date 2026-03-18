@@ -39,7 +39,10 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
 
     const strict = node.program.directives.some((dir) => dir.value.value === "use strict");
 
-    let context = EvaluationContext.createRootContext(strict, realm, realm.globalEnv);
+    // FIXME: Should use the ScriptOrModule of the definer.
+    // This will break stack traces, once we get them.
+    // Normally, we would get this from GetActiveScriptOrModule, but we don't have any global state.
+    let context = EvaluationContext.createRootContext(null, strict, realm, realm.globalEnv);
 
     const lexEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
     const varEnv = strict ? lexEnv : context.variableEnv;

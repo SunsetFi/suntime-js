@@ -1,49 +1,5 @@
-export interface StaticJsTaskSourceLocation {
-  /**
-   * The 1-based line number of the current location in the source code.
-   */
-  line: number;
-
-  /**
-   * The 0-based column number of the current location in the source code.
-   */
-  column: number;
-
-  /**
-   * The 0-based character index of the current location in the source code.
-   */
-  character: number;
-}
-
-export interface StaticJsTaskIteratorLocation {
-  /**
-   * The name of the source file for the current operation.
-   */
-  readonly sourceName: string;
-
-  /**
-   * The starting location of the current operation in the source code, if any
-   */
-  readonly start: Readonly<StaticJsTaskSourceLocation>;
-
-  /**
-   * The ending location of the current operation in the source code, if any.
-   * This will be one past the last character of the operation.
-   */
-  readonly end: Readonly<StaticJsTaskSourceLocation>;
-}
-
-export interface StaticJsTaskIteratorOperation {
-  /**
-   * The location of the current operation queued for evaluation.
-   */
-  readonly location: StaticJsTaskIteratorLocation | null;
-
-  /**
-   * Gets the type of the current operation queued for evaluation.
-   */
-  readonly operationType: string;
-}
+import type { StaticJsTaskIteratorOperation } from "./StaticJsTaskIteratorOperation.js";
+import type { StaticJsTaskIteratorStackFrame } from "./StaticJsTaskIteratorStackFrame.js";
 
 /**
  * A task in the StaticJs runtime.
@@ -74,6 +30,11 @@ export interface StaticJsTaskIterator {
   get operation(): StaticJsTaskIteratorOperation | null;
 
   /**
+   * The stack frames of the currently executing task, with the top of the stack at index 0.
+   */
+  get stack(): ReadonlyArray<StaticJsTaskIteratorStackFrame>;
+
+  /**
    * Evaluate the current operation and proceed the iterator to the next one.
    */
   next(): IteratorResult<void, void>;
@@ -91,11 +52,3 @@ export interface StaticJsTaskIterator {
    */
   abort(): void;
 }
-
-/**
- * A function to run a task in the realm.
- *
- * The implementation should call .next() on the generator until it is done.
- * This may be done synchronously or asynchronously.
- */
-export type StaticJsTaskRunner = (task: StaticJsTaskIterator) => void;

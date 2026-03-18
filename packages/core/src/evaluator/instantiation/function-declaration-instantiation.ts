@@ -49,9 +49,9 @@ export default function* functionDeclarationInstantiation(
 
   // Weirdness because we have no "FunctionStatementList" node type and need
   // to request top level var names/declarations from the function body.
-  const varNames = varDeclaredNames.topLevel(func.ECMAScriptCode);
-  const varDeclarations = varScopedDeclarations.topLevel(func.ECMAScriptCode);
-  const lexicalNames = lexicallyDeclaredNames.topLevel(func.ECMAScriptCode);
+  const varNames = varDeclaredNames.topLevel(func.ecmaScriptCode);
+  const varDeclarations = varScopedDeclarations.topLevel(func.ecmaScriptCode);
+  const lexicalNames = lexicallyDeclaredNames.topLevel(func.ecmaScriptCode);
 
   const functionNames: string[] = [];
   const functionsToInitialize: FunctionDeclaration[] = [];
@@ -179,7 +179,7 @@ export default function* functionDeclarationInstantiation(
   if (strict) {
     lexEnv = varEnv;
   } else {
-    const annexBFunctions = collectAnnexBFunctionDeclarations(func.ECMAScriptCode);
+    const annexBFunctions = collectAnnexBFunctionDeclarations(func.ecmaScriptCode);
     for (const f of annexBFunctions) {
       if (f.id?.type !== "Identifier") {
         continue;
@@ -202,7 +202,7 @@ export default function* functionDeclarationInstantiation(
 
   calleeContext.lexicalEnv = lexEnv;
 
-  const lexDeclarations = lexicallyScopedDeclarations.topLevel(func.ECMAScriptCode);
+  const lexDeclarations = lexicallyScopedDeclarations.topLevel(func.ecmaScriptCode);
   for (const d of lexDeclarations) {
     for (const dn of boundNames(d)) {
       if (d.type == "VariableDeclaration" && d.kind === "const") {

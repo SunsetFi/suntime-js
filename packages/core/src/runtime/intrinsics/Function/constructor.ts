@@ -57,7 +57,10 @@ export default function createFunctionConstructor(
         throw Completion.Throw(realm.types.error("SyntaxError", "Failed to parse function body"));
       }
 
-      const context = EvaluationContext.createRootContext(false, realm);
+      // FIXME: Should use the ScriptOrModule of the definer.
+      // This will break stack traces, once we get them.
+      // Normally, we would get this from GetActiveScriptOrModule, but we don't have any global state.
+      const context = EvaluationContext.createRootContext(null, false, realm);
 
       const fnBody = blockStatement(body.body, body.directives);
 

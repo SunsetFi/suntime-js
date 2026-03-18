@@ -1,4 +1,4 @@
-import type { StaticJsTaskRunner } from "./StaticJsTaskIterator.js";
+import type { StaticJsTaskRunner } from "./StaticJsTaskRunner.js";
 
 /**
  * Options for running a macrotask in the StaticJs runtime.
