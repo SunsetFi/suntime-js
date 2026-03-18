@@ -230,13 +230,19 @@ export class StaticJsDebugAdapter extends DebugSession {
 
   protected override stepOutRequest(
     response: DebugProtocol.StepOutResponse,
-    _args: DebugProtocol.StepOutArguments,
+    args: DebugProtocol.StepOutArguments,
   ): void {
-    this._sendNotSupported(
-      response,
-      StaticJsDebugAdapterErrorCode.UnsupportedStepOut,
-      "stepOut is",
-    );
+    const debugSession = this._sessionState.debugSession;
+    if (!debugSession) {
+      this.sendErrorResponse(
+        response,
+        StaticJsDebugAdapterErrorCode.NoActiveSession,
+        "No active StaticJs debug session.",
+      );
+      return;
+    }
+
+    void this._handleStepOutRequestAsync(response, args, debugSession);
   }
 
   protected override continueRequest(
@@ -301,7 +307,7 @@ export class StaticJsDebugAdapter extends DebugSession {
   ): Promise<void> {
     try {
       this._beginStoppedEventDeferral();
-      await debugSession.next();
+      await debugSession.stepOver();
     } catch (error) {
       this._endStoppedEventDeferral();
       this.sendErrorResponse(
@@ -351,7 +357,30 @@ export class StaticJsDebugAdapter extends DebugSession {
   ): Promise<void> {
     try {
       this._beginStoppedEventDeferral();
-      await debugSession.next();
+      await debugSession.stepInto();
+    } catch (error) {
+      this._endStoppedEventDeferral();
+      this.sendErrorResponse(
+        response,
+        StaticJsDebugAdapterErrorCode.DebugControlFailed,
+        this._getErrorMessage(error),
+      );
+      return;
+    }
+
+    this.sendResponse(response);
+    this.sendEvent(new ContinuedEvent(args.threadId ?? MAIN_THREAD_ID, true));
+    this._endStoppedEventDeferral();
+  }
+
+  private async _handleStepOutRequestAsync(
+    response: DebugProtocol.StepOutResponse,
+    args: DebugProtocol.StepOutArguments,
+    debugSession: NonNullable<typeof this._sessionState.debugSession>,
+  ): Promise<void> {
+    try {
+      this._beginStoppedEventDeferral();
+      await debugSession.stepOut();
     } catch (error) {
       this._endStoppedEventDeferral();
       this.sendErrorResponse(

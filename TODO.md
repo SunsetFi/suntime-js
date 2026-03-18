@@ -6,12 +6,19 @@
   - [ ] Flatten nested evaluations into the same runTask iterator
   - [x] Pump the command evaluation to the first AST node, to hide internal details
   - [ ] Remove need to pump multiple times for modules by removing generator from linking stage.
-- [ ] Implement function auto names using EvaluationContext named parameters
-- [ ] Figure out why BlockStatement is weird with regard to labels.
+- [x] Implement function auto names using EvaluationContext named parameters
+- [x] Figure out why BlockStatement is weird with regard to labels.
 - [x] Rework EvaluationContext to not create so many child objects
   - [x] Pass all options to a single class type
   - [x] Arbitrary params to support NamedEvaluation and such
   - [ ] Take bigger advantage of mutable properties on such
+- [ ] Throw out and redesign debugger
+  - [ ] Refactor the massive monolith class into smaller components
+  - [ ] Switch file names to some sort of standard (kebab).
+  - [ ] Create actual stack / frame tracking in engine
+  - [ ] Use actual stack / frame tracking for step over/in/out
+- [ ] Deep review and cleanup of dap
+  - [ ] Sanify file names on kebab.
 
 ### Completion Refactor
 

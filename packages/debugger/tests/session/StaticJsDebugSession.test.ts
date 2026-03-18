@@ -305,7 +305,7 @@ describe("StaticJsDebugSession", () => {
       });
 
       await session.startAndWait();
-      const stopEvent = await session.nextAndWait();
+      const stopEvent = await session.stepOverAndWait();
 
       expect(stopEvent?.reason).toBe("step");
       expect(session.state).toBe("paused");
@@ -326,7 +326,7 @@ describe("StaticJsDebugSession", () => {
       });
 
       await session.startAndWait();
-      const stopEvent = await session.nextAndWait();
+      const stopEvent = await session.stepOverAndWait();
 
       expect(stopEvent?.snapshot).not.toBeNull();
     });
@@ -349,16 +349,16 @@ describe("StaticJsDebugSession", () => {
       // Verify program node
       expect(entryStopEvent?.snapshot?.operationType).toBe("Program");
 
-      const firstVariableStopEvent = await session.nextAndWait();
+      const firstVariableStopEvent = await session.stepOverAndWait();
       expect(firstVariableStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
 
-      const secondVariableStopEvent = await session.nextAndWait();
+      const secondVariableStopEvent = await session.stepOverAndWait();
       expect(secondVariableStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
 
-      const thirdVariableStopEvent = await session.nextAndWait();
+      const thirdVariableStopEvent = await session.stepOverAndWait();
       expect(thirdVariableStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
 
-      const completionStopEvent = await session.nextAndWait();
+      const completionStopEvent = await session.stepOverAndWait();
       expect(completionStopEvent).toBeNull();
       expect(session.state).toBe("completed");
     });
@@ -380,15 +380,263 @@ describe("StaticJsDebugSession", () => {
       const entryStopEvent = await session.startAndWait();
       expect(entryStopEvent?.snapshot?.operationType).toBe("Program");
 
-      const variableStopEvent = await session.nextAndWait();
+      const variableStopEvent = await session.stepOverAndWait();
       expect(variableStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
 
-      const expressionStopEvent = await session.nextAndWait();
+      const expressionStopEvent = await session.stepOverAndWait();
       expect(expressionStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
 
-      const completionStopEvent = await session.nextAndWait();
+      const completionStopEvent = await session.stepOverAndWait();
       expect(completionStopEvent).toBeNull();
       expect(session.state).toBe("completed");
+    });
+
+    it("keeps next as an alias for stepOver", async () => {
+      const debuggerInstance = createStaticJsDebugger({
+        realm: StaticJsRealm(),
+      });
+
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "next-alias-test.js",
+          sourceText: "const a = 1; const b = 2;",
+          stopOnEntry: true,
+        },
+      });
+
+      await session.startAndWait();
+
+      const stopEvent = await session.nextAndWait();
+
+      expect(stopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
+    });
+
+    it("steps over a function call without pausing in the callee", async () => {
+      const debuggerInstance = createStaticJsDebugger({
+        realm: StaticJsRealm(),
+      });
+
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "step-over-call-test.js",
+          sourceText: [
+            "function addOne(value) {",
+            "  const nextValue = value + 1;",
+            "  return nextValue;",
+            "}",
+            "const result = addOne(1);",
+            "result;",
+          ].join("\n"),
+          stopOnEntry: true,
+        },
+      });
+
+      await session.startAndWait();
+
+      const declarationStopEvent = await session.stepOverAndWait();
+      expect(declarationStopEvent?.snapshot?.operationType).toBe("FunctionDeclaration");
+
+      const callSiteStopEvent = await session.stepOverAndWait();
+      expect(callSiteStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
+      expect(callSiteStopEvent?.snapshot?.line).toBe(5);
+
+      const callerStopEvent = await session.stepOverAndWait();
+      expect(callerStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
+      expect(callerStopEvent?.snapshot?.line).toBe(6);
+    });
+
+    it("steps into the first visible statement inside a called function", async () => {
+      const debuggerInstance = createStaticJsDebugger({
+        realm: StaticJsRealm(),
+      });
+
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "step-into-call-test.js",
+          sourceText: [
+            "function addOne(value) {",
+            "  const nextValue = value + 1;",
+            "  return nextValue;",
+            "}",
+            "const result = addOne(1);",
+            "result;",
+          ].join("\n"),
+          stopOnEntry: true,
+        },
+      });
+
+      await session.startAndWait();
+      await session.stepOverAndWait();
+
+      const callSiteStopEvent = await session.stepOverAndWait();
+      expect(callSiteStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
+      expect(callSiteStopEvent?.snapshot?.line).toBe(5);
+
+      const calleeStopEvent = await session.stepIntoAndWait();
+      expect(calleeStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
+      expect(calleeStopEvent?.snapshot?.line).toBe(2);
+    });
+
+    it("falls back to the next visible statement when stepInto stays in the same frame", async () => {
+      const debuggerInstance = createStaticJsDebugger({
+        realm: StaticJsRealm(),
+      });
+
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "step-into-fallback-test.js",
+          sourceText: "const a = 1; a + 1;",
+          stopOnEntry: true,
+        },
+      });
+
+      await session.startAndWait();
+
+      const variableStopEvent = await session.stepIntoAndWait();
+      expect(variableStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
+
+      const expressionStopEvent = await session.stepIntoAndWait();
+      expect(expressionStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
+    });
+
+    it("steps over to the next loop iteration when the visible stop location repeats", async () => {
+      const debuggerInstance = createStaticJsDebugger({
+        realm: StaticJsRealm({
+          global: {
+            value: {
+              console: {
+                log: (...args: unknown[]) => args,
+              },
+            },
+          },
+        }),
+      });
+
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "step-over-loop-repeat-test.js",
+          sourceText: [
+            "function doThing() {",
+            "  for (let i = 0; i < 2; i++) {",
+            '    console.log("Hello " + i);',
+            "  }",
+            "}",
+            "",
+            "doThing();",
+            "42;",
+          ].join("\n"),
+          stopOnEntry: true,
+        },
+      });
+
+      await session.startAndWait();
+      await session.stepOverAndWait();
+      await session.stepOverAndWait();
+      await session.stepIntoAndWait();
+      await session.stepOverAndWait();
+      await session.stepOverAndWait();
+
+      const firstLoopStopEvent = session.getSnapshot();
+      expect(firstLoopStopEvent?.operationType).toBe("ExpressionStatement");
+      expect(firstLoopStopEvent?.line).toBe(3);
+
+      const secondLoopStopEvent = await session.stepOverAndWait();
+      expect(secondLoopStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
+      expect(secondLoopStopEvent?.snapshot?.line).toBe(3);
+
+      const afterLoopStopEvent = await session.stepOverAndWait();
+      expect(afterLoopStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
+      expect(afterLoopStopEvent?.snapshot?.line).toBe(8);
+    });
+
+    it("lets stepInto fall back to the next loop iteration when the call stays in the same frame", async () => {
+      const debuggerInstance = createStaticJsDebugger({
+        realm: StaticJsRealm({
+          global: {
+            value: {
+              console: {
+                log: (...args: unknown[]) => args,
+              },
+            },
+          },
+        }),
+      });
+
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "step-into-loop-repeat-test.js",
+          sourceText: [
+            "function doThing() {",
+            "  for (let i = 0; i < 2; i++) {",
+            '    console.log("Hello " + i);',
+            "  }",
+            "}",
+            "",
+            "doThing();",
+            "42;",
+          ].join("\n"),
+          stopOnEntry: true,
+        },
+      });
+
+      await session.startAndWait();
+      await session.stepOverAndWait();
+      await session.stepOverAndWait();
+      await session.stepIntoAndWait();
+      await session.stepOverAndWait();
+      await session.stepOverAndWait();
+
+      const firstLoopStopEvent = session.getSnapshot();
+      expect(firstLoopStopEvent?.operationType).toBe("ExpressionStatement");
+      expect(firstLoopStopEvent?.line).toBe(3);
+
+      const secondLoopStopEvent = await session.stepIntoAndWait();
+      expect(secondLoopStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
+      expect(secondLoopStopEvent?.snapshot?.line).toBe(3);
+
+      const afterLoopStopEvent = await session.stepIntoAndWait();
+      expect(afterLoopStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
+      expect(afterLoopStopEvent?.snapshot?.line).toBe(8);
+    });
+
+    it("steps out to the next visible statement in the caller", async () => {
+      const debuggerInstance = createStaticJsDebugger({
+        realm: StaticJsRealm(),
+      });
+
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "step-out-test.js",
+          sourceText: [
+            "function addOne(value) {",
+            "  const nextValue = value + 1;",
+            "  return nextValue;",
+            "}",
+            "const result = addOne(1);",
+            "result;",
+          ].join("\n"),
+          stopOnEntry: true,
+        },
+      });
+
+      await session.startAndWait();
+      await session.stepOverAndWait();
+      await session.stepOverAndWait();
+
+      const calleeStopEvent = await session.stepIntoAndWait();
+      expect(calleeStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
+      expect(calleeStopEvent?.snapshot?.line).toBe(2);
+
+      const callerStopEvent = await session.stepOutAndWait();
+      expect(callerStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
+      expect(callerStopEvent?.snapshot?.line).toBe(6);
     });
 
     it("honors a cooperative pause request while running", async () => {

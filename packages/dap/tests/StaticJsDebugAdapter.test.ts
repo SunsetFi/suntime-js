@@ -206,19 +206,48 @@ describe("StaticJsDebugAdapter", () => {
     });
   });
 
-  it("rejects unsupported stepOut requests", async () => {
+  it("supports stepOut", async () => {
     await initializeAndWait(client);
     await launchStoppedScript(
       client,
       createScriptLaunchArgs({
-        sourceName: "staticjs:///script/unsupported-step.js",
-        sourceText: "const value = 1;\nvalue + 1;",
+        sourceName: "staticjs:///script/step-out.js",
+        sourceText: [
+          "function addOne(value) {",
+          "  const nextValue = value + 1;",
+          "  return nextValue;",
+          "}",
+          "const result = addOne(1);",
+          "result;",
+        ].join("\n"),
       }),
     );
 
-    await expect(client.stepOutRequest({ threadId: 1 })).rejects.toThrow(
-      /stepOut is not supported/i,
-    );
+    await client.nextRequest({ threadId: MAIN_THREAD_ID });
+    await client.nextRequest({ threadId: MAIN_THREAD_ID });
+    await client.stepInRequest({ threadId: MAIN_THREAD_ID });
+
+    const continued = client.waitForEvent("continued");
+    const stopped = client.waitForEvent("stopped");
+
+    await client.stepOutRequest({ threadId: MAIN_THREAD_ID });
+
+    await expect(continued).resolves.toMatchObject({
+      body: {
+        allThreadsContinued: true,
+        threadId: MAIN_THREAD_ID,
+      },
+    });
+    await expect(stopped).resolves.toMatchObject({
+      body: {
+        allThreadsStopped: true,
+        reason: "step",
+        threadId: MAIN_THREAD_ID,
+      },
+    });
+
+    const stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
+    expect(stackTrace.body.stackFrames[0]?.line).toBe(6);
   });
 
   it("rejects unsupported attach-style requests", async () => {
@@ -345,10 +374,10 @@ describe("StaticJsDebugAdapter", () => {
     await continued;
     await stopped;
 
-    // Stopped at: NumericLiteral
+    // Stopped at: VariableDeclaration
     stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
-    const { column: numericLiteralColumn } = stackTrace.body?.stackFrames[0] ?? {};
-    expect(numericLiteralColumn).toBe(11);
+    const { column: secondVarDeclColumn } = stackTrace.body?.stackFrames[0] ?? {};
+    expect(secondVarDeclColumn).toBe(14);
 
     const terminated = client.waitForEvent("terminated");
 
@@ -390,6 +419,49 @@ describe("StaticJsDebugAdapter", () => {
     // const terminated = client.waitForEvent("terminated");
     // await client.terminateRequest();
     // await terminated;
+  });
+
+  it("steps into the first statement of a user function", async () => {
+    await initializeAndWait(client);
+    await launchStoppedScript(
+      client,
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/step-into.js",
+        sourceText: [
+          "function addOne(value) {",
+          "  const nextValue = value + 1;",
+          "  return nextValue;",
+          "}",
+          "const result = addOne(1);",
+          "result;",
+        ].join("\n"),
+      }),
+    );
+
+    await client.nextRequest({ threadId: MAIN_THREAD_ID });
+    await client.nextRequest({ threadId: MAIN_THREAD_ID });
+
+    const continued = client.waitForEvent("continued");
+    const stopped = client.waitForEvent("stopped");
+
+    await client.stepInRequest({ threadId: MAIN_THREAD_ID });
+
+    await expect(continued).resolves.toMatchObject({
+      body: {
+        allThreadsContinued: true,
+        threadId: MAIN_THREAD_ID,
+      },
+    });
+    await expect(stopped).resolves.toMatchObject({
+      body: {
+        allThreadsStopped: true,
+        reason: "step",
+        threadId: MAIN_THREAD_ID,
+      },
+    });
+
+    const stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
+    expect(stackTrace.body.stackFrames[0]?.line).toBe(2);
   });
 
   it("synthesizes one stable sourceName when launch omits it", async () => {

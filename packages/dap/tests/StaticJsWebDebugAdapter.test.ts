@@ -178,22 +178,42 @@ describe("createStaticJsWebDebugAdapter", () => {
     await stopped;
   });
 
-  it("rejects unsupported stepOut requests", async () => {
+  it("supports stepOut", async () => {
     const session = createSession();
 
     await session.initialize();
     await session.launchStoppedScript(
       createScriptLaunchArgs({
         sourceName: "staticjs:///script/web-step-out.js",
-        sourceText: "const value = 1;\nvalue + 1;",
+        sourceText: [
+          "function addOne(value) {",
+          "  const nextValue = value + 1;",
+          "  return nextValue;",
+          "}",
+          "const result = addOne(1);",
+          "result;",
+        ].join("\n"),
       }),
     );
 
+    session.sendRequest("next", { threadId: MAIN_THREAD_ID });
+    await session.collector.waitFor(isStoppedEvent("step"));
+    session.sendRequest("next", { threadId: MAIN_THREAD_ID });
+    await session.collector.waitFor(isStoppedEvent("step"));
+    session.sendRequest("stepIn", { threadId: MAIN_THREAD_ID });
+    await session.collector.waitFor(isStoppedEvent("step"));
+
     const stepOutSeq = session.sendRequest("stepOut", { threadId: MAIN_THREAD_ID });
     const response = await session.collector.waitFor(isResponse("stepOut", stepOutSeq));
+    const continued = await session.collector.waitFor(isEvent("continued"));
+    const stopped = await session.collector.waitFor(isStoppedEvent("step"));
 
-    expect(response.success).toBe(false);
-    expect(response.message).toMatch(/stepOut is not supported/i);
+    expect(response.success).toBe(true);
+    expect(continued.type).toBe("event");
+    expect(stopped.body.threadId).toBe(MAIN_THREAD_ID);
+
+    const stackTrace = await session.requestStackTrace();
+    expect(stackTrace.body?.stackFrames[0]?.line).toBe(6);
   });
 
   it("advances to the next operation on each next request", async () => {
@@ -226,9 +246,41 @@ describe("createStaticJsWebDebugAdapter", () => {
     await continued;
     await stopped;
 
-    // Stopped at: NumericLiteral
+    // Stopped at: VariableDeclaration
     stackTrace = await session.requestStackTrace();
-    const { column: numericLiteralColumn } = stackTrace.body?.stackFrames[0] ?? {};
-    expect(numericLiteralColumn).toBe(11);
+    const { column: secondVarDeclColumn } = stackTrace.body?.stackFrames[0] ?? {};
+    expect(secondVarDeclColumn).toBe(14);
+  });
+
+  it("steps into the first statement of a user function", async () => {
+    const session = createSession();
+
+    await session.initialize();
+    await session.launchStoppedScript(
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/web-step-into.js",
+        sourceText: [
+          "function addOne(value) {",
+          "  const nextValue = value + 1;",
+          "  return nextValue;",
+          "}",
+          "const result = addOne(1);",
+          "result;",
+        ].join("\n"),
+      }),
+    );
+
+    session.sendRequest("next", { threadId: MAIN_THREAD_ID });
+    await session.collector.waitFor(isStoppedEvent("step"));
+    session.sendRequest("next", { threadId: MAIN_THREAD_ID });
+    await session.collector.waitFor(isStoppedEvent("step"));
+
+    const stepInSeq = session.sendRequest("stepIn", { threadId: MAIN_THREAD_ID });
+    await session.collector.waitFor(isResponse("stepIn", stepInSeq));
+    await session.collector.waitFor(isEvent("continued"));
+    await session.collector.waitFor(isStoppedEvent("step"));
+
+    const stackTrace = await session.requestStackTrace();
+    expect(stackTrace.body?.stackFrames[0]?.line).toBe(2);
   });
 });

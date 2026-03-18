@@ -105,11 +105,7 @@ export class StaticJsWebDebugAdapterImpl implements StaticJsWebDebugAdapter {
         void this._handleStepInRequest(request);
         return;
       case "stepOut":
-        this._emitNotSupported(
-          request,
-          StaticJsDebugAdapterErrorCode.UnsupportedStepOut,
-          "stepOut is",
-        );
+        void this._handleStepOutRequest(request);
         return;
       case "continue":
         void this._handleContinueRequest(request);
@@ -240,7 +236,7 @@ export class StaticJsWebDebugAdapterImpl implements StaticJsWebDebugAdapter {
 
     try {
       this._beginStoppedEventDeferral();
-      await debugSession.next();
+      await debugSession.stepOver();
     } catch (error) {
       this._endStoppedEventDeferral();
       this._messageBus.emitErrorResponse(
@@ -273,7 +269,7 @@ export class StaticJsWebDebugAdapterImpl implements StaticJsWebDebugAdapter {
 
     try {
       this._beginStoppedEventDeferral();
-      await debugSession.next();
+      await debugSession.stepInto();
     } catch (error) {
       this._endStoppedEventDeferral();
       this._messageBus.emitErrorResponse(
@@ -289,6 +285,40 @@ export class StaticJsWebDebugAdapterImpl implements StaticJsWebDebugAdapter {
       allThreadsContinued: true,
       threadId:
         (request.arguments as DebugProtocol.StepInArguments | undefined)?.threadId ??
+        MAIN_THREAD_ID,
+    });
+    this._endStoppedEventDeferral();
+  }
+
+  private async _handleStepOutRequest(request: DebugProtocol.Request): Promise<void> {
+    const debugSession = this._sessionState.debugSession;
+    if (!debugSession) {
+      this._messageBus.emitErrorResponse(
+        request,
+        StaticJsDebugAdapterErrorCode.NoActiveSession,
+        "No active StaticJs debug session.",
+      );
+      return;
+    }
+
+    try {
+      this._beginStoppedEventDeferral();
+      await debugSession.stepOut();
+    } catch (error) {
+      this._endStoppedEventDeferral();
+      this._messageBus.emitErrorResponse(
+        request,
+        StaticJsDebugAdapterErrorCode.DebugControlFailed,
+        getStaticJsDebugAdapterErrorMessage(error),
+      );
+      return;
+    }
+
+    this._messageBus.emitResponse(request);
+    this._messageBus.emitEvent("continued", {
+      allThreadsContinued: true,
+      threadId:
+        (request.arguments as DebugProtocol.StepOutArguments | undefined)?.threadId ??
         MAIN_THREAD_ID,
     });
     this._endStoppedEventDeferral();

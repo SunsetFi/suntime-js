@@ -19,6 +19,12 @@ export interface StaticJsDebugSession {
   startAndWait(): Promise<StaticJsDebugStopEvent | null>;
   continue(): Promise<void>;
   continueAndWait(): Promise<StaticJsDebugStopEvent | null>;
+  stepOver(): Promise<void>;
+  stepOverAndWait(): Promise<StaticJsDebugStopEvent | null>;
+  stepInto(): Promise<void>;
+  stepIntoAndWait(): Promise<StaticJsDebugStopEvent | null>;
+  stepOut(): Promise<void>;
+  stepOutAndWait(): Promise<StaticJsDebugStopEvent | null>;
   next(): Promise<void>;
   nextAndWait(): Promise<StaticJsDebugStopEvent | null>;
   pause(): void;

@@ -41,11 +41,23 @@ import type {
   StaticJsDebugStopReason,
   StaticJsDebugStopReasonTerminal,
 } from "../StaticJsDebugStopReason.js";
-import { isValidNextTargetOperationType } from "./isValidNextTargetOperationType.js";
+import {
+  getOperationKey,
+  isCallBoundaryOperationType,
+  isFunctionLikeOperationType,
+  isVisibleStepOperationType,
+  type StepCursor,
+} from "./stepOperationTypes.js";
 
 type Listener<T> = (event: T) => void;
 
-type ResumeMode = "continue" | "next";
+type ResumeMode = "continue" | "stepInto" | "stepOut" | "stepOver";
+
+interface StepPlan {
+  readonly mode: Exclude<ResumeMode, "continue">;
+  readonly origin: StepCursor;
+  hasLeftOriginAnchor: boolean;
+}
 
 type TaskKind = "macrotask" | "microtask";
 
@@ -78,6 +90,8 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
   private _skipBreakpointOnceForLine: string | null = null;
   private _controlRequest: Deferred<StaticJsDebugStopEvent | null> | null = null;
   private readonly _waitForStopRequests: Deferred<StaticJsDebugStopEvent>[] = [];
+  private readonly _stepContextsByOperationKey = new Map<string, StepCursor>();
+  private _activeStepPlan: StepPlan | null = null;
 
   constructor(
     private readonly _realm: StaticJsRealm,
@@ -115,12 +129,36 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     return this._resumeExecution("continue", true);
   }
 
+  stepOver(): Promise<void> {
+    return this._resumeExecution("stepOver", false);
+  }
+
+  stepOverAndWait(): Promise<StaticJsDebugStopEvent | null> {
+    return this._resumeExecution("stepOver", true);
+  }
+
+  stepInto(): Promise<void> {
+    return this._resumeExecution("stepInto", false);
+  }
+
+  stepIntoAndWait(): Promise<StaticJsDebugStopEvent | null> {
+    return this._resumeExecution("stepInto", true);
+  }
+
+  stepOut(): Promise<void> {
+    return this._resumeExecution("stepOut", false);
+  }
+
+  stepOutAndWait(): Promise<StaticJsDebugStopEvent | null> {
+    return this._resumeExecution("stepOut", true);
+  }
+
   next(): Promise<void> {
-    return this._resumeExecution("next", false);
+    return this.stepOver();
   }
 
   nextAndWait(): Promise<StaticJsDebugStopEvent | null> {
-    return this._resumeExecution("next", true);
+    return this.stepOverAndWait();
   }
 
   pause(): void {
@@ -183,9 +221,19 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     waitMode: "continue",
     waitForCompletion: true,
   ): Promise<StaticJsDebugStopEvent | null>;
-  private async _resumeExecution(waitMode: "next", waitForCompletion: false): Promise<void>;
+  private async _resumeExecution(waitMode: "stepOver", waitForCompletion: false): Promise<void>;
   private async _resumeExecution(
-    waitMode: "next",
+    waitMode: "stepOver",
+    waitForCompletion: true,
+  ): Promise<StaticJsDebugStopEvent | null>;
+  private async _resumeExecution(waitMode: "stepInto", waitForCompletion: false): Promise<void>;
+  private async _resumeExecution(
+    waitMode: "stepInto",
+    waitForCompletion: true,
+  ): Promise<StaticJsDebugStopEvent | null>;
+  private async _resumeExecution(waitMode: "stepOut", waitForCompletion: false): Promise<void>;
+  private async _resumeExecution(
+    waitMode: "stepOut",
     waitForCompletion: true,
   ): Promise<StaticJsDebugStopEvent | null>;
   private async _resumeExecution(
@@ -200,16 +248,18 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
       throw new Error(
         waitMode === "continue"
           ? "Continue is only available while the session is paused."
-          : "Next is only available while the session is paused.",
+          : `${this._formatStepMode(waitMode)} is only available while the session is paused.`,
       );
     }
 
     this._prepareToResume();
+    this._activeStepPlan = waitMode === "continue" ? null : this._createStepPlan(waitMode);
     const controlRequest = waitForCompletion ? this._beginControlRequest() : null;
 
     try {
-      this._resumeActiveTask(waitMode);
+      this._resumeActiveTask();
     } catch (error) {
+      this._activeStepPlan = null;
       this._rejectControlRequest(error);
       throw error;
     }
@@ -395,6 +445,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     }
 
     this._refreshBreakpointVerification();
+    this._rebuildStepContexts();
   }
 
   private _handleParseError(error: unknown, contextMessage: string): never {
@@ -454,6 +505,152 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     }
   }
 
+  private _rebuildStepContexts(): void {
+    this._stepContextsByOperationKey.clear();
+
+    const parsedSource = this._parsedSource;
+    if (!parsedSource) {
+      return;
+    }
+
+    traverse(parsedSource, {
+      enter: (path: NodePath<Node>) => {
+        const operationKey = getOperationKey(path.node.type, path.node.loc);
+        if (!operationKey) {
+          return;
+        }
+
+        this._stepContextsByOperationKey.set(operationKey, {
+          operationKey,
+          operationType: path.node.type,
+          visibleStopKey: this._getVisibleStopKey(path),
+          frameDepth: this._getFrameDepth(path),
+          isVisibleStop: isVisibleStepOperationType(path.node.type),
+          isCallBoundary: isCallBoundaryOperationType(path.node.type),
+        });
+      },
+    });
+  }
+
+  private _getVisibleStopKey(path: NodePath<Node>): string | null {
+    let cursor: NodePath<Node> | null = path;
+    while (cursor) {
+      const operationKey = getOperationKey(cursor.node.type, cursor.node.loc);
+      if (operationKey && isVisibleStepOperationType(cursor.node.type)) {
+        return operationKey;
+      }
+
+      cursor = cursor.parentPath;
+    }
+
+    return null;
+  }
+
+  private _getFrameDepth(path: NodePath<Node>): number {
+    let frameDepth = 0;
+    let cursor: NodePath<Node> | null = path.parentPath;
+    while (cursor) {
+      if (isFunctionLikeOperationType(cursor.node.type)) {
+        frameDepth++;
+      }
+
+      cursor = cursor.parentPath;
+    }
+
+    return frameDepth;
+  }
+
+  private _hasStepSignalForCurrentNode(cursor: StepCursor): boolean {
+    return cursor.isVisibleStop || cursor.isCallBoundary;
+  }
+
+  private _shouldStopForStep(cursor: StepCursor): boolean {
+    const stepPlan = this._activeStepPlan;
+    if (!stepPlan) {
+      return false;
+    }
+
+    if (!cursor.isVisibleStop) {
+      return false;
+    }
+
+    switch (stepPlan.mode) {
+      case "stepOver":
+        return stepPlan.hasLeftOriginAnchor && cursor.frameDepth <= stepPlan.origin.frameDepth;
+      case "stepInto":
+        return (
+          cursor.frameDepth > stepPlan.origin.frameDepth ||
+          (cursor.frameDepth <= stepPlan.origin.frameDepth && stepPlan.hasLeftOriginAnchor)
+        );
+      case "stepOut":
+        return cursor.frameDepth < stepPlan.origin.frameDepth;
+    }
+  }
+
+  private _updateStepPlanProgress(stepPlan: StepPlan | null, cursor: StepCursor): void {
+    if (!stepPlan || stepPlan.hasLeftOriginAnchor) {
+      return;
+    }
+
+    if (this._getStepAnchorKey(cursor) !== this._getStepAnchorKey(stepPlan.origin)) {
+      stepPlan.hasLeftOriginAnchor = true;
+    }
+  }
+
+  private _getStepAnchorKey(cursor: StepCursor): string | null {
+    return cursor.visibleStopKey ?? cursor.operationKey;
+  }
+
+  private _getCurrentStepCursor(): StepCursor {
+    const operation = this._activeTask?.operation;
+    if (!operation) {
+      return {
+        operationKey: null,
+        operationType: null,
+        visibleStopKey: null,
+        frameDepth: 0,
+        isVisibleStop: false,
+        isCallBoundary: false,
+      };
+    }
+
+    const operationKey = getOperationKey(operation.operationType, operation.location);
+    if (operationKey) {
+      const indexedContext = this._stepContextsByOperationKey.get(operationKey);
+      if (indexedContext) {
+        return indexedContext;
+      }
+    }
+
+    return {
+      operationKey,
+      operationType: operation.operationType,
+      visibleStopKey: isVisibleStepOperationType(operation.operationType) ? operationKey : null,
+      frameDepth: 0,
+      isVisibleStop: isVisibleStepOperationType(operation.operationType),
+      isCallBoundary: isCallBoundaryOperationType(operation.operationType),
+    };
+  }
+
+  private _createStepPlan(mode: Exclude<ResumeMode, "continue">): StepPlan {
+    return {
+      mode,
+      origin: this._getCurrentStepCursor(),
+      hasLeftOriginAnchor: false,
+    };
+  }
+
+  private _formatStepMode(mode: Exclude<ResumeMode, "continue">): string {
+    switch (mode) {
+      case "stepInto":
+        return "Step into";
+      case "stepOut":
+        return "Step out";
+      case "stepOver":
+        return "Step over";
+    }
+  }
+
   private readonly _onSessionComplete = (): void => {
     this._finishTerminal("complete", null);
   };
@@ -483,10 +680,10 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
       return;
     }
 
-    this._resumeActiveTask("continue");
+    this._resumeActiveTask();
   };
 
-  private _resumeActiveTask(mode: ResumeMode): void {
+  private _resumeActiveTask(): void {
     const activeTask = this._activeTask;
     if (this._state === "completed" || this._state === "terminated") {
       return;
@@ -524,7 +721,10 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
         return result;
       }
 
-      if (this._shouldSkipCurrentNode()) {
+      const cursor = this._getCurrentStepCursor();
+      this._updateStepPlanProgress(this._activeStepPlan, cursor);
+
+      if (!this._hasStepSignalForCurrentNode(cursor)) {
         return {
           value: undefined,
           done: false,
@@ -536,7 +736,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
         return stop("pause");
       }
 
-      if (mode === "next") {
+      if (this._shouldStopForStep(cursor)) {
         return stop("step");
       }
 
@@ -569,16 +769,13 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     });
   }
 
-  private _shouldSkipCurrentNode() {
-    return !isValidNextTargetOperationType(this._activeTask?.operation?.operationType);
-  }
-
   private _pauseWithReason(reason: StaticJsDebugStopReason): void {
     if (this._state === "completed" || this._state === "terminated") {
       return;
     }
 
     this._setState("paused");
+    this._activeStepPlan = null;
     const event: StaticJsDebugStopEvent = {
       sessionId: this.id,
       reason,
@@ -609,6 +806,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     this._lastStopEvent = null;
     this._skipBreakpointOnceForLine = null;
     this._stopOnEntryPending = false;
+    this._activeStepPlan = null;
 
     const nextState: StaticJsDebugSessionStateTerminal =
       reason === "complete" ? "completed" : "terminated";
@@ -784,6 +982,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     this._lastStopEvent = null;
     this._skipBreakpointOnceForLine = null;
     this._stopOnEntryPending = false;
+    this._activeStepPlan = null;
     this._rejectControlRequest(error);
 
     this._setState("terminated");
