@@ -331,7 +331,7 @@ describe("StaticJsDebugSession", () => {
       expect(stopEvent?.snapshot).not.toBeNull();
     });
 
-    it("advances to the next statement line on each step in a straight-line script", async () => {
+    it("advances to the next statement on each step in a straight-line script", async () => {
       const debuggerInstance = createStaticJsDebugger({
         realm: StaticJsRealm(),
       });
@@ -349,13 +349,46 @@ describe("StaticJsDebugSession", () => {
       // Verify program node
       expect(entryStopEvent?.snapshot?.operationType).toBe("Program");
 
-      // Verify variable declaration.
+      const firstVariableStopEvent = await session.nextAndWait();
+      expect(firstVariableStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
+
+      const secondVariableStopEvent = await session.nextAndWait();
+      expect(secondVariableStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
+
+      const thirdVariableStopEvent = await session.nextAndWait();
+      expect(thirdVariableStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
+
+      const completionStopEvent = await session.nextAndWait();
+      expect(completionStopEvent).toBeNull();
+      expect(session.state).toBe("completed");
+    });
+
+    it("skips nested expression nodes when stepping", async () => {
+      const debuggerInstance = createStaticJsDebugger({
+        realm: StaticJsRealm(),
+      });
+
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "step-expression-test.js",
+          sourceText: "const a = 1; a + 1;",
+          stopOnEntry: true,
+        },
+      });
+
+      const entryStopEvent = await session.startAndWait();
+      expect(entryStopEvent?.snapshot?.operationType).toBe("Program");
+
       const variableStopEvent = await session.nextAndWait();
       expect(variableStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
 
-      // Verify numeric literal.
-      const numericLiteralStopEvent = await session.nextAndWait();
-      expect(numericLiteralStopEvent?.snapshot?.operationType).toBe("NumericLiteral");
+      const expressionStopEvent = await session.nextAndWait();
+      expect(expressionStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
+
+      const completionStopEvent = await session.nextAndWait();
+      expect(completionStopEvent).toBeNull();
+      expect(session.state).toBe("completed");
     });
 
     it("honors a cooperative pause request while running", async () => {

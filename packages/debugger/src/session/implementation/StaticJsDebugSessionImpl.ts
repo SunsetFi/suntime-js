@@ -41,6 +41,7 @@ import type {
   StaticJsDebugStopReason,
   StaticJsDebugStopReasonTerminal,
 } from "../StaticJsDebugStopReason.js";
+import { isValidNextTargetOperationType } from "./isValidNextTargetOperationType.js";
 
 type Listener<T> = (event: T) => void;
 
@@ -523,6 +524,13 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
         return result;
       }
 
+      if (this._shouldSkipCurrentNode()) {
+        return {
+          value: undefined,
+          done: false,
+        };
+      }
+
       if (this._pauseRequested) {
         this._pauseRequested = false;
         return stop("pause");
@@ -559,6 +567,10 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
         activeTask.abort();
       },
     });
+  }
+
+  private _shouldSkipCurrentNode() {
+    return !isValidNextTargetOperationType(this._activeTask?.operation?.operationType);
   }
 
   private _pauseWithReason(reason: StaticJsDebugStopReason): void {
