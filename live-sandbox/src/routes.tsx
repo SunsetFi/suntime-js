@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router";
 
 import Redirect from "./components/Redirect";
-import EvaluatorPage from "./pages/EvaluatorPage";
+import EvaluatorPage from "./pages/EvaluatorPage/EvaluatorPage";
 
 const AppRoutes = () => {
   return (

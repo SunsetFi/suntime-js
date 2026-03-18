@@ -1,6 +1,8 @@
 import * as monaco from "monaco-editor";
 import { initialize } from "@codingame/monaco-vscode-api";
 import getConfigurationServiceOverride from "@codingame/monaco-vscode-configuration-service-override";
+import getDebugServiceOverride from "@codingame/monaco-vscode-debug-service-override";
+import getExtensionsServiceOverride from "@codingame/monaco-vscode-extensions-service-override";
 import getKeybindingsServiceOverride from "@codingame/monaco-vscode-keybindings-service-override";
 import getLanguagesServiceOverride from "@codingame/monaco-vscode-languages-service-override";
 import getModelServiceOverride from "@codingame/monaco-vscode-model-service-override";
@@ -32,6 +34,8 @@ export async function initializeMonacoServices(
   await initialize(
     {
       ...getConfigurationServiceOverride(),
+      ...getDebugServiceOverride(),
+      ...getExtensionsServiceOverride({ enableWorkerExtensionHost: false }),
       ...getKeybindingsServiceOverride(),
       ...getModelServiceOverride(),
       ...getThemeServiceOverride(),

@@ -92,6 +92,22 @@ Figure out public API for invoking and implementing evaluators.
 - [ ] Rename toJs to toNative
 - [ ] Documentation
 
+## More packages
+
+- monacode - monaco-vscode-api leveraged react vscode workspace
+  Composite components representing files and services inside the main Vscode component
+
+  ```tsx
+    import { Vscode, DebugService, File } from "@suntime-js/monacode"
+    return (
+      <Vscode onFileCreate={onFileCreate} onFileClose={onFileClose}>
+        <DebugService adapter={myAdapter} />
+        <File name="index.js" language="javascript">
+      </Vscode>
+
+    )
+  ```
+
 ## Debugging
 
 - Add scope, variable, and stack info to StaticJsTaskIterator for debugging.

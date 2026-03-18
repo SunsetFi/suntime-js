@@ -34,7 +34,7 @@ export default defineConfig({
   ],
   optimizeDeps: {
     include: ["vscode-textmate", "vscode-oniguruma"],
-    esbuildOptions: {
+    rolldownOptions: {
       plugins: [importMetaUrlPlugin],
     },
   },

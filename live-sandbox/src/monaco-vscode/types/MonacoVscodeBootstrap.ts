@@ -1,5 +1,6 @@
 import type { Observable } from "rxjs";
 import type { editor } from "monaco-editor";
+import type { StaticJsWebDebugAdapterOptions } from "@suntime-js/dap/web";
 
 export type MonacoVscodeBootstrapStatus = "idle" | "bootstrapping" | "ready" | "error";
 
@@ -39,6 +40,7 @@ export interface MonacoVscodeApiOptions {
   readonly userServices?: Record<string, unknown>;
   readonly configurationDefaults?: Record<string, unknown>;
   readonly enableSandboxDebugger?: boolean;
+  readonly sandboxDebugger?: StaticJsWebDebugAdapterOptions;
 }
 
 export interface MonacoVscodeBootstrapOptions {
