@@ -23,6 +23,8 @@ import StaticJsAstFunction from "../../types/implementation/StaticJsAstFunction.
 import { isStaticJsUndefined } from "../../types/StaticJsUndefined.js";
 import { isStaticJsNull } from "../../types/StaticJsNull.js";
 
+// lint test
+
 export default class Macrotask {
   private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";
 
