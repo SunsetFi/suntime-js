@@ -1,4 +1,4 @@
-import { lintStagedWorkspaceCommand } from "../../workspace-utils.js";
+import { lintStagedWorkspaceCommand } from "../../workspace-utils.mjs";
 
 export default {
   "*.ts": [
