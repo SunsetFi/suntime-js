@@ -21,7 +21,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
       - name: Build
-        run: pnpm run --filter ...live-sandbox build
+        run: pnpm run --filter live-sandbox... build
 
       - name: Upload sandbox
         id: deployment
