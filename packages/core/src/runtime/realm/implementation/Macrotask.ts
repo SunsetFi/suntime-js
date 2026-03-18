@@ -24,6 +24,7 @@ import { isStaticJsUndefined } from "../../types/StaticJsUndefined.js";
 import { isStaticJsNull } from "../../types/StaticJsNull.js";
 
 // lint test
+// lint lint
 
 export default class Macrotask {
   private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";
