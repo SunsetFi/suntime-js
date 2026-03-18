@@ -20,7 +20,14 @@ import EvaluatorOperationStatus, {
 import { STATIC_JS_DEBUGGER_TYPE } from "@suntime-js/dap/web";
 
 const defaultCode = `// Write your JavaScript code here
-console.log("Hello, world!");`;
+function doThing() {
+  for (let i = 0; i < 5; i++) {
+    console.log("Hello " + i);
+  }
+}
+
+doThing();
+`;
 
 const MAIN_THREAD_ID = 1;
 const initialDebuggerState: EvaluatorDebuggerState = {
