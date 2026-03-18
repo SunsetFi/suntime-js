@@ -51,7 +51,7 @@
     "rimraf": "^6.0.1",
     "typescript": "catalog:",
     "vite": "^6.2.4",
-    "vitest": "^4.0.18",
+    "vitest": "catalog:",
     "yaml": "^2.8.2"
   },
   "packageManager": "pnpm@10.6.2"
