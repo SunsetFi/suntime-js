@@ -116,10 +116,7 @@ describe("E2E: Symbols", () => {
       `;
       const comparerFn = await realm.evaluateScript(comparerCode);
 
-      const comparer = comparerFn.toJsSync() as (
-        obj1: unknown,
-        obj2: unknown,
-      ) => boolean;
+      const comparer = comparerFn.toJsSync() as (obj1: unknown, obj2: unknown) => boolean;
 
       const sym1 = Symbol("mySymbol");
       const sym2 = sym1;
@@ -138,14 +135,9 @@ describe("E2E: Symbols", () => {
       `;
       const comparerFn = await realm.evaluateScript(comparerCode);
 
-      const comparer = comparerFn.toJsSync() as (
-        obj1: unknown,
-        obj2: unknown,
-      ) => boolean;
+      const comparer = comparerFn.toJsSync() as (obj1: unknown, obj2: unknown) => boolean;
 
-      const sym1 = Symbol.for(
-        "@suntime-js/test/preserve-reference-registry-symbol",
-      );
+      const sym1 = Symbol.for("@suntime-js/test/preserve-reference-registry-symbol");
       const sym2 = sym1;
       const result = comparer(sym1, sym2);
       expect(result).toBe(true);

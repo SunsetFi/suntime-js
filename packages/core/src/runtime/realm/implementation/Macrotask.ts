@@ -1,7 +1,5 @@
 import type { Node } from "@babel/types";
 
-import type { Writable } from "type-fest";
-
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
@@ -19,9 +17,6 @@ import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { StaticJsFunction } from "../../types/StaticJsFunction.js";
 import type { StaticJsTaskIteratorStackFrame } from "../../tasks/StaticJsTaskIteratorStackFrame.js";
 import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
-import StaticJsAstFunction from "../../types/implementation/StaticJsAstFunction.js";
-import { isStaticJsUndefined } from "../../types/StaticJsUndefined.js";
-import { isStaticJsNull } from "../../types/StaticJsNull.js";
 
 export default class Macrotask {
   private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";

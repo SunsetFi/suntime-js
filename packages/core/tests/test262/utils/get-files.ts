@@ -1,10 +1,7 @@
 import { readdirSync, statSync } from "node:fs";
 import { join as joinPath } from "node:path";
 
-export default function getFilesSync(
-  dir: string,
-  filter: (file: string) => boolean,
-): string[] {
+export default function getFilesSync(dir: string, filter: (file: string) => boolean): string[] {
   const files = readdirSync(dir);
   const results: string[] = [];
 

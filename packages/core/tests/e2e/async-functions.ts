@@ -1,10 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import {
-  StaticJsRealm,
-  isStaticJsPromise,
-  type StaticJsPromise,
-} from "../../src/index.js";
+import { StaticJsRealm, isStaticJsPromise, type StaticJsPromise } from "../../src/index.js";
 
 describe("E2E: Async functions", () => {
   it("Returns a promise", async () => {

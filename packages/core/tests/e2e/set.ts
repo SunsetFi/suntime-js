@@ -5,9 +5,7 @@ import { evaluateScript } from "../../src/index.js";
 describe("E2E: Set", () => {
   describe("Constructor", () => {
     it("Must be called with new", async () => {
-      await expect(evaluateScript(`Set();`)).rejects.toThrow(
-        "Set constructor requires 'new'",
-      );
+      await expect(evaluateScript(`Set();`)).rejects.toThrow("Set constructor requires 'new'");
     });
 
     it("Creates a new set", async () => {

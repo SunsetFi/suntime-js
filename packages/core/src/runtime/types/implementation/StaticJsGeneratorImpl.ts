@@ -24,11 +24,8 @@ export default class StaticJsGeneratorImpl
   extends StaticJsObjectLikeImpl
   implements StaticJsGenerator
 {
-  private _generatorState:
-    | "suspended-start"
-    | "suspended-yield"
-    | "executing"
-    | "completed" = "suspended-start";
+  private _generatorState: "suspended-start" | "suspended-yield" | "executing" | "completed" =
+    "suspended-start";
 
   constructor(
     private readonly _closure: EvaluationGenerator,
@@ -58,10 +55,7 @@ export default class StaticJsGeneratorImpl
   *nextEvaluator(
     value: StaticJsValue = this.realm.types.undefined,
   ): EvaluationGenerator<StaticJsIteratorResult> {
-    if (
-      this._generatorState !== "suspended-start" &&
-      this._generatorState !== "suspended-yield"
-    ) {
+    if (this._generatorState !== "suspended-start" && this._generatorState !== "suspended-yield") {
       throw new StaticJsEngineError(
         "Generator can only be resumed if it is in suspended-start or suspended-yield state.",
       );
@@ -70,9 +64,7 @@ export default class StaticJsGeneratorImpl
     return yield* this._continue(value, "next");
   }
 
-  *throwEvaluator(
-    value: StaticJsValue,
-  ): EvaluationGenerator<StaticJsIteratorResult> {
+  *throwEvaluator(value: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
     let state = this._generatorState;
     if (state === "suspended-start") {
       state = this._generatorState = "completed";
@@ -137,9 +129,7 @@ export default class StaticJsGeneratorImpl
           // and would NOT catch any EvaluateCommands waiting on a return.
 
           // return only happens on the initial run, so continuation is always a value.
-          const returnCompletion = Completion.Return(
-            continuation as StaticJsValue,
-          );
+          const returnCompletion = Completion.Return(continuation as StaticJsValue);
           result = this._closure.throw(returnCompletion);
         } else {
           result = this._closure.next(continuation);
@@ -177,13 +167,9 @@ export default class StaticJsGeneratorImpl
     }
   }
 
-  private *_yield(
-    iteratorResult: StaticJsValue,
-  ): EvaluationGenerator<StaticJsIteratorResult> {
+  private *_yield(iteratorResult: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
     if (this._generatorState !== "executing") {
-      throw new StaticJsEngineError(
-        "Generator can only yield if it is in executing state.",
-      );
+      throw new StaticJsEngineError("Generator can only yield if it is in executing state.");
     }
 
     this._generatorState = "suspended-yield";

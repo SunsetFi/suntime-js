@@ -1,5 +1,4 @@
 import type { Writable } from "type-fest";
-import { type Node } from "@babel/types";
 
 import parseScript from "../../../parser/parse-script.js";
 import parseModule from "../../../parser/parse-module.js";

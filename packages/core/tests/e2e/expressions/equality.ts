@@ -107,8 +107,7 @@ describe("E2E: Equality Expressions", () => {
     for (let rightI = leftI; rightI < suspiciousValues.length; rightI++) {
       const isTrue = truthies.some(
         (truthy) =>
-          truthy.left === suspiciousValues[leftI] &&
-          truthy.right === suspiciousValues[rightI],
+          truthy.left === suspiciousValues[leftI] && truthy.right === suspiciousValues[rightI],
       );
 
       it(`${suspiciousValues[leftI]} == ${suspiciousValues[rightI]} should be ${isTrue}`, async () => {

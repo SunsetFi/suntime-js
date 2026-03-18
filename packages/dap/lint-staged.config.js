@@ -1,7 +1,9 @@
+import { lintStagedWorkspaceCommand } from "../../workspace-utils.mjs";
+
 export default {
   "*.ts": [
-    "pnpm run --filter @suntie-js/dap format",
-    "pnpm run --filter @suntime-js/dap lint",
+    lintStagedWorkspaceCommand("@suntime-js/dap", "format"),
+    lintStagedWorkspaceCommand("@suntime-js/dap", "lint"),
     () => "pnpm run --filter @suntime-js/dap check",
   ],
 };

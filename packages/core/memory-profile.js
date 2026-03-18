@@ -40,9 +40,7 @@ const postRunMemory = process.memoryUsage().heapTotal;
 
 const memoryUsedByObjects = postRunMemory - preRunMemory - arrayOverhead;
 const memoryPerObject = memoryUsedByObjects / count;
-console.log(
-  `Memory used to store ${count.toLocaleString()} objects: ${toMb(memoryUsedByObjects)}`,
-);
+console.log(`Memory used to store ${count.toLocaleString()} objects: ${toMb(memoryUsedByObjects)}`);
 console.log(`Memory used per object: ${memoryPerObject} bytes`);
 
 items.length = 0;
