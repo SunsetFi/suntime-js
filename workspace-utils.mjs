@@ -18,8 +18,8 @@ export function lintStagedWorkspaceCommand(packageName, command) {
   }
 
   return (paths) => {
-    return `${command} ${paths
-      .map((path) => relative(process.cwd(), path))
+    return `pnpm run --filter ${packageName} ${command} ${paths
+      .map((path) => relative(packageInfo.path, path))
       .join(" ")}`;
   };
 }
