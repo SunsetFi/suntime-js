@@ -1,5 +1,7 @@
 import type { Node } from "@babel/types";
 
+import toString from "../../algorithms/to-string.js";
+
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
@@ -10,7 +12,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 
-import type { StaticJsNull } from "../StaticJsNull.js";
+import { type StaticJsNull } from "../StaticJsNull.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
@@ -100,10 +102,24 @@ export default class StaticJsFunctionImpl
     return false;
   }
 
-  toStringSync() {
-    const nameValue = this.realm.invokeEvaluatorSync(this.getEvaluator("name"));
-    const name = nameValue.toStringSync();
+  getNameAsync(): Promise<string> {
+    return this.realm.invokeEvaluatorAsync(this._getNameEvaluator());
+  }
 
+  getNameSync(): string {
+    return this.realm.invokeEvaluatorSync(this._getNameEvaluator());
+  }
+
+  private *_getNameEvaluator(): EvaluationGenerator<string> {
+    const nameValue = yield* this.getEvaluator("name");
+    const nameStr = yield* toString.js(nameValue, this.realm);
+    return nameStr.toString();
+  }
+
+  toStringSync() {
+    const name = this.getNameSync();
+
+    // TODO: If its an AST function, we should return the body
     return `function ${name ?? ""}() { [native code] }`;
   }
 

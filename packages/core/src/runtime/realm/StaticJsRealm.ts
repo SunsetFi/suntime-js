@@ -177,7 +177,9 @@ export interface StaticJsRealm {
    * @internal
    * @param evaluator The evaluator to invoke.
    */
-  invokeEvaluatorSync<TReturn>(evaluator: EvaluationGenerator<TReturn>): TReturn;
+  invokeEvaluatorSync<TReturn>(
+    evaluator: EvaluationGenerator<TReturn> | (() => EvaluationGenerator<TReturn>),
+  ): TReturn;
 
   /**
    * Invokes the given evaluator asynchronously, returning a promise that resolves to the result.
@@ -186,7 +188,7 @@ export interface StaticJsRealm {
    * @param evaluator The evaluator to invoke.
    */
   invokeEvaluatorAsync<TReturn>(
-    evaluator: EvaluationGenerator<TReturn>,
+    evaluator: EvaluationGenerator<TReturn> | (() => EvaluationGenerator<TReturn>),
     opts?: StaticJsRunTaskOptions,
   ): Promise<TReturn>;
 }

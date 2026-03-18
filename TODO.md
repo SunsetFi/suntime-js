@@ -8,10 +8,6 @@
   - [ ] Remove need to pump multiple times for modules by removing generator from linking stage.
 - [x] Implement function auto names using EvaluationContext named parameters
 - [x] Figure out why BlockStatement is weird with regard to labels.
-- [x] Rework EvaluationContext to not create so many child objects
-  - [x] Pass all options to a single class type
-  - [x] Arbitrary params to support NamedEvaluation and such
-  - [ ] Take bigger advantage of mutable properties on such
 - [ ] Throw out and redesign debugger
   - [ ] Refactor the massive monolith class into smaller components
   - [ ] Switch file names to some sort of standard (kebab).
@@ -19,6 +15,7 @@
   - [ ] Use actual stack / frame tracking for step over/in/out
 - [ ] Deep review and cleanup of dap
   - [ ] Sanify file names on kebab.
+- [ ] Finish implementing StaticJsRealm runTaskSync. Currently unused.
 
 ### Completion Refactor
 
@@ -34,11 +31,15 @@
 
 ## Less imidiate
 
+- [ ] Implement global stuff like the execution context stack and GetActiveScriptOrModule
+  - [ ] Fix function constructor not knowing its active script or module.
 - [ ] Rework node evaluator so catagories of nodes can be processed in a tree
       Get closer to how the spec wants these to work, with categories splitting into
       narrower options
   - [ ] LabelledStatement
   - [ ] BreakableStatement
+- [ ] Take full function node on StaticJsAstFunction and implement toString on it.
+  - [ ] Also make this work in-engine.
 
 ## General
 

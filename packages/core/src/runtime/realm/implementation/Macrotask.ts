@@ -353,18 +353,14 @@ export default class Macrotask {
           .map(
             (frame) =>
               ({
+                function: frame.function,
                 get functionName() {
                   const func = frame.function;
                   if (!func) {
                     return null;
                   }
 
-                  const name = func.getSync("name");
-                  if (!name || isStaticJsUndefined(name) || isStaticJsNull(name)) {
-                    return "<anonymous>";
-                  }
-
-                  return name.toStringSync();
+                  return func.getNameSync();
                 },
                 get sourceLocation() {
                   const node = frame.currentNode;

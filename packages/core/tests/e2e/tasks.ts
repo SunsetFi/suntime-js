@@ -68,34 +68,40 @@ describe("E2E: Tasks", () => {
       // at the same location where AST nodes are nested.
 
       // const a = 1;
-      expect(capturedFrames).toContainEqual({
-        functionName: null,
-        sourceLocation: expect.objectContaining({
-          character: 0,
-          column: 0,
-          line: 1,
+      expect(capturedFrames).toContainEqual(
+        expect.objectContaining({
+          functionName: null,
+          sourceLocation: expect.objectContaining({
+            character: 0,
+            column: 0,
+            line: 1,
+          }),
         }),
-      });
+      );
 
       // const b = 2;
-      expect(capturedFrames).toContainEqual({
-        functionName: null,
-        sourceLocation: expect.objectContaining({
-          character: 13,
-          column: 0,
-          line: 2,
+      expect(capturedFrames).toContainEqual(
+        expect.objectContaining({
+          functionName: null,
+          sourceLocation: expect.objectContaining({
+            character: 13,
+            column: 0,
+            line: 2,
+          }),
         }),
-      });
+      );
 
       // const c = 3;
-      expect(capturedFrames).toContainEqual({
-        functionName: null,
-        sourceLocation: expect.objectContaining({
-          character: 26,
-          column: 0,
-          line: 3,
+      expect(capturedFrames).toContainEqual(
+        expect.objectContaining({
+          functionName: null,
+          sourceLocation: expect.objectContaining({
+            character: 26,
+            column: 0,
+            line: 3,
+          }),
         }),
-      });
+      );
     });
 
     it("Should provide stack frames for nested function calls", async () => {

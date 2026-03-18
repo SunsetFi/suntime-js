@@ -31,6 +31,8 @@ import Q from "../../../evaluator/completions/Q.js";
 
 import globalDeclarationInstantiation from "../../../evaluator/instantiation/global-declaration-instantiation.js";
 
+import { StaticJsScriptRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptRecord.js";
+
 import StaticJsGlobalEnvironmentRecord from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import StaticJsObjectEnvironmentRecord from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
 
@@ -84,8 +86,6 @@ import type {
 } from "../StaticJsRealmEvaluateScriptOptions.js";
 
 import Macrotask from "./Macrotask.js";
-import { StaticJsScriptRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptRecord.js";
-import { StaticJsModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;
@@ -453,10 +453,17 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
   }
 
-  invokeEvaluatorSync<TReturn>(evaluator: EvaluationGenerator<TReturn>): TReturn {
+  invokeEvaluatorSync<TReturn>(
+    evaluator: EvaluationGenerator<TReturn> | (() => EvaluationGenerator<TReturn>),
+  ): TReturn {
     this._invokeEvaluatorSyncDepth++;
     try {
+      if (typeof evaluator === "function") {
+        evaluator = evaluator();
+      }
       const iterator = evaluateCommands(evaluator);
+
+      // FIXME: Use this._defaultRunTaskSync
 
       let iteratorResult = iterator.next();
       while (!iteratorResult.done) {
@@ -474,13 +481,13 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
       return iteratorResult.value;
     } finally {
-      this._invokeEvaluatorSyncMicrotasks.splice(0, this._invokeEvaluatorSyncMicrotasks.length);
+      this._invokeEvaluatorSyncMicrotasks.length = 0;
       this._invokeEvaluatorSyncDepth--;
     }
   }
 
   async invokeEvaluatorAsync<TReturn>(
-    evaluator: EvaluationGenerator<TReturn>,
+    evaluator: EvaluationGenerator<TReturn> | (() => EvaluationGenerator<TReturn>),
     { runTask = this._defaultRunTask }: StaticJsRunTaskOptions = {},
   ): Promise<TReturn> {
     if (this._currentTask) {
@@ -496,6 +503,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     this._tryDrainTaskQueue();
 
     try {
+      if (typeof evaluator === "function") {
+        evaluator = evaluator();
+      }
       return (await macrotask.await()) as Promise<TReturn>;
     } catch (e) {
       Completion.handleRuntime(e);

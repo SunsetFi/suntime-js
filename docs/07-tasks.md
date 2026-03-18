@@ -270,17 +270,26 @@ All instances of task are a StaticJsTaskIterator
 - `aborted`: True if `.abort()` has been called.
 
 - `operation`: Information on the next operation to be evaluated by a call to `.next()`. If the task is done, this will be `null`.
-  - `location`: An object containing the start and end of the operation in the source code to be evaluated. Contains a `start` and `end` property, both with:
+  - `location`: An object containing information for the operation's current location in the source:
     - `sourceName`: The source name provided in the evaluate call. If none was provided, an an auto-generated one will be present instead.
-    - `start`: Location data for the start of the current node
+    - `line`: The 1-based line number of the start of the operation on the script being evaluated.
+    - `column`: The 0-based character index of the start, or end, of the operation on the given line of the script being evaluated.
+    - `character`: The 0-based character index in the raw string of the script being evaluated.
+  - `operationType`: The AST node type of the queued operation.
+
+- `stack`: An array containing stack frames for the operation, with the current frame at index 0.
+  - `function`: A reference to the StaticJsFunction being invoked, or null if none. Note that this may reference internal functions
+    and is not exclusively user code.
+  - `functionName`: A getter property that returns the name of the function.
+    This getter will fetch and compute the function name on invocation. Taking references to a stack frame and invoking this getter
+    at a later time may reflect an updated function name, if the sandbox renamed the function in the interim.
+    **WARNING**: This performs synchronous evaluation of sandboxed code, may throw errors, and may cause deadlocks if infinite loops are present.
+    You may wish to implement a guard in [runTaskSync](./04-realms.md#runtasksync), which will be used if present.
+  - `sourceLocation`: An object containing information in the location in the stack this frame is on.
+    - `sourceName`: The source name provided in the evaluate call. If none was provided, an an auto-generated one will be present instead.
       - `line`: The 1-based line number of the start of the operation on the script being evaluated.
       - `column`: The 0-based character index of the start, or end, of the operation on the given line of the script being evaluated.
       - `character`: The 0-based character index in the raw string of the script being evaluated.
-    - `end`: Location data for the end of the current node.
-      - `line`: The 1-based line number of the or end of the operation on the script being evaluated.
-      - `column`: The 0-based character index of the end of the operation on the given line of the script being evaluated.
-      - `character`: The 0-based character index for the end of the current operation in the raw string of the script being evaluated.
-  - `operationType`: The AST node type of the queued operation.
 
 ### Methods
 

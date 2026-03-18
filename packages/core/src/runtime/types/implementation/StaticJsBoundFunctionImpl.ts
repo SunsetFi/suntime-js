@@ -1,4 +1,6 @@
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+
+import toString from "../../algorithms/to-string.js";
 import toInteger from "../../algorithms/to-integer.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
@@ -103,8 +105,22 @@ class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements StaticJsFu
     return this.targetFunc.constructEvaluator([...this._boundArgs, ...args]);
   }
 
+  getNameAsync(): Promise<string> {
+    return this.realm.invokeEvaluatorAsync(this._getNameEvaluator());
+  }
+
+  getNameSync(): string {
+    return this.realm.invokeEvaluatorSync(this._getNameEvaluator());
+  }
+
   toJsSync(): (...args: unknown[]) => unknown {
     return super.toJsSync() as (...args: unknown[]) => unknown;
+  }
+
+  private *_getNameEvaluator(): EvaluationGenerator<string> {
+    const nameValue = yield* this.getEvaluator("name");
+    const nameStr = yield* toString.js(nameValue, this.realm);
+    return nameStr.toString();
   }
 }
 
