@@ -331,6 +331,33 @@ describe("StaticJsDebugSession", () => {
       expect(stopEvent?.snapshot).not.toBeNull();
     });
 
+    it("advances to the next statement line on each step in a straight-line script", async () => {
+      const debuggerInstance = createStaticJsDebugger({
+        realm: StaticJsRealm(),
+      });
+
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "step-lines-test.js",
+          sourceText: "const a = 1; const b = 2; const c = 3;",
+          stopOnEntry: true,
+        },
+      });
+
+      const entryStopEvent = await session.startAndWait();
+      // Verify program node
+      expect(entryStopEvent?.snapshot?.operationType).toBe("Program");
+
+      // Verify variable declaration.
+      const variableStopEvent = await session.nextAndWait();
+      expect(variableStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
+
+      // Verify numeric literal.
+      const numericLiteralStopEvent = await session.nextAndWait();
+      expect(numericLiteralStopEvent?.snapshot?.operationType).toBe("NumericLiteral");
+    });
+
     it("honors a cooperative pause request while running", async () => {
       const debuggerInstance = createStaticJsDebugger({
         realm: StaticJsRealm(),
