@@ -8,6 +8,7 @@ import getLanguagesServiceOverride from "@codingame/monaco-vscode-languages-serv
 import getModelServiceOverride from "@codingame/monaco-vscode-model-service-override";
 import getTextmateServiceOverride from "@codingame/monaco-vscode-textmate-service-override";
 import getThemeServiceOverride from "@codingame/monaco-vscode-theme-service-override";
+import getViewsServiceOverride from "@codingame/monaco-vscode-views-service-override";
 
 import "@codingame/monaco-vscode-javascript-default-extension";
 import "@codingame/monaco-vscode-theme-defaults-default-extension";
@@ -41,8 +42,9 @@ export async function initializeMonacoServices(
       ...getThemeServiceOverride(),
       ...getTextmateServiceOverride(),
       ...getLanguagesServiceOverride(),
-      ...(context.vscodeApi.serviceOverrides ?? {}),
-      ...(context.vscodeApi.userServices ?? {}),
+      ...getViewsServiceOverride(),
+      ...context.vscodeApi.serviceOverrides,
+      ...context.vscodeApi.userServices,
     },
     context.rootElement ?? undefined,
     {

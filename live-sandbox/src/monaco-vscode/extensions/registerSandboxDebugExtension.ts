@@ -17,9 +17,7 @@ export interface SandboxDebugProtocolEnvelope {
   readonly message: vscode.DebugProtocolMessage;
 }
 
-export type SandboxDebugProtocolListener = (
-  envelope: SandboxDebugProtocolEnvelope,
-) => void;
+export type SandboxDebugProtocolListener = (envelope: SandboxDebugProtocolEnvelope) => void;
 
 interface StaticJsLaunchConfiguration extends vscode.DebugConfiguration {
   program?: string;
@@ -164,6 +162,10 @@ export async function registerSandboxDebugExtension(
 
             Object.assign(configuration, resolvedConfiguration);
           }
+
+          inlineAdapter.onDidSendMessage((message) => {
+            console.debug("[Sandbox Debug Adapter] Sent message:", message);
+          });
 
           return new vscodeApi.DebugAdapterInlineImplementation(inlineAdapter);
         },
