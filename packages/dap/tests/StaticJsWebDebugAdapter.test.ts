@@ -157,6 +157,45 @@ describe("createStaticJsWebDebugAdapter", () => {
     expect(continuedIndex).toBeLessThan(stoppedIndex);
   });
 
+  it("treats stepIn as a single-step request", async () => {
+    const session = createSession();
+
+    await session.initialize();
+    await session.launchStoppedScript(
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/web-step-in.js",
+        sourceText: "const value = 1;\nvalue + 1;",
+      }),
+    );
+
+    const stepInSeq = session.sendRequest("stepIn", { threadId: MAIN_THREAD_ID });
+    const stepInResponsePromise = session.collector.waitFor(isResponse("stepIn", stepInSeq));
+    const continued = session.collector.waitFor(isEvent("continued"));
+    const stopped = session.collector.waitFor(isStoppedEvent("step"));
+
+    await stepInResponsePromise;
+    await continued;
+    await stopped;
+  });
+
+  it("rejects unsupported stepOut requests", async () => {
+    const session = createSession();
+
+    await session.initialize();
+    await session.launchStoppedScript(
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/web-step-out.js",
+        sourceText: "const value = 1;\nvalue + 1;",
+      }),
+    );
+
+    const stepOutSeq = session.sendRequest("stepOut", { threadId: MAIN_THREAD_ID });
+    const response = await session.collector.waitFor(isResponse("stepOut", stepOutSeq));
+
+    expect(response.success).toBe(false);
+    expect(response.message).toMatch(/stepOut is not supported/i);
+  });
+
   it("advances to the next operation on each next request", async () => {
     const session = createSession();
 

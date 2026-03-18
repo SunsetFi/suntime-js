@@ -213,9 +213,19 @@ export class StaticJsDebugAdapter extends DebugSession {
 
   protected override stepInRequest(
     response: DebugProtocol.StepInResponse,
-    _args: DebugProtocol.StepInArguments,
+    args: DebugProtocol.StepInArguments,
   ): void {
-    this._sendNotSupported(response, StaticJsDebugAdapterErrorCode.UnsupportedStepIn, "stepIn is");
+    const debugSession = this._sessionState.debugSession;
+    if (!debugSession) {
+      this.sendErrorResponse(
+        response,
+        StaticJsDebugAdapterErrorCode.NoActiveSession,
+        "No active StaticJs debug session.",
+      );
+      return;
+    }
+
+    void this._handleStepInRequestAsync(response, args, debugSession);
   }
 
   protected override stepOutRequest(
@@ -276,13 +286,6 @@ export class StaticJsDebugAdapter extends DebugSession {
 
     this._sessionState.launched = true;
 
-    this.sendEvent(
-      new OutputEvent(
-        `StaticJs debug adapter bootstrap active for ${launchArgs.sourceName} (${launchArgs.sourceKind}).\n`,
-        "console",
-      ),
-    );
-
     try {
       await debugSession.start();
     } catch (error) {
@@ -335,6 +338,29 @@ export class StaticJsDebugAdapter extends DebugSession {
     response.body = {
       allThreadsContinued: true,
     };
+
+    this.sendResponse(response);
+    this.sendEvent(new ContinuedEvent(args.threadId ?? MAIN_THREAD_ID, true));
+    this._endStoppedEventDeferral();
+  }
+
+  private async _handleStepInRequestAsync(
+    response: DebugProtocol.StepInResponse,
+    args: DebugProtocol.StepInArguments,
+    debugSession: NonNullable<typeof this._sessionState.debugSession>,
+  ): Promise<void> {
+    try {
+      this._beginStoppedEventDeferral();
+      await debugSession.next();
+    } catch (error) {
+      this._endStoppedEventDeferral();
+      this.sendErrorResponse(
+        response,
+        StaticJsDebugAdapterErrorCode.DebugControlFailed,
+        this._getErrorMessage(error),
+      );
+      return;
+    }
 
     this.sendResponse(response);
     this.sendEvent(new ContinuedEvent(args.threadId ?? MAIN_THREAD_ID, true));

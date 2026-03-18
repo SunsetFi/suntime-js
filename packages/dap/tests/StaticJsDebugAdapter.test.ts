@@ -176,7 +176,7 @@ describe("StaticJsDebugAdapter", () => {
     ).rejects.toThrow(/evaluate is not supported/i);
   });
 
-  it("rejects unsupported stepping requests", async () => {
+  it("supports stepIn", async () => {
     await initializeAndWait(client);
     await launchStoppedScript(
       client,
@@ -186,9 +186,36 @@ describe("StaticJsDebugAdapter", () => {
       }),
     );
 
-    await expect(client.stepInRequest({ threadId: MAIN_THREAD_ID })).rejects.toThrow(
-      /stepIn is not supported/i,
+    const continued = client.waitForEvent("continued");
+    const stopped = client.waitForEvent("stopped");
+
+    await client.stepInRequest({ threadId: MAIN_THREAD_ID });
+
+    await expect(continued).resolves.toMatchObject({
+      body: {
+        allThreadsContinued: true,
+        threadId: MAIN_THREAD_ID,
+      },
+    });
+    await expect(stopped).resolves.toMatchObject({
+      body: {
+        allThreadsStopped: true,
+        reason: "step",
+        threadId: MAIN_THREAD_ID,
+      },
+    });
+  });
+
+  it("rejects unsupported stepOut requests", async () => {
+    await initializeAndWait(client);
+    await launchStoppedScript(
+      client,
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/unsupported-step.js",
+        sourceText: "const value = 1;\nvalue + 1;",
+      }),
     );
+
     await expect(client.stepOutRequest({ threadId: 1 })).rejects.toThrow(
       /stepOut is not supported/i,
     );

@@ -101,11 +101,7 @@ export class StaticJsWebDebugAdapterImpl implements StaticJsWebDebugAdapter {
         void this._handleNextRequest(request);
         return;
       case "stepIn":
-        this._emitNotSupported(
-          request,
-          StaticJsDebugAdapterErrorCode.UnsupportedStepIn,
-          "stepIn is",
-        );
+        void this._handleStepInRequest(request);
         return;
       case "stepOut":
         this._emitNotSupported(
@@ -261,6 +257,40 @@ export class StaticJsWebDebugAdapterImpl implements StaticJsWebDebugAdapter {
     this._endStoppedEventDeferral();
   }
 
+  private async _handleStepInRequest(request: DebugProtocol.Request): Promise<void> {
+    const debugSession = this._sessionState.debugSession;
+    if (!debugSession) {
+      this._messageBus.emitErrorResponse(
+        request,
+        StaticJsDebugAdapterErrorCode.NoActiveSession,
+        "No active StaticJs debug session.",
+      );
+      return;
+    }
+
+    try {
+      this._beginStoppedEventDeferral();
+      await debugSession.next();
+    } catch (error) {
+      this._endStoppedEventDeferral();
+      this._messageBus.emitErrorResponse(
+        request,
+        StaticJsDebugAdapterErrorCode.DebugControlFailed,
+        getStaticJsDebugAdapterErrorMessage(error),
+      );
+      return;
+    }
+
+    this._messageBus.emitResponse(request);
+    this._messageBus.emitEvent("continued", {
+      allThreadsContinued: true,
+      threadId:
+        (request.arguments as DebugProtocol.StepInArguments | undefined)?.threadId ??
+        MAIN_THREAD_ID,
+    });
+    this._endStoppedEventDeferral();
+  }
+
   private async _handleContinueRequest(request: DebugProtocol.Request): Promise<void> {
     const debugSession = this._sessionState.debugSession;
     if (!debugSession) {
@@ -350,10 +380,6 @@ export class StaticJsWebDebugAdapterImpl implements StaticJsWebDebugAdapter {
     }
 
     this._sessionState.launched = true;
-    this._messageBus.emitEvent("output", {
-      category: "console",
-      output: `StaticJs debug adapter bootstrap active for ${launchArgs.sourceName} (${launchArgs.sourceKind}).\n`,
-    });
 
     try {
       await debugSession.start();
