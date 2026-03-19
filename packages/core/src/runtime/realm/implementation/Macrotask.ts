@@ -17,6 +17,7 @@ import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { StaticJsFunction } from "../../types/StaticJsFunction.js";
 import type { StaticJsTaskIteratorStackFrame } from "../../tasks/StaticJsTaskIteratorStackFrame.js";
 import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
+import type { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";
 
 export default class Macrotask {
   private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";
@@ -155,6 +156,7 @@ export default class Macrotask {
 
     this._runTask(
       this._evaluator,
+      "macrotask",
       (value) => this._acceptMacrotask(value),
       (reason) => this._reject(reason),
     );
@@ -187,6 +189,7 @@ export default class Macrotask {
 
     this._runTask(
       microtask,
+      "microtask",
       () => this._acceptMicrotask(),
       (reason) => {
         this._reject(reason);
@@ -196,13 +199,14 @@ export default class Macrotask {
 
   private _runTask(
     evaluator: StaticJsEvaluator,
+    type: StaticJsTaskType,
     accept: (value: unknown) => void,
     reject: (reason: unknown) => void,
   ) {
     try {
       // Note: This pumps the evaluator to get to the first node.
       // For modules, this might throw during the linking process.
-      const taskIterator = this._createTaskIterator(evaluator, accept, reject);
+      const taskIterator = this._createTaskIterator(evaluator, type, accept, reject);
       if (!taskIterator) {
         // For modules or other odd microtasks, this may complete synchronously during the initial pumping to find an evaluation node.
         return;
@@ -216,6 +220,7 @@ export default class Macrotask {
 
   private _createTaskIterator(
     evaluator: StaticJsEvaluator,
+    type: StaticJsTaskType,
     accept: (value: unknown) => void,
     reject: (reason: unknown) => void,
   ): StaticJsTaskIterator | null {
@@ -229,6 +234,7 @@ export default class Macrotask {
         function: null,
       },
     ];
+
     const iterator = evaluateCommands(invokeEvaluator(evaluator), {
       onBeforeNode: (node) => {
         this._currentNode = node;
@@ -332,6 +338,7 @@ export default class Macrotask {
     }
 
     return {
+      type,
       get done() {
         return done;
       },
@@ -346,8 +353,9 @@ export default class Macrotask {
         return frames
           .map((frame) => ({ ...frame }))
           .map(
-            (frame) =>
+            (frame, index) =>
               ({
+                depth: frames.length - index,
                 function: frame.function,
                 get functionName() {
                   const func = frame.function;

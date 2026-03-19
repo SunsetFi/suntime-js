@@ -8,11 +8,13 @@
   - [ ] Remove need to pump multiple times for modules by removing generator from linking stage.
 - [x] Implement function auto names using EvaluationContext named parameters
 - [x] Figure out why BlockStatement is weird with regard to labels.
-- [ ] Throw out and redesign debugger
-  - [ ] Refactor the massive monolith class into smaller components
-  - [ ] Switch file names to some sort of standard (kebab).
-  - [ ] Create actual stack / frame tracking in engine
-  - [ ] Use actual stack / frame tracking for step over/in/out
+- [x] Throw out and redesign debugger
+  - [x] Refactor the massive monolith class into smaller components
+  - [x] Switch file names to some sort of standard (kebab).
+  - [x] Create actual stack / frame tracking in engine
+  - [x] Use actual stack / frame tracking for step over/in/out
+  - [ ] Expose node data in task iterator
+  - [ ] Use node data to break on loop condition and update nodes
 - [ ] Deep review and cleanup of dap
   - [ ] Sanify file names on kebab.
 - [ ] Finish implementing StaticJsRealm runTaskSync. Currently unused.
@@ -40,6 +42,7 @@
   - [ ] BreakableStatement
 - [ ] Take full function node on StaticJsAstFunction and implement toString on it.
   - [ ] Also make this work in-engine.
+- [ ] Fix StaticJsDebugAdapter in dap - broke in the debugger rework.
 
 ## General
 

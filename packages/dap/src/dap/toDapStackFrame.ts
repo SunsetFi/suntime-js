@@ -9,7 +9,7 @@ export function toDapStackFrame(
 ): DebugProtocol.StackFrame {
   return {
     id: frameId,
-    name: frame.name,
+    name: frame.functionName || frame.sourceName || "<unknown>",
     source: toDapSource(frame.sourceName),
     line: frame.line,
     column: frame.column + 1,

@@ -125,17 +125,22 @@ describe("createStaticJsWebDebugAdapter", () => {
     await session.launchStoppedScript(
       createScriptLaunchArgs({
         sourceName: "staticjs:///script/web-step.js",
-        sourceText: "const value = 1;\nvalue + 1;",
+        sourceText: "const value = 1;\nconst value2 = value + 1;",
       }),
     );
+
+    console.log("Sending next request");
 
     const nextSeq = session.sendRequest("next", { threadId: MAIN_THREAD_ID });
     const nextResponsePromise = session.collector.waitFor(isResponse("next", nextSeq));
     const continued = session.collector.waitFor(isEvent("continued"));
     const stopped = session.collector.waitFor(isStoppedEvent("step"));
 
+    console.log("Waiting for next");
     await nextResponsePromise;
+    console.log("Waiting for continued");
     await continued;
+    console.log("Waiting for stopped");
     await stopped;
 
     const continuedIndex = messageIndex(
@@ -191,7 +196,7 @@ describe("createStaticJsWebDebugAdapter", () => {
           "  return nextValue;",
           "}",
           "const result = addOne(1);",
-          "result;",
+          "const final = result;",
         ].join("\n"),
       }),
     );
@@ -227,21 +232,13 @@ describe("createStaticJsWebDebugAdapter", () => {
       }),
     );
 
-    // Stopped at: Program
-
-    let continued = session.collector.waitFor(isEvent("continued"));
-    let stopped = session.collector.waitFor(isStoppedEvent("step"));
-    session.sendRequest("next", { threadId: MAIN_THREAD_ID });
-    await continued;
-    await stopped;
-
     // Stopped at: VariableDeclaration
     let stackTrace = await session.requestStackTrace();
     const { column: varDeclColumn } = stackTrace.body?.stackFrames[0] ?? {};
     expect(varDeclColumn).toBe(1);
 
-    continued = session.collector.waitFor(isEvent("continued"));
-    stopped = session.collector.waitFor(isStoppedEvent("step"));
+    let continued = session.collector.waitFor(isEvent("continued"));
+    let stopped = session.collector.waitFor(isStoppedEvent("step"));
     session.sendRequest("next", { threadId: MAIN_THREAD_ID });
     await continued;
     await stopped;

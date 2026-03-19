@@ -5,7 +5,7 @@ import toString from "../../algorithms/to-string.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
-import { FunctionEvaluateBodyCommand } from "../../../evaluator/commands/FunctionEvaluate.js";
+import { FunctionEvaluateBodyCommand } from "../../../evaluator/commands/FunctionEvaluateCommand.js";
 import type { StaticJsScriptOrModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";

@@ -6,12 +6,21 @@ import type { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
 export interface EvaluateCommandsOptions {
   onBeforeNode?(node: Node): void;
   onAfterNode?(node: Node): void;
+  onNodeEnter?(node: Node): void;
+  onNodeExit?(): void;
   onFunctionEnter?(func: StaticJsFunction): void;
   onFunctionExit?(): void;
 }
 export function* evaluateCommands<TReturn>(
   generator: EvaluationGenerator<TReturn>,
-  { onBeforeNode, onAfterNode, onFunctionEnter, onFunctionExit }: EvaluateCommandsOptions = {},
+  {
+    onBeforeNode,
+    onAfterNode,
+    onNodeEnter,
+    onNodeExit,
+    onFunctionEnter,
+    onFunctionExit,
+  }: EvaluateCommandsOptions = {},
 ): Generator<void, TReturn, void> {
   // At one point in time, all evaluators yielded 'evaluation requests', which we handled here in a stack.
   // However, we need to allow evaluators to suspend execution on their own, for async and generator functions.
@@ -20,7 +29,7 @@ export function* evaluateCommands<TReturn>(
 
   let currentNode: Node | null = null;
 
-  evaluate: while (true) {
+  while (true) {
     // We accept that calling the generator immediately without waiting for a yield will
     // start executing code, but the proper use should be that we start with a
     // NodeEvaluationCommand, which will first yield a value of kind "evaluate-node".
@@ -41,25 +50,32 @@ export function* evaluateCommands<TReturn>(
     }
 
     switch (value.command) {
-      case "evaluate-node": {
+      case "enter-node": {
         // We are queuing up a node to evaluate.
         currentNode = value.node;
         onBeforeNode?.(currentNode);
+        onNodeEnter?.(currentNode!);
+
+        // Yield so the runner can interrogate and decide to evaluate the node.
+        yield;
+
+        break;
+      }
+      case "exit-node": {
+        onNodeExit?.();
+        // Purely advisory, continue to find the next evaluation node.
         break;
       }
       case "function-enter": {
         onFunctionEnter?.(value.func);
         // Purely advisory, continue to find the next evaluation node.
-        continue evaluate;
+        break;
       }
       case "function-exit": {
         onFunctionExit?.();
         // Purely advisory, continue to find the next evaluation node.
-        continue evaluate;
+        break;
       }
     }
-
-    // Wait for our runner to give us permission to continue.
-    yield;
   }
 }

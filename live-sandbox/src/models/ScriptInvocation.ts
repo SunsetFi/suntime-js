@@ -4,11 +4,7 @@ import mapValues from "lodash-es/mapValues";
 import { StaticJsRealm, StaticJsTaskIterator } from "@suntime-js/core";
 import CacheValue from "@/decorators/cache-value";
 
-export type ScriptInvocationStatus =
-  | "unstarted"
-  | "running"
-  | "paused"
-  | "done";
+export type ScriptInvocationStatus = "unstarted" | "running" | "paused" | "done";
 
 export default class ScriptInvocation {
   // Our desired time span is to take up 20% of one visual frame at 60 fps.
@@ -40,7 +36,7 @@ export default class ScriptInvocation {
 
   constructor(
     private readonly _code: string,
-    private readonly _modules: Record<string, Record<string, unknown>> = {}
+    private readonly _modules: Record<string, Record<string, unknown>> = {},
   ) {}
 
   @CacheValue()
@@ -145,9 +141,7 @@ export default class ScriptInvocation {
     } else if (status === "paused") {
       // No-op, continue to the next operation.
     } else {
-      throw new Error(
-        "Cannot step a script that is not unstarted, running or paused."
-      );
+      throw new Error("Cannot step a script that is not unstarted, running or paused.");
     }
 
     // This might get cleared by doNextOp if the task finishes,
@@ -186,7 +180,7 @@ export default class ScriptInvocation {
       },
       (error) => {
         this._done(error, true);
-      }
+      },
     );
     this._status$.next(mode);
   }
@@ -238,7 +232,7 @@ export default class ScriptInvocation {
     const avgTimePerIteration = average(this._timePerIterationSamples, 0);
     let iterationBudget = average(
       this._opsPerIterationSamples,
-      ScriptInvocation.BaseOpsPerIteration
+      ScriptInvocation.BaseOpsPerIteration,
     );
 
     // This is a quick and janky way to adjust the number of iterations to hit a certain time quota.
@@ -248,11 +242,9 @@ export default class ScriptInvocation {
       iterationBudget = Math.min(
         Math.max(
           1,
-          Math.floor(
-            iterationBudget * (ScriptInvocation.QuotaTime / avgTimePerIteration)
-          )
+          Math.floor(iterationBudget * (ScriptInvocation.QuotaTime / avgTimePerIteration)),
         ),
-        100000
+        100000,
       );
     }
 
@@ -280,26 +272,17 @@ export default class ScriptInvocation {
     const timeTaken = end - start;
     this._timePerIterationSamples.push(timeTaken);
     this._opsPerIterationSamples.push(iterationBudget);
-    if (
-      this._timePerIterationSamples.length >
-      ScriptInvocation.IterationTimeQutoaSamples
-    ) {
+    if (this._timePerIterationSamples.length > ScriptInvocation.IterationTimeQutoaSamples) {
       this._timePerIterationSamples.shift();
       this._opsPerIterationSamples.shift();
     }
 
     this._operationsPerSecond$.next(
-      average(
-        this._opsPerIterationSamples,
-        ScriptInvocation.BaseOpsPerIteration
-      ) /
-        (avgTimePerIteration / 1000)
+      average(this._opsPerIterationSamples, ScriptInvocation.BaseOpsPerIteration) /
+        (avgTimePerIteration / 1000),
     );
 
-    this._iterationTimeout = setTimeout(
-      () => this._runTaskIteration(),
-      ScriptInvocation.YieldTime
-    );
+    this._iterationTimeout = setTimeout(() => this._runTaskIteration(), ScriptInvocation.YieldTime);
   }
 
   private _doNextOp() {
@@ -349,8 +332,8 @@ export default class ScriptInvocation {
       return;
     }
 
-    this._line$.next(location.start.line);
-    this._column$.next(location.start.column);
+    this._line$.next(location.line);
+    this._column$.next(location.column);
     this._opType.next(type);
   }
 

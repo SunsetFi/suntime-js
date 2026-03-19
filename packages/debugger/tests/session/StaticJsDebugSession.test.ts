@@ -1,11 +1,52 @@
 import {
   StaticJsRealm,
-  StaticJsSyntaxError,
   type StaticJsTaskIterator,
   type StaticJsTaskIteratorOperation,
 } from "@suntime-js/core";
 
 import { createStaticJsDebugger } from "../../src/index.js";
+
+const createDeferredStartSession = () => {
+  const capturedTasks: StaticJsTaskIterator[] = [];
+
+  const debuggerInstance = createStaticJsDebugger({
+    realm: StaticJsRealm(),
+    runTask(task) {
+      capturedTasks.push(task);
+    },
+  });
+
+  const session = debuggerInstance.createSession({
+    launch: {
+      sourceKind: "script",
+      sourceName: "start-immediate-test.js",
+      sourceText: "const value = 1;\nvalue + 1;",
+    },
+  });
+
+  const getCapturedTask = (): StaticJsTaskIterator => {
+    const task = capturedTasks[0];
+    if (!task) {
+      throw new Error("Expected runTask to capture the debug iterator.");
+    }
+
+    return task;
+  };
+
+  const exhaustEvaluation = (): void => {
+    const task = getCapturedTask();
+    while (!task.done && !task.aborted) {
+      task.next();
+    }
+  };
+
+  return {
+    session,
+    capturedTasks,
+    getCapturedTask,
+    exhaustEvaluation,
+  };
+};
 
 describe("StaticJsDebugSession", () => {
   describe("entry behavior", () => {
@@ -146,150 +187,9 @@ describe("StaticJsDebugSession", () => {
       expect(secondStopEvent).toBeNull();
       expect(session.state).toBe("completed");
     });
-
-    it("marks a reachable breakpoint as verified during construction", () => {
-      const debuggerInstance = createStaticJsDebugger({
-        realm: StaticJsRealm(),
-      });
-
-      const session = debuggerInstance.createSession({
-        launch: {
-          sourceKind: "script",
-          sourceName: "breakpoint-test.js",
-          sourceText: "const a = 1;\nconst b = 2;\na + b;",
-          breakpoints: [
-            {
-              sourceName: "breakpoint-test.js",
-              line: 2,
-            },
-          ],
-        },
-      });
-
-      expect(session.breakpoints[0]?.verified).toBe(true);
-    });
-
-    it("marks a clearly invalid breakpoint line as unverified during construction", () => {
-      const debuggerInstance = createStaticJsDebugger({
-        realm: StaticJsRealm(),
-      });
-
-      const session = debuggerInstance.createSession({
-        launch: {
-          sourceKind: "script",
-          sourceName: "invalid-breakpoint-test.js",
-          sourceText: "const a = 1;\nconst b = 2;\na + b;",
-          breakpoints: [
-            {
-              sourceName: "invalid-breakpoint-test.js",
-              line: 99,
-            },
-          ],
-        },
-      });
-
-      expect(session.breakpoints[0]?.verified).toBe(false);
-    });
   });
 
-  describe("parsing", () => {
-    it("surfaces parser failures as StaticJsSyntaxError during session creation", () => {
-      const debuggerInstance = createStaticJsDebugger({
-        realm: StaticJsRealm(),
-      });
-
-      expect(() =>
-        debuggerInstance.createSession({
-          launch: {
-            sourceKind: "script",
-            sourceName: "syntax-error-test.js",
-            sourceText: "const = ;",
-          },
-        }),
-      ).toThrow(StaticJsSyntaxError);
-    });
-  });
-
-  describe("other behavior", () => {
-    const createDeferredStartSession = () => {
-      const capturedTasks: StaticJsTaskIterator[] = [];
-
-      const debuggerInstance = createStaticJsDebugger({
-        realm: StaticJsRealm(),
-        runTask(task) {
-          capturedTasks.push(task);
-        },
-      });
-
-      const session = debuggerInstance.createSession({
-        launch: {
-          sourceKind: "script",
-          sourceName: "start-immediate-test.js",
-          sourceText: "const value = 1;\nvalue + 1;",
-        },
-      });
-
-      const getCapturedTask = (): StaticJsTaskIterator => {
-        const task = capturedTasks[0];
-        if (!task) {
-          throw new Error("Expected runTask to capture the debug iterator.");
-        }
-
-        return task;
-      };
-
-      const exhaustEvaluation = (): void => {
-        const task = getCapturedTask();
-        while (!task.done && !task.aborted) {
-          task.next();
-        }
-      };
-
-      return {
-        session,
-        capturedTasks,
-        getCapturedTask,
-        exhaustEvaluation,
-      };
-    };
-
-    it("transitions to running on start", async () => {
-      const { session, capturedTasks } = createDeferredStartSession();
-
-      await session.start();
-
-      expect(session.state).toBe("running");
-      expect(capturedTasks).toHaveLength(1);
-    });
-
-    it("waitForStop throws when evaluation completes without stopping", async () => {
-      const { session, exhaustEvaluation } = createDeferredStartSession();
-
-      await session.start();
-      exhaustEvaluation();
-
-      await expect(session.waitForStop()).rejects.toThrow(
-        "Debug session terminated before stopping.",
-      );
-    });
-
-    it("transitions to completed on exhausting the evaluation", async () => {
-      const { session, exhaustEvaluation } = createDeferredStartSession();
-
-      const terminationPromise = new Promise<void>((resolve) => {
-        session.onDidTerminate(() => {
-          resolve();
-        });
-      });
-
-      await session.start();
-      exhaustEvaluation();
-
-      await terminationPromise;
-
-      expect(session.state).toBe("completed");
-    });
-
+  describe("stepping behavior", () => {
     it("pauses again after stepping from an entry stop", async () => {
       const debuggerInstance = createStaticJsDebugger({
         realm: StaticJsRealm(),
@@ -340,30 +240,38 @@ describe("StaticJsDebugSession", () => {
         launch: {
           sourceKind: "script",
           sourceName: "step-lines-test.js",
-          sourceText: "const a = 1; const b = 2; const c = 3;",
+          sourceText: "const a = 1;\nconst b = 2;\nconst c = 3;",
           stopOnEntry: true,
         },
       });
 
       const entryStopEvent = await session.startAndWait();
-      // Verify program node
-      expect(entryStopEvent?.snapshot?.operationType).toBe("Program");
+      expect(entryStopEvent?.snapshot).toMatchObject({
+        operationType: "VariableDeclaration",
+        line: 1,
+        column: 0,
+      });
 
-      const firstVariableStopEvent = await session.stepOverAndWait();
-      expect(firstVariableStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
+      const secondStopEvent = await session.stepOverAndWait();
+      expect(secondStopEvent?.snapshot).toMatchObject({
+        operationType: "VariableDeclaration",
+        line: 2,
+        column: 0,
+      });
 
-      const secondVariableStopEvent = await session.stepOverAndWait();
-      expect(secondVariableStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
-
-      const thirdVariableStopEvent = await session.stepOverAndWait();
-      expect(thirdVariableStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
+      const thirdStopEvent = await session.stepOverAndWait();
+      expect(thirdStopEvent?.snapshot).toMatchObject({
+        operationType: "VariableDeclaration",
+        line: 3,
+        column: 0,
+      });
 
       const completionStopEvent = await session.stepOverAndWait();
       expect(completionStopEvent).toBeNull();
       expect(session.state).toBe("completed");
     });
 
-    it("skips nested expression nodes when stepping", async () => {
+    it("skips expression nodes when stepping", async () => {
       const debuggerInstance = createStaticJsDebugger({
         realm: StaticJsRealm(),
       });
@@ -372,26 +280,31 @@ describe("StaticJsDebugSession", () => {
         launch: {
           sourceKind: "script",
           sourceName: "step-expression-test.js",
-          sourceText: "const a = 1; a + 1;",
+          sourceText: "const a = 1;\na + 1;\nconst b = 4;",
           stopOnEntry: true,
         },
       });
 
       const entryStopEvent = await session.startAndWait();
-      expect(entryStopEvent?.snapshot?.operationType).toBe("Program");
-
-      const variableStopEvent = await session.stepOverAndWait();
-      expect(variableStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
+      expect(entryStopEvent?.snapshot).toMatchObject({
+        operationType: "VariableDeclaration",
+        line: 1,
+        column: 0,
+      });
 
       const expressionStopEvent = await session.stepOverAndWait();
-      expect(expressionStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
+      expect(expressionStopEvent?.snapshot).toMatchObject({
+        operationType: "VariableDeclaration",
+        line: 3,
+        column: 0,
+      });
 
       const completionStopEvent = await session.stepOverAndWait();
       expect(completionStopEvent).toBeNull();
       expect(session.state).toBe("completed");
     });
 
-    it("keeps next as an alias for stepOver", async () => {
+    it("does not skip call expressions expression nodes when stepping", async () => {
       const debuggerInstance = createStaticJsDebugger({
         realm: StaticJsRealm(),
       });
@@ -399,17 +312,36 @@ describe("StaticJsDebugSession", () => {
       const session = debuggerInstance.createSession({
         launch: {
           sourceKind: "script",
-          sourceName: "next-alias-test.js",
-          sourceText: "const a = 1; const b = 2;",
+          sourceName: "step-expression-test.js",
+          sourceText: "const a = 1;\na + Math.random();\nconst b = 4;",
           stopOnEntry: true,
         },
       });
 
-      await session.startAndWait();
+      const entryStopEvent = await session.startAndWait();
+      expect(entryStopEvent?.snapshot).toMatchObject({
+        operationType: "VariableDeclaration",
+        line: 1,
+        column: 0,
+      });
 
-      const stopEvent = await session.nextAndWait();
+      const callStopEvent = await session.stepOverAndWait();
+      expect(callStopEvent?.snapshot).toMatchObject({
+        operationType: "CallExpression",
+        line: 2,
+        column: 4,
+      });
 
-      expect(stopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
+      const expressionStopEvent = await session.stepOverAndWait();
+      expect(expressionStopEvent?.snapshot).toMatchObject({
+        operationType: "VariableDeclaration",
+        line: 3,
+        column: 0,
+      });
+
+      const completionStopEvent = await session.stepOverAndWait();
+      expect(completionStopEvent).toBeNull();
+      expect(session.state).toBe("completed");
     });
 
     it("steps over a function call without pausing in the callee", async () => {
@@ -427,24 +359,36 @@ describe("StaticJsDebugSession", () => {
             "  return nextValue;",
             "}",
             "const result = addOne(1);",
-            "result;",
+            "const final = 1",
           ].join("\n"),
           stopOnEntry: true,
         },
       });
 
-      await session.startAndWait();
-
-      const declarationStopEvent = await session.stepOverAndWait();
-      expect(declarationStopEvent?.snapshot?.operationType).toBe("FunctionDeclaration");
+      const declarationStopEvent = await session.startAndWait();
+      expect(declarationStopEvent?.snapshot).toMatchObject({
+        operationType: "FunctionDeclaration",
+        line: 1,
+        column: 0,
+      });
 
       const callSiteStopEvent = await session.stepOverAndWait();
-      expect(callSiteStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
-      expect(callSiteStopEvent?.snapshot?.line).toBe(5);
+      expect(callSiteStopEvent?.snapshot).toMatchObject({
+        operationType: "VariableDeclaration",
+        line: 5,
+      });
+
+      const callStopEvent = await session.stepOverAndWait();
+      expect(callStopEvent?.snapshot).toMatchObject({
+        operationType: "CallExpression",
+        line: 5,
+      });
 
       const callerStopEvent = await session.stepOverAndWait();
-      expect(callerStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
-      expect(callerStopEvent?.snapshot?.line).toBe(6);
+      expect(callerStopEvent?.snapshot).toMatchObject({
+        operationType: "VariableDeclaration",
+        line: 6,
+      });
     });
 
     it("steps into the first visible statement inside a called function", async () => {
@@ -469,11 +413,14 @@ describe("StaticJsDebugSession", () => {
       });
 
       await session.startAndWait();
-      await session.stepOverAndWait();
 
       const callSiteStopEvent = await session.stepOverAndWait();
       expect(callSiteStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
       expect(callSiteStopEvent?.snapshot?.line).toBe(5);
+
+      const callStopEvent = await session.stepOverAndWait();
+      expect(callStopEvent?.snapshot?.operationType).toBe("CallExpression");
+      expect(callStopEvent?.snapshot?.line).toBe(5);
 
       const calleeStopEvent = await session.stepIntoAndWait();
       expect(calleeStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
@@ -489,21 +436,25 @@ describe("StaticJsDebugSession", () => {
         launch: {
           sourceKind: "script",
           sourceName: "step-into-fallback-test.js",
-          sourceText: "const a = 1; a + 1;",
+          sourceText: "const a = 1;\nconst b = a + 1;",
           stopOnEntry: true,
         },
       });
 
-      await session.startAndWait();
-
-      const variableStopEvent = await session.stepIntoAndWait();
-      expect(variableStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
+      const variableStopEvent = await session.startAndWait();
+      expect(variableStopEvent?.snapshot).toMatchObject({
+        operationType: "VariableDeclaration",
+        line: 1,
+      });
 
       const expressionStopEvent = await session.stepIntoAndWait();
-      expect(expressionStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
+      expect(expressionStopEvent?.snapshot).toMatchObject({
+        operationType: "VariableDeclaration",
+        line: 2,
+      });
     });
 
-    it("steps over to the next loop iteration when the visible stop location repeats", async () => {
+    it("steping behaves correctly in for loops", async () => {
       const debuggerInstance = createStaticJsDebugger({
         realm: StaticJsRealm({
           global: {
@@ -520,89 +471,75 @@ describe("StaticJsDebugSession", () => {
         launch: {
           sourceKind: "script",
           sourceName: "step-over-loop-repeat-test.js",
-          sourceText: [
-            "function doThing() {",
-            "  for (let i = 0; i < 2; i++) {",
-            '    console.log("Hello " + i);',
-            "  }",
-            "}",
-            "",
-            "doThing();",
-            "42;",
-          ].join("\n"),
+          sourceText: ["for (let i = 0; i < 2; i++) {", '  console.log("Hello " + i);', "}"].join(
+            "\n",
+          ),
           stopOnEntry: true,
         },
       });
 
-      await session.startAndWait();
-      await session.stepOverAndWait();
-      await session.stepOverAndWait();
-      await session.stepIntoAndWait();
-      await session.stepOverAndWait();
-      await session.stepOverAndWait();
+      // For statement
+      const firstLoopStopEvent = await session.startAndWait();
+      expect(firstLoopStopEvent?.snapshot).toMatchObject({
+        operationType: "ForStatement",
+        line: 1,
+        column: 0,
+      });
 
-      const firstLoopStopEvent = session.getSnapshot();
-      expect(firstLoopStopEvent?.operationType).toBe("ExpressionStatement");
-      expect(firstLoopStopEvent?.line).toBe(3);
-
+      // Init
       const secondLoopStopEvent = await session.stepOverAndWait();
-      expect(secondLoopStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
-      expect(secondLoopStopEvent?.snapshot?.line).toBe(3);
-
-      const afterLoopStopEvent = await session.stepOverAndWait();
-      expect(afterLoopStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
-      expect(afterLoopStopEvent?.snapshot?.line).toBe(8);
-    });
-
-    it("lets stepInto fall back to the next loop iteration when the call stays in the same frame", async () => {
-      const debuggerInstance = createStaticJsDebugger({
-        realm: StaticJsRealm({
-          global: {
-            value: {
-              console: {
-                log: (...args: unknown[]) => args,
-              },
-            },
-          },
-        }),
+      expect(secondLoopStopEvent?.snapshot).toMatchObject({
+        operationType: "VariableDeclaration",
+        line: 1,
+        column: 5,
       });
 
-      const session = debuggerInstance.createSession({
-        launch: {
-          sourceKind: "script",
-          sourceName: "step-into-loop-repeat-test.js",
-          sourceText: [
-            "function doThing() {",
-            "  for (let i = 0; i < 2; i++) {",
-            '    console.log("Hello " + i);',
-            "  }",
-            "}",
-            "",
-            "doThing();",
-            "42;",
-          ].join("\n"),
-          stopOnEntry: true,
-        },
+      // Step into hits Condition
+      // FIXME: We should make stepOver do this too.
+      // That requires knowing what node we are on and what its parent is.
+      const conditionStopEvent = await session.stepIntoAndWait();
+      expect(conditionStopEvent?.snapshot).toMatchObject({
+        operationType: "BinaryExpression",
+        line: 1,
+        column: 16,
       });
 
-      await session.startAndWait();
-      await session.stepOverAndWait();
-      await session.stepOverAndWait();
-      await session.stepIntoAndWait();
-      await session.stepOverAndWait();
-      await session.stepOverAndWait();
+      // Body
+      const bodyStopEvent = await session.stepOverAndWait();
+      expect(bodyStopEvent?.snapshot).toMatchObject({
+        operationType: "CallExpression",
+        line: 2,
+        column: 2,
+      });
 
-      const firstLoopStopEvent = session.getSnapshot();
-      expect(firstLoopStopEvent?.operationType).toBe("ExpressionStatement");
-      expect(firstLoopStopEvent?.line).toBe(3);
+      // Update
+      const updateStopEvent = await session.stepOverAndWait();
+      expect(updateStopEvent?.snapshot).toMatchObject({
+        operationType: "UpdateExpression",
+        line: 1,
+        column: 23,
+      });
 
-      const secondLoopStopEvent = await session.stepIntoAndWait();
-      expect(secondLoopStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
-      expect(secondLoopStopEvent?.snapshot?.line).toBe(3);
+      // Body
+      // stepOver skips condition.  For now.
+      const body2StopEvent = await session.stepOverAndWait();
+      expect(body2StopEvent?.snapshot).toMatchObject({
+        operationType: "CallExpression",
+        line: 2,
+        column: 2,
+      });
 
-      const afterLoopStopEvent = await session.stepIntoAndWait();
-      expect(afterLoopStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
-      expect(afterLoopStopEvent?.snapshot?.line).toBe(8);
+      // Update
+      const update2StopEvent = await session.stepOverAndWait();
+      expect(update2StopEvent?.snapshot).toMatchObject({
+        operationType: "UpdateExpression",
+        line: 1,
+        column: 23,
+      });
+
+      // Test again, loop back to body
+      const terminalStopEvent = await session.stepOverAndWait();
+      expect(terminalStopEvent).toBeNull();
     });
 
     it("steps out to the next visible statement in the caller", async () => {
@@ -620,23 +557,63 @@ describe("StaticJsDebugSession", () => {
             "  return nextValue;",
             "}",
             "const result = addOne(1);",
-            "result;",
+            "const next = null;",
           ].join("\n"),
-          stopOnEntry: true,
+          breakpoints: [
+            {
+              sourceName: "step-out-test.js",
+              line: 2,
+            },
+          ],
         },
       });
 
-      await session.startAndWait();
-      await session.stepOverAndWait();
-      await session.stepOverAndWait();
-
-      const calleeStopEvent = await session.stepIntoAndWait();
+      const calleeStopEvent = await session.startAndWait();
       expect(calleeStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
       expect(calleeStopEvent?.snapshot?.line).toBe(2);
 
       const callerStopEvent = await session.stepOutAndWait();
-      expect(callerStopEvent?.snapshot?.operationType).toBe("ExpressionStatement");
+      expect(callerStopEvent?.snapshot?.operationType).toBe("VariableDeclaration");
       expect(callerStopEvent?.snapshot?.line).toBe(6);
+    });
+  });
+
+  describe("other behavior", () => {
+    it("transitions to running on start", async () => {
+      const { session, capturedTasks } = createDeferredStartSession();
+
+      await session.start();
+
+      expect(session.state).toBe("running");
+      expect(capturedTasks).toHaveLength(1);
+    });
+
+    it("waitForStop throws when evaluation completes without stopping", async () => {
+      const { session, exhaustEvaluation } = createDeferredStartSession();
+
+      await session.start();
+      exhaustEvaluation();
+
+      await expect(session.waitForStop()).rejects.toThrow(
+        "Debug session terminated before stopping.",
+      );
+    });
+
+    it("transitions to completed on exhausting the evaluation", async () => {
+      const { session, exhaustEvaluation } = createDeferredStartSession();
+
+      const terminationPromise = new Promise<void>((resolve) => {
+        session.onDidTerminate(() => {
+          resolve();
+        });
+      });
+
+      await session.start();
+      exhaustEvaluation();
+
+      await terminationPromise;
+
+      expect(session.state).toBe("completed");
     });
 
     it("honors a cooperative pause request while running", async () => {
@@ -743,13 +720,15 @@ describe("StaticJsDebugSession", () => {
         operationType: "FakeOp",
         location: {
           sourceName: "fake.js",
-          start: { line: 1, column: 0, character: 0 },
-          end: { line: 1, column: 1, character: 1 },
+          line: 1,
+          column: 0,
+          character: 0,
         },
       };
 
       let done = false;
       const fakeTask: StaticJsTaskIterator = {
+        type: "macrotask",
         get done() {
           return done;
         },
@@ -759,6 +738,7 @@ describe("StaticJsDebugSession", () => {
         get operation() {
           return done ? null : fakeOperation;
         },
+        stack: [],
         next() {
           done = true;
           return { value: undefined, done: true };

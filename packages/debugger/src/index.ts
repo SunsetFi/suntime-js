@@ -9,8 +9,8 @@ export type { StaticJsDebugStartEvent } from "./events/StaticJsDebugStartEvent.j
 export type { StaticJsDebugStopEvent } from "./events/StaticJsDebugStopEvent.js";
 export type { StaticJsDebugTerminateEvent } from "./events/StaticJsDebugTerminateEvent.js";
 
-export { createStaticJsDebugger } from "./createStaticJsDebugger.js";
-export type { StaticJsDebugger, StaticJsDebuggerOptions } from "./createStaticJsDebugger.js";
+export { createStaticJsDebugger } from "./create-static-js-debugger.js";
+export type { StaticJsDebugger, StaticJsDebuggerOptions } from "./create-static-js-debugger.js";
 
 export type { StaticJsDebugSession } from "./session/StaticJsDebugSession.js";
 export type {

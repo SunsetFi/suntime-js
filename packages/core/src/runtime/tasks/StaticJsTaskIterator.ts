@@ -1,5 +1,6 @@
 import type { StaticJsTaskIteratorOperation } from "./StaticJsTaskIteratorOperation.js";
 import type { StaticJsTaskIteratorStackFrame } from "./StaticJsTaskIteratorStackFrame.js";
+import type { StaticJsTaskType } from "./StaticJsTaskType.js";
 
 /**
  * A task in the StaticJs runtime.
@@ -10,6 +11,11 @@ import type { StaticJsTaskIteratorStackFrame } from "./StaticJsTaskIteratorStack
  * Task execution can be done asynchronously, with pauses between operations,
  */
 export interface StaticJsTaskIterator {
+  /**
+   * The type of the task, either "macrotask" or "microtask".
+   */
+  readonly type: StaticJsTaskType;
+
   /**
    * Whether the task has completed execution.
    *

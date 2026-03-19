@@ -1,12 +1,14 @@
 import type { AwaitCommand } from "./AwaitCommand.js";
-import type { EvaluateNodeCommand } from "./EvaluateNodeCommand.js";
-import { FunctionEnterCommand } from "./FunctionEnter.js";
-import { FunctionExitCommand } from "./FunctionExit.js";
+import type { EnterNodeCommand } from "./EnterNodeCommand.js";
+import type { ExitNodeCommand } from "./ExitNodeCommand.js";
+import { FunctionEnterCommand } from "./FunctionEnterCommand.js";
+import { FunctionExitCommand } from "./FunctionExitCommand.js";
 import type { YieldCommand } from "./YieldCommand.js";
 
 export type EvaluatorCommand =
   | AwaitCommand
   | YieldCommand
-  | EvaluateNodeCommand
+  | EnterNodeCommand
+  | ExitNodeCommand
   | FunctionEnterCommand
   | FunctionExitCommand;
