@@ -4,7 +4,7 @@ import toNumber from "../algorithms/to-number.js";
 
 const globalObjectIsFiniteDeclaration: IntrinsicPropertyDeclaration = {
   key: "isFinite",
-  *func(realm, thisArg, value = realm.types.undefined) {
+  *func(realm, _thisArg, value = realm.types.undefined) {
     value = yield* toNumber(value, realm);
 
     const result = isFinite(value.value);

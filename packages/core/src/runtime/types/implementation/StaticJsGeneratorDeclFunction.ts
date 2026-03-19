@@ -38,7 +38,7 @@ export default class StaticJsGeneratorDeclFunction extends StaticJsAstFunction {
     });
   }
 
-  protected *_invoke(
+  protected override *_invoke(
     thisArg: StaticJsValue,
     args: StaticJsValue[],
   ): EvaluationGenerator<StaticJsValue> {

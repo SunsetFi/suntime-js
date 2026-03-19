@@ -2,10 +2,9 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "types": ["node", "vitest/globals"],
-    "noEmit": true,
     "rootDir": ".",
+    "noEmit": true,
     // Breaks typings for @vitest/runner
     "exactOptionalPropertyTypes": false
-  },
-  "include": ["./src", "./tests", "./vitest.config.ts"]
+  }
 }

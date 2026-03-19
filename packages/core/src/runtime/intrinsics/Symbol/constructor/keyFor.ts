@@ -4,7 +4,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const symbolCtorKeyForDeclaration: IntrinsicPropertyDeclaration = {
   key: "keyFor",
-  *func(realm, thisArg, symbolArg) {
+  *func(realm, _thisArg, symbolArg) {
     if (!isStaticJsSymbol(symbolArg)) {
       return realm.types.undefined;
     }

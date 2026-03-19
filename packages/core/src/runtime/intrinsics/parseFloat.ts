@@ -7,7 +7,7 @@ import toString from "../algorithms/to-string.js";
 
 const globalObjectParseFloatDeclaration: IntrinsicPropertyDeclaration = {
   key: "parseFloat",
-  *func(realm, thisArg, value) {
+  *func(realm, _thisArg, value) {
     if (!value || isStaticJsUndefined(value) || isStaticJsNull(value)) {
       return realm.types.NaN;
     }

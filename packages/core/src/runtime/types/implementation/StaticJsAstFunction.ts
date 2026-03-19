@@ -73,15 +73,15 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     this._scriptOrModule = context.scriptOrModule;
   }
 
-  get ecmaScriptCode(): Node {
+  override get ecmaScriptCode(): Node {
     return this._body;
   }
 
-  get scriptOrModule(): StaticJsScriptOrModuleRecord | null {
+  override get scriptOrModule(): StaticJsScriptOrModuleRecord | null {
     return this._scriptOrModule;
   }
 
-  get strict(): boolean {
+  override get strict(): boolean {
     return this._strict;
   }
 

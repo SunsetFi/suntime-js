@@ -3,7 +3,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorGetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "getPrototypeOf",
-  *func(realm, thisArg, targetValue = realm.types.undefined) {
+  *func(realm, _thisArg, targetValue = realm.types.undefined) {
     const obj = yield* toObject(targetValue, realm);
 
     const proto = obj.prototype;

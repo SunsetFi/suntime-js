@@ -5,7 +5,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorEntriesDeclaration: IntrinsicPropertyDeclaration = {
   key: "entries",
-  *func(realm, thisArg, obj = realm.types.undefined) {
+  *func(realm, _thisArg, obj = realm.types.undefined) {
     // TODO: This should return an iterator.
     obj = yield* toObject(obj, realm);
 

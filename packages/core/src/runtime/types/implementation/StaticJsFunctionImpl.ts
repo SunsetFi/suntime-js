@@ -23,6 +23,7 @@ import StaticJsTypeCode from "../StaticJsTypeCode.js";
 import StaticJsStringImpl from "./StaticJsStringImpl.js";
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import { StaticJsObjectProxyTarget } from "./create-object-proxy.js";
 
 export interface StaticJsFunctionImplOptions {
   length?: number;
@@ -74,7 +75,7 @@ export default class StaticJsFunctionImpl
     });
   }
 
-  get typeOf() {
+  override get typeOf() {
     return "function" as const;
   }
 
@@ -116,7 +117,7 @@ export default class StaticJsFunctionImpl
     return nameStr.toString();
   }
 
-  toStringSync() {
+  override toStringSync() {
     const name = this.getNameSync();
 
     // TODO: If its an AST function, we should return the body
@@ -200,7 +201,7 @@ export default class StaticJsFunctionImpl
     return this.realm.invokeEvaluatorSync(this.constructEvaluator(args));
   }
 
-  toJsSync(): (...args: unknown[]) => unknown {
+  override toJsSync(): (...args: unknown[]) => unknown {
     return super.toJsSync() as (...args: unknown[]) => unknown;
   }
 
@@ -238,11 +239,11 @@ export default class StaticJsFunctionImpl
     }
   }
 
-  protected _createToJsProxyTarget(): object {
-    return () => {};
+  protected override _createToJsProxyTarget(): StaticJsObjectProxyTarget {
+    return (() => {}) as StaticJsObjectProxyTarget;
   }
 
-  protected _configureToJsProxy(_traps: ProxyHandler<object>): void {
+  protected override _configureToJsProxy(_traps: ProxyHandler<StaticJsObjectProxyTarget>): void {
     _traps.apply = (_target: unknown, thisArg: unknown, args: unknown[]) => {
       const argValues = args.map((value) => this.realm.types.toStaticJsValue(value));
       // FIXME: This absolutely probably does not work right.

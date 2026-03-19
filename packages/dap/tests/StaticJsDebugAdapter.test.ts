@@ -1,7 +1,8 @@
 import { DebugClient } from "@vscode/debugadapter-testsupport";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import type { StaticJsLaunchRequestArguments } from "../src";
+import type { StaticJsLaunchRequestArguments } from "../src/index.js";
+
 import {
   createDebugClient,
   initialize,

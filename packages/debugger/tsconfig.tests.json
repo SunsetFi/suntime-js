@@ -1,11 +1,7 @@
 {
-  "extends": "./tsconfig.base.json",
+  "extends": "../../tsconfig.tests.json",
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "noEmit": true,
-    "rootDir": ".",
-    "types": ["node", "vitest/globals"]
+    "rootDir": "."
   },
   "include": ["./src", "./tests", "./vitest.config.ts"]
 }

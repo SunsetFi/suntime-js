@@ -314,7 +314,7 @@ export default class Macrotask {
         }
         return {
           value: undefined,
-          done: result.done,
+          done: result.done ?? false,
         };
       } catch (e) {
         if (!done) {

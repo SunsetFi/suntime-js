@@ -18,9 +18,9 @@ export interface CreateAdapterSessionOptions {
   readonly launchArgs: NormalizedStaticJsLaunchRequestArguments;
   readonly onDidStop: (event: StaticJsDebugStopEvent) => void;
   readonly onDidTerminate: (event: StaticJsDebugTerminateEvent) => void;
-  readonly realm?: StaticJsDebuggerOptions["realm"];
-  readonly createRealm?: () => StaticJsDebuggerOptions["realm"];
-  readonly runTask?: StaticJsTaskRunner;
+  readonly realm?: StaticJsDebuggerOptions["realm"] | undefined;
+  readonly createRealm?: (() => StaticJsDebuggerOptions["realm"]) | undefined;
+  readonly runTask?: StaticJsTaskRunner | undefined;
 }
 
 export function createAdapterSession(options: CreateAdapterSessionOptions): CreatedAdapterSession {

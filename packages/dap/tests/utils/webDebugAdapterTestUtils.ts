@@ -1,6 +1,7 @@
 import type { DebugProtocol } from "@vscode/debugprotocol";
 
-import type { StaticJsLaunchRequestArguments } from "../../src";
+import type { StaticJsLaunchRequestArguments } from "../../src/index.js";
+
 import {
   STATIC_JS_DEBUGGER_TYPE,
   createStaticJsWebDebugAdapter,

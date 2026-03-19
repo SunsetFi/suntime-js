@@ -16,11 +16,11 @@ export default class StaticJsSymbolBoxed extends StaticJsObjectImpl {
     return this._value;
   }
 
-  toStringSync(): string {
+  override toStringSync(): string {
     return `Symbol(${this._value.description})`;
   }
 
-  toJsSync(): unknown {
+  override toJsSync(): unknown {
     return new Object(this._value.toJsSync());
   }
 }

@@ -1,4 +1,4 @@
-import type { EvaluationOptions } from "./options.js";
+import dropUndefined from "../../utils/drop-undefined.js";
 
 import StaticJsRealm from "../../runtime/realm/factories/StaticJsRealm.js";
 import { isStaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
@@ -7,6 +7,8 @@ import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
 import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
+
+import type { EvaluationOptions } from "./options.js";
 
 /**
  * Evaluates a string as a javascript program, and returns the result.
@@ -30,9 +32,11 @@ export async function evaluateScript(
     throw new TypeError("Provided realm is not a StaticJsRealm");
   }
 
+  const evalOpts = dropUndefined({ runTask: taskRunner, sourceName });
+
   let result: StaticJsValue;
   try {
-    result = await realm.evaluateScript(script, { runTask: taskRunner, sourceName });
+    result = await realm.evaluateScript(script, evalOpts);
   } catch (e) {
     let error = e;
     if (error instanceof StaticJsRuntimeError) {
@@ -65,8 +69,10 @@ export function evaluateScriptSync(script: string, opts?: EvaluationOptions): un
 
   realm ??= StaticJsRealm();
 
+  const evalOpts = dropUndefined({ runTask: taskRunner });
+
   try {
-    const result = realm.evaluateScriptSync(script, { runTask: taskRunner });
+    const result = realm.evaluateScriptSync(script, evalOpts);
     return result.toJsSync();
   } catch (e) {
     let error = e;

@@ -329,13 +329,9 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     // to the appropriate intrinsic symbol.
     // This saves us having to care about unwrapping them in equality checks elsewhere.
     switch (value) {
-      case Symbol.asyncDispose:
-        return this._symbols.asyncDispose;
       case Symbol.asyncIterator:
         return this._symbols.asyncIterator;
       case Symbol.dispose:
-        return this._symbols.dispose;
-      case Symbol.hasInstance:
         return this._symbols.hasInstance;
       case Symbol.isConcatSpreadable:
         return this._symbols.isConcatSpreadable;
@@ -361,6 +357,15 @@ export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
         return this._symbols.toStringTag;
       case Symbol.unscopables:
         return this._symbols.unscopables;
+    }
+
+    if ("dispose" in Symbol) {
+      switch (value) {
+        case Symbol.asyncDispose:
+          return this._symbols.asyncDispose;
+        case Symbol.dispose:
+          return this._symbols.dispose;
+      }
     }
 
     return new StaticJsSymbolImpl(this._realm, value);

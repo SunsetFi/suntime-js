@@ -6,7 +6,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorFreezeDeclaration: IntrinsicPropertyDeclaration = {
   key: "freeze",
-  *func(realm, thisArg, targetValue) {
+  *func(realm, _thisArg, targetValue) {
     if (!targetValue) {
       targetValue = realm.types.undefined;
     }

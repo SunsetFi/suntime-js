@@ -121,7 +121,7 @@ export default class StaticJsPromiseImpl extends StaticJsObjectLikeImpl implemen
     return yield* this.thenEvaluator(undefined, onRejected);
   }
 
-  toJsSync(): Promise<unknown> {
+  override toJsSync(): Promise<unknown> {
     return super.toJsSync() as Promise<unknown>;
   }
 }

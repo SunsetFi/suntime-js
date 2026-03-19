@@ -31,7 +31,7 @@ export default function* createAsyncFromSyncIterator(
   });
 
   yield* asyncIterator.defineOwnPropertyEvaluator("next", {
-    value: new StaticJsFunctionImpl(realm, "next", function* (thisArg, value) {
+    value: new StaticJsFunctionImpl(realm, "next", function* (_thisArg, value) {
       const promiseCapability = yield* newPromiseCapability(
         realm.types.constructors.Promise,
         realm,

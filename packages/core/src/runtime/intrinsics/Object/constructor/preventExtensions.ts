@@ -6,7 +6,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorPreventExtensionsDeclaration: IntrinsicPropertyDeclaration = {
   key: "preventExtensions",
-  *func(realm, thisArg, targetValue) {
+  *func(realm, _thisArg, targetValue) {
     if (!targetValue) {
       targetValue = realm.types.undefined;
     }

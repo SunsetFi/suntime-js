@@ -32,7 +32,7 @@ export default class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
     super(realm, name, "lexical-this", argumentDeclarations, context, body, functionFactory);
   }
 
-  *constructEvaluator(): EvaluationGenerator<StaticJsObjectLike> {
+  override *constructEvaluator(): EvaluationGenerator<StaticJsObjectLike> {
     const nameValue = yield* this.getEvaluator("name");
     let name = nameValue.toStringSync();
     if (name === "") {
@@ -42,7 +42,7 @@ export default class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
     throw Completion.Throw(this.realm.types.error("TypeError", `${name} is not a constructor`));
   }
 
-  protected *_invoke(
+  protected override *_invoke(
     thisArg: StaticJsValue,
     args: StaticJsValue[],
   ): EvaluationGenerator<StaticJsValue> {

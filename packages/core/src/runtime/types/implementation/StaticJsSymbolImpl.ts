@@ -48,7 +48,7 @@ export default class StaticJsSymbolImpl extends StaticJsObjectLikeImpl implement
     return "symbol";
   }
 
-  get typeOf(): string {
+  override get typeOf(): string {
     return "symbol";
   }
 
@@ -64,7 +64,7 @@ export default class StaticJsSymbolImpl extends StaticJsObjectLikeImpl implement
     return this._description;
   }
 
-  toJsSync(): symbol {
+  override toJsSync(): symbol {
     return this._nativeSymbol;
   }
 }

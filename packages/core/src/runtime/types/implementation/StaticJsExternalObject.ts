@@ -41,7 +41,7 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
     return StaticJsTypeCode.Object;
   }
 
-  get extensible(): boolean {
+  override get extensible(): boolean {
     return false;
   }
 
@@ -56,7 +56,7 @@ export default class StaticJsExternalObject extends StaticJsAbstractObject {
     });
   }
 
-  toJsSync() {
+  override toJsSync() {
     return this._obj;
   }
 

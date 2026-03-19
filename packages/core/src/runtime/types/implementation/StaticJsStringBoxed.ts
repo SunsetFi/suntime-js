@@ -65,11 +65,11 @@ export default class StaticJsStringBoxed extends StaticJsAbstractObject {
     return false;
   }
 
-  toStringSync(): string {
+  override toStringSync(): string {
     return this._value;
   }
 
-  toJsSync(): unknown {
+  override toJsSync(): unknown {
     return new Object(this._value);
   }
 }

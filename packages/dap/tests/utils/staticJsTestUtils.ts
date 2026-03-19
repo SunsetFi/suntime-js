@@ -1,4 +1,4 @@
-import type { StaticJsLaunchRequestArguments } from "../../src";
+import type { StaticJsLaunchRequestArguments } from "../../src/index.js";
 
 export const MAIN_THREAD_ID = 1;
 

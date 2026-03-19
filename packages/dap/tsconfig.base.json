@@ -1,13 +1,12 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "Node16",
-    "moduleResolution": "node16",
+    "types": ["node"],
+    // These need to stay, as we are using an older version of typescript
+    // due to TS6 not supporting the module keyword in d.ts anymore.
+    // This collides with @vscode/debugadapter
     "esModuleInterop": true,
     "isolatedModules": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "composite": true,
-    "types": ["node"]
+    "composite": true
   }
 }

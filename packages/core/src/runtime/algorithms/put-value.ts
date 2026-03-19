@@ -75,7 +75,9 @@ export default function* putValue(
   // This needs to be resolved...
   if (isStaticJsSymbol(v.referencedName)) {
     if (v.strict) {
-      throw Completion.Throw(realm.types.error("ReferenceError", `${name} is not defined`));
+      throw Completion.Throw(
+        realm.types.error("ReferenceError", `${v.referencedName} is not defined`),
+      );
     }
 
     return;

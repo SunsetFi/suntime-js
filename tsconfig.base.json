@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2024",
+    "lib": ["ES2024", "ESNext.Disposable"],
+    "module": "node20",
+    "moduleResolution": "node16",
+    "forceConsistentCasingInFileNames": true,
+    "strictNullChecks": true,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    // Goes bonkers on array indexes despite guards on length.
+    // "noUncheckedIndexedAccess": true
+    // oxlint does these, but doesn't warn in some cases.
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  }
+}

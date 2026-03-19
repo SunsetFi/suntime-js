@@ -27,7 +27,7 @@ export default class StaticJsExternalModuleImpl
     this._exportKeys = Object.freeze(Object.keys(_obj));
   }
 
-  get name() {
+  override get name() {
     return this._name;
   }
 
@@ -80,7 +80,7 @@ export default class StaticJsExternalModuleImpl
     return this._realm.types.toStaticJsValue(this._obj[bindingName]);
   }
 
-  *getModuleNamespaceEvaluator(): EvaluationGenerator<StaticJsObjectLike> {
+  override *getModuleNamespaceEvaluator(): EvaluationGenerator<StaticJsObjectLike> {
     const types = this._realm.types;
     const obj = this._obj;
 

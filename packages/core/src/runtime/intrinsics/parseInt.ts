@@ -8,7 +8,7 @@ import toInteger from "../algorithms/to-integer.js";
 
 const globalObjectParseIntDeclaration: IntrinsicPropertyDeclaration = {
   key: "parseInt",
-  *func(realm, thisArg, value, radix) {
+  *func(realm, _thisArg, value, radix) {
     if (!value || isStaticJsUndefined(value) || isStaticJsNull(value)) {
       return realm.types.NaN;
     }

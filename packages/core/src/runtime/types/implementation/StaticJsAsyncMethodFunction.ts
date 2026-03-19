@@ -33,7 +33,7 @@ export default class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
     // Object methods get no prototype.
   }
 
-  protected *_invoke(
+  protected override *_invoke(
     thisArg: StaticJsValue,
     args: StaticJsValue[],
   ): EvaluationGenerator<StaticJsValue> {

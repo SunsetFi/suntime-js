@@ -84,7 +84,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
     this._exportEntries = exportEntries(this._ecmaScriptCode);
   }
 
-  get name() {
+  override get name() {
     return this._name;
   }
 

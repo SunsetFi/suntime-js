@@ -2,7 +2,7 @@ import { DebugClient } from "@vscode/debugadapter-testsupport";
 import type { DebugProtocol } from "@vscode/debugprotocol";
 import { resolve } from "node:path";
 
-import type { StaticJsLaunchRequestArguments } from "../../src";
+import type { StaticJsLaunchRequestArguments } from "../../src/index.js";
 
 const packageRoot = resolve(__dirname, "../..");
 const adapterEntry = resolve(packageRoot, "src", "run.ts");

@@ -54,7 +54,7 @@ class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements StaticJsFu
     super(realm, prototype ?? realm.types.prototypes.functionProto);
   }
 
-  get typeOf(): "function" {
+  override get typeOf(): "function" {
     return "function";
   }
 
@@ -113,7 +113,7 @@ class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements StaticJsFu
     return this.realm.invokeEvaluatorSync(this._getNameEvaluator());
   }
 
-  toJsSync(): (...args: unknown[]) => unknown {
+  override toJsSync(): (...args: unknown[]) => unknown {
     return super.toJsSync() as (...args: unknown[]) => unknown;
   }
 

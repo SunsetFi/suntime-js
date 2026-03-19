@@ -10,6 +10,10 @@ import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 
 const ProxyOwnerKey = Symbol("StaticJsObjectLikeProxyOwner");
 
+export type StaticJsObjectProxyTarget = (object | ((...args: unknown[]) => unknown)) & {
+  [key: PropertyKey]: unknown;
+};
+
 export function getStaticJsObjectLikeProxyOwner(proxy: unknown): StaticJsValue | null {
   if (proxy && typeof proxy === "object" && ProxyOwnerKey in proxy) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,8 +24,8 @@ export function getStaticJsObjectLikeProxyOwner(proxy: unknown): StaticJsValue |
 
 export default function createStaticJsObjectLikeProxy(
   obj: StaticJsObjectLike,
-  target: object = {},
-  additionalTraps: ProxyHandler<object> = {},
+  target: StaticJsObjectProxyTarget = {},
+  additionalTraps: ProxyHandler<StaticJsObjectProxyTarget> = {},
 ): unknown {
   const getOwnPropertyDescriptor = (propertyName: string | symbol) => {
     let staticJsPropertyKey: StaticJsPropertyKey;
@@ -36,21 +40,11 @@ export default function createStaticJsObjectLikeProxy(
       return undefined;
     }
 
-    // So apparently if we can't change this WE MUST RETURN THE SAME REFERENCE
-    // What even is the point of proxy objects!  They make the object have all the same values anyway!
-    // What the hell is Proxy even for!  Whose use case is this!  Why force me to mantain my object identically!!!
-    // The only use of this is that I can actually capture the events, and force my target up to date.
-    // This is so, so, so, so stupid.
+    // Proxy requires the target object descriptor to be kept in sync.
     const existingDef = Object.getOwnPropertyDescriptor(target, propertyName);
     if (existingDef && !existingDef.configurable) {
-      // Well, the good news is if its not configrable, it wouldn't have been configurable
-      // on the 'real' runtime object, which means it can never change.
-      // HOWEVER
-      // we still need to update the value if its a value descriptor!
-      // SIGH.............
       if (isStaticJsDataPropertyDescriptor(descriptor) && descriptor.writable) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (target as any)[propertyName] = obj.getSync(staticJsPropertyKey).toJsSync();
+        target[propertyName] = obj.getSync(staticJsPropertyKey).toJsSync();
         return Object.getOwnPropertyDescriptor(target, propertyName);
       }
       return existingDef;
@@ -75,10 +69,6 @@ export default function createStaticJsObjectLikeProxy(
           const staticJsValue = obj.realm.types.toStaticJsValue(value);
           obj.setSync(staticJsPropertyKey, staticJsValue, false);
         };
-      } else {
-        // Huh... This needs to be set apparently.
-        // FIXME: Should we define this explicity in our engine object get descriptor?
-        jsDescriptor.set = undefined;
       }
     } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
       jsDescriptor.writable = descriptor.writable;

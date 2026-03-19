@@ -6,7 +6,7 @@ import { StaticJsDebugSessionImpl } from "./session/implementation/StaticJsDebug
 
 export interface StaticJsDebuggerOptions {
   readonly realm: StaticJsRealm;
-  readonly runTask?: StaticJsTaskRunner;
+  readonly runTask?: StaticJsTaskRunner | undefined;
 }
 
 export interface StaticJsDebugger {

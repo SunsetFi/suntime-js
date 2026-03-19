@@ -1,11 +1,12 @@
 {
   "name": "@static-js/workspace",
   "private": true,
-  "packageManager": "pnpm@10.30.2",
+  "packageManager": "pnpm@10.32.1",
   "scripts": {
     "prepare": "husky",
     "lint-staged": "lint-staged",
     "build": "pnpm -r build",
+    "check": "pnpm -r check",
     "update:test262": "git subtree pull --prefix=packages/core/tests/test262/repo test262 main --squash"
   },
   "devDependencies": {

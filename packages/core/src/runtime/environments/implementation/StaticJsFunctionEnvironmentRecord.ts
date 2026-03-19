@@ -13,21 +13,23 @@ import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironme
 export default class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnvironmentRecord {
   private _thisBindingStatus: "lexical" | "initialized" | "uninitialized";
   private _thisValue: StaticJsValue | null;
-  private _functionObject: StaticJsFunction;
-  private _newTarget: StaticJsValue | null;
+
+  // FIXME: These are spec defined, but what are they used for?
+  // private _functionObject: StaticJsFunction;
+  // private _newTarget: StaticJsValue | null;
 
   constructor(
-    functionObject: StaticJsFunction,
+    _functionObject: StaticJsFunction,
     lexical: boolean,
-    newTarget: StaticJsValue | null,
+    _newTarget: StaticJsValue | null,
     outerEnv: StaticJsEnvironmentRecord,
     realm: StaticJsRealm,
   ) {
     super(outerEnv, realm);
-    this._functionObject = functionObject;
     this._thisBindingStatus = lexical ? "lexical" : "uninitialized";
     this._thisValue = null;
-    this._newTarget = newTarget;
+    // this._functionObject = functionObject;
+    // this._newTarget = newTarget;
   }
 
   initializeThis(thisValue: StaticJsValue): void {
@@ -39,11 +41,11 @@ export default class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarati
     this._thisBindingStatus = "initialized";
   }
 
-  *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {
+  override *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {
     return this._thisBindingStatus !== "lexical";
   }
 
-  *getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue> {
+  override *getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue> {
     if (this._thisBindingStatus === "lexical") {
       throw new StaticJsEngineError("Cannot get 'this' binding from lexical function environment.");
     }

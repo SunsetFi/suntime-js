@@ -44,7 +44,7 @@
     "@babel/types": "catalog:",
     "@suntime-js/core": "workspace:*",
     "@types/babel__traverse": "catalog:",
-    "@types/node": "^22.13.15",
+    "@types/node": "catalog:",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
     "rimraf": "^6.0.1",

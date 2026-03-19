@@ -1,4 +1,4 @@
-import type { EvaluationOptions } from "./options.js";
+import dropUndefined from "../../utils/drop-undefined.js";
 
 import StaticJsRealm from "../../runtime/realm/factories/StaticJsRealm.js";
 import { isStaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
@@ -7,6 +7,8 @@ import type { StaticJsModule } from "../../runtime/modules/StaticJsModule.js";
 
 import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
 import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
+
+import type { EvaluationOptions } from "./options.js";
 
 /**
  * Evaluates a string as a javascript program, and returns the result.
@@ -28,8 +30,10 @@ export async function evaluateModule(
     throw new TypeError("Provided realm is not a StaticJsRealm");
   }
 
+  const evalOpts = dropUndefined({ runTask: taskRunner, sourceName });
+
   try {
-    return await realm.evaluateModule(code, { runTask: taskRunner, sourceName });
+    return await realm.evaluateModule(code, evalOpts);
   } catch (e) {
     let error = e;
 

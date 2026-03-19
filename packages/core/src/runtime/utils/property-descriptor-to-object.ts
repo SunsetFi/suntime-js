@@ -7,14 +7,22 @@ import type { StaticJsObject } from "../types/StaticJsObject.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
+  StaticJsAccessorPropertyDescriptor,
+  StaticJsDataPropertyDescriptor,
+  StaticJsGenericPropertyDescriptor,
   type StaticJsPropertyDescriptor,
 } from "../types/StaticJsPropertyDescriptor.js";
+
+type StaticJsPropertyDescriptorKeys =
+  | keyof StaticJsGenericPropertyDescriptor
+  | keyof StaticJsDataPropertyDescriptor
+  | keyof StaticJsAccessorPropertyDescriptor;
 
 export default function* propertyDescriptorToObject(
   descriptor: StaticJsPropertyDescriptor,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObject> {
-  const properties: Record<string, StaticJsPropertyDescriptor> = {
+  const properties: Partial<Record<StaticJsPropertyDescriptorKeys, StaticJsPropertyDescriptor>> = {
     enumerable: {
       enumerable: true,
       writable: true,
@@ -31,7 +39,7 @@ export default function* propertyDescriptorToObject(
 
   if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
     if (descriptor.get) {
-      properties.get = {
+      properties["get"] = {
         enumerable: true,
         writable: true,
         configurable: true,
@@ -39,7 +47,7 @@ export default function* propertyDescriptorToObject(
       };
     }
     if (descriptor.set) {
-      properties.set = {
+      properties["set"] = {
         enumerable: true,
         writable: true,
         configurable: true,
@@ -47,13 +55,13 @@ export default function* propertyDescriptorToObject(
       };
     }
   } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
-    properties.value = {
+    properties["value"] = {
       enumerable: true,
       writable: true,
       configurable: true,
       value: descriptor.value,
     };
-    properties.writable = {
+    properties["writable"] = {
       enumerable: true,
       writable: true,
       configurable: true,

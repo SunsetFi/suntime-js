@@ -14,11 +14,11 @@ export default class StaticJsNumberBoxed extends StaticJsObjectImpl {
     return this._value;
   }
 
-  toStringSync(): string {
+  override toStringSync(): string {
     return String(this._value);
   }
 
-  toJsSync(): unknown {
+  override toJsSync(): unknown {
     return new Object(this._value);
   }
 }

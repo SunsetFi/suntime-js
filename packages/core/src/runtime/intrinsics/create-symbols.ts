@@ -6,14 +6,16 @@ import StaticJsSymbolImpl from "../types/implementation/StaticJsSymbolImpl.js";
 
 import type { IntrinsicSymbols, Prototypes } from "./intrinsics.js";
 
-const intrinsicSymbols: Record<keyof IntrinsicSymbols, symbol> = {
+const intrinsicSymbols: Record<keyof IntrinsicSymbols, symbol | undefined> = {
   // TODO: Implement in engine.
+  // May be undefined for older engines.
   asyncDispose: Symbol.asyncDispose,
 
   // TODO: Implement in engine.
   asyncIterator: Symbol.asyncIterator,
 
   // TODO: Implement in engine.
+  // May be undefined for older engines.
   dispose: Symbol.dispose,
 
   hasInstance: Symbol.hasInstance,
@@ -57,6 +59,10 @@ export function createIntrinsicSymbols(
 ): IntrinsicSymbols {
   const symbols: Partial<IntrinsicSymbols> = {};
   for (const [name, symbol] of typedEntries(intrinsicSymbols)) {
+    if (!symbol) {
+      continue;
+    }
+
     const realmSymbol = new StaticJsSymbolImpl(realm, symbol, prototypes.symbolProto);
     symbols[name] = realmSymbol;
   }

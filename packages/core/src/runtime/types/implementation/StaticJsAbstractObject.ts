@@ -37,7 +37,7 @@ import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
 
-import createStaticJsObjectLikeProxy from "./create-object-proxy.js";
+import createStaticJsObjectLikeProxy, { StaticJsObjectProxyTarget } from "./create-object-proxy.js";
 
 export default abstract class StaticJsAbstractObject
   extends StaticJsAbstractPrimitive
@@ -61,9 +61,9 @@ export default abstract class StaticJsAbstractObject
     return "object" as const;
   }
 
-  abstract readonly runtimeTypeOf: StaticJsObjectLike["runtimeTypeOf"];
+  abstract override readonly runtimeTypeOf: StaticJsObjectLike["runtimeTypeOf"];
 
-  abstract readonly runtimeTypeCode: StaticJsTypeCode;
+  abstract override readonly runtimeTypeCode: StaticJsTypeCode;
 
   get prototype(): StaticJsObjectLike | null {
     return this._prototype;
@@ -516,11 +516,11 @@ export default abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorSync(toString(this, this.realm)).value;
   }
 
-  protected _createToJsProxyTarget(): object {
+  protected _createToJsProxyTarget(): StaticJsObjectProxyTarget {
     return {};
   }
 
-  protected _configureToJsProxy(_traps: ProxyHandler<object>): void {}
+  protected _configureToJsProxy(_traps: ProxyHandler<StaticJsObjectProxyTarget>): void {}
 
   protected abstract _setPropertyDescriptorEvaluator(
     key: StaticJsPropertyKey,

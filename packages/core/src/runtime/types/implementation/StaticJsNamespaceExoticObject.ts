@@ -37,11 +37,11 @@ export default class StaticJsNamespaceExoticObject extends StaticJsAbstractObjec
     return StaticJsTypeCode.Object;
   }
 
-  get prototype(): StaticJsObjectLike | null {
+  override get prototype(): StaticJsObjectLike | null {
     return null;
   }
 
-  get extensible(): boolean {
+  override get extensible(): boolean {
     return false;
   }
 
@@ -49,11 +49,13 @@ export default class StaticJsNamespaceExoticObject extends StaticJsAbstractObjec
     return Array.from(this._exports);
   }
 
-  *setPrototypeOfEvaluator(_prototype: StaticJsObjectLike | null): EvaluationGenerator<void> {
+  override *setPrototypeOfEvaluator(
+    _prototype: StaticJsObjectLike | null,
+  ): EvaluationGenerator<void> {
     // No-op for namespace exotic objects.
   }
 
-  *preventExtensionsEvaluator(): EvaluationGenerator<void> {
+  override *preventExtensionsEvaluator(): EvaluationGenerator<void> {
     // No-op for namespace exotic objects.
   }
 

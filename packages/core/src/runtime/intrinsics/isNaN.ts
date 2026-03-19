@@ -4,7 +4,7 @@ import toNumber from "../algorithms/to-number.js";
 
 const globalObjectIsNaNDeclaration: IntrinsicPropertyDeclaration = {
   key: "isNaN",
-  *func(realm, thisArg, value) {
+  *func(realm, _thisArg, value) {
     if (!value) {
       return realm.types.true;
     }

@@ -28,6 +28,7 @@ import { isStaticJsNumber } from "../StaticJsNumber.js";
 import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 import isArrayIndex from "./is-array-index.js";
+import { StaticJsObjectProxyTarget } from "./create-object-proxy.js";
 
 export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements StaticJsArray {
   // FIXME: Create spec compliant CreateArrayFromList / CreateARray
@@ -112,11 +113,11 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
     }
   }
 
-  protected _createToJsProxyTarget(): object {
-    return [];
+  protected override _createToJsProxyTarget(): StaticJsObjectProxyTarget {
+    return [] as StaticJsObjectProxyTarget;
   }
 
-  protected *_setPropertyDescriptorEvaluator(
+  protected override *_setPropertyDescriptorEvaluator(
     key: string,
     desc: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean> {
