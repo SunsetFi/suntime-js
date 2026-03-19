@@ -119,7 +119,7 @@ const EvaluatorPage = () => {
 
     setDebuggerState((current) => ({
       ...current,
-      log: [...current.log, message],
+      log: [...current.log, message].slice(-25),
     }));
   }, []);
   const initialWorkspace = React.useMemo(
@@ -443,11 +443,6 @@ const EvaluatorPage = () => {
         />
       </Box>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <Typography sx={{ px: 1, pt: 1 }}>
-          This demo is configured to automatically adjust its execution rate to
-          limit itself to 20% of a 60 fps frame, or 3.4 ms of execution time per
-          every 16.67 ms interval.
-        </Typography>
         <Box sx={{ display: "flex", flexDirection: "row", gap: 1, py: 1 }}>
           {status !== "running" && status !== "starting" && (
             <button onClick={onRun}>Run</button>
