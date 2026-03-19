@@ -1,6 +1,6 @@
 import React from "react";
 import type * as vscode from "vscode";
-import { StaticJsRealm } from "@suntime-js/core";
+import { StaticJsRealm, createTimeSharingTaskRunner } from "@suntime-js/core";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -17,7 +17,10 @@ import {
 import EvaluatorOperationStatus, {
   type EvaluatorDebuggerState,
 } from "./components/EvaluatorOperationStatus";
-import { STATIC_JS_DEBUGGER_TYPE } from "@suntime-js/dap/web";
+import {
+  STATIC_JS_DEBUGGER_TYPE,
+  StaticJsWebDebugAdapterOptions,
+} from "@suntime-js/dap/web";
 
 const defaultCode = `// Write your JavaScript code here
 function doThing() {
@@ -156,7 +159,11 @@ const EvaluatorPage = () => {
         },
         sandboxDebugger: {
           createRealm: createSandboxRealm,
-        },
+          runTask: createTimeSharingTaskRunner({
+            operationsPerIteration: 1000,
+            yieldTime: (1 / 60) * 1000,
+          }),
+        } satisfies StaticJsWebDebugAdapterOptions,
       },
     }),
     [createSandboxRealm, initialWorkspace],
