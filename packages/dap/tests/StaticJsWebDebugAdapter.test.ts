@@ -129,18 +129,13 @@ describe("createStaticJsWebDebugAdapter", () => {
       }),
     );
 
-    console.log("Sending next request");
-
     const nextSeq = session.sendRequest("next", { threadId: MAIN_THREAD_ID });
     const nextResponsePromise = session.collector.waitFor(isResponse("next", nextSeq));
     const continued = session.collector.waitFor(isEvent("continued"));
     const stopped = session.collector.waitFor(isStoppedEvent("step"));
 
-    console.log("Waiting for next");
     await nextResponsePromise;
-    console.log("Waiting for continued");
     await continued;
-    console.log("Waiting for stopped");
     await stopped;
 
     const continuedIndex = messageIndex(

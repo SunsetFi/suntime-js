@@ -378,28 +378,22 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
 
     const iterate = (result: IteratorResult<void, void>): IteratorResult<void, void> => {
       if (result.done) {
-        console.log("Task completed");
         this._activeTask = null;
         return result;
       }
 
       const operation = task.operation;
       if (!operation || !isVisibleStepOperationType(operation.operationType)) {
-        console.log("Invisible operation", operation?.operationType, operation?.location);
         return {
           done: false,
           value: undefined,
         };
       }
-      console.log("Visible operation", operation.operationType, operation.location);
 
       const stopReason = this._getStopReason();
       if (stopReason) {
-        console.log("Stopping because of reason", stopReason);
         return stop(stopReason);
       }
-
-      console.log("Continuing execution");
 
       return {
         done: false,
@@ -536,30 +530,16 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     const currentOperationType = this._activeTask?.operation?.operationType;
 
     if (!currentFrame || !currentOperationType) {
-      console.log("Clearing step because no frame");
       consumeStep();
       return false;
     }
 
     if (stepFrame.sourceLocation?.character === currentFrame.sourceLocation?.character) {
-      console.log("Still on the same statement");
       return false;
     }
 
-    console.log(
-      "Checking step",
-      this._activeStepMode,
-      this._activeStepFrame.sourceLocation,
-      this._activeStepFrame.depth,
-      "against",
-      this._activeTask?.operation?.operationType,
-      this._activeTask?.operation?.location,
-      currentFrame.depth,
-    );
-
     // Exited the function.
     if (currentFrame.depth < stepFrame.depth) {
-      console.log("Step consumed by frame depth");
       consumeStep();
       return true;
     }
@@ -585,7 +565,6 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
           // We need the AST tree plus knowledge of parents for this.
           isStepOverTargetOperationType(currentOperationType)
         ) {
-          console.log("Step over consumed");
           consumeStep();
           return true;
         }
@@ -593,15 +572,12 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
       }
       case "stepOut": {
         if (currentFrame.depth < stepFrame.depth) {
-          console.log("Step out consumed");
           consumeStep();
           return true;
         }
         break;
       }
     }
-
-    console.log("Step not matched");
 
     return false;
   }

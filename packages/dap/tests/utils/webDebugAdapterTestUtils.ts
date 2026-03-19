@@ -33,7 +33,6 @@ export function createMessageCollector(adapter: StaticJsWebDebugAdapter): Messag
   const messages: DebugProtocol.ProtocolMessage[] = [];
 
   adapter.onDidSendMessage((message) => {
-    console.log("Got message", message);
     messages.push(message);
   });
 

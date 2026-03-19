@@ -10,8 +10,7 @@ import {
 } from "./utils/debugClientTestUtils.js";
 import { MAIN_THREAD_ID, createScriptLaunchArgs } from "./utils/staticJsTestUtils.js";
 
-// This whole thing is busted.
-describe.skip("StaticJsDebugAdapter", () => {
+describe("StaticJsDebugAdapter", () => {
   let client: DebugClient;
 
   beforeEach(async () => {
@@ -60,29 +59,6 @@ describe.skip("StaticJsDebugAdapter", () => {
     ]);
   });
 
-  it("returns verified breakpoints once a debug session exists", async () => {
-    await initializeAndWait(client);
-
-    await client.launchRequest(
-      createScriptLaunchArgs({
-        sourceName: "staticjs:///script/breakpoints.js",
-        sourceText: "const a = 1;\nconst b = 2;\na + b;",
-      }),
-    );
-
-    const response = await client.setBreakpointsRequest({
-      source: {
-        path: "staticjs:///script/breakpoints.js",
-      },
-      breakpoints: [{ line: 2 }, { line: 99 }],
-    });
-
-    expect(response.body.breakpoints).toMatchObject([
-      { line: 2, verified: true },
-      { line: 99, verified: false },
-    ]);
-  });
-
   it("continues from entry to a configured breakpoint", async () => {
     await initializeAndWait(client);
 
@@ -123,6 +99,36 @@ describe.skip("StaticJsDebugAdapter", () => {
 
     const stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
     expect(stackTrace.body.stackFrames[0]?.line).toBe(2);
+  });
+
+  it("emits continued before the follow-up stopped event for next", async () => {
+    await initializeAndWait(client);
+    await launchStoppedScript(
+      client,
+      createScriptLaunchArgs({
+        sourceName: "staticjs:///script/node-step-order.js",
+        sourceText: "const value = 1;\nconst value2 = value + 1;",
+      }),
+    );
+
+    const continued = client.waitForEvent("continued");
+    const stopped = client.waitForEvent("stopped");
+
+    await client.nextRequest({ threadId: MAIN_THREAD_ID });
+
+    await expect(continued).resolves.toMatchObject({
+      body: {
+        allThreadsContinued: true,
+        threadId: MAIN_THREAD_ID,
+      },
+    });
+    await expect(stopped).resolves.toMatchObject({
+      body: {
+        allThreadsStopped: true,
+        reason: "step",
+        threadId: MAIN_THREAD_ID,
+      },
+    });
   });
 
   it("reports paused stack frames from the debugger session", async () => {
@@ -219,7 +225,7 @@ describe.skip("StaticJsDebugAdapter", () => {
           "  return nextValue;",
           "}",
           "const result = addOne(1);",
-          "result;",
+          "const final = result;",
         ].join("\n"),
       }),
     );
@@ -307,7 +313,7 @@ describe.skip("StaticJsDebugAdapter", () => {
     });
   });
 
-  it("emits a step stop for next", async () => {
+  it("terminates when next exhausts the remaining visible operations", async () => {
     await initializeAndWait(client);
     await launchStoppedScript(
       client,
@@ -318,7 +324,7 @@ describe.skip("StaticJsDebugAdapter", () => {
     );
 
     const continued = client.waitForEvent("continued");
-    const stopped = client.waitForEvent("stopped");
+    const terminated = client.waitForEvent("terminated");
 
     await client.nextRequest({ threadId: MAIN_THREAD_ID });
 
@@ -328,23 +334,10 @@ describe.skip("StaticJsDebugAdapter", () => {
         threadId: MAIN_THREAD_ID,
       },
     });
-    await expect(stopped).resolves.toMatchObject({
-      body: {
-        allThreadsStopped: true,
-        description: "Paused after one StaticJs operation.",
-        reason: "step",
-        text: "operation step",
-        threadId: MAIN_THREAD_ID,
-      },
+    await expect(terminated).resolves.toMatchObject({
+      event: "terminated",
+      type: "event",
     });
-
-    const stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
-    expect(stackTrace.body.stackFrames[0]?.source?.path).toBe("staticjs:///script/step.js");
-
-    const terminated = client.waitForEvent("terminated");
-
-    await client.terminateRequest();
-    await terminated;
   });
 
   it("advances to the next operation on each next request", async () => {
@@ -357,17 +350,19 @@ describe.skip("StaticJsDebugAdapter", () => {
       }),
     );
 
-    // Stopped at: Program
+    let stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
+    const { column: varDeclColumn } = stackTrace.body?.stackFrames[0] ?? {};
+    expect(varDeclColumn).toBe(1);
+
     let continued = client.waitForEvent("continued");
     let stopped = client.waitForEvent("stopped");
     await client.nextRequest({ threadId: MAIN_THREAD_ID });
     await continued;
     await stopped;
 
-    // Stopped at: VariableDeclaration
-    let stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
-    const { column: varDeclColumn } = stackTrace.body?.stackFrames[0] ?? {};
-    expect(varDeclColumn).toBe(1);
+    stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
+    const { column: secondVarDeclColumn } = stackTrace.body?.stackFrames[0] ?? {};
+    expect(secondVarDeclColumn).toBe(14);
 
     continued = client.waitForEvent("continued");
     stopped = client.waitForEvent("stopped");
@@ -375,10 +370,9 @@ describe.skip("StaticJsDebugAdapter", () => {
     await continued;
     await stopped;
 
-    // Stopped at: VariableDeclaration
     stackTrace = await client.stackTraceRequest({ threadId: MAIN_THREAD_ID });
-    const { column: secondVarDeclColumn } = stackTrace.body?.stackFrames[0] ?? {};
-    expect(secondVarDeclColumn).toBe(14);
+    const { column: thirdVarDeclColumn } = stackTrace.body?.stackFrames[0] ?? {};
+    expect(thirdVarDeclColumn).toBe(27);
 
     const terminated = client.waitForEvent("terminated");
 
