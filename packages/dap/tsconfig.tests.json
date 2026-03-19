@@ -1,11 +1,16 @@
 {
-  "extends": "./tsconfig.base.json",
+  "extends": "../../tsconfig.tests.json",
   "compilerOptions": {
     "types": ["node", "vitest/globals"],
     "noEmit": true,
     "rootDir": ".",
+    // These need to stay, as we are using an older version of typescript
+    // due to TS6 not supporting the module keyword in d.ts anymore.
+    // This collides with @vscode/debugadapter
+    "esModuleInterop": true,
+    "isolatedModules": true,
     // Breaks typings for @vitest/runner
     "exactOptionalPropertyTypes": false
   },
-  "include": ["./src", "./tests", "./vitest.config.ts"]
+  "include": ["./src", "./tests", "vite.config.ts"]
 }

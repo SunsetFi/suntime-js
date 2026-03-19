@@ -1,9 +1,14 @@
 {
-  "extends": "./tsconfig.base.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./lib",
     "declaration": true,
-    "rootDir": "./src"
+    "rootDir": "./src",
+    // These need to stay, as we are using an older version of typescript
+    // due to TS6 not supporting the module keyword in d.ts anymore.
+    // This collides with @vscode/debugadapter
+    "esModuleInterop": true,
+    "isolatedModules": true
   },
   "include": ["./src"]
 }
