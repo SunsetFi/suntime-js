@@ -6,6 +6,7 @@ import {
   StaticJsTaskAbortedError,
   StaticJsTaskIterator,
   StaticJsTaskRunner,
+  StaticJsTaskIteratorStackFrame,
 } from "@suntime-js/core";
 
 import createDeferred, { Deferred } from "../../utils/create-deferred.js";
@@ -43,7 +44,6 @@ import {
   isStepOverTargetOperationType,
   isVisibleStepOperationType,
 } from "./step-operation-types.js";
-import { StaticJsTaskIteratorStackFrame } from "../../../../core/lib/runtime/tasks/StaticJsTaskIteratorStackFrame.js";
 
 type StepMode = "stepInto" | "stepOut" | "stepOver";
 type ResumeMode = "continue" | StepMode;
