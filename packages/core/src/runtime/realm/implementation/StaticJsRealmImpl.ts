@@ -21,7 +21,7 @@ import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
 import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
 import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
-import type { StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
+import { invokeEvaluator, type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
@@ -104,7 +104,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _defaultRunTaskSync: StaticJsTaskRunner;
 
   private _invokeEvaluatorSyncDepth = 0;
-  private _invokeEvaluatorSyncMicrotasks: (() => EvaluationGenerator<void>)[] = [];
+  private _invokeEvaluatorSyncMicrotasks: StaticJsEvaluator<void>[] = [];
 
   private _idleCallbacks: (() => void)[] = [];
 
@@ -367,16 +367,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   enqueueMicrotask(evaluator: StaticJsEvaluator<void>): void {
-    let evaluatorFn: () => EvaluationGenerator<void>;
-    if (typeof evaluator === "function") {
-      evaluatorFn = evaluator;
-    } else {
-      evaluatorFn = () => evaluator;
-    }
-
     // HACK for synchronous evaluations.
     if (this._invokeEvaluatorSyncDepth > 0) {
-      this._invokeEvaluatorSyncMicrotasks.push(evaluatorFn);
+      this._invokeEvaluatorSyncMicrotasks.push(evaluator);
       return;
     }
 
@@ -384,7 +377,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       throw new StaticJsEngineError("Cannot enqueue a microtask when no task is running.");
     }
 
-    this._currentTask.enqueueMicrotask(evaluatorFn);
+    this._currentTask.enqueueMicrotask(evaluator);
   }
 
   enqueueMacrotask<TReturn>(
@@ -444,15 +437,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
   }
 
-  invokeEvaluatorSync<TReturn>(
-    evaluator: EvaluationGenerator<TReturn> | (() => EvaluationGenerator<TReturn>),
-  ): TReturn {
+  invokeEvaluatorSync<TReturn>(evaluator: StaticJsEvaluator<TReturn>): TReturn {
     this._invokeEvaluatorSyncDepth++;
     try {
-      if (typeof evaluator === "function") {
-        evaluator = evaluator();
-      }
-      const iterator = evaluateCommands(evaluator);
+      const iterator = evaluateCommands(invokeEvaluator(evaluator));
 
       // FIXME: Use this._defaultRunTaskSync
 
@@ -463,7 +451,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
       while (this._invokeEvaluatorSyncMicrotasks.length > 0) {
         const evaluator = this._invokeEvaluatorSyncMicrotasks.shift()!;
-        const iterator = evaluateCommands(evaluator());
+        const iterator = evaluateCommands(invokeEvaluator(evaluator));
         let iteratorResult = iterator.next();
         while (!iteratorResult.done) {
           iteratorResult = iterator.next();
@@ -478,7 +466,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   async invokeEvaluatorAsync<TReturn>(
-    evaluator: EvaluationGenerator<TReturn> | (() => EvaluationGenerator<TReturn>),
+    evaluator: StaticJsEvaluator<TReturn>,
     { runTask = this._defaultRunTask }: StaticJsRunTaskOptions = {},
   ): Promise<TReturn> {
     if (this._currentTask) {
@@ -494,9 +482,6 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     this._tryDrainTaskQueue();
 
     try {
-      if (typeof evaluator === "function") {
-        evaluator = evaluator();
-      }
       return (await macrotask.await()) as Promise<TReturn>;
     } catch (e) {
       Completion.handleRuntime(e);
@@ -505,11 +490,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   private _createMacrotask(evaluator: StaticJsEvaluator, taskRunner: StaticJsTaskRunner) {
-    return new Macrotask(
-      typeof evaluator === "function" ? evaluator : () => evaluator,
-      taskRunner,
-      (task) => this._assertTaskRunning(task),
-    );
+    return new Macrotask(evaluator, taskRunner, (task) => this._assertTaskRunning(task));
   }
 
   private _createInlineSourceName() {

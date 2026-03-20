@@ -2,10 +2,6 @@
 
 ## Immediate
 
-- [ ] runTask improvements
-  - [ ] Flatten nested evaluations into the same runTask iterator
-  - [x] Pump the command evaluation to the first AST node, to hide internal details
-  - [ ] Remove need to pump multiple times for modules by removing generator from linking stage.
 - [x] Implement function auto names using EvaluationContext named parameters
 - [x] Figure out why BlockStatement is weird with regard to labels.
 - [x] Throw out and redesign debugger
@@ -15,9 +11,26 @@
   - [x] Use actual stack / frame tracking for step over/in/out
   - [ ] Expose node data in task iterator
   - [ ] Use node data to break on loop condition and update nodes
+- [ ] runTask improvements
+  - [ ] Rework / remove invokeEvaluatorAsync/Sync - Either merge with current Macrotask or use task system in general.
+  - [ ] Flatten nested evaluations into the same runTask iterator?
+  - [ ] Make it obey runTaskSync
+
+## Less imidiate
+
 - [ ] Deep review and cleanup of dap
   - [ ] Sanify file names on kebab.
-- [ ] Finish implementing StaticJsRealm runTaskSync. Currently unused.
+- [ ] Implement global stuff like the execution context stack and GetActiveScriptOrModule
+  - [ ] Fix function constructor not knowing its active script or module.
+- [ ] Rework node evaluator so catagories of nodes can be processed in a tree
+      Get closer to how the spec wants these to work, with categories splitting into
+      narrower options
+  - [ ] LabelledStatement
+  - [ ] BreakableStatement
+- [ ] Take full function node on StaticJsAstFunction and implement toString on it.
+  - [ ] Also make this work in-engine.
+- [ ] Fix StaticJsDebugAdapter in dap - broke in the debugger rework.
+- [ ] Remove generators from module linking stages as they aren't needed (Confirm this).
 
 ### Completion Refactor
 
@@ -31,32 +44,18 @@
   - [ ] iteratorClose / asyncIteratorClose
   - [ ] ...others
 
-## Less imidiate
-
-- [ ] Implement global stuff like the execution context stack and GetActiveScriptOrModule
-  - [ ] Fix function constructor not knowing its active script or module.
-- [ ] Rework node evaluator so catagories of nodes can be processed in a tree
-      Get closer to how the spec wants these to work, with categories splitting into
-      narrower options
-  - [ ] LabelledStatement
-  - [ ] BreakableStatement
-- [ ] Take full function node on StaticJsAstFunction and implement toString on it.
-  - [ ] Also make this work in-engine.
-- [ ] Fix StaticJsDebugAdapter in dap - broke in the debugger rework.
-
 ## General
 
-- Fix 'all' [Test262](https://github.com/tc39/test262) tests.
-  - Currently only running tests in the language folder. Need to add built-ins
-- function `arguments` object
-- toStaticJsValue option to convert objects deeply so that their prototypes still function; but still mask the Object and Function prototypes.
+- [-] Fix 'all' [Test262](https://github.com/tc39/test262) tests.
+  - [ ] Add builtins tests (Currently only testing language folder)
+  - [ ] Enable strict/nonstrict tests (Very time consuming and not likely to break - CI only?)
+- [ ] toStaticJsValue option to convert objects deeply so that their prototypes still function; but still mask the Object and Function prototypes.
   - Test against engine-native iterators
-- Make invokeEvaluatorSync use runTaskSync
-- Fix task runner not bound to continuations of promises
-  - This is really thorny. On the surface, its suprising that a task runner passed to evaluateModule will only work for
-    the initial evaluation and not for any runs after await, but it would also be suprising if the await is triggered by code that has its own runTask and that runTask isn't used in favor of the root runTask.
-    Either way, this probably means we need to store the runTask on the context.
-- Only call runTask once per evaluate call, and transparently use the same task iterator for all microtasks.
+- [ ] Only call runTask once per evaluate call, and transparently use the same task iterator for all microtasks.
+  - Do we even want this?
+  - It makes task timekeepers easier to reason about, and lets one timekeeper be reused if we can make this assumption
+  - Currently cannot reuse them due to this.
+  - Now that we expose macrotask/microtask, we can actually reset the timer on a new macrotask.
 - Strict mode reserved identifiers - Need to implement Early Errors phase.
 - Report code coverage in repo
   - coveralls.io?
@@ -85,7 +84,7 @@ Figure out public API for invoking and implementing evaluators.
 - [ ] Export constructs needed
   - [ ] Completion
   - [ ] EvaluationGenerator
-- [ ] Rework TypeFactory.factory to require a generator function
+- [ ] Rework TypeFactory.function to require a generator function. Only use native functions in toStaticJsValue
 - [ ] Method for host to obtain an evaluator for evaluateScript, evaluateExpression, and StaticJsValue evaluators
       Hide evaluators, make host use Async, and hide the async-nature of them?
       Would require our TaskIterator to become an async iterator
@@ -99,7 +98,7 @@ Figure out public API for invoking and implementing evaluators.
   - [x] Objects
   - [ ] Promises
   - [ ] ...others
-- [ ] Option to specify task runners in async methods
+- [-] Option to specify task runners in async methods
 - [ ] Rename toJs to toNative
 - [ ] Documentation
 
@@ -118,13 +117,6 @@ Figure out public API for invoking and implementing evaluators.
 
     )
   ```
-
-## Debugging
-
-- Add scope, variable, and stack info to StaticJsTaskIterator for debugging.
-- Add support for monaco debugger
-  [Example implementation?](https://github.com/polylith/monaco-debugger)
-  [Docs](https://microsoft.github.io/debug-adapter-protocol/overview)
 
 ## Think about
 

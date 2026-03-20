@@ -8,8 +8,7 @@ import StaticJsTaskAbortedError from "../../../errors/StaticJsTaskAbortedError.j
 import StaticJsUnhandledRejectionError from "../../../errors/StaticJsUnhandledRejectionError.js";
 
 import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
-import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import type { StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
+import { invokeEvaluator, type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 
 import type { StaticJsTaskIterator } from "../../tasks/StaticJsTaskIterator.js";
 import type { StaticJsTaskSourceLocation } from "../../tasks/StaticJsTaskSourceLocation.js";
@@ -433,14 +432,6 @@ export default class Macrotask {
     this._onCompletedCallbacks.forEach((cb) => cb(undefined, reason));
     this._onCompletedCallbacks = [];
     this._macrotaskCompletionValue = undefined;
-  }
-}
-
-function invokeEvaluator<T>(evaluator: StaticJsEvaluator<T>): EvaluationGenerator<T> {
-  if (typeof evaluator === "function") {
-    return evaluator();
-  } else {
-    return evaluator;
   }
 }
 

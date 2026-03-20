@@ -1,5 +1,3 @@
-import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 
 import type { StaticJsObject } from "../types/StaticJsObject.js";
@@ -177,9 +175,7 @@ export interface StaticJsRealm {
    * @internal
    * @param evaluator The evaluator to invoke.
    */
-  invokeEvaluatorSync<TReturn>(
-    evaluator: EvaluationGenerator<TReturn> | (() => EvaluationGenerator<TReturn>),
-  ): TReturn;
+  invokeEvaluatorSync<TReturn>(evaluator: StaticJsEvaluator<TReturn>): TReturn;
 
   /**
    * Invokes the given evaluator asynchronously, returning a promise that resolves to the result.
@@ -188,7 +184,7 @@ export interface StaticJsRealm {
    * @param evaluator The evaluator to invoke.
    */
   invokeEvaluatorAsync<TReturn>(
-    evaluator: EvaluationGenerator<TReturn> | (() => EvaluationGenerator<TReturn>),
+    evaluator: StaticJsEvaluator<TReturn>,
     opts?: StaticJsRunTaskOptions,
   ): Promise<TReturn>;
 }
