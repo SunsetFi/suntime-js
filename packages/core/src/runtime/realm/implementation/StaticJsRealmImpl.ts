@@ -408,14 +408,6 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     const previousTask = this._currentTask;
 
     try {
-      if (!runTask) {
-        runTask = (task) => {
-          while (!task.done) {
-            task.next();
-          }
-        };
-      }
-
       let result: TReturn | undefined = undefined;
       let error: unknown | undefined = undefined;
       let complete = false;

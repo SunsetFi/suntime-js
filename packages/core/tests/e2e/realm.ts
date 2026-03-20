@@ -121,7 +121,12 @@ describe("E2E: Realm", () => {
         await delay(0);
 
         expect(runTask).toHaveBeenCalledOnce();
-        expect(runTask.mock.calls[0][0]).toEqual(
+        const task = runTask.mock.calls[0][0] as StaticJsTaskIterator;
+        // Start the evaluation
+        task.next();
+
+        // Check the first operation.
+        expect(task).toEqual(
           expect.objectContaining({
             operation: expect.objectContaining({
               location: expect.objectContaining({

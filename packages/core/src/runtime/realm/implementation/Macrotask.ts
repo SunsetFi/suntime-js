@@ -1,6 +1,7 @@
 import type { Node } from "@babel/types";
 
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
+import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
 
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 import StaticJsTaskAbortedError from "../../../errors/StaticJsTaskAbortedError.js";
@@ -8,16 +9,17 @@ import StaticJsUnhandledRejectionError from "../../../errors/StaticJsUnhandledRe
 
 import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
+
 import type { StaticJsTaskIterator } from "../../tasks/StaticJsTaskIterator.js";
 import type { StaticJsTaskSourceLocation } from "../../tasks/StaticJsTaskSourceLocation.js";
 import type { StaticJsTaskIteratorOperation } from "../../tasks/StaticJsTaskIteratorOperation.js";
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { StaticJsFunction } from "../../types/StaticJsFunction.js";
 import type { StaticJsTaskIteratorStackFrame } from "../../tasks/StaticJsTaskIteratorStackFrame.js";
-import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
 import type { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";
+
+const MaxDeadIteratorLoopCount = 100;
 
 export default class Macrotask {
   private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";
@@ -118,7 +120,7 @@ export default class Macrotask {
 
   onComplete(callback: (value: unknown, err?: unknown) => void) {
     this._onCompletedCallbacks.push(callback);
-    this._trySuppressPromiseRejection(); /*  */
+    this._trySuppressPromiseRejection();
   }
 
   enqueueMicrotask(evaluator: StaticJsEvaluator<void>) {
@@ -264,25 +266,6 @@ export default class Macrotask {
     let done = false;
     let aborted = false;
 
-    const trySkipIteratorNodes = () => {
-      // Prime the task to queue up the node we want to evaluate
-      // This may be more than one pump for modules.
-      while (!this._currentNode) {
-        try {
-          const { done, value } = iterator.next();
-          if (done) {
-            accept(value);
-            return false;
-          }
-        } catch (e) {
-          reject(e);
-          return false;
-        }
-      }
-
-      return true;
-    };
-
     const getCurrentOperation = (): StaticJsTaskIteratorOperation | null => {
       if (!this._currentNode) {
         return null;
@@ -307,15 +290,37 @@ export default class Macrotask {
 
       this._isEntered = true;
       try {
-        const result = err ? iterator.throw(err) : iterator.next();
-        if (result.done) {
-          done = true;
-          accept(result.value);
+        let deadIteratorLoops = 0;
+        while (true) {
+          const result = err ? iterator.throw(err) : iterator.next();
+          if (result.done) {
+            done = true;
+            accept(result.value);
+            return {
+              value: undefined,
+              done: true,
+            };
+          }
+
+          // Try to skip iterations until we get to an actual node to evaluate.
+          // This may happen for module initialization and such.
+          // Theoretically, nothing in this is user code, and so cannot
+          // infinite loop or deadlock.
+          if (!this._currentNode) {
+            if (++deadIteratorLoops > MaxDeadIteratorLoopCount) {
+              throw new StaticJsEngineError(
+                "Hit maximum loop count while trying to find the first node to evaluate.  This may indicate a bug in the engine.",
+              );
+            }
+
+            continue;
+          }
+
+          return {
+            value: undefined,
+            done: false,
+          };
         }
-        return {
-          value: undefined,
-          done: result.done ?? false,
-        };
       } catch (e) {
         if (!done) {
           // Normally we should pass this to the generator's throw method,
@@ -332,10 +337,6 @@ export default class Macrotask {
         this._isEntered = false;
       }
     };
-
-    if (!trySkipIteratorNodes()) {
-      return null;
-    }
 
     return {
       type,

@@ -34,6 +34,7 @@ describe("E2E: Tasks", () => {
       await realm.evaluateScript(code);
 
       expect(seenNodes).toEqual([
+        "File",
         "Program",
         "ExpressionStatement",
         "CallExpression",
