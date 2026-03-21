@@ -1,6 +1,5 @@
 import type { BlockStatement, Expression } from "@babel/types";
 
-import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
@@ -13,22 +12,34 @@ import type { StaticJsValue } from "../StaticJsValue.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
-import StaticJsAstFunction from "./StaticJsAstFunction.js";
+import StaticJsAstFunction, { StaticJsAstFunctionOptions } from "./StaticJsAstFunction.js";
 import StaticJsGeneratorImpl from "./StaticJsGeneratorImpl.js";
 
+export type StaticJsGeneratorDeclFunctionOptions = Omit<
+  StaticJsAstFunctionOptions,
+  "thisMode" | "construct"
+>;
 export default class StaticJsGeneratorDeclFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
     name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
-    context: EvaluationContext,
     body: BlockStatement | Expression,
+    opts: StaticJsGeneratorDeclFunctionOptions,
     functionFactory: StaticJsFunctionFactory,
   ) {
-    super(realm, name, "non-lexical-this", argumentDeclarations, context, body, functionFactory, {
-      // Generator functions are not constructable.
-      construct: false,
-    });
+    super(
+      realm,
+      name,
+      argumentDeclarations,
+      body,
+      {
+        thisMode: "non-lexical-this",
+        construct: false,
+        ...opts,
+      },
+      functionFactory,
+    );
 
     this.defineOwnPropertySync("prototype", {
       value: realm.types.object({}, realm.types.prototypes.generatorFunctionProto),

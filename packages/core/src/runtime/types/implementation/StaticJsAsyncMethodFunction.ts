@@ -1,6 +1,5 @@
 import type { BlockStatement, Expression } from "@babel/types";
 
-import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
@@ -14,21 +13,34 @@ import type { StaticJsValue } from "../StaticJsValue.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
-import StaticJsAstFunction from "./StaticJsAstFunction.js";
+import StaticJsAstFunction, { StaticJsAstFunctionOptions } from "./StaticJsAstFunction.js";
+
+export type StaticJsAsyncMethodFunctionOptions = Omit<
+  StaticJsAstFunctionOptions,
+  "thisMode" | "construct"
+>;
 
 export default class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
     name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
-    context: EvaluationContext,
     body: BlockStatement | Expression,
+    opts: StaticJsAsyncMethodFunctionOptions,
     functionFactory: StaticJsFunctionFactory,
   ) {
-    super(realm, name, "non-lexical-this", argumentDeclarations, context, body, functionFactory, {
-      // Object methods are not constructable.
-      construct: false,
-    });
+    super(
+      realm,
+      name,
+      argumentDeclarations,
+      body,
+      {
+        ...opts,
+        construct: false,
+        thisMode: "non-lexical-this",
+      },
+      functionFactory,
+    );
 
     // Object methods get no prototype.
   }

@@ -157,7 +157,14 @@ export default function* globalDeclarationInstantiation(
 
   for (const f of functionsToInitialize) {
     const fnName = boundNames.soleElementOf(f);
-    const fn = createFunction(fnName, f, context);
+    const fn = createFunction(
+      fnName,
+      f,
+      context.lexicalEnv,
+      context.strict,
+      context.scriptOrModule,
+      context.realm,
+    );
     yield* createGlobalFunctionBinding(fnName, fn, false, env, realm);
   }
 

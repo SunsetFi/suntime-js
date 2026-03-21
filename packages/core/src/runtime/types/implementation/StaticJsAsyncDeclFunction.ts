@@ -18,21 +18,27 @@ import promiseReject from "../../algorithms/promise-reject.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
-import StaticJsAstFunction from "./StaticJsAstFunction.js";
+import StaticJsAstFunction, { StaticJsAstFunctionOptions } from "./StaticJsAstFunction.js";
+
+export type StaticJsAsyncDeclFunctionOptions = Omit<StaticJsAstFunctionOptions, "thisMode">;
 
 export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
     name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
-    context: EvaluationContext,
     body: BlockStatement | Expression,
+    opts: StaticJsAsyncDeclFunctionOptions,
     functionFactory: StaticJsFunctionFactory,
   ) {
-    super(realm, name, "non-lexical-this", argumentDeclarations, context, body, functionFactory, {
-      // Async functions are not constructable.
-      construct: false,
-    });
+    super(
+      realm,
+      name,
+      argumentDeclarations,
+      body,
+      { ...opts, construct: false, thisMode: "non-lexical-this" },
+      functionFactory,
+    );
 
     // Async functions get no prototype.
   }

@@ -1,10 +1,11 @@
 import type { FunctionExpression } from "@babel/types";
 
+import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import createFunction from "./Function.js";
-import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 function* expressionStatementNodeEvaluator(
   node: FunctionExpression,
@@ -18,14 +19,27 @@ function* expressionStatementNodeEvaluator(
     const funcEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
     yield* funcEnv.createImmutableBindingEvaluator(expressionFunctionName, false);
 
-    const functionContext = context.withLexicalEnvironmentContext(funcEnv);
-    const func = createFunction(functionName, node, functionContext);
+    const func = createFunction(
+      functionName,
+      node,
+      funcEnv,
+      context.strict,
+      context.scriptOrModule,
+      context.realm,
+    );
 
     yield* funcEnv.initializeBindingEvaluator(expressionFunctionName, func);
 
     return func;
   } else {
-    return createFunction(functionName, node, context);
+    return createFunction(
+      functionName,
+      node,
+      context.lexicalEnv,
+      context.strict,
+      context.scriptOrModule,
+      context.realm,
+    );
   }
 }
 

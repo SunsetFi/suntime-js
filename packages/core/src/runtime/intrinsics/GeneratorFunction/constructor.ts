@@ -68,8 +68,12 @@ export default function createGeneratorFunctionConstructor(
         realm,
         "anonymous",
         parameters,
-        context,
         fnBody,
+        {
+          strict: context.strict,
+          env: context.lexicalEnv,
+          scriptOrModule: context.scriptOrModule,
+        },
         createFunction,
       );
     },

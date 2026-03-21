@@ -5,6 +5,8 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 
 import functionDeclarationInstantiation from "../../../evaluator/instantiation/function-declaration-instantiation.js";
 
+import type { StaticJsScriptOrModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
+
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
@@ -25,8 +27,13 @@ import StaticJsFunctionBase, { type StaticJsFunctionImplOptions } from "./Static
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
-import type { StaticJsScriptOrModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 
+export interface StaticJsAstFunctionOptions extends StaticJsFunctionImplOptions {
+  thisMode: "lexical-this" | "non-lexical-this";
+  strict: boolean;
+  env: StaticJsEnvironmentRecord;
+  scriptOrModule: StaticJsScriptOrModuleRecord;
+}
 export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
   private _strict: boolean;
   private _thisMode: "lexical" | "strict" | "global";
@@ -36,20 +43,18 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
   constructor(
     realm: StaticJsRealm,
     name: string | null,
-    thisMode: "lexical-this" | "non-lexical-this",
     private readonly _argumentDeclarations: StaticJsAstFunctionArgument[],
-    context: EvaluationContext,
     protected readonly _body: BlockStatement | Expression,
+    { thisMode, strict, env, scriptOrModule, ...opts }: StaticJsAstFunctionOptions,
     // Gross circular dependency workaround.
     private readonly _createFunction: StaticJsFunctionFactory,
-    opts?: StaticJsFunctionImplOptions,
   ) {
     super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args), {
       length: _argumentDeclarations.length,
       ...opts,
     });
 
-    if (context.strict) {
+    if (strict) {
       this._strict = true;
     } else if (
       _body.type === "BlockStatement" &&
@@ -68,9 +73,9 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
       this._thisMode = "global";
     }
 
-    this._environment = context.lexicalEnv;
+    this._environment = env;
 
-    this._scriptOrModule = context.scriptOrModule;
+    this._scriptOrModule = scriptOrModule;
   }
 
   override get ecmaScriptCode(): Node {

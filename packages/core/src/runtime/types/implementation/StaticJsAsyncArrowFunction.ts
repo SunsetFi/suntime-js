@@ -18,18 +18,33 @@ import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
-import StaticJsAstFunction from "./StaticJsAstFunction.js";
+import StaticJsAstFunction, { StaticJsAstFunctionOptions } from "./StaticJsAstFunction.js";
 
+export type StaticJsAsyncArrowFunctionOptions = Omit<
+  StaticJsAstFunctionOptions,
+  "thisMode" | "construct"
+>;
 export default class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
     name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
-    context: EvaluationContext,
     body: BlockStatement | Expression,
+    opts: StaticJsAsyncArrowFunctionOptions,
     functionFactory: StaticJsFunctionFactory,
   ) {
-    super(realm, name, "lexical-this", argumentDeclarations, context, body, functionFactory);
+    super(
+      realm,
+      name,
+      argumentDeclarations,
+      body,
+      {
+        ...opts,
+        thisMode: "lexical-this",
+        construct: false,
+      },
+      functionFactory,
+    );
   }
 
   override *constructEvaluator(): EvaluationGenerator<StaticJsObjectLike> {

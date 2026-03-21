@@ -10,7 +10,14 @@ function* arrowFunctionExpressionNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const functionName = context.parameter("NamedEvaluation::name", String) ?? "";
-  return createFunction(functionName, node, context);
+  return createFunction(
+    functionName,
+    node,
+    context.lexicalEnv,
+    context.strict,
+    context.scriptOrModule,
+    context.realm,
+  );
 }
 
 export default arrowFunctionExpressionNodeEvaluator;

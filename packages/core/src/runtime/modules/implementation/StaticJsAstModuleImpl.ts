@@ -449,8 +449,9 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       }
     }
 
+    const scriptOrModule = StaticJsModuleRecord(this._ecmaScriptCode, this._ecmaScriptSource, this);
     this._context = EvaluationContext.createRootContext(
-      StaticJsModuleRecord(this._ecmaScriptCode, this._ecmaScriptSource, this),
+      scriptOrModule,
       true,
       this._realm,
       this._envRec,
@@ -479,7 +480,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
         }
 
         if (d.type === "FunctionDeclaration") {
-          const fn = createFunction(dn, d, this._context!);
+          const fn = createFunction(dn, d, this._envRec, true, scriptOrModule, this._realm);
           yield* this._envRec.initializeBindingEvaluator(dn, fn);
         }
       }

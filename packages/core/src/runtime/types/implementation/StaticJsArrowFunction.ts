@@ -3,7 +3,6 @@ import type { BlockStatement, Expression } from "@babel/types";
 import getValue from "../../algorithms/get-value.js";
 import toString from "../../algorithms/to-string.js";
 
-import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
@@ -19,18 +18,29 @@ import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
-import StaticJsAstFunction from "./StaticJsAstFunction.js";
+import StaticJsAstFunction, { StaticJsAstFunctionOptions } from "./StaticJsAstFunction.js";
 
+export type StaticJsArrowFunctionOptions = Omit<
+  StaticJsAstFunctionOptions,
+  "thisMode" | "construct"
+>;
 export default class StaticJsArrowFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
     name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
-    context: EvaluationContext,
     body: BlockStatement | Expression,
+    opts: StaticJsArrowFunctionOptions,
     functionFactory: StaticJsFunctionFactory,
   ) {
-    super(realm, name, "lexical-this", argumentDeclarations, context, body, functionFactory);
+    super(
+      realm,
+      name,
+      argumentDeclarations,
+      body,
+      { thisMode: "lexical-this", construct: false, ...opts },
+      functionFactory,
+    );
   }
 
   override *constructEvaluator(): EvaluationGenerator<StaticJsObjectLike> {
