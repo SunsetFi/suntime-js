@@ -7,8 +7,6 @@ import blockDeclarationInstantiation from "../instantiation/block-declaration-in
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 
-import { Completion } from "../completions/Completion.js";
-
 import evaluateStatementList from "./StatementList.js";
 
 function* blockStatementNodeEvaluator(
@@ -33,15 +31,8 @@ function* blockStatementNodeEvaluator(
 
     return null;
   }
-  try {
-    return yield* evaluateStatementList(node.body, blockContext);
-  } catch (e) {
-    if (Completion.Break.is(e) && e.target !== null && context.labelSet.includes(e.target)) {
-      return e.value;
-    }
 
-    throw e;
-  }
+  return yield* evaluateStatementList(node.body, blockContext);
 }
 
 export default blockStatementNodeEvaluator;

@@ -20,7 +20,6 @@ const whileStatementNodeEvaluator = breakableStatementEvaluation(
     context: EvaluationContext,
   ): EvaluationGenerator {
     const { labelSet } = context;
-    context = context.create();
 
     let V: Completion.Normal = context.realm.types.undefined;
 

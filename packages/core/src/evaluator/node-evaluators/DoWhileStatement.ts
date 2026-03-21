@@ -23,9 +23,6 @@ const doWhileStatementNodeEvaluator = breakableStatementEvaluation(
 
     const { labelSet } = context;
 
-    // Create a new context to stop block thinking the break is for itself.
-    context = context.create();
-
     while (true) {
       const stmtResult = yield* EvaluateNodeCommand(node.body, context);
       if (!loopContinues(stmtResult, labelSet)) {

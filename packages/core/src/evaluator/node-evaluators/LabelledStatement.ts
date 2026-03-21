@@ -1,9 +1,11 @@
 import type { LabeledStatement } from "@babel/types";
 
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import { Completion } from "../completions/Completion.js";
+
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import Q from "../completions/Q.js";
+import rethrowCompletion from "../completions/rethrow-completion.js";
 
 export default function* labeledStatementNodeEvaluator(
   node: LabeledStatement,
@@ -15,5 +17,11 @@ export default function* labeledStatementNodeEvaluator(
   context = context.create({
     labelSet: [...context.labelSet, label],
   });
-  return yield* Q(EvaluateNodeCommand(node.body, context));
+
+  const completion = yield* EvaluateNodeCommand(node.body, context);
+  if (Completion.Break.is(completion) && completion.target === label) {
+    return completion.value;
+  }
+
+  return rethrowCompletion(completion);
 }
