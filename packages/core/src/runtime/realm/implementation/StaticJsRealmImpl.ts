@@ -19,9 +19,8 @@ import StaticJsDeclarativeEnvironmentRecord from "../../environments/implementat
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
-import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
 import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
-import { invokeEvaluator, type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
+import { type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
@@ -445,35 +444,37 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   invokeEvaluatorSync<TReturn>(evaluator: StaticJsEvaluator<TReturn>): TReturn {
+    let runTask = this._defaultRunTaskSync;
     if (this._boostrapping || (this._currentTask && this._currentTask.entered)) {
-      this._invokeEvaluatorSyncDepth++;
-      try {
-        const iterator = evaluateCommands(invokeEvaluator(evaluator));
-
-        // FIXME: Use this._defaultRunTaskSync
-
-        let iteratorResult = iterator.next();
-        while (!iteratorResult.done) {
-          iteratorResult = iterator.next();
+      runTask = (task) => {
+        while (!task.done) {
+          task.next();
         }
-
-        while (this._invokeEvaluatorSyncMicrotasks.length > 0) {
-          const evaluator = this._invokeEvaluatorSyncMicrotasks.shift()!;
-          const iterator = evaluateCommands(invokeEvaluator(evaluator));
-          let iteratorResult = iterator.next();
-          while (!iteratorResult.done) {
-            iteratorResult = iterator.next();
-          }
-        }
-
-        return iteratorResult.value;
-      } finally {
-        this._invokeEvaluatorSyncMicrotasks.length = 0;
-        this._invokeEvaluatorSyncDepth--;
-      }
+      };
+      // this._invokeEvaluatorSyncDepth++;
+      // try {
+      //   const iterator = evaluateCommands(invokeEvaluator(evaluator));
+      //   // FIXME: Use this._defaultRunTaskSync
+      //   let iteratorResult = iterator.next();
+      //   while (!iteratorResult.done) {
+      //     iteratorResult = iterator.next();
+      //   }
+      //   while (this._invokeEvaluatorSyncMicrotasks.length > 0) {
+      //     const evaluator = this._invokeEvaluatorSyncMicrotasks.shift()!;
+      //     const iterator = evaluateCommands(invokeEvaluator(evaluator));
+      //     let iteratorResult = iterator.next();
+      //     while (!iteratorResult.done) {
+      //       iteratorResult = iterator.next();
+      //     }
+      //   }
+      //   return iteratorResult.value;
+      // } finally {
+      //   this._invokeEvaluatorSyncMicrotasks.length = 0;
+      //   this._invokeEvaluatorSyncDepth--;
+      // }
     }
 
-    return this.invokeMacrotaskSync(evaluator, { runTask: this._defaultRunTaskSync });
+    return this.invokeMacrotaskSync(evaluator, { runTask });
   }
 
   async invokeEvaluatorAsync<TReturn>(
