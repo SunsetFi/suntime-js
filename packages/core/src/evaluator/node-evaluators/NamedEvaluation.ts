@@ -12,14 +12,13 @@ export default function* NamedEvaluation(
   node: Node,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  return yield* context
-    .with({
-      evaluationParameters: {
-        // Can be null
-        "NamedEvaluation::name": name,
-      },
-    })
-    .run(function* () {
-      return yield* Q(EvaluateNodeCommand(node));
-    });
+  const oldParameters = context.evaluationParameters;
+  context.evaluationParameters = {
+    ...context.evaluationParameters,
+    // Can be null
+    "NamedEvaluation::name": name,
+  };
+  const completion = yield* EvaluateNodeCommand(node);
+  context.evaluationParameters = oldParameters;
+  return yield* Q(completion);
 }

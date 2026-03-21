@@ -217,14 +217,7 @@ export default function* functionDeclarationInstantiation(
 
   for (const f of functionsToInitialize) {
     const fn = boundNames.soleElementOf(f);
-    const fo = createFunction(
-      fn,
-      f,
-      calleeContext.lexicalEnv,
-      strict,
-      calleeContext.scriptOrModule,
-      realm,
-    );
+    const fo = createFunction(fn, f, calleeContext.lexicalEnv);
     yield* varEnv.setMutableBindingEvaluator(fn, fo, false);
   }
 }

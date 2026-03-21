@@ -29,8 +29,8 @@ const switchStatementNodeEvaluator = breakableStatementEvaluation(
     const input = yield* Q.val(EvaluateNodeCommand(statement.discriminant), realm);
 
     const env = StaticJsDeclarativeEnvironmentRecord.from(context);
-    return yield* context.with({ lexicalEnv: env }).run(function* (blockContext) {
-      yield* blockDeclarationInstantiation(statement, env, blockContext);
+    return yield* context.with({ lexicalEnv: env }).run(function* () {
+      yield* blockDeclarationInstantiation(statement, env);
 
       const A: SwitchCase[] = [];
       const B: SwitchCase[] = [];

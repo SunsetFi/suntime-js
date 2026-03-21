@@ -19,27 +19,13 @@ function* expressionStatementNodeEvaluator(
     const funcEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
     yield* funcEnv.createImmutableBindingEvaluator(expressionFunctionName, false);
 
-    const func = createFunction(
-      functionName,
-      node,
-      funcEnv,
-      context.strict,
-      context.scriptOrModule,
-      context.realm,
-    );
+    const func = createFunction(functionName, node, funcEnv);
 
     yield* funcEnv.initializeBindingEvaluator(expressionFunctionName, func);
 
     return func;
   } else {
-    return createFunction(
-      functionName,
-      node,
-      context.lexicalEnv,
-      context.strict,
-      context.scriptOrModule,
-      context.realm,
-    );
+    return createFunction(functionName, node, context.lexicalEnv);
   }
 }
 

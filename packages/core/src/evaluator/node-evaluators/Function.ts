@@ -2,8 +2,6 @@ import { type Function } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import type { StaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
-
 import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 
 import StaticJsDeclFunction from "../../runtime/types/implementation/StaticJsDeclFunction.js";
@@ -20,7 +18,7 @@ import StaticJsGeneratorDeclFunction from "../../runtime/types/implementation/St
 
 import { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 
-import { StaticJsScriptOrModuleRecord } from "../ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
+import EvaluationContext from "../EvaluationContext.js";
 
 interface NeverConstructor {
   (): never;
@@ -68,11 +66,6 @@ export default function createFunction(
   name: string | null,
   node: Function,
   env: StaticJsEnvironmentRecord,
-  // FIXME: Should come from node, once we can track parents.
-  strict: boolean,
-  // FIXME: Should come from GetActiveScriptOrModule, once we have global state.
-  scriptOrModule: StaticJsScriptOrModuleRecord,
-  realm: StaticJsRealm,
 ): StaticJsFunction {
   const params = node.params;
   validateParams(params);
@@ -103,6 +96,8 @@ export default function createFunction(
   }
 
   const Ctor = FunctionConstructorMap[syncMode][generatorMode][type];
+
+  const { realm, strict, scriptOrModule } = EvaluationContext.current;
   return new Ctor(realm, name, params, node.body, { strict, scriptOrModule, env }, createFunction);
 }
 

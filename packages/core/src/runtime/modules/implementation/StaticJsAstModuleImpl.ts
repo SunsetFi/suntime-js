@@ -458,32 +458,45 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       this._envRec,
     );
 
-    const varDeclarations = varScopedDeclarations(this._ecmaScriptCode);
-    const declaredVarNames = new Set<string>();
-    for (const d of varDeclarations) {
-      for (const dn of boundNames(d)) {
-        if (declaredVarNames.has(dn)) {
-          continue;
-        }
-        declaredVarNames.add(dn);
-        yield* this._envRec.createMutableBindingEvaluator(dn, false);
-        yield* this._envRec.initializeBindingEvaluator(dn, this._realm.types.undefined);
-      }
-    }
-
-    const lexDeclarations = lexicallyScopedDeclarations(this._ecmaScriptCode);
-    for (const d of lexDeclarations) {
-      for (const dn of boundNames(d)) {
-        if (d.type === "VariableDeclaration" && d.kind === "const") {
-          yield* this._envRec.createImmutableBindingEvaluator(dn, true);
-        } else {
+    // Not using context.run()
+    // The below should NOT suspend!
+    const oldContext = EvaluationContext.current;
+    EvaluationContext.push(this._context);
+    try {
+      const varDeclarations = varScopedDeclarations(this._ecmaScriptCode);
+      const declaredVarNames = new Set<string>();
+      for (const d of varDeclarations) {
+        for (const dn of boundNames(d)) {
+          if (declaredVarNames.has(dn)) {
+            continue;
+          }
+          declaredVarNames.add(dn);
           yield* this._envRec.createMutableBindingEvaluator(dn, false);
+          yield* this._envRec.initializeBindingEvaluator(dn, this._realm.types.undefined);
         }
+      }
 
-        if (d.type === "FunctionDeclaration") {
-          const fn = createFunction(dn, d, this._envRec, true, scriptOrModule, this._realm);
-          yield* this._envRec.initializeBindingEvaluator(dn, fn);
+      const lexDeclarations = lexicallyScopedDeclarations(this._ecmaScriptCode);
+      for (const d of lexDeclarations) {
+        for (const dn of boundNames(d)) {
+          if (d.type === "VariableDeclaration" && d.kind === "const") {
+            yield* this._envRec.createImmutableBindingEvaluator(dn, true);
+          } else {
+            yield* this._envRec.createMutableBindingEvaluator(dn, false);
+          }
+
+          if (d.type === "FunctionDeclaration") {
+            const fn = createFunction(dn, d, this._envRec);
+            yield* this._envRec.initializeBindingEvaluator(dn, fn);
+          }
         }
+      }
+    } finally {
+      EvaluationContext.pop();
+      if (EvaluationContext.current !== oldContext) {
+        throw new StaticJsEngineError(
+          "EvaluationContext stack corrupted during module environment initialization.",
+        );
       }
     }
   }

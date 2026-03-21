@@ -3,7 +3,6 @@ import { isBlock, type Block, type SwitchStatement } from "@babel/types";
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import type EvaluationContext from "../EvaluationContext.js";
 
 import createFunction from "../node-evaluators/Function.js";
 
@@ -15,7 +14,6 @@ import boundNames from "./algorithms/bound-names.js";
 export default function* blockDeclarationInstantiation(
   node: Block | SwitchStatement,
   env: StaticJsEnvironmentRecord,
-  context: EvaluationContext,
 ): EvaluationGenerator<void> {
   // FIXME: The spec just shows lexicallyScopedDeclarations called on 'code', whatever that is.
   // That can't be the body node, as LSD does not define any behaviors for Blocks?
@@ -44,7 +42,7 @@ export default function* blockDeclarationInstantiation(
 
     if (d.type === "FunctionDeclaration") {
       const fn = boundNames.soleElementOf(d);
-      const fo = createFunction(fn, d, env, context.strict, context.scriptOrModule, context.realm);
+      const fo = createFunction(fn, d, env);
       const isInitialized = yield* env.isInitializedEvaluator(fn);
       if (!isInitialized) {
         yield* env.initializeBindingEvaluator(fn, fo);
