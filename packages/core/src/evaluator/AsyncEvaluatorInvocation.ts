@@ -23,7 +23,7 @@ import { Completion } from "./completions/Completion.js";
 import type { CompletionValue } from "./completions/CompletionValue.js";
 
 import type { EvaluationGenerator } from "./EvaluationGenerator.js";
-// import EvaluationContext from "./EvaluationContext.js";
+import EvaluationContext from "./EvaluationContext.js";
 
 export default class AsyncEvaluatorInvocation {
   private _capability!: StaticJsPromiseCapabilityRecord;
@@ -172,6 +172,10 @@ export default class AsyncEvaluatorInvocation {
     const realm = this._realm;
     const continueInvocation = this._continue.bind(this);
 
+    // This is super weird, but our callers will pop.
+    // FIXME: This isn't how the spec does it.
+    const restoreStack = EvaluationContext.current;
+
     if (isStaticJsObjectLike(awaitable)) {
       const awaitableThen = yield* awaitable.getEvaluator("then");
       if (isStaticJsFunction(awaitableThen)) {
@@ -179,10 +183,12 @@ export default class AsyncEvaluatorInvocation {
         // The function will be responsible for queueing us on the microtask.
         yield* awaitableThen.callEvaluator(awaitable, [
           new StaticJsFunctionImpl(realm, "resolve", function* (_thisArg, value) {
+            EvaluationContext.push(restoreStack);
             yield* continueInvocation(value);
             return realm.types.undefined;
           }),
           new StaticJsFunctionImpl(realm, "reject", function* (_thisArg, value) {
+            EvaluationContext.push(restoreStack);
             yield* continueInvocation(value, "throw");
             return realm.types.undefined;
           }),
@@ -191,11 +197,9 @@ export default class AsyncEvaluatorInvocation {
       }
     }
 
-    // const restoreStack = EvaluationContext.pop();
-
     // For everything else, continue on the next microtask.
     this._realm.enqueueMicrotask(function* () {
-      // EvaluationContext.push(restoreStack);
+      EvaluationContext.push(restoreStack);
       yield* continueInvocation(awaitable);
     });
   }

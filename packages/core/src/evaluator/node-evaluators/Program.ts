@@ -9,6 +9,8 @@ import evaluateStatementList from "./StatementList.js";
 import rethrowCompletion from "../completions/rethrow-completion.js";
 
 function* programNodeEvaluator(node: Program, context: EvaluationContext): EvaluationGenerator {
+  const { realm } = context;
+
   if (node.body.length === 0) {
     // Directives are values too!
     // Inherit the last one as a value.
@@ -17,13 +19,13 @@ function* programNodeEvaluator(node: Program, context: EvaluationContext): Evalu
     // We may want to consider making these evaluator nodes as anything else...
     const lastDirective = node.directives.at(-1);
     if (lastDirective) {
-      return context.realm.types.string(lastDirective.value.value);
+      return realm.types.string(lastDirective.value.value);
     }
 
     return null;
   }
 
-  const completion = yield* evaluateStatementList(node.body, context);
+  const completion = yield* evaluateStatementList(node.body);
   if (Completion.Abrupt.is(completion)) {
     Completion.ControlFlow.handleRuntime(completion);
   }

@@ -11,7 +11,7 @@ import Q from "../completions/Q.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import blockDeclarationInstantiation from "../instantiation/block-declaration-instantiation.js";
@@ -25,7 +25,8 @@ const switchStatementNodeEvaluator = breakableStatementEvaluation(
     statement: SwitchStatement,
     context: EvaluationContext,
   ): EvaluationGenerator {
-    const input = yield* Q.val(EvaluateNodeCommand(statement.discriminant), context.realm);
+    const { realm } = context;
+    const input = yield* Q.val(EvaluateNodeCommand(statement.discriminant), realm);
 
     const env = StaticJsDeclarativeEnvironmentRecord.from(context);
     return yield* context.with({ lexicalEnv: env }).run(function* (blockContext) {
@@ -46,16 +47,16 @@ const switchStatementNodeEvaluator = breakableStatementEvaluation(
         }
       }
 
-      let V: Completion.Normal = context.realm.types.undefined;
+      let V: Completion.Normal = realm.types.undefined;
 
       let found = false;
       for (const C of A) {
         if (!found) {
-          found = yield* caseClauseIsSelected(C, input, blockContext);
+          found = yield* caseClauseIsSelected(C, input);
         }
 
         if (found) {
-          const R = yield* evaluateSwitchCase(C, blockContext);
+          const R = yield* evaluateSwitchCase(C);
           const rValue = Completion.value(R);
           if (rValue) {
             V = rValue;
@@ -71,11 +72,11 @@ const switchStatementNodeEvaluator = breakableStatementEvaluation(
       if (!found) {
         for (const C of B) {
           if (!foundInB) {
-            foundInB = yield* caseClauseIsSelected(C, input, blockContext);
+            foundInB = yield* caseClauseIsSelected(C, input);
           }
 
           if (foundInB) {
-            const R = yield* evaluateSwitchCase(C, blockContext);
+            const R = yield* evaluateSwitchCase(C);
             const rValue = Completion.value(R);
             if (rValue) {
               V = rValue;
@@ -93,7 +94,7 @@ const switchStatementNodeEvaluator = breakableStatementEvaluation(
       }
 
       if (defaultClause) {
-        const defaultR = yield* evaluateSwitchCase(defaultClause, blockContext);
+        const defaultR = yield* evaluateSwitchCase(defaultClause);
         const defaultRValue = Completion.value(defaultR);
         if (defaultRValue) {
           V = defaultRValue;
@@ -105,7 +106,7 @@ const switchStatementNodeEvaluator = breakableStatementEvaluation(
       }
 
       for (const C of B) {
-        const R = yield* evaluateSwitchCase(C, blockContext);
+        const R = yield* evaluateSwitchCase(C);
         const rValue = Completion.value(R);
         if (rValue) {
           V = rValue;
@@ -123,19 +124,13 @@ const switchStatementNodeEvaluator = breakableStatementEvaluation(
 
 export default switchStatementNodeEvaluator;
 
-function* caseClauseIsSelected(
-  C: SwitchCase,
-  input: StaticJsValue,
-  context: EvaluationContext,
-): EvaluationGenerator<boolean> {
-  const clauseSelector = yield* Q.val(EvaluateNodeCommand(C.test!), context.realm);
+function* caseClauseIsSelected(C: SwitchCase, input: StaticJsValue): EvaluationGenerator<boolean> {
+  const realm = EvaluationContext.current.realm;
+  const clauseSelector = yield* Q.val(EvaluateNodeCommand(C.test!), realm);
 
   return isStrictlyEqual(clauseSelector, input);
 }
 
-function* evaluateSwitchCase(
-  C: SwitchCase,
-  context: EvaluationContext,
-): EvaluationGenerator<Completion> {
-  return yield* evaluateStatementList(C.consequent, context);
+function* evaluateSwitchCase(C: SwitchCase): EvaluationGenerator<Completion> {
+  return yield* evaluateStatementList(C.consequent);
 }

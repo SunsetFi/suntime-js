@@ -231,22 +231,16 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
   *run<T>(
     callback: (context: EvaluationContext) => EvaluationGenerator<T>,
   ): EvaluationGenerator<T> {
-    // Note: This is incredibly iffy, as this provider remains pushed through the pausable
-    // generator evaluation.
-    // We could push and pop on each next() call, but that sounds a little too performance nightmare
-    // even for this project.
-    const stackProvider = EvaluationContext.stackProvider;
-    stackProvider.pushStack(this);
+    // Note: This looks absolutely horrifying, and indeed our stack provider can change
+    // from the start to the end.
+    // However, we expect this, as the generator may be paused on async boundaries, where the provider
+    // may change.
+    // Generally, we handle this in each async boundary with manual push and pop calls.
+    EvaluationContext.push(this);
     try {
       return yield* callback!(this);
     } finally {
-      // if (stackProvider !== EvaluationContext.stackProvider) {
-      //   throw new StaticJsEngineError(
-      //     "Evaluation context stack provider was changed during context execution.",
-      //   );
-      // }
-
-      stackProvider.popStack();
+      EvaluationContext.pop();
     }
   }
 }
