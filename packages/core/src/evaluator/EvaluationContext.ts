@@ -8,6 +8,12 @@ import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJs
 import typedEntries from "../internal/typed-entries.js";
 import type { StaticJsScriptOrModuleRecord } from "./ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 
+export interface EvaluationContextStackProvider {
+  pushStack(context: EvaluationContext): void;
+  popStack(): void;
+  getStack(): readonly EvaluationContext[];
+}
+
 export interface EvaluationContextOptions {
   strict?: boolean;
   lexicalEnv?: StaticJsEnvironmentRecord;
@@ -46,6 +52,46 @@ const EvaluationContextPropertyDefs: Record<
  * which are a consumer of this rather than contained within it.
  */
 class EvaluationContext implements Required<EvaluationContextAutoDefProperties> {
+  static _currentStackProvider: EvaluationContextStackProvider | null = null;
+
+  static withStackProvider<T>(provider: EvaluationContextStackProvider, callback: () => T): T {
+    const previousProvider = this._currentStackProvider;
+    this._currentStackProvider = provider;
+    try {
+      return callback();
+    } finally {
+      this._currentStackProvider = previousProvider;
+    }
+  }
+
+  static get stackProvider(): EvaluationContextStackProvider {
+    if (!this._currentStackProvider) {
+      throw new StaticJsEngineError("No evaluation context stack provider is set.");
+    }
+
+    return this._currentStackProvider;
+  }
+
+  static get current(): EvaluationContext {
+    if (!this._currentStackProvider) {
+      throw new StaticJsEngineError("No evaluation context stack provider is set.");
+    }
+
+    const current = this._currentStackProvider.getStack().at(-1)!;
+    if (!current) {
+      throw new StaticJsEngineError("Evaluation context stack is empty.");
+    }
+    return current;
+  }
+
+  static get stack(): readonly EvaluationContext[] {
+    if (!this._currentStackProvider) {
+      throw new StaticJsEngineError("No evaluation context stack provider is set.");
+    }
+
+    return this._currentStackProvider.getStack();
+  }
+
   static createRootContext(
     scriptOrModule: StaticJsScriptOrModuleRecord | null,
     strict: boolean,
@@ -165,15 +211,24 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
     return converter(value);
   }
 
-  create(properties: Partial<EvaluationContextOptions> = {}): EvaluationContext {
+  run<T>(callback: (context: EvaluationContext) => T): T {
+    EvaluationContext.stackProvider.pushStack(this);
+    try {
+      return callback!(this);
+    } finally {
+      EvaluationContext.stackProvider.popStack();
+    }
+  }
+
+  withProperties(properties: Partial<EvaluationContextOptions> = {}): EvaluationContext {
     return new EvaluationContext(this._realm, this, properties);
   }
 
-  createLexicalEnvironmentContext(env: StaticJsEnvironmentRecord): EvaluationContext {
+  withLexicalEnvironmentContext(env: StaticJsEnvironmentRecord): EvaluationContext {
     return new EvaluationContext(this._realm, this, { lexicalEnv: env });
   }
 
-  createEnvironmentContext(
+  withEnvironmentContext(
     lexicalEnv: StaticJsEnvironmentRecord,
     variableEnv: StaticJsEnvironmentRecord = lexicalEnv,
   ): EvaluationContext {

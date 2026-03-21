@@ -47,6 +47,21 @@ describe("E2E: While loops", () => {
     expect(await evaluateScript(code)).toBe(15);
   });
 
+  it("Can break out of a nested while loop", async () => {
+    const code = `
+      outer:
+      while (true) {
+        while (true) {
+          break outer;
+          throw new Error('This code is unreachable (following "break" statement).');
+        }
+        throw new Error('This code is unreachable (following outer "while" statement).');
+      }
+    `;
+
+    expect(await evaluateScript(code)).toBeUndefined();
+  });
+
   it("Can continue to the next iteration of a while loop", async () => {
     const code = `
         let sum = 0;

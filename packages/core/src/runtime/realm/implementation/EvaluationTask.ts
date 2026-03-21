@@ -1,5 +1,9 @@
 import type { Node } from "@babel/types";
 
+import EvaluationContext, {
+  EvaluationContextStackProvider,
+} from "../../../evaluator/EvaluationContext.js";
+
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
 
@@ -20,7 +24,7 @@ import type { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";
 
 const MaxDeadIteratorLoopCount = 100;
 
-export default class Macrotask {
+export default class EvaluationTask implements EvaluationContextStackProvider {
   private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";
 
   /**
@@ -85,6 +89,11 @@ export default class Macrotask {
   private _isEntered: boolean = false;
 
   /**
+   * The stack of evaluation contexts for the currently executing code.
+   */
+  private _stack: EvaluationContext[] = [];
+
+  /**
    * The current AST node being executed, if any.
    */
   private _currentNode: Node | null = null;
@@ -93,7 +102,7 @@ export default class Macrotask {
     private readonly _evaluator: StaticJsEvaluator<unknown>,
     private readonly _taskRunner: StaticJsTaskRunner,
     // This shouldn't be needed if this task stays in sync with the realm about whether it is running.
-    private readonly _assertIsRunning: (task: Macrotask) => void,
+    private readonly _assertIsRunning: (task: EvaluationTask) => void,
   ) {
     this._promise = new Promise<unknown>((accept, reject) => {
       this._acceptPromise = accept;
@@ -115,6 +124,18 @@ export default class Macrotask {
 
   get done() {
     return this._status === "fulfilled" || this._status === "rejected";
+  }
+
+  pushStack(context: EvaluationContext): void {
+    this._stack.push(context);
+  }
+
+  popStack(): void {
+    this._stack.pop();
+  }
+
+  getStack(): readonly EvaluationContext[] {
+    return this._stack;
   }
 
   onComplete(callback: (value: unknown, err?: unknown) => void) {
@@ -288,53 +309,55 @@ export default class Macrotask {
       this._assertIsRunning(this);
 
       this._isEntered = true;
-      try {
-        let deadIteratorLoops = 0;
-        while (true) {
-          const result = err ? iterator.throw(err) : iterator.next();
-          if (result.done) {
-            done = true;
-            accept(result.value);
-            return {
-              value: undefined,
-              done: true,
-            };
-          }
-
-          // Try to skip iterations until we get to an actual node to evaluate.
-          // This may happen for module initialization and such.
-          // Theoretically, nothing in this is user code, and so cannot
-          // infinite loop or deadlock.
-          if (!this._currentNode) {
-            if (++deadIteratorLoops > MaxDeadIteratorLoopCount) {
-              throw new StaticJsEngineError(
-                "Hit maximum loop count while trying to find the first node to evaluate.  This may indicate a bug in the engine.",
-              );
+      return EvaluationContext.withStackProvider(this, () => {
+        try {
+          let deadIteratorLoops = 0;
+          while (true) {
+            const result = err ? iterator.throw(err) : iterator.next();
+            if (result.done) {
+              done = true;
+              accept(result.value);
+              return {
+                value: undefined,
+                done: true,
+              };
             }
 
-            continue;
-          }
+            // Try to skip iterations until we get to an actual node to evaluate.
+            // This may happen for module initialization and such.
+            // Theoretically, nothing in this is user code, and so cannot
+            // infinite loop or deadlock.
+            if (!this._currentNode) {
+              if (++deadIteratorLoops > MaxDeadIteratorLoopCount) {
+                throw new StaticJsEngineError(
+                  "Hit maximum loop count while trying to find the first node to evaluate.  This may indicate a bug in the engine.",
+                );
+              }
 
+              continue;
+            }
+
+            return {
+              value: undefined,
+              done: false,
+            };
+          }
+        } catch (e) {
+          if (!done) {
+            // Normally we should pass this to the generator's throw method,
+            // but we are passed generators that handle all of that for us, so the only
+            // throws we should be getting here are final throws.
+            done = true;
+            reject(e);
+          }
           return {
             value: undefined,
-            done: false,
+            done: true,
           };
+        } finally {
+          this._isEntered = false;
         }
-      } catch (e) {
-        if (!done) {
-          // Normally we should pass this to the generator's throw method,
-          // but we are passed generators that handle all of that for us, so the only
-          // throws we should be getting here are final throws.
-          done = true;
-          reject(e);
-        }
-        return {
-          value: undefined,
-          done: true,
-        };
-      } finally {
-        this._isEntered = false;
-      }
+      });
     };
 
     return {

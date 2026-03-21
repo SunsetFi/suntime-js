@@ -59,7 +59,7 @@ function* runCatch(
       yield* catchEnv.createMutableBindingEvaluator(argName, false);
     }
 
-    catchContext = context.createLexicalEnvironmentContext(catchEnv);
+    catchContext = context.withLexicalEnvironmentContext(catchEnv);
 
     yield* bindingInitialization(node.param, thrownValue, catchEnv, catchContext);
   }

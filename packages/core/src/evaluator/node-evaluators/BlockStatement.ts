@@ -13,10 +13,10 @@ function* blockStatementNodeEvaluator(
   node: BlockStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const env = StaticJsDeclarativeEnvironmentRecord.from(context);
-  const blockContext = context.createLexicalEnvironmentContext(env);
+  const blockEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
+  const blockContext = context.withProperties({ lexicalEnv: blockEnv });
 
-  yield* blockDeclarationInstantiation(node, env, blockContext);
+  yield* blockDeclarationInstantiation(node, blockEnv, blockContext);
 
   if (node.body.length === 0) {
     // Directives are values too!

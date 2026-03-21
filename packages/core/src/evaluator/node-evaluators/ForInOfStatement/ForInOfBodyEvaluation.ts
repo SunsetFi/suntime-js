@@ -81,13 +81,6 @@ export function* forInOfBodyEvaluation(
 
     const nextValue = yield* iteratorValue(nextResult);
 
-    // HACK: Create a new context so inner blocks do not inherit the label.
-    // This isn't a spec thing... I just don't know how I'm supposed to implement
-    // label breaking for BlockStatement.
-    // Important: If this is undone, we mutate lexicalEnv below, so that
-    // will need to create a new context.
-    const iterationContext: EvaluationContext = context.create();
-
     // try = status
     try {
       if (lhsKind === "assignment" || lhsKind === "varBinding") {
@@ -113,22 +106,13 @@ export function* forInOfBodyEvaluation(
         const iterationEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, realm);
         yield* forDeclarationBindingInstantiation(lhs, iterationEnv);
 
-        iterationContext.lexicalEnv = iterationEnv;
+        context.lexicalEnv = iterationEnv;
 
         if (destructuring) {
-          yield* forDeclarationBindingInitialization(
-            lhs,
-            nextValue,
-            iterationEnv,
-            iterationContext,
-          );
+          yield* forDeclarationBindingInitialization(lhs, nextValue, iterationEnv, context);
         } else {
           const lhsName = boundNames.soleElementOf(lhs);
-          const lhsRef = yield* getIdentifierReference(
-            iterationContext.lexicalEnv,
-            lhsName,
-            iterationContext.strict,
-          );
+          const lhsRef = yield* getIdentifierReference(context.lexicalEnv, lhsName, context.strict);
           yield* initializeReferencedBinding(lhsRef, nextValue);
         }
       }
@@ -147,8 +131,8 @@ export function* forInOfBodyEvaluation(
       throw e;
     }
 
-    const result = yield* EvaluateNodeCommand(stmt, iterationContext);
-    // Note: oldEnv should be restored, so don't use iterationContext from here.
+    const result = yield* EvaluateNodeCommand(stmt, context);
+    context.lexicalEnv = oldEnv;
 
     if (!loopContinues(result, labelSet)) {
       const status = Completion.updateEmpty(result, V);

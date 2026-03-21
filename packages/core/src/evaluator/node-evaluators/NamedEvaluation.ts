@@ -12,12 +12,14 @@ export default function* NamedEvaluation(
   node: Node,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  context = context.create({
-    evaluationParameters: {
-      // Can be null
-      "NamedEvaluation::name": name,
-    },
-  });
-
-  return yield* Q(EvaluateNodeCommand(node, context));
+  return yield* context
+    .withProperties({
+      evaluationParameters: {
+        // Can be null
+        "NamedEvaluation::name": name,
+      },
+    })
+    .run(function* (context) {
+      return yield* Q(EvaluateNodeCommand(node, context));
+    });
 }

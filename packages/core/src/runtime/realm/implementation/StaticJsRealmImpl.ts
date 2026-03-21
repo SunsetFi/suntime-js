@@ -84,7 +84,7 @@ import type {
   StaticJsRealmEvaluateScriptSyncOptions,
 } from "../StaticJsRealmEvaluateScriptOptions.js";
 
-import Macrotask from "./Macrotask.js";
+import EvaluationTask from "./EvaluationTask.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;
@@ -97,8 +97,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _staticModules = new Map<string, StaticJsModuleImplementation | null>();
   private readonly _externalResolveModule: StaticJsModuleResolver | undefined;
 
-  private readonly _tasks: Macrotask[] = [];
-  private _currentTask: Macrotask | null = null;
+  private readonly _tasks: EvaluationTask[] = [];
+  private _currentTask: EvaluationTask | null = null;
 
   private readonly _defaultRunTask: StaticJsTaskRunner;
   private readonly _defaultRunTaskSync: StaticJsTaskRunner;
@@ -490,7 +490,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   private _createMacrotask(evaluator: StaticJsEvaluator, taskRunner: StaticJsTaskRunner) {
-    return new Macrotask(evaluator, taskRunner, (task) => this._assertTaskRunning(task));
+    return new EvaluationTask(evaluator, taskRunner, (task) => this._assertTaskRunning(task));
   }
 
   private _createInlineSourceName() {
@@ -501,7 +501,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return `inline-module?${Date.now()}`;
   }
 
-  private _assertTaskRunning(task: Macrotask) {
+  private _assertTaskRunning(task: EvaluationTask) {
     // This should never trigger, but is a sanity check against bugs in the task queuing system.
     if (this._currentTask !== task) {
       throw new StaticJsEngineError("Cannot run a task that is not the current task.");
@@ -535,7 +535,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
   }
 
-  private _invokeMacrotask(task: Macrotask) {
+  private _invokeMacrotask(task: EvaluationTask) {
     if (this._currentTask !== null) {
       throw new Error("Cannot invoke a task while another task is running.");
     }

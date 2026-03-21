@@ -47,7 +47,7 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
     const lexEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
     const varEnv = strict ? lexEnv : context.variableEnv;
 
-    context = context.createEnvironmentContext(lexEnv, varEnv);
+    context = context.withEnvironmentContext(lexEnv, varEnv);
 
     yield* evalDeclarationInstantiation(node, context.strict, context);
 

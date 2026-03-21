@@ -19,7 +19,7 @@ export default function* withStatementNodeEvaluator(
 
   const obj = yield* toObject(val, context.realm);
 
-  const withContext = context.createLexicalEnvironmentContext(
+  const withContext = context.withLexicalEnvironmentContext(
     new StaticJsObjectEnvironmentRecord(obj, true, context.lexicalEnv, context.realm),
   );
 

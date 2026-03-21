@@ -1,7 +1,6 @@
 import type { Expression } from "@babel/types";
 
-import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
-import type EvaluationContext from "../../EvaluationContext.js";
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 import { isStaticJsNull } from "../../../runtime/types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../runtime/types/StaticJsUndefined.js";
@@ -10,11 +9,15 @@ import StaticJsDeclarativeEnvironmentRecord from "../../../runtime/environments/
 
 import toObject from "../../../runtime/algorithms/to-object.js";
 import enumerateObjectProperties from "../../../runtime/algorithms/enumerate-object-properties.js";
+import getValue from "../../../runtime/algorithms/get-value.js";
 
 import type { StaticJsIteratorRecord } from "../../../runtime/iterators/StaticJsIteratorRecord.js";
 import getIterator from "../../../runtime/iterators/get-iterator.js";
 
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
+
+import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
+import type EvaluationContext from "../../EvaluationContext.js";
 
 import { Completion } from "../../completions/Completion.js";
 import Q from "../../completions/Q.js";
@@ -33,13 +36,19 @@ export default function* forInOfHeadEvaluation(
     for (const name of uninitializedBoundNames) {
       yield* newEnv.createMutableBindingEvaluator(name, false);
     }
-    exprContext = context.create({
-      lexicalEnv: newEnv,
-      labelSet: context.labelSet,
-    });
+    context.lexicalEnv = newEnv;
   }
 
-  const exprValue = yield* Q.val(EvaluateNodeCommand(expr, exprContext), exprContext.realm);
+  const exprRef = yield* Q(EvaluateNodeCommand(expr, exprContext));
+  context.lexicalEnv = oldEnv;
+
+  // Evaluation of expressions should never result in EMPTY.
+  if (!exprRef) {
+    throw new StaticJsEngineError(
+      `Expected expression to return a completion value, but got EMPTY.`,
+    );
+  }
+  const exprValue = yield* Q(getValue(exprRef, context.realm));
 
   if (iterationKind === "enumerate") {
     if (isStaticJsUndefined(exprValue) || isStaticJsNull(exprValue)) {
