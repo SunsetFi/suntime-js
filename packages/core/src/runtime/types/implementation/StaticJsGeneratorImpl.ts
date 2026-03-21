@@ -126,9 +126,7 @@ export default class StaticJsGeneratorImpl
     const doContinue = this._doContinue.bind(this);
 
     return yield* context.run(function* () {
-      console.log("Generator continue enter");
       const result = yield* doContinue(continueWith, continueMode);
-      console.log("Generator continue exit");
       return result;
     });
   }

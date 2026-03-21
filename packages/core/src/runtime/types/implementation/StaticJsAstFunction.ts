@@ -137,6 +137,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
       this._environment,
       this.realm,
     );
+
     const calleeContext = EvaluationContext.createFunctionInvocationContext(
       this,
       this.scriptOrModule,
@@ -144,32 +145,35 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
       localEnv,
     );
 
-    const thisMode = this._thisMode;
-    if (thisMode === "lexical") {
-      // Do nothing.
-    } else {
-      const calleeRealm = this.realm;
-      let thisValue: StaticJsValue;
-      if (thisMode === "strict") {
-        thisValue = thisArg;
+    const func = this;
+    yield* calleeContext.run(function* () {
+      const thisMode = func._thisMode;
+      if (thisMode === "lexical") {
+        // Do nothing.
       } else {
-        if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
-          thisValue = calleeRealm.globalThis;
+        const calleeRealm = func.realm;
+        let thisValue: StaticJsValue;
+        if (thisMode === "strict") {
+          thisValue = thisArg;
         } else {
-          thisValue = yield* toObject(thisArg, calleeRealm);
+          if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
+            thisValue = calleeRealm.globalThis;
+          } else {
+            thisValue = yield* toObject(thisArg, calleeRealm);
+          }
         }
+
+        localEnv.initializeThis(thisValue);
       }
 
-      localEnv.initializeThis(thisValue);
-    }
-
-    yield* functionDeclarationInstantiation(
-      this,
-      args,
-      calleeContext,
-      // Gross circular dependency workaround.
-      this._createFunction,
-    );
+      yield* functionDeclarationInstantiation(
+        func,
+        args,
+        calleeContext,
+        // Gross circular dependency workaround.
+        func._createFunction,
+      );
+    });
 
     return calleeContext;
   }
