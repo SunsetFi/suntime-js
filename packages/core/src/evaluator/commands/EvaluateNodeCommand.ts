@@ -9,12 +9,8 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { EnterNodeCommand } from "./EnterNodeCommand.js";
 import { ExitNodeCommand } from "./ExitNodeCommand.js";
-import EvaluationContext from "../EvaluationContext.js";
 
-export function* EvaluateNodeCommand(
-  node: Node,
-  context?: EvaluationContext,
-): EvaluationGenerator<Completion> {
+export function* EvaluateNodeCommand(node: Node): EvaluationGenerator<Completion> {
   // At one point, our commands were evaluated by a handler at the root of the evaluation chain,
   // and our result would come out of this yield statement.
   // However, that made it hard to implement async functions, as we would need to teach that system
@@ -23,19 +19,9 @@ export function* EvaluateNodeCommand(
 
   yield* EnterNodeCommand(node);
 
-  if (context) {
-    return yield* context.run(function* () {
-      try {
-        return yield* captureThrownCompletion(evaluateNode(node));
-      } finally {
-        yield* ExitNodeCommand();
-      }
-    });
-  } else {
-    try {
-      return yield* captureThrownCompletion(evaluateNode(node));
-    } finally {
-      yield* ExitNodeCommand();
-    }
+  try {
+    return yield* captureThrownCompletion(evaluateNode(node));
+  } finally {
+    yield* ExitNodeCommand();
   }
 }
