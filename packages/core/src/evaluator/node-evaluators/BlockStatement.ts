@@ -4,6 +4,8 @@ import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/imp
 
 import blockDeclarationInstantiation from "../instantiation/block-declaration-instantiation.js";
 
+import Q from "../completions/Q.js";
+
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type EvaluationContext from "../EvaluationContext.js";
 
@@ -32,7 +34,7 @@ function* blockStatementNodeEvaluator(
     return null;
   }
 
-  return yield* evaluateStatementList(node.body, blockContext);
+  return yield* Q(evaluateStatementList(node.body, blockContext));
 }
 
 export default blockStatementNodeEvaluator;

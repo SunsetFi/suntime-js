@@ -6,6 +6,7 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import evaluateStatementList from "./StatementList.js";
+import rethrowCompletion from "../completions/rethrow-completion.js";
 
 function* programNodeEvaluator(node: Program, context: EvaluationContext): EvaluationGenerator {
   if (node.body.length === 0) {
@@ -22,12 +23,12 @@ function* programNodeEvaluator(node: Program, context: EvaluationContext): Evalu
     return null;
   }
 
-  try {
-    return yield* evaluateStatementList(node.body, context);
-  } catch (e) {
-    Completion.ControlFlow.handleRuntime(e);
-    throw e;
+  const completion = yield* evaluateStatementList(node.body, context);
+  if (Completion.Abrupt.is(completion)) {
+    Completion.ControlFlow.handleRuntime(completion);
   }
+
+  return rethrowCompletion(completion);
 }
 
 export default programNodeEvaluator;

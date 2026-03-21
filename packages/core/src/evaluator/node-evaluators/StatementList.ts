@@ -6,19 +6,8 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../completions/Completion.js";
-import rethrowCompletion from "../completions/rethrow-completion.js";
 
 export default function* evaluateStatementList(
-  statementList: Statement[],
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const result = yield* evaluateStatementListForCompletion(statementList, context);
-  return rethrowCompletion(result);
-}
-
-evaluateStatementList.forCompletion = evaluateStatementListForCompletion;
-
-function* evaluateStatementListForCompletion(
   statementList: Statement[],
   context: EvaluationContext,
 ): EvaluationGenerator<Completion> {

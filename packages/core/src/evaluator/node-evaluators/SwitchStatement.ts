@@ -137,6 +137,5 @@ function* evaluateSwitchCase(
   C: SwitchCase,
   context: EvaluationContext,
 ): EvaluationGenerator<Completion> {
-  // This is silly...
-  return yield* evaluateStatementList.forCompletion(C.consequent, context);
+  return yield* evaluateStatementList(C.consequent, context);
 }
