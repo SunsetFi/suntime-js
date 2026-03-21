@@ -14,7 +14,7 @@ import createListIteratorRecord from "../../runtime/iterators/create-list-iterat
 
 import iteratorBindingInitialization from "../bindings/iterator-binding-initialization.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import boundNames from "./algorithms/bound-names.js";
 import varDeclaredNames from "./algorithms/var-declared-names.js";
@@ -28,14 +28,12 @@ import createMappedArgumentsObject from "./algorithms/create-mapped-arguments-ob
 export default function* functionDeclarationInstantiation(
   func: StaticJsAstFunction,
   argumentsList: StaticJsValue[],
-  calleeContext: EvaluationContext,
   // Gross circular dependency workaround.
   createFunction: StaticJsFunctionFactory,
 ): EvaluationGenerator<void> {
-  // Note: The spec lets us arbitrarily mutate the calleeContext's envs, but our context system used to not work that way.
-  // I added support for it, but this is still squiggy.
-
-  const realm = calleeContext.realm;
+  const calleeContext = EvaluationContext.current;
+  (calleeContext as any).myName = "Function decl callee";
+  const { realm } = EvaluationContext.current;
 
   const strict = func.strict;
   const formals = func.formalParameters;
@@ -167,7 +165,7 @@ export default function* functionDeclarationInstantiation(
       yield* varEnv.createMutableBindingEvaluator(n, false);
       let initialValue: StaticJsValue;
       if (!parameterBindings.includes(n) || functionNames.includes(n)) {
-        initialValue = calleeContext.realm.types.undefined;
+        initialValue = realm.types.undefined;
       } else {
         initialValue = yield* env.getBindingValueEvaluator(n, false);
       }

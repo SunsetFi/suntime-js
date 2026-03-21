@@ -91,7 +91,7 @@ export default class EvaluationTask implements EvaluationContextStackProvider {
   /**
    * The stack of evaluation contexts for the currently executing code.
    */
-  private _stack: EvaluationContext[] = [];
+  private _executionContextStack: EvaluationContext[] = [];
 
   /**
    * The current AST node being executed, if any.
@@ -126,38 +126,55 @@ export default class EvaluationTask implements EvaluationContextStackProvider {
     return this._status === "fulfilled" || this._status === "rejected";
   }
 
-  pushStack(context: EvaluationContext): void {
+  pushContext(context: EvaluationContext): void {
     if (this._status !== "running") {
       throw new StaticJsEngineError(
         `Cannot push to evaluation stack when task is not running.  Current status: ${this._status}`,
       );
     }
 
-    this._stack.push(context);
+    this._executionContextStack.push(context);
   }
 
-  popStack(): EvaluationContext {
+  popContext(): void {
     if (this._status !== "running") {
       throw new StaticJsEngineError(
         `Cannot pop from evaluation stack when task is not running.  Current status: ${this._status}`,
       );
     }
 
-    if (this._stack.length === 0) {
+    if (this._executionContextStack.length === 0) {
       throw new StaticJsEngineError("Cannot pop from an empty evaluation stack.");
     }
 
-    return this._stack.pop()!;
+    this._executionContextStack.pop();
   }
 
-  getStack(): readonly EvaluationContext[] {
+  getCurrentContext(): EvaluationContext {
+    if (this._status !== "running") {
+      throw new StaticJsEngineError(
+        `Cannot get current evaluation context when task is not running.  Current status: ${this._status}`,
+      );
+    }
+
+    const length = this._executionContextStack.length;
+    if (length === 0) {
+      throw new StaticJsEngineError(
+        "Cannot get current evaluation context when no context has been pushed.",
+      );
+    }
+
+    return this._executionContextStack[length - 1];
+  }
+
+  getContextStack(): readonly EvaluationContext[] {
     if (this._status !== "running") {
       throw new StaticJsEngineError(
         `Cannot get evaluation stack when task is not running.  Current status: ${this._status}`,
       );
     }
 
-    return this._stack;
+    return this._executionContextStack;
   }
 
   onComplete(callback: (value: unknown, err?: unknown) => void) {

@@ -7,15 +7,14 @@ import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJs
 
 import { EvaluationGenerator } from "./EvaluationGenerator.js";
 
-import { CompletionValue } from "./completions/CompletionValue.js";
-
 import typedEntries from "../internal/typed-entries.js";
 import type { StaticJsScriptOrModuleRecord } from "./ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 
 export interface EvaluationContextStackProvider {
-  pushStack(context: EvaluationContext): void;
-  popStack(): EvaluationContext;
-  getStack(): readonly EvaluationContext[];
+  pushContext(context: EvaluationContext): void;
+  popContext(): void;
+  getCurrentContext(): EvaluationContext;
+  getContextStack(): readonly EvaluationContext[];
 }
 
 export interface EvaluationContextOptions {
@@ -81,11 +80,7 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
       throw new StaticJsEngineError("No evaluation context stack provider is set.");
     }
 
-    const current = this._currentStackProvider.getStack().at(-1)!;
-    if (!current) {
-      throw new StaticJsEngineError("Evaluation context stack is empty.");
-    }
-    return current;
+    return this._currentStackProvider.getCurrentContext();
   }
 
   static get stack(): readonly EvaluationContext[] {
@@ -93,15 +88,15 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
       throw new StaticJsEngineError("No evaluation context stack provider is set.");
     }
 
-    return this._currentStackProvider.getStack();
+    return this._currentStackProvider.getContextStack();
   }
 
   static push(context: EvaluationContext): void {
-    this.stackProvider.pushStack(context);
+    this.stackProvider.pushContext(context);
   }
 
-  static pop(): EvaluationContext {
-    return this.stackProvider.popStack();
+  static pop() {
+    this.stackProvider.popContext();
   }
 
   static createRootContext(
@@ -231,65 +226,15 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
     return new EvaluationContext(this._realm, this, properties);
   }
 
-  run<T>(callback: (context: EvaluationContext) => EvaluationGenerator<T>): EvaluationGenerator<T> {
-    // This horrifying mess ensures the context is active for the generator's entire execution.
-    // It is required because async and generator functions can suspend their evaluator,
-    // to resume it later with a next() call.
-    // FIXME: I think we won't need this if we properly unwind the entire stack to the callsite on suspension.
-    // In practice, this is probably an artifact of us calling .run with new contexts on spots that shouldn't actually
-    // create a context according to the spec.  This itself is an artifact of us prefering to create new contexts
-    // over mutating existing ones.  We should stop doing that.
-
-    let entered = false;
-    const enter = () => {
-      if (!entered) {
-        EvaluationContext.push(this);
-        entered = true;
-      }
-    };
-
-    const exit = () => {
-      if (entered) {
-        EvaluationContext.pop();
-        entered = false;
-      }
-    };
-
-    const inner = callback(this);
-
-    return {
-      [Symbol.iterator]() {
-        return this;
-      },
-      [Symbol.dispose]() {
-        exit();
-        inner[Symbol.dispose]?.();
-      },
-      next: (value: CompletionValue) => {
-        enter();
-        try {
-          return inner.next(value);
-        } finally {
-          exit();
-        }
-      },
-      throw: (err: unknown) => {
-        enter();
-        try {
-          return inner.throw(err);
-        } finally {
-          exit();
-        }
-      },
-      return: (value: T) => {
-        enter();
-        try {
-          return inner.return(value);
-        } finally {
-          exit();
-        }
-      },
-    };
+  *run<T>(
+    callback: (context: EvaluationContext) => EvaluationGenerator<T>,
+  ): EvaluationGenerator<T> {
+    EvaluationContext.push(this);
+    try {
+      return yield* callback(this);
+    } finally {
+      EvaluationContext.pop();
+    }
   }
 }
 

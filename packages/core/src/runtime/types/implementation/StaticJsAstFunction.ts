@@ -1,16 +1,20 @@
 import { type Node, type BlockStatement, type Expression } from "@babel/types";
 
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import functionDeclarationInstantiation from "../../../evaluator/instantiation/function-declaration-instantiation.js";
-
 import type { StaticJsScriptOrModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
+import captureThrownCompletion from "../../../evaluator/completions/capture-thrown-completion.js";
 import Q from "../../../evaluator/completions/Q.js";
+import { ReturnCompletion } from "../../../evaluator/completions/completion-types/ReturnCompletion.js";
+import { ThrowCompletion } from "../../../evaluator/completions/completion-types/ThrowCompletion.js";
 
 import type { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
 import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
@@ -21,12 +25,13 @@ import toObject from "../../algorithms/to-object.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
-import { isStaticJsUndefined } from "../StaticJsUndefined.js";
+import { isStaticJsUndefined, StaticJsUndefined } from "../StaticJsUndefined.js";
 
 import StaticJsFunctionBase, { type StaticJsFunctionImplOptions } from "./StaticJsFunctionImpl.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
+import { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 
 export interface StaticJsAstFunctionOptions extends StaticJsFunctionImplOptions {
   thisMode: "lexical-this" | "non-lexical-this";
@@ -47,7 +52,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     protected readonly _body: BlockStatement | Expression,
     { thisMode, strict, env, scriptOrModule, ...opts }: StaticJsAstFunctionOptions,
     // Gross circular dependency workaround.
-    private readonly _createFunction: StaticJsFunctionFactory,
+    protected readonly _createFunction: StaticJsFunctionFactory,
   ) {
     super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args), {
       length: _argumentDeclarations.length,
@@ -98,38 +103,60 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     return this._thisMode;
   }
 
-  protected *_invoke(
+  private *_invoke(
     thisArg: StaticJsValue,
     args: StaticJsValue[],
   ): EvaluationGenerator<StaticJsValue> {
-    const { realm, _body } = this;
+    const { realm } = this;
 
-    const functionContext = yield* this._createContext(thisArg, args);
+    const calleeContext = yield* this._prepareForOrdinaryCall(realm.types.undefined);
 
-    return yield* functionContext.run(function* () {
-      let result: StaticJsValue = realm.types.undefined;
-      try {
-        yield* Q(EvaluateNodeCommand(_body));
-      } catch (e) {
-        if (Completion.Return.is(e)) {
-          result = e.value;
-        } else {
-          throw e;
-        }
-      }
+    yield* this._ordinaryCallBindThis(calleeContext, thisArg);
 
-      return result;
-    });
+    const result = yield* captureThrownCompletion(this._evaluateBody(args));
+
+    EvaluationContext.pop();
+
+    if (Completion.Return.is(result)) {
+      return result.value;
+    }
+
+    if (!Completion.Throw.is(result)) {
+      throw new StaticJsEngineError(
+        "Function execution did not complete with a return or throw completion.",
+      );
+    }
+
+    throw result;
   }
 
-  protected *_createContext(
-    thisArg: StaticJsValue,
+  protected *_evaluateBody(
     args: StaticJsValue[],
-  ): EvaluationGenerator<EvaluationContext> {
-    // This is a mess of PrepareForOrdinaryCall, OrdinaryCallBindThis and parts of OrdinaryCallEvaluateBody.
+  ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
+    const { realm, _body } = this;
 
-    // Note: Spec says we use the function's [[Environment]] here, which I haven't tracked down, but I'm assuming is the lexical environment of
-    // the function binding.
+    yield* functionDeclarationInstantiation(
+      this,
+      args,
+      // Gross circular dependency workaround.
+      this._createFunction,
+    );
+
+    try {
+      yield* Q(EvaluateNodeCommand(_body));
+      return Completion.Return(realm.types.undefined);
+    } catch (e) {
+      if (Completion.Return.is(e)) {
+        return e;
+      } else {
+        throw e;
+      }
+    }
+  }
+
+  private *_prepareForOrdinaryCall(
+    _newTarget: StaticJsObjectLike | StaticJsUndefined,
+  ): EvaluationGenerator<EvaluationContext> {
     const localEnv = new StaticJsFunctionEnvironmentRecord(
       this,
       this._thisMode === "lexical",
@@ -140,41 +167,37 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
 
     const calleeContext = EvaluationContext.createFunctionInvocationContext(
       this,
-      this.scriptOrModule,
+      this._scriptOrModule,
       this.realm,
       localEnv,
     );
 
-    const func = this;
-    yield* calleeContext.run(function* () {
-      const thisMode = func._thisMode;
-      if (thisMode === "lexical") {
-        // Do nothing.
-      } else {
-        const calleeRealm = func.realm;
-        let thisValue: StaticJsValue;
-        if (thisMode === "strict") {
-          thisValue = thisArg;
-        } else {
-          if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
-            thisValue = calleeRealm.globalThis;
-          } else {
-            thisValue = yield* toObject(thisArg, calleeRealm);
-          }
-        }
+    EvaluationContext.push(calleeContext);
+    return calleeContext;
+  }
 
-        localEnv.initializeThis(thisValue);
+  private *_ordinaryCallBindThis(
+    context: EvaluationContext,
+    thisArg: StaticJsValue,
+  ): EvaluationGenerator<void> {
+    const thisMode = this._thisMode;
+    if (thisMode === "lexical") {
+      // Do nothing.
+    } else {
+      const calleeRealm = this.realm;
+      let thisValue: StaticJsValue;
+      if (thisMode === "strict") {
+        thisValue = thisArg;
+      } else {
+        if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
+          thisValue = calleeRealm.globalThis;
+        } else {
+          thisValue = yield* toObject(thisArg, calleeRealm);
+        }
       }
 
-      yield* functionDeclarationInstantiation(
-        func,
-        args,
-        calleeContext,
-        // Gross circular dependency workaround.
-        func._createFunction,
-      );
-    });
-
-    return calleeContext;
+      const localEnv = context.lexicalEnv as StaticJsFunctionEnvironmentRecord;
+      localEnv.initializeThis(thisValue);
+    }
   }
 }

@@ -14,7 +14,8 @@
 - [ ] runTask improvements
   - [x] Make invokeEvaluatorSync use runTaskSync
   - [ ] Flatten nested evaluations into the same runTask iterator
-- [ ] Rework createFunction to use current execution stack for scriptOrModule and realm
+- [x] Rework createFunction to use current execution stack for scriptOrModule and realm
+- [ ] Rework all async functions to one class
 
 ## Less imidiate
 
@@ -31,7 +32,7 @@
   - [ ] Also make this work in-engine.
 - [ ] Fix StaticJsDebugAdapter in dap - broke in the debugger rework.
 - [ ] Remove generators from module linking stages as they aren't needed (Confirm this).
-- [ ] Rework function creation to match OrdinaryFunctionCreate.
+- [-] Rework function creation to match OrdinaryFunctionCreate.
   - [ ] Unify all function types to a single Function class accepting Call and Construct
 
 ### Completion Refactor

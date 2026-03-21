@@ -1,12 +1,15 @@
 import type { BlockStatement, Expression } from "@babel/types";
 
-import type EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+
+import functionDeclarationInstantiation from "../../../evaluator/instantiation/function-declaration-instantiation.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import Q from "../../../evaluator/completions/Q.js";
+import { ThrowCompletion } from "../../../evaluator/completions/completion-types/ThrowCompletion.js";
+import { ReturnCompletion } from "../../../evaluator/completions/completion-types/ReturnCompletion.js";
 
 import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
 
@@ -43,31 +46,35 @@ export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
     // Async functions get no prototype.
   }
 
-  protected override *_invoke(
-    thisArg: StaticJsValue,
+  protected override *_evaluateBody(
     args: StaticJsValue[],
-  ): EvaluationGenerator<StaticJsValue> {
+  ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
     const { realm, _body } = this;
 
+    // FIXME: By spec, we should create one promise capability,
+    // and use it for this failure AND root eval.
     // Async functions capture errors thrown by their argument initializations
-    let functionContext: EvaluationContext;
     try {
-      functionContext = yield* this._createContext(thisArg, args);
+      yield* functionDeclarationInstantiation(
+        this,
+        args,
+        // Gross circular dependency workaround.
+        this._createFunction,
+      );
     } catch (e) {
       if (Completion.Throw.is(e)) {
-        return yield* promiseReject(e.value, realm);
+        const reject = yield* promiseReject(e.value, realm);
+        return Completion.Return(reject);
       }
 
       throw e;
     }
 
-    return yield* functionContext.run(function* () {
-      const evaluator = Q(EvaluateNodeCommand(_body));
-      const invocation = new AsyncEvaluatorInvocation(evaluator, realm);
+    const evaluator = Q(EvaluateNodeCommand(_body));
+    const invocation = new AsyncEvaluatorInvocation(evaluator, realm);
 
-      yield* invocation.start();
+    yield* invocation.start();
 
-      return invocation.promise;
-    });
+    return Completion.Return(invocation.promise);
   }
 }

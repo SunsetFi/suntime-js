@@ -3,12 +3,16 @@ import type { BlockStatement, Expression } from "@babel/types";
 import getValue from "../../algorithms/get-value.js";
 import toString from "../../algorithms/to-string.js";
 
+import functionDeclarationInstantiation from "../../../evaluator/instantiation/function-declaration-instantiation.js";
+
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import Q from "../../../evaluator/completions/Q.js";
+import { ReturnCompletion } from "../../../evaluator/completions/completion-types/ReturnCompletion.js";
+import { ThrowCompletion } from "../../../evaluator/completions/completion-types/ThrowCompletion.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -53,30 +57,31 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
     throw Completion.Throw(this.realm.types.error("TypeError", `${name} is not a constructor`));
   }
 
-  protected override *_invoke(
-    thisArg: StaticJsValue,
+  protected override *_evaluateBody(
     args: StaticJsValue[],
-  ): EvaluationGenerator<StaticJsValue> {
+  ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
     const { realm, _body } = this;
 
-    const functionContext = yield* this._createContext(thisArg, args);
+    yield* functionDeclarationInstantiation(
+      this,
+      args,
+      // Gross circular dependency workaround.
+      this._createFunction,
+    );
 
-    return yield* functionContext.run(function* () {
-      let result: StaticJsValue = realm.types.undefined;
-      try {
-        const completion = yield* Q(EvaluateNodeCommand(_body));
-        if (completion) {
-          result = yield* getValue(completion, realm);
-        }
-      } catch (e) {
-        if (Completion.Return.is(e)) {
-          result = e.value;
-        } else {
-          throw e;
-        }
+    let result: StaticJsValue = realm.types.undefined;
+    try {
+      const completion = yield* Q(EvaluateNodeCommand(_body));
+      if (completion) {
+        result = yield* getValue(completion, realm);
       }
-
-      return result;
-    });
+      return Completion.Return(result);
+    } catch (e) {
+      if (Completion.Return.is(e)) {
+        return e;
+      } else {
+        throw e;
+      }
+    }
   }
 }

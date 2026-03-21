@@ -17,6 +17,7 @@ export function* FunctionEvaluateBodyCommand(
     if (typeof evaluator === "function") {
       evaluator = evaluator();
     }
+
     return yield* Q(evaluator);
   } finally {
     yield* FunctionExitCommand();

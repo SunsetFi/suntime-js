@@ -1,10 +1,15 @@
 import type { BlockStatement, Expression } from "@babel/types";
 
+import functionDeclarationInstantiation from "../../../evaluator/instantiation/function-declaration-instantiation.js";
+
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import Q from "../../../evaluator/completions/Q.js";
+import { ReturnCompletion } from "../../../evaluator/completions/completion-types/ReturnCompletion.js";
+import { ThrowCompletion } from "../../../evaluator/completions/completion-types/ThrowCompletion.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -49,26 +54,28 @@ export default class StaticJsGeneratorDeclFunction extends StaticJsAstFunction {
     });
   }
 
-  protected override *_invoke(
-    thisArg: StaticJsValue,
+  protected override *_evaluateBody(
     args: StaticJsValue[],
-  ): EvaluationGenerator<StaticJsValue> {
+  ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
     const { realm, _body } = this;
 
     // it looks like errors thrown during argument initialization are not caught by the generator, so we don't need to catch them here.
-    const functionContext = yield* this._createContext(thisArg, args);
+    yield* functionDeclarationInstantiation(
+      this,
+      args,
+      // Gross circular dependency workaround.
+      this._createFunction,
+    );
 
-    return yield* functionContext.run(function* () {
-      const evaluator = Q(EvaluateNodeCommand(_body));
+    const evaluator = Q(EvaluateNodeCommand(_body));
 
-      const generator = new StaticJsGeneratorImpl(
-        evaluator,
-        null,
-        realm.types.prototypes.generatorProto,
-        realm,
-      );
+    const generator = new StaticJsGeneratorImpl(
+      evaluator,
+      null,
+      realm.types.prototypes.generatorProto,
+      realm,
+    );
 
-      return generator;
-    });
+    return Completion.Return(generator);
   }
 }

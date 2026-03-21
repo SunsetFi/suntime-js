@@ -20,7 +20,8 @@ export default function* createListIteratorRecord(
     }
 
     const value = values[index++];
-    return yield* createIteratorResultObject(value, false, realm);
+    const result = yield* createIteratorResultObject(value, false, realm);
+    return result;
   });
 
   const iterator = realm.types.object();
