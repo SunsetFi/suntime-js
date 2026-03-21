@@ -12,9 +12,9 @@
   - [ ] Expose node data in task iterator
   - [ ] Use node data to break on loop condition and update nodes
 - [ ] runTask improvements
-  - [ ] Rework / remove invokeEvaluatorAsync/Sync - Either merge with current Macrotask or use task system in general.
-  - [ ] Flatten nested evaluations into the same runTask iterator?
-  - [ ] Make it obey runTaskSync
+  - [x] Make invokeEvaluatorSync use runTaskSync
+  - [ ] Flatten nested evaluations into the same runTask iterator
+- [ ] Rework createFunction to use current execution stack for scriptOrModule and realm
 
 ## Less imidiate
 
@@ -31,6 +31,8 @@
   - [ ] Also make this work in-engine.
 - [ ] Fix StaticJsDebugAdapter in dap - broke in the debugger rework.
 - [ ] Remove generators from module linking stages as they aren't needed (Confirm this).
+- [ ] Rework function creation to match OrdinaryFunctionCreate.
+  - [ ] Unify all function types to a single Function class accepting Call and Construct
 
 ### Completion Refactor
 

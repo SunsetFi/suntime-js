@@ -108,6 +108,11 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   private _idleCallbacks: (() => void)[] = [];
 
+  // FIXME: Hack because we rely on *Sync calls to bootstrap the environment,
+  // which should not be exposed to the outside workd.
+  // Need to fix these with generator calls!
+  private _boostrapping = true;
+
   constructor(
     {
       global: globalObject,
@@ -166,6 +171,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       const module = realmModuleToModule(this, name, moduleDef);
       this._staticModules.set(name, module);
     }
+
+    this._boostrapping = false;
   }
 
   get global() {
@@ -438,31 +445,35 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   invokeEvaluatorSync<TReturn>(evaluator: StaticJsEvaluator<TReturn>): TReturn {
-    this._invokeEvaluatorSyncDepth++;
-    try {
-      const iterator = evaluateCommands(invokeEvaluator(evaluator));
-
-      // FIXME: Use this._defaultRunTaskSync
-
-      let iteratorResult = iterator.next();
-      while (!iteratorResult.done) {
-        iteratorResult = iterator.next();
-      }
-
-      while (this._invokeEvaluatorSyncMicrotasks.length > 0) {
-        const evaluator = this._invokeEvaluatorSyncMicrotasks.shift()!;
+    if (this._boostrapping || (this._currentTask && this._currentTask.entered)) {
+      this._invokeEvaluatorSyncDepth++;
+      try {
         const iterator = evaluateCommands(invokeEvaluator(evaluator));
+
+        // FIXME: Use this._defaultRunTaskSync
+
         let iteratorResult = iterator.next();
         while (!iteratorResult.done) {
           iteratorResult = iterator.next();
         }
-      }
 
-      return iteratorResult.value;
-    } finally {
-      this._invokeEvaluatorSyncMicrotasks.length = 0;
-      this._invokeEvaluatorSyncDepth--;
+        while (this._invokeEvaluatorSyncMicrotasks.length > 0) {
+          const evaluator = this._invokeEvaluatorSyncMicrotasks.shift()!;
+          const iterator = evaluateCommands(invokeEvaluator(evaluator));
+          let iteratorResult = iterator.next();
+          while (!iteratorResult.done) {
+            iteratorResult = iterator.next();
+          }
+        }
+
+        return iteratorResult.value;
+      } finally {
+        this._invokeEvaluatorSyncMicrotasks.length = 0;
+        this._invokeEvaluatorSyncDepth--;
+      }
     }
+
+    return this.invokeMacrotaskSync(evaluator, { runTask: this._defaultRunTaskSync });
   }
 
   async invokeEvaluatorAsync<TReturn>(
