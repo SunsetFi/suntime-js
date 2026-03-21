@@ -21,8 +21,8 @@ export interface StaticJsModuleImplementation extends StaticJsModule {
 
   linkModules(): Promise<void>;
 
-  moduleDeclarationInstantiationEvaluator(): EvaluationGenerator;
-  moduleEvaluationEvaluator(): EvaluationGenerator;
+  moduleDeclarationInstantiationEvaluator(): EvaluationGenerator<void>;
+  moduleEvaluationEvaluator(): EvaluationGenerator<void>;
 
   // Note: This doesn't have to be an evaluator, except for the oddity that
   // we still want to throw Completion.Throw.  Should we just throw the RuntimeError?
@@ -82,12 +82,8 @@ export function staticJsModuleToImplementation(
     linkModules() {
       return Promise.resolve<void>(undefined);
     },
-    *moduleDeclarationInstantiationEvaluator() {
-      return null;
-    },
-    *moduleEvaluationEvaluator() {
-      return null;
-    },
+    *moduleDeclarationInstantiationEvaluator() {},
+    *moduleEvaluationEvaluator() {},
     *resolveExportEvaluator(name) {
       if (!module.getExportedNames().includes(name)) {
         return null;

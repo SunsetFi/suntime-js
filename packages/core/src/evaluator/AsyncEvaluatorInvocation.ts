@@ -23,6 +23,7 @@ import { Completion } from "./completions/Completion.js";
 import type { CompletionValue } from "./completions/CompletionValue.js";
 
 import type { EvaluationGenerator } from "./EvaluationGenerator.js";
+// import EvaluationContext from "./EvaluationContext.js";
 
 export default class AsyncEvaluatorInvocation {
   private _capability!: StaticJsPromiseCapabilityRecord;
@@ -190,8 +191,11 @@ export default class AsyncEvaluatorInvocation {
       }
     }
 
+    // const restoreStack = EvaluationContext.pop();
+
     // For everything else, continue on the next microtask.
     this._realm.enqueueMicrotask(function* () {
+      // EvaluationContext.push(restoreStack);
       yield* continueInvocation(awaitable);
     });
   }

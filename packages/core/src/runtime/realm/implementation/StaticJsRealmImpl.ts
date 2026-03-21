@@ -295,8 +295,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     function* beginModuleEvaluation(): EvaluationGenerator<void> {
       yield* module.moduleDeclarationInstantiationEvaluator();
 
-      const evaluator = module.moduleEvaluationEvaluator();
-      const invocation = new AsyncEvaluatorInvocation(evaluator, realm);
+      function* evaluate() {
+        yield* module.moduleEvaluationEvaluator();
+        return null;
+      }
+
+      const invocation = new AsyncEvaluatorInvocation(evaluate(), realm);
       yield* invocation.then((_value, err) => {
         if (err) {
           // invocation is promise-like, so reinterpret the rejected error as a Completion.Throw
@@ -692,19 +696,21 @@ function* doEvaluateScript(
   strict?: boolean,
 ): EvaluationGenerator<StaticJsValue> {
   const context = EvaluationContext.createRootContext(scriptRecord, strict ?? false, realm);
-  try {
-    yield* globalDeclarationInstantiation(scriptRecord.ecmaScriptCode, context);
-    const result = yield* Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode, context));
-    if (result) {
-      return yield* getValue(result, realm);
+  return yield* context.run(function* (context) {
+    try {
+      yield* globalDeclarationInstantiation(scriptRecord.ecmaScriptCode, context);
+      const result = yield* Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode, context));
+      if (result) {
+        return yield* getValue(result, realm);
+      }
+
+      return realm.types.undefined;
+    } catch (e) {
+      Completion.handleRuntime(e);
+
+      throw e;
     }
-
-    return realm.types.undefined;
-  } catch (e) {
-    Completion.handleRuntime(e);
-
-    throw e;
-  }
+  });
 }
 
 function* doEvaluateScriptAsync(
@@ -713,18 +719,20 @@ function* doEvaluateScriptAsync(
   strict?: boolean,
 ): EvaluationGenerator<StaticJsValue> {
   const context = EvaluationContext.createRootContext(scriptRecord, strict ?? false, realm);
-  try {
-    yield* globalDeclarationInstantiation(scriptRecord.ecmaScriptCode, context);
-    const evaluator = Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode, context));
-    const invocation = new AsyncEvaluatorInvocation(evaluator, realm, true);
+  return yield* context.run(function* (context) {
+    try {
+      yield* globalDeclarationInstantiation(scriptRecord.ecmaScriptCode, context);
+      const evaluator = Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode, context));
+      const invocation = new AsyncEvaluatorInvocation(evaluator, realm, true);
 
-    // Note that invocation.start() performs its own sandbox error handling, so nothing
-    // beyond here should throw abnormal completions.
-    yield* invocation.start();
-    return invocation.promise;
-  } catch (e) {
-    Completion.handleRuntime(e);
+      // Note that invocation.start() performs its own sandbox error handling, so nothing
+      // beyond here should throw abnormal completions.
+      yield* invocation.start();
+      return invocation.promise;
+    } catch (e) {
+      Completion.handleRuntime(e);
 
-    throw e;
-  }
+      throw e;
+    }
+  });
 }

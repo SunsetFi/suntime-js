@@ -7,10 +7,11 @@ import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJs
 
 import typedEntries from "../internal/typed-entries.js";
 import type { StaticJsScriptOrModuleRecord } from "./ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
+import { EvaluationGenerator } from "./EvaluationGenerator.js";
 
 export interface EvaluationContextStackProvider {
   pushStack(context: EvaluationContext): void;
-  popStack(): void;
+  popStack(): EvaluationContext;
   getStack(): readonly EvaluationContext[];
 }
 
@@ -90,6 +91,14 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
     }
 
     return this._currentStackProvider.getStack();
+  }
+
+  static push(context: EvaluationContext): void {
+    this.stackProvider.pushStack(context);
+  }
+
+  static pop(): EvaluationContext {
+    return this.stackProvider.popStack();
   }
 
   static createRootContext(
@@ -215,12 +224,25 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
     return new EvaluationContext(this._realm, this, properties);
   }
 
-  run<T>(callback: (context: EvaluationContext) => T): T {
-    EvaluationContext.stackProvider.pushStack(this);
+  *run<T>(
+    callback: (context: EvaluationContext) => EvaluationGenerator<T>,
+  ): EvaluationGenerator<T> {
+    // Note: This is incredibly iffy, as this provider remains pushed through the pausable
+    // generator evaluation.
+    // We could push and pop on each next() call, but that sounds a little too performance nightmare
+    // even for this project.
+    const stackProvider = EvaluationContext.stackProvider;
+    stackProvider.pushStack(this);
     try {
-      return callback!(this);
+      return yield* callback!(this);
     } finally {
-      EvaluationContext.stackProvider.popStack();
+      // if (stackProvider !== EvaluationContext.stackProvider) {
+      //   throw new StaticJsEngineError(
+      //     "Evaluation context stack provider was changed during context execution.",
+      //   );
+      // }
+
+      stackProvider.popStack();
     }
   }
 }

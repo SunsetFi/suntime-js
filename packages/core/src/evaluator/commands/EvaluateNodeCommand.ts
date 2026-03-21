@@ -5,11 +5,11 @@ import evaluateNode from "../node-evaluators/evaluate-node.js";
 import type { Completion } from "../completions/Completion.js";
 import captureThrownCompletion from "../completions/capture-thrown-completion.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { EnterNodeCommand } from "./EnterNodeCommand.js";
 import { ExitNodeCommand } from "./ExitNodeCommand.js";
+import EvaluationContext from "../EvaluationContext.js";
 
 export function* EvaluateNodeCommand(
   node: Node,
@@ -23,9 +23,11 @@ export function* EvaluateNodeCommand(
 
   yield* EnterNodeCommand(node);
 
-  try {
-    return yield* captureThrownCompletion(evaluateNode(node, context));
-  } finally {
-    yield* ExitNodeCommand();
-  }
+  return yield* context.run(function* () {
+    try {
+      return yield* captureThrownCompletion(evaluateNode(node));
+    } finally {
+      yield* ExitNodeCommand();
+    }
+  });
 }

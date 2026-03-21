@@ -120,9 +120,9 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
     }
   }
 
-  *moduleDeclarationInstantiationEvaluator(): EvaluationGenerator {
+  *moduleDeclarationInstantiationEvaluator(): EvaluationGenerator<void> {
     if (this._status !== "uninstantiated") {
-      return null;
+      return;
     }
 
     this._status = "instantiating";
@@ -214,12 +214,12 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
 
     this._status = "instantiated";
 
-    return null;
+    return;
   }
 
   *moduleEvaluationEvaluator() {
     if (this._status !== "instantiated") {
-      return null;
+      return;
     }
 
     this._status = "evaluating";
@@ -233,11 +233,12 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       yield* module.moduleEvaluationEvaluator();
     }
 
-    const result = yield* Q(EvaluateNodeCommand(this._ecmaScriptCode, this._context!));
+    const { _ecmaScriptCode } = this;
+    yield* this._context!.run(function* (context) {
+      yield* Q(EvaluateNodeCommand(_ecmaScriptCode, context));
+    });
 
     this._status = "evaluated";
-
-    return result;
   }
 
   *resolveExportEvaluator(

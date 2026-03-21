@@ -44,14 +44,12 @@ export default class StaticJsExternalModuleImpl
     return Promise.resolve<void>(undefined);
   }
 
-  *moduleDeclarationInstantiationEvaluator(): EvaluationGenerator {
+  *moduleDeclarationInstantiationEvaluator(): EvaluationGenerator<void> {
     // No-op for external modules.
-    return null;
   }
 
-  *moduleEvaluationEvaluator(): EvaluationGenerator {
+  *moduleEvaluationEvaluator(): EvaluationGenerator<void> {
     // No-op for external modules.
-    return null;
   }
 
   *resolveExportEvaluator(name: string): EvaluationGenerator<StaticJsResolvedBinding> {
