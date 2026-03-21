@@ -4,14 +4,10 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import Q from "../completions/Q.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import type EvaluationContext from "../EvaluationContext.js";
 
-function* exportNamedDeclarationNodeEvaluator(
-  node: ExportNamedDeclaration,
-  context: EvaluationContext,
-): EvaluationGenerator {
+function* exportNamedDeclarationNodeEvaluator(node: ExportNamedDeclaration): EvaluationGenerator {
   if (node.declaration) {
-    return yield* Q(EvaluateNodeCommand(node.declaration, context));
+    return yield* Q(EvaluateNodeCommand(node.declaration));
   }
   return null;
 }

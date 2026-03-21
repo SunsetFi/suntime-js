@@ -100,7 +100,7 @@ function* propertyBindingInitialization(
 
   let key: StaticJsPropertyKey;
   if (node.computed) {
-    const p = yield* Q.val(EvaluateNodeCommand(node.key, context), context.realm);
+    const p = yield* Q.val(EvaluateNodeCommand(node.key), context.realm);
     key = yield* toPropertyKey(p, context.realm);
   } else if (node.key.type === "Identifier") {
     key = node.key.name;
@@ -148,7 +148,7 @@ function* keyedBindingInitialization(
             realm,
           );
         } else {
-          v = yield* Q.val(EvaluateNodeCommand(initializer, context), realm);
+          v = yield* Q.val(EvaluateNodeCommand(initializer), realm);
         }
       }
       yield* bindingInitialization(node, v, environment, context);
@@ -163,7 +163,7 @@ function* keyedBindingInitialization(
         if (isAnonymousFunctionDefinition(initializer)) {
           v = yield* Q.val(NamedEvaluation(bindingId, initializer, context), context.realm);
         } else {
-          v = yield* Q.val(EvaluateNodeCommand(initializer, context), context.realm);
+          v = yield* Q.val(EvaluateNodeCommand(initializer), context.realm);
         }
       }
 

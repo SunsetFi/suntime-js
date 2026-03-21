@@ -128,7 +128,7 @@ export default function* iteratorBindingInitialization(
         if (isAnonymousFunctionDefinition(initializer)) {
           v = yield* Q.val(NamedEvaluation(bindingId, initializer, context), realm);
         } else {
-          v = yield* Q.val(EvaluateNodeCommand(initializer, context), realm);
+          v = yield* Q.val(EvaluateNodeCommand(initializer), realm);
         }
       }
 
@@ -151,7 +151,7 @@ export default function* iteratorBindingInitialization(
       }
 
       if (initializer && isStaticJsUndefined(v)) {
-        const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer, context), realm);
+        const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer), realm);
         v = defaultValue;
       }
 

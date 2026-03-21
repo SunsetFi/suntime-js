@@ -234,8 +234,8 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
     }
 
     const { _ecmaScriptCode } = this;
-    yield* this._context!.run(function* (context) {
-      yield* Q(EvaluateNodeCommand(_ecmaScriptCode, context));
+    yield* this._context!.run(function* () {
+      yield* Q(EvaluateNodeCommand(_ecmaScriptCode));
     });
 
     this._status = "evaluated";

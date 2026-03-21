@@ -1,3 +1,4 @@
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
@@ -13,7 +14,10 @@ export default function* createIteratorFromClosure(
   generatorPrototype: StaticJsObjectLike,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsGenerator> {
+  const callerContext = EvaluationContext.current;
+  const calleeContext = callerContext.create();
+  EvaluationContext.push(calleeContext);
   const generator = new StaticJsGeneratorImpl(closure, generatorBrand, generatorPrototype, realm);
-
+  EvaluationContext.pop();
   return generator;
 }

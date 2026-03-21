@@ -36,22 +36,23 @@ function* declarationStatementEvaluator(
   kind: "const" | "let" | "var",
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
+  const { realm, strict } = context;
   if (kind === "var" && !declarator.init) {
     return;
   }
 
   if (declarator.id.type === "Identifier") {
     const bindingId = declarator.id.name;
-    const lhs = yield* getIdentifierReference(context.lexicalEnv, bindingId, context.strict);
+    const lhs = yield* getIdentifierReference(context.lexicalEnv, bindingId, strict);
 
-    let value: StaticJsValue = context.realm.types.undefined;
+    let value: StaticJsValue = realm.types.undefined;
     if (declarator.init) {
-      const rhs = yield* Q.val(EvaluateNodeCommand(declarator.init, context), context.realm);
+      const rhs = yield* Q.val(EvaluateNodeCommand(declarator.init, context), realm);
       value = rhs;
     }
 
     if (kind === "var") {
-      yield* putValue(lhs, value, context.realm);
+      yield* putValue(lhs, value, realm);
     } else {
       yield* initializeReferencedBinding(lhs, value);
     }
@@ -60,7 +61,7 @@ function* declarationStatementEvaluator(
       throw new StaticJsEngineError(`Destructuring variable declaration must have an initializer`);
     }
 
-    const value = yield* Q.val(EvaluateNodeCommand(declarator.init, context), context.realm);
+    const value = yield* Q.val(EvaluateNodeCommand(declarator.init, context), realm);
 
     // No idea what VoidPattern is...
     if (declarator.id.type === "VoidPattern") {

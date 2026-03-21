@@ -12,13 +12,14 @@ export default function* conditionalExpressionNodeEvaluator(
   node: ConditionalExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const testResult = yield* Q.val(EvaluateNodeCommand(node.test, context), context.realm);
+  const { realm } = context;
+  const testResult = yield* Q.val(EvaluateNodeCommand(node.test), realm);
 
-  const condition = yield* toBoolean.js(testResult, context.realm);
+  const condition = yield* toBoolean.js(testResult, realm);
 
   if (condition) {
-    return yield* Q(EvaluateNodeCommand(node.consequent, context));
+    return yield* Q(EvaluateNodeCommand(node.consequent));
   } else {
-    return yield* Q(EvaluateNodeCommand(node.alternate, context));
+    return yield* Q(EvaluateNodeCommand(node.alternate));
   }
 }

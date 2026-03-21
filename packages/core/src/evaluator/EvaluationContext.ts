@@ -220,6 +220,10 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
     return converter(value);
   }
 
+  create(): EvaluationContext {
+    return new EvaluationContext(this._realm, this, {});
+  }
+
   with(properties: Partial<EvaluationContextOptions> = {}): EvaluationContext {
     return new EvaluationContext(this._realm, this, properties);
   }

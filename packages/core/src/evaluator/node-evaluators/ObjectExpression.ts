@@ -54,16 +54,20 @@ function* objectExpressionPropertyObjectMethodEvaluator(
   property: ObjectMethod,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  const { realm, strict } = context;
+
   const propertyKeyNode = property.key;
+
   let propertyKey: StaticJsPropertyKey;
   let functionName: string;
+
   if (!property.computed && propertyKeyNode.type === "Identifier") {
     // Identifiers evaluate to their values, but we want their name.
     propertyKey = propertyKeyNode.name;
     functionName = propertyKeyNode.name;
   } else {
-    const property = yield* Q.val(EvaluateNodeCommand(propertyKeyNode, context), context.realm);
-    propertyKey = yield* toPropertyKey(property, context.realm);
+    const property = yield* Q.val(EvaluateNodeCommand(propertyKeyNode), realm);
+    propertyKey = yield* toPropertyKey(property, realm);
     if (isStaticJsSymbol(propertyKey)) {
       functionName = `Symbol(${propertyKey.description})`;
     } else {
@@ -82,7 +86,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
 
   switch (property.kind) {
     case "method": {
-      yield* target.setEvaluator(propertyKey, method, context.strict);
+      yield* target.setEvaluator(propertyKey, method, strict);
       return null;
     }
     case "get": {
@@ -112,19 +116,22 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
   property: ObjectProperty,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  const { realm, strict } = context;
+
   const propertyKeyNode = property.key;
+
   let propertyKey: StaticJsPropertyKey;
   if (!property.computed && propertyKeyNode.type === "Identifier") {
     propertyKey = propertyKeyNode.name;
   } else if (propertyKeyNode.type === "PrivateName") {
     throw new StaticJsEngineError("Private fields are not supported");
   } else {
-    const property = yield* Q.val(EvaluateNodeCommand(propertyKeyNode, context), context.realm);
-    propertyKey = yield* toPropertyKey(property, context.realm);
+    const property = yield* Q.val(EvaluateNodeCommand(propertyKeyNode), realm);
+    propertyKey = yield* toPropertyKey(property, realm);
   }
 
-  const value = yield* Q.val(EvaluateNodeCommand(property.value, context), context.realm);
-  yield* target.setEvaluator(propertyKey, value, context.strict);
+  const value = yield* Q.val(EvaluateNodeCommand(property.value), realm);
+  yield* target.setEvaluator(propertyKey, value, strict);
   return null;
 }
 
@@ -133,7 +140,8 @@ function* objectExpressionPropertySpreadElementEvaluator(
   property: SpreadElement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const value = yield* Q.val(EvaluateNodeCommand(property.argument, context), context.realm);
+  const { realm, strict } = context;
+  const value = yield* Q.val(EvaluateNodeCommand(property.argument), realm);
   if (!isStaticJsObject(value)) {
     // Apparently we just ignore these
     return null;
@@ -142,7 +150,7 @@ function* objectExpressionPropertySpreadElementEvaluator(
   const ownKeys = yield* value.ownPropertyKeysEvaluator();
   for (const key of ownKeys) {
     const propertyValue = yield* value.getEvaluator(key);
-    yield* target.setEvaluator(key, propertyValue, context.strict);
+    yield* target.setEvaluator(key, propertyValue, strict);
   }
 
   return null;

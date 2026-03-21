@@ -12,12 +12,13 @@ function* exportDefaultDeclarationNodeEvaluator(
   node: ExportDefaultDeclaration,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  const { realm } = context;
   if (node.declaration.type === "FunctionDeclaration") {
-    return yield* Q(EvaluateNodeCommand(node.declaration, context));
+    return yield* Q(EvaluateNodeCommand(node.declaration));
   }
 
   if (isAssignmentGrammar(node.declaration)) {
-    const rhs = yield* Q.val(EvaluateNodeCommand(node.declaration, context), context.realm);
+    const rhs = yield* Q.val(EvaluateNodeCommand(node.declaration), realm);
 
     yield* context.lexicalEnv.initializeBindingEvaluator("*default*", rhs);
   }

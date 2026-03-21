@@ -36,16 +36,17 @@ export default function* callExpressionNodeEvaluator(
   node: CallExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  const { realm } = context;
   if (node.callee.type === "V8IntrinsicIdentifier") {
     // TODO: Support with realm hooks.
     throw new StaticJsEngineError("Intrinsics are not supported");
   }
 
-  const calleeRaw = yield* Q(EvaluateNodeCommand(node.callee, context));
+  const calleeRaw = yield* Q(EvaluateNodeCommand(node.callee));
 
   // This is suprising, but we pass undefined if we have none.
   // The function itself decides what to and (maybe) inherits globalThis when undefined is passed.
-  let thisArg: StaticJsValue = context.realm.types.undefined;
+  let thisArg: StaticJsValue = realm.types.undefined;
   let callee: StaticJsValue;
 
   if (!calleeRaw) {
@@ -55,7 +56,7 @@ export default function* callExpressionNodeEvaluator(
   if (isStaticJsValue(calleeRaw)) {
     callee = calleeRaw;
   } else {
-    callee = yield* getValue(calleeRaw, context.realm);
+    callee = yield* getValue(calleeRaw, realm);
     if (isPropertyReference(calleeRaw)) {
       thisArg = calleeRaw.base;
     }
@@ -70,42 +71,41 @@ export default function* callExpressionNodeEvaluator(
     );
   }
 
-  const args: StaticJsValue[] = [];
+  // const args: StaticJsValue[] = [];
   const parameterEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
-  const parameterInitContext = context.with({
-    lexicalEnv: parameterEnv,
-    variableEnv: parameterEnv,
-  });
-  for (let i = 0; i < node.arguments.length; i++) {
-    const argument = node.arguments[i];
-    if (argument.type === "SpreadElement") {
-      const iterable = yield* Q.val(
-        EvaluateNodeCommand(argument.argument, parameterInitContext),
-        parameterInitContext.realm,
-      );
+  const args = yield* context
+    .with({
+      lexicalEnv: parameterEnv,
+      variableEnv: parameterEnv,
+    })
+    .run(function* () {
+      const args: StaticJsValue[] = [];
+      for (let i = 0; i < node.arguments.length; i++) {
+        const argument = node.arguments[i];
+        if (argument.type === "SpreadElement") {
+          const iterable = yield* Q.val(EvaluateNodeCommand(argument.argument), realm);
 
-      const iterator = yield* getIterator(iterable, "sync", context.realm);
+          const iterator = yield* getIterator(iterable, "sync", context.realm);
 
-      yield* iteratorClose.handle(iterator, context.realm, function* () {
-        while (true) {
-          const value = yield* iteratorStepValue(iterator, context.realm);
-          if (!value) {
-            break;
-          }
-          args.push(value);
+          yield* iteratorClose.handle(iterator, context.realm, function* () {
+            while (true) {
+              const value = yield* iteratorStepValue(iterator, context.realm);
+              if (!value) {
+                break;
+              }
+              args.push(value);
+            }
+          });
+        } else {
+          const arg = yield* Q.val(EvaluateNodeCommand(argument), realm);
+          args.push(arg);
         }
-      });
-    } else {
-      const arg = yield* Q.val(
-        EvaluateNodeCommand(argument, parameterInitContext),
-        parameterInitContext.realm,
-      );
-      args.push(arg);
-    }
-  }
+      }
+      return args;
+    });
 
   if (isIdentifier(node.callee) && node.callee.name === "eval") {
-    const globalEval = yield* context.realm.global.getEvaluator("eval");
+    const globalEval = yield* realm.global.getEvaluator("eval");
     if (globalEval === callee && isStaticJsFunction(callee)) {
       return yield* callEvalEvaluator(context, args[0]);
     }
@@ -113,7 +113,7 @@ export default function* callExpressionNodeEvaluator(
 
   const callResult = yield* callee.callEvaluator(thisArg, args);
 
-  return callResult ?? context.realm.types.undefined;
+  return callResult ?? realm.types.undefined;
 }
 
 function* callEvalEvaluator(
@@ -146,7 +146,7 @@ function* callEvalEvaluator(
     .run(function* (evalContext) {
       yield* evalDeclarationInstantiation(node, strict, evalContext);
 
-      const result = yield* Q(EvaluateNodeCommand(node, evalContext));
+      const result = yield* Q(EvaluateNodeCommand(node));
       return result ?? realm.types.undefined;
     });
 }

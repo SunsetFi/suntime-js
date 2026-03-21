@@ -19,7 +19,7 @@ export default function* NamedEvaluation(
         "NamedEvaluation::name": name,
       },
     })
-    .run(function* (context) {
-      return yield* Q(EvaluateNodeCommand(node, context));
+    .run(function* () {
+      return yield* Q(EvaluateNodeCommand(node));
     });
 }

@@ -19,6 +19,7 @@ import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import type { StaticJsGenerator } from "../StaticJsGenerator.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+// import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
 export default class StaticJsGeneratorImpl
   extends StaticJsObjectLikeImpl
@@ -26,6 +27,8 @@ export default class StaticJsGeneratorImpl
 {
   private _generatorState: "suspended-start" | "suspended-yield" | "executing" | "completed" =
     "suspended-start";
+
+  // private _pausedContext: EvaluationContext | null = null;
 
   constructor(
     private readonly _closure: EvaluationGenerator,
@@ -114,6 +117,11 @@ export default class StaticJsGeneratorImpl
   ): EvaluationGenerator<StaticJsIteratorResult> {
     this._generatorState = "executing";
 
+    // if (this._pausedContext) {
+    //   EvaluationContext.push(this._pausedContext);
+    //   this._pausedContext = null;
+    // }
+
     let continuation: CompletionValue = continueWith;
     let continuationMode = continueMode;
     try {
@@ -171,6 +179,8 @@ export default class StaticJsGeneratorImpl
     if (this._generatorState !== "executing") {
       throw new StaticJsEngineError("Generator can only yield if it is in executing state.");
     }
+
+    // this._pausedContext = EvaluationContext.pop();
 
     this._generatorState = "suspended-yield";
 

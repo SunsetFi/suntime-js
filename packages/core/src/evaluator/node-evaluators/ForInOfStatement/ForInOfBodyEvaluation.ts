@@ -91,7 +91,7 @@ export function* forInOfBodyEvaluation(
             yield* bindingInitialization(lhs as LVal, nextValue, null, context);
           }
         } else {
-          const lhsRef = yield* Q.ref(EvaluateNodeCommand(lhs, context));
+          const lhsRef = yield* Q.ref(EvaluateNodeCommand(lhs));
           // TODO:  Spec says if lhsKind is assignment and lhs target is WEB-COMPAT throw a ReferenceError, but
           // I have no idea what AssignmentType or WEB-COMPAT is.  Skipping for now.
           yield* putValue(lhsRef, nextValue, realm);
@@ -131,7 +131,7 @@ export function* forInOfBodyEvaluation(
       throw e;
     }
 
-    const result = yield* EvaluateNodeCommand(stmt, context);
+    const result = yield* EvaluateNodeCommand(stmt);
     context.lexicalEnv = oldEnv;
 
     if (!loopContinues(result, labelSet)) {

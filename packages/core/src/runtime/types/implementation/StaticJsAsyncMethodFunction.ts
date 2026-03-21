@@ -49,13 +49,17 @@ export default class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
     thisArg: StaticJsValue,
     args: StaticJsValue[],
   ): EvaluationGenerator<StaticJsValue> {
+    const { realm, _body } = this;
+
     const functionContext = yield* this._createContext(thisArg, args);
 
-    const evaluator = Q(EvaluateNodeCommand(this._body, functionContext));
-    const invocation = new AsyncEvaluatorInvocation(evaluator, functionContext.realm);
+    return yield* functionContext.run(function* () {
+      const evaluator = Q(EvaluateNodeCommand(_body, functionContext));
+      const invocation = new AsyncEvaluatorInvocation(evaluator, realm);
 
-    yield* invocation.start();
+      yield* invocation.start();
 
-    return invocation.promise;
+      return invocation.promise;
+    });
   }
 }

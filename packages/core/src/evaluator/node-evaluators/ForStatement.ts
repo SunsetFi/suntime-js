@@ -27,6 +27,7 @@ const forStatementNodeEvaluator = breakableStatementEvaluation(
     node: ForStatement,
     context: EvaluationContext,
   ): EvaluationGenerator {
+    const { realm } = context;
     const { init, test, update, body } = node;
     const oldEnv = context.lexicalEnv;
 
@@ -34,7 +35,7 @@ const forStatementNodeEvaluator = breakableStatementEvaluation(
 
     if (init) {
       if (init.type === "VariableDeclaration" && ["let", "const"].includes(init.kind)) {
-        const loopEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
+        const loopEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, realm);
         const isConst = init.kind === "const";
         const names = boundNames(init);
         for (const dn of names) {
@@ -46,7 +47,7 @@ const forStatementNodeEvaluator = breakableStatementEvaluation(
         }
 
         context.lexicalEnv = loopEnv;
-        const forDcl = yield* EvaluateNodeCommand(init, context);
+        const forDcl = yield* EvaluateNodeCommand(init);
         if (Completion.Abrupt.is(forDcl)) {
           context.lexicalEnv = oldEnv;
           return yield* Q(forDcl);
@@ -56,7 +57,7 @@ const forStatementNodeEvaluator = breakableStatementEvaluation(
           perIterationLets = names;
         }
       } else {
-        yield* Q(EvaluateNodeCommand(init, context));
+        yield* Q(EvaluateNodeCommand(init));
       }
     }
 
@@ -83,14 +84,14 @@ function* forBodyEvaluation(
 
   while (true) {
     if (test) {
-      const testValue = yield* Q.val(EvaluateNodeCommand(test, context), realm);
-      const condition = yield* toBoolean.js(testValue, context.realm);
+      const testValue = yield* Q.val(EvaluateNodeCommand(test), realm);
+      const condition = yield* toBoolean.js(testValue, realm);
       if (!condition) {
         return V;
       }
     }
 
-    const result = yield* EvaluateNodeCommand(statement, context);
+    const result = yield* EvaluateNodeCommand(statement);
 
     if (!loopContinues(result, labelSet)) {
       return yield* Q(Completion.updateEmpty(result, V));
@@ -104,7 +105,7 @@ function* forBodyEvaluation(
     yield* createPerIterationEnvironment(perIterationBindings, context);
 
     if (increment) {
-      yield* Q.val(EvaluateNodeCommand(increment, context), realm);
+      yield* Q.val(EvaluateNodeCommand(increment), realm);
     }
   }
 }

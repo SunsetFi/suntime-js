@@ -32,11 +32,12 @@ function* logicalExpressionAnd(
   node: LogicalExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const left = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
-  const leftBoolean = yield* toBoolean.js(left, context.realm);
+  const { realm } = context;
+  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
+  const leftBoolean = yield* toBoolean.js(left, realm);
 
   if (leftBoolean) {
-    const right = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
+    const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
 
     return right;
   }
@@ -48,14 +49,15 @@ function* logicalExpressionOr(
   node: LogicalExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const left = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
-  const leftBoolean = yield* toBoolean.js(left, context.realm);
+  const { realm } = context;
+  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
+  const leftBoolean = yield* toBoolean.js(left, realm);
 
   if (leftBoolean) {
     return left;
   }
 
-  const right = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
+  const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
 
   return right;
 }
@@ -64,13 +66,14 @@ function* logicalExpressionNullishCoalescing(
   node: LogicalExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const left = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
+  const { realm } = context;
+  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
 
   if (
     left.runtimeTypeCode === StaticJsTypeCode.Null ||
     left.runtimeTypeCode === StaticJsTypeCode.Undefined
   ) {
-    const right = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
+    const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
     return right;
   }
 

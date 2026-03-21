@@ -9,7 +9,8 @@ export default function* expressionStatementNodeEvaluator(
   node: ExpressionStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  const { realm } = context;
   // Convert whatever it was into a value.
   // Needed so that "obj.a" evaluates when nothing else is done to it.
-  return yield* Q.val(EvaluateNodeCommand(node.expression, context), context.realm);
+  return yield* Q.val(EvaluateNodeCommand(node.expression), realm);
 }

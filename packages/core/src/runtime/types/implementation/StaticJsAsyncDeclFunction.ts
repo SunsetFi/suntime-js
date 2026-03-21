@@ -47,23 +47,27 @@ export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
     thisArg: StaticJsValue,
     args: StaticJsValue[],
   ): EvaluationGenerator<StaticJsValue> {
+    const { realm, _body } = this;
+
     // Async functions capture errors thrown by their argument initializations
     let functionContext: EvaluationContext;
     try {
       functionContext = yield* this._createContext(thisArg, args);
     } catch (e) {
       if (Completion.Throw.is(e)) {
-        return yield* promiseReject(e.value, this.realm);
+        return yield* promiseReject(e.value, realm);
       }
 
       throw e;
     }
 
-    const evaluator = Q(EvaluateNodeCommand(this._body, functionContext));
-    const invocation = new AsyncEvaluatorInvocation(evaluator, functionContext.realm);
+    return yield* functionContext.run(function* () {
+      const evaluator = Q(EvaluateNodeCommand(_body));
+      const invocation = new AsyncEvaluatorInvocation(evaluator, realm);
 
-    yield* invocation.start();
+      yield* invocation.start();
 
-    return invocation.promise;
+      return invocation.promise;
+    });
   }
 }

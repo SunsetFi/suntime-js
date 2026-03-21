@@ -30,7 +30,6 @@ export default function* forInOfHeadEvaluation(
 ): EvaluationGenerator<StaticJsIteratorRecord> {
   const oldEnv = context.lexicalEnv;
 
-  let exprContext: EvaluationContext = context;
   if (uninitializedBoundNames.length > 0) {
     const newEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
     for (const name of uninitializedBoundNames) {
@@ -39,7 +38,7 @@ export default function* forInOfHeadEvaluation(
     context.lexicalEnv = newEnv;
   }
 
-  const exprRef = yield* Q(EvaluateNodeCommand(expr, exprContext));
+  const exprRef = yield* Q(EvaluateNodeCommand(expr));
   context.lexicalEnv = oldEnv;
 
   // Evaluation of expressions should never result in EMPTY.

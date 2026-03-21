@@ -102,12 +102,14 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     thisArg: StaticJsValue,
     args: StaticJsValue[],
   ): EvaluationGenerator<StaticJsValue> {
-    const functionContext = yield* this._createContext(thisArg, args);
     const { realm, _body } = this;
+
+    const functionContext = yield* this._createContext(thisArg, args);
+
     return yield* functionContext.run(function* () {
       let result: StaticJsValue = realm.types.undefined;
       try {
-        yield* Q(EvaluateNodeCommand(_body, functionContext));
+        yield* Q(EvaluateNodeCommand(_body));
       } catch (e) {
         if (Completion.Return.is(e)) {
           result = e.value;

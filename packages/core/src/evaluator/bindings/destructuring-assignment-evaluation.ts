@@ -108,7 +108,7 @@ function* propertyDestructuringAssignmentEvaluation(
           realm,
         );
       } else {
-        v = yield* Q.val(EvaluateNodeCommand(initializer, context), realm);
+        v = yield* Q.val(EvaluateNodeCommand(initializer), realm);
       }
     }
 
@@ -120,7 +120,7 @@ function* propertyDestructuringAssignmentEvaluation(
   if (node.key.type === "Identifier" && !node.computed) {
     name = context.realm.types.string(node.key.name);
   } else {
-    name = yield* Q.val(EvaluateNodeCommand(node.key, context), realm);
+    name = yield* Q.val(EvaluateNodeCommand(node.key), realm);
   }
   // Spec doesn't do this...  But it seems to get a property key anyway
   // Probably due to the limitd options PropertyName / node.key can be
@@ -135,13 +135,14 @@ function* restDestructuringAssignmentEvaluation(
   excludedNames: StaticJsPropertyKey[],
   context: EvaluationContext,
 ): EvaluationGenerator<void> {
-  const lRef = yield* Q.ref(EvaluateNodeCommand(node.argument, context));
+  const { realm } = context;
+  const lRef = yield* Q.ref(EvaluateNodeCommand(node.argument));
 
-  const restObject = context.realm.types.object();
+  const restObject = realm.types.object();
 
-  yield* copyDataProperties(restObject, value, excludedNames, context.realm);
+  yield* copyDataProperties(restObject, value, excludedNames, realm);
 
-  yield* putValue(lRef, restObject, context.realm);
+  yield* putValue(lRef, restObject, realm);
 }
 
 function* keyedDestructuringAssignmentEvaluation(
@@ -169,7 +170,7 @@ function* keyedDestructuringAssignmentEvaluation(
     if (isAnonymousFunctionDefinition(initializer) && node.type === "Identifier") {
       v = yield* Q.val(NamedEvaluation(node.name, initializer, context), realm);
     } else {
-      v = yield* Q.val(EvaluateNodeCommand(initializer, context), realm);
+      v = yield* Q.val(EvaluateNodeCommand(initializer), realm);
     }
   }
 

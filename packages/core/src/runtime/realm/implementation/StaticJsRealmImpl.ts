@@ -699,7 +699,7 @@ function* doEvaluateScript(
   return yield* context.run(function* (context) {
     try {
       yield* globalDeclarationInstantiation(scriptRecord.ecmaScriptCode, context);
-      const result = yield* Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode, context));
+      const result = yield* Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode));
       if (result) {
         return yield* getValue(result, realm);
       }
@@ -722,7 +722,7 @@ function* doEvaluateScriptAsync(
   return yield* context.run(function* (context) {
     try {
       yield* globalDeclarationInstantiation(scriptRecord.ecmaScriptCode, context);
-      const evaluator = Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode, context));
+      const evaluator = Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode));
       const invocation = new AsyncEvaluatorInvocation(evaluator, realm, true);
 
       // Note that invocation.start() performs its own sandbox error handling, so nothing

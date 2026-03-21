@@ -11,7 +11,8 @@ export default function* awaitExpressionNodeEvaluator(
   node: AwaitExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const awaitable = yield* Q.val(EvaluateNodeCommand(node.argument, context), context.realm);
+  const { realm } = context;
+  const awaitable = yield* Q.val(EvaluateNodeCommand(node.argument), realm);
 
   const result = yield* AwaitCommand(awaitable);
 

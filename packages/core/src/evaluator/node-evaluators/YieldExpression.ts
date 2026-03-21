@@ -14,15 +14,16 @@ export default function* yieldExpressionNodeEvaluator(
   node: YieldExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  const { realm } = context;
   if (!node.argument) {
-    return yield* YieldCommand(context.realm.types.undefined);
+    return yield* YieldCommand(realm.types.undefined);
   }
 
   if (node.delegate) {
     throw new StaticJsEngineError("Delegating yield expressions are not supported.");
   }
 
-  const value = yield* Q.val(EvaluateNodeCommand(node.argument, context), context.realm);
+  const value = yield* Q.val(EvaluateNodeCommand(node.argument), realm);
 
   return yield* YieldCommand(value);
 }

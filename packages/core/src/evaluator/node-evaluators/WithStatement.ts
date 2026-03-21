@@ -16,15 +16,16 @@ export default function* withStatementNodeEvaluator(
   node: WithStatement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const val = yield* Q.val(EvaluateNodeCommand(node.object, context), context.realm);
+  const { realm, lexicalEnv } = context;
+  const val = yield* Q.val(EvaluateNodeCommand(node.object), realm);
 
-  const obj = yield* toObject(val, context.realm);
+  const obj = yield* toObject(val, realm);
 
-  const oldEnv = context.lexicalEnv;
-  const newEnv = new StaticJsObjectEnvironmentRecord(obj, true, context.lexicalEnv, context.realm);
+  const oldEnv = lexicalEnv;
+  const newEnv = new StaticJsObjectEnvironmentRecord(obj, true, lexicalEnv, realm);
 
   context.lexicalEnv = newEnv;
-  const result = yield* captureThrownCompletion(EvaluateNodeCommand(node.body, context));
+  const result = yield* captureThrownCompletion(EvaluateNodeCommand(node.body));
   context.lexicalEnv = oldEnv;
-  return yield* Q(Completion.updateEmpty(result, context.realm.types.undefined));
+  return yield* Q(Completion.updateEmpty(result, realm.types.undefined));
 }

@@ -19,19 +19,19 @@ const whileStatementNodeEvaluator = breakableStatementEvaluation(
     node: WhileStatement,
     context: EvaluationContext,
   ): EvaluationGenerator {
-    const { labelSet } = context;
+    const { realm, labelSet } = context;
 
-    let V: Completion.Normal = context.realm.types.undefined;
+    let V: Completion.Normal = realm.types.undefined;
 
     while (true) {
-      const exprValue = yield* Q.val(EvaluateNodeCommand(node.test, context), context.realm);
+      const exprValue = yield* Q.val(EvaluateNodeCommand(node.test), realm);
 
-      const shouldContinue = yield* toBoolean.js(exprValue, context.realm);
+      const shouldContinue = yield* toBoolean.js(exprValue, realm);
       if (!shouldContinue) {
         return V;
       }
 
-      const stmtResult = yield* EvaluateNodeCommand(node.body, context);
+      const stmtResult = yield* EvaluateNodeCommand(node.body);
 
       if (!loopContinues(stmtResult, labelSet)) {
         return yield* Q(Completion.updateEmpty(stmtResult, V));

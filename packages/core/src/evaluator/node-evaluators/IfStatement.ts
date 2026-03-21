@@ -10,17 +10,18 @@ import { Completion } from "../completions/Completion.js";
 import Q from "../completions/Q.js";
 
 export default function* ifStatementNodeEvaluator(node: IfStatement, context: EvaluationContext) {
-  const testResult = yield* Q.val(EvaluateNodeCommand(node.test, context), context.realm);
-  const condition = yield* toBoolean.js(testResult, context.realm);
+  const { realm } = context;
+  const testResult = yield* Q.val(EvaluateNodeCommand(node.test), realm);
+  const condition = yield* toBoolean.js(testResult, realm);
 
   let stmtCompletion: Completion;
   if (condition) {
-    stmtCompletion = yield* EvaluateNodeCommand(node.consequent, context);
+    stmtCompletion = yield* EvaluateNodeCommand(node.consequent);
   } else if (node.alternate) {
-    stmtCompletion = yield* EvaluateNodeCommand(node.alternate, context);
+    stmtCompletion = yield* EvaluateNodeCommand(node.alternate);
   } else {
     return context.realm.types.undefined;
   }
 
-  return yield* Q(Completion.updateEmpty(stmtCompletion, context.realm.types.undefined));
+  return yield* Q(Completion.updateEmpty(stmtCompletion, realm.types.undefined));
 }

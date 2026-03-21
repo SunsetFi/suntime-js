@@ -19,12 +19,11 @@ const doWhileStatementNodeEvaluator = breakableStatementEvaluation(
     node: DoWhileStatement,
     context: EvaluationContext,
   ): EvaluationGenerator {
+    const { realm, labelSet } = context;
     let V: Completion.Normal = context.realm.types.undefined;
 
-    const { labelSet } = context;
-
     while (true) {
-      const stmtResult = yield* EvaluateNodeCommand(node.body, context);
+      const stmtResult = yield* EvaluateNodeCommand(node.body);
       if (!loopContinues(stmtResult, labelSet)) {
         return yield* Q(Completion.updateEmpty(stmtResult, V));
       }
@@ -34,9 +33,9 @@ const doWhileStatementNodeEvaluator = breakableStatementEvaluation(
         V = stmtValue;
       }
 
-      const exprValue = yield* Q.val(EvaluateNodeCommand(node.test, context), context.realm);
+      const exprValue = yield* Q.val(EvaluateNodeCommand(node.test), realm);
 
-      const exprBoolean = yield* toBoolean.js(exprValue, context.realm);
+      const exprBoolean = yield* toBoolean.js(exprValue, realm);
       if (!exprBoolean) {
         return V;
       }

@@ -28,6 +28,7 @@ export default function* assignmentExpressionNodeEvaluator(
   node: AssignmentExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  const { realm } = context;
   const { left, right } = node;
   switch (node.operator) {
     case "=":
@@ -46,38 +47,38 @@ export default function* assignmentExpressionNodeEvaluator(
     case "|=":
       return yield* algebraicAssignmentExpressionEvaluator(node.operator, left, right, context);
     case "&&=": {
-      const lRef = yield* Q.ref(EvaluateNodeCommand(left, context));
-      const lVal = yield* getValue(lRef, context.realm);
-      const lBool = yield* toBoolean.js(lVal, context.realm);
+      const lRef = yield* Q.ref(EvaluateNodeCommand(left));
+      const lVal = yield* getValue(lRef, realm);
+      const lBool = yield* toBoolean.js(lVal, realm);
       if (!lBool) {
         return lVal;
       }
 
-      const rVal = yield* Q.val(EvaluateNodeCommand(right, context), context.realm);
+      const rVal = yield* Q.val(EvaluateNodeCommand(right), realm);
       yield* putValue(lRef, rVal, context.realm);
       return rVal;
     }
     case "||=": {
-      const lRef = yield* Q.ref(EvaluateNodeCommand(left, context));
-      const lVal = yield* getValue(lRef, context.realm);
-      const lBool = yield* toBoolean.js(lVal, context.realm);
+      const lRef = yield* Q.ref(EvaluateNodeCommand(left));
+      const lVal = yield* getValue(lRef, realm);
+      const lBool = yield* toBoolean.js(lVal, realm);
       if (lBool) {
         return lVal;
       }
 
-      const rVal = yield* Q.val(EvaluateNodeCommand(right, context), context.realm);
+      const rVal = yield* Q.val(EvaluateNodeCommand(right), realm);
       yield* putValue(lRef, rVal, context.realm);
       return rVal;
     }
     case "??=": {
-      const lRef = yield* Q.ref(EvaluateNodeCommand(left, context));
-      const lVal = yield* getValue(lRef, context.realm);
+      const lRef = yield* Q.ref(EvaluateNodeCommand(left));
+      const lVal = yield* getValue(lRef, realm);
       if (!isStaticJsNull(lVal) && !isStaticJsUndefined(lVal)) {
         return lVal;
       }
 
-      const rVal = yield* Q.val(EvaluateNodeCommand(right, context), context.realm);
-      yield* putValue(lRef, rVal, context.realm);
+      const rVal = yield* Q.val(EvaluateNodeCommand(right), realm);
+      yield* putValue(lRef, rVal, realm);
       return rVal;
     }
   }
@@ -91,14 +92,15 @@ function* directAssignmentExpressionEvaluator(
   right: Expression,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  const { realm } = context;
   if (left.type !== "ObjectPattern" && left.type !== "ArrayPattern") {
-    const lRef = yield* Q.ref(EvaluateNodeCommand(left, context));
-    const rVal = yield* Q.val(EvaluateNodeCommand(right, context), context.realm);
-    yield* putValue(lRef, rVal, context.realm);
+    const lRef = yield* Q.ref(EvaluateNodeCommand(left));
+    const rVal = yield* Q.val(EvaluateNodeCommand(right), realm);
+    yield* putValue(lRef, rVal, realm);
     return rVal;
   }
 
-  const rVal = yield* Q.val(EvaluateNodeCommand(right, context), context.realm);
+  const rVal = yield* Q.val(EvaluateNodeCommand(right), realm);
 
   yield* destructuringAssignmentEvaluation(left, rVal, context);
 
@@ -113,15 +115,15 @@ function* algebraicAssignmentExpressionEvaluator(
 ): EvaluationGenerator {
   const { realm } = context;
 
-  const lRef = yield* Q.ref(EvaluateNodeCommand(left, context));
+  const lRef = yield* Q.ref(EvaluateNodeCommand(left));
 
-  const lVal = yield* getValue(lRef, context.realm);
+  const lVal = yield* getValue(lRef, realm);
 
-  const rVal = yield* Q.val(EvaluateNodeCommand(right, context), context.realm);
+  const rVal = yield* Q.val(EvaluateNodeCommand(right), realm);
 
   if (operator === "+=") {
-    const result = yield* addition(lVal, rVal, context.realm);
-    yield* putValue(lRef, result, context.realm);
+    const result = yield* addition(lVal, rVal, realm);
+    yield* putValue(lRef, result, realm);
     return result;
   }
 

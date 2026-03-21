@@ -16,6 +16,7 @@ export default function* arrayExpressionNodeEvaluator(
   node: ArrayExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  const { realm } = context;
   const items: StaticJsValue[] = [];
   for (const element of node.elements) {
     if (!element) {
@@ -24,16 +25,13 @@ export default function* arrayExpressionNodeEvaluator(
     }
 
     if (element.type === "SpreadElement") {
-      const spreadValue = yield* Q.val(
-        EvaluateNodeCommand(element.argument, context),
-        context.realm,
-      );
+      const spreadValue = yield* Q.val(EvaluateNodeCommand(element.argument), context.realm);
 
-      const iterator = yield* getIterator(spreadValue, "sync", context.realm);
+      const iterator = yield* getIterator(spreadValue, "sync", realm);
 
       yield* iteratorClose.handle(iterator, context.realm, function* () {
         while (true) {
-          const value = yield* iteratorStepValue(iterator, context.realm);
+          const value = yield* iteratorStepValue(iterator, realm);
           if (!value) {
             break;
           }
@@ -42,10 +40,10 @@ export default function* arrayExpressionNodeEvaluator(
         }
       });
     } else {
-      const value = yield* Q.val(EvaluateNodeCommand(element, context), context.realm);
+      const value = yield* Q.val(EvaluateNodeCommand(element), realm);
       items.push(value);
     }
   }
 
-  return context.realm.types.array(items);
+  return realm.types.array(items);
 }

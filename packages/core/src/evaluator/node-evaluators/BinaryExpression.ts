@@ -60,8 +60,8 @@ export default function* binaryExpressionNodeEvaluator(
     case "!==":
       return yield* binaryExpressionStrictEquals(node, context, true);
     case "<": {
-      const lVal = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
-      const rVal = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
+      const lVal = yield* Q.val(EvaluateNodeCommand(node.left), realm);
+      const rVal = yield* Q.val(EvaluateNodeCommand(node.right), realm);
       const r = yield* isLessThan(lVal, rVal, true, realm);
       if (r === undefined) {
         return realm.types.false;
@@ -70,8 +70,8 @@ export default function* binaryExpressionNodeEvaluator(
       return realm.types.boolean(r);
     }
     case "<=": {
-      const lVal = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
-      const rVal = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
+      const lVal = yield* Q.val(EvaluateNodeCommand(node.left), realm);
+      const rVal = yield* Q.val(EvaluateNodeCommand(node.right), realm);
       const r = yield* isLessThan(rVal, lVal, false, realm);
       if (r || r === undefined) {
         return realm.types.false;
@@ -80,8 +80,8 @@ export default function* binaryExpressionNodeEvaluator(
       return realm.types.true;
     }
     case ">": {
-      const lVal = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
-      const rVal = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
+      const lVal = yield* Q.val(EvaluateNodeCommand(node.left), realm);
+      const rVal = yield* Q.val(EvaluateNodeCommand(node.right), realm);
       const r = yield* isLessThan(rVal, lVal, false, realm);
       if (r === undefined) {
         return realm.types.false;
@@ -90,8 +90,8 @@ export default function* binaryExpressionNodeEvaluator(
       return realm.types.boolean(r);
     }
     case ">=": {
-      const lVal = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
-      const rVal = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
+      const lVal = yield* Q.val(EvaluateNodeCommand(node.left), realm);
+      const rVal = yield* Q.val(EvaluateNodeCommand(node.right), realm);
       const r = yield* isLessThan(lVal, rVal, true, realm);
       if (r || r === undefined) {
         return realm.types.false;
@@ -115,11 +115,12 @@ function* binaryExpressionDoubleEquals(
   context: EvaluationContext,
   negate: boolean,
 ): EvaluationGenerator {
-  const left = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
+  const { realm } = context;
+  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
 
-  const right = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
+  const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
 
-  const value = yield* isLooselyEqual(left, right, context.realm);
+  const value = yield* isLooselyEqual(left, right, realm);
 
   if (negate) {
     return context.realm.types.boolean(!value.value);
@@ -133,10 +134,11 @@ function* binaryExpressionStrictEquals(
   context: EvaluationContext,
   negate: boolean,
 ): EvaluationGenerator {
-  const left = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
-  const right = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
+  const { realm } = context;
+  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
+  const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
 
-  const result = yield* strictEquality(left, right, context.realm);
+  const result = yield* strictEquality(left, right, realm);
 
   if (negate) {
     return context.realm.types.boolean(!result.value);
@@ -149,10 +151,11 @@ function* binaryExpressionAdd(
   node: BinaryExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const left = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
-  const right = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
+  const { realm } = context;
+  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
+  const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
 
-  return yield* addition(left, right, context.realm);
+  return yield* addition(left, right, realm);
 }
 
 function* numericComputation(
@@ -160,36 +163,39 @@ function* numericComputation(
   node: BinaryExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  let left = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
-  let right = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
+  const { realm } = context;
+  let left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
+  let right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
 
-  left = yield* toNumber(left, context.realm);
-  right = yield* toNumber(right, context.realm);
+  left = yield* toNumber(left, realm);
+  right = yield* toNumber(right, realm);
 
   return context.realm.types.toStaticJsValue(func(left.value, right.value));
 }
 
 function* inExpression(node: BinaryExpression, context: EvaluationContext): EvaluationGenerator {
-  const left = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
-  const right = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
+  const { realm } = context;
+  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
+  const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
 
   if (!isStaticJsObjectLike(right)) {
     throw Completion.Throw(
       context.realm.types.error("TypeError", "Right side of in operator must be an object"),
     );
   }
-  const rightObj = yield* toObject(right, context.realm);
+  const rightObj = yield* toObject(right, realm);
 
-  const propertyKey = yield* toPropertyKey(left, context.realm);
+  const propertyKey = yield* toPropertyKey(left, realm);
   const hasProperty = yield* rightObj.hasPropertyEvaluator(propertyKey);
   return context.realm.types.boolean(hasProperty);
 }
 
 function* instanceOfExpression(node: BinaryExpression, context: EvaluationContext) {
-  const left = yield* Q.val(EvaluateNodeCommand(node.left, context), context.realm);
-  const right = yield* Q.val(EvaluateNodeCommand(node.right, context), context.realm);
+  const { realm } = context;
+  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
+  const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
 
-  const result = yield* instanceOfOperator(left, right, context.realm);
+  const result = yield* instanceOfOperator(left, right, realm);
 
   return context.realm.types.boolean(result);
 }

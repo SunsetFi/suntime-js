@@ -17,13 +17,14 @@ export default function* updateExpressionNodeEvaluator(
   node: UpdateExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const ref = yield* Q.ref(EvaluateNodeCommand(node.argument, context));
+  const { realm } = context;
+  const ref = yield* Q.ref(EvaluateNodeCommand(node.argument));
 
   // Note: NodeJs throws an error if the value is a string or something, but
   // thats not what the spec says to do!
-  const refValue = yield* getValue(ref, context.realm);
+  const refValue = yield* getValue(ref, realm);
 
-  const oldValue = yield* toNumber(refValue, context.realm);
+  const oldValue = yield* toNumber(refValue, realm);
 
   let newValueJs = oldValue.value;
   switch (node.operator) {
@@ -37,9 +38,9 @@ export default function* updateExpressionNodeEvaluator(
       throw new StaticJsEngineError(`Unsupported operator for update expression ${node.operator}.`);
   }
 
-  const newValue = context.realm.types.number(newValueJs);
+  const newValue = realm.types.number(newValueJs);
 
-  yield* putValue(ref, newValue, context.realm);
+  yield* putValue(ref, newValue, realm);
 
   return node.prefix ? newValue : oldValue;
 }

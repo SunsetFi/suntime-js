@@ -53,18 +53,22 @@ export default class StaticJsGeneratorDeclFunction extends StaticJsAstFunction {
     thisArg: StaticJsValue,
     args: StaticJsValue[],
   ): EvaluationGenerator<StaticJsValue> {
+    const { realm, _body } = this;
+
     // it looks like errors thrown during argument initialization are not caught by the generator, so we don't need to catch them here.
     const functionContext = yield* this._createContext(thisArg, args);
 
-    const evaluator = Q(EvaluateNodeCommand(this._body, functionContext));
+    return yield* functionContext.run(function* () {
+      const evaluator = Q(EvaluateNodeCommand(_body, functionContext));
 
-    const generator = new StaticJsGeneratorImpl(
-      evaluator,
-      null,
-      this.realm.types.prototypes.generatorProto,
-      this.realm,
-    );
+      const generator = new StaticJsGeneratorImpl(
+        evaluator,
+        null,
+        realm.types.prototypes.generatorProto,
+        realm,
+      );
 
-    return generator;
+      return generator;
+    });
   }
 }

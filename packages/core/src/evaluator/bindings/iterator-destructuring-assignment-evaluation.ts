@@ -56,7 +56,7 @@ export default function* iteratorDestructuringAssignmentEvaluation(
   if (node.type === "RestElement") {
     assignmentTarget = node.argument;
     if (assignmentTarget.type !== "ObjectPattern" && assignmentTarget.type !== "ArrayPattern") {
-      lRef = yield* Q.ref(EvaluateNodeCommand(assignmentTarget, context));
+      lRef = yield* Q.ref(EvaluateNodeCommand(assignmentTarget));
     }
 
     const A = context.realm.types.array();
@@ -79,7 +79,7 @@ export default function* iteratorDestructuringAssignmentEvaluation(
   } else {
     assignmentTarget = node;
     if (assignmentTarget.type !== "ObjectPattern" && assignmentTarget.type !== "ArrayPattern") {
-      lRef = yield* Q.ref(EvaluateNodeCommand(assignmentTarget, context));
+      lRef = yield* Q.ref(EvaluateNodeCommand(assignmentTarget));
     }
 
     let value: StaticJsValue = realm.types.undefined;
@@ -94,7 +94,7 @@ export default function* iteratorDestructuringAssignmentEvaluation(
       if (isAnonymousFunctionDefinition(initializer) && assignmentTarget.type === "Identifier") {
         v = yield* Q.val(NamedEvaluation(assignmentTarget.name, initializer, context), realm);
       } else {
-        v = yield* Q.val(EvaluateNodeCommand(initializer, context), realm);
+        v = yield* Q.val(EvaluateNodeCommand(initializer), realm);
       }
     } else {
       v = value;

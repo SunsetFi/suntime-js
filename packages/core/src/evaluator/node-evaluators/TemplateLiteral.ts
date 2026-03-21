@@ -12,6 +12,8 @@ export default function* templateLiteralNodeEvaluator(
   node: TemplateLiteral,
   context: EvaluationContext,
 ): EvaluationGenerator {
+  // TODO: This isn't spec compliant and doesnt handle tagged template literals, but it should be good enough for now.
+
   const { realm } = context;
 
   let str = "";
@@ -19,10 +21,7 @@ export default function* templateLiteralNodeEvaluator(
     str += node.quasis[i].value.cooked ?? "";
 
     if (i < node.expressions.length) {
-      const exprValue = yield* Q.val(
-        EvaluateNodeCommand(node.expressions[i], context),
-        context.realm,
-      );
+      const exprValue = yield* Q.val(EvaluateNodeCommand(node.expressions[i]), realm);
 
       const exprStr = yield* toString.js(exprValue, realm);
 

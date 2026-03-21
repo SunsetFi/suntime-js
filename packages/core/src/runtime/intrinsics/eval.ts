@@ -52,7 +52,7 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
       .run(function* (evalContext) {
         yield* evalDeclarationInstantiation(node, context.strict, evalContext);
 
-        const result = yield* Q(EvaluateNodeCommand(node, evalContext));
+        const result = yield* Q(EvaluateNodeCommand(node));
         if (!result) {
           return realm.types.undefined;
         }

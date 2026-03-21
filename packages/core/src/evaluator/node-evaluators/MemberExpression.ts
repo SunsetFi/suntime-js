@@ -16,7 +16,8 @@ export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const target = yield* Q.val(EvaluateNodeCommand(node.object, context), context.realm);
+  const { realm } = context;
+  const target = yield* Q.val(EvaluateNodeCommand(node.object), realm);
 
   const propertyNode = node.property;
 
@@ -29,11 +30,11 @@ export default function* memberExpressionNodeEvaluator(
   }
 
   if (!node.computed && propertyNode.type === "Identifier") {
-    propertyKey = context.realm.types.string(propertyNode.name);
+    propertyKey = realm.types.string(propertyNode.name);
   } else {
     // Do NOT cast this to string yet!
     // Assignment requires us to not compute this until after the rhs is computed.
-    propertyKey = yield* Q.val(EvaluateNodeCommand(propertyNode, context), context.realm);
+    propertyKey = yield* Q.val(EvaluateNodeCommand(propertyNode), realm);
   }
 
   return {

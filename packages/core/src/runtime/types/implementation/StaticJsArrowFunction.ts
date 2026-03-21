@@ -57,22 +57,26 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
     thisArg: StaticJsValue,
     args: StaticJsValue[],
   ): EvaluationGenerator<StaticJsValue> {
+    const { realm, _body } = this;
+
     const functionContext = yield* this._createContext(thisArg, args);
 
-    let result: StaticJsValue = this.realm.types.undefined;
-    try {
-      const completion = yield* Q(EvaluateNodeCommand(this._body, functionContext));
-      if (completion) {
-        result = yield* getValue(completion, this.realm);
+    return yield* functionContext.run(function* () {
+      let result: StaticJsValue = realm.types.undefined;
+      try {
+        const completion = yield* Q(EvaluateNodeCommand(_body));
+        if (completion) {
+          result = yield* getValue(completion, realm);
+        }
+      } catch (e) {
+        if (Completion.Return.is(e)) {
+          result = e.value;
+        } else {
+          throw e;
+        }
       }
-    } catch (e) {
-      if (Completion.Return.is(e)) {
-        result = e.value;
-      } else {
-        throw e;
-      }
-    }
 
-    return result;
+      return result;
+    });
   }
 }

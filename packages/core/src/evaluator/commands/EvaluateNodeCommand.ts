@@ -13,7 +13,7 @@ import EvaluationContext from "../EvaluationContext.js";
 
 export function* EvaluateNodeCommand(
   node: Node,
-  context: EvaluationContext,
+  context?: EvaluationContext,
 ): EvaluationGenerator<Completion> {
   // At one point, our commands were evaluated by a handler at the root of the evaluation chain,
   // and our result would come out of this yield statement.
@@ -23,11 +23,19 @@ export function* EvaluateNodeCommand(
 
   yield* EnterNodeCommand(node);
 
-  return yield* context.run(function* () {
+  if (context) {
+    return yield* context.run(function* () {
+      try {
+        return yield* captureThrownCompletion(evaluateNode(node));
+      } finally {
+        yield* ExitNodeCommand();
+      }
+    });
+  } else {
     try {
       return yield* captureThrownCompletion(evaluateNode(node));
     } finally {
       yield* ExitNodeCommand();
     }
-  });
+  }
 }
