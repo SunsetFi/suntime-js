@@ -47,7 +47,7 @@ function* declarationStatementEvaluator(
 
     let value: StaticJsValue = realm.types.undefined;
     if (declarator.init) {
-      const rhs = yield* Q.val(EvaluateNodeCommand(declarator.init, context), realm);
+      const rhs = yield* Q.val(EvaluateNodeCommand(declarator.init), realm);
       value = rhs;
     }
 
@@ -61,7 +61,7 @@ function* declarationStatementEvaluator(
       throw new StaticJsEngineError(`Destructuring variable declaration must have an initializer`);
     }
 
-    const value = yield* Q.val(EvaluateNodeCommand(declarator.init, context), realm);
+    const value = yield* Q.val(EvaluateNodeCommand(declarator.init), realm);
 
     // No idea what VoidPattern is...
     if (declarator.id.type === "VoidPattern") {

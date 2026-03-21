@@ -161,7 +161,7 @@ function* keyedDestructuringAssignmentEvaluation(
 
   let lRef: StaticJsReferenceRecord | null = null;
   if (node.type !== "ObjectPattern" && node.type !== "ArrayPattern") {
-    lRef = yield* Q.ref(EvaluateNodeCommand(node, context));
+    lRef = yield* Q.ref(EvaluateNodeCommand(node));
   }
 
   const obj = yield* toObject(value, realm);

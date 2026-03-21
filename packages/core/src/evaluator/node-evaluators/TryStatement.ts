@@ -63,7 +63,7 @@ function* runCatch(
     yield* bindingInitialization(node.param, thrownValue, catchEnv, context);
   }
 
-  const completion = yield* captureThrownCompletion(EvaluateNodeCommand(node.body, context));
+  const completion = yield* captureThrownCompletion(EvaluateNodeCommand(node.body));
   context.lexicalEnv = oldEnv;
   return completion;
 }
