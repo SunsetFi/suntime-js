@@ -13,7 +13,7 @@ export default function* NamedEvaluation(
   context: EvaluationContext,
 ): EvaluationGenerator {
   return yield* context
-    .withProperties({
+    .with({
       evaluationParameters: {
         // Can be null
         "NamedEvaluation::name": name,

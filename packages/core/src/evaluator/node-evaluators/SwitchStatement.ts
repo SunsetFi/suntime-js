@@ -28,54 +28,33 @@ const switchStatementNodeEvaluator = breakableStatementEvaluation(
     const input = yield* Q.val(EvaluateNodeCommand(statement.discriminant, context), context.realm);
 
     const env = StaticJsDeclarativeEnvironmentRecord.from(context);
-    const blockContext = context.withLexicalEnvironmentContext(env);
+    return yield* context.with({ lexicalEnv: env }).run(function* (blockContext) {
+      yield* blockDeclarationInstantiation(statement, env, blockContext);
 
-    yield* blockDeclarationInstantiation(statement, env, blockContext);
-
-    const A: SwitchCase[] = [];
-    const B: SwitchCase[] = [];
-    let defaultClause: SwitchCase | null = null;
-    for (const switchCase of statement.cases) {
-      if (switchCase.test === null) {
-        defaultClause = switchCase;
-      } else {
-        if (!defaultClause) {
-          A.push(switchCase);
+      const A: SwitchCase[] = [];
+      const B: SwitchCase[] = [];
+      let defaultClause: SwitchCase | null = null;
+      for (const switchCase of statement.cases) {
+        if (switchCase.test === null) {
+          defaultClause = switchCase;
         } else {
-          B.push(switchCase);
+          if (!defaultClause) {
+            A.push(switchCase);
+          } else {
+            B.push(switchCase);
+          }
         }
       }
-    }
 
-    let V: Completion.Normal = context.realm.types.undefined;
+      let V: Completion.Normal = context.realm.types.undefined;
 
-    let found = false;
-    for (const C of A) {
-      if (!found) {
-        found = yield* caseClauseIsSelected(C, input, blockContext);
-      }
-
-      if (found) {
-        const R = yield* evaluateSwitchCase(C, blockContext);
-        const rValue = Completion.value(R);
-        if (rValue) {
-          V = rValue;
+      let found = false;
+      for (const C of A) {
+        if (!found) {
+          found = yield* caseClauseIsSelected(C, input, blockContext);
         }
 
-        if (Completion.Abrupt.is(R)) {
-          return yield* Q(Completion.updateEmpty(R, V));
-        }
-      }
-    }
-
-    let foundInB = false;
-    if (!found) {
-      for (const C of B) {
-        if (!foundInB) {
-          foundInB = yield* caseClauseIsSelected(C, input, blockContext);
-        }
-
-        if (foundInB) {
+        if (found) {
           const R = yield* evaluateSwitchCase(C, blockContext);
           const rValue = Completion.value(R);
           if (rValue) {
@@ -87,37 +66,58 @@ const switchStatementNodeEvaluator = breakableStatementEvaluation(
           }
         }
       }
-    }
 
-    if (foundInB) {
+      let foundInB = false;
+      if (!found) {
+        for (const C of B) {
+          if (!foundInB) {
+            foundInB = yield* caseClauseIsSelected(C, input, blockContext);
+          }
+
+          if (foundInB) {
+            const R = yield* evaluateSwitchCase(C, blockContext);
+            const rValue = Completion.value(R);
+            if (rValue) {
+              V = rValue;
+            }
+
+            if (Completion.Abrupt.is(R)) {
+              return yield* Q(Completion.updateEmpty(R, V));
+            }
+          }
+        }
+      }
+
+      if (foundInB) {
+        return V;
+      }
+
+      if (defaultClause) {
+        const defaultR = yield* evaluateSwitchCase(defaultClause, blockContext);
+        const defaultRValue = Completion.value(defaultR);
+        if (defaultRValue) {
+          V = defaultRValue;
+        }
+
+        if (Completion.Abrupt.is(defaultR)) {
+          return yield* Q(Completion.updateEmpty(defaultR, V));
+        }
+      }
+
+      for (const C of B) {
+        const R = yield* evaluateSwitchCase(C, blockContext);
+        const rValue = Completion.value(R);
+        if (rValue) {
+          V = rValue;
+        }
+
+        if (Completion.Abrupt.is(R)) {
+          return yield* Q(Completion.updateEmpty(R, V));
+        }
+      }
+
       return V;
-    }
-
-    if (defaultClause) {
-      const defaultR = yield* evaluateSwitchCase(defaultClause, blockContext);
-      const defaultRValue = Completion.value(defaultR);
-      if (defaultRValue) {
-        V = defaultRValue;
-      }
-
-      if (Completion.Abrupt.is(defaultR)) {
-        return yield* Q(Completion.updateEmpty(defaultR, V));
-      }
-    }
-
-    for (const C of B) {
-      const R = yield* evaluateSwitchCase(C, blockContext);
-      const rValue = Completion.value(R);
-      if (rValue) {
-        V = rValue;
-      }
-
-      if (Completion.Abrupt.is(R)) {
-        return yield* Q(Completion.updateEmpty(R, V));
-      }
-    }
-
-    return V;
+    });
   },
 );
 

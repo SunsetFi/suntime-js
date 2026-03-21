@@ -71,9 +71,11 @@ export default function* callExpressionNodeEvaluator(
   }
 
   const args: StaticJsValue[] = [];
-  const parameterInitContext = context.withEnvironmentContext(
-    StaticJsDeclarativeEnvironmentRecord.from(context),
-  );
+  const parameterEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
+  const parameterInitContext = context.with({
+    lexicalEnv: parameterEnv,
+    variableEnv: parameterEnv,
+  });
   for (let i = 0; i < node.arguments.length; i++) {
     const argument = node.arguments[i];
     if (argument.type === "SpreadElement") {
@@ -139,10 +141,12 @@ function* callEvalEvaluator(
   const lexEnv = new StaticJsDeclarativeEnvironmentRecord(context.lexicalEnv, realm);
   const varEnv = strict ? lexEnv : context.variableEnv;
 
-  const evalContext = context.withEnvironmentContext(lexEnv, varEnv);
+  return yield* context
+    .with({ lexicalEnv: lexEnv, variableEnv: varEnv })
+    .run(function* (evalContext) {
+      yield* evalDeclarationInstantiation(node, strict, evalContext);
 
-  yield* evalDeclarationInstantiation(node, strict, evalContext);
-
-  const result = yield* Q(EvaluateNodeCommand(node, evalContext));
-  return result ?? realm.types.undefined;
+      const result = yield* Q(EvaluateNodeCommand(node, evalContext));
+      return result ?? realm.types.undefined;
+    });
 }

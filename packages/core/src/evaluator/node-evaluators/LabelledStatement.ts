@@ -15,14 +15,12 @@ export default function* labeledStatementNodeEvaluator(
 
   // The spec passes this as explicit parameters to evaluators.
   // We really should switch over to that system some day...
-  return yield* context
-    .withProperties({ labelSet: [...context.labelSet, label] })
-    .run(function* (context) {
-      const completion = yield* EvaluateNodeCommand(node.body, context);
-      if (Completion.Break.is(completion) && completion.target === label) {
-        return completion.value;
-      }
+  return yield* context.with({ labelSet: [...context.labelSet, label] }).run(function* (context) {
+    const completion = yield* EvaluateNodeCommand(node.body, context);
+    if (Completion.Break.is(completion) && completion.target === label) {
+      return completion.value;
+    }
 
-      return rethrowCompletion(completion);
-    });
+    return rethrowCompletion(completion);
+  });
 }

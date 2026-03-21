@@ -211,6 +211,10 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
     return converter(value);
   }
 
+  with(properties: Partial<EvaluationContextOptions> = {}): EvaluationContext {
+    return new EvaluationContext(this._realm, this, properties);
+  }
+
   run<T>(callback: (context: EvaluationContext) => T): T {
     EvaluationContext.stackProvider.pushStack(this);
     try {
@@ -218,21 +222,6 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
     } finally {
       EvaluationContext.stackProvider.popStack();
     }
-  }
-
-  withProperties(properties: Partial<EvaluationContextOptions> = {}): EvaluationContext {
-    return new EvaluationContext(this._realm, this, properties);
-  }
-
-  withLexicalEnvironmentContext(env: StaticJsEnvironmentRecord): EvaluationContext {
-    return new EvaluationContext(this._realm, this, { lexicalEnv: env });
-  }
-
-  withEnvironmentContext(
-    lexicalEnv: StaticJsEnvironmentRecord,
-    variableEnv: StaticJsEnvironmentRecord = lexicalEnv,
-  ): EvaluationContext {
-    return new EvaluationContext(this._realm, this, { lexicalEnv, variableEnv });
   }
 }
 

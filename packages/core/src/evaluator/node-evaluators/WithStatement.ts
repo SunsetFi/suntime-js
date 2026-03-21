@@ -10,6 +10,7 @@ import { Completion } from "../completions/Completion.js";
 import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import Q from "../completions/Q.js";
+import captureThrownCompletion from "../completions/capture-thrown-completion.js";
 
 export default function* withStatementNodeEvaluator(
   node: WithStatement,
@@ -19,11 +20,11 @@ export default function* withStatementNodeEvaluator(
 
   const obj = yield* toObject(val, context.realm);
 
-  const withContext = context.withLexicalEnvironmentContext(
-    new StaticJsObjectEnvironmentRecord(obj, true, context.lexicalEnv, context.realm),
-  );
+  const oldEnv = context.lexicalEnv;
+  const newEnv = new StaticJsObjectEnvironmentRecord(obj, true, context.lexicalEnv, context.realm);
 
-  const result = yield* EvaluateNodeCommand(node.body, withContext);
-
+  context.lexicalEnv = newEnv;
+  const result = yield* captureThrownCompletion(EvaluateNodeCommand(node.body, context));
+  context.lexicalEnv = oldEnv;
   return yield* Q(Completion.updateEmpty(result, context.realm.types.undefined));
 }

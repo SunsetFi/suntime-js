@@ -15,6 +15,7 @@ import boundNames from "../instantiation/algorithms/bound-names.js";
 
 import bindingInitialization from "../bindings/binding-initialization.js";
 import rethrowCompletion from "../completions/rethrow-completion.js";
+import captureThrownCompletion from "../completions/capture-thrown-completion.js";
 
 function* tryStatementNodeEvaluator(
   node: TryStatement,
@@ -51,20 +52,19 @@ function* runCatch(
 ): EvaluationGenerator<Completion> {
   const oldEnv = context.lexicalEnv;
 
-  let catchContext = context;
-
   if (node.param) {
     const catchEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, context.realm);
     for (const argName of boundNames(node.param)) {
       yield* catchEnv.createMutableBindingEvaluator(argName, false);
     }
 
-    catchContext = context.withLexicalEnvironmentContext(catchEnv);
-
-    yield* bindingInitialization(node.param, thrownValue, catchEnv, catchContext);
+    context.lexicalEnv = catchEnv;
+    yield* bindingInitialization(node.param, thrownValue, catchEnv, context);
   }
 
-  return yield* EvaluateNodeCommand(node.body, catchContext);
+  const completion = yield* captureThrownCompletion(EvaluateNodeCommand(node.body, context));
+  context.lexicalEnv = oldEnv;
+  return completion;
 }
 
 export default tryStatementNodeEvaluator;
