@@ -29,6 +29,8 @@ export default class AsyncEvaluatorInvocation {
   private _capability!: StaticJsPromiseCapabilityRecord;
   private _state: "pending" | "started" | "running" | "awaiting" | "halted" = "pending";
 
+  private _pausedContext: EvaluationContext | null = null;
+
   constructor(
     private readonly _evaluator: EvaluationGenerator,
     private readonly _realm: StaticJsRealm,
@@ -79,6 +81,8 @@ export default class AsyncEvaluatorInvocation {
 
     yield* this._ensureCapability();
 
+    this._pausedContext = EvaluationContext.current;
+
     this._state = "started";
 
     // We start evaluating immediately, not on a microtask.
@@ -98,7 +102,23 @@ export default class AsyncEvaluatorInvocation {
     );
   }
 
-  private *_continue(
+  private *_continue(continueWith: StaticJsValue | null, continueMode: "next" | "throw" = "next") {
+    const context = this._pausedContext;
+    if (!context) {
+      throw new StaticJsEngineError("No paused context found for async function.");
+    }
+
+    this._pausedContext = null;
+
+    const doContinue = this._doContinue.bind(this);
+    return yield* context.run(
+      function* () {
+        return yield* doContinue(continueWith, continueMode);
+      }.bind(this),
+    );
+  }
+
+  private *_doContinue(
     continueWith: CompletionValue,
     continueMode: "next" | "throw" = "next",
   ): EvaluationGenerator<void> {
@@ -167,14 +187,15 @@ export default class AsyncEvaluatorInvocation {
       throw new StaticJsEngineError("Async function can only register continuations when running.");
     }
 
+    this._pausedContext = EvaluationContext.current;
+
     this._state = "awaiting";
 
     const realm = this._realm;
-    const continueInvocation = this._continue.bind(this);
-
-    // This is super weird, but our callers will pop.
-    // FIXME: This isn't how the spec does it.
-    const restoreStack = EvaluationContext.current;
+    const _continue = this._continue.bind(this);
+    function* continueInvocation(value: StaticJsValue, mode: "next" | "throw" = "next") {
+      yield* _continue(value, mode);
+    }
 
     if (isStaticJsObjectLike(awaitable)) {
       const awaitableThen = yield* awaitable.getEvaluator("then");
@@ -183,12 +204,10 @@ export default class AsyncEvaluatorInvocation {
         // The function will be responsible for queueing us on the microtask.
         yield* awaitableThen.callEvaluator(awaitable, [
           new StaticJsFunctionImpl(realm, "resolve", function* (_thisArg, value) {
-            EvaluationContext.push(restoreStack);
             yield* continueInvocation(value);
             return realm.types.undefined;
           }),
           new StaticJsFunctionImpl(realm, "reject", function* (_thisArg, value) {
-            EvaluationContext.push(restoreStack);
             yield* continueInvocation(value, "throw");
             return realm.types.undefined;
           }),
@@ -199,7 +218,6 @@ export default class AsyncEvaluatorInvocation {
 
     // For everything else, continue on the next microtask.
     this._realm.enqueueMicrotask(function* () {
-      EvaluationContext.push(restoreStack);
       yield* continueInvocation(awaitable);
     });
   }

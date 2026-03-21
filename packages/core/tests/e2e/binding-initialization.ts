@@ -202,6 +202,28 @@ const bindingScenarios: BindingScenarioDefinition[] = [
       expect(result).toEqual([1, 3]);
     },
   },
+  {
+    title: "Array iterator initializer",
+    setupCode: `
+          Array.prototype[Symbol.iterator] = function* () {
+          if (this.length > 0) {
+              yield this[0];
+          }
+          if (this.length > 1) {
+              yield this[1];
+          }
+          if (this.length > 2) {
+              yield 42;
+          }
+      };`,
+    bindingsCode: `[x, y, z]`,
+    valueCode: `[1, 2, 3]`,
+    resultCollector: `[x, y, z]`,
+    assert({ result, error }) {
+      expect(error).toBeUndefined();
+      expect(result).toEqual([1, 2, 42]);
+    },
+  },
   ...[
     {
       title: "Array element initializer",
@@ -364,6 +386,7 @@ describe("E2E: Binding Initialization", () => {
       try {
         result = await evaluateScript(script);
       } catch (err) {
+        console.log("in\n", script, "\ngot error", err.message);
         error = err;
       }
 

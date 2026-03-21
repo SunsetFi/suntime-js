@@ -5,9 +5,12 @@ import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
 
 import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
 
+import { EvaluationGenerator } from "./EvaluationGenerator.js";
+
+import { CompletionValue } from "./completions/CompletionValue.js";
+
 import typedEntries from "../internal/typed-entries.js";
 import type { StaticJsScriptOrModuleRecord } from "./ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
-import { EvaluationGenerator } from "./EvaluationGenerator.js";
 
 export interface EvaluationContextStackProvider {
   pushStack(context: EvaluationContext): void;
@@ -228,20 +231,61 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
     return new EvaluationContext(this._realm, this, properties);
   }
 
-  *run<T>(
-    callback: (context: EvaluationContext) => EvaluationGenerator<T>,
-  ): EvaluationGenerator<T> {
-    // Note: This looks absolutely horrifying, and indeed our stack provider can change
-    // from the start to the end.
-    // However, we expect this, as the generator may be paused on async boundaries, where the provider
-    // may change.
-    // Generally, we handle this in each async boundary with manual push and pop calls.
-    EvaluationContext.push(this);
-    try {
-      return yield* callback!(this);
-    } finally {
-      EvaluationContext.pop();
-    }
+  run<T>(callback: (context: EvaluationContext) => EvaluationGenerator<T>): EvaluationGenerator<T> {
+    // This horrifying mess ensures the context is active for the generator's entire execution.
+    // It is required because async and generator functions can suspend their evaluator,
+    // to resume it later with a next() call.
+
+    let entered = false;
+    const enter = () => {
+      if (!entered) {
+        EvaluationContext.push(this);
+        entered = true;
+      }
+    };
+
+    const exit = () => {
+      if (entered) {
+        EvaluationContext.pop();
+        entered = false;
+      }
+    };
+
+    const inner = callback(this);
+
+    return {
+      [Symbol.iterator]() {
+        return this;
+      },
+      [Symbol.dispose]() {
+        exit();
+        inner[Symbol.dispose]?.();
+      },
+      next: (value: CompletionValue) => {
+        enter();
+        try {
+          return inner.next(value);
+        } finally {
+          exit();
+        }
+      },
+      throw: (err: unknown) => {
+        enter();
+        try {
+          return inner.throw(err);
+        } finally {
+          exit();
+        }
+      },
+      return: (value: T) => {
+        enter();
+        try {
+          return inner.return(value);
+        } finally {
+          exit();
+        }
+      },
+    };
   }
 }
 

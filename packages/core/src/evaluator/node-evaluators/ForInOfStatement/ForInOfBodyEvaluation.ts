@@ -37,7 +37,7 @@ import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { AwaitCommand } from "../../commands/AwaitCommand.js";
 import Q from "../../completions/Q.js";
 
-import type EvaluationContext from "../../EvaluationContext.js";
+import EvaluationContext from "../../EvaluationContext.js";
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 import forDeclarationBindingInitialization from "./for-declaration-binding-initialization.js";
@@ -53,7 +53,13 @@ export function* forInOfBodyEvaluation(
   iteratorKind: "sync" | "async",
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const { realm, labelSet, lexicalEnv: oldEnv } = context;
+  if (context !== EvaluationContext.current) {
+    throw new StaticJsEngineError(
+      `Context mismatch in for-in/of body evaluation. Expected ${context}, got ${EvaluationContext.current}.`,
+    );
+  }
+
+  const { realm, labelSet, lexicalEnv: oldEnv, strict } = context;
 
   let V: Completion.Normal = realm.types.undefined;
 
@@ -112,7 +118,7 @@ export function* forInOfBodyEvaluation(
           yield* forDeclarationBindingInitialization(lhs, nextValue, iterationEnv, context);
         } else {
           const lhsName = boundNames.soleElementOf(lhs);
-          const lhsRef = yield* getIdentifierReference(context.lexicalEnv, lhsName, context.strict);
+          const lhsRef = yield* getIdentifierReference(context.lexicalEnv, lhsName, strict);
           yield* initializeReferencedBinding(lhsRef, nextValue);
         }
       }
@@ -129,6 +135,12 @@ export function* forInOfBodyEvaluation(
       }
 
       throw e;
+    }
+
+    if (context !== EvaluationContext.current) {
+      throw new StaticJsEngineError(
+        `Context mismatch in for-in/of body evaluation. Expected ${context}, got ${EvaluationContext.current}.`,
+      );
     }
 
     const result = yield* EvaluateNodeCommand(stmt);

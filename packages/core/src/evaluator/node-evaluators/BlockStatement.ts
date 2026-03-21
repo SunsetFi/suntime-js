@@ -16,6 +16,7 @@ function* blockStatementNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const blockEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
+  // TODO: This should be a oldEnv / lexicalEnv swap.  Currently is not due to labelSet.
   return yield* context.with({ lexicalEnv: blockEnv }).run(function* (blockContext) {
     yield* blockDeclarationInstantiation(node, blockEnv, blockContext);
 

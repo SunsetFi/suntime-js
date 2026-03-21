@@ -78,7 +78,7 @@ describe("E2E: Generator Functions", () => {
         try {
           yield 1;
         } catch (e) {
-          return e.message;
+          return "Caught: " + e.message;
         }
       }
       const iterator = gen();
@@ -88,7 +88,7 @@ describe("E2E: Generator Functions", () => {
     `;
 
     const result = await evaluateScript(code);
-    expect(result).toEqual({ value: "Test error", done: true });
+    expect(result).toEqual({ value: "Caught: Test error", done: true });
   });
 
   it("Can return early", async () => {

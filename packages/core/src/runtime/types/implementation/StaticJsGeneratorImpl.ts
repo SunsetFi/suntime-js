@@ -37,6 +37,7 @@ export default class StaticJsGeneratorImpl
     realm: StaticJsRealm,
   ) {
     super(realm, prototype);
+    this._pausedContext = EvaluationContext.current;
   }
 
   get runtimeTypeOf() {
@@ -115,12 +116,30 @@ export default class StaticJsGeneratorImpl
     continueWith: StaticJsValue,
     continueMode: "next" | "throw" | "return",
   ): EvaluationGenerator<StaticJsIteratorResult> {
+    if (!this._pausedContext) {
+      throw new StaticJsEngineError("No paused context found for generator.");
+    }
+
+    const context = this._pausedContext;
+    this._pausedContext = null;
+
+    const doContinue = this._doContinue.bind(this);
+
+    return yield* context.run(function* () {
+      console.log("Generator continue enter");
+      const result = yield* doContinue(continueWith, continueMode);
+      console.log("Generator continue exit");
+      return result;
+    });
+  }
+
+  private *_doContinue(
+    continueWith: StaticJsValue,
+    continueMode: "next" | "throw" | "return",
+  ): EvaluationGenerator<StaticJsIteratorResult> {
     this._generatorState = "executing";
 
-    if (this._pausedContext) {
-      EvaluationContext.push(this._pausedContext);
-      this._pausedContext = null;
-    }
+    const { realm, _closure } = this;
 
     let continuation: CompletionValue = continueWith;
     let continuationMode = continueMode;
@@ -129,8 +148,8 @@ export default class StaticJsGeneratorImpl
         let result: IteratorResult<EvaluatorCommand, Completion>;
         if (continuationMode === "throw") {
           // throw only happens on initial run, so continuation is always a value.
-          continuation = yield* getValue(continuation!, this.realm);
-          result = this._closure.throw(Completion.Throw(continuation));
+          continuation = yield* getValue(continuation!, realm);
+          result = _closure.throw(Completion.Throw(continuation));
         } else if (continuationMode === "return") {
           // This is a throw, not a return.
           // We need to surface the return to our infrastructure; return() would just invoke finalizers,
@@ -138,9 +157,9 @@ export default class StaticJsGeneratorImpl
 
           // return only happens on the initial run, so continuation is always a value.
           const returnCompletion = Completion.Return(continuation as StaticJsValue);
-          result = this._closure.throw(returnCompletion);
+          result = _closure.throw(returnCompletion);
         } else {
-          result = this._closure.next(continuation);
+          result = _closure.next(continuation);
         }
 
         continuationMode = "next";
@@ -148,40 +167,29 @@ export default class StaticJsGeneratorImpl
         const { value, done } = result;
 
         if (done) {
-          this._generatorState = "completed";
-
-          return {
-            done: true,
-            value: this.realm.types.undefined,
-          };
+          return this._complete(realm.types.undefined);
         }
 
         if (value.command === "yield") {
-          return yield* this._yield(value.value);
+          return this._yield(value.value);
         }
 
         continuation = yield value;
       }
     } catch (e) {
       if (Completion.Return.is(e)) {
-        this._generatorState = "completed";
-        return {
-          done: true,
-          value: e.value,
-        };
+        return this._complete(e.value);
       }
 
       throw e;
     }
   }
 
-  private *_yield(iteratorResult: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
+  private _yield(iteratorResult: StaticJsValue): StaticJsIteratorResult {
     if (this._generatorState !== "executing") {
       throw new StaticJsEngineError("Generator can only yield if it is in executing state.");
     }
 
-    // This is weird, but our caller pops us
-    // FIXME: This is stupid and bad and can't be right.
     this._pausedContext = EvaluationContext.current;
 
     this._generatorState = "suspended-yield";
@@ -189,6 +197,14 @@ export default class StaticJsGeneratorImpl
     return {
       done: false,
       value: iteratorResult,
+    };
+  }
+
+  private _complete(value: StaticJsValue): StaticJsIteratorResult {
+    this._generatorState = "completed";
+    return {
+      done: true,
+      value,
     };
   }
 }
