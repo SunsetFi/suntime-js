@@ -235,6 +235,10 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
     // This horrifying mess ensures the context is active for the generator's entire execution.
     // It is required because async and generator functions can suspend their evaluator,
     // to resume it later with a next() call.
+    // FIXME: I think we won't need this if we properly unwind the entire stack to the callsite on suspension.
+    // In practice, this is probably an artifact of us calling .run with new contexts on spots that shouldn't actually
+    // create a context according to the spec.  This itself is an artifact of us prefering to create new contexts
+    // over mutating existing ones.  We should stop doing that.
 
     let entered = false;
     const enter = () => {
