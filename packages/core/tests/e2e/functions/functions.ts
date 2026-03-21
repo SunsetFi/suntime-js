@@ -6,7 +6,7 @@ import {
   isStaticJsNumber,
   StaticJsRealm,
   type StaticJsTaskIterator,
-} from "../../src/index.js";
+} from "../../../src/index.js";
 
 describe("E2E: Functions", () => {
   describe("Declaration", () => {

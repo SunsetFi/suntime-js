@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateScript } from "../../src/index.js";
+import { evaluateScript } from "../../../src/index.js";
 
 describe("E2E: Arrow Functions", () => {
   it("can be declared", async () => {

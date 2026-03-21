@@ -54,7 +54,7 @@ export default class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
     const functionContext = yield* this._createContext(thisArg, args);
 
     return yield* functionContext.run(function* () {
-      const evaluator = Q(EvaluateNodeCommand(_body, functionContext));
+      const evaluator = Q(EvaluateNodeCommand(_body));
       const invocation = new AsyncEvaluatorInvocation(evaluator, realm);
 
       yield* invocation.start();

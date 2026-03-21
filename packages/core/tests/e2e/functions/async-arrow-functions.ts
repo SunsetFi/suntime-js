@@ -5,7 +5,7 @@ import {
   isStaticJsPromise,
   type StaticJsPromise,
   StaticJsRealm,
-} from "../../src/index.js";
+} from "../../../src/index.js";
 
 describe("E2E: Async arrow functions", () => {
   it("can be declared", async () => {

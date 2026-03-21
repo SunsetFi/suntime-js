@@ -1,15 +1,17 @@
 import { describe, it, expect } from "vitest";
 
-import { StaticJsRealm, isStaticJsPromise, type StaticJsPromise } from "../../src/index.js";
+import { StaticJsRealm, isStaticJsPromise, type StaticJsPromise } from "../../../src/index.js";
 
-describe("E2E: Async functions", () => {
+describe("E2E: Async method functions", () => {
   it("Returns a promise", async () => {
     const realm = StaticJsRealm();
     const code = `
-      async function test() {
-        return 42;
-      }
-      test();
+      const obj = {
+        async test() {
+          return 42;
+        }
+      };
+      obj.test();
     `;
 
     const result = await realm.evaluateScript(code);
@@ -22,10 +24,12 @@ describe("E2E: Async functions", () => {
   it("Rejects a promise on error", async () => {
     const realm = StaticJsRealm();
     const code = `
-      async function test() {
-        throw new Error("Test error");
-      }
-      const result = test();
+      const obj = {
+        async test() {
+          throw new Error("Test error");
+        }
+      };
+      const result = obj.test();
       // Prevent unhandled rejection
       result.catch(() => {});
       result;
@@ -42,11 +46,13 @@ describe("E2E: Async functions", () => {
     const realm = StaticJsRealm();
     const code = `
       const awaitable = Promise.resolve(42);
-      async function test() {
-        const result = await awaitable;
-        return result;
-      }
-      test();
+      const obj = {
+        async test() {
+          const result = await awaitable;
+          return result;
+        }
+      };
+      obj.test();
     `;
 
     const result = await realm.evaluateScript(code);
@@ -60,15 +66,17 @@ describe("E2E: Async functions", () => {
     const realm = StaticJsRealm();
     const code = `
       const awaitable = Promise.reject(new Error("Test error"));
-      async function test() {
-        try {
-          await awaitable;
-          return "uncaught";
-        } catch (e) {
-         return "caught";
+      const obj = {
+        async test() {
+          try {
+            await awaitable;
+            return "uncaught";
+          } catch (e) {
+            return "caught";
+          }
         }
-      }
-      test();
+      };
+      obj.test();
     `;
 
     const result = await realm.evaluateScript(code);
@@ -82,10 +90,12 @@ describe("E2E: Async functions", () => {
     const realm = StaticJsRealm();
     const code = `
       const awaitable = Promise.resolve(42);
-      async function test() {
-        return awaitable;
-      }
-      test();
+      const obj = {
+        async test() {
+          return awaitable;
+        }
+      };
+      obj.test();
     `;
 
     const result = await realm.evaluateScript(code);
