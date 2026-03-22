@@ -138,7 +138,7 @@ function* restDestructuringAssignmentEvaluation(
 
   const restObject = realm.types.object();
 
-  yield* copyDataProperties(restObject, value, excludedNames, realm);
+  yield* copyDataProperties(restObject, value, excludedNames);
 
   yield* putValue(lRef, restObject);
 }

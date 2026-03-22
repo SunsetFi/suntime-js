@@ -13,7 +13,7 @@ export function* createIteratorResultObject(
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObjectLike> {
   const result = realm.types.object();
-  yield* createDataPropertyOrThrow(result, "value", value, realm);
-  yield* createDataPropertyOrThrow(result, "done", realm.types.boolean(done), realm);
+  yield* createDataPropertyOrThrow(result, "value", value);
+  yield* createDataPropertyOrThrow(result, "done", realm.types.boolean(done));
   return result;
 }

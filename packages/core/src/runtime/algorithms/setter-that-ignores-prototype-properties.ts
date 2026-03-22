@@ -34,7 +34,7 @@ export default function* setterThatIgnoresPrototypeProperties(
 
   const desc = yield* thisValue.getOwnPropertyEvaluator(p);
   if (!desc) {
-    yield* createDataPropertyOrThrow(thisValue, p, v, realm);
+    yield* createDataPropertyOrThrow(thisValue, p, v);
   } else {
     yield* thisValue.setEvaluator(p, v, true);
   }

@@ -177,7 +177,7 @@ function* restBindingInitialization(
 
   const restObject = realm.types.object();
 
-  yield* copyDataProperties(restObject, value, excludedNames, realm);
+  yield* copyDataProperties(restObject, value, excludedNames);
 
   if (environment) {
     yield* initializeReferencedBinding(lhs, restObject);

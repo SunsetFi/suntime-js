@@ -68,7 +68,7 @@ export default function* iteratorDestructuringAssignmentEvaluation(
         break;
       }
 
-      yield* createDataPropertyOrThrow(A, String(n), next, realm);
+      yield* createDataPropertyOrThrow(A, String(n), next);
       n += 1;
     }
 

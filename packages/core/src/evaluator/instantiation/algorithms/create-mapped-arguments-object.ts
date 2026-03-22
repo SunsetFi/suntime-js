@@ -33,7 +33,7 @@ export default function* createMappedArgumentsObject(
 
   for (let index = 0; index < len; index++) {
     const val = argumentsList[index];
-    yield* createDataPropertyOrThrow(obj, String(index), val, realm);
+    yield* createDataPropertyOrThrow(obj, String(index), val);
   }
 
   yield* definePropertyOrThrow(

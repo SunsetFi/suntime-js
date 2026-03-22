@@ -33,7 +33,10 @@
 - [ ] Fix StaticJsDebugAdapter in dap - broke in the debugger rework.
 - [ ] Remove generators from module linking stages as they aren't needed (Confirm this).
 - [-] Rework function creation to match OrdinaryFunctionCreate.
-  - [ ] Unify all function types to a single Function class accepting Call and Construct
+  - [ ] Unify all function types to a single Function class accepting Call and Construct?
+- [ ] Clean up ForInOfBody to use completions rather than try/catch.
+- [ ] Reduce calls to EvaluationContext.current when they aren't needed. Mostly thrown errors.
+  - [ ] Helper for Completion.Throw to pull the current context to create the error from name and message.
 
 ### Completion Refactor
 

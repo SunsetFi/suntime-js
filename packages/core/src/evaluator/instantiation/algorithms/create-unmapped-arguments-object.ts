@@ -34,7 +34,7 @@ export default function* createUnmappedArgumentsObject(
 
   for (let index = 0; index < len; index++) {
     const val = argumentsList[index];
-    yield* createDataPropertyOrThrow(obj, String(index), val, realm);
+    yield* createDataPropertyOrThrow(obj, String(index), val);
   }
 
   const arrayValues = yield* realm.types.prototypes.arrayProto.getEvaluator("values");

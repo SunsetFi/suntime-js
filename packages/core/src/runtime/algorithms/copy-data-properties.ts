@@ -1,7 +1,5 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
 import type { StaticJsObjectLike, StaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
@@ -13,7 +11,6 @@ export default function* copyDataProperties(
   target: StaticJsObjectLike,
   source: StaticJsValue,
   excludedItems: StaticJsPropertyKey[],
-  realm: StaticJsRealm,
 ): EvaluationGenerator<void> {
   if (isStaticJsNull(source) || isStaticJsUndefined(source)) {
     return;
@@ -33,6 +30,6 @@ export default function* copyDataProperties(
     }
 
     const value = yield* from.getEvaluator(nextKey);
-    yield* createDataPropertyOrThrow(target, nextKey, value, realm);
+    yield* createDataPropertyOrThrow(target, nextKey, value);
   }
 }

@@ -87,7 +87,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
         }
 
         const defineStatus = yield* captureThrownCompletion(
-          createDataPropertyOrThrow(A, Pk, mappedValue, realm),
+          createDataPropertyOrThrow(A, Pk, mappedValue),
         );
         if (Completion.Abrupt.is(defineStatus)) {
           return yield* Q(iteratorClose(iteratorRecord, defineStatus));
@@ -120,7 +120,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
         mappedValue = kValue;
       }
 
-      yield* Q(createDataPropertyOrThrow(A, Pk, mappedValue, realm));
+      yield* Q(createDataPropertyOrThrow(A, Pk, mappedValue));
 
       k += 1;
     }
