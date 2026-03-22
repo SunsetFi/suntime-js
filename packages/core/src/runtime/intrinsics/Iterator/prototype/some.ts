@@ -34,7 +34,7 @@ const iteratorProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
       const error = Completion.Throw(
         realm.types.error("TypeError", "Predicate must be a function"),
       );
-      return yield* Q(iteratorClose(iterated, error, realm));
+      return yield* Q(iteratorClose(iterated, error));
     }
 
     iterated = yield* Q(getIteratorDirect(O));
@@ -51,12 +51,12 @@ const iteratorProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
         predicate.callEvaluator(realm.types.undefined, [value, realm.types.number(counter)]),
       );
       if (Completion.Abrupt.is(result)) {
-        return yield* Q(iteratorClose(iterated, result, realm));
+        return yield* Q(iteratorClose(iterated, result));
       }
 
       const asBool = yield* Q(toBoolean.js(result));
       if (asBool) {
-        return yield* Q(iteratorClose(iterated, realm.types.true, realm));
+        return yield* Q(iteratorClose(iterated, realm.types.true));
       }
 
       counter += 1;

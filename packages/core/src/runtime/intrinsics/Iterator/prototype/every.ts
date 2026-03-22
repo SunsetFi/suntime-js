@@ -35,7 +35,7 @@ const iteratorProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
       const error = Completion.Throw(
         realm.types.error("TypeError", "Predicate must be a function"),
       );
-      yield* Q(iteratorClose(iterated, error, realm));
+      yield* Q(iteratorClose(iterated, error));
       throw new StaticJsEngineError("Unreachable code after iteratorClose with abrupt completion");
     }
 
@@ -53,7 +53,7 @@ const iteratorProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
       );
 
       if (Completion.Abrupt.is(result)) {
-        yield* Q(iteratorClose(iterated, result, realm));
+        yield* Q(iteratorClose(iterated, result));
         throw new StaticJsEngineError(
           "Unreachable code after iteratorClose with abrupt completion",
         );
@@ -61,7 +61,7 @@ const iteratorProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
 
       const boolResult = yield* toBoolean.js(result);
       if (boolResult === false) {
-        return yield* Q(iteratorClose(iterated, realm.types.false, realm));
+        return yield* Q(iteratorClose(iterated, realm.types.false));
       }
 
       counter += 1;

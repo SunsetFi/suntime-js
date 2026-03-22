@@ -24,9 +24,9 @@ export default function* arrayExpressionNodeEvaluator(node: ArrayExpression): Ev
     if (element.type === "SpreadElement") {
       const spreadValue = yield* Q.val(EvaluateNodeCommand(element.argument));
 
-      const iterator = yield* getIterator(spreadValue, "sync", realm);
+      const iterator = yield* getIterator(spreadValue, "sync");
 
-      yield* iteratorClose.handle(iterator, realm, function* () {
+      yield* iteratorClose.handle(iterator, function* () {
         while (true) {
           const value = yield* iteratorStepValue(iterator);
           if (!value) {

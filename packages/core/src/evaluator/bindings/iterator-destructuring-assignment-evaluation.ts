@@ -14,7 +14,7 @@ import putValue from "../../runtime/algorithms/put-value.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import Q from "../completions/Q.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import destructuringAssignmentEvaluation from "./destructuring-assignment-evaluation.js";
@@ -25,11 +25,11 @@ export type IteratorDestructuringAssignmentType = PatternLike | null;
 export default function* iteratorDestructuringAssignmentEvaluation(
   node: IteratorDestructuringAssignmentType | IteratorDestructuringAssignmentType[],
   iteratorRecord: StaticJsIteratorRecord,
-  context: EvaluationContext,
 ): EvaluationGenerator<void> {
+  const { realm } = EvaluationContext.current;
   if (Array.isArray(node)) {
     for (const element of node) {
-      yield* iteratorDestructuringAssignmentEvaluation(element, iteratorRecord, context);
+      yield* iteratorDestructuringAssignmentEvaluation(element, iteratorRecord);
     }
 
     return;
@@ -41,9 +41,6 @@ export default function* iteratorDestructuringAssignmentEvaluation(
     }
     return;
   }
-
-  const { realm } = context;
-
   let initializer: Node | null = null;
   if (node.type === "AssignmentPattern") {
     initializer = node.right;
@@ -59,7 +56,7 @@ export default function* iteratorDestructuringAssignmentEvaluation(
       lRef = yield* Q.ref(EvaluateNodeCommand(assignmentTarget));
     }
 
-    const A = context.realm.types.array();
+    const A = realm.types.array();
 
     let n = 0;
     while (true) {
@@ -104,6 +101,6 @@ export default function* iteratorDestructuringAssignmentEvaluation(
   if (lRef) {
     yield* putValue(lRef, v, realm);
   } else {
-    yield* destructuringAssignmentEvaluation(assignmentTarget, v, context);
+    yield* destructuringAssignmentEvaluation(assignmentTarget, v);
   }
 }

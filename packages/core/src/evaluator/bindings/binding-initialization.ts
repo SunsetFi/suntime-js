@@ -68,7 +68,7 @@ export default function* bindingInitialization(
       return;
     }
     case "ArrayPattern": {
-      const iteratorRecord = yield* getIterator(value, "sync", context.realm);
+      const iteratorRecord = yield* getIterator(value, "sync");
       yield* iteratorBindingInitialization.arrayBindingPattern(
         node,
         iteratorRecord,
@@ -76,7 +76,7 @@ export default function* bindingInitialization(
         context,
       );
       if (!iteratorRecord.done) {
-        yield* iteratorClose(iteratorRecord, null, context.realm);
+        yield* iteratorClose(iteratorRecord, null);
       }
       return;
     }

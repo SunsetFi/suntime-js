@@ -65,11 +65,7 @@ export default function* forInOfHeadEvaluation(
       };
     }
 
-    return yield* getIterator(
-      exprValue,
-      iterationKind === "async-iterate" ? "async" : "sync",
-      realm,
-    );
+    return yield* getIterator(exprValue, iterationKind === "async-iterate" ? "async" : "sync");
   } finally {
     context.lexicalEnv = oldEnv;
   }

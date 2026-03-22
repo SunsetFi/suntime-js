@@ -40,7 +40,7 @@ const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
     const numLimit = yield* toNumber.js(limit);
     if (Number.isNaN(numLimit)) {
       const error = Completion.Throw(realm.types.error("RangeError", "Invalid count value"));
-      yield* Q(iteratorClose(iterated, error, realm));
+      yield* Q(iteratorClose(iterated, error));
       throw new StaticJsEngineError("Unreachable code after iteratorClose with abrupt completion");
     }
 
@@ -49,7 +49,7 @@ const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
       const error = Completion.Throw(
         realm.types.error("RangeError", "Count value must be non-negative"),
       );
-      yield* Q(iteratorClose(iterated, error, realm));
+      yield* Q(iteratorClose(iterated, error));
       throw new StaticJsEngineError("Unreachable code after iteratorClose with abrupt completion");
     }
 
@@ -76,7 +76,7 @@ const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
 
         const completion = yield* captureThrownCompletion(YieldCommand(value));
         if (Completion.Abrupt.is(completion)) {
-          return yield* Q(iteratorClose(iterated, completion, realm));
+          return yield* Q(iteratorClose(iterated, completion));
         }
       }
     }

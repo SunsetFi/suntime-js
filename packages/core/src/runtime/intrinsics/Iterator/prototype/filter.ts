@@ -36,7 +36,7 @@ const iteratorProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
       const error = Completion.Throw(
         realm.types.error("TypeError", "Predicate must be a function"),
       );
-      return yield* Q(iteratorClose(iterated, error, realm));
+      return yield* Q(iteratorClose(iterated, error));
     } else {
       // Not sure why this is needed.
       // Typescript knows the above code never flows through,
@@ -60,14 +60,14 @@ const iteratorProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
         );
 
         if (Completion.Abrupt.is(selected)) {
-          return yield* Q(iteratorClose(iterated, selected, realm));
+          return yield* Q(iteratorClose(iterated, selected));
         }
 
         const selectedValue = yield* toBoolean.js(selected);
         if (selectedValue) {
           const completion = yield* captureThrownCompletion(YieldCommand(value));
           if (Completion.Abrupt.is(completion)) {
-            return yield* Q(iteratorClose(iterated, completion, realm));
+            return yield* Q(iteratorClose(iterated, completion));
           }
         }
 

@@ -2,8 +2,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import { Completion } from "../../evaluator/completions/Completion.js";
 import Q from "../../evaluator/completions/Q.js";
-
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
 import getMethod from "../algorithms/get-method.js";
 
@@ -17,8 +16,8 @@ import getIteratorDirect from "./get-iterator-direct.js";
 export default function* getIteratorFlattenable(
   obj: StaticJsValue,
   primitiveHandling: "iterate-string-primitives" | "reject-primitives",
-  realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsIteratorRecord> {
+  const { realm } = EvaluationContext.current;
   if (!isStaticJsObjectLike(obj)) {
     if (primitiveHandling === "reject-primitives") {
       throw Completion.Throw(
@@ -27,7 +26,7 @@ export default function* getIteratorFlattenable(
     }
   }
 
-  const method = yield* Q(getMethod(obj, realm.types.symbols.iterator, realm));
+  const method = yield* Q(getMethod(obj, realm.types.symbols.iterator));
 
   let iterator: StaticJsValue;
   if (!method) {

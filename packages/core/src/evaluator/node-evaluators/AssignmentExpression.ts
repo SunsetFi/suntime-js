@@ -100,7 +100,7 @@ function* directAssignmentExpressionEvaluator(
 
   const rVal = yield* Q.val(EvaluateNodeCommand(right));
 
-  yield* destructuringAssignmentEvaluation(left, rVal, EvaluationContext.current);
+  yield* destructuringAssignmentEvaluation(left, rVal);
 
   return rVal;
 }

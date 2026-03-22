@@ -34,7 +34,7 @@ const iteratorProtoFindDeclaration: IntrinsicPropertyDeclaration = {
       const error = Completion.Throw(
         realm.types.error("TypeError", "Predicate must be a function"),
       );
-      return yield* Q(iteratorClose(iterated, error, realm));
+      return yield* Q(iteratorClose(iterated, error));
     }
 
     iterated = yield* Q(getIteratorDirect(O));
@@ -51,12 +51,12 @@ const iteratorProtoFindDeclaration: IntrinsicPropertyDeclaration = {
       );
 
       if (Completion.Abrupt.is(result)) {
-        return yield* Q(iteratorClose(iterated, result, realm));
+        return yield* Q(iteratorClose(iterated, result));
       }
 
       const boolResult = yield* toBoolean.js(result);
       if (boolResult === true) {
-        return yield* Q(iteratorClose(iterated, value, realm));
+        return yield* Q(iteratorClose(iterated, value));
       }
       counter += 1;
     }

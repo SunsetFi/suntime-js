@@ -1,4 +1,4 @@
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
@@ -17,8 +17,8 @@ import asyncFromSyncIteratorContinuation from "./async-from-sync-iterator-contin
 
 export default function* createAsyncFromSyncIterator(
   syncIteratorRecord: StaticJsIteratorRecord,
-  realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsIteratorRecord> {
+  const { realm } = EvaluationContext.current;
   const asyncIterator = realm.types.object();
 
   // TODO: Should be implemented by prototypes.

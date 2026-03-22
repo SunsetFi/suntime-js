@@ -88,7 +88,7 @@ export function* forInOfBodyEvaluation(
         if (lhsKind === "assignment" || lhsKind === "varBinding") {
           if (destructuring) {
             if (lhsKind === "assignment") {
-              yield* destructuringAssignmentEvaluation(assignmentPattern!, nextValue, context);
+              yield* destructuringAssignmentEvaluation(assignmentPattern!, nextValue);
             } else {
               yield* bindingInitialization(lhs as LVal, nextValue, null, context);
             }
@@ -139,9 +139,9 @@ export function* forInOfBodyEvaluation(
         if (iterationKind === "enumerate") {
           throw e;
         } else if (iteratorKind === "async") {
-          return yield* Q(asyncIteratorClose(iteratorRecord, e, realm));
+          return yield* Q(asyncIteratorClose(iteratorRecord, e));
         } else {
-          return yield* Q(iteratorClose(iteratorRecord, e, realm));
+          return yield* Q(iteratorClose(iteratorRecord, e));
         }
       }
 
@@ -154,10 +154,10 @@ export function* forInOfBodyEvaluation(
         return rethrowCompletion(status);
       } else {
         if (iteratorKind === "async") {
-          return yield* Q(asyncIteratorClose(iteratorRecord, status, realm));
+          return yield* Q(asyncIteratorClose(iteratorRecord, status));
         }
 
-        return yield* Q(iteratorClose(iteratorRecord, status, realm));
+        return yield* Q(iteratorClose(iteratorRecord, status));
       }
     }
 

@@ -48,7 +48,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
 
     let A: StaticJsObjectLike;
 
-    const usingIterator = yield* Q(getMethod(items, realm.types.symbols.iterator, realm));
+    const usingIterator = yield* Q(getMethod(items, realm.types.symbols.iterator));
     if (usingIterator) {
       if (isConstructor(C, realm)) {
         A = yield* Q(C.constructEvaluator([realm.types.number(0)]));
@@ -56,14 +56,14 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
         A = yield* StaticJsArrayImpl.create(realm, 0);
       }
 
-      const iteratorRecord = yield* Q(getIteratorFromMethod(items, usingIterator, realm));
+      const iteratorRecord = yield* Q(getIteratorFromMethod(items, usingIterator));
       let k = 0;
       while (true) {
         if (k >= MAX_ARRAY_LENGTH_INCLUSIVE) {
           const error = Completion.Throw(
             realm.types.error("TypeError", "Too many items from iterator"),
           );
-          return yield* Q(iteratorClose(iteratorRecord, error, realm));
+          return yield* Q(iteratorClose(iteratorRecord, error));
         }
 
         const Pk = String(k);
@@ -79,7 +79,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
             mapperFunc!.callEvaluator(mapperThisArg, [next, realm.types.number(k)]),
           );
           if (Completion.Abrupt.is(mapperResult)) {
-            return yield* Q(iteratorClose(iteratorRecord, mapperResult, realm));
+            return yield* Q(iteratorClose(iteratorRecord, mapperResult));
           }
           mappedValue = Completion.value(mapperResult)!;
         } else {
@@ -90,7 +90,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
           createDataPropertyOrThrow(A, Pk, mappedValue, realm),
         );
         if (Completion.Abrupt.is(defineStatus)) {
-          return yield* Q(iteratorClose(iteratorRecord, defineStatus, realm));
+          return yield* Q(iteratorClose(iteratorRecord, defineStatus));
         }
 
         k += 1;

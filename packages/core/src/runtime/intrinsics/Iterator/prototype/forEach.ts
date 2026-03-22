@@ -30,7 +30,7 @@ const iteratorProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
 
     if (!isStaticJsFunction(callback)) {
       const error = Completion.Throw(realm.types.error("TypeError", "Callback must be a function"));
-      return yield* Q(iteratorClose(iterated, error, realm));
+      return yield* Q(iteratorClose(iterated, error));
     }
 
     iterated = yield* Q(getIteratorDirect(O));
@@ -47,7 +47,7 @@ const iteratorProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
       );
 
       if (Completion.Abrupt.is(result)) {
-        return yield* Q(iteratorClose(iterated, result, realm));
+        return yield* Q(iteratorClose(iterated, result));
       }
 
       counter++;

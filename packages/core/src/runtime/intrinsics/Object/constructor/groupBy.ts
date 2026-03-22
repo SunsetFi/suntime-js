@@ -21,9 +21,9 @@ const objectCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const iterator = yield* getIterator(items, "sync", realm);
+    const iterator = yield* getIterator(items, "sync");
 
-    yield* iteratorClose.handle(iterator, realm, function* () {
+    yield* iteratorClose.handle(iterator, function* () {
       let index = 0;
       while (true) {
         const next = yield* iteratorStepValue(iterator);

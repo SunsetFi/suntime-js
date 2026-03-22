@@ -56,7 +56,7 @@ export default class AsyncEvaluatorInvocation {
 
     yield* this._ensureCapability();
 
-    const thenMethod = yield* getMethod(this.promise, "then", this._realm);
+    const thenMethod = yield* getMethod(this.promise, "then");
     if (!thenMethod) {
       throw new StaticJsEngineError("Async function promise does not have a then method.");
     }

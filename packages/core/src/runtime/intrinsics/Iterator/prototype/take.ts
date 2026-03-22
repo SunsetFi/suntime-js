@@ -35,12 +35,12 @@ const iteratorProtoTakeDeclaration: IntrinsicPropertyDeclaration = {
 
     const numLimit = yield* captureThrownCompletion(toNumber.js(limit));
     if (Completion.Abrupt.is(numLimit)) {
-      return yield* Q(iteratorClose(iterated, numLimit, realm));
+      return yield* Q(iteratorClose(iterated, numLimit));
     }
 
     if (Number.isNaN(numLimit)) {
       const error = Completion.Throw(realm.types.error("RangeError", "Limit must not be NaN"));
-      return yield* Q(iteratorClose(iterated, error, realm));
+      return yield* Q(iteratorClose(iterated, error));
     }
 
     const integerLimit = yield* toIntegerOrInfinity.js(numLimit, realm);
@@ -48,7 +48,7 @@ const iteratorProtoTakeDeclaration: IntrinsicPropertyDeclaration = {
       const error = Completion.Throw(
         realm.types.error("RangeError", "Limit must be a non-negative integer or Infinity"),
       );
-      return yield* Q(iteratorClose(iterated, error, realm));
+      return yield* Q(iteratorClose(iterated, error));
     }
 
     iterated = yield* Q(getIteratorDirect(O));
@@ -57,7 +57,7 @@ const iteratorProtoTakeDeclaration: IntrinsicPropertyDeclaration = {
       let remaining = integerLimit;
       while (true) {
         if (remaining === 0) {
-          return yield* Q(iteratorClose(iterated, realm.types.undefined, realm));
+          return yield* Q(iteratorClose(iterated, realm.types.undefined));
         }
 
         if (remaining !== Infinity) {
@@ -71,7 +71,7 @@ const iteratorProtoTakeDeclaration: IntrinsicPropertyDeclaration = {
 
         const completion = yield* captureThrownCompletion(YieldCommand(value));
         if (Completion.Abrupt.is(completion)) {
-          return yield* Q(iteratorClose(iterated, completion, realm));
+          return yield* Q(iteratorClose(iterated, completion));
         }
       }
     }

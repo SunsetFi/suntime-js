@@ -1,7 +1,6 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
-
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { type StaticJsFunction } from "../types/StaticJsFunction.js";
@@ -13,8 +12,8 @@ import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 export default function* getIteratorFromMethod(
   obj: StaticJsValue,
   method: StaticJsFunction,
-  realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsIteratorRecord> {
+  const { realm } = EvaluationContext.current;
   const iterator = yield* method.callEvaluator(obj);
   if (!isStaticJsObjectLike(iterator)) {
     throw Completion.Throw(

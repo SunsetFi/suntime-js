@@ -1,7 +1,6 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
 import { type StaticJsFunction } from "../types/StaticJsFunction.js";
 import { type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
@@ -17,13 +16,13 @@ import createAsyncFromSyncIterator from "./create-async-from-sync-iterator.js";
 export default function* getIterator(
   obj: StaticJsValue,
   kind: "sync" | "async",
-  realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsIteratorRecord> {
+  const { realm } = EvaluationContext.current;
   let method: StaticJsFunction | null;
   if (kind === "async") {
-    method = yield* getMethod(obj, realm.types.symbols.asyncIterator, realm);
+    method = yield* getMethod(obj, realm.types.symbols.asyncIterator);
     if (method === null) {
-      const syncMethod = yield* getMethod(obj, realm.types.symbols.iterator, realm);
+      const syncMethod = yield* getMethod(obj, realm.types.symbols.iterator);
       if (syncMethod === null) {
         throw Completion.Throw(realm.types.error("TypeError", "Value is not async iterable"));
       }
@@ -32,18 +31,17 @@ export default function* getIterator(
         // Guarenteed due to getMethod above
         obj as StaticJsObjectLike,
         syncMethod,
-        realm,
       );
 
-      return yield* createAsyncFromSyncIterator(syncIteratorRecord, realm);
+      return yield* createAsyncFromSyncIterator(syncIteratorRecord);
     }
   } else {
-    method = yield* getMethod(obj, realm.types.symbols.iterator, realm);
+    method = yield* getMethod(obj, realm.types.symbols.iterator);
   }
 
   if (method === null) {
     throw Completion.Throw(realm.types.error("TypeError", "Value is not iterable"));
   }
 
-  return yield* getIteratorFromMethod(obj as StaticJsObjectLike, method, realm);
+  return yield* getIteratorFromMethod(obj as StaticJsObjectLike, method);
 }

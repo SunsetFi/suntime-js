@@ -161,11 +161,10 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
       );
     }
 
-    const iterator = yield* getIterator(otherSet, "sync", this.realm);
+    const iterator = yield* getIterator(otherSet, "sync");
 
-    const realm = this.realm;
     const backingStore = this._backingStore;
-    return yield* iteratorClose.handle(iterator, realm, function* () {
+    return yield* iteratorClose.handle(iterator, function* () {
       while (true) {
         const nextResult = yield* iteratorStepValue(iterator);
         if (!nextResult) {
@@ -209,9 +208,9 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
       }
     }
 
-    const iterator = yield* getIterator(otherSet, "sync", this.realm);
+    const iterator = yield* getIterator(otherSet, "sync");
     const backingStore = this._backingStore;
-    yield* iteratorClose.handle(iterator, this.realm, function* () {
+    yield* iteratorClose.handle(iterator, function* () {
       while (true) {
         const nextResult = yield* iteratorStepValue(iterator);
         if (!nextResult) {
@@ -236,10 +235,9 @@ export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements S
       yield* resultAdd.callEvaluator(result, [wrapped]);
     }
 
-    const iterator = yield* getIterator(otherSet, "sync", this.realm);
-    const realm = this.realm;
+    const iterator = yield* getIterator(otherSet, "sync");
     const backingStore = this._backingStore;
-    yield* iteratorClose.handle(iterator, realm, function* () {
+    yield* iteratorClose.handle(iterator, function* () {
       while (true) {
         const nextResult = yield* iteratorStepValue(iterator);
         if (!nextResult) {

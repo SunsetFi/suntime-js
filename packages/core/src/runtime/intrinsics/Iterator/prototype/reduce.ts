@@ -31,7 +31,7 @@ const iteratorProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
 
     if (!isStaticJsFunction(reducer)) {
       const error = Completion.Throw(realm.types.error("TypeError", "Reducer must be a function"));
-      return yield* Q(iteratorClose(iterated, error, realm));
+      return yield* Q(iteratorClose(iterated, error));
     }
 
     iterated = yield* Q(getIteratorDirect(O));
@@ -66,7 +66,7 @@ const iteratorProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
         ]),
       );
       if (Completion.Abrupt.is(result)) {
-        return yield* Q(iteratorClose(iterated, result, realm));
+        return yield* Q(iteratorClose(iterated, result));
       }
 
       accumulator = result;

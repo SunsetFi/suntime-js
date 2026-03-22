@@ -1,8 +1,7 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
-
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
@@ -15,31 +14,28 @@ import rethrowCompletion from "../../evaluator/completions/rethrow-completion.js
 export default function iteratorClose(
   iteratorRecord: StaticJsIteratorRecord,
   value: Completion.Abrupt,
-  realm: StaticJsRealm,
   unwrap?: true,
 ): EvaluationGenerator<never>;
 export default function iteratorClose<T extends Completion>(
   iteratorRecord: StaticJsIteratorRecord,
   value: T,
-  realm: StaticJsRealm,
   unwrap?: true,
 ): EvaluationGenerator<T>;
 export default function iteratorClose(
   iteratorRecord: StaticJsIteratorRecord,
   value: Completion,
-  realm: StaticJsRealm,
   unwrap: false,
 ): EvaluationGenerator<Completion>;
 export default function* iteratorClose(
   iteratorRecord: StaticJsIteratorRecord,
   value: Completion,
-  realm: StaticJsRealm,
   unwrap: boolean = true,
 ): EvaluationGenerator<Completion> {
+  const { realm } = EvaluationContext.current;
   const iterator = iteratorRecord.iterator;
   let innerResult: Completion;
   try {
-    innerResult = yield* getMethod(iterator, "return", realm);
+    innerResult = yield* getMethod(iterator, "return");
     if (!innerResult) {
       return value;
     }
@@ -72,7 +68,6 @@ export default function* iteratorClose(
 
 iteratorClose.handle = function* handleIteratorClose<T>(
   iteratorRecord: StaticJsIteratorRecord,
-  realm: StaticJsRealm,
   handler: () => EvaluationGenerator<T>,
 ): EvaluationGenerator<T> {
   try {
@@ -81,7 +76,7 @@ iteratorClose.handle = function* handleIteratorClose<T>(
   } catch (e) {
     if (Completion.Abrupt.is(e)) {
       // If the handler threw an abnormal completion, we need to close the iterator
-      yield* iteratorClose(iteratorRecord, e, realm);
+      yield* iteratorClose(iteratorRecord, e);
     }
     throw e;
   }

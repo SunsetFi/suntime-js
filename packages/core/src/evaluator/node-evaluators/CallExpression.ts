@@ -82,9 +82,9 @@ export default function* callExpressionNodeEvaluator(node: CallExpression): Eval
         if (argument.type === "SpreadElement") {
           const iterable = yield* Q.val(EvaluateNodeCommand(argument.argument));
 
-          const iterator = yield* getIterator(iterable, "sync", context.realm);
+          const iterator = yield* getIterator(iterable, "sync");
 
-          yield* iteratorClose.handle(iterator, context.realm, function* () {
+          yield* iteratorClose.handle(iterator, function* () {
             while (true) {
               const value = yield* iteratorStepValue(iterator);
               if (!value) {

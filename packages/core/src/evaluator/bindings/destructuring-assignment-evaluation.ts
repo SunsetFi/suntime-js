@@ -33,7 +33,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import Q from "../completions/Q.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import iteratorDestructuringAssignmentEvaluation from "./iterator-destructuring-assignment-evaluation.js";
@@ -41,34 +41,34 @@ import iteratorDestructuringAssignmentEvaluation from "./iterator-destructuring-
 export default function* destructuringAssignmentEvaluation(
   node: Node,
   value: StaticJsValue,
-  context: EvaluationContext,
 ): EvaluationGenerator<void> {
+  const { realm } = EvaluationContext.current;
   switch (node.type) {
     case "ObjectPattern": {
       if (isStaticJsUndefined(value) || isStaticJsNull(value)) {
         throw Completion.Throw(
-          context.realm.types.error("TypeError", "Cannot destructure undefined or null"),
+          realm.types.error("TypeError", "Cannot destructure undefined or null"),
         );
       }
       const properties = node.properties.filter((p) => isObjectProperty(p));
       const excludedNames: StaticJsPropertyKey[] = [];
       for (const property of properties) {
-        const result = yield* propertyDestructuringAssignmentEvaluation(property, value, context);
+        const result = yield* propertyDestructuringAssignmentEvaluation(property, value);
         excludedNames.push(...result);
       }
 
       const rest = node.properties.find((p) => p.type === "RestElement");
       if (rest) {
-        yield* restDestructuringAssignmentEvaluation(rest, value, excludedNames, context);
+        yield* restDestructuringAssignmentEvaluation(rest, value, excludedNames);
       }
 
       return;
     }
     case "ArrayPattern": {
-      const iteratorRecord = yield* getIterator(value, "sync", context.realm);
-      yield* iteratorDestructuringAssignmentEvaluation(node.elements, iteratorRecord, context);
+      const iteratorRecord = yield* getIterator(value, "sync");
+      yield* iteratorDestructuringAssignmentEvaluation(node.elements, iteratorRecord);
       if (!iteratorRecord.done) {
-        yield* iteratorClose(iteratorRecord, null, context.realm);
+        yield* iteratorClose(iteratorRecord, null);
       }
       return;
     }
@@ -78,9 +78,8 @@ export default function* destructuringAssignmentEvaluation(
 function* propertyDestructuringAssignmentEvaluation(
   node: ObjectProperty,
   value: StaticJsValue,
-  context: EvaluationContext,
 ): EvaluationGenerator<StaticJsPropertyKey[]> {
-  const { strict, realm } = context;
+  const { lexicalEnv, realm, strict } = EvaluationContext.current;
   if (node.shorthand) {
     if (node.key.type !== "Identifier") {
       throw new StaticJsEngineError(
@@ -94,7 +93,7 @@ function* propertyDestructuringAssignmentEvaluation(
     }
 
     const P = node.key.name;
-    const lRef = yield* getIdentifierReference(context.lexicalEnv, P, strict);
+    const lRef = yield* getIdentifierReference(lexicalEnv, P, strict);
 
     const obj = yield* toObject(value);
     let v = yield* obj.getEvaluator(P);
@@ -118,14 +117,14 @@ function* propertyDestructuringAssignmentEvaluation(
 
   let name: StaticJsValue;
   if (node.key.type === "Identifier" && !node.computed) {
-    name = context.realm.types.string(node.key.name);
+    name = realm.types.string(node.key.name);
   } else {
     name = yield* Q.val(EvaluateNodeCommand(node.key));
   }
   // Spec doesn't do this...  But it seems to get a property key anyway
   // Probably due to the limitd options PropertyName / node.key can be
   const P = yield* toPropertyKey(name);
-  yield* keyedDestructuringAssignmentEvaluation(node.value, value, P, context);
+  yield* keyedDestructuringAssignmentEvaluation(node.value, value, P);
   return [P];
 }
 
@@ -133,9 +132,8 @@ function* restDestructuringAssignmentEvaluation(
   node: RestElement,
   value: StaticJsValue,
   excludedNames: StaticJsPropertyKey[],
-  context: EvaluationContext,
 ): EvaluationGenerator<void> {
-  const { realm } = context;
+  const { realm } = EvaluationContext.current;
   const lRef = yield* Q.ref(EvaluateNodeCommand(node.argument));
 
   const restObject = realm.types.object();
@@ -149,9 +147,8 @@ function* keyedDestructuringAssignmentEvaluation(
   node: Node,
   value: StaticJsValue,
   property: StaticJsPropertyKey,
-  context: EvaluationContext,
 ): EvaluationGenerator<void> {
-  const { realm } = context;
+  const { realm } = EvaluationContext.current;
 
   let initializer: Expression | null = null;
   if (node.type === "AssignmentPattern") {
@@ -177,6 +174,6 @@ function* keyedDestructuringAssignmentEvaluation(
   if (lRef) {
     yield* putValue(lRef, v, realm);
   } else {
-    yield* destructuringAssignmentEvaluation(node, v, context);
+    yield* destructuringAssignmentEvaluation(node, v);
   }
 }
