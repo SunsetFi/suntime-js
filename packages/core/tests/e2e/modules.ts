@@ -488,6 +488,7 @@ describe("E2E: Modules", () => {
             }
           }
         });
+
         const realm = StaticJsRealm({
           runTask,
           modules: {
@@ -504,8 +505,6 @@ describe("E2E: Modules", () => {
         `;
 
         await evaluateModule(code, { realm, sourceName: "test.js" });
-
-        // throw foo;
 
         expect(runTask).toHaveBeenCalled();
 

@@ -31,6 +31,7 @@
 - [ ] Clean up ForInOfBody to use completions rather than try/catch.
 - [-] Reduce calls to EvaluationContext.current when they aren't needed. Mostly thrown errors.
   - [x] Helper for Completion.Throw to pull the current context to create the error from name and message.
+- [ ] Figure out why a tiny number of test262 tests trigger a context.run() to pop a context different from what it pushed.
 
 ### Completion Refactor
 
