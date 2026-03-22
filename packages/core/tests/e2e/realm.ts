@@ -451,10 +451,11 @@ describe("E2E: Realm", () => {
       );
     });
 
-    it("Throws if called while a task is running from outside the task", () => {
+    it("Throws if called while a task is running from outside the task", async () => {
       const realm = StaticJsRealm();
-      realm.evaluateScript("2 + 2");
+      const task = realm.evaluateScript("2 + 2");
       expect(() => realm.evaluateScriptSync("3 + 3")).toThrow(StaticJsConcurrentEvaluationError);
+      await task;
     });
 
     it("Permits calls when nested inside another evaluateScript task", async () => {
@@ -462,7 +463,8 @@ describe("E2E: Realm", () => {
         global: {
           value: {
             callEvaluateScriptSync: () => {
-              return realm.evaluateScriptSync("3 + 3").toJsSync();
+              const result = realm.evaluateScriptSync("3 + 3");
+              return result.toJsSync();
             },
           },
         },

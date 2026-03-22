@@ -57,13 +57,18 @@ const EvaluationContextPropertyDefs: Record<
 class EvaluationContext implements Required<EvaluationContextAutoDefProperties> {
   static _currentStackProvider: EvaluationContextStackProvider | null = null;
 
-  static setStackProvider(provider: EvaluationContextStackProvider | null) {
-    if (this._currentStackProvider && provider) {
+  static withStackProvider<T>(provider: EvaluationContextStackProvider, callback: () => T): T {
+    if (this._currentStackProvider) {
       throw new StaticJsEngineError(
-        "An evaluation context stack provider is already set. Use setStackProvider(null) to unset it first.",
+        "An evaluation context stack provider is already set. Use withStackProvider(null, ...) to unset it first.",
       );
     }
     this._currentStackProvider = provider;
+    try {
+      return callback();
+    } finally {
+      this._currentStackProvider = null;
+    }
   }
 
   static get stackProvider(): EvaluationContextStackProvider {

@@ -252,18 +252,23 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   evaluateScriptSync(script: string, opts?: StaticJsRealmEvaluateScriptSyncOptions): StaticJsValue {
-    if (this._currentTask && !this._currentTask.entered) {
-      throw new StaticJsConcurrentEvaluationError(
-        "Synchronous script evaluations from outside the current task cannot be performed while another task is running.",
-      );
-    }
-
     const parsed = parseScript(script, opts?.sourceName ?? this._createInlineModuleSourceName());
     const strict = parsed.program.directives.some(
       (directive) => directive.value.value === "use strict",
     );
 
     const record = StaticJsScriptRecord(parsed, script);
+
+    if (this._currentTask) {
+      if (!this._currentTask.entered) {
+        throw new StaticJsConcurrentEvaluationError(
+          "Synchronous script evaluations from outside the current task cannot be performed while another task is running.",
+        );
+      }
+
+      return this.invokeEvaluatorSync(doEvaluateScript(record, this, strict));
+    }
+
     return this._invokeMacrotaskSync(doEvaluateScript(record, this, strict), opts);
   }
 
@@ -400,15 +405,6 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       }
     }
 
-    let runTask = this._defaultRunTaskSync;
-    if (this._boostrapping) {
-      runTask = (task) => {
-        while (!task.done) {
-          task.next();
-        }
-      };
-    }
-
     // oxlint-disable-next-line typescript/no-this-alias
     const realm = this;
     function* evaluate() {
@@ -425,7 +421,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       return yield* invokeEvaluator(evaluator);
     }
 
-    return this._invokeMacrotaskSync(evaluate, { runTask });
+    return this._invokeMacrotaskSync(evaluate, { runTask: this._defaultRunTaskSync });
   }
 
   async invokeEvaluatorAsync<TReturn>(

@@ -2,23 +2,17 @@
 
 ## Immediate
 
-- [x] Implement function auto names using EvaluationContext named parameters
-- [x] Figure out why BlockStatement is weird with regard to labels.
-- [x] Throw out and redesign debugger
-  - [x] Refactor the massive monolith class into smaller components
-  - [x] Switch file names to some sort of standard (kebab).
-  - [x] Create actual stack / frame tracking in engine
-  - [x] Use actual stack / frame tracking for step over/in/out
-  - [ ] Expose node data in task iterator
-  - [ ] Use node data to break on loop condition and update nodes
-- [ ] runTask improvements
+- [-] runTask improvements
   - [x] Make invokeEvaluatorSync use runTaskSync
-  - [ ] Flatten nested evaluations into the same runTask iterator
+  - [ ] If invokeEvaluatorX is called and the current task is an X, merge the invoked iteration with the task.
 - [x] Rework createFunction to use current execution stack for scriptOrModule and realm
 - [ ] Rework all async functions to one class
 
 ## Less imidiate
 
+- [ ] Debugger improvements
+  - [ ] Expose node data in task iterator
+  - [ ] Use node data to break on loop condition and update nodes
 - [ ] Deep review and cleanup of dap
   - [ ] Sanify file names on kebab.
 - [ ] Implement global stuff like the execution context stack and GetActiveScriptOrModule
@@ -35,8 +29,8 @@
 - [-] Rework function creation to match OrdinaryFunctionCreate.
   - [ ] Unify all function types to a single Function class accepting Call and Construct?
 - [ ] Clean up ForInOfBody to use completions rather than try/catch.
-- [ ] Reduce calls to EvaluationContext.current when they aren't needed. Mostly thrown errors.
-  - [ ] Helper for Completion.Throw to pull the current context to create the error from name and message.
+- [-] Reduce calls to EvaluationContext.current when they aren't needed. Mostly thrown errors.
+  - [x] Helper for Completion.Throw to pull the current context to create the error from name and message.
 
 ### Completion Refactor
 
