@@ -14,6 +14,7 @@ import createDataPropertyOrThrow from "../../../runtime/algorithms/create-data-p
 import definePropertyOrThrow from "../../../runtime/algorithms/define-property-or-throw.js";
 
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
+import EvaluationContext from "../../EvaluationContext.js";
 
 import boundNames from "./bound-names.js";
 
@@ -22,8 +23,8 @@ export default function* createMappedArgumentsObject(
   formals: StaticJsAstFunctionArgument[],
   argumentsList: StaticJsValue[],
   env: StaticJsEnvironmentRecord,
-  realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObjectLike> {
+  const { realm } = EvaluationContext.current;
   const len = argumentsList.length;
   const map = realm.types.object();
   const obj = new StaticJsArgumentsExoticObject(map, realm);

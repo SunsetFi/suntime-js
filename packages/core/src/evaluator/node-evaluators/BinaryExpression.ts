@@ -145,11 +145,10 @@ function* binaryExpressionStrictEquals(
 }
 
 function* binaryExpressionAdd(node: BinaryExpression): EvaluationGenerator {
-  const { realm } = EvaluationContext.current;
   const left = yield* Q.val(EvaluateNodeCommand(node.left));
   const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
-  return yield* addition(left, right, realm);
+  return yield* addition(left, right);
 }
 
 function* numericComputation(

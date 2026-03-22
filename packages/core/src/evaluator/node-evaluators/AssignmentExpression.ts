@@ -117,7 +117,7 @@ function* algebraicAssignmentExpressionEvaluator(
   const rVal = yield* Q.val(EvaluateNodeCommand(right));
 
   if (operator === "+=") {
-    const result = yield* addition(lVal, rVal, realm);
+    const result = yield* addition(lVal, rVal);
     yield* putValue(lRef, result);
     return result;
   }

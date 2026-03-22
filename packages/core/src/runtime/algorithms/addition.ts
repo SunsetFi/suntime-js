@@ -1,6 +1,5 @@
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { type StaticJsNumber } from "../types/StaticJsNumber.js";
 import { isStaticJsString, type StaticJsString } from "../types/StaticJsString.js";
@@ -13,8 +12,8 @@ import toString from "./to-string.js";
 export default function* addition(
   a: StaticJsValue,
   b: StaticJsValue,
-  realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsString | StaticJsNumber> {
+  const { realm } = EvaluationContext.current;
   const aPrim = yield* toPrimitive(a, "default");
   const bPrim = yield* toPrimitive(b, "default");
 

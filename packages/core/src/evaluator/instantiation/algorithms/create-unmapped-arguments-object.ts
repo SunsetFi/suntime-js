@@ -1,5 +1,3 @@
-import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
-
 import createDataPropertyOrThrow from "../../../runtime/algorithms/create-data-property-or-throw.js";
 import definePropertyOrThrow from "../../../runtime/algorithms/define-property-or-throw.js";
 
@@ -11,11 +9,12 @@ import StaticJsFunctionImpl from "../../../runtime/types/implementation/StaticJs
 import { Completion } from "../../completions/Completion.js";
 
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
+import EvaluationContext from "../../EvaluationContext.js";
 
 export default function* createUnmappedArgumentsObject(
   argumentsList: StaticJsValue[],
-  realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObjectLike> {
+  const { realm } = EvaluationContext.current;
   const len = argumentsList.length;
 
   const obj = realm.types.object();

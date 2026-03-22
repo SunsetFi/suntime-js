@@ -1,5 +1,6 @@
 import type StaticJsGlobalEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
-import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
+
+import EvaluationContext from "../../EvaluationContext.js";
 
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
@@ -7,7 +8,6 @@ export default function* createGlobalVarBinding(
   name: string,
   deletable: boolean,
   env: StaticJsGlobalEnvironmentRecord,
-  realm: StaticJsRealm,
 ): EvaluationGenerator<void> {
   const objRec = env.objectRecord;
   const globalObject = objRec.bindingObject;
@@ -15,6 +15,7 @@ export default function* createGlobalVarBinding(
   const extensible = globalObject.extensible;
 
   if (!hasProperty && extensible) {
+    const { realm } = EvaluationContext.current;
     yield* objRec.createMutableBindingEvaluator(name, deletable);
     yield* objRec.initializeBindingEvaluator(name, realm.types.undefined);
   }

@@ -125,7 +125,7 @@ export default function* globalDeclarationInstantiation(
       }
 
       if (!declaredFunctionOrVarNames.has(F)) {
-        yield* createGlobalVarBinding(F, false, env, realm);
+        yield* createGlobalVarBinding(F, false, env);
         declaredFunctionOrVarNames.add(F);
       }
 
@@ -147,10 +147,10 @@ export default function* globalDeclarationInstantiation(
   for (const f of functionsToInitialize) {
     const fnName = boundNames.soleElementOf(f);
     const fn = createFunction(fnName, f, env);
-    yield* createGlobalFunctionBinding(fnName, fn, false, env, realm);
+    yield* createGlobalFunctionBinding(fnName, fn, false, env);
   }
 
   for (const vn of declaredVarNames) {
-    yield* createGlobalVarBinding(vn, false, env, realm);
+    yield* createGlobalVarBinding(vn, false, env);
   }
 }

@@ -107,9 +107,9 @@ export default function* functionDeclarationInstantiation(
   if (argumentsObjectNeeded) {
     let ao: StaticJsObjectLike;
     if (strict || !simpleParameterList) {
-      ao = yield* createUnmappedArgumentsObject(argumentsList, realm);
+      ao = yield* createUnmappedArgumentsObject(argumentsList);
     } else {
-      ao = yield* createMappedArgumentsObject(func, formals, argumentsList, env, realm);
+      ao = yield* createMappedArgumentsObject(func, formals, argumentsList, env);
     }
 
     if (strict) {
@@ -124,7 +124,7 @@ export default function* functionDeclarationInstantiation(
     parameterBindings = parameterNames;
   }
 
-  const iteratorRecord = yield* createListIteratorRecord(argumentsList, realm);
+  const iteratorRecord = yield* createListIteratorRecord(argumentsList);
 
   let usedEnv: StaticJsEnvironmentRecord | null;
   if (hasDuplicates) {

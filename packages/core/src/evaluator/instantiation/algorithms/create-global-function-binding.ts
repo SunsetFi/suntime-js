@@ -1,11 +1,10 @@
-import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
-
 import type StaticJsGlobalEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 
 import type { StaticJsPropertyDescriptor } from "../../../runtime/types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
 import { Completion } from "../../completions/Completion.js";
+import EvaluationContext from "../../EvaluationContext.js";
 
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
@@ -14,7 +13,6 @@ export default function* createGlobalFunctionBinding(
   value: StaticJsValue,
   deletable: boolean,
   env: StaticJsGlobalEnvironmentRecord,
-  realm: StaticJsRealm,
 ): EvaluationGenerator<void> {
   const objRec = env.objectRecord;
   const globalObject = objRec.bindingObject;
@@ -37,6 +35,7 @@ export default function* createGlobalFunctionBinding(
 
   const result = yield* globalObject.defineOwnPropertyEvaluator(name, desc);
   if (!result) {
+    const { realm } = EvaluationContext.current;
     throw Completion.Throw(
       realm.types.error("TypeError", `Cannot create global function binding for ${name}`),
     );

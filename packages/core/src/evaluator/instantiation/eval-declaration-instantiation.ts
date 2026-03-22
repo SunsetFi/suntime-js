@@ -159,7 +159,7 @@ export default function* evalDeclarationInstantiation(
       if (!bindingExists && fnDefinable) {
         if (!declaredFunctionOrVarNames.has(F)) {
           if (varEnv instanceof StaticJsGlobalEnvironmentRecord) {
-            yield* createGlobalVarBinding(F, false, varEnv, realm);
+            yield* createGlobalVarBinding(F, false, varEnv);
           } else {
             bindingExists = yield* varEnv.hasBindingEvaluator(F);
             if (!bindingExists) {
@@ -190,7 +190,7 @@ export default function* evalDeclarationInstantiation(
     const fn = boundNames.soleElementOf(f);
     const fo = createFunction(fn, f, lexEnv);
     if (varEnv instanceof StaticJsGlobalEnvironmentRecord) {
-      yield* createGlobalFunctionBinding(fn, fo, true, varEnv, realm);
+      yield* createGlobalFunctionBinding(fn, fo, true, varEnv);
     } else {
       const bindingExists = yield* varEnv.hasBindingEvaluator(fn);
       if (!bindingExists) {
@@ -204,7 +204,7 @@ export default function* evalDeclarationInstantiation(
 
   for (const vn of declaredVarNames) {
     if (varEnv instanceof StaticJsGlobalEnvironmentRecord) {
-      yield* createGlobalVarBinding(vn, true, varEnv, realm);
+      yield* createGlobalVarBinding(vn, true, varEnv);
     } else {
       const bindingExists = yield* varEnv.hasBindingEvaluator(vn);
       if (!bindingExists) {

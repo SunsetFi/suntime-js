@@ -1,6 +1,5 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
@@ -11,8 +10,8 @@ import { createIteratorResultObject } from "./create-iterator-result-object.js";
 
 export default function* createListIteratorRecord(
   values: StaticJsValue[],
-  realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsIteratorRecord> {
+  const { realm } = EvaluationContext.current;
   let index = 0;
   const next = new StaticJsFunctionImpl(realm, "next", function* () {
     if (index >= values.length) {
