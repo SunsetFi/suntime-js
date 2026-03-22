@@ -390,8 +390,18 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   invokeEvaluatorSync<TReturn>(evaluator: StaticJsEvaluator<TReturn>): TReturn {
-    let runTask = this._defaultRunTaskSync;
     if (this._boostrapping || (this._currentTask && this._currentTask.entered)) {
+      const iter = invokeEvaluator(evaluator);
+      while (true) {
+        const { done, value } = iter.next();
+        if (done) {
+          return value as TReturn;
+        }
+      }
+    }
+
+    let runTask = this._defaultRunTaskSync;
+    if (this._boostrapping) {
       runTask = (task) => {
         while (!task.done) {
           task.next();

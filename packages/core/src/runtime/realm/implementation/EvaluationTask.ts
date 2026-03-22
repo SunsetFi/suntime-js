@@ -257,10 +257,25 @@ export default class EvaluationTask implements EvaluationContextStackProvider {
     accept: (value: unknown) => void,
     reject: (reason: unknown) => void,
   ) {
+    const close = () => {
+      EvaluationContext.setStackProvider(null);
+    };
     try {
+      EvaluationContext.setStackProvider(this);
       // Note: This pumps the evaluator to get to the first node.
       // For modules, this might throw during the linking process.
-      const taskIterator = this._createTaskIterator(evaluator, type, accept, reject);
+      const taskIterator = this._createTaskIterator(
+        evaluator,
+        type,
+        (value) => {
+          close();
+          accept(value);
+        },
+        (reason) => {
+          close();
+          reject(reason);
+        },
+      );
       if (!taskIterator) {
         // For modules or other odd microtasks, this may complete synchronously during the initial pumping to find an evaluation node.
         return;
@@ -341,55 +356,55 @@ export default class EvaluationTask implements EvaluationContextStackProvider {
       this._assertIsRunning(this);
 
       this._isEntered = true;
-      return EvaluationContext.withStackProvider(this, () => {
-        try {
-          let deadIteratorLoops = 0;
-          while (true) {
-            const result = err ? iterator.throw(err) : iterator.next();
-            if (result.done) {
-              done = true;
-              accept(result.value);
-              return {
-                value: undefined,
-                done: true,
-              };
-            }
-
-            // Try to skip iterations until we get to an actual node to evaluate.
-            // This may happen for module initialization and such.
-            // Theoretically, nothing in this is user code, and so cannot
-            // infinite loop or deadlock.
-            if (!this._currentNode) {
-              if (++deadIteratorLoops > MaxDeadIteratorLoopCount) {
-                throw new StaticJsEngineError(
-                  "Hit maximum loop count while trying to find the first node to evaluate.  This may indicate a bug in the engine.",
-                );
-              }
-
-              continue;
-            }
-
+      // return EvaluationContext.withStackProvider(this, () => {
+      try {
+        let deadIteratorLoops = 0;
+        while (true) {
+          const result = err ? iterator.throw(err) : iterator.next();
+          if (result.done) {
+            done = true;
+            accept(result.value);
             return {
               value: undefined,
-              done: false,
+              done: true,
             };
           }
-        } catch (e) {
-          if (!done) {
-            // Normally we should pass this to the generator's throw method,
-            // but we are passed generators that handle all of that for us, so the only
-            // throws we should be getting here are final throws.
-            done = true;
-            reject(e);
+
+          // Try to skip iterations until we get to an actual node to evaluate.
+          // This may happen for module initialization and such.
+          // Theoretically, nothing in this is user code, and so cannot
+          // infinite loop or deadlock.
+          if (!this._currentNode) {
+            if (++deadIteratorLoops > MaxDeadIteratorLoopCount) {
+              throw new StaticJsEngineError(
+                "Hit maximum loop count while trying to find the first node to evaluate.  This may indicate a bug in the engine.",
+              );
+            }
+
+            continue;
           }
+
           return {
             value: undefined,
-            done: true,
+            done: false,
           };
-        } finally {
-          this._isEntered = false;
         }
-      });
+      } catch (e) {
+        if (!done) {
+          // Normally we should pass this to the generator's throw method,
+          // but we are passed generators that handle all of that for us, so the only
+          // throws we should be getting here are final throws.
+          done = true;
+          reject(e);
+        }
+        return {
+          value: undefined,
+          done: true,
+        };
+      } finally {
+        this._isEntered = false;
+      }
+      // });
     };
 
     return {
