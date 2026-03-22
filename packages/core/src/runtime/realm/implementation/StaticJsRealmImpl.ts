@@ -696,9 +696,12 @@ function* doEvaluateScript(
   strict?: boolean,
 ): EvaluationGenerator<StaticJsValue> {
   const context = EvaluationContext.createRootContext(scriptRecord, strict ?? false, realm);
-  return yield* context.run(function* (context) {
+  return yield* context.run(function* () {
     try {
-      yield* globalDeclarationInstantiation(scriptRecord.ecmaScriptCode, context);
+      yield* globalDeclarationInstantiation(
+        scriptRecord.ecmaScriptCode,
+        realm.globalEnv as StaticJsGlobalEnvironmentRecord,
+      );
       const result = yield* Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode));
       if (result) {
         return yield* getValue(result, realm);
@@ -719,9 +722,12 @@ function* doEvaluateScriptAsync(
   strict?: boolean,
 ): EvaluationGenerator<StaticJsValue> {
   const context = EvaluationContext.createRootContext(scriptRecord, strict ?? false, realm);
-  return yield* context.run(function* (context) {
+  return yield* context.run(function* () {
     try {
-      yield* globalDeclarationInstantiation(scriptRecord.ecmaScriptCode, context);
+      yield* globalDeclarationInstantiation(
+        scriptRecord.ecmaScriptCode,
+        realm.globalEnv as StaticJsGlobalEnvironmentRecord,
+      );
       const evaluator = Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode));
       const invocation = new AsyncEvaluatorInvocation(evaluator, realm, true);
 

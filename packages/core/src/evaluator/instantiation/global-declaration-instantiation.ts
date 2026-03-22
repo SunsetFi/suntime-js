@@ -1,10 +1,8 @@
 import { type Node, isVariableDeclaration } from "@babel/types";
 
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
-
 import StaticJsGlobalEnvironmentRecord from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 
 import { Completion } from "../completions/Completion.js";
 
@@ -26,18 +24,9 @@ import createGlobalFunctionBinding from "./algorithms/create-global-function-bin
 
 export default function* globalDeclarationInstantiation(
   node: Node,
-  // Note: Officially we should take in the GlobalEnvironmentRecord, but our createFunction needs
-  // the context...  Should take a look at the 'official' way to create functions and fix this.
-  context: EvaluationContext,
+  env: StaticJsGlobalEnvironmentRecord,
 ): EvaluationGenerator<void> {
-  const { strict, realm } = context;
-  const env = context.lexicalEnv;
-  if (!(env instanceof StaticJsGlobalEnvironmentRecord)) {
-    throw new StaticJsEngineError(
-      "globalDeclarationInstantiation called with non-global environment",
-    );
-  }
-
+  const { strict, realm } = EvaluationContext.current;
   const lexNames = lexicallyDeclaredNames(node);
   const varNames = varDeclaredNames(node);
 
@@ -157,7 +146,7 @@ export default function* globalDeclarationInstantiation(
 
   for (const f of functionsToInitialize) {
     const fnName = boundNames.soleElementOf(f);
-    const fn = createFunction(fnName, f, context.lexicalEnv);
+    const fn = createFunction(fnName, f, env);
     yield* createGlobalFunctionBinding(fnName, fn, false, env, realm);
   }
 

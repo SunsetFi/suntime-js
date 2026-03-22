@@ -26,12 +26,12 @@ import toObject from "../../algorithms/to-object.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsUndefined, StaticJsUndefined } from "../StaticJsUndefined.js";
+import { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 
 import StaticJsFunctionBase, { type StaticJsFunctionImplOptions } from "./StaticJsFunctionImpl.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
-import { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 
 export interface StaticJsAstFunctionOptions extends StaticJsFunctionImplOptions {
   thisMode: "lexical-this" | "non-lexical-this";

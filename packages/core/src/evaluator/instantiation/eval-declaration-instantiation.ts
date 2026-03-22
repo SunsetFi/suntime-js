@@ -4,7 +4,7 @@ import StaticJsGlobalEnvironmentRecord from "../../runtime/environments/implemen
 
 import { Completion } from "../completions/Completion.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import createFunction from "../node-evaluators/Function.js";
@@ -25,9 +25,8 @@ import createGlobalFunctionBinding from "./algorithms/create-global-function-bin
 export default function* evalDeclarationInstantiation(
   body: Node,
   strict: boolean,
-  context: EvaluationContext,
 ): EvaluationGenerator<void> {
-  const { variableEnv: varEnv, lexicalEnv: lexEnv, realm } = context;
+  const { variableEnv: varEnv, lexicalEnv: lexEnv, realm } = EvaluationContext.current;
 
   const varNames = varDeclaredNames(body);
   const varDeclarations = varScopedDeclarations(body);
@@ -189,7 +188,7 @@ export default function* evalDeclarationInstantiation(
 
   for (const f of functionsToInitialize) {
     const fn = boundNames.soleElementOf(f);
-    const fo = createFunction(fn, f, context.lexicalEnv);
+    const fo = createFunction(fn, f, lexEnv);
     if (varEnv instanceof StaticJsGlobalEnvironmentRecord) {
       yield* createGlobalFunctionBinding(fn, fo, true, varEnv, realm);
     } else {

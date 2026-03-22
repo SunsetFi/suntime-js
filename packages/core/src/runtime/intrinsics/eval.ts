@@ -47,18 +47,16 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
     const lexEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
     const varEnv = strict ? lexEnv : context.variableEnv;
 
-    return yield* context
-      .with({ lexicalEnv: lexEnv, variableEnv: varEnv })
-      .run(function* (evalContext) {
-        yield* evalDeclarationInstantiation(node, context.strict, evalContext);
+    return yield* context.with({ lexicalEnv: lexEnv, variableEnv: varEnv }).run(function* () {
+      yield* evalDeclarationInstantiation(node, context.strict);
 
-        const result = yield* Q(EvaluateNodeCommand(node));
-        if (!result) {
-          return realm.types.undefined;
-        }
+      const result = yield* Q(EvaluateNodeCommand(node));
+      if (!result) {
+        return realm.types.undefined;
+      }
 
-        return yield* getValue(result, realm);
-      });
+      return yield* getValue(result, realm);
+    });
   },
 };
 

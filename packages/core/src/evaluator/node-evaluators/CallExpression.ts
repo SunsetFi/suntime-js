@@ -141,12 +141,10 @@ function* callEvalEvaluator(
   const lexEnv = new StaticJsDeclarativeEnvironmentRecord(context.lexicalEnv, realm);
   const varEnv = strict ? lexEnv : context.variableEnv;
 
-  return yield* context
-    .with({ lexicalEnv: lexEnv, variableEnv: varEnv })
-    .run(function* (evalContext) {
-      yield* evalDeclarationInstantiation(node, strict, evalContext);
+  return yield* context.with({ lexicalEnv: lexEnv, variableEnv: varEnv }).run(function* () {
+    yield* evalDeclarationInstantiation(node, strict);
 
-      const result = yield* Q(EvaluateNodeCommand(node));
-      return result ?? realm.types.undefined;
-    });
+    const result = yield* Q(EvaluateNodeCommand(node));
+    return result ?? realm.types.undefined;
+  });
 }
