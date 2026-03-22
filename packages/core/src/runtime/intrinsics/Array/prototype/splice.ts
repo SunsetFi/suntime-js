@@ -15,7 +15,7 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg = realm.types.undefined, startValue, deleteCountValue, ...items) {
     const thisObj = yield* toObject(thisArg);
 
-    const length = yield* lengthOfArrayLike(thisObj, realm);
+    const length = yield* lengthOfArrayLike(thisObj);
 
     if (!startValue) {
       return realm.types.array();
@@ -23,7 +23,7 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
 
     let start = 0;
     if (startValue) {
-      startValue = yield* toInteger(startValue, realm);
+      startValue = yield* toInteger(startValue);
       start = startValue.value;
     }
 
@@ -36,7 +36,7 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
 
     let deleteCount = length;
     if (deleteCountValue) {
-      deleteCountValue = yield* toInteger(deleteCountValue, realm);
+      deleteCountValue = yield* toInteger(deleteCountValue);
       deleteCount = deleteCountValue.value;
     }
 
@@ -50,7 +50,7 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
     // Note: We might want to do this manually eventually, as this might have weird compatibility issues
     // around when getters and setters are invoked.
     // FIXME: Use algo https://tc39.es/ecma262/multipage/indexed-collections.html#sec-array.prototype.splice
-    const oldItems = yield* toArray(thisObj, realm);
+    const oldItems = yield* toArray(thisObj);
     const result = oldItems.splice(start, deleteCount, ...items.filter(isNotUndefined));
 
     yield* setArray(realm, thisObj, oldItems);

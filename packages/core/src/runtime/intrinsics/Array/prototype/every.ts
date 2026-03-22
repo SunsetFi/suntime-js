@@ -25,7 +25,7 @@ const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const length = yield* lengthOfArrayLike(thisObj, realm);
+    const length = yield* lengthOfArrayLike(thisObj);
 
     if (length === 0) {
       return realm.types.false;

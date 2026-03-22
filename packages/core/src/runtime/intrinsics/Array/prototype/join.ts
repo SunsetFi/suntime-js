@@ -11,7 +11,7 @@ const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg = realm.types.undefined, joinerValue) {
     const thisObj = yield* toObject(thisArg);
 
-    const length = yield* lengthOfArrayLike(thisObj, realm);
+    const length = yield* lengthOfArrayLike(thisObj);
 
     if (joinerValue == null) {
       joinerValue = realm.types.undefined;

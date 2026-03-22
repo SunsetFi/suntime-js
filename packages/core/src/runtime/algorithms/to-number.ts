@@ -1,8 +1,8 @@
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
@@ -13,20 +13,18 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import toPrimitive from "./to-primitive.js";
 
-function* toNumber(
-  value: StaticJsValue,
-  realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsNumber> {
+function* toNumber(value: StaticJsValue): EvaluationGenerator<StaticJsNumber> {
+  const { types } = EvaluationContext.current.realm;
   if (isStaticJsUndefined(value)) {
-    return realm.types.NaN;
+    return types.NaN;
   }
 
   if (isStaticJsNull(value)) {
-    return realm.types.zero;
+    return types.zero;
   }
 
   if (isStaticJsBoolean(value)) {
-    return realm.types.number(value.value ? 1 : 0);
+    return types.number(value.value ? 1 : 0);
   }
 
   if (isStaticJsNumber(value)) {
@@ -34,14 +32,14 @@ function* toNumber(
   }
 
   if (isStaticJsString(value)) {
-    return realm.types.number(Number(value.value));
+    return types.number(Number(value.value));
   }
 
   // TODO: Symbol throw TypeError
 
   if (isStaticJsObjectLike(value)) {
     const asPrimitive = yield* toPrimitive(value, "number");
-    return yield* toNumber(asPrimitive, realm);
+    return yield* toNumber(asPrimitive);
   }
 
   throw new StaticJsEngineError(
@@ -50,12 +48,11 @@ function* toNumber(
   );
 }
 
-toNumber.js = function* js(
-  value: StaticJsValue,
-  realm: StaticJsRealm,
-): EvaluationGenerator<number> {
-  const numVal = yield* toNumber(value, realm);
+function* toNumberJs(value: StaticJsValue): EvaluationGenerator<number> {
+  const numVal = yield* toNumber(value);
   return numVal.value;
-};
+}
+
+toNumber.js = toNumberJs;
 
 export default toNumber;

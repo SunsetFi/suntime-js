@@ -34,7 +34,7 @@ export default class StaticJsArrayIteratorImpl extends StaticJsIteratorImpl {
     const index = this._arrayLikeNextIndex;
     const kind = this._arrayLikeIterationKind;
 
-    const len = yield* lengthOfArrayLike(array, this.realm);
+    const len = yield* lengthOfArrayLike(array);
     if (index >= len) {
       this._iteratedArrayLike = null;
       return {

@@ -33,7 +33,7 @@ const iteratorProtoTakeDeclaration: IntrinsicPropertyDeclaration = {
       done: false,
     };
 
-    const numLimit = yield* captureThrownCompletion(toNumber.js(limit, realm));
+    const numLimit = yield* captureThrownCompletion(toNumber.js(limit));
     if (Completion.Abrupt.is(numLimit)) {
       return yield* Q(iteratorClose(iterated, numLimit, realm));
     }

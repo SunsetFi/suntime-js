@@ -51,14 +51,8 @@ export function* forInOfBodyEvaluation(
   iterationKind: "enumerate" | "iterate",
   lhsKind: "assignment" | "varBinding" | "lexicalBinding",
   iteratorKind: "sync" | "async",
-  context: EvaluationContext,
 ): EvaluationGenerator {
-  if (context !== EvaluationContext.current) {
-    throw new StaticJsEngineError(
-      `Context mismatch in for-in/of body evaluation. Expected ${context}, got ${EvaluationContext.current}.`,
-    );
-  }
-
+  const context = EvaluationContext.current;
   const { realm, labelSet, lexicalEnv: oldEnv, strict } = context;
 
   let V: Completion.Normal = realm.types.undefined;
@@ -88,39 +82,56 @@ export function* forInOfBodyEvaluation(
     const nextValue = yield* iteratorValue(nextResult);
 
     // try = status
+    let result: Completion;
     try {
-      if (lhsKind === "assignment" || lhsKind === "varBinding") {
-        if (destructuring) {
-          if (lhsKind === "assignment") {
-            yield* destructuringAssignmentEvaluation(assignmentPattern!, nextValue, context);
+      try {
+        if (lhsKind === "assignment" || lhsKind === "varBinding") {
+          if (destructuring) {
+            if (lhsKind === "assignment") {
+              yield* destructuringAssignmentEvaluation(assignmentPattern!, nextValue, context);
+            } else {
+              yield* bindingInitialization(lhs as LVal, nextValue, null, context);
+            }
           } else {
-            yield* bindingInitialization(lhs as LVal, nextValue, null, context);
+            const lhsRef = yield* Q.ref(EvaluateNodeCommand(lhs));
+            // TODO:  Spec says if lhsKind is assignment and lhs target is WEB-COMPAT throw a ReferenceError, but
+            // I have no idea what AssignmentType or WEB-COMPAT is.  Skipping for now.
+            yield* putValue(lhsRef, nextValue, realm);
           }
         } else {
-          const lhsRef = yield* Q.ref(EvaluateNodeCommand(lhs));
-          // TODO:  Spec says if lhsKind is assignment and lhs target is WEB-COMPAT throw a ReferenceError, but
-          // I have no idea what AssignmentType or WEB-COMPAT is.  Skipping for now.
-          yield* putValue(lhsRef, nextValue, realm);
+          if (lhs.type !== "VariableDeclaration") {
+            throw new StaticJsEngineError(
+              `Expected VariableDeclaration for lexicalBinding, got ${lhs.type}`,
+            );
+          }
+
+          const iterationEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, realm);
+          yield* forDeclarationBindingInstantiation(lhs, iterationEnv);
+
+          context.lexicalEnv = iterationEnv;
+
+          if (destructuring) {
+            yield* forDeclarationBindingInitialization(lhs, nextValue, iterationEnv);
+          } else {
+            const lhsName = boundNames.soleElementOf(lhs);
+            const lhsRef = yield* getIdentifierReference(context.lexicalEnv, lhsName, strict);
+            yield* initializeReferencedBinding(lhsRef, nextValue);
+          }
         }
-      } else {
-        if (lhs.type !== "VariableDeclaration") {
+
+        if (context !== EvaluationContext.current) {
           throw new StaticJsEngineError(
-            `Expected VariableDeclaration for lexicalBinding, got ${lhs.type}`,
+            `Context mismatch in for-in/of body evaluation. Expected ${context}, got ${EvaluationContext.current}.`,
           );
         }
 
-        const iterationEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, realm);
-        yield* forDeclarationBindingInstantiation(lhs, iterationEnv);
-
-        context.lexicalEnv = iterationEnv;
-
-        if (destructuring) {
-          yield* forDeclarationBindingInitialization(lhs, nextValue, iterationEnv, context);
-        } else {
-          const lhsName = boundNames.soleElementOf(lhs);
-          const lhsRef = yield* getIdentifierReference(context.lexicalEnv, lhsName, strict);
-          yield* initializeReferencedBinding(lhsRef, nextValue);
-        }
+        // Note: Does not throw its completion, so will not trigger
+        // the catch below.
+        // This is messy.  Clean up this entire thing to use non-thrown
+        // completions.
+        result = yield* EvaluateNodeCommand(stmt);
+      } finally {
+        context.lexicalEnv = oldEnv;
       }
     } catch (e) {
       // Check status is abrupt completion
@@ -136,15 +147,6 @@ export function* forInOfBodyEvaluation(
 
       throw e;
     }
-
-    if (context !== EvaluationContext.current) {
-      throw new StaticJsEngineError(
-        `Context mismatch in for-in/of body evaluation. Expected ${context}, got ${EvaluationContext.current}.`,
-      );
-    }
-
-    const result = yield* EvaluateNodeCommand(stmt);
-    context.lexicalEnv = oldEnv;
 
     if (!loopContinues(result, labelSet)) {
       const status = Completion.updateEmpty(result, V);

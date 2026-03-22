@@ -98,7 +98,7 @@ function createMathNumericFunctionDeclaration(
       const asNumbers: number[] = [];
       for (let i = 0; i < args.length; i++) {
         const arg = args[i] ?? realm.types.undefined;
-        const asNumber = yield* toNumber(arg, realm);
+        const asNumber = yield* toNumber(arg);
         asNumbers[i] = asNumber.value;
       }
 
@@ -145,7 +145,7 @@ function createMathNumericFunctionHookDeclaration(
       const asNumbers: number[] = [];
       for (let i = 0; i < args.length; i++) {
         const arg = args[i] ?? realm.types.undefined;
-        const asNumber = yield* toNumber(arg, realm);
+        const asNumber = yield* toNumber(arg);
         asNumbers[i] = asNumber.value;
       }
 

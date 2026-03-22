@@ -1,11 +1,9 @@
 import type { NullLiteral } from "@babel/types";
 
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import type EvaluationContext from "../EvaluationContext.js";
 
-export default function* nullLiteralNodeEvaluator(
-  _node: NullLiteral,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  return context.realm.types.null;
+export default function* nullLiteralNodeEvaluator(_node: NullLiteral): EvaluationGenerator {
+  const { realm } = EvaluationContext.current;
+  return realm.types.null;
 }

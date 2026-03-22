@@ -13,7 +13,7 @@ export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
     const thisObj = yield* toObject(thisArg);
 
     // Set the new length
-    const length = yield* lengthOfArrayLike(thisObj, realm);
+    const length = yield* lengthOfArrayLike(thisObj);
 
     if (args.length + length > MAX_ARRAY_LENGTH_INCLUSIVE) {
       // Note: Not exactly what NodeJs does, it says "invalid array length".

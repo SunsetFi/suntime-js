@@ -9,7 +9,7 @@ const globalObjectIsNaNDeclaration: IntrinsicPropertyDeclaration = {
       return realm.types.true;
     }
 
-    value = yield* toNumber(value, realm);
+    value = yield* toNumber(value);
 
     const result = isNaN(value.value);
 

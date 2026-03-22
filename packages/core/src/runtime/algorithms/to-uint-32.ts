@@ -8,7 +8,7 @@ import toNumber from "./to-number.js";
 
 function* toUInt32(
   value: StaticJsValue | string | number,
-  realm: StaticJsRealm,
+  _realm: StaticJsRealm,
 ): EvaluationGenerator<number> {
   let number: number;
   if (typeof value === "number") {
@@ -16,7 +16,7 @@ function* toUInt32(
   } else if (typeof value === "string") {
     number = Number(value);
   } else {
-    const num = yield* toNumber(value, realm);
+    const num = yield* toNumber(value);
     number = num.value;
   }
 

@@ -16,7 +16,7 @@ const stringProtoPadEndDeclaration: FunctionIntrinsicPropertyDeclaration = {
   ) {
     const thisStr = yield* toString(thisArg);
 
-    length = yield* toNumber(length, realm);
+    length = yield* toNumber(length);
 
     let valueStr = " ";
     if (value && !isStaticJsUndefined(value)) {

@@ -1,11 +1,9 @@
 import type { BooleanLiteral } from "@babel/types";
 
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import type EvaluationContext from "../EvaluationContext.js";
 
-export default function* booleanLiteralNodeEvaluator(
-  node: BooleanLiteral,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  return context.realm.types.boolean(node.value);
+export default function* booleanLiteralNodeEvaluator(node: BooleanLiteral): EvaluationGenerator {
+  const { realm } = EvaluationContext.current;
+  return realm.types.boolean(node.value);
 }

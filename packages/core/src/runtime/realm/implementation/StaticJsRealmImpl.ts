@@ -20,7 +20,7 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 
 import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
-import { type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
+import { invokeEvaluator, type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
@@ -410,12 +410,28 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   ): TReturn {
     const previousTask = this._currentTask;
 
+    // oxlint-disable-next-line typescript/no-this-alias
+    const realm = this;
+    function* evaluate() {
+      // We may be ran from outside any active context, so bootstrap
+      // one if needed.
+      if (EvaluationContext.stack.length === 0) {
+        return yield* EvaluationContext.createRootContext(null, false, realm).run<TReturn>(
+          function* () {
+            return yield* invokeEvaluator(evaluator);
+          },
+        );
+      }
+
+      return yield* invokeEvaluator(evaluator);
+    }
+
     try {
       let result: TReturn | undefined = undefined;
       let error: unknown | undefined = undefined;
       let complete = false;
 
-      const macrotask = this._createMacrotask(evaluator, runTask);
+      const macrotask = this._createMacrotask(evaluate, runTask);
       macrotask.onComplete((value, err) => {
         complete = true;
         error = err;
@@ -455,30 +471,25 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
           task.next();
         }
       };
-      // this._invokeEvaluatorSyncDepth++;
-      // try {
-      //   const iterator = evaluateCommands(invokeEvaluator(evaluator));
-      //   // FIXME: Use this._defaultRunTaskSync
-      //   let iteratorResult = iterator.next();
-      //   while (!iteratorResult.done) {
-      //     iteratorResult = iterator.next();
-      //   }
-      //   while (this._invokeEvaluatorSyncMicrotasks.length > 0) {
-      //     const evaluator = this._invokeEvaluatorSyncMicrotasks.shift()!;
-      //     const iterator = evaluateCommands(invokeEvaluator(evaluator));
-      //     let iteratorResult = iterator.next();
-      //     while (!iteratorResult.done) {
-      //       iteratorResult = iterator.next();
-      //     }
-      //   }
-      //   return iteratorResult.value;
-      // } finally {
-      //   this._invokeEvaluatorSyncMicrotasks.length = 0;
-      //   this._invokeEvaluatorSyncDepth--;
-      // }
     }
 
-    return this.invokeMacrotaskSync(evaluator, { runTask });
+    // oxlint-disable-next-line typescript/no-this-alias
+    const realm = this;
+    function* evaluate() {
+      // We may be ran from outside any active context, so bootstrap
+      // one if needed.
+      if (EvaluationContext.stack.length === 0) {
+        return yield* EvaluationContext.createRootContext(null, false, realm).run<TReturn>(
+          function* () {
+            return yield* invokeEvaluator(evaluator);
+          },
+        );
+      }
+
+      return yield* invokeEvaluator(evaluator);
+    }
+
+    return this.invokeMacrotaskSync(evaluate, { runTask });
   }
 
   async invokeEvaluatorAsync<TReturn>(

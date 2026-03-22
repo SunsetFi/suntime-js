@@ -18,7 +18,7 @@ const numberProtoToFixedDeclaration: FunctionIntrinsicPropertyDeclaration = {
       );
     }
 
-    digits = yield* toNumber(digits, realm);
+    digits = yield* toNumber(digits);
 
     const value = thisArg.value.toFixed(digits.value);
 

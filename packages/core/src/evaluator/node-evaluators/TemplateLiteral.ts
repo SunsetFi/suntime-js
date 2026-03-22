@@ -2,19 +2,16 @@ import type { TemplateLiteral } from "@babel/types";
 
 import toString from "../../runtime/algorithms/to-string.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import Q from "../completions/Q.js";
 
-export default function* templateLiteralNodeEvaluator(
-  node: TemplateLiteral,
-  context: EvaluationContext,
-): EvaluationGenerator {
+export default function* templateLiteralNodeEvaluator(node: TemplateLiteral): EvaluationGenerator {
   // TODO: This isn't spec compliant and doesnt handle tagged template literals, but it should be good enough for now.
 
-  const { realm } = context;
+  const { realm } = EvaluationContext.current;
 
   let str = "";
   for (let i = 0; i < node.quasis.length; i++) {

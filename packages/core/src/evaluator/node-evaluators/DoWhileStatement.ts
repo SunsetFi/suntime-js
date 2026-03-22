@@ -8,7 +8,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import Q from "../completions/Q.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import labelledIterationStatementEvaluation from "./LabelledIterationStatementEvaluation.js";
@@ -17,10 +17,9 @@ import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 const doWhileStatementNodeEvaluator = breakableStatementEvaluation(
   labelledIterationStatementEvaluation(function* doWhileStatementNodeEvaluator(
     node: DoWhileStatement,
-    context: EvaluationContext,
   ): EvaluationGenerator {
-    const { labelSet } = context;
-    let V: Completion.Normal = context.realm.types.undefined;
+    const { labelSet, realm } = EvaluationContext.current;
+    let V: Completion.Normal = realm.types.undefined;
 
     while (true) {
       const stmtResult = yield* EvaluateNodeCommand(node.body);

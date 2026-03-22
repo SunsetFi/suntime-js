@@ -16,14 +16,14 @@ const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
       value = realm.types.undefined;
     }
 
-    const length = yield* lengthOfArrayLike(thisObj, realm);
+    const length = yield* lengthOfArrayLike(thisObj);
     if (length <= 0) {
       return thisObj;
     }
 
     let start = 0;
     if (startValue && !isStaticJsUndefined(startValue)) {
-      startValue = yield* toInteger(startValue, realm);
+      startValue = yield* toInteger(startValue);
       start = startValue.value;
       if (start < 0) {
         start = length + start;
@@ -38,7 +38,7 @@ const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
 
     let end = length;
     if (endValue && !isStaticJsUndefined(endValue)) {
-      endValue = yield* toInteger(endValue, realm);
+      endValue = yield* toInteger(endValue);
       end = endValue.value;
       if (end < 0) {
         end = length + end;

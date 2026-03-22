@@ -15,9 +15,9 @@ export default function* toIntegerOrInfinity(
 
 toIntegerOrInfinity.js = function* js(
   value: StaticJsValue | number,
-  realm: StaticJsRealm,
+  _realm: StaticJsRealm,
 ): EvaluationGenerator<number> {
-  const number = typeof value === "number" ? value : yield* toNumber.js(value, realm);
+  const number = typeof value === "number" ? value : yield* toNumber.js(value);
   if (Number.isNaN(number) || number === 0) {
     return 0;
   }

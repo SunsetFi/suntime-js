@@ -25,7 +25,7 @@ class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements StaticJsFu
     const instance = new StaticJsBoundFunction(realm, targetFunc, thisArg, boundArgs);
 
     const boundLength = yield* targetFunc.getEvaluator("length");
-    const length = yield* toInteger(boundLength, realm);
+    const length = yield* toInteger(boundLength);
     yield* instance.defineOwnPropertyEvaluator("length", {
       value: realm.types.number(Math.max(0, length.value - boundArgs.length)),
       writable: false,

@@ -99,7 +99,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
 
     // items is array-like
     const arrayLike = yield* Q(toObject(items));
-    const len = yield* Q(lengthOfArrayLike(arrayLike, realm));
+    const len = yield* Q(lengthOfArrayLike(arrayLike));
     if (isConstructor(C, realm)) {
       A = yield* Q(C.constructEvaluator([realm.types.number(len)]));
     } else {

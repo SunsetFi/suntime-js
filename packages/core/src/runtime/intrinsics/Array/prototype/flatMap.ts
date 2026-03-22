@@ -24,7 +24,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const length = yield* lengthOfArrayLike(thisObj, realm);
+    const length = yield* lengthOfArrayLike(thisObj);
 
     const A = yield* arraySpeciesCreate(thisObj, 0, realm);
     let n = 0;
@@ -44,7 +44,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       ]);
       // flatMap does not flatten non-array array-likes.
       if (isStaticJsArray(result)) {
-        const len = yield* lengthOfArrayLike(result, realm);
+        const len = yield* lengthOfArrayLike(result);
         if (n + len > MAX_ARRAY_LENGTH_INCLUSIVE) {
           throw Completion.Throw(realm.types.error("TypeError", "Maximum array size exceeded"));
         }

@@ -25,7 +25,7 @@ const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
 
     let depth;
     if (!isStaticJsUndefined(depthValue)) {
-      depthValue = yield* toInteger(depthValue, realm);
+      depthValue = yield* toInteger(depthValue);
       depth = depthValue.value;
     } else {
       depth = 1;
@@ -46,7 +46,7 @@ function* performFlat(
   depth: number,
   target: StaticJsValue[] = [],
 ): EvaluationGenerator<StaticJsValue[]> {
-  const length = yield* lengthOfArrayLike(thisObj, realm);
+  const length = yield* lengthOfArrayLike(thisObj);
 
   for (let i = 0; i < length; i++) {
     const hasProperty = yield* thisObj.hasPropertyEvaluator(String(i));

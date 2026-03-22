@@ -8,7 +8,7 @@ const arrayProtoReverseDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg = realm.types.undefined) {
     const thisObj = yield* toObject(thisArg);
 
-    const length = yield* lengthOfArrayLike(thisObj, realm);
+    const length = yield* lengthOfArrayLike(thisObj);
 
     for (let i = 0; i < length / 2; i++) {
       const leftProperty = String(i);

@@ -1,8 +1,6 @@
 import type { ForOfStatement, LVal, VariableDeclaration } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
-
-import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import boundNames from "../instantiation/algorithms/bound-names.js";
@@ -16,7 +14,6 @@ import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 const forOfStatementNodeEvaluator = breakableStatementEvaluation(
   labelledIterationStatementEvaluation(function* forOfStatementNodeEvaluator(
     node: ForOfStatement,
-    context: EvaluationContext,
   ): EvaluationGenerator {
     const { await: isAsync, left, right, body } = node;
 
@@ -27,7 +24,6 @@ const forOfStatementNodeEvaluator = breakableStatementEvaluation(
         uninitializedBoundNames,
         right,
         isAsync ? "async-iterate" : "iterate",
-        context,
       );
       let lhs: VariableDeclaration | LVal = left;
       if (left.kind === "var") {
@@ -45,14 +41,12 @@ const forOfStatementNodeEvaluator = breakableStatementEvaluation(
         "iterate",
         left.kind === "var" ? "varBinding" : "lexicalBinding",
         isAsync ? "async" : "sync",
-        context,
       );
     } else {
       const keyResult = yield* forInOfHeadEvaluation(
         [],
         right,
         isAsync ? "async-iterate" : "iterate",
-        context,
       );
       return yield* forInOfBodyEvaluation(
         left,
@@ -61,7 +55,6 @@ const forOfStatementNodeEvaluator = breakableStatementEvaluation(
         "iterate",
         "assignment",
         isAsync ? "async" : "sync",
-        context,
       );
     }
   }),

@@ -1,18 +1,13 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
 import toInteger from "./to-integer.js";
 
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../types/StaticJsArray.js";
 
-export default function* lengthOfArrayLike(
-  obj: StaticJsObjectLike,
-  realm: StaticJsRealm,
-): EvaluationGenerator<number> {
+export default function* lengthOfArrayLike(obj: StaticJsObjectLike): EvaluationGenerator<number> {
   let lengthValue = yield* obj.getEvaluator("length");
-  lengthValue = yield* toInteger(lengthValue, realm);
+  lengthValue = yield* toInteger(lengthValue);
   let length = lengthValue.value;
 
   if (Number.isNaN(length)) {

@@ -10,13 +10,13 @@ const stringProtoSubstrDeclaration: FunctionIntrinsicPropertyDeclaration = {
   func: function* (realm, thisArg, startValue?: StaticJsValue, lengthValue?: StaticJsValue) {
     let start = 0;
     if (startValue) {
-      const startNum = yield* toNumber(startValue, realm);
+      const startNum = yield* toNumber(startValue);
       start = startNum.value;
     }
 
     let length = Infinity;
     if (lengthValue) {
-      const lengthNum = yield* toNumber(lengthValue, realm);
+      const lengthNum = yield* toNumber(lengthValue);
       length = lengthNum.value;
     }
 

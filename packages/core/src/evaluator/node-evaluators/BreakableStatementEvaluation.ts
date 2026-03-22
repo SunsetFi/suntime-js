@@ -1,6 +1,6 @@
 import type { Node } from "@babel/types";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import type { NodeEvaluator } from "../NodeEvaluator.js";
@@ -16,9 +16,9 @@ export default function breakableStatementEvaluation<TNode extends Node>(
 ): NodeEvaluator<TNode> {
   return labeledStatementEvaluation(function* breakableStatementEvaluationWrapper(
     node: TNode,
-    context: EvaluationContext,
   ): EvaluationGenerator {
-    let stmtResult = yield* captureThrownCompletion(evaluator(node, context));
+    const context = EvaluationContext.current;
+    let stmtResult = yield* captureThrownCompletion(evaluator(node));
 
     if (Completion.Break.is(stmtResult)) {
       if (stmtResult.target === null) {

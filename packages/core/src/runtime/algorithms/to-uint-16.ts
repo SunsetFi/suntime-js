@@ -8,7 +8,7 @@ function* toUint16(
   value: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsNumber> {
-  const number = yield* toNumber(value, realm);
+  const number = yield* toNumber(value);
   const int = toUint16Native(number.value);
   return realm.types.number(int);
 }

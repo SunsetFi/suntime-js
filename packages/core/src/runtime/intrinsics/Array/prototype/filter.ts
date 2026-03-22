@@ -25,7 +25,7 @@ const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const length = yield* lengthOfArrayLike(thisObj, realm);
+    const length = yield* lengthOfArrayLike(thisObj);
 
     const target = yield* arraySpeciesCreate(thisObj, 0, realm);
     let to = 0;

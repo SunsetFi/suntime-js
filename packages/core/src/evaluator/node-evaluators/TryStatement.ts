@@ -17,11 +17,8 @@ import bindingInitialization from "../bindings/binding-initialization.js";
 import rethrowCompletion from "../completions/rethrow-completion.js";
 import captureThrownCompletion from "../completions/capture-thrown-completion.js";
 
-function* tryStatementNodeEvaluator(
-  node: TryStatement,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { realm } = context;
+function* tryStatementNodeEvaluator(node: TryStatement): EvaluationGenerator {
+  const { realm } = EvaluationContext.current;
 
   let result = yield* EvaluateNodeCommand(node.block);
 
@@ -43,11 +40,7 @@ function* tryStatementNodeEvaluator(
   return result ?? realm.types.undefined;
 }
 
-function* runCatch(
-  node: CatchClause,
-  thrownValue: StaticJsValue,
-  // context: EvaluationContext,
-): EvaluationGenerator<Completion> {
+function* runCatch(node: CatchClause, thrownValue: StaticJsValue): EvaluationGenerator<Completion> {
   const context = EvaluationContext.current;
   const { realm } = context;
 
@@ -60,12 +53,15 @@ function* runCatch(
     }
 
     context.lexicalEnv = catchEnv;
-    yield* bindingInitialization(node.param, thrownValue, catchEnv, context);
+    try {
+      yield* bindingInitialization(node.param, thrownValue, catchEnv, context);
+      return yield* captureThrownCompletion(EvaluateNodeCommand(node.body));
+    } finally {
+      context.lexicalEnv = oldEnv;
+    }
   }
 
-  const completion = yield* captureThrownCompletion(EvaluateNodeCommand(node.body));
-  context.lexicalEnv = oldEnv;
-  return completion;
+  return yield* captureThrownCompletion(EvaluateNodeCommand(node.body));
 }
 
 export default tryStatementNodeEvaluator;

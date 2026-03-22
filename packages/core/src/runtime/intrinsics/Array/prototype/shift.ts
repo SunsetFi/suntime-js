@@ -8,7 +8,7 @@ const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg = realm.types.undefined) {
     const thisObj = yield* toObject(thisArg);
 
-    const length = yield* lengthOfArrayLike(thisObj, realm);
+    const length = yield* lengthOfArrayLike(thisObj);
 
     if (length <= 0) {
       yield* thisObj.setEvaluator("length", realm.types.zero, true);

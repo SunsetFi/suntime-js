@@ -18,7 +18,7 @@ const globalObjectParseIntDeclaration: IntrinsicPropertyDeclaration = {
 
     let radixValue = 10;
     if (radix && !isStaticJsUndefined(radix) && !isStaticJsNull(radix)) {
-      radix = yield* toInteger(radix, realm);
+      radix = yield* toInteger(radix);
       radixValue = radix.value;
     }
 

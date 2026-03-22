@@ -8,6 +8,8 @@ import {
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
+import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
+
 import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
 
@@ -25,6 +27,8 @@ import copyDataProperties from "../../runtime/algorithms/copy-data-properties.js
 
 import toPropertyKey from "../../runtime/utils/to-property-key.js";
 
+import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import Q from "../completions/Q.js";
@@ -33,8 +37,6 @@ import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import iteratorDestructuringAssignmentEvaluation from "./iterator-destructuring-assignment-evaluation.js";
-import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
-import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
 
 export default function* destructuringAssignmentEvaluation(
   node: Node,
@@ -103,7 +105,6 @@ function* propertyDestructuringAssignmentEvaluation(
           NamedEvaluation(
             typeof lRef.referencedName === "string" ? lRef.referencedName : null,
             initializer,
-            context,
           ),
         );
       } else {
@@ -167,7 +168,7 @@ function* keyedDestructuringAssignmentEvaluation(
   let v = yield* obj.getEvaluator(property);
   if (initializer && isStaticJsUndefined(v)) {
     if (isAnonymousFunctionDefinition(initializer) && node.type === "Identifier") {
-      v = yield* Q.val(NamedEvaluation(node.name, initializer, context));
+      v = yield* Q.val(NamedEvaluation(node.name, initializer));
     } else {
       v = yield* Q.val(EvaluateNodeCommand(initializer));
     }

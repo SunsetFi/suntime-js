@@ -7,15 +7,13 @@ import blockDeclarationInstantiation from "../instantiation/block-declaration-in
 import Q from "../completions/Q.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 
 import evaluateStatementList from "./StatementList.js";
 import captureThrownCompletion from "../completions/capture-thrown-completion.js";
 
-function* blockStatementNodeEvaluator(
-  node: BlockStatement,
-  context: EvaluationContext,
-): EvaluationGenerator {
+function* blockStatementNodeEvaluator(node: BlockStatement): EvaluationGenerator {
+  const context = EvaluationContext.current;
   if (node.body.length === 0) {
     // Directives are values too!
     // Inherit the last one as a value.
@@ -36,14 +34,16 @@ function* blockStatementNodeEvaluator(
   context.lexicalEnv = blockEnv;
   context.labelSet = [];
 
-  yield* blockDeclarationInstantiation(node, blockEnv);
+  try {
+    yield* blockDeclarationInstantiation(node, blockEnv);
 
-  const completion = yield* captureThrownCompletion(evaluateStatementList(node.body));
+    const completion = yield* captureThrownCompletion(evaluateStatementList(node.body));
 
-  context.lexicalEnv = oldEnv;
-  context.labelSet = oldLabels;
-
-  return yield* Q(completion);
+    return yield* Q(completion);
+  } finally {
+    context.lexicalEnv = oldEnv;
+    context.labelSet = oldLabels;
+  }
 }
 
 export default blockStatementNodeEvaluator;

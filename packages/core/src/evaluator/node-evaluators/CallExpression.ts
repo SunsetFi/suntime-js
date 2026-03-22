@@ -23,7 +23,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import Q from "../completions/Q.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import getValue from "../../runtime/algorithms/get-value.js";
@@ -32,10 +32,8 @@ import evalDeclarationInstantiation from "../instantiation/eval-declaration-inst
 
 import nameNode from "./name-node.js";
 
-export default function* callExpressionNodeEvaluator(
-  node: CallExpression,
-  context: EvaluationContext,
-): EvaluationGenerator {
+export default function* callExpressionNodeEvaluator(node: CallExpression): EvaluationGenerator {
+  const context = EvaluationContext.current;
   const { realm } = context;
   if (node.callee.type === "V8IntrinsicIdentifier") {
     // TODO: Support with realm hooks.
@@ -71,7 +69,6 @@ export default function* callExpressionNodeEvaluator(
     );
   }
 
-  // const args: StaticJsValue[] = [];
   const parameterEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
   const args = yield* context
     .with({
@@ -107,7 +104,7 @@ export default function* callExpressionNodeEvaluator(
   if (isIdentifier(node.callee) && node.callee.name === "eval") {
     const globalEval = yield* realm.global.getEvaluator("eval");
     if (globalEval === callee && isStaticJsFunction(callee)) {
-      return yield* callEvalEvaluator(context, args[0]);
+      return yield* callEvalEvaluator(args[0]);
     }
   }
 
@@ -116,11 +113,9 @@ export default function* callExpressionNodeEvaluator(
   return callResult ?? realm.types.undefined;
 }
 
-function* callEvalEvaluator(
-  context: EvaluationContext,
-  strArg: StaticJsValue | undefined,
-): EvaluationGenerator {
-  const { realm } = context;
+function* callEvalEvaluator(strArg: StaticJsValue | undefined): EvaluationGenerator {
+  const context = EvaluationContext.current;
+  const { lexicalEnv, realm, strict, variableEnv } = context;
 
   const str = yield* toString(strArg ?? realm.types.undefined);
 
@@ -135,14 +130,14 @@ function* callEvalEvaluator(
     throw e;
   }
 
-  const strict =
-    context.strict || node.program.directives.some((dir) => dir.value.value === "use strict");
+  const isStrict =
+    strict || node.program.directives.some((dir) => dir.value.value === "use strict");
 
-  const lexEnv = new StaticJsDeclarativeEnvironmentRecord(context.lexicalEnv, realm);
-  const varEnv = strict ? lexEnv : context.variableEnv;
+  const lexEnv = new StaticJsDeclarativeEnvironmentRecord(lexicalEnv, realm);
+  const varEnv = isStrict ? lexEnv : variableEnv;
 
   return yield* context.with({ lexicalEnv: lexEnv, variableEnv: varEnv }).run(function* () {
-    yield* evalDeclarationInstantiation(node, strict);
+    yield* evalDeclarationInstantiation(node, isStrict);
 
     const result = yield* Q(EvaluateNodeCommand(node));
     return result ?? realm.types.undefined;

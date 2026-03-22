@@ -22,10 +22,8 @@ import evaluateStatementList from "./StatementList.js";
 import captureThrownCompletion from "../completions/capture-thrown-completion.js";
 
 const switchStatementNodeEvaluator = breakableStatementEvaluation(
-  function* switchStatementNodeEvaluator(
-    statement: SwitchStatement,
-    context: EvaluationContext,
-  ): EvaluationGenerator {
+  function* switchStatementNodeEvaluator(statement: SwitchStatement): EvaluationGenerator {
+    const context = EvaluationContext.current;
     const switchValue = yield* Q.val(EvaluateNodeCommand(statement.discriminant));
 
     const oldEnv = context.lexicalEnv;
@@ -34,12 +32,13 @@ const switchStatementNodeEvaluator = breakableStatementEvaluation(
     yield* blockDeclarationInstantiation(statement, blockEnv);
 
     context.lexicalEnv = blockEnv;
+    try {
+      const R = yield* captureThrownCompletion(caseBlockEvaluation(statement.cases, switchValue));
 
-    const R = yield* captureThrownCompletion(caseBlockEvaluation(statement.cases, switchValue));
-
-    context.lexicalEnv = oldEnv;
-
-    return yield* Q(R);
+      return yield* Q(R);
+    } finally {
+      context.lexicalEnv = oldEnv;
+    }
   },
 );
 

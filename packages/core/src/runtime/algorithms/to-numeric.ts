@@ -10,9 +10,9 @@ import toPrimitive from "./to-primitive.js";
 
 export default function* toNumeric(
   value: StaticJsValue,
-  realm: StaticJsRealm,
+  _realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsNumber> {
   const primValue = yield* toPrimitive(value, "number");
   // BigNum should go here.
-  return yield* toNumber(primValue, realm);
+  return yield* toNumber(primValue);
 }

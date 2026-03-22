@@ -5,19 +5,18 @@ import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import Q from "../completions/Q.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* sequenceExpressionNodeEvaluator(
   node: SequenceExpression,
-  context: EvaluationContext,
 ): EvaluationGenerator {
-  const { realm } = context;
+  const { realm } = EvaluationContext.current;
   let lastCompletion: StaticJsValue = realm.types.undefined;
   for (const expr of node.expressions) {
     // The comma operator calls GetValue on each of its operands.
     lastCompletion = yield* Q.val(EvaluateNodeCommand(expr));
   }
 
-  return lastCompletion ?? context.realm.types.undefined;
+  return lastCompletion ?? realm.types.undefined;
 }

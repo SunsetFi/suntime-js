@@ -19,28 +19,23 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import Q from "../completions/Q.js";
 
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import type EvaluationContext from "../EvaluationContext.js";
 
-export default function* unaryExpressionNodeEvaluator(
-  node: UnaryExpression,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { realm } = context;
-
+export default function* unaryExpressionNodeEvaluator(node: UnaryExpression): EvaluationGenerator {
   if (node.operator === "delete") {
-    return yield* deleteExpressionNodeEvaluator(node, context);
+    return yield* deleteExpressionNodeEvaluator(node);
   }
 
   if (node.operator === "typeof") {
-    return yield* typeofExpressionNodeEvaluator(node, context);
+    return yield* typeofExpressionNodeEvaluator(node);
   }
 
   // Note: In the case of 'void', this is never used.
   // But it still can have side-effects.
   const value = yield* Q.val(EvaluateNodeCommand(node.argument));
 
-  const types = context.realm.types;
+  const { types } = EvaluationContext.current.realm;
   switch (node.operator) {
     case "!": {
       const boolVal = yield* toBoolean.js(value);
@@ -49,14 +44,14 @@ export default function* unaryExpressionNodeEvaluator(
     // I'm reasonably sure native javascript converts these to number for these operations.
     // Typescript doesn't like it though, so let's cast it ourselves.
     case "-": {
-      const numberValue = yield* toNumber(value, realm);
+      const numberValue = yield* toNumber(value);
       return types.number(-numberValue.value);
     }
     case "+": {
-      return yield* toNumber(value, realm);
+      return yield* toNumber(value);
     }
     case "~": {
-      const numberValue = yield* toNumber(value, realm);
+      const numberValue = yield* toNumber(value);
       return types.number(~numberValue.value);
     }
     case "void":
@@ -68,11 +63,8 @@ export default function* unaryExpressionNodeEvaluator(
   throw new StaticJsEngineError(`Unknown unary operator: ${node.operator}.`);
 }
 
-function* deleteExpressionNodeEvaluator(
-  node: UnaryExpression,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { realm } = context;
+function* deleteExpressionNodeEvaluator(node: UnaryExpression): EvaluationGenerator {
+  const { realm, strict } = EvaluationContext.current;
   const ref = yield* Q(EvaluateNodeCommand(node.argument));
 
   if (!isStaticJsReferenceRecord(ref)) {
@@ -88,7 +80,7 @@ function* deleteExpressionNodeEvaluator(
     const baseObj = yield* toObject(ref.base);
     const propertyKey = yield* toPropertyKey(ref.referencedName);
     const result = yield* baseObj.deleteEvaluator(propertyKey);
-    if (!result && context.strict) {
+    if (!result && strict) {
       throw Completion.Throw(
         realm.types.error(
           "TypeError",
@@ -104,11 +96,8 @@ function* deleteExpressionNodeEvaluator(
   }
 }
 
-function* typeofExpressionNodeEvaluator(
-  node: UnaryExpression,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { realm } = context;
+function* typeofExpressionNodeEvaluator(node: UnaryExpression): EvaluationGenerator {
+  const { realm } = EvaluationContext.current;
   const argument = node.argument;
   let value = yield* Q(EvaluateNodeCommand(argument));
   if (isStaticJsReferenceRecord(value)) {

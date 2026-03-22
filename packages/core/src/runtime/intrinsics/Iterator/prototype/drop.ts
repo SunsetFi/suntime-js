@@ -37,7 +37,7 @@ const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
       done: false,
     };
 
-    const numLimit = yield* toNumber.js(limit, realm);
+    const numLimit = yield* toNumber.js(limit);
     if (Number.isNaN(numLimit)) {
       const error = Completion.Throw(realm.types.error("RangeError", "Invalid count value"));
       yield* Q(iteratorClose(iterated, error, realm));

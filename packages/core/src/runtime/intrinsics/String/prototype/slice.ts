@@ -10,13 +10,13 @@ const stringProtoSliceDeclaration: FunctionIntrinsicPropertyDeclaration = {
   func: function* (realm, thisArg, startValue?: StaticJsValue, endValue?: StaticJsValue) {
     let start = 0;
     if (startValue) {
-      const startNum = yield* toNumber(startValue, realm);
+      const startNum = yield* toNumber(startValue);
       start = startNum.value;
     }
 
     let end = Infinity;
     if (endValue) {
-      const endNum = yield* toNumber(endValue, realm);
+      const endNum = yield* toNumber(endValue);
       end = endNum.value;
     }
 

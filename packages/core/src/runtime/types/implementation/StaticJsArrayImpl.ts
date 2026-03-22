@@ -102,11 +102,11 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
     }
 
     if (isStaticJsDataPropertyDescriptor(descr)) {
-      const value = yield* toNumber(descr.value ?? this.realm.types.undefined, this.realm);
+      const value = yield* toNumber(descr.value ?? this.realm.types.undefined);
       return value.value;
     } else if (isStaticJsAccessorPropertyDescriptor(descr) && descr.get) {
       let result = yield* descr.get.callEvaluator(this);
-      result = yield* toNumber(result, this.realm);
+      result = yield* toNumber(result);
       return result.value;
     } else {
       return 0;
@@ -177,7 +177,7 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
 
     const newLen = yield* toUInt32(desc.value, this.realm);
 
-    const numberLen = yield* toNumber(desc.value, this.realm);
+    const numberLen = yield* toNumber(desc.value);
     if (numberLen.value !== newLen) {
       throw Completion.Throw(this.realm.types.error("RangeError", "Invalid array length"));
     }

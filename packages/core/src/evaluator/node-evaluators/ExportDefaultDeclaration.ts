@@ -5,13 +5,13 @@ import isAssignmentGrammar from "../../grammar/is-assignment-grammar.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import Q from "../completions/Q.js";
 
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import type EvaluationContext from "../EvaluationContext.js";
 
 function* exportDefaultDeclarationNodeEvaluator(
   node: ExportDefaultDeclaration,
-  context: EvaluationContext,
 ): EvaluationGenerator {
+  const { lexicalEnv } = EvaluationContext.current;
   if (node.declaration.type === "FunctionDeclaration") {
     return yield* Q(EvaluateNodeCommand(node.declaration));
   }
@@ -19,7 +19,7 @@ function* exportDefaultDeclarationNodeEvaluator(
   if (isAssignmentGrammar(node.declaration)) {
     const rhs = yield* Q.val(EvaluateNodeCommand(node.declaration));
 
-    yield* context.lexicalEnv.initializeBindingEvaluator("*default*", rhs);
+    yield* lexicalEnv.initializeBindingEvaluator("*default*", rhs);
   }
 
   return null;

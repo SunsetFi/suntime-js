@@ -29,7 +29,7 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const length = yield* lengthOfArrayLike(thisObj, realm);
+    const length = yield* lengthOfArrayLike(thisObj);
 
     const A = yield* arraySpeciesCreate(thisObj, length, realm);
     for (let i = 0; i < length; i++) {

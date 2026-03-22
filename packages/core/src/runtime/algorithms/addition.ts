@@ -25,7 +25,7 @@ export default function* addition(
   }
 
   // BigNum, if we ever do it
-  const aNum = yield* toNumber(aPrim, realm);
-  const bNum = yield* toNumber(bPrim, realm);
+  const aNum = yield* toNumber(aPrim);
+  const bNum = yield* toNumber(bPrim);
   return realm.types.number(aNum.value + bNum.value);
 }

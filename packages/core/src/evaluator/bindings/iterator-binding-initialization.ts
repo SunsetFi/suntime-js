@@ -126,7 +126,7 @@ export default function* iteratorBindingInitialization(
 
       if (initializer && isStaticJsUndefined(v)) {
         if (isAnonymousFunctionDefinition(initializer)) {
-          v = yield* Q.val(NamedEvaluation(bindingId, initializer, context));
+          v = yield* Q.val(NamedEvaluation(bindingId, initializer));
         } else {
           v = yield* Q.val(EvaluateNodeCommand(initializer));
         }

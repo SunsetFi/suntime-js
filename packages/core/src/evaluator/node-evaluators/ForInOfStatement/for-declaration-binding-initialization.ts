@@ -8,14 +8,13 @@ import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
 import bindingInitialization from "../../bindings/binding-initialization.js";
 
+import EvaluationContext from "../../EvaluationContext.js";
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
-import type EvaluationContext from "../../EvaluationContext.js";
 
 export default function* forDeclarationBindingInitialization(
   node: VariableDeclaration,
   value: StaticJsValue,
   environment: StaticJsEnvironmentRecord,
-  context: EvaluationContext,
 ): EvaluationGenerator<void> {
   const variableId = node.declarations[0].id;
   if (variableId.type === "VoidPattern") {
@@ -24,5 +23,5 @@ export default function* forDeclarationBindingInitialization(
   }
   const lVal = variableId;
 
-  yield* bindingInitialization(lVal, value, environment, context);
+  yield* bindingInitialization(lVal, value, environment, EvaluationContext.current);
 }

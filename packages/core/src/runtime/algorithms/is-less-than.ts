@@ -13,7 +13,7 @@ export default function* isLessThan(
   x: StaticJsValue,
   y: StaticJsValue,
   leftFirst: boolean,
-  realm: StaticJsRealm,
+  _realm: StaticJsRealm,
 ): EvaluationGenerator<boolean | undefined> {
   let px: StaticJsScalar;
   let py: StaticJsScalar;
@@ -30,8 +30,8 @@ export default function* isLessThan(
     return px.value < py.value;
   }
 
-  const nx = yield* toNumber(px, realm);
-  const ny = yield* toNumber(py, realm);
+  const nx = yield* toNumber(px);
+  const ny = yield* toNumber(py);
 
   if (isNaN(nx.value) || isNaN(ny.value)) {
     return undefined;

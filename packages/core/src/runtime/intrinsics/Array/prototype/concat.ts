@@ -22,7 +22,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
     let n = 0;
 
     // Spec just says "prepend O to items".  Not sure what to do if getting items increments the length
-    const length = yield* lengthOfArrayLike(O, realm);
+    const length = yield* lengthOfArrayLike(O);
     for (let i = 0; i < length; i++) {
       const property = String(i);
       if (yield* O.hasPropertyEvaluator(property)) {
@@ -47,7 +47,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
       const spreadable = yield* isConcatSpreadable(E, realm);
       if (spreadable) {
         const objE = E as StaticJsObjectLike;
-        const len = yield* lengthOfArrayLike(objE, realm);
+        const len = yield* lengthOfArrayLike(objE);
         if (n + len > MAX_ARRAY_LENGTH_INCLUSIVE) {
           throw Completion.Throw(realm.types.error("TypeError", "Maximum array size exceeded"));
         }

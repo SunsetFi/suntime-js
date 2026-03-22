@@ -1,18 +1,14 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import toObject from "../algorithms/to-object.js";
 import lengthOfArrayLike from "../algorithms/length-of-array-like.js";
 
-export default function* toArray(
-  val: StaticJsValue,
-  realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsValue[]> {
+export default function* toArray(val: StaticJsValue): EvaluationGenerator<StaticJsValue[]> {
   const obj = yield* toObject(val);
 
-  const length = yield* lengthOfArrayLike(obj, realm);
+  const length = yield* lengthOfArrayLike(obj);
 
   const result: StaticJsValue[] = [];
   for (let i = 0; i < length; i++) {

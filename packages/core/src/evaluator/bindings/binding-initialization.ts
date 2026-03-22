@@ -144,7 +144,7 @@ function* keyedBindingInitialization(
       if (initializer && isStaticJsUndefined(v)) {
         if (isAnonymousFunctionDefinition(initializer)) {
           v = yield* Q.val(
-            NamedEvaluation(typeof property === "string" ? property : null, initializer, context),
+            NamedEvaluation(typeof property === "string" ? property : null, initializer),
           );
         } else {
           v = yield* Q.val(EvaluateNodeCommand(initializer));
@@ -160,7 +160,7 @@ function* keyedBindingInitialization(
       let v = yield* obj.getEvaluator(property);
       if (initializer && isStaticJsUndefined(v)) {
         if (isAnonymousFunctionDefinition(initializer)) {
-          v = yield* Q.val(NamedEvaluation(bindingId, initializer, context));
+          v = yield* Q.val(NamedEvaluation(bindingId, initializer));
         } else {
           v = yield* Q.val(EvaluateNodeCommand(initializer));
         }

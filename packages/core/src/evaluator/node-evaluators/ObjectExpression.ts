@@ -12,7 +12,7 @@ import { isStaticJsSymbol } from "../../runtime/types/StaticJsSymbol.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import Q from "../completions/Q.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import createFunction from "./Function.js";
@@ -22,20 +22,20 @@ import createFunction from "./Function.js";
 
 export default function* objectExpressionNodeEvaluator(
   node: ObjectExpression,
-  context: EvaluationContext,
 ): EvaluationGenerator {
-  const target = context.realm.types.object();
+  const { realm } = EvaluationContext.current;
+  const target = realm.types.object();
 
   for (const property of node.properties) {
     switch (property.type) {
       case "ObjectMethod":
-        yield* objectExpressionPropertyObjectMethodEvaluator(target, property, context);
+        yield* objectExpressionPropertyObjectMethodEvaluator(target, property);
         break;
       case "ObjectProperty":
-        yield* objectExpressionPropertyObjectPropertyEvaluator(target, property, context);
+        yield* objectExpressionPropertyObjectPropertyEvaluator(target, property);
         break;
       case "SpreadElement": {
-        yield* objectExpressionPropertySpreadElementEvaluator(target, property, context);
+        yield* objectExpressionPropertySpreadElementEvaluator(target, property);
         break;
       }
       default: {
@@ -52,9 +52,8 @@ export default function* objectExpressionNodeEvaluator(
 function* objectExpressionPropertyObjectMethodEvaluator(
   target: StaticJsObject,
   property: ObjectMethod,
-  context: EvaluationContext,
 ): EvaluationGenerator {
-  const { strict } = context;
+  const { lexicalEnv, strict } = EvaluationContext.current;
 
   const propertyKeyNode = property.key;
 
@@ -75,7 +74,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
     }
   }
 
-  const method = createFunction(functionName, property, context.lexicalEnv);
+  const method = createFunction(functionName, property, lexicalEnv);
 
   switch (property.kind) {
     case "method": {
@@ -107,9 +106,8 @@ function* objectExpressionPropertyObjectMethodEvaluator(
 function* objectExpressionPropertyObjectPropertyEvaluator(
   target: StaticJsObject,
   property: ObjectProperty,
-  context: EvaluationContext,
 ): EvaluationGenerator {
-  const { strict } = context;
+  const { strict } = EvaluationContext.current;
 
   const propertyKeyNode = property.key;
 
@@ -131,9 +129,8 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
 function* objectExpressionPropertySpreadElementEvaluator(
   target: StaticJsObject,
   property: SpreadElement,
-  context: EvaluationContext,
 ): EvaluationGenerator {
-  const { strict } = context;
+  const { strict } = EvaluationContext.current;
   const value = yield* Q.val(EvaluateNodeCommand(property.argument));
   if (!isStaticJsObject(value)) {
     // Apparently we just ignore these

@@ -16,7 +16,7 @@ import putValue from "../../runtime/algorithms/put-value.js";
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
 import getValue from "../../runtime/algorithms/get-value.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import destructuringAssignmentEvaluation from "../bindings/destructuring-assignment-evaluation.js";
@@ -26,13 +26,12 @@ import Q from "../completions/Q.js";
 
 export default function* assignmentExpressionNodeEvaluator(
   node: AssignmentExpression,
-  context: EvaluationContext,
 ): EvaluationGenerator {
-  const { realm } = context;
+  const { realm } = EvaluationContext.current;
   const { left, right } = node;
   switch (node.operator) {
     case "=":
-      return yield* directAssignmentExpressionEvaluator(left, right, context);
+      return yield* directAssignmentExpressionEvaluator(left, right);
     case "**=":
     case "*=":
     case "/=":
@@ -45,7 +44,7 @@ export default function* assignmentExpressionNodeEvaluator(
     case "&=":
     case "^=":
     case "|=":
-      return yield* algebraicAssignmentExpressionEvaluator(node.operator, left, right, context);
+      return yield* algebraicAssignmentExpressionEvaluator(node.operator, left, right);
     case "&&=": {
       const lRef = yield* Q.ref(EvaluateNodeCommand(left));
       const lVal = yield* getValue(lRef);
@@ -55,7 +54,7 @@ export default function* assignmentExpressionNodeEvaluator(
       }
 
       const rVal = yield* Q.val(EvaluateNodeCommand(right));
-      yield* putValue(lRef, rVal, context.realm);
+      yield* putValue(lRef, rVal, realm);
       return rVal;
     }
     case "||=": {
@@ -67,7 +66,7 @@ export default function* assignmentExpressionNodeEvaluator(
       }
 
       const rVal = yield* Q.val(EvaluateNodeCommand(right));
-      yield* putValue(lRef, rVal, context.realm);
+      yield* putValue(lRef, rVal, realm);
       return rVal;
     }
     case "??=": {
@@ -90,9 +89,8 @@ function* directAssignmentExpressionEvaluator(
   // FIXME: I don't think destructuringAssignmentEvaluation knows what OptionalMemberExpression is.
   left: LVal | OptionalMemberExpression,
   right: Expression,
-  context: EvaluationContext,
 ): EvaluationGenerator {
-  const { realm } = context;
+  const { realm } = EvaluationContext.current;
   if (left.type !== "ObjectPattern" && left.type !== "ArrayPattern") {
     const lRef = yield* Q.ref(EvaluateNodeCommand(left));
     const rVal = yield* Q.val(EvaluateNodeCommand(right));
@@ -102,7 +100,7 @@ function* directAssignmentExpressionEvaluator(
 
   const rVal = yield* Q.val(EvaluateNodeCommand(right));
 
-  yield* destructuringAssignmentEvaluation(left, rVal, context);
+  yield* destructuringAssignmentEvaluation(left, rVal, EvaluationContext.current);
 
   return rVal;
 }
@@ -111,9 +109,8 @@ function* algebraicAssignmentExpressionEvaluator(
   operator: string,
   left: LVal | OptionalMemberExpression,
   right: Expression,
-  context: EvaluationContext,
 ): EvaluationGenerator {
-  const { realm } = context;
+  const { realm } = EvaluationContext.current;
 
   const lRef = yield* Q.ref(EvaluateNodeCommand(left));
 
@@ -127,8 +124,8 @@ function* algebraicAssignmentExpressionEvaluator(
     return result;
   }
 
-  const l = yield* toNumber.js(lVal, realm);
-  const r = yield* toNumber.js(rVal, realm);
+  const l = yield* toNumber.js(lVal);
+  const r = yield* toNumber.js(rVal);
 
   let result: number;
   switch (operator) {

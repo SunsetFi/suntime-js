@@ -7,16 +7,14 @@ import toObject from "../../runtime/algorithms/to-object.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import Q from "../completions/Q.js";
 import captureThrownCompletion from "../completions/capture-thrown-completion.js";
 
-export default function* withStatementNodeEvaluator(
-  node: WithStatement,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { realm, lexicalEnv } = context;
+export default function* withStatementNodeEvaluator(node: WithStatement): EvaluationGenerator {
+  const context = EvaluationContext.current;
+  const { lexicalEnv, realm } = context;
   const val = yield* Q.val(EvaluateNodeCommand(node.object));
 
   const obj = yield* toObject(val);
@@ -25,7 +23,10 @@ export default function* withStatementNodeEvaluator(
   const newEnv = new StaticJsObjectEnvironmentRecord(obj, true, lexicalEnv, realm);
 
   context.lexicalEnv = newEnv;
-  const result = yield* captureThrownCompletion(EvaluateNodeCommand(node.body));
-  context.lexicalEnv = oldEnv;
-  return yield* Q(Completion.updateEmpty(result, realm.types.undefined));
+  try {
+    const result = yield* captureThrownCompletion(EvaluateNodeCommand(node.body));
+    return yield* Q(Completion.updateEmpty(result, realm.types.undefined));
+  } finally {
+    context.lexicalEnv = oldEnv;
+  }
 }

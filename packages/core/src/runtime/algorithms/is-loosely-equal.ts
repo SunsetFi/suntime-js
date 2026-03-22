@@ -34,21 +34,21 @@ export default function* isLooselyEqual(
 
   // Number and String
   if (isStaticJsNumber(x) && isStaticJsString(y)) {
-    const bNumber = yield* toNumber(y, realm);
+    const bNumber = yield* toNumber(y);
     return realm.types.boolean(x.value === bNumber.value);
   }
   if (isStaticJsString(x) && isStaticJsNumber(y)) {
-    const aNumber = yield* toNumber(x, realm);
+    const aNumber = yield* toNumber(x);
     return realm.types.boolean(aNumber.value === y.value);
   }
 
   // Boolean
   if (isStaticJsBoolean(x)) {
-    const aNumber = yield* toNumber(x, realm);
+    const aNumber = yield* toNumber(x);
     return yield* isLooselyEqual(aNumber, y, realm);
   }
   if (isStaticJsBoolean(y)) {
-    const bNumber = yield* toNumber(y, realm);
+    const bNumber = yield* toNumber(y);
     return yield* isLooselyEqual(x, bNumber, realm);
   }
 

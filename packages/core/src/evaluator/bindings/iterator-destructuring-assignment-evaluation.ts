@@ -92,7 +92,7 @@ export default function* iteratorDestructuringAssignmentEvaluation(
 
     if (initializer && isStaticJsUndefined(value)) {
       if (isAnonymousFunctionDefinition(initializer) && assignmentTarget.type === "Identifier") {
-        v = yield* Q.val(NamedEvaluation(assignmentTarget.name, initializer, context));
+        v = yield* Q.val(NamedEvaluation(assignmentTarget.name, initializer));
       } else {
         v = yield* Q.val(EvaluateNodeCommand(initializer));
       }

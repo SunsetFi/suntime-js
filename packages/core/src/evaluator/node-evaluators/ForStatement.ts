@@ -7,7 +7,7 @@ import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/imp
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
 import loopContinues from "../../runtime/algorithms/loop-continues.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -25,47 +25,49 @@ import rethrowCompletion from "../completions/rethrow-completion.js";
 const forStatementNodeEvaluator = breakableStatementEvaluation(
   labelledIterationStatementEvaluation(function* forStatementNodeEvaluator(
     node: ForStatement,
-    context: EvaluationContext,
   ): EvaluationGenerator {
+    const context = EvaluationContext.current;
     const { realm } = context;
     const { init, test, update, body } = node;
     const oldEnv = context.lexicalEnv;
 
     let perIterationLets: string[] = [];
 
-    if (init) {
-      if (init.type === "VariableDeclaration" && ["let", "const"].includes(init.kind)) {
-        const loopEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, realm);
-        const isConst = init.kind === "const";
-        const names = boundNames(init);
-        for (const dn of names) {
-          if (isConst) {
-            yield* loopEnv.createImmutableBindingEvaluator(dn, true);
-          } else {
-            yield* loopEnv.createMutableBindingEvaluator(dn, false);
+    try {
+      if (init) {
+        if (init.type === "VariableDeclaration" && ["let", "const"].includes(init.kind)) {
+          const loopEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, realm);
+          const isConst = init.kind === "const";
+          const names = boundNames(init);
+          for (const dn of names) {
+            if (isConst) {
+              yield* loopEnv.createImmutableBindingEvaluator(dn, true);
+            } else {
+              yield* loopEnv.createMutableBindingEvaluator(dn, false);
+            }
           }
-        }
 
-        context.lexicalEnv = loopEnv;
-        const forDcl = yield* EvaluateNodeCommand(init);
-        if (Completion.Abrupt.is(forDcl)) {
-          context.lexicalEnv = oldEnv;
-          return yield* Q(forDcl);
-        }
+          context.lexicalEnv = loopEnv;
+          const forDcl = yield* EvaluateNodeCommand(init);
+          if (Completion.Abrupt.is(forDcl)) {
+            return yield* Q(forDcl);
+          }
 
-        if (!isConst) {
-          perIterationLets = names;
+          if (!isConst) {
+            perIterationLets = names;
+          }
+        } else {
+          yield* Q(EvaluateNodeCommand(init));
         }
-      } else {
-        yield* Q(EvaluateNodeCommand(init));
       }
-    }
 
-    const bodyResult = yield* captureThrownCompletion(
-      forBodyEvaluation(test ?? null, update ?? null, body, perIterationLets, context),
-    );
-    context.lexicalEnv = oldEnv;
-    return rethrowCompletion(bodyResult);
+      const bodyResult = yield* captureThrownCompletion(
+        forBodyEvaluation(test ?? null, update ?? null, body, perIterationLets),
+      );
+      return rethrowCompletion(bodyResult);
+    } finally {
+      context.lexicalEnv = oldEnv;
+    }
   }),
 );
 
@@ -74,13 +76,12 @@ function* forBodyEvaluation(
   increment: Expression | null,
   statement: Statement,
   perIterationBindings: string[],
-  context: EvaluationContext,
 ): EvaluationGenerator {
-  const { labelSet } = context;
+  const { labelSet, realm } = EvaluationContext.current;
 
-  let V: Completion.Normal = context.realm.types.undefined;
+  let V: Completion.Normal = realm.types.undefined;
 
-  yield* createPerIterationEnvironment(perIterationBindings, context);
+  yield* createPerIterationEnvironment(perIterationBindings);
 
   while (true) {
     if (test) {
@@ -102,7 +103,7 @@ function* forBodyEvaluation(
       V = resultValue;
     }
 
-    yield* createPerIterationEnvironment(perIterationBindings, context);
+    yield* createPerIterationEnvironment(perIterationBindings);
 
     if (increment) {
       yield* Q.val(EvaluateNodeCommand(increment));
@@ -110,11 +111,9 @@ function* forBodyEvaluation(
   }
 }
 
-function* createPerIterationEnvironment(
-  perIterationBindings: string[],
-  context: EvaluationContext,
-): EvaluationGenerator<void> {
+function* createPerIterationEnvironment(perIterationBindings: string[]): EvaluationGenerator<void> {
   if (perIterationBindings.length > 0) {
+    const context = EvaluationContext.current;
     const lastIterationEnv = context.lexicalEnv;
     const outer = lastIterationEnv.outerEnv;
     if (outer === null) {

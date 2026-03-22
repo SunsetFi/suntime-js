@@ -8,14 +8,11 @@ import Q from "../completions/Q.js";
 
 import { Completion } from "../completions/Completion.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-export default function* newExpressionNodeEvaluator(
-  node: NewExpression,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { realm } = context;
+export default function* newExpressionNodeEvaluator(node: NewExpression): EvaluationGenerator {
+  const { realm } = EvaluationContext.current;
   const callee = yield* Q.val(EvaluateNodeCommand(node.callee));
   if (!isStaticJsFunction(callee)) {
     throw Completion.Throw(realm.types.error("TypeError", "Not a function"));

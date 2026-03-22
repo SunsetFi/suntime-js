@@ -2,14 +2,14 @@ import type { Program } from "@babel/types";
 
 import { Completion } from "../completions/Completion.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import evaluateStatementList from "./StatementList.js";
 import rethrowCompletion from "../completions/rethrow-completion.js";
 
-function* programNodeEvaluator(node: Program, context: EvaluationContext): EvaluationGenerator {
-  const { realm } = context;
+function* programNodeEvaluator(node: Program): EvaluationGenerator {
+  const { realm } = EvaluationContext.current;
 
   if (node.body.length === 0) {
     // Directives are values too!

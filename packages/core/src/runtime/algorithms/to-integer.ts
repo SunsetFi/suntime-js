@@ -1,20 +1,18 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 import type { StaticJsNumber } from "../types/StaticJsNumber.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import toNumber from "./to-number.js";
 
-function* toInteger(
-  value: StaticJsValue,
-  realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsNumber> {
-  value = yield* toNumber(value, realm);
+function* toInteger(value: StaticJsValue): EvaluationGenerator<StaticJsNumber> {
+  const { realm } = EvaluationContext.current;
+  value = yield* toNumber(value);
   return realm.types.number(Math.trunc(value.value));
 }
 
-toInteger.js = function* js(value: StaticJsValue, realm: StaticJsRealm) {
-  const number = yield* toNumber(value, realm);
+toInteger.js = function* js(value: StaticJsValue) {
+  const number = yield* toNumber(value);
   return number.value;
 };
 

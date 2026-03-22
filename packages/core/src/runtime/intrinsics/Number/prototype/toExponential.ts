@@ -21,7 +21,7 @@ const numberProtoToExponentialDeclaration: FunctionIntrinsicPropertyDeclaration 
       );
     }
 
-    digits = yield* toNumber(digits, realm);
+    digits = yield* toNumber(digits);
 
     const value = thisArg.value.toExponential(digits.value);
 

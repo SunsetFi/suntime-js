@@ -27,7 +27,7 @@ export default function createArrayConstructor(realm: StaticJsRealm, arrayProto:
     "Array",
     function* (_thisArg, ...args) {
       if (args.length === 1 && isStaticJsNumber(args[0])) {
-        const length = yield* toInteger(args[0], realm);
+        const length = yield* toInteger(args[0]);
 
         const array = yield* StaticJsArrayImpl.create(realm, length.value);
         return array;

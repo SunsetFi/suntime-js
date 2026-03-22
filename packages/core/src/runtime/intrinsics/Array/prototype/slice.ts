@@ -11,11 +11,11 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg = realm.types.undefined, startValue, endValue) {
     const thisObj = yield* toObject(thisArg);
 
-    const length = yield* lengthOfArrayLike(thisObj, realm);
+    const length = yield* lengthOfArrayLike(thisObj);
 
     let start = 0;
     if (startValue) {
-      startValue = yield* toInteger(startValue, realm);
+      startValue = yield* toInteger(startValue);
       start = startValue.value;
       if (start < 0) {
         start = length + start;
@@ -30,7 +30,7 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
 
     let end = length;
     if (endValue) {
-      endValue = yield* toInteger(endValue, realm);
+      endValue = yield* toInteger(endValue);
       end = endValue.value;
       if (end < 0) {
         end = length + end;

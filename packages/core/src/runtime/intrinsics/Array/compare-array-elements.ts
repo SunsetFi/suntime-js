@@ -33,7 +33,7 @@ export default function* compareArrayElements(
 
   if (compareFn) {
     const result = yield* compareFn.callEvaluator(realm.types.undefined, [x, y]);
-    const n = yield* toNumber.js(result, realm);
+    const n = yield* toNumber.js(result);
     if (Number.isNaN(n)) {
       return 0;
     }

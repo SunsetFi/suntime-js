@@ -18,7 +18,7 @@ const arrayProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
       return yield* toString(thisArg);
     }
 
-    const length = yield* lengthOfArrayLike(thisArg, realm);
+    const length = yield* lengthOfArrayLike(thisArg);
 
     const segments: string[] = [];
     for (let i = 0; i < length; i++) {

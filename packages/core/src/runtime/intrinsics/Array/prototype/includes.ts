@@ -15,7 +15,7 @@ const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
       return realm.types.false;
     }
 
-    const length = yield* lengthOfArrayLike(thisObj, realm);
+    const length = yield* lengthOfArrayLike(thisObj);
     if (length === 0) {
       return realm.types.false;
     }
@@ -23,7 +23,7 @@ const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
     let startFrom = 0;
     if (startFromValue) {
       // Passing undefined here actually does something different than not passing it.
-      startFromValue = yield* toInteger(startFromValue ?? realm.types.undefined, realm);
+      startFromValue = yield* toInteger(startFromValue ?? realm.types.undefined);
       startFrom = startFromValue.value;
     }
 

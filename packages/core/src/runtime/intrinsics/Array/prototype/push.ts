@@ -12,7 +12,7 @@ const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg = realm.types.undefined, ...args) {
     const thisObj = yield* toObject(thisArg);
 
-    const length = yield* lengthOfArrayLike(thisObj, realm);
+    const length = yield* lengthOfArrayLike(thisObj);
 
     if (args.length + length > MAX_ARRAY_LENGTH_INCLUSIVE) {
       throw Completion.Throw(

@@ -9,14 +9,13 @@ import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsR
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import Q from "../completions/Q.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,
-  context: EvaluationContext,
 ): EvaluationGenerator {
-  const { realm } = context;
+  const { realm, strict } = EvaluationContext.current;
   const target = yield* Q.val(EvaluateNodeCommand(node.object));
 
   const propertyNode = node.property;
@@ -39,7 +38,7 @@ export default function* memberExpressionNodeEvaluator(
 
   return {
     referencedName: propertyKey,
-    strict: context.strict,
+    strict,
     base: target,
     thisValue: target,
   } satisfies StaticJsReferenceRecord;

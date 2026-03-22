@@ -4,21 +4,21 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import Q from "../completions/Q.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-export default function* NamedEvaluation(
-  name: string | null,
-  node: Node,
-  context: EvaluationContext,
-): EvaluationGenerator {
+export default function* NamedEvaluation(name: string | null, node: Node): EvaluationGenerator {
+  const context = EvaluationContext.current;
   const oldParameters = context.evaluationParameters;
   context.evaluationParameters = {
     ...context.evaluationParameters,
     // Can be null
     "NamedEvaluation::name": name,
   };
-  const completion = yield* EvaluateNodeCommand(node);
-  context.evaluationParameters = oldParameters;
-  return yield* Q(completion);
+  try {
+    const completion = yield* EvaluateNodeCommand(node);
+    return yield* Q(completion);
+  } finally {
+    context.evaluationParameters = oldParameters;
+  }
 }

@@ -19,46 +19,45 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import Q from "../completions/Q.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* binaryExpressionNodeEvaluator(
   node: BinaryExpression,
-  context: EvaluationContext,
 ): EvaluationGenerator {
-  const { realm } = context;
+  const { realm } = EvaluationContext.current;
 
   switch (node.operator) {
     case "+":
-      return yield* binaryExpressionAdd(node, context);
+      return yield* binaryExpressionAdd(node);
     case "-":
-      return yield* numericComputation((a, b) => a - b, node, context);
+      return yield* numericComputation((a, b) => a - b, node);
     case "*":
-      return yield* numericComputation((a, b) => a * b, node, context);
+      return yield* numericComputation((a, b) => a * b, node);
     case "/":
-      return yield* numericComputation((a, b) => a / b, node, context);
+      return yield* numericComputation((a, b) => a / b, node);
     case "%":
-      return yield* numericComputation((a, b) => a % b, node, context);
+      return yield* numericComputation((a, b) => a % b, node);
     case "**":
-      return yield* numericComputation((a, b) => a ** b, node, context);
+      return yield* numericComputation((a, b) => a ** b, node);
     case "^":
-      return yield* numericComputation((a, b) => a ^ b, node, context);
+      return yield* numericComputation((a, b) => a ^ b, node);
     case "<<":
-      return yield* numericComputation((a, b) => a << b, node, context);
+      return yield* numericComputation((a, b) => a << b, node);
     case ">>":
-      return yield* numericComputation((a, b) => a >> b, node, context);
+      return yield* numericComputation((a, b) => a >> b, node);
     case "&":
-      return yield* numericComputation((a, b) => a & b, node, context);
+      return yield* numericComputation((a, b) => a & b, node);
     case "|":
-      return yield* numericComputation((a, b) => a | b, node, context);
+      return yield* numericComputation((a, b) => a | b, node);
     case "==":
-      return yield* binaryExpressionDoubleEquals(node, context, false);
+      return yield* binaryExpressionDoubleEquals(node, false);
     case "!=":
-      return yield* binaryExpressionDoubleEquals(node, context, true);
+      return yield* binaryExpressionDoubleEquals(node, true);
     case "===":
-      return yield* binaryExpressionStrictEquals(node, context, false);
+      return yield* binaryExpressionStrictEquals(node, false);
     case "!==":
-      return yield* binaryExpressionStrictEquals(node, context, true);
+      return yield* binaryExpressionStrictEquals(node, true);
     case "<": {
       const lVal = yield* Q.val(EvaluateNodeCommand(node.left));
       const rVal = yield* Q.val(EvaluateNodeCommand(node.right));
@@ -100,11 +99,11 @@ export default function* binaryExpressionNodeEvaluator(
       return realm.types.true;
     }
     case ">>>":
-      return yield* numericComputation((a, b) => a >>> b, node, context);
+      return yield* numericComputation((a, b) => a >>> b, node);
     case "in":
-      return yield* inExpression(node, context);
+      return yield* inExpression(node);
     case "instanceof":
-      return yield* instanceOfExpression(node, context);
+      return yield* instanceOfExpression(node);
     default:
       throw new StaticJsEngineError(`BinaryExpression operator ${node.operator} is not supported`);
   }
@@ -112,10 +111,9 @@ export default function* binaryExpressionNodeEvaluator(
 
 function* binaryExpressionDoubleEquals(
   node: BinaryExpression,
-  context: EvaluationContext,
   negate: boolean,
 ): EvaluationGenerator {
-  const { realm } = context;
+  const { realm } = EvaluationContext.current;
   const left = yield* Q.val(EvaluateNodeCommand(node.left));
 
   const right = yield* Q.val(EvaluateNodeCommand(node.right));
@@ -123,7 +121,7 @@ function* binaryExpressionDoubleEquals(
   const value = yield* isLooselyEqual(left, right, realm);
 
   if (negate) {
-    return context.realm.types.boolean(!value.value);
+    return realm.types.boolean(!value.value);
   }
 
   return value;
@@ -131,27 +129,23 @@ function* binaryExpressionDoubleEquals(
 
 function* binaryExpressionStrictEquals(
   node: BinaryExpression,
-  context: EvaluationContext,
   negate: boolean,
 ): EvaluationGenerator {
-  const { realm } = context;
+  const { realm } = EvaluationContext.current;
   const left = yield* Q.val(EvaluateNodeCommand(node.left));
   const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
   const result = yield* strictEquality(left, right, realm);
 
   if (negate) {
-    return context.realm.types.boolean(!result.value);
+    return realm.types.boolean(!result.value);
   }
 
   return result;
 }
 
-function* binaryExpressionAdd(
-  node: BinaryExpression,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { realm } = context;
+function* binaryExpressionAdd(node: BinaryExpression): EvaluationGenerator {
+  const { realm } = EvaluationContext.current;
   const left = yield* Q.val(EvaluateNodeCommand(node.left));
   const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
@@ -161,40 +155,40 @@ function* binaryExpressionAdd(
 function* numericComputation(
   func: (left: number, right: number) => unknown,
   node: BinaryExpression,
-  context: EvaluationContext,
 ): EvaluationGenerator {
-  const { realm } = context;
+  const { realm } = EvaluationContext.current;
   let left = yield* Q.val(EvaluateNodeCommand(node.left));
   let right = yield* Q.val(EvaluateNodeCommand(node.right));
 
-  left = yield* toNumber(left, realm);
-  right = yield* toNumber(right, realm);
+  left = yield* toNumber(left);
+  right = yield* toNumber(right);
 
-  return context.realm.types.toStaticJsValue(func(left.value, right.value));
+  return realm.types.toStaticJsValue(func(left.value, right.value));
 }
 
-function* inExpression(node: BinaryExpression, context: EvaluationContext): EvaluationGenerator {
+function* inExpression(node: BinaryExpression): EvaluationGenerator {
+  const { realm } = EvaluationContext.current;
   const left = yield* Q.val(EvaluateNodeCommand(node.left));
   const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
   if (!isStaticJsObjectLike(right)) {
     throw Completion.Throw(
-      context.realm.types.error("TypeError", "Right side of in operator must be an object"),
+      realm.types.error("TypeError", "Right side of in operator must be an object"),
     );
   }
   const rightObj = yield* toObject(right);
 
   const propertyKey = yield* toPropertyKey(left);
   const hasProperty = yield* rightObj.hasPropertyEvaluator(propertyKey);
-  return context.realm.types.boolean(hasProperty);
+  return realm.types.boolean(hasProperty);
 }
 
-function* instanceOfExpression(node: BinaryExpression, context: EvaluationContext) {
-  const { realm } = context;
+function* instanceOfExpression(node: BinaryExpression) {
+  const { realm } = EvaluationContext.current;
   const left = yield* Q.val(EvaluateNodeCommand(node.left));
   const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
   const result = yield* instanceOfOperator(left, right, realm);
 
-  return context.realm.types.boolean(result);
+  return realm.types.boolean(result);
 }

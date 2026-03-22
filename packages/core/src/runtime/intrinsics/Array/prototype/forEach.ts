@@ -22,7 +22,7 @@ const arrayProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const length = yield* lengthOfArrayLike(thisObj, realm);
+    const length = yield* lengthOfArrayLike(thisObj);
 
     for (let i = 0; i < length; i++) {
       const property = String(i);

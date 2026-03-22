@@ -2,7 +2,7 @@ import { type YieldExpression } from "@babel/types";
 
 import { YieldCommand } from "../commands/YieldCommand.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -10,11 +10,8 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import Q from "../completions/Q.js";
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-export default function* yieldExpressionNodeEvaluator(
-  node: YieldExpression,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { realm } = context;
+export default function* yieldExpressionNodeEvaluator(node: YieldExpression): EvaluationGenerator {
+  const { realm } = EvaluationContext.current;
   if (!node.argument) {
     return yield* YieldCommand(realm.types.undefined);
   }

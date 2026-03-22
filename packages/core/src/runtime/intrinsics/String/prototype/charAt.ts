@@ -10,7 +10,7 @@ const stringProtoCharAtDeclaration: IntrinsicPropertyDeclaration = {
   func: function* (realm, thisArg, indexValue: StaticJsValue = realm.types.undefined) {
     thisArg = yield* toString(thisArg);
 
-    indexValue = yield* toNumber(indexValue, realm);
+    indexValue = yield* toNumber(indexValue);
 
     const result = thisArg.value.charAt(indexValue.value);
 

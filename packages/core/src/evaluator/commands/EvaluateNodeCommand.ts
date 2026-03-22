@@ -3,7 +3,6 @@ import type { Node } from "@babel/types";
 import evaluateNode from "../node-evaluators/evaluate-node.js";
 
 import type { Completion } from "../completions/Completion.js";
-import captureThrownCompletion from "../completions/capture-thrown-completion.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
@@ -20,7 +19,7 @@ export function* EvaluateNodeCommand(node: Node): EvaluationGenerator<Completion
   yield* EnterNodeCommand(node);
 
   try {
-    return yield* captureThrownCompletion(evaluateNode(node));
+    return yield* evaluateNode(node);
   } finally {
     yield* ExitNodeCommand();
   }

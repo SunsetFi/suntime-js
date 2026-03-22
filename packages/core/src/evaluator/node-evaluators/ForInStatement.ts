@@ -2,8 +2,6 @@ import type { ForInStatement, LVal, VariableDeclaration } from "@babel/types";
 
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
-
 import boundNames from "../instantiation/algorithms/bound-names.js";
 
 import forInOfHeadEvaluation from "./ForInOfStatement/ForInOfHeadEvaluation.js";
@@ -13,21 +11,13 @@ import labelledIterationStatementEvaluation from "./LabelledIterationStatementEv
 import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 
 const forInStatementNodeEvaluator = breakableStatementEvaluation(
-  labelledIterationStatementEvaluation(function* forInStatementNodeEvaluator(
-    node: ForInStatement,
-    context: EvaluationContext,
-  ) {
+  labelledIterationStatementEvaluation(function* forInStatementNodeEvaluator(node: ForInStatement) {
     const { left, right, body } = node;
 
     if (left.type === "VariableDeclaration") {
       const uninitializedBoundNames = left.kind === "var" ? [] : boundNames(left);
 
-      const keyResult = yield* forInOfHeadEvaluation(
-        uninitializedBoundNames,
-        right,
-        "enumerate",
-        context,
-      );
+      const keyResult = yield* forInOfHeadEvaluation(uninitializedBoundNames, right, "enumerate");
 
       let lhs: VariableDeclaration | LVal = left;
       if (left.kind === "var") {
@@ -46,19 +36,10 @@ const forInStatementNodeEvaluator = breakableStatementEvaluation(
         "enumerate",
         left.kind === "var" ? "varBinding" : "lexicalBinding",
         "sync",
-        context,
       );
     } else {
-      const keyResult = yield* forInOfHeadEvaluation([], right, "enumerate", context);
-      return yield* forInOfBodyEvaluation(
-        left,
-        body,
-        keyResult,
-        "enumerate",
-        "assignment",
-        "sync",
-        context,
-      );
+      const keyResult = yield* forInOfHeadEvaluation([], right, "enumerate");
+      return yield* forInOfBodyEvaluation(left, body, keyResult, "enumerate", "assignment", "sync");
     }
   }),
 );

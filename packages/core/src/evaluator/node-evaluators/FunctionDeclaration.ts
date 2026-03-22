@@ -4,18 +4,16 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 
+import EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import type EvaluationContext from "../EvaluationContext.js";
 
 interface FunctionDeclarationExtra {
   function?: StaticJsFunction;
   annexBHoisted?: string;
 }
 
-function* functionDeclarationNodeEvaluator(
-  node: FunctionDeclaration,
-  context: EvaluationContext,
-): EvaluationGenerator {
+function* functionDeclarationNodeEvaluator(node: FunctionDeclaration): EvaluationGenerator {
+  const { lexicalEnv, variableEnv } = EvaluationContext.current;
   const { annexBHoisted } = (node.extra ?? {}) as FunctionDeclarationExtra;
 
   if (annexBHoisted) {
@@ -29,9 +27,9 @@ function* functionDeclarationNodeEvaluator(
     }
 
     const F = id.name;
-    const bEnv = context.lexicalEnv;
+    const bEnv = lexicalEnv;
     const fObj = yield* bEnv.getBindingValueEvaluator(F, false);
-    const gEnv = context.variableEnv;
+    const gEnv = variableEnv;
     yield* gEnv.setMutableBindingEvaluator(annexBHoisted, fObj, false);
   }
 
