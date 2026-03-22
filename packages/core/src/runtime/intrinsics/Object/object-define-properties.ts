@@ -15,7 +15,7 @@ export default function* objectDefineProperties(
   properties: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObjectLike> {
-  const props = yield* toObject(properties, realm);
+  const props = yield* toObject(properties);
   const keys = yield* props.ownPropertyKeysEvaluator();
   const descriptors = new Map<StaticJsPropertyKey, Partial<StaticJsPropertyDescriptor>>();
   for (const nextKey of keys) {

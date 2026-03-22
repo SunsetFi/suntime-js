@@ -14,7 +14,7 @@ const objectCtorPreventExtensionsDeclaration: IntrinsicPropertyDeclaration = {
       return targetValue;
     }
 
-    const obj = yield* toObject(targetValue, realm);
+    const obj = yield* toObject(targetValue);
     yield* obj.preventExtensionsEvaluator();
 
     return targetValue;

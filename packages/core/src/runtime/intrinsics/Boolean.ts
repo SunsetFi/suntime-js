@@ -16,7 +16,7 @@ export function populateBooleanPrototype(realm: StaticJsRealm, booleanProto: Sta
     enumerable: false,
     writable: true,
     value: new StaticJsFunctionImpl(realm, "toString", function* (thisArg) {
-      const value = yield* toBoolean.js(thisArg, realm);
+      const value = yield* toBoolean.js(thisArg);
       return realm.types.string(value ? "true" : "false");
     }),
   });
@@ -47,11 +47,11 @@ export function createBooleanConstructor(realm: StaticJsRealm, booleanProto: Sta
     realm,
     "Boolean",
     function* (_thisArg, value = realm.types.undefined) {
-      return yield* toBoolean(value, realm);
+      return yield* toBoolean(value);
     },
     {
       *construct(_thisArg, value = realm.types.undefined) {
-        const boolVal = yield* toBoolean.js(value, realm);
+        const boolVal = yield* toBoolean.js(value);
         return new StaticJsBooleanBoxed(realm, boolVal);
       },
     },

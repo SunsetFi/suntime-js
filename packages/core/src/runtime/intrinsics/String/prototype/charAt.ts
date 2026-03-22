@@ -8,7 +8,7 @@ import toNumber from "../../../algorithms/to-number.js";
 const stringProtoCharAtDeclaration: IntrinsicPropertyDeclaration = {
   key: "charAt",
   func: function* (realm, thisArg, indexValue: StaticJsValue = realm.types.undefined) {
-    thisArg = yield* toString(thisArg, realm);
+    thisArg = yield* toString(thisArg);
 
     indexValue = yield* toNumber(indexValue, realm);
 

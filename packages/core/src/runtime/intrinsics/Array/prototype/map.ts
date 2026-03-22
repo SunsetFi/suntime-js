@@ -12,7 +12,7 @@ import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
 const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
   key: "map",
   *func(realm, thisArg = realm.types.undefined, callback, providedThisArg) {
-    const thisObj = yield* toObject(thisArg, realm);
+    const thisObj = yield* toObject(thisArg);
 
     if (!isStaticJsArray(thisArg)) {
       // Seems to do nothing in NodeJs.

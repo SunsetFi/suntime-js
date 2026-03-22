@@ -37,7 +37,7 @@ export default function createSetConstructor(realm: StaticJsRealm, setProto: Sta
         const iterator = yield* getIterator(iterable, "sync", realm);
         yield* iteratorClose.handle(iterator, realm, function* () {
           while (true) {
-            const next = yield* iteratorStepValue(iterator, realm);
+            const next = yield* iteratorStepValue(iterator);
             if (!next) {
               break;
             }

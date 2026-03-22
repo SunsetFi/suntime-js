@@ -11,7 +11,7 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 const arrayProtoFindLastIndexDeclaration: IntrinsicPropertyDeclaration = {
   key: "findLastIndex",
   *func(realm, thisArg = realm.types.undefined, callback) {
-    const thisObj = yield* toObject(thisArg, realm);
+    const thisObj = yield* toObject(thisArg);
 
     if (callback == null) {
       callback = realm.types.undefined;
@@ -32,7 +32,7 @@ const arrayProtoFindLastIndexDeclaration: IntrinsicPropertyDeclaration = {
         realm.types.number(i),
         thisObj,
       ]);
-      const condition = yield* toBoolean.js(resultValue, realm);
+      const condition = yield* toBoolean.js(resultValue);
       if (condition) {
         return realm.types.number(i);
       }

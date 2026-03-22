@@ -9,7 +9,7 @@ import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
 const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
   key: "slice",
   *func(realm, thisArg = realm.types.undefined, startValue, endValue) {
-    const thisObj = yield* toObject(thisArg, realm);
+    const thisObj = yield* toObject(thisArg);
 
     const length = yield* lengthOfArrayLike(thisObj, realm);
 

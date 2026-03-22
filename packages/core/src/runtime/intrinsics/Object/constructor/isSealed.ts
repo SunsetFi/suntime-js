@@ -6,7 +6,7 @@ const objectCtorIsSealedDeclaration: IntrinsicPropertyDeclaration = {
   key: "isSealed",
   *func(realm, _thisArg, objValue = realm.types.undefined) {
     // TODO: Is not extensible, all properties are nonconfigurable, all data properties are non writable.
-    const obj = yield* toObject(objValue, realm);
+    const obj = yield* toObject(objValue);
 
     if (obj.extensible) {
       return realm.types.false;

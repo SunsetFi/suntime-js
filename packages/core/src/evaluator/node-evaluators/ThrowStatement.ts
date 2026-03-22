@@ -5,14 +5,9 @@ import Q from "../completions/Q.js";
 
 import { Completion } from "../completions/Completion.js";
 
-import type EvaluationContext from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-export default function* throwStatementNodeEvaluator(
-  node: ThrowStatement,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { realm } = context;
-  const value = yield* Q.val(EvaluateNodeCommand(node.argument), realm);
+export default function* throwStatementNodeEvaluator(node: ThrowStatement): EvaluationGenerator {
+  const value = yield* Q.val(EvaluateNodeCommand(node.argument));
   throw Completion.Throw(value);
 }

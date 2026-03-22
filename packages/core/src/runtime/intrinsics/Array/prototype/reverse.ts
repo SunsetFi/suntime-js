@@ -6,7 +6,7 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 const arrayProtoReverseDeclaration: IntrinsicPropertyDeclaration = {
   key: "reverse",
   *func(realm, thisArg = realm.types.undefined) {
-    const thisObj = yield* toObject(thisArg, realm);
+    const thisObj = yield* toObject(thisArg);
 
     const length = yield* lengthOfArrayLike(thisObj, realm);
 

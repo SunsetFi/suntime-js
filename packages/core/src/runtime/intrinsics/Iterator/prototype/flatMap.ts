@@ -49,7 +49,7 @@ const iteratorProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
     function* closure() {
       let counter = 0;
       while (true) {
-        const value = yield* Q(iteratorStepValue(iterated, realm));
+        const value = yield* Q(iteratorStepValue(iterated));
         if (value === null) {
           return realm.types.undefined;
         }
@@ -71,9 +71,7 @@ const iteratorProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
 
         let innerAlive = true;
         while (innerAlive) {
-          const innerValue = yield* captureThrownCompletion(
-            iteratorStepValue(innerIterator, realm),
-          );
+          const innerValue = yield* captureThrownCompletion(iteratorStepValue(innerIterator));
           if (Completion.Abrupt.is(innerValue)) {
             return yield* Q(iteratorClose(iterated, innerValue, realm));
           }

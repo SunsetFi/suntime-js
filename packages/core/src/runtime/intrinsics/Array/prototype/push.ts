@@ -10,7 +10,7 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
   key: "push",
   *func(realm, thisArg = realm.types.undefined, ...args) {
-    const thisObj = yield* toObject(thisArg, realm);
+    const thisObj = yield* toObject(thisArg);
 
     const length = yield* lengthOfArrayLike(thisObj, realm);
 

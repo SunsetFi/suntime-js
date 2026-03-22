@@ -26,7 +26,7 @@ const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
     yield* iteratorClose.handle(iterator, realm, function* () {
       let index = 0;
       while (true) {
-        const next = yield* iteratorStepValue(iterator, realm);
+        const next = yield* iteratorStepValue(iterator);
         if (!next) {
           break;
         }

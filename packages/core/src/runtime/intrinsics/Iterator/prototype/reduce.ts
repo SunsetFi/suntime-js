@@ -40,7 +40,7 @@ const iteratorProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
     let counter = 0;
 
     if (!initialValue) {
-      const firstValue = yield* Q(iteratorStepValue(iterated, realm));
+      const firstValue = yield* Q(iteratorStepValue(iterated));
       if (firstValue === null) {
         throw Completion.Throw(
           realm.types.error("TypeError", "Reduce of empty iterator with no initial value"),
@@ -53,7 +53,7 @@ const iteratorProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     while (true) {
-      const value = yield* Q(iteratorStepValue(iterated, realm));
+      const value = yield* Q(iteratorStepValue(iterated));
       if (value === null) {
         return accumulator;
       }

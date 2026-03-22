@@ -16,7 +16,7 @@ export default function* returnStatementNodeEvaluator(
   const { realm } = context;
   let value: StaticJsValue = realm.types.undefined;
   if (node.argument) {
-    value = yield* Q.val(EvaluateNodeCommand(node.argument), realm);
+    value = yield* Q.val(EvaluateNodeCommand(node.argument));
   }
 
   throw Completion.Return(value);

@@ -7,13 +7,13 @@ import toString from "../../../algorithms/to-string.js";
 const stringProtoConcatDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "concat",
   func: function* (realm, thisArg, ...args) {
-    const thisArgStr = yield* toString(thisArg, realm);
+    const thisArgStr = yield* toString(thisArg);
     const argStrs: StaticJsString[] = [];
 
     // Args are typed as possibly undefined so we know they might not be present for fixed args.
     // In the case of a rest parameter, all args are present.
     for (const arg of args) {
-      const str = yield* toString(arg!, realm);
+      const str = yield* toString(arg!);
       argStrs.push(str);
     }
 

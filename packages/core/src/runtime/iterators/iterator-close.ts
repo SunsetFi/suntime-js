@@ -44,7 +44,7 @@ export default function* iteratorClose(
       return value;
     }
 
-    innerResult = yield* call(innerResult, iterator, [], realm);
+    innerResult = yield* call(innerResult, iterator, []);
   } catch (e) {
     if (Completion.Abrupt.is(e)) {
       innerResult = e;

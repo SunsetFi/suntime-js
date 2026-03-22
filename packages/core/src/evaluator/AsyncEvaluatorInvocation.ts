@@ -134,7 +134,7 @@ export default class AsyncEvaluatorInvocation {
       while (true) {
         let result: IteratorResult<EvaluatorCommand, Completion.Normal>;
         if (continueMode === "throw" && continueWith !== null) {
-          continueWith = yield* getValue(continueWith, this._realm);
+          continueWith = yield* getValue(continueWith);
           result = this._evaluator.throw(Completion.Throw(continueWith));
         } else {
           result = this._evaluator.next(continueWith);
@@ -148,7 +148,7 @@ export default class AsyncEvaluatorInvocation {
           // Hit the end of the generator, no more function to run.
           let result: StaticJsValue = this._realm.types.undefined;
           if (this._resolveToEvaluatorResult && value != null) {
-            result = yield* getValue(value, this._realm);
+            result = yield* getValue(value);
           }
 
           yield* this._resolve(result);

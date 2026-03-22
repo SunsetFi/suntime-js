@@ -13,9 +13,9 @@ const stringProtoEndsWithDeclaration: FunctionIntrinsicPropertyDeclaration = {
       return realm.types.false;
     }
 
-    const valueStr = yield* toString(value, realm);
+    const valueStr = yield* toString(value);
 
-    const thisStr = yield* toString(thisArg, realm);
+    const thisStr = yield* toString(thisArg);
 
     const result = thisStr.value.endsWith(valueStr.value);
 

@@ -22,7 +22,7 @@ export default function* updateExpressionNodeEvaluator(
 
   // Note: NodeJs throws an error if the value is a string or something, but
   // thats not what the spec says to do!
-  const refValue = yield* getValue(ref, realm);
+  const refValue = yield* getValue(ref);
 
   const oldValue = yield* toNumber(refValue, realm);
 

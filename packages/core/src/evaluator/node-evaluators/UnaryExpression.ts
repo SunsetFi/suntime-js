@@ -38,12 +38,12 @@ export default function* unaryExpressionNodeEvaluator(
 
   // Note: In the case of 'void', this is never used.
   // But it still can have side-effects.
-  const value = yield* Q.val(EvaluateNodeCommand(node.argument), realm);
+  const value = yield* Q.val(EvaluateNodeCommand(node.argument));
 
   const types = context.realm.types;
   switch (node.operator) {
     case "!": {
-      const boolVal = yield* toBoolean.js(value, realm);
+      const boolVal = yield* toBoolean.js(value);
       return types.boolean(!boolVal);
     }
     // I'm reasonably sure native javascript converts these to number for these operations.
@@ -85,8 +85,8 @@ function* deleteExpressionNodeEvaluator(
 
   if (isPropertyReference(ref)) {
     // TODO: if is super reference, throw.
-    const baseObj = yield* toObject(ref.base, realm);
-    const propertyKey = yield* toPropertyKey(ref.referencedName, realm);
+    const baseObj = yield* toObject(ref.base);
+    const propertyKey = yield* toPropertyKey(ref.referencedName);
     const result = yield* baseObj.deleteEvaluator(propertyKey);
     if (!result && context.strict) {
       throw Completion.Throw(
@@ -116,7 +116,7 @@ function* typeofExpressionNodeEvaluator(
       return realm.types.string("undefined");
     }
 
-    value = yield* getValue(value, realm);
+    value = yield* getValue(value);
   }
 
   if (isStaticJsValue(value)) {

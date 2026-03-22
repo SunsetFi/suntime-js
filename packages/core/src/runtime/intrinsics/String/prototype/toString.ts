@@ -12,7 +12,7 @@ const stringProtoToStringDeclaration: FunctionIntrinsicPropertyDeclaration = {
       return realm.types.string(thisArg.value);
     }
 
-    return yield* toString(thisArg, realm);
+    return yield* toString(thisArg);
   },
 };
 

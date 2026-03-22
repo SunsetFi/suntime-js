@@ -42,7 +42,7 @@ const iteratorProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
     let counter = 0;
 
     while (true) {
-      const value = yield* Q(iteratorStepValue(iterated, realm));
+      const value = yield* Q(iteratorStepValue(iterated));
       if (value === null) {
         return realm.types.false;
       }
@@ -54,7 +54,7 @@ const iteratorProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
         return yield* Q(iteratorClose(iterated, result, realm));
       }
 
-      const asBool = yield* Q(toBoolean.js(result, realm));
+      const asBool = yield* Q(toBoolean.js(result));
       if (asBool) {
         return yield* Q(iteratorClose(iterated, realm.types.true, realm));
       }

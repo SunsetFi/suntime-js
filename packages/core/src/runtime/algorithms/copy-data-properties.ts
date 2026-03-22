@@ -19,7 +19,7 @@ export default function* copyDataProperties(
     return;
   }
 
-  const from = yield* toObject(source, realm);
+  const from = yield* toObject(source);
   const keys = yield* from.ownPropertyKeysEvaluator();
 
   for (const nextKey of keys) {

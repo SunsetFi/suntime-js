@@ -17,9 +17,9 @@ export default function* withStatementNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const { realm, lexicalEnv } = context;
-  const val = yield* Q.val(EvaluateNodeCommand(node.object), realm);
+  const val = yield* Q.val(EvaluateNodeCommand(node.object));
 
-  const obj = yield* toObject(val, realm);
+  const obj = yield* toObject(val);
 
   const oldEnv = lexicalEnv;
   const newEnv = new StaticJsObjectEnvironmentRecord(obj, true, lexicalEnv, realm);

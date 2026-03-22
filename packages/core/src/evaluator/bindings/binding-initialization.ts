@@ -50,7 +50,7 @@ export default function* bindingInitialization(
       return;
     }
     case "ObjectPattern": {
-      const obj = yield* toObject(value, context.realm);
+      const obj = yield* toObject(value);
 
       const properties = node.properties.filter((p) => isObjectProperty(p));
       const excludedNames = yield* propertyBindingInitialization(
@@ -100,8 +100,8 @@ function* propertyBindingInitialization(
 
   let key: StaticJsPropertyKey;
   if (node.computed) {
-    const p = yield* Q.val(EvaluateNodeCommand(node.key), context.realm);
-    key = yield* toPropertyKey(p, context.realm);
+    const p = yield* Q.val(EvaluateNodeCommand(node.key));
+    key = yield* toPropertyKey(p);
   } else if (node.key.type === "Identifier") {
     key = node.key.name;
   } else if (node.key.type === "StringLiteral") {
@@ -139,16 +139,15 @@ function* keyedBindingInitialization(
   switch (node.type) {
     case "ObjectPattern":
     case "ArrayPattern": {
-      const obj = yield* toObject(value, realm);
+      const obj = yield* toObject(value);
       let v = yield* obj.getEvaluator(property);
       if (initializer && isStaticJsUndefined(v)) {
         if (isAnonymousFunctionDefinition(initializer)) {
           v = yield* Q.val(
             NamedEvaluation(typeof property === "string" ? property : null, initializer, context),
-            realm,
           );
         } else {
-          v = yield* Q.val(EvaluateNodeCommand(initializer), realm);
+          v = yield* Q.val(EvaluateNodeCommand(initializer));
         }
       }
       yield* bindingInitialization(node, v, environment, context);
@@ -157,13 +156,13 @@ function* keyedBindingInitialization(
     case "Identifier": {
       const bindingId = node.name;
       const lhs = yield* getIdentifierReference(lexicalEnv, bindingId, strict);
-      const obj = yield* toObject(value, realm);
+      const obj = yield* toObject(value);
       let v = yield* obj.getEvaluator(property);
       if (initializer && isStaticJsUndefined(v)) {
         if (isAnonymousFunctionDefinition(initializer)) {
-          v = yield* Q.val(NamedEvaluation(bindingId, initializer, context), context.realm);
+          v = yield* Q.val(NamedEvaluation(bindingId, initializer, context));
         } else {
-          v = yield* Q.val(EvaluateNodeCommand(initializer), context.realm);
+          v = yield* Q.val(EvaluateNodeCommand(initializer));
         }
       }
 

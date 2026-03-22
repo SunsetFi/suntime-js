@@ -33,7 +33,7 @@ export default function createFunctionConstructor(
       const parameters: StaticJsAstFunctionArgument[] = [];
       for (const paramValue of paramValues) {
         try {
-          const paramStr = yield* toString.js(paramValue, realm);
+          const paramStr = yield* toString.js(paramValue);
           const parseParams = parseParameters(paramStr);
           parameters.push(...parseParams);
         } catch (e) {
@@ -47,7 +47,7 @@ export default function createFunctionConstructor(
         }
       }
 
-      const bodyStr = yield* toString(bodyStrValue, realm);
+      const bodyStr = yield* toString(bodyStrValue);
 
       // We don't really have a proper Node type to represent a function body...
       let body: Program;

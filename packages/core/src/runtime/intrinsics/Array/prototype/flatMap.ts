@@ -12,7 +12,7 @@ import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
 const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
   key: "flatMap",
   *func(realm, thisArg = realm.types.undefined, callback) {
-    const thisObj = yield* toObject(thisArg, realm);
+    const thisObj = yield* toObject(thisArg);
 
     if (!callback) {
       callback = realm.types.undefined;

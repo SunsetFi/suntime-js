@@ -11,7 +11,7 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 const arrayProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
   key: "some",
   *func(realm, thisArg = realm.types.undefined, callback) {
-    const thisObj = yield* toObject(thisArg, realm);
+    const thisObj = yield* toObject(thisArg);
 
     if (!callback) {
       callback = realm.types.undefined;
@@ -39,7 +39,7 @@ const arrayProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
         realm.types.number(i),
         thisObj,
       ]);
-      const condition = yield* toBoolean.js(resultValue, realm);
+      const condition = yield* toBoolean.js(resultValue);
       if (condition) {
         return realm.types.true;
       }

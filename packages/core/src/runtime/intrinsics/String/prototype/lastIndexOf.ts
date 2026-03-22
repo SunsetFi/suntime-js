@@ -13,9 +13,9 @@ const stringProtoLastIndexOfDeclaration: FunctionIntrinsicPropertyDeclaration = 
       return realm.types.number(-1);
     }
 
-    const valueStr = yield* toString(value, realm);
+    const valueStr = yield* toString(value);
 
-    const thisStr = yield* toString(thisArg, realm);
+    const thisStr = yield* toString(thisArg);
 
     const result = thisStr.value.lastIndexOf(valueStr.value);
 

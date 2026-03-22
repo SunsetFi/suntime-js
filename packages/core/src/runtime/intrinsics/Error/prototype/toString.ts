@@ -8,14 +8,14 @@ const errorProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
   key: "toString",
   *func(realm, thisArg) {
     if (!isStaticJsObjectLike(thisArg)) {
-      return yield* toString(thisArg, realm);
+      return yield* toString(thisArg);
     }
 
     const nameValue = yield* thisArg.getEvaluator("name");
-    const name = yield* toString.js(nameValue, realm);
+    const name = yield* toString.js(nameValue);
 
     const messageValue = yield* thisArg.getEvaluator("message");
-    const message = yield* toString.js(messageValue, realm);
+    const message = yield* toString.js(messageValue);
 
     let result: string;
 

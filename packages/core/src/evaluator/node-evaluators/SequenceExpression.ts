@@ -16,7 +16,7 @@ export default function* sequenceExpressionNodeEvaluator(
   let lastCompletion: StaticJsValue = realm.types.undefined;
   for (const expr of node.expressions) {
     // The comma operator calls GetValue on each of its operands.
-    lastCompletion = yield* Q.val(EvaluateNodeCommand(expr), realm);
+    lastCompletion = yield* Q.val(EvaluateNodeCommand(expr));
   }
 
   return lastCompletion ?? context.realm.types.undefined;

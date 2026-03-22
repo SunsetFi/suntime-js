@@ -14,7 +14,7 @@ const globalObjectParseIntDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     // Testing on node, we do call .toString() on objects passed to this.
-    const str = yield* toString(value, realm);
+    const str = yield* toString(value);
 
     let radixValue = 10;
     if (radix && !isStaticJsUndefined(radix) && !isStaticJsNull(radix)) {

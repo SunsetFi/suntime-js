@@ -14,13 +14,13 @@ const stringProtoPadEndDeclaration: FunctionIntrinsicPropertyDeclaration = {
     length: StaticJsValue = realm.types.undefined,
     value?: StaticJsValue,
   ) {
-    const thisStr = yield* toString(thisArg, realm);
+    const thisStr = yield* toString(thisArg);
 
     length = yield* toNumber(length, realm);
 
     let valueStr = " ";
     if (value && !isStaticJsUndefined(value)) {
-      value = yield* toString(value, realm);
+      value = yield* toString(value);
       valueStr = value.value;
     }
 

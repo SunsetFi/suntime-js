@@ -19,7 +19,7 @@ const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
 
     const args: StaticJsValue[] = [];
     if (argsArray) {
-      const argsArrayObj = yield* toObject(argsArray, realm);
+      const argsArrayObj = yield* toObject(argsArray);
       const length = yield* lengthOfArrayLike(argsArrayObj, realm);
       for (let i = 0; i < length; i++) {
         const element = yield* argsArrayObj.getEvaluator(String(i));

@@ -37,7 +37,7 @@ export default function* iteratorDestructuringAssignmentEvaluation(
 
   if (node === null) {
     if (!iteratorRecord.done) {
-      yield* iteratorStepValue(iteratorRecord, context.realm);
+      yield* iteratorStepValue(iteratorRecord);
     }
     return;
   }
@@ -65,7 +65,7 @@ export default function* iteratorDestructuringAssignmentEvaluation(
     while (true) {
       let next: StaticJsValue | null = null;
       if (!iteratorRecord.done) {
-        next = yield* iteratorStepValue(iteratorRecord, realm);
+        next = yield* iteratorStepValue(iteratorRecord);
       }
       if (!next) {
         break;
@@ -84,7 +84,7 @@ export default function* iteratorDestructuringAssignmentEvaluation(
 
     let value: StaticJsValue = realm.types.undefined;
     if (!iteratorRecord.done) {
-      const next = yield* iteratorStepValue(iteratorRecord, realm);
+      const next = yield* iteratorStepValue(iteratorRecord);
       if (next) {
         value = next;
       }
@@ -92,9 +92,9 @@ export default function* iteratorDestructuringAssignmentEvaluation(
 
     if (initializer && isStaticJsUndefined(value)) {
       if (isAnonymousFunctionDefinition(initializer) && assignmentTarget.type === "Identifier") {
-        v = yield* Q.val(NamedEvaluation(assignmentTarget.name, initializer, context), realm);
+        v = yield* Q.val(NamedEvaluation(assignmentTarget.name, initializer, context));
       } else {
-        v = yield* Q.val(EvaluateNodeCommand(initializer), realm);
+        v = yield* Q.val(EvaluateNodeCommand(initializer));
       }
     } else {
       v = value;

@@ -15,7 +15,7 @@ const arrayProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
     if (!isStaticJsObjectLike(thisArg)) {
       // NodeJs is showing this sort of chaining.
       // Is this real?  Is array to string instead implemented in Object.prototype.toString?
-      return yield* toString(thisArg, realm);
+      return yield* toString(thisArg);
     }
 
     const length = yield* lengthOfArrayLike(thisArg, realm);
@@ -23,7 +23,7 @@ const arrayProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
     const segments: string[] = [];
     for (let i = 0; i < length; i++) {
       const item = yield* thisArg.getEvaluator(i.toString());
-      const string = yield* toString(item, realm);
+      const string = yield* toString(item);
       segments[i] = string.value;
     }
 

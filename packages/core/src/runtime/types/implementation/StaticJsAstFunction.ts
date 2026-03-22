@@ -192,7 +192,7 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
         if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
           thisValue = calleeRealm.globalThis;
         } else {
-          thisValue = yield* toObject(thisArg, calleeRealm);
+          thisValue = yield* toObject(thisArg);
         }
       }
 

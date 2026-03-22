@@ -14,7 +14,7 @@ const objectCtorFreezeDeclaration: IntrinsicPropertyDeclaration = {
       return targetValue;
     }
 
-    const obj = yield* toObject(targetValue, realm);
+    const obj = yield* toObject(targetValue);
 
     const keys = yield* obj.ownPropertyKeysEvaluator();
     for (const key of keys) {

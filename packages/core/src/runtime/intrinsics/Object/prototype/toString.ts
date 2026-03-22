@@ -28,7 +28,7 @@ const objectProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
       return realm.types.string("[object Null]");
     }
 
-    const O = yield* X(toObject(thisArg, realm));
+    const O = yield* X(toObject(thisArg));
 
     let builtinTag: string;
     if (isStaticJsArray(O)) {

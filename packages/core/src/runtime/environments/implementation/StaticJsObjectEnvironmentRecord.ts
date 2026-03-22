@@ -38,7 +38,7 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
     const unscopables = yield* this._obj.getEvaluator(this._realm.types.symbols.unscopables);
     if (isStaticJsObjectLike(unscopables)) {
       const blockedValue = yield* unscopables.getEvaluator(name);
-      const isBlocked = yield* toBoolean.js(blockedValue, this._realm);
+      const isBlocked = yield* toBoolean.js(blockedValue);
       if (isBlocked) {
         return false;
       }

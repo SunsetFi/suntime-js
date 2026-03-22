@@ -10,13 +10,13 @@ import toString from "../../../algorithms/to-string.js";
 const stringProtoSplitDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "split",
   func: function* (realm, thisArg, separator?: StaticJsValue) {
-    thisArg = yield* toString(thisArg, realm);
+    thisArg = yield* toString(thisArg);
 
     if (!separator || isStaticJsUndefined(separator) || isStaticJsNull(separator)) {
       return realm.types.array([thisArg]);
     }
 
-    separator = yield* toString(separator, realm);
+    separator = yield* toString(separator);
 
     const result = thisArg.value.split(separator.value);
 

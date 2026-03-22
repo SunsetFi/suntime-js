@@ -1,9 +1,8 @@
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
-
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
@@ -20,10 +19,8 @@ import StaticJsNumberBoxed from "../types/implementation/StaticJsNumberBoxed.js"
 import StaticJsStringBoxed from "../types/implementation/StaticJsStringBoxed.js";
 import StaticJsSymbolBoxed from "../types/implementation/StaticJsSymbolBoxed.js";
 
-export default function* toObject(
-  value: StaticJsValue,
-  realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsObjectLike> {
+export default function* toObject(value: StaticJsValue): EvaluationGenerator<StaticJsObjectLike> {
+  const { realm } = EvaluationContext.current;
   if (isStaticJsUndefined(value) || isStaticJsNull(value)) {
     throw Completion.Throw(
       realm.types.error("TypeError", "Cannot convert undefined or null to object"),

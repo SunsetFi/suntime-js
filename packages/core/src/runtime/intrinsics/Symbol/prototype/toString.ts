@@ -13,7 +13,7 @@ const symbolProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
       return realm.types.string(`Symbol(${thisArg.value.description})`);
     }
 
-    return yield* toString(thisArg, realm);
+    return yield* toString(thisArg);
   },
 };
 

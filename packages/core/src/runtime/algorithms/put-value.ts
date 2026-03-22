@@ -36,7 +36,7 @@ export default function* putValue(
       );
     }
 
-    const propertyKey = yield* toPropertyKey(v.referencedName, realm);
+    const propertyKey = yield* toPropertyKey(v.referencedName);
 
     const globalObj = realm.global;
     yield* globalObj.setEvaluator(propertyKey, w, false);
@@ -44,11 +44,11 @@ export default function* putValue(
   }
 
   if (isPropertyReference(v)) {
-    const baseObj = yield* toObject(v.base, realm);
+    const baseObj = yield* toObject(v.base);
 
     // TODO: Private reference.
 
-    const propertyKey = yield* toPropertyKey(v.referencedName, realm);
+    const propertyKey = yield* toPropertyKey(v.referencedName);
 
     const succeeded = yield* baseObj.setEvaluator(
       propertyKey,

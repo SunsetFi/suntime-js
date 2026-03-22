@@ -17,7 +17,7 @@ export default function* getMethod(
   P: StaticJsPropertyKey,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsFunction | null> {
-  const obj = yield* toObject(V, realm);
+  const obj = yield* toObject(V);
   const func = yield* obj.getEvaluator(P);
   if (isStaticJsNull(func) || isStaticJsUndefined(func)) {
     return null;

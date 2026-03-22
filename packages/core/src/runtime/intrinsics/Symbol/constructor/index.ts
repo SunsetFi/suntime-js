@@ -27,7 +27,7 @@ export default function createSymbolConstructor(realm: StaticJsRealm, symbolProt
 
       let description: string | undefined = undefined;
       if (args.length > 0) {
-        const descriptionVal = yield* toString(args[0], realm);
+        const descriptionVal = yield* toString(args[0]);
         description = descriptionVal.value;
       }
 

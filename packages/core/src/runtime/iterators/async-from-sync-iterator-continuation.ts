@@ -31,11 +31,11 @@ export default function* asyncFromSyncIteratorContinuation(
   let done: boolean;
   let value: StaticJsValue;
   try {
-    done = yield* iteratorComplete(result, realm);
+    done = yield* iteratorComplete(result);
     value = yield* iteratorValue(result);
   } catch (e) {
     if (Completion.Throw.is(e)) {
-      yield* call(promiseCapability.reject, realm.types.undefined, [e.value], realm);
+      yield* call(promiseCapability.reject, realm.types.undefined, [e.value]);
       return promiseCapability.promise;
     }
 
@@ -57,7 +57,7 @@ export default function* asyncFromSyncIteratorContinuation(
         )) as Completion.Throw;
       }
 
-      yield* call(promiseCapability.reject, realm.types.undefined, [completion.value], realm);
+      yield* call(promiseCapability.reject, realm.types.undefined, [completion.value]);
       return promiseCapability.promise;
     }
 

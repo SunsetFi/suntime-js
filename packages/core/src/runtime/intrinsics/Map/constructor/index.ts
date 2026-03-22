@@ -41,12 +41,12 @@ export default function createMapConstructor(realm: StaticJsRealm, mapProto: Sta
 
         const iterator = yield* getIterator(iterable, "sync", realm);
         while (true) {
-          const next = yield* iteratorStepValue(iterator, realm);
+          const next = yield* iteratorStepValue(iterator);
           if (!next) {
             break;
           }
 
-          const asObj = yield* toObject(next, realm);
+          const asObj = yield* toObject(next);
           const key = yield* asObj.getEvaluator("0");
           const value = yield* asObj.getEvaluator("1");
 

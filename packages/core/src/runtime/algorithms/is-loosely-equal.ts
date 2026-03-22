@@ -54,11 +54,11 @@ export default function* isLooselyEqual(
 
   // Object and Primitive
   if (isStaticJsObjectLike(x) && isStaticJsScalar(y)) {
-    const aPrimitive = yield* toPrimitive(x, undefined, realm);
+    const aPrimitive = yield* toPrimitive(x, undefined);
     return yield* isLooselyEqual(aPrimitive, y, realm);
   }
   if (isStaticJsObjectLike(y) && isStaticJsScalar(x)) {
-    const bPrimitive = yield* toPrimitive(y, undefined, realm);
+    const bPrimitive = yield* toPrimitive(y, undefined);
     return yield* isLooselyEqual(x, bPrimitive, realm);
   }
 

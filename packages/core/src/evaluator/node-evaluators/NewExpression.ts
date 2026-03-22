@@ -16,14 +16,14 @@ export default function* newExpressionNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const { realm } = context;
-  const callee = yield* Q.val(EvaluateNodeCommand(node.callee), realm);
+  const callee = yield* Q.val(EvaluateNodeCommand(node.callee));
   if (!isStaticJsFunction(callee)) {
     throw Completion.Throw(realm.types.error("TypeError", "Not a function"));
   }
 
   const args: StaticJsValue[] = [];
   for (let i = 0; i < node.arguments.length; i++) {
-    const arg = yield* Q.val(EvaluateNodeCommand(node.arguments[i]), realm);
+    const arg = yield* Q.val(EvaluateNodeCommand(node.arguments[i]));
     args[i] = arg;
   }
 

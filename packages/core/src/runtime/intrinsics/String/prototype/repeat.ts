@@ -10,7 +10,7 @@ const stringProtoRepeatDeclaration: FunctionIntrinsicPropertyDeclaration = {
   func: function* (realm, thisArg, value: StaticJsValue = realm.types.undefined) {
     const count = yield* toNumber(value, realm);
 
-    const thisStr = yield* toString(thisArg, realm);
+    const thisStr = yield* toString(thisArg);
 
     const result = thisStr.value.repeat(count.value);
 

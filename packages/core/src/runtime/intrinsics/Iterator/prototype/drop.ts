@@ -62,14 +62,14 @@ const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
           remaining -= 1;
         }
 
-        const next = yield* Q(iteratorStep(iterated, realm));
+        const next = yield* Q(iteratorStep(iterated));
         if (next === null) {
           return realm.types.undefined;
         }
       }
 
       while (true) {
-        const value = yield* Q(iteratorStepValue(iterated, realm));
+        const value = yield* Q(iteratorStepValue(iterated));
         if (value === null) {
           return realm.types.undefined;
         }

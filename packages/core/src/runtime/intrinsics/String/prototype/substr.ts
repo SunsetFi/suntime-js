@@ -20,7 +20,7 @@ const stringProtoSubstrDeclaration: FunctionIntrinsicPropertyDeclaration = {
       length = lengthNum.value;
     }
 
-    thisArg = yield* toString(thisArg, realm);
+    thisArg = yield* toString(thisArg);
     const result = thisArg.value.substring(start, start + length);
 
     return realm.types.string(result);

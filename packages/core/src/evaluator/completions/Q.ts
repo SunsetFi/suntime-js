@@ -1,6 +1,5 @@
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 import getValue from "../../runtime/algorithms/get-value.js";
-import type { StaticJsRealm } from "../../runtime/index.js";
 
 import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 
@@ -43,7 +42,7 @@ Q.ref = function* qRef<T extends object | null = Completion.Normal>(
   return completion;
 };
 
-Q.val = function* qValue(evaluator: CompletionEvaluator<Completion>, realm: StaticJsRealm) {
+Q.val = function* qValue(evaluator: CompletionEvaluator<Completion>) {
   const completion = yield* Q(evaluator);
   if (!completion) {
     throw new StaticJsEngineError(
@@ -51,5 +50,5 @@ Q.val = function* qValue(evaluator: CompletionEvaluator<Completion>, realm: Stat
     );
   }
 
-  return yield* getValue(completion, realm);
+  return yield* getValue(completion);
 };

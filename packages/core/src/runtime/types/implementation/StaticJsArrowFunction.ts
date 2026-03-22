@@ -49,7 +49,7 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
 
   override *constructEvaluator(): EvaluationGenerator<StaticJsObjectLike> {
     const nameValue = yield* this.getEvaluator("name");
-    let name = yield* toString.js(nameValue, this.realm);
+    let name = yield* toString.js(nameValue);
     if (name === "") {
       name = "anonymous";
     }
@@ -73,7 +73,7 @@ export default class StaticJsArrowFunction extends StaticJsAstFunction {
     try {
       const completion = yield* Q(EvaluateNodeCommand(_body));
       if (completion) {
-        result = yield* getValue(completion, realm);
+        result = yield* getValue(completion);
       }
       return Completion.Return(result);
     } catch (e) {

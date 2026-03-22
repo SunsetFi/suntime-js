@@ -47,14 +47,14 @@ export default function* forInOfHeadEvaluation(
       `Expected expression to return a completion value, but got EMPTY.`,
     );
   }
-  const exprValue = yield* Q(getValue(exprRef, context.realm));
+  const exprValue = yield* Q(getValue(exprRef));
 
   if (iterationKind === "enumerate") {
     if (isStaticJsUndefined(exprValue) || isStaticJsNull(exprValue)) {
       throw Completion.Break();
     }
 
-    const obj = yield* toObject(exprValue, context.realm);
+    const obj = yield* toObject(exprValue);
     const iterator = yield* enumerateObjectProperties(obj, context.realm);
     const nextMethod = yield* iterator.getEvaluator("next");
     return {

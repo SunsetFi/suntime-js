@@ -48,7 +48,7 @@ const iteratorProtoMapDeclaration: IntrinsicPropertyDeclaration = {
     function* closure() {
       let counter = 0;
       while (true) {
-        const value = yield* Q(iteratorStepValue(iterated, realm));
+        const value = yield* Q(iteratorStepValue(iterated));
         if (value === null) {
           return realm.types.undefined;
         }

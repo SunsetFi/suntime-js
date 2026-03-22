@@ -10,34 +10,28 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import Q from "../completions/Q.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import type EvaluationContext from "../EvaluationContext.js";
 
 export default function logicalExpressionNodeEvaluator(
   node: LogicalExpression,
-  context: EvaluationContext,
 ): EvaluationGenerator {
   switch (node.operator) {
     case "&&":
-      return logicalExpressionAnd(node, context);
+      return logicalExpressionAnd(node);
     case "||":
-      return logicalExpressionOr(node, context);
+      return logicalExpressionOr(node);
     case "??":
-      return logicalExpressionNullishCoalescing(node, context);
+      return logicalExpressionNullishCoalescing(node);
     default:
       throw new StaticJsEngineError(`LogicalExpression operator ${node.operator} is not supported`);
   }
 }
 
-function* logicalExpressionAnd(
-  node: LogicalExpression,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { realm } = context;
-  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
-  const leftBoolean = yield* toBoolean.js(left, realm);
+function* logicalExpressionAnd(node: LogicalExpression): EvaluationGenerator {
+  const left = yield* Q.val(EvaluateNodeCommand(node.left));
+  const leftBoolean = yield* toBoolean.js(left);
 
   if (leftBoolean) {
-    const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
+    const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
     return right;
   }
@@ -45,35 +39,27 @@ function* logicalExpressionAnd(
   return left;
 }
 
-function* logicalExpressionOr(
-  node: LogicalExpression,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { realm } = context;
-  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
-  const leftBoolean = yield* toBoolean.js(left, realm);
+function* logicalExpressionOr(node: LogicalExpression): EvaluationGenerator {
+  const left = yield* Q.val(EvaluateNodeCommand(node.left));
+  const leftBoolean = yield* toBoolean.js(left);
 
   if (leftBoolean) {
     return left;
   }
 
-  const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
+  const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
   return right;
 }
 
-function* logicalExpressionNullishCoalescing(
-  node: LogicalExpression,
-  context: EvaluationContext,
-): EvaluationGenerator {
-  const { realm } = context;
-  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
+function* logicalExpressionNullishCoalescing(node: LogicalExpression): EvaluationGenerator {
+  const left = yield* Q.val(EvaluateNodeCommand(node.left));
 
   if (
     left.runtimeTypeCode === StaticJsTypeCode.Null ||
     left.runtimeTypeCode === StaticJsTypeCode.Undefined
   ) {
-    const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
+    const right = yield* Q.val(EvaluateNodeCommand(node.right));
     return right;
   }
 

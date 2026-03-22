@@ -7,12 +7,14 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import type { StaticJsScalar } from "../types/StaticJsScalar.js";
 import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsFunction } from "../types/StaticJsFunction.js";
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
 export default function* toPrimitive(
   value: StaticJsValue,
   preferredType: "string" | "number" | "default" | undefined,
-  realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsScalar> {
+  const { realm } = EvaluationContext.current;
+
   if (!isStaticJsObjectLike(value)) {
     return value;
   }

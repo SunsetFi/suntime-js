@@ -60,8 +60,8 @@ export default function* binaryExpressionNodeEvaluator(
     case "!==":
       return yield* binaryExpressionStrictEquals(node, context, true);
     case "<": {
-      const lVal = yield* Q.val(EvaluateNodeCommand(node.left), realm);
-      const rVal = yield* Q.val(EvaluateNodeCommand(node.right), realm);
+      const lVal = yield* Q.val(EvaluateNodeCommand(node.left));
+      const rVal = yield* Q.val(EvaluateNodeCommand(node.right));
       const r = yield* isLessThan(lVal, rVal, true, realm);
       if (r === undefined) {
         return realm.types.false;
@@ -70,8 +70,8 @@ export default function* binaryExpressionNodeEvaluator(
       return realm.types.boolean(r);
     }
     case "<=": {
-      const lVal = yield* Q.val(EvaluateNodeCommand(node.left), realm);
-      const rVal = yield* Q.val(EvaluateNodeCommand(node.right), realm);
+      const lVal = yield* Q.val(EvaluateNodeCommand(node.left));
+      const rVal = yield* Q.val(EvaluateNodeCommand(node.right));
       const r = yield* isLessThan(rVal, lVal, false, realm);
       if (r || r === undefined) {
         return realm.types.false;
@@ -80,8 +80,8 @@ export default function* binaryExpressionNodeEvaluator(
       return realm.types.true;
     }
     case ">": {
-      const lVal = yield* Q.val(EvaluateNodeCommand(node.left), realm);
-      const rVal = yield* Q.val(EvaluateNodeCommand(node.right), realm);
+      const lVal = yield* Q.val(EvaluateNodeCommand(node.left));
+      const rVal = yield* Q.val(EvaluateNodeCommand(node.right));
       const r = yield* isLessThan(rVal, lVal, false, realm);
       if (r === undefined) {
         return realm.types.false;
@@ -90,8 +90,8 @@ export default function* binaryExpressionNodeEvaluator(
       return realm.types.boolean(r);
     }
     case ">=": {
-      const lVal = yield* Q.val(EvaluateNodeCommand(node.left), realm);
-      const rVal = yield* Q.val(EvaluateNodeCommand(node.right), realm);
+      const lVal = yield* Q.val(EvaluateNodeCommand(node.left));
+      const rVal = yield* Q.val(EvaluateNodeCommand(node.right));
       const r = yield* isLessThan(lVal, rVal, true, realm);
       if (r || r === undefined) {
         return realm.types.false;
@@ -116,9 +116,9 @@ function* binaryExpressionDoubleEquals(
   negate: boolean,
 ): EvaluationGenerator {
   const { realm } = context;
-  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
+  const left = yield* Q.val(EvaluateNodeCommand(node.left));
 
-  const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
+  const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
   const value = yield* isLooselyEqual(left, right, realm);
 
@@ -135,8 +135,8 @@ function* binaryExpressionStrictEquals(
   negate: boolean,
 ): EvaluationGenerator {
   const { realm } = context;
-  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
-  const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
+  const left = yield* Q.val(EvaluateNodeCommand(node.left));
+  const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
   const result = yield* strictEquality(left, right, realm);
 
@@ -152,8 +152,8 @@ function* binaryExpressionAdd(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const { realm } = context;
-  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
-  const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
+  const left = yield* Q.val(EvaluateNodeCommand(node.left));
+  const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
   return yield* addition(left, right, realm);
 }
@@ -164,8 +164,8 @@ function* numericComputation(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const { realm } = context;
-  let left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
-  let right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
+  let left = yield* Q.val(EvaluateNodeCommand(node.left));
+  let right = yield* Q.val(EvaluateNodeCommand(node.right));
 
   left = yield* toNumber(left, realm);
   right = yield* toNumber(right, realm);
@@ -174,26 +174,25 @@ function* numericComputation(
 }
 
 function* inExpression(node: BinaryExpression, context: EvaluationContext): EvaluationGenerator {
-  const { realm } = context;
-  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
-  const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
+  const left = yield* Q.val(EvaluateNodeCommand(node.left));
+  const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
   if (!isStaticJsObjectLike(right)) {
     throw Completion.Throw(
       context.realm.types.error("TypeError", "Right side of in operator must be an object"),
     );
   }
-  const rightObj = yield* toObject(right, realm);
+  const rightObj = yield* toObject(right);
 
-  const propertyKey = yield* toPropertyKey(left, realm);
+  const propertyKey = yield* toPropertyKey(left);
   const hasProperty = yield* rightObj.hasPropertyEvaluator(propertyKey);
   return context.realm.types.boolean(hasProperty);
 }
 
 function* instanceOfExpression(node: BinaryExpression, context: EvaluationContext) {
   const { realm } = context;
-  const left = yield* Q.val(EvaluateNodeCommand(node.left), realm);
-  const right = yield* Q.val(EvaluateNodeCommand(node.right), realm);
+  const left = yield* Q.val(EvaluateNodeCommand(node.left));
+  const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
   const result = yield* instanceOfOperator(left, right, realm);
 

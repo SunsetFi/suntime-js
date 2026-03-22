@@ -146,7 +146,7 @@ export default class StaticJsGeneratorImpl
         let result: IteratorResult<EvaluatorCommand, Completion>;
         if (continuationMode === "throw") {
           // throw only happens on initial run, so continuation is always a value.
-          continuation = yield* getValue(continuation!, realm);
+          continuation = yield* getValue(continuation!);
           result = _closure.throw(Completion.Throw(continuation));
         } else if (continuationMode === "return") {
           // This is a throw, not a return.

@@ -119,7 +119,7 @@ class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements StaticJsFu
 
   private *_getNameEvaluator(): EvaluationGenerator<string> {
     const nameValue = yield* this.getEvaluator("name");
-    const nameStr = yield* toString.js(nameValue, this.realm);
+    const nameStr = yield* toString.js(nameValue);
     return nameStr.toString();
   }
 }

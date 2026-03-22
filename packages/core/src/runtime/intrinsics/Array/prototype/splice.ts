@@ -13,7 +13,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
   key: "splice",
   *func(realm, thisArg = realm.types.undefined, startValue, deleteCountValue, ...items) {
-    const thisObj = yield* toObject(thisArg, realm);
+    const thisObj = yield* toObject(thisArg);
 
     const length = yield* lengthOfArrayLike(thisObj, realm);
 

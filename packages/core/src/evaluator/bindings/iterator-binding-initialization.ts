@@ -65,7 +65,7 @@ export default function* iteratorBindingInitialization(
         while (true) {
           let next: StaticJsValue | null = null;
           if (!iteratorRecord.done) {
-            next = yield* iteratorStepValue(iteratorRecord, realm);
+            next = yield* iteratorStepValue(iteratorRecord);
           }
           if (!next) {
             break;
@@ -93,7 +93,7 @@ export default function* iteratorBindingInitialization(
         while (true) {
           let next: StaticJsValue | null = null;
           if (!iteratorRecord.done) {
-            next = yield* iteratorStepValue(iteratorRecord, realm);
+            next = yield* iteratorStepValue(iteratorRecord);
           }
           if (!next) {
             break;
@@ -118,7 +118,7 @@ export default function* iteratorBindingInitialization(
 
       let v: StaticJsValue = realm.types.undefined;
       if (!iteratorRecord.done) {
-        const next = yield* iteratorStepValue(iteratorRecord, realm);
+        const next = yield* iteratorStepValue(iteratorRecord);
         if (next) {
           v = next;
         }
@@ -126,9 +126,9 @@ export default function* iteratorBindingInitialization(
 
       if (initializer && isStaticJsUndefined(v)) {
         if (isAnonymousFunctionDefinition(initializer)) {
-          v = yield* Q.val(NamedEvaluation(bindingId, initializer, context), realm);
+          v = yield* Q.val(NamedEvaluation(bindingId, initializer, context));
         } else {
-          v = yield* Q.val(EvaluateNodeCommand(initializer), realm);
+          v = yield* Q.val(EvaluateNodeCommand(initializer));
         }
       }
 
@@ -144,14 +144,14 @@ export default function* iteratorBindingInitialization(
     case "ObjectPattern": {
       let v: StaticJsValue = realm.types.undefined;
       if (!iteratorRecord.done) {
-        const next = yield* iteratorStepValue(iteratorRecord, realm);
+        const next = yield* iteratorStepValue(iteratorRecord);
         if (next) {
           v = next;
         }
       }
 
       if (initializer && isStaticJsUndefined(v)) {
-        const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer), realm);
+        const defaultValue = yield* Q.val(EvaluateNodeCommand(initializer));
         v = defaultValue;
       }
 

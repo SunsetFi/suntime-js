@@ -70,7 +70,7 @@ export function* forInOfBodyEvaluation(
   }
 
   while (true) {
-    let nextResult = yield* call(iteratorRecord.nextMethod, iteratorRecord.iterator, [], realm);
+    let nextResult = yield* call(iteratorRecord.nextMethod, iteratorRecord.iterator, []);
 
     if (iteratorKind === "async") {
       nextResult = yield* AwaitCommand(nextResult);
@@ -80,7 +80,7 @@ export function* forInOfBodyEvaluation(
       throw Completion.Throw(realm.types.error("TypeError", "Iterator result is not an object"));
     }
 
-    const done = yield* iteratorComplete(nextResult, realm);
+    const done = yield* iteratorComplete(nextResult);
     if (done) {
       return V;
     }

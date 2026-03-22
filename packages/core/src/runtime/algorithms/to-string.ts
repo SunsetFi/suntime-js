@@ -1,8 +1,10 @@
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
+
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
@@ -10,15 +12,12 @@ import { isStaticJsNumber } from "../types/StaticJsNumber.js";
 import { isStaticJsString, type StaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 import toPrimitive from "./to-primitive.js";
-import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
-import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
 
-function* toString(
-  value: StaticJsValue,
-  realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsString> {
+function* toString(value: StaticJsValue): EvaluationGenerator<StaticJsString> {
+  const { realm } = EvaluationContext.current;
   if (isStaticJsUndefined(value)) {
     return realm.types.string("undefined");
   }
@@ -48,8 +47,8 @@ function* toString(
   }
 
   if (isStaticJsObjectLike(value)) {
-    const primitive = yield* toPrimitive(value, "string", realm);
-    return yield* toString(primitive, realm);
+    const primitive = yield* toPrimitive(value, "string");
+    return yield* toString(primitive);
   }
 
   throw new StaticJsEngineError(
@@ -58,11 +57,8 @@ function* toString(
   );
 }
 
-toString.js = function* js(
-  value: StaticJsValue,
-  realm: StaticJsRealm,
-): EvaluationGenerator<string> {
-  const strVal = yield* toString(value, realm);
+toString.js = function* js(value: StaticJsValue): EvaluationGenerator<string> {
+  const strVal = yield* toString(value);
   return strVal.value;
 };
 

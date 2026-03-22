@@ -10,7 +10,7 @@ export default function* toArray(
   val: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsValue[]> {
-  const obj = yield* toObject(val, realm);
+  const obj = yield* toObject(val);
 
   const length = yield* lengthOfArrayLike(obj, realm);
 

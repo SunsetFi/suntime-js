@@ -94,7 +94,7 @@ function* propertyDestructuringAssignmentEvaluation(
     const P = node.key.name;
     const lRef = yield* getIdentifierReference(context.lexicalEnv, P, strict);
 
-    const obj = yield* toObject(value, realm);
+    const obj = yield* toObject(value);
     let v = yield* obj.getEvaluator(P);
     if (initializer && isStaticJsUndefined(v)) {
       if (isAnonymousFunctionDefinition(initializer)) {
@@ -105,10 +105,9 @@ function* propertyDestructuringAssignmentEvaluation(
             initializer,
             context,
           ),
-          realm,
         );
       } else {
-        v = yield* Q.val(EvaluateNodeCommand(initializer), realm);
+        v = yield* Q.val(EvaluateNodeCommand(initializer));
       }
     }
 
@@ -120,11 +119,11 @@ function* propertyDestructuringAssignmentEvaluation(
   if (node.key.type === "Identifier" && !node.computed) {
     name = context.realm.types.string(node.key.name);
   } else {
-    name = yield* Q.val(EvaluateNodeCommand(node.key), realm);
+    name = yield* Q.val(EvaluateNodeCommand(node.key));
   }
   // Spec doesn't do this...  But it seems to get a property key anyway
   // Probably due to the limitd options PropertyName / node.key can be
-  const P = yield* toPropertyKey(name, realm);
+  const P = yield* toPropertyKey(name);
   yield* keyedDestructuringAssignmentEvaluation(node.value, value, P, context);
   return [P];
 }
@@ -164,13 +163,13 @@ function* keyedDestructuringAssignmentEvaluation(
     lRef = yield* Q.ref(EvaluateNodeCommand(node));
   }
 
-  const obj = yield* toObject(value, realm);
+  const obj = yield* toObject(value);
   let v = yield* obj.getEvaluator(property);
   if (initializer && isStaticJsUndefined(v)) {
     if (isAnonymousFunctionDefinition(initializer) && node.type === "Identifier") {
-      v = yield* Q.val(NamedEvaluation(node.name, initializer, context), realm);
+      v = yield* Q.val(NamedEvaluation(node.name, initializer, context));
     } else {
-      v = yield* Q.val(EvaluateNodeCommand(initializer), realm);
+      v = yield* Q.val(EvaluateNodeCommand(initializer));
     }
   }
 

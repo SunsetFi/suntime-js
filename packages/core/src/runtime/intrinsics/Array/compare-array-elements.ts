@@ -41,8 +41,8 @@ export default function* compareArrayElements(
     return n;
   }
 
-  const xString = yield* toString(x, realm);
-  const yString = yield* toString(y, realm);
+  const xString = yield* toString(x);
+  const yString = yield* toString(y);
 
   const xSmaller = yield* isLessThan(xString, yString, true, realm);
   if (xSmaller === true) {

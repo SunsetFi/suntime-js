@@ -25,7 +25,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
       resolvedComparator = comparatorArg;
     }
 
-    const obj = yield* toObject(thisArg, realm);
+    const obj = yield* toObject(thisArg);
     const len = yield* lengthOfArrayLike(obj, realm);
 
     const sortCompare = function* (x: StaticJsValue, y: StaticJsValue) {

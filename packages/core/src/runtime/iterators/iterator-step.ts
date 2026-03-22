@@ -2,8 +2,6 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
@@ -12,12 +10,11 @@ import iteratorNext from "./iterator-next.js";
 
 export default function* iteratorStep(
   iteratorRecord: StaticJsIteratorRecord,
-  realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObjectLike | null> {
-  const result = yield* iteratorNext(iteratorRecord, null, realm);
+  const result = yield* iteratorNext(iteratorRecord, null);
   let done: boolean;
   try {
-    done = yield* iteratorComplete(result, realm);
+    done = yield* iteratorComplete(result);
   } catch (e) {
     if (Completion.Throw.is(e)) {
       iteratorRecord.done = true;

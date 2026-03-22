@@ -13,7 +13,7 @@ const globalObjectParseFloatDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     // Testing on node, we do call .toString() on objects passed to this.
-    const str = yield* toString(value, realm);
+    const str = yield* toString(value);
 
     const result = parseFloat(str.value);
 

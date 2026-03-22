@@ -17,7 +17,7 @@ export default function* memberExpressionNodeEvaluator(
   context: EvaluationContext,
 ): EvaluationGenerator {
   const { realm } = context;
-  const target = yield* Q.val(EvaluateNodeCommand(node.object), realm);
+  const target = yield* Q.val(EvaluateNodeCommand(node.object));
 
   const propertyNode = node.property;
 
@@ -34,7 +34,7 @@ export default function* memberExpressionNodeEvaluator(
   } else {
     // Do NOT cast this to string yet!
     // Assignment requires us to not compute this until after the rhs is computed.
-    propertyKey = yield* Q.val(EvaluateNodeCommand(propertyNode), realm);
+    propertyKey = yield* Q.val(EvaluateNodeCommand(propertyNode));
   }
 
   return {

@@ -17,11 +17,11 @@ export default function createStringConstructor(realm: StaticJsRealm, stringProt
     realm,
     "String",
     function* (_thisArg, value) {
-      return yield* toString(value ?? realm.types.string(""), realm);
+      return yield* toString(value ?? realm.types.string(""));
     },
     {
       *construct(_thisArg, value) {
-        const str = yield* toString.js(value ?? realm.types.string(""), realm);
+        const str = yield* toString.js(value ?? realm.types.string(""));
         return new StaticJsStringBoxed(realm, str);
       },
     },

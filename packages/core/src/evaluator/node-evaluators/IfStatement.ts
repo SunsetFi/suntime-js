@@ -11,8 +11,8 @@ import Q from "../completions/Q.js";
 
 export default function* ifStatementNodeEvaluator(node: IfStatement, context: EvaluationContext) {
   const { realm } = context;
-  const testResult = yield* Q.val(EvaluateNodeCommand(node.test), realm);
-  const condition = yield* toBoolean.js(testResult, realm);
+  const testResult = yield* Q.val(EvaluateNodeCommand(node.test));
+  const condition = yield* toBoolean.js(testResult);
 
   let stmtCompletion: Completion;
   if (condition) {

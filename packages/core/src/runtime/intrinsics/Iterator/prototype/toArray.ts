@@ -22,7 +22,7 @@ const iteratorProtoToArrayDeclaration: IntrinsicPropertyDeclaration = {
     const iterated = yield* Q(getIteratorDirect(O));
     const items: StaticJsValue[] = [];
     while (true) {
-      const value = yield* Q(iteratorStepValue(iterated, realm));
+      const value = yield* Q(iteratorStepValue(iterated));
       if (value === null) {
         return realm.types.array(items);
       }

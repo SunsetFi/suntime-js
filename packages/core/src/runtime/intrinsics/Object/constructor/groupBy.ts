@@ -26,7 +26,7 @@ const objectCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
     yield* iteratorClose.handle(iterator, realm, function* () {
       let index = 0;
       while (true) {
-        const next = yield* iteratorStepValue(iterator, realm);
+        const next = yield* iteratorStepValue(iterator);
         if (!next) {
           break;
         }
@@ -38,7 +38,7 @@ const objectCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
 
         index++;
 
-        const key = yield* toString.js(keyValue, realm);
+        const key = yield* toString.js(keyValue);
         let group = collection.get(key);
         if (!group) {
           group = [];

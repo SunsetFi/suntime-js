@@ -19,11 +19,11 @@ export default function* isLessThan(
   let py: StaticJsScalar;
 
   if (leftFirst) {
-    px = yield* toPrimitive(x, "number", realm);
-    py = yield* toPrimitive(y, "number", realm);
+    px = yield* toPrimitive(x, "number");
+    py = yield* toPrimitive(y, "number");
   } else {
-    py = yield* toPrimitive(y, "number", realm);
-    px = yield* toPrimitive(x, "number", realm);
+    py = yield* toPrimitive(y, "number");
+    px = yield* toPrimitive(x, "number");
   }
 
   if (isStaticJsString(px) && isStaticJsString(py)) {

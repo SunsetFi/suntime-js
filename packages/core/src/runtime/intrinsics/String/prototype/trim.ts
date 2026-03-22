@@ -5,7 +5,7 @@ import toString from "../../../algorithms/to-string.js";
 const stringProtoTrimDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "trim",
   func: function* (realm, thisArg) {
-    const thisStr = yield* toString(thisArg, realm);
+    const thisStr = yield* toString(thisArg);
 
     const result = thisStr.value.trim();
 

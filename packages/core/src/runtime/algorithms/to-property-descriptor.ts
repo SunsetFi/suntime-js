@@ -34,14 +34,14 @@ export default function* toPropertyDescriptor(
   const hasEnumerable = yield* obj.hasPropertyEvaluator("enumerable");
   if (hasEnumerable) {
     const value = yield* obj.getEvaluator("enumerable");
-    const enumerable = yield* toBoolean.js(value, realm);
+    const enumerable = yield* toBoolean.js(value);
     desc.enumerable = enumerable;
   }
 
   const hasConfigurable = yield* obj.hasPropertyEvaluator("configurable");
   if (hasConfigurable) {
     const value = yield* obj.getEvaluator("configurable");
-    const configurable = yield* toBoolean.js(value, realm);
+    const configurable = yield* toBoolean.js(value);
     desc.configurable = configurable;
   }
 
@@ -54,7 +54,7 @@ export default function* toPropertyDescriptor(
   const hasWritable = yield* obj.hasPropertyEvaluator("writable");
   if (hasWritable) {
     const value = yield* obj.getEvaluator("writable");
-    const writable = yield* toBoolean.js(value, realm);
+    const writable = yield* toBoolean.js(value);
     desc.writable = writable;
   }
 

@@ -6,7 +6,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 const objectCtorGetOwnPropertySymbolsDeclaration: IntrinsicPropertyDeclaration = {
   key: "getOwnPropertySymbols",
   *func(realm, _thisArg, objValue = realm.types.undefined) {
-    const obj = yield* toObject(objValue, realm);
+    const obj = yield* toObject(objValue);
 
     const keys = yield* obj.ownPropertyKeysEvaluator();
     const symbols = keys.filter(isStaticJsSymbol);

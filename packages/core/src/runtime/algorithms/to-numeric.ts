@@ -12,7 +12,7 @@ export default function* toNumeric(
   value: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsNumber> {
-  const primValue = yield* toPrimitive(value, "number", realm);
+  const primValue = yield* toPrimitive(value, "number");
   // BigNum should go here.
   return yield* toNumber(primValue, realm);
 }

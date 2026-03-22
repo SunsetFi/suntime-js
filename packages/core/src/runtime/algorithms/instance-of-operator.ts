@@ -26,7 +26,7 @@ export default function* instanceOfOperator(
   const instOfHandler = yield* target.getEvaluator(realm.types.symbols.hasInstance);
   if (isStaticJsFunction(instOfHandler)) {
     const result = yield* instOfHandler.callEvaluator(target, [V]);
-    return yield* toBoolean.js(result, realm);
+    return yield* toBoolean.js(result);
   } else if (!isStaticJsUndefined(instOfHandler)) {
     throw Completion.Throw(realm.types.error("TypeError", "Symbol.hasInstance is not a function"));
   }

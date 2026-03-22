@@ -17,7 +17,7 @@ const objectProtoIsPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
 
     let V: StaticJsObjectLike | null = proto;
 
-    const O = yield* toObject(thisArg, realm);
+    const O = yield* toObject(thisArg);
     while (true) {
       V = yield* V.getPrototypeOfEvaluator();
       if (V === null) {

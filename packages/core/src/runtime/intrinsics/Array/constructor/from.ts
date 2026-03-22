@@ -67,7 +67,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
         }
 
         const Pk = String(k);
-        const next = yield* Q(iteratorStepValue(iteratorRecord, realm));
+        const next = yield* Q(iteratorStepValue(iteratorRecord));
         if (next === null) {
           yield* A.setEvaluator("length", realm.types.number(k), true);
           return A;
@@ -98,7 +98,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     // items is array-like
-    const arrayLike = yield* Q(toObject(items, realm));
+    const arrayLike = yield* Q(toObject(items));
     const len = yield* Q(lengthOfArrayLike(arrayLike, realm));
     if (isConstructor(C, realm)) {
       A = yield* Q(C.constructEvaluator([realm.types.number(len)]));

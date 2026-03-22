@@ -10,7 +10,7 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
   key: "fill",
   *func(realm, thisArg = realm.types.undefined, value, startValue, endValue) {
-    const thisObj = yield* toObject(thisArg, realm);
+    const thisObj = yield* toObject(thisArg);
 
     if (!value) {
       value = realm.types.undefined;

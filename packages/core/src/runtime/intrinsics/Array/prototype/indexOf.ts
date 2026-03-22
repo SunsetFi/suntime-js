@@ -8,7 +8,7 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 const arrayProtoIndexOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "indexOf",
   *func(realm, thisArg = realm.types.undefined, value) {
-    const thisObj = yield* toObject(thisArg, realm);
+    const thisObj = yield* toObject(thisArg);
 
     const length = yield* lengthOfArrayLike(thisObj, realm);
 

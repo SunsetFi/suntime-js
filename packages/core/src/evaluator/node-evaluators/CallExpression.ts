@@ -56,7 +56,7 @@ export default function* callExpressionNodeEvaluator(
   if (isStaticJsValue(calleeRaw)) {
     callee = calleeRaw;
   } else {
-    callee = yield* getValue(calleeRaw, realm);
+    callee = yield* getValue(calleeRaw);
     if (isPropertyReference(calleeRaw)) {
       thisArg = calleeRaw.base;
     }
@@ -83,13 +83,13 @@ export default function* callExpressionNodeEvaluator(
       for (let i = 0; i < node.arguments.length; i++) {
         const argument = node.arguments[i];
         if (argument.type === "SpreadElement") {
-          const iterable = yield* Q.val(EvaluateNodeCommand(argument.argument), realm);
+          const iterable = yield* Q.val(EvaluateNodeCommand(argument.argument));
 
           const iterator = yield* getIterator(iterable, "sync", context.realm);
 
           yield* iteratorClose.handle(iterator, context.realm, function* () {
             while (true) {
-              const value = yield* iteratorStepValue(iterator, context.realm);
+              const value = yield* iteratorStepValue(iterator);
               if (!value) {
                 break;
               }
@@ -97,7 +97,7 @@ export default function* callExpressionNodeEvaluator(
             }
           });
         } else {
-          const arg = yield* Q.val(EvaluateNodeCommand(argument), realm);
+          const arg = yield* Q.val(EvaluateNodeCommand(argument));
           args.push(arg);
         }
       }
@@ -122,7 +122,7 @@ function* callEvalEvaluator(
 ): EvaluationGenerator {
   const { realm } = context;
 
-  const str = yield* toString(strArg ?? realm.types.undefined, realm);
+  const str = yield* toString(strArg ?? realm.types.undefined);
 
   let node: Node;
   try {

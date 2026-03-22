@@ -513,7 +513,7 @@ export default abstract class StaticJsAbstractObject
   }
 
   toStringSync(): string {
-    return this.realm.invokeEvaluatorSync(toString(this, this.realm)).value;
+    return this.realm.invokeEvaluatorSync(toString(this)).value;
   }
 
   protected _createToJsProxyTarget(): StaticJsObjectProxyTarget {
@@ -532,7 +532,7 @@ export default abstract class StaticJsAbstractObject
   ): EvaluationGenerator<boolean>;
 
   private *_throwCannotSet(property: StaticJsPropertyKey): EvaluationGenerator<never> {
-    const str = yield* toString(this, this.realm);
+    const str = yield* toString(this);
     throw Completion.Throw(
       this.realm.types.error("TypeError", `Cannot set property ${String(property)} of ${str}`),
     );

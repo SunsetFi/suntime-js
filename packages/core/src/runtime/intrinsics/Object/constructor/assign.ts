@@ -4,10 +4,10 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 const objectCtorAssignDeclaration: IntrinsicPropertyDeclaration = {
   key: "assign",
   *func(realm, _thisArg, target = realm.types.undefined, ...sources) {
-    target = yield* toObject(target, realm);
+    target = yield* toObject(target);
 
     for (const source of sources) {
-      const sourceObj = yield* toObject(source!, realm);
+      const sourceObj = yield* toObject(source!);
       const keys = yield* sourceObj.ownEnumerableKeysEvaluator();
       for (const key of keys) {
         const value = yield* sourceObj.getEvaluator(key);

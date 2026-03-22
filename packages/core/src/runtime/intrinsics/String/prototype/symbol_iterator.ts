@@ -26,7 +26,7 @@ const stringProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const str = yield* toString.js(thisArg, realm);
+    const str = yield* toString.js(thisArg);
 
     function* stringIterationGenerator(): EvaluationGenerator<StaticJsValue> {
       const len = str.length;

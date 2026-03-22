@@ -7,7 +7,7 @@ const objectCtorEntriesDeclaration: IntrinsicPropertyDeclaration = {
   key: "entries",
   *func(realm, _thisArg, obj = realm.types.undefined) {
     // TODO: This should return an iterator.
-    obj = yield* toObject(obj, realm);
+    obj = yield* toObject(obj);
 
     const ownKeys = yield* obj.ownEnumerableKeysEvaluator();
 

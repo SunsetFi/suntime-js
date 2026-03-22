@@ -6,7 +6,7 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 export const arrayProtoPopDeclaration: IntrinsicPropertyDeclaration = {
   key: "pop",
   *func(realm, thisArg = realm.types.undefined) {
-    const thisObj = yield* toObject(thisArg, realm);
+    const thisObj = yield* toObject(thisArg);
 
     const length = yield* lengthOfArrayLike(thisObj, realm);
 

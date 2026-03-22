@@ -24,7 +24,7 @@ import type { IntrinsicPropertyDeclaration } from "./utils.js";
 const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
   key: "eval",
   *func(realm, _thisArg, str = realm.types.undefined) {
-    str = yield* toString(str, realm);
+    str = yield* toString(str);
 
     let node: File;
     try {
@@ -55,7 +55,7 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
         return realm.types.undefined;
       }
 
-      return yield* getValue(result, realm);
+      return yield* getValue(result);
     });
   },
 };

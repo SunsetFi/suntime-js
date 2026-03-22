@@ -76,7 +76,7 @@ function* forBodyEvaluation(
   perIterationBindings: string[],
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const { realm, labelSet } = context;
+  const { labelSet } = context;
 
   let V: Completion.Normal = context.realm.types.undefined;
 
@@ -84,8 +84,8 @@ function* forBodyEvaluation(
 
   while (true) {
     if (test) {
-      const testValue = yield* Q.val(EvaluateNodeCommand(test), realm);
-      const condition = yield* toBoolean.js(testValue, realm);
+      const testValue = yield* Q.val(EvaluateNodeCommand(test));
+      const condition = yield* toBoolean.js(testValue);
       if (!condition) {
         return V;
       }
@@ -105,7 +105,7 @@ function* forBodyEvaluation(
     yield* createPerIterationEnvironment(perIterationBindings, context);
 
     if (increment) {
-      yield* Q.val(EvaluateNodeCommand(increment), realm);
+      yield* Q.val(EvaluateNodeCommand(increment));
     }
   }
 }

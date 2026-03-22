@@ -16,7 +16,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg, ...items) {
     // Unique among array methods, concat does not cast thisArg to an array.
 
-    const O = yield* toObject(thisArg, realm);
+    const O = yield* toObject(thisArg);
     const A = yield* arraySpeciesCreate(O, 0, realm);
 
     let n = 0;

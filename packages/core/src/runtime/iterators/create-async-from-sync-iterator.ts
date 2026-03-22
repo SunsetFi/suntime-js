@@ -38,10 +38,10 @@ export default function* createAsyncFromSyncIterator(
       );
       let result: StaticJsValue;
       try {
-        result = yield* iteratorNext(syncIteratorRecord, value ?? null, realm);
+        result = yield* iteratorNext(syncIteratorRecord, value ?? null);
       } catch (e) {
         if (Completion.Throw.is(e)) {
-          yield* call(promiseCapability.reject, realm.types.undefined, [e.value], realm);
+          yield* call(promiseCapability.reject, realm.types.undefined, [e.value]);
           return promiseCapability.promise;
         }
 

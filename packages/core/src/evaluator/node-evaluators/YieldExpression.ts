@@ -23,7 +23,7 @@ export default function* yieldExpressionNodeEvaluator(
     throw new StaticJsEngineError("Delegating yield expressions are not supported.");
   }
 
-  const value = yield* Q.val(EvaluateNodeCommand(node.argument), realm);
+  const value = yield* Q.val(EvaluateNodeCommand(node.argument));
 
   return yield* YieldCommand(value);
 }

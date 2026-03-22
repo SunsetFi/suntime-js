@@ -15,12 +15,12 @@ export default function* addition(
   b: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsString | StaticJsNumber> {
-  const aPrim = yield* toPrimitive(a, "default", realm);
-  const bPrim = yield* toPrimitive(b, "default", realm);
+  const aPrim = yield* toPrimitive(a, "default");
+  const bPrim = yield* toPrimitive(b, "default");
 
   if (isStaticJsString(aPrim) || isStaticJsString(bPrim)) {
-    const aStr = yield* toString(aPrim, realm);
-    const bStr = yield* toString(bPrim, realm);
+    const aStr = yield* toString(aPrim);
+    const bStr = yield* toString(bPrim);
     return realm.types.string(aStr.value + bStr.value);
   }
 

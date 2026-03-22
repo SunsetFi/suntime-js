@@ -54,7 +54,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
   property: ObjectMethod,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const { realm, strict } = context;
+  const { strict } = context;
 
   const propertyKeyNode = property.key;
 
@@ -66,8 +66,8 @@ function* objectExpressionPropertyObjectMethodEvaluator(
     propertyKey = propertyKeyNode.name;
     functionName = propertyKeyNode.name;
   } else {
-    const property = yield* Q.val(EvaluateNodeCommand(propertyKeyNode), realm);
-    propertyKey = yield* toPropertyKey(property, realm);
+    const property = yield* Q.val(EvaluateNodeCommand(propertyKeyNode));
+    propertyKey = yield* toPropertyKey(property);
     if (isStaticJsSymbol(propertyKey)) {
       functionName = `Symbol(${propertyKey.description})`;
     } else {
@@ -109,7 +109,7 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
   property: ObjectProperty,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const { realm, strict } = context;
+  const { strict } = context;
 
   const propertyKeyNode = property.key;
 
@@ -119,11 +119,11 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
   } else if (propertyKeyNode.type === "PrivateName") {
     throw new StaticJsEngineError("Private fields are not supported");
   } else {
-    const property = yield* Q.val(EvaluateNodeCommand(propertyKeyNode), realm);
-    propertyKey = yield* toPropertyKey(property, realm);
+    const property = yield* Q.val(EvaluateNodeCommand(propertyKeyNode));
+    propertyKey = yield* toPropertyKey(property);
   }
 
-  const value = yield* Q.val(EvaluateNodeCommand(property.value), realm);
+  const value = yield* Q.val(EvaluateNodeCommand(property.value));
   yield* target.setEvaluator(propertyKey, value, strict);
   return null;
 }
@@ -133,8 +133,8 @@ function* objectExpressionPropertySpreadElementEvaluator(
   property: SpreadElement,
   context: EvaluationContext,
 ): EvaluationGenerator {
-  const { realm, strict } = context;
-  const value = yield* Q.val(EvaluateNodeCommand(property.argument), realm);
+  const { strict } = context;
+  const value = yield* Q.val(EvaluateNodeCommand(property.argument));
   if (!isStaticJsObject(value)) {
     // Apparently we just ignore these
     return null;

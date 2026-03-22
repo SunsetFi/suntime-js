@@ -10,7 +10,7 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
   key: "unshift",
   *func(realm, thisArg = realm.types.undefined, ...args) {
-    const thisObj = yield* toObject(thisArg, realm);
+    const thisObj = yield* toObject(thisArg);
 
     // Set the new length
     const length = yield* lengthOfArrayLike(thisObj, realm);

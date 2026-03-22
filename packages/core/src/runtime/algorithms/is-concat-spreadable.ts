@@ -19,7 +19,7 @@ export default function* isConcatSpreadable(
 
   const spreadable = yield* O.getEvaluator(O.realm.types.symbols.isConcatSpreadable);
   if (!isStaticJsUndefined(spreadable)) {
-    return yield* toBoolean.js(spreadable, realm);
+    return yield* toBoolean.js(spreadable);
   }
 
   return yield* isArray(O, realm);

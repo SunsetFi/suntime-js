@@ -50,7 +50,7 @@ const iteratorProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
     function* closure() {
       let counter = 0;
       while (true) {
-        const value = yield* Q(iteratorStepValue(iterated, realm));
+        const value = yield* Q(iteratorStepValue(iterated));
         if (value === null) {
           return realm.types.undefined;
         }
@@ -63,7 +63,7 @@ const iteratorProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
           return yield* Q(iteratorClose(iterated, selected, realm));
         }
 
-        const selectedValue = yield* toBoolean.js(selected, realm);
+        const selectedValue = yield* toBoolean.js(selected);
         if (selectedValue) {
           const completion = yield* captureThrownCompletion(YieldCommand(value));
           if (Completion.Abrupt.is(completion)) {

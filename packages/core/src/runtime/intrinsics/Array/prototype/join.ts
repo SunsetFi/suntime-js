@@ -9,7 +9,7 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
   key: "join",
   *func(realm, thisArg = realm.types.undefined, joinerValue) {
-    const thisObj = yield* toObject(thisArg, realm);
+    const thisObj = yield* toObject(thisArg);
 
     const length = yield* lengthOfArrayLike(thisObj, realm);
 

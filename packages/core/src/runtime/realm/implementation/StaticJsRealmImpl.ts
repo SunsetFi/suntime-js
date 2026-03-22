@@ -704,7 +704,7 @@ function* doEvaluateScript(
       );
       const result = yield* Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode));
       if (result) {
-        return yield* getValue(result, realm);
+        return yield* getValue(result);
       }
 
       return realm.types.undefined;

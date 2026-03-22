@@ -26,9 +26,7 @@ const switchStatementNodeEvaluator = breakableStatementEvaluation(
     statement: SwitchStatement,
     context: EvaluationContext,
   ): EvaluationGenerator {
-    const { realm } = context;
-
-    const switchValue = yield* Q.val(EvaluateNodeCommand(statement.discriminant), realm);
+    const switchValue = yield* Q.val(EvaluateNodeCommand(statement.discriminant));
 
     const oldEnv = context.lexicalEnv;
     const blockEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
@@ -142,8 +140,7 @@ function* caseBlockEvaluation(
 }
 
 function* caseClauseIsSelected(C: SwitchCase, input: StaticJsValue): EvaluationGenerator<boolean> {
-  const realm = EvaluationContext.current.realm;
-  const clauseSelector = yield* Q.val(EvaluateNodeCommand(C.test!), realm);
+  const clauseSelector = yield* Q.val(EvaluateNodeCommand(C.test!));
 
   return isStrictlyEqual(clauseSelector, input);
 }

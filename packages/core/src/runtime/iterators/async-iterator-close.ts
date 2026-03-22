@@ -40,7 +40,7 @@ export default function* asyncIteratorClose(
       return completion;
     }
 
-    innerResult = yield* call(innerResult, iterator, [], realm);
+    innerResult = yield* call(innerResult, iterator, []);
     innerResult = yield* AwaitCommand(innerResult);
   } catch (e) {
     if (Completion.Abrupt.is(e)) {

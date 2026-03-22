@@ -40,7 +40,7 @@ function* toNumber(
   // TODO: Symbol throw TypeError
 
   if (isStaticJsObjectLike(value)) {
-    const asPrimitive = yield* toPrimitive(value, "number", realm);
+    const asPrimitive = yield* toPrimitive(value, "number");
     return yield* toNumber(asPrimitive, realm);
   }
 

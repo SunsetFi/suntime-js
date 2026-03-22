@@ -1,6 +1,5 @@
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { isStaticJsBoolean, type StaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
@@ -9,7 +8,7 @@ import { isStaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-function* toBooleanJs(value: StaticJsValue, _realm: StaticJsRealm): EvaluationGenerator<boolean> {
+function* toBooleanJs(value: StaticJsValue): EvaluationGenerator<boolean> {
   if (isStaticJsUndefined(value)) {
     return false;
   }
@@ -33,11 +32,9 @@ function* toBooleanJs(value: StaticJsValue, _realm: StaticJsRealm): EvaluationGe
   return true;
 }
 
-export default function* toBoolean(
-  value: StaticJsValue,
-  realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsBoolean> {
-  const result = yield* toBooleanJs(value, realm);
+export default function* toBoolean(value: StaticJsValue): EvaluationGenerator<StaticJsBoolean> {
+  const result = yield* toBooleanJs(value);
+  const { realm } = EvaluationContext.current;
   return realm.types.boolean(result);
 }
 

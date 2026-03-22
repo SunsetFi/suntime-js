@@ -24,9 +24,9 @@ const whileStatementNodeEvaluator = breakableStatementEvaluation(
     let V: Completion.Normal = realm.types.undefined;
 
     while (true) {
-      const exprValue = yield* Q.val(EvaluateNodeCommand(node.test), realm);
+      const exprValue = yield* Q.val(EvaluateNodeCommand(node.test));
 
-      const shouldContinue = yield* toBoolean.js(exprValue, realm);
+      const shouldContinue = yield* toBoolean.js(exprValue);
       if (!shouldContinue) {
         return V;
       }

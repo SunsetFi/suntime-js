@@ -20,7 +20,7 @@ const stringProtoSliceDeclaration: FunctionIntrinsicPropertyDeclaration = {
       end = endNum.value;
     }
 
-    thisArg = yield* toString(thisArg, realm);
+    thisArg = yield* toString(thisArg);
     const result = thisArg.value.slice(start, end);
 
     return realm.types.string(result);

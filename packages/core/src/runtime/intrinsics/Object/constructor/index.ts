@@ -63,7 +63,7 @@ export default function createObjectConstructor(realm: StaticJsRealm, objectProt
         return realm.types.object();
       }
 
-      return yield* toObject(arg, realm);
+      return yield* toObject(arg);
     },
     { construct: true },
   );

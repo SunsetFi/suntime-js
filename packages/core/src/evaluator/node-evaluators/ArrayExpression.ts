@@ -25,13 +25,13 @@ export default function* arrayExpressionNodeEvaluator(
     }
 
     if (element.type === "SpreadElement") {
-      const spreadValue = yield* Q.val(EvaluateNodeCommand(element.argument), context.realm);
+      const spreadValue = yield* Q.val(EvaluateNodeCommand(element.argument));
 
       const iterator = yield* getIterator(spreadValue, "sync", realm);
 
       yield* iteratorClose.handle(iterator, context.realm, function* () {
         while (true) {
-          const value = yield* iteratorStepValue(iterator, realm);
+          const value = yield* iteratorStepValue(iterator);
           if (!value) {
             break;
           }
@@ -40,7 +40,7 @@ export default function* arrayExpressionNodeEvaluator(
         }
       });
     } else {
-      const value = yield* Q.val(EvaluateNodeCommand(element), realm);
+      const value = yield* Q.val(EvaluateNodeCommand(element));
       items.push(value);
     }
   }

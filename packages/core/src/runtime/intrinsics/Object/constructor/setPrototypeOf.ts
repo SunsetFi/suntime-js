@@ -10,7 +10,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 const objectCtorSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "setPrototypeOf",
   *func(realm, _thisArg, targetValue = realm.types.undefined, protoValue) {
-    const obj = yield* toObject(targetValue, realm);
+    const obj = yield* toObject(targetValue);
 
     let proto: StaticJsObjectLike | null;
     if (isStaticJsObjectLike(protoValue)) {

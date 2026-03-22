@@ -64,7 +64,7 @@ const iteratorProtoTakeDeclaration: IntrinsicPropertyDeclaration = {
           remaining -= 1;
         }
 
-        const value = yield* Q(iteratorStepValue(iterated, realm));
+        const value = yield* Q(iteratorStepValue(iterated));
         if (value === null) {
           return realm.types.undefined;
         }
