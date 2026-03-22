@@ -36,17 +36,12 @@ export default function* createMappedArgumentsObject(
     yield* createDataPropertyOrThrow(obj, String(index), val);
   }
 
-  yield* definePropertyOrThrow(
-    obj,
-    "length",
-    {
-      value: realm.types.number(len),
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    },
-    realm,
-  );
+  yield* definePropertyOrThrow(obj, "length", {
+    value: realm.types.number(len),
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
 
   const mappedNames = new Set<string>();
   for (let index = numberOfParameters - 1; index >= 0; index--) {
@@ -71,29 +66,19 @@ export default function* createMappedArgumentsObject(
 
   const arrayValuesProto = yield* realm.types.prototypes.arrayProto.getEvaluator("values");
 
-  yield* definePropertyOrThrow(
-    obj,
-    realm.types.symbols.iterator,
-    {
-      value: arrayValuesProto,
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    },
-    realm,
-  );
+  yield* definePropertyOrThrow(obj, realm.types.symbols.iterator, {
+    value: arrayValuesProto,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
 
-  yield* definePropertyOrThrow(
-    obj,
-    "callee",
-    {
-      value: func,
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    },
-    realm,
-  );
+  yield* definePropertyOrThrow(obj, "callee", {
+    value: func,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
 
   return obj;
 }

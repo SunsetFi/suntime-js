@@ -15,7 +15,7 @@ const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    return yield* objectDefineProperties(O, properties, realm);
+    return yield* objectDefineProperties(O, properties);
   },
 };
 

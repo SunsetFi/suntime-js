@@ -45,7 +45,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
 
     // Delete the remaining holes.
     while (j < len) {
-      yield* deletePropertyOrThrow(obj, String(j), realm);
+      yield* deletePropertyOrThrow(obj, String(j));
       j++;
     }
 

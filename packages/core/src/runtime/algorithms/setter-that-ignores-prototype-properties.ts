@@ -1,6 +1,6 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../realm/index.js";
 import {
   isStaticJsObjectLike,
   type StaticJsObjectLike,
@@ -15,8 +15,9 @@ export default function* setterThatIgnoresPrototypeProperties(
   home: StaticJsObjectLike,
   p: StaticJsPropertyKey,
   v: StaticJsValue,
-  realm: StaticJsRealm,
 ): EvaluationGenerator<void> {
+  const { realm } = EvaluationContext.current;
+
   if (!isStaticJsObjectLike(thisValue)) {
     throw Completion.Throw(realm.types.error("TypeError", "Setter called on non-object"));
   }

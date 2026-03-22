@@ -18,7 +18,6 @@ const iteratorProtoSymbolToStringTagDeclaration: IntrinsicPropertyDeclaration = 
         realm.types.prototypes.iteratorProto,
         realm.types.symbols.toStringTag,
         value,
-        realm,
       ),
     );
     return realm.types.undefined;

@@ -22,7 +22,7 @@ const objectCtorCreateDeclaration: IntrinsicPropertyDeclaration = {
     const obj = realm.types.object(undefined, proto);
 
     if (!isStaticJsUndefined(properties)) {
-      yield* objectDefineProperties(obj, properties, realm);
+      yield* objectDefineProperties(obj, properties);
     }
 
     return obj;

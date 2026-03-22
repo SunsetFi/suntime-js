@@ -48,7 +48,7 @@ export default function createIteratorConstructor(
       return ctor;
     }),
     set: new StaticJsFunctionImpl(realm, "set", function* (thisArg, v = realm.types.undefined) {
-      yield* setterThatIgnoresPrototypeProperties(thisArg, iteratorProto, "constructor", v, realm);
+      yield* setterThatIgnoresPrototypeProperties(thisArg, iteratorProto, "constructor", v);
       return realm.types.undefined;
     }),
   });

@@ -20,17 +20,12 @@ export default function* createUnmappedArgumentsObject(
 
   const obj = realm.types.object();
 
-  yield* definePropertyOrThrow(
-    obj,
-    "length",
-    {
-      value: realm.types.number(len),
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    },
-    realm,
-  );
+  yield* definePropertyOrThrow(obj, "length", {
+    value: realm.types.number(len),
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
 
   for (let index = 0; index < len; index++) {
     const val = argumentsList[index];
@@ -39,17 +34,12 @@ export default function* createUnmappedArgumentsObject(
 
   const arrayValues = yield* realm.types.prototypes.arrayProto.getEvaluator("values");
 
-  yield* definePropertyOrThrow(
-    obj,
-    realm.types.symbols.iterator,
-    {
-      value: arrayValues,
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    },
-    realm,
-  );
+  yield* definePropertyOrThrow(obj, realm.types.symbols.iterator, {
+    value: arrayValues,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
 
   const calleeAccessor = new StaticJsFunctionImpl(realm, "get", function* () {
     throw Completion.Throw(
@@ -57,17 +47,12 @@ export default function* createUnmappedArgumentsObject(
     );
   });
 
-  yield* definePropertyOrThrow(
-    obj,
-    "callee",
-    {
-      get: calleeAccessor,
-      set: calleeAccessor,
-      enumerable: false,
-      configurable: false,
-    },
-    realm,
-  );
+  yield* definePropertyOrThrow(obj, "callee", {
+    get: calleeAccessor,
+    set: calleeAccessor,
+    enumerable: false,
+    configurable: false,
+  });
 
   return obj;
 }

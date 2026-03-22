@@ -4,8 +4,6 @@ import definePropertyOrThrow from "../../algorithms/define-property-or-throw.js"
 import toObject from "../../algorithms/to-object.js";
 import toPropertyDescriptor from "../../algorithms/to-property-descriptor.js";
 
-import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-
 import type { StaticJsObjectLike, StaticJsPropertyKey } from "../../types/StaticJsObjectLike.js";
 import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
@@ -13,7 +11,6 @@ import type { StaticJsValue } from "../../types/StaticJsValue.js";
 export default function* objectDefineProperties(
   O: StaticJsObjectLike,
   properties: StaticJsValue,
-  realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObjectLike> {
   const props = yield* toObject(properties);
   const keys = yield* props.ownPropertyKeysEvaluator();
@@ -25,12 +22,12 @@ export default function* objectDefineProperties(
     }
 
     const descObj = yield* props.getEvaluator(nextKey);
-    const desc = yield* toPropertyDescriptor(descObj, realm);
+    const desc = yield* toPropertyDescriptor(descObj);
     descriptors.set(nextKey, desc);
   }
 
   for (const [key, descriptor] of descriptors) {
-    yield* definePropertyOrThrow(O, key, descriptor, realm);
+    yield* definePropertyOrThrow(O, key, descriptor);
   }
 
   return O;

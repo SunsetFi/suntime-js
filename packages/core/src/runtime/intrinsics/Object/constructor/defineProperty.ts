@@ -26,9 +26,9 @@ const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
 
     const key = yield* toPropertyKey(P);
 
-    const desc = yield* toPropertyDescriptor(attributes, realm);
+    const desc = yield* toPropertyDescriptor(attributes);
 
-    yield* definePropertyOrThrow(O, key, desc, realm);
+    yield* definePropertyOrThrow(O, key, desc);
 
     return O;
   },

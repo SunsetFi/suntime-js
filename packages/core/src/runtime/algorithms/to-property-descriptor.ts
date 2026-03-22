@@ -1,9 +1,8 @@
 import type { Writable } from "type-fest";
 
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
-
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type {
   StaticJsPropertyDescriptor,
@@ -19,8 +18,9 @@ import toBoolean from "./to-boolean.js";
 
 export default function* toPropertyDescriptor(
   obj: StaticJsValue,
-  realm: StaticJsRealm,
 ): EvaluationGenerator<Partial<StaticJsPropertyDescriptor>> {
+  const { realm } = EvaluationContext.current;
+
   if (!isStaticJsObjectLike(obj)) {
     throw Completion.Throw(
       realm.types.error("TypeError", "Property description must be an object"),
