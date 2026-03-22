@@ -131,7 +131,7 @@ function queuePromiseReactionJob(
   reaction: ReactionRecord,
   argument: StaticJsValue,
 ) {
-  realm.enqueueMicrotask(function* () {
+  realm.enqueuePromiseJob(function* () {
     const { handler, capability } = reaction;
 
     try {

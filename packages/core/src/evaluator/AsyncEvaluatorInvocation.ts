@@ -217,7 +217,7 @@ export default class AsyncEvaluatorInvocation {
     }
 
     // For everything else, continue on the next microtask.
-    this._realm.enqueueMicrotask(function* () {
+    this._realm.enqueuePromiseJob(function* () {
       yield* continueInvocation(awaitable);
     });
   }

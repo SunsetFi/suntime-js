@@ -102,9 +102,6 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _defaultRunTask: StaticJsTaskRunner;
   private readonly _defaultRunTaskSync: StaticJsTaskRunner;
 
-  private _invokeEvaluatorSyncDepth = 0;
-  private _invokeEvaluatorSyncMicrotasks: StaticJsEvaluator<void>[] = [];
-
   private _idleCallbacks: (() => void)[] = [];
 
   // FIXME: Hack because we rely on *Sync calls to bootstrap the environment,
@@ -206,7 +203,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     const parsed = parseExpression(expression, opts?.sourceName ?? this._createInlineSourceName());
     const record = StaticJsScriptRecord(parsed, expression);
     const evaluator = doEvaluateScript(record, this);
-    return this.enqueueMacrotask(evaluator, opts);
+    return this._enqueueMacrotask(evaluator, opts);
   }
 
   evaluateExpressionSync(expression: string, opts?: StaticJsRunTaskOptions): StaticJsValue {
@@ -219,7 +216,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     const parsed = parseExpression(expression, opts?.sourceName ?? this._createInlineSourceName());
     const record = StaticJsScriptRecord(parsed, expression);
     const evaluator = doEvaluateScript(record, this);
-    return this.invokeMacrotaskSync(evaluator, opts);
+    return this._invokeMacrotaskSync(evaluator, opts);
   }
 
   async evaluateScript(
@@ -251,7 +248,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       evaluator = doEvaluateScript(record, this, strict);
     }
 
-    return this.enqueueMacrotask(evaluator, opts);
+    return this._enqueueMacrotask(evaluator, opts);
   }
 
   evaluateScriptSync(script: string, opts?: StaticJsRealmEvaluateScriptSyncOptions): StaticJsValue {
@@ -267,7 +264,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     );
 
     const record = StaticJsScriptRecord(parsed, script);
-    return this.invokeMacrotaskSync(doEvaluateScript(record, this, strict), opts);
+    return this._invokeMacrotaskSync(doEvaluateScript(record, this, strict), opts);
   }
 
   async evaluateModule(code: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsModule> {
@@ -320,7 +317,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       // the module async evaluation to complete.
       // In theory enqueueMacrotask will complete before or simultaniously with moduleEvaluationCompleted,
       // but await both at once to capture errors from either.
-      await this.enqueueMacrotask(beginModuleEvaluation, opts);
+      await this._enqueueMacrotask(beginModuleEvaluation, opts);
 
       return await moduleEvaluationCompleted;
     } catch (e) {
@@ -376,91 +373,20 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return module ?? null;
   }
 
-  enqueueMicrotask(evaluator: StaticJsEvaluator<void>): void {
-    // HACK for synchronous evaluations.
-    if (this._invokeEvaluatorSyncDepth > 0) {
-      this._invokeEvaluatorSyncMicrotasks.push(evaluator);
-      return;
-    }
-
+  enqueuePromiseJob(evaluator: StaticJsEvaluator<void>): void {
     if (!this._currentTask) {
       throw new StaticJsEngineError("Cannot enqueue a microtask when no task is running.");
     }
 
-    this._currentTask.enqueueMicrotask(evaluator);
-  }
-
-  enqueueMacrotask<TReturn>(
-    evaluator: StaticJsEvaluator<TReturn>,
-    { runTask = this._defaultRunTask }: StaticJsRunTaskOptions = {},
-  ): Promise<TReturn> {
-    const macrotask = this._createMacrotask(evaluator, runTask);
-
-    macrotask.onComplete((err) => this._onTaskCompleted(err));
-
-    this._tasks.push(macrotask);
-    this._tryDrainTaskQueue();
-
-    return macrotask.await() as Promise<TReturn>;
-  }
-
-  invokeMacrotaskSync<TReturn>(
-    evaluator: StaticJsEvaluator<TReturn>,
-    { runTask = this._defaultRunTaskSync }: StaticJsRunTaskOptions = {},
-  ): TReturn {
-    const previousTask = this._currentTask;
-
     // oxlint-disable-next-line typescript/no-this-alias
     const realm = this;
+    const scriptOrModule = EvaluationContext.scriptOrModule;
     function* evaluate() {
-      // We may be ran from outside any active context, so bootstrap
-      // one if needed.
-      if (EvaluationContext.stack.length === 0) {
-        return yield* EvaluationContext.createRootContext(null, false, realm).run<TReturn>(
-          function* () {
-            return yield* invokeEvaluator(evaluator);
-          },
-        );
-      }
-
-      return yield* invokeEvaluator(evaluator);
+      const context = EvaluationContext.createRootContext(scriptOrModule, false, realm);
+      return yield* context.run(() => invokeEvaluator(evaluator));
     }
 
-    try {
-      let result: TReturn | undefined = undefined;
-      let error: unknown | undefined = undefined;
-      let complete = false;
-
-      const macrotask = this._createMacrotask(evaluate, runTask);
-      macrotask.onComplete((value, err) => {
-        complete = true;
-        error = err;
-        result = value as TReturn;
-      });
-
-      this._currentTask = macrotask;
-
-      macrotask.invoke();
-
-      if (!macrotask.done) {
-        throw new StaticJsSynchronousTaskIncompleteError(
-          `A synchronous task did not complete synchronously.  The task runner was: ${runTask.name || "anonymous"}`,
-        );
-      }
-
-      if (!complete) {
-        // This should never occur and indicates a bug in the Macrotask implementation.
-        throw new StaticJsEngineError("The macrotask did not complete correctly.");
-      }
-
-      if (error) {
-        throw error;
-      }
-
-      return result!;
-    } finally {
-      this._currentTask = previousTask;
-    }
+    this._currentTask.enqueueMicrotask(evaluate);
   }
 
   invokeEvaluatorSync<TReturn>(evaluator: StaticJsEvaluator<TReturn>): TReturn {
@@ -489,7 +415,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       return yield* invokeEvaluator(evaluator);
     }
 
-    return this.invokeMacrotaskSync(evaluate, { runTask });
+    return this._invokeMacrotaskSync(evaluate, { runTask });
   }
 
   async invokeEvaluatorAsync<TReturn>(
@@ -562,6 +488,20 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
   }
 
+  private _enqueueMacrotask<TReturn>(
+    evaluator: StaticJsEvaluator<TReturn>,
+    { runTask = this._defaultRunTask }: StaticJsRunTaskOptions = {},
+  ): Promise<TReturn> {
+    const macrotask = this._createMacrotask(evaluator, runTask);
+
+    macrotask.onComplete((err) => this._onTaskCompleted(err));
+
+    this._tasks.push(macrotask);
+    this._tryDrainTaskQueue();
+
+    return macrotask.await() as Promise<TReturn>;
+  }
+
   private _invokeMacrotask(task: EvaluationTask) {
     if (this._currentTask !== null) {
       throw new Error("Cannot invoke a task while another task is running.");
@@ -575,6 +515,65 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     Promise.resolve().then(() => {
       task.invoke();
     });
+  }
+
+  private _invokeMacrotaskSync<TReturn>(
+    evaluator: StaticJsEvaluator<TReturn>,
+    { runTask = this._defaultRunTaskSync }: StaticJsRunTaskOptions = {},
+  ): TReturn {
+    const previousTask = this._currentTask;
+
+    // oxlint-disable-next-line typescript/no-this-alias
+    const realm = this;
+    function* evaluate() {
+      // We may be ran from outside any active context, so bootstrap
+      // one if needed.
+      if (EvaluationContext.stack.length === 0) {
+        return yield* EvaluationContext.createRootContext(null, false, realm).run<TReturn>(
+          function* () {
+            return yield* invokeEvaluator(evaluator);
+          },
+        );
+      }
+
+      return yield* invokeEvaluator(evaluator);
+    }
+
+    try {
+      let result: TReturn | undefined = undefined;
+      let error: unknown | undefined = undefined;
+      let complete = false;
+
+      const macrotask = this._createMacrotask(evaluate, runTask);
+      macrotask.onComplete((value, err) => {
+        complete = true;
+        error = err;
+        result = value as TReturn;
+      });
+
+      this._currentTask = macrotask;
+
+      macrotask.invoke();
+
+      if (!macrotask.done) {
+        throw new StaticJsSynchronousTaskIncompleteError(
+          `A synchronous task did not complete synchronously.  The task runner was: ${runTask.name || "anonymous"}`,
+        );
+      }
+
+      if (!complete) {
+        // This should never occur and indicates a bug in the Macrotask implementation.
+        throw new StaticJsEngineError("The macrotask did not complete correctly.");
+      }
+
+      if (error) {
+        throw error;
+      }
+
+      return result!;
+    } finally {
+      this._currentTask = previousTask;
+    }
   }
 }
 

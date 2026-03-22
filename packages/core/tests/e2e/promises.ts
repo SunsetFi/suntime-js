@@ -68,10 +68,9 @@ describe("E2E: Promises", () => {
       `;
 
       const fulfill = (await realm.evaluateScript(code)) as StaticJsFunction;
+      await fulfill.callAsync(realm.types.undefined);
 
-      await realm.enqueueMacrotask(fulfill.callEvaluator(realm.types.undefined));
-
-      expect(cb).toBeCalledTimes(1);
+      expect(cb).toHaveBeenCalledTimes(1);
     });
 
     it("Invokes the fulfillment handler exactly once", async () => {
@@ -90,7 +89,7 @@ describe("E2E: Promises", () => {
     `;
 
       await realm.evaluateScript(code);
-      expect(cb).toBeCalledTimes(1);
+      expect(cb).toHaveBeenCalledTimes(1);
     });
 
     it("Does not fulfill when the promise is rejected", async () => {
@@ -111,10 +110,9 @@ describe("E2E: Promises", () => {
       `;
 
       const fulfill = (await realm.evaluateScript(code)) as StaticJsFunction;
+      await fulfill.callAsync(realm.types.undefined);
 
-      await realm.enqueueMacrotask(fulfill.callEvaluator(realm.types.undefined));
-
-      expect(cb).not.toBeCalled();
+      expect(cb).not.toHaveBeenCalledTimes(1);
     });
 
     it("Rejects when the promise is rejected", async () => {
@@ -135,10 +133,9 @@ describe("E2E: Promises", () => {
       `;
 
       const fulfill = (await realm.evaluateScript(code)) as StaticJsFunction;
+      await fulfill.callAsync(realm.types.undefined);
 
-      await realm.enqueueMacrotask(fulfill.callEvaluator(realm.types.undefined));
-
-      expect(cb).toBeCalled();
+      expect(cb).toHaveBeenCalledTimes(1);
     });
   });
 

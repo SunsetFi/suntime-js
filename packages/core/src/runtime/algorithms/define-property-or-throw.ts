@@ -10,11 +10,10 @@ export default function* definePropertyOrThrow(
   P: StaticJsPropertyKey,
   desc: Partial<StaticJsPropertyDescriptor>,
 ): EvaluationGenerator<void> {
-  const { realm } = EvaluationContext.current;
-
   const success = yield* O.defineOwnPropertyEvaluator(P, desc);
 
   if (!success) {
+    const { realm } = EvaluationContext.current;
     throw Completion.Throw(realm.types.error("TypeError", `Cannot define property ${String(P)}`));
   }
 }

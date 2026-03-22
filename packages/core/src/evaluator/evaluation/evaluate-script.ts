@@ -10,6 +10,21 @@ import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
 
 import type { EvaluationOptions } from "./options.js";
 
+export interface EvaluateScriptOptions extends EvaluationOptions {
+  /**
+   * Whether to allow top-level await in the script.
+   *
+   * If true, the result of evaluating the script will be a promise that resolves to the value of
+   * the last expression in the script, or undefined if there are no expressions.
+   *
+   * If false, top-level await will not be allowed, and a SyntaxError will be thrown if it is used.
+   *
+   * If "auto", the engine will return a promise only if top-level await is used in the script, and will
+   * return the value of the last expression directly if top-level await is not used.
+   */
+  topLevelAwait?: boolean | "auto";
+}
+
 /**
  * Evaluates a string as a javascript program, and returns the result.
  * @param script The string containing javascript code to evaluate.
@@ -20,19 +35,19 @@ import type { EvaluationOptions } from "./options.js";
  */
 export async function evaluateScript(
   script: string,
-  opts?: EvaluationOptions,
+  opts?: EvaluateScriptOptions,
   callback?: (value: unknown, error?: unknown) => Promise<unknown> | void,
 ): Promise<unknown> {
   opts ??= {};
   let { realm } = opts;
-  const { taskRunner, sourceName } = opts;
+  const { taskRunner, sourceName, topLevelAwait } = opts;
 
   realm ??= StaticJsRealm();
   if (!isStaticJsRealm(realm)) {
     throw new TypeError("Provided realm is not a StaticJsRealm");
   }
 
-  const evalOpts = dropUndefined({ runTask: taskRunner, sourceName });
+  const evalOpts = dropUndefined({ runTask: taskRunner, sourceName, topLevelAwait });
 
   let result: StaticJsValue;
   try {

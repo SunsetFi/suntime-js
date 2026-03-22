@@ -15,6 +15,9 @@ import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../
 import promiseCtorRejectDeclaration from "./reject.js";
 import promiseCtorResolveDeclaration from "./resolve.js";
 import promiseConstructorSymbolSpeciesDeclaration from "./symbol_species.js";
+import captureThrownCompletion from "../../../../evaluator/completions/capture-thrown-completion.js";
+import { isStaticJsValue } from "../../../types/StaticJsValue.js";
+import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   promiseCtorRejectDeclaration,
@@ -57,8 +60,7 @@ export default function createPromiseConstructor(
 
         const promise = new StaticJsPromiseImpl(realm, proto);
 
-        const resolve = createPromiseResolveFunction(promise, realm);
-        const reject = createPromiseRejectFunction(promise, realm);
+        const { resolve, reject } = createResolvingFunctions(promise, realm);
 
         try {
           yield* func.callEvaluator(realm.types.undefined, [resolve, reject]);
@@ -93,13 +95,10 @@ export default function createPromiseConstructor(
   return ctor;
 }
 
-function createPromiseResolveFunction(
-  promise: StaticJsPromise,
-  realm: StaticJsRealm,
-): StaticJsFunctionImpl {
+function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm) {
   let alreadyResolved = false;
 
-  return new StaticJsFunctionImpl(
+  const resolve = new StaticJsFunctionImpl(
     realm,
     "resolve",
     function* (_thisArg, resolution = realm.types.undefined) {
@@ -119,16 +118,14 @@ function createPromiseResolveFunction(
         return realm.types.undefined;
       }
 
-      let then;
-      try {
-        then = yield* resolution.getEvaluator("then");
-      } catch (e) {
-        if (Completion.Throw.is(e)) {
-          promise.reject(e.value);
-          return realm.types.undefined;
+      const then = yield* captureThrownCompletion(resolution.getEvaluator("then"));
+      if (Completion.Abrupt.is(then)) {
+        const value = then.value;
+        if (!isStaticJsValue(value)) {
+          throw new StaticJsEngineError("Completion value must be a StaticJsValue.");
         }
-
-        throw e;
+        promise.reject(value);
+        return realm.types.undefined;
       }
 
       if (!isStaticJsFunction(then)) {
@@ -136,10 +133,9 @@ function createPromiseResolveFunction(
         return realm.types.undefined;
       }
 
-      realm.enqueueMicrotask(function* () {
+      realm.enqueuePromiseJob(function* () {
         try {
-          const resolve = createPromiseResolveFunction(promise, realm);
-          const reject = createPromiseRejectFunction(promise, realm);
+          const { resolve, reject } = createResolvingFunctions(promise, realm);
           yield* then.callEvaluator(resolution, [resolve, reject]);
         } catch (e) {
           if (Completion.Throw.is(e)) {
@@ -154,12 +150,8 @@ function createPromiseResolveFunction(
       return realm.types.undefined;
     },
   );
-}
 
-function createPromiseRejectFunction(promise: StaticJsPromise, realm: StaticJsRealm) {
-  let alreadyResolved = false;
-
-  return new StaticJsFunctionImpl(
+  const reject = new StaticJsFunctionImpl(
     realm,
     "reject",
     function* (_thisArg, reason = realm.types.undefined) {
@@ -172,4 +164,6 @@ function createPromiseRejectFunction(promise: StaticJsPromise, realm: StaticJsRe
       return realm.types.undefined;
     },
   );
+
+  return { resolve, reject };
 }

@@ -20,7 +20,6 @@ export default function* toPropertyDescriptor(
   obj: StaticJsValue,
 ): EvaluationGenerator<Partial<StaticJsPropertyDescriptor>> {
   const { realm } = EvaluationContext.current;
-
   if (!isStaticJsObjectLike(obj)) {
     throw Completion.Throw(
       realm.types.error("TypeError", "Property description must be an object"),

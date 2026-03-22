@@ -13,7 +13,7 @@ import type { StaticJsScriptOrModuleRecord } from "./ScriptOrModuleRecord/Static
 export interface EvaluationContextStackProvider {
   pushContext(context: EvaluationContext): void;
   popContext(): void;
-  getCurrentContext(): EvaluationContext;
+  getCurrentContext(): EvaluationContext | null;
   getContextStack(): readonly EvaluationContext[];
 }
 
@@ -80,7 +80,12 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
       throw new StaticJsEngineError("No evaluation context stack provider is set.");
     }
 
-    return this._currentStackProvider.getCurrentContext();
+    const context = this._currentStackProvider.getCurrentContext();
+    if (!context) {
+      throw new StaticJsEngineError("No evaluation context found on the stack.");
+    }
+
+    return context;
   }
 
   static get stack(): readonly EvaluationContext[] {
@@ -89,6 +94,19 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
     }
 
     return this._currentStackProvider.getContextStack();
+  }
+
+  static get scriptOrModule(): StaticJsScriptOrModuleRecord | null {
+    if (!this._currentStackProvider) {
+      return null;
+    }
+
+    const context = this._currentStackProvider.getCurrentContext();
+    if (!context) {
+      return null;
+    }
+
+    return context.scriptOrModule;
   }
 
   static push(context: EvaluationContext): void {

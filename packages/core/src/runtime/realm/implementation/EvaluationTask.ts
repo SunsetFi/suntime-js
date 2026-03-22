@@ -150,21 +150,14 @@ export default class EvaluationTask implements EvaluationContextStackProvider {
     this._executionContextStack.pop();
   }
 
-  getCurrentContext(): EvaluationContext {
+  getCurrentContext(): EvaluationContext | null {
     if (this._status !== "running") {
       throw new StaticJsEngineError(
         `Cannot get current evaluation context when task is not running.  Current status: ${this._status}`,
       );
     }
 
-    const length = this._executionContextStack.length;
-    if (length === 0) {
-      throw new StaticJsEngineError(
-        "Cannot get current evaluation context when no context has been pushed.",
-      );
-    }
-
-    return this._executionContextStack[length - 1];
+    return this._executionContextStack.at(-1) ?? null;
   }
 
   getContextStack(): readonly EvaluationContext[] {

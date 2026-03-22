@@ -140,35 +140,11 @@ export interface StaticJsRealm {
   ): Promise<StaticJsModuleImplementation | null>;
 
   /**
-   * Enqueues a microtask to be executed in the next event loop tick.
+   * Enqueues a promise job to be executed.
    * @internal
    * @param evaluator The evaluator to enqueue.
    */
-  enqueueMicrotask(evaluator: StaticJsEvaluator<void>): void;
-
-  /**
-   * Enqueues a macrotask to be executed in the next event loop tick.
-   * @internal
-   * @param evaluator The evaluator to enqueue.
-   * @param opts Options for running the task.
-   */
-  enqueueMacrotask<TReturn>(
-    evaluator: StaticJsEvaluator<TReturn>,
-    opts?: StaticJsRunTaskOptions,
-  ): Promise<TReturn>;
-
-  /**
-   * Invokes a macrotask synchronously, blocking until it completes.
-   * This differs from invokeEvaluatorSync in that it handles draining all microtasks from the resultant task.
-   * This cannot be called if there is already a task running.
-   * @internal
-   * @param evaluator The evaluator to invoke.
-   * @param opts Options for running the task.
-   */
-  invokeMacrotaskSync<TReturn>(
-    evaluator: StaticJsEvaluator<TReturn>,
-    opts?: StaticJsRunTaskOptions,
-  ): TReturn;
+  enqueuePromiseJob(evaluator: StaticJsEvaluator<void>): void;
 
   /**
    * Invoke the given evaluator synchronously, returning the result.
@@ -205,9 +181,7 @@ export function isStaticJsRealm(value: unknown): value is StaticJsRealm {
     typeof value.evaluateModule === "function" &&
     "resolveImportedModule" in value &&
     typeof value.resolveImportedModule === "function" &&
-    "enqueueMicrotask" in value &&
-    typeof value.enqueueMicrotask === "function" &&
-    "enqueueMacrotask" in value &&
-    typeof value.enqueueMacrotask === "function"
+    "enqueuePromiseJob" in value &&
+    typeof value.enqueuePromiseJob === "function"
   );
 }
