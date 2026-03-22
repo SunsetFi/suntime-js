@@ -21,9 +21,7 @@ const iteratorProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg, mapper = realm.types.undefined) {
     const O = thisArg;
     if (!isStaticJsObjectLike(O)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Iterator.prototype.flatMap called on non-object"),
-      );
+      throw Completion.Throw("TypeError", "Iterator.prototype.flatMap called on non-object");
     }
 
     let iterated: StaticJsIteratorRecord = {
@@ -34,7 +32,7 @@ const iteratorProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
 
     let mapperFunc: StaticJsFunction;
     if (!isStaticJsFunction(mapper)) {
-      const error = Completion.Throw(realm.types.error("TypeError", "Mapper must be a function"));
+      const error = Completion.Throw("TypeError", "Mapper must be a function");
       return yield* Q(iteratorClose(iterated, error));
     } else {
       // More type weirdness.

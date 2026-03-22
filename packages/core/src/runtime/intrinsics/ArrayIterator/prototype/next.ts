@@ -13,18 +13,14 @@ const arrayProtoNextDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg) {
     const O = thisArg;
     if (!isStaticJsObjectLike(O)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Array Iterator.prototype.next called on non-object"),
-      );
+      throw Completion.Throw("TypeError", "Array Iterator.prototype.next called on non-object");
     }
 
     // FIXME: Won't work if this is in the prototype chain.
     if (O instanceof StaticJsArrayIteratorImpl === false) {
       throw Completion.Throw(
-        realm.types.error(
-          "TypeError",
-          "Array Iterator.prototype.next called on incompatible receiver",
-        ),
+        "TypeError",
+        "Array Iterator.prototype.next called on incompatible receiver",
       );
     }
 

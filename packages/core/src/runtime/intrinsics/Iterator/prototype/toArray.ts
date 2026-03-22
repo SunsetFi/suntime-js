@@ -14,9 +14,7 @@ const iteratorProtoToArrayDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg) {
     const O = thisArg;
     if (!isStaticJsObjectLike(O)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Iterator.prototype.toArray called on non-object"),
-      );
+      throw Completion.Throw("TypeError", "Iterator.prototype.toArray called on non-object");
     }
 
     const iterated = yield* Q(getIteratorDirect(O));

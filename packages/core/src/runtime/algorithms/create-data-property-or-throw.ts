@@ -2,7 +2,6 @@ import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import type { StaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 
@@ -13,10 +12,8 @@ export default function* createDataPropertyOrThrow(
   P: StaticJsPropertyKey,
   V: StaticJsValue,
 ): EvaluationGenerator<void> {
-  const { realm } = EvaluationContext.current;
-
   const success = yield* createDataProperty(O, P, V);
   if (!success) {
-    throw Completion.Throw(realm.types.error("TypeError", "Cannot create data property"));
+    throw Completion.Throw("TypeError", "Cannot create data property");
   }
 }

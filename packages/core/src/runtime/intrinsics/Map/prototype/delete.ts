@@ -8,9 +8,7 @@ const mapProtoDeleteDeclaration: IntrinsicPropertyDeclaration = {
   key: "delete",
   *func(realm, thisArg, key = realm.types.undefined) {
     if (!isStaticJsMap(thisArg)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Map.prototype.delete called on incompatible receiver"),
-      );
+      throw Completion.Throw("TypeError", "Map.prototype.delete called on incompatible receiver");
     }
 
     const result = yield* thisArg.deleteValueEvaluator(key);

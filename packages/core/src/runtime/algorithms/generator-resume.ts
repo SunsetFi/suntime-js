@@ -18,15 +18,11 @@ export default function* generatorResume(
 ): EvaluationGenerator<StaticJsObjectLike> {
   // FIXME: Support subclasses
   if (generator instanceof StaticJsGeneratorImpl === false) {
-    throw Completion.Throw(
-      realm.types.error("TypeError", "Generator resume called on incompatible receiver"),
-    );
+    throw Completion.Throw("TypeError", "Generator resume called on incompatible receiver");
   }
 
   if (generator.generatorBrand !== generatorBrand) {
-    throw Completion.Throw(
-      realm.types.error("TypeError", "Generator resume called on incompatible receiver"),
-    );
+    throw Completion.Throw("TypeError", "Generator resume called on incompatible receiver");
   }
 
   if (generator.generatorState === "completed") {
@@ -34,7 +30,7 @@ export default function* generatorResume(
   }
 
   if (generator.generatorState === "executing") {
-    throw Completion.Throw(realm.types.error("TypeError", "Generator is already running"));
+    throw Completion.Throw("TypeError", "Generator is already running");
   }
 
   const result = yield* generator.nextEvaluator(nextValue ?? realm.types.undefined);

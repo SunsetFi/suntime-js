@@ -88,13 +88,11 @@ export default class StaticJsNamespaceExoticObject extends StaticJsAbstractObjec
       const resolved = yield* targetModule.getOwnBindingValueEvaluator(binding.bindingName);
       if (!resolved) {
         throw Completion.Throw(
-          this.realm.types.error(
-            "ReferenceError",
-            // TODO: What error message?
-            // In theory we need to use the module's environment,
-            // but '${name} is not defined` seems confusing for an object-like property.
-            `Module ${targetModule.name} binding ${binding.bindingName} for export ${key} not found.`,
-          ),
+          "ReferenceError",
+          // TODO: What error message?
+          // In theory we need to use the module's environment,
+          // but '${name} is not defined` seems confusing for an object-like property.
+          `Module ${targetModule.name} binding ${binding.bindingName} for export ${key} not found.`,
         );
       }
 

@@ -9,17 +9,13 @@ const mapProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   key: "forEach",
   *func(realm, thisArg, callback, callbackThisArg = realm.types.undefined) {
     if (!isStaticJsMap(thisArg)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Map.prototype.forEach called on incompatible receiver"),
-      );
+      throw Completion.Throw("TypeError", "Map.prototype.forEach called on incompatible receiver");
     }
 
     if (!isStaticJsFunction(callback)) {
       throw Completion.Throw(
-        realm.types.error(
-          "TypeError",
-          "Callback provided to Map.prototype.forEach is not a function",
-        ),
+        "TypeError",
+        "Callback provided to Map.prototype.forEach is not a function",
       );
     }
 

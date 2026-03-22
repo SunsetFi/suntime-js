@@ -8,9 +8,7 @@ const mapProtoClearDeclaration: IntrinsicPropertyDeclaration = {
   key: "clear",
   *func(realm, thisArg) {
     if (!isStaticJsMap(thisArg)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Map.prototype.clear called on incompatible receiver"),
-      );
+      throw Completion.Throw("TypeError", "Map.prototype.clear called on incompatible receiver");
     }
 
     yield* thisArg.clearEvaluator();

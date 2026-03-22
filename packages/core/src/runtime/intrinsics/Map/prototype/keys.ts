@@ -6,11 +6,9 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const mapProtoKeysDeclaration: IntrinsicPropertyDeclaration = {
   key: "keys",
-  *func(realm, thisArg) {
+  *func(_realm, thisArg) {
     if (!isStaticJsMap(thisArg)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Map.prototype.keys called on incompatible receiver"),
-      );
+      throw Completion.Throw("TypeError", "Map.prototype.keys called on incompatible receiver");
     }
 
     return yield* thisArg.keysEvaluator();

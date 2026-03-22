@@ -36,9 +36,7 @@ export default function* evalDeclarationInstantiation(
       for (const name of varNames) {
         const hasLexical = yield* hasLexicalDeclaration(name, varEnv);
         if (hasLexical) {
-          throw Completion.Throw(
-            realm.types.error("SyntaxError", `${name} has already been declared`),
-          );
+          throw Completion.Throw("SyntaxError", `${name} has already been declared`);
         }
       }
     }
@@ -49,9 +47,7 @@ export default function* evalDeclarationInstantiation(
         for (const name of varNames) {
           const hasBinding = yield* thisEnv.hasBindingEvaluator(name);
           if (hasBinding) {
-            throw Completion.Throw(
-              realm.types.error("SyntaxError", `${name} has already been declared`),
-            );
+            throw Completion.Throw("SyntaxError", `${name} has already been declared`);
           }
         }
       }
@@ -80,9 +76,7 @@ export default function* evalDeclarationInstantiation(
       if (varEnv instanceof StaticJsGlobalEnvironmentRecord) {
         const fnDefinable = yield* canDeclareGlobalFunction(fn, varEnv);
         if (!fnDefinable) {
-          throw Completion.Throw(
-            realm.types.error("TypeError", `Cannot declare global function ${fn}`),
-          );
+          throw Completion.Throw("TypeError", `Cannot declare global function ${fn}`);
         }
       }
 
@@ -105,9 +99,7 @@ export default function* evalDeclarationInstantiation(
       if (varEnv instanceof StaticJsGlobalEnvironmentRecord) {
         const fnDefinable = yield* canDeclareGlobalVar(vn, varEnv);
         if (!fnDefinable) {
-          throw Completion.Throw(
-            realm.types.error("TypeError", `Cannot declare global variable ${vn}`),
-          );
+          throw Completion.Throw("TypeError", `Cannot declare global variable ${vn}`);
         }
       }
 

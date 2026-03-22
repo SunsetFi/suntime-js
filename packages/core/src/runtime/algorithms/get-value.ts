@@ -5,8 +5,6 @@ import type { StaticJsReferenceRecord } from "../references/StaticJsReferenceRec
 import { isUnresolvableReference } from "../references/is-unresolvable-reference.js";
 import { isPropertyReference } from "../references/is-property-reference.js";
 
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
-
 import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
@@ -25,10 +23,7 @@ export default function* getValue(
   }
 
   if (isUnresolvableReference(v)) {
-    const { realm } = EvaluationContext.current;
-    throw Completion.Throw(
-      realm.types.error("ReferenceError", `${v.referencedName} is not defined`),
-    );
+    throw Completion.Throw("ReferenceError", `${v.referencedName} is not defined`);
   }
 
   if (isPropertyReference(v)) {

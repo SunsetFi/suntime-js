@@ -16,9 +16,7 @@ const objectCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
     const collection = new Map<string, StaticJsValue[]>();
 
     if (!isStaticJsFunction(callbackFn)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Object.groupBy callback must be a function"),
-      );
+      throw Completion.Throw("TypeError", "Object.groupBy callback must be a function");
     }
 
     const iterator = yield* getIterator(items, "sync");

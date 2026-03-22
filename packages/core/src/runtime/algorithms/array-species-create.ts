@@ -36,7 +36,7 @@ export default function* arraySpeciesCreate(
   }
 
   if (!isConstructor(constructor, realm)) {
-    throw Completion.Throw(realm.types.error("TypeError", "Constructor is not a constructor"));
+    throw Completion.Throw("TypeError", "Constructor is not a constructor");
   }
 
   const result = yield* constructor.constructEvaluator([realm.types.number(length)]);
@@ -44,7 +44,7 @@ export default function* arraySpeciesCreate(
     // This isn't in the spec but... we always want to be able to set properties.
     // FIXME: According to the spec, it throws when trying to create the property,
     // rather than here.
-    throw Completion.Throw(realm.types.error("TypeError", "Constructor did not produce an object"));
+    throw Completion.Throw("TypeError", "Constructor did not produce an object");
   }
 
   return result;

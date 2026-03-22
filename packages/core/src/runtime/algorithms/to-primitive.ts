@@ -1,13 +1,11 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
-
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import type { StaticJsScalar } from "../types/StaticJsScalar.js";
 import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsFunction } from "../types/StaticJsFunction.js";
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
 export default function* toPrimitive(
   value: StaticJsValue,
@@ -35,18 +33,15 @@ export default function* toPrimitive(
       return result;
     }
 
-    throw Completion.Throw(
-      realm.types.error("TypeError", `Object[Symbol.toPrimitive] returned an object.`),
-    );
+    throw Completion.Throw("TypeError", `Object[Symbol.toPrimitive] returned an object.`);
   }
 
-  return yield* ordinaryToPrimitive(value, preferredType ?? "number", realm);
+  return yield* ordinaryToPrimitive(value, preferredType ?? "number");
 }
 
 function* ordinaryToPrimitive(
   value: StaticJsObjectLike,
   preferredType: "string" | "number" | "default",
-  realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsScalar> {
   let methodNames: string[];
   if (preferredType === "string") {
@@ -68,7 +63,5 @@ function* ordinaryToPrimitive(
     }
   }
 
-  throw Completion.Throw(
-    realm.types.error("TypeError", `Cannot convert object to primitive value`),
-  );
+  throw Completion.Throw("TypeError", `Cannot convert object to primitive value`);
 }

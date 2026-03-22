@@ -138,9 +138,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
 
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        throw Completion.Throw(
-          this._realm.types.error("ReferenceError", `Module ${entry.moduleRequest} not found.`),
-        );
+        throw Completion.Throw("ReferenceError", `Module ${entry.moduleRequest} not found.`);
       }
 
       yield* module.moduleDeclarationInstantiationEvaluator();
@@ -150,9 +148,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
     for (const entry of this._importEntries) {
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        throw Completion.Throw(
-          this._realm.types.error("ReferenceError", `Module ${entry.moduleRequest} not found.`),
-        );
+        throw Completion.Throw("ReferenceError", `Module ${entry.moduleRequest} not found.`);
       }
 
       yield* module.moduleDeclarationInstantiationEvaluator();
@@ -168,9 +164,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
 
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        throw Completion.Throw(
-          this._realm.types.error("ReferenceError", `Module ${entry.moduleRequest} not found.`),
-        );
+        throw Completion.Throw("ReferenceError", `Module ${entry.moduleRequest} not found.`);
       }
 
       const { importName, exportName } = entry;
@@ -204,10 +198,8 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       const hasBinding = yield* this._envRec!.hasBindingEvaluator(entry.localName);
       if (!hasBinding) {
         throw Completion.Throw(
-          this._realm.types.error(
-            "SyntaxError",
-            `Exported local name not declared: ${entry.localName}`,
-          ),
+          "SyntaxError",
+          `Exported local name not declared: ${entry.localName}`,
         );
       }
     }
@@ -399,10 +391,8 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       const resolution = yield* this.resolveExportEvaluator(exportName!);
       if (!resolution || resolution === "ambiguous") {
         throw Completion.Throw(
-          this._realm.types.error(
-            "ReferenceError",
-            `Cannot resolve export ${exportName} for module ${this._name}.`,
-          ),
+          "ReferenceError",
+          `Cannot resolve export ${exportName} for module ${this._name}.`,
         );
       }
     }
@@ -413,9 +403,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
     for (const entry of this._importEntries) {
       const importedModule = this._linkedModules.get(entry.moduleRequest);
       if (!importedModule) {
-        throw Completion.Throw(
-          this._realm.types.error("ReferenceError", `Module ${entry.moduleRequest} not found.`),
-        );
+        throw Completion.Throw("ReferenceError", `Module ${entry.moduleRequest} not found.`);
       }
 
       if (entry.importName === NamespaceImportName) {
@@ -428,10 +416,8 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
 
         if (!resolved || resolved === "ambiguous") {
           throw Completion.Throw(
-            this._realm.types.error(
-              "SyntaxError",
-              `Module ${entry.moduleRequest} does not export ${entry.importName}.`,
-            ),
+            "SyntaxError",
+            `Module ${entry.moduleRequest} does not export ${entry.importName}.`,
           );
         }
 

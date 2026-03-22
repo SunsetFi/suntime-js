@@ -20,7 +20,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
     if (!comparatorArg || isStaticJsUndefined(comparatorArg)) {
       resolvedComparator = null;
     } else if (!isStaticJsFunction(comparatorArg)) {
-      throw Completion.Throw(realm.types.error("TypeError", "Comparator must be a function"));
+      throw Completion.Throw("TypeError", "Comparator must be a function");
     } else {
       resolvedComparator = comparatorArg;
     }

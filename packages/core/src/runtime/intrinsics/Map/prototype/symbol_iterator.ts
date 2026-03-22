@@ -8,13 +8,11 @@ const mapProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
   key(realm) {
     return realm.types.symbols.iterator;
   },
-  *func(realm, thisArg) {
+  *func(_realm, thisArg) {
     if (!isStaticJsMap(thisArg)) {
       throw Completion.Throw(
-        realm.types.error(
-          "TypeError",
-          "Map.prototype[Symbol.iterator] called on incompatible receiver",
-        ),
+        "TypeError",
+        "Map.prototype[Symbol.iterator] called on incompatible receiver",
       );
     }
 

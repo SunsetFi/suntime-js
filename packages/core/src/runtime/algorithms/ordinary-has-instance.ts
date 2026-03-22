@@ -35,7 +35,7 @@ export default function* ordinaryHasInstance(
 
   const P = yield* C.getEvaluator("prototype");
   if (!isStaticJsObjectLike(P)) {
-    throw Completion.Throw(realm.types.error("TypeError", "Function has non-object prototype"));
+    throw Completion.Throw("TypeError", "Function has non-object prototype");
   }
 
   let current = O.prototype;

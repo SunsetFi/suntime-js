@@ -33,22 +33,16 @@ export default function createPromiseConstructor(
     realm,
     "Promise",
     function* () {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Promise constructor cannot be called as a function"),
-      );
+      throw Completion.Throw("TypeError", "Promise constructor cannot be called as a function");
     },
     {
       *construct(thisArg, func) {
         if (!isStaticJsObjectLike(thisArg)) {
-          throw Completion.Throw(
-            realm.types.error("TypeError", "Promise constructor called on a non-object"),
-          );
+          throw Completion.Throw("TypeError", "Promise constructor called on a non-object");
         }
 
         if (!isStaticJsFunction(func)) {
-          throw Completion.Throw(
-            realm.types.error("TypeError", "Promise resolver is not a function."),
-          );
+          throw Completion.Throw("TypeError", "Promise resolver is not a function.");
         }
 
         // Our implementation requires us to take over the object instance,

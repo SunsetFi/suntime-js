@@ -41,9 +41,7 @@ export default function* createUnmappedArgumentsObject(
   });
 
   const calleeAccessor = new StaticJsFunctionImpl(realm, "get", function* () {
-    throw Completion.Throw(
-      realm.types.error("TypeError", "callee property is not accessible in strict mode"),
-    );
+    throw Completion.Throw("TypeError", "callee property is not accessible in strict mode");
   });
 
   yield* definePropertyOrThrow(obj, "callee", {

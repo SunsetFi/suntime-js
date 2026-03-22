@@ -42,13 +42,10 @@ export default function* destructuringAssignmentEvaluation(
   node: Node,
   value: StaticJsValue,
 ): EvaluationGenerator<void> {
-  const { realm } = EvaluationContext.current;
   switch (node.type) {
     case "ObjectPattern": {
       if (isStaticJsUndefined(value) || isStaticJsNull(value)) {
-        throw Completion.Throw(
-          realm.types.error("TypeError", "Cannot destructure undefined or null"),
-        );
+        throw Completion.Throw("TypeError", "Cannot destructure undefined or null");
       }
       const properties = node.properties.filter((p) => isObjectProperty(p));
       const excludedNames: StaticJsPropertyKey[] = [];

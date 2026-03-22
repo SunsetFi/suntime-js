@@ -13,6 +13,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
     "oxfmt": "catalog:",
-    "oxlint": "catalog:"
+    "oxlint": "catalog:",
+    "typescript": "catalog:"
   }
 }

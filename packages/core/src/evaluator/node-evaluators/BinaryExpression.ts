@@ -171,9 +171,7 @@ function* inExpression(node: BinaryExpression): EvaluationGenerator {
   const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
   if (!isStaticJsObjectLike(right)) {
-    throw Completion.Throw(
-      realm.types.error("TypeError", "Right side of in operator must be an object"),
-    );
+    throw Completion.Throw("TypeError", "Right side of in operator must be an object");
   }
   const rightObj = yield* toObject(right);
 

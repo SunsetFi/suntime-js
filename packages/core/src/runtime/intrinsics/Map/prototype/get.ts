@@ -8,9 +8,7 @@ const mapProtoGetDeclaration: IntrinsicPropertyDeclaration = {
   key: "get",
   *func(realm, thisArg, key = realm.types.undefined) {
     if (!isStaticJsMap(thisArg)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Map.prototype.get called on incompatible receiver"),
-      );
+      throw Completion.Throw("TypeError", "Map.prototype.get called on incompatible receiver");
     }
 
     return yield* thisArg.getValueEvaluator(key);

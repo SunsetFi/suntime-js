@@ -71,7 +71,7 @@ export function* forInOfBodyEvaluation(
     }
 
     if (!isStaticJsObjectLike(nextResult)) {
-      throw Completion.Throw(realm.types.error("TypeError", "Iterator result is not an object"));
+      throw Completion.Throw("TypeError", "Iterator result is not an object");
     }
 
     const done = yield* iteratorComplete(nextResult);

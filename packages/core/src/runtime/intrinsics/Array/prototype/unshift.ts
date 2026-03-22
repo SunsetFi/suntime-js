@@ -19,10 +19,8 @@ export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
       // Note: Not exactly what NodeJs does, it says "invalid array length".
       // Not sure on the exact situations of when it says that though.
       throw Completion.Throw(
-        realm.types.error(
-          "TypeError",
-          `Unshifting ${args.length} elements on an array-like of length ${length} is disallowed, as the total surpasses the maximum array length.`,
-        ),
+        "TypeError",
+        `Unshifting ${args.length} elements on an array-like of length ${length} is disallowed, as the total surpasses the maximum array length.`,
       );
     }
 

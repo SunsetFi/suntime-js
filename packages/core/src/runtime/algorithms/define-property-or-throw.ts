@@ -1,5 +1,4 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsObjectLike, StaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
@@ -13,7 +12,6 @@ export default function* definePropertyOrThrow(
   const success = yield* O.defineOwnPropertyEvaluator(P, desc);
 
   if (!success) {
-    const { realm } = EvaluationContext.current;
-    throw Completion.Throw(realm.types.error("TypeError", `Cannot define property ${String(P)}`));
+    throw Completion.Throw("TypeError", `Cannot define property ${String(P)}`);
   }
 }

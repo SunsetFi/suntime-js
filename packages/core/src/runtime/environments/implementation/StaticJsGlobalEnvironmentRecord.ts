@@ -111,9 +111,7 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironment
   }
 
   *getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue> {
-    throw Completion.Throw(
-      this._realm.types.error("ReferenceError", "Global environment does not have a super base"),
-    );
+    throw Completion.Throw("ReferenceError", "Global environment does not have a super base");
   }
 
   *withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue> {
@@ -122,9 +120,7 @@ export default class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironment
 
   private *_ensureDeclarativeBindingNotDeclared(name: string): EvaluationGenerator<void> {
     if (yield* this.declarativeRecord.hasBindingEvaluator(name)) {
-      throw Completion.Throw(
-        this._realm.types.error("SyntaxError", `Identifier ${name} has already been declared`),
-      );
+      throw Completion.Throw("SyntaxError", `Identifier ${name} has already been declared`);
     }
   }
 }

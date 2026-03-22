@@ -61,12 +61,7 @@ export default function* callExpressionNodeEvaluator(node: CallExpression): Eval
   }
 
   if (!isStaticJsFunction(callee)) {
-    throw Completion.Throw(
-      context.realm.types.error(
-        "TypeError",
-        `TypeError: ${nameNode(node.callee)} is not a function`,
-      ),
-    );
+    throw Completion.Throw("TypeError", `TypeError: ${nameNode(node.callee)} is not a function`);
   }
 
   const parameterEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
@@ -124,7 +119,7 @@ function* callEvalEvaluator(strArg: StaticJsValue | undefined): EvaluationGenera
     node = parseScript(str.value, "eval");
   } catch (e: unknown) {
     if (e instanceof StaticJsSyntaxError) {
-      throw Completion.Throw(realm.types.error("SyntaxError", e.message));
+      throw Completion.Throw("SyntaxError", e.message);
     }
 
     throw e;

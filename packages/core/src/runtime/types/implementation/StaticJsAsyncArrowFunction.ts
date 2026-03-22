@@ -58,7 +58,7 @@ export default class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
       name = "anonymous";
     }
 
-    throw Completion.Throw(this.realm.types.error("TypeError", `${name} is not a constructor`));
+    throw Completion.Throw("TypeError", `${name} is not a constructor`);
   }
 
   protected override *_evaluateBody(

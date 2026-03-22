@@ -31,7 +31,7 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
       node = parseScript(str.value, "eval");
     } catch (e: unknown) {
       if (e instanceof StaticJsSyntaxError) {
-        throw Completion.Throw(realm.types.error("SyntaxError", e.message));
+        throw Completion.Throw("SyntaxError", e.message);
       }
 
       throw e;

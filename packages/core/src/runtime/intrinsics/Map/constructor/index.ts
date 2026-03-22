@@ -29,7 +29,7 @@ export default function createMapConstructor(realm: StaticJsRealm, mapProto: Sta
     realm,
     "Map",
     function* (_thisArg) {
-      throw Completion.Throw(realm.types.error("TypeError", "Map constructor requires 'new'"));
+      throw Completion.Throw("TypeError", "Map constructor requires 'new'");
     },
     {
       *construct(_thisArg, iterable) {

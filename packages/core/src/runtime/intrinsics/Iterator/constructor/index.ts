@@ -15,18 +15,14 @@ export default function createIteratorConstructor(
     realm,
     "Iterator",
     function* (_thisArg) {
-      throw Completion.Throw(realm.types.error("TypeError", "Iterator constructor requires 'new'"));
+      throw Completion.Throw("TypeError", "Iterator constructor requires 'new'");
     },
     {
       *construct(newTarget) {
         if (isStaticJsUndefined(newTarget)) {
-          throw Completion.Throw(
-            realm.types.error("TypeError", "Iterator constructor requires 'new'"),
-          );
+          throw Completion.Throw("TypeError", "Iterator constructor requires 'new'");
         } else if (newTarget === realm.types.constructors.Iterator) {
-          throw Completion.Throw(
-            realm.types.error("TypeError", "Iterator constructor requires a subclass"),
-          );
+          throw Completion.Throw("TypeError", "Iterator constructor requires a subclass");
         }
 
         return realm.types.object({}, realm.types.prototypes.iteratorProto);

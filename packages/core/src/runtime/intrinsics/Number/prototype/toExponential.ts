@@ -14,10 +14,8 @@ const numberProtoToExponentialDeclaration: FunctionIntrinsicPropertyDeclaration 
 
     if (!isNumberLike(thisArg)) {
       throw Completion.Throw(
-        realm.types.error(
-          "TypeError",
-          "Number.prototype.toExponential requires that 'this' be a Number",
-        ),
+        "TypeError",
+        "Number.prototype.toExponential requires that 'this' be a Number",
       );
     }
 

@@ -21,9 +21,7 @@ const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
       const constructed = yield* (thisArg as StaticJsFunction).constructEvaluator([len]);
       // FIXME: Not spec complaint.  The spec should throw trying to define the property, not ahead of time
       if (!isStaticJsObjectLike(constructed)) {
-        throw Completion.Throw(
-          realm.types.error("TypeError", "Constructor did not produce an object"),
-        );
+        throw Completion.Throw("TypeError", "Constructor did not produce an object");
       }
 
       A = constructed;

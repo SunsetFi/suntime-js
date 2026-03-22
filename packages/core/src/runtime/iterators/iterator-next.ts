@@ -5,7 +5,6 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import call from "../algorithms/call.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
 import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
@@ -32,10 +31,7 @@ export default function* iteratorNext(
 
   if (!isStaticJsObjectLike(result)) {
     iteratorRecord.done = true;
-    const { realm } = EvaluationContext.current;
-    throw Completion.Throw(
-      realm.types.error("TypeError", "Result of iterator next is not an object"),
-    );
+    throw Completion.Throw("TypeError", "Result of iterator next is not an object");
   }
 
   return result;

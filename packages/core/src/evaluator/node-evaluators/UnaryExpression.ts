@@ -82,10 +82,8 @@ function* deleteExpressionNodeEvaluator(node: UnaryExpression): EvaluationGenera
     const result = yield* baseObj.deleteEvaluator(propertyKey);
     if (!result && strict) {
       throw Completion.Throw(
-        realm.types.error(
-          "TypeError",
-          `Cannot delete property ${String(propertyKey)} of object: Property is non-configurable.`,
-        ),
+        "TypeError",
+        `Cannot delete property ${String(propertyKey)} of object: Property is non-configurable.`,
       );
     }
     return realm.types.boolean(result);

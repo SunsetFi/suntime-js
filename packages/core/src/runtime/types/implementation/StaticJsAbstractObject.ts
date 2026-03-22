@@ -102,7 +102,7 @@ export default abstract class StaticJsAbstractObject
     }
 
     if (!this._extensible) {
-      throw Completion.Throw(this.realm.types.error("TypeError", "Object is not extensible."));
+      throw Completion.Throw("TypeError", "Object is not extensible.");
     }
 
     this._prototype = proto;
@@ -533,8 +533,6 @@ export default abstract class StaticJsAbstractObject
 
   private *_throwCannotSet(property: StaticJsPropertyKey): EvaluationGenerator<never> {
     const str = yield* toString(this);
-    throw Completion.Throw(
-      this.realm.types.error("TypeError", `Cannot set property ${String(property)} of ${str}`),
-    );
+    throw Completion.Throw("TypeError", `Cannot set property ${String(property)} of ${str}`);
   }
 }

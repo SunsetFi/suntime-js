@@ -18,9 +18,7 @@ const objectCtorSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
     } else if (isStaticJsNull(protoValue)) {
       proto = null;
     } else {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Object prototype may only be an Object or null"),
-      );
+      throw Completion.Throw("TypeError", "Object prototype may only be an Object or null");
     }
 
     yield* obj.setPrototypeOfEvaluator(proto);

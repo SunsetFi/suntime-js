@@ -25,7 +25,7 @@ export default function* speciesConstructor(
   }
 
   if (!isStaticJsObjectLike(C)) {
-    throw Completion.Throw(realm.types.error("TypeError", "Constructor is not an object"));
+    throw Completion.Throw("TypeError", "Constructor is not an object");
   }
 
   const S = yield* C.getEvaluator(realm.types.symbols.species);
@@ -34,7 +34,7 @@ export default function* speciesConstructor(
   }
 
   if (!isConstructor(S, realm)) {
-    throw Completion.Throw(realm.types.error("TypeError", "Species is not a constructor"));
+    throw Completion.Throw("TypeError", "Species is not a constructor");
   }
 
   return S as StaticJsFunction;

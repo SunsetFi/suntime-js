@@ -170,9 +170,7 @@ export default class StaticJsFunctionImpl
 
   *constructEvaluator(args: StaticJsValue[] = []): EvaluationGenerator<StaticJsObjectLike> {
     if (!this._construct) {
-      throw Completion.Throw(
-        this.realm.types.error("TypeError", "This function is not a constructor."),
-      );
+      throw Completion.Throw("TypeError", "This function is not a constructor.");
     }
 
     // This is far from spec compliant: https://tc39.es/ecma262/multipage/ordinary-and-exotic-objects-behaviours.html#sec-ecmascript-function-objects-construct-argumentslist-newtarget
@@ -210,9 +208,7 @@ export default class StaticJsFunctionImpl
     ...args: StaticJsValue[]
   ): EvaluationGenerator {
     if (!this._construct) {
-      throw Completion.Throw(
-        this.realm.types.error("TypeError", "This function is not a constructor."),
-      );
+      throw Completion.Throw("TypeError", "This function is not a constructor.");
     }
 
     if (!isStaticJsValue(thisArg)) {

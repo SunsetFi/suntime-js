@@ -11,10 +11,8 @@ const numberProtoValueOfDeclaration: FunctionIntrinsicPropertyDeclaration = {
 
     if (!isNumberLike(thisArg)) {
       throw Completion.Throw(
-        realm.types.error(
-          "TypeError",
-          "Number.prototype.toLocaleString requires that 'this' be a Number",
-        ),
+        "TypeError",
+        "Number.prototype.toLocaleString requires that 'this' be a Number",
       );
     }
 

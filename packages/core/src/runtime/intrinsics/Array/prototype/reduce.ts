@@ -13,9 +13,7 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
   key: "reduce",
   *func(realm, thisArg, callback, initialValue) {
     if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Array.prototype.reduce called on null or undefined"),
-      );
+      throw Completion.Throw("TypeError", "Array.prototype.reduce called on null or undefined");
     }
 
     // For some baffling reason, this doesn't work.
@@ -36,17 +34,13 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (!isStaticJsFunction(callback)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", `${callback.toStringSync()} is not a function`),
-      );
+      throw Completion.Throw("TypeError", `${callback.toStringSync()} is not a function`);
     }
 
     const length = yield* thisArray.getLengthEvaluator();
     if (length === 0) {
       if (initialValue == null) {
-        throw Completion.Throw(
-          realm.types.error("TypeError", "Reduce of empty array with no initial value"),
-        );
+        throw Completion.Throw("TypeError", "Reduce of empty array with no initial value");
       }
 
       return initialValue;

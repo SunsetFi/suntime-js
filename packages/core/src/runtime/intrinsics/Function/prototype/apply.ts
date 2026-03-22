@@ -12,9 +12,7 @@ const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
   key: "apply",
   *func(realm, thisFunc, thisArg = realm.types.undefined, argsArray) {
     if (!isStaticJsFunction(thisFunc)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Function.prototype.call called on a non-function."),
-      );
+      throw Completion.Throw("TypeError", "Function.prototype.call called on a non-function.");
     }
 
     const args: StaticJsValue[] = [];

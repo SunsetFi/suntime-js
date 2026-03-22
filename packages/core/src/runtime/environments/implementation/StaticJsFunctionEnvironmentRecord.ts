@@ -54,8 +54,6 @@ export default class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarati
       return this._thisValue!;
     }
 
-    throw Completion.Throw(
-      this._realm.types.error("ReferenceError", "This binding is uninitialized"),
-    );
+    throw Completion.Throw("ReferenceError", "This binding is uninitialized");
   }
 }

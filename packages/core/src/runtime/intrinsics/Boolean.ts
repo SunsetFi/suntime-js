@@ -28,10 +28,8 @@ export function populateBooleanPrototype(realm: StaticJsRealm, booleanProto: Sta
     value: new StaticJsFunctionImpl(realm, "valueOf", function* (thisArg) {
       if (!isBooleanLike(thisArg)) {
         throw Completion.Throw(
-          realm.types.error(
-            "TypeError",
-            "Boolean.prototype.valueOf requires that 'this' be a Boolean",
-          ),
+          "TypeError",
+          "Boolean.prototype.valueOf requires that 'this' be a Boolean",
         );
       }
 

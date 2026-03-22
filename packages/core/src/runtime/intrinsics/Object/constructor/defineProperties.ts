@@ -10,9 +10,7 @@ const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
   key: "defineProperties",
   *func(realm, _thisArg, O, properties = realm.types.undefined) {
     if (!isStaticJsObjectLike(O)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Object.defineProperties called on non-object"),
-      );
+      throw Completion.Throw("TypeError", "Object.defineProperties called on non-object");
     }
 
     return yield* objectDefineProperties(O, properties);

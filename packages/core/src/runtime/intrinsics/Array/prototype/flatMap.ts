@@ -19,9 +19,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
     }
     if (!isStaticJsFunction(callback)) {
       // Yes, this error message is different from all the others!
-      throw Completion.Throw(
-        realm.types.error("TypeError", "flatMap mapper function is not callable"),
-      );
+      throw Completion.Throw("TypeError", "flatMap mapper function is not callable");
     }
 
     const length = yield* lengthOfArrayLike(thisObj);
@@ -46,7 +44,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       if (isStaticJsArray(result)) {
         const len = yield* lengthOfArrayLike(result);
         if (n + len > MAX_ARRAY_LENGTH_INCLUSIVE) {
-          throw Completion.Throw(realm.types.error("TypeError", "Maximum array size exceeded"));
+          throw Completion.Throw("TypeError", "Maximum array size exceeded");
         }
 
         for (let k = 0; k < len; k++) {
@@ -66,7 +64,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
         }
       } else {
         if (n > MAX_ARRAY_LENGTH_INCLUSIVE) {
-          throw Completion.Throw(realm.types.error("TypeError", "Maximum array size exceeded"));
+          throw Completion.Throw("TypeError", "Maximum array size exceeded");
         }
 
         yield* A.defineOwnPropertyEvaluator(String(n), {

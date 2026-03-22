@@ -40,7 +40,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
       mapperFunc = undefined;
     } else {
       if (!isStaticJsFunction(mapper)) {
-        throw Completion.Throw(realm.types.error("TypeError", "mapper must be a function"));
+        throw Completion.Throw("TypeError", "mapper must be a function");
       }
       mapperFunc = mapper;
       mapping = true;
@@ -60,9 +60,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
       let k = 0;
       while (true) {
         if (k >= MAX_ARRAY_LENGTH_INCLUSIVE) {
-          const error = Completion.Throw(
-            realm.types.error("TypeError", "Too many items from iterator"),
-          );
+          const error = Completion.Throw("TypeError", "Too many items from iterator");
           return yield* Q(iteratorClose(iteratorRecord, error));
         }
 

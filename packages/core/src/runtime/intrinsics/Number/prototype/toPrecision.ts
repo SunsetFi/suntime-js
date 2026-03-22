@@ -14,10 +14,8 @@ const numberProtoToPrecisionDeclaration: FunctionIntrinsicPropertyDeclaration = 
 
     if (!isNumberLike(thisArg)) {
       throw Completion.Throw(
-        realm.types.error(
-          "TypeError",
-          "Number.prototype.toPrecision requires that 'this' be a Number",
-        ),
+        "TypeError",
+        "Number.prototype.toPrecision requires that 'this' be a Number",
       );
     }
 

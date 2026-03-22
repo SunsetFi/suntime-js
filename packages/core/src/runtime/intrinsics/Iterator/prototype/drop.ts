@@ -26,9 +26,7 @@ const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg, limit = realm.types.undefined) {
     const O = thisArg;
     if (!isStaticJsObjectLike(O)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Iterator.prototype.drop called on non-object"),
-      );
+      throw Completion.Throw("TypeError", "Iterator.prototype.drop called on non-object");
     }
 
     let iterated: StaticJsIteratorRecord = {
@@ -39,16 +37,14 @@ const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
 
     const numLimit = yield* toNumber.js(limit);
     if (Number.isNaN(numLimit)) {
-      const error = Completion.Throw(realm.types.error("RangeError", "Invalid count value"));
+      const error = Completion.Throw("RangeError", "Invalid count value");
       yield* Q(iteratorClose(iterated, error));
       throw new StaticJsEngineError("Unreachable code after iteratorClose with abrupt completion");
     }
 
     const integerLimit = yield* toIntegerOrInfinity.js(numLimit, realm);
     if (integerLimit < 0) {
-      const error = Completion.Throw(
-        realm.types.error("RangeError", "Count value must be non-negative"),
-      );
+      const error = Completion.Throw("RangeError", "Count value must be non-negative");
       yield* Q(iteratorClose(iterated, error));
       throw new StaticJsEngineError("Unreachable code after iteratorClose with abrupt completion");
     }

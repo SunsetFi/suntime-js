@@ -20,9 +20,7 @@ export default function* getIteratorFlattenable(
   const { realm } = EvaluationContext.current;
   if (!isStaticJsObjectLike(obj)) {
     if (primitiveHandling === "reject-primitives") {
-      throw Completion.Throw(
-        realm.types.error("TypeError", "Value is not an object and cannot be iterated over"),
-      );
+      throw Completion.Throw("TypeError", "Value is not an object and cannot be iterated over");
     }
   }
 
@@ -37,10 +35,8 @@ export default function* getIteratorFlattenable(
 
   if (!isStaticJsObjectLike(iterator)) {
     throw Completion.Throw(
-      realm.types.error(
-        "TypeError",
-        "Value is not iterable and does not have an @@iterator method",
-      ),
+      "TypeError",
+      "Value is not iterable and does not have an @@iterator method",
     );
   }
 

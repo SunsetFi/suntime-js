@@ -19,9 +19,7 @@ const arrayProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
     if (!isStaticJsFunction(callback)) {
       // FIXME: NodeJs is doing something aside from casting it to string.
       // Object appears as "#<Object>"
-      throw Completion.Throw(
-        realm.types.error("TypeError", `${callback.toStringSync()} is not a function`),
-      );
+      throw Completion.Throw("TypeError", `${callback.toStringSync()} is not a function`);
     }
 
     const length = yield* lengthOfArrayLike(thisObj);

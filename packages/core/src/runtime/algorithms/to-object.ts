@@ -22,9 +22,7 @@ import StaticJsSymbolBoxed from "../types/implementation/StaticJsSymbolBoxed.js"
 export default function* toObject(value: StaticJsValue): EvaluationGenerator<StaticJsObjectLike> {
   const { realm } = EvaluationContext.current;
   if (isStaticJsUndefined(value) || isStaticJsNull(value)) {
-    throw Completion.Throw(
-      realm.types.error("TypeError", "Cannot convert undefined or null to object"),
-    );
+    throw Completion.Throw("TypeError", "Cannot convert undefined or null to object");
   }
 
   if (isStaticJsBoolean(value)) {

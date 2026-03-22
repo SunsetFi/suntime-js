@@ -18,9 +18,7 @@ const arrayProtoFindLastDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (!isStaticJsFunction(callback)) {
-      throw Completion.Throw(
-        realm.types.error("TypeError", `${callback.toStringSync()} is not a function`),
-      );
+      throw Completion.Throw("TypeError", `${callback.toStringSync()} is not a function`);
     }
 
     const length = yield* lengthOfArrayLike(thisObj);

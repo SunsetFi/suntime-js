@@ -1,5 +1,4 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
 import rethrowCompletion from "../../evaluator/completions/rethrow-completion.js";
@@ -28,7 +27,6 @@ export default function* asyncIteratorClose(
   completion: Completion,
   unwrap: boolean = true,
 ): EvaluationGenerator<Completion> {
-  const { realm } = EvaluationContext.current;
   const iterator = iteratorRecord.iterator;
   let innerResult: Completion;
   try {
@@ -56,9 +54,7 @@ export default function* asyncIteratorClose(
   }
 
   if (!isStaticJsObjectLike(innerResult)) {
-    throw Completion.Throw(
-      realm.types.error("TypeError", "iterator.return() did not return an object"),
-    );
+    throw Completion.Throw("TypeError", "iterator.return() did not return an object");
   }
 
   return unwrap ? rethrowCompletion(completion) : completion;

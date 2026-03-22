@@ -75,10 +75,8 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
       }
       if (resolution === "ambiguous") {
         throw Completion.Throw(
-          self._realm.types.error(
-            "ReferenceError",
-            `Ambiguous binding ${exportName} in module ${self._name}.`,
-          ),
+          "ReferenceError",
+          `Ambiguous binding ${exportName} in module ${self._name}.`,
         );
       }
 

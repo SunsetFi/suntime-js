@@ -51,10 +51,8 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
     const hasProp = yield* this._obj.hasPropertyEvaluator(name);
     if (!hasProp) {
       throw Completion.Throw(
-        this._realm.types.error(
-          "ReferenceError",
-          `Binding ${name} does not exist in this environment`,
-        ),
+        "ReferenceError",
+        `Binding ${name} does not exist in this environment`,
       );
     }
 
@@ -86,10 +84,8 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
     const stillExists = yield* this._obj.hasPropertyEvaluator(name);
     if (!stillExists && strict) {
       throw Completion.Throw(
-        this._realm.types.error(
-          "ReferenceError",
-          `Cannot set uninitialized binding ${name} in strict mode`,
-        ),
+        "ReferenceError",
+        `Cannot set uninitialized binding ${name} in strict mode`,
       );
     }
 
@@ -101,10 +97,8 @@ export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironment
     if (!hasProp) {
       if (strict) {
         throw Completion.Throw(
-          this._realm.types.error(
-            "ReferenceError",
-            `Binding ${name} does not exist in this environment`,
-          ),
+          "ReferenceError",
+          `Binding ${name} does not exist in this environment`,
         );
       } else {
         return this._realm.types.undefined;

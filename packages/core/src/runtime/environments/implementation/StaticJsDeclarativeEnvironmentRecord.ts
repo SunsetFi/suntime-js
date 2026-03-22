@@ -35,10 +35,8 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
     const binding = this._bindings.get(name);
     if (!binding) {
       throw Completion.Throw(
-        this._realm.types.error(
-          "ReferenceError",
-          `Binding ${name} does not exist in this environment`,
-        ),
+        "ReferenceError",
+        `Binding ${name} does not exist in this environment`,
       );
     }
 
@@ -49,10 +47,8 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
     const binding = this._bindings.get(name);
     if (!binding) {
       throw Completion.Throw(
-        this._realm.types.error(
-          "ReferenceError",
-          `Binding ${name} does not exist in this environment`,
-        ),
+        "ReferenceError",
+        `Binding ${name} does not exist in this environment`,
       );
     }
 
@@ -62,20 +58,14 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
   *createMutableBindingEvaluator(name: string, deletable: boolean) {
     this._assertBindingNotDeclared(name);
 
-    this._bindings.set(
-      name,
-      new DeclarativeEnvironmentBinding(name, true, false, deletable, null, this._realm),
-    );
+    this._bindings.set(name, new DeclarativeEnvironmentBinding(name, true, false, deletable, null));
   }
 
   *createImmutableBindingEvaluator(name: string, strict: boolean): EvaluationGenerator<void> {
     // TODO: Do we throw if not strict?
     this._assertBindingNotDeclared(name);
 
-    this._bindings.set(
-      name,
-      new DeclarativeEnvironmentBinding(name, false, strict, false, null, this._realm),
-    );
+    this._bindings.set(name, new DeclarativeEnvironmentBinding(name, false, strict, false, null));
   }
 
   *setMutableBindingEvaluator(
@@ -86,7 +76,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
     const binding = this._bindings.get(name);
     if (!binding) {
       if (strict) {
-        throw Completion.Throw(this._realm.types.error("ReferenceError", `${name} is not defined`));
+        throw Completion.Throw("ReferenceError", `${name} is not defined`);
       }
 
       yield* this.createMutableBindingEvaluator(name, true);
@@ -99,25 +89,18 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
     }
 
     if (!binding.isInitialized) {
-      throw Completion.Throw(
-        this._realm.types.error(
-          "ReferenceError",
-          `Cannot set value of uninitialized binding ${name}`,
-        ),
-      );
+      throw Completion.Throw("ReferenceError", `Cannot set value of uninitialized binding ${name}`);
     } else if (binding.isMutable) {
       yield* binding.set(value);
     } else if (strict) {
-      throw Completion.Throw(
-        this._realm.types.error("TypeError", `Assignment to constant variable`),
-      );
+      throw Completion.Throw("TypeError", `Assignment to constant variable`);
     }
   }
 
   *getBindingValueEvaluator(name: string, _strict: boolean): EvaluationGenerator<StaticJsValue> {
     const binding = this._bindings.get(name);
     if (!binding) {
-      throw Completion.Throw(this._realm.types.error("ReferenceError", `${name} is not defined`));
+      throw Completion.Throw("ReferenceError", `${name} is not defined`);
     }
 
     return yield* binding.get();
@@ -159,9 +142,7 @@ export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnviro
 
   protected _assertBindingNotDeclared(name: string) {
     if (this._bindings.has(name)) {
-      throw Completion.Throw(
-        this._realm.types.error("SyntaxError", `Identifier ${name} has already been declared`),
-      );
+      throw Completion.Throw("SyntaxError", `Identifier ${name} has already been declared`);
     }
   }
 }
@@ -175,7 +156,6 @@ class DeclarativeEnvironmentBinding {
     public readonly isStrict: boolean,
     public readonly isDeletable: boolean,
     value: StaticJsValue | null,
-    private readonly _realm: StaticJsRealm,
   ) {
     this._value = value;
   }
@@ -195,10 +175,8 @@ class DeclarativeEnvironmentBinding {
   *get(): EvaluationGenerator<StaticJsValue> {
     if (this._value == null) {
       throw Completion.Throw(
-        this._realm.types.error(
-          "ReferenceError",
-          `Cannot get value of uninitialized binding ${this.name}`,
-        ),
+        "ReferenceError",
+        `Cannot get value of uninitialized binding ${this.name}`,
       );
     }
 

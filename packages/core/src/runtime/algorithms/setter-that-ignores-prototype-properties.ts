@@ -1,12 +1,13 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+
 import {
   isStaticJsObjectLike,
   type StaticJsObjectLike,
   type StaticJsPropertyKey,
 } from "../types/index.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+
 import createDataPropertyOrThrow from "./create-data-property-or-throw.js";
 import sameValue from "./same-value.js";
 
@@ -16,20 +17,16 @@ export default function* setterThatIgnoresPrototypeProperties(
   p: StaticJsPropertyKey,
   v: StaticJsValue,
 ): EvaluationGenerator<void> {
-  const { realm } = EvaluationContext.current;
-
   if (!isStaticJsObjectLike(thisValue)) {
-    throw Completion.Throw(realm.types.error("TypeError", "Setter called on non-object"));
+    throw Completion.Throw("TypeError", "Setter called on non-object");
   }
 
   if (sameValue(thisValue, home)) {
     throw Completion.Throw(
-      realm.types.error(
-        "TypeError",
-        // ??? What is the error message?
-        // Should be the same as trying to write to a non-writable property in strict mode.
-        `Property ${String(p)} is not writable`,
-      ),
+      "TypeError",
+      // ??? What is the error message?
+      // Should be the same as trying to write to a non-writable property in strict mode.
+      `Property ${String(p)} is not writable`,
     );
   }
 

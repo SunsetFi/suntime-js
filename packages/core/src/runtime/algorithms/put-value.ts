@@ -23,16 +23,12 @@ export default function* putValue(
 ): EvaluationGenerator<void> {
   const { realm } = EvaluationContext.current;
   if (isStaticJsValue(v)) {
-    throw Completion.Throw(
-      realm.types.error("ReferenceError", "Invalid left-hand side in assignment"),
-    );
+    throw Completion.Throw("ReferenceError", "Invalid left-hand side in assignment");
   }
 
   if (isUnresolvableReference(v)) {
     if (v.strict) {
-      throw Completion.Throw(
-        realm.types.error("ReferenceError", `${v.referencedName} is not defined`),
-      );
+      throw Completion.Throw("ReferenceError", `${v.referencedName} is not defined`);
     }
 
     const propertyKey = yield* toPropertyKey(v.referencedName);
@@ -58,12 +54,10 @@ export default function* putValue(
 
     if (!succeeded && v.strict) {
       throw Completion.Throw(
-        realm.types.error(
-          "TypeError",
-          `Cannot assign to read only property '${String(
-            propertyKey,
-          )}' of object '${baseObj.toString()}'`,
-        ),
+        "TypeError",
+        `Cannot assign to read only property '${String(
+          propertyKey,
+        )}' of object '${baseObj.toString()}'`,
       );
     }
 
@@ -74,9 +68,7 @@ export default function* putValue(
   // This needs to be resolved...
   if (isStaticJsSymbol(v.referencedName)) {
     if (v.strict) {
-      throw Completion.Throw(
-        realm.types.error("ReferenceError", `${v.referencedName} is not defined`),
-      );
+      throw Completion.Throw("ReferenceError", `${v.referencedName} is not defined`);
     }
 
     return;

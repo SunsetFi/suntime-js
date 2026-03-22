@@ -38,9 +38,7 @@ export default function createGeneratorFunctionConstructor(
           parameters.push(...parseParams);
         } catch (e) {
           if (e instanceof SyntaxError) {
-            throw Completion.Throw(
-              realm.types.error("SyntaxError", "Arg string terminates parameters early"),
-            );
+            throw Completion.Throw("SyntaxError", "Arg string terminates parameters early");
           }
 
           throw e;
@@ -54,7 +52,7 @@ export default function createGeneratorFunctionConstructor(
       try {
         body = parseFunctionBody(bodyStr.value);
       } catch {
-        throw Completion.Throw(realm.types.error("SyntaxError", "Failed to parse function body"));
+        throw Completion.Throw("SyntaxError", "Failed to parse function body");
       }
 
       // FIXME: Should use the ScriptOrModule of the definer.

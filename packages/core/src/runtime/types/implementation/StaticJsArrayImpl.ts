@@ -179,7 +179,7 @@ export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements
 
     const numberLen = yield* toNumber(desc.value);
     if (numberLen.value !== newLen) {
-      throw Completion.Throw(this.realm.types.error("RangeError", "Invalid array length"));
+      throw Completion.Throw("RangeError", "Invalid array length");
     }
 
     const newLenDesc: Writable<StaticJsDataPropertyDescriptor> = {

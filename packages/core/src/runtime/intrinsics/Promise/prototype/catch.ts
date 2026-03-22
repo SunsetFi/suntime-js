@@ -7,13 +7,13 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const promiseProtoCatchDeclaration: IntrinsicPropertyDeclaration = {
   key: "catch",
-  *func(realm, thisArg, onRejected) {
+  *func(_realm, thisArg, onRejected) {
     if (!isStaticJsPromise(thisArg)) {
-      throw Completion.Throw(realm.types.error("TypeError", "catch called on non-promise"));
+      throw Completion.Throw("TypeError", "catch called on non-promise");
     }
 
     if (!isStaticJsFunction(onRejected)) {
-      throw Completion.Throw(realm.types.error("TypeError", "onRejected must be a function."));
+      throw Completion.Throw("TypeError", "onRejected must be a function.");
     }
 
     return yield* thisArg.catchEvaluator(onRejected);
