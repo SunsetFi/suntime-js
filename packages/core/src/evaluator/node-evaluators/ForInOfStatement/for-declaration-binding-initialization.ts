@@ -8,7 +8,6 @@ import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
 import bindingInitialization from "../../bindings/binding-initialization.js";
 
-import EvaluationContext from "../../EvaluationContext.js";
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 export default function* forDeclarationBindingInitialization(
@@ -23,5 +22,5 @@ export default function* forDeclarationBindingInitialization(
   }
   const lVal = variableId;
 
-  yield* bindingInitialization(lVal, value, environment, EvaluationContext.current);
+  yield* bindingInitialization(lVal, value, environment);
 }

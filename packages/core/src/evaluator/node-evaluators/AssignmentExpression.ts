@@ -27,7 +27,6 @@ import Q from "../completions/Q.js";
 export default function* assignmentExpressionNodeEvaluator(
   node: AssignmentExpression,
 ): EvaluationGenerator {
-  const { realm } = EvaluationContext.current;
   const { left, right } = node;
   switch (node.operator) {
     case "=":
@@ -54,7 +53,7 @@ export default function* assignmentExpressionNodeEvaluator(
       }
 
       const rVal = yield* Q.val(EvaluateNodeCommand(right));
-      yield* putValue(lRef, rVal, realm);
+      yield* putValue(lRef, rVal);
       return rVal;
     }
     case "||=": {
@@ -66,7 +65,7 @@ export default function* assignmentExpressionNodeEvaluator(
       }
 
       const rVal = yield* Q.val(EvaluateNodeCommand(right));
-      yield* putValue(lRef, rVal, realm);
+      yield* putValue(lRef, rVal);
       return rVal;
     }
     case "??=": {
@@ -77,7 +76,7 @@ export default function* assignmentExpressionNodeEvaluator(
       }
 
       const rVal = yield* Q.val(EvaluateNodeCommand(right));
-      yield* putValue(lRef, rVal, realm);
+      yield* putValue(lRef, rVal);
       return rVal;
     }
   }
@@ -90,11 +89,10 @@ function* directAssignmentExpressionEvaluator(
   left: LVal | OptionalMemberExpression,
   right: Expression,
 ): EvaluationGenerator {
-  const { realm } = EvaluationContext.current;
   if (left.type !== "ObjectPattern" && left.type !== "ArrayPattern") {
     const lRef = yield* Q.ref(EvaluateNodeCommand(left));
     const rVal = yield* Q.val(EvaluateNodeCommand(right));
-    yield* putValue(lRef, rVal, realm);
+    yield* putValue(lRef, rVal);
     return rVal;
   }
 
@@ -120,7 +118,7 @@ function* algebraicAssignmentExpressionEvaluator(
 
   if (operator === "+=") {
     const result = yield* addition(lVal, rVal, realm);
-    yield* putValue(lRef, result, realm);
+    yield* putValue(lRef, result);
     return result;
   }
 
@@ -167,6 +165,6 @@ function* algebraicAssignmentExpressionEvaluator(
   }
 
   const resultVal = realm.types.number(result);
-  yield* putValue(lRef, resultVal, realm);
+  yield* putValue(lRef, resultVal);
   return resultVal;
 }

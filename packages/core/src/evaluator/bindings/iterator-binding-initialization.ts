@@ -33,16 +33,15 @@ export default function* iteratorBindingInitialization(
   node: IteratorBindingInitializationNode | IteratorBindingInitializationNode[],
   iteratorRecord: StaticJsIteratorRecord,
   environment: StaticJsEnvironmentRecord | null,
-  context: EvaluationContext,
 ): EvaluationGenerator<void> {
   if (Array.isArray(node)) {
     for (const element of node) {
-      yield* iteratorBindingInitialization(element, iteratorRecord, environment, context);
+      yield* iteratorBindingInitialization(element, iteratorRecord, environment);
     }
     return;
   }
 
-  const { realm, strict, lexicalEnv } = context;
+  const { realm, strict, lexicalEnv } = EvaluationContext.current;
 
   let initializer: Expression | null = null;
   if (node.type === "AssignmentPattern") {
@@ -53,13 +52,9 @@ export default function* iteratorBindingInitialization(
   switch (node.type) {
     case "RestElement": {
       if (node.argument.type === "Identifier") {
-        const lhs = yield* getIdentifierReference(
-          context.lexicalEnv,
-          node.argument.name,
-          context.strict,
-        );
+        const lhs = yield* getIdentifierReference(lexicalEnv, node.argument.name, strict);
 
-        const A = context.realm.types.array();
+        const A = realm.types.array();
         let n = 0;
 
         while (true) {
@@ -81,7 +76,7 @@ export default function* iteratorBindingInitialization(
         }
 
         if (!environment) {
-          yield* putValue(lhs, A, realm);
+          yield* putValue(lhs, A);
         } else {
           yield* initializeReferencedBinding(lhs, A);
         }
@@ -108,7 +103,7 @@ export default function* iteratorBindingInitialization(
           n++;
         }
 
-        yield* bindingInitialization(node.argument, A, environment, context);
+        yield* bindingInitialization(node.argument, A, environment);
         return;
       }
     }
@@ -135,7 +130,7 @@ export default function* iteratorBindingInitialization(
       if (environment) {
         yield* initializeReferencedBinding(lhs, v);
       } else {
-        yield* putValue(lhs, v, realm);
+        yield* putValue(lhs, v);
       }
 
       return;
@@ -155,7 +150,7 @@ export default function* iteratorBindingInitialization(
         v = defaultValue;
       }
 
-      yield* bindingInitialization(node, v, environment, context);
+      yield* bindingInitialization(node, v, environment);
       return;
     }
   }
@@ -171,12 +166,11 @@ iteratorBindingInitialization.arrayBindingPattern = function* (
   node: ArrayPattern,
   iteratorRecord: StaticJsIteratorRecord,
   environment: StaticJsEnvironmentRecord | null,
-  context: EvaluationContext,
 ) {
   // TODO: Spec shows no acknowledgement of initializer here, verify correctness
   for (const element of node.elements) {
     if (element?.type === "RestElement") {
-      yield* iteratorBindingInitialization(element, iteratorRecord, environment, context);
+      yield* iteratorBindingInitialization(element, iteratorRecord, environment);
 
       return;
     }
@@ -187,7 +181,7 @@ iteratorBindingInitialization.arrayBindingPattern = function* (
       // What on earth is this?
       throw new StaticJsEngineError(`Unsupported void pattern in iterator binding initialization`);
     } else {
-      yield* iteratorBindingInitialization(element, iteratorRecord, environment, context);
+      yield* iteratorBindingInitialization(element, iteratorRecord, environment);
     }
   }
 };

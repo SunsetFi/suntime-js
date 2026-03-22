@@ -39,7 +39,7 @@ export default function* updateExpressionNodeEvaluator(
 
   const newValue = realm.types.number(newValueJs);
 
-  yield* putValue(ref, newValue, realm);
+  yield* putValue(ref, newValue);
 
   return node.prefix ? newValue : oldValue;
 }

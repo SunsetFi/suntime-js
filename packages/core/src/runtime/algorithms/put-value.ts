@@ -1,7 +1,5 @@
 import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
 
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
 import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 
 import type { StaticJsReferenceRecord } from "../references/StaticJsReferenceRecord.js";
@@ -11,6 +9,7 @@ import { isPropertyReference } from "../references/is-property-reference.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import EvaluationContext from "../../evaluator/EvaluationContext.js";
 
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
@@ -21,8 +20,8 @@ import toObject from "./to-object.js";
 export default function* putValue(
   v: StaticJsReferenceRecord | StaticJsValue,
   w: StaticJsValue,
-  realm: StaticJsRealm,
 ): EvaluationGenerator<void> {
+  const { realm } = EvaluationContext.current;
   if (isStaticJsValue(v)) {
     throw Completion.Throw(
       realm.types.error("ReferenceError", "Invalid left-hand side in assignment"),

@@ -111,7 +111,7 @@ function* propertyDestructuringAssignmentEvaluation(
       }
     }
 
-    yield* putValue(lRef, v, realm);
+    yield* putValue(lRef, v);
     return [P];
   }
 
@@ -140,7 +140,7 @@ function* restDestructuringAssignmentEvaluation(
 
   yield* copyDataProperties(restObject, value, excludedNames, realm);
 
-  yield* putValue(lRef, restObject, realm);
+  yield* putValue(lRef, restObject);
 }
 
 function* keyedDestructuringAssignmentEvaluation(
@@ -148,8 +148,6 @@ function* keyedDestructuringAssignmentEvaluation(
   value: StaticJsValue,
   property: StaticJsPropertyKey,
 ): EvaluationGenerator<void> {
-  const { realm } = EvaluationContext.current;
-
   let initializer: Expression | null = null;
   if (node.type === "AssignmentPattern") {
     initializer = node.right;
@@ -172,7 +170,7 @@ function* keyedDestructuringAssignmentEvaluation(
   }
 
   if (lRef) {
-    yield* putValue(lRef, v, realm);
+    yield* putValue(lRef, v);
   } else {
     yield* destructuringAssignmentEvaluation(node, v);
   }

@@ -133,7 +133,7 @@ export default function* functionDeclarationInstantiation(
     usedEnv = env;
   }
 
-  yield* iteratorBindingInitialization(formals, iteratorRecord, usedEnv, calleeContext);
+  yield* iteratorBindingInitialization(formals, iteratorRecord, usedEnv);
 
   let varEnv: StaticJsEnvironmentRecord;
   let lexEnv: StaticJsEnvironmentRecord;

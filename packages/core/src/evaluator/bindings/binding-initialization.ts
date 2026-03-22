@@ -29,7 +29,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import Q from "../completions/Q.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import type EvaluationContext from "../EvaluationContext.js";
+import EvaluationContext from "../EvaluationContext.js";
 import iteratorClose from "../../runtime/iterators/iterator-close.js";
 import initializeReferencedBinding from "./initialize-referenced-binding.js";
 import initializeBoundName from "./initialize-bound-name.js";
@@ -41,40 +41,29 @@ export default function* bindingInitialization(
   node: LVal,
   value: StaticJsValue,
   environment: StaticJsEnvironmentRecord | null,
-  context: EvaluationContext,
 ): EvaluationGenerator<void> {
   switch (node.type) {
     case "Identifier": {
       const name = node.name;
-      yield* initializeBoundName(name, value, environment, context);
+      yield* initializeBoundName(name, value, environment);
       return;
     }
     case "ObjectPattern": {
       const obj = yield* toObject(value);
 
       const properties = node.properties.filter((p) => isObjectProperty(p));
-      const excludedNames = yield* propertyBindingInitialization(
-        properties,
-        obj,
-        environment,
-        context,
-      );
+      const excludedNames = yield* propertyBindingInitialization(properties, obj, environment);
 
       const rest = node.properties.find((p) => isRestElement(p));
       if (rest) {
-        yield* restBindingInitialization(rest, obj, excludedNames, environment, context);
+        yield* restBindingInitialization(rest, obj, excludedNames, environment);
       }
 
       return;
     }
     case "ArrayPattern": {
       const iteratorRecord = yield* getIterator(value, "sync");
-      yield* iteratorBindingInitialization.arrayBindingPattern(
-        node,
-        iteratorRecord,
-        environment,
-        context,
-      );
+      yield* iteratorBindingInitialization.arrayBindingPattern(node, iteratorRecord, environment);
       if (!iteratorRecord.done) {
         yield* iteratorClose(iteratorRecord, null);
       }
@@ -87,12 +76,11 @@ function* propertyBindingInitialization(
   node: ObjectProperty[] | ObjectProperty,
   value: StaticJsValue,
   environment: StaticJsEnvironmentRecord | null,
-  context: EvaluationContext,
 ): EvaluationGenerator<StaticJsPropertyKey[]> {
   if (Array.isArray(node)) {
     const excludedNames: StaticJsPropertyKey[] = [];
     for (const property of node) {
-      const result = yield* propertyBindingInitialization(property, value, environment, context);
+      const result = yield* propertyBindingInitialization(property, value, environment);
       excludedNames.push(...result);
     }
     return excludedNames;
@@ -116,7 +104,7 @@ function* propertyBindingInitialization(
     throw new StaticJsEngineError(`Unsupported object property key type: ${node.key.type}`);
   }
 
-  yield* keyedBindingInitialization(node.value, value, key, environment, context);
+  yield* keyedBindingInitialization(node.value, value, key, environment);
 
   return [key];
 }
@@ -126,9 +114,8 @@ function* keyedBindingInitialization(
   value: StaticJsValue,
   property: StaticJsPropertyKey,
   environment: StaticJsEnvironmentRecord | null,
-  context: EvaluationContext,
 ): EvaluationGenerator<void> {
-  const { realm, strict, lexicalEnv } = context;
+  const { strict, lexicalEnv } = EvaluationContext.current;
 
   let initializer: Expression | null = null;
   if (node.type === "AssignmentPattern") {
@@ -150,7 +137,7 @@ function* keyedBindingInitialization(
           v = yield* Q.val(EvaluateNodeCommand(initializer));
         }
       }
-      yield* bindingInitialization(node, v, environment, context);
+      yield* bindingInitialization(node, v, environment);
       return;
     }
     case "Identifier": {
@@ -169,7 +156,7 @@ function* keyedBindingInitialization(
       if (environment) {
         yield* initializeReferencedBinding(lhs, v);
       } else {
-        yield* putValue(lhs, v, realm);
+        yield* putValue(lhs, v);
       }
     }
   }
@@ -180,20 +167,21 @@ function* restBindingInitialization(
   value: StaticJsValue,
   excludedNames: StaticJsPropertyKey[],
   environment: StaticJsEnvironmentRecord | null,
-  context: EvaluationContext,
 ): EvaluationGenerator<void> {
+  const { lexicalEnv, strict, realm } = EvaluationContext.current;
+
   if (node.argument.type !== "Identifier") {
     throw new StaticJsEngineError("Rest element argument must be an identifier");
   }
-  const lhs = yield* getIdentifierReference(context.lexicalEnv, node.argument.name, context.strict);
+  const lhs = yield* getIdentifierReference(lexicalEnv, node.argument.name, strict);
 
-  const restObject = context.realm.types.object();
+  const restObject = realm.types.object();
 
-  yield* copyDataProperties(restObject, value, excludedNames, context.realm);
+  yield* copyDataProperties(restObject, value, excludedNames, realm);
 
   if (environment) {
     yield* initializeReferencedBinding(lhs, restObject);
   } else {
-    yield* putValue(lhs, restObject, context.realm);
+    yield* putValue(lhs, restObject);
   }
 }

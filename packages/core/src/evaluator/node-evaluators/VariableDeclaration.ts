@@ -54,7 +54,7 @@ function* declarationStatementEvaluator(
     }
 
     if (kind === "var") {
-      yield* putValue(lhs, value, realm);
+      yield* putValue(lhs, value);
     } else {
       yield* initializeReferencedBinding(lhs, value);
     }
@@ -71,7 +71,7 @@ function* declarationStatementEvaluator(
     }
 
     const env = kind === "var" ? null : lexicalEnv;
-    yield* bindingInitialization(declarator.id, value, env, EvaluationContext.current);
+    yield* bindingInitialization(declarator.id, value, env);
   }
 }
 

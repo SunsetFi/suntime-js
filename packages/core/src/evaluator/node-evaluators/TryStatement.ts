@@ -54,7 +54,7 @@ function* runCatch(node: CatchClause, thrownValue: StaticJsValue): EvaluationGen
 
     context.lexicalEnv = catchEnv;
     try {
-      yield* bindingInitialization(node.param, thrownValue, catchEnv, context);
+      yield* bindingInitialization(node.param, thrownValue, catchEnv);
       return yield* captureThrownCompletion(EvaluateNodeCommand(node.body));
     } finally {
       context.lexicalEnv = oldEnv;

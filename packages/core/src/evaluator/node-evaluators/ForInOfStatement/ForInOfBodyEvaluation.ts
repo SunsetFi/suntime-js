@@ -90,13 +90,13 @@ export function* forInOfBodyEvaluation(
             if (lhsKind === "assignment") {
               yield* destructuringAssignmentEvaluation(assignmentPattern!, nextValue);
             } else {
-              yield* bindingInitialization(lhs as LVal, nextValue, null, context);
+              yield* bindingInitialization(lhs as LVal, nextValue, null);
             }
           } else {
             const lhsRef = yield* Q.ref(EvaluateNodeCommand(lhs));
             // TODO:  Spec says if lhsKind is assignment and lhs target is WEB-COMPAT throw a ReferenceError, but
             // I have no idea what AssignmentType or WEB-COMPAT is.  Skipping for now.
-            yield* putValue(lhsRef, nextValue, realm);
+            yield* putValue(lhsRef, nextValue);
           }
         } else {
           if (lhs.type !== "VariableDeclaration") {

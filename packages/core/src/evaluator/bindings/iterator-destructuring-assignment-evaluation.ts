@@ -99,7 +99,7 @@ export default function* iteratorDestructuringAssignmentEvaluation(
   }
 
   if (lRef) {
-    yield* putValue(lRef, v, realm);
+    yield* putValue(lRef, v);
   } else {
     yield* destructuringAssignmentEvaluation(assignmentTarget, v);
   }
