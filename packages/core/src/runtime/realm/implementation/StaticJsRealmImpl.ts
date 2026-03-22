@@ -280,41 +280,23 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     // Bit weird that we link immediately instead of when we are ready to perform the task?
     await module.linkModules();
 
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const realm = this;
-
-    let moduleEvaluationResolve!: (value: StaticJsModule) => void;
-    let moduleEvaluationReject!: (err: unknown) => void;
-    const moduleEvaluationCompleted = new Promise<StaticJsModule>((accept, rej) => {
-      moduleEvaluationResolve = accept;
-      moduleEvaluationReject = rej;
-    });
-
-    // Start the module evaluation.
-    // The evaluation can be asynchronous, so this might not evaluate everything.
-    // FIXME (maybe): It might be suprising that resumes of the async will run on
-    // the runTask of the resumption, not on the one passed to us.
-    function* beginModuleEvaluation(): EvaluationGenerator<void> {
+    const { promise: moduleEvaluated, resolve } = Promise.withResolvers<StaticJsModule>();
+    function* evaluate() {
       yield* module.moduleDeclarationInstantiationEvaluator();
-
-      function* evaluate() {
-        yield* module.moduleEvaluationEvaluator();
-        return null;
+      const resolutionPromise = yield* module.moduleEvaluationEvaluator();
+      if (resolutionPromise instanceof Promise) {
+        resolve(
+          resolutionPromise.then(
+            () => module,
+            (err) => {
+              Completion.handleRuntime(err);
+              throw err;
+            },
+          ),
+        );
+      } else {
+        resolve(module);
       }
-
-      const invocation = new AsyncEvaluatorInvocation(evaluate(), realm);
-      yield* invocation.then((_value, err) => {
-        if (err) {
-          // invocation is promise-like, so reinterpret the rejected error as a Completion.Throw
-          // This is so that it gets handled correctly as a thrown runtime error.
-          moduleEvaluationReject(Completion.Throw(err));
-        } else {
-          moduleEvaluationResolve(module);
-        }
-      });
-
-      // Note: This does its own error capture, and will not throw.
-      yield* invocation.start();
     }
 
     try {
@@ -322,9 +304,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       // the module async evaluation to complete.
       // In theory enqueueMacrotask will complete before or simultaniously with moduleEvaluationCompleted,
       // but await both at once to capture errors from either.
-      await this._enqueueMacrotask(beginModuleEvaluation, opts);
+      await this._enqueueMacrotask(evaluate, opts);
 
-      return await moduleEvaluationCompleted;
+      return await moduleEvaluated;
     } catch (e) {
       Completion.handleRuntime(e);
 
@@ -380,7 +362,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   enqueuePromiseJob(evaluator: StaticJsEvaluator<void>): void {
     if (!this._currentTask) {
-      throw new StaticJsEngineError("Cannot enqueue a microtask when no task is running.");
+      this._enqueueMacrotask(evaluator);
+      return;
     }
 
     // oxlint-disable-next-line typescript/no-this-alias

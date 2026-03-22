@@ -345,6 +345,8 @@ export default class EvaluationTask implements EvaluationContextStackProvider {
       // This enters and exits with every tick, which is nasty for performance,
       // Unfortunately we can't trust a global variable, as there may be more than
       // one realm running simultaneously.
+      // Note that we do not call accept() or reject() within the stack provider,
+      // as they may trigger immediate additional task iterators.
       const result = EvaluationContext.withStackProvider(this, () => {
         try {
           let deadIteratorLoops = 0;

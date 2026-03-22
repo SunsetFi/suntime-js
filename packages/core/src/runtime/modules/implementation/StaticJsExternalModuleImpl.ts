@@ -48,7 +48,7 @@ export default class StaticJsExternalModuleImpl
     // No-op for external modules.
   }
 
-  *moduleEvaluationEvaluator(): EvaluationGenerator<void> {
+  *moduleEvaluationEvaluator(): EvaluationGenerator<void | Promise<void>> {
     // No-op for external modules.
   }
 

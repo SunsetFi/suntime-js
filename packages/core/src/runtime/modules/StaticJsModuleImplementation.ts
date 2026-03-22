@@ -22,7 +22,7 @@ export interface StaticJsModuleImplementation extends StaticJsModule {
   linkModules(): Promise<void>;
 
   moduleDeclarationInstantiationEvaluator(): EvaluationGenerator<void>;
-  moduleEvaluationEvaluator(): EvaluationGenerator<void>;
+  moduleEvaluationEvaluator(): EvaluationGenerator<void | Promise<void>>;
 
   // Note: This doesn't have to be an evaluator, except for the oddity that
   // we still want to throw Completion.Throw.  Should we just throw the RuntimeError?

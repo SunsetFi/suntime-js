@@ -33,7 +33,7 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
 
   abstract moduleDeclarationInstantiationEvaluator(): EvaluationGenerator<void>;
 
-  abstract moduleEvaluationEvaluator(): EvaluationGenerator<void>;
+  abstract moduleEvaluationEvaluator(): EvaluationGenerator<void | Promise<void>>;
 
   resolveExport(exportName: string): StaticJsResolvedBinding {
     try {

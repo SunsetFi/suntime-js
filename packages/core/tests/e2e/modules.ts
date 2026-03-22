@@ -47,7 +47,7 @@ describe("E2E: Modules", () => {
       `;
 
       await evaluateModule(program, { realm });
-      expect(receiver).toBeCalledWith(3);
+      expect(receiver).toHaveBeenCalledWith(3);
     });
 
     it("Can import a default export", async () => {
@@ -74,7 +74,7 @@ describe("E2E: Modules", () => {
       `;
 
       await evaluateModule(program, { realm });
-      expect(receiver).toBeCalledWith(3);
+      expect(receiver).toHaveBeenCalledWith(3);
     });
   });
 
@@ -208,7 +208,7 @@ describe("E2E: Modules", () => {
       });
 
       await evaluateModule(programCode, { realm });
-      expect(receiver).toBeCalledWith(3);
+      expect(receiver).toHaveBeenCalledWith(3);
     });
 
     it("Can import an indirect export", async () => {
@@ -240,7 +240,7 @@ describe("E2E: Modules", () => {
       });
 
       await evaluateModule(programCode, { realm });
-      expect(receiver).toBeCalledWith(3);
+      expect(receiver).toHaveBeenCalledWith(3);
     });
 
     it("Can import a default function export", async () => {
@@ -270,7 +270,7 @@ describe("E2E: Modules", () => {
       });
 
       await evaluateModule(programCode, { realm });
-      expect(receiver).toBeCalledWith(3);
+      expect(receiver).toHaveBeenCalledWith(3);
     });
 
     it("Can import a namespace export", async () => {
@@ -300,7 +300,7 @@ describe("E2E: Modules", () => {
       });
 
       await evaluateModule(programCode, { realm });
-      expect(receiver).toBeCalledWith(3);
+      expect(receiver).toHaveBeenCalledWith(3);
     });
 
     it("Can import an all export", async () => {
@@ -335,7 +335,7 @@ describe("E2E: Modules", () => {
       });
 
       await evaluateModule(programCode, { realm });
-      expect(receiver).toBeCalledWith(3);
+      expect(receiver).toHaveBeenCalledWith(3);
     });
 
     it("Imports a value as immutable", async () => {
@@ -388,7 +388,7 @@ describe("E2E: Modules", () => {
       });
 
       await evaluateModule(programCode, { realm });
-      expect(receiver).toBeCalledWith([0, 4]);
+      expect(receiver).toHaveBeenCalledWith([0, 4]);
     });
 
     it("Handles circular dependencies", async () => {
@@ -421,7 +421,7 @@ describe("E2E: Modules", () => {
 
       await evaluateModule(code, { realm });
 
-      expect(receiver).toBeCalledWith("abc");
+      expect(receiver).toHaveBeenCalledWith("abc");
     });
 
     it("Throws on syntax errors", async () => {
@@ -462,7 +462,7 @@ describe("E2E: Modules", () => {
       await delay(0);
 
       expect(moduleResolved).toBe(false);
-      expect(receiver).not.toBeCalled();
+      expect(receiver).not.toHaveBeenCalled();
       expect(resolver).toBeDefined();
 
       resolver!();
@@ -470,7 +470,7 @@ describe("E2E: Modules", () => {
       await delay(0);
 
       expect(moduleResolved).toBe(true);
-      expect(receiver).toBeCalledWith(42);
+      expect(receiver).toHaveBeenCalledWith(42);
     });
 
     describe("Tasks", () => {
@@ -507,7 +507,7 @@ describe("E2E: Modules", () => {
 
         // throw foo;
 
-        expect(runTask).toBeCalled();
+        expect(runTask).toHaveBeenCalled();
 
         const names = Array.from(sourceNames);
         expect(names).toContain("test.js");
@@ -537,7 +537,7 @@ describe("E2E: Modules", () => {
       setValue(value);
       `;
       await evaluateModule(code, { realm });
-      await expect(receiver).toBeCalledWith(42);
+      await expect(receiver).toHaveBeenCalledWith(42);
     });
 
     it("Supports external objects", async () => {
@@ -563,7 +563,7 @@ describe("E2E: Modules", () => {
       setValue(value);
       `;
       await evaluateModule(code, { realm });
-      await expect(receiver).toBeCalledWith(42);
+      await expect(receiver).toHaveBeenCalledWith(42);
     });
   });
 });

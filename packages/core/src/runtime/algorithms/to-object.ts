@@ -1,5 +1,7 @@
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+
 import EvaluationContext from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
@@ -19,26 +21,28 @@ import StaticJsNumberBoxed from "../types/implementation/StaticJsNumberBoxed.js"
 import StaticJsStringBoxed from "../types/implementation/StaticJsStringBoxed.js";
 import StaticJsSymbolBoxed from "../types/implementation/StaticJsSymbolBoxed.js";
 
-export default function* toObject(value: StaticJsValue): EvaluationGenerator<StaticJsObjectLike> {
-  const { realm } = EvaluationContext.current;
+export default function* toObject(
+  value: StaticJsValue,
+  realm?: StaticJsRealm,
+): EvaluationGenerator<StaticJsObjectLike> {
   if (isStaticJsUndefined(value) || isStaticJsNull(value)) {
     throw Completion.Throw("TypeError", "Cannot convert undefined or null to object");
   }
 
   if (isStaticJsBoolean(value)) {
-    return new StaticJsBooleanBoxed(realm, value.value);
+    return new StaticJsBooleanBoxed(realm ?? EvaluationContext.current.realm, value.value);
   }
 
   if (isStaticJsNumber(value)) {
-    return new StaticJsNumberBoxed(realm, value.value);
+    return new StaticJsNumberBoxed(realm ?? EvaluationContext.current.realm, value.value);
   }
 
   if (isStaticJsString(value)) {
-    return new StaticJsStringBoxed(realm, value.value);
+    return new StaticJsStringBoxed(realm ?? EvaluationContext.current.realm, value.value);
   }
 
   if (isStaticJsSymbol(value)) {
-    return new StaticJsSymbolBoxed(realm, value);
+    return new StaticJsSymbolBoxed(realm ?? EvaluationContext.current.realm, value);
   }
 
   if (isStaticJsObjectLike(value)) {

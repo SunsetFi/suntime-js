@@ -1,3 +1,5 @@
+import { StaticJsRealm } from "../realm/StaticJsRealm.js";
+
 import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
@@ -13,8 +15,9 @@ import toObject from "./to-object.js";
 export default function* getMethod(
   V: StaticJsValue,
   P: StaticJsPropertyKey,
+  realm?: StaticJsRealm,
 ): EvaluationGenerator<StaticJsFunction | null> {
-  const obj = yield* toObject(V);
+  const obj = yield* toObject(V, realm);
   const func = yield* obj.getEvaluator(P);
   if (isStaticJsNull(func) || isStaticJsUndefined(func)) {
     return null;

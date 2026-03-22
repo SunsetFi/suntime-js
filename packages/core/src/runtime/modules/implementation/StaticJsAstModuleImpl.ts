@@ -46,6 +46,8 @@ import {
 import parseImportEntries from "./parse-import-entries.js";
 import exportEntries from "./export-entries.js";
 import { StaticJsModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
+import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
+import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
 export class StaticJsAstModuleImpl extends StaticJsModuleBase {
   private _linked = false;
@@ -66,6 +68,8 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
     { module: StaticJsModuleImplementation; targetExportName: string }
   >();
   private readonly _starExports: StaticJsModuleImplementation[] = [];
+
+  private _evaluationPromise: Promise<void> | null = null;
 
   constructor(
     name: string,
@@ -130,6 +134,8 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
     // FIXME: Where does the spec want this done?
     // Implement this for real!
 
+    // Note: We have no evaluation stack at this phase, so we need to pass realm to Completion.Throw
+
     // Instaniate export modules
     for (const entry of this._exportEntries) {
       if (!isStaticJsIndirectExportEntry(entry)) {
@@ -138,7 +144,11 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
 
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        throw Completion.Throw("ReferenceError", `Module ${entry.moduleRequest} not found.`);
+        throw Completion.Throw(
+          "ReferenceError",
+          `Module ${entry.moduleRequest} not found.`,
+          this._realm,
+        );
       }
 
       yield* module.moduleDeclarationInstantiationEvaluator();
@@ -148,7 +158,11 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
     for (const entry of this._importEntries) {
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        throw Completion.Throw("ReferenceError", `Module ${entry.moduleRequest} not found.`);
+        throw Completion.Throw(
+          "ReferenceError",
+          `Module ${entry.moduleRequest} not found.`,
+          this._realm,
+        );
       }
 
       yield* module.moduleDeclarationInstantiationEvaluator();
@@ -164,7 +178,11 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
 
       const module = this._linkedModules.get(entry.moduleRequest);
       if (!module) {
-        throw Completion.Throw("ReferenceError", `Module ${entry.moduleRequest} not found.`);
+        throw Completion.Throw(
+          "ReferenceError",
+          `Module ${entry.moduleRequest} not found.`,
+          this._realm,
+        );
       }
 
       const { importName, exportName } = entry;
@@ -200,37 +218,76 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
         throw Completion.Throw(
           "SyntaxError",
           `Exported local name not declared: ${entry.localName}`,
+          this._realm,
         );
       }
     }
 
     this._status = "instantiated";
-
-    return;
   }
 
-  *moduleEvaluationEvaluator() {
+  *moduleEvaluationEvaluator(): EvaluationGenerator<Promise<void>> {
+    if (this._status === "evaluating" || this._status === "evaluated") {
+      return this._evaluationPromise!;
+    }
+
     if (this._status !== "instantiated") {
-      return;
+      throw new StaticJsEngineError(
+        `Cannot evaluate module ${this._name} because it is not instantiated. Current status: ${this._status}`,
+      );
     }
 
     this._status = "evaluating";
 
+    const prereqs: Promise<void>[] = [];
     for (const module of this._linkedModules.values()) {
       if (!module) {
         // Oh well.  If we actually needed it we would have thrown by now.
         continue;
       }
 
-      yield* module.moduleEvaluationEvaluator();
+      const promise = yield* module.moduleEvaluationEvaluator();
+      if (promise instanceof Promise) {
+        prereqs.push(promise);
+      }
     }
 
-    const { _ecmaScriptCode } = this;
-    yield* this._context!.run(function* () {
-      yield* Q(EvaluateNodeCommand(_ecmaScriptCode));
-    });
+    return Promise.all(prereqs).then(() => {
+      const { _ecmaScriptCode, _realm, _context } = this;
 
-    this._status = "evaluated";
+      const { promise, resolve, reject } = Promise.withResolvers<void>();
+      this._evaluationPromise = promise;
+
+      const onComplete = () => {
+        this._status = "evaluated";
+      };
+
+      function* evaluateAsyncBody() {
+        yield* Q(EvaluateNodeCommand(_ecmaScriptCode));
+        onComplete();
+        return null;
+      }
+
+      function* moduleJob() {
+        const invocation = new AsyncEvaluatorInvocation(evaluateAsyncBody(), _realm);
+
+        yield* invocation.onComplete((_, err) => {
+          if (err) {
+            reject(new StaticJsRuntimeError(err));
+          } else {
+            resolve();
+          }
+        });
+
+        yield* _context!.run(function* () {
+          yield* invocation.start();
+        });
+      }
+
+      this._realm.enqueuePromiseJob(moduleJob);
+
+      return this._evaluationPromise;
+    });
   }
 
   *resolveExportEvaluator(
@@ -444,12 +501,10 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       this._envRec,
     );
 
-    // Not using context.run()
-    // The below should NOT suspend!
-    const oldContext = EvaluationContext.current;
-    EvaluationContext.push(this._context);
-    try {
-      const varDeclarations = varScopedDeclarations(this._ecmaScriptCode);
+    // oxlint-disable-next-line typescript/no-this-alias
+    const { _ecmaScriptCode, _realm, _envRec } = this;
+    yield* this._context.run(function* () {
+      const varDeclarations = varScopedDeclarations(_ecmaScriptCode);
       const declaredVarNames = new Set<string>();
       for (const d of varDeclarations) {
         for (const dn of boundNames(d)) {
@@ -457,33 +512,26 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
             continue;
           }
           declaredVarNames.add(dn);
-          yield* this._envRec.createMutableBindingEvaluator(dn, false);
-          yield* this._envRec.initializeBindingEvaluator(dn, this._realm.types.undefined);
+          yield* _envRec.createMutableBindingEvaluator(dn, false);
+          yield* _envRec.initializeBindingEvaluator(dn, _realm.types.undefined);
         }
       }
 
-      const lexDeclarations = lexicallyScopedDeclarations(this._ecmaScriptCode);
+      const lexDeclarations = lexicallyScopedDeclarations(_ecmaScriptCode);
       for (const d of lexDeclarations) {
         for (const dn of boundNames(d)) {
           if (d.type === "VariableDeclaration" && d.kind === "const") {
-            yield* this._envRec.createImmutableBindingEvaluator(dn, true);
+            yield* _envRec.createImmutableBindingEvaluator(dn, true);
           } else {
-            yield* this._envRec.createMutableBindingEvaluator(dn, false);
+            yield* _envRec.createMutableBindingEvaluator(dn, false);
           }
 
           if (d.type === "FunctionDeclaration") {
-            const fn = createFunction(dn, d, this._envRec);
-            yield* this._envRec.initializeBindingEvaluator(dn, fn);
+            const fn = createFunction(dn, d, _envRec);
+            yield* _envRec.initializeBindingEvaluator(dn, fn);
           }
         }
       }
-    } finally {
-      EvaluationContext.pop();
-      if (EvaluationContext.current !== oldContext) {
-        throw new StaticJsEngineError(
-          "EvaluationContext stack corrupted during module environment initialization.",
-        );
-      }
-    }
+    });
   }
 }

@@ -41,9 +41,7 @@ export default class AsyncEvaluatorInvocation {
     return this._capability.promise;
   }
 
-  // Class is designed to represent a promise.
-  // oxlint-disable-next-line no-thenable
-  *then(
+  *onComplete(
     callback: (value: StaticJsValue, error?: StaticJsValue) => void,
   ): EvaluationGenerator<void> {
     if (this._state === "halted") {
@@ -56,7 +54,8 @@ export default class AsyncEvaluatorInvocation {
 
     yield* this._ensureCapability();
 
-    const thenMethod = yield* getMethod(this.promise, "then");
+    // We can run outside of any evaluation context, so pass a realm manually.
+    const thenMethod = yield* getMethod(this.promise, "then", this._realm);
     if (!thenMethod) {
       throw new StaticJsEngineError("Async function promise does not have a then method.");
     }
@@ -81,7 +80,7 @@ export default class AsyncEvaluatorInvocation {
 
     yield* this._ensureCapability();
 
-    this._pausedContext = EvaluationContext.current;
+    // this._pausedContext = EvaluationContext.current;
 
     this._state = "started";
 
@@ -105,7 +104,7 @@ export default class AsyncEvaluatorInvocation {
   private *_continue(continueWith: StaticJsValue | null, continueMode: "next" | "throw" = "next") {
     const context = this._pausedContext;
     if (!context) {
-      throw new StaticJsEngineError("No paused context found for async function.");
+      return yield* this._doContinue(continueWith, continueMode);
     }
 
     this._pausedContext = null;

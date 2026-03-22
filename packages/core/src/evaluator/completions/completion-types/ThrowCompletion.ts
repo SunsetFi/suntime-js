@@ -1,8 +1,11 @@
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
+import { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
+
 import { ErrorTypeName } from "../../../runtime/types/StaticJsTypeFactory.js";
 import { type StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
+
 import EvaluationContext from "../../EvaluationContext.js";
 
 import nameCompletionLike from "../name-completion-like.js";
@@ -13,15 +16,23 @@ export interface ThrowCompletion {
 }
 
 export function ThrowCompletion(value: StaticJsValue): ThrowCompletion;
-export function ThrowCompletion(errorName: ErrorTypeName, errorMessage: string): ThrowCompletion;
+export function ThrowCompletion(
+  errorName: ErrorTypeName,
+  errorMessage: string,
+  realm?: StaticJsRealm,
+): ThrowCompletion;
 export function ThrowCompletion(
   valueOrName: StaticJsValue | ErrorTypeName,
   errorMessage?: string,
+  realm?: StaticJsRealm,
 ): ThrowCompletion {
   if (typeof valueOrName === "string") {
     return {
       type: "throw",
-      value: EvaluationContext.current.realm.types.error(valueOrName, errorMessage ?? ""),
+      value: (realm ?? EvaluationContext.current.realm).types.error(
+        valueOrName,
+        errorMessage ?? "",
+      ),
     };
   }
 
