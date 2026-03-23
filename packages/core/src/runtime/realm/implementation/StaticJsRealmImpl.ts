@@ -1,5 +1,7 @@
 import type { Writable } from "type-fest";
 
+import { createDeferred } from "../../../utils/create-deferred.js";
+
 import parseScript from "../../../parser/parse-script.js";
 import parseModule from "../../../parser/parse-module.js";
 import parseExpression from "../../../parser/parse-expression.js";
@@ -280,7 +282,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     // Bit weird that we link immediately instead of when we are ready to perform the task?
     await module.linkModules();
 
-    const { promise: moduleEvaluated, resolve } = Promise.withResolvers<StaticJsModule>();
+    const { promise: moduleEvaluated, resolve } = createDeferred<StaticJsModule>();
     function* evaluate() {
       yield* module.moduleDeclarationInstantiationEvaluator();
       const resolutionPromise = yield* module.moduleEvaluationEvaluator();
@@ -617,7 +619,7 @@ function realmModuleToModule(
 ): StaticJsModuleImplementation {
   if (typeof module === "string") {
     const parsed = parseModule(module, specifier);
-    return new StaticJsAstModuleImpl(module, specifier, parsed.program, realm);
+    return new StaticJsAstModuleImpl(specifier, module, parsed.program, realm);
   } else if (isStaticJsModuleImplementation(module)) {
     return module;
   } else if (isStaticJsModule(module)) {

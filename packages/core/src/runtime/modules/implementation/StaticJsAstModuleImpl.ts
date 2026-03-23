@@ -1,6 +1,9 @@
 import type { Program } from "@babel/types";
 
+import { createDeferred } from "../../../utils/create-deferred.js";
+
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
 import varScopedDeclarations from "../../../evaluator/instantiation/algorithms/var-scoped-declarations.js";
 import boundNames from "../../../evaluator/instantiation/algorithms/bound-names.js";
@@ -13,6 +16,8 @@ import EvaluationContext from "../../../evaluator/EvaluationContext.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import Q from "../../../evaluator/completions/Q.js";
 
+import { StaticJsModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
+import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
 import createFunction from "../../../evaluator/node-evaluators/Function.js";
 
 import StaticJsModuleEnvironmentRecord from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
@@ -45,9 +50,6 @@ import {
 
 import parseImportEntries from "./parse-import-entries.js";
 import exportEntries from "./export-entries.js";
-import { StaticJsModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
-import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
-import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
 
 export class StaticJsAstModuleImpl extends StaticJsModuleBase {
   private _linked = false;
@@ -227,8 +229,12 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
   }
 
   *moduleEvaluationEvaluator(): EvaluationGenerator<Promise<void>> {
+    // FIXME: This, linking, and everything to do with modules is entirely NOT spec compliant!
+    // Need to remake this!
     if (this._status === "evaluating" || this._status === "evaluated") {
-      return this._evaluationPromise!;
+      // Note: For now, this can't return the promise, as circular deps cause deadlocks
+      return Promise.resolve();
+      // return this._evaluationPromise!;
     }
 
     if (this._status !== "instantiated") {
@@ -238,6 +244,10 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
     }
 
     this._status = "evaluating";
+
+    // Store the promise early in case of re-entrancy.
+    const { promise, resolve, reject } = createDeferred<void>();
+    this._evaluationPromise = promise;
 
     const prereqs: Promise<void>[] = [];
     for (const module of this._linkedModules.values()) {
@@ -252,42 +262,41 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       }
     }
 
-    return Promise.all(prereqs).then(() => {
-      const { _ecmaScriptCode, _realm, _context } = this;
+    Promise.all(prereqs)
+      .then(() => {
+        const { _ecmaScriptCode, _realm, _context } = this;
 
-      const { promise, resolve, reject } = Promise.withResolvers<void>();
-      this._evaluationPromise = promise;
+        const onComplete = () => {
+          this._status = "evaluated";
+        };
 
-      const onComplete = () => {
-        this._status = "evaluated";
-      };
+        function* evaluateAsyncBody() {
+          yield* Q(EvaluateNodeCommand(_ecmaScriptCode));
+          return null;
+        }
 
-      function* evaluateAsyncBody() {
-        yield* Q(EvaluateNodeCommand(_ecmaScriptCode));
-        onComplete();
-        return null;
-      }
+        function* moduleJob() {
+          const invocation = new AsyncEvaluatorInvocation(evaluateAsyncBody(), _realm);
 
-      function* moduleJob() {
-        const invocation = new AsyncEvaluatorInvocation(evaluateAsyncBody(), _realm);
+          yield* invocation.onComplete((_, err) => {
+            onComplete();
+            if (err) {
+              reject(new StaticJsRuntimeError(err));
+            } else {
+              resolve();
+            }
+          });
 
-        yield* invocation.onComplete((_, err) => {
-          if (err) {
-            reject(new StaticJsRuntimeError(err));
-          } else {
-            resolve();
-          }
-        });
+          yield* _context!.run(function* () {
+            yield* invocation.start();
+          });
+        }
 
-        yield* _context!.run(function* () {
-          yield* invocation.start();
-        });
-      }
+        this._realm.enqueuePromiseJob(moduleJob);
+      })
+      .catch(reject);
 
-      this._realm.enqueuePromiseJob(moduleJob);
-
-      return this._evaluationPromise;
-    });
+    return this._evaluationPromise;
   }
 
   *resolveExportEvaluator(

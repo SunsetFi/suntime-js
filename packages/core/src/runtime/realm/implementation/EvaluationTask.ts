@@ -1,28 +1,18 @@
-import type { Node } from "@babel/types";
-
 import EvaluationContext, {
   EvaluationContextStackProvider,
 } from "../../../evaluator/EvaluationContext.js";
 
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
-import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
 
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-import StaticJsTaskAbortedError from "../../../errors/StaticJsTaskAbortedError.js";
 import StaticJsUnhandledRejectionError from "../../../errors/StaticJsUnhandledRejectionError.js";
 
-import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
-import { invokeEvaluator, type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
+import { type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 
-import type { StaticJsTaskIterator } from "../../tasks/StaticJsTaskIterator.js";
-import type { StaticJsTaskSourceLocation } from "../../tasks/StaticJsTaskSourceLocation.js";
-import type { StaticJsTaskIteratorOperation } from "../../tasks/StaticJsTaskIteratorOperation.js";
+import StaticJsTaskIteratorImpl from "../../tasks/implementation/StaticJsTaskIteratorImpl.js";
+
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
-import type { StaticJsFunction } from "../../types/StaticJsFunction.js";
-import type { StaticJsTaskIteratorStackFrame } from "../../tasks/StaticJsTaskIteratorStackFrame.js";
 import type { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";
-
-const MaxDeadIteratorLoopCount = 100;
 
 export default class EvaluationTask implements EvaluationContextStackProvider {
   private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";
@@ -92,11 +82,6 @@ export default class EvaluationTask implements EvaluationContextStackProvider {
    * The stack of evaluation contexts for the currently executing code.
    */
   private _executionContextStack: EvaluationContext[] = [];
-
-  /**
-   * The current AST node being executed, if any.
-   */
-  private _currentNode: Node | null = null;
 
   constructor(
     private readonly _evaluator: StaticJsEvaluator<unknown>,
@@ -258,13 +243,13 @@ export default class EvaluationTask implements EvaluationContextStackProvider {
     reject: (reason: unknown) => void,
   ) {
     try {
-      // Note: This pumps the evaluator to get to the first node.
-      // For modules, this might throw during the linking process.
-      const taskIterator = this._createTaskIterator(evaluator, type, accept, reject);
-      if (!taskIterator) {
-        // For modules or other odd microtasks, this may complete synchronously during the initial pumping to find an evaluation node.
-        return;
-      }
+      const taskIterator = new StaticJsTaskIteratorImpl(
+        type,
+        evaluator,
+        this._scope,
+        accept,
+        reject,
+      );
 
       this._taskRunner(taskIterator);
     } catch (e) {
@@ -272,193 +257,15 @@ export default class EvaluationTask implements EvaluationContextStackProvider {
     }
   }
 
-  private _createTaskIterator(
-    evaluator: StaticJsEvaluator,
-    type: StaticJsTaskType,
-    accept: (value: unknown) => void,
-    reject: (reason: unknown) => void,
-  ): StaticJsTaskIterator | null {
-    interface TaskIteratorFrame {
-      currentNode: Node | null;
-      function: StaticJsFunction | null;
+  private _scope = (cb: () => void) => {
+    this._assertIsRunning(this);
+    this._isEntered = true;
+    try {
+      EvaluationContext.withStackProvider(this, cb);
+    } finally {
+      this._isEntered = false;
     }
-    let frames: TaskIteratorFrame[] = [
-      {
-        currentNode: null,
-        function: null,
-      },
-    ];
-
-    const iterator = evaluateCommands(invokeEvaluator(evaluator), {
-      onBeforeNode: (node) => {
-        this._currentNode = node;
-        const lastFrame = frames.at(0);
-        if (lastFrame) {
-          lastFrame.currentNode = node;
-        }
-      },
-      onAfterNode: () => {
-        this._currentNode = null;
-        const lastFrame = frames.at(0);
-        if (lastFrame) {
-          lastFrame.currentNode = null;
-        }
-      },
-      onFunctionEnter(func) {
-        frames.unshift({
-          currentNode: func instanceof StaticJsFunctionImpl ? func.ecmaScriptCode : null,
-          function: func,
-        });
-      },
-      onFunctionExit() {
-        frames.shift();
-      },
-    });
-
-    let done = false;
-    let aborted = false;
-
-    const getCurrentOperation = (): StaticJsTaskIteratorOperation | null => {
-      if (!this._currentNode) {
-        return null;
-      }
-
-      return {
-        location: captureLocation(this._currentNode),
-        operationType: this._currentNode.type,
-      };
-    };
-
-    const next = (err?: unknown): IteratorResult<void, void> => {
-      if (aborted) {
-        throw new StaticJsTaskAbortedError("Cannot call next() on an aborted task.");
-      }
-
-      if (done) {
-        throw new StaticJsEngineError("Cannot call next() on a completed task.");
-      }
-
-      this._assertIsRunning(this);
-
-      this._isEntered = true;
-
-      // This enters and exits with every tick, which is nasty for performance,
-      // Unfortunately we can't trust a global variable, as there may be more than
-      // one realm running simultaneously.
-      // Note that we do not call accept() or reject() within the stack provider,
-      // as they may trigger immediate additional task iterators.
-      const result = EvaluationContext.withStackProvider(this, () => {
-        try {
-          let deadIteratorLoops = 0;
-          while (true) {
-            const result = err ? iterator.throw(err) : iterator.next();
-            if (result.done) {
-              return { done: true, value: result.value };
-            }
-
-            // Try to skip iterations until we get to an actual node to evaluate.
-            // This may happen for module initialization and such.
-            // Theoretically, nothing in this is user code, and so cannot
-            // infinite loop or deadlock.
-            if (!this._currentNode) {
-              if (++deadIteratorLoops > MaxDeadIteratorLoopCount) {
-                throw new StaticJsEngineError(
-                  "Hit maximum loop count while trying to find the first node to evaluate.  This may indicate a bug in the engine.",
-                );
-              }
-
-              continue;
-            }
-
-            return {
-              done: false,
-            };
-          }
-        } catch (e) {
-          return {
-            done: true,
-            error: e,
-          };
-        } finally {
-          this._isEntered = false;
-        }
-      });
-
-      if (result.done) {
-        done = true;
-
-        if (result.error) {
-          reject(result.error);
-        } else {
-          accept(result.value);
-        }
-
-        return {
-          value: undefined,
-          done: true,
-        };
-      }
-
-      return {
-        value: undefined,
-        done: false,
-      };
-    };
-
-    return {
-      type,
-      get done() {
-        return done;
-      },
-      get aborted() {
-        return aborted;
-      },
-      get operation() {
-        return getCurrentOperation();
-      },
-      get stack() {
-        // Frames are mutated, so clone them if someone asks for the stack.
-        return frames
-          .map((frame) => ({ ...frame }))
-          .map(
-            (frame, index) =>
-              ({
-                depth: frames.length - index,
-                function: frame.function,
-                get functionName() {
-                  const func = frame.function;
-                  if (!func) {
-                    return null;
-                  }
-
-                  return func.getNameSync();
-                },
-                get sourceLocation() {
-                  const node = frame.currentNode;
-                  if (!node) {
-                    return null;
-                  }
-
-                  return captureLocation(node);
-                },
-              }) satisfies StaticJsTaskIteratorStackFrame,
-          );
-      },
-      next: () => next(),
-      throw: (err: unknown) => next(err),
-      abort: () => {
-        if (done) {
-          throw new StaticJsEngineError("Cannot abort a task that is already done or aborted.");
-        }
-
-        this._assertIsRunning(this);
-
-        done = true;
-        aborted = true;
-        reject(new StaticJsTaskAbortedError("Task was aborted."));
-      },
-    };
-  }
+  };
 
   private _acceptMacrotask(value: unknown) {
     this._macrotaskCompletionValue = value;
@@ -501,18 +308,4 @@ export default class EvaluationTask implements EvaluationContextStackProvider {
     this._onCompletedCallbacks = [];
     this._macrotaskCompletionValue = undefined;
   }
-}
-
-function captureLocation(node: Node): StaticJsTaskSourceLocation {
-  const loc = node.loc;
-  if (!loc) {
-    throw new StaticJsEngineError("Encountered a babel parse node without location data.");
-  }
-
-  return Object.freeze({
-    sourceName: loc.filename,
-    line: loc.start.line,
-    column: loc.start.column,
-    character: loc.start.index,
-  });
 }

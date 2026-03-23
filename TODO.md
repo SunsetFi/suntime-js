@@ -45,6 +45,13 @@
   - [ ] iteratorClose / asyncIteratorClose
   - [ ] ...others
 
+### Module Refactor
+
+Modules are not implemented according to spec
+
+- [ ] EvaluateModuleSync
+- [ ] CyclicModuleRecord
+
 ## General
 
 - [-] Fix 'all' [Test262](https://github.com/tc39/test262) tests.
