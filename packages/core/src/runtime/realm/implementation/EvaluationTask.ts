@@ -10,7 +10,7 @@ import { StaticJsUnhandledRejectionError } from "../../../errors/StaticJsUnhandl
 
 import { type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 
-import StaticJsTaskIteratorImpl from "../../tasks/implementation/StaticJsTaskIteratorImpl.js";
+import { StaticJsTaskIteratorImpl } from "../../tasks/implementation/StaticJsTaskIteratorImpl.js";
 
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";

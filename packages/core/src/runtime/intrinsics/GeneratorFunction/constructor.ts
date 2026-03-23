@@ -1,7 +1,7 @@
 import { blockStatement, type Program } from "@babel/types";
 
-import parseParameters from "../../../parser/parse-parameters.js";
-import parseFunctionBody from "../../../parser/parse-function-body.js";
+import { parseParameters } from "../../../parser/parse-parameters.js";
+import { parseFunctionBody } from "../../../parser/parse-function-body.js";
 
 import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 

@@ -9,7 +9,7 @@ type TraverseCompat = TraverseFn | { default: TraverseFn };
 const traverseModule = traverseNs as TraverseCompat;
 const traverse = typeof traverseModule === "function" ? traverseModule : traverseModule.default;
 
-export default function findTopLevelAwait(node: Node): AwaitExpression | null {
+export function findTopLevelAwait(node: Node): AwaitExpression | null {
   let found: AwaitExpression | null = null;
   traverse(node, {
     AwaitExpression(path) {

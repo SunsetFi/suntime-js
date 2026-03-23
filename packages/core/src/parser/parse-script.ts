@@ -1,12 +1,12 @@
 import { parse as parseAst } from "@babel/parser";
 
-import parserOptions from "./babel-parser-options.js";
-import handleParseError from "./parse-error.js";
+import { babelParserOptions } from "./babel-parser-options.js";
+import { handleParseError } from "./parse-error.js";
 
 export interface ParseScriptOptions {
   topLevelAwait?: boolean;
 }
-export default function parseScript(
+export function parseScript(
   script: string,
   fileName: string,
   { topLevelAwait = false }: ParseScriptOptions = {},
@@ -14,7 +14,7 @@ export default function parseScript(
   try {
     return parseAst(script, {
       strictMode: false,
-      ...parserOptions,
+      ...babelParserOptions,
       sourceType: "script",
       sourceFilename: fileName,
       allowAwaitOutsideFunction: topLevelAwait,

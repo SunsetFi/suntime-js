@@ -1,6 +1,7 @@
 import type { Node } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { StaticJsTaskAbortedError } from "../../../errors/StaticJsTaskAbortedError.js";
 
 import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
 import { invokeEvaluator, StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
@@ -13,7 +14,6 @@ import { StaticJsTaskIteratorOperation } from "../StaticJsTaskIteratorOperation.
 import { StaticJsTaskIteratorStackFrame } from "../StaticJsTaskIteratorStackFrame.js";
 import { StaticJsTaskType } from "../StaticJsTaskType.js";
 import { StaticJsTaskSourceLocation } from "../StaticJsTaskSourceLocation.js";
-import { StaticJsTaskAbortedError } from "../../../errors/StaticJsTaskAbortedError.js";
 
 interface TaskIteratorFrame {
   currentNode: Node | null;
@@ -24,7 +24,7 @@ const MaxDeadIteratorLoopCount = 100;
 
 const Unset = Symbol("Unset");
 
-export default class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
+export class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
   private _state: "pending" | "running" | "done" | "aborted" = "pending";
 
   private _innerIterator: Generator<void, TReturn, void> | null = null;

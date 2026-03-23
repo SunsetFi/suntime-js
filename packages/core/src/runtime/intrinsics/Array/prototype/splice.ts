@@ -1,4 +1,4 @@
-import isNotUndefined from "../../../../internal/is-not-undefined.js";
+import { isNotUndefined } from "../../../../internal/is-not-undefined.js";
 import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 

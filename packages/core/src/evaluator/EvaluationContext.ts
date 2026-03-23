@@ -7,7 +7,7 @@ import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJs
 
 import { EvaluationGenerator } from "./EvaluationGenerator.js";
 
-import typedEntries from "../internal/typed-entries.js";
+import { typedEntries } from "../internal/typed-entries.js";
 import type { StaticJsScriptOrModuleRecord } from "./ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 
 export interface EvaluationContextStackProvider {

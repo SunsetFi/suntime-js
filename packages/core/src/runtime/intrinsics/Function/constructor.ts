@@ -6,8 +6,8 @@ import { Completion } from "../../../evaluator/completions/Completion.js";
 
 import createFunction from "../../../evaluator/node-evaluators/Function.js";
 
-import parseFunctionBody from "../../../parser/parse-function-body.js";
-import parseParameters from "../../../parser/parse-parameters.js";
+import { parseFunctionBody } from "../../../parser/parse-function-body.js";
+import { parseParameters } from "../../../parser/parse-parameters.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 

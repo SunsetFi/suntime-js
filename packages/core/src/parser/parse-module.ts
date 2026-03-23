@@ -1,12 +1,12 @@
 import { parse as parseAst } from "@babel/parser";
 
-import parserOptions from "./babel-parser-options.js";
-import handleParseError from "./parse-error.js";
+import { babelParserOptions } from "./babel-parser-options.js";
+import { handleParseError } from "./parse-error.js";
 
-export default function parseModule(script: string, sourceName: string) {
+export function parseModule(script: string, sourceName: string) {
   try {
     return parseAst(script, {
-      ...parserOptions,
+      ...babelParserOptions,
       sourceFilename: sourceName,
       sourceType: "module",
     });

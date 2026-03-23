@@ -2,12 +2,12 @@ import type { Writable } from "type-fest";
 
 import { createDeferred } from "../../../utils/create-deferred.js";
 
-import parseScript from "../../../parser/parse-script.js";
-import parseModule from "../../../parser/parse-module.js";
-import parseExpression from "../../../parser/parse-expression.js";
-import findTopLevelAwait from "../../../parser/has-top-level-await.js";
+import { parseScript } from "../../../parser/parse-script.js";
+import { parseModule } from "../../../parser/parse-module.js";
+import { parseExpression } from "../../../parser/parse-expression.js";
+import { findTopLevelAwait } from "../../../parser/find-top-level-await.js";
 
-import hasOwnProperty from "../../../internal/has-own-property.js";
+import { hasOwnProperty } from "../../../internal/has-own-property.js";
 
 import { StaticJsSyntaxError } from "../../../errors/StaticJsSyntaxError.js";
 import { StaticJsUnhandledRejectionError } from "../../../errors/StaticJsUnhandledRejectionError.js";

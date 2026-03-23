@@ -2,7 +2,7 @@ import type { File } from "@babel/types";
 
 import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
 
-import parseScript from "../../parser/parse-script.js";
+import { parseScript } from "../../parser/parse-script.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 

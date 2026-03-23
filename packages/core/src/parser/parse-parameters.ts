@@ -1,16 +1,16 @@
 import { isFunctionDeclaration, type FunctionParameter, type File } from "@babel/types";
 
-import parserOptions from "./babel-parser-options.js";
+import { babelParserOptions } from "./babel-parser-options.js";
 import { parse, type ParseResult } from "@babel/parser";
 
 const ArgumentParseErrorMessage = "Arg string terminates parameters early";
-export default function parseParameters(paramStr: string): FunctionParameter[] {
+export function parseParameters(paramStr: string): FunctionParameter[] {
   // Using a parser this way is risky as it opens us up to some sort of injection.
   // I think the checks below should be sufficient, but... this is gross...
 
   let paramParsed: ParseResult<File>;
   try {
-    paramParsed = parse(`function foo(${paramStr}) {}`, parserOptions);
+    paramParsed = parse(`function foo(${paramStr}) {}`, babelParserOptions);
   } catch (e) {
     if (e instanceof SyntaxError) {
       // This is the error given by V8 when the parameter string is invalid, so we should match it.

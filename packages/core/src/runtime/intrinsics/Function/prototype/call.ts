@@ -1,4 +1,4 @@
-import isNotUndefined from "../../../../internal/is-not-undefined.js";
+import { isNotUndefined } from "../../../../internal/is-not-undefined.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 

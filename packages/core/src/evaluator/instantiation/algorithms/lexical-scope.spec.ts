@@ -37,7 +37,7 @@ const classDeclaration: typeof babelClassDeclaration = (
   return result;
 };
 
-import parseModule from "../../parser/parse-module.js";
+import { parseModule } from "../../parser/parse-module.js";
 
 import lexicallyDeclaredNames from "./lexically-declared-names.js";
 import lexicallyScopedDeclarations from "./lexically-scoped-declarations.js";
