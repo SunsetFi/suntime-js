@@ -19,7 +19,7 @@ import StaticJsConcurrentEvaluationError from "../../../errors/StaticJsConcurren
 import StaticJsDeclarativeEnvironmentRecord from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import EvaluationContext from "../../../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 
 import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
 import { invokeEvaluator, type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
@@ -380,10 +380,6 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   invokeEvaluatorSync<TReturn>(evaluator: StaticJsEvaluator<TReturn>): TReturn {
-    if (this._currentTask && EvaluationContext.stackProvider !== this._currentTask) {
-      throw new Error("Current task is not the stack provider!");
-    }
-
     if (this._boostrapping || (this._currentTask && this._currentTask.entered)) {
       const iter = invokeEvaluator(evaluator);
       while (true) {

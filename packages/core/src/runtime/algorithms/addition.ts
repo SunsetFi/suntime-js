@@ -1,4 +1,4 @@
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import { type StaticJsNumber } from "../types/StaticJsNumber.js";

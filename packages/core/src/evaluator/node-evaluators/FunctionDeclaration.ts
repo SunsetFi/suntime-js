@@ -4,7 +4,7 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 
-import EvaluationContext from "../EvaluationContext.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 interface FunctionDeclarationExtra {

@@ -1,4 +1,4 @@
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";

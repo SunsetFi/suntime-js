@@ -11,7 +11,7 @@ import Q from "../completions/Q.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import EvaluationContext from "../EvaluationContext.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import blockDeclarationInstantiation from "../instantiation/block-declaration-instantiation.js";

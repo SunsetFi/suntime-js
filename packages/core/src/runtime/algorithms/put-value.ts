@@ -9,7 +9,7 @@ import { isPropertyReference } from "../references/is-property-reference.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 

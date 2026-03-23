@@ -18,7 +18,7 @@ import StaticJsGeneratorDeclFunction from "../../runtime/types/implementation/St
 
 import { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 
-import EvaluationContext from "../EvaluationContext.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 
 interface NeverConstructor {
   (): never;

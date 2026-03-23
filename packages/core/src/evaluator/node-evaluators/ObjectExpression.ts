@@ -12,7 +12,7 @@ import { isStaticJsSymbol } from "../../runtime/types/StaticJsSymbol.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import Q from "../completions/Q.js";
 
-import EvaluationContext from "../EvaluationContext.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import createFunction from "./Function.js";

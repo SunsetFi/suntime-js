@@ -4,7 +4,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
 
-import EvaluationContext from "../EvaluationContext.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 
 import { Completion } from "../completions/Completion.js";
 import Q from "../completions/Q.js";

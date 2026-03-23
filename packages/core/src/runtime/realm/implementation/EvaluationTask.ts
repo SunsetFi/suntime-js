@@ -1,4 +1,5 @@
-import EvaluationContext, {
+import {
+  EvaluationContext,
   EvaluationContextStackProvider,
 } from "../../../evaluator/EvaluationContext.js";
 

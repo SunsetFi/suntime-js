@@ -2,7 +2,7 @@ import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 

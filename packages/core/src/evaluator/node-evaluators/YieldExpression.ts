@@ -2,7 +2,7 @@ import { type YieldExpression } from "@babel/types";
 
 import { YieldCommand } from "../commands/YieldCommand.js";
 
-import EvaluationContext from "../EvaluationContext.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";

@@ -2,7 +2,7 @@ import { type Node, isVariableDeclaration } from "@babel/types";
 
 import StaticJsGlobalEnvironmentRecord from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 
-import EvaluationContext from "../EvaluationContext.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 
 import { Completion } from "../completions/Completion.js";
 

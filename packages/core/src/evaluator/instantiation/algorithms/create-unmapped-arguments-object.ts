@@ -9,7 +9,7 @@ import StaticJsFunctionImpl from "../../../runtime/types/implementation/StaticJs
 import { Completion } from "../../completions/Completion.js";
 
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
-import EvaluationContext from "../../EvaluationContext.js";
+import { EvaluationContext } from "../../EvaluationContext.js";
 
 export default function* createUnmappedArgumentsObject(
   argumentsList: StaticJsValue[],

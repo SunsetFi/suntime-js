@@ -16,7 +16,7 @@ import putValue from "../../runtime/algorithms/put-value.js";
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
 import getValue from "../../runtime/algorithms/get-value.js";
 
-import EvaluationContext from "../EvaluationContext.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import destructuringAssignmentEvaluation from "../bindings/destructuring-assignment-evaluation.js";

@@ -4,7 +4,7 @@ import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
-import EvaluationContext from "../EvaluationContext.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import { Completion } from "../completions/Completion.js";
 import Q from "../completions/Q.js";

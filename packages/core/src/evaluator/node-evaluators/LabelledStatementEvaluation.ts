@@ -1,6 +1,6 @@
 import type { Node } from "@babel/types";
 
-import EvaluationContext from "../EvaluationContext.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import type { NodeEvaluator } from "../NodeEvaluator.js";

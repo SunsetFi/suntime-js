@@ -29,7 +29,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import Q from "../completions/Q.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import EvaluationContext from "../EvaluationContext.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 import iteratorClose from "../../runtime/iterators/iterator-close.js";
 import initializeReferencedBinding from "./initialize-referenced-binding.js";
 import initializeBoundName from "./initialize-bound-name.js";

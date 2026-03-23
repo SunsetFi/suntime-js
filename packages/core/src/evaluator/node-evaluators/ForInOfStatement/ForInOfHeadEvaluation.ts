@@ -17,7 +17,7 @@ import getIterator from "../../../runtime/iterators/get-iterator.js";
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
-import EvaluationContext from "../../EvaluationContext.js";
+import { EvaluationContext } from "../../EvaluationContext.js";
 
 import { Completion } from "../../completions/Completion.js";
 import Q from "../../completions/Q.js";

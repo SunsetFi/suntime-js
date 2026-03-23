@@ -19,7 +19,7 @@ import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import type { StaticJsGenerator } from "../StaticJsGenerator.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
-import EvaluationContext from "../../../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 
 export default class StaticJsGeneratorImpl
   extends StaticJsObjectLikeImpl

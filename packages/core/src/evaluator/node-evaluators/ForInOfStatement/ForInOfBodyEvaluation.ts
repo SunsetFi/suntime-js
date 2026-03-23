@@ -37,7 +37,7 @@ import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { AwaitCommand } from "../../commands/AwaitCommand.js";
 import Q from "../../completions/Q.js";
 
-import EvaluationContext from "../../EvaluationContext.js";
+import { EvaluationContext } from "../../EvaluationContext.js";
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 import forDeclarationBindingInitialization from "./for-declaration-binding-initialization.js";

@@ -6,7 +6,7 @@ import { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
 import { ErrorTypeName } from "../../../runtime/types/StaticJsTypeFactory.js";
 import { type StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
-import EvaluationContext from "../../EvaluationContext.js";
+import { EvaluationContext } from "../../EvaluationContext.js";
 
 import nameCompletionLike from "../name-completion-like.js";
 

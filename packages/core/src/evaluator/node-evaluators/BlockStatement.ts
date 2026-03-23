@@ -7,7 +7,7 @@ import blockDeclarationInstantiation from "../instantiation/block-declaration-in
 import Q from "../completions/Q.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import EvaluationContext from "../EvaluationContext.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 
 import evaluateStatementList from "./StatementList.js";
 import captureThrownCompletion from "../completions/capture-thrown-completion.js";

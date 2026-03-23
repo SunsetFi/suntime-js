@@ -3,7 +3,7 @@ import { blockStatement, type Program } from "@babel/types";
 import parseParameters from "../../../parser/parse-parameters.js";
 import parseFunctionBody from "../../../parser/parse-function-body.js";
 
-import EvaluationContext from "../../../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
 

@@ -1,6 +1,6 @@
 import { type Program, blockStatement } from "@babel/types";
 
-import EvaluationContext from "../../../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
 

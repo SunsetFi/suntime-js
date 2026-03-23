@@ -11,7 +11,7 @@ import lexicallyScopedDeclarations from "../../../evaluator/instantiation/algori
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import EvaluationContext from "../../../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import Q from "../../../evaluator/completions/Q.js";

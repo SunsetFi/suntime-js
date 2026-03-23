@@ -12,7 +12,7 @@ import getIdentifierReference from "../../runtime/references/get-identifier-refe
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import Q from "../completions/Q.js";
 
-import EvaluationContext from "../EvaluationContext.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import initializeReferencedBinding from "../bindings/initialize-referenced-binding.js";

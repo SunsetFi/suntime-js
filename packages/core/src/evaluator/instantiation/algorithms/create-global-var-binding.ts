@@ -1,6 +1,6 @@
 import type StaticJsGlobalEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 
-import EvaluationContext from "../../EvaluationContext.js";
+import { EvaluationContext } from "../../EvaluationContext.js";
 
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 

@@ -7,7 +7,7 @@ import toObject from "../../runtime/algorithms/to-object.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 
-import EvaluationContext from "../EvaluationContext.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import Q from "../completions/Q.js";
 import captureThrownCompletion from "../completions/capture-thrown-completion.js";

@@ -54,7 +54,7 @@ const EvaluationContextPropertyDefs: Record<
  * Note: Code evaluation state is implicit to the generators being used,
  * which are a consumer of this rather than contained within it.
  */
-class EvaluationContext implements Required<EvaluationContextAutoDefProperties> {
+export class EvaluationContext implements Required<EvaluationContextAutoDefProperties> {
   static _currentStackProvider: EvaluationContextStackProvider | null = null;
 
   static withStackProvider<T>(provider: EvaluationContextStackProvider, callback: () => T): T {
@@ -272,5 +272,3 @@ class EvaluationContext implements Required<EvaluationContextAutoDefProperties> 
     }
   }
 }
-
-export default EvaluationContext;

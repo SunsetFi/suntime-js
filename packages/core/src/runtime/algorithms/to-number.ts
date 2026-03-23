@@ -1,7 +1,7 @@
 import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";

@@ -1,6 +1,6 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import type { StaticJsScalar } from "../types/StaticJsScalar.js";

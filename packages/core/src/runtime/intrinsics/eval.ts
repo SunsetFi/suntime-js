@@ -6,7 +6,7 @@ import parseScript from "../../parser/parse-script.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
 

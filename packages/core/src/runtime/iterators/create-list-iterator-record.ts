@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 

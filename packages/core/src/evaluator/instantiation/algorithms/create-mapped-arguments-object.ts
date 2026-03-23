@@ -14,7 +14,7 @@ import createDataPropertyOrThrow from "../../../runtime/algorithms/create-data-p
 import definePropertyOrThrow from "../../../runtime/algorithms/define-property-or-throw.js";
 
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
-import EvaluationContext from "../../EvaluationContext.js";
+import { EvaluationContext } from "../../EvaluationContext.js";
 
 import boundNames from "./bound-names.js";
 

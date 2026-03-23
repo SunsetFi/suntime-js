@@ -14,7 +14,7 @@ import createListIteratorRecord from "../../runtime/iterators/create-list-iterat
 
 import iteratorBindingInitialization from "../bindings/iterator-binding-initialization.js";
 
-import EvaluationContext from "../EvaluationContext.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import boundNames from "./algorithms/bound-names.js";
 import varDeclaredNames from "./algorithms/var-declared-names.js";

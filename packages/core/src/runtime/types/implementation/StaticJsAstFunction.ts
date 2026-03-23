@@ -2,7 +2,7 @@ import { type Node, type BlockStatement, type Expression } from "@babel/types";
 
 import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
-import EvaluationContext from "../../../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import functionDeclarationInstantiation from "../../../evaluator/instantiation/function-declaration-instantiation.js";

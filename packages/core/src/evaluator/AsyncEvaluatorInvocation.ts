@@ -23,7 +23,7 @@ import { Completion } from "./completions/Completion.js";
 import type { CompletionValue } from "./completions/CompletionValue.js";
 
 import type { EvaluationGenerator } from "./EvaluationGenerator.js";
-import EvaluationContext from "./EvaluationContext.js";
+import { EvaluationContext } from "./EvaluationContext.js";
 
 export default class AsyncEvaluatorInvocation {
   private _capability!: StaticJsPromiseCapabilityRecord;

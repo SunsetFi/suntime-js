@@ -2,7 +2,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import { Completion } from "../../evaluator/completions/Completion.js";
 import Q from "../../evaluator/completions/Q.js";
-import EvaluationContext from "../../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
 import getMethod from "../algorithms/get-method.js";
 
