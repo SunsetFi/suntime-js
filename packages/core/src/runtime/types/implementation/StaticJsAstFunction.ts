@@ -55,7 +55,8 @@ export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
     protected readonly _createFunction: StaticJsFunctionFactory,
   ) {
     super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args), {
-      length: _argumentDeclarations.length,
+      // Rest elements dont count for length.
+      length: _argumentDeclarations.filter((x) => x.type !== "RestElement").length,
       ...opts,
     });
 

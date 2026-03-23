@@ -12,6 +12,7 @@ import createHostApi from "./host-api.js";
 
 import { ScriptTimeout, TestTimeout } from "./timeouts.js";
 import StaticJsUnhandledRejectionError from "../../src/errors/StaticJsUnhandledRejectionError.js";
+import StaticJsRuntimeError from "../../src/errors/StaticJsRuntimeError.js";
 
 export default function defineTest(testName: string, test: Test262File) {
   if (test.negative?.type === "resolution") {
@@ -79,6 +80,10 @@ export default function defineTest(testName: string, test: Test262File) {
       } catch (e) {
         if (e instanceof Error == false) {
           throw e;
+        }
+
+        if (e instanceof StaticJsRuntimeError) {
+          e = e.thrown.toJsSync();
         }
 
         if (test.negative?.phase === "runtime") {
