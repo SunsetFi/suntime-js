@@ -4,7 +4,7 @@ import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
 
 import { parseScript } from "../../parser/parse-script.js";
 
-import StaticJsDeclarativeEnvironmentRecord from "../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
@@ -14,7 +14,7 @@ import evalDeclarationInstantiation from "../../evaluator/instantiation/eval-dec
 
 import { EvaluateNodeCommand } from "../../evaluator/commands/EvaluateNodeCommand.js";
 
-import Q from "../../evaluator/completions/Q.js";
+import { Q } from "../../evaluator/completions/Q.js";
 
 import toString from "../algorithms/to-string.js";
 import getValue from "../algorithms/get-value.js";

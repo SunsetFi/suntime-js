@@ -4,14 +4,14 @@ import { Completion } from "./Completion.js";
 
 import type { CompletionEvaluator } from "./CompletionEvaluator.js";
 
-export default function captureThrownCompletion<T = Completion.Normal>(
+export function captureThrownCompletion<T = Completion.Normal>(
   evaluator: CompletionEvaluator<T>,
 ): EvaluationGenerator<T | Completion.Abrupt>;
-export default function captureThrownCompletion<T = Completion.Normal>(
+export function captureThrownCompletion<T = Completion.Normal>(
   evaluator: CompletionEvaluator<T>,
   mapper: (completion: Completion.Abrupt) => T,
 ): EvaluationGenerator<T>;
-export default function* captureThrownCompletion<T = Completion.Normal>(
+export function* captureThrownCompletion<T = Completion.Normal>(
   evaluator: CompletionEvaluator<T>,
   mapper: (completion: Completion.Abrupt) => T = (c) => c as T,
 ): EvaluationGenerator<unknown> {

@@ -22,7 +22,7 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import destructuringAssignmentEvaluation from "../bindings/destructuring-assignment-evaluation.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import Q from "../completions/Q.js";
+import { Q } from "../completions/Q.js";
 
 export default function* assignmentExpressionNodeEvaluator(
   node: AssignmentExpression,

@@ -1,6 +1,6 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import captureThrownCompletion from "../../../../evaluator/completions/capture-thrown-completion.js";
-import Q from "../../../../evaluator/completions/Q.js";
+import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
+import { Q } from "../../../../evaluator/completions/Q.js";
 
 import createIteratorFromClosure from "../../../iterators/create-iterator-from-closure.js";
 import getIteratorDirect from "../../../iterators/get-iterator-direct.js";

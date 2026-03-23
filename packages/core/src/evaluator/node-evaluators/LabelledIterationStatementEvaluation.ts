@@ -1,8 +1,8 @@
 import type { Node } from "@babel/types";
 
-import captureThrownCompletion from "../completions/capture-thrown-completion.js";
+import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";
 import { Completion } from "../completions/Completion.js";
-import rethrowCompletion from "../completions/rethrow-completion.js";
+import { rethrowCompletion } from "../completions/rethrow-completion.js";
 
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";

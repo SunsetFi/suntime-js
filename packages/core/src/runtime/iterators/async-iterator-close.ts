@@ -1,7 +1,7 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
-import rethrowCompletion from "../../evaluator/completions/rethrow-completion.js";
+import { rethrowCompletion } from "../../evaluator/completions/rethrow-completion.js";
 
 import { AwaitCommand } from "../../evaluator/commands/AwaitCommand.js";
 

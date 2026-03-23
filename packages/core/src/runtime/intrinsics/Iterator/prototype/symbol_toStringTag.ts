@@ -1,4 +1,4 @@
-import Q from "../../../../evaluator/completions/Q.js";
+import { Q } from "../../../../evaluator/completions/Q.js";
 
 import setterThatIgnoresPrototypeProperties from "../../../algorithms/setter-that-ignores-prototype-properties.js";
 

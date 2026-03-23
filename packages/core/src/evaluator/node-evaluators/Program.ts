@@ -6,7 +6,7 @@ import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import evaluateStatementList from "./StatementList.js";
-import rethrowCompletion from "../completions/rethrow-completion.js";
+import { rethrowCompletion } from "../completions/rethrow-completion.js";
 
 function* programNodeEvaluator(node: Program): EvaluationGenerator {
   const { realm } = EvaluationContext.current;

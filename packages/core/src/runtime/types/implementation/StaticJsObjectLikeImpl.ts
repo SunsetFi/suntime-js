@@ -1,5 +1,6 @@
-import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+
+import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -10,10 +11,10 @@ import {
 } from "../StaticJsPropertyDescriptor.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
 import type { StaticJsObjectLike, StaticJsPropertyKey } from "../StaticJsObjectLike.js";
+import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
 import isArrayIndex from "./is-array-index.js";
-import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 
 export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObject {
   private readonly _contents = new Map<StaticJsPropertyKey, StaticJsPropertyDescriptor>();

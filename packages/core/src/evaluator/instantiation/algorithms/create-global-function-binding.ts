@@ -1,4 +1,4 @@
-import type StaticJsGlobalEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+import type { StaticJsGlobalEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 
 import type { StaticJsPropertyDescriptor } from "../../../runtime/types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";

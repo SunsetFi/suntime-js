@@ -6,8 +6,8 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import type { NodeEvaluator } from "../NodeEvaluator.js";
 
 import { Completion } from "../completions/Completion.js";
-import captureThrownCompletion from "../completions/capture-thrown-completion.js";
-import rethrowCompletion from "../completions/rethrow-completion.js";
+import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";
+import { rethrowCompletion } from "../completions/rethrow-completion.js";
 
 import labeledStatementEvaluation from "./LabelledStatementEvaluation.js";
 

@@ -9,9 +9,9 @@ import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
-import StaticJsEnvironmentRecordBase from "./StaticJsEnvironmentRecordBase.js";
+import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
 
-export default class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBase {
+export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   constructor(
     private readonly _obj: StaticJsObjectLike,
     private readonly _isWithEnvironment: boolean,

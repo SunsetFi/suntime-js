@@ -5,7 +5,7 @@ import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { isStaticJsNull } from "../../../runtime/types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../runtime/types/StaticJsUndefined.js";
 
-import StaticJsDeclarativeEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import toObject from "../../../runtime/algorithms/to-object.js";
 import enumerateObjectProperties from "../../../runtime/algorithms/enumerate-object-properties.js";
@@ -20,7 +20,7 @@ import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
 
 import { Completion } from "../../completions/Completion.js";
-import Q from "../../completions/Q.js";
+import { Q } from "../../completions/Q.js";
 
 export default function* forInOfHeadEvaluation(
   uninitializedBoundNames: string[],

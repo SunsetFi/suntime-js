@@ -9,16 +9,14 @@ import { Completion } from "./Completion.js";
 import type { CompletionEvaluator } from "./CompletionEvaluator.js";
 import type { CompletionValue } from "./CompletionValue.js";
 
-import captureThrownCompletion from "./capture-thrown-completion.js";
-import nameCompletionLike from "./name-completion-like.js";
+import { captureThrownCompletion } from "./capture-thrown-completion.js";
+import { nameCompletionLike } from "./name-completion-like.js";
 
-export default function Q<T>(
+export function Q<T>(
   evaluator: CompletionEvaluator<T>,
 ): EvaluationGenerator<Exclude<T, Completion.Abrupt>>;
-export default function Q(
-  evaluator: CompletionEvaluator<Completion>,
-): EvaluationGenerator<CompletionValue>;
-export default function* Q(evaluator: CompletionEvaluator): EvaluationGenerator {
+export function Q(evaluator: CompletionEvaluator<Completion>): EvaluationGenerator<CompletionValue>;
+export function* Q(evaluator: CompletionEvaluator): EvaluationGenerator {
   const completion = yield* captureThrownCompletion(evaluator);
 
   if (Completion.Abrupt.is(completion)) {

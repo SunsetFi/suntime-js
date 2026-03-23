@@ -1,6 +1,6 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import Q from "../../../../evaluator/completions/Q.js";
-import captureThrownCompletion from "../../../../evaluator/completions/capture-thrown-completion.js";
+import { Q } from "../../../../evaluator/completions/Q.js";
+import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 
 import isConstructor from "../../../algorithms/is-constructor.js";
 import toObject from "../../../algorithms/to-object.js";

@@ -16,25 +16,25 @@ import { StaticJsSynchronousTaskIncompleteError } from "../../../errors/StaticJs
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsConcurrentEvaluationError } from "../../../errors/StaticJsConcurrentEvaluationError.js";
 
-import StaticJsDeclarativeEnvironmentRecord from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 
-import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
+import { AsyncEvaluatorInvocation } from "../../../evaluator/AsyncEvaluatorInvocation.js";
 import { invokeEvaluator, type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
-import Q from "../../../evaluator/completions/Q.js";
+import { Q } from "../../../evaluator/completions/Q.js";
 
 import globalDeclarationInstantiation from "../../../evaluator/instantiation/global-declaration-instantiation.js";
 
 import { StaticJsScriptRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptRecord.js";
 
-import StaticJsGlobalEnvironmentRecord from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
-import StaticJsObjectEnvironmentRecord from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
+import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+import { StaticJsObjectEnvironmentRecord } from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
 
 import { createPrototypes, instantiatePrototypes } from "../../intrinsics/create-prototypes.js";
 import { createConstructors } from "../../intrinsics/create-constructors.js";

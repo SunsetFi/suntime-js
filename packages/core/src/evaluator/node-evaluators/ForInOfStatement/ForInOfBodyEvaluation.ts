@@ -8,7 +8,7 @@ import type {
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 
-import StaticJsDeclarativeEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import getIdentifierReference from "../../../runtime/references/get-identifier-reference.js";
 
@@ -31,11 +31,11 @@ import destructuringAssignmentEvaluation from "../../bindings/destructuring-assi
 import initializeReferencedBinding from "../../bindings/initialize-referenced-binding.js";
 
 import { Completion } from "../../completions/Completion.js";
-import rethrowCompletion from "../../completions/rethrow-completion.js";
+import { rethrowCompletion } from "../../completions/rethrow-completion.js";
 
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { AwaitCommand } from "../../commands/AwaitCommand.js";
-import Q from "../../completions/Q.js";
+import { Q } from "../../completions/Q.js";
 
 import { EvaluationContext } from "../../EvaluationContext.js";
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";

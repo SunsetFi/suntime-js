@@ -6,7 +6,7 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
-import Q from "../../../evaluator/completions/Q.js";
+import { Q } from "../../../evaluator/completions/Q.js";
 import { ReturnCompletion } from "../../../evaluator/completions/completion-types/ReturnCompletion.js";
 import { ThrowCompletion } from "../../../evaluator/completions/completion-types/ThrowCompletion.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";

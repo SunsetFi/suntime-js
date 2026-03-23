@@ -20,12 +20,12 @@ import type { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
 
 import { Completion } from "./completions/Completion.js";
 import type { CompletionValue } from "./completions/CompletionValue.js";
-import Q from "./completions/Q.js";
+import { Q } from "./completions/Q.js";
 
 import type { EvaluationGenerator } from "./EvaluationGenerator.js";
 import { EvaluationContext } from "./EvaluationContext.js";
 
-export default class AsyncEvaluatorInvocation {
+export class AsyncEvaluatorInvocation {
   private _capability!: StaticJsPromiseCapabilityRecord;
   private _state: "pending" | "started" | "running" | "awaiting" | "halted" = "pending";
 

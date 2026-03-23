@@ -11,9 +11,9 @@ import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
-import StaticJsEnvironmentRecordBase from "./StaticJsEnvironmentRecordBase.js";
+import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
 
-export default class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRecordBase {
+export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   static from(context: EvaluationContext) {
     return new StaticJsDeclarativeEnvironmentRecord(context.lexicalEnv, context.realm);
   }

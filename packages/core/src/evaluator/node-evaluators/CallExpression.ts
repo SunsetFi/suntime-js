@@ -14,14 +14,14 @@ import iteratorClose from "../../runtime/iterators/iterator-close.js";
 
 import toString from "../../runtime/algorithms/to-string.js";
 
-import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import { isPropertyReference } from "../../runtime/references/is-property-reference.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../completions/Completion.js";
-import Q from "../completions/Q.js";
+import { Q } from "../completions/Q.js";
 
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";

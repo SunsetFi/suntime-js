@@ -8,9 +8,9 @@ import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
-import StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "./StaticJsDeclarativeEnvironmentRecord.js";
 
-export default class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnvironmentRecord {
+export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnvironmentRecord {
   private _thisBindingStatus: "lexical" | "initialized" | "uninitialized";
   private _thisValue: StaticJsValue | null;
 

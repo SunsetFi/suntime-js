@@ -2,12 +2,12 @@ import type { BlockStatement, Expression } from "@babel/types";
 
 import functionDeclarationInstantiation from "../../../evaluator/instantiation/function-declaration-instantiation.js";
 
-import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
+import { AsyncEvaluatorInvocation } from "../../../evaluator/AsyncEvaluatorInvocation.js";
 
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
-import Q from "../../../evaluator/completions/Q.js";
+import { Q } from "../../../evaluator/completions/Q.js";
 import { ThrowCompletion } from "../../../evaluator/completions/completion-types/ThrowCompletion.js";
 import { ReturnCompletion } from "../../../evaluator/completions/completion-types/ReturnCompletion.js";
 

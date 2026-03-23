@@ -7,11 +7,11 @@ import functionDeclarationInstantiation from "../../../evaluator/instantiation/f
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
-import Q from "../../../evaluator/completions/Q.js";
+import { Q } from "../../../evaluator/completions/Q.js";
 import { ThrowCompletion } from "../../../evaluator/completions/completion-types/ThrowCompletion.js";
 import { ReturnCompletion } from "../../../evaluator/completions/completion-types/ReturnCompletion.js";
 
-import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
+import { AsyncEvaluatorInvocation } from "../../../evaluator/AsyncEvaluatorInvocation.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 

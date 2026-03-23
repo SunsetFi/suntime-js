@@ -4,11 +4,11 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
-import type StaticJsDeclarativeEnvironmentRecord from "./StaticJsDeclarativeEnvironmentRecord.js";
-import StaticJsEnvironmentRecordBase from "./StaticJsEnvironmentRecordBase.js";
-import type StaticJsObjectEnvironmentRecord from "./StaticJsObjectEnvironmentRecord.js";
+import type { StaticJsDeclarativeEnvironmentRecord } from "./StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
+import type { StaticJsObjectEnvironmentRecord } from "./StaticJsObjectEnvironmentRecord.js";
 
-export default class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironmentRecordBase {
+export class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   constructor(
     private readonly _globalThis: StaticJsValue,
     private readonly _declarativeRecord: StaticJsDeclarativeEnvironmentRecord,

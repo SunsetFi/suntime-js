@@ -14,14 +14,14 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
-import Q from "../../../evaluator/completions/Q.js";
+import { Q } from "../../../evaluator/completions/Q.js";
 
 import { StaticJsModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
-import AsyncEvaluatorInvocation from "../../../evaluator/AsyncEvaluatorInvocation.js";
+import { AsyncEvaluatorInvocation } from "../../../evaluator/AsyncEvaluatorInvocation.js";
 import createFunction from "../../../evaluator/node-evaluators/Function.js";
 
-import StaticJsModuleEnvironmentRecord from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
-import StaticJsDeclarativeEnvironmentRecord from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsModuleEnvironmentRecord } from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 

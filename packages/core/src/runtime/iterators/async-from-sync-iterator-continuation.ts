@@ -1,7 +1,7 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
-import Q from "../../evaluator/completions/Q.js";
+import { Q } from "../../evaluator/completions/Q.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 

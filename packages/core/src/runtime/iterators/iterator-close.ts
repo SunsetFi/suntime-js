@@ -8,7 +8,7 @@ import call from "../algorithms/call.js";
 import getMethod from "../algorithms/get-method.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
-import rethrowCompletion from "../../evaluator/completions/rethrow-completion.js";
+import { rethrowCompletion } from "../../evaluator/completions/rethrow-completion.js";
 
 export default function iteratorClose(
   iteratorRecord: StaticJsIteratorRecord,

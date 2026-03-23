@@ -1,4 +1,4 @@
-import type StaticJsGlobalEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+import type { StaticJsGlobalEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 
 import { EvaluationContext } from "../../EvaluationContext.js";
 

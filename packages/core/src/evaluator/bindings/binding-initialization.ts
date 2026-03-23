@@ -26,7 +26,7 @@ import getIterator from "../../runtime/iterators/get-iterator.js";
 import copyDataProperties from "../../runtime/algorithms/copy-data-properties.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import Q from "../completions/Q.js";
+import { Q } from "../completions/Q.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import { EvaluationContext } from "../EvaluationContext.js";

@@ -1,6 +1,6 @@
 import { Completion } from "./Completion.js";
 
-export default function rethrowCompletion(completion: Completion): Completion.Normal {
+export function rethrowCompletion(completion: Completion): Completion.Normal {
   if (Completion.Abrupt.is(completion)) {
     throw completion;
   }

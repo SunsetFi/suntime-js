@@ -4,7 +4,7 @@ import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import Q from "../completions/Q.js";
+import { Q } from "../completions/Q.js";
 
 import { Completion } from "../completions/Completion.js";
 

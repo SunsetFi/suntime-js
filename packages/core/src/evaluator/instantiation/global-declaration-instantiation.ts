@@ -1,6 +1,6 @@
 import { type Node, isVariableDeclaration } from "@babel/types";
 
-import StaticJsGlobalEnvironmentRecord from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+import { StaticJsGlobalEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 
 import { EvaluationContext } from "../EvaluationContext.js";
 

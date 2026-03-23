@@ -1,6 +1,6 @@
 import type { WithStatement } from "@babel/types";
 
-import StaticJsObjectEnvironmentRecord from "../../runtime/environments/implementation/StaticJsObjectEnvironmentRecord.js";
+import { StaticJsObjectEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsObjectEnvironmentRecord.js";
 
 import toObject from "../../runtime/algorithms/to-object.js";
 
@@ -9,8 +9,8 @@ import { Completion } from "../completions/Completion.js";
 
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import Q from "../completions/Q.js";
-import captureThrownCompletion from "../completions/capture-thrown-completion.js";
+import { Q } from "../completions/Q.js";
+import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";
 
 export default function* withStatementNodeEvaluator(node: WithStatement): EvaluationGenerator {
   const context = EvaluationContext.current;

@@ -2,7 +2,7 @@ import type { LabeledStatement } from "@babel/types";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
-import Q from "../completions/Q.js";
+import { Q } from "../completions/Q.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import { EvaluationContext } from "../EvaluationContext.js";

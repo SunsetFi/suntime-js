@@ -9,13 +9,13 @@ import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
 
-import StaticJsEnvironmentRecordBase from "./StaticJsEnvironmentRecordBase.js";
+import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
 
 interface ModuleBinding {
   module: StaticJsModuleImplementation;
   bindingName: string;
 }
-export default class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBase {
+export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   private readonly _moduleBindings = new Map<string, ModuleBinding>();
 
   constructor(private readonly _realm: StaticJsRealm) {

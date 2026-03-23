@@ -8,7 +8,7 @@ import { type StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
 import { EvaluationContext } from "../../EvaluationContext.js";
 
-import nameCompletionLike from "../name-completion-like.js";
+import { nameCompletionLike } from "../name-completion-like.js";
 
 export interface ThrowCompletion {
   readonly type: "throw";

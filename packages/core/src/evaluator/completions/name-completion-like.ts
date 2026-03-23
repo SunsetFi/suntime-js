@@ -1,4 +1,4 @@
-export default function nameCompletionLike(value: unknown): string {
+export function nameCompletionLike(value: unknown): string {
   if (value instanceof Error) {
     return value.name;
   }

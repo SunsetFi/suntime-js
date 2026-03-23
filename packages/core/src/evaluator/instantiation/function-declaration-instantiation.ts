@@ -8,7 +8,7 @@ import type { StaticJsFunctionFactory } from "../../runtime/types/implementation
 import type { StaticJsAstFunctionArgument } from "../../runtime/types/implementation/StaticJsAstFunctionArgument.js";
 
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
-import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import createListIteratorRecord from "../../runtime/iterators/create-list-iterator-record.js";
 

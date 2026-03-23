@@ -1,7 +1,7 @@
 import type { AwaitExpression } from "@babel/types";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import Q from "../completions/Q.js";
+import { Q } from "../completions/Q.js";
 import { AwaitCommand } from "../commands/AwaitCommand.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";

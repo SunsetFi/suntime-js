@@ -1,7 +1,7 @@
 import type { ThrowStatement } from "@babel/types";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import Q from "../completions/Q.js";
+import { Q } from "../completions/Q.js";
 
 import { Completion } from "../completions/Completion.js";
 

@@ -1,8 +1,8 @@
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
-import captureThrownCompletion from "../../../../evaluator/completions/capture-thrown-completion.js";
+import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import Q from "../../../../evaluator/completions/Q.js";
+import { Q } from "../../../../evaluator/completions/Q.js";
 import toBoolean from "../../../algorithms/to-boolean.js";
 import getIteratorDirect from "../../../iterators/get-iterator-direct.js";
 

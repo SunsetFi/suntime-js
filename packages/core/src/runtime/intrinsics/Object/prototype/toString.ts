@@ -1,5 +1,5 @@
-import Q from "../../../../evaluator/completions/Q.js";
-import X from "../../../../evaluator/completions/X.js";
+import { Q } from "../../../../evaluator/completions/Q.js";
+import { X } from "../../../../evaluator/completions/X.js";
 
 import toObject from "../../../algorithms/to-object.js";
 

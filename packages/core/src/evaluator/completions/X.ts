@@ -6,12 +6,10 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { Completion } from "./Completion.js";
 import type { CompletionEvaluator } from "./CompletionEvaluator.js";
-import captureThrownCompletion from "./capture-thrown-completion.js";
-import nameCompletionLike from "./name-completion-like.js";
+import { captureThrownCompletion } from "./capture-thrown-completion.js";
+import { nameCompletionLike } from "./name-completion-like.js";
 
-export default function* X<T = Completion.Normal>(
-  value: CompletionEvaluator<T>,
-): EvaluationGenerator<T> {
+export function* X<T = Completion.Normal>(value: CompletionEvaluator<T>): EvaluationGenerator<T> {
   const completion = yield* captureThrownCompletion<T>(value);
 
   if (!Completion.Normal.is(completion)) {

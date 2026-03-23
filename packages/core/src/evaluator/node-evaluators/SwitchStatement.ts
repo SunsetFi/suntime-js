@@ -2,12 +2,12 @@ import type { SwitchCase, SwitchStatement } from "@babel/types";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
-import StaticJsDeclarativeEnvironmentRecord from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import isStrictlyEqual from "../../runtime/algorithms/is-structly-equal.js";
 
 import { Completion } from "../completions/Completion.js";
-import Q from "../completions/Q.js";
+import { Q } from "../completions/Q.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
@@ -19,7 +19,7 @@ import blockDeclarationInstantiation from "../instantiation/block-declaration-in
 import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 
 import evaluateStatementList from "./StatementList.js";
-import captureThrownCompletion from "../completions/capture-thrown-completion.js";
+import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";
 
 const switchStatementNodeEvaluator = breakableStatementEvaluation(
   function* switchStatementNodeEvaluator(statement: SwitchStatement): EvaluationGenerator {

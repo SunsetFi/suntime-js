@@ -11,13 +11,13 @@ import type { StaticJsScriptOrModuleRecord } from "../../../evaluator/ScriptOrMo
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
-import captureThrownCompletion from "../../../evaluator/completions/capture-thrown-completion.js";
-import Q from "../../../evaluator/completions/Q.js";
+import { captureThrownCompletion } from "../../../evaluator/completions/capture-thrown-completion.js";
+import { Q } from "../../../evaluator/completions/Q.js";
 import { ReturnCompletion } from "../../../evaluator/completions/completion-types/ReturnCompletion.js";
 import { ThrowCompletion } from "../../../evaluator/completions/completion-types/ThrowCompletion.js";
 
 import type { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
-import StaticJsFunctionEnvironmentRecord from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
+import { StaticJsFunctionEnvironmentRecord } from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 

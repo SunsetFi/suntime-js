@@ -11,7 +11,7 @@ import { ReturnCompletion } from "./completion-types/ReturnCompletion.js";
 import { ThrowCompletion } from "./completion-types/ThrowCompletion.js";
 import { nameCompletionValue, type CompletionValue } from "./CompletionValue.js";
 
-import nameCompletionLike from "./name-completion-like.js";
+import { nameCompletionLike } from "./name-completion-like.js";
 
 export type Completion =
   | BreakCompletion
