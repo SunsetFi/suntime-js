@@ -6,7 +6,7 @@ import {
   isObjectProperty,
 } from "@babel/types";
 
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
 

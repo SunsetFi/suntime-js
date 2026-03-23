@@ -8,7 +8,7 @@ import {
   isObjectProperty,
 } from "@babel/types";
 
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 

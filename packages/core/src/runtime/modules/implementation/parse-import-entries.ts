@@ -1,6 +1,6 @@
 import { isIdentifier, isImportDeclaration, type Program } from "@babel/types";
 
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 
 import { NamespaceImportName, type StaticJsImportEntry } from "./StaticJsImportEntry.js";
 

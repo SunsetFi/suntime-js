@@ -1,6 +1,6 @@
 import type { ForInStatement, LVal, VariableDeclaration } from "@babel/types";
 
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import boundNames from "../instantiation/algorithms/bound-names.js";
 

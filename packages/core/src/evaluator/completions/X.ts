@@ -1,4 +1,4 @@
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
 

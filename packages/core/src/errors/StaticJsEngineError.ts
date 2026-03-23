@@ -1,4 +1,4 @@
-export default class StaticJsEngineError extends Error {
+export class StaticJsEngineError extends Error {
   constructor(message: string) {
     super(message);
     this.name = "StaticJsEngineError";

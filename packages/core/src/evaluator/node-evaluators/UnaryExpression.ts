@@ -1,5 +1,5 @@
 import type { UnaryExpression } from "@babel/types";
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import toPropertyKey from "../../runtime/utils/to-property-key.js";
 

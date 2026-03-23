@@ -1,4 +1,4 @@
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 

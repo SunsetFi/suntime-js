@@ -1,6 +1,11 @@
 import { it, expect } from "vitest";
 
-import { createTimeBoundTaskRunner, StaticJsRealm } from "../../src/index.js";
+import {
+  createTimeBoundTaskRunner,
+  StaticJsRealm,
+  StaticJsUnhandledRejectionError,
+  StaticJsRuntimeError,
+} from "../../src/index.js";
 
 import withResolvers from "./utils/with-resolvers.js";
 import delay from "./utils/delay.js";
@@ -11,8 +16,6 @@ import addTestHarness from "./add-test-harness.js";
 import createHostApi from "./host-api.js";
 
 import { ScriptTimeout, TestTimeout } from "./timeouts.js";
-import StaticJsUnhandledRejectionError from "../../src/errors/StaticJsUnhandledRejectionError.js";
-import StaticJsRuntimeError from "../../src/errors/StaticJsRuntimeError.js";
 
 export default function defineTest(testName: string, test: Test262File) {
   if (test.negative?.type === "resolution") {
@@ -78,16 +81,21 @@ export default function defineTest(testName: string, test: Test262File) {
           throw new Error("Test should have failed to run, but it did not.");
         }
       } catch (e) {
-        if (e instanceof Error == false) {
+        if (e instanceof Error === false) {
           throw e;
         }
 
         if (e instanceof StaticJsRuntimeError) {
+          // oxlint-disable-next-line no-ex-assign
           e = e.thrown.toJsSync();
         }
 
         if (test.negative?.phase === "runtime") {
-          expect(e.name).toBe(test.negative.type);
+          expect(e).toEqual(
+            expect.objectContaining({
+              name: test.negative.type,
+            }),
+          );
           return;
         }
 

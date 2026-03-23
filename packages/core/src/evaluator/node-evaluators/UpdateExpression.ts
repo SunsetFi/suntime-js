@@ -1,6 +1,6 @@
 import type { UpdateExpression } from "@babel/types";
 
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import toNumber from "../../runtime/algorithms/to-number.js";
 

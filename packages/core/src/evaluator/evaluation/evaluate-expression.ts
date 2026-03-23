@@ -5,8 +5,8 @@ import { isStaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
-import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
-import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
+import { StaticJsRuntimeError } from "../../errors/StaticJsRuntimeError.js";
+import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
 
 import type { EvaluationOptions } from "./options.js";
 

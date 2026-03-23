@@ -5,8 +5,8 @@ import {
 
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-import StaticJsUnhandledRejectionError from "../../../errors/StaticJsUnhandledRejectionError.js";
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { StaticJsUnhandledRejectionError } from "../../../errors/StaticJsUnhandledRejectionError.js";
 
 import { type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 

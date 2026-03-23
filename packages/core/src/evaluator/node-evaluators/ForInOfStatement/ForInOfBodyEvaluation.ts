@@ -6,7 +6,7 @@ import type {
   VariableDeclaration,
 } from "@babel/types";
 
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 

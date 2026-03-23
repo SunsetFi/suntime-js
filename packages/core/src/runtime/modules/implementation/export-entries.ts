@@ -1,6 +1,6 @@
 import type { Identifier, Node, StringLiteral } from "@babel/types";
 
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 
 import isAssignmentGrammar from "../../../grammar/is-assignment-grammar.js";
 

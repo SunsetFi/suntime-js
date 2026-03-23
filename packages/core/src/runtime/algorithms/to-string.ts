@@ -1,9 +1,9 @@
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
-import StaticJsRuntimeError from "../../errors/StaticJsRuntimeError.js";
+import { StaticJsRuntimeError } from "../../errors/StaticJsRuntimeError.js";
 
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";

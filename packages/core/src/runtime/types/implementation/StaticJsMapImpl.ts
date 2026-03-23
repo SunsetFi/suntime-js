@@ -1,4 +1,4 @@
-import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
+import { StaticJsRuntimeError } from "../../../errors/StaticJsRuntimeError.js";
 
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 

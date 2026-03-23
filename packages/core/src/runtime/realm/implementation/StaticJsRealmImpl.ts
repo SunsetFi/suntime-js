@@ -9,12 +9,12 @@ import findTopLevelAwait from "../../../parser/has-top-level-await.js";
 
 import hasOwnProperty from "../../../internal/has-own-property.js";
 
-import StaticJsSyntaxError from "../../../errors/StaticJsSyntaxError.js";
-import StaticJsUnhandledRejectionError from "../../../errors/StaticJsUnhandledRejectionError.js";
-import StaticJsSynchronousTaskIncompleteError from "../../../errors/StaticJsSynchronousTaskIncompleteError.js";
+import { StaticJsSyntaxError } from "../../../errors/StaticJsSyntaxError.js";
+import { StaticJsUnhandledRejectionError } from "../../../errors/StaticJsUnhandledRejectionError.js";
+import { StaticJsSynchronousTaskIncompleteError } from "../../../errors/StaticJsSynchronousTaskIncompleteError.js";
 
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-import StaticJsConcurrentEvaluationError from "../../../errors/StaticJsConcurrentEvaluationError.js";
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { StaticJsConcurrentEvaluationError } from "../../../errors/StaticJsConcurrentEvaluationError.js";
 
 import StaticJsDeclarativeEnvironmentRecord from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 

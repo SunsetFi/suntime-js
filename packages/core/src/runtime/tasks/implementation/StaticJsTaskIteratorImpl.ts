@@ -1,6 +1,6 @@
 import type { Node } from "@babel/types";
 
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 
 import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
 import { invokeEvaluator, StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
@@ -13,7 +13,7 @@ import { StaticJsTaskIteratorOperation } from "../StaticJsTaskIteratorOperation.
 import { StaticJsTaskIteratorStackFrame } from "../StaticJsTaskIteratorStackFrame.js";
 import { StaticJsTaskType } from "../StaticJsTaskType.js";
 import { StaticJsTaskSourceLocation } from "../StaticJsTaskSourceLocation.js";
-import StaticJsTaskAbortedError from "../../../errors/StaticJsTaskAbortedError.js";
+import { StaticJsTaskAbortedError } from "../../../errors/StaticJsTaskAbortedError.js";
 
 interface TaskIteratorFrame {
   currentNode: Node | null;

@@ -1,6 +1,6 @@
 import type { BinaryExpression } from "@babel/types";
 
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
 

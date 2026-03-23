@@ -2,8 +2,8 @@ import { isIdentifier, type Node, type CallExpression } from "@babel/types";
 
 import parseScript from "../../parser/parse-script.js";
 
-import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 import { isStaticJsValue, type StaticJsValue } from "../../runtime/types/StaticJsValue.js";

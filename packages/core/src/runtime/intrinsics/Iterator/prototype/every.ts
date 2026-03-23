@@ -1,4 +1,4 @@
-import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import captureThrownCompletion from "../../../../evaluator/completions/capture-thrown-completion.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";

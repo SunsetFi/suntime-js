@@ -17,7 +17,7 @@ import promiseCtorResolveDeclaration from "./resolve.js";
 import promiseConstructorSymbolSpeciesDeclaration from "./symbol_species.js";
 import captureThrownCompletion from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { isStaticJsValue } from "../../../types/StaticJsValue.js";
-import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   promiseCtorRejectDeclaration,

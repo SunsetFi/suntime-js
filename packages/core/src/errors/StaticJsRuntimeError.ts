@@ -1,7 +1,7 @@
 import { isStaticJsObjectLike } from "../runtime/types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
 
-export default class StaticJsRuntimeError extends Error {
+export class StaticJsRuntimeError extends Error {
   private _message: string | null = null;
   constructor(
     private readonly _thrown: StaticJsValue,

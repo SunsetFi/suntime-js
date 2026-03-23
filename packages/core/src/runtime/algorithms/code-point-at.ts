@@ -1,4 +1,4 @@
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 export interface CodePointRecord {
   codePoint: number;

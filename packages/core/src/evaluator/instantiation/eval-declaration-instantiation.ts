@@ -13,7 +13,7 @@ import varDeclaredNames from "./algorithms/var-declared-names.js";
 import varScopedDeclarations from "./algorithms/var-scoped-declarations.js";
 import hasLexicalDeclaration from "./algorithms/has-lexical-declaration.js";
 import StaticJsObjectEnvironmentRecord from "../../runtime/environments/implementation/StaticJsObjectEnvironmentRecord.js";
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import boundNames from "./algorithms/bound-names.js";
 import canDeclareGlobalVar from "./algorithms/can-declare-global-var.js";
 import canDeclareGlobalFunction from "./algorithms/can-declare-global-function.js";

@@ -1,6 +1,6 @@
 import type { LogicalExpression } from "@babel/types";
 
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import { StaticJsTypeCode } from "../../runtime/types/StaticJsTypeCode.js";
 import toBoolean from "../../runtime/algorithms/to-boolean.js";

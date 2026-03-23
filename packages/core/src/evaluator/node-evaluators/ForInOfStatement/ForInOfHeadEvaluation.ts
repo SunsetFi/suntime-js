@@ -1,6 +1,6 @@
 import type { Expression } from "@babel/types";
 
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 
 import { isStaticJsNull } from "../../../runtime/types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../runtime/types/StaticJsUndefined.js";

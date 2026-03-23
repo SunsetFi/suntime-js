@@ -1,6 +1,6 @@
 import type { ParseError } from "@babel/parser";
 
-import StaticJsSyntaxError from "../errors/StaticJsSyntaxError.js";
+import { StaticJsSyntaxError } from "../errors/StaticJsSyntaxError.js";
 
 export default function handleParseError(e: unknown, contextMessage = "Failed to parse"): never {
   if (!isParseError(e)) {

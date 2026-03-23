@@ -1,6 +1,6 @@
 import type { File } from "@babel/types";
 
-import StaticJsSyntaxError from "../../errors/StaticJsSyntaxError.js";
+import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
 
 import parseScript from "../../parser/parse-script.js";
 

@@ -1,7 +1,7 @@
-export { default as StaticJsConcurrentEvaluationError } from "./StaticJsConcurrentEvaluationError.js";
-export { default as StaticJsEngineError } from "./StaticJsEngineError.js";
-export { default as StaticJsSyntaxError } from "./StaticJsSyntaxError.js";
-export { default as StaticJsRuntimeError } from "./StaticJsRuntimeError.js";
-export { default as StaticJsSynchronousTaskIncompleteError } from "./StaticJsSynchronousTaskIncompleteError.js";
-export { default as StaticJsTaskAbortedError } from "./StaticJsTaskAbortedError.js";
-export { default as StaticJsUnhandledRejectionError } from "./StaticJsUnhandledRejectionError.js";
+export * from "./StaticJsConcurrentEvaluationError.js";
+export * from "./StaticJsEngineError.js";
+export * from "./StaticJsSyntaxError.js";
+export * from "./StaticJsRuntimeError.js";
+export * from "./StaticJsSynchronousTaskIncompleteError.js";
+export * from "./StaticJsTaskAbortedError.js";
+export * from "./StaticJsUnhandledRejectionError.js";

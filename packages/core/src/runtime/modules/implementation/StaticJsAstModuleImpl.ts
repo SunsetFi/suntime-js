@@ -2,8 +2,8 @@ import type { Program } from "@babel/types";
 
 import { createDeferred } from "../../../utils/create-deferred.js";
 
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { StaticJsRuntimeError } from "../../../errors/StaticJsRuntimeError.js";
 
 import varScopedDeclarations from "../../../evaluator/instantiation/algorithms/var-scoped-declarations.js";
 import boundNames from "../../../evaluator/instantiation/algorithms/bound-names.js";

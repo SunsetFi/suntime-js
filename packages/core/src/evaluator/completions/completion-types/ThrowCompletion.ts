@@ -1,5 +1,5 @@
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
-import StaticJsRuntimeError from "../../../errors/StaticJsRuntimeError.js";
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { StaticJsRuntimeError } from "../../../errors/StaticJsRuntimeError.js";
 
 import { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
 

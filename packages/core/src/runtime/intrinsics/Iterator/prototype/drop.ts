@@ -19,7 +19,7 @@ import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIterator
 import iteratorStepValue from "../../../iterators/iterator-step-value.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-import StaticJsEngineError from "../../../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 
 const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
   key: "drop",

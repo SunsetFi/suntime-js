@@ -1,6 +1,6 @@
 import type { VariableDeclaration, VariableDeclarator } from "@babel/types";
 
-import StaticJsEngineError from "../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import { StaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
 

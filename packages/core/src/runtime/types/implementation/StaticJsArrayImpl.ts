@@ -7,7 +7,7 @@ import { Completion } from "../../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 
 import toNumber from "../../algorithms/to-number.js";
 import toUInt32 from "../../algorithms/to-uint-32.js";

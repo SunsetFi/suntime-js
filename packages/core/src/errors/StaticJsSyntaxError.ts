@@ -4,7 +4,7 @@ export interface SyntaxErrorLocation {
   index: number;
 }
 
-export default class StaticJsSyntaxError extends Error {
+export class StaticJsSyntaxError extends Error {
   constructor(
     message: string,
     private _loc: SyntaxErrorLocation | null,

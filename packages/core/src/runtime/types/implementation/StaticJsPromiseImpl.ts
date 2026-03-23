@@ -16,7 +16,7 @@ import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 import captureThrownCompletion from "../../../evaluator/completions/capture-thrown-completion.js";
 import Q from "../../../evaluator/completions/Q.js";
-import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 
 interface ReactionRecord {
   capability: StaticJsPromiseCapabilityRecord | null;
