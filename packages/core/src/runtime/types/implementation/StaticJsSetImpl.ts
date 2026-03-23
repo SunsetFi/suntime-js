@@ -23,13 +23,13 @@ import type { StaticJsSet } from "../StaticJsSet.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import type { StaticJsIterator, StaticJsIteratorResult } from "../StaticJsIterator.js";
 
-import StaticJsIteratorImpl from "./StaticJsIteratorImpl.js";
-import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
-import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
+import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
+import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
+import { StaticJsFunctionImpl } from "./StaticJsFunctionImpl.js";
 
 // TODO: Take shortcuts for difference and friends if otherSet is also a StaticJsSetImpl
 
-export default class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsSet {
+export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsSet {
   private _backingStore = new Set<unknown>();
 
   constructor(realm: StaticJsRealm) {

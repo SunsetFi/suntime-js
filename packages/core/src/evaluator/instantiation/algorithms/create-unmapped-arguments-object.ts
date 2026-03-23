@@ -4,7 +4,7 @@ import definePropertyOrThrow from "../../../runtime/algorithms/define-property-o
 import type { StaticJsObjectLike } from "../../../runtime/types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
-import StaticJsFunctionImpl from "../../../runtime/types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "../../../runtime/types/implementation/StaticJsFunctionImpl.js";
 
 import { Completion } from "../../completions/Completion.js";
 

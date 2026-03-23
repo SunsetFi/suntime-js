@@ -20,9 +20,9 @@ import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import { isStaticJsObjectLike } from "../StaticJsObjectLike.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 
-import StaticJsStringImpl from "./StaticJsStringImpl.js";
-import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
-import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import { StaticJsStringImpl } from "./StaticJsStringImpl.js";
+import { StaticJsNumberImpl } from "./StaticJsNumberImpl.js";
+import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
 import { StaticJsObjectProxyTarget } from "./create-object-proxy.js";
 
 export interface StaticJsFunctionImplOptions {
@@ -31,10 +31,7 @@ export interface StaticJsFunctionImplOptions {
   construct?: boolean | ((thisArg: StaticJsValue, ...args: StaticJsValue[]) => EvaluationGenerator);
 }
 
-export default class StaticJsFunctionImpl
-  extends StaticJsObjectLikeImpl
-  implements StaticJsFunction
-{
+export class StaticJsFunctionImpl extends StaticJsObjectLikeImpl implements StaticJsFunction {
   private _construct:
     | ((newTarget: StaticJsValue, ...args: StaticJsValue[]) => EvaluationGenerator)
     | null;

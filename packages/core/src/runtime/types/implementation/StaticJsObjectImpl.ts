@@ -4,9 +4,9 @@ import type { StaticJsNull } from "../StaticJsNull.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 
-import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
 
-export default class StaticJsObjectImpl extends StaticJsObjectLikeImpl {
+export class StaticJsObjectImpl extends StaticJsObjectLikeImpl {
   constructor(realm: StaticJsRealm, prototype: StaticJsObjectLike | StaticJsNull | null = null) {
     super(realm, prototype);
   }

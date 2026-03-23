@@ -1,8 +1,8 @@
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import StaticJsObjectImpl from "./StaticJsObjectImpl.js";
+import { StaticJsObjectImpl } from "./StaticJsObjectImpl.js";
 
-export default class StaticJsNumberBoxed extends StaticJsObjectImpl {
+export class StaticJsNumberBoxed extends StaticJsObjectImpl {
   constructor(
     realm: StaticJsRealm,
     private readonly _value: number,

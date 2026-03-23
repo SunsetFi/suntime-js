@@ -22,13 +22,13 @@ import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
-import StaticJsAstFunction, { StaticJsAstFunctionOptions } from "./StaticJsAstFunction.js";
+import { StaticJsAstFunction, StaticJsAstFunctionOptions } from "./StaticJsAstFunction.js";
 
 export type StaticJsAsyncArrowFunctionOptions = Omit<
   StaticJsAstFunctionOptions,
   "thisMode" | "construct"
 >;
-export default class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
+export class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
     name: string | null,

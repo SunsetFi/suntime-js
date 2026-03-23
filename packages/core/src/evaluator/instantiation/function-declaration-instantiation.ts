@@ -3,7 +3,7 @@ import { isIdentifier, type FunctionDeclaration, type Node } from "@babel/types"
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import type { StaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
 
-import type StaticJsAstFunction from "../../runtime/types/implementation/StaticJsAstFunction.js";
+import type { StaticJsAstFunction } from "../../runtime/types/implementation/StaticJsAstFunction.js";
 import type { StaticJsFunctionFactory } from "../../runtime/types/implementation/StaticJsFunctionFactory.js";
 import type { StaticJsAstFunctionArgument } from "../../runtime/types/implementation/StaticJsAstFunctionArgument.js";
 

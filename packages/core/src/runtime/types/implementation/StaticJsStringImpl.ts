@@ -3,12 +3,9 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsString } from "../StaticJsString.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 
-import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
+import { StaticJsAbstractPrimitive } from "./StaticJsAbstractPrimitive.js";
 
-export default class StaticJsStringImpl
-  extends StaticJsAbstractPrimitive
-  implements StaticJsString
-{
+export class StaticJsStringImpl extends StaticJsAbstractPrimitive implements StaticJsString {
   private readonly _value: string;
 
   constructor(realm: StaticJsRealm, value: string) {

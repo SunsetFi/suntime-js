@@ -6,7 +6,7 @@ import type { StaticJsObjectLike, StaticJsPropertyKey } from "../types/StaticJsO
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
-import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "../types/implementation/StaticJsFunctionImpl.js";
 
 export interface IntrinsicPropertyDeclarationBase {
   key: StaticJsPropertyKey | ((realm: StaticJsRealm) => StaticJsPropertyKey);

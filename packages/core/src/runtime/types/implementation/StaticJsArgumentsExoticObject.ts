@@ -12,9 +12,9 @@ import {
   type StaticJsPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
 
-import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
 
-export default class StaticJsArgumentsExoticObject extends StaticJsObjectLikeImpl {
+export class StaticJsArgumentsExoticObject extends StaticJsObjectLikeImpl {
   constructor(
     private readonly _parameterMap: StaticJsObjectLike,
     realm: StaticJsRealm,

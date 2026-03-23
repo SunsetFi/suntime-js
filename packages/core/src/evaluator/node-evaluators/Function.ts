@@ -4,17 +4,17 @@ import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 
-import StaticJsDeclFunction from "../../runtime/types/implementation/StaticJsDeclFunction.js";
-import StaticJsAsyncDeclFunction from "../../runtime/types/implementation/StaticJsAsyncDeclFunction.js";
+import { StaticJsDeclFunction } from "../../runtime/types/implementation/StaticJsDeclFunction.js";
+import { StaticJsAsyncDeclFunction } from "../../runtime/types/implementation/StaticJsAsyncDeclFunction.js";
 import {
   isStaticJsAstFunctionArgumentDeclaration,
   type StaticJsAstFunctionArgument,
 } from "../../runtime/types/implementation/StaticJsAstFunctionArgument.js";
-import StaticJsAsyncArrowFunction from "../../runtime/types/implementation/StaticJsAsyncArrowFunction.js";
-import StaticJsArrowFunction from "../../runtime/types/implementation/StaticJsArrowFunction.js";
-import StaticJsAsyncMethodFunction from "../../runtime/types/implementation/StaticJsAsyncMethodFunction.js";
-import StaticJsMethodFunction from "../../runtime/types/implementation/StaticJsMethodFunction.js";
-import StaticJsGeneratorDeclFunction from "../../runtime/types/implementation/StaticJsGeneratorDeclFunction.js";
+import { StaticJsAsyncArrowFunction } from "../../runtime/types/implementation/StaticJsAsyncArrowFunction.js";
+import { StaticJsArrowFunction } from "../../runtime/types/implementation/StaticJsArrowFunction.js";
+import { StaticJsAsyncMethodFunction } from "../../runtime/types/implementation/StaticJsAsyncMethodFunction.js";
+import { StaticJsMethodFunction } from "../../runtime/types/implementation/StaticJsMethodFunction.js";
+import { StaticJsGeneratorDeclFunction } from "../../runtime/types/implementation/StaticJsGeneratorDeclFunction.js";
 
 import { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 

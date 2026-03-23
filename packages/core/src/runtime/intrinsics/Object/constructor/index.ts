@@ -2,7 +2,7 @@ import toObject from "../../../algorithms/to-object.js";
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "../../../types/implementation/StaticJsFunctionImpl.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";

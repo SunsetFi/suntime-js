@@ -3,12 +3,9 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsBoolean } from "../StaticJsBoolean.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 
-import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
+import { StaticJsAbstractPrimitive } from "./StaticJsAbstractPrimitive.js";
 
-export default class StaticJsBooleanImpl
-  extends StaticJsAbstractPrimitive
-  implements StaticJsBoolean
-{
+export class StaticJsBooleanImpl extends StaticJsAbstractPrimitive implements StaticJsBoolean {
   private readonly _value: boolean;
 
   constructor(realm: StaticJsRealm, value: boolean) {

@@ -1,6 +1,6 @@
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
-import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "../types/implementation/StaticJsFunctionImpl.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";

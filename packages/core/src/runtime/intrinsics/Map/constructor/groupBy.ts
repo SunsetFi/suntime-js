@@ -2,7 +2,7 @@ import getIterator from "../../../iterators/get-iterator.js";
 import iteratorClose from "../../../iterators/iterator-close.js";
 import iteratorStepValue from "../../../iterators/iterator-step-value.js";
 
-import StaticJsMapImpl from "../../../types/implementation/StaticJsMapImpl.js";
+import { StaticJsMapImpl } from "../../../types/implementation/StaticJsMapImpl.js";
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 

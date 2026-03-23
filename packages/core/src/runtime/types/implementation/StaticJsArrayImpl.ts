@@ -25,12 +25,12 @@ import {
 import { type StaticJsArray } from "../StaticJsArray.js";
 import { isStaticJsNumber } from "../StaticJsNumber.js";
 
-import StaticJsNumberImpl from "./StaticJsNumberImpl.js";
-import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
-import isArrayIndex from "./is-array-index.js";
+import { StaticJsNumberImpl } from "./StaticJsNumberImpl.js";
+import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
+import { isArrayIndex } from "./is-array-index.js";
 import { StaticJsObjectProxyTarget } from "./create-object-proxy.js";
 
-export default class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements StaticJsArray {
+export class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements StaticJsArray {
   // FIXME: Create spec compliant CreateArrayFromList / CreateARray
   static create(
     realm: StaticJsRealm,

@@ -1,8 +1,8 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
-import StaticJsFunctionImpl from "../../../types/implementation/StaticJsFunctionImpl.js";
-import StaticJsStringBoxed from "../../../types/implementation/StaticJsStringBoxed.js";
+import { StaticJsFunctionImpl } from "../../../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsStringBoxed } from "../../../types/implementation/StaticJsStringBoxed.js";
 
 import toString from "../../../algorithms/to-string.js";
 

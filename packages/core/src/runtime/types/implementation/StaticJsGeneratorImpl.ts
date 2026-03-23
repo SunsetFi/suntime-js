@@ -18,13 +18,10 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import type { StaticJsGenerator } from "../StaticJsGenerator.js";
 
-import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
 import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 
-export default class StaticJsGeneratorImpl
-  extends StaticJsObjectLikeImpl
-  implements StaticJsGenerator
-{
+export class StaticJsGeneratorImpl extends StaticJsObjectLikeImpl implements StaticJsGenerator {
   private _generatorState: "suspended-start" | "suspended-yield" | "executing" | "completed" =
     "suspended-start";
 

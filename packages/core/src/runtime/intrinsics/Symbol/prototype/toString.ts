@@ -1,7 +1,7 @@
 import { isStaticJsSymbol } from "../../../types/StaticJsSymbol.js";
 import toString from "../../../algorithms/to-string.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-import StaticJsSymbolBoxed from "../../../types/implementation/StaticJsSymbolBoxed.js";
+import { StaticJsSymbolBoxed } from "../../../types/implementation/StaticJsSymbolBoxed.js";
 
 const symbolProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
   key: "toString",

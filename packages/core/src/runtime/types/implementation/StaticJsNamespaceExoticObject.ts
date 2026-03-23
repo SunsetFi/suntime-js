@@ -6,7 +6,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import sameValue from "../../algorithms/same-value.js";
 
-import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
+import { StaticJsAbstractObject } from "./StaticJsAbstractObject.js";
 import type { StaticJsObjectLike, StaticJsPropertyKey } from "../StaticJsObjectLike.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
@@ -20,7 +20,7 @@ import type { StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
 import { BindingNameNamespace } from "../../modules/implementation/StaticJsResolvedBinding.js";
 
-export default class StaticJsNamespaceExoticObject extends StaticJsAbstractObject {
+export class StaticJsNamespaceExoticObject extends StaticJsAbstractObject {
   constructor(
     private readonly _module: StaticJsModuleImplementation,
     private readonly _exports: string[],

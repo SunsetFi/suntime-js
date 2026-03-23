@@ -2,9 +2,9 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 
-import StaticJsObjectImpl from "./StaticJsObjectImpl.js";
+import { StaticJsObjectImpl } from "./StaticJsObjectImpl.js";
 
-export default class StaticJsSymbolBoxed extends StaticJsObjectImpl {
+export class StaticJsSymbolBoxed extends StaticJsObjectImpl {
   constructor(
     realm: StaticJsRealm,
     private readonly _value: StaticJsSymbol,

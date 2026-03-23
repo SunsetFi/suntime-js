@@ -3,7 +3,7 @@ import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
-import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "../types/implementation/StaticJsFunctionImpl.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { createIteratorResultObject } from "./create-iterator-result-object.js";

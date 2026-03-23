@@ -5,10 +5,10 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsPropertyKey } from "../StaticJsObjectLike.js";
 import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 
-import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
+import { StaticJsAbstractObject } from "./StaticJsAbstractObject.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 
-export default class StaticJsStringBoxed extends StaticJsAbstractObject {
+export class StaticJsStringBoxed extends StaticJsAbstractObject {
   constructor(
     realm: StaticJsRealm,
     private readonly _value: string,

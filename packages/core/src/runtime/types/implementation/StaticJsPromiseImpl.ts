@@ -13,7 +13,7 @@ import { isStaticJsValue, type StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 
-import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
 import { captureThrownCompletion } from "../../../evaluator/completions/capture-thrown-completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
@@ -24,7 +24,7 @@ interface ReactionRecord {
   type: "fulfill" | "reject";
 }
 
-export default class StaticJsPromiseImpl extends StaticJsObjectLikeImpl implements StaticJsPromise {
+export class StaticJsPromiseImpl extends StaticJsObjectLikeImpl implements StaticJsPromise {
   private _state: "pending" | "fulfilled" | "rejected" = "pending";
   private _result: StaticJsValue | null = null;
   private _fulfullReactions: ReactionRecord[] = [];

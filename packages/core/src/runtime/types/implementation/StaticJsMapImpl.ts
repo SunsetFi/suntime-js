@@ -14,13 +14,13 @@ import type { StaticJsIterator, StaticJsIteratorResult } from "../StaticJsIterat
 import type { StaticJsMap } from "../StaticJsMap.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
-import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "./StaticJsFunctionImpl.js";
 
-import StaticJsIteratorImpl from "./StaticJsIteratorImpl.js";
+import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 
-import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
 
-export default class StaticJsMapImpl extends StaticJsObjectLikeImpl implements StaticJsMap {
+export class StaticJsMapImpl extends StaticJsObjectLikeImpl implements StaticJsMap {
   private readonly _backingStore = new Map<unknown, StaticJsValue>();
 
   constructor(realm: StaticJsRealm) {

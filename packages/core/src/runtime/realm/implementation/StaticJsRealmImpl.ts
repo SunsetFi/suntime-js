@@ -52,7 +52,7 @@ import type {
 } from "../../types/StaticJsPropertyDescriptor.js";
 import { validatePartialStaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
-import StaticJsExternalFunction from "../../types/implementation/StaticJsExternalFunction.js";
+import { StaticJsExternalFunction } from "../../types/implementation/StaticJsExternalFunction.js";
 
 import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
 import {

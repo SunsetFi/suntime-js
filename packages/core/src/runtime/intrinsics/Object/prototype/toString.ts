@@ -11,7 +11,7 @@ import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
 import { isStaticJsString } from "../../../types/StaticJsString.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
-import StaticJsArgumentsExoticObject from "../../../types/implementation/StaticJsArgumentsExoticObject.js";
+import { StaticJsArgumentsExoticObject } from "../../../types/implementation/StaticJsArgumentsExoticObject.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 

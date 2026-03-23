@@ -13,7 +13,7 @@ import type {
 } from "../StaticJsModuleImplementation.js";
 
 import { BindingNameNamespace, type StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
-import StaticJsNamespaceExoticObject from "../../types/implementation/StaticJsNamespaceExoticObject.js";
+import { StaticJsNamespaceExoticObject } from "../../types/implementation/StaticJsNamespaceExoticObject.js";
 
 export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModuleImplementation {
   private _cachedNamespaceObject: StaticJsObjectLike | null = null;

@@ -92,10 +92,9 @@ Object.setPrototypeOf(fStaticJsRealm, {
   },
 });
 
-interface StaticJsRealm {
+export interface StaticJsRealm {
   (opts?: StaticJsRealmOptions): IStaticJsRealm;
   new (opts?: StaticJsRealmOptions): IStaticJsRealm;
 }
 
-const StaticJsRealm: StaticJsRealm = fStaticJsRealm as StaticJsRealm;
-export default StaticJsRealm;
+export const StaticJsRealm: StaticJsRealm = fStaticJsRealm as StaticJsRealm;

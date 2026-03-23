@@ -1,6 +1,6 @@
 import { dropUndefined } from "../../utils/drop-undefined.js";
 
-import StaticJsRealm from "../../runtime/realm/factories/StaticJsRealm.js";
+import { StaticJsRealm } from "../../runtime/realm/factories/StaticJsRealm.js";
 import { isStaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
 
 import type { StaticJsModule } from "../../runtime/modules/StaticJsModule.js";

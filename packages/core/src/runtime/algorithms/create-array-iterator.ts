@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import StaticJsArrayIteratorImpl from "../types/implementation/StaticJsArrayIteratorImpl.js";
+import { StaticJsArrayIteratorImpl } from "../types/implementation/StaticJsArrayIteratorImpl.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 

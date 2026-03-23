@@ -28,7 +28,7 @@ import { isStaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsUndefined, StaticJsUndefined } from "../StaticJsUndefined.js";
 import { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 
-import StaticJsFunctionBase, { type StaticJsFunctionImplOptions } from "./StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl, type StaticJsFunctionImplOptions } from "./StaticJsFunctionImpl.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
@@ -39,7 +39,7 @@ export interface StaticJsAstFunctionOptions extends StaticJsFunctionImplOptions 
   env: StaticJsEnvironmentRecord;
   scriptOrModule: StaticJsScriptOrModuleRecord;
 }
-export default abstract class StaticJsAstFunction extends StaticJsFunctionBase {
+export abstract class StaticJsAstFunction extends StaticJsFunctionImpl {
   private _strict: boolean;
   private _thisMode: "lexical" | "strict" | "global";
   private _scriptOrModule: StaticJsScriptOrModuleRecord;

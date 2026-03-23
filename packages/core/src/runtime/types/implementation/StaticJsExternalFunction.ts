@@ -6,9 +6,9 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
 
-import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "./StaticJsFunctionImpl.js";
 
-export default class StaticJsExternalFunction extends StaticJsFunctionImpl {
+export class StaticJsExternalFunction extends StaticJsFunctionImpl {
   constructor(
     realm: StaticJsRealm,
     name: string | null,

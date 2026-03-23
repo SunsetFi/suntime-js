@@ -2,7 +2,7 @@ import { isNotUndefined } from "../../../../internal/is-not-undefined.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 
-import StaticJsBoundFunction from "../../../types/implementation/StaticJsBoundFunctionImpl.js";
+import { StaticJsBoundFunction } from "../../../types/implementation/StaticJsBoundFunctionImpl.js";
 
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";

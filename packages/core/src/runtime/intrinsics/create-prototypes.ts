@@ -1,6 +1,6 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import StaticJsObjectImpl from "../types/implementation/StaticJsObjectImpl.js";
+import { StaticJsObjectImpl } from "../types/implementation/StaticJsObjectImpl.js";
 
 import type { Prototypes } from "./intrinsics.js";
 

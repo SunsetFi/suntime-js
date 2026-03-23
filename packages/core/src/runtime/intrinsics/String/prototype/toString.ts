@@ -1,6 +1,6 @@
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
-import StaticJsStringBoxed from "../../../types/implementation/StaticJsStringBoxed.js";
+import { StaticJsStringBoxed } from "../../../types/implementation/StaticJsStringBoxed.js";
 
 import toString from "../../../algorithms/to-string.js";
 

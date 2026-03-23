@@ -5,7 +5,7 @@ import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
 import newPromiseCapability from "../runtime/algorithms/new-promise-capability.js";
 import promiseResolve from "../runtime/algorithms/promise-resolve.js";
 
-import StaticJsFunctionImpl from "../runtime/types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "../runtime/types/implementation/StaticJsFunctionImpl.js";
 
 import type {
   StaticJsPromise,

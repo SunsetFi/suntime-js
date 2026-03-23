@@ -35,11 +35,11 @@ import { isStaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 
-import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";
+import { StaticJsAbstractPrimitive } from "./StaticJsAbstractPrimitive.js";
 
-import createStaticJsObjectLikeProxy, { StaticJsObjectProxyTarget } from "./create-object-proxy.js";
+import { createStaticJsObjectLikeProxy, StaticJsObjectProxyTarget } from "./create-object-proxy.js";
 
-export default abstract class StaticJsAbstractObject
+export abstract class StaticJsAbstractObject
   extends StaticJsAbstractPrimitive
   implements StaticJsObjectLike
 {

@@ -13,10 +13,10 @@ import type { StaticJsNull } from "../StaticJsNull.js";
 import type { StaticJsObjectLike, StaticJsPropertyKey } from "../StaticJsObjectLike.js";
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 
-import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
-import isArrayIndex from "./is-array-index.js";
+import { StaticJsAbstractObject } from "./StaticJsAbstractObject.js";
+import { isArrayIndex } from "./is-array-index.js";
 
-export default abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObject {
+export abstract class StaticJsObjectLikeImpl extends StaticJsAbstractObject {
   private readonly _contents = new Map<StaticJsPropertyKey, StaticJsPropertyDescriptor>();
 
   constructor(realm: StaticJsRealm, prototype: StaticJsObjectLike | StaticJsNull | null = null) {

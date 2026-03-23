@@ -2,7 +2,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 
-export default class StaticJsNullImpl implements StaticJsNull {
+export class StaticJsNullImpl implements StaticJsNull {
   constructor(private readonly _realm: StaticJsRealm) {}
 
   get realm() {

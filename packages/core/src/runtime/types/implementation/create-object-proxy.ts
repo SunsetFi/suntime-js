@@ -23,7 +23,7 @@ export function getStaticJsObjectLikeProxyOwner(proxy: unknown): StaticJsValue |
   return null;
 }
 
-export default function createStaticJsObjectLikeProxy(
+export function createStaticJsObjectLikeProxy(
   obj: StaticJsObjectLike,
   target: StaticJsObjectProxyTarget = {},
   additionalTraps: ProxyHandler<StaticJsObjectProxyTarget> = {},

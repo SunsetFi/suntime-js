@@ -4,7 +4,7 @@ import { createIteratorResultObject } from "../../../iterators/create-iterator-r
 
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 
-import StaticJsArrayIteratorImpl from "../../../types/implementation/StaticJsArrayIteratorImpl.js";
+import { StaticJsArrayIteratorImpl } from "../../../types/implementation/StaticJsArrayIteratorImpl.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 

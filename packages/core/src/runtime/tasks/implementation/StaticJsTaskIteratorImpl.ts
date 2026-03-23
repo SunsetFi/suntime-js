@@ -7,7 +7,7 @@ import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
 import { invokeEvaluator, StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 
 import { StaticJsFunction } from "../../types/StaticJsFunction.js";
-import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "../../types/implementation/StaticJsFunctionImpl.js";
 
 import { StaticJsTaskIterator } from "../StaticJsTaskIterator.js";
 import { StaticJsTaskIteratorOperation } from "../StaticJsTaskIteratorOperation.js";

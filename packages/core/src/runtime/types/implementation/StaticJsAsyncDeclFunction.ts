@@ -21,11 +21,11 @@ import promiseReject from "../../algorithms/promise-reject.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
-import StaticJsAstFunction, { StaticJsAstFunctionOptions } from "./StaticJsAstFunction.js";
+import { StaticJsAstFunction, StaticJsAstFunctionOptions } from "./StaticJsAstFunction.js";
 
 export type StaticJsAsyncDeclFunctionOptions = Omit<StaticJsAstFunctionOptions, "thisMode">;
 
-export default class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
+export class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
     name: string | null,

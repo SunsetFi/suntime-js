@@ -12,8 +12,8 @@ import type {
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import type { StaticJsPropertyKey } from "../StaticJsObjectLike.js";
 
-import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
-import StaticJsExternalFunction from "./StaticJsExternalFunction.js";
+import { StaticJsAbstractObject } from "./StaticJsAbstractObject.js";
+import { StaticJsExternalFunction } from "./StaticJsExternalFunction.js";
 import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 
 /**
@@ -25,7 +25,7 @@ import { isStaticJsSymbol } from "../StaticJsSymbol.js";
  * - The object is not configurable.
  * - Only enumerable properties are exposed.
  */
-export default class StaticJsExternalObject extends StaticJsAbstractObject {
+export class StaticJsExternalObject extends StaticJsAbstractObject {
   constructor(
     realm: StaticJsRealm,
     private readonly _obj: object,

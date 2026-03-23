@@ -3,7 +3,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "../types/implementation/StaticJsFunctionImpl.js";
 
 import { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsFunction, type StaticJsFunction } from "../types/StaticJsFunction.js";

@@ -9,7 +9,7 @@ import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import type { StaticJsIteratorResult } from "../types/StaticJsIterator.js";
 
-import StaticJsGeneratorImpl from "../types/implementation/StaticJsGeneratorImpl.js";
+import { StaticJsGeneratorImpl } from "../types/implementation/StaticJsGeneratorImpl.js";
 
 import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
 

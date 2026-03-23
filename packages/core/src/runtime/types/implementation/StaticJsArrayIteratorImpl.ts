@@ -7,11 +7,11 @@ import lengthOfArrayLike from "../../algorithms/length-of-array-like.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 
-import StaticJsIteratorImpl from "./StaticJsIteratorImpl.js";
-import StaticJsArrayImpl from "./StaticJsArrayImpl.js";
+import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
+import { StaticJsArrayImpl } from "./StaticJsArrayImpl.js";
 import type { StaticJsIteratorResult } from "../StaticJsIterator.js";
 
-export default class StaticJsArrayIteratorImpl extends StaticJsIteratorImpl {
+export class StaticJsArrayIteratorImpl extends StaticJsIteratorImpl {
   constructor(
     private _iteratedArrayLike: StaticJsObjectLike | null,
     private _arrayLikeNextIndex: number,

@@ -2,7 +2,7 @@ import { typedEntries } from "../../internal/typed-entries.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import StaticJsSymbolImpl from "../types/implementation/StaticJsSymbolImpl.js";
+import { StaticJsSymbolImpl } from "../types/implementation/StaticJsSymbolImpl.js";
 
 import type { IntrinsicSymbols, Prototypes } from "./intrinsics.js";
 

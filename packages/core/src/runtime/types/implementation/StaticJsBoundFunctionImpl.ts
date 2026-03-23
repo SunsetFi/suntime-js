@@ -13,9 +13,9 @@ import { isStaticJsString } from "../StaticJsString.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 
-import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
 
-class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements StaticJsFunction {
+export class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements StaticJsFunction {
   static *create(
     realm: StaticJsRealm,
     targetFunc: StaticJsFunction,
@@ -123,5 +123,3 @@ class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements StaticJsFu
     return nameStr.toString();
   }
 }
-
-export default StaticJsBoundFunction;

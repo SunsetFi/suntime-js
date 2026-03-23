@@ -17,14 +17,14 @@ import type { StaticJsValue } from "../StaticJsValue.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
-import StaticJsAstFunction, { StaticJsAstFunctionOptions } from "./StaticJsAstFunction.js";
-import StaticJsGeneratorImpl from "./StaticJsGeneratorImpl.js";
+import { StaticJsAstFunction, StaticJsAstFunctionOptions } from "./StaticJsAstFunction.js";
+import { StaticJsGeneratorImpl } from "./StaticJsGeneratorImpl.js";
 
 export type StaticJsGeneratorDeclFunctionOptions = Omit<
   StaticJsAstFunctionOptions,
   "thisMode" | "construct"
 >;
-export default class StaticJsGeneratorDeclFunction extends StaticJsAstFunction {
+export class StaticJsGeneratorDeclFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
     name: string | null,

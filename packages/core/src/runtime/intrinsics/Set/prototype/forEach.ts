@@ -1,4 +1,4 @@
-import StaticJsSetImpl from "../../../types/implementation/StaticJsSetImpl.js";
+import { StaticJsSetImpl } from "../../../types/implementation/StaticJsSetImpl.js";
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";

@@ -5,7 +5,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
-import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "../types/implementation/StaticJsFunctionImpl.js";
 
 import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
 
