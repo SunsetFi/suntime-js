@@ -15,7 +15,7 @@ import { StaticJsTaskIteratorImpl } from "../../tasks/implementation/StaticJsTas
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";
 
-export default class EvaluationTask implements EvaluationContextStackProvider {
+export class EvaluationTask implements EvaluationContextStackProvider {
   private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";
 
   /**

@@ -29,7 +29,7 @@ import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCom
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 
-import globalDeclarationInstantiation from "../../../evaluator/instantiation/global-declaration-instantiation.js";
+import { globalDeclarationInstantiation } from "../../../evaluator/instantiation/global-declaration-instantiation.js";
 
 import { StaticJsScriptRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptRecord.js";
 
@@ -41,9 +41,9 @@ import { createConstructors } from "../../intrinsics/create-constructors.js";
 import { createIntrinsicSymbols } from "../../intrinsics/create-symbols.js";
 import { populateGlobal } from "../../intrinsics/populate-global.js";
 
-import StaticJsTypeFactoryImpl from "../../types/implementation/StaticJsTypeFactoryImpl.js";
+import { StaticJsTypeFactoryImpl } from "../../types/implementation/StaticJsTypeFactoryImpl.js";
 
-import type StaticJsTypeFactory from "../../types/StaticJsTypeFactory.js";
+import type { StaticJsTypeFactory } from "../../types/StaticJsTypeFactory.js";
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import type {
   StaticJsAccessorPropertyDescriptor,
@@ -62,7 +62,7 @@ import {
 import type { StaticJsModule } from "../../modules/StaticJsModule.js";
 import { isStaticJsModule } from "../../modules/StaticJsModule.js";
 
-import StaticJsExternalModuleImpl from "../../modules/implementation/StaticJsExternalModuleImpl.js";
+import { StaticJsExternalModuleImpl } from "../../modules/implementation/StaticJsExternalModuleImpl.js";
 import { StaticJsAstModuleImpl } from "../../modules/implementation/StaticJsAstModuleImpl.js";
 
 import type { StaticJsTaskIterator } from "../../tasks/StaticJsTaskIterator.js";
@@ -71,7 +71,7 @@ import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.
 
 import getValue from "../../algorithms/get-value.js";
 
-import type { RealmHooks } from "../../hooks/index.js";
+import type { RealmHooks } from "../../hooks/hooks.js";
 
 import type { StaticJsRealmOptions } from "../factories/StaticJsRealm.js";
 import type { StaticJsRealmGlobalDeclProperty } from "../factories/StaticJsRealmGlobalOptions.js";
@@ -85,7 +85,7 @@ import type {
   StaticJsRealmEvaluateScriptSyncOptions,
 } from "../StaticJsRealmEvaluateScriptOptions.js";
 
-import EvaluationTask from "./EvaluationTask.js";
+import { EvaluationTask } from "./EvaluationTask.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;

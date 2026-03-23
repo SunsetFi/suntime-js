@@ -18,7 +18,7 @@ import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
 
-import toPropertyKey from "../../runtime/utils/to-property-key.js";
+import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
 
 import putValue from "../../runtime/algorithms/put-value.js";
 import toObject from "../../runtime/algorithms/to-object.js";

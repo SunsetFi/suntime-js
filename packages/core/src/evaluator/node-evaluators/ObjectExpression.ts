@@ -2,7 +2,7 @@ import type { ObjectExpression, ObjectMethod, ObjectProperty, SpreadElement } fr
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
-import toPropertyKey from "../../runtime/utils/to-property-key.js";
+import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
 
 import type { StaticJsObject } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";

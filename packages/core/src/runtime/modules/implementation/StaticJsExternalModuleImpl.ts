@@ -12,10 +12,7 @@ import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
 import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
 import StaticJsFunctionImpl from "../../types/implementation/StaticJsFunctionImpl.js";
 
-export default class StaticJsExternalModuleImpl
-  extends StaticJsModuleBase
-  implements StaticJsModule
-{
+export class StaticJsExternalModuleImpl extends StaticJsModuleBase implements StaticJsModule {
   private readonly _exportKeys: readonly string[];
 
   constructor(

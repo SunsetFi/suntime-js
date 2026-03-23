@@ -18,7 +18,7 @@ type StaticJsPropertyDescriptorKeys =
   | keyof StaticJsDataPropertyDescriptor
   | keyof StaticJsAccessorPropertyDescriptor;
 
-export default function* propertyDescriptorToObject(
+export function* propertyDescriptorToObject(
   descriptor: StaticJsPropertyDescriptor,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObject> {

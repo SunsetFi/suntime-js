@@ -10,8 +10,8 @@ import { createIteratorResultObject } from "../../iterators/create-iterator-resu
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import toNativeUnwrap from "../../utils/to-native-unwrap.js";
-import toRuntimeWrap from "../../utils/to-runtime-wrap.js";
+import { toNativeUnwrap } from "../../utils/to-native-unwrap.js";
+import { toRuntimeWrap } from "../../utils/to-runtime-wrap.js";
 
 import iteratorClose from "../../iterators/iterator-close.js";
 

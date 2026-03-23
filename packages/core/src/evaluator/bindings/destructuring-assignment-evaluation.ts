@@ -25,7 +25,7 @@ import toObject from "../../runtime/algorithms/to-object.js";
 import putValue from "../../runtime/algorithms/put-value.js";
 import copyDataProperties from "../../runtime/algorithms/copy-data-properties.js";
 
-import toPropertyKey from "../../runtime/utils/to-property-key.js";
+import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
 
 import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
 

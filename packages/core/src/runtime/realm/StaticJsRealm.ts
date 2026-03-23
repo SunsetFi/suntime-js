@@ -1,7 +1,7 @@
 import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 
 import type { StaticJsObject } from "../types/StaticJsObject.js";
-import type StaticJsTypeFactory from "../types/StaticJsTypeFactory.js";
+import type { StaticJsTypeFactory } from "../types/StaticJsTypeFactory.js";
 
 import type { StaticJsModule } from "../modules/StaticJsModule.js";
 import type { StaticJsModuleImplementation } from "../modules/StaticJsModuleImplementation.js";

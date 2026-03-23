@@ -2,7 +2,7 @@ import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsScalar } from "../../../types/StaticJsScalar.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
-import propertyDescriptorToObject from "../../../utils/property-descriptor-to-object.js";
+import { propertyDescriptorToObject } from "../../../utils/property-descriptor-to-object.js";
 import toObject from "../../../algorithms/to-object.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";

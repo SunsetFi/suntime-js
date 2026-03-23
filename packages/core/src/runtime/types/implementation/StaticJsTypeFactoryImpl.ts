@@ -8,7 +8,7 @@ import type { StaticJsObjectLike, StaticJsPropertyKey } from "../StaticJsObjectL
 import type { StaticJsObject } from "../StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 import type { ErrorTypeName, StaticJsFunctionTypeCreationOptions } from "../StaticJsTypeFactory.js";
-import type StaticJsTypeFactory from "../StaticJsTypeFactory.js";
+import type { StaticJsTypeFactory } from "../StaticJsTypeFactory.js";
 import { isErrorTypeName } from "../StaticJsTypeFactory.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
@@ -37,7 +37,7 @@ import StaticJsExternalObject from "./StaticJsExternalObject.js";
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
 import { getStaticJsObjectLikeProxyOwner } from "./create-object-proxy.js";
 
-export default class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
+export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _prototypes: Prototypes;
   private readonly _symbols: IntrinsicSymbols;
   private _constructors: Constructors | undefined;

@@ -1,4 +1,4 @@
-import mergeDeep from "../../../utils/merge-deep.js";
+import { mergeDeep } from "../../../utils/merge-deep.js";
 
 import { realmDefaultHooks } from "../../hooks/index.js";
 

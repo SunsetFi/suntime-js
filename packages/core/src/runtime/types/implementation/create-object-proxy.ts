@@ -1,7 +1,8 @@
+import { properrtyDescriptorToJs } from "../../utils/property-descriptor-to-js.js";
+
 import type { StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsObjectLike, StaticJsPropertyKey } from "../StaticJsObjectLike.js";
 import {
-  isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   type StaticJsPropertyDescriptor,
   type StaticJsAccessorPropertyDescriptor,
@@ -50,34 +51,8 @@ export default function createStaticJsObjectLikeProxy(
       return existingDef;
     }
 
-    const jsDescriptor: PropertyDescriptor = {};
-    if (descriptor.configurable !== undefined) {
-      jsDescriptor.configurable = descriptor.configurable;
-    }
-    if (descriptor.enumerable !== undefined) {
-      jsDescriptor.enumerable = descriptor.enumerable;
-    }
+    const jsDescriptor = properrtyDescriptorToJs(descriptor, obj.realm);
 
-    if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
-      if (descriptor.get) {
-        jsDescriptor.get = () => {
-          return obj.getSync(staticJsPropertyKey).toJsSync();
-        };
-      }
-      if (descriptor.set) {
-        jsDescriptor.set = (value: unknown) => {
-          const staticJsValue = obj.realm.types.toStaticJsValue(value);
-          obj.setSync(staticJsPropertyKey, staticJsValue, false);
-        };
-      }
-    } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
-      jsDescriptor.writable = descriptor.writable;
-      jsDescriptor.value = obj.getSync(staticJsPropertyKey).toJsSync();
-    }
-
-    // Proxy is incredibly stupid in that it forces you to have the target match.
-    // So like, what's the point...
-    // Just... set it now.  Whatever.
     Object.defineProperty(target, propertyName, jsDescriptor);
 
     return jsDescriptor;

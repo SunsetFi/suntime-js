@@ -11,7 +11,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import { Completion } from "../../evaluator/completions/Completion.js";
 
-import toPropertyKey from "../utils/to-property-key.js";
+import { toPropertyKey } from "../utils/to-property-key.js";
 
 import toObject from "./to-object.js";
 

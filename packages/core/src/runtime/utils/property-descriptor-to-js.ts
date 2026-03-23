@@ -1,3 +1,4 @@
+import { dropUndefined } from "../../utils/drop-undefined.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsPropertyDescriptor } from "../types/StaticJsPropertyDescriptor.js";
@@ -6,33 +7,40 @@ import {
   isStaticJsDataPropertyDescriptor,
 } from "../types/StaticJsPropertyDescriptor.js";
 
-export default function properrtyDescriptorToJs(
-  realm: StaticJsRealm,
+export function properrtyDescriptorToJs(
   descriptor: StaticJsPropertyDescriptor,
+  realm: StaticJsRealm,
 ): PropertyDescriptor {
-  const objDescriptor: PropertyDescriptor = {
+  const objDescriptor: PropertyDescriptor = dropUndefined({
     enumerable: descriptor.enumerable,
     configurable: descriptor.configurable,
-  };
+  });
 
   if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
-    if (descriptor.get) {
+    const { get, set } = descriptor;
+    if (get) {
       objDescriptor.get = function () {
-        const result = realm.invokeEvaluatorSync(
-          descriptor.get!.callEvaluator(realm.types.toStaticJsValue(this)),
-        );
+        const thisArg = realm.types.toStaticJsValue(this);
+        const result = get.callSync(thisArg);
         return result.toJsSync();
       };
     }
-    if (descriptor.set) {
-      objDescriptor.value = function (value: unknown) {
-        const thisValue = realm.types.toStaticJsValue(this);
+    if (set) {
+      objDescriptor.set = function (value: unknown) {
+        const thisArg = realm.types.toStaticJsValue(this);
         const staticJsValue = realm.types.toStaticJsValue(value);
-        realm.invokeEvaluatorSync(descriptor.set!.callEvaluator(thisValue, [staticJsValue]));
+        set.callSync(thisArg, [staticJsValue]);
       };
     }
   } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
-    objDescriptor.value = (descriptor.value ?? realm.types.undefined).toJsSync();
+    const { writable, value } = descriptor;
+    if (writable !== undefined) {
+      objDescriptor.writable = writable;
+    }
+
+    if (value !== undefined) {
+      objDescriptor.value = value.toJsSync();
+    }
   }
 
   return objDescriptor;

@@ -5,7 +5,7 @@ import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 import toPropertyDescriptor from "../../../algorithms/to-property-descriptor.js";
 import definePropertyOrThrow from "../../../algorithms/define-property-or-throw.js";
 
-import toPropertyKey from "../../../utils/to-property-key.js";
+import { toPropertyKey } from "../../../utils/to-property-key.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 

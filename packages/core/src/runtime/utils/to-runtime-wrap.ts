@@ -5,7 +5,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
-export default function toRuntimeWrap(value: unknown, realm: StaticJsRealm): StaticJsValue {
+export function toRuntimeWrap(value: unknown, realm: StaticJsRealm): StaticJsValue {
   if (value === null) {
     return realm.types.null;
   }

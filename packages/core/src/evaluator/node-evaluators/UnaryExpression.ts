@@ -1,7 +1,7 @@
 import type { UnaryExpression } from "@babel/types";
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
-import toPropertyKey from "../../runtime/utils/to-property-key.js";
+import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
 
 import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 import { isUnresolvableReference } from "../../runtime/references/is-unresolvable-reference.js";

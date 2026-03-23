@@ -3,7 +3,7 @@ import type { StaticJsPropertyDescriptor } from "../../../types/StaticJsProperty
 
 import toObject from "../../../algorithms/to-object.js";
 
-import propertyDescriptorToObject from "../../../utils/property-descriptor-to-object.js";
+import { propertyDescriptorToObject } from "../../../utils/property-descriptor-to-object.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 

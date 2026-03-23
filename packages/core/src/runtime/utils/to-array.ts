@@ -5,7 +5,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import toObject from "../algorithms/to-object.js";
 import lengthOfArrayLike from "../algorithms/length-of-array-like.js";
 
-export default function* toArray(val: StaticJsValue): EvaluationGenerator<StaticJsValue[]> {
+export function* toArray(val: StaticJsValue): EvaluationGenerator<StaticJsValue[]> {
   const obj = yield* toObject(val);
 
   const length = yield* lengthOfArrayLike(obj);

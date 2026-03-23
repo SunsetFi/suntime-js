@@ -22,7 +22,7 @@ import collectAnnexBFunctionDeclarations from "./algorithms/collect-annex-b-func
 import createGlobalVarBinding from "./algorithms/create-global-var-binding.js";
 import createGlobalFunctionBinding from "./algorithms/create-global-function-binding.js";
 
-export default function* globalDeclarationInstantiation(
+export function* globalDeclarationInstantiation(
   node: Node,
   env: StaticJsGlobalEnvironmentRecord,
 ): EvaluationGenerator<void> {

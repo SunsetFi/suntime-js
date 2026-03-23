@@ -27,7 +27,7 @@ export interface StaticJsFunctionTypeCreationOptions {
   prototype?: StaticJsTypeCreationPrototype;
 }
 
-export default interface StaticJsTypeFactory {
+export interface StaticJsTypeFactory {
   readonly prototypes: Prototypes;
   readonly constructors: Constructors;
   readonly symbols: IntrinsicSymbols;

@@ -13,7 +13,7 @@ import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
-import toPropertyKey from "../utils/to-property-key.js";
+import { toPropertyKey } from "../utils/to-property-key.js";
 
 import toObject from "./to-object.js";
 

@@ -5,7 +5,7 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-export default function* setArray(
+export function* setArray(
   realm: StaticJsRealm,
   obj: StaticJsObjectLike,
   values: (StaticJsValue | undefined)[],

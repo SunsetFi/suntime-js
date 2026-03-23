@@ -4,7 +4,7 @@ import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
 
-import toPropertyKey from "../../runtime/utils/to-property-key.js";
+import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
 
 import strictEquality from "../../runtime/algorithms/strict-equality.js";
 import isLooselyEqual from "../../runtime/algorithms/is-loosely-equal.js";
