@@ -28,7 +28,7 @@
     "test": "vitest run --pool=threads --project=e2e",
     "test:262": "vitest run --pool=threads --project=test262",
     "test:baseline": "VITEST_COMPARE_BASELINE=1 pnpm test:262",
-    "test:create-baseline": "pnpm test:262 --reporter=default --reporter=json --outputFile=tests/test-results-baseline.json --update",
+    "test:create-baseline": "VITEST_CREATE_BASELINE=1 pnpm test:262 --reporter=default --reporter=json --outputFile=tests/test-results-baseline.json --update",
     "test:view": "vite serve html",
     "format": "oxfmt",
     "lint": "oxlint"

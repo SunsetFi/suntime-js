@@ -18,11 +18,18 @@ const ignoredTestPaths = [["language", "statements", "class"]];
 
 const LanguageCategories = readdirSync(test262Path("test/language"));
 
-Error.stackTraceLimit = Infinity;
+const createBaseline = process.env["VITEST_CREATE_BASELINE"] !== undefined;
+const compareBaseline = process.env["VITEST_COMPARE_BASELINE"] !== undefined;
 
-const includeTests = process.env["VITEST_COMPARE_BASELINE"]
-  ? getBaseline(fileURLToPath(import.meta.url))
-  : [];
+let includeTests: string[][] = [];
+if (compareBaseline) {
+  includeTests = getBaseline(fileURLToPath(import.meta.url));
+} else if (createBaseline) {
+  Error.stackTraceLimit = 0;
+  Error.captureStackTrace = () => {};
+} else {
+  Error.stackTraceLimit = Infinity;
+}
 
 for (const category of LanguageCategories) {
   defineTestsFromFolder(test262Path("test/language", category));

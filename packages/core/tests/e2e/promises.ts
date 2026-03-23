@@ -146,6 +146,7 @@ describe("E2E: Promises", () => {
       expect.objectContaining({
         name: "StaticJsUnhandledRejectionError",
         // FIXME: Enabling this deadlocks the test runner???
+        // Its definitely not error.message itself, because letting realm.evaluateScript throw into the test records the message fine.
         // message: expect.stringContaining("Rejected!"),
       }),
     );
