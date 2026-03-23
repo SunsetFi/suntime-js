@@ -380,6 +380,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   invokeEvaluatorSync<TReturn>(evaluator: StaticJsEvaluator<TReturn>): TReturn {
+    if (this._currentTask && EvaluationContext.stackProvider !== this._currentTask) {
+      throw new Error("Current task is not the stack provider!");
+    }
+
     if (this._boostrapping || (this._currentTask && this._currentTask.entered)) {
       const iter = invokeEvaluator(evaluator);
       while (true) {

@@ -104,10 +104,10 @@ export default class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIt
 
     let error: unknown = Unset;
     let value: TReturn | typeof Unset = Unset;
-    this._scope(() => {
-      const innerIterator = this._innerIterator!;
-      let deadIteratorLoops = 0;
-      try {
+    try {
+      this._scope(() => {
+        const innerIterator = this._innerIterator!;
+        let deadIteratorLoops = 0;
         while (true) {
           const result = err ? innerIterator.throw(err) : innerIterator.next();
           err = null;
@@ -133,11 +133,10 @@ export default class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIt
 
           continue;
         }
-      } catch (e) {
-        error = e;
-        return;
-      }
-    });
+      });
+    } catch (e) {
+      error = e;
+    }
 
     if (error !== Unset) {
       this._doneReject(error);

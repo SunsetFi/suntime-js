@@ -18,7 +18,9 @@ const ignoredTestPaths = [["language", "statements", "class"]];
 
 const LanguageCategories = readdirSync(test262Path("test/language"));
 
-const includeTests = process.env.VITEST_COMPARE_BASELINE
+Error.stackTraceLimit = Infinity;
+
+const includeTests = process.env["VITEST_COMPARE_BASELINE"]
   ? getBaseline(fileURLToPath(import.meta.url))
   : [];
 

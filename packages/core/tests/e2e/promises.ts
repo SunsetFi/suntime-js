@@ -1,11 +1,6 @@
 import { describe, it, expect, vitest } from "vitest";
 
-import {
-  evaluateScript,
-  type StaticJsFunction,
-  StaticJsRealm,
-  StaticJsUnhandledRejectionError,
-} from "../../src/index.js";
+import { evaluateScript, type StaticJsFunction, StaticJsRealm } from "../../src/index.js";
 
 describe("E2E: Promises", () => {
   it("Exists on the global object", async () => {
@@ -147,6 +142,12 @@ describe("E2E: Promises", () => {
 
     const realm = StaticJsRealm();
 
-    await expect(() => realm.evaluateScript(code)).rejects.toThrow(StaticJsUnhandledRejectionError);
+    await expect(() => realm.evaluateScript(code)).rejects.toThrow(
+      expect.objectContaining({
+        name: "StaticJsUnhandledRejectionError",
+        // FIXME: Enabling this deadlocks the test runner???
+        // message: expect.stringContaining("Rejected!"),
+      }),
+    );
   });
 });

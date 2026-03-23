@@ -3,6 +3,8 @@ import { describe, it, expect, vi } from "vitest";
 import { StaticJsRealm } from "../../src/index.js";
 import type { StaticJsTaskIterator } from "../../src/runtime/tasks/StaticJsTaskIterator.js";
 import type { StaticJsTaskIteratorStackFrame } from "../../src/runtime/tasks/StaticJsTaskIteratorStackFrame.js";
+import StaticJsTypeCode from "../../src/runtime/types/StaticJsTypeCode.js";
+import { StaticJsNumber } from "../../src/runtime/types/StaticJsNumber.js";
 
 describe("E2E: Tasks", () => {
   describe("Operation Iteration", () => {
@@ -222,6 +224,42 @@ describe("E2E: Tasks", () => {
       await realm.evaluateScript(code);
 
       expect(sequence).toEqual(["task", "task", "resolved", "task"]);
+    });
+  });
+
+  describe("Reentrancy", () => {
+    it("Should evaluate synchronous code immediately when inside a task", async () => {
+      const runTask = vi.fn((task: StaticJsTaskIterator) => {
+        while (!task.done) {
+          task.next();
+        }
+      });
+      const runTaskSync = vi.fn((task: StaticJsTaskIterator) => task.abort());
+      const realm = StaticJsRealm({
+        runTask,
+        runTaskSync,
+        global: {
+          properties: {
+            doReentrancy: {
+              value: function () {
+                return realm.evaluateScriptSync("2 + 2");
+              },
+            },
+          },
+        },
+      });
+
+      const code = `
+        doReentrancy();
+      `;
+
+      const result = await realm.evaluateScript(code);
+
+      expect(result.runtimeTypeCode).toBe(StaticJsTypeCode.Number);
+      expect((result as StaticJsNumber).value).toBe(4);
+
+      expect(runTask).toHaveBeenCalledTimes(1);
+      expect(runTaskSync).toHaveBeenCalledTimes(0);
     });
   });
 });

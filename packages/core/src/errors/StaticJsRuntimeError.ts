@@ -2,13 +2,26 @@ import { isStaticJsObjectLike } from "../runtime/types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
 
 export default class StaticJsRuntimeError extends Error {
+  private _message: string | null = null;
   constructor(
     private readonly _thrown: StaticJsValue,
-    prefix: string = "Runtime Error: ",
+    private readonly _prefix: string = "Runtime Error: ",
   ) {
     super("StaticJsRuntimeError");
+
     this.name = "StaticJsRuntimeError";
-    this.message = prefix + getMessage(this._thrown);
+
+    // Make the message lazy, because it's heavy, and we generate it in the weird deadzone while
+    // a task is completed but not entered.
+    // See EvaluationTask.ts _accept unhandledExceptions
+    Object.defineProperty(this, "message", {
+      get: () => {
+        if (this._message === null) {
+          this._message = this._prefix + getMessage(this._thrown);
+        }
+        return this._message;
+      },
+    });
   }
 
   get thrown(): StaticJsValue {
