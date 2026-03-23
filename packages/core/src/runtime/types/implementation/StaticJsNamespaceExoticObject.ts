@@ -14,7 +14,7 @@ import {
   type StaticJsDataPropertyDescriptor,
   type StaticJsPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
-import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 
 import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";

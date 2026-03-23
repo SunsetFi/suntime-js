@@ -1,6 +1,7 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
+import Q from "../../evaluator/completions/Q.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
@@ -44,7 +45,7 @@ export default function* asyncFromSyncIteratorContinuation(
 
   let valueWrapper: StaticJsPromise;
   try {
-    valueWrapper = yield* promiseResolve(value, realm);
+    valueWrapper = yield* promiseResolve(realm.types.constructors.Promise, value, realm);
   } catch (e) {
     if (Completion.Throw.is(e)) {
       let completion = e;
@@ -66,8 +67,7 @@ export default function* asyncFromSyncIteratorContinuation(
   let onRejected: StaticJsFunction | undefined;
   if (!done && closeOnRejection) {
     onRejected = new StaticJsFunctionImpl(realm, "", function* (_thisArg, e) {
-      yield* iteratorClose(syncIteratorRecord, Completion.Throw(e));
-      return realm.types.undefined;
+      return yield* Q(iteratorClose(syncIteratorRecord, Completion.Throw(e)));
     });
   }
 

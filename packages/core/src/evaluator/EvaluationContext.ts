@@ -58,17 +58,19 @@ export class EvaluationContext implements Required<EvaluationContextAutoDefPrope
   static _currentStackProvider: EvaluationContextStackProvider | null = null;
 
   static withStackProvider<T>(provider: EvaluationContextStackProvider, callback: () => T): T {
-    if (this._currentStackProvider) {
-      throw new StaticJsEngineError(
-        "An evaluation context stack provider is already set. Use withStackProvider(null, ...) to unset it first.",
-      );
-    }
+    // Note: We need to support re-entrancy here, particularly for test262, which can bootstrap
+    // a new realm while in the process of evaluating code in an existing realm.  See $262.createRealm
+    const previousStackProvider = this._currentStackProvider;
     this._currentStackProvider = provider;
     try {
       return callback();
     } finally {
-      this._currentStackProvider = null;
+      this._currentStackProvider = previousStackProvider;
     }
+  }
+
+  static get hasStackProvider() {
+    return !!this._currentStackProvider;
   }
 
   static get stackProvider(): EvaluationContextStackProvider {

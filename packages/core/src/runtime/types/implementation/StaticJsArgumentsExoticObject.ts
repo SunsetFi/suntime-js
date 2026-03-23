@@ -2,7 +2,7 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsObjectLike, StaticJsPropertyKey } from "../StaticJsObjectLike.js";

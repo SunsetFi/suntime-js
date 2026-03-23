@@ -1,5 +1,5 @@
 import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
-import StaticJsTypeCode from "./StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsObject extends StaticJsObjectLike {

@@ -4,7 +4,7 @@ import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import type { StaticJsIterator, StaticJsIteratorResult } from "../StaticJsIterator.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
-import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 export default abstract class StaticJsIteratorImpl

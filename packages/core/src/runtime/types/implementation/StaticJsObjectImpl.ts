@@ -2,7 +2,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsNull } from "../StaticJsNull.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
-import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
 

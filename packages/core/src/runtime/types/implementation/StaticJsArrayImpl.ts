@@ -13,7 +13,7 @@ import toNumber from "../../algorithms/to-number.js";
 import toUInt32 from "../../algorithms/to-uint-32.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
-import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import type {
   StaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,

@@ -3,7 +3,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
 
 import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
-import StaticJsTypeCode from "./StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 

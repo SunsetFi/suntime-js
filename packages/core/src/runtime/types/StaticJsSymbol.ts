@@ -1,6 +1,6 @@
 import { isStaticJsValue } from "./StaticJsValue.js";
 import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
-import StaticJsTypeCode from "./StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 
 export interface StaticJsSymbol extends StaticJsObjectLike {
   readonly runtimeTypeOf: "symbol";

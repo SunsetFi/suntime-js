@@ -9,7 +9,7 @@ import type {
   StaticJsAccessorPropertyDescriptor,
   StaticJsDataPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
-import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import type { StaticJsPropertyKey } from "../StaticJsObjectLike.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";

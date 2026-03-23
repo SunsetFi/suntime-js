@@ -7,7 +7,7 @@ import type { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js
 import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 import type { StaticJsSymbol } from "./StaticJsSymbol.js";
-import StaticJsTypeCode from "./StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 
 export type StaticJsPropertyKey = string | StaticJsSymbol;
 

@@ -10,7 +10,7 @@ import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.
 import type { StaticJsFunction } from "../StaticJsFunction.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import { isStaticJsString } from "../StaticJsString.js";
-import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";

@@ -11,6 +11,7 @@ import addTestHarness from "./add-test-harness.js";
 import createHostApi from "./host-api.js";
 
 import { ScriptTimeout, TestTimeout } from "./timeouts.js";
+import StaticJsUnhandledRejectionError from "../../src/errors/StaticJsUnhandledRejectionError.js";
 
 export default function defineTest(testName: string, test: Test262File) {
   if (test.negative?.type === "resolution") {
@@ -63,7 +64,7 @@ export default function defineTest(testName: string, test: Test262File) {
 
       try {
         await realm.evaluateScript(code, {
-          fileName: `${test.testPath}.js`,
+          sourceName: `${test.testPath}.js`,
         });
 
         perf("Test script evaluated");
@@ -82,6 +83,11 @@ export default function defineTest(testName: string, test: Test262File) {
 
         if (test.negative?.phase === "runtime") {
           expect(e.name).toBe(test.negative.type);
+          return;
+        }
+
+        if (e instanceof StaticJsUnhandledRejectionError) {
+          // Apparently this isn't in the spec and are ignored.
           return;
         }
 

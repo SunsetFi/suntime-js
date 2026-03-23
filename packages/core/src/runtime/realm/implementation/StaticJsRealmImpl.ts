@@ -504,6 +504,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     // we do not end up calling another task while inside the
     // final .next() call of a previous task.
     Promise.resolve().then(() => {
+      if (this._currentTask !== task) {
+        throw new Error("Cannot invoke a task that is not the current task.");
+      }
+
       task.invoke();
     });
   }
@@ -514,26 +518,26 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   ): TReturn {
     const previousTask = this._currentTask;
 
-    // oxlint-disable-next-line typescript/no-this-alias
-    const realm = this;
-    function* evaluate() {
-      // We may be ran from outside any active context, so bootstrap
-      // one if needed.
-      if (EvaluationContext.stack.length === 0) {
-        return yield* EvaluationContext.createRootContext(null, false, realm).run<TReturn>(
-          function* () {
-            return yield* invokeEvaluator(evaluator);
-          },
-        );
-      }
-
-      return yield* invokeEvaluator(evaluator);
-    }
-
     try {
       let result: TReturn | undefined = undefined;
       let error: unknown | undefined = undefined;
       let complete = false;
+
+      // oxlint-disable-next-line typescript/no-this-alias
+      const realm = this;
+      function* evaluate() {
+        // We may be ran from outside any active context, so bootstrap
+        // one if needed.
+        if (EvaluationContext.stack.length === 0) {
+          return yield* EvaluationContext.createRootContext(null, false, realm).run<TReturn>(
+            function* () {
+              return yield* invokeEvaluator(evaluator);
+            },
+          );
+        }
+
+        return yield* invokeEvaluator(evaluator);
+      }
 
       const macrotask = this._createMacrotask(evaluate, runTask);
       macrotask.onComplete((value, err) => {

@@ -31,7 +31,7 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
         const returnValue = new StaticJsFunctionImpl(realm, "<returnValue>", function* () {
           return value;
         });
-        return yield* p.thenEvaluator(returnValue);
+        return yield* p.thenEvaluator(returnValue, undefined, true);
       });
       catchFinally = new StaticJsFunctionImpl(realm, "<catchFinally>", function* (reason) {
         const result = yield* onFinally.callEvaluator(realm.types.undefined);
@@ -41,7 +41,7 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
         const thrower = new StaticJsFunctionImpl(realm, "<thrower>", function* () {
           throw Completion.Throw(reason);
         });
-        return yield* p.thenEvaluator(thrower);
+        return yield* p.thenEvaluator(thrower, undefined, true);
       });
     }
 

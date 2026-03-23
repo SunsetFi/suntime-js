@@ -1,10 +1,12 @@
 import { describe, it, expect, vi } from "vitest";
 
-import { StaticJsRealm } from "../../src/index.js";
-import type { StaticJsTaskIterator } from "../../src/runtime/tasks/StaticJsTaskIterator.js";
-import type { StaticJsTaskIteratorStackFrame } from "../../src/runtime/tasks/StaticJsTaskIteratorStackFrame.js";
-import StaticJsTypeCode from "../../src/runtime/types/StaticJsTypeCode.js";
-import { StaticJsNumber } from "../../src/runtime/types/StaticJsNumber.js";
+import {
+  StaticJsRealm,
+  StaticJsTaskIterator,
+  StaticJsTaskIteratorStackFrame,
+  StaticJsTypeCode,
+  StaticJsNumber,
+} from "../../src/index.js";
 
 describe("E2E: Tasks", () => {
   describe("Operation Iteration", () => {

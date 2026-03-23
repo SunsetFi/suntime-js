@@ -14,6 +14,7 @@ export * from "./StaticJsScalar.js";
 export * from "./StaticJsSet.js";
 export * from "./StaticJsString.js";
 export * from "./StaticJsSymbol.js";
+export * from "./StaticJsTypeCode.js";
 export * from "./StaticJsTypeFactory.js";
 export * from "./StaticJsUndefined.js";
 export * from "./StaticJsValue.js";

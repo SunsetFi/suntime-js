@@ -4,7 +4,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import { type StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsIteratorResult } from "../StaticJsIterator.js";
-import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 
 import getValue from "../../algorithms/get-value.js";
 

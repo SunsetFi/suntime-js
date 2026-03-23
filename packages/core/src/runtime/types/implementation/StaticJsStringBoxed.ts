@@ -6,7 +6,7 @@ import type { StaticJsPropertyKey } from "../StaticJsObjectLike.js";
 import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 
 import StaticJsAbstractObject from "./StaticJsAbstractObject.js";
-import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 
 export default class StaticJsStringBoxed extends StaticJsAbstractObject {
   constructor(

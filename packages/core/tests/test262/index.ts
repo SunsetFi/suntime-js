@@ -28,7 +28,7 @@ if (compareBaseline) {
   Error.stackTraceLimit = 0;
   Error.captureStackTrace = () => {};
 } else {
-  Error.stackTraceLimit = Infinity;
+  // Error.stackTraceLimit = Infinity;
 }
 
 for (const category of LanguageCategories) {

@@ -20,4 +20,4 @@ enum StaticJsTypeCode {
   Generator = IsObjectLikeFlag + 7,
 }
 
-export default StaticJsTypeCode;
+export { StaticJsTypeCode };

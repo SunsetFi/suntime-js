@@ -3,11 +3,10 @@ import StaticJsEngineError from "../errors/StaticJsEngineError.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
 
 import newPromiseCapability from "../runtime/algorithms/new-promise-capability.js";
+import promiseResolve from "../runtime/algorithms/promise-resolve.js";
 
 import StaticJsFunctionImpl from "../runtime/types/implementation/StaticJsFunctionImpl.js";
 
-import { isStaticJsFunction } from "../runtime/types/StaticJsFunction.js";
-import { isStaticJsObjectLike } from "../runtime/types/StaticJsObjectLike.js";
 import type {
   StaticJsPromise,
   StaticJsPromiseCapabilityRecord,
@@ -21,6 +20,7 @@ import type { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
 
 import { Completion } from "./completions/Completion.js";
 import type { CompletionValue } from "./completions/CompletionValue.js";
+import Q from "./completions/Q.js";
 
 import type { EvaluationGenerator } from "./EvaluationGenerator.js";
 import { EvaluationContext } from "./EvaluationContext.js";
@@ -28,8 +28,6 @@ import { EvaluationContext } from "./EvaluationContext.js";
 export default class AsyncEvaluatorInvocation {
   private _capability!: StaticJsPromiseCapabilityRecord;
   private _state: "pending" | "started" | "running" | "awaiting" | "halted" = "pending";
-
-  private _pausedContext: EvaluationContext | null = null;
 
   constructor(
     private readonly _evaluator: EvaluationGenerator,
@@ -101,23 +99,7 @@ export default class AsyncEvaluatorInvocation {
     );
   }
 
-  private *_continue(continueWith: StaticJsValue | null, continueMode: "next" | "throw" = "next") {
-    const context = this._pausedContext;
-    if (!context) {
-      return yield* this._doContinue(continueWith, continueMode);
-    }
-
-    this._pausedContext = null;
-
-    const doContinue = this._doContinue.bind(this);
-    return yield* context.run(
-      function* () {
-        return yield* doContinue(continueWith, continueMode);
-      }.bind(this),
-    );
-  }
-
-  private *_doContinue(
+  private *_continue(
     continueWith: CompletionValue,
     continueMode: "next" | "throw" = "next",
   ): EvaluationGenerator<void> {
@@ -157,7 +139,7 @@ export default class AsyncEvaluatorInvocation {
         if (value.command === "await") {
           // Signal for us to await.
           // Handle the awaitable and pause execution.
-          yield* this._registerContinuation(value.awaitable);
+          yield* this._await(value.awaitable);
           return;
         }
 
@@ -181,44 +163,42 @@ export default class AsyncEvaluatorInvocation {
     }
   }
 
-  private *_registerContinuation(awaitable: StaticJsValue): EvaluationGenerator<void> {
+  private *_await(value: StaticJsValue): EvaluationGenerator<void> {
     if (this._state !== "running") {
       throw new StaticJsEngineError("Async function can only register continuations when running.");
     }
 
-    this._pausedContext = EvaluationContext.current;
-
     this._state = "awaiting";
 
+    const asyncContext = EvaluationContext.current;
+    const promise = yield* Q(
+      promiseResolve(this._realm.types.constructors.Promise, value, this._realm),
+    );
+
     const realm = this._realm;
-    const _continue = this._continue.bind(this);
-    function* continueInvocation(value: StaticJsValue, mode: "next" | "throw" = "next") {
-      yield* _continue(value, mode);
-    }
+    const onContinue = this._continue.bind(this);
+    const onFulfilled = new StaticJsFunctionImpl(
+      this._realm,
+      "onFulfilled",
+      function* (_thisArg, value) {
+        yield* asyncContext.run(function* () {
+          yield* onContinue(value, "next");
+        });
+        return realm.types.undefined;
+      },
+    );
+    const onRejected = new StaticJsFunctionImpl(
+      this._realm,
+      "onRejected",
+      function* (_thisArg, reason) {
+        yield* asyncContext.run(function* () {
+          yield* onContinue(reason, "throw");
+        });
+        return realm.types.undefined;
+      },
+    );
 
-    if (isStaticJsObjectLike(awaitable)) {
-      const awaitableThen = yield* awaitable.getEvaluator("then");
-      if (isStaticJsFunction(awaitableThen)) {
-        // Register with the function.
-        // The function will be responsible for queueing us on the microtask.
-        yield* awaitableThen.callEvaluator(awaitable, [
-          new StaticJsFunctionImpl(realm, "resolve", function* (_thisArg, value) {
-            yield* continueInvocation(value);
-            return realm.types.undefined;
-          }),
-          new StaticJsFunctionImpl(realm, "reject", function* (_thisArg, value) {
-            yield* continueInvocation(value, "throw");
-            return realm.types.undefined;
-          }),
-        ]);
-        return;
-      }
-    }
-
-    // For everything else, continue on the next microtask.
-    this._realm.enqueuePromiseJob(function* () {
-      yield* continueInvocation(awaitable);
-    });
+    yield* promise.thenEvaluator(onFulfilled, onRejected, false);
   }
 
   private *_resolve(value: StaticJsValue): EvaluationGenerator<void> {

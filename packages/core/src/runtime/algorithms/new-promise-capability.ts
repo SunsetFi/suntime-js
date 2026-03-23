@@ -2,8 +2,10 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+
 import StaticJsFunctionImpl from "../types/implementation/StaticJsFunctionImpl.js";
 
+import { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsFunction, type StaticJsFunction } from "../types/StaticJsFunction.js";
 import {
   isStaticJsPromise,
@@ -11,10 +13,10 @@ import {
 } from "../types/StaticJsPromise.js";
 
 export default function* newPromiseCapability(
-  constructor: StaticJsFunction,
+  constructor: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsPromiseCapabilityRecord> {
-  if (!constructor.isConstructor) {
+  if (!isStaticJsFunction(constructor) || !constructor.isConstructor) {
     throw Completion.Throw("TypeError", "Promise constructor must be a constructor");
   }
 

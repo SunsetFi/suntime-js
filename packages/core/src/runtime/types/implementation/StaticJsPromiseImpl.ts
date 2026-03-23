@@ -9,14 +9,17 @@ import newPromiseCapability from "../../algorithms/new-promise-capability.js";
 
 import { isStaticJsFunction, type StaticJsFunction } from "../StaticJsFunction.js";
 import { type StaticJsPromiseCapabilityRecord, type StaticJsPromise } from "../StaticJsPromise.js";
-import type { StaticJsValue } from "../StaticJsValue.js";
+import { isStaticJsValue, type StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
-import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 
 import StaticJsObjectLikeImpl from "./StaticJsObjectLikeImpl.js";
+import captureThrownCompletion from "../../../evaluator/completions/capture-thrown-completion.js";
+import Q from "../../../evaluator/completions/Q.js";
+import StaticJsEngineError from "../../../errors/StaticJsEngineError.js";
 
 interface ReactionRecord {
-  capability: StaticJsPromiseCapabilityRecord;
+  capability: StaticJsPromiseCapabilityRecord | null;
   handler: StaticJsFunction | null;
   type: "fulfill" | "reject";
 }
@@ -76,14 +79,28 @@ export default class StaticJsPromiseImpl extends StaticJsObjectLikeImpl implemen
     this._rejectReactions = [];
   }
 
+  thenEvaluator(
+    onFulfilled?: StaticJsFunction | undefined,
+    onRejected?: StaticJsFunction | undefined,
+    resultCapability?: StaticJsPromiseCapabilityRecord | true,
+  ): EvaluationGenerator<StaticJsPromise>;
+  thenEvaluator(
+    onFulfilled: StaticJsFunction | undefined,
+    onRejected: StaticJsFunction | undefined,
+    resultCapability: false,
+  ): EvaluationGenerator<void>;
   *thenEvaluator(
-    onFulfilled?: StaticJsFunction,
-    onRejected?: StaticJsFunction,
-    resultCapability: StaticJsPromiseCapabilityRecord | null = null,
-  ): EvaluationGenerator<StaticJsPromise> {
-    const c = yield* speciesConstructor(this, this.realm.types.constructors.Promise, this.realm);
-
-    resultCapability ??= yield* newPromiseCapability(c, this.realm);
+    onFulfilled: StaticJsFunction | undefined,
+    onRejected: StaticJsFunction | undefined,
+    resultCapability: StaticJsPromiseCapabilityRecord | boolean = true,
+  ): EvaluationGenerator<StaticJsPromise | void> {
+    let capability: StaticJsPromiseCapabilityRecord | null = null;
+    if (resultCapability === undefined || resultCapability === true) {
+      const c = yield* speciesConstructor(this, this.realm.types.constructors.Promise, this.realm);
+      capability = yield* newPromiseCapability(c, this.realm);
+    } else if (resultCapability !== false) {
+      capability = resultCapability;
+    }
 
     const fulfillHandler = isStaticJsFunction(onFulfilled) ? onFulfilled : null;
     const rejectHandler = isStaticJsFunction(onRejected) ? onRejected : null;
@@ -91,13 +108,13 @@ export default class StaticJsPromiseImpl extends StaticJsObjectLikeImpl implemen
     const fulfillReaction: ReactionRecord = {
       type: "fulfill",
       handler: fulfillHandler,
-      capability: resultCapability,
+      capability,
     };
 
     const rejectReaction: ReactionRecord = {
       type: "reject",
       handler: rejectHandler,
-      capability: resultCapability,
+      capability,
     };
 
     switch (this._state) {
@@ -114,11 +131,11 @@ export default class StaticJsPromiseImpl extends StaticJsObjectLikeImpl implemen
         break;
     }
 
-    return resultCapability.promise;
+    return capability?.promise;
   }
 
   *catchEvaluator(onRejected: StaticJsFunction): EvaluationGenerator<StaticJsPromise> {
-    return yield* this.thenEvaluator(undefined, onRejected);
+    return yield* this.thenEvaluator(undefined, onRejected, true);
   }
 
   override toJsSync(): Promise<unknown> {
@@ -132,23 +149,35 @@ function queuePromiseReactionJob(
   argument: StaticJsValue,
 ) {
   realm.enqueuePromiseJob(function* () {
+    const { type } = reaction;
     const { handler, capability } = reaction;
 
-    try {
-      if (!handler) {
-        const capabilityFunc = reaction.type === "fulfill" ? capability.resolve : capability.reject;
-        yield* capabilityFunc.callEvaluator(realm.types.undefined, [argument]);
+    let handlerResult: Completion;
+    if (handler === null) {
+      if (type === "fulfill") {
+        handlerResult = argument;
       } else {
-        const result = yield* handler.callEvaluator(realm.types.undefined, [argument]);
-        yield* capability.resolve.callEvaluator(realm.types.undefined, [result]);
+        handlerResult = Completion.Throw(argument);
       }
-    } catch (e) {
-      if (Completion.Throw.is(e)) {
-        yield* capability.reject.callEvaluator(realm.types.undefined, [e.value]);
-        return;
-      }
+    } else {
+      handlerResult = yield* captureThrownCompletion(
+        handler.callEvaluator(realm.types.undefined, [argument]),
+      );
+    }
 
-      throw e;
+    if (capability === null) {
+      return;
+    }
+
+    // FIXME: Spec says we return these...  Who to?
+    if (Completion.Abrupt.is(handlerResult)) {
+      const value = Completion.value(handlerResult);
+      if (!isStaticJsValue(value)) {
+        throw new StaticJsEngineError("Promise reaction rejected abrupt with non-value");
+      }
+      yield* Q(capability.reject.callEvaluator(realm.types.undefined, [value]));
+    } else {
+      yield* Q(capability.resolve.callEvaluator(realm.types.undefined, [handlerResult]));
     }
   });
 }

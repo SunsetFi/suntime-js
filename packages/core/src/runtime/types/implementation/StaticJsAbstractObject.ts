@@ -32,7 +32,7 @@ import {
 import { type StaticJsObject } from "../StaticJsObject.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
-import type StaticJsTypeCode from "../StaticJsTypeCode.js";
+import type { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 
 import StaticJsAbstractPrimitive from "./StaticJsAbstractPrimitive.js";

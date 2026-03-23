@@ -1,7 +1,7 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import type { StaticJsFunction } from "./StaticJsFunction.js";
 import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
-import StaticJsTypeCode from "./StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsPromiseCapabilityRecord {
@@ -19,8 +19,13 @@ export interface StaticJsPromise extends StaticJsObjectLike {
   thenEvaluator(
     onFulfilled?: StaticJsFunction | undefined,
     onRejected?: StaticJsFunction | undefined,
-    resultCapability?: StaticJsPromiseCapabilityRecord | null,
+    resultCapability?: StaticJsPromiseCapabilityRecord | true,
   ): EvaluationGenerator<StaticJsPromise>;
+  thenEvaluator(
+    onFulfilled: StaticJsFunction | undefined,
+    onRejected: StaticJsFunction | undefined,
+    resultCapability: false,
+  ): EvaluationGenerator<void>;
 
   catchEvaluator(func: StaticJsFunction | undefined): EvaluationGenerator<StaticJsPromise>;
 

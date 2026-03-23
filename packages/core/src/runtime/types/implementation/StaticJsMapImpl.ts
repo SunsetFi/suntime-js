@@ -12,7 +12,7 @@ import toRuntimeWrap from "../../utils/to-runtime-wrap.js";
 import { isStaticJsFunction, type StaticJsFunction } from "../StaticJsFunction.js";
 import type { StaticJsIterator, StaticJsIteratorResult } from "../StaticJsIterator.js";
 import type { StaticJsMap } from "../StaticJsMap.js";
-import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import StaticJsFunctionImpl from "./StaticJsFunctionImpl.js";
 

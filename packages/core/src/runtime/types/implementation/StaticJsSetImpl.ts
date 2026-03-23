@@ -20,7 +20,7 @@ import { isStaticJsObjectLike } from "../StaticJsObjectLike.js";
 import { isStaticJsValue, type StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsSet } from "../StaticJsSet.js";
 
-import StaticJsTypeCode from "../StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import type { StaticJsIterator, StaticJsIteratorResult } from "../StaticJsIterator.js";
 
 import StaticJsIteratorImpl from "./StaticJsIteratorImpl.js";
