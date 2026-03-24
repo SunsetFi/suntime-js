@@ -91,11 +91,9 @@ export default function defineTest(testName: string, test: Test262File) {
         }
 
         if (test.negative?.phase === "runtime") {
-          expect(e).toEqual(
-            expect.objectContaining({
-              name: test.negative.type,
-            }),
-          );
+          expect(e).toMatchObject({
+            name: test.negative.type,
+          });
           return;
         }
 

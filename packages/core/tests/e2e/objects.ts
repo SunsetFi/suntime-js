@@ -33,10 +33,11 @@ describe("E2E: Object", () => {
         obj;
       `);
       const objNative = result.toJsSync() as Record<string, number>;
-
-      expect(objNative.a).toBe(1);
-      expect(objNative.b).toBe(2);
-      expect(objNative.c).toBe(3);
+      expect(objNative).toMatchObject({
+        a: 1,
+        b: 2,
+        c: 3,
+      });
     });
 
     it("Should set properties through the proxy", async () => {

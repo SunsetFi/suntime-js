@@ -126,15 +126,13 @@ describe("E2E: Realm", () => {
         task.next();
 
         // Check the first operation.
-        expect(task).toEqual(
-          expect.objectContaining({
-            operation: expect.objectContaining({
-              location: expect.objectContaining({
-                sourceName: "test.js",
-              }),
+        expect(task).toMatchObject({
+          operation: expect.objectContaining({
+            location: expect.objectContaining({
+              sourceName: "test.js",
             }),
           }),
-        );
+        });
       });
     });
 
