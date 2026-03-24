@@ -1,4 +1,4 @@
-import { type Node, isVariableDeclaration } from "@babel/types";
+import { type FunctionDeclaration, type Node, isVariableDeclaration } from "@babel/types";
 
 import { StaticJsGlobalEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 
@@ -53,7 +53,7 @@ export function* globalDeclarationInstantiation(
   }
 
   const varDeclarations = varScopedDeclarations(node);
-  const functionsToInitialize = [];
+  const functionsToInitialize: FunctionDeclaration[] = [];
   const declaredFunctionNames = new Set<string>();
   for (const d of varDeclarations.reverse()) {
     if (d.type !== "FunctionDeclaration") {

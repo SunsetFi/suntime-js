@@ -149,7 +149,6 @@ function createMathNumericFunctionHookDeclaration(
         asNumbers[i] = asNumber.value;
       }
 
-      // @ts-expect-error - We know the shape of the hook and we ensure the arguments above.
       const computed = hook.apply(undefined, [realm, ...asNumbers]);
 
       if (typeof computed !== "number") {

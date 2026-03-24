@@ -73,7 +73,6 @@ For more information, including solutions for breaking loops, see [Quick Start](
 - Class syntax
 - Date
 - Regex
-- Generator delegate yield (yield\*)
 - Async generators
 - Proxy
 
