@@ -9,8 +9,10 @@ import codePointAt from "../../../algorithms/code-point-at.js";
 import createIteratorFromClosure from "../../../iterators/create-iterator-from-closure.js";
 
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { YieldCommand } from "../../../../evaluator/commands/YieldCommand.js";
+
+import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { Q } from "../../../../evaluator/completions/Q.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -37,7 +39,7 @@ const stringProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
         position = nextIndex;
 
         const result = realm.types.string(resultString);
-        yield* YieldCommand(result);
+        yield* Q(YieldCommand(result));
       }
       return realm.types.undefined;
     }
