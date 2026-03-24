@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { evaluateScript } from "../../src/index.js";
-import StaticJsRealm from "../../src/runtime/realm/factories/StaticJsRealm.js";
+import { StaticJsRealm, evaluateScript } from "../../src/index.js";
 
 describe("E2E: Object", () => {
   describe("Host proxies", () => {
