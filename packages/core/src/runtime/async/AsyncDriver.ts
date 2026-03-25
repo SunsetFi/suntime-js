@@ -17,43 +17,76 @@ import { StaticJsFunctionImpl } from "../types/implementation/StaticJsFunctionIm
 
 import promiseResolve from "../algorithms/promise-resolve.js";
 
-export abstract class AsyncDriver {
+export interface AsyncDriverHooks {
+  onYield(value: StaticJsValue): EvaluationGenerator<Completion | null>;
+  onReturn(value: StaticJsValue): EvaluationGenerator<void>;
+  onThrow(reason: StaticJsValue): EvaluationGenerator<void>;
+}
+
+export class AsyncDriver {
   private _state: "unstarted" | "running" | "suspended" | "halted" = "unstarted";
+
+  private _evaluatorStack: EvaluationGenerator<Completion | null | void>[] = [];
 
   constructor(
     private _evaluator: EvaluationGenerator<void>,
+    private readonly _hooks: AsyncDriverHooks,
     protected readonly _realm: StaticJsRealm,
-  ) {}
+  ) {
+    this._evaluatorStack.push(this._evaluator);
+  }
 
   get state() {
     return this._state;
   }
 
-  protected *_continue(
-    completion: Completion.Normal | Completion.Throw,
-  ): EvaluationGenerator<void> {
+  *continue(completion: Completion): EvaluationGenerator<void> {
     if (this._state !== "unstarted" && this._state !== "suspended") {
       throw new StaticJsEngineError(
         "Async function can only be continued when unstarted or suspended.",
       );
     }
 
+    if (this._evaluatorStack.length === 0) {
+      throw new StaticJsEngineError("Async function has already completed.");
+    }
+
     this._state = "running";
 
     try {
       while (true) {
-        let result: IteratorResult<EvaluatorCommand, void>;
+        const evaluator = this._evaluatorStack[this._evaluatorStack.length - 1];
+        let result: IteratorResult<EvaluatorCommand, Completion | void>;
         if (Completion.Abrupt.is(completion)) {
-          result = this._evaluator.throw(completion);
+          result = evaluator.throw(completion);
         } else {
-          result = this._evaluator.next(completion);
+          result = evaluator.next(completion);
         }
 
         const { value, done } = result;
 
         if (done) {
-          yield* this._return(this._realm.types.undefined);
-          return;
+          this._evaluatorStack.pop();
+
+          if (this._evaluatorStack.length === 0) {
+            yield* this._return(this._realm.types.undefined);
+            return;
+          }
+
+          if (value === null) {
+            // Does not wish to continue execution.
+            // This happens on an async generator when nothing is queued.
+            return;
+          }
+
+          // Async generator had a queued item, resume with it.
+          if (!Completion.is(value)) {
+            throw new StaticJsEngineError(
+              "Async driver child evaluator completed without a completion value.",
+            );
+          }
+          completion = value;
+          continue;
         }
 
         if (AwaitCommand.is(value)) {
@@ -62,8 +95,9 @@ export abstract class AsyncDriver {
         }
 
         if (YieldCommand.is(value)) {
-          yield* this._yield(value.value);
-          return;
+          const evaluator = this._yield(value.value);
+          this._evaluatorStack.push(evaluator);
+          continue;
         }
 
         // Chain the yield to the parent handler.
@@ -71,6 +105,7 @@ export abstract class AsyncDriver {
       }
     } catch (e) {
       if (Completion.Throw.is(e)) {
+        this._evaluatorStack.pop();
         // Function threw an error
         yield* this._throw(e.value);
         return;
@@ -78,6 +113,7 @@ export abstract class AsyncDriver {
 
       if (Completion.Return.is(e)) {
         // Function hit a return statement
+        this._evaluatorStack.length = 0;
         yield* this._return(e.value ?? this._realm.types.undefined);
         return;
       }
@@ -85,13 +121,6 @@ export abstract class AsyncDriver {
       throw e;
     }
   }
-
-  protected abstract _onYield(value: StaticJsValue): EvaluationGenerator<void>;
-  protected abstract _onReturn(value: StaticJsValue): EvaluationGenerator<void>;
-  protected abstract _onThrow(reason: StaticJsValue): EvaluationGenerator<void>;
-
-  protected abstract _onResolve(value: StaticJsValue): EvaluationGenerator<void>;
-  protected abstract _onReject(reason: StaticJsValue): EvaluationGenerator<void>;
 
   private *_await(value: StaticJsValue): EvaluationGenerator<void> {
     this._ensureRunning();
@@ -104,14 +133,14 @@ export abstract class AsyncDriver {
     );
 
     const realm = this._realm;
-    const onResolve = this._onResolve.bind(this);
-    const onReject = this._onReject.bind(this);
+    const resolve = this._resolve.bind(this);
+    const reject = this._reject.bind(this);
     const onFulfilled = new StaticJsFunctionImpl(
       this._realm,
       "onFulfilled",
       function* (_thisArg, value) {
         yield* asyncContext.run(function* () {
-          yield* onResolve(value);
+          yield* resolve(value);
         });
         return realm.types.undefined;
       },
@@ -121,7 +150,7 @@ export abstract class AsyncDriver {
       "onRejected",
       function* (_thisArg, reason) {
         yield* asyncContext.run(function* () {
-          yield* onReject(reason);
+          yield* reject(reason);
         });
         return realm.types.undefined;
       },
@@ -130,12 +159,18 @@ export abstract class AsyncDriver {
     yield* promise.thenEvaluator(onFulfilled, onRejected, false);
   }
 
-  private *_yield(value: StaticJsValue): EvaluationGenerator<void> {
+  private *_resolve(value: StaticJsValue): EvaluationGenerator<void> {
+    yield* this.continue(Completion.Normal(value));
+  }
+
+  private *_reject(reason: StaticJsValue): EvaluationGenerator<void> {
+    yield* this.continue(Completion.Throw(reason));
+  }
+
+  private *_yield(value: StaticJsValue): EvaluationGenerator<Completion | null> {
     this._ensureRunning();
 
-    this._state = "suspended";
-
-    return yield* this._onYield(value);
+    return yield* this._hooks.onYield(value);
   }
 
   private *_return(value: StaticJsValue): EvaluationGenerator<void> {
@@ -143,7 +178,7 @@ export abstract class AsyncDriver {
 
     this._halt();
 
-    yield* this._onReturn(value);
+    yield* this._hooks.onReturn(value);
   }
 
   private *_throw(reason: StaticJsValue): EvaluationGenerator<void> {
@@ -151,7 +186,7 @@ export abstract class AsyncDriver {
 
     this._halt();
 
-    yield* this._onThrow(reason);
+    yield* this._hooks.onThrow(reason);
   }
 
   private _ensureRunning(): void {

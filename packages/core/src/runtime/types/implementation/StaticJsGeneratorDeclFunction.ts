@@ -69,12 +69,7 @@ export class StaticJsGeneratorDeclFunction extends StaticJsAstFunction {
 
     const evaluator = Q(EvaluateNodeCommand(_body));
 
-    const generator = new StaticJsGeneratorImpl(
-      evaluator,
-      null,
-      realm.types.prototypes.generatorProto,
-      realm,
-    );
+    const generator = new StaticJsGeneratorImpl(evaluator, null, realm);
 
     return Completion.Return(generator);
   }

@@ -30,10 +30,10 @@ export class StaticJsGeneratorImpl extends StaticJsObjectLikeImpl implements Sta
   constructor(
     private readonly _closure: EvaluationGenerator,
     private readonly _generatorBrand: string | null,
-    prototype: StaticJsObjectLike,
     realm: StaticJsRealm,
+    prototype?: StaticJsObjectLike,
   ) {
-    super(realm, prototype);
+    super(realm, prototype ?? realm.types.prototypes.generatorProto);
     this._pausedContext = EvaluationContext.current;
   }
 

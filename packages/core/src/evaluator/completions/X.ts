@@ -10,6 +10,16 @@ import { captureThrownCompletion } from "./capture-thrown-completion.js";
 import { nameCompletionLike } from "./name-completion-like.js";
 
 export function* X<T = Completion.Normal>(value: CompletionEvaluator<T>): EvaluationGenerator<T> {
+  if (Completion.Abrupt.is(value)) {
+    throw new StaticJsEngineError(
+      `Expected a normal completion, but got an abrupt completion: ${nameCompletionLike(value)}.`,
+    );
+  }
+
+  if (Completion.Normal.is(value)) {
+    return value;
+  }
+
   const completion = yield* captureThrownCompletion<T>(value);
 
   if (!Completion.Normal.is(completion)) {

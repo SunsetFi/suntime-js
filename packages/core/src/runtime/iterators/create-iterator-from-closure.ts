@@ -17,7 +17,7 @@ export default function* createIteratorFromClosure(
   const callerContext = EvaluationContext.current;
   const calleeContext = callerContext.create();
   EvaluationContext.push(calleeContext);
-  const generator = new StaticJsGeneratorImpl(closure, generatorBrand, generatorPrototype, realm);
+  const generator = new StaticJsGeneratorImpl(closure, generatorBrand, realm, generatorPrototype);
   EvaluationContext.pop();
   return generator;
 }

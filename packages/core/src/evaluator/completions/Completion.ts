@@ -58,7 +58,7 @@ export namespace Completion {
     }
   }
 
-  export function value(completion: StaticJsValue): StaticJsValue;
+  export function value<T extends StaticJsValue>(completion: T): T;
   export function value(completion: Completion.Return): StaticJsValue;
   export function value(completion: Completion.Normal): CompletionValue;
   export function value(completion: Completion): CompletionValue;

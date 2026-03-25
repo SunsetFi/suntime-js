@@ -13,11 +13,19 @@ import { captureThrownCompletion } from "./capture-thrown-completion.js";
 import { nameCompletionLike } from "./name-completion-like.js";
 
 export function Q<T>(
-  evaluator: CompletionEvaluator<T>,
+  value: CompletionEvaluator<T>,
 ): EvaluationGenerator<Exclude<T, Completion.Abrupt>>;
-export function Q(evaluator: CompletionEvaluator<Completion>): EvaluationGenerator<CompletionValue>;
-export function* Q(evaluator: CompletionEvaluator): EvaluationGenerator {
-  const completion = yield* captureThrownCompletion(evaluator);
+export function Q(value: CompletionEvaluator<Completion>): EvaluationGenerator<CompletionValue>;
+export function* Q(value: CompletionEvaluator): EvaluationGenerator {
+  if (Completion.Throw.is(value)) {
+    throw value;
+  }
+
+  if (Completion.Normal.is(value)) {
+    return value;
+  }
+
+  const completion = yield* captureThrownCompletion(value);
 
   if (Completion.Abrupt.is(completion)) {
     throw completion;
