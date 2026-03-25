@@ -61,7 +61,7 @@ const iteratorProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
 
         const selectedValue = yield* toBoolean.js(selected);
         if (selectedValue) {
-          const completion = yield* captureThrownCompletion(YieldCommand(value));
+          const completion = yield* YieldCommand(value);
           if (Completion.Abrupt.is(completion)) {
             return yield* Q(iteratorClose(iterated, completion));
           }

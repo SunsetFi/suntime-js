@@ -3,7 +3,6 @@ import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenera
 import { YieldCommand } from "../../../../evaluator/commands/YieldCommand.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 
 import toIntegerOrInfinity from "../../../algorithms/to-integer-or-infinity.js";
@@ -70,7 +69,7 @@ const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
           return realm.types.undefined;
         }
 
-        const completion = yield* captureThrownCompletion(YieldCommand(value));
+        const completion = yield* YieldCommand(value);
         if (Completion.Abrupt.is(completion)) {
           return yield* Q(iteratorClose(iterated, completion));
         }

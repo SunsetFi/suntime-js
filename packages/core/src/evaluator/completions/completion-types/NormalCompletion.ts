@@ -2,11 +2,10 @@ import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 
 import { nameCompletionLike } from "../name-completion-like.js";
 import { isCompletionValue, type CompletionValue } from "../CompletionValue.js";
-import { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
 export type NormalCompletion = CompletionValue;
 
-export function NormalCompletion(value: StaticJsValue | null): NormalCompletion {
+export function NormalCompletion(value: CompletionValue): NormalCompletion {
   return value;
 }
 

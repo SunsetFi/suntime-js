@@ -1,5 +1,6 @@
 import { isStaticJsObjectLike } from "../runtime/types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import { symbolInspect } from "../utils/symbol-inspect.js";
 
 export class StaticJsRuntimeError extends Error {
   private _message: string | null = null;
@@ -33,6 +34,10 @@ export class StaticJsRuntimeError extends Error {
       name: this.name,
       message: this.message,
     };
+  }
+
+  [symbolInspect](): string {
+    return `${this.name}: ${this.message}`;
   }
 }
 

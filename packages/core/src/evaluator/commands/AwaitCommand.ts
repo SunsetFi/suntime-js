@@ -3,6 +3,7 @@ import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { isStaticJsValue, type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+import { EvaluatorCommand } from "./EvaluatorCommand.js";
 
 import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 
@@ -22,3 +23,7 @@ export function* AwaitCommand(awaitable: StaticJsValue): EvaluationGenerator<Sta
 
   return result;
 }
+
+AwaitCommand.is = function (value: EvaluatorCommand): value is AwaitCommand {
+  return value.command === "await";
+};

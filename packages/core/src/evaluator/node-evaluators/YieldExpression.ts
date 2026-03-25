@@ -2,7 +2,7 @@ import { type YieldExpression } from "@babel/types";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
-import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { isStaticJsValue, StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
 
 import getIterator from "../../runtime/iterators/get-iterator.js";
@@ -23,18 +23,17 @@ import { AwaitCommand } from "../commands/AwaitCommand.js";
 
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
-import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";
 
 export default function* yieldExpressionNodeEvaluator(node: YieldExpression): EvaluationGenerator {
   const { realm } = EvaluationContext.current;
   if (!node.argument) {
-    return yield* YieldCommand(realm.types.undefined);
+    return yield* Q(YieldCommand(realm.types.undefined));
   }
 
   const value = yield* Q.val(EvaluateNodeCommand(node.argument));
 
   if (!node.delegate) {
-    return yield* YieldCommand(value);
+    return yield* Q(YieldCommand(value));
   }
 
   // TODO: Async generators
@@ -44,8 +43,14 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
   let received: Completion = realm.types.undefined;
   while (true) {
     if (Completion.Normal.is(received)) {
+      const receivedValue = Completion.value(received);
+      if (!isStaticJsValue(receivedValue)) {
+        throw new StaticJsEngineError(
+          "Expected a StaticJsValue as the value of a normal completion from a yield expression.",
+        );
+      }
       let innerResult: StaticJsValue = yield* call(iteratorRecord.nextMethod, iterator, [
-        Completion.value(received),
+        receivedValue,
       ]);
       if (generatorKind === "async") {
         innerResult = yield* Q(AwaitCommand(innerResult));
@@ -64,7 +69,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
         throw new StaticJsEngineError("Async generators are not yet supported");
       } else {
         const nextValue: StaticJsValue = yield* Q(iteratorValue(innerResult));
-        received = yield* captureThrownCompletion(YieldCommand(nextValue));
+        received = yield* YieldCommand(nextValue);
       }
     } else if (Completion.Throw.is(received)) {
       const throwMethod = yield* Q(getMethod(iterator, "throw"));
@@ -85,7 +90,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
           throw new StaticJsEngineError("Async generators are not yet supported");
         } else {
           const nextValue: StaticJsValue = yield* Q(iteratorValue(innerResult));
-          received = yield* captureThrownCompletion(YieldCommand(nextValue));
+          received = yield* YieldCommand(nextValue);
         }
       } else {
         const closeCompletion = Completion.Normal(null);
@@ -132,9 +137,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
         // AsyncGeneratorYield
         throw new StaticJsEngineError("Async generators are not yet supported");
       } else {
-        received = yield* captureThrownCompletion(
-          YieldCommand(yield* Q(iteratorValue(innerReturnResult))),
-        );
+        received = yield* YieldCommand(yield* Q(iteratorValue(innerReturnResult)));
       }
     }
   }

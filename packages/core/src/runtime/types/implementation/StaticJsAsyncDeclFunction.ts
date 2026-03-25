@@ -11,13 +11,14 @@ import { Q } from "../../../evaluator/completions/Q.js";
 import { ThrowCompletion } from "../../../evaluator/completions/completion-types/ThrowCompletion.js";
 import { ReturnCompletion } from "../../../evaluator/completions/completion-types/ReturnCompletion.js";
 
-import { AsyncEvaluatorInvocation } from "../../../evaluator/AsyncEvaluatorInvocation.js";
-
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+
+import { AsyncInvocation } from "../../async/AsyncInvocation.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
 
 import promiseReject from "../../algorithms/promise-reject.js";
+import getValue from "../../algorithms/get-value.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
@@ -70,8 +71,17 @@ export class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
       throw e;
     }
 
-    const evaluator = Q(EvaluateNodeCommand(_body));
-    const invocation = new AsyncEvaluatorInvocation(evaluator, realm);
+    function* evaluator(): EvaluationGenerator<void> {
+      const result = yield* Q(EvaluateNodeCommand(_body));
+      if (result !== null) {
+        const value = yield* Q(getValue(result));
+        throw Completion.Return(value);
+      }
+
+      throw Completion.Return(realm.types.undefined);
+    }
+
+    const invocation = new AsyncInvocation(evaluator, realm);
 
     yield* invocation.start();
 

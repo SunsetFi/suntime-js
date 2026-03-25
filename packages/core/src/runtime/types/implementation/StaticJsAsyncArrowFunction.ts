@@ -2,8 +2,6 @@ import type { BlockStatement, Expression } from "@babel/types";
 
 import functionDeclarationInstantiation from "../../../evaluator/instantiation/function-declaration-instantiation.js";
 
-import { AsyncEvaluatorInvocation } from "../../../evaluator/AsyncEvaluatorInvocation.js";
-
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
@@ -16,6 +14,9 @@ import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCom
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import promiseReject from "../../algorithms/promise-reject.js";
+import getValue from "../../algorithms/get-value.js";
+
+import { AsyncInvocation } from "../../async/AsyncInvocation.js";
 
 import type { StaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
@@ -84,8 +85,17 @@ export class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
       throw e;
     }
 
-    const evaluator = Q(EvaluateNodeCommand(_body));
-    const invocation = new AsyncEvaluatorInvocation(evaluator, realm, true);
+    function* evaluator(): EvaluationGenerator<void> {
+      const result = yield* Q(EvaluateNodeCommand(_body));
+      if (result !== null) {
+        const value = yield* Q(getValue(result));
+        throw Completion.Return(value);
+      }
+
+      throw Completion.Return(realm.types.undefined);
+    }
+
+    const invocation = new AsyncInvocation(evaluator, realm);
 
     yield* invocation.start();
 

@@ -59,7 +59,7 @@ const iteratorProtoMapDeclaration: IntrinsicPropertyDeclaration = {
           return yield* Q(iteratorClose(iterated, mapped));
         }
 
-        const completion = yield* captureThrownCompletion(YieldCommand(mapped));
+        const completion = yield* YieldCommand(mapped);
         if (Completion.Abrupt.is(completion)) {
           return yield* Q(iteratorClose(iterated, completion));
         }

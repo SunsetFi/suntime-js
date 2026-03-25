@@ -1,3 +1,5 @@
+import { symbolInspect } from "../utils/symbol-inspect.js";
+
 export interface SyntaxErrorLocation {
   line: number;
   column: number;
@@ -15,5 +17,9 @@ export class StaticJsSyntaxError extends Error {
 
   get loc(): SyntaxErrorLocation | null {
     return this._loc;
+  }
+
+  [symbolInspect](): string {
+    return `${this.name}: ${this.message}`;
   }
 }

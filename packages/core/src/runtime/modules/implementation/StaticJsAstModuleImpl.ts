@@ -17,13 +17,14 @@ import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 
 import { StaticJsModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
-import { AsyncEvaluatorInvocation } from "../../../evaluator/AsyncEvaluatorInvocation.js";
 import createFunction from "../../../evaluator/node-evaluators/Function.js";
 
 import { StaticJsModuleEnvironmentRecord } from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+
+import { AsyncInvocation } from "../../async/AsyncInvocation.js";
 
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
@@ -272,11 +273,10 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
 
         function* evaluateAsyncBody() {
           yield* Q(EvaluateNodeCommand(_ecmaScriptCode));
-          return null;
         }
 
         function* moduleJob() {
-          const invocation = new AsyncEvaluatorInvocation(evaluateAsyncBody(), _realm);
+          const invocation = new AsyncInvocation(evaluateAsyncBody, _realm);
 
           yield* invocation.onComplete((_, err) => {
             onComplete();

@@ -1,5 +1,6 @@
 import type { Writable } from "type-fest";
 
+import { symbolInspect } from "../../../utils/symbol-inspect.js";
 import { createDeferred } from "../../../utils/create-deferred.js";
 
 import { parseScript } from "../../../parser/parse-script.js";
@@ -21,7 +22,6 @@ import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/impleme
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 
-import { AsyncEvaluatorInvocation } from "../../../evaluator/AsyncEvaluatorInvocation.js";
 import { invokeEvaluator, type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
@@ -68,6 +68,8 @@ import { StaticJsAstModuleImpl } from "../../modules/implementation/StaticJsAstM
 import type { StaticJsTaskIterator } from "../../tasks/StaticJsTaskIterator.js";
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+
+import { AsyncInvocation } from "../../async/AsyncInvocation.js";
 
 import getValue from "../../algorithms/get-value.js";
 
@@ -171,6 +173,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
 
     this._boostrapping = false;
+  }
+
+  [symbolInspect](): string {
+    return `StaticJsRealm {}`;
   }
 
   get global() {
@@ -733,8 +739,15 @@ function* doEvaluateScriptAsync(
         scriptRecord.ecmaScriptCode,
         realm.globalEnv as StaticJsGlobalEnvironmentRecord,
       );
-      const evaluator = Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode));
-      const invocation = new AsyncEvaluatorInvocation(evaluator, realm, true);
+      function* evaluator() {
+        const result = yield* Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode));
+        if (result) {
+          const value = yield* getValue(result);
+          throw Completion.Return(value);
+        }
+        throw Completion.Return(realm.types.undefined);
+      }
+      const invocation = new AsyncInvocation(evaluator, realm);
 
       // Note that invocation.start() performs its own sandbox error handling, so nothing
       // beyond here should throw abnormal completions.

@@ -68,7 +68,7 @@ const iteratorProtoTakeDeclaration: IntrinsicPropertyDeclaration = {
           return realm.types.undefined;
         }
 
-        const completion = yield* captureThrownCompletion(YieldCommand(value));
+        const completion = yield* YieldCommand(value);
         if (Completion.Abrupt.is(completion)) {
           return yield* Q(iteratorClose(iterated, completion));
         }

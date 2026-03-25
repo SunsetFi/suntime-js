@@ -77,7 +77,7 @@ const iteratorProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
           if (innerValue === null) {
             innerAlive = false;
           } else {
-            const completion = yield* captureThrownCompletion(YieldCommand(innerValue));
+            const completion = yield* YieldCommand(innerValue);
             if (Completion.Abrupt.is(completion)) {
               const backupCompletion = yield* captureThrownCompletion(
                 iteratorClose(innerIterator, completion),
