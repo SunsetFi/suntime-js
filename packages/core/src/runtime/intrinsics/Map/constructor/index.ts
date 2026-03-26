@@ -1,5 +1,5 @@
-import getIterator from "../../../iterators/get-iterator.js";
-import iteratorStepValue from "../../../iterators/iterator-step-value.js";
+import { getIterator } from "../../../iterators/get-iterator.js";
+import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";

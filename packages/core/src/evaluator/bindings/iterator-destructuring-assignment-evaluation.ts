@@ -6,7 +6,7 @@ import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import type { StaticJsIteratorRecord } from "../../runtime/iterators/StaticJsIteratorRecord.js";
-import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
+import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";
 
 import createDataPropertyOrThrow from "../../runtime/algorithms/create-data-property-or-throw.js";
 import putValue from "../../runtime/algorithms/put-value.js";

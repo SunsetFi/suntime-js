@@ -22,7 +22,7 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import initializeReferencedBinding from "./initialize-referenced-binding.js";
 import bindingInitialization from "./binding-initialization.js";
 import iteratorDestructuringAssignmentEvaluation from "./iterator-destructuring-assignment-evaluation.js";
-import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
+import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";
 import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
 

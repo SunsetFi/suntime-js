@@ -10,7 +10,7 @@ import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJs
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
-export default function* iteratorNext(
+export function* iteratorNext(
   iteratorRecord: StaticJsIteratorRecord,
   value: StaticJsValue | null,
 ): EvaluationGenerator<StaticJsObjectLike> {

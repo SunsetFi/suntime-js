@@ -10,12 +10,12 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import newPromiseCapability from "../algorithms/new-promise-capability.js";
 import call from "../algorithms/call.js";
 
-import iteratorNext from "./iterator-next.js";
+import { iteratorNext } from "./iterator-next.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
-import asyncFromSyncIteratorContinuation from "./async-from-sync-iterator-continuation.js";
+import { asyncFromSyncIteratorContinuation } from "./async-from-sync-iterator-continuation.js";
 
-export default function* createAsyncFromSyncIterator(
+export function* createAsyncFromSyncIterator(
   syncIteratorRecord: StaticJsIteratorRecord,
 ): EvaluationGenerator<StaticJsIteratorRecord> {
   const { realm } = EvaluationContext.current;

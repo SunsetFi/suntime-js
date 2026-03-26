@@ -10,22 +10,22 @@ import getMethod from "../algorithms/get-method.js";
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 import { rethrowCompletion } from "../../evaluator/completions/rethrow-completion.js";
 
-export default function iteratorClose(
+export function iteratorClose(
   iteratorRecord: StaticJsIteratorRecord,
   value: Completion.Abrupt,
   unwrap?: true,
 ): EvaluationGenerator<never>;
-export default function iteratorClose<T extends Completion>(
+export function iteratorClose<T extends Completion>(
   iteratorRecord: StaticJsIteratorRecord,
   value: T,
   unwrap?: true,
 ): EvaluationGenerator<T>;
-export default function iteratorClose(
+export function iteratorClose(
   iteratorRecord: StaticJsIteratorRecord,
   value: Completion,
   unwrap: false,
 ): EvaluationGenerator<Completion>;
-export default function* iteratorClose(
+export function* iteratorClose(
   iteratorRecord: StaticJsIteratorRecord,
   value: Completion,
   unwrap: boolean = true,

@@ -2,15 +2,15 @@ import type { ArrayExpression } from "@babel/types";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
-import getIterator from "../../runtime/iterators/get-iterator.js";
-import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
+import { getIterator } from "../../runtime/iterators/get-iterator.js";
+import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import iteratorClose from "../../runtime/iterators/iterator-close.js";
+import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
 
 export default function* arrayExpressionNodeEvaluator(node: ArrayExpression): EvaluationGenerator {
   const { realm } = EvaluationContext.current;

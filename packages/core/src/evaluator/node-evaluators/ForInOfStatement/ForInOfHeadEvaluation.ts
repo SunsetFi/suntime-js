@@ -12,7 +12,7 @@ import enumerateObjectProperties from "../../../runtime/algorithms/enumerate-obj
 import getValue from "../../../runtime/algorithms/get-value.js";
 
 import type { StaticJsIteratorRecord } from "../../../runtime/iterators/StaticJsIteratorRecord.js";
-import getIterator from "../../../runtime/iterators/get-iterator.js";
+import { getIterator } from "../../../runtime/iterators/get-iterator.js";
 
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 

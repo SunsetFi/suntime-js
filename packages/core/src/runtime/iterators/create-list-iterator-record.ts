@@ -8,7 +8,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { createIteratorResultObject } from "./create-iterator-result-object.js";
 
-export default function* createListIteratorRecord(
+export function* createListIteratorRecord(
   values: StaticJsValue[],
 ): EvaluationGenerator<StaticJsIteratorRecord> {
   const { realm } = EvaluationContext.current;

@@ -6,9 +6,9 @@ import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 import { iteratorComplete } from "./iterator-complete.js";
-import iteratorNext from "./iterator-next.js";
+import { iteratorNext } from "./iterator-next.js";
 
-export default function* iteratorStep(
+export function* iteratorStep(
   iteratorRecord: StaticJsIteratorRecord,
 ): EvaluationGenerator<StaticJsObjectLike | null> {
   const result = yield* iteratorNext(iteratorRecord, null);

@@ -8,9 +8,9 @@ import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 import { isStaticJsValue, type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
-import getIterator from "../../runtime/iterators/get-iterator.js";
-import iteratorStepValue from "../../runtime/iterators/iterator-step-value.js";
-import iteratorClose from "../../runtime/iterators/iterator-close.js";
+import { getIterator } from "../../runtime/iterators/get-iterator.js";
+import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";
+import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
 
 import toString from "../../runtime/algorithms/to-string.js";
 

@@ -22,7 +22,7 @@ import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
 
 import putValue from "../../runtime/algorithms/put-value.js";
 import toObject from "../../runtime/algorithms/to-object.js";
-import getIterator from "../../runtime/iterators/get-iterator.js";
+import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import copyDataProperties from "../../runtime/algorithms/copy-data-properties.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -30,7 +30,7 @@ import { Q } from "../completions/Q.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import { EvaluationContext } from "../EvaluationContext.js";
-import iteratorClose from "../../runtime/iterators/iterator-close.js";
+import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
 import initializeReferencedBinding from "./initialize-referenced-binding.js";
 import initializeBoundName from "./initialize-bound-name.js";
 import iteratorBindingInitialization from "./iterator-binding-initialization.js";

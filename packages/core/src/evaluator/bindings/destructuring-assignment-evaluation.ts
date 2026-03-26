@@ -18,8 +18,8 @@ import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import { isStaticJsNull } from "../../runtime/types/StaticJsNull.js";
 
-import getIterator from "../../runtime/iterators/get-iterator.js";
-import iteratorClose from "../../runtime/iterators/iterator-close.js";
+import { getIterator } from "../../runtime/iterators/get-iterator.js";
+import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
 
 import toObject from "../../runtime/algorithms/to-object.js";
 import putValue from "../../runtime/algorithms/put-value.js";

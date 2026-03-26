@@ -12,17 +12,17 @@ import getMethod from "../algorithms/get-method.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
-export default function asyncIteratorClose(
+export function asyncIteratorClose(
   iteratorRecord: StaticJsIteratorRecord,
   completion: Completion,
   unwrap?: true,
 ): EvaluationGenerator<Completion.Normal>;
-export default function asyncIteratorClose(
+export function asyncIteratorClose(
   iteratorRecord: StaticJsIteratorRecord,
   completion: Completion,
   unwrap: false,
 ): EvaluationGenerator<Completion>;
-export default function* asyncIteratorClose(
+export function* asyncIteratorClose(
   iteratorRecord: StaticJsIteratorRecord,
   completion: Completion,
   unwrap: boolean = true,

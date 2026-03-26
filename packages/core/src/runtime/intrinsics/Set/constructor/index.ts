@@ -2,9 +2,9 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import getIterator from "../../../iterators/get-iterator.js";
-import iteratorClose from "../../../iterators/iterator-close.js";
-import iteratorStepValue from "../../../iterators/iterator-step-value.js";
+import { getIterator } from "../../../iterators/get-iterator.js";
+import { iteratorClose } from "../../../iterators/iterator-close.js";
+import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";

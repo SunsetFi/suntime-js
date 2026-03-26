@@ -5,10 +5,10 @@ import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { isStaticJsValue, StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
 
-import getIterator from "../../runtime/iterators/get-iterator.js";
+import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorComplete } from "../../runtime/iterators/iterator-complete.js";
-import iteratorValue from "../../runtime/iterators/iterator-value.js";
-import iteratorClose from "../../runtime/iterators/iterator-close.js";
+import { iteratorValue } from "../../runtime/iterators/iterator-value.js";
+import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
 
 import call from "../../runtime/algorithms/call.js";
 import getMethod from "../../runtime/algorithms/get-method.js";
@@ -24,7 +24,7 @@ import { AwaitCommand } from "../commands/AwaitCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
 import { StaticJsAsyncGeneratorDeclFunction } from "../../runtime/types/implementation/functions/StaticJsAsyncGeneratorDeclFunction.js";
-import asyncIteratorClose from "../../runtime/iterators/async-iterator-close.js";
+import { asyncIteratorClose } from "../../runtime/iterators/async-iterator-close.js";
 
 export default function* yieldExpressionNodeEvaluator(node: YieldExpression): EvaluationGenerator {
   const { realm } = EvaluationContext.current;
@@ -61,6 +61,8 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
         return yield* Q(iteratorValue(innerResult));
       }
 
+      // Typescript 6 finds this as circular because:
+      // received => innerResult => nextValue => received
       const nextValue: StaticJsValue = yield* Q(iteratorValue(innerResult));
       received = yield* YieldCommand(nextValue);
     } else if (Completion.Throw.is(received)) {

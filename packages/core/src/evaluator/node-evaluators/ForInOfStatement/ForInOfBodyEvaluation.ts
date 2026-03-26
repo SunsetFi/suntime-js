@@ -21,10 +21,10 @@ import { isStaticJsObjectLike } from "../../../runtime/types/StaticJsObjectLike.
 import boundNames from "../../instantiation/algorithms/bound-names.js";
 
 import type { StaticJsIteratorRecord } from "../../../runtime/iterators/StaticJsIteratorRecord.js";
-import iteratorClose from "../../../runtime/iterators/iterator-close.js";
+import { iteratorClose } from "../../../runtime/iterators/iterator-close.js";
 import { iteratorComplete } from "../../../runtime/iterators/iterator-complete.js";
-import iteratorValue from "../../../runtime/iterators/iterator-value.js";
-import asyncIteratorClose from "../../../runtime/iterators/async-iterator-close.js";
+import { iteratorValue } from "../../../runtime/iterators/iterator-value.js";
+import { asyncIteratorClose } from "../../../runtime/iterators/async-iterator-close.js";
 
 import bindingInitialization from "../../bindings/binding-initialization.js";
 import destructuringAssignmentEvaluation from "../../bindings/destructuring-assignment-evaluation.js";

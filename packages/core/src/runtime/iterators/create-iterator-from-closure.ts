@@ -8,7 +8,7 @@ import { StaticJsGeneratorImpl } from "../types/implementation/functions/StaticJ
 import type { StaticJsGenerator } from "../types/StaticJsGenerator.js";
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
-export default function* createIteratorFromClosure(
+export function* createIteratorFromClosure(
   closure: EvaluationGenerator,
   generatorBrand: string | null,
   generatorPrototype: StaticJsObjectLike,

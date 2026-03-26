@@ -11,9 +11,9 @@ import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
-import getIteratorDirect from "./get-iterator-direct.js";
+import { getIteratorDirect } from "./get-iterator-direct.js";
 
-export default function* getIteratorFlattenable(
+export function* getIteratorFlattenable(
   obj: StaticJsValue,
   primitiveHandling: "iterate-string-primitives" | "reject-primitives",
 ): EvaluationGenerator<StaticJsIteratorRecord> {

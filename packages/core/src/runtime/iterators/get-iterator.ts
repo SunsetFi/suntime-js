@@ -10,10 +10,10 @@ import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
 import getMethod from "../algorithms/get-method.js";
 
-import getIteratorFromMethod from "./get-iterator-from-method.js";
-import createAsyncFromSyncIterator from "./create-async-from-sync-iterator.js";
+import { getIteratorFromMethod } from "./get-iterator-from-method.js";
+import { createAsyncFromSyncIterator } from "./create-async-from-sync-iterator.js";
 
-export default function* getIterator(
+export function* getIterator(
   obj: StaticJsValue,
   kind: "sync" | "async",
 ): EvaluationGenerator<StaticJsIteratorRecord> {

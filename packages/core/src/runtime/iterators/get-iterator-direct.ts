@@ -4,7 +4,7 @@ import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
-export default function* getIteratorDirect(
+export function* getIteratorDirect(
   obj: StaticJsObjectLike,
 ): EvaluationGenerator<StaticJsIteratorRecord> {
   const nextMethod = yield* obj.getEvaluator("next");

@@ -6,7 +6,7 @@ import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import codePointAt from "../../../algorithms/code-point-at.js";
 
-import createIteratorFromClosure from "../../../iterators/create-iterator-from-closure.js";
+import { createIteratorFromClosure } from "../../../iterators/create-iterator-from-closure.js";
 
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import { YieldCommand } from "../../../../evaluator/commands/YieldCommand.js";

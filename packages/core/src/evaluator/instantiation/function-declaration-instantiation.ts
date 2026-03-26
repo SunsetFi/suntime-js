@@ -10,7 +10,7 @@ import type { StaticJsAstFunctionArgument } from "../../runtime/types/implementa
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
-import createListIteratorRecord from "../../runtime/iterators/create-list-iterator-record.js";
+import { createListIteratorRecord } from "../../runtime/iterators/create-list-iterator-record.js";
 
 import iteratorBindingInitialization from "../bindings/iterator-binding-initialization.js";
 

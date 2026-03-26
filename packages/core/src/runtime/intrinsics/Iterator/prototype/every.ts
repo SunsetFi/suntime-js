@@ -4,10 +4,10 @@ import { captureThrownCompletion } from "../../../../evaluator/completions/captu
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import toBoolean from "../../../algorithms/to-boolean.js";
-import getIteratorDirect from "../../../iterators/get-iterator-direct.js";
+import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
 
-import iteratorClose from "../../../iterators/iterator-close.js";
-import iteratorStepValue from "../../../iterators/iterator-step-value.js";
+import { iteratorClose } from "../../../iterators/iterator-close.js";
+import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
 
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";

@@ -2,8 +2,8 @@ import { StaticJsRuntimeError } from "../../../../errors/StaticJsRuntimeError.js
 
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 
-import getIterator from "../../../iterators/get-iterator.js";
-import iteratorStepValue from "../../../iterators/iterator-step-value.js";
+import { getIterator } from "../../../iterators/get-iterator.js";
+import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import toBoolean from "../../../algorithms/to-boolean.js";
 
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
@@ -13,7 +13,7 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { toNativeUnwrap } from "../../../utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "../../../utils/to-runtime-wrap.js";
 
-import iteratorClose from "../../../iterators/iterator-close.js";
+import { iteratorClose } from "../../../iterators/iterator-close.js";
 
 import { isStaticJsFunction, type StaticJsFunction } from "../../StaticJsFunction.js";
 import { isStaticJsObjectLike } from "../../StaticJsObjectLike.js";

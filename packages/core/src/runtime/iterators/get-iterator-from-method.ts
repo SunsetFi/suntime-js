@@ -5,10 +5,10 @@ import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { type StaticJsFunction } from "../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import getIteratorDirect from "./get-iterator-direct.js";
+import { getIteratorDirect } from "./get-iterator-direct.js";
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
-export default function* getIteratorFromMethod(
+export function* getIteratorFromMethod(
   obj: StaticJsValue,
   method: StaticJsFunction,
 ): EvaluationGenerator<StaticJsIteratorRecord> {

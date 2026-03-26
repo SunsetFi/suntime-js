@@ -1,8 +1,8 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 
-import getIterator from "../../../iterators/get-iterator.js";
-import iteratorClose from "../../../iterators/iterator-close.js";
-import iteratorStepValue from "../../../iterators/iterator-step-value.js";
+import { getIterator } from "../../../iterators/get-iterator.js";
+import { iteratorClose } from "../../../iterators/iterator-close.js";
+import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import toString from "../../../algorithms/to-string.js";
 
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";

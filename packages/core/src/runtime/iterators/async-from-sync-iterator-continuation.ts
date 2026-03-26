@@ -19,10 +19,10 @@ import { createIteratorResultObject } from "../iterators/create-iterator-result-
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 import { iteratorComplete } from "./iterator-complete.js";
-import iteratorValue from "./iterator-value.js";
-import iteratorClose from "./iterator-close.js";
+import { iteratorValue } from "./iterator-value.js";
+import { iteratorClose } from "./iterator-close.js";
 
-export default function* asyncFromSyncIteratorContinuation(
+export function* asyncFromSyncIteratorContinuation(
   result: StaticJsObjectLike,
   promiseCapability: StaticJsPromiseCapabilityRecord,
   syncIteratorRecord: StaticJsIteratorRecord,

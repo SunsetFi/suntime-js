@@ -8,9 +8,9 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import createDataPropertyOrThrow from "../../../algorithms/create-data-property-or-throw.js";
 import getMethod from "../../../algorithms/get-method.js";
 
-import iteratorStepValue from "../../../iterators/iterator-step-value.js";
-import getIteratorFromMethod from "../../../iterators/get-iterator-from-method.js";
-import iteratorClose from "../../../iterators/iterator-close.js";
+import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
+import { getIteratorFromMethod } from "../../../iterators/get-iterator-from-method.js";
+import { iteratorClose } from "../../../iterators/iterator-close.js";
 
 import { type StaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";

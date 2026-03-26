@@ -5,11 +5,11 @@ import { Q } from "../../../../evaluator/completions/Q.js";
 import { YieldCommand } from "../../../../evaluator/commands/YieldCommand.js";
 
 import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
-import createIteratorFromClosure from "../../../iterators/create-iterator-from-closure.js";
-import getIteratorDirect from "../../../iterators/get-iterator-direct.js";
-import getIteratorFlattenable from "../../../iterators/get-iterator-flattenable.js";
-import iteratorClose from "../../../iterators/iterator-close.js";
-import iteratorStepValue from "../../../iterators/iterator-step-value.js";
+import { createIteratorFromClosure } from "../../../iterators/create-iterator-from-closure.js";
+import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
+import { getIteratorFlattenable } from "../../../iterators/get-iterator-flattenable.js";
+import { iteratorClose } from "../../../iterators/iterator-close.js";
+import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 
 import { isStaticJsFunction, type StaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
