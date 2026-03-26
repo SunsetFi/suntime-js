@@ -67,14 +67,17 @@ export default function defineTest(testName: string, test: Test262File) {
       }
 
       try {
+        let evalFailed = true;
         try {
           await realm.evaluateScript(code, {
             sourceName: `${test.testPath}.js`,
           });
 
+          evalFailed = false;
+
           perf("Test script evaluated");
         } finally {
-          await Promise.all(cleanups.map((cleanup) => cleanup()));
+          await Promise.all(cleanups.map((cleanup) => cleanup(evalFailed))).then(() => {});
           perf("Cleanups completed");
         }
 
@@ -126,7 +129,7 @@ export default function defineTest(testName: string, test: Test262File) {
   }
 }
 
-export type BootstrapCleanup = () => void | Promise<void>;
+export type BootstrapCleanup = (failed: boolean) => void | Promise<void>;
 const asyncFailHeader = "Test262:AsyncTestFailure:";
 const asyncCompleteHeader = "Test262:AsyncTestComplete";
 async function bootstrapAsync(realm: StaticJsRealm): Promise<BootstrapCleanup> {
@@ -156,7 +159,13 @@ async function bootstrapAsync(realm: StaticJsRealm): Promise<BootstrapCleanup> {
 
   await addTestHarness(realm, "doneprintHandle.js");
 
-  async function cleanup() {
+  async function cleanup(failed: boolean) {
+    if (failed) {
+      // Squelch unhandled rejection error, since we're already treating the test as failed.
+      promise.catch(() => {});
+      return;
+    }
+
     await Promise.race([
       promise,
       delay(500).then(() => {
