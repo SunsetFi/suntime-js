@@ -2,7 +2,7 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import newPromiseCapability from "../../../algorithms/new-promise-capability.js";
 
-import { StaticJsFunctionImpl } from "../../../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
 
 import { isStaticJsFunction, type StaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";

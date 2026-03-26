@@ -24,18 +24,18 @@ import type { IntrinsicSymbols, Constructors, Prototypes } from "../../intrinsic
 
 import { WeakValueMap } from "../../../internal/WeakValueMap.js";
 
-import { StaticJsArrayImpl } from "./StaticJsArrayImpl.js";
-import { StaticJsBooleanImpl } from "./StaticJsBooleanImpl.js";
-import { StaticJsNullImpl } from "./StaticJsNullImpl.js";
-import { StaticJsNumberImpl } from "./StaticJsNumberImpl.js";
-import { StaticJsObjectImpl } from "./StaticJsObjectImpl.js";
-import { StaticJsStringImpl } from "./StaticJsStringImpl.js";
-import { StaticJsSymbolImpl, getSymbolProxyOwner } from "./StaticJsSymbolImpl.js";
-import { StaticJsUndefinedImpl } from "./StaticJsUndefinedImpl.js";
-import { StaticJsExternalFunction } from "./StaticJsExternalFunction.js";
-import { StaticJsExternalObject } from "./StaticJsExternalObject.js";
-import { StaticJsFunctionImpl } from "./StaticJsFunctionImpl.js";
-import { getStaticJsObjectLikeProxyOwner } from "./create-object-proxy.js";
+import { StaticJsArrayImpl } from "./objects/StaticJsArrayImpl.js";
+import { StaticJsBooleanImpl } from "./primitives/StaticJsBooleanImpl.js";
+import { StaticJsNullImpl } from "./primitives/StaticJsNullImpl.js";
+import { StaticJsNumberImpl } from "./primitives/StaticJsNumberImpl.js";
+import { StaticJsObjectImpl } from "./objects/StaticJsObjectImpl.js";
+import { StaticJsStringImpl } from "./primitives/StaticJsStringImpl.js";
+import { StaticJsSymbolImpl, getSymbolProxyOwner } from "./primitives/StaticJsSymbolImpl.js";
+import { StaticJsUndefinedImpl } from "./primitives/StaticJsUndefinedImpl.js";
+import { StaticJsExternalFunction } from "./functions/StaticJsExternalFunction.js";
+import { StaticJsExternalObject } from "./objects/StaticJsExternalObject.js";
+import { StaticJsFunctionImpl } from "./functions/StaticJsFunctionImpl.js";
+import { getStaticJsObjectLikeProxyOwner } from "./objects/create-object-proxy.js";
 
 export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _prototypes: Prototypes;

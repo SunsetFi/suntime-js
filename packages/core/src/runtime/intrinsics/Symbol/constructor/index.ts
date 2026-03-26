@@ -2,7 +2,7 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import toString from "../../../algorithms/to-string.js";
 
-import { StaticJsFunctionImpl } from "../../../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
 import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 

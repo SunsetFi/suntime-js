@@ -4,8 +4,8 @@ import toBoolean from "../algorithms/to-boolean.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import { StaticJsBooleanBoxed } from "../types/implementation/StaticJsBooleanBoxed.js";
-import { StaticJsFunctionImpl } from "../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsBooleanBoxed } from "../types/implementation/primitives/StaticJsBooleanBoxed.js";
+import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
 import { isStaticJsBoolean, type StaticJsBoolean } from "../types/StaticJsBoolean.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";

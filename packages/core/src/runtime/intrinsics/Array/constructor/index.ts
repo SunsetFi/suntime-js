@@ -2,8 +2,8 @@ import toInteger from "../../../algorithms/to-integer.js";
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import { StaticJsArrayImpl } from "../../../types/implementation/StaticJsArrayImpl.js";
-import { StaticJsFunctionImpl } from "../../../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsArrayImpl } from "../../../types/implementation/objects/StaticJsArrayImpl.js";
+import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
 import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 

@@ -1,5 +1,5 @@
-import { StaticJsBooleanImpl } from "../../../types/implementation/StaticJsBooleanImpl.js";
-import { StaticJsObjectImpl } from "../../../types/implementation/StaticJsObjectImpl.js";
+import { StaticJsBooleanImpl } from "../../../types/implementation/primitives/StaticJsBooleanImpl.js";
+import { StaticJsObjectImpl } from "../../../types/implementation/objects/StaticJsObjectImpl.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 

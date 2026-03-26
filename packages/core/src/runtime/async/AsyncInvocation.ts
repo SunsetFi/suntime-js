@@ -7,7 +7,7 @@ import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import getMethod from "../algorithms/get-method.js";
 import newPromiseCapability from "../algorithms/new-promise-capability.js";
 
-import { StaticJsFunctionImpl } from "../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
 import { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../types/StaticJsPromise.js";
 import { StaticJsValue } from "../types/StaticJsValue.js";
 

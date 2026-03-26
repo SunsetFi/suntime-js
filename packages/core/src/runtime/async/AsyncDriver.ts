@@ -13,7 +13,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
 
 import { StaticJsValue } from "../types/StaticJsValue.js";
-import { StaticJsFunctionImpl } from "../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
 
 import promiseResolve from "../algorithms/promise-resolve.js";
 

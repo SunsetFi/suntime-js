@@ -6,9 +6,9 @@ import type { StaticJsFunction } from "../../../runtime/types/StaticJsFunction.j
 import type { StaticJsObjectLike } from "../../../runtime/types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
-import type { StaticJsAstFunctionArgument } from "../../../runtime/types/implementation/StaticJsAstFunctionArgument.js";
-import { StaticJsArgumentsExoticObject } from "../../../runtime/types/implementation/StaticJsArgumentsExoticObject.js";
-import { StaticJsFunctionImpl } from "../../../runtime/types/implementation/StaticJsFunctionImpl.js";
+import type { StaticJsAstFunctionArgument } from "../../../runtime/types/implementation/functions/StaticJsAstFunctionArgument.js";
+import { StaticJsArgumentsExoticObject } from "../../../runtime/types/implementation/functions/StaticJsArgumentsExoticObject.js";
+import { StaticJsFunctionImpl } from "../../../runtime/types/implementation/functions/StaticJsFunctionImpl.js";
 
 import createDataPropertyOrThrow from "../../../runtime/algorithms/create-data-property-or-throw.js";
 import definePropertyOrThrow from "../../../runtime/algorithms/define-property-or-throw.js";

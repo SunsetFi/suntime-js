@@ -10,8 +10,8 @@ import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
-import { StaticJsFunctionImpl } from "../../../types/implementation/StaticJsFunctionImpl.js";
-import { StaticJsSetImpl } from "../../../types/implementation/StaticJsSetImpl.js";
+import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsSetImpl } from "../../../types/implementation/objects/StaticJsSetImpl.js";
 
 import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../../utils.js";
 

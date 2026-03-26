@@ -16,10 +16,10 @@ import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import { StaticJsBooleanBoxed } from "../types/implementation/StaticJsBooleanBoxed.js";
-import { StaticJsNumberBoxed } from "../types/implementation/StaticJsNumberBoxed.js";
-import { StaticJsStringBoxed } from "../types/implementation/StaticJsStringBoxed.js";
-import { StaticJsSymbolBoxed } from "../types/implementation/StaticJsSymbolBoxed.js";
+import { StaticJsBooleanBoxed } from "../types/implementation/primitives/StaticJsBooleanBoxed.js";
+import { StaticJsNumberBoxed } from "../types/implementation/primitives/StaticJsNumberBoxed.js";
+import { StaticJsStringBoxed } from "../types/implementation/primitives/StaticJsStringBoxed.js";
+import { StaticJsSymbolBoxed } from "../types/implementation/primitives/StaticJsSymbolBoxed.js";
 
 export default function* toObject(
   value: StaticJsValue,

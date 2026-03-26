@@ -3,8 +3,8 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
-import { StaticJsFunctionImpl } from "../../../types/implementation/StaticJsFunctionImpl.js";
-import { StaticJsNumberBoxed } from "../../../types/implementation/StaticJsNumberBoxed.js";
+import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNumberBoxed } from "../../../types/implementation/primitives/StaticJsNumberBoxed.js";
 
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 

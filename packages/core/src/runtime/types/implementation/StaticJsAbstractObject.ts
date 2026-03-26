@@ -37,7 +37,10 @@ import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 
 import { StaticJsAbstractPrimitive } from "./StaticJsAbstractPrimitive.js";
 
-import { createStaticJsObjectLikeProxy, StaticJsObjectProxyTarget } from "./create-object-proxy.js";
+import {
+  createStaticJsObjectLikeProxy,
+  StaticJsObjectProxyTarget,
+} from "./objects/create-object-proxy.js";
 
 export abstract class StaticJsAbstractObject
   extends StaticJsAbstractPrimitive

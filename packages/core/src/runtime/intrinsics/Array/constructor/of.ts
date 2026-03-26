@@ -2,7 +2,7 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import isConstructor from "../../../algorithms/is-constructor.js";
 
-import { StaticJsArrayImpl } from "../../../types/implementation/StaticJsArrayImpl.js";
+import { StaticJsArrayImpl } from "../../../types/implementation/objects/StaticJsArrayImpl.js";
 
 import {
   isStaticJsObjectLike,

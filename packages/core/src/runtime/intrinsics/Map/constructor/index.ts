@@ -11,8 +11,8 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import toObject from "../../../algorithms/to-object.js";
 
-import { StaticJsFunctionImpl } from "../../../types/implementation/StaticJsFunctionImpl.js";
-import { StaticJsMapImpl } from "../../../types/implementation/StaticJsMapImpl.js";
+import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsMapImpl } from "../../../types/implementation/objects/StaticJsMapImpl.js";
 
 import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../../utils.js";
 

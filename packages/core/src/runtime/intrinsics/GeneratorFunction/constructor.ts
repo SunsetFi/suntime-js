@@ -15,9 +15,9 @@ import toString from "../../algorithms/to-string.js";
 
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 
-import type { StaticJsAstFunctionArgument } from "../../types/implementation/StaticJsAstFunctionArgument.js";
-import { StaticJsFunctionImpl } from "../../types/implementation/StaticJsFunctionImpl.js";
-import { StaticJsGeneratorDeclFunction } from "../../types/implementation/StaticJsGeneratorDeclFunction.js";
+import type { StaticJsAstFunctionArgument } from "../../types/implementation/functions/StaticJsAstFunctionArgument.js";
+import { StaticJsFunctionImpl } from "../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsGeneratorDeclFunction } from "../../types/implementation/functions/StaticJsGeneratorDeclFunction.js";
 
 export default function createGeneratorFunctionConstructor(
   realm: StaticJsRealm,

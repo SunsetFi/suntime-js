@@ -3,9 +3,9 @@ import { isIdentifier, type FunctionDeclaration, type Node } from "@babel/types"
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import type { StaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
 
-import type { StaticJsAstFunction } from "../../runtime/types/implementation/StaticJsAstFunction.js";
-import type { StaticJsFunctionFactory } from "../../runtime/types/implementation/StaticJsFunctionFactory.js";
-import type { StaticJsAstFunctionArgument } from "../../runtime/types/implementation/StaticJsAstFunctionArgument.js";
+import type { StaticJsAstFunction } from "../../runtime/types/implementation/functions/StaticJsAstFunction.js";
+import type { StaticJsFunctionFactory } from "../../runtime/types/implementation/functions/StaticJsFunctionFactory.js";
+import type { StaticJsAstFunctionArgument } from "../../runtime/types/implementation/functions/StaticJsAstFunctionArgument.js";
 
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";

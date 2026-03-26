@@ -10,7 +10,7 @@ import type { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../types/
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import type { StaticJsFunction } from "../types/StaticJsFunction.js";
 
-import { StaticJsFunctionImpl } from "../types/implementation/StaticJsFunctionImpl.js";
+import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
 
 import call from "../algorithms/call.js";
 import promiseResolve from "../algorithms/promise-resolve.js";

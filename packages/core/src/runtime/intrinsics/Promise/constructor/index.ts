@@ -7,8 +7,8 @@ import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsPromise } from "../../../types/StaticJsPromise.js";
 
-import { StaticJsFunctionImpl } from "../../../types/implementation/StaticJsFunctionImpl.js";
-import { StaticJsPromiseImpl } from "../../../types/implementation/StaticJsPromiseImpl.js";
+import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsPromiseImpl } from "../../../types/implementation/objects/StaticJsPromiseImpl.js";
 
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 

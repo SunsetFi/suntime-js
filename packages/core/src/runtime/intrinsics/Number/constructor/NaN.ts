@@ -1,4 +1,4 @@
-import { StaticJsNumberImpl } from "../../../types/implementation/StaticJsNumberImpl.js";
+import { StaticJsNumberImpl } from "../../../types/implementation/primitives/StaticJsNumberImpl.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const numberCtorNanDeclaration: IntrinsicPropertyDeclaration = {

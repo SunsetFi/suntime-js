@@ -18,7 +18,7 @@ import { isStaticJsFunction, type StaticJsFunction } from "../../../types/Static
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 
-import { StaticJsArrayImpl } from "../../../types/implementation/StaticJsArrayImpl.js";
+import { StaticJsArrayImpl } from "../../../types/implementation/objects/StaticJsArrayImpl.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
