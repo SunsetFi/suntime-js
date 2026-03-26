@@ -18,7 +18,7 @@ import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJs
 import promiseResolve from "../algorithms/promise-resolve.js";
 
 export interface AsyncDriverHooks {
-  onYield(value: StaticJsValue): EvaluationGenerator<Completion | null>;
+  onYield(value: StaticJsValue): EvaluationGenerator<Completion | false | void>;
   onReturn(value: StaticJsValue): EvaluationGenerator<void>;
   onThrow(reason: StaticJsValue): EvaluationGenerator<void>;
 }
@@ -26,7 +26,7 @@ export interface AsyncDriverHooks {
 export class AsyncDriver {
   private _state: "unstarted" | "running" | "suspended" | "halted" = "unstarted";
 
-  private _evaluatorStack: EvaluationGenerator<Completion | null | void>[] = [];
+  private _evaluatorStack: EvaluationGenerator<Completion | false | void>[] = [];
 
   constructor(
     private _evaluator: EvaluationGenerator<void>,
@@ -56,7 +56,7 @@ export class AsyncDriver {
     try {
       while (true) {
         const evaluator = this._evaluatorStack[this._evaluatorStack.length - 1];
-        let result: IteratorResult<EvaluatorCommand, Completion | void>;
+        let result: IteratorResult<EvaluatorCommand, Completion | false | void>;
         if (Completion.Abrupt.is(completion)) {
           result = evaluator.throw(completion);
         } else {
@@ -73,7 +73,7 @@ export class AsyncDriver {
             return;
           }
 
-          if (value === null) {
+          if (value === false) {
             // Does not wish to continue execution.
             // This happens on an async generator when nothing is queued.
             return;
@@ -167,7 +167,7 @@ export class AsyncDriver {
     yield* this.continue(Completion.Throw(reason));
   }
 
-  private *_yield(value: StaticJsValue): EvaluationGenerator<Completion | null> {
+  private *_yield(value: StaticJsValue): EvaluationGenerator<Completion | false | void> {
     this._ensureRunning();
 
     return yield* this._hooks.onYield(value);

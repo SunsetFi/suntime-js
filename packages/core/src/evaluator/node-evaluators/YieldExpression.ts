@@ -43,15 +43,12 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
   let received: Completion = realm.types.undefined;
   while (true) {
     if (Completion.Normal.is(received)) {
-      const receivedValue = Completion.value(received);
-      if (!isStaticJsValue(receivedValue)) {
+      if (!isStaticJsValue(received)) {
         throw new StaticJsEngineError(
           "Expected a StaticJsValue as the value of a normal completion from a yield expression.",
         );
       }
-      let innerResult: StaticJsValue = yield* call(iteratorRecord.nextMethod, iterator, [
-        receivedValue,
-      ]);
+      let innerResult: StaticJsValue = yield* call(iteratorRecord.nextMethod, iterator, [received]);
       if (generatorKind === "async") {
         innerResult = yield* Q(AwaitCommand(innerResult));
       }
@@ -111,16 +108,14 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
 
       const returnMethod = yield* Q(getMethod(iteratorRecord.iterator, "return"));
       if (!returnMethod) {
-        let receivedValue = Completion.value(received);
+        let receivedValue: StaticJsValue = received.value;
         if (generatorKind === "async") {
           receivedValue = yield* Q(AwaitCommand(receivedValue));
         }
         throw Completion.Return(receivedValue);
       }
 
-      let innerReturnResult: StaticJsValue = yield* call(returnMethod, iterator, [
-        Completion.value(received),
-      ]);
+      let innerReturnResult: StaticJsValue = yield* call(returnMethod, iterator, [received.value]);
       if (generatorKind === "async") {
         innerReturnResult = yield* Q(AwaitCommand(innerReturnResult));
       }

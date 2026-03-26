@@ -156,7 +156,7 @@ export class StaticJsAsyncGeneratorImpl
     return promiseCapability.promise;
   }
 
-  private *_onYield(value: StaticJsValue): EvaluationGenerator<Completion | null> {
+  private *_onYield(value: StaticJsValue): EvaluationGenerator<Completion | false> {
     const completion = Completion.Normal(value);
 
     yield* this._asyncGeneratorCompleteStep(completion, false);
@@ -170,7 +170,9 @@ export class StaticJsAsyncGeneratorImpl
 
     this._state = "suspended-yield";
     this._pausedContext = EvaluationContext.current;
-    return null;
+
+    // Stop execution until next() or throw() is called.
+    return false;
   }
 
   private *_onReturn(value: StaticJsValue): EvaluationGenerator<void> {
@@ -223,7 +225,7 @@ export class StaticJsAsyncGeneratorImpl
     }
   }
 
-  private *_asyncGeneratorAwaitReturn() {
+  private *_asyncGeneratorAwaitReturn(): EvaluationGenerator<void> {
     if (this._state !== "draining-queue") {
       throw new StaticJsEngineError(
         "Async generator can only await return if it is in draining-queue state.",
@@ -316,7 +318,7 @@ export class StaticJsAsyncGeneratorImpl
     }
   }
 
-  private *_asyncGeneratorDrainQueue() {
+  private *_asyncGeneratorDrainQueue(): EvaluationGenerator<void> {
     if (this._state !== "draining-queue") {
       throw new StaticJsEngineError(
         "Async generator drain queue can only be called if async generator is in draining-queue state.",

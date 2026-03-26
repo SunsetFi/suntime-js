@@ -76,6 +76,8 @@ const MathNumericHookFunctionKeys = [
   "tanh",
 ] satisfies MathNumericFunctionKeys[];
 
+type MathNumericHook = (this: undefined, realm: StaticJsRealm, ...values: number[]) => number;
+
 /*
 This is a little bit concerning having computed access to a javascript intrinsic from the runtime,
 but we filter what keys this can be and still fully expect inputs and outputs to be
@@ -140,10 +142,11 @@ function createMathNumericFunctionHookDeclaration(
   return {
     key,
     *func(realm, _thisObj, ...args) {
-      const hook = realm.hooks.math[key];
+      const hook = realm.hooks.math[key] as MathNumericHook;
 
       const asNumbers: number[] = [];
-      for (let i = 0; i < args.length; i++) {
+      const argLength = Math.max(args.length, mathDefaultHooks[key].length);
+      for (let i = 0; i < argLength; i++) {
         const arg = args[i] ?? realm.types.undefined;
         const asNumber = yield* toNumber(arg);
         asNumbers[i] = asNumber.value;
