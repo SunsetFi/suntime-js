@@ -16,6 +16,6 @@ export default async function addTestHarness(realm: StaticJsRealm, harness: stri
   const content = getHarness(harness);
 
   await realm.evaluateScript(content, {
-    fileName: `<test262-harness>/${harness}`,
+    sourceName: `<test262-harness>/${harness}`,
   });
 }

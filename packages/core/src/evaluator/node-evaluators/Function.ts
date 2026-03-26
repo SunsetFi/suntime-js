@@ -15,6 +15,8 @@ import { StaticJsArrowFunction } from "../../runtime/types/implementation/functi
 import { StaticJsAsyncMethodFunction } from "../../runtime/types/implementation/functions/StaticJsAsyncMethodFunction.js";
 import { StaticJsMethodFunction } from "../../runtime/types/implementation/functions/StaticJsMethodFunction.js";
 import { StaticJsGeneratorDeclFunction } from "../../runtime/types/implementation/functions/StaticJsGeneratorDeclFunction.js";
+import { StaticJsAsyncGeneratorDeclFunction } from "../../runtime/types/implementation/functions/StaticJsAsyncGeneratorDeclFunction.js";
+import { StaticJsGeneratorMethodFunction } from "../../runtime/types/implementation/functions/StaticJsGeneratorMethodFunction.js";
 
 import { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 
@@ -35,7 +37,7 @@ const FunctionConstructorMap = {
   sync: {
     generator: {
       declaration: StaticJsGeneratorDeclFunction,
-      method: createNotSupported("Generator methods are not supported"),
+      method: StaticJsGeneratorMethodFunction,
       arrow: createNotSupported("Generator arrow functions are not supported"),
       class: createNotSupported("Generator class methods are not supported"),
     },
@@ -48,8 +50,8 @@ const FunctionConstructorMap = {
   },
   async: {
     generator: {
-      declaration: createNotSupported("Async generator functions are not supported"),
-      method: createNotSupported("Async generator methods are not supported"),
+      declaration: StaticJsAsyncGeneratorDeclFunction,
+      method: StaticJsAsyncGeneratorDeclFunction,
       arrow: createNotSupported("Async generator arrow functions are not supported"),
       class: createNotSupported("Async generator class methods are not supported"),
     },

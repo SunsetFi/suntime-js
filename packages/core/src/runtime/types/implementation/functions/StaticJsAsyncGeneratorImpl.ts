@@ -27,6 +27,7 @@ import { isStaticJsValue, StaticJsValue } from "../../StaticJsValue.js";
 
 import { StaticJsFunctionImpl } from "./StaticJsFunctionImpl.js";
 import { StaticJsObjectLikeImpl } from "../objects/StaticJsObjectLikeImpl.js";
+import { invokeEvaluator, StaticJsEvaluator } from "../../../../evaluator/StaticJsEvaluator.js";
 
 interface AsyncGeneratorRequest {
   completion: Completion;
@@ -49,13 +50,15 @@ export class StaticJsAsyncGeneratorImpl
   private readonly _asyncGeneratorQueue: AsyncGeneratorRequest[] = [];
 
   constructor(
-    closure: EvaluationGenerator<void>,
+    closure: StaticJsEvaluator<void>,
     private readonly _generatorBrand: string | null,
     realm: StaticJsRealm,
   ) {
-    super(realm);
+    super(realm, realm.types.prototypes.asyncGeneratorProto);
     this._driver = new AsyncDriver(
-      closure,
+      // Note: Actual generator funcs wont start until .next(), but that won't be the case for
+      // passthroughs.  Should defer this.
+      invokeEvaluator(closure),
       {
         onYield: this._onYield.bind(this),
         onReturn: this._onReturn.bind(this),

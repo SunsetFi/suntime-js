@@ -14,14 +14,6 @@ export interface Prototypes {
   setProto: StaticJsObject;
   mapProto: StaticJsObject;
 
-  errorProto: StaticJsObject;
-  typeErrorProto: StaticJsObject;
-  referenceErrorProto: StaticJsObject;
-  syntaxErrorProto: StaticJsObject;
-  rangeErrorProto: StaticJsObject;
-  evalErrorProto: StaticJsObject;
-  uriErrorProto: StaticJsObject;
-
   iteratorProto: StaticJsObject;
   iteratorHelperProto: StaticJsObject;
   arrayIteratorProto: StaticJsObject;
@@ -29,6 +21,17 @@ export interface Prototypes {
 
   generatorProto: StaticJsObject;
   generatorFunctionProto: StaticJsObject;
+
+  asyncGeneratorProto: StaticJsObject;
+  asyncGeneratorFunctionProto: StaticJsObject;
+
+  errorProto: StaticJsObject;
+  typeErrorProto: StaticJsObject;
+  referenceErrorProto: StaticJsObject;
+  syntaxErrorProto: StaticJsObject;
+  rangeErrorProto: StaticJsObject;
+  evalErrorProto: StaticJsObject;
+  uriErrorProto: StaticJsObject;
 }
 
 export interface Constructors {
@@ -51,6 +54,7 @@ export interface Constructors {
   EvalError: StaticJsFunction;
   URIError: StaticJsFunction;
   GeneratorFunction: StaticJsFunction;
+  AsyncGeneratorFunction: StaticJsFunction;
 }
 
 export interface IntrinsicSymbols {

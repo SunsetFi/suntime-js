@@ -46,6 +46,7 @@ For more information, including solutions for breaking loops, see [Quick Start](
 - Functions / Arrow functions
 - Async Functions
 - Generator functions
+- Async generator functions
 - Top-level await
 - Symbols (including engine behavior)
   - Symbol.iterator
@@ -73,11 +74,10 @@ For more information, including solutions for breaking loops, see [Quick Start](
 - Class syntax
 - Date
 - Regex
-- Async generators
 - Proxy
 
 ## Test262 coverage
 
 This project is slowly working its way through the [Test262](https://github.com/tc39/test262) suite of JavaScript tests in order to ensure compliance with the spec.
 
-Currently, around 7400 of the language tests are passing, or about 31%. Further work is ongoing in this area.
+Currently, around 9100 of the language tests are passing, or about 38%. Further work is ongoing in this area.

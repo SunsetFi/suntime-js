@@ -33,7 +33,8 @@
   - [x] Helper for Completion.Throw to pull the current context to create the error from name and message.
 - [ ] Figure out why a tiny number of test262 tests trigger a context.run() to pop a context different from what it pushed.
 - [ ] Yield Delegate for generators
-- [ ] Async generators
+- [x] Async generators
+- [ ] Get promises returned to proxied functions to await properly in the sandbox?
 
 ### Completion Refactor
 

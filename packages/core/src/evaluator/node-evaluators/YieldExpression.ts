@@ -23,6 +23,8 @@ import { AwaitCommand } from "../commands/AwaitCommand.js";
 
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
+import { StaticJsAsyncGeneratorDeclFunction } from "../../runtime/types/implementation/functions/StaticJsAsyncGeneratorDeclFunction.js";
+import asyncIteratorClose from "../../runtime/iterators/async-iterator-close.js";
 
 export default function* yieldExpressionNodeEvaluator(node: YieldExpression): EvaluationGenerator {
   const { realm } = EvaluationContext.current;
@@ -36,8 +38,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
     return yield* Q(YieldCommand(value));
   }
 
-  // TODO: Async generators
-  const generatorKind = "sync" as "sync" | "async";
+  const generatorKind = yield* getGeneratorKind();
   const iteratorRecord = yield* getIterator(value, generatorKind);
   const { iterator } = iteratorRecord;
   let received: Completion = realm.types.undefined;
@@ -57,17 +58,11 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
       }
       const done = yield* Q(iteratorComplete(innerResult));
       if (done) {
-        yield* Q(iteratorValue(innerResult));
+        return yield* Q(iteratorValue(innerResult));
       }
 
-      if (generatorKind === "async") {
-        // TODO: Async generators
-        // AsyncGeneratorYieldCommand
-        throw new StaticJsEngineError("Async generators are not yet supported");
-      } else {
-        const nextValue: StaticJsValue = yield* Q(iteratorValue(innerResult));
-        received = yield* YieldCommand(nextValue);
-      }
+      const nextValue: StaticJsValue = yield* Q(iteratorValue(innerResult));
+      received = yield* YieldCommand(nextValue);
     } else if (Completion.Throw.is(received)) {
       const throwMethod = yield* Q(getMethod(iterator, "throw"));
       if (throwMethod) {
@@ -80,20 +75,15 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
         }
         const done = yield* Q(iteratorComplete(innerResult));
         if (done) {
-          yield* Q(iteratorValue(innerResult));
+          return yield* Q(iteratorValue(innerResult));
         }
 
-        if (generatorKind === "async") {
-          throw new StaticJsEngineError("Async generators are not yet supported");
-        } else {
-          const nextValue: StaticJsValue = yield* Q(iteratorValue(innerResult));
-          received = yield* YieldCommand(nextValue);
-        }
+        const nextValue: StaticJsValue = yield* Q(iteratorValue(innerResult));
+        received = yield* YieldCommand(nextValue);
       } else {
         const closeCompletion = Completion.Normal(null);
         if (generatorKind === "async") {
-          // TODO: asyncIteratorClose
-          throw new StaticJsEngineError("Async generators are not yet supported");
+          yield* Q(asyncIteratorClose(iteratorRecord, closeCompletion));
         } else {
           yield* Q(iteratorClose(iteratorRecord, closeCompletion));
         }
@@ -128,12 +118,12 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
         throw Completion.Return(returnedValue);
       }
 
-      if (generatorKind === "async") {
-        // AsyncGeneratorYield
-        throw new StaticJsEngineError("Async generators are not yet supported");
-      } else {
-        received = yield* YieldCommand(yield* Q(iteratorValue(innerReturnResult)));
-      }
+      received = yield* YieldCommand(yield* Q(iteratorValue(innerReturnResult)));
     }
   }
+}
+
+function* getGeneratorKind() {
+  const func = EvaluationContext.current.function;
+  return func instanceof StaticJsAsyncGeneratorDeclFunction ? "async" : "sync";
 }

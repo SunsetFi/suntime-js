@@ -6,6 +6,7 @@ import { createArrayConstructor } from "./Array/index.js";
 import { createBooleanConstructor } from "./Boolean.js";
 import { createFunctionConstructor } from "./Function/index.js";
 import { createGeneratorFunctionConstructor } from "./GeneratorFunction/index.js";
+import { createAsyncGeneratorFunctionConstructor } from "./AsyncGeneratorFunction/index.js";
 import { createNumberConstructor } from "./Number/index.js";
 import { createObjectConstructor } from "./Object/index.js";
 import { createStringConstructor } from "./String/index.js";
@@ -35,6 +36,10 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
     realm,
     realm.types.prototypes.generatorFunctionProto,
   );
+  const AsyncGeneratorFunction = createAsyncGeneratorFunctionConstructor(
+    realm,
+    realm.types.prototypes.asyncGeneratorFunctionProto,
+  );
   const Iterator = createIteratorConstructor(realm, realm.types.prototypes.iteratorProto);
   const Promise = createPromiseConstructor(realm, realm.types.prototypes.promiseProto);
   const Set = createSetConstructor(realm, realm.types.prototypes.setProto);
@@ -59,6 +64,7 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
     Array,
     Function,
     GeneratorFunction,
+    AsyncGeneratorFunction,
     Iterator,
     Promise,
     Set,

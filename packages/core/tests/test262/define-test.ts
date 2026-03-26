@@ -67,15 +67,16 @@ export default function defineTest(testName: string, test: Test262File) {
       }
 
       try {
-        await realm.evaluateScript(code, {
-          sourceName: `${test.testPath}.js`,
-        });
+        try {
+          await realm.evaluateScript(code, {
+            sourceName: `${test.testPath}.js`,
+          });
 
-        perf("Test script evaluated");
-
-        await Promise.all(cleanups.map((cleanup) => cleanup()));
-
-        perf("Cleanups completed");
+          perf("Test script evaluated");
+        } finally {
+          await Promise.all(cleanups.map((cleanup) => cleanup()));
+          perf("Cleanups completed");
+        }
 
         if (test.negative) {
           throw new Error("Test should have failed to run, but it did not.");

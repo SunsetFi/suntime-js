@@ -76,6 +76,11 @@ export class AsyncDriver {
           if (value === false) {
             // Does not wish to continue execution.
             // This happens on an async generator when nothing is queued.
+
+            if (this._state === "running") {
+              this._state = "suspended";
+            }
+
             return;
           }
 

@@ -24,8 +24,9 @@ export class AsyncInvocation {
     evaluator: StaticJsEvaluator<void>,
     private readonly _realm: StaticJsRealm,
   ) {
-    // We can unwrap / invoke it here, as it won't actually start the function until the first .next() call.
     this._driver = new AsyncDriver(
+      // Note: Actual generator funcs wont start until .next(), but that won't be the case for
+      // passthroughs.  Should defer this.
       invokeEvaluator(evaluator),
       {
         onThrow: this._onThrow.bind(this),
