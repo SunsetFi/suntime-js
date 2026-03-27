@@ -55,7 +55,7 @@ export class AsyncDriver {
 
     try {
       while (true) {
-        const evaluator = this._evaluatorStack[this._evaluatorStack.length - 1];
+        const evaluator = this._evaluatorStack.at(-1)!;
         let result: IteratorResult<EvaluatorCommand, Completion | false | void>;
         if (Completion.Abrupt.is(completion)) {
           result = evaluator.throw(completion);

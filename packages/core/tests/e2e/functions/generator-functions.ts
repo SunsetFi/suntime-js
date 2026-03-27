@@ -132,4 +132,26 @@ describe("E2E: Generator Functions", () => {
     const result = await evaluateScript(code);
     expect(result).toEqual({ value: undefined, done: true });
   });
+
+  it("stuff", async () => {
+    const code = `
+      var following = 0;
+      var iter =function* () {
+        throw new Error();
+        following += 1;
+      }();
+
+      function f([,]) {}
+
+      try {
+          f(iter);
+      } catch (e) {
+      }
+      iter.next();
+      if (following !== 0) {
+      throw new Error("Didnt work");
+      }
+    `;
+    await evaluateScript(code);
+  });
 });

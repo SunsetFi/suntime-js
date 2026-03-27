@@ -176,6 +176,10 @@ export class StaticJsGeneratorImpl extends StaticJsObjectLikeImpl implements Sta
         return this._complete(e.value);
       }
 
+      if (Completion.Throw.is(e)) {
+        return this._fail(e);
+      }
+
       throw e;
     }
   }
@@ -201,5 +205,10 @@ export class StaticJsGeneratorImpl extends StaticJsObjectLikeImpl implements Sta
       done: true,
       value,
     };
+  }
+
+  private _fail(completion: Completion.Throw): never {
+    this._generatorState = "completed";
+    throw completion;
   }
 }
