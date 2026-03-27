@@ -162,6 +162,8 @@ async function bootstrapAsync(realm: StaticJsRealm): Promise<BootstrapCleanup> {
   async function cleanup(failed: boolean) {
     if (failed) {
       // Squelch unhandled rejection error, since we're already treating the test as failed.
+      // There are some cases in test262 where an error occurs after a promise chain has been set up,
+      // so this very well might be resolved with an error, or it may not be resolved at all.
       promise.catch(() => {});
       return;
     }

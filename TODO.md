@@ -35,6 +35,7 @@
 - [ ] Yield Delegate for generators
 - [x] Async generators
 - [ ] Get promises returned to proxied functions to await properly in the sandbox?
+- [ ] Remove unwrap jank from asyncIteratorClose and iteratorClose
 
 ### Completion Refactor
 
