@@ -72,4 +72,4 @@ A stepping debugger for @suntime-js/core, providing breakpoint support and stack
 
 ### @suntime-js/dap
 
-Provides a DAP (Debugger Adapter Protocol) adapter for visual studio code. Adapters for for both vscode (external-progress) and the web-based [CodinGame/monaco-vscode-api](https://github.com/codingame/monaco-vscode-api) are provided.
+Provides a DAP (Debugger Adapter Protocol) adapter for visual studio code. Adapters for for both vscode (external process) and the web-based [CodinGame/monaco-vscode-api](https://github.com/codingame/monaco-vscode-api) are provided.
