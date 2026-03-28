@@ -70,14 +70,17 @@ export function staticJsModuleToImplementation(
   return {
     name: module.name,
     status: "evaluated",
-    getExport(exportName) {
-      return module.getExport(exportName);
-    },
     getExportedNames() {
       return module.getExportedNames();
     },
-    getModuleNamespace() {
-      return module.getModuleNamespace();
+    getExportAsync(exportName) {
+      return module.getExportAsync(exportName);
+    },
+    getExportJsSync(exportName) {
+      return module.getExportJsSync(exportName);
+    },
+    getModuleNamespaceJsSync() {
+      return module.getModuleNamespaceJsSync();
     },
     linkModules() {
       return Promise.resolve<void>(undefined);
@@ -97,14 +100,14 @@ export function staticJsModuleToImplementation(
       return module.getExportedNames();
     },
     *getOwnBindingValueEvaluator(name) {
-      const value = module.getExport(name);
+      const value = module.getExportJsSync(name);
       if (value == null) {
         return null;
       }
       return realm.types.toStaticJsValue(value);
     },
     *getModuleNamespaceEvaluator() {
-      const ns = module.getModuleNamespace();
+      const ns = module.getModuleNamespaceJsSync();
       return realm.types.toStaticJsValue(ns);
     },
   };

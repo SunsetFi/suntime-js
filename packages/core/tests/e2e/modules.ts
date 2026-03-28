@@ -86,7 +86,10 @@ describe("E2E: Modules", () => {
       const realm = StaticJsRealm();
 
       const module = await evaluateModule(moduleCode, { realm });
-      expect(module.getExport("foo")).toBe(42);
+      const foo = await module.getExportAsync("foo");
+      expect(foo).toBeDefined();
+      expect(foo?.runtimeTypeOf).toBe("number");
+      expect(foo?.toJsSync()).toBe(42);
     });
 
     it("Can export a default variable export", async () => {
@@ -97,7 +100,10 @@ describe("E2E: Modules", () => {
       const realm = StaticJsRealm();
 
       const module = await evaluateModule(moduleCode, { realm });
-      expect(module.getExport("default")).toBe(42);
+      const defaultExport = await module.getExportAsync("default");
+      expect(defaultExport).toBeDefined();
+      expect(defaultExport?.runtimeTypeOf).toBe("number");
+      expect(defaultExport?.toJsSync()).toBe(42);
     });
 
     it("Can export a default anonymous function export", async () => {
@@ -109,7 +115,9 @@ describe("E2E: Modules", () => {
       const realm = StaticJsRealm();
 
       const module = await evaluateModule(moduleCode, { realm });
-      expect(module.getExport("default")).toBeTypeOf("function");
+      const defaultExport = await module.getExportAsync("default");
+      expect(defaultExport).toBeDefined();
+      expect(defaultExport?.toJsSync()).toBeTypeOf("function");
     });
 
     it("Can export a default named function export", async () => {
@@ -121,7 +129,9 @@ describe("E2E: Modules", () => {
       const realm = StaticJsRealm();
 
       const module = await evaluateModule(moduleCode, { realm });
-      expect(module.getExport("default")).toBeTypeOf("function");
+      const defaultExport = await module.getExportAsync("default");
+      expect(defaultExport).toBeDefined();
+      expect(defaultExport?.toJsSync()).toBeTypeOf("function");
     });
 
     it("Can export an indirect export", async () => {
@@ -133,7 +143,10 @@ describe("E2E: Modules", () => {
       const realm = StaticJsRealm();
 
       const module = await evaluateModule(moduleCode, { realm });
-      expect(module.getExport("foo")).toBe(42);
+      const foo = await module.getExportAsync("foo");
+      expect(foo).toBeDefined();
+      expect(foo?.runtimeTypeOf).toBe("number");
+      expect(foo?.toJsSync()).toBe(42);
     });
 
     it("Can export a named indirect export", async () => {
@@ -145,7 +158,10 @@ describe("E2E: Modules", () => {
       const realm = StaticJsRealm();
 
       const module = await evaluateModule(moduleCode, { realm });
-      expect(module.getExport("bar")).toBe(42);
+      const bar = await module.getExportAsync("bar");
+      expect(bar).toBeDefined();
+      expect(bar?.runtimeTypeOf).toBe("number");
+      expect(bar?.toJsSync()).toBe(42);
     });
 
     it("Can obtain a namespace", async () => {
@@ -157,7 +173,7 @@ describe("E2E: Modules", () => {
       const realm = StaticJsRealm();
 
       const module = await evaluateModule(moduleCode, { realm });
-      expect(module.getModuleNamespace()).toEqual({
+      expect(module.getModuleNamespaceJsSync()).toEqual({
         bar: 64,
       });
     });
@@ -172,7 +188,7 @@ describe("E2E: Modules", () => {
       const realm = StaticJsRealm();
 
       const module = await evaluateModule(moduleCode, { realm });
-      const ns = module.getModuleNamespace() as {
+      const ns = module.getModuleNamespaceJsSync() as {
         value: number;
         setValue: (x: number) => void;
       };

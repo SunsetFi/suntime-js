@@ -65,32 +65,13 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
     bindingName: string,
   ): EvaluationGenerator<StaticJsValue | null>;
 
-  getExport(exportName: string): unknown {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const self = this;
-    function* getExport() {
-      const resolution = yield* self.resolveExportEvaluator(exportName);
-      if (resolution === null) {
-        return null;
-      }
-      if (resolution === "ambiguous") {
-        throw Completion.Throw(
-          "ReferenceError",
-          `Ambiguous binding ${exportName} in module ${self._name}.`,
-        );
-      }
+  async getExportAsync(exportName: string): Promise<StaticJsValue | null> {
+    return await this._realm.invokeEvaluatorAsync(this._getExportEvaluator(exportName));
+  }
 
-      const { bindingName, module } = resolution;
-
-      if (bindingName === BindingNameNamespace) {
-        return yield* module.getModuleNamespaceEvaluator();
-      }
-
-      return yield* module.getOwnBindingValueEvaluator(bindingName);
-    }
-
+  getExportJsSync(exportName: string): unknown {
     try {
-      const result = this._realm.invokeEvaluatorSync(getExport());
+      const result = this._realm.invokeEvaluatorSync(this._getExportEvaluator(exportName));
       return result ? result.toJsSync() : null;
     } catch (e) {
       Completion.handleRuntime(e);
@@ -99,7 +80,7 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
     }
   }
 
-  getModuleNamespace(): Record<string, unknown> {
+  getModuleNamespaceJsSync(): Record<string, unknown> {
     try {
       const result = this._realm.invokeEvaluatorSync(this.getModuleNamespaceEvaluator());
       return result.toJsSync() as Record<string, unknown>;
@@ -129,5 +110,26 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
     const ns = new StaticJsNamespaceExoticObject(this, unambiguousNames, this._realm);
     this._cachedNamespaceObject = ns;
     return ns;
+  }
+
+  private *_getExportEvaluator(exportName: string): EvaluationGenerator<StaticJsValue | null> {
+    const resolution = yield* this.resolveExportEvaluator(exportName);
+    if (resolution === null) {
+      return null;
+    }
+    if (resolution === "ambiguous") {
+      throw Completion.Throw(
+        "ReferenceError",
+        `Ambiguous binding ${exportName} in module ${this._name}.`,
+      );
+    }
+
+    const { bindingName, module } = resolution;
+
+    if (bindingName === BindingNameNamespace) {
+      return yield* module.getModuleNamespaceEvaluator();
+    }
+
+    return yield* module.getOwnBindingValueEvaluator(bindingName);
   }
 }
