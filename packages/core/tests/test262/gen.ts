@@ -1,74 +1,84 @@
 import { fileURLToPath } from "node:url";
-import { readdirSync, statSync, writeFileSync } from "node:fs";
-import { relative, join } from "node:path";
+import { mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { relative, join, resolve } from "node:path";
 
 import getTest262Path from "./utils/get-test262-path.js";
 
+const testRootDir = fileURLToPath(new URL(".", import.meta.url));
+
 const outputTestDir = fileURLToPath(new URL("tests", import.meta.url));
-const test262Dir = getTest262Path();
+const test262Dir = getTest262Path("test");
 
-const flattenDepth = 1;
+const optInTestFolders = ["language"];
+const flattenDepth = 2;
 
-function* getTestDirs(depth: number = 1, currentFolder = test262Dir): Generator<string> {
+function* getTestDirs(depth: number = 0, currentFolder = test262Dir): Generator<string> {
+  currentFolder = resolve(currentFolder);
+
+  if (depth > flattenDepth) {
+    yield currentFolder;
+    return;
+  }
+
   const entries = readdirSync(currentFolder);
+  const childFolders: string[] = [];
+  let hasFiles = false;
+
   for (const entry of entries) {
     const entryPath = `${currentFolder}/${entry}`;
     const stats = statSync(entryPath);
     if (!stats.isDirectory()) {
+      hasFiles = true;
       continue;
     }
 
-    if (depth >= flattenDepth) {
-      yield entryPath;
-    } else {
-      yield* getTestDirs(depth + 1, entryPath);
+    childFolders.push(entryPath);
+  }
+
+  if (hasFiles || childFolders.length === 0) {
+    yield currentFolder;
+    return;
+  }
+
+  for (const childFolder of childFolders) {
+    yield* getTestDirs(depth + 1, childFolder);
+  }
+}
+
+rmSync(outputTestDir, { recursive: true, force: true });
+mkdirSync(outputTestDir, { recursive: true });
+
+// For now, just start at language.
+for (const folder of optInTestFolders) {
+  for (const test262Path of getTestDirs(1, getTest262Path(`test/${folder}`))) {
+    const relativeTest262Path = relative(test262Dir, test262Path);
+    if (relativeTest262Path.includes("..")) {
+      throw new Error("Test dir is outside of test262: " + test262Path);
     }
-  }
-}
 
-for (const targetTestDir of getTestDirs()) {
-  const relativeTestDir = relative(test262Dir, targetTestDir);
-  if (relativeTestDir.includes("..")) {
-    throw new Error("Test dir is outside of test262: " + targetTestDir);
-  }
+    const destFolderPath = join(outputTestDir, relativeTest262Path, "..");
+    const fileName = relativeTest262Path
+      .split("/")
+      .filter((x) => x.length > 0)
+      .at(-1);
 
-  const outputPath = join(outputTestDir, relativeTestDir);
-  const folderPath = join(outputPath, "..");
-  const fileName = relativeTestDir
-    .split("/")
-    .filter((x) => x.length > 0)
-    .at(-1);
-
-  if (!fileName) {
-    throw new Error("Could not determine file name for test dir: " + targetTestDir);
-  }
-
-  mkdirDeepSync(folderPath);
-  const source = createTestFile(relativeTestDir);
-  writeFileSync(join(outputPath, `${fileName}.test.ts`), source, "utf-8");
-}
-
-function mkdirDeepSync(path: string) {
-  const parts = path.split("/");
-  let currentPath = "";
-  for (const part of parts) {
-    currentPath += part + "/";
-    try {
-      statSync(currentPath);
-    } catch (err) {
-      if ((err as NodeJS.ErrnoException).code === "ENOENT") {
-        // Directory doesn't exist, create it
-        mkdirDeepSync(currentPath);
-      } else {
-        throw err;
-      }
+    if (!fileName) {
+      throw new Error("Could not determine file name for test dir: " + test262Path);
     }
+
+    mkdirSync(destFolderPath, { recursive: true });
+    const source = createTestFile(relativeTest262Path, destFolderPath);
+    writeFileSync(join(destFolderPath, `${fileName}.test.ts`), source, "utf-8");
   }
 }
 
-function createTestFile(path: string) {
-  return `
-    import defineTestFolder from "../define-test-folder.js";
-    defineTestFolder(${JSON.stringify(path)});
-  `.trimStart();
+function createTestFile(test262Dir: string, filePath: string) {
+  const importPath = relative(testRootDir, filePath);
+  const escapeDepth = importPath.split("/").length;
+  const relativeImportPath = "../".repeat(escapeDepth);
+  return [
+    `import defineTestFolder from "${relativeImportPath}define-test-folder.js";`,
+    `defineTestFolder(${JSON.stringify(test262Dir)});`,
+    ``,
+  ].join("\n");
 }

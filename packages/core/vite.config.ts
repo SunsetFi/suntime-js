@@ -33,11 +33,11 @@ export default defineConfig({
         },
         test: {
           name: "Test262",
-          include: ["./tests/test262/index.ts"],
+          include: ["./tests/test262/tests/**/*.ts"],
           isolate: false,
         },
       },
     ],
-    reporters: ["tree", "html"],
+    reporters: ["default", "html"],
   },
 });

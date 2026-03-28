@@ -1,5 +1,7 @@
 import { readFileSync } from "node:fs";
 
+import normalizeTestPathParts from "./normalize-test-path-parts.js";
+
 function getFilepathRelativeToSelf(path: string) {
   return new URL(path, import.meta.url).pathname;
 }
@@ -21,27 +23,35 @@ interface AssertionResult {
   status: "passed" | "failed" | "skipped";
 }
 
-export default function getBaseline(testFile: string) {
-  const testFilePath = getFilepathRelativeToSelf(testFile);
+export default function getBaseline(): Set<string> {
+  const { testResults } = getBaselineResults();
+
+  return new Set(
+    testResults
+      .flatMap((result) => result.assertionResults)
+      .filter((result) => result.status === "passed")
+      .map((result) => normalizeTestPathParts([...result.ancestorTitles, result.title])),
+  );
+}
+
+let cachedBaselineResults: TestResultsJson | undefined;
+function getBaselineResults() {
+  if (cachedBaselineResults) {
+    return cachedBaselineResults;
+  }
+
   let data: string;
   try {
     data = readFileSync(baselineJson, "utf8");
   } catch (e: unknown) {
     if ((e as { code?: string }).code === "ENOENT") {
-      return [];
+      cachedBaselineResults = { testResults: [] };
+      return cachedBaselineResults;
     }
 
     throw e;
   }
 
-  const { testResults } = JSON.parse(data) as TestResultsJson;
-
-  const target = testResults.find((result) => result.name === testFilePath);
-  if (!target) {
-    throw new Error(`No baseline results found for test file: ${testFile}`);
-  }
-
-  return target.assertionResults
-    .filter((result) => result.status === "passed")
-    .map((result) => [...result.ancestorTitles, result.title]);
+  cachedBaselineResults = JSON.parse(data) as TestResultsJson;
+  return cachedBaselineResults;
 }

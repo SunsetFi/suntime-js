@@ -464,7 +464,7 @@ const testCases: TestCase[] = [
 describe("Spec: Var Scope", () => {
   describe("varDeclaredNames", () => {
     it.each(testCases)("$name", ({ code, expectedVarNames }) => {
-      const ast = parseScript(code);
+      const ast = parseScript(code, "test.js");
       const varNames = varDeclaredNames(ast);
       for (const varName of expectedVarNames) {
         expect(varNames).toContain(varName);
@@ -479,7 +479,7 @@ describe("Spec: Var Scope", () => {
 
   describe("varScopedDeclarations", () => {
     it.each(testCases)("$name", ({ code, expectedNodes }) => {
-      const ast = parseScript(code);
+      const ast = parseScript(code, "test.js");
       const declarations = varScopedDeclarations(ast);
       for (let i = 0; i < expectedNodes.length; i++) {
         const expected = expectedNodes[i];
