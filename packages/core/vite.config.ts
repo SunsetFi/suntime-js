@@ -1,15 +1,14 @@
 import { defineConfig } from "vitest/config";
-import { readFileSync } from "fs";
+import { JsonReporter } from "vitest/node";
 
-const tsconfigRaw = readFileSync("./tsconfig.tests.json", "utf-8");
+import createBaseline from "./tests/env/create-baseline.js";
+
+import VitestBadgeReporter from "./tests/reporters/VitestBadgeReporter.js";
 
 export default defineConfig({
   test: {
     projects: [
       {
-        esbuild: {
-          tsconfigRaw,
-        },
         test: {
           name: "spec",
           setupFiles: ["./tests/setup.ts"],
@@ -17,9 +16,6 @@ export default defineConfig({
         },
       },
       {
-        esbuild: {
-          tsconfigRaw,
-        },
         test: {
           name: "e2e",
           setupFiles: ["./tests/setup.ts"],
@@ -28,9 +24,6 @@ export default defineConfig({
         },
       },
       {
-        esbuild: {
-          tsconfigRaw,
-        },
         test: {
           name: "Test262",
           include: ["./tests/test262/tests/**/*.ts"],
@@ -38,6 +31,19 @@ export default defineConfig({
         },
       },
     ],
-    reporters: ["default", "html"],
+    reporters: [
+      "default",
+      "html",
+      createBaseline && new JsonReporter({ outputFile: "tests/test-results-baseline.json" }),
+      createBaseline &&
+        new VitestBadgeReporter({
+          outputFile: "badges/test262.json",
+          label: "Test262 Language Suite",
+        }),
+    ].filter(isNotFalse),
   },
 });
+
+function isNotFalse<T>(value: T | false): value is T {
+  return value !== false;
+}
