@@ -1,2 +1,2 @@
-import defineTestFolder from "../../../define-test-folder.js";
-defineTestFolder("language/statements/for");
+import defineTestFromPath from "../../../define-test-from-path.js";
+defineTestFromPath("language/statements/for");

@@ -1,2 +1,2 @@
-import defineTestFolder from "../../define-test-folder.js";
-defineTestFolder("language/global-code");
+import defineTestFromPath from "../../define-test-from-path.js";
+defineTestFromPath("language/global-code");

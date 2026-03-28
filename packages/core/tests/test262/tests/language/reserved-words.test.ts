@@ -1,2 +1,2 @@
-import defineTestFolder from "../../define-test-folder.js";
-defineTestFolder("language/reserved-words");
+import defineTestFromPath from "../../define-test-from-path.js";
+defineTestFromPath("language/reserved-words");

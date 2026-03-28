@@ -80,8 +80,6 @@ For more information, including solutions for breaking loops, see [Quick Start](
 
 ## Test262 coverage
 
-This project is slowly working its way through the [Test262](https://github.com/tc39/test262) suite of JavaScript tests in order to ensure compliance with the spec.
-
 Current status:
 
 ![Test262 Language Suite](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FSunsetFi%2Fsuntime-js%2Frefs%2Fheads%2Fmain%2Fpackages%2Fcore%2Fbadges%2Ftest262.json)

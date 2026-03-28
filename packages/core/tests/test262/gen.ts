@@ -12,36 +12,42 @@ const test262Dir = getTest262Path("test");
 const optInTestFolders = ["language"];
 const flattenDepth = 2;
 
-function* getTestDirs(depth: number = 0, currentFolder = test262Dir): Generator<string> {
-  currentFolder = resolve(currentFolder);
+function* getTestPaths(depth: number = 0, currentPath = test262Dir): Generator<string> {
+  currentPath = resolve(currentPath);
 
   if (depth > flattenDepth) {
-    yield currentFolder;
+    yield currentPath;
     return;
   }
 
-  const entries = readdirSync(currentFolder);
+  const entries = readdirSync(currentPath);
   const childFolders: string[] = [];
-  let hasFiles = false;
+  const childFiles: string[] = [];
 
   for (const entry of entries) {
-    const entryPath = `${currentFolder}/${entry}`;
+    const entryPath = `${currentPath}/${entry}`;
     const stats = statSync(entryPath);
     if (!stats.isDirectory()) {
-      hasFiles = true;
+      if (entry.endsWith(".js")) {
+        childFiles.push(entryPath);
+      }
       continue;
     }
 
     childFolders.push(entryPath);
   }
 
-  if (hasFiles || childFolders.length === 0) {
-    yield currentFolder;
+  if (childFolders.length === 0) {
+    yield currentPath;
     return;
   }
 
   for (const childFolder of childFolders) {
-    yield* getTestDirs(depth + 1, childFolder);
+    yield* getTestPaths(depth + 1, childFolder);
+  }
+
+  for (const childFile of childFiles) {
+    yield childFile;
   }
 }
 
@@ -50,7 +56,7 @@ mkdirSync(outputTestDir, { recursive: true });
 
 // For now, just start at language.
 for (const folder of optInTestFolders) {
-  for (const test262Path of getTestDirs(1, getTest262Path(`test/${folder}`))) {
+  for (const test262Path of getTestPaths(1, getTest262Path(`test/${folder}`))) {
     const relativeTest262Path = relative(test262Dir, test262Path);
     if (relativeTest262Path.includes("..")) {
       throw new Error("Test dir is outside of test262: " + test262Path);
@@ -77,8 +83,8 @@ function createTestFile(test262Dir: string, filePath: string) {
   const escapeDepth = importPath.split("/").length;
   const relativeImportPath = "../".repeat(escapeDepth);
   return [
-    `import defineTestFolder from "${relativeImportPath}define-test-folder.js";`,
-    `defineTestFolder(${JSON.stringify(test262Dir)});`,
+    `import defineTestFromPath from "${relativeImportPath}define-test-from-path.js";`,
+    `defineTestFromPath(${JSON.stringify(test262Dir)});`,
     ``,
   ].join("\n");
 }

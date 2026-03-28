@@ -1,2 +1,2 @@
-import defineTestFolder from "../../../define-test-folder.js";
-defineTestFolder("language/eval-code/indirect");
+import defineTestFromPath from "../../../define-test-from-path.js";
+defineTestFromPath("language/eval-code/indirect");

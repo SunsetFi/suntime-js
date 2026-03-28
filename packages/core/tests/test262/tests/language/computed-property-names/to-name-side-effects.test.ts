@@ -1,2 +1,2 @@
-import defineTestFolder from "../../../define-test-folder.js";
-defineTestFolder("language/computed-property-names/to-name-side-effects");
+import defineTestFromPath from "../../../define-test-from-path.js";
+defineTestFromPath("language/computed-property-names/to-name-side-effects");

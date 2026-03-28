@@ -31,6 +31,12 @@ export default defineConfig({
         },
       },
     ],
+    coverage: createBaseline
+      ? {}
+      : {
+          include: ["./src/**/*.ts"],
+          exclude: ["./src/**/*.spec.ts"],
+        },
     reporters: [
       "default",
       "html",
