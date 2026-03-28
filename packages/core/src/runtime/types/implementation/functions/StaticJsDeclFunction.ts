@@ -1,4 +1,4 @@
-import type { BlockStatement, Expression } from "@babel/types";
+import type { Function } from "@babel/types";
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
@@ -16,7 +16,7 @@ export class StaticJsDeclFunction extends StaticJsAstFunction {
     realm: StaticJsRealm,
     name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
-    body: BlockStatement | Expression,
+    node: Function,
     opts: StaticJsDeclFunctionOptions,
     functionFactory: StaticJsFunctionFactory,
   ) {
@@ -25,7 +25,7 @@ export class StaticJsDeclFunction extends StaticJsAstFunction {
       realm,
       name,
       argumentDeclarations,
-      body,
+      node,
       {
         thisMode: "non-lexical-this",
         construct: true,

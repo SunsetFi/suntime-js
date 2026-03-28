@@ -1,4 +1,4 @@
-import type { BlockStatement, Expression } from "@babel/types";
+import type { Function } from "@babel/types";
 
 import functionDeclarationInstantiation from "../../../../evaluator/instantiation/function-declaration-instantiation.js";
 
@@ -29,7 +29,7 @@ export class StaticJsGeneratorDeclFunction extends StaticJsAstFunction {
     realm: StaticJsRealm,
     name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
-    body: BlockStatement | Expression,
+    node: Function,
     opts: StaticJsGeneratorDeclFunctionOptions,
     functionFactory: StaticJsFunctionFactory,
   ) {
@@ -37,7 +37,7 @@ export class StaticJsGeneratorDeclFunction extends StaticJsAstFunction {
       realm,
       name,
       argumentDeclarations,
-      body,
+      node,
       {
         thisMode: "non-lexical-this",
         construct: false,
@@ -57,7 +57,7 @@ export class StaticJsGeneratorDeclFunction extends StaticJsAstFunction {
   protected override *_evaluateBody(
     args: StaticJsValue[],
   ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
-    const { realm, _body } = this;
+    const { realm, _node } = this;
 
     // it looks like errors thrown during argument initialization are not caught by the generator, so we don't need to catch them here.
     yield* functionDeclarationInstantiation(
@@ -67,7 +67,7 @@ export class StaticJsGeneratorDeclFunction extends StaticJsAstFunction {
       this._createFunction,
     );
 
-    const evaluator = Q(EvaluateNodeCommand(_body));
+    const evaluator = Q(EvaluateNodeCommand(_node.body));
 
     const generator = new StaticJsGeneratorImpl(evaluator, null, realm);
 

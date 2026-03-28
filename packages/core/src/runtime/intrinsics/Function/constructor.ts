@@ -1,4 +1,4 @@
-import { type Program, blockStatement } from "@babel/types";
+import { type Program, blockStatement, functionDeclaration } from "@babel/types";
 
 import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 
@@ -61,12 +61,13 @@ export default function createFunctionConstructor(
       const context = EvaluationContext.createRootContext(null, false, realm);
 
       const fnBody = blockStatement(body.body, body.directives);
+      const fn = functionDeclaration(null, parameters, fnBody);
 
       return new StaticJsDeclFunction(
         realm,
         "anonymous",
         parameters,
-        fnBody,
+        fn,
         {
           strict: context.strict,
           env: context.lexicalEnv,

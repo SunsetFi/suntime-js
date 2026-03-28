@@ -25,6 +25,10 @@ function* getTestPaths(depth: number = 0, currentPath = test262Dir): Generator<s
   const childFiles: string[] = [];
 
   for (const entry of entries) {
+    if (entry.includes("_FIXTURE")) {
+      continue;
+    }
+
     const entryPath = `${currentPath}/${entry}`;
     const stats = statSync(entryPath);
     if (!stats.isDirectory()) {

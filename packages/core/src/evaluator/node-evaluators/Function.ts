@@ -100,7 +100,7 @@ export default function createFunction(
   const Ctor = FunctionConstructorMap[syncMode][generatorMode][type];
 
   const { realm, strict, scriptOrModule } = EvaluationContext.current;
-  return new Ctor(realm, name, params, node.body, { strict, scriptOrModule, env }, createFunction);
+  return new Ctor(realm, name, params, node, { strict, scriptOrModule, env }, createFunction);
 }
 
 // Making a seperate function because the typescript type guard on filter isnt working...

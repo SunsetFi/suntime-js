@@ -27,8 +27,8 @@ export function* globalDeclarationInstantiation(
   env: StaticJsGlobalEnvironmentRecord,
 ): EvaluationGenerator<void> {
   const { strict } = EvaluationContext.current;
-  const lexNames = lexicallyDeclaredNames(node);
-  const varNames = varDeclaredNames(node);
+  const lexNames = lexicallyDeclaredNames.topLevel(node);
+  const varNames = varDeclaredNames.topLevel(node);
 
   for (const name of lexNames) {
     const hasBinding = yield* hasLexicalDeclaration(name, env);
@@ -52,7 +52,7 @@ export function* globalDeclarationInstantiation(
     }
   }
 
-  const varDeclarations = varScopedDeclarations(node);
+  const varDeclarations = varScopedDeclarations.topLevel(node);
   const functionsToInitialize: FunctionDeclaration[] = [];
   const declaredFunctionNames = new Set<string>();
   for (const d of varDeclarations.reverse()) {
@@ -113,7 +113,7 @@ export function* globalDeclarationInstantiation(
         continue;
       }
 
-      const fnDefinable = yield* canDeclareGlobalFunction(F, env);
+      const fnDefinable = yield* canDeclareGlobalVar(F, env);
       if (!fnDefinable) {
         continue;
       }
@@ -127,7 +127,7 @@ export function* globalDeclarationInstantiation(
     }
   }
 
-  const lexDeclarations = lexicallyScopedDeclarations(node);
+  const lexDeclarations = lexicallyScopedDeclarations.topLevel(node);
   for (const d of lexDeclarations) {
     for (const dn of boundNames(d)) {
       if (isVariableDeclaration(d) && d.kind === "const") {

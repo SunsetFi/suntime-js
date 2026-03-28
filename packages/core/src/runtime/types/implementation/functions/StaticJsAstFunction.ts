@@ -1,4 +1,4 @@
-import { type Node, type BlockStatement, type Expression } from "@babel/types";
+import { type Node, type Function } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 
@@ -49,7 +49,7 @@ export abstract class StaticJsAstFunction extends StaticJsFunctionImpl {
     realm: StaticJsRealm,
     name: string | null,
     private readonly _argumentDeclarations: StaticJsAstFunctionArgument[],
-    protected readonly _body: BlockStatement | Expression,
+    protected readonly _node: Function,
     { thisMode, strict, env, scriptOrModule, ...opts }: StaticJsAstFunctionOptions,
     // Gross circular dependency workaround.
     protected readonly _createFunction: StaticJsFunctionFactory,
@@ -63,8 +63,8 @@ export abstract class StaticJsAstFunction extends StaticJsFunctionImpl {
     if (strict) {
       this._strict = true;
     } else if (
-      _body.type === "BlockStatement" &&
-      _body.directives.some(({ value }) => value.value === "use strict")
+      _node.body.type === "BlockStatement" &&
+      _node.body.directives.some(({ value }) => value.value === "use strict")
     ) {
       this._strict = true;
     } else {
@@ -85,7 +85,7 @@ export abstract class StaticJsAstFunction extends StaticJsFunctionImpl {
   }
 
   override get ecmaScriptCode(): Node {
-    return this._body;
+    return this._node;
   }
 
   override get scriptOrModule(): StaticJsScriptOrModuleRecord | null {
@@ -134,7 +134,7 @@ export abstract class StaticJsAstFunction extends StaticJsFunctionImpl {
   protected *_evaluateBody(
     args: StaticJsValue[],
   ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
-    const { realm, _body } = this;
+    const { realm, _node } = this;
 
     yield* functionDeclarationInstantiation(
       this,
@@ -144,7 +144,7 @@ export abstract class StaticJsAstFunction extends StaticJsFunctionImpl {
     );
 
     try {
-      yield* Q(EvaluateNodeCommand(_body));
+      yield* Q(EvaluateNodeCommand(_node.body));
       return Completion.Return(realm.types.undefined);
     } catch (e) {
       if (Completion.Return.is(e)) {

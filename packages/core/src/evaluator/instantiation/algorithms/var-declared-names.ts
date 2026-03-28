@@ -14,6 +14,10 @@ export default function varDeclaredNames(node: Node): string[] {
       }
       return boundNames(node);
     }
+    case "FunctionDeclaration": {
+      return [];
+      // return boundNames(node);
+    }
     case "BlockStatement":
       return node.body.flatMap(varDeclaredNames);
     case "SwitchStatement":
@@ -80,9 +84,17 @@ function topLevelVarDeclaredNames(node: Node): string[] {
     case "File":
       return topLevelVarDeclaredNames(node.program);
     case "Program":
-      return node.body.flatMap(topLevelVarDeclaredNames);
+      return node.body.flatMap(varDeclaredNames);
     case "FunctionDeclaration":
-      return boundNames(node);
+    case "FunctionExpression":
+    case "ArrowFunctionExpression":
+    case "ObjectMethod":
+    case "ClassMethod":
+    case "ClassPrivateMethod":
+      if (node.body.type === "BlockStatement") {
+        return node.body.body.flatMap(varDeclaredNames);
+      }
+      return [];
     case "LabeledStatement":
       return topLevelVarDeclaredNames(node.body);
     /* BEGIN Statement */

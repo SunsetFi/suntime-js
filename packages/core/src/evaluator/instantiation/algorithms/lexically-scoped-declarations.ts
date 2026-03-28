@@ -23,7 +23,10 @@ function isLexicallyScopedDeclaration(node: Node): node is LexicallyScopedDeclNo
   );
 }
 
-export default function lexicallyScopedDeclarations(node: Node): LexicallyScopedDeclNode[] {
+export default function lexicallyScopedDeclarations(
+  node: Node,
+  context?: "block" | "module",
+): LexicallyScopedDeclNode[] {
   switch (node.type) {
     case "File":
       return lexicallyScopedDeclarations(node.program);
@@ -31,15 +34,18 @@ export default function lexicallyScopedDeclarations(node: Node): LexicallyScoped
       if (node.sourceType === "module") {
         // Really?  varScopedDeclarations?
         // Spec says it is...
-        return node.body.flatMap(lexicallyScopedDeclarations);
+        return node.body.flatMap((node) => lexicallyScopedDeclarations(node, "module"));
       }
-      return node.body.flatMap(topLevelLexicallyScopedDeclarations);
+      return node.body.flatMap((node) => lexicallyScopedDeclarations(node));
     }
     case "LabeledStatement":
       return lexicallyScopedDeclarations(node.body);
     /* BEGIN Declaration */
     case "FunctionDeclaration":
-      return [node];
+      if (context === "block" || context === "module") {
+        return [node];
+      }
+      return [];
     case "ClassDeclaration":
       return [node];
     case "VariableDeclaration": {
@@ -50,7 +56,7 @@ export default function lexicallyScopedDeclarations(node: Node): LexicallyScoped
     }
     /* END Declaration */
     case "SwitchCase":
-      return node.consequent.flatMap(lexicallyScopedDeclarations);
+      return node.consequent.flatMap((node) => lexicallyScopedDeclarations(node));
     case "ExportNamedDeclaration": {
       if (
         !node.declaration ||
@@ -85,11 +91,19 @@ function topLevelLexicallyScopedDeclarations(node: Node): LexicallyScopedDeclNod
     case "File":
       return topLevelLexicallyScopedDeclarations(node.program);
     case "Program":
-      return node.body.flatMap(topLevelLexicallyScopedDeclarations);
+      return lexicallyScopedDeclarations(node);
     case "LabeledStatement":
       return topLevelLexicallyScopedDeclarations(node.body);
     /* BEGIN Declaration */
     case "FunctionDeclaration":
+    case "FunctionExpression":
+    case "ArrowFunctionExpression":
+    case "ObjectMethod":
+    case "ClassMethod":
+    case "ClassPrivateMethod":
+      if (node.body.type === "BlockStatement") {
+        return node.body.body.flatMap((node) => lexicallyScopedDeclarations(node));
+      }
       return [];
     case "ClassDeclaration":
       return [node];
@@ -100,23 +114,25 @@ function topLevelLexicallyScopedDeclarations(node: Node): LexicallyScopedDeclNod
       return [node];
     }
     /* END Declaration */
-    case "BlockStatement": /* BEGIN Statement */
+    case "BlockStatement":
+      return node.body.flatMap((node) => lexicallyScopedDeclarations(node, "block"));
+    case "SwitchStatement":
+      return node.cases.flatMap((node) => lexicallyScopedDeclarations(node, "block"));
     case "EmptyStatement":
     case "ExpressionStatement":
     case "IfStatement":
-    case "DoWhileStatement": /* BEGIN BreakableStatement */
+    case "DoWhileStatement":
     case "WhileStatement":
     case "ForStatement":
     case "ForInStatement":
     case "ForOfStatement":
-    case "SwitchStatement": /* END BreakableStatement */
     case "ContinueStatement":
     case "BreakStatement":
     case "ReturnStatement":
     case "WithStatement":
     case "ThrowStatement":
     case "TryStatement":
-    case "DebuggerStatement" /* END Statement */:
+    case "DebuggerStatement":
       return lexicallyScopedDeclarations(node);
   }
 

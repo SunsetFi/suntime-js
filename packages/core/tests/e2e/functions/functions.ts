@@ -62,7 +62,86 @@ describe("E2E: Functions", () => {
           function a() {
             return 42;
           }
-          a();
+          result;
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(42);
+      });
+
+      it("Is hoisted with var", async () => {
+        const code = `
+          var a;
+          let result = a();
+          function a() {
+            return 42;
+          }
+          result;
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(42);
+      });
+
+      it("Is hoisted within functions", async () => {
+        const code = `
+          function outer() {
+            let result = inner();
+            function inner() {
+              return 42;
+            }
+            return result;
+          }
+          outer();
+        `;
+        const result = await evaluateScript(code);
+        expect(result).toBe(42);
+      });
+
+      it("stuff", async () => {
+        const code = `
+function f1(){
+  var x;
+  
+  return x;
+  
+  function x(){
+    return 7;
+  }
+}
+
+if (f1().constructor.prototype !==  Function.prototype) {
+  throw new Error("Test failed 1");
+}
+
+//CHECK#2
+function f2(){
+  var x;
+  
+  return typeof x;
+  
+  function x(){
+    return 7;
+  }
+}
+
+if (f2() !== "function") {
+  throw new Error("Test failed 2");
+}
+
+`;
+        await evaluateScript(code);
+      });
+
+      it("Is hoisted within functions with var", async () => {
+        const code = `
+          function outer() {
+            var inner;
+            let result = inner();
+            function inner() {
+              return 42;
+            }
+            return result;
+          }
+          outer();
         `;
         const result = await evaluateScript(code);
         expect(result).toBe(42);

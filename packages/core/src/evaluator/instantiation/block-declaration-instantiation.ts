@@ -1,4 +1,4 @@
-import { isBlock, type Block, type SwitchStatement } from "@babel/types";
+import { type Block, type SwitchStatement } from "@babel/types";
 
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 
@@ -6,28 +6,14 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import createFunction from "../node-evaluators/Function.js";
 
-import lexicallyScopedDeclarations, {
-  type LexicallyScopedDeclNode,
-} from "./algorithms/lexically-scoped-declarations.js";
+import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
 import boundNames from "./algorithms/bound-names.js";
 
 export default function* blockDeclarationInstantiation(
   node: Block | SwitchStatement,
   env: StaticJsEnvironmentRecord,
 ): EvaluationGenerator<void> {
-  // FIXME: The spec just shows lexicallyScopedDeclarations called on 'code', whatever that is.
-  // That can't be the body node, as LSD does not define any behaviors for Blocks?
-  let declarations: LexicallyScopedDeclNode[];
-  if (isBlock(node)) {
-    declarations = node.body.flatMap(lexicallyScopedDeclarations);
-  } else if (node.type === "SwitchStatement") {
-    declarations = node.cases.flatMap((caseNode) =>
-      caseNode.consequent.flatMap(lexicallyScopedDeclarations),
-    );
-  } else {
-    declarations = [];
-  }
-
+  const declarations = lexicallyScopedDeclarations.topLevel(node);
   for (const d of declarations) {
     for (const dn of boundNames(d)) {
       if (d.type === "VariableDeclaration" && d.kind === "const") {

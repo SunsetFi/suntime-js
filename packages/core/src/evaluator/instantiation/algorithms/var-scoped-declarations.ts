@@ -2,27 +2,36 @@ import type { FunctionDeclaration, Node, VariableDeclaration } from "@babel/type
 
 export type VarScopedDeclNode = VariableDeclaration | FunctionDeclaration;
 
-export default function varScopedDeclarations(node: Node): VarScopedDeclNode[] {
+export default function varScopedDeclarations(
+  node: Node,
+  context?: "block" | "module",
+): VarScopedDeclNode[] {
   switch (node.type) {
     case "File":
       return varScopedDeclarations(node.program);
     case "Program":
       if (node.sourceType === "module") {
-        return node.body.flatMap(varScopedDeclarations);
+        return node.body.flatMap((node) => varScopedDeclarations(node, "module"));
       }
-      return node.body.flatMap(topLevelVarScopedDeclarations);
+      return node.body.flatMap((node) => varScopedDeclarations(node));
     case "VariableDeclaration": {
       if (node.kind !== "var") {
         return [];
       }
       return [node];
     }
+    case "FunctionDeclaration": {
+      if (context === "block" || context === "module") {
+        return [];
+      }
+      return [node];
+    }
     case "BlockStatement":
-      return node.body.flatMap(varScopedDeclarations);
+      return node.body.flatMap((node) => varScopedDeclarations(node, "block"));
     case "SwitchStatement":
-      return node.cases.flatMap(varScopedDeclarations);
+      return node.cases.flatMap((node) => varScopedDeclarations(node, "block"));
     case "SwitchCase":
-      return node.consequent.flatMap(varScopedDeclarations);
+      return node.consequent.flatMap((node) => varScopedDeclarations(node, context));
     case "ForStatement": {
       let decls: VarScopedDeclNode[] = [];
       if (node.init) {
@@ -67,13 +76,12 @@ export default function varScopedDeclarations(node: Node): VarScopedDeclNode[] {
       return varScopedDeclarations(node.body);
     case "ImportDeclaration":
       return [];
-    case "ExportNamedDeclaration":
-    case "ExportDefaultDeclaration": {
-      if (node.declaration) {
-        return varScopedDeclarations(node.declaration);
-      }
-      return [];
-    }
+    // case "ExportNamedDeclaration": {
+    //   if (node.declaration) {
+    //     return varScopedDeclarations(node.declaration);
+    //   }
+    //   return [];
+    // }
   }
   return [];
 }
@@ -83,10 +91,17 @@ function topLevelVarScopedDeclarations(node: Node): VarScopedDeclNode[] {
     case "File":
       return topLevelVarScopedDeclarations(node.program);
     case "Program":
-      return node.body.flatMap(topLevelVarScopedDeclarations);
-    case "FunctionDeclaration": {
-      return [node];
-    }
+      return varScopedDeclarations(node);
+    case "FunctionDeclaration":
+    case "FunctionExpression":
+    case "ArrowFunctionExpression":
+    case "ObjectMethod":
+    case "ClassMethod":
+    case "ClassPrivateMethod":
+      if (node.body.type === "BlockStatement") {
+        return node.body.body.flatMap((node) => varScopedDeclarations(node));
+      }
+      return [];
     case "LabeledStatement":
       return topLevelVarScopedDeclarations(node.body);
     /* BEGIN Statement */

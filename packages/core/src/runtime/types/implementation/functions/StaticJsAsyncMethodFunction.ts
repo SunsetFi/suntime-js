@@ -1,4 +1,4 @@
-import type { BlockStatement, Expression } from "@babel/types";
+import type { Function } from "@babel/types";
 
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 
@@ -34,7 +34,7 @@ export class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
     realm: StaticJsRealm,
     name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
-    body: BlockStatement | Expression,
+    node: Function,
     opts: StaticJsAsyncMethodFunctionOptions,
     functionFactory: StaticJsFunctionFactory,
   ) {
@@ -42,7 +42,7 @@ export class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
       realm,
       name,
       argumentDeclarations,
-      body,
+      node,
       {
         ...opts,
         construct: false,
@@ -57,7 +57,7 @@ export class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
   protected override *_evaluateBody(
     args: StaticJsValue[],
   ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
-    const { realm, _body } = this;
+    const { realm, _node } = this;
 
     // FIXME: By spec, we should create one promise capability,
     // and use it for this failure AND root eval.
@@ -79,7 +79,7 @@ export class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
     }
 
     function* evaluator(): EvaluationGenerator<void> {
-      const result = yield* Q(EvaluateNodeCommand(_body));
+      const result = yield* Q(EvaluateNodeCommand(_node.body));
       if (result !== null) {
         const value = yield* Q(getValue(result));
         throw Completion.Return(value);

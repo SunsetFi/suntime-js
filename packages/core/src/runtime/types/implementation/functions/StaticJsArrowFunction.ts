@@ -1,4 +1,4 @@
-import type { BlockStatement, Expression } from "@babel/types";
+import type { Function } from "@babel/types";
 
 import getValue from "../../../algorithms/get-value.js";
 import toString from "../../../algorithms/to-string.js";
@@ -33,7 +33,7 @@ export class StaticJsArrowFunction extends StaticJsAstFunction {
     realm: StaticJsRealm,
     name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
-    body: BlockStatement | Expression,
+    node: Function,
     opts: StaticJsArrowFunctionOptions,
     functionFactory: StaticJsFunctionFactory,
   ) {
@@ -41,7 +41,7 @@ export class StaticJsArrowFunction extends StaticJsAstFunction {
       realm,
       name,
       argumentDeclarations,
-      body,
+      node,
       { thisMode: "lexical-this", construct: false, ...opts },
       functionFactory,
     );
@@ -60,7 +60,7 @@ export class StaticJsArrowFunction extends StaticJsAstFunction {
   protected override *_evaluateBody(
     args: StaticJsValue[],
   ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
-    const { realm, _body } = this;
+    const { realm, _node } = this;
 
     yield* functionDeclarationInstantiation(
       this,
@@ -71,7 +71,7 @@ export class StaticJsArrowFunction extends StaticJsAstFunction {
 
     let result: StaticJsValue = realm.types.undefined;
     try {
-      const completion = yield* Q(EvaluateNodeCommand(_body));
+      const completion = yield* Q(EvaluateNodeCommand(_node.body));
       if (completion) {
         result = yield* getValue(completion);
       }

@@ -1,4 +1,4 @@
-import { blockStatement, type Program } from "@babel/types";
+import { blockStatement, functionDeclaration, type Program } from "@babel/types";
 
 import { parseParameters } from "../../../parser/parse-parameters.js";
 import { parseFunctionBody } from "../../../parser/parse-function-body.js";
@@ -61,12 +61,13 @@ export default function createGeneratorFunctionConstructor(
       const context = EvaluationContext.createRootContext(null, false, realm);
 
       const fnBody = blockStatement(body.body, body.directives);
+      const fn = functionDeclaration(null, parameters, fnBody, false, true);
 
       return new StaticJsGeneratorDeclFunction(
         realm,
         "anonymous",
         parameters,
-        fnBody,
+        fn,
         {
           strict: context.strict,
           env: context.lexicalEnv,

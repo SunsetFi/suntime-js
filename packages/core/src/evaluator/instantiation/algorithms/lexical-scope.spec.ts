@@ -14,6 +14,11 @@ import {
   classBody,
 } from "@babel/types";
 
+import { parseModule } from "../../../parser/parse-module.js";
+
+import lexicallyDeclaredNames from "./lexically-declared-names.js";
+import lexicallyScopedDeclarations from "./lexically-scoped-declarations.js";
+
 // The babel objectProperty sets decorators to null, but the parser omits it entirely.
 const objectProperty: typeof babelObjectProperty = (
   ...args: Parameters<typeof babelObjectProperty>
@@ -36,11 +41,6 @@ const classDeclaration: typeof babelClassDeclaration = (
 
   return result;
 };
-
-import { parseModule } from "../../parser/parse-module.js";
-
-import lexicallyDeclaredNames from "./lexically-declared-names.js";
-import lexicallyScopedDeclarations from "./lexically-scoped-declarations.js";
 
 interface TestCase {
   name: string;
@@ -87,7 +87,7 @@ const testCases: TestCase[] = [
     expectedNodes: [],
   },
   {
-    name: "Switch with let/const declarations",
+    name: "No lexical vars on switch with let/const declarations",
     code: `
       switch (z) {
         case 1:
@@ -98,11 +98,8 @@ const testCases: TestCase[] = [
           break;
       }
       `,
-    expectedVarNames: ["a", "b"],
-    expectedNodes: [
-      variableDeclaration("let", [variableDeclarator(identifier("a"), numericLiteral(1))]),
-      variableDeclaration("const", [variableDeclarator(identifier("b"), numericLiteral(2))]),
-    ],
+    expectedVarNames: [],
+    expectedNodes: [],
   },
   {
     name: "No lexical var",
@@ -470,7 +467,7 @@ const testCases: TestCase[] = [
 describe("Spec: Lexical Scope", () => {
   describe("lexicalDeclaredNames", () => {
     it.each(testCases)("$name", ({ code, expectedVarNames }) => {
-      const ast = parseModule(code);
+      const ast = parseModule(code, "test.js");
       const varNames = lexicallyDeclaredNames(ast);
       for (const varName of expectedVarNames) {
         expect(varNames).toContain(varName);
@@ -485,7 +482,7 @@ describe("Spec: Lexical Scope", () => {
 
   describe("lexicallyScopedDeclarations", () => {
     it.each(testCases)("$name", ({ code, expectedNodes }) => {
-      const ast = parseModule(code);
+      const ast = parseModule(code, "test.js");
       const declarations = lexicallyScopedDeclarations(ast);
       for (let i = 0; i < expectedNodes.length; i++) {
         const expected = expectedNodes[i];
@@ -494,7 +491,7 @@ describe("Spec: Lexical Scope", () => {
       }
       if (declarations.length !== expectedNodes.length) {
         expect.fail(
-          `Expected declarations length ${expectedNodes.length}, but got ${declarations.length}`,
+          `Expected declarations length ${expectedNodes.length}, but got ${declarations[0].type}`,
         );
       }
     });

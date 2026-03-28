@@ -2,16 +2,20 @@ import { type Node } from "@babel/types";
 
 import boundNames from "./bound-names.js";
 
-export default function lexicallyDeclaredNames(node: Node): string[] {
+export default function lexicallyDeclaredNames(node: Node, context?: "block"): string[] {
   switch (node.type) {
     case "File":
       return lexicallyDeclaredNames(node.program);
     case "Program":
-      return node.body.flatMap(topLevelLexicallyDeclaredNames);
+      return node.body.flatMap((node) => lexicallyDeclaredNames(node));
     case "LabeledStatement":
       return lexicallyDeclaredNames(node.body);
     /* BEGIN Declaration */
     case "FunctionDeclaration":
+      if (context === "block") {
+        return boundNames(node);
+      }
+      return [];
     case "ClassDeclaration":
       return boundNames(node);
     case "VariableDeclaration": {
@@ -22,7 +26,7 @@ export default function lexicallyDeclaredNames(node: Node): string[] {
     }
     /* END Declaration */
     case "SwitchCase":
-      return node.consequent.flatMap(lexicallyDeclaredNames);
+      return node.consequent.flatMap((node) => lexicallyDeclaredNames(node));
     case "ExportNamedDeclaration": {
       if (node.declaration?.type === "VariableDeclaration" && node.declaration.kind === "var") {
         return [];
@@ -42,11 +46,19 @@ function topLevelLexicallyDeclaredNames(node: Node): string[] {
     case "File":
       return topLevelLexicallyDeclaredNames(node.program);
     case "Program":
-      return node.body.flatMap(topLevelLexicallyDeclaredNames);
+      return lexicallyDeclaredNames(node);
     case "LabeledStatement":
       return topLevelLexicallyDeclaredNames(node.body);
     /* BEGIN Declaration */
     case "FunctionDeclaration":
+    case "FunctionExpression":
+    case "ArrowFunctionExpression":
+    case "ObjectMethod":
+    case "ClassMethod":
+    case "ClassPrivateMethod":
+      if (node.body.type === "BlockStatement") {
+        return node.body.body.flatMap((node) => lexicallyDeclaredNames(node));
+      }
       return [];
     case "ClassDeclaration":
       return boundNames(node);
@@ -57,23 +69,25 @@ function topLevelLexicallyDeclaredNames(node: Node): string[] {
       return boundNames(node);
     }
     /* END Declaration */
-    case "BlockStatement": /* BEGIN Statement */
+    case "BlockStatement":
+      return node.body.flatMap((node) => lexicallyDeclaredNames(node, "block"));
+    case "SwitchStatement":
+      return node.cases.flatMap((node) => lexicallyDeclaredNames(node, "block"));
     case "EmptyStatement":
     case "ExpressionStatement":
     case "IfStatement":
-    case "DoWhileStatement": /* BEGIN BreakableStatement */
+    case "DoWhileStatement":
     case "WhileStatement":
     case "ForStatement":
     case "ForInStatement":
     case "ForOfStatement":
-    case "SwitchStatement": /* END BreakableStatement */
     case "ContinueStatement":
     case "BreakStatement":
     case "ReturnStatement":
     case "WithStatement":
     case "ThrowStatement":
     case "TryStatement":
-    case "DebuggerStatement" /* END Statement */:
+    case "DebuggerStatement":
       return lexicallyDeclaredNames(node);
   }
 
