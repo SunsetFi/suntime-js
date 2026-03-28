@@ -132,4 +132,30 @@ describe("E2E: Generator Functions", () => {
     const result = await evaluateScript(code);
     expect(result).toEqual({ value: undefined, done: true });
   });
+
+  describe("Expressions", () => {
+    it("Gets named from the variable when no name is given", async () => {
+      const code = `
+        const gen = function*() {
+          yield 1;
+        }
+        gen.name
+      `;
+
+      const result = await evaluateScript(code);
+      expect(result).toBe("gen");
+    });
+
+    it("Does not get named from the variable when it has its own name", async () => {
+      const code = `
+        const gen = function* myGen() {
+          yield 1;
+        }
+        gen.name
+      `;
+
+      const result = await evaluateScript(code);
+      expect(result).toBe("myGen");
+    });
+  });
 });

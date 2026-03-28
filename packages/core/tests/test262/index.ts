@@ -7,7 +7,7 @@ import test262Path from "./utils/test262-path.js";
 import getFilesSync from "./utils/get-files.js";
 import getPerf from "./utils/get-perf.js";
 
-import getBaseline from "../get-baseline-failures.js";
+import getBaseline from "../get-baseline.js";
 
 import Test262File from "./Test262File.js";
 import defineTest from "./define-test.js";

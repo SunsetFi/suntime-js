@@ -19,6 +19,7 @@ import initializeReferencedBinding from "../bindings/initialize-referenced-bindi
 import bindingInitialization from "../bindings/binding-initialization.js";
 
 import putValue from "../../runtime/algorithms/put-value.js";
+import NamedEvaluation from "./NamedEvaluation.js";
 
 function* variableDeclarationNodeEvaluator(node: VariableDeclaration): EvaluationGenerator {
   const { lexicalEnv, realm, strict } = EvaluationContext.current;
@@ -49,7 +50,7 @@ function* declarationStatementEvaluator(
 
     let value: StaticJsValue = realm.types.undefined;
     if (declarator.init) {
-      const rhs = yield* Q.val(EvaluateNodeCommand(declarator.init));
+      const rhs = yield* Q.val(NamedEvaluation(bindingId, declarator.init));
       value = rhs;
     }
 

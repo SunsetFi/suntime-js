@@ -463,6 +463,26 @@ describe("E2E: Functions", () => {
       `;
       expect(await evaluateScript(code)).toBe(120);
     });
+
+    it("Gets named from the variable when no name is given", async () => {
+      const code = `
+        const a = function() {
+          return 42;
+        };
+        a.name;
+      `;
+      expect(await evaluateScript(code)).toBe("a");
+    });
+
+    it("Does not get named from the variable when it has its own name", async () => {
+      const code = `
+        const a = function myFunc() {
+          return 42;
+        };
+        a.name;
+      `;
+      expect(await evaluateScript(code)).toBe("myFunc");
+    });
   });
 
   describe("Return values", () => {

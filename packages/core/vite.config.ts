@@ -38,6 +38,6 @@ export default defineConfig({
         },
       },
     ],
-    reporters: ["default", "html"],
+    reporters: ["tree", "html"],
   },
 });
