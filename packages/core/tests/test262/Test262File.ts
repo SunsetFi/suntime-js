@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { relative as relativePath } from "node:path";
 import { parse as parseYaml } from "yaml";
-import test262Path from "./utils/test262-path.js";
+import getTest262Path from "./utils/get-test262-path.js";
 
 export interface Test262Negative {
   phase: "parse" | "early" | "runtime";
@@ -16,7 +16,7 @@ interface Test262Flags {
   async?: boolean;
 }
 
-const rootTestsDir = test262Path("test");
+const rootTestsDir = getTest262Path("test");
 export default class Test262File {
   static fromFile(path: string): Test262File {
     const nameParts = relativePath(rootTestsDir, path).split(/\/|\\/);
