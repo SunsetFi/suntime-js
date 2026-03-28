@@ -8,6 +8,8 @@ A spiritual successor to [static-eval](https://www.npmjs.com/package/static-eval
 
 Try it out in [the sandbox](https://sunsetfi.github.io/suntime-js)!
 
+![Test262 Language Suite](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FSunsetFi%2Fsuntime-js%2Frefs%2Fheads%2Fmain%2Fpackages%2Fcore%2Fbadges%2Ftest262.json)
+
 ## Sandboxing and Security
 
 Unlike static-eval, this project has ambitions of providing a secure sandbox from which untrusted code can be safely ran.
@@ -80,4 +82,6 @@ For more information, including solutions for breaking loops, see [Quick Start](
 
 This project is slowly working its way through the [Test262](https://github.com/tc39/test262) suite of JavaScript tests in order to ensure compliance with the spec.
 
-Currently, around 9100 of the language tests are passing, or about 38%. Further work is ongoing in this area.
+Current status:
+
+![Test262 Language Suite](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FSunsetFi%2Fsuntime-js%2Frefs%2Fheads%2Fmain%2Fpackages%2Fcore%2Fbadges%2Ftest262.json)
