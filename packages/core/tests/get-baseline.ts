@@ -30,8 +30,19 @@ export default function getBaseline(): Set<string> {
     testResults
       .flatMap((result) => result.assertionResults)
       .filter((result) => result.status === "passed")
-      .map((result) => normalizeTestPathParts([...result.ancestorTitles, result.title])),
+      .map((result) =>
+        normalizeTestPathParts([...result.ancestorTitles.filter(stripTestFileName), result.title]),
+      ),
   );
+}
+
+function stripTestFileName(value: string, index: number, array: string[]) {
+  if (index === array.length - 1) {
+    if (value.endsWith(".js")) {
+      return false;
+    }
+  }
+  return true;
 }
 
 let cachedBaselineResults: TestResultsJson | undefined;

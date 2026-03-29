@@ -4,111 +4,175 @@ import boundNames from "./bound-names.js";
 
 export default function varDeclaredNames(node: Node): string[] {
   switch (node.type) {
-    case "File":
-      return varDeclaredNames(node.program);
-    case "Program":
-      return node.body.flatMap(topLevelVarDeclaredNames);
-    case "VariableDeclaration": {
-      if (node.kind !== "var") {
-        return [];
-      }
-      return boundNames(node);
-    }
-    case "FunctionDeclaration": {
+    case "EmptyStatement":
+    case "ExpressionStatement":
+    case "ContinueStatement":
+    case "BreakStatement":
+    case "ReturnStatement":
+    case "ThrowStatement":
+    case "DebuggerStatement":
       return [];
-      // return boundNames(node);
+    case "BlockStatement": {
+      // I don't see where this is defined in the spec, as only an empty block is defined.
+      // Somehow, it specifies that this flows into StatementList
+      return statementListVarDeclaredNames(node.body);
     }
-    case "BlockStatement":
-      return node.body.flatMap(varDeclaredNames);
-    case "SwitchStatement":
-      return node.cases.flatMap(varDeclaredNames);
-    case "SwitchCase":
-      return node.consequent.flatMap(varDeclaredNames);
-    case "ForStatement": {
-      let names: string[] = [];
-      if (node.init) {
-        names = varDeclaredNames(node.init);
+    case "VariableDeclaration": {
+      if (node.kind === "var") {
+        return boundNames(node);
       }
-      names = names.concat(varDeclaredNames(node.body));
+      return [];
+    }
+    case "IfStatement": {
+      const names = varDeclaredNames(node.consequent);
+      if (node.alternate) {
+        names.push(...varDeclaredNames(node.alternate));
+      }
+      return names;
+    }
+    case "DoWhileStatement": {
+      return varDeclaredNames(node.body);
+    }
+    case "WhileStatement": {
+      return varDeclaredNames(node.body);
+    }
+    case "ForStatement": {
+      const names: string[] = [];
+      if (node.init?.type === "VariableDeclaration" && node.init.kind === "var") {
+        names.push(...boundNames(node.init));
+      }
+      names.push(...varDeclaredNames(node.body));
       return names;
     }
     case "ForInStatement":
     case "ForOfStatement": {
-      let names: string[] = [];
-      names = names.concat(varDeclaredNames(node.left));
-      names = names.concat(varDeclaredNames(node.body));
+      const names: string[] = [];
+      if (node.left.type === "VariableDeclaration" && node.left.kind === "var") {
+        names.push(...boundNames(node.left));
+      }
+      names.push(...varDeclaredNames(node.body));
       return names;
     }
-    case "WhileStatement":
-    case "DoWhileStatement": {
+    case "WithStatement": {
       return varDeclaredNames(node.body);
     }
-    case "IfStatement": {
-      let names: string[] = [];
-      names = names.concat(varDeclaredNames(node.consequent));
-      if (node.alternate) {
-        names = names.concat(varDeclaredNames(node.alternate));
-      }
-      return names;
+    case "SwitchStatement": {
+      return node.cases.flatMap(varDeclaredNames);
+    }
+    case "SwitchCase": {
+      return statementListVarDeclaredNames(node.consequent);
+    }
+    /* LabelledItem */
+    // I have no idea if this should be here or if this is only a sub-state of the
+    // syntax directed op...
+    case "LabeledStatement": {
+      return labelledItemVarDeclaredNames(node.body);
     }
     case "TryStatement": {
-      let names: string[] = [];
-      names = names.concat(varDeclaredNames(node.block));
+      const names: string[] = varDeclaredNames(node.block);
       if (node.handler) {
-        names = names.concat(varDeclaredNames(node.handler.body));
+        names.push(...varDeclaredNames(node.handler.body));
       }
       if (node.finalizer) {
-        names = names.concat(varDeclaredNames(node.finalizer));
+        names.push(...varDeclaredNames(node.finalizer));
       }
       return names;
     }
-    case "WithStatement":
-      return varDeclaredNames(node.body);
-    case "LabeledStatement":
-      return varDeclaredNames(node.body);
-    case "ImportDeclaration":
+    case "File":
+      return varDeclaredNames(node.program);
+    case "Program": {
+      if (node.sourceType === "module") {
+        return node.body.flatMap(varDeclaredNames);
+      } else {
+        /* Script */
+        return statementListTopLevelVarDeclaredNames(node.body);
+      }
+    }
+    case "ImportDeclaration": {
       return [];
-    case "ExportNamedDeclaration":
-    case "ExportDefaultDeclaration": {
-      if (node.declaration) {
-        return varDeclaredNames(node.declaration);
+    }
+    case "ExportNamedDeclaration": {
+      if (node.declaration?.type === "VariableDeclaration" && node.declaration.kind === "var") {
+        return boundNames(node.declaration);
       }
       return [];
     }
   }
+
   return [];
 }
 
-function topLevelVarDeclaredNames(node: Node): string[] {
+function statementListVarDeclaredNames(node: Node[] | Node): string[] {
+  if (Array.isArray(node)) {
+    return node.flatMap(statementListVarDeclaredNames);
+  }
+
   switch (node.type) {
-    case "File":
-      return topLevelVarDeclaredNames(node.program);
-    case "Program":
-      return node.body.flatMap(varDeclaredNames);
+    /* Declaration */
+    /*
+    FunctionDeclaration
+    GeneratorDeclaration
+    AsyncFunctionDeclaration
+    AsyncGeneratorDeclaration
+    */
+    case "FunctionDeclaration":
+    case "ClassDeclaration":
+      return [];
+  }
+
+  // Is this what we do?  Fall back to standard?
+  return varDeclaredNames(node);
+}
+
+function labelledItemVarDeclaredNames(node: Node): string[] {
+  switch (node.type) {
+    case "FunctionDeclaration": {
+      return [];
+    }
+  }
+
+  // Is this what we do?  Fall back to standard?
+  return varDeclaredNames(node);
+}
+
+function topLevelVarDeclaredNames(node: Node[] | Node): string[] {
+  if (Array.isArray(node)) {
+    // Statement list
+    return statementListTopLevelVarDeclaredNames(node);
+  }
+
+  // NOTE: Not really spec complaint.  Spec wants function statement list to
+  // be passed to varDeclaredNames, but we don't have a syntax node for that
+  switch (node.type) {
     case "FunctionDeclaration":
     case "FunctionExpression":
-    case "ArrowFunctionExpression":
-    case "ObjectMethod":
     case "ClassMethod":
-    case "ClassPrivateMethod":
+    case "ObjectMethod":
+      // statement list of function
+      return statementListTopLevelVarDeclaredNames(node.body.body);
+    case "ArrowFunctionExpression": {
       if (node.body.type === "BlockStatement") {
-        return node.body.body.flatMap(varDeclaredNames);
+        return statementListTopLevelVarDeclaredNames(node.body.body);
       }
       return [];
+    }
     case "LabeledStatement":
       return topLevelVarDeclaredNames(node.body);
     /* BEGIN Statement */
     case "BlockStatement":
-    case "VariableDeclaration":
     case "EmptyStatement":
     case "ExpressionStatement":
     case "IfStatement":
-    case "DoWhileStatement": /* BEGIN BreakableStatement */
+    /* BEGIN BreakableStatement */
+    /* BEGIN IterationStatement */
+    case "DoWhileStatement":
     case "WhileStatement":
     case "ForStatement":
     case "ForInStatement":
     case "ForOfStatement":
-    case "SwitchStatement": /* END BreakableStatement */
+    /* END IterationStatement */
+    case "SwitchStatement":
+    /* END BreakableStatement */
     case "ContinueStatement":
     case "BreakStatement":
     case "ReturnStatement":
@@ -116,8 +180,58 @@ function topLevelVarDeclaredNames(node: Node): string[] {
     case "ThrowStatement":
     case "TryStatement":
     case "DebuggerStatement":
+      /* END Statement */
       return varDeclaredNames(node);
-    /* END Statement */
+  }
+
+  return [];
+}
+
+function statementListTopLevelVarDeclaredNames(node: Node[] | Node): string[] {
+  if (Array.isArray(node)) {
+    return node.flatMap(statementListTopLevelVarDeclaredNames);
+  }
+
+  switch (node.type) {
+    case "FunctionDeclaration":
+      // Includes: GeneratorDeclaration, AsyncFunctionDeclaration, AsyncGeneratorDeclaration
+      return boundNames(node);
+    case "ClassDeclaration":
+      return [];
+    case "VariableDeclaration": {
+      if (node.kind !== "var") {
+        return [];
+      }
+
+      return varDeclaredNames(node);
+    }
+    case "LabeledStatement": {
+      return topLevelVarDeclaredNames(node.body);
+    }
+    /* BEGIN Statement */
+    case "BlockStatement":
+    case "EmptyStatement":
+    case "ExpressionStatement":
+    case "IfStatement":
+    /* BEGIN BreakableStatement */
+    /* BEGIN IterationStatement */
+    case "DoWhileStatement":
+    case "WhileStatement":
+    case "ForStatement":
+    case "ForInStatement":
+    case "ForOfStatement":
+    /* END IterationStatement */
+    case "SwitchStatement":
+    /* END BreakableStatement */
+    case "ContinueStatement":
+    case "BreakStatement":
+    case "ReturnStatement":
+    case "WithStatement":
+    case "ThrowStatement":
+    case "TryStatement":
+    case "DebuggerStatement":
+      /* END Statement */
+      return varDeclaredNames(node);
   }
 
   return [];
