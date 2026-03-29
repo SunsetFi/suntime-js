@@ -1,4 +1,4 @@
-import type { Node } from "@babel/types";
+import type { Node, Statement } from "@babel/types";
 
 import boundNames from "./bound-names.js";
 
@@ -102,7 +102,7 @@ export default function varDeclaredNames(node: Node): string[] {
   return [];
 }
 
-function statementListVarDeclaredNames(node: Node[] | Node): string[] {
+function statementListVarDeclaredNames(node: Statement[] | Statement): string[] {
   if (Array.isArray(node)) {
     return node.flatMap(statementListVarDeclaredNames);
   }
@@ -135,15 +135,12 @@ function labelledItemVarDeclaredNames(node: Node): string[] {
   return varDeclaredNames(node);
 }
 
-function topLevelVarDeclaredNames(node: Node[] | Node): string[] {
-  if (Array.isArray(node)) {
-    // Statement list
-    return statementListTopLevelVarDeclaredNames(node);
-  }
-
-  // NOTE: Not really spec complaint.  Spec wants function statement list to
-  // be passed to varDeclaredNames, but we don't have a syntax node for that
+function topLevelVarDeclaredNames(node: Node): string[] {
   switch (node.type) {
+    /* BEGIN StatementList */
+    // Hacks for the fact that we don't have a top-level StatementList node type.
+    // These are passed instead, and we redirect to the statement list selector on
+    // the appropriate node.
     case "FunctionDeclaration":
     case "FunctionExpression":
     case "ClassMethod":
@@ -156,9 +153,81 @@ function topLevelVarDeclaredNames(node: Node[] | Node): string[] {
       }
       return [];
     }
+    /* END StatementList */
     case "LabeledStatement":
-      return topLevelVarDeclaredNames(node.body);
+      return labelledItemTopLevelVarDeclaredNames(node.body);
+  }
+
+  return [];
+}
+
+function labelledItemTopLevelVarDeclaredNames(node: Node): string[] {
+  switch (node.type) {
+    case "LabeledStatement":
+      return labelledItemTopLevelVarDeclaredNames(node.body);
     /* BEGIN Statement */
+    case "VariableDeclaration": {
+      if (node.kind === "var") {
+        // VariableStatement
+        return varDeclaredNames(node);
+      }
+      return [];
+    }
+    case "BlockStatement":
+    case "EmptyStatement":
+    case "ExpressionStatement":
+    case "IfStatement":
+    /* BEGIN BreakableStatement */
+    /* BEGIN IterationStatement */
+    case "DoWhileStatement":
+    case "WhileStatement":
+    case "ForStatement":
+    case "ForInStatement":
+    case "ForOfStatement":
+    /* END IterationStatement */
+    case "SwitchStatement":
+    /* END BreakableStatement */
+    case "ContinueStatement":
+    case "BreakStatement":
+    case "ReturnStatement":
+    case "WithStatement":
+    case "ThrowStatement":
+    case "TryStatement":
+    case "DebuggerStatement":
+      /* END Statement */
+      return varDeclaredNames(node);
+    case "FunctionDeclaration":
+      return boundNames(node);
+  }
+
+  return [];
+}
+
+function statementListTopLevelVarDeclaredNames(node: Statement[] | Statement): string[] {
+  if (Array.isArray(node)) {
+    return node.flatMap(statementListTopLevelVarDeclaredNames);
+  }
+
+  switch (node.type) {
+    /* BEGIN Declaration */
+    case "FunctionDeclaration":
+      // Includes: GeneratorDeclaration, AsyncFunctionDeclaration, AsyncGeneratorDeclaration
+      return boundNames(node);
+    case "ClassDeclaration":
+    /* END Declaration */
+    case "LabeledStatement": {
+      return labelledStatementTopLevelVarDeclaredNames(node.body);
+    }
+    /* BEGIN Statement */
+    case "VariableDeclaration": {
+      if (node.kind === "var") {
+        // VariableStatement
+        return varDeclaredNames(node);
+      }
+
+      // LexicalDeclaration
+      return [];
+    }
     case "BlockStatement":
     case "EmptyStatement":
     case "ExpressionStatement":
@@ -187,28 +256,20 @@ function topLevelVarDeclaredNames(node: Node[] | Node): string[] {
   return [];
 }
 
-function statementListTopLevelVarDeclaredNames(node: Node[] | Node): string[] {
-  if (Array.isArray(node)) {
-    return node.flatMap(statementListTopLevelVarDeclaredNames);
-  }
-
+function labelledStatementTopLevelVarDeclaredNames(node: Node): string[] {
   switch (node.type) {
-    case "FunctionDeclaration":
-      // Includes: GeneratorDeclaration, AsyncFunctionDeclaration, AsyncGeneratorDeclaration
-      return boundNames(node);
-    case "ClassDeclaration":
-      return [];
+    case "LabeledStatement":
+      return labelledStatementTopLevelVarDeclaredNames(node.body);
+    /* BEGIN Statement */
     case "VariableDeclaration": {
-      if (node.kind !== "var") {
-        return [];
+      if (node.kind === "var") {
+        // VariableStatement
+        return varDeclaredNames(node);
       }
 
-      return varDeclaredNames(node);
+      // LexicalDeclaration
+      return [];
     }
-    case "LabeledStatement": {
-      return topLevelVarDeclaredNames(node.body);
-    }
-    /* BEGIN Statement */
     case "BlockStatement":
     case "EmptyStatement":
     case "ExpressionStatement":
@@ -232,6 +293,8 @@ function statementListTopLevelVarDeclaredNames(node: Node[] | Node): string[] {
     case "DebuggerStatement":
       /* END Statement */
       return varDeclaredNames(node);
+    case "FunctionDeclaration":
+      return boundNames(node);
   }
 
   return [];

@@ -29,12 +29,14 @@
 - [-] Rework function creation to match OrdinaryFunctionCreate.
   - [ ] Unify all function types to a single Function class accepting Call and Construct?
 - [ ] Clean up ForInOfBody to use completions rather than try/catch.
+      [ ] Clean up iterator algorithms to use completions. Remove unwrap argument.
 - [-] Reduce calls to EvaluationContext.current when they aren't needed. Mostly thrown errors.
   - [x] Helper for Completion.Throw to pull the current context to create the error from name and message.
 - [ ] Figure out why a tiny number of test262 tests trigger a context.run() to pop a context different from what it pushed.
 - [ ] Yield Delegate for generators
 - [x] Async generators
-- [ ] Get promises returned to proxied functions to await properly in the sandbox?
+- [ ] Get promises returned to proxied functions to await properly in the sandbox.
+      This should be happening automatically due to the .then function, but isn't
 - [ ] Remove unwrap jank from asyncIteratorClose and iteratorClose
 
 ### Completion Refactor
