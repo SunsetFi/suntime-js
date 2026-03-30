@@ -88,6 +88,7 @@ import type {
 } from "../StaticJsRealmEvaluateScriptOptions.js";
 
 import { EvaluationTask } from "./EvaluationTask.js";
+import { expressionStatement, file, program } from "@babel/types";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;
@@ -209,7 +210,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   evaluateExpression(expression: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
     const parsed = parseExpression(expression, opts?.sourceName ?? this._createInlineSourceName());
-    const record = StaticJsScriptRecord(parsed, expression);
+    const node = file(program([expressionStatement(parsed)], [], "script"));
+    const record = StaticJsScriptRecord(node, expression);
     const evaluator = doEvaluateScript(record, this);
     return this._enqueueMacrotask(evaluator, opts);
   }
