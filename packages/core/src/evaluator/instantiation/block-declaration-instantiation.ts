@@ -1,4 +1,4 @@
-import { type Block, type SwitchStatement } from "@babel/types";
+import { BlockStatement, type SwitchStatement } from "@babel/types";
 
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 
@@ -10,10 +10,10 @@ import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarati
 import boundNames from "./algorithms/bound-names.js";
 
 export default function* blockDeclarationInstantiation(
-  node: Block | SwitchStatement,
+  node: BlockStatement | SwitchStatement,
   env: StaticJsEnvironmentRecord,
 ): EvaluationGenerator<void> {
-  const declarations = lexicallyScopedDeclarations.topLevel(node);
+  const declarations = lexicallyScopedDeclarations.forBlock(node);
   for (const d of declarations) {
     for (const dn of boundNames(d)) {
       if (d.type === "VariableDeclaration" && d.kind === "const") {

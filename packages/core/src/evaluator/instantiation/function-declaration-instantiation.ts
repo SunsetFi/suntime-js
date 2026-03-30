@@ -49,7 +49,7 @@ export default function* functionDeclarationInstantiation(
   // to request top level var names/declarations from the function body.
   const varNames = varDeclaredNames.topLevel(func.ecmaScriptCode);
   const varDeclarations = varScopedDeclarations.topLevel(func.ecmaScriptCode);
-  const lexicalNames = lexicallyDeclaredNames.topLevel(func.ecmaScriptCode);
+  const lexicalNames = lexicallyDeclaredNames.forScriptOrFunction(func.ecmaScriptCode);
 
   const functionNames: string[] = [];
   const functionsToInitialize: FunctionDeclaration[] = [];
@@ -200,7 +200,7 @@ export default function* functionDeclarationInstantiation(
 
   calleeContext.lexicalEnv = lexEnv;
 
-  const lexDeclarations = lexicallyScopedDeclarations.topLevel(func.ecmaScriptCode);
+  const lexDeclarations = lexicallyScopedDeclarations.forScriptOrFunction(func.ecmaScriptCode);
   for (const d of lexDeclarations) {
     for (const dn of boundNames(d)) {
       if (d.type == "VariableDeclaration" && d.kind === "const") {

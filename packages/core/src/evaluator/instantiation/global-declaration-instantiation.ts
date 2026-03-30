@@ -27,7 +27,7 @@ export function* globalDeclarationInstantiation(
   env: StaticJsGlobalEnvironmentRecord,
 ): EvaluationGenerator<void> {
   const { strict } = EvaluationContext.current;
-  const lexNames = lexicallyDeclaredNames.topLevel(node);
+  const lexNames = lexicallyDeclaredNames.forScriptOrFunction(node);
   const varNames = varDeclaredNames.topLevel(node);
 
   for (const name of lexNames) {
@@ -127,7 +127,7 @@ export function* globalDeclarationInstantiation(
     }
   }
 
-  const lexDeclarations = lexicallyScopedDeclarations.topLevel(node);
+  const lexDeclarations = lexicallyScopedDeclarations.forScriptOrFunction(node);
   for (const d of lexDeclarations) {
     for (const dn of boundNames(d)) {
       if (isVariableDeclaration(d) && d.kind === "const") {

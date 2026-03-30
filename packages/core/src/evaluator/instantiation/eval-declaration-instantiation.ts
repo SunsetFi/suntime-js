@@ -167,7 +167,7 @@ export default function* evalDeclarationInstantiation(
     }
   }
 
-  const lexDeclarations = lexicallyScopedDeclarations(body);
+  const lexDeclarations = lexicallyScopedDeclarations.forScriptOrFunction(body);
   for (const d of lexDeclarations) {
     for (const dn of boundNames(d)) {
       if (d.type === "VariableDeclaration" && d.kind === "const") {

@@ -526,7 +526,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
         }
       }
 
-      const lexDeclarations = lexicallyScopedDeclarations(_ecmaScriptCode);
+      const lexDeclarations = lexicallyScopedDeclarations.forScriptOrFunction(_ecmaScriptCode);
       for (const d of lexDeclarations) {
         for (const dn of boundNames(d)) {
           if (d.type === "VariableDeclaration" && d.kind === "const") {
