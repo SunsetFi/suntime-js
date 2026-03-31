@@ -29,41 +29,44 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   get extensible(): boolean;
 
   getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObjectLike | null>;
-  getPrototypeOfSync(): StaticJsObjectLike | null;
+  getPrototypeOfSync(opts?: StaticJsRunTaskOptions): StaticJsObjectLike | null;
   getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObjectLike | null>;
 
   setPrototypeOfAsync(
     prototype: StaticJsObjectLike | null,
     opts?: StaticJsRunTaskOptions,
   ): Promise<void>;
-  setPrototypeOfSync(prototype: StaticJsObjectLike | null): void;
+  setPrototypeOfSync(prototype: StaticJsObjectLike | null, opts?: StaticJsRunTaskOptions): void;
   setPrototypeOfEvaluator(prototype: StaticJsObjectLike | null): EvaluationGenerator<void>;
 
   preventExtensionsAsync(opts?: StaticJsRunTaskOptions): Promise<void>;
-  preventExtensionsSync(): void;
+  preventExtensionsSync(opts?: StaticJsRunTaskOptions): void;
   preventExtensionsEvaluator(): EvaluationGenerator<void>;
 
   ownPropertyKeysAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsPropertyKey[]>;
-  ownPropertyKeysSync(): StaticJsPropertyKey[];
+  ownPropertyKeysSync(opts?: StaticJsRunTaskOptions): StaticJsPropertyKey[];
   ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]>;
 
   ownEnumerableKeysAsync(opts?: StaticJsRunTaskOptions): Promise<string[]>;
-  ownEnumerableKeysSync(): string[];
+  ownEnumerableKeysSync(opts?: StaticJsRunTaskOptions): string[];
   ownEnumerableKeysEvaluator(): EvaluationGenerator<string[]>;
 
   hasPropertyAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean>;
-  hasPropertySync(key: StaticJsPropertyKey): boolean;
+  hasPropertySync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): boolean;
   hasPropertyEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean>;
 
   hasOwnPropertyAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean>;
-  hasOwnPropertySync(key: StaticJsPropertyKey): boolean;
+  hasOwnPropertySync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): boolean;
   hasOwnPropertyEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean>;
 
   getPropertyAsync(
     key: StaticJsPropertyKey,
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsPropertyDescriptor | undefined>;
-  getPropertySync(key: StaticJsPropertyKey): StaticJsPropertyDescriptor | undefined;
+  getPropertySync(
+    key: StaticJsPropertyKey,
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsPropertyDescriptor | undefined;
   getPropertyEvaluator(
     key: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
@@ -72,7 +75,10 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     key: StaticJsPropertyKey,
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsPropertyDescriptor | undefined>;
-  getOwnPropertySync(key: StaticJsPropertyKey): StaticJsPropertyDescriptor | undefined;
+  getOwnPropertySync(
+    key: StaticJsPropertyKey,
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsPropertyDescriptor | undefined;
   getOwnPropertyEvaluator(
     key: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
@@ -85,6 +91,7 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   defineOwnPropertySync(
     key: StaticJsPropertyKey,
     descriptor: Partial<StaticJsPropertyDescriptor>,
+    opts?: StaticJsRunTaskOptions,
   ): boolean;
   defineOwnPropertyEvaluator(
     key: StaticJsPropertyKey,
@@ -92,7 +99,7 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   ): EvaluationGenerator<boolean>;
 
   getAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue>;
-  getSync(key: StaticJsPropertyKey): StaticJsValue;
+  getSync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): StaticJsValue;
   getEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<StaticJsValue>;
 
   setAsync(
@@ -101,7 +108,12 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     strict: boolean,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean>;
-  setSync(key: StaticJsPropertyKey, value: StaticJsValue, strict: boolean): boolean;
+  setSync(
+    key: StaticJsPropertyKey,
+    value: StaticJsValue,
+    strict: boolean,
+    opts?: StaticJsRunTaskOptions,
+  ): boolean;
   setEvaluator(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
@@ -109,7 +121,7 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   ): EvaluationGenerator<boolean>;
 
   deleteAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean>;
-  deleteSync(key: StaticJsPropertyKey): boolean;
+  deleteSync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): boolean;
   deleteEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean>;
 }
 

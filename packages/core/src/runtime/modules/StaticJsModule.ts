@@ -1,15 +1,16 @@
+import { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
 import { StaticJsValue } from "../types/StaticJsValue.js";
 
 export interface StaticJsModule {
   readonly name: string;
 
-  getExportedNames(): string[];
+  getExportedNames(opts?: StaticJsRunTaskOptions): string[];
 
-  getExportAsync(exportName: string): Promise<StaticJsValue | null>;
-  getExportJsSync(exportName: string): unknown;
+  getExportAsync(exportName: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue | null>;
+  getExportJsSync(exportName: string, opts?: StaticJsRunTaskOptions): unknown;
 
   // FIXME: Return a native object mapping StaticJsValue objects.
-  getModuleNamespaceJsSync(): Record<string, unknown>;
+  getModuleNamespaceJsSync(opts?: StaticJsRunTaskOptions): Record<string, unknown>;
 }
 
 export function isStaticJsModule(x: unknown): x is StaticJsModule {

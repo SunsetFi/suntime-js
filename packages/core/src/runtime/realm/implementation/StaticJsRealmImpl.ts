@@ -13,9 +13,9 @@ import { hasOwnProperty } from "../../../internal/has-own-property.js";
 import { StaticJsSyntaxError } from "../../../errors/StaticJsSyntaxError.js";
 import { StaticJsUnhandledRejectionError } from "../../../errors/StaticJsUnhandledRejectionError.js";
 import { StaticJsSynchronousTaskIncompleteError } from "../../../errors/StaticJsSynchronousTaskIncompleteError.js";
-
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsConcurrentEvaluationError } from "../../../errors/StaticJsConcurrentEvaluationError.js";
+import { StaticJsTaskAbortedError } from "../../../errors/StaticJsTaskAbortedError.js";
 
 import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
@@ -387,15 +387,14 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     this._currentTask.enqueueMicrotask(evaluate);
   }
 
-  invokeEvaluatorSync<TReturn>(evaluator: StaticJsEvaluator<TReturn>): TReturn {
-    if (this._boostrapping || (this._currentTask && this._currentTask.entered)) {
-      const iter = invokeEvaluator(evaluator);
-      while (true) {
-        const { done, value } = iter.next();
-        if (done) {
-          return value as TReturn;
-        }
-      }
+  invokeEvaluatorSync<TReturn>(
+    evaluator: StaticJsEvaluator<TReturn>,
+    { runTask = this._defaultRunTaskSync }: StaticJsRunTaskOptions = {},
+  ): TReturn {
+    if (this._boostrapping) {
+      return this._invokeEvaluatorSyncNow(evaluator, bootstrapTaskRunner, "host-invocation");
+    } else if (this._currentTask && this._currentTask.entered) {
+      return this._invokeEvaluatorSyncNow(evaluator, runTask, "host-invocation-nested");
     }
 
     // oxlint-disable-next-line typescript/no-this-alias
@@ -571,6 +570,73 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     } finally {
       this._currentTask = previousTask;
     }
+  }
+
+  private _invokeEvaluatorSyncNow<TReturn>(
+    evaluator: StaticJsEvaluator<TReturn>,
+    runTask: StaticJsTaskRunner,
+    type: "host-invocation" | "host-invocation-nested",
+  ): TReturn {
+    const iter = invokeEvaluator(evaluator);
+
+    let iterDone: boolean = false;
+    let iterAborted: boolean = false;
+    let iterReturn: TReturn | undefined = undefined;
+    let iterThrow: unknown | undefined = undefined;
+    const task = {
+      get aborted() {
+        return iterAborted;
+      },
+      get done() {
+        return iterDone;
+      },
+      get operation() {
+        return null;
+      },
+      get stack() {
+        return [];
+      },
+      get type() {
+        return type;
+      },
+      next: () => {
+        if (iterDone) {
+          return { done: true, value: undefined };
+        }
+        const { done, value } = iter.next();
+        if (done) {
+          iterDone = true;
+          iterReturn = value as TReturn;
+          return { done: true, value: undefined };
+        }
+        return { done: false, value: undefined };
+      },
+      throw: (error: unknown) => {
+        if (iterDone) {
+          return { done: true, value: undefined };
+        }
+        iterDone = true;
+        iterThrow = error;
+        return { done: true, value: undefined };
+      },
+      abort() {
+        iterDone = true;
+        iterAborted = true;
+        iterThrow = new StaticJsTaskAbortedError();
+      },
+    };
+
+    runTask(task);
+
+    if (!iterDone) {
+      throw new StaticJsSynchronousTaskIncompleteError();
+    }
+
+    if (iterThrow) {
+      throw iterThrow;
+    }
+
+    return iterReturn as TReturn;
   }
 }
 
@@ -755,4 +821,10 @@ function* doEvaluateScriptAsync(
       throw e;
     }
   });
+}
+
+function bootstrapTaskRunner(task: StaticJsTaskIterator) {
+  while (!task.done) {
+    task.next();
+  }
 }

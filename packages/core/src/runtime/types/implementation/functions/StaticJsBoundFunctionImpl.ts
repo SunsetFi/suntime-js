@@ -82,8 +82,12 @@ export class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements Sta
     return this.realm.invokeEvaluatorAsync(this.callEvaluator(thisArg, args), opts);
   }
 
-  callSync(thisArg: StaticJsValue, args?: StaticJsValue[]): StaticJsValue {
-    return this.realm.invokeEvaluatorSync(this.callEvaluator(thisArg, args));
+  callSync(
+    thisArg: StaticJsValue,
+    args?: StaticJsValue[],
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.callEvaluator(thisArg, args), opts);
   }
 
   callEvaluator(
@@ -97,20 +101,20 @@ export class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements Sta
     return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args), opts);
   }
 
-  constructSync(args: StaticJsValue[]): StaticJsValue {
-    return this.realm.invokeEvaluatorSync(this.constructEvaluator(args));
+  constructSync(args: StaticJsValue[], opts?: StaticJsRunTaskOptions): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.constructEvaluator(args), opts);
   }
 
   constructEvaluator(args: StaticJsValue[]): EvaluationGenerator<StaticJsObjectLike> {
     return this.targetFunc.constructEvaluator([...this._boundArgs, ...args]);
   }
 
-  getNameAsync(): Promise<string> {
-    return this.realm.invokeEvaluatorAsync(this._getNameEvaluator());
+  getNameAsync(opts?: StaticJsRunTaskOptions): Promise<string> {
+    return this.realm.invokeEvaluatorAsync(this._getNameEvaluator(), opts);
   }
 
-  getNameSync(): string {
-    return this.realm.invokeEvaluatorSync(this._getNameEvaluator());
+  getNameSync(opts?: StaticJsRunTaskOptions): string {
+    return this.realm.invokeEvaluatorSync(this._getNameEvaluator(), opts);
   }
 
   override toJsSync(): (...args: unknown[]) => unknown {

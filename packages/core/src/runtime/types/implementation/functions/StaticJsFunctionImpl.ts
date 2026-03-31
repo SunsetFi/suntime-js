@@ -100,12 +100,12 @@ export class StaticJsFunctionImpl extends StaticJsObjectLikeImpl implements Stat
     return false;
   }
 
-  getNameAsync(): Promise<string> {
-    return this.realm.invokeEvaluatorAsync(this._getNameEvaluator());
+  getNameAsync(opts?: StaticJsRunTaskOptions): Promise<string> {
+    return this.realm.invokeEvaluatorAsync(this._getNameEvaluator(), opts);
   }
 
-  getNameSync(): string {
-    return this.realm.invokeEvaluatorSync(this._getNameEvaluator());
+  getNameSync(opts?: StaticJsRunTaskOptions): string {
+    return this.realm.invokeEvaluatorSync(this._getNameEvaluator(), opts);
   }
 
   private *_getNameEvaluator(): EvaluationGenerator<string> {
@@ -161,8 +161,12 @@ export class StaticJsFunctionImpl extends StaticJsObjectLikeImpl implements Stat
     return this.realm.invokeEvaluatorAsync(this.callEvaluator(thisArg, args), opts);
   }
 
-  callSync(thisArg: StaticJsValue, args?: StaticJsValue[]): StaticJsValue {
-    return this.realm.invokeEvaluatorSync(this.callEvaluator(thisArg, args));
+  callSync(
+    thisArg: StaticJsValue,
+    args?: StaticJsValue[],
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.callEvaluator(thisArg, args), opts);
   }
 
   *constructEvaluator(args: StaticJsValue[] = []): EvaluationGenerator<StaticJsObjectLike> {
@@ -192,8 +196,8 @@ export class StaticJsFunctionImpl extends StaticJsObjectLikeImpl implements Stat
     return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args), opts);
   }
 
-  constructSync(args: StaticJsValue[]): StaticJsValue {
-    return this.realm.invokeEvaluatorSync(this.constructEvaluator(args));
+  constructSync(args: StaticJsValue[], opts?: StaticJsRunTaskOptions): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.constructEvaluator(args), opts);
   }
 
   override toJsSync(): (...args: unknown[]) => unknown {

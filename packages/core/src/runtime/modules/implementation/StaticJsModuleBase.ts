@@ -14,6 +14,7 @@ import type {
 
 import { BindingNameNamespace, type StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
 import { StaticJsNamespaceExoticObject } from "../../types/implementation/StaticJsNamespaceExoticObject.js";
+import { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 
 export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModuleImplementation {
   private _cachedNamespaceObject: StaticJsObjectLike | null = null;
@@ -35,9 +36,9 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
 
   abstract moduleEvaluationEvaluator(): EvaluationGenerator<void | Promise<void>>;
 
-  resolveExport(exportName: string): StaticJsResolvedBinding {
+  resolveExport(exportName: string, opts?: StaticJsRunTaskOptions): StaticJsResolvedBinding {
     try {
-      return this._realm.invokeEvaluatorSync(this.resolveExportEvaluator(exportName));
+      return this._realm.invokeEvaluatorSync(this.resolveExportEvaluator(exportName), opts);
     } catch (e) {
       Completion.handleRuntime(e);
       throw e;
@@ -49,9 +50,9 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
     resolveSet?: Set<string>,
   ): EvaluationGenerator<StaticJsResolvedBinding>;
 
-  getExportedNames() {
+  getExportedNames(opts?: StaticJsRunTaskOptions) {
     try {
-      return this._realm.invokeEvaluatorSync(this.getExportedNamesEvaluator());
+      return this._realm.invokeEvaluatorSync(this.getExportedNamesEvaluator(), opts);
     } catch (e) {
       Completion.handleRuntime(e);
 
@@ -65,13 +66,16 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
     bindingName: string,
   ): EvaluationGenerator<StaticJsValue | null>;
 
-  async getExportAsync(exportName: string): Promise<StaticJsValue | null> {
-    return await this._realm.invokeEvaluatorAsync(this._getExportEvaluator(exportName));
+  async getExportAsync(
+    exportName: string,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsValue | null> {
+    return await this._realm.invokeEvaluatorAsync(this._getExportEvaluator(exportName), opts);
   }
 
-  getExportJsSync(exportName: string): unknown {
+  getExportJsSync(exportName: string, opts?: StaticJsRunTaskOptions): unknown {
     try {
-      const result = this._realm.invokeEvaluatorSync(this._getExportEvaluator(exportName));
+      const result = this._realm.invokeEvaluatorSync(this._getExportEvaluator(exportName), opts);
       return result ? result.toJsSync() : null;
     } catch (e) {
       Completion.handleRuntime(e);
@@ -80,9 +84,9 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
     }
   }
 
-  getModuleNamespaceJsSync(): Record<string, unknown> {
+  getModuleNamespaceJsSync(opts?: StaticJsRunTaskOptions): Record<string, unknown> {
     try {
-      const result = this._realm.invokeEvaluatorSync(this.getModuleNamespaceEvaluator());
+      const result = this._realm.invokeEvaluatorSync(this.getModuleNamespaceEvaluator(), opts);
       return result.toJsSync() as Record<string, unknown>;
     } catch (e) {
       Completion.handleRuntime(e);

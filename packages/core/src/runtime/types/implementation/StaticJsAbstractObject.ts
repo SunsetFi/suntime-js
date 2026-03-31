@@ -80,8 +80,8 @@ export abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorAsync(this.getPrototypeOfEvaluator(), opts);
   }
 
-  getPrototypeOfSync(): StaticJsObjectLike | null {
-    return this.realm.invokeEvaluatorSync(this.getPrototypeOfEvaluator());
+  getPrototypeOfSync(opts?: StaticJsRunTaskOptions): StaticJsObjectLike | null {
+    return this.realm.invokeEvaluatorSync(this.getPrototypeOfEvaluator(), opts);
   }
 
   *getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObjectLike | null> {
@@ -95,8 +95,8 @@ export abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorAsync(this.setPrototypeOfEvaluator(prototype), opts);
   }
 
-  setPrototypeOfSync(prototype: StaticJsObject | null): void {
-    this.realm.invokeEvaluatorSync(this.setPrototypeOfEvaluator(prototype));
+  setPrototypeOfSync(prototype: StaticJsObject | null, opts?: StaticJsRunTaskOptions): void {
+    this.realm.invokeEvaluatorSync(this.setPrototypeOfEvaluator(prototype), opts);
   }
 
   *setPrototypeOfEvaluator(proto: StaticJsObjectLike | null): EvaluationGenerator<void> {
@@ -115,8 +115,8 @@ export abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorAsync(this.preventExtensionsEvaluator(), opts);
   }
 
-  preventExtensionsSync(): void {
-    this.realm.invokeEvaluatorSync(this.preventExtensionsEvaluator());
+  preventExtensionsSync(opts?: StaticJsRunTaskOptions): void {
+    this.realm.invokeEvaluatorSync(this.preventExtensionsEvaluator(), opts);
   }
 
   *preventExtensionsEvaluator(): EvaluationGenerator<void> {
@@ -127,8 +127,8 @@ export abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorAsync(this.ownPropertyKeysEvaluator(), opts);
   }
 
-  ownPropertyKeysSync(): StaticJsPropertyKey[] {
-    return this.realm.invokeEvaluatorSync(this.ownPropertyKeysEvaluator());
+  ownPropertyKeysSync(opts?: StaticJsRunTaskOptions): StaticJsPropertyKey[] {
+    return this.realm.invokeEvaluatorSync(this.ownPropertyKeysEvaluator(), opts);
   }
 
   abstract ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]>;
@@ -137,8 +137,8 @@ export abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorAsync(this.ownEnumerableKeysEvaluator(), opts);
   }
 
-  ownEnumerableKeysSync(): string[] {
-    return this.realm.invokeEvaluatorSync(this.ownEnumerableKeysEvaluator());
+  ownEnumerableKeysSync(opts?: StaticJsRunTaskOptions): string[] {
+    return this.realm.invokeEvaluatorSync(this.ownEnumerableKeysEvaluator(), opts);
   }
 
   *ownEnumerableKeysEvaluator(): EvaluationGenerator<string[]> {
@@ -161,8 +161,8 @@ export abstract class StaticJsAbstractObject
   hasPropertyAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean> {
     return this.realm.invokeEvaluatorAsync(this.hasPropertyEvaluator(key), opts);
   }
-  hasPropertySync(key: StaticJsPropertyKey): boolean {
-    return this.realm.invokeEvaluatorSync(this.hasPropertyEvaluator(key));
+  hasPropertySync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): boolean {
+    return this.realm.invokeEvaluatorSync(this.hasPropertyEvaluator(key), opts);
   }
 
   *hasPropertyEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean> {
@@ -173,8 +173,8 @@ export abstract class StaticJsAbstractObject
   hasOwnPropertyAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean> {
     return this.realm.invokeEvaluatorAsync(this.hasOwnPropertyEvaluator(key), opts);
   }
-  hasOwnPropertySync(key: StaticJsPropertyKey): boolean {
-    return this.realm.invokeEvaluatorSync(this.hasOwnPropertyEvaluator(key));
+  hasOwnPropertySync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): boolean {
+    return this.realm.invokeEvaluatorSync(this.hasOwnPropertyEvaluator(key), opts);
   }
 
   *hasOwnPropertyEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean> {
@@ -189,8 +189,11 @@ export abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorAsync(this.getPropertyEvaluator(key), opts);
   }
 
-  getPropertySync(key: StaticJsPropertyKey): StaticJsPropertyDescriptor | undefined {
-    return this.realm.invokeEvaluatorSync(this.getPropertyEvaluator(key));
+  getPropertySync(
+    key: StaticJsPropertyKey,
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsPropertyDescriptor | undefined {
+    return this.realm.invokeEvaluatorSync(this.getPropertyEvaluator(key), opts);
   }
 
   *getPropertyEvaluator(
@@ -211,8 +214,11 @@ export abstract class StaticJsAbstractObject
   ): Promise<StaticJsPropertyDescriptor | undefined> {
     return this.realm.invokeEvaluatorAsync(this.getOwnPropertyEvaluator(key), opts);
   }
-  getOwnPropertySync(key: StaticJsPropertyKey): StaticJsPropertyDescriptor | undefined {
-    return this.realm.invokeEvaluatorSync(this.getOwnPropertyEvaluator(key));
+  getOwnPropertySync(
+    key: StaticJsPropertyKey,
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsPropertyDescriptor | undefined {
+    return this.realm.invokeEvaluatorSync(this.getOwnPropertyEvaluator(key), opts);
   }
 
   defineOwnPropertyAsync(
@@ -223,8 +229,12 @@ export abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorAsync(this.defineOwnPropertyEvaluator(key, descriptor), opts);
   }
 
-  defineOwnPropertySync(key: StaticJsPropertyKey, descriptor: StaticJsPropertyDescriptor): boolean {
-    return this.realm.invokeEvaluatorSync(this.defineOwnPropertyEvaluator(key, descriptor));
+  defineOwnPropertySync(
+    key: StaticJsPropertyKey,
+    descriptor: StaticJsPropertyDescriptor,
+    opts?: StaticJsRunTaskOptions,
+  ): boolean {
+    return this.realm.invokeEvaluatorSync(this.defineOwnPropertyEvaluator(key, descriptor), opts);
   }
 
   *defineOwnPropertyEvaluator(
@@ -363,8 +373,8 @@ export abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorAsync(this.getEvaluator(name), opts);
   }
 
-  getSync(key: StaticJsPropertyKey): StaticJsValue {
-    return this.realm.invokeEvaluatorSync(this.getEvaluator(key));
+  getSync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.getEvaluator(key), opts);
   }
 
   *getEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<StaticJsValue> {
@@ -408,8 +418,13 @@ export abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorAsync(this.setEvaluator(key, value, strict), opts);
   }
 
-  setSync(key: StaticJsPropertyKey, value: StaticJsValue, strict: boolean): boolean {
-    return this.realm.invokeEvaluatorSync(this.setEvaluator(key, value, strict));
+  setSync(
+    key: StaticJsPropertyKey,
+    value: StaticJsValue,
+    strict: boolean,
+    opts?: StaticJsRunTaskOptions,
+  ): boolean {
+    return this.realm.invokeEvaluatorSync(this.setEvaluator(key, value, strict), opts);
   }
 
   *setEvaluator(
@@ -487,8 +502,8 @@ export abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorAsync(this.deleteEvaluator(key), opts);
   }
 
-  deleteSync(key: StaticJsPropertyKey): boolean {
-    return this.realm.invokeEvaluatorSync(this.deleteEvaluator(key));
+  deleteSync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): boolean {
+    return this.realm.invokeEvaluatorSync(this.deleteEvaluator(key), opts);
   }
 
   *deleteEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean> {
@@ -516,8 +531,8 @@ export abstract class StaticJsAbstractObject
     return this._cachedJsObject;
   }
 
-  toStringSync(): string {
-    return this.realm.invokeEvaluatorSync(toString(this)).value;
+  toStringSync(opts?: StaticJsRunTaskOptions): string {
+    return this.realm.invokeEvaluatorSync(toString(this), opts).value;
   }
 
   protected _createToJsProxyTarget(): StaticJsObjectProxyTarget {

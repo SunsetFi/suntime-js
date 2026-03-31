@@ -87,7 +87,7 @@ export class StaticJsArgumentsExoticObject extends StaticJsObjectLikeImpl {
     return true;
   }
 
-  override *getEvaluator(property: string): EvaluationGenerator<StaticJsValue> {
+  override *getEvaluator(property: StaticJsPropertyKey): EvaluationGenerator<StaticJsValue> {
     const isMapped = yield* this._parameterMap.hasOwnPropertyEvaluator(property);
     if (!isMapped) {
       return yield* super.getEvaluator(property);
