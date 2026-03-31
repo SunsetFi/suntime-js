@@ -492,11 +492,12 @@ export abstract class StaticJsAbstractObject
   }
 
   *deleteEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean> {
-    if (!this.extensible) {
-      return false;
+    const decl = yield* this.getOwnPropertyEvaluator(key);
+    if (decl === undefined) {
+      // If the property didn't exist, return true (delete is a no-op)
+      return true;
     }
 
-    const decl = yield* this.getOwnPropertyEvaluator(key);
     if (decl === undefined || !decl.configurable) {
       return false;
     }

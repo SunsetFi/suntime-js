@@ -91,8 +91,8 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     descriptor: Partial<StaticJsPropertyDescriptor>,
   ): EvaluationGenerator<boolean>;
 
-  getAsync(name: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue>;
-  getSync(name: StaticJsPropertyKey): StaticJsValue;
+  getAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue>;
+  getSync(key: StaticJsPropertyKey): StaticJsValue;
   getEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<StaticJsValue>;
 
   setAsync(

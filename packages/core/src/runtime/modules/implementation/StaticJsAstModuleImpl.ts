@@ -510,7 +510,6 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       this._envRec,
     );
 
-    // oxlint-disable-next-line typescript/no-this-alias
     const { _ecmaScriptCode, _realm, _envRec } = this;
     yield* this._context.run(function* () {
       const varDeclarations = varScopedDeclarations(_ecmaScriptCode);
