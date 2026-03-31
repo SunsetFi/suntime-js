@@ -7,6 +7,12 @@
   - [ ] If invokeEvaluatorX is called and the current task is an X, merge the invoked iteration with the task.
 - [x] Rework createFunction to use current execution stack for scriptOrModule and realm
 - [ ] Rework all async functions to one class
+- [ ] toJsSync preserve task runners on proxies
+  - [ ] StaticJsAbstractObject property get/set/whatever
+  - [ ] StaticJsFunctionImpl invocation
+- [ ] Task improvements
+  - [ ] Properly set async and sync macrotasks as "host-invocation"
+  - [ ] Property on a task indicating if its sync or async.
 
 ## Less imidiate
 
@@ -38,6 +44,7 @@
 - [ ] Get promises returned to proxied functions to await properly in the sandbox.
       This should be happening automatically due to the .then function, but isn't
 - [ ] Remove unwrap jank from asyncIteratorClose and iteratorClose
+- [ ] Namespace object non-js native in StaticJsModule
 
 ### Completion Refactor
 

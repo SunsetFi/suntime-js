@@ -1,6 +1,6 @@
 # Security
 
-This project intends to do its best to provide a way of providing security for the host system against the evaluated code. That is, the evaluated code should not be capable of referencing or manipulating any part of the host that was not passed into the sandbox explicitly.
+This project intends to do its best to sandbox the evaluated code from the host system. That is, the evaluated code should not be capable of referencing or manipulating any part of the host that was not passed into the sandbox explicitly.
 
 However, it should be noted that care must be taken by the implementer to ensure this guarentee remains in place. Code inside the sandbox will have access to anything you give it, so it us up to you to not pass more than you intend.
 
@@ -13,11 +13,13 @@ The safest way to use StaticJs is to always manually create StaticJs objects and
 There are a few vectors that enable arbitrary code execution on the host if the sandbox is ever able to gain access to such components. Most of these come from JavaScript features that allow strings to be evaluated as code:
 
 - eval
+- Function constructors
 - setImmediate
 - setTimeout
-- Function constructors
 
-The first 3 are easy to handle, as the sandbox fully implements these functions, and they will invoke sandboxed code. However, it is possible for you to breach this security by exposing them to the sandbox yourself. If you do override these functions in the sandbox, do so with care.
+The first two are easy to handle, as the sandbox fully implements both, and they each will invoke further sandbox code. The second two are currenty unimplemented.
+
+However, it is possible for you to breach this security by exposing them to the sandbox yourself. If you do override these functions in the sandbox, do so with care.
 
 ### Function Constructors
 

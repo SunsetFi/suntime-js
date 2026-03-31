@@ -4,7 +4,7 @@
 
 The API functions `evaluateScriptSync(string)`, `evaluateExpressionSync(string)` will evaluate the given script, and return the script's result after the task (and all microtasks) are completed.
 
-**Warning**: These functions will try to run the code until completion, and are vulnurable to infinite loops. See further sections on how to enforce execution limits or timeshare evaluation to avoid deadlocking the host.
+**Warning**: Using StaticJs in this way will try to run the code until completion, which is vulnurable to infinite loops. For solutions to this, see [Putting time limits on evaluation](#putting-time-limits-on-evaluation).
 
 ```ts
 import { evaluateExpressionSync } from "@suntime-js/core";
@@ -12,7 +12,7 @@ import { evaluateExpressionSync } from "@suntime-js/core";
 const result = evaluateExpressionSync("2 + 2");
 ```
 
-The result will be converted to a native representation. This can either be a primitive, or for objects, it can be a complex proxy into the StaticJs runtime.
+The result will be converted to a native representation. This can either be a primitive, but for objects, it will be a complex proxy into the StaticJs runtime. For more information on how values are proxied, see [Type Coersion](./03-type-coersion.md).
 
 It is important to note that returned object and function proxies can invoke sandboxed code when used:
 
@@ -117,9 +117,11 @@ console.log(result.increment(10)); // Results in 14
 
 ## Putting time limits on evaluation
 
-Tasks can be used to enforce limits on how long an evaluation can run for by using the `runTask` option. This can be handy for guarding against infinite loops and deadlocks.
+Tasks can be used to enforce limits on how long an evaluation can run for. This can be handy for guarding against infinite loops and deadlocks. To specify a task runner, set the `runTask` argument, and consume the [Task Iterator](./07-tasks.md#implementing-task-runners)
 
-Note that the start time is computed outside of `runTask`. This is because any given evaluation may result in more than one task, as promise resolutions are handled.
+Note that in this simple example, the start time is computed outside of `runTask`. This is because any given evaluation may result in more than one task, as microtasks will also be invoked if the evaluated code runs promise completions.
+
+Because of this, this type of task implementation is one use only. More advanced recipes exist that can make a task runner multi-use.
 
 ```ts
 const code = `while(true) {}`;
@@ -127,12 +129,15 @@ const start = Date.now();
 const result = evaluateScriptSync(code, {
   runTask(task) {
     const end = start + 10 * 1000;
-    while (!task.done) {
+    while (true) {
       if (end <= Date.now()) {
         task.abort();
         return;
       }
-      task.next();
+      const { done } = task.next();
+      if (done) {
+        return;
+      }
     }
   },
 });
@@ -167,8 +172,7 @@ See [Tasks](./07-tasks.md) for more information.
 
 ## Timesharing evaluation with the host
 
-Rather than putting hard limits on operation count or time taken, the evaluator can be freely paused and resumed on an interval in order to allow
-unbounded evaluation without deadlocking the underlying application:
+Rather than putting hard limits on operation count or time taken, the evaluator can be freely paused and resumed on an interval in order to allow unbounded evaluation without deadlocking the underlying application:
 
 In order to do this, however, we must switch to the asynchronous API: `evaluateScript` and `evaluateExpression`.
 
@@ -181,8 +185,8 @@ const result = await evaluateScript(code, {
 
     function doTask() {
       for (let i = 0; i < operationsPerIteration; i++) {
-        task.next();
-        if (task.done) {
+        const { done } = task.next();
+        if (done) {
           return;
         }
       }
@@ -223,13 +227,13 @@ const result = await evaluateScript(code, {
 
 As with `createTimeBoundTaskRunner`, the time limits enforced will begin from the moment the first task is created, so its return value cannot be reused unless your goal is to bound multiple evaluations under a single time limit.
 
-It is up to you to experiment with operation limits and yield times to find a mix that best supports your use case.
+It is up to you to experiment with operation limits and yield times to find a mix that best supports your performance goals.
 
 See [Tasks](./07-tasks.md) for more information.
 
 ## Promises and the async API
 
-Special care must be taken when using the async API. Because promises in javascript will always chain, the resulting API-returned promise will **always** fully resolve any sandboxed promises:
+Special care must be taken when using the async API. JavaScript will always call .then() on an awaited value, and always chain such calls. Because of this, the resulting API-returned promise will **always** fully resolve any sandbox-returned promise proxies:
 
 ```ts
 import { evaluateScript } from "@suntime-js/core";

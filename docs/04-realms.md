@@ -25,7 +25,7 @@ Sets the global object or its properties for the realm.
 - `global`.`value`: Sets the this arg to the given value. The value must be an object-like. If the value is not a [StaticJsObjectLike](./06-types.md#object), it will be [coerced to one](./03-type-coersion.md).
 - `global`.`properties`: Specifies propertery descriptors of the global object.
 
-Only one of these two properties may be set on `global`.
+Only one of `value` or `properties` may be set.
 
 Often, you may need the realm type factory when creating values or sub-properties of the global object. Because of this, it may be easier
 to create the realm first, and then call `realm.global.definePropertySync` to add properties to the global object.
@@ -77,6 +77,8 @@ Tasks can be used to timeshare, enforce time limits, pause, debug, and abort ong
 
 The default [Task Handler](07-tasks.md) for running tasks using [evaluateExpressionSync](#evaluateexpressionsyncexpression-string-opts-staticjsruntaskoptions) and
 [evaluateScriptSync](#evaluatescriptsyncexpression-string-opts-staticjsruntaskoptions).
+
+This will also be used for synchronous sub-task evaluation, such as StaticJsValue.toJsSync or StaticJsModule.getExportSync
 
 If you pass a `runTask` option to any of those methods, it will be used in place of this function.
 
@@ -150,7 +152,7 @@ const realm = StaticJsRealm({
 
 ### `evaluateExpression(expression: string, opts?: StaticJsRunTaskOptions)`
 
-Queues an expression evaluation into the realm's task queue. If the realm is idle, the expression will begin evaluation in a microtask. Otherwise, it will be added to the queue and evaluate when all other evaluations have finished.
+Queues an expression evaluation into the realm's task queue. If the realm is idle, the expression will begin evaluation in a macrotask. Otherwise, it will be added to the queue and evaluate when all other evaluations have finished.
 
 Returns a promise that resolves to the [StaticJsValue](./06-types.md) result of the evaluation.
 
@@ -177,15 +179,16 @@ await realm.evaluateScriptSync(`evalExpression("2+2")`);
 And this will not work:
 
 ```ts
-const promise = await realm.evaluateExpression("2+2");
-const result = await realm.evaluateExpressionSync("2+4");
+const promise = realm.evaluateExpression("2+2");
+const result = realm.evaluateExpressionSync("2+4");
+await promise;
 ```
 
 If this requirement is violated, `evaluateExpressionSync` will throw `StaticJsConcurrentEvaluationError`
 
 ### `evaluateScript(script: string, opts?: StaticJsRunTaskOptions)`
 
-Queues a script evaluation in the realm's task queue. If the realm is idle, the script will begin evaluation in a microtask. Otherwise, it will be added to the queue and evaluate when all other evaluations have finished.
+Queues a script evaluation in the realm's task queue. If the realm is idle, the script will begin evaluation in a macrotask. Otherwise, it will be added to the queue and evaluate when all other evaluations have finished.
 
 Returns a promise that resolves to the [StaticJsValue](./06-types.md) result of the evaluation.
 
@@ -212,8 +215,9 @@ await realm.evaluateScriptSync(`eval("2+2")`);
 And this will not work:
 
 ```ts
-const promise = await realm.evaluateScript("2+2");
-const result = await realm.evaluateScriptSync("2+4");
+const promise = realm.evaluateScript("2+2");
+const result = realm.evaluateScriptSync("2+4");
+await promise;
 ```
 
 If this requirement is violated, `evaluateExpressionSync` will throw `StaticJsConcurrentEvaluationError`
@@ -230,16 +234,15 @@ There is no synchronous version of `evaluateModule`, as modules are inherently a
 
 ### `awaitCurrentTask()`
 
-Returns a promise that resolves when the current task, and all resulting microtasks, have completed.
+Returns a promise that resolves when the current macrotask, and all resulting microtasks, have completed.
 
 Note that this may not indicate that the realm is idle, as other tasks may be queued. See [awaitIdle](#awaitidle).
 
 ### `awaitIdle()`
 
-Returns a promise that resolves when the realm is idle, i.e. there are no tasks or microtasks remaining to be processed.
+Returns a promise that resolves when the realm is idle, i.e. there are no macrotasks or microtasks remaining to be processed.
 
-Note that because asynchronous script evaluation is queued in a microtask, any awaits on this function should resolve before the realm becomes busy again,
-even if another awaitIdle() promise resulted in a queued evaluation. Any calls to awaitIdle() after an evaluation call will correctly result in awaiting the queued evaluation.
+Note that because asynchronous script evaluation is queued in a microtask, any awaits on this function should resolve before the realm becomes busy again, even if another awaitIdle() promise resulted in a queued evaluation. Any calls to awaitIdle() after an evaluation call will correctly result in awaiting the queued evaluation.
 
 ## Realm properties
 
@@ -260,3 +263,19 @@ This value can be specified using the [globalObj](#globalobj) realm constructor 
 The global-scope global [StaticJsValue](./06-types.md#staticjsvalue) for this realm.
 
 This value can be specified using the [globalThis](#globalthis) realm constructor property, but cannot be changed afterward.
+
+## StaticJsRunTaskOptions
+
+The StaticJsRunTaskOptions interface allows customization for evaluated tasks.
+
+The following properties are accepted:
+
+- `runTask`
+  Specifies the [Task Runner](./07-tasks.md#implementing-task-runners) for this operation.
+  Note that synchronous invocations MUST run the task iterator to completion. Asynchronous invocations
+  do not have this requirement, and may pause and resume iteration at a later time.
+
+- `sourceName`
+  Specifies the name of the source being evaluated. This is used for stack traces and task iterator introspection.
+
+  This is not applicable to all usages of StaticJsRunTaskOptions, and can be ignored in some cases.
