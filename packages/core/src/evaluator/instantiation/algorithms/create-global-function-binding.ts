@@ -1,6 +1,6 @@
 import type { StaticJsGlobalEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 
-import type { StaticJsPropertyDescriptor } from "../../../runtime/types/StaticJsPropertyDescriptor.js";
+import type { StaticJsPropertyDescriptorRecord } from "../../../runtime/types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
 import { Completion } from "../../completions/Completion.js";
@@ -18,7 +18,7 @@ export default function* createGlobalFunctionBinding(
 
   const existingProp = yield* globalObject.getOwnPropertyEvaluator(name);
 
-  let desc: Partial<StaticJsPropertyDescriptor>;
+  let desc: StaticJsPropertyDescriptorRecord;
   if (!existingProp || existingProp.configurable) {
     desc = {
       value,

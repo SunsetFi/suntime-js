@@ -1,5 +1,3 @@
-import type { Writable } from "type-fest";
-
 import { symbolInspect } from "../../../utils/symbol-inspect.js";
 import { createDeferred } from "../../../utils/create-deferred.js";
 
@@ -45,12 +43,11 @@ import { StaticJsTypeFactoryImpl } from "../../types/implementation/StaticJsType
 
 import type { StaticJsTypeFactory } from "../../types/StaticJsTypeFactory.js";
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
-import type {
-  StaticJsAccessorPropertyDescriptor,
-  StaticJsDataPropertyDescriptor,
-  StaticJsPropertyDescriptor,
+import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
+import {
+  type StaticJsPropertyDescriptorRecord,
+  validateStaticJsPropertyDescriptorRecord,
 } from "../../types/StaticJsPropertyDescriptor.js";
-import { validatePartialStaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import { StaticJsExternalFunction } from "../../types/implementation/functions/StaticJsExternalFunction.js";
 
@@ -716,9 +713,7 @@ function realmModuleToModule(
 }
 
 function globalDeclToDescriptor(realm: StaticJsRealm, descriptor: StaticJsRealmGlobalDeclProperty) {
-  const descr: Writable<
-    Partial<StaticJsAccessorPropertyDescriptor & StaticJsDataPropertyDescriptor>
-  > = {
+  const descr: StaticJsPropertyDescriptorRecord = {
     configurable: descriptor.configurable ?? false,
     enumerable: descriptor.enumerable ?? false,
   };
@@ -754,7 +749,7 @@ function globalDeclToDescriptor(realm: StaticJsRealm, descriptor: StaticJsRealmG
     }
   }
 
-  validatePartialStaticJsPropertyDescriptor(descr);
+  validateStaticJsPropertyDescriptorRecord(descr);
   return descr as StaticJsPropertyDescriptor;
 }
 

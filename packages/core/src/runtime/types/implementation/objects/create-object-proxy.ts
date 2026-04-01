@@ -4,8 +4,7 @@ import type { StaticJsValue } from "../../StaticJsValue.js";
 import type { StaticJsObjectLike, StaticJsPropertyKey } from "../../StaticJsObjectLike.js";
 import {
   isStaticJsDataPropertyDescriptor,
-  type StaticJsPropertyDescriptor,
-  type StaticJsAccessorPropertyDescriptor,
+  type StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
 
@@ -131,19 +130,15 @@ export function createStaticJsObjectLikeProxy(
       }
 
       if (descriptor.get || descriptor.set) {
-        const sjsDescriptor: Partial<StaticJsAccessorPropertyDescriptor> = {
+        const sjsDescriptor: StaticJsPropertyDescriptorRecord = {
           configurable: descriptor.configurable ?? false,
           enumerable: descriptor.enumerable ?? false,
+          get: descriptor.get ? obj.realm.types.toStaticJsValue(descriptor.get) : undefined,
+          set: descriptor.set ? obj.realm.types.toStaticJsValue(descriptor.set) : undefined,
         };
-        if (descriptor.get) {
-          sjsDescriptor.get = obj.realm.types.toStaticJsValue(descriptor.get);
-        }
-        if (descriptor.set) {
-          sjsDescriptor.set = obj.realm.types.toStaticJsValue(descriptor.set);
-        }
         obj.defineOwnPropertySync(staticJsPropertyKey, sjsDescriptor);
       } else {
-        const sjsDescriptor: Partial<StaticJsPropertyDescriptor> = {
+        const sjsDescriptor: StaticJsPropertyDescriptorRecord = {
           configurable: descriptor.configurable ?? false,
           enumerable: descriptor.enumerable ?? false,
           writable: descriptor.writable ?? false,

@@ -12,15 +12,15 @@ import sameValue from "../../algorithms/same-value.js";
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 
 import type {
-  StaticJsAccessorPropertyDescriptor,
   StaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,
+  StaticJsPropertyDescriptorRecord,
 } from "../StaticJsPropertyDescriptor.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   isStaticJsGenericPropertyDescriptor,
-  validatePartialStaticJsPropertyDescriptor,
+  validateStaticJsPropertyDescriptorRecord,
 } from "../StaticJsPropertyDescriptor.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
@@ -233,7 +233,7 @@ export abstract class StaticJsAbstractObject
 
   defineOwnPropertyAsync(
     key: StaticJsPropertyKey,
-    descriptor: StaticJsPropertyDescriptor,
+    descriptor: StaticJsPropertyDescriptorRecord,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean> {
     return this.realm.invokeEvaluatorAsync(this.defineOwnPropertyEvaluator(key, descriptor), opts);
@@ -241,7 +241,7 @@ export abstract class StaticJsAbstractObject
 
   defineOwnPropertySync(
     key: StaticJsPropertyKey,
-    descriptor: StaticJsPropertyDescriptor,
+    descriptor: StaticJsPropertyDescriptorRecord,
     opts?: StaticJsRunTaskOptions,
   ): boolean {
     return this.realm.invokeEvaluatorSync(this.defineOwnPropertyEvaluator(key, descriptor), opts);
@@ -249,13 +249,13 @@ export abstract class StaticJsAbstractObject
 
   *defineOwnPropertyEvaluator(
     key: StaticJsPropertyKey,
-    desc: Partial<StaticJsPropertyDescriptor>,
+    desc: StaticJsPropertyDescriptorRecord,
   ): EvaluationGenerator<boolean> {
     // For abstract objects, implement the 'default' handling of object.[[DefineOwnProperty]], which ultimately
     // is an implementation of ValidateAndApplyPropertyDescriptor:
     // https://tc39.es/ecma262/multipage/ordinary-and-exotic-objects-behaviours.html#sec-validateandapplypropertydescriptor
 
-    validatePartialStaticJsPropertyDescriptor(desc);
+    validateStaticJsPropertyDescriptorRecord(desc);
 
     const current = yield* this.getOwnPropertyEvaluator(key);
 
@@ -313,35 +313,29 @@ export abstract class StaticJsAbstractObject
         return false;
       }
 
-      // True because of the above check.
-      const descriptorAsAccessor = desc as StaticJsAccessorPropertyDescriptor;
-
       // Will be true in our else-if because of isCurrentAccessor is false and the above.
-      const descriptorAsData = desc as StaticJsDataPropertyDescriptor;
       const currentAsData = current as StaticJsDataPropertyDescriptor;
 
       if (isCurrentAccessor) {
         const { get, set } = current;
-        if (get && get !== descriptorAsAccessor.get) {
+        const { get: getD, set: setD } = desc;
+        if (getD && getD !== get) {
           return false;
         }
 
-        if (set && set !== descriptorAsAccessor.set) {
+        if (setD && setD !== set) {
           return false;
         }
       } else if (currentAsData.writable === false) {
-        if (descriptorAsData.writable === true) {
+        if (desc.writable === true) {
           return false;
         }
 
-        if (descriptorAsData.value !== undefined) {
+        if (desc.value !== undefined) {
           // FIXME: There's confusion here over asserting current as a 'fully populated' data descriptor.
           // See maybe 6.2.6.6 CompletePropertyDescriptor
           // I think our engine should have this always be populated?
-          return sameValue(
-            descriptorAsData.value,
-            currentAsData.value ?? this.realm.types.undefined,
-          );
+          return sameValue(desc.value, currentAsData.value);
         }
       }
     }
@@ -395,7 +389,7 @@ export abstract class StaticJsAbstractObject
     }
 
     try {
-      validatePartialStaticJsPropertyDescriptor(decl);
+      validateStaticJsPropertyDescriptorRecord(decl);
     } catch (err: unknown) {
       throw new StaticJsEngineError(
         `Property ${key} has an invalid property descriptor: ${(err as Error).message}`,

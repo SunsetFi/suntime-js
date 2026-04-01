@@ -1,42 +1,37 @@
-import { Writable } from "type-fest";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import {
   isStaticJsDataPropertyDescriptor,
   isStaticJsGenericPropertyDescriptor,
-  StaticJsAccessorPropertyDescriptor,
-  StaticJsDataPropertyDescriptor,
-  StaticJsPropertyDescriptor,
+  type StaticJsPropertyDescriptor,
+  type StaticJsPropertyDescriptorRecord,
 } from "../types/StaticJsPropertyDescriptor.js";
 
 export function completePropertyDescriptor(
-  desc: Partial<StaticJsPropertyDescriptor>,
+  desc: StaticJsPropertyDescriptorRecord,
 ): StaticJsPropertyDescriptor {
   const realm = EvaluationContext.current.realm;
-  let targetDesc = desc as Writable<
-    StaticJsDataPropertyDescriptor & StaticJsAccessorPropertyDescriptor
-  >;
   if (isStaticJsGenericPropertyDescriptor(desc) || isStaticJsDataPropertyDescriptor(desc)) {
-    if (!targetDesc.value) {
-      targetDesc.value = realm.types.undefined;
+    if (!desc.value) {
+      desc.value = realm.types.undefined;
     }
-    if (targetDesc.writable === undefined) {
-      targetDesc.writable = false;
+    if (desc.writable === undefined) {
+      desc.writable = false;
     }
   } else {
-    if (!targetDesc.get) {
-      targetDesc.get = undefined;
+    if (!desc.get) {
+      desc.get = undefined;
     }
-    if (!targetDesc.set) {
-      targetDesc.set = undefined;
+    if (!desc.set) {
+      desc.set = undefined;
     }
   }
 
-  if (targetDesc.enumerable === undefined) {
-    targetDesc.enumerable = false;
+  if (desc.enumerable === undefined) {
+    desc.enumerable = false;
   }
-  if (targetDesc.configurable === undefined) {
-    targetDesc.configurable = false;
+  if (desc.configurable === undefined) {
+    desc.configurable = false;
   }
 
-  return targetDesc as StaticJsPropertyDescriptor;
+  return desc as StaticJsPropertyDescriptor;
 }

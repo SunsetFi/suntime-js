@@ -5,33 +5,37 @@ import { isStaticJsFunction } from "./StaticJsFunction.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
-export interface StaticJsGenericPropertyDescriptor {
+export interface StaticJsDataPropertyDescriptor {
   readonly configurable: boolean;
   readonly enumerable: boolean;
-}
-
-export interface StaticJsDataPropertyDescriptor extends StaticJsGenericPropertyDescriptor {
   readonly writable: boolean;
   readonly value: StaticJsValue;
 }
 
-export interface StaticJsAccessorPropertyDescriptor extends StaticJsGenericPropertyDescriptor {
-  get: StaticJsFunction | undefined;
-  set: StaticJsFunction | undefined;
+export interface StaticJsAccessorPropertyDescriptor {
+  readonly configurable: boolean;
+  readonly enumerable: boolean;
+  readonly get: StaticJsFunction | undefined;
+  readonly set: StaticJsFunction | undefined;
 }
 
-// FIXME: In most places we use Partial<StaticJsPropertyDescriptor>, and sometimes need
-// StaticJsAccessorPropertyDescriptor & StaticJsDataPropertyDescriptor.
-// We are clashing between performing validation enforced by typescript and matching the spec not caring
-// to rigidly define what is present.
 export type StaticJsPropertyDescriptor =
-  | StaticJsGenericPropertyDescriptor
   | StaticJsDataPropertyDescriptor
   | StaticJsAccessorPropertyDescriptor;
 
-export function validatePartialStaticJsPropertyDescriptor(
+export interface StaticJsPropertyDescriptorRecord {
+  configurable?: boolean;
+  enumerable?: boolean;
+  value?: StaticJsValue;
+  writable?: boolean;
+  get?: StaticJsFunction | undefined;
+  set?: StaticJsFunction | undefined;
+}
+
+// FIXME: Remove this in favor of speccy stuff - completePropertyDescriptor
+export function validateStaticJsPropertyDescriptorRecord(
   value: unknown,
-): asserts value is Partial<StaticJsPropertyDescriptor> {
+): asserts value is StaticJsPropertyDescriptorRecord {
   if (!value || typeof value !== "object") {
     throw new TypeError("Property description must be an object.");
   }
@@ -62,9 +66,15 @@ export function validatePartialStaticJsPropertyDescriptor(
   }
 }
 
-export function isStaticJsGenericPropertyDescriptor(
-  value: unknown,
-): value is StaticJsGenericPropertyDescriptor {
+export function isStaticJsGenericPropertyDescriptor(value: unknown): value is Pick<
+  StaticJsPropertyDescriptorRecord,
+  "configurable" | "enumerable"
+> & {
+  get: never;
+  set: never;
+  value: never;
+  writable: never;
+} {
   if (!value || typeof value !== "object") {
     return false;
   }
@@ -73,8 +83,16 @@ export function isStaticJsGenericPropertyDescriptor(
 }
 
 export function isStaticJsDataPropertyDescriptor(
+  value: StaticJsPropertyDescriptor,
+): value is StaticJsDataPropertyDescriptor;
+export function isStaticJsDataPropertyDescriptor(
   value: unknown,
-): value is Partial<StaticJsDataPropertyDescriptor> {
+): value is StaticJsPropertyDescriptorRecord &
+  (
+    | Required<Pick<StaticJsPropertyDescriptorRecord, "value">>
+    | Required<Pick<StaticJsPropertyDescriptorRecord, "writable">>
+  );
+export function isStaticJsDataPropertyDescriptor(value: unknown): boolean {
   if (!value || typeof value !== "object") {
     return false;
   }
@@ -83,8 +101,16 @@ export function isStaticJsDataPropertyDescriptor(
 }
 
 export function isStaticJsAccessorPropertyDescriptor(
+  value: StaticJsPropertyDescriptor,
+): value is StaticJsAccessorPropertyDescriptor;
+export function isStaticJsAccessorPropertyDescriptor(
   value: unknown,
-): value is Partial<StaticJsAccessorPropertyDescriptor> {
+): value is StaticJsPropertyDescriptorRecord &
+  (
+    | Required<Pick<StaticJsPropertyDescriptorRecord, "get">>
+    | Required<Pick<StaticJsPropertyDescriptorRecord, "set">>
+  );
+export function isStaticJsAccessorPropertyDescriptor(value: unknown): boolean {
   if (!value || typeof value !== "object") {
     return false;
   }

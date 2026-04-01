@@ -527,21 +527,21 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
 
   defineOwnPropertyAsync(
     key: StaticJsPropertyKey,
-    descriptor: Partial<StaticJsPropertyDescriptor>,
+    descriptor: StaticJsPropertyDescriptorRecord,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean> {
     throw new Error("Method not implemented.");
   }
   defineOwnPropertySync(
     key: StaticJsPropertyKey,
-    descriptor: Partial<StaticJsPropertyDescriptor>,
+    descriptor: StaticJsPropertyDescriptorRecord,
     opts?: StaticJsRunTaskOptions,
   ): boolean {
     throw new Error("Method not implemented.");
   }
   defineOwnPropertyEvaluator(
     key: StaticJsPropertyKey,
-    descriptor: Partial<StaticJsPropertyDescriptor>,
+    descriptor: StaticJsPropertyDescriptorRecord,
   ): EvaluationGenerator<boolean> {
     throw new Error("Method not implemented.");
   }

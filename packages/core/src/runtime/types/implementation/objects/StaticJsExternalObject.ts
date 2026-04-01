@@ -1,13 +1,10 @@
-import type { Writable } from "type-fest";
-
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import type {
   StaticJsPropertyDescriptor,
-  StaticJsAccessorPropertyDescriptor,
-  StaticJsDataPropertyDescriptor,
+  StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type { StaticJsPropertyKey } from "../../StaticJsObjectLike.js";
@@ -67,9 +64,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
       return undefined;
     }
 
-    const staticJsDescr: Writable<
-      Partial<StaticJsDataPropertyDescriptor & StaticJsAccessorPropertyDescriptor>
-    > = {
+    const staticJsDescr: StaticJsPropertyDescriptorRecord = {
       enumerable,
       configurable: false,
     };

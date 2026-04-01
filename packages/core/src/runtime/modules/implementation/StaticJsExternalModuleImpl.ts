@@ -85,7 +85,7 @@ export class StaticJsExternalModuleImpl extends StaticJsModuleBase implements St
         get: new StaticJsFunctionImpl(this._realm, key, function* () {
           return types.toStaticJsValue(obj[key]);
         }),
-        writable: false,
+        set: undefined,
         enumerable: true,
         configurable: false,
       };

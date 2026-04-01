@@ -10,6 +10,7 @@ import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   type StaticJsPropertyDescriptor,
+  type StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
 
 import { StaticJsObjectLikeImpl } from "../objects/StaticJsObjectLikeImpl.js";
@@ -53,7 +54,7 @@ export class StaticJsArgumentsExoticObject extends StaticJsObjectLikeImpl {
 
   override *defineOwnPropertyEvaluator(
     name: string,
-    desc: StaticJsPropertyDescriptor,
+    desc: StaticJsPropertyDescriptorRecord,
   ): EvaluationGenerator<boolean> {
     const isMapped = yield* this._parameterMap.hasOwnPropertyEvaluator(name);
     let newArgDesc = desc;

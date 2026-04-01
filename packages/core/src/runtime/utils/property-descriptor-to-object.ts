@@ -7,14 +7,12 @@ import type { StaticJsObject } from "../types/StaticJsObject.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
-  StaticJsAccessorPropertyDescriptor,
-  StaticJsDataPropertyDescriptor,
-  StaticJsGenericPropertyDescriptor,
+  type StaticJsDataPropertyDescriptor,
+  type StaticJsAccessorPropertyDescriptor,
   type StaticJsPropertyDescriptor,
 } from "../types/StaticJsPropertyDescriptor.js";
 
 type StaticJsPropertyDescriptorKeys =
-  | keyof StaticJsGenericPropertyDescriptor
   | keyof StaticJsDataPropertyDescriptor
   | keyof StaticJsAccessorPropertyDescriptor;
 

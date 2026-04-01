@@ -3,7 +3,10 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
 
 import type { StaticJsPrimitive } from "./StaticJsPrimitive.js";
-import type { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js";
+import type {
+  StaticJsPropertyDescriptor,
+  StaticJsPropertyDescriptorRecord,
+} from "./StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 import type { StaticJsSymbol } from "./StaticJsSymbol.js";
@@ -87,17 +90,17 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
 
   defineOwnPropertyAsync(
     key: StaticJsPropertyKey,
-    descriptor: Partial<StaticJsPropertyDescriptor>,
+    descriptor: StaticJsPropertyDescriptorRecord,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean>;
   defineOwnPropertySync(
     key: StaticJsPropertyKey,
-    descriptor: Partial<StaticJsPropertyDescriptor>,
+    descriptor: StaticJsPropertyDescriptorRecord,
     opts?: StaticJsRunTaskOptions,
   ): boolean;
   defineOwnPropertyEvaluator(
     key: StaticJsPropertyKey,
-    descriptor: Partial<StaticJsPropertyDescriptor>,
+    descriptor: StaticJsPropertyDescriptorRecord,
   ): EvaluationGenerator<boolean>;
 
   getAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue>;

@@ -5,9 +5,8 @@ import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   isStaticJsGenericPropertyDescriptor,
-  StaticJsAccessorPropertyDescriptor,
-  StaticJsDataPropertyDescriptor,
-  StaticJsPropertyDescriptor,
+  type StaticJsPropertyDescriptor,
+  type StaticJsPropertyDescriptorRecord,
 } from "../types/StaticJsPropertyDescriptor.js";
 
 import sameValue from "./same-value.js";
@@ -16,7 +15,7 @@ export function* validateAndApplyPropertyDescriptor(
   o: StaticJsObjectLike | undefined,
   p: StaticJsPropertyKey,
   extensible: boolean,
-  desc: Partial<StaticJsPropertyDescriptor>,
+  desc: StaticJsPropertyDescriptorRecord,
   current?: StaticJsPropertyDescriptor,
 ): EvaluationGenerator<boolean> {
   if (current === undefined) {
@@ -53,24 +52,20 @@ export function* validateAndApplyPropertyDescriptor(
     }
 
     if (isStaticJsAccessorPropertyDescriptor(current)) {
-      const descA = desc as StaticJsAccessorPropertyDescriptor;
-      const currentA = current as StaticJsAccessorPropertyDescriptor;
-      if (descA.get && descA.get !== currentA.get) {
+      if (desc.get && desc.get !== current.get) {
         return false;
       }
-      if (descA.set && descA.set !== currentA.set) {
+      if (desc.set && desc.set !== current.set) {
         return false;
       }
     } else {
-      const descD = desc as StaticJsDataPropertyDescriptor;
-      const currentD = current as StaticJsDataPropertyDescriptor;
-      if (currentD.writable === false) {
-        if (descD.writable === true) {
+      if (current.writable === false) {
+        if (desc.writable === true) {
           return false;
         }
 
-        if (descD.value !== undefined) {
-          return sameValue(descD.value, currentD.value);
+        if (desc.value !== undefined) {
+          return sameValue(desc.value, current.value);
         }
       }
     }

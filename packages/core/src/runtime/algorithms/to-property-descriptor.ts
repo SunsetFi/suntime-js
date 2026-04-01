@@ -1,13 +1,7 @@
-import type { Writable } from "type-fest";
-
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 
-import type {
-  StaticJsPropertyDescriptor,
-  StaticJsAccessorPropertyDescriptor,
-  StaticJsDataPropertyDescriptor,
-} from "../types/StaticJsPropertyDescriptor.js";
+import type { StaticJsPropertyDescriptorRecord } from "../types/StaticJsPropertyDescriptor.js";
 import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
@@ -17,14 +11,12 @@ import toBoolean from "./to-boolean.js";
 
 export default function* toPropertyDescriptor(
   obj: StaticJsValue,
-): EvaluationGenerator<Partial<StaticJsPropertyDescriptor>> {
+): EvaluationGenerator<StaticJsPropertyDescriptorRecord> {
   if (!isStaticJsObjectLike(obj)) {
     throw Completion.Throw("TypeError", "Property description must be an object");
   }
 
-  const desc: Writable<
-    Partial<StaticJsAccessorPropertyDescriptor & StaticJsDataPropertyDescriptor>
-  > = {};
+  const desc: StaticJsPropertyDescriptorRecord = {};
 
   const hasEnumerable = yield* obj.hasPropertyEvaluator("enumerable");
   if (hasEnumerable) {
