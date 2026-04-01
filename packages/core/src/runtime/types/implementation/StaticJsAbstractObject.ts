@@ -266,7 +266,7 @@ export abstract class StaticJsAbstractObject
 
     if (!current) {
       const extensible = yield* this.isExtensibleEvaluator();
-      if (extensible) {
+      if (!extensible) {
         return false;
       }
 
