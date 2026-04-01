@@ -41,22 +41,31 @@ export class StaticJsNamespaceExoticObject extends StaticJsAbstractObject {
     return null;
   }
 
-  override get extensible(): boolean {
+  override *setPrototypeOfEvaluator(
+    value: StaticJsObjectLike | null,
+  ): EvaluationGenerator<boolean> {
+    // No-op for namespace exotic objects.
+    let prototype = yield* this.getPrototypeOfEvaluator();
+
+    // Sigh...
+    if (sameValue.nullHack(prototype, value)) {
+      return true;
+    }
+
     return false;
+  }
+
+  override *isExtensibleEvaluator(): EvaluationGenerator<boolean> {
+    return false;
+  }
+
+  override *preventExtensionsEvaluator(): EvaluationGenerator<boolean> {
+    // No-op for namespace exotic objects.
+    return true;
   }
 
   *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]> {
     return Array.from(this._exports);
-  }
-
-  override *setPrototypeOfEvaluator(
-    _prototype: StaticJsObjectLike | null,
-  ): EvaluationGenerator<void> {
-    // No-op for namespace exotic objects.
-  }
-
-  override *preventExtensionsEvaluator(): EvaluationGenerator<void> {
-    // No-op for namespace exotic objects.
   }
 
   *getOwnPropertyEvaluator(

@@ -19,6 +19,7 @@ enum StaticJsTypeCode {
   Map = IsObjectLikeFlag + 6,
   Generator = IsObjectLikeFlag + 7,
   AsyncGenerator = IsObjectLikeFlag + 8,
+  Proxy = IsObjectLikeFlag + 9,
 }
 
 export { StaticJsTypeCode };

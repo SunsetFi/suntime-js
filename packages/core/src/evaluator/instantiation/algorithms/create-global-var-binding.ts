@@ -12,7 +12,7 @@ export default function* createGlobalVarBinding(
   const objRec = env.objectRecord;
   const globalObject = objRec.bindingObject;
   const hasProperty = yield* globalObject.hasOwnPropertyEvaluator(name);
-  const extensible = globalObject.extensible;
+  const extensible = yield* globalObject.isExtensibleEvaluator();
 
   if (!hasProperty && extensible) {
     const { realm } = EvaluationContext.current;

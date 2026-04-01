@@ -26,8 +26,6 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
 
   get prototype(): StaticJsObjectLike | null;
 
-  get extensible(): boolean;
-
   getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObjectLike | null>;
   getPrototypeOfSync(opts?: StaticJsRunTaskOptions): StaticJsObjectLike | null;
   getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObjectLike | null>;
@@ -35,13 +33,17 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   setPrototypeOfAsync(
     prototype: StaticJsObjectLike | null,
     opts?: StaticJsRunTaskOptions,
-  ): Promise<void>;
-  setPrototypeOfSync(prototype: StaticJsObjectLike | null, opts?: StaticJsRunTaskOptions): void;
-  setPrototypeOfEvaluator(prototype: StaticJsObjectLike | null): EvaluationGenerator<void>;
+  ): Promise<boolean>;
+  setPrototypeOfSync(prototype: StaticJsObjectLike | null, opts?: StaticJsRunTaskOptions): boolean;
+  setPrototypeOfEvaluator(prototype: StaticJsObjectLike | null): EvaluationGenerator<boolean>;
 
-  preventExtensionsAsync(opts?: StaticJsRunTaskOptions): Promise<void>;
-  preventExtensionsSync(opts?: StaticJsRunTaskOptions): void;
-  preventExtensionsEvaluator(): EvaluationGenerator<void>;
+  isExtensibleAsync(opts?: StaticJsRunTaskOptions): Promise<boolean>;
+  isExtensibleSync(opts?: StaticJsRunTaskOptions): boolean;
+  isExtensibleEvaluator(opts?: StaticJsRunTaskOptions): EvaluationGenerator<boolean>;
+
+  preventExtensionsAsync(opts?: StaticJsRunTaskOptions): Promise<boolean>;
+  preventExtensionsSync(opts?: StaticJsRunTaskOptions): boolean;
+  preventExtensionsEvaluator(): EvaluationGenerator<boolean>;
 
   ownPropertyKeysAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsPropertyKey[]>;
   ownPropertyKeysSync(opts?: StaticJsRunTaskOptions): StaticJsPropertyKey[];

@@ -77,15 +77,16 @@ import type { RealmHooks } from "../../hooks/hooks.js";
 
 import type { StaticJsRealmOptions } from "../factories/StaticJsRealm.js";
 import type { StaticJsRealmGlobalDeclProperty } from "../factories/StaticJsRealmGlobalOptions.js";
+
 import type { StaticJsModuleResolution } from "../StaticJsModuleResolver.js";
 import type { StaticJsModuleResolver } from "../StaticJsModuleResolver.js";
-
-import type { StaticJsRealm } from "../StaticJsRealm.js";
-
 import type {
   StaticJsRealmEvaluateScriptOptions,
   StaticJsRealmEvaluateScriptSyncOptions,
 } from "../StaticJsRealmEvaluateScriptOptions.js";
+import { StaticJsRealmEvaluateSourceOptions } from "../StaticJsRealmEvaluateSourceOptions.js";
+
+import type { StaticJsRealm } from "../StaticJsRealm.js";
 
 import { EvaluationTask } from "./EvaluationTask.js";
 import { expressionStatement, file, program } from "@babel/types";
@@ -208,7 +209,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return this._hooks;
   }
 
-  evaluateExpression(expression: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
+  evaluateExpression(
+    expression: string,
+    opts?: StaticJsRealmEvaluateSourceOptions,
+  ): Promise<StaticJsValue> {
     const parsed = parseExpression(expression, opts?.sourceName ?? this._createInlineSourceName());
     const node = file(program([expressionStatement(parsed)], [], "script"));
     const record = StaticJsScriptRecord(node, expression);
@@ -216,7 +220,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return this._enqueueMacrotask(evaluator, opts);
   }
 
-  evaluateExpressionSync(expression: string, opts?: StaticJsRunTaskOptions): StaticJsValue {
+  evaluateExpressionSync(
+    expression: string,
+    opts?: StaticJsRealmEvaluateSourceOptions,
+  ): StaticJsValue {
     if (this._currentTask && !this._currentTask.entered) {
       throw new StaticJsConcurrentEvaluationError(
         "Synchronous script evaluations from outside the current task cannot be performed while another task is running.",
@@ -282,7 +289,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return this._invokeMacrotaskSync(doEvaluateScript(record, this, strict), opts);
   }
 
-  async evaluateModule(code: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsModule> {
+  async evaluateModule(
+    code: string,
+    opts?: StaticJsRealmEvaluateSourceOptions,
+  ): Promise<StaticJsModule> {
     const sourceName = opts?.sourceName ?? this._createInlineModuleSourceName();
     const parsed = parseModule(code, sourceName);
     const module = new StaticJsAstModuleImpl(sourceName, code, parsed.program, this);

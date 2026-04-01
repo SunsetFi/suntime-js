@@ -21,7 +21,10 @@ const objectCtorSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
       throw Completion.Throw("TypeError", "Object prototype may only be an Object or null");
     }
 
-    yield* obj.setPrototypeOfEvaluator(proto);
+    const result = yield* obj.setPrototypeOfEvaluator(proto);
+    if (!result) {
+      throw Completion.Throw("TypeError", "Object is not extensible.");
+    }
 
     return realm.types.undefined;
   },

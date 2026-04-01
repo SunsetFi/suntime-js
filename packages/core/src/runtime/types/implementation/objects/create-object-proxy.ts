@@ -165,7 +165,7 @@ export function createStaticJsObjectLikeProxy(
       return false;
     },
     isExtensible() {
-      return obj.extensible;
+      return obj.isExtensibleSync();
     },
     preventExtensions() {
       obj.preventExtensionsSync();

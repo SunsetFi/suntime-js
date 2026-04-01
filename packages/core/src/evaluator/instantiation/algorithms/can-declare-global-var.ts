@@ -12,5 +12,5 @@ export default function* canDeclareGlobalVar(
     return true;
   }
 
-  return globalObject.extensible;
+  return yield* globalObject.isExtensibleEvaluator();
 }

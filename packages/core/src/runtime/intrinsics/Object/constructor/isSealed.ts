@@ -8,7 +8,8 @@ const objectCtorIsSealedDeclaration: IntrinsicPropertyDeclaration = {
     // TODO: Is not extensible, all properties are nonconfigurable, all data properties are non writable.
     const obj = yield* toObject(objValue);
 
-    if (obj.extensible) {
+    const extensible = yield* obj.isExtensibleEvaluator();
+    if (extensible) {
       return realm.types.false;
     }
 

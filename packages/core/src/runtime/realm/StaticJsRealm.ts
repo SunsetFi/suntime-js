@@ -15,6 +15,7 @@ import type {
 } from "./StaticJsRealmEvaluateScriptOptions.js";
 import type { StaticJsEvaluator } from "../../evaluator/StaticJsEvaluator.js";
 import type { RealmHooks } from "../hooks/index.js";
+import { StaticJsRealmEvaluateSourceOptions } from "./StaticJsRealmEvaluateSourceOptions.js";
 
 /**
  * A top-level construct describing the overall environment in which a javascript program is executed.
@@ -45,7 +46,10 @@ export interface StaticJsRealm {
    * @param expression The expression to evaluate.
    * @param opts Options for running the task.
    */
-  evaluateExpression(expression: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue>;
+  evaluateExpression(
+    expression: string,
+    opts?: StaticJsRealmEvaluateSourceOptions,
+  ): Promise<StaticJsValue>;
 
   /**
    * Evaluates the expression in the realm synchronously, returning the result.
@@ -53,7 +57,10 @@ export interface StaticJsRealm {
    * @param expression The expression to evaluate.
    * @param opts Options for running the task.
    */
-  evaluateExpressionSync(expression: string, opts?: StaticJsRunTaskOptions): StaticJsValue;
+  evaluateExpressionSync(
+    expression: string,
+    opts?: StaticJsRealmEvaluateSourceOptions,
+  ): StaticJsValue;
 
   /**
    * Runs the given script in the realm, returning a promise that resolves to the result.
@@ -77,7 +84,7 @@ export interface StaticJsRealm {
    * @param code The code of the module to evaluate.
    * @param opts Options for running the task.
    */
-  evaluateModule(code: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsModule>;
+  evaluateModule(code: string, opts?: StaticJsRealmEvaluateSourceOptions): Promise<StaticJsModule>;
 
   /**
    * Returns a promise that resolves when the current task, and all resulting microtasks, have completed.

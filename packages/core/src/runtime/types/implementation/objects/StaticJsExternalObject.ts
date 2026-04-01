@@ -41,21 +41,6 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     return StaticJsTypeCode.Object;
   }
 
-  override get extensible(): boolean {
-    return false;
-  }
-
-  *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]> {
-    const keys = Reflect.ownKeys(this._obj);
-    return keys.map((key) => {
-      if (typeof key === "symbol") {
-        return this.realm.types.toStaticJsValue(key);
-      }
-
-      return key;
-    });
-  }
-
   override toJsSync() {
     return this._obj;
   }
@@ -111,6 +96,21 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     }
 
     return staticJsDescr as StaticJsPropertyDescriptor;
+  }
+
+  override *isExtensibleEvaluator(): EvaluationGenerator<boolean> {
+    return false;
+  }
+
+  *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]> {
+    const keys = Reflect.ownKeys(this._obj);
+    return keys.map((key) => {
+      if (typeof key === "symbol") {
+        return this.realm.types.toStaticJsValue(key);
+      }
+
+      return key;
+    });
   }
 
   protected *_setPropertyDescriptorEvaluator(): EvaluationGenerator<boolean> {

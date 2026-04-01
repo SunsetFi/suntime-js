@@ -72,10 +72,6 @@ export abstract class StaticJsAbstractObject
     return this._prototype;
   }
 
-  get extensible(): boolean {
-    return this._extensible;
-  }
-
   getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObjectLike | null> {
     return this.realm.invokeEvaluatorAsync(this.getPrototypeOfEvaluator(), opts);
   }
@@ -91,36 +87,50 @@ export abstract class StaticJsAbstractObject
   async setPrototypeOfAsync(
     prototype: StaticJsObject | null,
     opts?: StaticJsRunTaskOptions,
-  ): Promise<void> {
+  ): Promise<boolean> {
     return this.realm.invokeEvaluatorAsync(this.setPrototypeOfEvaluator(prototype), opts);
   }
 
-  setPrototypeOfSync(prototype: StaticJsObject | null, opts?: StaticJsRunTaskOptions): void {
-    this.realm.invokeEvaluatorSync(this.setPrototypeOfEvaluator(prototype), opts);
+  setPrototypeOfSync(prototype: StaticJsObject | null, opts?: StaticJsRunTaskOptions): boolean {
+    return this.realm.invokeEvaluatorSync(this.setPrototypeOfEvaluator(prototype), opts);
   }
 
-  *setPrototypeOfEvaluator(proto: StaticJsObjectLike | null): EvaluationGenerator<void> {
+  *setPrototypeOfEvaluator(proto: StaticJsObjectLike | null): EvaluationGenerator<boolean> {
     if (!isStaticJsObjectLike(proto) && proto !== null) {
       throw new TypeError(`Prototype must be a StaticJsObjectLike or null`);
     }
 
     if (!this._extensible) {
-      throw Completion.Throw("TypeError", "Object is not extensible.");
+      return false;
     }
 
     this._prototype = proto;
+    return true;
   }
 
-  async preventExtensionsAsync(opts?: StaticJsRunTaskOptions): Promise<void> {
+  isExtensibleAsync(opts?: StaticJsRunTaskOptions): Promise<boolean> {
+    return this.realm.invokeEvaluatorAsync(this.isExtensibleEvaluator(opts), opts);
+  }
+
+  isExtensibleSync(opts?: StaticJsRunTaskOptions): boolean {
+    return this.realm.invokeEvaluatorSync(this.isExtensibleEvaluator(opts), opts);
+  }
+
+  *isExtensibleEvaluator(_opts?: StaticJsRunTaskOptions): EvaluationGenerator<boolean> {
+    return this._extensible;
+  }
+
+  async preventExtensionsAsync(opts?: StaticJsRunTaskOptions): Promise<boolean> {
     return this.realm.invokeEvaluatorAsync(this.preventExtensionsEvaluator(), opts);
   }
 
-  preventExtensionsSync(opts?: StaticJsRunTaskOptions): void {
-    this.realm.invokeEvaluatorSync(this.preventExtensionsEvaluator(), opts);
+  preventExtensionsSync(opts?: StaticJsRunTaskOptions): boolean {
+    return this.realm.invokeEvaluatorSync(this.preventExtensionsEvaluator(), opts);
   }
 
-  *preventExtensionsEvaluator(): EvaluationGenerator<void> {
+  *preventExtensionsEvaluator(): EvaluationGenerator<boolean> {
     this._extensible = false;
+    return true;
   }
 
   ownPropertyKeysAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsPropertyKey[]> {
@@ -255,7 +265,8 @@ export abstract class StaticJsAbstractObject
     const isDescData = isStaticJsDataPropertyDescriptor(desc);
 
     if (!current) {
-      if (!this.extensible) {
+      const extensible = yield* this.isExtensibleEvaluator();
+      if (extensible) {
         return false;
       }
 
@@ -482,7 +493,8 @@ export abstract class StaticJsAbstractObject
 
     // Doesn't exist anywhere, or is a parent data property.  Create it on us if we can.
 
-    if (!this.extensible) {
+    const extensible = yield* this.isExtensibleEvaluator();
+    if (!extensible) {
       if (strict) {
         yield* this._throwCannotSet(key);
       }

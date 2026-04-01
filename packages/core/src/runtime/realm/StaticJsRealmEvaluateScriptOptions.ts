@@ -1,6 +1,6 @@
-import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
+import { StaticJsRealmEvaluateSourceOptions } from "./StaticJsRealmEvaluateSourceOptions.js";
 
-export interface StaticJsRealmEvaluateScriptOptions extends StaticJsRunTaskOptions {
+export interface StaticJsRealmEvaluateScriptOptions extends StaticJsRealmEvaluateSourceOptions {
   /**
    * Whether to support top-level await in the script.
    * If true, evaluateScript will always return a promise.

@@ -6,7 +6,8 @@ const objectCtorIsExtensibleDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, _thisArg, objValue = realm.types.undefined) {
     const obj = yield* toObject(objValue);
 
-    return realm.types.boolean(obj.extensible);
+    const extensible = yield* obj.isExtensibleEvaluator();
+    return realm.types.boolean(extensible);
   },
 };
 

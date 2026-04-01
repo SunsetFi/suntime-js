@@ -11,7 +11,7 @@ export default function* canDeclareGlobalFunction(
   const globalObject = objRec.bindingObject;
   const existingProp = yield* globalObject.getOwnPropertyEvaluator(name);
   if (!existingProp) {
-    return globalObject.extensible;
+    return yield* globalObject.isExtensibleEvaluator();
   }
 
   if (existingProp.configurable) {

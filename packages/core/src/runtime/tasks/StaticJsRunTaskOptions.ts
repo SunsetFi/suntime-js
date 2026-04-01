@@ -1,9 +1,8 @@
 import type { StaticJsTaskRunner } from "./StaticJsTaskRunner.js";
 
 /**
- * Options for running a macrotask in the StaticJs runtime.
+ * Options for running tasks in the StaticJs runtime.
  */
-
 export interface StaticJsRunTaskOptions {
   /**
    * The task runner to use.
@@ -14,9 +13,4 @@ export interface StaticJsRunTaskOptions {
    * @param task The task to run.
    */
   runTask?: StaticJsTaskRunner;
-
-  /**
-   * The name of the source to use for the task.  This is used in stack traces and debugging.
-   */
-  sourceName?: string;
 }

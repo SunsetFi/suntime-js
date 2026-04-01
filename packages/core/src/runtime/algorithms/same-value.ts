@@ -1,3 +1,4 @@
+import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsNumber } from "../types/StaticJsNumber.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
@@ -16,3 +17,19 @@ export default function sameValue(x: StaticJsValue, y: StaticJsValue): boolean {
 
   return sameValueNonNumber(x, y);
 }
+
+// Hack: our getPrototypeOf and setPrototypeOf use null instead of StaticJsNull and I'm too in the flow of Proxies to fix that now
+sameValue.nullHack = function (x: StaticJsValue | null, y: StaticJsValue | null): boolean {
+  if (isStaticJsNull(x)) {
+    x = null;
+  }
+  if (isStaticJsNull(y)) {
+    y = null;
+  }
+
+  if (x === null || y === null) {
+    return x === y;
+  }
+
+  return sameValue(x, y);
+};
