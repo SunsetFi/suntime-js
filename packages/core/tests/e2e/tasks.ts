@@ -236,7 +236,11 @@ describe("E2E: Tasks", () => {
           task.next();
         }
       });
-      const runTaskSync = vi.fn((task: StaticJsTaskIterator) => task.abort());
+      const runTaskSync = vi.fn((task: StaticJsTaskIterator) => {
+        while (!task.done) {
+          task.next();
+        }
+      });
       const realm = StaticJsRealm({
         runTask,
         runTaskSync,
@@ -261,7 +265,7 @@ describe("E2E: Tasks", () => {
       expect((result as StaticJsNumber).value).toBe(4);
 
       expect(runTask).toHaveBeenCalledTimes(1);
-      expect(runTaskSync).toHaveBeenCalledTimes(0);
+      expect(runTaskSync).toHaveBeenCalledTimes(1);
     });
   });
 });
