@@ -73,6 +73,10 @@ export class EvaluationContext implements Required<EvaluationContextAutoDefPrope
     return !!this._currentStackProvider;
   }
 
+  static get hasExecutionContext() {
+    return this.hasStackProvider && !!this._currentStackProvider!.getCurrentContext();
+  }
+
   static get stackProvider(): EvaluationContextStackProvider {
     if (!this._currentStackProvider) {
       throw new StaticJsEngineError("No evaluation context stack provider is set.");
@@ -149,6 +153,20 @@ export class EvaluationContext implements Required<EvaluationContextAutoDefPrope
       function: func,
       lexicalEnv: env,
       variableEnv: env,
+    });
+  }
+
+  static *external<T>(
+    generator: EvaluationGenerator<T>,
+    realm: StaticJsRealm,
+  ): EvaluationGenerator<T> {
+    if (this.hasExecutionContext) {
+      return yield* generator;
+    }
+
+    const root = this.createRootContext(null, true, realm);
+    return yield* root.run(function* () {
+      return yield* generator;
     });
   }
 

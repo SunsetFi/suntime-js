@@ -1,4 +1,4 @@
-import type { Program } from "@babel/types";
+import type { FunctionDeclaration, Program } from "@babel/types";
 
 import { createDeferred } from "../../../utils/create-deferred.js";
 
@@ -534,8 +534,23 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
             yield* _envRec.createMutableBindingEvaluator(dn, false);
           }
 
+          let functionDecl: FunctionDeclaration | null = null;
           if (d.type === "FunctionDeclaration") {
-            const fn = createFunction(dn, d, _envRec);
+            functionDecl = d;
+          } else if (
+            d.type === "ExportDefaultDeclaration" &&
+            d.declaration.type === "FunctionDeclaration"
+          ) {
+            functionDecl = d.declaration;
+          } else if (
+            d.type === "ExportNamedDeclaration" &&
+            d.declaration?.type === "FunctionDeclaration"
+          ) {
+            functionDecl = d.declaration;
+          }
+
+          if (functionDecl) {
+            const fn = createFunction(dn, functionDecl, _envRec);
             yield* _envRec.initializeBindingEvaluator(dn, fn);
           }
         }
