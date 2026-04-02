@@ -1,11 +1,15 @@
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
+
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsPromise } from "../../../types/StaticJsPromise.js";
+import { isStaticJsValue } from "../../../types/StaticJsValue.js";
 
 import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
 import { StaticJsPromiseImpl } from "../../../types/implementation/objects/StaticJsPromiseImpl.js";
@@ -15,9 +19,6 @@ import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../
 import promiseCtorRejectDeclaration from "./reject.js";
 import promiseCtorResolveDeclaration from "./resolve.js";
 import promiseConstructorSymbolSpeciesDeclaration from "./symbol_species.js";
-import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
-import { isStaticJsValue } from "../../../types/StaticJsValue.js";
-import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   promiseCtorRejectDeclaration,

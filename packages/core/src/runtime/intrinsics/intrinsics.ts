@@ -41,9 +41,9 @@ export interface Constructors {
   Object: StaticJsFunction;
   Symbol: StaticJsFunction;
   Array: StaticJsFunction;
-  Function: StaticJsFunction;
   Iterator: StaticJsFunction;
   Promise: StaticJsFunction;
+  Proxy: StaticJsFunction;
   Set: StaticJsFunction;
   Map: StaticJsFunction;
   Error: StaticJsFunction;
@@ -53,6 +53,7 @@ export interface Constructors {
   RangeError: StaticJsFunction;
   EvalError: StaticJsFunction;
   URIError: StaticJsFunction;
+  Function: StaticJsFunction;
   GeneratorFunction: StaticJsFunction;
   AsyncGeneratorFunction: StaticJsFunction;
 }

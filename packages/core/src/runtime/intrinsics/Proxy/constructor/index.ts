@@ -1,0 +1,44 @@
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+
+import { Completion } from "../../../../evaluator/completions/Completion.js";
+
+import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+
+import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
+
+import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
+
+import { StaticJsProxyImpl } from "../../../types/implementation/StaticJsProxyImpl.js";
+
+const declarations: IntrinsicPropertyDeclaration[] = [];
+
+export default function createProxyConstructor(realm: StaticJsRealm) {
+  const ctor = new StaticJsFunctionImpl(
+    realm,
+    "Proxy",
+    function* () {
+      throw Completion.Throw("TypeError", "Proxy constructor cannot be called as a function");
+    },
+    {
+      *construct(thisArg, target, handler) {
+        if (!isStaticJsObjectLike(thisArg)) {
+          throw Completion.Throw("TypeError", "Proxy constructor called on a non-object");
+        }
+
+        if (!isStaticJsObjectLike(target)) {
+          throw Completion.Throw("TypeError", "Proxy target is not an object");
+        }
+
+        if (!isStaticJsObjectLike(handler)) {
+          throw Completion.Throw("TypeError", "Proxy handler is not an object");
+        }
+
+        return new StaticJsProxyImpl(target, handler, realm);
+      },
+    },
+  );
+
+  applyIntrinsicProperties(realm, ctor, declarations);
+
+  return ctor;
+}
