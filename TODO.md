@@ -45,6 +45,12 @@
       This should be happening automatically due to the .then function, but isn't
 - [ ] Remove unwrap jank from asyncIteratorClose and iteratorClose
 - [ ] Namespace object non-js native in StaticJsModule
+- [ ] Align ObjectLike functions to slots.
+  - [ ] hasOwnProperty is actually the hasProperty slot, and hasProperty is a utility function. This is confusing.
+- [ ] Check AbstractObject 'slots' for compliance with 10.1
+  - [ ] GetOwnProperty, DefineOwnProperty
+    - [ ] completePropertyDescriptor
+    - [ ] isCompatiblePropertyDescriptor
 
 ### Completion Refactor
 

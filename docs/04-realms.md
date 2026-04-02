@@ -150,13 +150,13 @@ const realm = StaticJsRealm({
 
 ## Realm methods
 
-### `evaluateExpression(expression: string, opts?: StaticJsRunTaskOptions)`
+### `evaluateExpression(expression: string, opts?: StaticJsRealmEvaluateSourceOptions)`
 
 Queues an expression evaluation into the realm's task queue. If the realm is idle, the expression will begin evaluation in a macrotask. Otherwise, it will be added to the queue and evaluate when all other evaluations have finished.
 
 Returns a promise that resolves to the [StaticJsValue](./06-types.md) result of the evaluation.
 
-### `evaluateExpressionSync(expression: string, opts?: StaticJsRunTaskOptions)`
+### `evaluateExpressionSync(expression: string, opts?: StaticJsRealmEvaluateSourceOptions)`
 
 Evaluates an expression synchronously and returns the resultant [StaticJsValue](./06-types.md) of the evaluation.
 
@@ -186,13 +186,13 @@ await promise;
 
 If this requirement is violated, `evaluateExpressionSync` will throw `StaticJsConcurrentEvaluationError`
 
-### `evaluateScript(script: string, opts?: StaticJsRunTaskOptions)`
+### `evaluateScript(script: string, opts?: StaticJsEvaluateScriptOptions)`
 
 Queues a script evaluation in the realm's task queue. If the realm is idle, the script will begin evaluation in a macrotask. Otherwise, it will be added to the queue and evaluate when all other evaluations have finished.
 
 Returns a promise that resolves to the [StaticJsValue](./06-types.md) result of the evaluation.
 
-### `evaluateScriptSync(expression: string, opts?: StaticJsRunTaskOptions)`
+### `evaluateScriptSync(expression: string, opts?: StaticJsRealmEvaluateSourceOptions)`
 
 Evaluates a script synchronously and returns the resultant [StaticJsValue](./06-types.md) of the evaluation.
 
@@ -222,11 +222,11 @@ await promise;
 
 If this requirement is violated, `evaluateExpressionSync` will throw `StaticJsConcurrentEvaluationError`
 
-### `evaluateModule(script: string, opts?: StaticJsRunTaskOptions)`
+### `evaluateModule(script: string, opts?: StaticJsRealmEvaluateSourceOptions)`
 
-Queues a module evaluation in the realm's task queue and returns a promise that resolves to the [StaticJsModule](./05-modules.md).
+Queues a module evaluation in the realm's task queue and returns a promise that resolves to the resulting [StaticJsModule](./05-modules.md).
 
-If the module is asynchronous (has a top-level await), the promise will wait until the module fully evaluates before resolving.
+If the module is asynchronous (has a top-level await), or depends on another module that is asynchronous, the promise will wait until the full module chain fully evaluates before resolving.
 
 Note that module linking will be done immediately upon calling the method, while the declaration and evaluation steps will wait for the task queue.
 
@@ -242,7 +242,10 @@ Note that this may not indicate that the realm is idle, as other tasks may be qu
 
 Returns a promise that resolves when the realm is idle, i.e. there are no macrotasks or microtasks remaining to be processed.
 
-Note that because asynchronous script evaluation is queued in a microtask, any awaits on this function should resolve before the realm becomes busy again, even if another awaitIdle() promise resulted in a queued evaluation. Any calls to awaitIdle() after an evaluation call will correctly result in awaiting the queued evaluation.
+The promise provides the following guarentees:
+
+- If a script evaluation is queued as a result of an awaitIdle promise, other awaitIdle promises taken before the queuing will resolve before that script evaluation begins.
+- If awaitIdle is called after an evaluation is queued, it will still await that evaluation, even if other previous awaitIdle calls are still in the process of resolving.
 
 ## Realm properties
 
@@ -270,12 +273,36 @@ The StaticJsRunTaskOptions interface allows customization for evaluated tasks.
 
 The following properties are accepted:
 
-- `runTask`
+- `runTask: StaticJsTaskRunner`
   Specifies the [Task Runner](./07-tasks.md#implementing-task-runners) for this operation.
+  Default: the [runTask](#runtask) or [runTaskSync](#runtasksync) options passed to the realm on creation.
   Note that synchronous invocations MUST run the task iterator to completion. Asynchronous invocations
   do not have this requirement, and may pause and resume iteration at a later time.
 
-- `sourceName`
-  Specifies the name of the source being evaluated. This is used for stack traces and task iterator introspection.
+## StaticJsRealmEvaluateSourceOptions
 
+The StaticJsRealmEvaluateSourceOptions interface allows further customizations for evaluating units of code
+
+Inherits from: StaticJsRunTaskOptions
+
+The following additional properties are accepted:
+
+- `sourceName: string`
+  Specifies the name of the source being evaluated. This is used for stack traces and task iterator introspection.
   This is not applicable to all usages of StaticJsRunTaskOptions, and can be ignored in some cases.
+
+## StaticJsEvaluateScriptOptions
+
+The StaticJsEvaluateScriptOptions interface provides further options for evaluating top-level scripts with [realm.evaluateScript](#evaluatescriptscript-string-opts-staticjsevaluatescriptoptions).
+
+Inherits from: StaticJsEvaluateCodeOptions
+
+The following additional properties are accepted:
+
+- `topLevelAwait: boolean | "auto"`
+  Specifies whether `await` keywords at the top-level are allowed.
+  Default: `false`
+  If set to `true`, realm.evaluateScript will return a [StaticJsPromise](06-types.md#promise) that resolves to the script's completion value.
+  If set to `"auto"`, realm.evaluateScript will return a [StaticJsPromise](06-types.md#promise) only if a top-level await keyword is present. If not, it will return the normal value.
+  If set to `false`, top-level await will throw a syntax error.
+  Note: This is not available for the synchronous evaluateScriptSync.
