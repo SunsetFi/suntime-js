@@ -7,7 +7,8 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import sameValue from "../../algorithms/same-value.js";
 
 import { StaticJsAbstractObject } from "./StaticJsAbstractObject.js";
-import type { StaticJsObjectLike, StaticJsPropertyKey } from "../StaticJsObjectLike.js";
+import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,

@@ -1,6 +1,6 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 
 import toString from "../algorithms/to-string.js";
 

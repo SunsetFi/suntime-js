@@ -2,7 +2,7 @@ import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import { StaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
+import { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,

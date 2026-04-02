@@ -5,7 +5,8 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 
 import type { StaticJsValue } from "../../StaticJsValue.js";
-import type { StaticJsObjectLike, StaticJsPropertyKey } from "../../StaticJsObjectLike.js";
+import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,

@@ -10,7 +10,8 @@ import {
   isStaticJsDataPropertyDescriptor,
 } from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsNull } from "../../StaticJsNull.js";
-import type { StaticJsObjectLike, StaticJsPropertyKey } from "../../StaticJsObjectLike.js";
+import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import type { StaticJsSymbol } from "../../StaticJsSymbol.js";
 
 import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";

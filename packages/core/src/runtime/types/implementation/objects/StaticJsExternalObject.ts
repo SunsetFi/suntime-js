@@ -7,7 +7,7 @@ import type {
   StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-import type { StaticJsPropertyKey } from "../../StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 
 import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";
 import { StaticJsExternalFunction } from "../functions/StaticJsExternalFunction.js";

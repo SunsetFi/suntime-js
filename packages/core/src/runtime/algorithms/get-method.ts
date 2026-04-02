@@ -8,7 +8,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsFunction, type StaticJsFunction } from "../types/StaticJsFunction.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
-import type { StaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 
 import toObject from "./to-object.js";
 

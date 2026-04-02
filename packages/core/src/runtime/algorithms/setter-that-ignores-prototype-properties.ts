@@ -1,11 +1,8 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import {
-  isStaticJsObjectLike,
-  type StaticJsObjectLike,
-  type StaticJsPropertyKey,
-} from "../types/index.js";
+import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/index.js";
+import { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import createDataPropertyOrThrow from "./create-data-property-or-throw.js";

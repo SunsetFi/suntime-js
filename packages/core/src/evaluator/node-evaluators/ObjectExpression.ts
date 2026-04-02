@@ -6,7 +6,7 @@ import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
 
 import type { StaticJsObject } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
-import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../../runtime/types/StaticJsSymbol.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";

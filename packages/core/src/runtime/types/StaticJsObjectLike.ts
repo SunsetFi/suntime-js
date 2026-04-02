@@ -9,17 +9,8 @@ import type {
 } from "./StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
-import type { StaticJsSymbol } from "./StaticJsSymbol.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
-
-export type StaticJsPropertyKey = string | StaticJsSymbol;
-
-export function isStaticJsPropertyKey(value: unknown): value is StaticJsPropertyKey {
-  return (
-    typeof value === "string" ||
-    (isStaticJsValue(value) && value.runtimeTypeCode === StaticJsTypeCode.Symbol)
-  );
-}
+import { StaticJsPropertyKey } from "./StaticJsPropertyKey.js";
 
 export interface StaticJsObjectLike extends StaticJsPrimitive {
   // We MUST NOT RESTRICT THIS to "object" | "array" | "function", or else

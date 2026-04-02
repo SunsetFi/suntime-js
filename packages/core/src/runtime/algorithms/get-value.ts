@@ -1,5 +1,5 @@
 import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
-import { type StaticJsPropertyKey, isStaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
+import { type StaticJsPropertyKey, isStaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 
 import type { StaticJsReferenceRecord } from "../references/StaticJsReferenceRecord.js";
 import { isUnresolvableReference } from "../references/is-unresolvable-reference.js";

@@ -1,9 +1,9 @@
-import type { StaticJsPropertyKey } from "../../../types/StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../../../types/StaticJsPropertyKey.js";
 import type { StaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
 
 import toObject from "../../../algorithms/to-object.js";
 
-import { propertyDescriptorToObject } from "../../../utils/property-descriptor-to-object.js";
+import { fromPropertyDescriptor } from "../../../utils/fromPropertyDescriptor.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -22,7 +22,7 @@ const objectCtorGetOwnPropertyDescriptorsDeclaration: IntrinsicPropertyDeclarati
         continue;
       }
 
-      const descObject = yield* propertyDescriptorToObject(descriptor, realm);
+      const descObject = yield* fromPropertyDescriptor(descriptor, realm);
       descriptors.set(key, {
         enumerable: true,
         writable: true,

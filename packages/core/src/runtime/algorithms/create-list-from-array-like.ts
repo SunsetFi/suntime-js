@@ -1,11 +1,8 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import {
-  isStaticJsObjectLike,
-  isStaticJsPropertyKey,
-  StaticJsPropertyKey,
-} from "../types/StaticJsObjectLike.js";
+import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { StaticJsPropertyKey, isStaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 
 import { StaticJsValue } from "../types/StaticJsValue.js";
 import { toPropertyKey } from "../utils/to-property-key.js";

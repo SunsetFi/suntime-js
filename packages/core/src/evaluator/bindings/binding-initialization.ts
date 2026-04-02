@@ -13,7 +13,7 @@ import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsPropertyKey.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";

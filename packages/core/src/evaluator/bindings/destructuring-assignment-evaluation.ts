@@ -13,7 +13,7 @@ import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-d
 import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
 
-import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsPropertyKey.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import { isStaticJsNull } from "../../runtime/types/StaticJsNull.js";

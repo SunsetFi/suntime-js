@@ -4,7 +4,8 @@ import definePropertyOrThrow from "../../algorithms/define-property-or-throw.js"
 import toObject from "../../algorithms/to-object.js";
 import toPropertyDescriptor from "../../algorithms/to-property-descriptor.js";
 
-import type { StaticJsObjectLike, StaticJsPropertyKey } from "../../types/StaticJsObjectLike.js";
+import type { StaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../../types/StaticJsPropertyKey.js";
 import type { StaticJsPropertyDescriptorRecord } from "../../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 

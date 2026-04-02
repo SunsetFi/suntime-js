@@ -1,37 +1,47 @@
 // TODO REMOVE
-// @ts-nocheck
+
+import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
-import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+
+import { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+
+import { fromPropertyDescriptor } from "../../utils/fromPropertyDescriptor.js";
+
 import call from "../../algorithms/call.js";
 import { completePropertyDescriptor } from "../../algorithms/complete-property-descriptor.js";
 import { createListFromArrayLike } from "../../algorithms/create-list-from-array-like.js";
 import getMethod from "../../algorithms/get-method.js";
-import { isCompatiblePropertyDescriptor } from "../../algorithms/validate-and-apply-property-descriptor.js";
 import sameValue from "../../algorithms/same-value.js";
 import toBoolean from "../../algorithms/to-boolean.js";
 import toPropertyDescriptor from "../../algorithms/to-property-descriptor.js";
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
-import { toNativeUnwrap } from "../../utils/to-native-unwrap.js";
+import toString from "../../algorithms/to-string.js";
+import { isCompatiblePropertyDescriptor } from "../../algorithms/is-compatible-property-descriptor.js";
+
 import { isStaticJsNull } from "../StaticJsNull.js";
+import { isStaticJsObjectLike, StaticJsObjectLike } from "../StaticJsObjectLike.js";
+import { StaticJsPropertyKey, staticJsPropertyKeyToValue } from "../StaticJsPropertyKey.js";
 import {
-  isStaticJsObjectLike,
-  StaticJsObjectLike,
-  StaticJsPropertyKey,
-} from "../StaticJsObjectLike.js";
-import {
+  isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,
+  StaticJsPropertyDescriptorRecord,
 } from "../StaticJsPropertyDescriptor.js";
 import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import { isStaticJsUndefined } from "../StaticJsUndefined.js";
 import { StaticJsValue } from "../StaticJsValue.js";
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+
+import { createStaticJsObjectLikeProxy } from "./objects/create-object-proxy.js";
 
 export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunction*/ {
+  private _cachedJsObject: unknown | null = null;
+
   constructor(
     private readonly _proxyTarget: StaticJsObjectLike,
     private _handler: StaticJsObjectLike,
@@ -359,9 +369,11 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
       return yield* Q(target.hasPropertyEvaluator(key));
     }
 
-    const booleanTrapResult = yield* toBoolean.js(yield* Q(call(trap, handler, [target, key])));
+    const booleanTrapResult = yield* toBoolean.js(
+      yield* Q(call(trap, handler, [target, staticJsPropertyKeyToValue(key, this._realm)])),
+    );
     if (!booleanTrapResult) {
-      const targetDesc = yield* Q(target.getPropertyEvaluator(key));
+      const targetDesc = yield* Q(target.getOwnPropertyEvaluator(key));
       if (targetDesc) {
         if (!targetDesc.configurable) {
           throw Completion.Throw(
@@ -443,7 +455,9 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
       return yield* Q(target.getOwnPropertyEvaluator(key));
     }
 
-    const trapResultObject = yield* Q(call(trap, handler, [target, key]));
+    const trapResultObject = yield* Q(
+      call(trap, handler, [target, staticJsPropertyKeyToValue(key, this._realm)]),
+    );
     if (!isStaticJsObjectLike(trapResultObject) && !isStaticJsUndefined(trapResultObject)) {
       throw Completion.Throw(
         "TypeError",
@@ -530,68 +544,302 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
     descriptor: StaticJsPropertyDescriptorRecord,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean> {
-    throw new Error("Method not implemented.");
+    return this._realm.invokeEvaluatorAsync(this.defineOwnPropertyEvaluator(key, descriptor), opts);
   }
+
   defineOwnPropertySync(
     key: StaticJsPropertyKey,
     descriptor: StaticJsPropertyDescriptorRecord,
     opts?: StaticJsRunTaskOptions,
   ): boolean {
-    throw new Error("Method not implemented.");
+    return this._realm.invokeEvaluatorSync(this.defineOwnPropertyEvaluator(key, descriptor), opts);
   }
-  defineOwnPropertyEvaluator(
+
+  *defineOwnPropertyEvaluator(
     key: StaticJsPropertyKey,
-    descriptor: StaticJsPropertyDescriptorRecord,
+    desc: StaticJsPropertyDescriptorRecord,
   ): EvaluationGenerator<boolean> {
-    throw new Error("Method not implemented.");
+    yield* this._validateNonRevokedProxy();
+
+    const target = this._proxyTarget;
+    const handler = this._handler;
+
+    const trap = yield* Q(getMethod(handler, "defineProperty"));
+    if (!trap) {
+      return yield* Q(target.defineOwnPropertyEvaluator(key, desc));
+    }
+
+    const descObj = yield* Q(fromPropertyDescriptor(desc, this._realm));
+    const booleanTrapResult = yield* toBoolean.js(
+      yield* Q(
+        call(trap, handler, [target, staticJsPropertyKeyToValue(key, this._realm), descObj]),
+      ),
+    );
+    if (booleanTrapResult === false) {
+      return false;
+    }
+
+    const targetDesc = yield* Q(target.getOwnPropertyEvaluator(key));
+    const extensibleTarget = yield* Q(target.isExtensibleEvaluator());
+
+    let settingConfigFalse: boolean;
+    if ("configurable" in desc && desc.configurable === false) {
+      settingConfigFalse = true;
+    } else {
+      settingConfigFalse = false;
+    }
+
+    if (targetDesc === undefined) {
+      if (!extensibleTarget) {
+        throw Completion.Throw(
+          "TypeError",
+          `Proxy handler's defineProperty trap returned true for new property ${String(
+            key,
+          )} on a non-extensible target`,
+        );
+      }
+      if (settingConfigFalse) {
+        throw Completion.Throw(
+          "TypeError",
+          `Proxy handler's defineProperty trap returned true for new property ${String(
+            key,
+          )} with configurable: false, which is not allowed`,
+        );
+      }
+    } else {
+      const isCompatible = yield* isCompatiblePropertyDescriptor(
+        extensibleTarget,
+        desc,
+        targetDesc,
+      );
+      if (!isCompatible) {
+        throw Completion.Throw(
+          "TypeError",
+          `Proxy handler's defineProperty trap returned true for property ${String(
+            key,
+          )} but the provided descriptor is not compatible with the target's existing descriptor`,
+        );
+      }
+      if (settingConfigFalse && targetDesc.configurable) {
+        throw Completion.Throw(
+          "TypeError",
+          `Proxy handler's defineProperty trap returned true for property ${String(
+            key,
+          )} with configurable: false, but the target's existing property is configurable`,
+        );
+      }
+      if (
+        isStaticJsDataPropertyDescriptor(targetDesc) &&
+        targetDesc.configurable === false &&
+        targetDesc.writable === true
+      ) {
+        if ("writable" in desc && desc.writable === false) {
+          throw Completion.Throw(
+            "TypeError",
+            `Proxy handler's defineProperty trap returned true for property ${String(
+              key,
+            )} trying to change writable from true to false on a non-configurable data property`,
+          );
+        }
+      }
+    }
+
+    return true;
   }
+
   getAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
-    throw new Error("Method not implemented.");
+    return this._realm.invokeEvaluatorAsync(this.getEvaluator(key), opts);
   }
+
   getSync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): StaticJsValue {
-    throw new Error("Method not implemented.");
+    return this._realm.invokeEvaluatorSync(this.getEvaluator(key), opts);
   }
-  getEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<StaticJsValue> {
-    throw new Error("Method not implemented.");
+
+  *getEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<StaticJsValue> {
+    yield* this._validateNonRevokedProxy();
+
+    const target = this._proxyTarget;
+    const handler = this._handler;
+
+    const trap = yield* Q(getMethod(handler, "get"));
+    if (!trap) {
+      return yield* Q(target.getEvaluator(key));
+    }
+
+    const trapResult = yield* Q(
+      call(trap, handler, [
+        target,
+        staticJsPropertyKeyToValue(key, this._realm),
+        // FIXME: We need to send Receiver passed in extenally!
+        this,
+      ]),
+    );
+
+    const targetDesc = yield* Q(target.getOwnPropertyEvaluator(key));
+    if (targetDesc && !targetDesc.configurable) {
+      if (isStaticJsDataPropertyDescriptor(targetDesc) && targetDesc.writable === false) {
+        if (!sameValue(trapResult, targetDesc.value)) {
+          throw Completion.Throw(
+            "TypeError",
+            `Proxy handler's get trap returned a value for non-configurable, non-writable data property ${String(
+              key,
+            )} that does not match the target's property value`,
+          );
+        }
+      }
+      if (isStaticJsAccessorPropertyDescriptor(targetDesc) && targetDesc.get === undefined) {
+        if (trapResult !== undefined) {
+          throw Completion.Throw(
+            "TypeError",
+            `Proxy handler's get trap returned a non-undefined value for non-configurable accessor property ${String(
+              key,
+            )} with undefined getter`,
+          );
+        }
+      }
+    }
+
+    return trapResult;
   }
+
   setAsync(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
     strict: boolean,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean> {
-    throw new Error("Method not implemented.");
+    return this._realm.invokeEvaluatorAsync(this.setEvaluator(key, value, strict), opts);
   }
+
   setSync(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
     strict: boolean,
     opts?: StaticJsRunTaskOptions,
   ): boolean {
-    throw new Error("Method not implemented.");
+    return this._realm.invokeEvaluatorSync(this.setEvaluator(key, value, strict), opts);
   }
-  setEvaluator(
+
+  *setEvaluator(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
     strict: boolean,
   ): EvaluationGenerator<boolean> {
-    throw new Error("Method not implemented.");
+    yield* this._validateNonRevokedProxy();
+
+    const target = this._proxyTarget;
+    const handler = this._handler;
+
+    const trap = yield* Q(getMethod(handler, "set"));
+    if (!trap) {
+      return yield* Q(target.setEvaluator(key, value, strict));
+    }
+
+    const booleanTrapResult = yield* toBoolean.js(
+      yield* Q(
+        call(trap, handler, [
+          target,
+          staticJsPropertyKeyToValue(key, this._realm),
+          value,
+          // FIXME: We need to send Receiver passed in extenally!
+          this,
+        ]),
+      ),
+    );
+    if (!booleanTrapResult) {
+      return false;
+    }
+
+    const targetDesc = yield* Q(target.getOwnPropertyEvaluator(key));
+    if (targetDesc && !targetDesc.configurable) {
+      if (isStaticJsDataPropertyDescriptor(targetDesc) && targetDesc.writable === false) {
+        if (!sameValue(value, targetDesc.value)) {
+          throw Completion.Throw(
+            "TypeError",
+            `Proxy handler's set trap returned true for non-configurable, non-writable data property ${String(
+              key,
+            )} but the value did not match the target's property value`,
+          );
+        }
+      }
+      if (isStaticJsAccessorPropertyDescriptor(targetDesc) && targetDesc.set === undefined) {
+        throw Completion.Throw(
+          "TypeError",
+          `Proxy handler's set trap returned true for non-configurable accessor property ${String(
+            key,
+          )} with undefined setter, which is not allowed`,
+        );
+      }
+    }
+
+    return true;
   }
+
   deleteAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean> {
-    throw new Error("Method not implemented.");
+    return this._realm.invokeEvaluatorAsync(this.deleteEvaluator(key), opts);
   }
+
   deleteSync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): boolean {
-    throw new Error("Method not implemented.");
+    return this._realm.invokeEvaluatorSync(this.deleteEvaluator(key), opts);
   }
-  deleteEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean> {
-    throw new Error("Method not implemented.");
+
+  *deleteEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean> {
+    yield* this._validateNonRevokedProxy();
+
+    const target = this._proxyTarget;
+    const handler = this._handler;
+
+    const trap = yield* Q(getMethod(handler, "deleteProperty"));
+    if (!trap) {
+      return yield* Q(target.deleteEvaluator(key));
+    }
+
+    const booleanTrapResult = yield* toBoolean.js(
+      yield* Q(call(trap, handler, [target, staticJsPropertyKeyToValue(key, this._realm)])),
+    );
+    if (!booleanTrapResult) {
+      return false;
+    }
+
+    const targetDesc = yield* Q(target.getOwnPropertyEvaluator(key));
+    if (targetDesc === undefined) {
+      return true;
+    }
+
+    if (targetDesc.configurable === false) {
+      throw Completion.Throw(
+        "TypeError",
+        `Proxy handler's deleteProperty trap returned true for non-configurable property ${String(
+          key,
+        )}`,
+      );
+    }
+
+    const extensibleTarget = yield* Q(target.isExtensibleEvaluator());
+    if (!extensibleTarget) {
+      throw Completion.Throw(
+        "TypeError",
+        `Proxy handler's deleteProperty trap returned true for property ${String(
+          key,
+        )} on a non-extensible target`,
+      );
+    }
+
+    return true;
   }
 
   toJsSync(): unknown {
-    throw new Error("Method not implemented.");
+    if (!this._cachedJsObject) {
+      const proxyHandler: ProxyHandler<object> = {};
+      const target = {};
+      this._cachedJsObject = createStaticJsObjectLikeProxy(this, target, proxyHandler);
+    }
+
+    return this._cachedJsObject;
   }
-  toStringSync(): string {
-    throw new Error("Method not implemented.");
+
+  toStringSync(opts?: StaticJsRunTaskOptions): string {
+    return this.realm.invokeEvaluatorSync(toString(this), opts).value;
   }
 
   private *_validateNonRevokedProxy(): EvaluationGenerator<void> {}

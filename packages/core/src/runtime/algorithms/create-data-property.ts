@@ -1,7 +1,7 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
-import type { StaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import type { StaticJsDataPropertyDescriptor } from "../types/StaticJsPropertyDescriptor.js";
 

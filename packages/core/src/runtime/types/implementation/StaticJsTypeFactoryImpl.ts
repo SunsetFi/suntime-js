@@ -4,7 +4,8 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsArray } from "../StaticJsArray.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
-import type { StaticJsObjectLike, StaticJsPropertyKey } from "../StaticJsObjectLike.js";
+import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
+import type { StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
 import type { StaticJsObject } from "../StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
 import type { ErrorTypeName, StaticJsFunctionTypeCreationOptions } from "../StaticJsTypeFactory.js";
