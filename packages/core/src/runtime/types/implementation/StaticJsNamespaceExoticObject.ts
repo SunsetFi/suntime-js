@@ -38,7 +38,7 @@ export class StaticJsNamespaceExoticObject extends StaticJsAbstractObject {
     return StaticJsTypeCode.Object;
   }
 
-  override get prototype(): StaticJsObjectLike | null {
+  override *getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObjectLike | null> {
     return null;
   }
 

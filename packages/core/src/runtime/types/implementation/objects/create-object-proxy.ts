@@ -93,7 +93,7 @@ export function createStaticJsObjectLikeProxy(
       }
 
       // Delegate to the prototype proxy.
-      const proto = obj.prototype?.toJsSync();
+      const proto = obj.getPrototypeOfSync()?.toJsSync();
       if (proto) {
         return Reflect.get(proto, p);
       }
@@ -115,7 +115,7 @@ export function createStaticJsObjectLikeProxy(
       }
 
       // Delegate to the prototype proxy.
-      const proto = obj.prototype?.toJsSync();
+      const proto = obj.getPrototypeOfSync()?.toJsSync();
       if (proto) {
         return Reflect.has(proto, p);
       }
@@ -183,10 +183,11 @@ export function createStaticJsObjectLikeProxy(
       return false;
     },
     getPrototypeOf() {
-      if (!obj.prototype) {
+      const proto = obj.getPrototypeOfSync();
+      if (!proto) {
         return null;
       }
-      return obj.prototype.toJsSync() as object;
+      return proto.toJsSync() as object;
     },
     apply() {
       throw new TypeError("Object is not a function.");

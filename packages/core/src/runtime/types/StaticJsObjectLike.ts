@@ -18,8 +18,6 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   // explicit x is y type guards.
   readonly runtimeTypeOf: string;
 
-  get prototype(): StaticJsObjectLike | null;
-
   getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObjectLike | null>;
   getPrototypeOfSync(opts?: StaticJsRunTaskOptions): StaticJsObjectLike | null;
   getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObjectLike | null>;

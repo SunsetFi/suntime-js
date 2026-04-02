@@ -63,10 +63,6 @@ export abstract class StaticJsAbstractObject
 
   abstract override readonly runtimeTypeCode: StaticJsTypeCode;
 
-  get prototype(): StaticJsObjectLike | null {
-    return this._prototype;
-  }
-
   getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObjectLike | null> {
     return this.realm.invokeEvaluatorAsync(this.getPrototypeOfEvaluator(), opts);
   }
@@ -206,11 +202,16 @@ export abstract class StaticJsAbstractObject
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     let target: StaticJsObjectLike | null = this;
-    let descr: StaticJsPropertyDescriptor | undefined;
-    do {
-      descr = yield* target!.getOwnPropertyEvaluator(key);
-    } while (descr === undefined && (target = target!.prototype));
-    return descr;
+    while (true) {
+      const descr = yield* target.getOwnPropertyEvaluator(key);
+      if (descr) {
+        return descr;
+      }
+      target = yield* target.getPrototypeOfEvaluator();
+      if (target === null) {
+        return undefined;
+      }
+    }
   }
 
   getOwnPropertyAsync(

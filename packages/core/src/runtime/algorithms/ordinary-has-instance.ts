@@ -38,13 +38,13 @@ export default function* ordinaryHasInstance(
     throw Completion.Throw("TypeError", "Function has non-object prototype");
   }
 
-  let current = O.prototype;
+  let current = yield* O.getPrototypeOfEvaluator();
 
   while (current !== null) {
     if (current === P) {
       return true;
     }
-    current = current.prototype;
+    current = yield* current.getPrototypeOfEvaluator();
   }
 
   return false;

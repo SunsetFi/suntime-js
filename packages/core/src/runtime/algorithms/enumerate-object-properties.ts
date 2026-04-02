@@ -24,13 +24,14 @@ export default function* enumerateObjectProperties(
   const next = new StaticJsFunctionImpl(realm, "next", function* () {
     while (true) {
       if (nextIndex >= currentKeys.length) {
+        const prototype = yield* currentObject.getPrototypeOfEvaluator();
         // If we've gone past the last key, we need to reset
-        if (currentObject.prototype === null) {
+        if (prototype === null) {
           return yield* createIteratorResultObject(realm.types.undefined, true, realm);
         }
 
         nextIndex = 0;
-        currentObject = currentObject.prototype;
+        currentObject = prototype;
         currentKeys = yield* currentObject.ownPropertyKeysEvaluator();
       }
 

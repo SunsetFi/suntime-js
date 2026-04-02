@@ -6,7 +6,7 @@ const objectCtorGetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, _thisArg, targetValue = realm.types.undefined) {
     const obj = yield* toObject(targetValue);
 
-    const proto = obj.prototype;
+    const proto = yield* obj.getPrototypeOfEvaluator();
     if (proto == null) {
       return realm.types.null;
     }
