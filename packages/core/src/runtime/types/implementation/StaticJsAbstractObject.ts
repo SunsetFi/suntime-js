@@ -7,21 +7,19 @@ import { Completion } from "../../../evaluator/completions/Completion.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import toString from "../../algorithms/to-string.js";
-import sameValue from "../../algorithms/same-value.js";
 
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 
 import type {
-  StaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,
   StaticJsPropertyDescriptorRecord,
 } from "../StaticJsPropertyDescriptor.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
-  isStaticJsGenericPropertyDescriptor,
   validateStaticJsPropertyDescriptorRecord,
 } from "../StaticJsPropertyDescriptor.js";
+import { validateAndApplyPropertyDescriptor } from "../../algorithms/validate-and-apply-property-descriptor.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 import {
@@ -251,123 +249,21 @@ export abstract class StaticJsAbstractObject
     key: StaticJsPropertyKey,
     desc: StaticJsPropertyDescriptorRecord,
   ): EvaluationGenerator<boolean> {
-    // For abstract objects, implement the 'default' handling of object.[[DefineOwnProperty]], which ultimately
-    // is an implementation of ValidateAndApplyPropertyDescriptor:
-    // https://tc39.es/ecma262/multipage/ordinary-and-exotic-objects-behaviours.html#sec-validateandapplypropertydescriptor
-
     validateStaticJsPropertyDescriptorRecord(desc);
 
     const current = yield* this.getOwnPropertyEvaluator(key);
+    const extensible = current === undefined ? yield* this.isExtensibleEvaluator() : true;
+    const setSlot = (k: StaticJsPropertyKey, d: StaticJsPropertyDescriptor) =>
+      this._setPropertyDescriptorEvaluator(k, d);
 
-    const isCurrentAccessor = isStaticJsAccessorPropertyDescriptor(current);
-
-    const isDescAccessor = isStaticJsAccessorPropertyDescriptor(desc);
-    const isDescData = isStaticJsDataPropertyDescriptor(desc);
-
-    if (!current) {
-      const extensible = yield* this.isExtensibleEvaluator();
-      if (!extensible) {
-        return false;
-      }
-
-      if (isDescAccessor) {
-        return yield* this._setPropertyDescriptorEvaluator(key, {
-          get: undefined,
-          set: undefined,
-          enumerable: false,
-          configurable: false,
-          ...desc,
-        });
-      } else {
-        let value = isDescData ? desc.value : undefined;
-        if (value === undefined) {
-          // Note: We used to have issues with realm types not being resolved yet during intrinsic instantiation,
-          // but that should be solved now.
-          value = this.realm.types.undefined;
-        }
-
-        return yield* this._setPropertyDescriptorEvaluator(key, {
-          value,
-          writable: false,
-          enumerable: false,
-          configurable: false,
-          ...desc,
-        });
-      }
-    }
-
-    if (Object.keys(desc).length === 0) {
-      return true;
-    }
-
-    if (current.configurable === false) {
-      if (desc.configurable === true) {
-        return false;
-      }
-
-      if (desc.enumerable !== undefined && desc.enumerable !== current.enumerable) {
-        return false;
-      }
-
-      if (!isStaticJsGenericPropertyDescriptor(desc) && isCurrentAccessor !== isDescAccessor) {
-        return false;
-      }
-
-      // Will be true in our else-if because of isCurrentAccessor is false and the above.
-      const currentAsData = current as StaticJsDataPropertyDescriptor;
-
-      if (isCurrentAccessor) {
-        const { get, set } = current;
-        const { get: getD, set: setD } = desc;
-        if (getD && getD !== get) {
-          return false;
-        }
-
-        if (setD && setD !== set) {
-          return false;
-        }
-      } else if (currentAsData.writable === false) {
-        if (desc.writable === true) {
-          return false;
-        }
-
-        if (desc.value !== undefined) {
-          // FIXME: There's confusion here over asserting current as a 'fully populated' data descriptor.
-          // See maybe 6.2.6.6 CompletePropertyDescriptor
-          // I think our engine should have this always be populated?
-          return sameValue(desc.value, currentAsData.value);
-        }
-      }
-    }
-
-    const configurable = desc.configurable ?? current.configurable;
-    const enumerable = desc.enumerable ?? current.enumerable;
-
-    if (isStaticJsDataPropertyDescriptor(current) && isStaticJsAccessorPropertyDescriptor(desc)) {
-      return yield* this._setPropertyDescriptorEvaluator(key, {
-        get: undefined,
-        set: undefined,
-        ...desc,
-        configurable,
-        enumerable,
-      });
-    } else if (
-      isStaticJsAccessorPropertyDescriptor(current) &&
-      isStaticJsDataPropertyDescriptor(desc)
-    ) {
-      return yield* this._setPropertyDescriptorEvaluator(key, {
-        value: this.realm.types.undefined,
-        writable: false,
-        ...desc,
-        configurable,
-        enumerable,
-      });
-    } else {
-      return yield* this._setPropertyDescriptorEvaluator(key, {
-        ...current,
-        ...desc,
-      });
-    }
+    return yield* validateAndApplyPropertyDescriptor(
+      setSlot,
+      key,
+      extensible,
+      desc,
+      current,
+      this.realm,
+    );
   }
 
   abstract getOwnPropertyEvaluator(

@@ -1,6 +1,8 @@
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import { StaticJsObjectLike, StaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
+import { StaticJsPropertyKey } from "../types/StaticJsObjectLike.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
@@ -11,24 +13,49 @@ import {
 
 import sameValue from "./same-value.js";
 
+export type PropertySlotSetter = (
+  key: StaticJsPropertyKey,
+  descriptor: StaticJsPropertyDescriptor,
+) => EvaluationGenerator<boolean>;
+
 export function* validateAndApplyPropertyDescriptor(
-  o: StaticJsObjectLike | undefined,
+  setSlot: PropertySlotSetter | undefined,
   p: StaticJsPropertyKey,
   extensible: boolean,
   desc: StaticJsPropertyDescriptorRecord,
   current?: StaticJsPropertyDescriptor,
+  realm?: StaticJsRealm,
 ): EvaluationGenerator<boolean> {
   if (current === undefined) {
     if (!extensible) {
       return false;
     }
 
-    if (o === undefined) {
+    if (setSlot === undefined) {
       return true;
     }
 
-    // Note: Spec says WE do the work here, depending on accessor or data property.
-    yield* o.defineOwnPropertyEvaluator(p, desc);
+    if (isStaticJsAccessorPropertyDescriptor(desc)) {
+      yield* setSlot(p, {
+        get: undefined,
+        set: undefined,
+        enumerable: false,
+        configurable: false,
+        ...desc,
+      });
+    } else {
+      const undef = (realm ?? EvaluationContext.current.realm).types.undefined;
+      const value =
+        isStaticJsDataPropertyDescriptor(desc) && desc.value !== undefined ? desc.value : undef;
+      yield* setSlot(p, {
+        value,
+        writable: false,
+        enumerable: false,
+        configurable: false,
+        ...desc,
+      });
+    }
+
     return true;
   }
 
@@ -71,43 +98,35 @@ export function* validateAndApplyPropertyDescriptor(
     }
   }
 
-  if (o) {
+  if (setSlot) {
+    const configurable = desc.configurable ?? current.configurable;
+    const enumerable = desc.enumerable ?? current.enumerable;
+
     if (isStaticJsDataPropertyDescriptor(current) && isStaticJsAccessorPropertyDescriptor(desc)) {
-      const configurable =
-        desc.configurable !== undefined ? desc.configurable : current.configurable;
-      const enumerable = desc.enumerable !== undefined ? desc.enumerable : current.enumerable;
-      const get = isStaticJsAccessorPropertyDescriptor(desc) && desc.get ? desc.get : undefined;
-      const set = isStaticJsAccessorPropertyDescriptor(desc) && desc.set ? desc.set : undefined;
-      yield* o.defineOwnPropertyEvaluator(p, {
+      yield* setSlot(p, {
+        get: undefined,
+        set: undefined,
+        ...desc,
         configurable,
         enumerable,
-        get,
-        set,
       });
     } else if (
       isStaticJsAccessorPropertyDescriptor(current) &&
       isStaticJsDataPropertyDescriptor(desc)
     ) {
-      const configurable =
-        desc.configurable !== undefined ? desc.configurable : current.configurable;
-      const enumerable = desc.enumerable !== undefined ? desc.enumerable : current.enumerable;
-      const value =
-        isStaticJsDataPropertyDescriptor(desc) && desc.value !== undefined
-          ? desc.value
-          : o.realm.types.undefined;
-      const writable =
-        isStaticJsDataPropertyDescriptor(desc) && desc.writable !== undefined
-          ? desc.writable
-          : false;
-      yield* o.defineOwnPropertyEvaluator(p, {
+      const undef = (realm ?? EvaluationContext.current.realm).types.undefined;
+      yield* setSlot(p, {
+        value: undef,
+        writable: false,
+        ...desc,
         configurable,
         enumerable,
-        value,
-        writable,
       });
     } else {
-      // TODO: We should be the one to set this, and AbstractObject should call us.
-      yield* o.defineOwnPropertyEvaluator(p, desc);
+      yield* setSlot(p, {
+        ...current,
+        ...desc,
+      });
     }
   }
 

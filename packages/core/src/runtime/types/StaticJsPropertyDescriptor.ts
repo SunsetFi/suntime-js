@@ -32,7 +32,6 @@ export interface StaticJsPropertyDescriptorRecord {
   set?: StaticJsFunction | undefined;
 }
 
-// FIXME: Remove this in favor of speccy stuff - completePropertyDescriptor
 export function validateStaticJsPropertyDescriptorRecord(
   value: unknown,
 ): asserts value is StaticJsPropertyDescriptorRecord {
