@@ -56,7 +56,7 @@ export abstract class StaticJsAstFunction extends StaticJsFunctionImpl {
   ) {
     super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args), {
       // Rest elements dont count for length.
-      length: _argumentDeclarations.filter((x) => x.type !== "RestElement").length,
+      length: getArgumentsLength(_argumentDeclarations),
       ...opts,
     });
 
@@ -201,4 +201,16 @@ export abstract class StaticJsAstFunction extends StaticJsFunctionImpl {
       localEnv.initializeThis(thisValue);
     }
   }
+}
+
+function getArgumentsLength(args: StaticJsAstFunctionArgument[]): number {
+  let length = 0;
+  for (const arg of args) {
+    if (arg.type === "RestElement" || arg.type === "AssignmentPattern") {
+      break;
+    }
+    length++;
+  }
+
+  return length;
 }
