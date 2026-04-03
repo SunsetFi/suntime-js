@@ -29,7 +29,7 @@ export const reflectSetDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const success = yield* Q(target.setEvaluator(key, value, false));
+    const success = yield* Q(target.setEvaluator(key, value));
     return realm.types.boolean(success);
   },
 };

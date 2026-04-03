@@ -11,6 +11,7 @@ import {
 import type { StaticJsFunction } from "../../../types/StaticJsFunction.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import { set } from "../../../algorithms/set.js";
 
 const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "of",
@@ -44,7 +45,7 @@ const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
 
     // Per spec, must be set
     // Does not invoke setters; array ctor uses define to create length.
-    yield* A.setEvaluator("length", len, true);
+    yield* set(A, "length", len, true);
 
     return A;
   },

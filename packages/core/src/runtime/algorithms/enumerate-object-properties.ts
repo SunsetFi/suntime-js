@@ -5,7 +5,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
-import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
 
@@ -21,7 +21,7 @@ export default function* enumerateObjectProperties(
   const visited = new Set<string>();
   let currentKeys = yield* currentObject.ownPropertyKeysEvaluator();
   let nextIndex = 0;
-  const next = new StaticJsFunctionImpl(realm, "next", function* () {
+  const next = new StaticJsNativeFunctionImpl(realm, "next", function* () {
     while (true) {
       if (nextIndex >= currentKeys.length) {
         const prototype = yield* currentObject.getPrototypeOfEvaluator();

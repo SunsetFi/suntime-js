@@ -7,6 +7,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import createDataPropertyOrThrow from "./create-data-property-or-throw.js";
 import sameValue from "./same-value.js";
+import { set } from "./set.js";
 
 export default function* setterThatIgnoresPrototypeProperties(
   thisValue: StaticJsValue,
@@ -31,6 +32,6 @@ export default function* setterThatIgnoresPrototypeProperties(
   if (!desc) {
     yield* createDataPropertyOrThrow(thisValue, p, v);
   } else {
-    yield* thisValue.setEvaluator(p, v, true);
+    yield* set(thisValue, p, v, true);
   }
 }

@@ -8,7 +8,7 @@ import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
 import type { StaticJsAstFunctionArgument } from "../../../runtime/types/implementation/functions/StaticJsAstFunctionArgument.js";
 import { StaticJsArgumentsExoticObject } from "../../../runtime/types/implementation/functions/StaticJsArgumentsExoticObject.js";
-import { StaticJsFunctionImpl } from "../../../runtime/types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../../../runtime/types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import createDataPropertyOrThrow from "../../../runtime/algorithms/create-data-property-or-throw.js";
 import definePropertyOrThrow from "../../../runtime/algorithms/define-property-or-throw.js";
@@ -89,7 +89,7 @@ function* makeArgGetter(
   env: StaticJsEnvironmentRecord,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsFunction> {
-  return new StaticJsFunctionImpl(realm, "get", function* () {
+  return new StaticJsNativeFunctionImpl(realm, "get", function* () {
     return yield* env.getBindingValueEvaluator(name, false);
   });
 }
@@ -99,7 +99,7 @@ function* makeArgSetter(
   env: StaticJsEnvironmentRecord,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsFunction> {
-  return new StaticJsFunctionImpl(realm, "set", function* (_thisArg, value) {
+  return new StaticJsNativeFunctionImpl(realm, "set", function* (_thisArg, value) {
     yield* env.setMutableBindingEvaluator(name, value, false);
     return realm.types.undefined;
   });

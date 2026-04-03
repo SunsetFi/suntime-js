@@ -7,7 +7,7 @@ import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import getMethod from "../algorithms/get-method.js";
 import newPromiseCapability from "../algorithms/new-promise-capability.js";
 
-import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../types/StaticJsPromise.js";
 import { StaticJsValue } from "../types/StaticJsValue.js";
 
@@ -54,11 +54,11 @@ export class AsyncInvocation {
 
     const typeUndefined = this._realm.types.undefined;
     yield* thenMethod.callEvaluator(this.promise, [
-      new StaticJsFunctionImpl(this._realm, "onFulfilled", function* (_thisArg, value) {
+      new StaticJsNativeFunctionImpl(this._realm, "onFulfilled", function* (_thisArg, value) {
         callback(value);
         return typeUndefined;
       }),
-      new StaticJsFunctionImpl(this._realm, "onRejected", function* (_thisArg, reason) {
+      new StaticJsNativeFunctionImpl(this._realm, "onRejected", function* (_thisArg, reason) {
         callback(typeUndefined, reason);
         return typeUndefined;
       }),

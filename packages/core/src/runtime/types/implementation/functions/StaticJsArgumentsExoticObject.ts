@@ -15,6 +15,7 @@ import {
 } from "../../StaticJsPropertyDescriptor.js";
 
 import { StaticJsObjectLikeImpl } from "../objects/StaticJsObjectLikeImpl.js";
+import { set } from "../../../algorithms/set.js";
 
 export class StaticJsArgumentsExoticObject extends StaticJsObjectLikeImpl {
   constructor(
@@ -78,7 +79,7 @@ export class StaticJsArgumentsExoticObject extends StaticJsObjectLikeImpl {
         yield* this._parameterMap.deleteEvaluator(name);
       } else {
         if ("value" in desc && desc.value !== undefined) {
-          yield* this._parameterMap.setEvaluator(name, desc.value, false);
+          yield* set(this._parameterMap, name, desc.value, false);
         }
         if ("writable" in desc && desc.writable === false) {
           yield* this._parameterMap.deleteEvaluator(name);
@@ -101,14 +102,13 @@ export class StaticJsArgumentsExoticObject extends StaticJsObjectLikeImpl {
   override *setEvaluator(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
-    strict: boolean,
   ): EvaluationGenerator<boolean> {
     const isMapped = yield* this._parameterMap.hasOwnPropertyEvaluator(key);
     if (isMapped) {
-      yield* this._parameterMap.setEvaluator(key, value, false);
+      yield* set(this._parameterMap, key, value, false);
     }
 
-    return yield* super.setEvaluator(key, value, strict);
+    return yield* super.setEvaluator(key, value);
   }
 
   override *deleteEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean> {

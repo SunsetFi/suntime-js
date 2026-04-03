@@ -21,6 +21,7 @@ import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 import { StaticJsArrayImpl } from "../../../types/implementation/objects/StaticJsArrayImpl.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import { set } from "../../../algorithms/set.js";
 
 const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
   key: "from",
@@ -67,7 +68,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
         const Pk = String(k);
         const next = yield* Q(iteratorStepValue(iteratorRecord));
         if (next === null) {
-          yield* A.setEvaluator("length", realm.types.number(k), true);
+          yield* set(A, "length", realm.types.number(k), true);
           return A;
         }
 
@@ -123,7 +124,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
       k += 1;
     }
 
-    yield* A.setEvaluator("length", realm.types.number(len), true);
+    yield* set(A, "length", realm.types.number(len), true);
     return A;
   },
 };

@@ -3,7 +3,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsFunction, type StaticJsFunction } from "../types/StaticJsFunction.js";
@@ -23,7 +23,7 @@ export default function* newPromiseCapability(
   let resolveFunc: StaticJsFunction | null = null;
   let rejectFunc: StaticJsFunction | null = null;
 
-  const resolver = new StaticJsFunctionImpl(
+  const resolver = new StaticJsNativeFunctionImpl(
     realm,
     "resolver",
     function* (_thisArg, resolve, reject) {

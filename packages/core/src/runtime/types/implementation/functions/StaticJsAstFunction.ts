@@ -9,6 +9,7 @@ import functionDeclarationInstantiation from "../../../../evaluator/instantiatio
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 
 import { EvaluateNodeCommand } from "../../../../evaluator/commands/EvaluateNodeCommand.js";
+import { FunctionEvaluateBodyCommand } from "../../../../evaluator/commands/FunctionEvaluateCommand.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
@@ -23,42 +24,47 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import toObject from "../../../algorithms/to-object.js";
 
-import type { StaticJsValue } from "../../StaticJsValue.js";
-import { isStaticJsNull } from "../../StaticJsNull.js";
-import { isStaticJsUndefined, StaticJsUndefined } from "../../StaticJsUndefined.js";
-import { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import { Prototypes } from "../../../intrinsics/intrinsics.js";
 
-import { StaticJsFunctionImpl, type StaticJsFunctionImplOptions } from "./StaticJsFunctionImpl.js";
+import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
+import { isStaticJsNull } from "../../StaticJsNull.js";
+import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
+import { isStaticJsObjectLike, StaticJsObjectLike } from "../../StaticJsObjectLike.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
+import { StaticJsAbstractFunction } from "./StaticJsAbstractFunction.js";
 
-export interface StaticJsAstFunctionOptions extends StaticJsFunctionImplOptions {
+export interface StaticJsAstFunctionOptions {
   thisMode: "lexical-this" | "non-lexical-this";
   strict: boolean;
   env: StaticJsEnvironmentRecord;
   scriptOrModule: StaticJsScriptOrModuleRecord;
+  construct?: boolean;
 }
-export abstract class StaticJsAstFunction extends StaticJsFunctionImpl {
+export abstract class StaticJsAstFunction extends StaticJsAbstractFunction {
   private _strict: boolean;
-  private _thisMode: "lexical" | "strict" | "global";
   private _scriptOrModule: StaticJsScriptOrModuleRecord;
+
+  private _isConstructor: boolean;
   private _environment: StaticJsEnvironmentRecord;
+  private _thisMode: "lexical" | "strict" | "global";
 
   constructor(
     realm: StaticJsRealm,
     name: string | null,
     private readonly _argumentDeclarations: StaticJsAstFunctionArgument[],
     protected readonly _node: Function,
-    { thisMode, strict, env, scriptOrModule, ...opts }: StaticJsAstFunctionOptions,
+    { thisMode, strict, env, scriptOrModule, construct }: StaticJsAstFunctionOptions,
     // Gross circular dependency workaround.
     protected readonly _createFunction: StaticJsFunctionFactory,
   ) {
-    super(realm, name, (thisArg, ...args) => this._invoke(thisArg, args), {
-      // Rest elements dont count for length.
-      length: getArgumentsLength(_argumentDeclarations),
-      ...opts,
-    });
+    super(
+      realm,
+      name,
+      getArgumentsLength(_argumentDeclarations),
+      realm.types.prototypes.functionProto,
+    );
 
     if (strict) {
       this._strict = true;
@@ -79,9 +85,9 @@ export abstract class StaticJsAstFunction extends StaticJsFunctionImpl {
       this._thisMode = "global";
     }
 
-    this._environment = env;
-
     this._scriptOrModule = scriptOrModule;
+    this._environment = env;
+    this._isConstructor = construct ?? true;
   }
 
   override get ecmaScriptCode(): Node {
@@ -96,41 +102,111 @@ export abstract class StaticJsAstFunction extends StaticJsFunctionImpl {
     return this._strict;
   }
 
-  get formalParameters(): StaticJsAstFunctionArgument[] {
-    return this._argumentDeclarations;
+  override get isConstructor(): boolean {
+    return this._isConstructor;
   }
 
   get thisMode(): "lexical" | "strict" | "global" {
     return this._thisMode;
   }
 
-  private *_invoke(
-    thisArg: StaticJsValue,
-    args: StaticJsValue[],
-  ): EvaluationGenerator<StaticJsValue> {
-    const { realm } = this;
-
-    const calleeContext = yield* this._prepareForOrdinaryCall(realm.types.undefined);
-
-    yield* this._ordinaryCallBindThis(calleeContext, thisArg);
-
-    const result = yield* captureThrownCompletion(this._evaluateBody(args));
-
-    EvaluationContext.pop();
-
-    if (Completion.Return.is(result)) {
-      return result.value;
-    }
-
-    if (!Completion.Throw.is(result)) {
-      throw new StaticJsEngineError(
-        "Function execution did not complete with a return or throw completion.",
-      );
-    }
-
-    throw result;
+  get environment(): StaticJsEnvironmentRecord {
+    return this._environment;
   }
 
+  get formalParameters(): StaticJsAstFunctionArgument[] {
+    return this._argumentDeclarations;
+  }
+
+  *callEvaluator(
+    thisArg: StaticJsValue,
+    args: StaticJsValue[] = [],
+  ): EvaluationGenerator<StaticJsValue> {
+    if (!isStaticJsValue(thisArg)) {
+      throw new TypeError("thisArg must be a StaticJsValue instance.");
+    }
+
+    if (args.some((arg) => !isStaticJsValue(arg))) {
+      throw new TypeError("Arguments must be StaticJsValue instances.");
+    }
+
+    const calleeContext = yield* this._prepareForOrdinaryCall(null);
+
+    // oxlint-disable-next-line typescript/no-this-alias
+    const func = this;
+    return yield* FunctionEvaluateBodyCommand(this, function* () {
+      // TODO: If class constructor, throw TypeError.
+      yield* func._ordinaryCallBindThis(calleeContext, thisArg);
+
+      const result = yield* captureThrownCompletion(func._evaluateBody(args));
+      EvaluationContext.pop();
+
+      if (Completion.Throw.is(result)) {
+        throw result;
+      }
+
+      if (Completion.Return.is(result)) {
+        return result.value;
+      }
+
+      // For convienence, we support returning normal completions
+      // as being equivalent to a return completion.
+      if (isStaticJsValue(result)) {
+        return result;
+      } else {
+        return func.realm.types.undefined;
+      }
+    });
+  }
+
+  *constructEvaluator(args: StaticJsValue[] = []): EvaluationGenerator<StaticJsObjectLike> {
+    if (!this._isConstructor) {
+      throw Completion.Throw("TypeError", "This function is not a constructor.");
+    }
+
+    // Note: Only do if base, for whenever we implement classes.
+    const thisArg = yield* this._ordinaryCreateFromConstructor("objectProto");
+
+    const calleeContext = yield* this._prepareForOrdinaryCall(this);
+
+    // oxlint-disable-next-line typescript/no-this-alias
+    const func = this;
+    return yield* FunctionEvaluateBodyCommand(func, function* () {
+      yield* func._ordinaryCallBindThis(calleeContext, thisArg);
+
+      // TODO classes: initialize instance elements
+
+      // Would be used for derived constructors.
+      // const constructorEnv = context.lexicalEnv;
+
+      let result = yield* captureThrownCompletion(func._evaluateBody!(args));
+      EvaluationContext.pop();
+
+      if (Completion.Throw.is(result)) {
+        throw result;
+      }
+
+      // HACK: Supporting internal caller shorthand
+      if (isStaticJsValue(result)) {
+        result = Completion.Return(result);
+      }
+
+      // Apparently typescript is upset about Completion.Return.assert?
+      if (!Completion.Return.is(result)) {
+        throw new StaticJsEngineError("Constructor did not return a value or threw an exception.");
+      }
+
+      const value = result.value;
+      if (isStaticJsObjectLike(value)) {
+        return value;
+      }
+
+      // For kind: BASE
+      return thisArg;
+
+      // TODO: For derived, we need to return constructorEnv.getThisBinding()
+    });
+  }
   protected *_evaluateBody(
     args: StaticJsValue[],
   ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
@@ -155,51 +231,84 @@ export abstract class StaticJsAstFunction extends StaticJsFunctionImpl {
     }
   }
 
-  private *_prepareForOrdinaryCall(
-    _newTarget: StaticJsObjectLike | StaticJsUndefined,
-  ): EvaluationGenerator<EvaluationContext> {
-    const localEnv = new StaticJsFunctionEnvironmentRecord(
-      this,
-      this._thisMode === "lexical",
-      null,
-      this._environment,
-      this.realm,
-    );
-
-    const calleeContext = EvaluationContext.createFunctionInvocationContext(
-      this,
-      this._scriptOrModule,
-      this.realm,
-      localEnv,
-    );
-
-    EvaluationContext.push(calleeContext);
-    return calleeContext;
-  }
-
-  private *_ordinaryCallBindThis(
-    context: EvaluationContext,
-    thisArg: StaticJsValue,
+  protected *_ordinaryCallBindThis(
+    calleeContext: EvaluationContext,
+    thisArgument: StaticJsValue,
   ): EvaluationGenerator<void> {
     const thisMode = this._thisMode;
     if (thisMode === "lexical") {
-      // Do nothing.
-    } else {
-      const calleeRealm = this.realm;
-      let thisValue: StaticJsValue;
-      if (thisMode === "strict") {
-        thisValue = thisArg;
-      } else {
-        if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
-          thisValue = calleeRealm.globalThis;
-        } else {
-          thisValue = yield* toObject(thisArg);
-        }
-      }
-
-      const localEnv = context.lexicalEnv as StaticJsFunctionEnvironmentRecord;
-      localEnv.initializeThis(thisValue);
+      return;
     }
+
+    let thisValue: StaticJsValue;
+
+    const localEnv = calleeContext.lexicalEnv;
+    if (thisMode === "strict") {
+      thisValue = thisArgument;
+    } else {
+      if (isStaticJsUndefined(thisArgument) || isStaticJsNull(thisArgument)) {
+        thisValue = this.realm.globalThis;
+      } else {
+        thisValue = yield* toObject(thisArgument);
+      }
+    }
+
+    if (localEnv instanceof StaticJsFunctionEnvironmentRecord === false) {
+      throw new StaticJsEngineError(
+        "Expected function environment record in ordinaryCallBindThis.",
+      );
+    }
+
+    localEnv.initializeThis(thisValue);
+  }
+
+  protected *_prepareForOrdinaryCall(
+    newTarget: StaticJsObjectLike | null,
+  ): EvaluationGenerator<EvaluationContext> {
+    const env = yield* this._newFunctionEnvironment(newTarget);
+    const context = EvaluationContext.createFunctionInvocationContext(
+      this,
+      this.scriptOrModule,
+      this.realm,
+      env,
+    );
+
+    EvaluationContext.push(context);
+    return context;
+  }
+
+  protected *_newFunctionEnvironment(
+    newTarget: StaticJsObjectLike | null,
+  ): EvaluationGenerator<StaticJsFunctionEnvironmentRecord> {
+    const env = new StaticJsFunctionEnvironmentRecord(
+      this,
+      newTarget,
+      this._thisMode === "lexical",
+      this._environment,
+      this.realm,
+    );
+    return env;
+  }
+
+  private *_ordinaryCreateFromConstructor(
+    intrinsicDefaultProto: keyof Prototypes,
+  ): EvaluationGenerator<StaticJsObjectLike> {
+    const proto = yield* this._getPrototypeFromConstructor(intrinsicDefaultProto);
+    return this.realm.types.object(undefined, proto);
+  }
+
+  private *_getPrototypeFromConstructor(
+    intrinsicDefaultProto: keyof Prototypes,
+  ): EvaluationGenerator<StaticJsObjectLike> {
+    let proto: StaticJsObjectLike;
+    const protoValue = yield* Q(this.getEvaluator("prototype"));
+    if (!isStaticJsObjectLike(protoValue)) {
+      proto = this.realm.types.prototypes[intrinsicDefaultProto];
+    } else {
+      proto = protoValue;
+    }
+
+    return proto;
   }
 }
 

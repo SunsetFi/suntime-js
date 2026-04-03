@@ -2,6 +2,7 @@ import toObject from "../../../algorithms/to-object.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { set } from "../../../algorithms/set.js";
 
 const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
   key: "shift",
@@ -11,7 +12,7 @@ const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
     const length = yield* lengthOfArrayLike(thisObj);
 
     if (length <= 0) {
-      yield* thisObj.setEvaluator("length", realm.types.zero, true);
+      yield* set(thisObj, "length", realm.types.zero, true);
       return realm.types.undefined;
     }
 
@@ -29,11 +30,11 @@ const arrayProtoShiftDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const fromValue = yield* thisObj.getEvaluator(fromProperty);
-      yield* thisObj.setEvaluator(toProperty, fromValue, true);
+      yield* set(thisObj, toProperty, fromValue, true);
     }
 
     yield* thisObj.deleteEvaluator(String(length - 1));
-    yield* thisObj.setEvaluator("length", realm.types.number(length - 1), true);
+    yield* set(thisObj, "length", realm.types.number(length - 1), true);
 
     return value;
   },

@@ -2,6 +2,7 @@ import toObject from "../../../algorithms/to-object.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { set } from "../../../algorithms/set.js";
 
 const arrayProtoReverseDeclaration: IntrinsicPropertyDeclaration = {
   key: "reverse",
@@ -21,13 +22,13 @@ const arrayProtoReverseDeclaration: IntrinsicPropertyDeclaration = {
       const rightValue = hasRightValue ? yield* thisObj.getEvaluator(rightProperty) : null;
 
       if (leftValue) {
-        yield* thisObj.setEvaluator(rightProperty, leftValue, true);
+        yield* set(thisObj, rightProperty, leftValue, true);
       } else if (hasRightValue) {
         yield* thisObj.deleteEvaluator(rightProperty);
       }
 
       if (rightValue) {
-        yield* thisObj.setEvaluator(leftProperty, rightValue, true);
+        yield* set(thisObj, leftProperty, rightValue, true);
       } else if (hasLeftValue) {
         yield* thisObj.deleteEvaluator(leftProperty);
       }

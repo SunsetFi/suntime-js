@@ -34,6 +34,7 @@ import identifierNodeEvaluator from "./Identifier.js";
 import labeledStatementNodeEvaluator from "./LabelledStatement.js";
 import logicalExpressionNodeEvaluator from "./LogicalExpression.js";
 import memberExpressionNodeEvaluator from "./MemberExpression.js";
+import metaPropertyNodeEvaluator from "./MetaProperty.js";
 import newExpressionNodeEvaluator from "./NewExpression.js";
 import nullLiteralNodeEvaluator from "./NullLiteral.js";
 import numericLiteralNodeEvaluator from "./NumericLiteral.js";
@@ -91,6 +92,7 @@ const nodeEvaluators: NodeEvaluators = {
   LabeledStatement: labeledStatementNodeEvaluator,
   LogicalExpression: logicalExpressionNodeEvaluator,
   MemberExpression: memberExpressionNodeEvaluator,
+  MetaProperty: metaPropertyNodeEvaluator,
   NewExpression: newExpressionNodeEvaluator,
   NullLiteral: nullLiteralNodeEvaluator,
   NumericLiteral: numericLiteralNodeEvaluator,

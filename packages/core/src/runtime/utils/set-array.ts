@@ -1,4 +1,5 @@
 import { hasOwnProperty } from "../../internal/has-own-property.js";
+import { set } from "../algorithms/set.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
@@ -16,9 +17,9 @@ export function* setArray(
     if (!value || !hasOwnProperty(values, i)) {
       yield* obj.deleteEvaluator(property);
     } else {
-      yield* obj.setEvaluator(property, value, true);
+      yield* set(obj, property, value, true);
     }
   }
 
-  yield* obj.setEvaluator("length", realm.types.number(values.length), true);
+  yield* set(obj, "length", realm.types.number(values.length), true);
 }

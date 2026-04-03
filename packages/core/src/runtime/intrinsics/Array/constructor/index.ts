@@ -3,7 +3,7 @@ import toInteger from "../../../algorithms/to-integer.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import { StaticJsArrayImpl } from "../../../types/implementation/objects/StaticJsArrayImpl.js";
-import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
@@ -22,7 +22,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 ];
 
 export default function createArrayConstructor(realm: StaticJsRealm, arrayProto: StaticJsObject) {
-  const ctor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "Array",
     function* (_thisArg, ...args) {

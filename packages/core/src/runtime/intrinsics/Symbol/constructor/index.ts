@@ -2,7 +2,7 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import toString from "../../../algorithms/to-string.js";
 
-import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
@@ -17,7 +17,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 ];
 
 export default function createSymbolConstructor(realm: StaticJsRealm, symbolProto: StaticJsObject) {
-  const ctor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "Symbol",
     function* (thisArg: StaticJsValue, ...args: StaticJsValue[]) {

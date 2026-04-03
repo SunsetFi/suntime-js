@@ -7,7 +7,7 @@ import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
 import { invokeEvaluator, StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 
 import { StaticJsFunction } from "../../types/StaticJsFunction.js";
-import { StaticJsFunctionImpl } from "../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import { StaticJsTaskIterator } from "../StaticJsTaskIterator.js";
 import { StaticJsTaskIteratorOperation } from "../StaticJsTaskIteratorOperation.js";
@@ -168,7 +168,7 @@ export class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
         }
       },
       onFunctionEnter: (func) => {
-        const funcNode = func instanceof StaticJsFunctionImpl ? func.ecmaScriptCode : null;
+        const funcNode = func instanceof StaticJsNativeFunctionImpl ? func.ecmaScriptCode : null;
         this._frames.unshift({ currentNode: funcNode, function: func });
       },
       onFunctionExit: () => {

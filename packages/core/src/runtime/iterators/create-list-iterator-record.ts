@@ -3,7 +3,7 @@ import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
-import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { createIteratorResultObject } from "./create-iterator-result-object.js";
@@ -13,7 +13,7 @@ export function* createListIteratorRecord(
 ): EvaluationGenerator<StaticJsIteratorRecord> {
   const { realm } = EvaluationContext.current;
   let index = 0;
-  const next = new StaticJsFunctionImpl(realm, "next", function* () {
+  const next = new StaticJsNativeFunctionImpl(realm, "next", function* () {
     if (index >= values.length) {
       return yield* createIteratorResultObject(realm.types.undefined, true, realm);
     }

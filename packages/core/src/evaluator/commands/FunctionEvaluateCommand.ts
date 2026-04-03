@@ -1,5 +1,4 @@
 import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { Q } from "../completions/Q.js";
 
@@ -8,10 +7,10 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import { FunctionEnterCommand } from "./FunctionEnterCommand.js";
 import { FunctionExitCommand } from "./FunctionExitCommand.js";
 
-export function* FunctionEvaluateBodyCommand(
+export function* FunctionEvaluateBodyCommand<T>(
   func: StaticJsFunction,
-  evaluator: EvaluationGenerator<StaticJsValue> | (() => EvaluationGenerator<StaticJsValue>),
-): EvaluationGenerator<StaticJsValue> {
+  evaluator: EvaluationGenerator<T> | (() => EvaluationGenerator<T>),
+): EvaluationGenerator<T> {
   yield* FunctionEnterCommand(func);
   try {
     if (typeof evaluator === "function") {

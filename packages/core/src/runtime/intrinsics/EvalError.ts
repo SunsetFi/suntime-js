@@ -1,7 +1,7 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsObject } from "../types/StaticJsObject.js";
-import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 export function populateEvalErrorPrototype(
   _realm: StaticJsRealm,
@@ -9,7 +9,7 @@ export function populateEvalErrorPrototype(
 ) {}
 
 export function createEvalErrorConstructor(realm: StaticJsRealm, evalErrorProto: StaticJsObject) {
-  const ctor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "EvalError",
     function* (_thisArg, messageValue) {

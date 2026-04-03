@@ -2,7 +2,7 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import newPromiseCapability from "../../../algorithms/new-promise-capability.js";
 
-import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import { isStaticJsFunction, type StaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";
@@ -23,22 +23,22 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
     let thenFinally: StaticJsFunction | undefined = undefined;
     let catchFinally: StaticJsFunction | undefined = undefined;
     if (isStaticJsFunction(onFinally)) {
-      thenFinally = new StaticJsFunctionImpl(realm, "<thenFinally>", function* (value) {
+      thenFinally = new StaticJsNativeFunctionImpl(realm, "<thenFinally>", function* (value) {
         const result = yield* onFinally.callEvaluator(realm.types.undefined);
         const capability = yield* newPromiseCapability(realm.types.constructors.Promise, realm);
         yield* capability.resolve.callEvaluator(realm.types.undefined, [result]);
         const p = capability.promise;
-        const returnValue = new StaticJsFunctionImpl(realm, "<returnValue>", function* () {
+        const returnValue = new StaticJsNativeFunctionImpl(realm, "<returnValue>", function* () {
           return value;
         });
         return yield* p.thenEvaluator(returnValue, undefined, true);
       });
-      catchFinally = new StaticJsFunctionImpl(realm, "<catchFinally>", function* (reason) {
+      catchFinally = new StaticJsNativeFunctionImpl(realm, "<catchFinally>", function* (reason) {
         const result = yield* onFinally.callEvaluator(realm.types.undefined);
         const capability = yield* newPromiseCapability(realm.types.constructors.Promise, realm);
         yield* capability.resolve.callEvaluator(realm.types.undefined, [result]);
         const p = capability.promise;
-        const thrower = new StaticJsFunctionImpl(realm, "<thrower>", function* () {
+        const thrower = new StaticJsNativeFunctionImpl(realm, "<thrower>", function* () {
           throw Completion.Throw(reason);
         });
         return yield* p.thenEvaluator(thrower, undefined, true);

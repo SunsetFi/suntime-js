@@ -10,7 +10,7 @@ import type { StaticJsModule } from "../StaticJsModule.js";
 
 import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
 import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
-import { StaticJsFunctionImpl } from "../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 export class StaticJsExternalModuleImpl extends StaticJsModuleBase implements StaticJsModule {
   private readonly _exportKeys: readonly string[];
@@ -82,7 +82,7 @@ export class StaticJsExternalModuleImpl extends StaticJsModuleBase implements St
     const properties: Record<string, StaticJsPropertyDescriptor> = {};
     for (const key of this._exportKeys) {
       properties[key] = {
-        get: new StaticJsFunctionImpl(this._realm, key, function* () {
+        get: new StaticJsNativeFunctionImpl(this._realm, key, function* () {
           return types.toStaticJsValue(obj[key]);
         }),
         set: undefined,

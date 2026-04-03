@@ -13,7 +13,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
 
 import { StaticJsValue } from "../types/StaticJsValue.js";
-import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import promiseResolve from "../algorithms/promise-resolve.js";
 
@@ -140,7 +140,7 @@ export class AsyncDriver {
     const realm = this._realm;
     const resolve = this._resolve.bind(this);
     const reject = this._reject.bind(this);
-    const onFulfilled = new StaticJsFunctionImpl(
+    const onFulfilled = new StaticJsNativeFunctionImpl(
       this._realm,
       "onFulfilled",
       function* (_thisArg, value) {
@@ -150,7 +150,7 @@ export class AsyncDriver {
         return realm.types.undefined;
       },
     );
-    const onRejected = new StaticJsFunctionImpl(
+    const onRejected = new StaticJsNativeFunctionImpl(
       this._realm,
       "onRejected",
       function* (_thisArg, reason) {

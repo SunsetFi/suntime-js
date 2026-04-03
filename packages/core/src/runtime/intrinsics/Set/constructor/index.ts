@@ -10,7 +10,7 @@ import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
-import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsSetImpl } from "../../../types/implementation/objects/StaticJsSetImpl.js";
 
 import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../../utils.js";
@@ -20,7 +20,7 @@ import setCtorSymbolSpeciesDeclaration from "./symbol_species.js";
 const declarations: IntrinsicPropertyDeclaration[] = [setCtorSymbolSpeciesDeclaration];
 
 export default function createSetConstructor(realm: StaticJsRealm, setProto: StaticJsObject) {
-  const ctor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "Set",
     function* (_thisArg) {

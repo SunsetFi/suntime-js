@@ -5,7 +5,7 @@ import toBoolean from "../algorithms/to-boolean.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { StaticJsBooleanBoxed } from "../types/implementation/primitives/StaticJsBooleanBoxed.js";
-import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { isStaticJsBoolean, type StaticJsBoolean } from "../types/StaticJsBoolean.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
@@ -15,7 +15,7 @@ export function populateBooleanPrototype(realm: StaticJsRealm, booleanProto: Sta
     configurable: true,
     enumerable: false,
     writable: true,
-    value: new StaticJsFunctionImpl(realm, "toString", function* (thisArg) {
+    value: new StaticJsNativeFunctionImpl(realm, "toString", function* (thisArg) {
       const value = yield* toBoolean.js(thisArg);
       return realm.types.string(value ? "true" : "false");
     }),
@@ -25,7 +25,7 @@ export function populateBooleanPrototype(realm: StaticJsRealm, booleanProto: Sta
     configurable: true,
     enumerable: false,
     writable: true,
-    value: new StaticJsFunctionImpl(realm, "valueOf", function* (thisArg) {
+    value: new StaticJsNativeFunctionImpl(realm, "valueOf", function* (thisArg) {
       if (!isBooleanLike(thisArg)) {
         throw Completion.Throw(
           "TypeError",
@@ -41,7 +41,7 @@ export function populateBooleanPrototype(realm: StaticJsRealm, booleanProto: Sta
 }
 
 export function createBooleanConstructor(realm: StaticJsRealm, booleanProto: StaticJsObject) {
-  const ctor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "Boolean",
     function* (_thisArg, value = realm.types.undefined) {

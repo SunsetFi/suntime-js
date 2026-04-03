@@ -4,7 +4,7 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 
-import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -13,7 +13,7 @@ import { StaticJsProxyImpl } from "../../../types/implementation/StaticJsProxyIm
 const declarations: IntrinsicPropertyDeclaration[] = [];
 
 export default function createProxyConstructor(realm: StaticJsRealm) {
-  const ctor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "Proxy",
     function* () {

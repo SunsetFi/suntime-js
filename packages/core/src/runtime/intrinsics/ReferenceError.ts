@@ -1,6 +1,6 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 export function populateReferenceErrorPrototype(
@@ -12,7 +12,7 @@ export function createReferenceErrorConstructor(
   realm: StaticJsRealm,
   refernceErrorProto: StaticJsObject,
 ) {
-  const ctor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "ReferenceError",
     function* (_thisArg, messageValue) {

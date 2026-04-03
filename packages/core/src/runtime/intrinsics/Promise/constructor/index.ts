@@ -11,7 +11,7 @@ import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsPromise } from "../../../types/StaticJsPromise.js";
 import { isStaticJsValue } from "../../../types/StaticJsValue.js";
 
-import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsPromiseImpl } from "../../../types/implementation/objects/StaticJsPromiseImpl.js";
 
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
@@ -30,7 +30,7 @@ export default function createPromiseConstructor(
   realm: StaticJsRealm,
   promiseProto: StaticJsObject,
 ) {
-  const ctor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "Promise",
     function* () {
@@ -93,7 +93,7 @@ export default function createPromiseConstructor(
 function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm) {
   let alreadyResolved = false;
 
-  const resolve = new StaticJsFunctionImpl(
+  const resolve = new StaticJsNativeFunctionImpl(
     realm,
     "resolve",
     function* (_thisArg, resolution = realm.types.undefined) {
@@ -146,7 +146,7 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
     },
   );
 
-  const reject = new StaticJsFunctionImpl(
+  const reject = new StaticJsNativeFunctionImpl(
     realm,
     "reject",
     function* (_thisArg, reason = realm.types.undefined) {

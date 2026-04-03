@@ -16,6 +16,7 @@ import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 import { toPropertyKey } from "../utils/to-property-key.js";
 
 import toObject from "./to-object.js";
+import { set } from "./set.js";
 
 export default function* putValue(
   v: StaticJsReferenceRecord | StaticJsValue,
@@ -34,7 +35,7 @@ export default function* putValue(
     const propertyKey = yield* toPropertyKey(v.referencedName);
 
     const globalObj = realm.global;
-    yield* globalObj.setEvaluator(propertyKey, w, false);
+    yield* set(globalObj, propertyKey, w, false);
     return;
   }
 
@@ -48,7 +49,6 @@ export default function* putValue(
     const succeeded = yield* baseObj.setEvaluator(
       propertyKey,
       w,
-      v.strict,
       // TODO: This value
     );
 

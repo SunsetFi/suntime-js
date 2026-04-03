@@ -11,7 +11,7 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import toObject from "../../../algorithms/to-object.js";
 
-import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsMapImpl } from "../../../types/implementation/objects/StaticJsMapImpl.js";
 
 import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../../utils.js";
@@ -25,7 +25,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 ];
 
 export default function createMapConstructor(realm: StaticJsRealm, mapProto: StaticJsObject) {
-  const ctor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "Map",
     function* (_thisArg) {

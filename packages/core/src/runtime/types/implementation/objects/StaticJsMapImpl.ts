@@ -9,7 +9,7 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { toNativeUnwrap } from "../../../utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "../../../utils/to-runtime-wrap.js";
 
-import { StaticJsFunctionImpl } from "../functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../functions/StaticJsNativeFunctionImpl.js";
 
 import { isStaticJsFunction, type StaticJsFunction } from "../../StaticJsFunction.js";
 import type { StaticJsIterator, StaticJsIteratorResult } from "../../StaticJsIterator.js";
@@ -109,7 +109,7 @@ class StaticJsMapIteratorImpl extends StaticJsIteratorImpl {
     const self = this;
 
     this.defineOwnPropertySync("next", {
-      value: new StaticJsFunctionImpl(realm, "next", function* () {
+      value: new StaticJsNativeFunctionImpl(realm, "next", function* () {
         const result = yield* self.nextEvaluator();
         return yield* createIteratorResultObject(result.value, result.done, self.realm);
       }),

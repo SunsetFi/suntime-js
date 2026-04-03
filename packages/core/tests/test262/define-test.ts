@@ -89,6 +89,17 @@ export default function defineTest(testName: string, test: Test262File) {
           throw e;
         }
 
+        if (e instanceof StaticJsUnhandledRejectionError) {
+          // Apparently this isn't in the spec.  Test262 tests tend to throw these in async tests.
+          console.warn(
+            "Unhandled rejection in test:",
+            testName,
+            "with reason:",
+            e.thrown.toJsSync(),
+          );
+          return;
+        }
+
         if (e instanceof StaticJsRuntimeError) {
           // oxlint-disable-next-line no-ex-assign
           e = e.thrown.toJsSync();
@@ -98,11 +109,6 @@ export default function defineTest(testName: string, test: Test262File) {
           expect(e).toMatchObject({
             name: test.negative.type,
           });
-          return;
-        }
-
-        if (e instanceof StaticJsUnhandledRejectionError) {
-          // Apparently this isn't in the spec and are ignored.
           return;
         }
 

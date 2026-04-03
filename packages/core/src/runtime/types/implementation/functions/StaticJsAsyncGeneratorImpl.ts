@@ -25,7 +25,7 @@ import { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../../StaticJs
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsValue, StaticJsValue } from "../../StaticJsValue.js";
 
-import { StaticJsFunctionImpl } from "./StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "./StaticJsNativeFunctionImpl.js";
 import { StaticJsObjectLikeImpl } from "../objects/StaticJsObjectLikeImpl.js";
 import { invokeEvaluator, StaticJsEvaluator } from "../../../../evaluator/StaticJsEvaluator.js";
 
@@ -265,7 +265,7 @@ export class StaticJsAsyncGeneratorImpl
     // oxlint-disable-next-line typescript/no-this-alias
     const generator = this;
 
-    const onFulfilled = new StaticJsFunctionImpl(
+    const onFulfilled = new StaticJsNativeFunctionImpl(
       this.realm,
       "onFulfilled",
       function* (_thisArg, value) {
@@ -282,7 +282,7 @@ export class StaticJsAsyncGeneratorImpl
       },
     );
 
-    const onRejected = new StaticJsFunctionImpl(
+    const onRejected = new StaticJsNativeFunctionImpl(
       this.realm,
       "onRejected",
       function* (_thisArg, reason) {

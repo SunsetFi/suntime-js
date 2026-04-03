@@ -6,6 +6,7 @@ import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { set } from "../../../algorithms/set.js";
 
 export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
   key: "unshift",
@@ -36,18 +37,18 @@ export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const value = yield* thisObj.getEvaluator(property);
-      yield* thisObj.setEvaluator(nextProperty, value, true);
+      yield* set(thisObj, nextProperty, value, true);
     }
 
     // Set the new values
     for (let i = 0; i < args.length; i++) {
       const value = args[i]!;
-      yield* thisObj.setEvaluator(String(i), value, true);
+      yield* set(thisObj, String(i), value, true);
     }
 
     const newLengthValue = realm.types.number(length + args.length);
 
-    yield* thisObj.setEvaluator("length", newLengthValue, true);
+    yield* set(thisObj, "length", newLengthValue, true);
 
     // Return the new length
     // This returns our computed length, even if the object has a getter

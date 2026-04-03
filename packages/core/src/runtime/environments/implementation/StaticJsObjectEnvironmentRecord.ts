@@ -1,5 +1,6 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import { set } from "../../algorithms/set.js";
 import toBoolean from "../../algorithms/to-boolean.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
@@ -89,7 +90,7 @@ export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBa
       );
     }
 
-    yield* this._obj.setEvaluator(name, value, strict);
+    yield* set(this._obj, name, value, strict);
   }
 
   *getBindingValueEvaluator(name: string, strict: boolean): EvaluationGenerator<StaticJsValue> {

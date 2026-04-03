@@ -6,6 +6,7 @@ import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { set } from "../../../algorithms/set.js";
 
 const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
   key: "push",
@@ -24,12 +25,12 @@ const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
     for (let i = 0; i < args.length; i++) {
       const index = length + i;
       const value = args[i]!;
-      yield* thisObj.setEvaluator(String(index), value, true);
+      yield* set(thisObj, String(index), value, true);
     }
 
     // Might be relevant that some docs say this should be called after the items are set.
     const newLengthValue = realm.types.number(length + args.length);
-    yield* thisObj.setEvaluator("length", newLengthValue, true);
+    yield* set(thisObj, "length", newLengthValue, true);
 
     return newLengthValue;
   },

@@ -16,6 +16,7 @@ import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import createFunction from "./Function.js";
+import { set } from "../../runtime/algorithms/set.js";
 
 // Note: I tested the edge-case of having a computed property key that is an expression mutate the value used in the value,
 // and the result is each key is computed before its property, and the next property/value pair is computed after the previous property/value pair.
@@ -78,7 +79,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
 
   switch (property.kind) {
     case "method": {
-      yield* target.setEvaluator(propertyKey, method, strict);
+      yield* set(target, propertyKey, method, strict);
       return null;
     }
     case "get": {
@@ -122,7 +123,7 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
   }
 
   const value = yield* Q.val(EvaluateNodeCommand(property.value));
-  yield* target.setEvaluator(propertyKey, value, strict);
+  yield* set(target, propertyKey, value, strict);
   return null;
 }
 
@@ -140,7 +141,7 @@ function* objectExpressionPropertySpreadElementEvaluator(
   const ownKeys = yield* value.ownPropertyKeysEvaluator();
   for (const key of ownKeys) {
     const propertyValue = yield* value.getEvaluator(key);
-    yield* target.setEvaluator(key, propertyValue, strict);
+    yield* set(target, key, propertyValue, strict);
   }
 
   return null;

@@ -7,7 +7,7 @@ import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
-import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 export interface IntrinsicPropertyDeclarationBase {
   key: StaticJsPropertyKey | ((realm: StaticJsRealm) => StaticJsPropertyKey);
@@ -83,7 +83,7 @@ export function applyIntrinsicProperties(
         prop.func(realm, thisArg, ...args);
 
       obj.defineOwnPropertySync(key, {
-        value: new StaticJsFunctionImpl(realm, name ?? "anonymous", func),
+        value: new StaticJsNativeFunctionImpl(realm, name ?? "anonymous", func),
         enumerable: prop.enumerable ?? false,
         configurable: prop.configurable ?? true,
         writable: prop.writable ?? true,
@@ -98,10 +98,10 @@ export function applyIntrinsicProperties(
     } else if (isAccessorIntrinsicPropertyDeclaration(prop)) {
       obj.defineOwnPropertySync(key, {
         get: prop.get
-          ? new StaticJsFunctionImpl(realm, "get", (thisArg) => prop.get!(realm, thisArg))
+          ? new StaticJsNativeFunctionImpl(realm, "get", (thisArg) => prop.get!(realm, thisArg))
           : undefined,
         set: prop.set
-          ? new StaticJsFunctionImpl(realm, "set", (thisArg, value) =>
+          ? new StaticJsNativeFunctionImpl(realm, "set", (thisArg, value) =>
               prop.set!(realm, thisArg, value),
             )
           : undefined,

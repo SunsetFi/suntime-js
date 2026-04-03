@@ -2,7 +2,7 @@ import toObject from "../../../algorithms/to-object.js";
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
@@ -55,7 +55,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 ];
 
 export default function createObjectConstructor(realm: StaticJsRealm, objectProto: StaticJsObject) {
-  const ctor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "Object",
     function* (_thisArg, arg) {

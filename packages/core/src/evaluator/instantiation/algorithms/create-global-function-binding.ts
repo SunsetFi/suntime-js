@@ -1,3 +1,4 @@
+import { set } from "../../../runtime/algorithms/set.js";
 import type { StaticJsGlobalEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 
 import type { StaticJsPropertyDescriptorRecord } from "../../../runtime/types/StaticJsPropertyDescriptor.js";
@@ -37,5 +38,5 @@ export default function* createGlobalFunctionBinding(
     throw Completion.Throw("TypeError", `Cannot create global function binding for ${name}`);
   }
 
-  yield* globalObject.setEvaluator(name, value, false);
+  yield* set(globalObject, name, value, false);
 }

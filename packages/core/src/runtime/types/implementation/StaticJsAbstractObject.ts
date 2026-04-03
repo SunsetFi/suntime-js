@@ -2,8 +2,6 @@ import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
-import { Completion } from "../../../evaluator/completions/Completion.js";
-
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import toString from "../../algorithms/to-string.js";
@@ -311,26 +309,16 @@ export abstract class StaticJsAbstractObject
   setAsync(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
-    strict: boolean,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean> {
-    return this.realm.invokeEvaluatorAsync(this.setEvaluator(key, value, strict), opts);
+    return this.realm.invokeEvaluatorAsync(this.setEvaluator(key, value), opts);
   }
 
-  setSync(
-    key: StaticJsPropertyKey,
-    value: StaticJsValue,
-    strict: boolean,
-    opts?: StaticJsRunTaskOptions,
-  ): boolean {
-    return this.realm.invokeEvaluatorSync(this.setEvaluator(key, value, strict), opts);
+  setSync(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
+    return this.realm.invokeEvaluatorSync(this.setEvaluator(key, value), opts);
   }
 
-  *setEvaluator(
-    key: StaticJsPropertyKey,
-    value: StaticJsValue,
-    strict: boolean,
-  ): EvaluationGenerator<boolean> {
+  *setEvaluator(key: StaticJsPropertyKey, value: StaticJsValue): EvaluationGenerator<boolean> {
     if (!isStaticJsValue(value)) {
       throw new TypeError(`Value must be a StaticJsValue instance`);
     }
@@ -353,10 +341,6 @@ export abstract class StaticJsAbstractObject
         }
       }
 
-      if (strict) {
-        yield* this._throwCannotSet(key);
-      }
-
       return false;
     }
 
@@ -369,10 +353,6 @@ export abstract class StaticJsAbstractObject
           return true;
         }
 
-        if (strict) {
-          yield* this._throwCannotSet(key);
-        }
-
         return false;
       }
 
@@ -383,10 +363,6 @@ export abstract class StaticJsAbstractObject
 
     const extensible = yield* this.isExtensibleEvaluator();
     if (!extensible) {
-      if (strict) {
-        yield* this._throwCannotSet(key);
-      }
-
       return false;
     }
 
@@ -449,9 +425,4 @@ export abstract class StaticJsAbstractObject
   protected abstract _deleteConfigurablePropertyEvaluator(
     key: StaticJsPropertyKey,
   ): EvaluationGenerator<boolean>;
-
-  private *_throwCannotSet(property: StaticJsPropertyKey): EvaluationGenerator<never> {
-    const str = yield* toString(this);
-    throw Completion.Throw("TypeError", `Cannot set property ${String(property)} of ${str}`);
-  }
 }

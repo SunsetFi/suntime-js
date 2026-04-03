@@ -6,6 +6,7 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { set } from "../../../algorithms/set.js";
 
 const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
   key: "fill",
@@ -52,7 +53,7 @@ const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     for (let i = start; i < end; i++) {
-      yield* thisObj.setEvaluator(String(i), value, true);
+      yield* set(thisObj, String(i), value, true);
     }
 
     return thisObj;

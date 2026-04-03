@@ -10,6 +10,7 @@ import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { set } from "../../../algorithms/set.js";
 
 const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
   key: "concat",
@@ -87,7 +88,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     // Per spec, must be set
-    yield* A.setEvaluator("length", realm.types.number(n), true);
+    yield* set(A, "length", realm.types.number(n), true);
 
     return A;
   },

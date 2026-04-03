@@ -99,21 +99,10 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
   setAsync(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
-    strict: boolean,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean>;
-  setSync(
-    key: StaticJsPropertyKey,
-    value: StaticJsValue,
-    strict: boolean,
-    opts?: StaticJsRunTaskOptions,
-  ): boolean;
-  // FIXME: The spec doesn't send strict to this slot!
-  setEvaluator(
-    key: StaticJsPropertyKey,
-    value: StaticJsValue,
-    strict: boolean,
-  ): EvaluationGenerator<boolean>;
+  setSync(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean;
+  setEvaluator(key: StaticJsPropertyKey, value: StaticJsValue): EvaluationGenerator<boolean>;
 
   deleteAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean>;
   deleteSync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): boolean;

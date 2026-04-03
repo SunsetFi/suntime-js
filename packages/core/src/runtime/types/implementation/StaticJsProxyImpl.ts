@@ -705,26 +705,16 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
   setAsync(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
-    strict: boolean,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean> {
-    return this._realm.invokeEvaluatorAsync(this.setEvaluator(key, value, strict), opts);
+    return this._realm.invokeEvaluatorAsync(this.setEvaluator(key, value), opts);
   }
 
-  setSync(
-    key: StaticJsPropertyKey,
-    value: StaticJsValue,
-    strict: boolean,
-    opts?: StaticJsRunTaskOptions,
-  ): boolean {
-    return this._realm.invokeEvaluatorSync(this.setEvaluator(key, value, strict), opts);
+  setSync(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
+    return this._realm.invokeEvaluatorSync(this.setEvaluator(key, value), opts);
   }
 
-  *setEvaluator(
-    key: StaticJsPropertyKey,
-    value: StaticJsValue,
-    strict: boolean,
-  ): EvaluationGenerator<boolean> {
+  *setEvaluator(key: StaticJsPropertyKey, value: StaticJsValue): EvaluationGenerator<boolean> {
     yield* this._validateNonRevokedProxy();
 
     const target = this._proxyTarget;
@@ -732,7 +722,7 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
 
     const trap = yield* Q(getMethod(handler, "set"));
     if (!trap) {
-      return yield* Q(target.setEvaluator(key, value, strict));
+      return yield* Q(target.setEvaluator(key, value));
     }
 
     const booleanTrapResult = yield* toBoolean.js(

@@ -15,7 +15,7 @@ import toString from "../../algorithms/to-string.js";
 
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 
-import { StaticJsFunctionImpl } from "../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsDeclFunction } from "../../types/implementation/functions/StaticJsDeclFunction.js";
 import type { StaticJsAstFunctionArgument } from "../../types/implementation/functions/StaticJsAstFunctionArgument.js";
 
@@ -23,7 +23,7 @@ export default function createFunctionConstructor(
   realm: StaticJsRealm,
   functionProto: StaticJsObject,
 ) {
-  const ctor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "Function",
     function* (_thisArg, ...args) {

@@ -16,14 +16,14 @@ import toString from "../../algorithms/to-string.js";
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 
 import type { StaticJsAstFunctionArgument } from "../../types/implementation/functions/StaticJsAstFunctionArgument.js";
-import { StaticJsFunctionImpl } from "../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsGeneratorDeclFunction } from "../../types/implementation/functions/StaticJsGeneratorDeclFunction.js";
 
 export default function createGeneratorFunctionConstructor(
   realm: StaticJsRealm,
   functionProto: StaticJsObject,
 ) {
-  const ctor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "GeneratorFunction",
     function* (_thisArg, ...args) {

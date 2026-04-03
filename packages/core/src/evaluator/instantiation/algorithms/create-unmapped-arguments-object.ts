@@ -4,7 +4,7 @@ import definePropertyOrThrow from "../../../runtime/algorithms/define-property-o
 import type { StaticJsObjectLike } from "../../../runtime/types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
-import { StaticJsFunctionImpl } from "../../../runtime/types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../../../runtime/types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import { Completion } from "../../completions/Completion.js";
 
@@ -40,7 +40,7 @@ export default function* createUnmappedArgumentsObject(
     configurable: true,
   });
 
-  const calleeAccessor = new StaticJsFunctionImpl(realm, "get", function* () {
+  const calleeAccessor = new StaticJsNativeFunctionImpl(realm, "get", function* () {
     throw Completion.Throw("TypeError", "callee property is not accessible in strict mode");
   });
 

@@ -23,7 +23,7 @@ import type { StaticJsSet } from "../../StaticJsSet.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type { StaticJsIterator, StaticJsIteratorResult } from "../../StaticJsIterator.js";
 
-import { StaticJsFunctionImpl } from "../functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../functions/StaticJsNativeFunctionImpl.js";
 
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
@@ -333,7 +333,7 @@ class StaticJsSetIteratorImpl extends StaticJsIteratorImpl {
     const self = this;
 
     this.defineOwnPropertySync("next", {
-      value: new StaticJsFunctionImpl(realm, "next", function* () {
+      value: new StaticJsNativeFunctionImpl(realm, "next", function* () {
         const result = yield* self.nextEvaluator();
         return yield* createIteratorResultObject(result.value, result.done, self.realm);
       }),

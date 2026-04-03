@@ -12,6 +12,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import compareArrayElements from "../compare-array-elements.js";
 import sortIndexedProperties from "../sort-indexed-properties.js";
+import { set } from "../../../algorithms/set.js";
 
 const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
   key: "sort",
@@ -39,7 +40,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
     // Fill in non-hole values.
     let j = 0;
     while (j < itemCount) {
-      yield* obj.setEvaluator(String(j), sortedList[j], true);
+      yield* set(obj, String(j), sortedList[j], true);
       j++;
     }
 

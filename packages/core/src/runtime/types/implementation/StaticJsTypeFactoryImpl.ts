@@ -35,7 +35,7 @@ import { StaticJsSymbolImpl, getSymbolProxyOwner } from "./primitives/StaticJsSy
 import { StaticJsUndefinedImpl } from "./primitives/StaticJsUndefinedImpl.js";
 import { StaticJsExternalFunction } from "./functions/StaticJsExternalFunction.js";
 import { StaticJsExternalObject } from "./objects/StaticJsExternalObject.js";
-import { StaticJsFunctionImpl } from "./functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "./functions/StaticJsNativeFunctionImpl.js";
 import { getStaticJsObjectLikeProxyOwner } from "./objects/create-object-proxy.js";
 
 export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
@@ -175,7 +175,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     func: (this: StaticJsValue, ...args: StaticJsValue[]) => StaticJsValue,
     opts: StaticJsFunctionTypeCreationOptions = {},
   ): StaticJsFunction {
-    return new StaticJsFunctionImpl(
+    return new StaticJsNativeFunctionImpl(
       this._realm,
       name,
       function* (thisArg: StaticJsValue, ...args: StaticJsValue[]) {

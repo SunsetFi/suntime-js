@@ -1,6 +1,6 @@
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
-import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
@@ -31,7 +31,7 @@ export function* createAsyncFromSyncIterator(
   });
 
   yield* asyncIterator.defineOwnPropertyEvaluator("next", {
-    value: new StaticJsFunctionImpl(realm, "next", function* (_thisArg, value) {
+    value: new StaticJsNativeFunctionImpl(realm, "next", function* (_thisArg, value) {
       const promiseCapability = yield* newPromiseCapability(
         realm.types.constructors.Promise,
         realm,

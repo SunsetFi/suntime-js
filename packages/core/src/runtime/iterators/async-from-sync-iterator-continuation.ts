@@ -10,7 +10,7 @@ import type { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../types/
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import type { StaticJsFunction } from "../types/StaticJsFunction.js";
 
-import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import call from "../algorithms/call.js";
 import promiseResolve from "../algorithms/promise-resolve.js";
@@ -60,13 +60,13 @@ export function* asyncFromSyncIteratorContinuation(
     throw e;
   }
 
-  const onFulfilled = new StaticJsFunctionImpl(realm, "", function* (_thisArg, v) {
+  const onFulfilled = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, v) {
     return yield* createIteratorResultObject(v, done, realm);
   });
 
   let onRejected: StaticJsFunction | undefined;
   if (!done && closeOnRejection) {
-    onRejected = new StaticJsFunctionImpl(realm, "", function* (_thisArg, e) {
+    onRejected = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, e) {
       return yield* Q(iteratorClose(syncIteratorRecord, Completion.Throw(e)));
     });
   }

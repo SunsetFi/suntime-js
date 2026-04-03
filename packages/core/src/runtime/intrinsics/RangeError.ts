@@ -1,7 +1,7 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsObject } from "../types/StaticJsObject.js";
-import { StaticJsFunctionImpl } from "../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 export function populateRangeErrorPrototype(
   _realm: StaticJsRealm,
@@ -9,7 +9,7 @@ export function populateRangeErrorPrototype(
 ) {}
 
 export function createRangeErrorConstructor(realm: StaticJsRealm, rangeErrorProto: StaticJsObject) {
-  const ctor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "RangeError",
     function* (_thisArg, messageValue) {

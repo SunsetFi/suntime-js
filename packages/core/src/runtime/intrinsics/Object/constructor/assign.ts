@@ -1,3 +1,4 @@
+import { set } from "../../../algorithms/set.js";
 import toObject from "../../../algorithms/to-object.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -11,7 +12,7 @@ const objectCtorAssignDeclaration: IntrinsicPropertyDeclaration = {
       const keys = yield* sourceObj.ownEnumerableKeysEvaluator();
       for (const key of keys) {
         const value = yield* sourceObj.getEvaluator(key);
-        yield* target.setEvaluator(key, value, true);
+        yield* set(target, key, value, true);
       }
     }
 

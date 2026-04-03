@@ -1,7 +1,7 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
-import { StaticJsFunctionImpl } from "../../../types/implementation/functions/StaticJsFunctionImpl.js";
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsStringBoxed } from "../../../types/implementation/primitives/StaticJsStringBoxed.js";
 
 import toString from "../../../algorithms/to-string.js";
@@ -13,7 +13,7 @@ import stringCtorFromCharCodeDeclaration from "./fromCharCode.js";
 const declarations: IntrinsicPropertyDeclaration[] = [stringCtorFromCharCodeDeclaration];
 
 export default function createStringConstructor(realm: StaticJsRealm, stringProto: StaticJsObject) {
-  const ctor = new StaticJsFunctionImpl(
+  const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "String",
     function* (_thisArg, value) {
