@@ -7,6 +7,7 @@ import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { get } from "../../../algorithms/get.js";
 
 const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
   key: "every",
@@ -36,7 +37,7 @@ const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
 
-      const elementValue = yield* thisObj.getEvaluator(property);
+      const elementValue = yield* get(thisObj, property);
 
       const resultValue = yield* callback.callEvaluator(thisObj, [
         elementValue,

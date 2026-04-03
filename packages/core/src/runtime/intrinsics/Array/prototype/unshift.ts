@@ -7,6 +7,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import { set } from "../../../algorithms/set.js";
+import { get } from "../../../algorithms/get.js";
 
 export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
   key: "unshift",
@@ -36,7 +37,7 @@ export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
 
-      const value = yield* thisObj.getEvaluator(property);
+      const value = yield* get(thisObj, property);
       yield* set(thisObj, nextProperty, value, true);
     }
 

@@ -6,6 +6,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import type { StaticJsScalar } from "../types/StaticJsScalar.js";
 import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsFunction } from "../types/StaticJsFunction.js";
+import { get } from "./get.js";
 
 export default function* toPrimitive(
   value: StaticJsValue,
@@ -17,7 +18,7 @@ export default function* toPrimitive(
     return value;
   }
 
-  const exoticToPrim = yield* value.getEvaluator(realm.types.symbols.toPrimitive);
+  const exoticToPrim = yield* get(value, realm.types.symbols.toPrimitive);
   if (isStaticJsFunction(exoticToPrim)) {
     let hint: "string" | "number" | "default";
     if (!preferredType) {
@@ -52,7 +53,7 @@ function* ordinaryToPrimitive(
   }
 
   for (const methodName of methodNames) {
-    const method = yield* value.getEvaluator(methodName);
+    const method = yield* get(value, methodName);
     if (!isStaticJsFunction(method)) {
       continue;
     }

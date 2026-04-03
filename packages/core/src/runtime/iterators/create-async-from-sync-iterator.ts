@@ -14,6 +14,7 @@ import { iteratorNext } from "./iterator-next.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 import { asyncFromSyncIteratorContinuation } from "./async-from-sync-iterator-continuation.js";
+import { get } from "../algorithms/get.js";
 
 export function* createAsyncFromSyncIterator(
   syncIteratorRecord: StaticJsIteratorRecord,
@@ -61,7 +62,7 @@ export function* createAsyncFromSyncIterator(
     configurable: true,
   });
 
-  const nextMethod = yield* asyncIterator.getEvaluator("next");
+  const nextMethod = yield* get(asyncIterator, "next");
 
   return {
     iterator: asyncIterator,

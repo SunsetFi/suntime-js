@@ -8,13 +8,14 @@ import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import isConstructor from "./is-constructor.js";
+import { get } from "./get.js";
 
 export default function* speciesConstructor(
   O: StaticJsObjectLike,
   defaultConstructor: StaticJsFunction,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsFunction> {
-  const C = yield* O.getEvaluator("constructor");
+  const C = yield* get(O, "constructor");
 
   if (isStaticJsUndefined(C)) {
     return defaultConstructor;
@@ -28,7 +29,7 @@ export default function* speciesConstructor(
     throw Completion.Throw("TypeError", "Constructor is not an object");
   }
 
-  const S = yield* C.getEvaluator(realm.types.symbols.species);
+  const S = yield* get(C, realm.types.symbols.species);
   if (isStaticJsNull(S) || isStaticJsUndefined(S)) {
     return defaultConstructor;
   }

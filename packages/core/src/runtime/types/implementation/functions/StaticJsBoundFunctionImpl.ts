@@ -14,6 +14,7 @@ import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 
 import { StaticJsObjectLikeImpl } from "../objects/StaticJsObjectLikeImpl.js";
+import { get } from "../../../algorithms/get.js";
 
 export class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements StaticJsFunction {
   static *create(
@@ -24,7 +25,7 @@ export class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements Sta
   ): EvaluationGenerator<StaticJsBoundFunction> {
     const instance = new StaticJsBoundFunction(realm, targetFunc, thisArg, boundArgs);
 
-    const boundLength = yield* targetFunc.getEvaluator("length");
+    const boundLength = yield* get(targetFunc, "length");
     const length = yield* toInteger(boundLength);
     yield* instance.defineOwnPropertyEvaluator("length", {
       value: realm.types.number(Math.max(0, length.value - boundArgs.length)),
@@ -33,7 +34,7 @@ export class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements Sta
       configurable: true,
     });
 
-    const name = yield* targetFunc.getEvaluator("name");
+    const name = yield* get(targetFunc, "name");
     yield* instance.defineOwnPropertyEvaluator("name", {
       value: realm.types.string(isStaticJsString(name) ? `bound ${name.value}` : "bound"),
       writable: false,
@@ -122,7 +123,7 @@ export class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements Sta
   }
 
   private *_getNameEvaluator(): EvaluationGenerator<string> {
-    const nameValue = yield* this.getEvaluator("name");
+    const nameValue = yield* get(this, "name");
     const nameStr = yield* toString.js(nameValue);
     return nameStr.toString();
   }

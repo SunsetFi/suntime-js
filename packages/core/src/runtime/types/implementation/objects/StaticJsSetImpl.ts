@@ -27,6 +27,7 @@ import { StaticJsNativeFunctionImpl } from "../functions/StaticJsNativeFunctionI
 
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
+import { get } from "../../../algorithms/get.js";
 
 // TODO: Take shortcuts for difference and friends if otherSet is also a StaticJsSetImpl
 
@@ -59,7 +60,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
 
     const [result, resultAdd] = yield* setCreate(this, this.realm);
 
-    const otherHas = yield* otherSet.getEvaluator("has");
+    const otherHas = yield* get(otherSet, "has");
     if (!isStaticJsFunction(otherHas)) {
       throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
     }
@@ -90,7 +91,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
 
     const [result, resultAdd] = yield* setCreate(this, this.realm);
 
-    const otherHas = yield* otherSet.getEvaluator("has");
+    const otherHas = yield* get(otherSet, "has");
     if (!isStaticJsFunction(otherHas)) {
       throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
     }
@@ -114,7 +115,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
       );
     }
 
-    const otherHas = yield* otherSet.getEvaluator("has");
+    const otherHas = yield* get(otherSet, "has");
     if (!isStaticJsFunction(otherHas)) {
       throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
     }
@@ -138,7 +139,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
       );
     }
 
-    const otherHas = yield* otherSet.getEvaluator("has");
+    const otherHas = yield* get(otherSet, "has");
     if (!isStaticJsFunction(otherHas)) {
       throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
     }
@@ -195,7 +196,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
 
     const [result, resultAdd] = yield* setCreate(this, this.realm);
 
-    const otherHas = yield* otherSet.getEvaluator("has");
+    const otherHas = yield* get(otherSet, "has");
     if (!isStaticJsFunction(otherHas)) {
       throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
     }
@@ -313,7 +314,7 @@ function* setCreate(
   if (!isStaticJsObjectLike(result)) {
     throw new StaticJsRuntimeError(realm.types.error("TypeError", "Failed to create Set"));
   }
-  const resultAdd = yield* result.getEvaluator("add");
+  const resultAdd = yield* get(result, "add");
   if (!isStaticJsFunction(resultAdd)) {
     throw new StaticJsRuntimeError(realm.types.error("TypeError", "add is not a function"));
   }

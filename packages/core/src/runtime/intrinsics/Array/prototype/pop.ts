@@ -3,6 +3,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import { set } from "../../../algorithms/set.js";
+import { get } from "../../../algorithms/get.js";
 
 export const arrayProtoPopDeclaration: IntrinsicPropertyDeclaration = {
   key: "pop",
@@ -19,7 +20,7 @@ export const arrayProtoPopDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const index = length - 1;
-    const value = yield* thisObj.getEvaluator(String(index));
+    const value = yield* get(thisObj, String(index));
 
     yield* thisObj.deleteEvaluator(String(index));
     yield* set(thisObj, "length", realm.types.number(length - 1), true);

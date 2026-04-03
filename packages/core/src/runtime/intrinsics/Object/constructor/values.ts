@@ -1,3 +1,4 @@
+import { get } from "../../../algorithms/get.js";
 import toObject from "../../../algorithms/to-object.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
@@ -12,7 +13,7 @@ const objectCtorValuesDeclaration: IntrinsicPropertyDeclaration = {
 
     const values: StaticJsValue[] = [];
     for (let i = 0; i < ownKeys.length; i++) {
-      values[i] = yield* obj.getEvaluator(ownKeys[i]);
+      values[i] = yield* get(obj, ownKeys[i]);
     }
 
     const result = realm.types.array(values);

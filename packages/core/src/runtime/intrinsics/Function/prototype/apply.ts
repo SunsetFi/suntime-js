@@ -1,4 +1,5 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { get } from "../../../algorithms/get.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import toObject from "../../../algorithms/to-object.js";
@@ -20,7 +21,7 @@ const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
       const argsArrayObj = yield* toObject(argsArray);
       const length = yield* lengthOfArrayLike(argsArrayObj);
       for (let i = 0; i < length; i++) {
-        const element = yield* argsArrayObj.getEvaluator(String(i));
+        const element = yield* get(argsArrayObj, String(i));
         args.push(element);
       }
     }

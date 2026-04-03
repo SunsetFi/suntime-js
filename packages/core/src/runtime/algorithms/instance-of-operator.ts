@@ -11,6 +11,7 @@ import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 
 import toBoolean from "./to-boolean.js";
 import ordinaryHasInstance from "./ordinary-has-instance.js";
+import { get } from "./get.js";
 
 export default function* instanceOfOperator(
   V: StaticJsValue,
@@ -21,7 +22,7 @@ export default function* instanceOfOperator(
     throw Completion.Throw("TypeError", "Right-hand side of 'instanceof' is not an object");
   }
 
-  const instOfHandler = yield* target.getEvaluator(realm.types.symbols.hasInstance);
+  const instOfHandler = yield* get(target, realm.types.symbols.hasInstance);
   if (isStaticJsFunction(instOfHandler)) {
     const result = yield* instOfHandler.callEvaluator(target, [V]);
     return yield* toBoolean.js(result);

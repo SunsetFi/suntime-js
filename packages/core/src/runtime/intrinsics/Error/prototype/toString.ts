@@ -1,3 +1,4 @@
+import { get } from "../../../algorithms/get.js";
 import toString from "../../../algorithms/to-string.js";
 
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
@@ -11,10 +12,10 @@ const errorProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
       return yield* toString(thisArg);
     }
 
-    const nameValue = yield* thisArg.getEvaluator("name");
+    const nameValue = yield* get(thisArg, "name");
     const name = yield* toString.js(nameValue);
 
-    const messageValue = yield* thisArg.getEvaluator("message");
+    const messageValue = yield* get(thisArg, "message");
     const message = yield* toString.js(messageValue);
 
     let result: string;

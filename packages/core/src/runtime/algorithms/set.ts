@@ -10,7 +10,7 @@ export function* set(
   v: StaticJsValue,
   throwError: boolean,
 ): EvaluationGenerator<void> {
-  const success = yield* o.setEvaluator(p, v);
+  const success = yield* o.setEvaluator(p, v, o);
   if (!success && throwError) {
     throw Completion.Throw(
       "TypeError",

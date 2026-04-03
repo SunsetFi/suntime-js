@@ -4,6 +4,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import toObject from "../algorithms/to-object.js";
 import lengthOfArrayLike from "../algorithms/length-of-array-like.js";
+import { get } from "../algorithms/get.js";
 
 export function* toArray(val: StaticJsValue): EvaluationGenerator<StaticJsValue[]> {
   const obj = yield* toObject(val);
@@ -15,7 +16,7 @@ export function* toArray(val: StaticJsValue): EvaluationGenerator<StaticJsValue[
     const property = String(i);
     const hasProperty = yield* obj.hasPropertyEvaluator(property);
     if (hasProperty) {
-      const item = yield* obj.getEvaluator(property);
+      const item = yield* get(obj, property);
       result[i] = item;
     }
   }

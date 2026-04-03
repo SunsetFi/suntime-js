@@ -3,6 +3,7 @@ import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { get } from "../../../algorithms/get.js";
 
 const arrayProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
   key: "toString",
@@ -22,7 +23,7 @@ const arrayProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
 
     const segments: string[] = [];
     for (let i = 0; i < length; i++) {
-      const item = yield* thisArg.getEvaluator(i.toString());
+      const item = yield* get(thisArg, i.toString());
       const string = yield* toString(item);
       segments[i] = string.value;
     }

@@ -10,6 +10,7 @@ import type { StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 import { StaticJsArrayImpl } from "./StaticJsArrayImpl.js";
 import type { StaticJsIteratorResult } from "../../StaticJsIterator.js";
+import { get } from "../../../algorithms/get.js";
 
 export class StaticJsArrayIteratorImpl extends StaticJsIteratorImpl {
   constructor(
@@ -50,7 +51,7 @@ export class StaticJsArrayIteratorImpl extends StaticJsIteratorImpl {
       result = this.realm.types.number(index);
     } else {
       const elementKey = String(index);
-      const elementValue = yield* array.getEvaluator(elementKey);
+      const elementValue = yield* get(array, elementKey);
       if (kind === "value") {
         result = elementValue;
       } else {

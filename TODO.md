@@ -2,28 +2,29 @@
 
 ## Immediate
 
-- [-] runTask improvements
-  - [x] Make invokeEvaluatorSync use runTaskSync
-  - [ ] If invokeEvaluatorX is called and the current task is an X, merge the invoked iteration with the task.
-- [x] Rework createFunction to use current execution stack for scriptOrModule and realm
-- [ ] Rework all async functions to one class
-- [ ] toJsSync preserve task runners on proxies
-  - [ ] StaticJsAbstractObject property get/set/whatever
-  - [ ] StaticJsFunctionImpl invocation
+- [-] Function overhaul
+  - [ ] Rework all async functions to one class
+  - [x] StaticJsFunctionImpl should be abstract
+  - [ ] Implement newTarget as passed-in?
+  - [ ] Use completions (including abrupt) as call and construct results
+  - [x] Refactor the `new StaticJsFunctionImpl(function impl())` to a `StaticJsNativeFunction`
+  - [x] Rework Ast functions to be more spec compliant
 - [ ] Task improvements
   - [ ] Properly set async and sync macrotasks as "host-invocation"
   - [ ] Property on a task indicating if its sync or async.
-- [ ] Remove 'strict' from ObjectLike set call. Callers enforce this, not the slot.
+- [x] Remove 'strict' from ObjectLike set call. Callers enforce this, not the slot.
+- [x] getEvaluator / setEvaluator / Reflect.get / Reflect.set receiver
 
 ## Less imidiate
 
-- [ ] Debugger improvements
-  - [ ] Expose node data in task iterator
-  - [ ] Use node data to break on loop condition and update nodes
+- [ ] toJsSync preserve task runners on proxies
+  - [ ] StaticJsAbstractObject property get/set/whatever
+  - [ ] StaticJsFunctionImpl invocation
+- [-] runTask improvements
+  - [x] Make invokeEvaluatorSync use runTaskSync
+  - [ ] If invokeEvaluatorX is called and the current task is an X, merge the invoked iteration with the task.
 - [ ] Deep review and cleanup of dap
   - [ ] Sanify file names on kebab.
-- [ ] Implement global stuff like the execution context stack and GetActiveScriptOrModule
-  - [ ] Fix function constructor not knowing its active script or module.
 - [ ] Rework node evaluator so catagories of nodes can be processed in a tree
       Get closer to how the spec wants these to work, with categories splitting into
       narrower options
@@ -48,23 +49,30 @@
 - [ ] Namespace object non-js native in StaticJsModule
 - [ ] Align ObjectLike functions to slots.
   - [ ] hasOwnProperty is actually the hasProperty slot, and hasProperty is a utility function. This is confusing.
-- [ ] Check AbstractObject 'slots' for compliance with 10.1
-  - [ ] GetOwnProperty, DefineOwnProperty
-    - [ ] completePropertyDescriptor
-    - [ ] isCompatiblePropertyDescriptor
-- [ ] getEvaluator / Reflect.get receiver
+- [x] Check AbstractObject 'slots' for compliance with 10.1
+  - [x] GetOwnProperty, DefineOwnProperty
+    - [-] completePropertyDescriptor in Object.defineProperty
+    - [x] isCompatiblePropertyDescriptor
+
+### Debugger improvements
+
+- [ ] Debugger improvements
+  - [ ] Expose node data in task iterator
+  - [ ] Use node data to break on loop condition and update nodes
 
 ### Completion Refactor
 
 - [ ] Rework EvaluationGenerator to accept and return Completions
   - [ ] Accept and return Completions for all Node Evaluators
   - [ ] Use generator.next instead of generator.throw for abnormal completions.
-- [x] Rework EvaluateNodeCommand to always return completions
-  - [x] Use Q() where needed to enforce NormalCompletion
 - [ ] Eliminate most throws for completions where not needed.
 - [ ] Convert All The Things to Q
   - [ ] iteratorClose / asyncIteratorClose
   - [ ] ...others
+
+### Remove default exports from everywhere
+
+- [ ] Do that.
 
 ### Module Refactor
 
@@ -110,7 +118,7 @@ Modules are not implemented according to spec
 
 Figure out public API for invoking and implementing evaluators.
 
-- [ ] Export constructs needed
+- [ ] Export needed constructs
   - [ ] Completion
   - [ ] EvaluationGenerator
 - [ ] Rework TypeFactory.function to require a generator function. Only use native functions in toStaticJsValue
@@ -130,22 +138,6 @@ Figure out public API for invoking and implementing evaluators.
 - [-] Option to specify task runners in async methods
 - [ ] Rename toJs to toNative
 - [ ] Documentation
-
-## More packages
-
-- monacode - monaco-vscode-api leveraged react vscode workspace
-  Composite components representing files and services inside the main Vscode component
-
-  ```tsx
-    import { Vscode, DebugService, File } from "@suntime-js/monacode"
-    return (
-      <Vscode onFileCreate={onFileCreate} onFileClose={onFileClose}>
-        <DebugService adapter={myAdapter} />
-        <File name="index.js" language="javascript">
-      </Vscode>
-
-    )
-  ```
 
 ## Think about
 

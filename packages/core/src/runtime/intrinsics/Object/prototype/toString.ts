@@ -1,5 +1,6 @@
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { X } from "../../../../evaluator/completions/X.js";
+import { get } from "../../../algorithms/get.js";
 
 import toObject from "../../../algorithms/to-object.js";
 
@@ -52,7 +53,7 @@ const objectProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
       builtinTag = "Object";
     }
 
-    let tag = yield* Q(O.getEvaluator(realm.types.symbols.toStringTag));
+    let tag = yield* Q(get(O, realm.types.symbols.toStringTag));
     if (!isStaticJsString(tag)) {
       tag = realm.types.string(builtinTag);
     }

@@ -22,6 +22,7 @@ import { StaticJsArrayImpl } from "../../../types/implementation/objects/StaticJ
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import { set } from "../../../algorithms/set.js";
+import { get } from "../../../algorithms/get.js";
 
 const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
   key: "from",
@@ -108,7 +109,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
     let k = 0;
     while (k < len) {
       const Pk = String(k);
-      const kValue = yield* Q(arrayLike.getEvaluator(Pk));
+      const kValue = yield* Q(get(arrayLike, Pk));
 
       let mappedValue: StaticJsValue;
       if (mapping) {

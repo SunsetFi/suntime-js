@@ -17,6 +17,7 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import createFunction from "./Function.js";
 import { set } from "../../runtime/algorithms/set.js";
+import { get } from "../../runtime/algorithms/get.js";
 
 // Note: I tested the edge-case of having a computed property key that is an expression mutate the value used in the value,
 // and the result is each key is computed before its property, and the next property/value pair is computed after the previous property/value pair.
@@ -108,8 +109,6 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
   target: StaticJsObject,
   property: ObjectProperty,
 ): EvaluationGenerator {
-  const { strict } = EvaluationContext.current;
-
   const propertyKeyNode = property.key;
 
   let propertyKey: StaticJsPropertyKey;
@@ -123,7 +122,13 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
   }
 
   const value = yield* Q.val(EvaluateNodeCommand(property.value));
-  yield* set(target, propertyKey, value, strict);
+
+  yield* target.defineOwnPropertyEvaluator(propertyKey, {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value,
+  });
   return null;
 }
 
@@ -140,7 +145,7 @@ function* objectExpressionPropertySpreadElementEvaluator(
 
   const ownKeys = yield* value.ownPropertyKeysEvaluator();
   for (const key of ownKeys) {
-    const propertyValue = yield* value.getEvaluator(key);
+    const propertyValue = yield* get(value, key);
     yield* set(target, key, propertyValue, strict);
   }
 

@@ -24,6 +24,7 @@ import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
 import { StaticJsAstFunction, StaticJsAstFunctionOptions } from "./StaticJsAstFunction.js";
+import { get } from "../../../algorithms/get.js";
 
 export type StaticJsAsyncArrowFunctionOptions = Omit<
   StaticJsAstFunctionOptions,
@@ -53,7 +54,7 @@ export class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
   }
 
   override *constructEvaluator(): EvaluationGenerator<StaticJsObjectLike> {
-    const nameValue = yield* this.getEvaluator("name");
+    const nameValue = yield* get(this, "name");
     let name = nameValue.toStringSync();
     if (name === "") {
       name = "anonymous";

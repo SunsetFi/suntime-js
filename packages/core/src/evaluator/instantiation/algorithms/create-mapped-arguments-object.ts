@@ -17,6 +17,7 @@ import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
 
 import boundNames from "./bound-names.js";
+import { get } from "../../../runtime/algorithms/get.js";
 
 export default function* createMappedArgumentsObject(
   func: StaticJsFunction,
@@ -65,7 +66,7 @@ export default function* createMappedArgumentsObject(
     }
   }
 
-  const arrayValuesProto = yield* realm.types.prototypes.arrayProto.getEvaluator("values");
+  const arrayValuesProto = yield* get(realm.types.prototypes.arrayProto, "values");
 
   yield* definePropertyOrThrow(obj, realm.types.symbols.iterator, {
     value: arrayValuesProto,

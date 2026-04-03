@@ -4,6 +4,7 @@ import toObject from "../../../algorithms/to-object.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { get } from "../../../algorithms/get.js";
 
 const arrayProtoAtDeclaration: IntrinsicPropertyDeclaration = {
   key: "at",
@@ -27,7 +28,7 @@ const arrayProtoAtDeclaration: IntrinsicPropertyDeclaration = {
       return realm.types.undefined;
     }
 
-    const value = yield* thisObj.getEvaluator(String(index));
+    const value = yield* get(thisObj, String(index));
     return value;
   },
 };

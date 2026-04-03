@@ -7,6 +7,7 @@ import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { get } from "../../../algorithms/get.js";
 
 const arrayProtoFindLastDeclaration: IntrinsicPropertyDeclaration = {
   key: "findLast",
@@ -24,7 +25,7 @@ const arrayProtoFindLastDeclaration: IntrinsicPropertyDeclaration = {
     const length = yield* lengthOfArrayLike(thisObj);
 
     for (let i = length - 1; i >= 0; i--) {
-      const value = yield* thisObj.getEvaluator(String(i));
+      const value = yield* get(thisObj, String(i));
       const resultValue = yield* callback.callEvaluator(thisObj, [
         value,
         realm.types.number(i),

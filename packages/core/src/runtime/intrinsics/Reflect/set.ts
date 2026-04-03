@@ -1,4 +1,3 @@
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 
@@ -23,13 +22,7 @@ export const reflectSetDeclaration: IntrinsicPropertyDeclaration = {
 
     const key = yield* toPropertyKey(propertyKey);
 
-    if (receiver !== target) {
-      throw new StaticJsEngineError(
-        "Reflect.set receiver other than target is not currently supported.",
-      );
-    }
-
-    const success = yield* Q(target.setEvaluator(key, value));
+    const success = yield* Q(target.setEvaluator(key, value, receiver));
     return realm.types.boolean(success);
   },
 };

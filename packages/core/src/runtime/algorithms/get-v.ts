@@ -10,5 +10,5 @@ export default function* getV(
   P: StaticJsPropertyKey,
 ): EvaluationGenerator<StaticJsValue> {
   const O = yield* toObject(V);
-  return yield* O.getEvaluator(P);
+  return yield* O.getEvaluator(P, V);
 }

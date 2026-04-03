@@ -1,5 +1,6 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import { get } from "../../algorithms/get.js";
 import { set } from "../../algorithms/set.js";
 import toBoolean from "../../algorithms/to-boolean.js";
 
@@ -36,9 +37,9 @@ export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBa
       return true;
     }
 
-    const unscopables = yield* this._obj.getEvaluator(this._realm.types.symbols.unscopables);
+    const unscopables = yield* get(this._obj, this._realm.types.symbols.unscopables);
     if (isStaticJsObjectLike(unscopables)) {
-      const blockedValue = yield* unscopables.getEvaluator(name);
+      const blockedValue = yield* get(unscopables, name);
       const isBlocked = yield* toBoolean.js(blockedValue);
       if (isBlocked) {
         return false;
@@ -106,7 +107,7 @@ export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBa
       }
     }
 
-    return yield* this._obj.getEvaluator(name);
+    return yield* get(this._obj, name);
   }
 
   *deleteBindingEvaluator(name: string): EvaluationGenerator<boolean> {

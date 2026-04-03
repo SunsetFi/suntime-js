@@ -8,7 +8,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 export default function* call(
   F: StaticJsValue,
   V: StaticJsValue,
-  args: StaticJsValue[],
+  args: StaticJsValue[] = [],
 ): EvaluationGenerator<StaticJsValue> {
   if (!isStaticJsFunction(F)) {
     throw Completion.Throw("TypeError", "Called object is not a function");

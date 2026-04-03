@@ -21,6 +21,7 @@ import { EvaluationContext } from "../../EvaluationContext.js";
 
 import { Completion } from "../../completions/Completion.js";
 import { Q } from "../../completions/Q.js";
+import { get } from "../../../runtime/algorithms/get.js";
 
 export default function* forInOfHeadEvaluation(
   uninitializedBoundNames: string[],
@@ -57,7 +58,7 @@ export default function* forInOfHeadEvaluation(
 
       const obj = yield* toObject(exprValue);
       const iterator = yield* enumerateObjectProperties(obj, realm);
-      const nextMethod = yield* iterator.getEvaluator("next");
+      const nextMethod = yield* get(iterator, "next");
       return {
         iterator,
         nextMethod,

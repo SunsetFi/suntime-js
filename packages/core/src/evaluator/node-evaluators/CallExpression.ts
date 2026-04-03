@@ -31,6 +31,7 @@ import getValue from "../../runtime/algorithms/get-value.js";
 import evalDeclarationInstantiation from "../instantiation/eval-declaration-instantiation.js";
 
 import nameNode from "./name-node.js";
+import { get } from "../../runtime/algorithms/get.js";
 
 export default function* callExpressionNodeEvaluator(node: CallExpression): EvaluationGenerator {
   const context = EvaluationContext.current;
@@ -97,7 +98,7 @@ export default function* callExpressionNodeEvaluator(node: CallExpression): Eval
     });
 
   if (isIdentifier(node.callee) && node.callee.name === "eval") {
-    const globalEval = yield* realm.global.getEvaluator("eval");
+    const globalEval = yield* get(realm.global, "eval");
     if (globalEval === callee && isStaticJsFunction(callee)) {
       return yield* callEvalEvaluator(args[0]);
     }

@@ -7,6 +7,7 @@ import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import toObject from "./to-object.js";
 import createDataPropertyOrThrow from "./create-data-property-or-throw.js";
+import { get } from "./get.js";
 
 export default function* copyDataProperties(
   target: StaticJsObjectLike,
@@ -30,7 +31,7 @@ export default function* copyDataProperties(
       continue;
     }
 
-    const value = yield* from.getEvaluator(nextKey);
+    const value = yield* get(from, nextKey);
     yield* createDataPropertyOrThrow(target, nextKey, value);
   }
 }

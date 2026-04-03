@@ -8,6 +8,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
+import { get } from "../../../algorithms/get.js";
 
 const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
   key: "map",
@@ -38,7 +39,7 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
 
-      const elementValue = yield* thisArg.getEvaluator(property);
+      const elementValue = yield* get(thisArg, property);
       const result = yield* callback.callEvaluator(providedThisArg ?? thisArg, [
         elementValue,
         realm.types.number(i),

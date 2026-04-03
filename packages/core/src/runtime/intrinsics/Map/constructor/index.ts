@@ -18,6 +18,7 @@ import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../
 
 import mapCtorGroupByDeclaration from "./groupBy.js";
 import mapCtorSymbolSpeciesDeclaration from "./symbol_species.js";
+import { get } from "../../../algorithms/get.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   mapCtorGroupByDeclaration,
@@ -47,8 +48,8 @@ export default function createMapConstructor(realm: StaticJsRealm, mapProto: Sta
           }
 
           const asObj = yield* toObject(next);
-          const key = yield* asObj.getEvaluator("0");
-          const value = yield* asObj.getEvaluator("1");
+          const key = yield* get(asObj, "0");
+          const value = yield* get(asObj, "1");
 
           yield* map.setValueEvaluator(key, value);
         }

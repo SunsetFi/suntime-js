@@ -8,6 +8,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
+import { get } from "../../../algorithms/get.js";
 
 const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
   key: "flatMap",
@@ -34,7 +35,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
 
-      const currentItem = yield* thisObj.getEvaluator(String(i));
+      const currentItem = yield* get(thisObj, String(i));
       const result = yield* callback.callEvaluator(thisObj, [
         currentItem,
         realm.types.number(i),
@@ -53,7 +54,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
             continue;
           }
 
-          const value = yield* result.getEvaluator(String(k));
+          const value = yield* get(result, String(k));
           yield* A.defineOwnPropertyEvaluator(String(n), {
             value: value,
             writable: true,

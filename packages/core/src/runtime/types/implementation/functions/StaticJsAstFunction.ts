@@ -34,6 +34,7 @@ import { isStaticJsObjectLike, StaticJsObjectLike } from "../../StaticJsObjectLi
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
 import { StaticJsAbstractFunction } from "./StaticJsAbstractFunction.js";
+import { get } from "../../../algorithms/get.js";
 
 export interface StaticJsAstFunctionOptions {
   thisMode: "lexical-this" | "non-lexical-this";
@@ -301,7 +302,7 @@ export abstract class StaticJsAstFunction extends StaticJsAbstractFunction {
     intrinsicDefaultProto: keyof Prototypes,
   ): EvaluationGenerator<StaticJsObjectLike> {
     let proto: StaticJsObjectLike;
-    const protoValue = yield* Q(this.getEvaluator("prototype"));
+    const protoValue = yield* Q(get(this, "prototype"));
     if (!isStaticJsObjectLike(protoValue)) {
       proto = this.realm.types.prototypes[intrinsicDefaultProto];
     } else {

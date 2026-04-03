@@ -7,6 +7,8 @@ import {
   StaticJsRuntimeError,
 } from "../../src/index.js";
 
+import isDebuggerActive from "../env/is-debugger-active.js";
+
 import withResolvers from "./utils/with-resolvers.js";
 import delay from "./utils/delay.js";
 import getPerf from "./utils/get-perf.js";
@@ -38,7 +40,9 @@ export default function defineTest(testName: string, test: Test262File) {
       const perf = getPerf();
 
       const realm = StaticJsRealm({
-        runTask: createTimeBoundTaskRunner({ maxRunTime: ScriptTimeout }),
+        runTask: isDebuggerActive
+          ? undefined
+          : createTimeBoundTaskRunner({ maxRunTime: ScriptTimeout }),
       });
       createHostApi(realm);
 

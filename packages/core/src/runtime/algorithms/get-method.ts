@@ -11,6 +11,7 @@ import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 
 import toObject from "./to-object.js";
+import { get } from "./get.js";
 
 export default function* getMethod(
   V: StaticJsValue,
@@ -18,7 +19,7 @@ export default function* getMethod(
   realm?: StaticJsRealm,
 ): EvaluationGenerator<StaticJsFunction | null> {
   const obj = yield* toObject(V, realm);
-  const func = yield* obj.getEvaluator(P);
+  const func = yield* get(obj, P);
   if (isStaticJsNull(func) || isStaticJsUndefined(func)) {
     return null;
   }

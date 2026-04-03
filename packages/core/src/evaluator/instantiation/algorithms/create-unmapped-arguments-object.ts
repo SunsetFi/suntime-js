@@ -10,6 +10,7 @@ import { Completion } from "../../completions/Completion.js";
 
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
+import { get } from "../../../runtime/algorithms/get.js";
 
 export default function* createUnmappedArgumentsObject(
   argumentsList: StaticJsValue[],
@@ -31,7 +32,7 @@ export default function* createUnmappedArgumentsObject(
     yield* createDataPropertyOrThrow(obj, String(index), val);
   }
 
-  const arrayValues = yield* realm.types.prototypes.arrayProto.getEvaluator("values");
+  const arrayValues = yield* get(realm.types.prototypes.arrayProto, "values");
 
   yield* definePropertyOrThrow(obj, realm.types.symbols.iterator, {
     value: arrayValues,

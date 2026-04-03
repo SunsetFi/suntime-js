@@ -8,6 +8,7 @@ import { isStaticJsBoundFunction, isStaticJsFunction } from "../types/StaticJsFu
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import toBoolean from "./to-boolean.js";
 import instanceOfOperator from "./instance-of-operator.js";
+import { get } from "./get.js";
 
 export default function* ordinaryHasInstance(
   C: StaticJsValue,
@@ -23,7 +24,7 @@ export default function* ordinaryHasInstance(
     return yield* instanceOfOperator(O, BC, realm);
   }
 
-  const hasInstanceFunc = yield* C.getEvaluator(realm.types.symbols.hasInstance);
+  const hasInstanceFunc = yield* get(C, realm.types.symbols.hasInstance);
   if (isStaticJsFunction(hasInstanceFunc)) {
     const result = yield* hasInstanceFunc.callEvaluator(C, [O]);
     return yield* toBoolean.js(result);
@@ -33,7 +34,7 @@ export default function* ordinaryHasInstance(
     return false;
   }
 
-  const P = yield* C.getEvaluator("prototype");
+  const P = yield* get(C, "prototype");
   if (!isStaticJsObjectLike(P)) {
     throw Completion.Throw("TypeError", "Function has non-object prototype");
   }

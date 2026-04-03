@@ -11,6 +11,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import { set } from "../../../algorithms/set.js";
+import { get } from "../../../algorithms/get.js";
 
 const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
   key: "concat",
@@ -27,7 +28,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
     for (let i = 0; i < length; i++) {
       const property = String(i);
       if (yield* O.hasPropertyEvaluator(property)) {
-        const E = yield* O.getEvaluator(property);
+        const E = yield* get(O, property);
         // Per spec, must be defineProperty
         yield* A.defineOwnPropertyEvaluator(String(n), {
           value: E,
@@ -58,7 +59,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
           const Pk = String(k);
           const exists = yield* objE.hasPropertyEvaluator(Pk);
           if (exists) {
-            const subElement = yield* objE.getEvaluator(Pk);
+            const subElement = yield* get(objE, Pk);
 
             // Per spec, must be defineProperty
             yield* A.defineOwnPropertyEvaluator(String(n), {

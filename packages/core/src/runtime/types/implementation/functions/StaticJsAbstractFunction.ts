@@ -21,6 +21,7 @@ import { StaticJsNumberImpl } from "../primitives/StaticJsNumberImpl.js";
 import { StaticJsObjectLikeImpl } from "../objects/StaticJsObjectLikeImpl.js";
 import { StaticJsObjectProxyTarget } from "../objects/create-object-proxy.js";
 import { StaticJsNull } from "../../StaticJsNull.js";
+import { get } from "../../../algorithms/get.js";
 
 export abstract class StaticJsAbstractFunction
   extends StaticJsObjectLikeImpl
@@ -86,7 +87,7 @@ export abstract class StaticJsAbstractFunction
   }
 
   private *_getNameEvaluator(): EvaluationGenerator<string> {
-    const nameValue = yield* this.getEvaluator("name");
+    const nameValue = yield* get(this, "name");
     const nameStr = yield* toString.js(nameValue);
     return nameStr.toString();
   }

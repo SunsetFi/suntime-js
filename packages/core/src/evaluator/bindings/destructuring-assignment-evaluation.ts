@@ -37,6 +37,7 @@ import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import iteratorDestructuringAssignmentEvaluation from "./iterator-destructuring-assignment-evaluation.js";
+import { get } from "../../runtime/algorithms/get.js";
 
 export default function* destructuringAssignmentEvaluation(
   node: Node,
@@ -93,7 +94,7 @@ function* propertyDestructuringAssignmentEvaluation(
     const lRef = yield* getIdentifierReference(lexicalEnv, P, strict);
 
     const obj = yield* toObject(value);
-    let v = yield* obj.getEvaluator(P);
+    let v = yield* get(obj, P);
     if (initializer && isStaticJsUndefined(v)) {
       if (isAnonymousFunctionDefinition(initializer)) {
         v = yield* Q.val(
@@ -157,7 +158,7 @@ function* keyedDestructuringAssignmentEvaluation(
   }
 
   const obj = yield* toObject(value);
-  let v = yield* obj.getEvaluator(property);
+  let v = yield* get(obj, property);
   if (initializer && isStaticJsUndefined(v)) {
     if (isAnonymousFunctionDefinition(initializer) && node.type === "Identifier") {
       v = yield* Q.val(NamedEvaluation(node.name, initializer));

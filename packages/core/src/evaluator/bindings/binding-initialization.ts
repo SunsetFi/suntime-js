@@ -36,6 +36,7 @@ import initializeBoundName from "./initialize-bound-name.js";
 import iteratorBindingInitialization from "./iterator-binding-initialization.js";
 import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
+import { get } from "../../runtime/algorithms/get.js";
 
 export default function* bindingInitialization(
   node: LVal,
@@ -127,7 +128,7 @@ function* keyedBindingInitialization(
     case "ObjectPattern":
     case "ArrayPattern": {
       const obj = yield* toObject(value);
-      let v = yield* obj.getEvaluator(property);
+      let v = yield* get(obj, property);
       if (initializer && isStaticJsUndefined(v)) {
         if (isAnonymousFunctionDefinition(initializer)) {
           v = yield* Q.val(
@@ -144,7 +145,7 @@ function* keyedBindingInitialization(
       const bindingId = node.name;
       const lhs = yield* getIdentifierReference(lexicalEnv, bindingId, strict);
       const obj = yield* toObject(value);
-      let v = yield* obj.getEvaluator(property);
+      let v = yield* get(obj, property);
       if (initializer && isStaticJsUndefined(v)) {
         if (isAnonymousFunctionDefinition(initializer)) {
           v = yield* Q.val(NamedEvaluation(bindingId, initializer));

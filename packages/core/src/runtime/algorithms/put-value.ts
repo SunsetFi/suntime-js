@@ -17,6 +17,7 @@ import { toPropertyKey } from "../utils/to-property-key.js";
 
 import toObject from "./to-object.js";
 import { set } from "./set.js";
+import { getThisValue } from "./get-this-value.js";
 
 export default function* putValue(
   v: StaticJsReferenceRecord | StaticJsValue,
@@ -46,11 +47,8 @@ export default function* putValue(
 
     const propertyKey = yield* toPropertyKey(v.referencedName);
 
-    const succeeded = yield* baseObj.setEvaluator(
-      propertyKey,
-      w,
-      // TODO: This value
-    );
+    const receiver = yield* getThisValue(v);
+    const succeeded = yield* baseObj.setEvaluator(propertyKey, w, receiver);
 
     if (!succeeded && v.strict) {
       throw Completion.Throw(

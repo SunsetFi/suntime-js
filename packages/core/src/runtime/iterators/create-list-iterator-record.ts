@@ -7,6 +7,7 @@ import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/St
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { createIteratorResultObject } from "./create-iterator-result-object.js";
+import { get } from "../algorithms/get.js";
 
 export function* createListIteratorRecord(
   values: StaticJsValue[],
@@ -53,7 +54,7 @@ export function* createListIteratorRecord(
     configurable: true,
   });
 
-  const nextMethod = yield* iterator.getEvaluator("next");
+  const nextMethod = yield* get(iterator, "next");
 
   return {
     iterator,

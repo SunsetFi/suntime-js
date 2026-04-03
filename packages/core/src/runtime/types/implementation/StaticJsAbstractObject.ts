@@ -34,6 +34,7 @@ import {
   createStaticJsObjectLikeProxy,
   StaticJsObjectProxyTarget,
 } from "./objects/create-object-proxy.js";
+import call from "../../algorithms/call.js";
 
 export abstract class StaticJsAbstractObject
   extends StaticJsAbstractPrimitive
@@ -267,14 +268,17 @@ export abstract class StaticJsAbstractObject
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
   getAsync(name: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(this.getEvaluator(name), opts);
+    return this.realm.invokeEvaluatorAsync(this.getEvaluator(name, this), opts);
   }
 
   getSync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): StaticJsValue {
-    return this.realm.invokeEvaluatorSync(this.getEvaluator(key), opts);
+    return this.realm.invokeEvaluatorSync(this.getEvaluator(key, this), opts);
   }
 
-  *getEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<StaticJsValue> {
+  *getEvaluator(
+    key: StaticJsPropertyKey,
+    receiver: StaticJsValue,
+  ): EvaluationGenerator<StaticJsValue> {
     const decl = yield* this.getPropertyEvaluator(key);
     if (decl === undefined) {
       return this.realm.types.undefined;
@@ -292,7 +296,7 @@ export abstract class StaticJsAbstractObject
     if (isStaticJsDataPropertyDescriptor(decl)) {
       value = decl.value;
     } else if (isStaticJsAccessorPropertyDescriptor(decl) && decl.get) {
-      value = yield* decl.get.callEvaluator(this);
+      value = yield* call(decl.get, receiver);
     } else {
       return this.realm.types.undefined;
     }
@@ -311,67 +315,79 @@ export abstract class StaticJsAbstractObject
     value: StaticJsValue,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean> {
-    return this.realm.invokeEvaluatorAsync(this.setEvaluator(key, value), opts);
+    return this.realm.invokeEvaluatorAsync(this.setEvaluator(key, value, this), opts);
   }
 
   setSync(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
-    return this.realm.invokeEvaluatorSync(this.setEvaluator(key, value), opts);
+    return this.realm.invokeEvaluatorSync(this.setEvaluator(key, value, this), opts);
   }
 
-  *setEvaluator(key: StaticJsPropertyKey, value: StaticJsValue): EvaluationGenerator<boolean> {
+  *setEvaluator(
+    key: StaticJsPropertyKey,
+    value: StaticJsValue,
+    receiver: StaticJsValue,
+  ): EvaluationGenerator<boolean> {
     if (!isStaticJsValue(value)) {
       throw new TypeError(`Value must be a StaticJsValue instance`);
     }
 
-    const ownDecl = yield* this.getOwnPropertyEvaluator(key);
-    if (ownDecl) {
-      // It's our own.  Set it.
-      if (isStaticJsAccessorPropertyDescriptor(ownDecl)) {
-        if (ownDecl.set) {
-          yield* ownDecl.set.callEvaluator(this, [value]);
-          return true;
-        }
-      } else if (isStaticJsDataPropertyDescriptor(ownDecl)) {
-        if (ownDecl.writable) {
-          yield* this._setPropertyDescriptorEvaluator(key, {
-            ...ownDecl,
-            value,
-          });
-          return true;
-        }
+    let ownDecl = yield* this.getOwnPropertyEvaluator(key);
+
+    // Below is ordinarySetWithOwnDescriptor.
+    if (!ownDecl) {
+      const parent = yield* this.getPrototypeOfEvaluator();
+      if (parent) {
+        return yield* parent.setEvaluator(key, value, receiver);
       }
 
-      return false;
+      ownDecl = {
+        value: this.realm.types.undefined,
+        writable: true,
+        enumerable: true,
+        configurable: true,
+      };
     }
 
-    const decl = yield* this.getPropertyEvaluator(key);
-    if (decl) {
-      if (isStaticJsAccessorPropertyDescriptor(decl)) {
-        // Its an inherited accessor property, invoke the accessor
-        if (decl.set) {
-          yield* decl.set.callEvaluator(this, [value]);
-          return true;
-        }
-
+    if (isStaticJsDataPropertyDescriptor(ownDecl)) {
+      if (ownDecl.writable === false) {
         return false;
       }
 
-      // Inherited value is not an accessor, fall through to creating a new property on us.
+      if (!isStaticJsObjectLike(receiver)) {
+        return false;
+      }
+
+      const existingDescriptor = yield* receiver.getOwnPropertyEvaluator(key);
+      if (!existingDescriptor) {
+        return yield* receiver.defineOwnPropertyEvaluator(key, {
+          value,
+          writable: true,
+          enumerable: true,
+          configurable: true,
+        });
+      }
+
+      if (isStaticJsAccessorPropertyDescriptor(existingDescriptor)) {
+        return false;
+      }
+
+      if (!existingDescriptor.writable) {
+        return false;
+      }
+
+      const valueDesc: StaticJsPropertyDescriptorRecord = {
+        value,
+      };
+      return yield* receiver.defineOwnPropertyEvaluator(key, valueDesc);
     }
 
-    // Doesn't exist anywhere, or is a parent data property.  Create it on us if we can.
-
-    const extensible = yield* this.isExtensibleEvaluator();
-    if (!extensible) {
+    const setter = ownDecl.set;
+    if (!setter) {
       return false;
     }
 
-    return yield* this._setPropertyDescriptorEvaluator(key, {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-      value,
-    });
+    yield* call(setter, receiver, [value]);
+    return true;
   }
 
   deleteAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean> {

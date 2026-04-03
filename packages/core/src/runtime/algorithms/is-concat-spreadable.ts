@@ -5,6 +5,7 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { get } from "./get.js";
 
 import isArray from "./is-array.js";
 import toBoolean from "./to-boolean.js";
@@ -17,7 +18,7 @@ export default function* isConcatSpreadable(
     return false;
   }
 
-  const spreadable = yield* O.getEvaluator(O.realm.types.symbols.isConcatSpreadable);
+  const spreadable = yield* get(O, O.realm.types.symbols.isConcatSpreadable);
   if (!isStaticJsUndefined(spreadable)) {
     return yield* toBoolean.js(spreadable);
   }

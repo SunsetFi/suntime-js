@@ -648,14 +648,17 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
   }
 
   getAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
-    return this._realm.invokeEvaluatorAsync(this.getEvaluator(key), opts);
+    return this._realm.invokeEvaluatorAsync(this.getEvaluator(key, this), opts);
   }
 
   getSync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): StaticJsValue {
-    return this._realm.invokeEvaluatorSync(this.getEvaluator(key), opts);
+    return this._realm.invokeEvaluatorSync(this.getEvaluator(key, this), opts);
   }
 
-  *getEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<StaticJsValue> {
+  *getEvaluator(
+    key: StaticJsPropertyKey,
+    receiver: StaticJsValue,
+  ): EvaluationGenerator<StaticJsValue> {
     yield* this._validateNonRevokedProxy();
 
     const target = this._proxyTarget;
@@ -663,16 +666,11 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
 
     const trap = yield* Q(getMethod(handler, "get"));
     if (!trap) {
-      return yield* Q(target.getEvaluator(key));
+      return yield* Q(target.getEvaluator(key, receiver));
     }
 
     const trapResult = yield* Q(
-      call(trap, handler, [
-        target,
-        staticJsPropertyKeyToValue(key, this._realm),
-        // FIXME: We need to send Receiver passed in extenally!
-        this,
-      ]),
+      call(trap, handler, [target, staticJsPropertyKeyToValue(key, this._realm), receiver]),
     );
 
     const targetDesc = yield* Q(target.getOwnPropertyEvaluator(key));
@@ -707,14 +705,18 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
     value: StaticJsValue,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean> {
-    return this._realm.invokeEvaluatorAsync(this.setEvaluator(key, value), opts);
+    return this._realm.invokeEvaluatorAsync(this.setEvaluator(key, value, this), opts);
   }
 
   setSync(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
-    return this._realm.invokeEvaluatorSync(this.setEvaluator(key, value), opts);
+    return this._realm.invokeEvaluatorSync(this.setEvaluator(key, value, this), opts);
   }
 
-  *setEvaluator(key: StaticJsPropertyKey, value: StaticJsValue): EvaluationGenerator<boolean> {
+  *setEvaluator(
+    key: StaticJsPropertyKey,
+    value: StaticJsValue,
+    receiver: StaticJsValue,
+  ): EvaluationGenerator<boolean> {
     yield* this._validateNonRevokedProxy();
 
     const target = this._proxyTarget;
@@ -722,7 +724,7 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
 
     const trap = yield* Q(getMethod(handler, "set"));
     if (!trap) {
-      return yield* Q(target.setEvaluator(key, value));
+      return yield* Q(target.setEvaluator(key, value, receiver));
     }
 
     const booleanTrapResult = yield* toBoolean.js(
@@ -731,8 +733,7 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
           target,
           staticJsPropertyKeyToValue(key, this._realm),
           value,
-          // FIXME: We need to send Receiver passed in extenally!
-          this,
+          receiver,
         ]),
       ),
     );

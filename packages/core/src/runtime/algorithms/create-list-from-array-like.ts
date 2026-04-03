@@ -6,6 +6,7 @@ import { StaticJsPropertyKey, isStaticJsPropertyKey } from "../types/StaticJsPro
 
 import { StaticJsValue } from "../types/StaticJsValue.js";
 import { toPropertyKey } from "../utils/to-property-key.js";
+import { get } from "./get.js";
 import lengthOfArrayLike from "./length-of-array-like.js";
 import toString from "./to-string.js";
 
@@ -29,7 +30,7 @@ export function* createListFromArrayLike(
   const list: unknown[] = [];
   for (let index = 0; index < len; index++) {
     const indexName = String(index);
-    const next = yield* obj.getEvaluator(indexName);
+    const next = yield* get(obj, indexName);
     if (validElementTypes === "property-key") {
       if (!isStaticJsPropertyKey(next)) {
         throw Completion.Throw(

@@ -5,6 +5,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
+import { get } from "../../../algorithms/get.js";
 
 const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
   key: "slice",
@@ -57,7 +58,7 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
 
-      const value = yield* thisObj.getEvaluator(property);
+      const value = yield* get(thisObj, property);
       yield* A.defineOwnPropertyEvaluator(String(i), {
         value: value,
         writable: true,

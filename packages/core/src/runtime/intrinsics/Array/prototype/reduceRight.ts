@@ -1,4 +1,5 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { get } from "../../../algorithms/get.js";
 
 import type { StaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
@@ -52,12 +53,12 @@ const arrayProtoReduceRightDeclaration: IntrinsicPropertyDeclaration = {
       value = initialValue;
       startIndex = length - 1;
     } else {
-      value = yield* thisArray.getEvaluator(String(length - 1));
+      value = yield* get(thisArray, String(length - 1));
       startIndex = length - 2;
     }
 
     for (let i = startIndex; i >= 0; i--) {
-      const elementValue = yield* thisArray.getEvaluator(String(i));
+      const elementValue = yield* get(thisArray, String(i));
       const result = yield* callback.callEvaluator(thisArray, [
         value,
         elementValue,

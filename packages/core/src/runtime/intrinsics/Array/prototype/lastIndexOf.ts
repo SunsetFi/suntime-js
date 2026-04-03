@@ -4,6 +4,7 @@ import toObject from "../../../algorithms/to-object.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { get } from "../../../algorithms/get.js";
 
 const arrayProtoLastIndexOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "lastIndexOf",
@@ -21,7 +22,7 @@ const arrayProtoLastIndexOfDeclaration: IntrinsicPropertyDeclaration = {
       if (!hasProperty) {
         continue;
       }
-      const valueAtIndex = yield* thisObj.getEvaluator(String(i));
+      const valueAtIndex = yield* get(thisObj, String(i));
       const comparison = yield* strictEquality(valueAtIndex, value, realm);
       if (comparison.value) {
         return realm.types.number(i);

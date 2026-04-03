@@ -8,6 +8,7 @@ import type { StaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
 import type { StaticJsPropertyKey } from "../../types/StaticJsPropertyKey.js";
 import type { StaticJsPropertyDescriptorRecord } from "../../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
+import { get } from "../../algorithms/get.js";
 
 export default function* objectDefineProperties(
   O: StaticJsObjectLike,
@@ -22,7 +23,7 @@ export default function* objectDefineProperties(
       continue;
     }
 
-    const descObj = yield* props.getEvaluator(nextKey);
+    const descObj = yield* get(props, nextKey);
     const desc = yield* toPropertyDescriptor(descObj);
     descriptors.set(nextKey, desc);
   }

@@ -5,6 +5,7 @@ import { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
 import { isStaticJsPromise, type StaticJsPromise } from "../types/StaticJsPromise.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { get } from "./get.js";
 
 import newPromiseCapability from "./new-promise-capability.js";
 
@@ -14,7 +15,7 @@ export default function* promiseResolve(
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsPromise> {
   if (isStaticJsPromise(value)) {
-    const constructor = yield* value.getEvaluator("constructor");
+    const constructor = yield* get(value, "constructor");
     if (constructor === constructor) {
       return value;
     }

@@ -4,9 +4,10 @@ import toInteger from "./to-integer.js";
 
 import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../types/StaticJsArray.js";
+import { get } from "./get.js";
 
 export default function* lengthOfArrayLike(obj: StaticJsObjectLike): EvaluationGenerator<number> {
-  let lengthValue = yield* obj.getEvaluator("length");
+  let lengthValue = yield* get(obj, "length");
   lengthValue = yield* toInteger(lengthValue);
   let length = lengthValue.value;
 

@@ -7,6 +7,7 @@ import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { get } from "./get.js";
 
 import isArray from "./is-array.js";
 import isConstructor from "./is-constructor.js";
@@ -26,7 +27,7 @@ export default function* arraySpeciesCreate(
     return realm.types.array(Array.from({ length }));
   }
 
-  let constructor = yield* originalArray.getEvaluator("constructor");
+  let constructor = yield* get(originalArray, "constructor");
   if (isStaticJsNull(constructor)) {
     constructor = realm.types.undefined;
   }

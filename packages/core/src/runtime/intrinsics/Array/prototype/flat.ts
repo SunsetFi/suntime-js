@@ -13,6 +13,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import toObject from "../../../algorithms/to-object.js";
+import { get } from "../../../algorithms/get.js";
 
 const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
   key: "flat",
@@ -55,7 +56,7 @@ function* performFlat(
       continue;
     }
 
-    const itemValue = yield* thisObj.getEvaluator(String(i));
+    const itemValue = yield* get(thisObj, String(i));
     if (depth > 0 && isStaticJsArray(itemValue)) {
       target = yield* performFlat(realm, itemValue, depth - 1, target);
     } else {

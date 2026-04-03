@@ -14,6 +14,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import { toPropertyKey } from "../utils/to-property-key.js";
 
 import toObject from "./to-object.js";
+import { getThisValue } from "./get-this-value.js";
 
 export default function* getValue(
   v: StaticJsReferenceRecord | StaticJsValue,
@@ -38,7 +39,8 @@ export default function* getValue(
       propertyKey = v.referencedName;
     }
 
-    return yield* baseObj.getEvaluator(propertyKey);
+    const receiver = yield* getThisValue(v);
+    return yield* baseObj.getEvaluator(propertyKey, receiver);
   }
 
   const env = v.base as StaticJsEnvironmentRecord;

@@ -5,6 +5,7 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { get } from "../../../algorithms/get.js";
 
 const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
   key: "join",
@@ -34,7 +35,7 @@ const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
 
-      const elementValue = yield* thisObj.getEvaluator(property);
+      const elementValue = yield* get(thisObj, property);
       if (isStaticJsUndefined(elementValue) || isStaticJsNull(elementValue)) {
         // join treats these as empty.
         s.push("");

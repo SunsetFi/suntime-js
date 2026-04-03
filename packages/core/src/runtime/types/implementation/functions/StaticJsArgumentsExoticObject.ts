@@ -16,6 +16,8 @@ import {
 
 import { StaticJsObjectLikeImpl } from "../objects/StaticJsObjectLikeImpl.js";
 import { set } from "../../../algorithms/set.js";
+import { get } from "../../../algorithms/get.js";
+import sameValue from "../../../algorithms/same-value.js";
 
 export class StaticJsArgumentsExoticObject extends StaticJsObjectLikeImpl {
   constructor(
@@ -47,7 +49,7 @@ export class StaticJsArgumentsExoticObject extends StaticJsObjectLikeImpl {
     if (isMapped && isStaticJsDataPropertyDescriptor(desc)) {
       desc = {
         ...desc,
-        value: yield* this._parameterMap.getEvaluator(name),
+        value: yield* get(this._parameterMap, name),
       };
     }
 
@@ -64,7 +66,7 @@ export class StaticJsArgumentsExoticObject extends StaticJsObjectLikeImpl {
       if (desc.value === undefined && desc.writable === false) {
         newArgDesc = {
           ...desc,
-          value: yield* this._parameterMap.getEvaluator(name),
+          value: yield* get(this._parameterMap, name),
         };
       }
     }
@@ -90,25 +92,36 @@ export class StaticJsArgumentsExoticObject extends StaticJsObjectLikeImpl {
     return true;
   }
 
-  override *getEvaluator(property: StaticJsPropertyKey): EvaluationGenerator<StaticJsValue> {
+  override *getEvaluator(
+    property: StaticJsPropertyKey,
+    receiver: StaticJsValue,
+  ): EvaluationGenerator<StaticJsValue> {
     const isMapped = yield* this._parameterMap.hasOwnPropertyEvaluator(property);
     if (!isMapped) {
-      return yield* super.getEvaluator(property);
+      return yield* super.getEvaluator(property, receiver);
     }
 
-    return yield* this._parameterMap.getEvaluator(property);
+    return yield* get(this._parameterMap, property);
   }
 
   override *setEvaluator(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
+    receiver: StaticJsValue,
   ): EvaluationGenerator<boolean> {
-    const isMapped = yield* this._parameterMap.hasOwnPropertyEvaluator(key);
-    if (isMapped) {
-      yield* set(this._parameterMap, key, value, false);
+    let isMapped: boolean;
+    if (!sameValue(this, receiver)) {
+      isMapped = false;
+    } else {
+      isMapped = yield* this._parameterMap.hasOwnPropertyEvaluator(key);
     }
 
-    return yield* super.setEvaluator(key, value);
+    if (isMapped) {
+      yield* set(this._parameterMap, key, value, false);
+      // Fall through to OrdinarySet.
+    }
+
+    return yield* super.setEvaluator(key, value, receiver);
   }
 
   override *deleteEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean> {

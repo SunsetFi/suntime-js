@@ -19,6 +19,7 @@ import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../
 import promiseCtorRejectDeclaration from "./reject.js";
 import promiseCtorResolveDeclaration from "./resolve.js";
 import promiseConstructorSymbolSpeciesDeclaration from "./symbol_species.js";
+import { get } from "../../../algorithms/get.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   promiseCtorRejectDeclaration,
@@ -48,7 +49,7 @@ export default function createPromiseConstructor(
 
         // Our implementation requires us to take over the object instance,
         // but still obey the prototype in case someone subclasses us.
-        let proto = yield* thisArg.getEvaluator("prototype");
+        let proto = yield* get(thisArg, "prototype");
         if (!isStaticJsObjectLike(proto)) {
           proto = realm.types.prototypes.promiseProto;
         }
@@ -113,7 +114,7 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
         return realm.types.undefined;
       }
 
-      const then = yield* captureThrownCompletion(resolution.getEvaluator("then"));
+      const then = yield* captureThrownCompletion(get(resolution, "then"));
       if (Completion.Abrupt.is(then)) {
         const value = then.value;
         if (!isStaticJsValue(value)) {
