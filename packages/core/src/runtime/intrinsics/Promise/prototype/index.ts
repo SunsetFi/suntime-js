@@ -5,11 +5,13 @@ import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../
 
 import promiseProtoCatchDeclaration from "./catch.js";
 import promiseProtoFinallyDeclaration from "./finally.js";
+import promiseProtoSymbolToStringTagDeclaration from "./symbol_toStringTag.js";
 import promiseProtoThenDeclaration from "./then.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   promiseProtoCatchDeclaration,
   promiseProtoFinallyDeclaration,
+  promiseProtoSymbolToStringTagDeclaration,
   promiseProtoThenDeclaration,
 ];
 

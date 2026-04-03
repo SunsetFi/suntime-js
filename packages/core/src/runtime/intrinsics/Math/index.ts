@@ -171,7 +171,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   ...MathNumericHookFunctionKeys.map(createMathNumericFunctionHookDeclaration),
 ];
 
-export function createMathStatic(realm: StaticJsRealm) {
+export function createMathIntrinsic(realm: StaticJsRealm) {
   const Math = new StaticJsObjectImpl(realm);
 
   applyIntrinsicProperties(realm, Math, declarations);

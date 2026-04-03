@@ -13,7 +13,8 @@ import globalObjectParseFloatDeclaration from "./parseFloat.js";
 import globalObjectParseIntDeclaration from "./parseInt.js";
 import globalObjectUndefinedDeclaration from "./undefined.js";
 
-import { createMathStatic } from "./Math/index.js";
+import { createMathIntrinsic } from "./Math/index.js";
+import { createReflectIntrinsic } from "./Reflect/index.js";
 
 const globalPropertyDeclarations: IntrinsicPropertyDeclaration[] = [
   globalObjectEvalDeclaration,
@@ -30,9 +31,17 @@ const globalPropertyDeclarations: IntrinsicPropertyDeclaration[] = [
 export function populateGlobal(realm: StaticJsRealm, globalObject: StaticJsObjectLike) {
   applyIntrinsicProperties(realm, globalObject, globalPropertyDeclarations);
 
-  const Math = createMathStatic(realm);
+  const Math = createMathIntrinsic(realm);
   globalObject.defineOwnPropertySync("Math", {
     value: Math,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
+
+  const Reflect = createReflectIntrinsic(realm);
+  globalObject.defineOwnPropertySync("Reflect", {
+    value: Reflect,
     writable: true,
     enumerable: false,
     configurable: true,

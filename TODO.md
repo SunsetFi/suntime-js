@@ -13,6 +13,7 @@
 - [ ] Task improvements
   - [ ] Properly set async and sync macrotasks as "host-invocation"
   - [ ] Property on a task indicating if its sync or async.
+- [ ] Remove 'strict' from ObjectLike set call. Callers enforce this, not the slot.
 
 ## Less imidiate
 
@@ -51,6 +52,7 @@
   - [ ] GetOwnProperty, DefineOwnProperty
     - [ ] completePropertyDescriptor
     - [ ] isCompatiblePropertyDescriptor
+- [ ] getEvaluator / Reflect.get receiver
 
 ### Completion Refactor
 

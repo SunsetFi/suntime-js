@@ -108,6 +108,7 @@ export interface StaticJsObjectLike extends StaticJsPrimitive {
     strict: boolean,
     opts?: StaticJsRunTaskOptions,
   ): boolean;
+  // FIXME: The spec doesn't send strict to this slot!
   setEvaluator(
     key: StaticJsPropertyKey,
     value: StaticJsValue,

@@ -10,15 +10,28 @@ import {
   type StaticJsPropertyDescriptor,
   StaticJsPropertyDescriptorRecord,
 } from "../types/StaticJsPropertyDescriptor.js";
+import { StaticJsUndefined } from "../types/StaticJsUndefined.js";
 
 type StaticJsPropertyDescriptorKeys =
   | keyof StaticJsDataPropertyDescriptor
   | keyof StaticJsAccessorPropertyDescriptor;
 
-export function* fromPropertyDescriptor(
+export function fromPropertyDescriptor(
   descriptor: StaticJsPropertyDescriptorRecord,
   realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsObject> {
+): EvaluationGenerator<StaticJsObject>;
+export function fromPropertyDescriptor(
+  descriptor: StaticJsPropertyDescriptorRecord | undefined,
+  realm: StaticJsRealm,
+): EvaluationGenerator<StaticJsObject | StaticJsUndefined>;
+export function* fromPropertyDescriptor(
+  descriptor: StaticJsPropertyDescriptorRecord | undefined,
+  realm: StaticJsRealm,
+): EvaluationGenerator<StaticJsObject | StaticJsUndefined> {
+  if (descriptor === undefined) {
+    return realm.types.undefined;
+  }
+
   const properties: Partial<Record<StaticJsPropertyDescriptorKeys, StaticJsPropertyDescriptor>> =
     {};
 
