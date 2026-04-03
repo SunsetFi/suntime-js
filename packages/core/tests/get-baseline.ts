@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { relative } from "node:path";
 
 import normalizeTestPathParts from "./normalize-test-path-parts.js";
 
@@ -7,6 +8,7 @@ function getFilepathRelativeToSelf(path: string) {
 }
 
 const baselineJson = getFilepathRelativeToSelf("./test-results-baseline.json");
+const test262TestsRoot = getFilepathRelativeToSelf("./test262/tests/");
 
 interface TestResultsJson {
   testResults: TestResult[];
@@ -27,22 +29,25 @@ export default function getBaseline(): Set<string> {
   const { testResults } = getBaselineResults();
 
   return new Set(
-    testResults
-      .flatMap((result) => result.assertionResults)
-      .filter((result) => result.status === "passed")
-      .map((result) =>
-        normalizeTestPathParts([...result.ancestorTitles.filter(stripTestFileName), result.title]),
-      ),
+    testResults.flatMap((testResult) => {
+      const prefix = getTestFilePrefixSegments(testResult.name);
+      const isFileTarget = prefix.at(-1)?.endsWith(".js") ?? false;
+      return testResult.assertionResults
+        .filter((assertResult) => assertResult.status === "passed")
+        .map(({ ancestorTitles, title }) => {
+          if (isFileTarget) {
+            return normalizeTestPathParts(prefix);
+          }
+          return normalizeTestPathParts([...prefix, ...ancestorTitles, title]);
+        });
+    }),
   );
 }
 
-function stripTestFileName(value: string, index: number, array: string[]) {
-  if (index === array.length - 1) {
-    if (value.endsWith(".js")) {
-      return false;
-    }
-  }
-  return true;
+function getTestFilePrefixSegments(testFilePath: string): string[] {
+  const rel = relative(test262TestsRoot, testFilePath);
+  const withoutExt = rel.replace(/\.test\.ts$/, "");
+  return withoutExt.split("/").filter((s) => s.length > 0);
 }
 
 let cachedBaselineResults: TestResultsJson | undefined;

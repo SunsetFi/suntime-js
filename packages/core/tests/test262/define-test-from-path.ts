@@ -37,10 +37,8 @@ export default function defineTestFromPath(relativeTestPath: string) {
       continue;
     }
 
-    // FIXME: This is gross in the test explorer. Strip out paths up to this file.
-    // This will have consiquences for isTestEnabled and baseline storage.
-    // const path = test.testPathParts.slice(relativeTestPath.split("/").length, -1);
-    const path = test.testPathParts;
+    const prefixLength = relativeTestPath.split("/").filter((x) => x.length > 0).length;
+    const path = test.testPathParts.slice(prefixLength, -1);
     describePath(path, () => {
       defineTest(test.testName, test);
     });
