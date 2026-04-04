@@ -14,6 +14,7 @@ import { StaticJsTaskIteratorImpl } from "../../tasks/implementation/StaticJsTas
 
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";
+import { StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
 
 export class EvaluationTask implements EvaluationContextStackProvider {
   private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";
@@ -86,7 +87,7 @@ export class EvaluationTask implements EvaluationContextStackProvider {
 
   constructor(
     private readonly _evaluator: StaticJsEvaluator<unknown>,
-    private readonly _type: "script" | "host",
+    private readonly _calleeType: StaticJsTaskCalleeType,
     private readonly _taskRunner: StaticJsTaskRunner,
     // This shouldn't be needed if this task stays in sync with the realm about whether it is running.
     private readonly _assertIsRunning: (task: EvaluationTask) => void,
@@ -197,7 +198,7 @@ export class EvaluationTask implements EvaluationContextStackProvider {
 
     this._runTask(
       this._evaluator,
-      this._type === "host" ? "host-macrotask" : "macrotask",
+      "macrotask",
       (value) => this._acceptMacrotask(value),
       (reason) => this._reject(reason),
     );
@@ -230,7 +231,7 @@ export class EvaluationTask implements EvaluationContextStackProvider {
 
     this._runTask(
       microtask,
-      this._type === "host" ? "host-microtask" : "microtask",
+      "microtask",
       () => this._acceptMicrotask(),
       (reason) => {
         this._reject(reason);
@@ -247,6 +248,7 @@ export class EvaluationTask implements EvaluationContextStackProvider {
     try {
       const taskIterator = new StaticJsTaskIteratorImpl(
         type,
+        this._calleeType,
         evaluator,
         this._scope,
         accept,

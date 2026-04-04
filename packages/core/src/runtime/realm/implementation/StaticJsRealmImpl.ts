@@ -65,6 +65,7 @@ import { StaticJsAstModuleImpl } from "../../modules/implementation/StaticJsAstM
 import type { StaticJsTaskIterator } from "../../tasks/StaticJsTaskIterator.js";
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+import { StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
 
 import { AsyncInvocation } from "../../async/AsyncInvocation.js";
 
@@ -215,7 +216,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     const node = file(program([expressionStatement(parsed)], [], "script"));
     const record = StaticJsScriptRecord(node, expression);
     const evaluator = doEvaluateScript(record, this);
-    return this._enqueueMacrotask(evaluator, opts);
+    return this._enqueueMacrotask(evaluator, "evaluate", opts);
   }
 
   evaluateExpressionSync(
@@ -231,7 +232,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     const parsed = parseExpression(expression, opts?.sourceName ?? this._createInlineSourceName());
     const record = StaticJsScriptRecord(parsed, expression);
     const evaluator = doEvaluateScript(record, this);
-    return this._invokeMacrotaskSync(evaluator, opts);
+    return this._invokeMacrotaskSync(evaluator, "evaluate", opts);
   }
 
   evaluateScript(
@@ -263,7 +264,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       evaluator = doEvaluateScript(record, this, strict);
     }
 
-    return this._enqueueMacrotask(evaluator, opts);
+    return this._enqueueMacrotask(evaluator, "evaluate", opts);
   }
 
   evaluateScriptSync(script: string, opts?: StaticJsRealmEvaluateScriptSyncOptions): StaticJsValue {
@@ -280,11 +281,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
           "Synchronous script evaluations from outside the current task cannot be performed while another task is running.",
         );
       }
-
-      return this.invokeEvaluatorSync(doEvaluateScript(record, this, strict));
     }
 
-    return this._invokeMacrotaskSync(doEvaluateScript(record, this, strict), opts);
+    return this._invokeMacrotaskSync(doEvaluateScript(record, this, strict), "evaluate", opts);
   }
 
   async evaluateModule(
@@ -318,13 +317,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
 
     try {
-      // Wait for both the initial macrotask to complete, and for
-      // the module async evaluation to complete.
-      // In theory enqueueMacrotask will complete before or simultaniously with moduleEvaluationCompleted,
-      // but await both at once to capture errors from either.
-      await this._enqueueMacrotask(evaluate, opts);
-
-      return await moduleEvaluated;
+      await this._enqueueMacrotask(evaluate, "evaluate", opts);
+      return moduleEvaluated;
     } catch (e) {
       Completion.handleRuntime(e);
 
@@ -382,7 +376,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     // For a bit, we were considering the task done after its promise resolves, leading to
     // completed tasks sitting in _currentTask when modules enqueued jobs.
     if (!this._currentTask || this._currentTask.done) {
-      this._enqueueMacrotask(evaluator);
+      // Not sure for the callee type here... When this is called out of a task, its usually
+      // for modules evaluating asynchronously...
+      this._enqueueMacrotask(evaluator, "evaluate");
       return;
     }
 
@@ -399,12 +395,15 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   invokeEvaluatorSync<TReturn>(
     evaluator: StaticJsEvaluator<TReturn>,
-    { runTask = this._defaultRunTaskSync }: StaticJsRunTaskOptions = {},
+    {
+      runTask = this._defaultRunTaskSync,
+      calleeType = "host",
+    }: StaticJsRunTaskOptions & { calleeType?: StaticJsTaskCalleeType } = {},
   ): TReturn {
     if (this._boostrapping) {
-      return this._invokeEvaluatorSyncNow(evaluator, bootstrapTaskRunner, "host-macrotask");
+      return this._invokeEvaluatorSyncNow(evaluator, "macrotask", "host", bootstrapTaskRunner);
     } else if (this._currentTask && this._currentTask.entered) {
-      return this._invokeEvaluatorSyncNow(evaluator, runTask, "host-macrotask");
+      return this._invokeEvaluatorSyncNow(evaluator, "macrotask", calleeType, runTask);
     }
 
     // oxlint-disable-next-line typescript/no-this-alias
@@ -423,7 +422,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       return yield* invokeEvaluator(evaluator);
     }
 
-    return this._invokeMacrotaskSync(evaluate, { runTask: this._defaultRunTaskSync });
+    return this._invokeMacrotaskSync(evaluate, calleeType, { runTask: this._defaultRunTaskSync });
   }
 
   invokeEvaluatorAsync<TReturn>(
@@ -443,10 +442,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   private _createMacrotask(
     evaluator: StaticJsEvaluator,
-    type: "script" | "host",
+    calleeType: StaticJsTaskCalleeType,
     taskRunner: StaticJsTaskRunner,
   ) {
-    return new EvaluationTask(evaluator, type, taskRunner, (task) => this._assertTaskRunning(task));
+    return new EvaluationTask(evaluator, calleeType, taskRunner, (task) =>
+      this._assertTaskRunning(task),
+    );
   }
 
   private _createInlineSourceName() {
@@ -516,9 +517,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   private _enqueueMacrotask<TReturn>(
     evaluator: StaticJsEvaluator<TReturn>,
+    calleeType: StaticJsTaskCalleeType,
     { runTask = this._defaultRunTask }: StaticJsRunTaskOptions = {},
   ): Promise<TReturn> {
-    const macrotask = this._createMacrotask(evaluator, "script", runTask);
+    const macrotask = this._createMacrotask(evaluator, calleeType, runTask);
     this._registerTask(macrotask);
 
     return macrotask.await() as Promise<TReturn>;
@@ -545,6 +547,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   private _invokeMacrotaskSync<TReturn>(
     evaluator: StaticJsEvaluator<TReturn>,
+    calleeType: StaticJsTaskCalleeType,
     { runTask = this._defaultRunTaskSync }: StaticJsRunTaskOptions = {},
   ): TReturn {
     const previousTask = this._currentTask;
@@ -570,7 +573,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         return yield* invokeEvaluator(evaluator);
       }
 
-      const macrotask = this._createMacrotask(evaluate, "host", runTask);
+      const macrotask = this._createMacrotask(evaluate, calleeType, runTask);
       macrotask.onComplete((value, err) => {
         complete = true;
         error = err;
@@ -604,8 +607,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   private _invokeEvaluatorSyncNow<TReturn>(
     evaluator: StaticJsEvaluator<TReturn>,
-    runTask: StaticJsTaskRunner,
     type: StaticJsTaskType,
+    calleeType: StaticJsTaskCalleeType,
+    runTask: StaticJsTaskRunner,
   ): TReturn {
     const iter = invokeEvaluator(evaluator);
 
@@ -613,7 +617,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     let iterAborted: boolean = false;
     let iterReturn: TReturn | undefined = undefined;
     let iterThrow: unknown | undefined = undefined;
-    const task = {
+    const task: StaticJsTaskIterator = {
       get aborted() {
         return iterAborted;
       },
@@ -628,6 +632,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       },
       get type() {
         return type;
+      },
+      get calleeType() {
+        return calleeType;
       },
       next: () => {
         if (iterDone) {

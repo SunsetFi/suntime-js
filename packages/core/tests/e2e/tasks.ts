@@ -233,6 +233,48 @@ describe("E2E: Tasks", () => {
     });
   });
 
+  describe("Callee types", () => {
+    it("Should trigger evaluate with the right callee type", async () => {
+      let calleeType: string | null = null;
+      const runTask = vi.fn((task: StaticJsTaskIterator) => {
+        if (!calleeType) {
+          calleeType = task.calleeType;
+        }
+        while (!task.done) {
+          task.next();
+        }
+      });
+      const realm = StaticJsRealm({
+        runTask,
+      });
+
+      await realm.evaluateScript("2 + 2");
+
+      expect(runTask).toHaveBeenCalledTimes(1);
+      expect(calleeType).toBe("evaluate");
+    });
+
+    it("Should trigger host tasks with the right callee type", async () => {
+      let calleeType: string | null = null;
+      const runTask = vi.fn((task: StaticJsTaskIterator) => {
+        if (!calleeType) {
+          calleeType = task.calleeType;
+        }
+        while (!task.done) {
+          task.next();
+        }
+      });
+      const realm = StaticJsRealm({
+        runTask,
+      });
+
+      await realm.global.setAsync("test", realm.types.number(42));
+
+      expect(runTask).toHaveBeenCalledTimes(1);
+      expect(calleeType).toBe("host");
+    });
+  });
+
   describe("Task sources", () => {
     it("Should pass sourceName through task operation metadata", async () => {
       const runTask = vi.fn();

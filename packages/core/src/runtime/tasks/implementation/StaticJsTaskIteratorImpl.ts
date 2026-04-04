@@ -14,6 +14,7 @@ import { StaticJsTaskIteratorOperation } from "../StaticJsTaskIteratorOperation.
 import { StaticJsTaskIteratorStackFrame } from "../StaticJsTaskIteratorStackFrame.js";
 import { StaticJsTaskType } from "../StaticJsTaskType.js";
 import { StaticJsTaskSourceLocation } from "../StaticJsTaskSourceLocation.js";
+import { StaticJsTaskCalleeType } from "../StaticJsTaskCalleeType.js";
 
 interface TaskIteratorFrame {
   currentNode: Node | null;
@@ -32,12 +33,21 @@ export class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
   private readonly _frames: TaskIteratorFrame[] = [];
 
   constructor(
-    public readonly type: StaticJsTaskType,
+    private readonly _type: StaticJsTaskType,
+    private readonly _calleeType: StaticJsTaskCalleeType,
     private readonly _evaluator: StaticJsEvaluator<TReturn>,
     private readonly _scope: (callback: () => void) => void,
     private readonly _accept: (value: TReturn) => void,
     private readonly _reject: (reason: unknown) => void,
   ) {}
+
+  get type(): StaticJsTaskType {
+    return this._type;
+  }
+
+  get calleeType(): StaticJsTaskCalleeType {
+    return this._calleeType;
+  }
 
   get done(): boolean {
     return this._state === "done" || this._state === "aborted";

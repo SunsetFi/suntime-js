@@ -1,3 +1,4 @@
+import { StaticJsTaskCalleeType } from "./StaticJsTaskCalleeType.js";
 import type { StaticJsTaskIteratorOperation } from "./StaticJsTaskIteratorOperation.js";
 import type { StaticJsTaskIteratorStackFrame } from "./StaticJsTaskIteratorStackFrame.js";
 import type { StaticJsTaskType } from "./StaticJsTaskType.js";
@@ -15,6 +16,11 @@ export interface StaticJsTaskIterator {
    * The type of the task, either "macrotask" or "microtask".
    */
   readonly type: StaticJsTaskType;
+
+  /**
+   * The callee of the task, which indicates how the task was triggered.
+   */
+  readonly calleeType: StaticJsTaskCalleeType;
 
   /**
    * Whether the task has completed execution.
