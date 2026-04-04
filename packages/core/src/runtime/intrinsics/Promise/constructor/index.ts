@@ -20,6 +20,7 @@ import promiseCtorRejectDeclaration from "./reject.js";
 import promiseCtorResolveDeclaration from "./resolve.js";
 import promiseConstructorSymbolSpeciesDeclaration from "./symbol_species.js";
 import { get } from "../../../algorithms/get.js";
+import call from "../../../algorithms/call.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   promiseCtorRejectDeclaration,
@@ -59,7 +60,7 @@ export default function createPromiseConstructor(
         const { resolve, reject } = createResolvingFunctions(promise, realm);
 
         try {
-          yield* func.callEvaluator(realm.types.undefined, [resolve, reject]);
+          yield* call(func, realm.types.undefined, [resolve, reject]);
         } catch (e) {
           if (Completion.Throw.is(e)) {
             promise.reject(e.value);
@@ -132,7 +133,7 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
       realm.enqueuePromiseJob(function* () {
         try {
           const { resolve, reject } = createResolvingFunctions(promise, realm);
-          yield* then.callEvaluator(resolution, [resolve, reject]);
+          yield* call(then, resolution, [resolve, reject]);
         } catch (e) {
           if (Completion.Throw.is(e)) {
             promise.reject(e.value);

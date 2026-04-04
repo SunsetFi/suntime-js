@@ -9,6 +9,7 @@ import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import call from "../../../algorithms/call.js";
 
 const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
   key: "groupBy",
@@ -29,7 +30,7 @@ const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
           break;
         }
 
-        const key = yield* callbackFn.callEvaluator(realm.types.undefined, [
+        const key = yield* call(callbackFn, realm.types.undefined, [
           next,
           realm.types.number(index),
         ]);

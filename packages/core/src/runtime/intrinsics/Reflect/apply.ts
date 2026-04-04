@@ -1,5 +1,6 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
+import call from "../../algorithms/call.js";
 
 import { createListFromArrayLike } from "../../algorithms/create-list-from-array-like.js";
 
@@ -21,6 +22,6 @@ export const reflectApplyDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const args = yield* createListFromArrayLike(argumentsList);
-    return yield* Q(target.callEvaluator(thisArgument, args));
+    return yield* Q(call(target, thisArgument, args));
   },
 };

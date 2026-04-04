@@ -7,55 +7,38 @@
   - [x] StaticJsFunctionImpl should be abstract
   - [ ] Implement newTarget as passed-in?
   - [ ] Rework callEvaluator and constructEvaluator to return completions
-    - [ ] Q-ify and use call() instead of direct references.
+    - [x] Use call() instead of direct references.
+    - [ ] Use Q() on calls.
 - [ ] Task improvements
-  - [ ] Property on a task indicating if its sync or async.
+  - [x] Property on a task indicating if its sync or async.
   - [ ] Merge microtasks into same iterator?
 
 ## Less imidiate
 
-- [ ] toJsSync preserve task runners on proxies
-  - [ ] StaticJsAbstractObject property get/set/whatever
-  - [ ] StaticJsFunctionImpl invocation
-- [-] runTask improvements
-  - [x] Make invokeEvaluatorSync use runTaskSync
-  - [ ] If invokeEvaluatorX is called and the current task is an X, merge the invoked iteration with the task.
-- [ ] Deep review and cleanup of dap
-  - [ ] Sanify file names on kebab.
+- [ ] StaticJsFunction.toString
+- [ ] Clean up ForInOfBody to use completions rather than try/catch.
+- [ ] Remove unwrap jank from asyncIteratorClose and iteratorClose
+- [ ] Figure out why a tiny number of test262 tests trigger a context.run() to pop a context different from what it pushed.
+- [ ] Get promises returned to proxied functions to await properly in the sandbox.
+      This should be happening automatically due to the .then function, but isn't
+- [ ] Align ObjectLike functions to slots.
+  - [ ] hasOwnProperty is actually the `[[HasProperty]]` slot, and our hasProperty is a utility function. This is confusing.
+
+### Long term spec compliance reworks
+
 - [ ] Rework node evaluator so catagories of nodes can be processed in a tree
       Get closer to how the spec wants these to work, with categories splitting into
       narrower options
   - [ ] LabelledStatement
   - [ ] BreakableStatement
-- [ ] Take full function node on StaticJsAstFunction and implement toString on it.
-  - [ ] Also make this work in-engine.
-- [ ] Fix StaticJsDebugAdapter in dap - broke in the debugger rework.
-- [ ] Remove generators from module linking stages as they aren't needed (Confirm this).
-- [-] Rework function creation to match OrdinaryFunctionCreate.
-  - [ ] Unify all function types to a single Function class accepting Call and Construct?
-- [ ] Clean up ForInOfBody to use completions rather than try/catch.
-      [ ] Clean up iterator algorithms to use completions. Remove unwrap argument.
-- [-] Reduce calls to EvaluationContext.current when they aren't needed. Mostly thrown errors.
-  - [x] Helper for Completion.Throw to pull the current context to create the error from name and message.
-- [ ] Figure out why a tiny number of test262 tests trigger a context.run() to pop a context different from what it pushed.
-- [ ] Yield Delegate for generators
-- [x] Async generators
-- [ ] Get promises returned to proxied functions to await properly in the sandbox.
-      This should be happening automatically due to the .then function, but isn't
-- [ ] Remove unwrap jank from asyncIteratorClose and iteratorClose
-- [ ] Namespace object non-js native in StaticJsModule
-- [ ] Align ObjectLike functions to slots.
-  - [ ] hasOwnProperty is actually the hasProperty slot, and hasProperty is a utility function. This is confusing.
-- [x] Check AbstractObject 'slots' for compliance with 10.1
-  - [x] GetOwnProperty, DefineOwnProperty
-    - [-] completePropertyDescriptor in Object.defineProperty
-    - [x] isCompatiblePropertyDescriptor
+- [ ] Rework modules for spec compliance
+  - [ ] EvaluateModuleSync
+  - [ ] CyclicModuleRecord
 
 ### Debugger improvements
 
-- [ ] Debugger improvements
-  - [ ] Expose node data in task iterator
-  - [ ] Use node data to break on loop condition and update nodes
+- [ ] Expose node data in task iterator
+- [ ] Use node data to break on loop condition and update nodes
 
 ### Completion Refactor
 
@@ -67,16 +50,11 @@
   - [ ] iteratorClose / asyncIteratorClose
   - [ ] ...others
 
-### Remove default exports from everywhere
+### Cleanup
 
-- [ ] Do that.
-
-### Module Refactor
-
-Modules are not implemented according to spec
-
-- [ ] EvaluateModuleSync
-- [ ] CyclicModuleRecord
+- [ ] Remove default exports from everywhere
+- [ ] Deep review and cleanup of dap
+  - [ ] Sanify file names on kebab.
 
 ## General
 
@@ -133,7 +111,10 @@ Figure out public API for invoking and implementing evaluators.
   - [ ] Promises
   - [ ] ...others
 - [-] Option to specify task runners in async methods
-- [ ] Rename toJs to toNative
+- [ ] toJs
+  - [ ] Rename to toNative
+  - [ ] Accept a runTask
+    - [ ] Use the runTask on future calls to object proxies.
 - [ ] Documentation
 
 ## Think about

@@ -20,6 +20,7 @@ import type { StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 
 import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
+import call from "../../../algorithms/call.js";
 
 export class StaticJsMapImpl extends StaticJsObjectLikeImpl implements StaticJsMap {
   private readonly _backingStore = new Map<unknown, StaticJsValue>();
@@ -61,7 +62,7 @@ export class StaticJsMapImpl extends StaticJsObjectLikeImpl implements StaticJsM
     }
 
     for (const [key, value] of this._backingStore) {
-      yield* callback.callEvaluator(thisArg, [value, toRuntimeWrap(key, this.realm), this]);
+      yield* call(callback, thisArg, [value, toRuntimeWrap(key, this.realm), this]);
     }
   }
 

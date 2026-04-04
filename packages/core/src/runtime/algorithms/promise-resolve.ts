@@ -5,6 +5,7 @@ import { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 
 import { isStaticJsPromise, type StaticJsPromise } from "../types/StaticJsPromise.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+import call from "./call.js";
 import { get } from "./get.js";
 
 import newPromiseCapability from "./new-promise-capability.js";
@@ -22,6 +23,6 @@ export default function* promiseResolve(
   }
 
   const capability = yield* newPromiseCapability(constructor, realm);
-  yield* capability.resolve.callEvaluator(realm.types.undefined, [value ?? realm.types.undefined]);
+  yield* call(capability.resolve, realm.types.undefined, [value ?? realm.types.undefined]);
   return capability.promise;
 }

@@ -79,6 +79,9 @@ export function staticJsModuleToImplementation(
     getExportJsSync(exportName) {
       return module.getExportJsSync(exportName);
     },
+    getModuleNamespaceAsync() {
+      return module.getModuleNamespaceAsync();
+    },
     getModuleNamespaceJsSync() {
       return module.getModuleNamespaceJsSync();
     },

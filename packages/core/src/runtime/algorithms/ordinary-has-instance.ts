@@ -9,6 +9,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import toBoolean from "./to-boolean.js";
 import instanceOfOperator from "./instance-of-operator.js";
 import { get } from "./get.js";
+import call from "./call.js";
 
 export default function* ordinaryHasInstance(
   C: StaticJsValue,
@@ -26,7 +27,7 @@ export default function* ordinaryHasInstance(
 
   const hasInstanceFunc = yield* get(C, realm.types.symbols.hasInstance);
   if (isStaticJsFunction(hasInstanceFunc)) {
-    const result = yield* hasInstanceFunc.callEvaluator(C, [O]);
+    const result = yield* call(hasInstanceFunc, C, [O]);
     return yield* toBoolean.js(result);
   }
 

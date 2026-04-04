@@ -28,6 +28,7 @@ import { StaticJsNativeFunctionImpl } from "../functions/StaticJsNativeFunctionI
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
 import { get } from "../../../algorithms/get.js";
+import call from "../../../algorithms/call.js";
 
 // TODO: Take shortcuts for difference and friends if otherSet is also a StaticJsSetImpl
 
@@ -67,10 +68,10 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
 
     for (const value of this._backingStore) {
       const wrapped = toRuntimeWrap(value, this.realm);
-      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [wrapped]);
+      const otherHasResult = yield* call(otherHas, otherSet, [wrapped]);
       const isInOther = yield* toBoolean.js(otherHasResult);
       if (!isInOther) {
-        yield* resultAdd.callEvaluator(result, [wrapped]);
+        yield* call(resultAdd, result, [wrapped]);
       }
     }
 
@@ -98,10 +99,10 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
 
     for (const value of this._backingStore) {
       const wrapped = toRuntimeWrap(value, this.realm);
-      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [wrapped]);
+      const otherHasResult = yield* call(otherHas, otherSet, [wrapped]);
       const isInOther = yield* toBoolean.js(otherHasResult);
       if (isInOther) {
-        yield* resultAdd.callEvaluator(result, [wrapped]);
+        yield* call(resultAdd, result, [wrapped]);
       }
     }
 
@@ -122,7 +123,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
 
     for (const value of this._backingStore) {
       const wrapped = toRuntimeWrap(value, this.realm);
-      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [wrapped]);
+      const otherHasResult = yield* call(otherHas, otherSet, [wrapped]);
       const isInOther = yield* toBoolean.js(otherHasResult);
       if (isInOther) {
         return false;
@@ -146,7 +147,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
 
     for (const value of this._backingStore) {
       const wrapped = toRuntimeWrap(value, this.realm);
-      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [wrapped]);
+      const otherHasResult = yield* call(otherHas, otherSet, [wrapped]);
       const isInOther = yield* toBoolean.js(otherHasResult);
       if (!isInOther) {
         return false;
@@ -203,10 +204,10 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
 
     for (const value of this._backingStore) {
       const wrapped = toRuntimeWrap(value, this.realm);
-      const otherHasResult = yield* otherHas.callEvaluator(otherSet, [wrapped]);
+      const otherHasResult = yield* call(otherHas, otherSet, [wrapped]);
       const isInOther = yield* toBoolean.js(otherHasResult);
       if (!isInOther) {
-        yield* resultAdd.callEvaluator(result, [wrapped]);
+        yield* call(resultAdd, result, [wrapped]);
       }
     }
 
@@ -221,7 +222,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
 
         const unwrapped = toNativeUnwrap(nextResult);
         if (!backingStore.has(unwrapped)) {
-          yield* resultAdd.callEvaluator(result, [nextResult]);
+          yield* call(resultAdd, result, [nextResult]);
         }
       }
     });
@@ -234,7 +235,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
 
     for (const value of this._backingStore) {
       const wrapped = toRuntimeWrap(value, this.realm);
-      yield* resultAdd.callEvaluator(result, [wrapped]);
+      yield* call(resultAdd, result, [wrapped]);
     }
 
     const iterator = yield* getIterator(otherSet, "sync");
@@ -248,7 +249,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
 
         const unwrapped = toNativeUnwrap(nextResult);
         if (!backingStore.has(unwrapped)) {
-          yield* resultAdd.callEvaluator(result, [nextResult]);
+          yield* call(resultAdd, result, [nextResult]);
         }
       }
     });
@@ -289,7 +290,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
 
     for (const value of this._backingStore) {
       const wrapped = toRuntimeWrap(value, this.realm);
-      yield* callback.callEvaluator(thisArg, [wrapped, wrapped, this]);
+      yield* call(callback, thisArg, [wrapped, wrapped, this]);
     }
   }
 

@@ -9,6 +9,7 @@ import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import isLessThan from "../../algorithms/is-less-than.js";
 import toNumber from "../../algorithms/to-number.js";
 import toString from "../../algorithms/to-string.js";
+import call from "../../algorithms/call.js";
 
 export default function* compareArrayElements(
   x: StaticJsValue,
@@ -32,7 +33,7 @@ export default function* compareArrayElements(
   }
 
   if (compareFn) {
-    const result = yield* compareFn.callEvaluator(realm.types.undefined, [x, y]);
+    const result = yield* call(compareFn, realm.types.undefined, [x, y]);
     const n = yield* toNumber.js(result);
     if (Number.isNaN(n)) {
       return 0;

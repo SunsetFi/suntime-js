@@ -1,4 +1,5 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
+import call from "../../../algorithms/call.js";
 import { get } from "../../../algorithms/get.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
@@ -26,7 +27,7 @@ const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
       }
     }
 
-    const result = yield* thisFunc.callEvaluator(thisArg, args);
+    const result = yield* call(thisFunc, thisArg, args);
     return result;
   },
 };

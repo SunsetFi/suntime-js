@@ -8,6 +8,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import { get } from "../../../algorithms/get.js";
+import call from "../../../algorithms/call.js";
 
 const arrayProtoFindIndexDeclaration: IntrinsicPropertyDeclaration = {
   key: "findIndex",
@@ -26,11 +27,7 @@ const arrayProtoFindIndexDeclaration: IntrinsicPropertyDeclaration = {
 
     for (let i = 0; i < length; i++) {
       const value = yield* get(thisObj, String(i));
-      const resultValue = yield* callback.callEvaluator(thisObj, [
-        value,
-        realm.types.number(i),
-        thisObj,
-      ]);
+      const resultValue = yield* call(callback, thisObj, [value, realm.types.number(i), thisObj]);
       const condition = yield* toBoolean.js(resultValue);
       if (condition) {
         return realm.types.number(i);

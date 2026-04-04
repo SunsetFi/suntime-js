@@ -23,6 +23,7 @@ import { StaticJsArrayImpl } from "../../../types/implementation/objects/StaticJ
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import { set } from "../../../algorithms/set.js";
 import { get } from "../../../algorithms/get.js";
+import call from "../../../algorithms/call.js";
 
 const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
   key: "from",
@@ -76,7 +77,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
         let mappedValue: StaticJsValue;
         if (mapping) {
           const mapperResult = yield* captureThrownCompletion(
-            mapperFunc!.callEvaluator(mapperThisArg, [next, realm.types.number(k)]),
+            call(mapperFunc!, mapperThisArg, [next, realm.types.number(k)]),
           );
           if (Completion.Abrupt.is(mapperResult)) {
             return yield* Q(iteratorClose(iteratorRecord, mapperResult));
@@ -113,9 +114,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
 
       let mappedValue: StaticJsValue;
       if (mapping) {
-        mappedValue = yield* Q(
-          mapperFunc!.callEvaluator(mapperThisArg, [kValue, realm.types.number(k)]),
-        );
+        mappedValue = yield* Q(call(mapperFunc!, mapperThisArg, [kValue, realm.types.number(k)]));
       } else {
         mappedValue = kValue;
       }

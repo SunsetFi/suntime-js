@@ -94,6 +94,13 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
     }
   }
 
+  getModuleNamespaceAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObjectLike> {
+    return this._realm.invokeEvaluatorAsync(
+      EvaluationContext.external(this.getModuleNamespaceEvaluator(), this._realm),
+      opts,
+    );
+  }
+
   getModuleNamespaceJsSync(opts?: StaticJsRunTaskOptions): Record<string, unknown> {
     try {
       const result = this._realm.invokeEvaluatorSync(this.getModuleNamespaceEvaluator(), opts);

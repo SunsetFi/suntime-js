@@ -11,6 +11,7 @@ import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import call from "../../../algorithms/call.js";
 
 const iteratorProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   key: "forEach",
@@ -41,7 +42,7 @@ const iteratorProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const result = yield* captureThrownCompletion(
-        callback.callEvaluator(realm.types.undefined, [value, realm.types.number(counter)]),
+        call(callback, realm.types.undefined, [value, realm.types.number(counter)]),
       );
 
       if (Completion.Abrupt.is(result)) {

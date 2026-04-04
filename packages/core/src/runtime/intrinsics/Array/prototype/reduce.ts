@@ -1,4 +1,5 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
+import call from "../../../algorithms/call.js";
 import { get } from "../../../algorithms/get.js";
 
 import type { StaticJsArray } from "../../../types/StaticJsArray.js";
@@ -59,7 +60,7 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
 
     for (let i = startIndex; i < length; i++) {
       const elementValue = yield* get(thisArray, String(i));
-      const result = yield* callback.callEvaluator(thisArray, [
+      const result = yield* call(callback, thisArray, [
         value,
         elementValue,
         realm.types.number(i),

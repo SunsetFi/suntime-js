@@ -13,6 +13,7 @@ import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import call from "../../../algorithms/call.js";
 
 const iteratorProtoFindDeclaration: IntrinsicPropertyDeclaration = {
   key: "find",
@@ -43,7 +44,7 @@ const iteratorProtoFindDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const result = yield* captureThrownCompletion(
-        predicate.callEvaluator(realm.types.undefined, [value, realm.types.number(counter), O]),
+        call(predicate, realm.types.undefined, [value, realm.types.number(counter), O]),
       );
 
       if (Completion.Abrupt.is(result)) {

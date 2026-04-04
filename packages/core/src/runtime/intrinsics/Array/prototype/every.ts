@@ -8,6 +8,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import { get } from "../../../algorithms/get.js";
+import call from "../../../algorithms/call.js";
 
 const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
   key: "every",
@@ -39,7 +40,7 @@ const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
 
       const elementValue = yield* get(thisObj, property);
 
-      const resultValue = yield* callback.callEvaluator(thisObj, [
+      const resultValue = yield* call(callback, thisObj, [
         elementValue,
         realm.types.number(i),
         thisObj,

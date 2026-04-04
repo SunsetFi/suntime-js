@@ -14,6 +14,7 @@ import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import toBoolean from "../../../algorithms/to-boolean.js";
 import { YieldCommand } from "../../../../evaluator/commands/YieldCommand.js";
+import call from "../../../algorithms/call.js";
 
 const iteratorProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
   key: "filter",
@@ -52,7 +53,7 @@ const iteratorProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
         }
 
         const selected = yield* captureThrownCompletion(
-          predicateFunc.callEvaluator(realm.types.undefined, [value, realm.types.number(counter)]),
+          call(predicateFunc, realm.types.undefined, [value, realm.types.number(counter)]),
         );
 
         if (Completion.Abrupt.is(selected)) {

@@ -12,6 +12,7 @@ import { StaticJsValue } from "../types/StaticJsValue.js";
 import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { AsyncDriver } from "./AsyncDriver.js";
+import call from "../algorithms/call.js";
 
 export class AsyncInvocation {
   private readonly _driver: AsyncDriver;
@@ -74,7 +75,7 @@ export class AsyncInvocation {
     this._nativeCallbacks.forEach((cb) => cb(value));
     this._nativeCallbacks.length = 0;
 
-    yield* this._capability.resolve.callEvaluator(this._realm.types.undefined, [value]);
+    yield* call(this._capability.resolve, this._realm.types.undefined, [value]);
   }
 
   private *_onThrow(reason: StaticJsValue): EvaluationGenerator<void> {
@@ -82,7 +83,7 @@ export class AsyncInvocation {
     this._nativeCallbacks.forEach((cb) => cb(null, reason));
     this._nativeCallbacks.length = 0;
 
-    yield* this._capability.reject.callEvaluator(this._realm.types.undefined, [reason]);
+    yield* call(this._capability.reject, this._realm.types.undefined, [reason]);
   }
 
   private *_ensureCapability(): EvaluationGenerator<void> {

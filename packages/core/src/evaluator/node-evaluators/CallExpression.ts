@@ -32,6 +32,7 @@ import evalDeclarationInstantiation from "../instantiation/eval-declaration-inst
 
 import nameNode from "./name-node.js";
 import { get } from "../../runtime/algorithms/get.js";
+import call from "../../runtime/algorithms/call.js";
 
 export default function* callExpressionNodeEvaluator(node: CallExpression): EvaluationGenerator {
   const context = EvaluationContext.current;
@@ -104,7 +105,7 @@ export default function* callExpressionNodeEvaluator(node: CallExpression): Eval
     }
   }
 
-  const callResult = yield* callee.callEvaluator(thisArg, args);
+  const callResult = yield* call(callee, thisArg, args);
 
   return callResult ?? realm.types.undefined;
 }

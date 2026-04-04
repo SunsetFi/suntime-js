@@ -12,6 +12,7 @@ import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
 import { getIteratorDirect } from "./get-iterator-direct.js";
+import call from "../algorithms/call.js";
 
 export function* getIteratorFlattenable(
   obj: StaticJsValue,
@@ -30,7 +31,7 @@ export function* getIteratorFlattenable(
   if (!method) {
     iterator = obj;
   } else {
-    iterator = yield* Q(method.callEvaluator(obj, []));
+    iterator = yield* Q(call(method, obj, []));
   }
 
   if (!isStaticJsObjectLike(iterator)) {

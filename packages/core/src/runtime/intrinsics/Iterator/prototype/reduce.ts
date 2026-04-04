@@ -12,6 +12,7 @@ import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import call from "../../../algorithms/call.js";
 
 const iteratorProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
   key: "reduce",
@@ -55,11 +56,7 @@ const iteratorProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const result = yield* captureThrownCompletion(
-        reducer.callEvaluator(realm.types.undefined, [
-          accumulator,
-          value,
-          realm.types.number(counter),
-        ]),
+        call(reducer, realm.types.undefined, [accumulator, value, realm.types.number(counter)]),
       );
       if (Completion.Abrupt.is(result)) {
         return yield* Q(iteratorClose(iterated, result));

@@ -29,6 +29,7 @@ import { StaticJsNumberImpl } from "../primitives/StaticJsNumberImpl.js";
 import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
 import { isArrayIndex } from "./is-array-index.js";
 import { StaticJsObjectProxyTarget } from "./create-object-proxy.js";
+import call from "../../../algorithms/call.js";
 
 export class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements StaticJsArray {
   // FIXME: Create spec compliant CreateArrayFromList / CreateARray
@@ -105,7 +106,7 @@ export class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements StaticJ
       const value = yield* toNumber(descr.value ?? this.realm.types.undefined);
       return value.value;
     } else if (isStaticJsAccessorPropertyDescriptor(descr) && descr.get) {
-      let result = yield* descr.get.callEvaluator(this);
+      let result = yield* call(descr.get, this);
       result = yield* toNumber(result);
       return result.value;
     } else {

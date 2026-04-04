@@ -5,6 +5,7 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import call from "../../../algorithms/call.js";
 
 const functionProtoCallDeclaration: IntrinsicPropertyDeclaration = {
   key: "call",
@@ -13,7 +14,8 @@ const functionProtoCallDeclaration: IntrinsicPropertyDeclaration = {
       throw Completion.Throw("TypeError", "Function.prototype.call called on a non-function.");
     }
 
-    const result = yield* thisFunc.callEvaluator(
+    const result = yield* call(
+      thisFunc,
       thisArg,
       // These will never be value-undefined.  Undefined is only used to force
       // non-spread args to consider the argument might be missing.

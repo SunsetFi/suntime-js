@@ -9,6 +9,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
 import { get } from "../../../algorithms/get.js";
+import call from "../../../algorithms/call.js";
 
 const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
   key: "flatMap",
@@ -36,11 +37,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const currentItem = yield* get(thisObj, String(i));
-      const result = yield* callback.callEvaluator(thisObj, [
-        currentItem,
-        realm.types.number(i),
-        thisObj,
-      ]);
+      const result = yield* call(callback, thisObj, [currentItem, realm.types.number(i), thisObj]);
       // flatMap does not flatten non-array array-likes.
       if (isStaticJsArray(result)) {
         const len = yield* lengthOfArrayLike(result);

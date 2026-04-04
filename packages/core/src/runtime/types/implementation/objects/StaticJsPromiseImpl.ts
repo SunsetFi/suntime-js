@@ -20,6 +20,7 @@ import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+import call from "../../../algorithms/call.js";
 
 interface ReactionRecord {
   capability: StaticJsPromiseCapabilityRecord | null;
@@ -164,7 +165,7 @@ function queuePromiseReactionJob(
       }
     } else {
       handlerResult = yield* captureThrownCompletion(
-        handler.callEvaluator(realm.types.undefined, [argument]),
+        call(handler, realm.types.undefined, [argument]),
       );
     }
 
@@ -178,9 +179,9 @@ function queuePromiseReactionJob(
       if (!isStaticJsValue(value)) {
         throw new StaticJsEngineError("Promise reaction rejected abrupt with non-value");
       }
-      yield* Q(capability.reject.callEvaluator(realm.types.undefined, [value]));
+      yield* Q(call(capability.reject, realm.types.undefined, [value]));
     } else {
-      yield* Q(capability.resolve.callEvaluator(realm.types.undefined, [handlerResult]));
+      yield* Q(call(capability.resolve, realm.types.undefined, [handlerResult]));
     }
   });
 }

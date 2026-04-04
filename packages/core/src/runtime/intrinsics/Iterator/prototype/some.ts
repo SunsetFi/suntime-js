@@ -1,6 +1,7 @@
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
+import call from "../../../algorithms/call.js";
 
 import toBoolean from "../../../algorithms/to-boolean.js";
 
@@ -44,7 +45,7 @@ const iteratorProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
       }
 
       const result = yield* captureThrownCompletion(
-        predicate.callEvaluator(realm.types.undefined, [value, realm.types.number(counter)]),
+        call(predicate, realm.types.undefined, [value, realm.types.number(counter)]),
       );
       if (Completion.Abrupt.is(result)) {
         return yield* Q(iteratorClose(iterated, result));

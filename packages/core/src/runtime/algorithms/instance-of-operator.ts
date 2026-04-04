@@ -11,6 +11,7 @@ import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 
 import toBoolean from "./to-boolean.js";
 import ordinaryHasInstance from "./ordinary-has-instance.js";
+import call from "./call.js";
 import { get } from "./get.js";
 
 export default function* instanceOfOperator(
@@ -24,7 +25,7 @@ export default function* instanceOfOperator(
 
   const instOfHandler = yield* get(target, realm.types.symbols.hasInstance);
   if (isStaticJsFunction(instOfHandler)) {
-    const result = yield* instOfHandler.callEvaluator(target, [V]);
+    const result = yield* call(instOfHandler, target, [V]);
     return yield* toBoolean.js(result);
   } else if (!isStaticJsUndefined(instOfHandler)) {
     throw Completion.Throw("TypeError", "Symbol.hasInstance is not a function");

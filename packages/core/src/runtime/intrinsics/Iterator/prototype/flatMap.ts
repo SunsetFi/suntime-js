@@ -15,6 +15,7 @@ import { isStaticJsFunction, type StaticJsFunction } from "../../../types/Static
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import call from "../../../algorithms/call.js";
 
 const iteratorProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
   key: "flatMap",
@@ -53,7 +54,7 @@ const iteratorProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
         }
 
         const mapped = yield* captureThrownCompletion(
-          mapperFunc.callEvaluator(realm.types.undefined, [value, realm.types.number(counter)]),
+          call(mapperFunc, realm.types.undefined, [value, realm.types.number(counter)]),
         );
 
         if (Completion.Abrupt.is(mapped)) {
