@@ -86,6 +86,7 @@ export class EvaluationTask implements EvaluationContextStackProvider {
 
   constructor(
     private readonly _evaluator: StaticJsEvaluator<unknown>,
+    private readonly _type: "script" | "host",
     private readonly _taskRunner: StaticJsTaskRunner,
     // This shouldn't be needed if this task stays in sync with the realm about whether it is running.
     private readonly _assertIsRunning: (task: EvaluationTask) => void,
@@ -196,7 +197,7 @@ export class EvaluationTask implements EvaluationContextStackProvider {
 
     this._runTask(
       this._evaluator,
-      "macrotask",
+      this._type === "host" ? "host-macrotask" : "macrotask",
       (value) => this._acceptMacrotask(value),
       (reason) => this._reject(reason),
     );
@@ -229,7 +230,7 @@ export class EvaluationTask implements EvaluationContextStackProvider {
 
     this._runTask(
       microtask,
-      "microtask",
+      this._type === "host" ? "host-microtask" : "microtask",
       () => this._acceptMicrotask(),
       (reason) => {
         this._reject(reason);

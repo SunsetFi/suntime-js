@@ -127,7 +127,7 @@ export class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
 
           if (++deadIteratorLoops > MaxDeadIteratorLoopCount) {
             throw new StaticJsEngineError(
-              "Too many consecutive dead node iterations without yielding. Possible infinite loop in task.",
+              "Too many consecutive empty node iterations without yielding. Possible infinite loop in task.",
             );
           }
 

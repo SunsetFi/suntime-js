@@ -1,7 +1,11 @@
 import { describe, it, expect, vi } from "vitest";
 
 import {
+  isStaticJsFunction,
+  StaticJsConcurrentEvaluationError,
   StaticJsRealm,
+  StaticJsSynchronousTaskIncompleteError,
+  StaticJsTaskAbortedError,
   StaticJsTaskIterator,
   StaticJsTaskIteratorStackFrame,
   StaticJsTypeCode,
@@ -10,7 +14,7 @@ import {
 
 describe("E2E: Tasks", () => {
   describe("Operation Iteration", () => {
-    it("Should step one AST node per task", async () => {
+    it("Should step one AST node per next call", async () => {
       const seenNodes: string[] = [];
       function runTask(task: StaticJsTaskIterator) {
         while (true) {
@@ -194,11 +198,11 @@ describe("E2E: Tasks", () => {
     });
   });
 
-  describe("Microtasks", () => {
-    it("Should follow up microtasks with new task iterators", async () => {
+  describe("Task types", () => {
+    it("Should trigger runTask with correct types", async () => {
       const sequence: string[] = [];
       const runTask = vi.fn((task: StaticJsTaskIterator) => {
-        sequence.push("task");
+        sequence.push(task.type);
         while (!task.done) {
           task.next();
         }
@@ -225,7 +229,246 @@ describe("E2E: Tasks", () => {
 
       await realm.evaluateScript(code);
 
-      expect(sequence).toEqual(["task", "task", "resolved", "task"]);
+      expect(sequence).toEqual(["macrotask", "microtask", "resolved", "microtask"]);
+    });
+  });
+
+  describe("Task sources", () => {
+    it("Should pass sourceName through task operation metadata", async () => {
+      const runTask = vi.fn();
+      const realm = StaticJsRealm({
+        runTask,
+      });
+
+      realm.evaluateScript("2 + 2", {
+        sourceName: "test.js",
+      });
+
+      await nextTick();
+
+      expect(runTask).toHaveBeenCalledOnce();
+
+      const task = runTask.mock.calls[0][0] as StaticJsTaskIterator;
+      task.next();
+
+      expect(task).toMatchObject({
+        operation: expect.objectContaining({
+          location: expect.objectContaining({
+            sourceName: "test.js",
+          }),
+        }),
+      });
+    });
+  });
+
+  describe("Task runners", () => {
+    it("Should run evaluations with the realm runTask handler", async () => {
+      const runTask = vi.fn((task: StaticJsTaskIterator) => {
+        while (!task.done) {
+          task.next();
+        }
+      });
+
+      const realm = StaticJsRealm({
+        runTask,
+      });
+
+      const promise = realm.evaluateScript("2 + 2");
+
+      await nextTick();
+
+      expect(runTask).toHaveBeenCalledTimes(1);
+
+      const result = await promise;
+      expect(result.toJsSync()).toBe(4);
+    });
+
+    it("Should allow per-evaluation runTask overrides", async () => {
+      const runTask = vi.fn((task: StaticJsTaskIterator) => {
+        while (!task.done) {
+          task.next();
+        }
+      });
+      const realm = StaticJsRealm({});
+
+      const result = await realm.evaluateScript("2 + 2", {
+        runTask,
+      });
+
+      expect(runTask).toHaveBeenCalledTimes(1);
+      expect(result.toJsSync()).toBe(4);
+    });
+
+    it("Should prefer per-evaluation runTask over the realm handler", async () => {
+      const runTaskRealm = vi.fn();
+      const runTaskEvaluate = vi.fn((task: StaticJsTaskIterator) => {
+        let result: ReturnType<typeof task.next>;
+        do {
+          result = task.next();
+        } while (!result.done);
+      });
+
+      const realm = StaticJsRealm({
+        runTask: runTaskRealm,
+      });
+
+      const result = await realm.evaluateScript("2 + 2", {
+        runTask: runTaskEvaluate,
+      });
+
+      expect(runTaskRealm).toHaveBeenCalledTimes(0);
+      expect(runTaskEvaluate).toHaveBeenCalledTimes(1);
+      expect(result.toJsSync()).toBe(4);
+    });
+  });
+
+  describe("Task cancellation", () => {
+    it("Should abort a task", async () => {
+      let iterations = 0;
+      const runTask = vi.fn((task: StaticJsTaskIterator) => {
+        let result: ReturnType<typeof task.next>;
+        do {
+          result = task.next();
+          iterations++;
+          if (iterations > 10) {
+            task.abort();
+            return;
+          }
+        } while (!result.done);
+      });
+
+      const realm = StaticJsRealm({
+        runTask,
+      });
+
+      await expect(() =>
+        realm.evaluateScript("for(let i = 0; i < 10000; i++) {  }"),
+      ).rejects.toThrow(StaticJsTaskAbortedError);
+    });
+
+    it("Should resume the next queued task after an abort", async () => {
+      let queuedTask: StaticJsTaskIterator | undefined;
+
+      function drainTask() {
+        if (!queuedTask) {
+          throw new Error("No queued task to drain");
+        }
+
+        const task = queuedTask;
+        let result: ReturnType<typeof task.next>;
+        do {
+          result = task.next();
+        } while (!result.done);
+
+        if (queuedTask !== task) {
+          throw new Error("Queued task changed while draining previous task.");
+        }
+
+        queuedTask = undefined;
+      }
+
+      function abortTask() {
+        if (!queuedTask) {
+          throw new Error("No queued task to abort");
+        }
+
+        queuedTask.abort();
+      }
+
+      const runTask = vi.fn((task: StaticJsTaskIterator) => {
+        queuedTask = task;
+      });
+
+      const realm = StaticJsRealm({
+        runTask,
+      });
+
+      const promise1 = realm.evaluateScript("for(let i = 0; i < 10000; i++) {  }");
+      const promise2 = realm.evaluateScript("2 + 2");
+
+      await nextTick();
+
+      expect(runTask).toHaveBeenCalledTimes(1);
+
+      abortTask();
+
+      await expect(promise1).rejects.toThrow(StaticJsTaskAbortedError);
+
+      await nextTick();
+
+      expect(runTask).toHaveBeenCalledTimes(2);
+
+      drainTask();
+
+      const result2 = await promise2;
+      expect(result2.toJsSync()).toBe(4);
+    });
+  });
+
+  describe("Synchronous tasks", () => {
+    it("Should resolve microtasks before returning from evaluateScriptSync", () => {
+      const realm = StaticJsRealm();
+
+      realm.evaluateScriptSync(`
+        Promise.resolve(5).then(v => {
+          globalThis.result = v;
+        })
+      `);
+
+      const result = realm.global.getSync("result");
+      expect(result.toJsSync()).toBe(5);
+    });
+
+    it("Should run evaluateScriptSync with the realm runTaskSync handler", () => {
+      const runTaskSync = vi.fn((task: StaticJsTaskIterator) => {
+        let result: ReturnType<typeof task.next>;
+        do {
+          result = task.next();
+        } while (!result.done);
+      });
+
+      const realm = StaticJsRealm({
+        runTaskSync,
+      });
+
+      const result = realm.evaluateScriptSync("2 + 2");
+
+      expect(runTaskSync).toHaveBeenCalledTimes(1);
+      expect(result.toJsSync()).toBe(4);
+    });
+
+    it("Should throw if runTaskSync does not complete the task", () => {
+      const runTaskSync = vi.fn();
+
+      const realm = StaticJsRealm({
+        runTaskSync,
+      });
+
+      expect(() => realm.evaluateScriptSync("2 + 2")).toThrow(
+        StaticJsSynchronousTaskIncompleteError,
+      );
+    });
+
+    it("Should prefer the per-call runTask override for sync evaluation", () => {
+      const runTaskRealm = vi.fn();
+      const runTaskEvaluate = vi.fn((task: StaticJsTaskIterator) => {
+        let result: ReturnType<typeof task.next>;
+        do {
+          result = task.next();
+        } while (!result.done);
+      });
+
+      const realm = StaticJsRealm({
+        runTaskSync: runTaskRealm,
+      });
+
+      const result = realm.evaluateScriptSync("2 + 2", {
+        runTask: runTaskEvaluate,
+      });
+
+      expect(runTaskRealm).toHaveBeenCalledTimes(0);
+      expect(runTaskEvaluate).toHaveBeenCalledTimes(1);
+      expect(result.toJsSync()).toBe(4);
     });
   });
 
@@ -267,5 +510,62 @@ describe("E2E: Tasks", () => {
       expect(runTask).toHaveBeenCalledTimes(1);
       expect(runTaskSync).toHaveBeenCalledTimes(1);
     });
+
+    it("Should reject synchronous evaluation ouside the current async task", async () => {
+      const runTask = vi.fn((task: StaticJsTaskIterator) => {
+        while (!task.done) {
+          task.next();
+        }
+      });
+      const runTaskSync = vi.fn((task: StaticJsTaskIterator) => {
+        while (!task.done) {
+          task.next();
+        }
+      });
+      const realm = StaticJsRealm({
+        runTask,
+        runTaskSync,
+      });
+
+      const taskPromise = realm.evaluateExpression("2 + 2");
+
+      expect(() => realm.evaluateExpressionSync("2 + 2")).toThrow(
+        StaticJsConcurrentEvaluationError,
+      );
+
+      await taskPromise;
+
+      expect(runTaskSync).not.toHaveBeenCalled();
+      expect(runTask).toHaveBeenCalledTimes(1);
+    });
+
+    it("Should allow reentrancy from a continuation resumed after evaluateScript", async () => {
+      const realm = StaticJsRealm({
+        global: {
+          properties: {
+            callEvaluateScriptSync: {
+              value: () => realm.evaluateScriptSync("3 + 3").toJsSync(),
+            },
+          },
+        },
+      });
+
+      const func = await realm.evaluateScript(`
+        function fn() {
+          return callEvaluateScriptSync();
+        }
+        fn;
+      `);
+
+      if (!isStaticJsFunction(func)) {
+        throw new Error("Expected a function");
+      }
+
+      expect(func.toJsSync()()).toBe(6);
+    });
   });
 });
+
+function nextTick(): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, 0));
+}

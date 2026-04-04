@@ -11,8 +11,4 @@
  *   A nested task triggered by the host environment, occuring while inside an existing macrotask or microtask.
  *
  */
-export type StaticJsTaskType =
-  | "macrotask"
-  | "microtask"
-  | "host-invocation"
-  | "host-invocation-nested";
+export type StaticJsTaskType = "macrotask" | "microtask" | "host-macrotask" | "host-microtask";

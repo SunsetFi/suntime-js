@@ -11,8 +11,8 @@ export class StaticJsSyntaxError extends Error {
     message: string,
     private _loc: SyntaxErrorLocation | null,
   ) {
-    super(message);
-    this.name = "StaticJsParseError";
+    super("SyntaxError: " + message);
+    this.name = "StaticJsSyntaxError";
   }
 
   get loc(): SyntaxErrorLocation | null {

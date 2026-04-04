@@ -87,6 +87,7 @@ import type { StaticJsRealm } from "../StaticJsRealm.js";
 
 import { EvaluationTask } from "./EvaluationTask.js";
 import { expressionStatement, file, program } from "@babel/types";
+import { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;
@@ -233,7 +234,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return this._invokeMacrotaskSync(evaluator, opts);
   }
 
-  async evaluateScript(
+  evaluateScript(
     script: string,
     opts?: StaticJsRealmEvaluateScriptOptions,
   ): Promise<StaticJsValue> {
@@ -378,7 +379,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   enqueuePromiseJob(evaluator: StaticJsEvaluator<void>): void {
-    if (!this._currentTask) {
+    // For a bit, we were considering the task done after its promise resolves, leading to
+    // completed tasks sitting in _currentTask when modules enqueued jobs.
+    if (!this._currentTask || this._currentTask.done) {
       this._enqueueMacrotask(evaluator);
       return;
     }
@@ -399,9 +402,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     { runTask = this._defaultRunTaskSync }: StaticJsRunTaskOptions = {},
   ): TReturn {
     if (this._boostrapping) {
-      return this._invokeEvaluatorSyncNow(evaluator, bootstrapTaskRunner, "host-invocation");
+      return this._invokeEvaluatorSyncNow(evaluator, bootstrapTaskRunner, "host-macrotask");
     } else if (this._currentTask && this._currentTask.entered) {
-      return this._invokeEvaluatorSyncNow(evaluator, runTask, "host-invocation-nested");
+      return this._invokeEvaluatorSyncNow(evaluator, runTask, "host-macrotask");
     }
 
     // oxlint-disable-next-line typescript/no-this-alias
@@ -423,26 +426,27 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return this._invokeMacrotaskSync(evaluate, { runTask: this._defaultRunTaskSync });
   }
 
-  async invokeEvaluatorAsync<TReturn>(
+  invokeEvaluatorAsync<TReturn>(
     evaluator: StaticJsEvaluator<TReturn>,
     { runTask = this._defaultRunTask }: StaticJsRunTaskOptions = {},
   ): Promise<TReturn> {
-    const macrotask = this._createMacrotask(evaluator, runTask);
-    macrotask.onComplete((err) => this._onTaskCompleted(err));
-
-    this._tasks.push(macrotask);
-    this._tryDrainTaskQueue();
+    const macrotask = this._createMacrotask(evaluator, "host", runTask);
+    this._registerTask(macrotask);
 
     try {
-      return (await macrotask.await()) as Promise<TReturn>;
+      return macrotask.await() as Promise<TReturn>;
     } catch (e) {
       Completion.handleRuntime(e);
       throw e;
     }
   }
 
-  private _createMacrotask(evaluator: StaticJsEvaluator, taskRunner: StaticJsTaskRunner) {
-    return new EvaluationTask(evaluator, taskRunner, (task) => this._assertTaskRunning(task));
+  private _createMacrotask(
+    evaluator: StaticJsEvaluator,
+    type: "script" | "host",
+    taskRunner: StaticJsTaskRunner,
+  ) {
+    return new EvaluationTask(evaluator, type, taskRunner, (task) => this._assertTaskRunning(task));
   }
 
   private _createInlineSourceName() {
@@ -460,9 +464,32 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
   }
 
-  private _onTaskCompleted(_error: unknown) {
-    this._currentTask = null;
+  private _registerTask(task: EvaluationTask) {
+    // Note: We ideally want to run the next job after current promises resolve, but
+    // we need to know this ASAP due to module queuePromiseJobs coming in hot and
+    // getting assigned to the already-completed task.
+    task.onComplete((err) => {
+      this._onTaskCompleted(err);
+    });
+
+    this._tasks.push(task);
     this._tryDrainTaskQueue();
+  }
+
+  private _onTaskCompleted(_error: unknown) {
+    const completedTask = this._currentTask;
+    if (!completedTask) {
+      throw new StaticJsEngineError("No current task found when trying to complete a task.");
+    }
+
+    // Clear the current task immediately, as its possible we have another enqueuePromiseJob on its way,
+    // and this task may be active but fulfilled and cause errors.
+    this._currentTask = null;
+
+    // Continue AFTER the current task's promise chain completes.
+    setTimeout(() => {
+      this._tryDrainTaskQueue();
+    }, 0);
   }
 
   private _tryDrainTaskQueue() {
@@ -491,12 +518,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     evaluator: StaticJsEvaluator<TReturn>,
     { runTask = this._defaultRunTask }: StaticJsRunTaskOptions = {},
   ): Promise<TReturn> {
-    const macrotask = this._createMacrotask(evaluator, runTask);
-
-    macrotask.onComplete((err) => this._onTaskCompleted(err));
-
-    this._tasks.push(macrotask);
-    this._tryDrainTaskQueue();
+    const macrotask = this._createMacrotask(evaluator, "script", runTask);
+    this._registerTask(macrotask);
 
     return macrotask.await() as Promise<TReturn>;
   }
@@ -547,7 +570,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         return yield* invokeEvaluator(evaluator);
       }
 
-      const macrotask = this._createMacrotask(evaluate, runTask);
+      const macrotask = this._createMacrotask(evaluate, "host", runTask);
       macrotask.onComplete((value, err) => {
         complete = true;
         error = err;
@@ -582,7 +605,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private _invokeEvaluatorSyncNow<TReturn>(
     evaluator: StaticJsEvaluator<TReturn>,
     runTask: StaticJsTaskRunner,
-    type: "host-invocation" | "host-invocation-nested",
+    type: StaticJsTaskType,
   ): TReturn {
     const iter = invokeEvaluator(evaluator);
 
