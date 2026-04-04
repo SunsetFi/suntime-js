@@ -8,15 +8,9 @@
   - [ ] Implement newTarget as passed-in?
   - [ ] Rework callEvaluator and constructEvaluator to return completions
     - [ ] Q-ify and use call() instead of direct references.
-  - [x] Refactor the `new StaticJsFunctionImpl(function impl())` to a `StaticJsNativeFunction`
-  - [x] Rework Ast functions to be more spec compliant
 - [ ] Task improvements
-  - [ ] Properly set async and sync macrotasks as "host-invocation"
   - [ ] Property on a task indicating if its sync or async.
-  - [ ] Merge nested tasks into same iterator
   - [ ] Merge microtasks into same iterator?
-- [x] Remove 'strict' from ObjectLike set call. Callers enforce this, not the slot.
-- [x] getEvaluator / setEvaluator / Reflect.get / Reflect.set receiver
 
 ## Less imidiate
 

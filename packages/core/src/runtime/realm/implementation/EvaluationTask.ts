@@ -88,6 +88,7 @@ export class EvaluationTask implements EvaluationContextStackProvider {
   constructor(
     private readonly _evaluator: StaticJsEvaluator<unknown>,
     private readonly _calleeType: StaticJsTaskCalleeType,
+    private readonly _async: boolean,
     private readonly _taskRunner: StaticJsTaskRunner,
     // This shouldn't be needed if this task stays in sync with the realm about whether it is running.
     private readonly _assertIsRunning: (task: EvaluationTask) => void,
@@ -249,6 +250,7 @@ export class EvaluationTask implements EvaluationContextStackProvider {
       const taskIterator = new StaticJsTaskIteratorImpl(
         type,
         this._calleeType,
+        this._async,
         evaluator,
         this._scope,
         accept,

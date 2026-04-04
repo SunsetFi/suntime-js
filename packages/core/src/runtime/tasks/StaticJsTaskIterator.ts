@@ -23,6 +23,13 @@ export interface StaticJsTaskIterator {
   readonly calleeType: StaticJsTaskCalleeType;
 
   /**
+   * Whether the task is for an async operation.
+   *
+   * Async tasks are allowed to not fully drain their iterator before the runTask call returns.
+   */
+  readonly async: boolean;
+
+  /**
    * Whether the task has completed execution.
    *
    * This will return true if the task ran to completion, or if it was aborted.

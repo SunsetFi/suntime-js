@@ -263,38 +263,43 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       }
     }
 
-    Promise.all(prereqs)
-      .then(() => {
-        const { _ecmaScriptCode, _realm, _context } = this;
+    const { _ecmaScriptCode, _realm, _context } = this;
 
-        const onComplete = () => {
-          this._status = "evaluated";
-        };
+    const onComplete = () => {
+      this._status = "evaluated";
+    };
 
-        function* evaluateAsyncBody() {
-          yield* Q(EvaluateNodeCommand(_ecmaScriptCode));
+    function* evaluateAsyncBody() {
+      yield* Q(EvaluateNodeCommand(_ecmaScriptCode));
+    }
+
+    function* moduleJob() {
+      const invocation = new AsyncInvocation(evaluateAsyncBody, _realm);
+      invocation.onComplete((_, err) => {
+        onComplete();
+        if (err) {
+          reject(new StaticJsRuntimeError(err));
+        } else {
+          resolve();
         }
+      });
 
-        function* moduleJob() {
-          const invocation = new AsyncInvocation(evaluateAsyncBody, _realm);
+      yield* _context!.run(function* () {
+        yield* invocation.start();
+      });
+    }
 
-          yield* invocation.onComplete((_, err) => {
-            onComplete();
-            if (err) {
-              reject(new StaticJsRuntimeError(err));
-            } else {
-              resolve();
-            }
-          });
-
-          yield* _context!.run(function* () {
-            yield* invocation.start();
-          });
-        }
-
-        this._realm.enqueuePromiseJob(moduleJob);
-      })
-      .catch(reject);
+    if (prereqs.length === 0) {
+      // I think the spec seems to let certain modules evaluate synchornously?
+      // This whole thing is far from spec compliant, but...
+      yield* moduleJob();
+    } else {
+      Promise.all(prereqs)
+        .then(() => {
+          this._realm.enqueuePromiseJob(moduleJob);
+        })
+        .catch(reject);
+    }
 
     return this._evaluationPromise;
   }

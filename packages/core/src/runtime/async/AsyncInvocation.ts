@@ -4,10 +4,8 @@ import { invokeEvaluator, StaticJsEvaluator } from "../../evaluator/StaticJsEval
 
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import getMethod from "../algorithms/get-method.js";
 import newPromiseCapability from "../algorithms/new-promise-capability.js";
 
-import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../types/StaticJsPromise.js";
 import { StaticJsValue } from "../types/StaticJsValue.js";
 
@@ -19,6 +17,9 @@ export class AsyncInvocation {
   private readonly _driver: AsyncDriver;
 
   private _capability!: StaticJsPromiseCapabilityRecord;
+
+  private _resolved: boolean = false;
+  private _nativeCallbacks: ((value: StaticJsValue | null, error?: StaticJsValue) => void)[] = [];
 
   constructor(
     evaluator: StaticJsEvaluator<void>,
@@ -41,28 +42,14 @@ export class AsyncInvocation {
     return this._capability.promise;
   }
 
-  *onComplete(
-    callback: (value: StaticJsValue, error?: StaticJsValue) => void,
-  ): EvaluationGenerator<void> {
-    yield* this._ensureCapability();
-
-    // We can run outside of any evaluation context, so pass a realm manually.
-    const thenMethod = yield* getMethod(this.promise, "then", this._realm);
-    if (!thenMethod) {
-      throw new StaticJsEngineError("Async function promise does not have a then method.");
+  onComplete(callback: (value: StaticJsValue | null, error?: StaticJsValue) => void): void {
+    if (this._resolved) {
+      throw new StaticJsEngineError(
+        "Callbacks cannot be registered on an async invocation after it has resolved.",
+      );
     }
 
-    const typeUndefined = this._realm.types.undefined;
-    yield* thenMethod.callEvaluator(this.promise, [
-      new StaticJsNativeFunctionImpl(this._realm, "onFulfilled", function* (_thisArg, value) {
-        callback(value);
-        return typeUndefined;
-      }),
-      new StaticJsNativeFunctionImpl(this._realm, "onRejected", function* (_thisArg, reason) {
-        callback(typeUndefined, reason);
-        return typeUndefined;
-      }),
-    ]);
+    this._nativeCallbacks.push(callback);
   }
 
   *start(): EvaluationGenerator<StaticJsPromise> {
@@ -83,10 +70,18 @@ export class AsyncInvocation {
   }
 
   private *_onReturn(value: StaticJsValue): EvaluationGenerator<void> {
+    this._resolved = true;
+    this._nativeCallbacks.forEach((cb) => cb(value));
+    this._nativeCallbacks.length = 0;
+
     yield* this._capability.resolve.callEvaluator(this._realm.types.undefined, [value]);
   }
 
   private *_onThrow(reason: StaticJsValue): EvaluationGenerator<void> {
+    this._resolved = true;
+    this._nativeCallbacks.forEach((cb) => cb(null, reason));
+    this._nativeCallbacks.length = 0;
+
     yield* this._capability.reject.callEvaluator(this._realm.types.undefined, [reason]);
   }
 

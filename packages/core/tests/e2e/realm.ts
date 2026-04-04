@@ -188,6 +188,23 @@ describe("E2E: Realm", () => {
         expect(runTask).toHaveBeenCalledTimes(1);
       });
 
+      it("Marks the task async", async () => {
+        let async: boolean | null = null;
+        const runTask = vi.fn((task: StaticJsTaskIterator) => {
+          async = task.async;
+          while (!task.done) {
+            task.next();
+          }
+        });
+        const realm = StaticJsRealm({
+          runTask,
+        });
+
+        await realm.evaluateScript("2 + 2", { runTask });
+        expect(runTask).toHaveBeenCalledTimes(1);
+        expect(async).toBe(true);
+      });
+
       it("Uses the evaluate callee type", async () => {
         let calleeType: StaticJsTaskCalleeType | null = null;
         const runTask = vi.fn((task: StaticJsTaskIterator) => {
@@ -261,6 +278,23 @@ describe("E2E: Realm", () => {
         realm.evaluateScriptSync("2 + 2");
         expect(runTaskSync).toHaveBeenCalledTimes(1);
         expect(calleeType).toBe("evaluate");
+      });
+
+      it("Marks the task sync", async () => {
+        let async: boolean | null = null;
+        const runTaskSync = vi.fn((task: StaticJsTaskIterator) => {
+          async = task.async;
+          while (!task.done) {
+            task.next();
+          }
+        });
+        const realm = StaticJsRealm({
+          runTaskSync,
+        });
+
+        realm.evaluateScriptSync("2 + 2", { runTask: runTaskSync });
+        expect(runTaskSync).toHaveBeenCalledTimes(1);
+        expect(async).toBe(false);
       });
     });
   });
@@ -339,6 +373,23 @@ describe("E2E: Realm", () => {
         expect(runTask).toHaveBeenCalledTimes(1);
         expect(calleeType).toBe("evaluate");
       });
+
+      it("Marks the task async", async () => {
+        let async: boolean | null = null;
+        const runTask = vi.fn((task: StaticJsTaskIterator) => {
+          async = task.async;
+          while (!task.done) {
+            task.next();
+          }
+        });
+        const realm = StaticJsRealm({
+          runTask,
+        });
+
+        await realm.evaluateExpression("2 + 2", { runTask });
+        expect(runTask).toHaveBeenCalledTimes(1);
+        expect(async).toBe(true);
+      });
     });
   });
 
@@ -396,6 +447,110 @@ describe("E2E: Realm", () => {
         realm.evaluateExpressionSync("2 + 2");
         expect(runTaskSync).toHaveBeenCalledTimes(1);
         expect(calleeType).toBe("evaluate");
+      });
+
+      it("Marks the task sync", async () => {
+        let async: boolean | null = null;
+        const runTaskSync = vi.fn((task: StaticJsTaskIterator) => {
+          async = task.async;
+          while (!task.done) {
+            task.next();
+          }
+        });
+        const realm = StaticJsRealm({
+          runTaskSync,
+        });
+
+        realm.evaluateExpressionSync("2 + 2", { runTask: runTaskSync });
+        expect(runTaskSync).toHaveBeenCalledTimes(1);
+        expect(async).toBe(false);
+      });
+    });
+  });
+
+  describe("evaluateModule", () => {
+    it("Handles evaluation", async () => {
+      const realm = StaticJsRealm({});
+
+      const module = await realm.evaluateModule("export const result = 2 + 2;");
+      const result = await module.getExportAsync("result");
+      expect(result?.toJsSync()).toBe(4);
+    });
+
+    it("Handles syntax errors", async () => {
+      const realm = StaticJsRealm({});
+
+      try {
+        await realm.evaluateModule("export const result = ;");
+        throw new Error("Expected syntax error was not thrown");
+      } catch (error) {
+        expect(error).toBeInstanceOf(StaticJsSyntaxError);
+      }
+    });
+
+    describe("Tasks", () => {
+      it("Uses the realm's runTask", async () => {
+        const runTask = vi.fn((task: StaticJsTaskIterator) => {
+          while (!task.done) {
+            task.next();
+          }
+        });
+        const realm = StaticJsRealm({
+          runTask,
+        });
+
+        await realm.evaluateModule("export const result = 2 + 2;");
+        expect(runTask).toHaveBeenCalledTimes(1);
+      });
+
+      it("Accepts a custom runTask", async () => {
+        const runTask = vi.fn((task: StaticJsTaskIterator) => {
+          while (!task.done) {
+            task.next();
+          }
+        });
+        const realm = StaticJsRealm({
+          runTask: () => {
+            throw new Error("Unexpected call of realm runTask");
+          },
+        });
+
+        await realm.evaluateModule("export const result = 2 + 2;", { runTask });
+        expect(runTask).toHaveBeenCalledTimes(1);
+      });
+
+      it("Uses the evaluate callee type", async () => {
+        let calleeType: StaticJsTaskCalleeType | null = null;
+        const runTask = vi.fn((task: StaticJsTaskIterator) => {
+          calleeType = task.calleeType;
+          while (!task.done) {
+            task.next();
+          }
+        });
+        const realm = StaticJsRealm({
+          runTask,
+        });
+
+        await realm.evaluateModule("export const result = 2 + 2;");
+        expect(runTask).toHaveBeenCalledTimes(1);
+        expect(calleeType).toBe("evaluate");
+      });
+
+      it("Marks the task async", async () => {
+        let async: boolean | null = null;
+        const runTask = vi.fn((task: StaticJsTaskIterator) => {
+          async = task.async;
+          while (!task.done) {
+            task.next();
+          }
+        });
+        const realm = StaticJsRealm({
+          runTask,
+        });
+
+        await realm.evaluateModule("export const result = 2 + 2;", { runTask });
+        expect(runTask).toHaveBeenCalledTimes(1);
+        expect(async).toBe(true);
       });
     });
   });

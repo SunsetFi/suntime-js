@@ -35,6 +35,7 @@ export class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
   constructor(
     private readonly _type: StaticJsTaskType,
     private readonly _calleeType: StaticJsTaskCalleeType,
+    private readonly _async: boolean,
     private readonly _evaluator: StaticJsEvaluator<TReturn>,
     private readonly _scope: (callback: () => void) => void,
     private readonly _accept: (value: TReturn) => void,
@@ -47,6 +48,10 @@ export class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
 
   get calleeType(): StaticJsTaskCalleeType {
     return this._calleeType;
+  }
+
+  get async() {
+    return this._async;
   }
 
   get done(): boolean {

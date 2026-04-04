@@ -429,7 +429,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     evaluator: StaticJsEvaluator<TReturn>,
     { runTask = this._defaultRunTask }: StaticJsRunTaskOptions = {},
   ): Promise<TReturn> {
-    const macrotask = this._createMacrotask(evaluator, "host", runTask);
+    const macrotask = this._createMacrotask(evaluator, "host", true, runTask);
     this._registerTask(macrotask);
 
     try {
@@ -443,9 +443,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private _createMacrotask(
     evaluator: StaticJsEvaluator,
     calleeType: StaticJsTaskCalleeType,
+    async: boolean,
     taskRunner: StaticJsTaskRunner,
   ) {
-    return new EvaluationTask(evaluator, calleeType, taskRunner, (task) =>
+    return new EvaluationTask(evaluator, calleeType, async, taskRunner, (task) =>
       this._assertTaskRunning(task),
     );
   }
@@ -520,7 +521,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     calleeType: StaticJsTaskCalleeType,
     { runTask = this._defaultRunTask }: StaticJsRunTaskOptions = {},
   ): Promise<TReturn> {
-    const macrotask = this._createMacrotask(evaluator, calleeType, runTask);
+    const macrotask = this._createMacrotask(evaluator, calleeType, true, runTask);
     this._registerTask(macrotask);
 
     return macrotask.await() as Promise<TReturn>;
@@ -573,7 +574,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         return yield* invokeEvaluator(evaluator);
       }
 
-      const macrotask = this._createMacrotask(evaluate, calleeType, runTask);
+      const macrotask = this._createMacrotask(evaluate, calleeType, false, runTask);
       macrotask.onComplete((value, err) => {
         complete = true;
         error = err;
@@ -618,6 +619,15 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     let iterReturn: TReturn | undefined = undefined;
     let iterThrow: unknown | undefined = undefined;
     const task: StaticJsTaskIterator = {
+      get type() {
+        return type;
+      },
+      get calleeType() {
+        return calleeType;
+      },
+      get async() {
+        return false;
+      },
       get aborted() {
         return iterAborted;
       },
@@ -629,12 +639,6 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       },
       get stack() {
         return [];
-      },
-      get type() {
-        return type;
-      },
-      get calleeType() {
-        return calleeType;
       },
       next: () => {
         if (iterDone) {
