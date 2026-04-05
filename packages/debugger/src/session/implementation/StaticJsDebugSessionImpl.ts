@@ -405,6 +405,12 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
       get type() {
         return task.type;
       },
+      get calleeType() {
+        return task.calleeType;
+      },
+      get async() {
+        return task.async;
+      },
       get done() {
         return stopped || task.done;
       },
