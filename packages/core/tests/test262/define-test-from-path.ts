@@ -40,10 +40,11 @@ export default function defineTestFromPath(relativeTestPath: string) {
 
     const prefixLength = relativeTestPath.split("/").filter((x) => x.length > 0).length;
     const path = test.testPathParts.slice(prefixLength, -1);
-    let decl = pathDecls.get(path.join("/"));
+    const fullPath = path.join("/");
+    let decl = pathDecls.get(fullPath);
     if (!decl) {
       decl = { path, tests: [] };
-      pathDecls.set(path.join("/"), decl);
+      pathDecls.set(fullPath, decl);
     }
 
     decl.tests.push(test);
