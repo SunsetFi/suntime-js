@@ -7,7 +7,7 @@ import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
 import { invokeEvaluator, StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 
 import { StaticJsFunction } from "../../types/StaticJsFunction.js";
-import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { StaticJsAbstractFunction } from "../../types/implementation/functions/StaticJsAbstractFunction.js";
 
 import { StaticJsTaskIterator } from "../StaticJsTaskIterator.js";
 import { StaticJsTaskIteratorOperation } from "../StaticJsTaskIteratorOperation.js";
@@ -31,6 +31,7 @@ export class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
   private _innerIterator: Generator<void, TReturn, void> | null = null;
 
   private readonly _frames: TaskIteratorFrame[] = [];
+  private _currentNode: Node | null = null;
 
   constructor(
     private readonly _type: StaticJsTaskType,
@@ -63,12 +64,7 @@ export class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
   }
 
   get operation(): StaticJsTaskIteratorOperation | null {
-    const frame = this._frames[0];
-    if (!frame) {
-      return null;
-    }
-
-    const node = frame.currentNode;
+    const node = this._currentNode;
     if (!node) {
       return null;
     }
@@ -132,8 +128,7 @@ export class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
             return;
           }
 
-          const topFrame = this._frames[0];
-          if (topFrame && topFrame.currentNode) {
+          if (this._currentNode) {
             // We stopped at another concrete node.
             return;
           }
@@ -171,19 +166,21 @@ export class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
 
     this._innerIterator = evaluateCommands(invokeEvaluator(this._evaluator), {
       onBeforeNode: (node) => {
+        this._currentNode = node;
         const lastFrame = this._frames[0];
         if (lastFrame) {
           lastFrame.currentNode = node;
         }
       },
       onAfterNode: () => {
+        this._currentNode = null;
         const lastFrame = this._frames[0];
         if (lastFrame) {
           lastFrame.currentNode = null;
         }
       },
       onFunctionEnter: (func) => {
-        const funcNode = func instanceof StaticJsNativeFunctionImpl ? func.ecmaScriptCode : null;
+        const funcNode = func instanceof StaticJsAbstractFunction ? func.ecmaScriptCode : null;
         this._frames.unshift({ currentNode: funcNode, function: func });
       },
       onFunctionExit: () => {
