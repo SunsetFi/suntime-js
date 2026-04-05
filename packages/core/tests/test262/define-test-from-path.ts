@@ -25,6 +25,7 @@ export default function defineTestFromPath(relativeTestPath: string) {
     throw new Error("No tests found for " + relativeTestPath);
   }
 
+  const pathDecls = new Map<string, { path: string[]; tests: Test262File[] }>();
   for (const sourceFile of tests) {
     if (sourceFile.includes("_FIXTURE")) {
       continue;
@@ -39,12 +40,26 @@ export default function defineTestFromPath(relativeTestPath: string) {
 
     const prefixLength = relativeTestPath.split("/").filter((x) => x.length > 0).length;
     const path = test.testPathParts.slice(prefixLength, -1);
-    describePath(path, () => {
-      defineTest(test.testName, test);
-    });
+    let decl = pathDecls.get(path.join("/"));
+    if (!decl) {
+      decl = { path, tests: [] };
+      pathDecls.set(path.join("/"), decl);
+    }
 
-    perf(`Defined test ${test.testPath}`);
+    decl.tests.push(test);
   }
+
+  perf(`Sorted tests`);
+
+  for (const { path, tests } of pathDecls.values()) {
+    describePath(path, () => {
+      for (const test of tests) {
+        defineTest(test.testName, test);
+      }
+    });
+  }
+
+  perf(`Defined tests`);
 }
 
 function getTestsFromPath(testPath: string) {
