@@ -1,9 +1,8 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  worker: {
-    format: "es",
-  },
+  base: "/suntime-js/",
+
   plugins: [
     {
       // VSCode CSS must be injected as strings, not <link> tags.
@@ -42,6 +41,9 @@ export default defineConfig({
   },
   define: {
     "process.env": JSON.stringify({}),
+  },
+  worker: {
+    format: "es",
   },
   optimizeDeps: {
     include: [
