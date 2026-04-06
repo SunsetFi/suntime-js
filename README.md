@@ -12,7 +12,7 @@ Try it out in [the sandbox](https://sunsetfi.github.io/suntime-js)!
 
 This project is being ran against the Test262 test suite to ensure spec compliance. This is a work-in-progress, and full coverage has not yet been obtained.
 
-Current progress: ![Test262 Language Suite](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FSunsetFi%2Fsuntime-js%2Frefs%2Fheads%2Fmain%2Fpackages%2Fcore%2Fbadges%2Ftest262.json)
+![Test262 Language Suite](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FSunsetFi%2Fsuntime-js%2Frefs%2Fheads%2Fmain%2Fpackages%2Fcore%2Fbadges%2Ftest262.json)
 
 ## Packages
 
