@@ -8,7 +8,7 @@ import type { StaticJsNumber } from "./StaticJsNumber.js";
 import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
 import type { StaticJsPropertyKey } from "./StaticJsPropertyKey.js";
 import type { StaticJsObject } from "./StaticJsObject.js";
-import type { StaticJsPropertyDescriptor } from "./StaticJsPropertyDescriptor.js";
+import type { StaticJsPropertyDescriptorRecord } from "./StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import type { StaticJsString } from "./StaticJsString.js";
 import type { StaticJsSymbol } from "./StaticJsSymbol.js";
@@ -50,8 +50,8 @@ export interface StaticJsTypeFactory {
 
   object(
     properties?:
-      | Record<string, StaticJsPropertyDescriptor>
-      | Map<StaticJsPropertyKey, StaticJsPropertyDescriptor>,
+      | Record<string, StaticJsPropertyDescriptorRecord>
+      | Map<StaticJsPropertyKey, StaticJsPropertyDescriptorRecord>,
     prototype?: StaticJsTypeCreationPrototype,
   ): StaticJsObject;
 

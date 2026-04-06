@@ -7,7 +7,7 @@ import type { StaticJsFunction } from "../StaticJsFunction.js";
 import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
 import type { StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
 import type { StaticJsObject } from "../StaticJsObject.js";
-import type { StaticJsPropertyDescriptor } from "../StaticJsPropertyDescriptor.js";
+import type { StaticJsPropertyDescriptorRecord } from "../StaticJsPropertyDescriptor.js";
 import type { ErrorTypeName, StaticJsFunctionTypeCreationOptions } from "../StaticJsTypeFactory.js";
 import type { StaticJsTypeFactory } from "../StaticJsTypeFactory.js";
 import { isErrorTypeName } from "../StaticJsTypeFactory.js";
@@ -142,8 +142,8 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   object(
     properties?:
-      | Record<string, StaticJsPropertyDescriptor>
-      | Map<StaticJsPropertyKey, StaticJsPropertyDescriptor>,
+      | Record<string, StaticJsPropertyDescriptorRecord>
+      | Map<StaticJsPropertyKey, StaticJsPropertyDescriptorRecord>,
     prototype?: StaticJsObjectLike | StaticJsNull | null,
   ): StaticJsObject {
     if (prototype === undefined) {

@@ -16,6 +16,7 @@ import type {
 import type { StaticJsEvaluator } from "../../evaluator/StaticJsEvaluator.js";
 import type { RealmHooks } from "../hooks/index.js";
 import { StaticJsRealmEvaluateSourceOptions } from "./StaticJsRealmEvaluateSourceOptions.js";
+import { StaticJsConfig } from "./StaticJsConfig.js";
 
 /**
  * A top-level construct describing the overall environment in which a javascript program is executed.
@@ -26,6 +27,11 @@ import { StaticJsRealmEvaluateSourceOptions } from "./StaticJsRealmEvaluateSourc
  * @public
  */
 export interface StaticJsRealm {
+  /**
+   * Configuration options the realm was instantiated with.
+   */
+  readonly config: StaticJsConfig;
+
   /**
    * The type factory for the realm.
    */

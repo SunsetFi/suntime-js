@@ -1,3 +1,5 @@
+import { expressionStatement, file, program } from "@babel/types";
+
 import { symbolInspect } from "../../../utils/symbol-inspect.js";
 import { createDeferred } from "../../../utils/create-deferred.js";
 
@@ -66,6 +68,7 @@ import type { StaticJsTaskIterator } from "../../tasks/StaticJsTaskIterator.js";
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 import { StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
+import { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";
 
 import { AsyncInvocation } from "../../async/AsyncInvocation.js";
 
@@ -87,8 +90,7 @@ import { StaticJsRealmEvaluateSourceOptions } from "../StaticJsRealmEvaluateSour
 import type { StaticJsRealm } from "../StaticJsRealm.js";
 
 import { EvaluationTask } from "./EvaluationTask.js";
-import { expressionStatement, file, program } from "@babel/types";
-import { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";
+import { StaticJsConfig } from "../StaticJsConfig.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _global: StaticJsObject;
@@ -106,6 +108,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   private readonly _defaultRunTask: StaticJsTaskRunner;
   private readonly _defaultRunTaskSync: StaticJsTaskRunner;
+
+  private readonly _config: StaticJsConfig;
 
   private _idleCallbacks: (() => void)[] = [];
 
@@ -128,6 +132,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     this._externalResolveModule = resolveModule;
     this._defaultRunTask = runTask ?? defaultTaskRunner;
     this._defaultRunTaskSync = runTaskSync ?? defaultTaskRunner;
+    this._config = Object.freeze({
+      runTask: this._defaultRunTask,
+      runTaskSync: this._defaultRunTaskSync,
+    });
 
     // Note: We could check to see if globalObject has factories or prototypes and use them
     // instead of these.
@@ -178,6 +186,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   [symbolInspect](): string {
     return `StaticJsRealm {}`;
+  }
+
+  get config() {
+    return this._config;
   }
 
   get global() {
