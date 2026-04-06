@@ -45,7 +45,7 @@ However, where things get risky is when native objects are passed into the syste
 
 ```ts
 const realm = StaticJsRealm({
-  globalObject: {
+  global: {
     properties: {
       myObject: {
         writable: false,

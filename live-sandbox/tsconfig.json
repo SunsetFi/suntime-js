@@ -7,8 +7,6 @@
     "moduleResolution": "bundler",
     "forceConsistentCasingInFileNames": true,
 
-    "jsx": "react",
-
     "lib": ["dom", "es2024"],
 
     "strict": true,

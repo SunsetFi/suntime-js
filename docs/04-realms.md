@@ -166,7 +166,7 @@ That is, this will work:
 
 ```ts
 const realm = StaticJsRealm();
-realm.globalObject.definePropertySync("evalExpression", {
+realm.global.definePropertySync("evalExpression", {
   value: realm.types.toStaticJsValue((arg) => {
     const code = String(arg);
     return realm.evaluateExpressionSync(code);
@@ -202,7 +202,7 @@ That is, this will work:
 
 ```ts
 const realm = StaticJsRealm();
-realm.globalObject.definePropertySync("eval", {
+realm.global.definePropertySync("eval", {
   value: realm.types.toStaticJsValue((arg) => {
     const code = String(arg);
     return realm.evaluateScriptSync(code);
