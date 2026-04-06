@@ -16,7 +16,7 @@ export interface StaticJsDebugger {
 class StaticJsDebuggerImpl implements StaticJsDebugger {
   constructor(
     private readonly _realm: StaticJsRealm,
-    private readonly _runTask: StaticJsTaskRunner = defaultTaskRunner,
+    private readonly _runTask: StaticJsTaskRunner = _realm.config.runTask,
   ) {}
 
   createSession(options: StaticJsDebugSessionOptions): StaticJsDebugSession {
