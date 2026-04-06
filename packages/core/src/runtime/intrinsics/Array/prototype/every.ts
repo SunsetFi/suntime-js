@@ -27,10 +27,6 @@ const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
 
     const length = yield* lengthOfArrayLike(thisObj);
 
-    if (length === 0) {
-      return realm.types.false;
-    }
-
     for (let i = 0; i < length; i++) {
       const property = String(i);
       const hasProperty = yield* thisObj.hasPropertyEvaluator(property);
