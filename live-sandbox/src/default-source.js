@@ -10,6 +10,9 @@
  *
  * The interpreter can also run with time-slicing, ensuring infinite loops do not deadlock the browser.
  * Try running an infinite loop, and see how the interpreter handles it!
+ *
+ * This site is configured to run the sandbox at a conservative rate of 2000 AST nodes per 10ms,
+ * which allows the site to remain somewhat responsive.
  */
 
 // Hit F5 or use the debugger pane to run.
@@ -21,22 +24,31 @@ while(true) {
 }
 */
 
-function nthPrime(n) {
+function* getPrimes(limit) {
   const primes = [];
   let candidate = 2;
-  while (primes.length < n) {
+  while (primes.length < limit) {
     if (primes.every((p) => candidate % p !== 0)) {
       primes.push(candidate);
-      console.log(`Found prime ${primes.length}: ${candidate}`);
+      yield candidate;
     }
     candidate++;
   }
-  return primes[primes.length - 1];
 }
 
-function findPrime(n) {
-  const prime = nthPrime(n);
-  console.log(`The ${n}th prime is ${prime}`);
+function st(x) {
+  switch (x) {
+    case 1:
+      return x + "st";
+    case 2:
+      return x + "nd";
+    default:
+      return x + "rd";
+  }
 }
 
-findPrime(300);
+let n = 1;
+for (const prime of getPrimes(Infinity)) {
+  console.log(`The ${st(n)} prime is ${prime}`);
+  n++;
+}

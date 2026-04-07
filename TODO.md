@@ -39,6 +39,7 @@
 
 - [ ] Expose node data in task iterator
 - [ ] Use node data to break on loop condition and update nodes
+- [ ] Fix DAP / monaco-vscode not knowing line numbers of non-top functions in the call stack.
 
 ### Completion Refactor
 

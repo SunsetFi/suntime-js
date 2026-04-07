@@ -1,8 +1,4 @@
-import {
-  StaticJsRealm,
-  createTimeBoundTaskRunner,
-  createTimeSharingTaskRunner,
-} from "@suntime-js/core";
+import { StaticJsRealm, createTimeSharingTaskRunner } from "@suntime-js/core";
 import type { StaticJsValue } from "@suntime-js/core";
 
 /**
@@ -21,7 +17,12 @@ export function createSandboxRealm(
   onOutput: (text: string) => void,
 ): ReturnType<typeof StaticJsRealm> {
   const realm = StaticJsRealm({
-    runTask: createTimeSharingTaskRunner(),
+    // Time-share the evaluation to not deadlock the browser.
+    runTask: createTimeSharingTaskRunner({
+      // Conersvative numbers to keep the site responsive at the cost of performance.
+      operationsPerIteration: 2000,
+      yieldTime: 10,
+    }),
     // TODO: Make this properly handle new invocations and use it.
     // Cannot use this right now as on invoke it stores the end time and doesn't reset for new invocations.
     // runTaskSync: createTimeBoundTaskRunner(),
