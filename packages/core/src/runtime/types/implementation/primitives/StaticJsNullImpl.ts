@@ -26,7 +26,7 @@ export class StaticJsNullImpl implements StaticJsNull {
     return null;
   }
 
-  toJsSync() {
+  toNative() {
     return null;
   }
 

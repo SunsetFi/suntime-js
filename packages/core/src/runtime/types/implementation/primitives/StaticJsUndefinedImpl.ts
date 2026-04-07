@@ -25,7 +25,7 @@ export class StaticJsUndefinedImpl implements StaticJsUndefined {
     return undefined;
   }
 
-  toJsSync() {
+  toNative() {
     return undefined;
   }
 

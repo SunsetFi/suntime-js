@@ -15,7 +15,7 @@ describe("E2E: Object", () => {
         };
         obj;
       `);
-      const objNative = result.toJsSync() as Record<string, number>;
+      const objNative = result.toNative() as Record<string, number>;
 
       const keys = Object.keys(objNative);
       expect(keys).toEqual(["a", "b", "c"]);
@@ -32,7 +32,7 @@ describe("E2E: Object", () => {
         };
         obj;
       `);
-      const objNative = result.toJsSync() as Record<string, number>;
+      const objNative = result.toNative() as Record<string, number>;
       expect(objNative).toMatchObject({
         a: 1,
         b: 2,
@@ -48,13 +48,13 @@ describe("E2E: Object", () => {
         globalThis.__nativeObj = obj;
         obj;
       `);
-      const objNative = result.toJsSync() as Record<string, number>;
+      const objNative = result.toNative() as Record<string, number>;
 
       objNative.a = 42;
       const aValue = await realm.evaluateScript(`
         globalThis.__nativeObj.a;
       `);
-      expect(aValue.toJsSync()).toBe(42);
+      expect(aValue.toNative()).toBe(42);
     });
 
     it("Should get symbols through the proxy", async () => {
@@ -66,7 +66,7 @@ describe("E2E: Object", () => {
         obj[sym] = 42;
         [sym, obj];
       `);
-      const [sym, objVm] = result.toJsSync() as [symbol, Record<symbol, number>];
+      const [sym, objVm] = result.toNative() as [symbol, Record<symbol, number>];
 
       expect(objVm[sym]).toBe(42);
     });
@@ -80,7 +80,7 @@ describe("E2E: Object", () => {
         globalThis.__nativeObj = obj;
         [sym, obj];
       `);
-      const [sym, objVm] = result.toJsSync() as [symbol, Record<symbol, number>];
+      const [sym, objVm] = result.toNative() as [symbol, Record<symbol, number>];
 
       objVm[sym] = 99;
 
@@ -89,7 +89,7 @@ describe("E2E: Object", () => {
         const obj2 = globalThis.__nativeObj;
         obj2[sym2];
       `);
-      expect(symbolValue.toJsSync()).toBe(99);
+      expect(symbolValue.toNative()).toBe(99);
     });
 
     it("Should preserve well-known symbols between realms", async () => {
@@ -101,7 +101,7 @@ describe("E2E: Object", () => {
         };
         obj;
       `);
-      const obj = result.toJsSync() as Record<string | symbol, unknown>;
+      const obj = result.toNative() as Record<string | symbol, unknown>;
       expect(obj[Symbol.iterator]).toBe(42);
     });
 
@@ -113,7 +113,7 @@ describe("E2E: Object", () => {
         obj;
       `);
 
-      const objNative = objVm.toJsSync();
+      const objNative = objVm.toNative();
 
       const checkSameCode = `
         function checkSame(obj) {
@@ -123,7 +123,7 @@ describe("E2E: Object", () => {
       `;
       const comparerFn = await realm.evaluateScript(checkSameCode);
 
-      const comparer = comparerFn.toJsSync() as (obj: unknown) => boolean;
+      const comparer = comparerFn.toNative() as (obj: unknown) => boolean;
       const result = comparer(objNative);
       expect(result).toBe(true);
     });
@@ -139,7 +139,7 @@ describe("E2E: Object", () => {
         compare;
       `;
       const compare = await realm.evaluateScript(compareCode);
-      const compareFn = compare.toJsSync() as (obj1: unknown, obj2: unknown) => boolean;
+      const compareFn = compare.toNative() as (obj1: unknown, obj2: unknown) => boolean;
       const result = compareFn(objNative, objNative);
       expect(result).toBe(true);
     });
@@ -164,7 +164,7 @@ describe("E2E: Object", () => {
       });
 
       const result = await realm.evaluateScript(code);
-      expect(result.toJsSync()).toEqual([
+      expect(result.toNative()).toEqual([
         ["a", 1],
         ["b", 2],
         ["c", 3],
@@ -189,7 +189,7 @@ describe("E2E: Object", () => {
       });
 
       const result = await realm.evaluateScript(code);
-      expect(result.toJsSync()).toEqual([Symbol.for("a"), Symbol.for("b"), Symbol.for("c")]);
+      expect(result.toNative()).toEqual([Symbol.for("a"), Symbol.for("b"), Symbol.for("c")]);
     });
 
     it("Should mask the object prototype", async () => {

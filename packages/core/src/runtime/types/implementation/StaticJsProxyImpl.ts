@@ -819,7 +819,7 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
     return true;
   }
 
-  toJsSync(): unknown {
+  toNative(): unknown {
     if (!this._cachedJsObject) {
       const proxyHandler: ProxyHandler<object> = {};
       const target = {};

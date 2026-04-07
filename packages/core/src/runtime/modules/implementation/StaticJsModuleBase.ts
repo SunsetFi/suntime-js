@@ -86,7 +86,7 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
         EvaluationContext.external(this._getExportEvaluator(exportName), this._realm),
         opts,
       );
-      return result ? result.toJsSync() : null;
+      return result ? result.toNative() : null;
     } catch (e) {
       Completion.handleRuntime(e);
 
@@ -104,7 +104,7 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
   getModuleNamespaceJsSync(opts?: StaticJsRunTaskOptions): Record<string, unknown> {
     try {
       const result = this._realm.invokeEvaluatorSync(this.getModuleNamespaceEvaluator(), opts);
-      return result.toJsSync() as Record<string, unknown>;
+      return result.toNative() as Record<string, unknown>;
     } catch (e) {
       Completion.handleRuntime(e);
       throw e;

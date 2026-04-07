@@ -18,8 +18,8 @@ All StaticJsValue objects implement a common `StaticJsPrimitive` interface:
 - `typeOf`: The javascript 'typeof' operator return value.
 - `runtimeTypeOf`: The realm's interpretation of this value type.
 - `runtimeTypeCode`: A more efficient value-and-flag map of the value's type, derived from `StaticJsTypeCode`.
-- `toJsSync()`: Synchronously builds and returns a host-proxied value from the runtime value
-  **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
+- `toNative()`: Builds and returns a host-proxied value from the runtime value
+  **WARNING**: While this function itself does not invoke sandboxed code, the resulting proxy object will invoke sandboxed code synchronously when accessed. See [Caveats](#using-synchonous-functions) to synchronous functions.
 - `toStringSync()`: Synchronously returns a string representation of this value
   **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 

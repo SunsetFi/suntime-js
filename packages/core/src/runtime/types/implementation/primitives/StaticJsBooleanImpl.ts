@@ -29,7 +29,7 @@ export class StaticJsBooleanImpl extends StaticJsAbstractPrimitive implements St
     return this._value;
   }
 
-  toJsSync() {
+  toNative() {
     return this._value;
   }
 

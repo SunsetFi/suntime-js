@@ -279,7 +279,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
       // Unwrap it to re-wrap with our own realm.
       // This will result in foreign StaticJs objects being wrapped as external objects, which is desired.
-      value = value.toJsSync();
+      value = value.toNative();
     }
 
     if (value === null) {

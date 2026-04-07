@@ -21,8 +21,8 @@ export class StaticJsExternalFunction extends StaticJsNativeFunctionImpl {
     thisArg: StaticJsValue,
     ...args: StaticJsValue[]
   ): EvaluationGenerator<StaticJsValue> {
-    const thisArgResolved = thisArg.toJsSync();
-    const valueArgsResolved = args.map((arg) => arg.toJsSync());
+    const thisArgResolved = thisArg.toNative();
+    const valueArgsResolved = args.map((arg) => arg.toNative());
     try {
       const result = this._func.call(thisArgResolved, ...valueArgsResolved);
       return this.realm.types.toStaticJsValue(result);
@@ -36,7 +36,7 @@ export class StaticJsExternalFunction extends StaticJsNativeFunctionImpl {
     }
   }
 
-  override toJsSync(): (...args: unknown[]) => unknown {
+  override toNative(): (...args: unknown[]) => unknown {
     return this._func;
   }
 }

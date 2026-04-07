@@ -41,7 +41,7 @@ export async function evaluateExpression(
     let error = e;
 
     if (error instanceof StaticJsRuntimeError) {
-      error = error.thrown.toJsSync();
+      error = error.thrown.toNative();
     } else if (error instanceof StaticJsSyntaxError) {
       error = new SyntaxError(error.message);
     }
@@ -54,7 +54,7 @@ export async function evaluateExpression(
     throw error;
   }
 
-  const jsValue = result.toJsSync();
+  const jsValue = result.toNative();
 
   if (callback) {
     return await callback(jsValue);
@@ -86,7 +86,7 @@ export function evaluateExpressionSync(expression: string, opts?: EvaluationOpti
     let error = e;
 
     if (error instanceof StaticJsRuntimeError) {
-      error = error.thrown.toJsSync();
+      error = error.thrown.toNative();
     } else if (error instanceof StaticJsSyntaxError) {
       error = new SyntaxError(error.message);
     }
@@ -94,5 +94,5 @@ export function evaluateExpressionSync(expression: string, opts?: EvaluationOpti
     throw error;
   }
 
-  return result.toJsSync();
+  return result.toNative();
 }

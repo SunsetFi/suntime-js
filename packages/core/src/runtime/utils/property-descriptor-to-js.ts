@@ -7,7 +7,7 @@ import {
   isStaticJsDataPropertyDescriptor,
 } from "../types/StaticJsPropertyDescriptor.js";
 
-export function properrtyDescriptorToJs(
+export function properrtyDescriptortoNative(
   descriptor: StaticJsPropertyDescriptor,
   realm: StaticJsRealm,
 ): PropertyDescriptor {
@@ -22,7 +22,7 @@ export function properrtyDescriptorToJs(
       objDescriptor.get = function () {
         const thisArg = realm.types.toStaticJsValue(this);
         const result = get.callSync(thisArg);
-        return result.toJsSync();
+        return result.toNative();
       };
     }
     if (set) {
@@ -39,7 +39,7 @@ export function properrtyDescriptorToJs(
     }
 
     if (value !== undefined) {
-      objDescriptor.value = value.toJsSync();
+      objDescriptor.value = value.toNative();
     }
   }
 

@@ -114,7 +114,7 @@ export class StaticJsArrayImpl extends StaticJsObjectLikeImpl implements StaticJ
     }
   }
 
-  protected override _createToJsProxyTarget(): StaticJsObjectProxyTarget {
+  protected override _createtoNativeProxyTarget(): StaticJsObjectProxyTarget {
     return [] as StaticJsObjectProxyTarget;
   }
 

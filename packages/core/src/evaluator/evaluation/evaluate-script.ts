@@ -55,7 +55,7 @@ export async function evaluateScript(
   } catch (e) {
     let error = e;
     if (error instanceof StaticJsRuntimeError) {
-      error = error.thrown.toJsSync();
+      error = error.thrown.toNative();
     } else if (error instanceof StaticJsSyntaxError) {
       error = new SyntaxError(error.message);
     }
@@ -68,7 +68,7 @@ export async function evaluateScript(
     throw error;
   }
 
-  const jsValue = result.toJsSync();
+  const jsValue = result.toNative();
 
   if (callback) {
     return await callback(jsValue);
@@ -88,12 +88,12 @@ export function evaluateScriptSync(script: string, opts?: EvaluationOptions): un
 
   try {
     const result = realm.evaluateScriptSync(script, evalOpts);
-    return result.toJsSync();
+    return result.toNative();
   } catch (e) {
     let error = e;
 
     if (error instanceof StaticJsRuntimeError) {
-      error = error.thrown.toJsSync();
+      error = error.thrown.toNative();
     } else if (error instanceof StaticJsSyntaxError) {
       error = SyntaxError(error.message);
     }

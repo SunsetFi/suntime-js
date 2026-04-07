@@ -322,7 +322,7 @@ describe("E2E: Tasks", () => {
       expect(runTask).toHaveBeenCalledTimes(1);
 
       const result = await promise;
-      expect(result.toJsSync()).toBe(4);
+      expect(result.toNative()).toBe(4);
     });
 
     it("Should allow per-evaluation runTask overrides", async () => {
@@ -338,7 +338,7 @@ describe("E2E: Tasks", () => {
       });
 
       expect(runTask).toHaveBeenCalledTimes(1);
-      expect(result.toJsSync()).toBe(4);
+      expect(result.toNative()).toBe(4);
     });
 
     it("Should prefer per-evaluation runTask over the realm handler", async () => {
@@ -360,7 +360,7 @@ describe("E2E: Tasks", () => {
 
       expect(runTaskRealm).toHaveBeenCalledTimes(0);
       expect(runTaskEvaluate).toHaveBeenCalledTimes(1);
-      expect(result.toJsSync()).toBe(4);
+      expect(result.toNative()).toBe(4);
     });
   });
 
@@ -443,7 +443,7 @@ describe("E2E: Tasks", () => {
       drainTask();
 
       const result2 = await promise2;
-      expect(result2.toJsSync()).toBe(4);
+      expect(result2.toNative()).toBe(4);
     });
   });
 
@@ -458,7 +458,7 @@ describe("E2E: Tasks", () => {
       `);
 
       const result = realm.global.getSync("result");
-      expect(result.toJsSync()).toBe(5);
+      expect(result.toNative()).toBe(5);
     });
 
     it("Should run evaluateScriptSync with the realm runTaskSync handler", () => {
@@ -476,7 +476,7 @@ describe("E2E: Tasks", () => {
       const result = realm.evaluateScriptSync("2 + 2");
 
       expect(runTaskSync).toHaveBeenCalledTimes(1);
-      expect(result.toJsSync()).toBe(4);
+      expect(result.toNative()).toBe(4);
     });
 
     it("Should throw if runTaskSync does not complete the task", () => {
@@ -510,7 +510,7 @@ describe("E2E: Tasks", () => {
 
       expect(runTaskRealm).toHaveBeenCalledTimes(0);
       expect(runTaskEvaluate).toHaveBeenCalledTimes(1);
-      expect(result.toJsSync()).toBe(4);
+      expect(result.toNative()).toBe(4);
     });
   });
 
@@ -586,7 +586,7 @@ describe("E2E: Tasks", () => {
         global: {
           properties: {
             callEvaluateScriptSync: {
-              value: () => realm.evaluateScriptSync("3 + 3").toJsSync(),
+              value: () => realm.evaluateScriptSync("3 + 3").toNative(),
             },
           },
         },
@@ -603,7 +603,7 @@ describe("E2E: Tasks", () => {
         throw new Error("Expected a function");
       }
 
-      expect(func.toJsSync()()).toBe(6);
+      expect(func.toNative()()).toBe(6);
     });
   });
 });

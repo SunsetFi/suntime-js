@@ -35,7 +35,7 @@ export interface StaticJsFunction extends StaticJsObjectLike {
   getNameAsync(opts?: StaticJsRunTaskOptions): Promise<string>;
   getNameSync(opts?: StaticJsRunTaskOptions): string;
 
-  toJsSync(): (...args: unknown[]) => unknown;
+  toNative(): (...args: unknown[]) => unknown;
 }
 
 export interface StaticJsBoundFunction extends StaticJsFunction {

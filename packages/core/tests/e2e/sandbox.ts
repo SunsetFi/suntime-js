@@ -10,7 +10,7 @@ describe("E2E: Sandbox", () => {
     `;
     await realm.evaluateScript(code);
     const result = await realm.evaluateScript("__evalSandboxTest");
-    expect(result.toJsSync()).toBe(42);
+    expect(result.toNative()).toBe(42);
     expect((globalThis as any).__evalSandboxTest).toBeUndefined();
   });
 
@@ -21,7 +21,7 @@ describe("E2E: Sandbox", () => {
     `;
     await realm.evaluateScript(code);
     const result = await realm.evaluateScript("__functionSandboxTest");
-    expect(result.toJsSync()).toBe(42);
+    expect(result.toNative()).toBe(42);
     expect((globalThis as any).__functionSandboxTest).toBeUndefined();
   });
 
@@ -42,7 +42,7 @@ describe("E2E: Sandbox", () => {
       `;
       await realm.evaluateScript(code);
       const result = await realm.evaluateScript("__escapeTest");
-      expect(result.toJsSync()).toBe(42);
+      expect(result.toNative()).toBe(42);
       expect((globalThis as any).__escapeTest).toBeUndefined();
     });
 
@@ -61,7 +61,7 @@ describe("E2E: Sandbox", () => {
       `;
       await realm.evaluateScript(code);
       const result = await realm.evaluateScript("__escapeTest");
-      expect(result.toJsSync()).toBe(42);
+      expect(result.toNative()).toBe(42);
       expect((globalThis as any).__escapeTest).toBeUndefined();
     });
   });

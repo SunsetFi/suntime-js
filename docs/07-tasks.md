@@ -1,6 +1,6 @@
 # Tasks
 
-Tasks are the heart of the evaluator, and represent macrotasks (calls to evaluateScript, evaluateExpression, and evaluateModule), microtasks (Promise resolution follow-ups), and host invocations (toJsSync and similar)
+Tasks are the heart of the evaluator, and represent macrotasks (calls to evaluateScript, evaluateExpression, and evaluateModule), microtasks (Promise resolution follow-ups), and host invocations (toNative and similar)
 
 Tasks follow an iterator pattern; each call to `.next()` will evaluate a single 'operation' in the runtime. An operation is loosely defined by the runtime as being a single AST node evaluation step, but this is not a hard rule.
 
@@ -323,7 +323,7 @@ All instances of task are a StaticJsTaskIterator
 - `type`: The type of task being evaluated:
   - `macrotask`: A top-level entry to an evaluate function
   - `microtask`: A follow-up for a promise resolution
-  - `host-invocation`: A call to a host function, such as `toJsSync` or `callAsync`.
+  - `host-invocation`: A call to a host function, such as `toNative` or `callAsync`.
   - `host-invocation-nested`: A call to a host function that occurred during the evaluation of a `macrotask` or `microtask`.
 - `done`: Whether the task is completed. This will be `true` if the task has completed by any means, including by `.abort()` or having the controlling task runner throw.
 - `aborted`: True if `.abort()` has been called.

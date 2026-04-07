@@ -131,25 +131,27 @@ export abstract class StaticJsAbstractFunction
     return this.realm.invokeEvaluatorSync(this.constructEvaluator(args), opts);
   }
 
-  override toJsSync(): (...args: unknown[]) => unknown {
-    return super.toJsSync() as (...args: unknown[]) => unknown;
+  override toNative(): (...args: unknown[]) => unknown {
+    return super.toNative() as (...args: unknown[]) => unknown;
   }
 
-  protected override _createToJsProxyTarget(): StaticJsObjectProxyTarget {
+  protected override _createtoNativeProxyTarget(): StaticJsObjectProxyTarget {
     return (() => {}) as StaticJsObjectProxyTarget;
   }
 
-  protected override _configureToJsProxy(_traps: ProxyHandler<StaticJsObjectProxyTarget>): void {
+  protected override _configuretoNativeProxy(
+    _traps: ProxyHandler<StaticJsObjectProxyTarget>,
+  ): void {
     _traps.apply = (_target: unknown, thisArg: unknown, args: unknown[]) => {
       const argValues = args.map((value) => this.realm.types.toStaticJsValue(value));
       // FIXME: Not sure of the wisdom of this.  This might result in leaking host concerns into the runtime,
       // if the caller is not aware that this is happening.
-      // In general, .toJsSync() is a security nightmare anyway...
+      // In general, .toNative() is a security nightmare anyway...
       const thisArgValue = this.realm.types.toStaticJsValue(thisArg);
 
       const result = this.realm.invokeEvaluatorSync(this.callEvaluator(thisArgValue, argValues));
 
-      return result.toJsSync();
+      return result.toNative();
     };
   }
 }

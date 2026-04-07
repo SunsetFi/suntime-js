@@ -33,7 +33,7 @@ export class StaticJsStringImpl extends StaticJsAbstractPrimitive implements Sta
     return this._value;
   }
 
-  toJsSync() {
+  toNative() {
     return this._value;
   }
 

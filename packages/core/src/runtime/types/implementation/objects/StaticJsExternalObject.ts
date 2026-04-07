@@ -38,7 +38,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     return StaticJsTypeCode.Object;
   }
 
-  override toJsSync() {
+  override toNative() {
     return this._obj;
   }
 
@@ -48,7 +48,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     let property: PropertyKey;
     if (isStaticJsSymbol(name)) {
       // This is a safe operation and will not invoke any evaluator code that could loop.
-      property = name.toJsSync();
+      property = name.toNative();
     } else {
       property = name as string;
     }

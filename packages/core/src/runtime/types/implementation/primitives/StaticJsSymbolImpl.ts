@@ -64,7 +64,7 @@ export class StaticJsSymbolImpl extends StaticJsObjectLikeImpl implements Static
     return this._description;
   }
 
-  override toJsSync(): symbol {
+  override toNative(): symbol {
     return this._nativeSymbol;
   }
 }

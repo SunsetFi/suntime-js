@@ -118,8 +118,8 @@ export class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements Sta
     return this.realm.invokeEvaluatorSync(this._getNameEvaluator(), opts);
   }
 
-  override toJsSync(): (...args: unknown[]) => unknown {
-    return super.toJsSync() as (...args: unknown[]) => unknown;
+  override toNative(): (...args: unknown[]) => unknown {
+    return super.toNative() as (...args: unknown[]) => unknown;
   }
 
   private *_getNameEvaluator(): EvaluationGenerator<string> {

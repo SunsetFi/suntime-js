@@ -89,7 +89,7 @@ describe("E2E: Modules", () => {
       const foo = await module.getExportAsync("foo");
       expect(foo).toBeDefined();
       expect(foo?.runtimeTypeOf).toBe("number");
-      expect(foo?.toJsSync()).toBe(42);
+      expect(foo?.toNative()).toBe(42);
     });
 
     it("Can export a default variable export", async () => {
@@ -103,7 +103,7 @@ describe("E2E: Modules", () => {
       const defaultExport = await module.getExportAsync("default");
       expect(defaultExport).toBeDefined();
       expect(defaultExport?.runtimeTypeOf).toBe("number");
-      expect(defaultExport?.toJsSync()).toBe(42);
+      expect(defaultExport?.toNative()).toBe(42);
     });
 
     it("Can export a default anonymous function export", async () => {
@@ -117,7 +117,7 @@ describe("E2E: Modules", () => {
       const module = await evaluateModule(moduleCode, { realm });
       const defaultExport = await module.getExportAsync("default");
       expect(defaultExport).toBeDefined();
-      expect(defaultExport?.toJsSync()).toBeTypeOf("function");
+      expect(defaultExport?.toNative()).toBeTypeOf("function");
     });
 
     it("Can export a default named function export", async () => {
@@ -131,7 +131,7 @@ describe("E2E: Modules", () => {
       const module = await evaluateModule(moduleCode, { realm });
       const defaultExport = await module.getExportAsync("default");
       expect(defaultExport).toBeDefined();
-      expect(defaultExport?.toJsSync()).toBeTypeOf("function");
+      expect(defaultExport?.toNative()).toBeTypeOf("function");
     });
 
     it("Can export an indirect export", async () => {
@@ -146,7 +146,7 @@ describe("E2E: Modules", () => {
       const foo = await module.getExportAsync("foo");
       expect(foo).toBeDefined();
       expect(foo?.runtimeTypeOf).toBe("number");
-      expect(foo?.toJsSync()).toBe(42);
+      expect(foo?.toNative()).toBe(42);
     });
 
     it("Can export a named indirect export", async () => {
@@ -161,7 +161,7 @@ describe("E2E: Modules", () => {
       const bar = await module.getExportAsync("bar");
       expect(bar).toBeDefined();
       expect(bar?.runtimeTypeOf).toBe("number");
-      expect(bar?.toJsSync()).toBe(42);
+      expect(bar?.toNative()).toBe(42);
     });
 
     it("Can obtain a namespace", async () => {

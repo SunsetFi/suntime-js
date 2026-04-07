@@ -17,7 +17,7 @@ export abstract class StaticJsAbstractPrimitive implements StaticJsPrimitive {
 
   abstract get runtimeTypeCode(): StaticJsTypeCode;
 
-  abstract toJsSync(): unknown;
+  abstract toNative(): unknown;
 
   abstract toStringSync(): string;
 

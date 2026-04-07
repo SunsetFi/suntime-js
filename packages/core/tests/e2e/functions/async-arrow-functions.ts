@@ -40,7 +40,7 @@ describe("E2E: Async arrow functions", () => {
 
     expect(isStaticJsPromise(result)).toBe(true);
     const promise = result as StaticJsPromise;
-    const nativePromise = promise.toJsSync();
+    const nativePromise = promise.toNative();
 
     // Weirdly, we get a bizzare chai error if we try to use expect.resolves
     // on the proxy.  Looks like somehow chai thinks runtimeTypeOf is its own

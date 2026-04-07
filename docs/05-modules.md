@@ -83,7 +83,7 @@ const resultValue = await addValue.callAsync(realm.types.undefined, [
 ]);
 
 // Alternatively, coerce it to a native function
-const add = addValue.toJsSync();
+const add = addValue.toNative();
 const result = add(4, 3);
 ```
 

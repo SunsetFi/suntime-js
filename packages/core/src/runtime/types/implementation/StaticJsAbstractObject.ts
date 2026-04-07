@@ -412,11 +412,11 @@ export abstract class StaticJsAbstractObject
     return yield* this._deleteConfigurablePropertyEvaluator(key);
   }
 
-  toJsSync(): unknown {
+  toNative(): unknown {
     if (!this._cachedJsObject) {
       const proxyHandler: ProxyHandler<object> = {};
-      this._configureToJsProxy(proxyHandler);
-      const target = this._createToJsProxyTarget();
+      this._configuretoNativeProxy(proxyHandler);
+      const target = this._createtoNativeProxyTarget();
       this._cachedJsObject = createStaticJsObjectLikeProxy(this, target, proxyHandler);
     }
 
@@ -427,11 +427,11 @@ export abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorSync(toString(this), opts).value;
   }
 
-  protected _createToJsProxyTarget(): StaticJsObjectProxyTarget {
+  protected _createtoNativeProxyTarget(): StaticJsObjectProxyTarget {
     return {};
   }
 
-  protected _configureToJsProxy(_traps: ProxyHandler<StaticJsObjectProxyTarget>): void {}
+  protected _configuretoNativeProxy(_traps: ProxyHandler<StaticJsObjectProxyTarget>): void {}
 
   protected abstract _setPropertyDescriptorEvaluator(
     key: StaticJsPropertyKey,

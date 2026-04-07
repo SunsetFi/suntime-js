@@ -78,7 +78,7 @@ Tasks can be used to timeshare, enforce time limits, pause, debug, and abort ong
 The default [Task Handler](07-tasks.md) for running tasks using [evaluateExpressionSync](#evaluateexpressionsyncexpression-string-opts-staticjsruntaskoptions) and
 [evaluateScriptSync](#evaluatescriptsyncexpression-string-opts-staticjsruntaskoptions).
 
-This will also be used for synchronous sub-task evaluation, such as StaticJsValue.toJsSync or StaticJsModule.getExportSync
+This will also be used for synchronous sub-task evaluation, such as StaticJsValue.toNative or StaticJsModule.getExportSync
 
 If you pass a `runTask` option to any of those methods, it will be used in place of this function.
 

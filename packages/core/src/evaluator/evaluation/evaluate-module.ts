@@ -38,7 +38,7 @@ export async function evaluateModule(
     let error = e;
 
     if (error instanceof StaticJsRuntimeError) {
-      error = error.thrown.toJsSync();
+      error = error.thrown.toNative();
     } else if (error instanceof StaticJsSyntaxError) {
       const syntaxError = new SyntaxError(error.message);
       syntaxError.cause = error;

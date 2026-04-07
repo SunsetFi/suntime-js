@@ -1,4 +1,4 @@
-import { properrtyDescriptorToJs } from "../../../utils/property-descriptor-to-js.js";
+import { properrtyDescriptortoNative } from "../../../utils/property-descriptor-to-js.js";
 
 import type { StaticJsValue } from "../../StaticJsValue.js";
 import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
@@ -45,13 +45,13 @@ export function createStaticJsObjectLikeProxy(
     const existingDef = Object.getOwnPropertyDescriptor(target, propertyName);
     if (existingDef && !existingDef.configurable) {
       if (isStaticJsDataPropertyDescriptor(descriptor) && descriptor.writable) {
-        target[propertyName] = obj.getSync(staticJsPropertyKey).toJsSync();
+        target[propertyName] = obj.getSync(staticJsPropertyKey).toNative();
         return Object.getOwnPropertyDescriptor(target, propertyName);
       }
       return existingDef;
     }
 
-    const jsDescriptor = properrtyDescriptorToJs(descriptor, obj.realm);
+    const jsDescriptor = properrtyDescriptortoNative(descriptor, obj.realm);
 
     Object.defineProperty(target, propertyName, jsDescriptor);
 
@@ -61,7 +61,7 @@ export function createStaticJsObjectLikeProxy(
   const ownKeys = () => {
     const keys = obj.ownPropertyKeysSync().map((key) => {
       if (isStaticJsSymbol(key)) {
-        return key.toJsSync() as symbol;
+        return key.toNative() as symbol;
       }
       return key;
     });
@@ -93,7 +93,7 @@ export function createStaticJsObjectLikeProxy(
       }
 
       // Delegate to the prototype proxy.
-      const proto = obj.getPrototypeOfSync()?.toJsSync();
+      const proto = obj.getPrototypeOfSync()?.toNative();
       if (proto) {
         return Reflect.get(proto, p);
       }
@@ -115,7 +115,7 @@ export function createStaticJsObjectLikeProxy(
       }
 
       // Delegate to the prototype proxy.
-      const proto = obj.getPrototypeOfSync()?.toJsSync();
+      const proto = obj.getPrototypeOfSync()?.toNative();
       if (proto) {
         return Reflect.has(proto, p);
       }
@@ -185,7 +185,7 @@ export function createStaticJsObjectLikeProxy(
       if (!proto) {
         return null;
       }
-      return proto.toJsSync() as object;
+      return proto.toNative() as object;
     },
     apply() {
       throw new TypeError("Object is not a function.");

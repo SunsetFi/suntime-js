@@ -69,7 +69,7 @@ export class StaticJsStringBoxed extends StaticJsAbstractObject {
     return this._value;
   }
 
-  override toJsSync(): unknown {
+  override toNative(): unknown {
     return new Object(this._value);
   }
 }

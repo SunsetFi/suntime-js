@@ -112,7 +112,7 @@ Figure out public API for invoking and implementing evaluators.
   - [ ] Promises
   - [ ] ...others
 - [-] Option to specify task runners in async methods
-- [ ] toJs
+- [ ] toNative
   - [ ] Rename to toNative
   - [ ] Accept a runTask
     - [ ] Use the runTask on future calls to object proxies.

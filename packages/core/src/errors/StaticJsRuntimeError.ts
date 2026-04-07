@@ -29,7 +29,7 @@ export class StaticJsRuntimeError extends Error {
     return this._thrown;
   }
 
-  toJSON(): Record<string, unknown> {
+  toNativeON(): Record<string, unknown> {
     return {
       name: this.name,
       message: this.message,

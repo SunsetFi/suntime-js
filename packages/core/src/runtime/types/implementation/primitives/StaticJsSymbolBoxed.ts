@@ -20,7 +20,7 @@ export class StaticJsSymbolBoxed extends StaticJsObjectImpl {
     return `Symbol(${this._value.description})`;
   }
 
-  override toJsSync(): unknown {
-    return new Object(this._value.toJsSync());
+  override toNative(): unknown {
+    return new Object(this._value.toNative());
   }
 }

@@ -29,7 +29,7 @@ describe("E2E: Realm", () => {
       const realm = StaticJsRealm({});
 
       const result = await realm.evaluateScript("const result = 2 + 2; result");
-      expect(result.toJsSync()).toBe(4);
+      expect(result.toNative()).toBe(4);
     });
 
     it("Handles syntax errors", async () => {
@@ -48,7 +48,7 @@ describe("E2E: Realm", () => {
 
       await realm.evaluateScript("const x = 42;");
       const result = await realm.evaluateScript("x");
-      expect(result.toJsSync()).toBe(42);
+      expect(result.toNative()).toBe(42);
     });
 
     describe("Top-level await", () => {
@@ -79,7 +79,7 @@ describe("E2E: Realm", () => {
         expect(invocationCompleted).toHaveBeenCalledTimes(0);
         expect(resolver).toBeDefined();
         resolver!();
-        await result.toJsSync();
+        await result.toNative();
         expect(invocationCompleted).toHaveBeenCalledTimes(1);
       });
 
@@ -96,7 +96,7 @@ describe("E2E: Realm", () => {
           );
 
           expect(isStaticJsPromise(result)).toBe(false);
-          expect(result.toJsSync()).toBe(42);
+          expect(result.toNative()).toBe(42);
         });
 
         it("Returns a promise if top-level await is used", async () => {
@@ -123,7 +123,7 @@ describe("E2E: Realm", () => {
         );
 
         expect(isStaticJsPromise(result)).toBe(true);
-        const finalValue = await result.toJsSync();
+        const finalValue = await result.toNative();
         expect(finalValue).toBe(42);
       });
     });
@@ -145,16 +145,16 @@ describe("E2E: Realm", () => {
       const promise2 = realm.evaluateScript(code);
       const promise3 = realm.evaluateScript(code);
 
-      expect(realm.global.getSync("__orderTest")?.toJsSync()).toBeUndefined();
+      expect(realm.global.getSync("__orderTest")?.toNative()).toBeUndefined();
 
       await promise1;
-      expect(realm.global.getSync("__orderTest")?.toJsSync()).toBe(1);
+      expect(realm.global.getSync("__orderTest")?.toNative()).toBe(1);
 
       await promise2;
-      expect(realm.global.getSync("__orderTest")?.toJsSync()).toBe(2);
+      expect(realm.global.getSync("__orderTest")?.toNative()).toBe(2);
 
       await promise3;
-      expect(realm.global.getSync("__orderTest")?.toJsSync()).toBe(3);
+      expect(realm.global.getSync("__orderTest")?.toNative()).toBe(3);
     });
 
     describe("Tasks", () => {
@@ -229,7 +229,7 @@ describe("E2E: Realm", () => {
       const realm = StaticJsRealm({});
 
       const result = realm.evaluateScriptSync("2 + 2");
-      expect(result.toJsSync()).toBe(4);
+      expect(result.toNative()).toBe(4);
     });
 
     describe("Tasks", () => {
@@ -304,7 +304,7 @@ describe("E2E: Realm", () => {
       const realm = StaticJsRealm({});
 
       const result = await realm.evaluateExpression("2 + 2");
-      expect(result.toJsSync()).toBe(4);
+      expect(result.toNative()).toBe(4);
     });
 
     it("Handles syntax errors", async () => {
@@ -323,7 +323,7 @@ describe("E2E: Realm", () => {
 
       await realm.evaluateScript("const x = 42;");
       const result = await realm.evaluateExpression("x");
-      expect(result.toJsSync()).toBe(42);
+      expect(result.toNative()).toBe(42);
     });
 
     describe("Tasks", () => {
@@ -398,7 +398,7 @@ describe("E2E: Realm", () => {
       const realm = StaticJsRealm({});
 
       const result = realm.evaluateExpressionSync("2 + 2");
-      expect(result.toJsSync()).toBe(4);
+      expect(result.toNative()).toBe(4);
     });
 
     describe("Tasks", () => {
@@ -474,7 +474,7 @@ describe("E2E: Realm", () => {
 
       const module = await realm.evaluateModule("export const result = 2 + 2;");
       const result = await module.getExportAsync("result");
-      expect(result?.toJsSync()).toBe(4);
+      expect(result?.toNative()).toBe(4);
     });
 
     it("Handles syntax errors", async () => {

@@ -99,14 +99,14 @@ export default function defineTest(testName: string, test: Test262File) {
             "Unhandled rejection in test:",
             testName,
             "with reason:",
-            e.thrown.toJsSync(),
+            e.thrown.toNative(),
           );
           return;
         }
 
         if (e instanceof StaticJsRuntimeError) {
           // oxlint-disable-next-line no-ex-assign
-          e = e.thrown.toJsSync();
+          e = e.thrown.toNative();
         }
 
         if (test.negative?.phase === "runtime") {
