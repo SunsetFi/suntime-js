@@ -11,6 +11,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import { get } from "../../../algorithms/get.js";
 import call from "../../../algorithms/call.js";
+import toString from "../../../algorithms/to-string.js";
 
 const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
   key: "filter",
@@ -22,7 +23,8 @@ const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (!isStaticJsFunction(callback)) {
-      throw Completion.Throw("TypeError", `${callback.toStringSync()} is not a function`);
+      const callbackStr = yield* toString.js(callback);
+      throw Completion.Throw("TypeError", `${callbackStr} is not a function`);
     }
 
     const length = yield* lengthOfArrayLike(thisObj);

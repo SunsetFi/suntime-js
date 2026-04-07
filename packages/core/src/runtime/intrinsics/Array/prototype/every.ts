@@ -9,6 +9,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import { get } from "../../../algorithms/get.js";
 import call from "../../../algorithms/call.js";
+import toString from "../../../algorithms/to-string.js";
 
 const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
   key: "every",
@@ -20,9 +21,8 @@ const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (!isStaticJsFunction(callback)) {
-      // FIXME: NodeJs is doing something aside from casting it to string.
-      // Object appears as "#<Object>"
-      throw Completion.Throw("TypeError", `${callback.toStringSync()} is not a function`);
+      const callbackStr = yield* toString.js(callback);
+      throw Completion.Throw("TypeError", `${callbackStr} is not a function`);
     }
 
     const length = yield* lengthOfArrayLike(thisObj);

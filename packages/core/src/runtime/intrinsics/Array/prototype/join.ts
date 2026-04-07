@@ -6,6 +6,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import { get } from "../../../algorithms/get.js";
+import toString from "../../../algorithms/to-string.js";
 
 const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
   key: "join",
@@ -22,7 +23,7 @@ const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
     if (isStaticJsUndefined(joinerValue)) {
       joiner = ",";
     } else {
-      joiner = joinerValue.toStringSync();
+      joiner = yield* toString.js(joinerValue);
     }
 
     const s: string[] = [];
@@ -42,7 +43,8 @@ const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
 
-      s.push(elementValue.toStringSync());
+      const valueStr = yield* toString.js(elementValue);
+      s.push(valueStr);
     }
 
     return realm.types.string(s.join(joiner));

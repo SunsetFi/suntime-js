@@ -1,6 +1,7 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import call from "../../../algorithms/call.js";
 import { get } from "../../../algorithms/get.js";
+import toString from "../../../algorithms/to-string.js";
 
 import type { StaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
@@ -36,7 +37,8 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (!isStaticJsFunction(callback)) {
-      throw Completion.Throw("TypeError", `${callback.toStringSync()} is not a function`);
+      const callbackStr = yield* toString.js(callback);
+      throw Completion.Throw("TypeError", `${callbackStr} is not a function`);
     }
 
     const length = yield* thisArray.getLengthEvaluator();

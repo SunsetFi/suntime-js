@@ -6,6 +6,7 @@ import { fromPropertyDescriptor } from "../../../utils/fromPropertyDescriptor.js
 import toObject from "../../../algorithms/to-object.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import { toPropertyKey } from "../../../utils/to-property-key.js";
 
 const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaration = {
   key: "getOwnPropertyDescriptor",
@@ -21,7 +22,8 @@ const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaratio
       return realm.types.undefined;
     }
 
-    const descriptor = yield* obj.getOwnPropertyEvaluator(propValue.toStringSync());
+    const key = yield* toPropertyKey(propValue);
+    const descriptor = yield* obj.getOwnPropertyEvaluator(key);
 
     if (!descriptor) {
       return realm.types.undefined;
