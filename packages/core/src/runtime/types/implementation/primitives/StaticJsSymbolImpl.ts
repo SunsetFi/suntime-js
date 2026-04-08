@@ -32,6 +32,7 @@ export class StaticJsSymbolImpl extends StaticJsObjectLikeImpl implements Static
       this._description = descriptionOrSymbol;
       this._nativeSymbol = Symbol(descriptionOrSymbol);
     } else if (typeof descriptionOrSymbol === "symbol") {
+      this._description = descriptionOrSymbol.description;
       this._nativeSymbol = descriptionOrSymbol;
     } else {
       this._nativeSymbol = Symbol();

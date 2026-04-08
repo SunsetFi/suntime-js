@@ -9,6 +9,7 @@ import toString from "../../../algorithms/to-string.js";
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import stringCtorFromCharCodeDeclaration from "./fromCharCode.js";
+import { isStaticJsSymbol } from "../../../types/StaticJsSymbol.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [stringCtorFromCharCodeDeclaration];
 
@@ -17,7 +18,15 @@ export default function createStringConstructor(realm: StaticJsRealm, stringProt
     realm,
     "String",
     function* (_thisArg, value) {
-      return yield* toString(value ?? realm.types.string(""));
+      if (!value) {
+        value = realm.types.string("");
+      } else if (isStaticJsSymbol(value)) {
+        // SymbolDescribeString
+        let desc = value.description ?? "";
+        return realm.types.string(`Symbol(${desc})`);
+      }
+
+      return yield* toString(value);
     },
     {
       *construct(_thisArg, value) {

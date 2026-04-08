@@ -3,8 +3,6 @@ import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
-import { StaticJsRuntimeError } from "../../errors/StaticJsRuntimeError.js";
-
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
@@ -15,9 +13,18 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 import toPrimitive from "./to-primitive.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 function* toString(value: StaticJsValue): EvaluationGenerator<StaticJsString> {
   const { realm } = EvaluationContext.current;
+
+  if (isStaticJsString(value)) {
+    return value;
+  }
+  if (isStaticJsSymbol(value)) {
+    throw Completion.Throw("TypeError", "Cannot convert a Symbol value to a string");
+  }
+
   if (isStaticJsUndefined(value)) {
     return realm.types.string("undefined");
   }
@@ -32,18 +39,6 @@ function* toString(value: StaticJsValue): EvaluationGenerator<StaticJsString> {
 
   if (isStaticJsNumber(value)) {
     return realm.types.string(value.value.toString());
-  }
-
-  if (isStaticJsString(value)) {
-    return value;
-  }
-
-  // TODO: Symbol: throw TypeError
-  // TODO: Is this really what we do?
-  if (isStaticJsSymbol(value)) {
-    throw new StaticJsRuntimeError(
-      realm.types.error("TypeError", "Cannot convert symbol to string"),
-    );
   }
 
   if (isStaticJsObjectLike(value)) {

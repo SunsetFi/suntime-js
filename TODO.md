@@ -109,14 +109,11 @@ Figure out public API for invoking and implementing evaluators.
 - [x] Async methods for host api core types
   - [x] Functions
   - [x] Objects
+  - [ ] toString / primitives
   - [ ] Promises
   - [ ] ...others
 - [-] Option to specify task runners in async methods
-- [ ] toNative
-  - [ ] Rename to toNative
-  - [ ] Accept a runTask
-    - [ ] Use the runTask on future calls to object proxies.
-- [ ] Documentation
+- [ ] Accept a runTask on toNative to use for future calls to object proxies.
 
 ## Think about
 
