@@ -1,10 +1,9 @@
 import { join } from "node:path";
 import { statSync } from "node:fs";
 
-import { it } from "vitest";
+import { describe, it } from "vitest";
 
 import getPerf from "./utils/get-perf.js";
-import describePath from "./utils/describe-path.js";
 
 import defineTest from "./define-test.js";
 import getTest262Path from "./utils/get-test262-path.js";
@@ -25,7 +24,28 @@ export default function defineTestFromPath(relativeTestPath: string) {
     throw new Error("No tests found for " + relativeTestPath);
   }
 
-  const pathDecls = new Map<string, { path: string[]; tests: Test262File[] }>();
+  const relativeTestPathParts = relativeTestPath.split("/");
+  const prefixLength = relativeTestPathParts.filter((x) => x.length > 0).length;
+
+  const pathRoot: PathTree = {
+    pathElement: null,
+    tests: [],
+    children: [],
+  };
+  function addToPathTree(testPath: string[], test: Test262File) {
+    let currentRoot = pathRoot;
+    for (const pathElement of testPath.slice(1)) {
+      let pathRoot = currentRoot.children.find((r) => r.pathElement === pathElement);
+      if (!pathRoot) {
+        pathRoot = { pathElement, tests: [], children: [] };
+        currentRoot.children.push(pathRoot);
+      }
+      currentRoot = pathRoot;
+    }
+
+    currentRoot.tests.push(test);
+  }
+
   for (const sourceFile of tests) {
     if (sourceFile.includes("_FIXTURE")) {
       continue;
@@ -38,29 +58,40 @@ export default function defineTestFromPath(relativeTestPath: string) {
       continue;
     }
 
-    const prefixLength = relativeTestPath.split("/").filter((x) => x.length > 0).length;
     const path = test.testPathParts.slice(prefixLength, -1);
-    const fullPath = path.join("/");
-    let decl = pathDecls.get(fullPath);
-    if (!decl) {
-      decl = { path, tests: [] };
-      pathDecls.set(fullPath, decl);
-    }
-
-    decl.tests.push(test);
+    addToPathTree(path, test);
   }
 
   perf(`Sorted tests`);
 
-  for (const { path, tests } of pathDecls.values()) {
-    describePath(path, () => {
-      for (const test of tests) {
+  function defineTree(tree: PathTree) {
+    function defineChildren() {
+      for (const child of tree.children) {
+        defineTree(child);
+      }
+      for (const test of tree.tests) {
         defineTest(test.testName, test);
       }
-    });
+    }
+
+    if (tree.pathElement) {
+      describe(tree.pathElement, () => {
+        defineChildren();
+      });
+    } else {
+      defineChildren();
+    }
   }
 
+  defineTree(pathRoot);
+
   perf(`Defined tests`);
+}
+
+interface PathTree {
+  pathElement: string | null;
+  tests: Test262File[];
+  children: PathTree[];
 }
 
 function getTestsFromPath(testPath: string) {
