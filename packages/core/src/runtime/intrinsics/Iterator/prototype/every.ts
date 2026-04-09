@@ -3,16 +3,17 @@ import { captureThrownCompletion } from "../../../../evaluator/completions/captu
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
-import call from "../../../algorithms/call.js";
-import toBoolean from "../../../algorithms/to-boolean.js";
-import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
+
+import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
+import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
 
-import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import call from "../../../algorithms/call.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
+import toBoolean from "../../../algorithms/to-boolean.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -30,7 +31,7 @@ const iteratorProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
       done: false,
     };
 
-    if (!isStaticJsFunction(predicate)) {
+    if (!isCallable(predicate)) {
       const error = Completion.Throw("TypeError", "Predicate must be a function");
       yield* Q(iteratorClose(iterated, error));
       throw new StaticJsEngineError("Unreachable code after iteratorClose with abrupt completion");

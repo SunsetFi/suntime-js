@@ -1,14 +1,15 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import call from "../../../algorithms/call.js";
-import { get } from "../../../algorithms/get.js";
-import toString from "../../../algorithms/to-string.js";
 
 import type { StaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
-import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
-import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import { isStaticJsNull } from "../../../types/StaticJsNull.js";
+
+import call from "../../../algorithms/call.js";
+import { get } from "../../../algorithms/get.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
+import toString from "../../../algorithms/to-string.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -36,7 +37,7 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
       callback = realm.types.undefined;
     }
 
-    if (!isStaticJsFunction(callback)) {
+    if (!isCallable(callback)) {
       const callbackStr = yield* toString.js(callback);
       throw Completion.Throw("TypeError", `${callbackStr} is not a function`);
     }

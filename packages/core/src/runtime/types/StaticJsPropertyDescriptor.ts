@@ -1,7 +1,6 @@
 import { hasOwnProperty } from "../../utils/has-own-property.js";
 
-import type { StaticJsFunction } from "./StaticJsFunction.js";
-import { isStaticJsFunction } from "./StaticJsFunction.js";
+import { isStaticJsCallable, type StaticJsCallable } from "./StaticJsCallable.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
@@ -15,8 +14,8 @@ export interface StaticJsDataPropertyDescriptor {
 export interface StaticJsAccessorPropertyDescriptor {
   readonly configurable: boolean;
   readonly enumerable: boolean;
-  readonly get: StaticJsFunction | undefined;
-  readonly set: StaticJsFunction | undefined;
+  readonly get: StaticJsCallable | undefined;
+  readonly set: StaticJsCallable | undefined;
 }
 
 export type StaticJsPropertyDescriptor =
@@ -28,8 +27,8 @@ export interface StaticJsPropertyDescriptorRecord {
   enumerable?: boolean;
   value?: StaticJsValue;
   writable?: boolean;
-  get?: StaticJsFunction | undefined;
-  set?: StaticJsFunction | undefined;
+  get?: StaticJsCallable | undefined;
+  set?: StaticJsCallable | undefined;
 }
 
 export function validateStaticJsPropertyDescriptorRecord(
@@ -56,12 +55,12 @@ export function validateStaticJsPropertyDescriptorRecord(
     throw new TypeError("value must be a StaticJsValue.");
   }
 
-  if (hasGet && !isStaticJsFunction(value.get)) {
-    throw new TypeError("get must be a StaticJsFunction.");
+  if (hasGet && !isStaticJsCallable(value.get)) {
+    throw new TypeError("get must be a StaticJsCallable.");
   }
 
-  if (hasSet && !isStaticJsFunction(value.set)) {
-    throw new TypeError("set must be a StaticJsFunction.");
+  if (hasSet && !isStaticJsCallable(value.set)) {
+    throw new TypeError("set must be a StaticJsCallable.");
   }
 }
 

@@ -5,9 +5,9 @@ import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import type { StaticJsScalar } from "../types/StaticJsScalar.js";
 import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
-import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 import { get } from "./get.js";
 import call from "./call.js";
+import { isCallable } from "./is-callable.js";
 
 export default function* toPrimitive(
   value: StaticJsValue,
@@ -20,7 +20,7 @@ export default function* toPrimitive(
   }
 
   const exoticToPrim = yield* get(value, realm.types.symbols.toPrimitive);
-  if (isStaticJsFunction(exoticToPrim)) {
+  if (isCallable(exoticToPrim)) {
     let hint: "string" | "number" | "default";
     if (!preferredType) {
       hint = "default";
@@ -55,7 +55,7 @@ function* ordinaryToPrimitive(
 
   for (const methodName of methodNames) {
     const method = yield* get(value, methodName);
-    if (!isStaticJsFunction(method)) {
+    if (!isCallable(method)) {
       continue;
     }
 

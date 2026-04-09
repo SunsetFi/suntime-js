@@ -4,14 +4,13 @@ import toBoolean from "../../../algorithms/to-boolean.js";
 import toObject from "../../../algorithms/to-object.js";
 import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
 
-import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
-
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import { get } from "../../../algorithms/get.js";
 import call from "../../../algorithms/call.js";
 import toString from "../../../algorithms/to-string.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
 
 const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
   key: "filter",
@@ -22,7 +21,7 @@ const arrayProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
       callback = realm.types.undefined;
     }
 
-    if (!isStaticJsFunction(callback)) {
+    if (!isCallable(callback)) {
       const callbackStr = yield* toString.js(callback);
       throw Completion.Throw("TypeError", `${callbackStr} is not a function`);
     }

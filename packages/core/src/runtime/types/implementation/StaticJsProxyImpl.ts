@@ -22,6 +22,7 @@ import toBoolean from "../../algorithms/to-boolean.js";
 import toPropertyDescriptor from "../../algorithms/to-property-descriptor.js";
 import toString from "../../algorithms/to-string.js";
 import { isCompatiblePropertyDescriptor } from "../../algorithms/is-compatible-property-descriptor.js";
+import { construct } from "../../algorithms/construct.js";
 
 import { isStaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsObjectLike, StaticJsObjectLike } from "../StaticJsObjectLike.js";
@@ -36,10 +37,12 @@ import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import { isStaticJsUndefined } from "../StaticJsUndefined.js";
 import { StaticJsValue } from "../StaticJsValue.js";
+import { isStaticJsCallable, StaticJsCallable } from "../StaticJsCallable.js";
 
 import { createStaticJsObjectLikeProxy } from "./objects/create-object-proxy.js";
+import { StaticJsArrayImpl } from "./objects/StaticJsArrayImpl.js";
 
-export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunction*/ {
+export class StaticJsProxyImpl implements StaticJsObjectLike, StaticJsCallable {
   private _cachedJsObject: unknown | null = null;
 
   constructor(
@@ -47,6 +50,10 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
     private _handler: StaticJsObjectLike,
     private readonly _realm: StaticJsRealm,
   ) {}
+
+  get isConstructor(): boolean {
+    throw new Error("Method not implemented.");
+  }
 
   get realm(): StaticJsRealm {
     return this._realm;
@@ -61,7 +68,9 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
   }
 
   get runtimeTypeCode(): StaticJsTypeCode {
-    return StaticJsTypeCode.Proxy;
+    return isStaticJsCallable(this._proxyTarget)
+      ? StaticJsTypeCode.ProxyCallable
+      : StaticJsTypeCode.Proxy;
   }
 
   get prototype(): StaticJsObjectLike | null {
@@ -810,6 +819,75 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
     }
 
     return true;
+  }
+
+  callAsync(
+    thisArg: StaticJsValue,
+    args?: StaticJsValue[],
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsValue> {
+    return this._realm.invokeEvaluatorAsync(this.callEvaluator(thisArg, args), opts);
+  }
+
+  callSync(
+    thisArg: StaticJsValue,
+    args?: StaticJsValue[],
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsValue {
+    return this._realm.invokeEvaluatorSync(this.callEvaluator(thisArg, args), opts);
+  }
+
+  *callEvaluator(
+    thisArg: StaticJsValue,
+    args?: StaticJsValue[],
+  ): EvaluationGenerator<StaticJsValue> {
+    yield* this._validateNonRevokedProxy();
+
+    const target = this._proxyTarget;
+    const handler = this._handler;
+
+    const trap = yield* Q(getMethod(handler, "apply"));
+    if (!trap) {
+      return yield* Q(call(target, thisArg, args));
+    }
+
+    const argArray = yield* StaticJsArrayImpl.create(this.realm, args || []);
+    return yield* Q(call(trap, handler, [target, thisArg, argArray]));
+  }
+
+  constructAsync(args?: StaticJsValue[], opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
+    return this._realm.invokeEvaluatorAsync(this.constructEvaluator(args), opts);
+  }
+
+  constructSync(args?: StaticJsValue[], opts?: StaticJsRunTaskOptions): StaticJsValue {
+    return this._realm.invokeEvaluatorSync(this.constructEvaluator(args), opts);
+  }
+
+  *constructEvaluator(args?: StaticJsValue[]): EvaluationGenerator<StaticJsObjectLike> {
+    yield* this._validateNonRevokedProxy();
+
+    const target = this._proxyTarget;
+    // FIXME: We are supposed to just not implement [[Construct]] in this case.
+    if (!isStaticJsCallable(target) || !target.isConstructor) {
+      throw Completion.Throw("TypeError", "Proxy target is not a constructor");
+    }
+
+    const handler = this._handler;
+
+    const trap = yield* Q(getMethod(handler, "construct"));
+    if (!trap) {
+      // TODO: newTarget
+      return yield* construct(target, args);
+    }
+
+    const argArray = yield* StaticJsArrayImpl.create(this.realm, args || []);
+    // FIXME: newTarget
+    const newObj = yield* Q(call(trap, handler, [target, argArray]));
+    if (!isStaticJsObjectLike(newObj)) {
+      throw Completion.Throw("TypeError", "Proxy handler's construct trap must return an object");
+    }
+
+    return newObj;
   }
 
   toNative(): unknown {

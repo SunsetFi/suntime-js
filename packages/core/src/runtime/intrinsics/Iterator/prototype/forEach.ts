@@ -7,11 +7,11 @@ import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
 
-import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import call from "../../../algorithms/call.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
 
 const iteratorProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   key: "forEach",
@@ -27,7 +27,7 @@ const iteratorProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
       done: false,
     };
 
-    if (!isStaticJsFunction(callback)) {
+    if (!isCallable(callback)) {
       const error = Completion.Throw("TypeError", "Callback must be a function");
       return yield* Q(iteratorClose(iterated, error));
     }

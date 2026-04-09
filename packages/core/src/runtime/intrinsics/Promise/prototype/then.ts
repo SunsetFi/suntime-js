@@ -1,22 +1,28 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 
-import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";
+
+import { isCallable } from "../../../algorithms/is-callable.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const promiseProtoThenDeclaration: IntrinsicPropertyDeclaration = {
   key: "then",
-  *func(_realm, thisArg, onFulfilled, onRejected) {
+  *func(
+    realm,
+    thisArg = realm.types.undefined,
+    onFulfilled = realm.types.undefined,
+    onRejected = realm.types.undefined,
+  ) {
     if (!isStaticJsPromise(thisArg)) {
       throw Completion.Throw("TypeError", "then called on non-promise");
     }
 
     // Spec says these can be unspecified and also non-functions
-    if (!isStaticJsFunction(onFulfilled)) {
+    if (!isCallable(onFulfilled)) {
       onFulfilled = undefined;
     }
-    if (!isStaticJsFunction(onRejected)) {
+    if (!isCallable(onRejected)) {
       onRejected = undefined;
     }
 

@@ -1,13 +1,13 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsFunction } from "./StaticJsFunction.js";
+import { StaticJsCallable } from "./StaticJsCallable.js";
 import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsPromiseCapabilityRecord {
   promise: StaticJsPromise;
-  resolve: StaticJsFunction;
-  reject: StaticJsFunction;
+  resolve: StaticJsCallable;
+  reject: StaticJsCallable;
 }
 
 export interface StaticJsPromise extends StaticJsObjectLike {
@@ -17,17 +17,17 @@ export interface StaticJsPromise extends StaticJsObjectLike {
   reject(reason: StaticJsValue): void;
 
   thenEvaluator(
-    onFulfilled?: StaticJsFunction | undefined,
-    onRejected?: StaticJsFunction | undefined,
+    onFulfilled?: StaticJsCallable | undefined,
+    onRejected?: StaticJsCallable | undefined,
     resultCapability?: StaticJsPromiseCapabilityRecord | true,
   ): EvaluationGenerator<StaticJsPromise>;
   thenEvaluator(
-    onFulfilled: StaticJsFunction | undefined,
-    onRejected: StaticJsFunction | undefined,
+    onFulfilled: StaticJsCallable | undefined,
+    onRejected: StaticJsCallable | undefined,
     resultCapability: false,
   ): EvaluationGenerator<void>;
 
-  catchEvaluator(func: StaticJsFunction | undefined): EvaluationGenerator<StaticJsPromise>;
+  catchEvaluator(func: StaticJsCallable | undefined): EvaluationGenerator<StaticJsPromise>;
 
   toNative(): Promise<unknown>;
 }

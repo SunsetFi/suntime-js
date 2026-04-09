@@ -7,7 +7,6 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import speciesConstructor from "../../../algorithms/species-constructor.js";
 import newPromiseCapability from "../../../algorithms/new-promise-capability.js";
 
-import { isStaticJsFunction, type StaticJsFunction } from "../../StaticJsFunction.js";
 import {
   type StaticJsPromiseCapabilityRecord,
   type StaticJsPromise,
@@ -21,10 +20,12 @@ import { captureThrownCompletion } from "../../../../evaluator/completions/captu
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import call from "../../../algorithms/call.js";
+import { StaticJsCallable } from "../../StaticJsCallable.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
 
 interface ReactionRecord {
   capability: StaticJsPromiseCapabilityRecord | null;
-  handler: StaticJsFunction | null;
+  handler: StaticJsCallable | null;
   type: "fulfill" | "reject";
 }
 
@@ -84,18 +85,18 @@ export class StaticJsPromiseImpl extends StaticJsObjectLikeImpl implements Stati
   }
 
   thenEvaluator(
-    onFulfilled?: StaticJsFunction | undefined,
-    onRejected?: StaticJsFunction | undefined,
+    onFulfilled?: StaticJsCallable | undefined,
+    onRejected?: StaticJsCallable | undefined,
     resultCapability?: StaticJsPromiseCapabilityRecord | true,
   ): EvaluationGenerator<StaticJsPromise>;
   thenEvaluator(
-    onFulfilled: StaticJsFunction | undefined,
-    onRejected: StaticJsFunction | undefined,
+    onFulfilled: StaticJsCallable | undefined,
+    onRejected: StaticJsCallable | undefined,
     resultCapability: false,
   ): EvaluationGenerator<void>;
   *thenEvaluator(
-    onFulfilled: StaticJsFunction | undefined,
-    onRejected: StaticJsFunction | undefined,
+    onFulfilled: StaticJsCallable | undefined,
+    onRejected: StaticJsCallable | undefined,
     resultCapability: StaticJsPromiseCapabilityRecord | boolean = true,
   ): EvaluationGenerator<StaticJsPromise | void> {
     let capability: StaticJsPromiseCapabilityRecord | null = null;
@@ -106,8 +107,8 @@ export class StaticJsPromiseImpl extends StaticJsObjectLikeImpl implements Stati
       capability = resultCapability;
     }
 
-    const fulfillHandler = isStaticJsFunction(onFulfilled) ? onFulfilled : null;
-    const rejectHandler = isStaticJsFunction(onRejected) ? onRejected : null;
+    const fulfillHandler = isCallable(onFulfilled) ? onFulfilled : null;
+    const rejectHandler = isCallable(onRejected) ? onRejected : null;
 
     const fulfillReaction: ReactionRecord = {
       type: "fulfill",
@@ -138,7 +139,7 @@ export class StaticJsPromiseImpl extends StaticJsObjectLikeImpl implements Stati
     return capability?.promise;
   }
 
-  *catchEvaluator(onRejected: StaticJsFunction): EvaluationGenerator<StaticJsPromise> {
+  *catchEvaluator(onRejected: StaticJsCallable): EvaluationGenerator<StaticJsPromise> {
     return yield* this.thenEvaluator(undefined, onRejected, true);
   }
 

@@ -2,8 +2,8 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import { Completion } from "../../evaluator/completions/Completion.js";
 
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
-import { type StaticJsFunction } from "../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { StaticJsCallable } from "../types/StaticJsCallable.js";
 
 import { getIteratorDirect } from "./get-iterator-direct.js";
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
@@ -11,7 +11,7 @@ import call from "../algorithms/call.js";
 
 export function* getIteratorFromMethod(
   obj: StaticJsValue,
-  method: StaticJsFunction,
+  method: StaticJsCallable,
 ): EvaluationGenerator<StaticJsIteratorRecord> {
   const iterator = yield* call(method, obj);
   if (!isStaticJsObjectLike(iterator)) {

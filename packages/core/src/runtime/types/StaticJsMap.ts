@@ -1,6 +1,6 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import { StaticJsCallable } from "./StaticJsCallable.js";
 
-import type { StaticJsFunction } from "./StaticJsFunction.js";
 import type { StaticJsIterator } from "./StaticJsIterator.js";
 import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
@@ -22,7 +22,7 @@ export interface StaticJsMap extends StaticJsObjectLike {
   deleteValueEvaluator(key: StaticJsValue): EvaluationGenerator<boolean>;
   clearEvaluator(): EvaluationGenerator<void>;
 
-  forEachEvaluator(callback: StaticJsFunction, thisArg?: StaticJsValue): EvaluationGenerator<void>;
+  forEachEvaluator(callback: StaticJsCallable, thisArg?: StaticJsValue): EvaluationGenerator<void>;
 }
 
 export function isStaticJsMap(value: unknown): value is StaticJsMap {

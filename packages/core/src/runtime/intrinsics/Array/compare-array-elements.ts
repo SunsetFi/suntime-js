@@ -3,7 +3,7 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import { isStaticJsUndefined } from "../../types/StaticJsUndefined.js";
-import type { StaticJsFunction } from "../../types/StaticJsFunction.js";
+import { StaticJsCallable } from "../../types/StaticJsCallable.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import isLessThan from "../../algorithms/is-less-than.js";
@@ -14,7 +14,7 @@ import call from "../../algorithms/call.js";
 export default function* compareArrayElements(
   x: StaticJsValue,
   y: StaticJsValue,
-  compareFn: StaticJsFunction | null,
+  compareFn: StaticJsCallable | null,
   realm: StaticJsRealm,
 ): EvaluationGenerator<number> {
   const xUndef = isStaticJsUndefined(x);

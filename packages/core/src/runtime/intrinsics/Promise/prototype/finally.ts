@@ -1,12 +1,13 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import call from "../../../algorithms/call.js";
 
-import newPromiseCapability from "../../../algorithms/new-promise-capability.js";
+import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
+import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";
 
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
-import { isStaticJsFunction, type StaticJsFunction } from "../../../types/StaticJsFunction.js";
-import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";
+import call from "../../../algorithms/call.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
+import newPromiseCapability from "../../../algorithms/new-promise-capability.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -21,9 +22,9 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
       onFinally = realm.types.undefined;
     }
 
-    let thenFinally: StaticJsFunction | undefined = undefined;
-    let catchFinally: StaticJsFunction | undefined = undefined;
-    if (isStaticJsFunction(onFinally)) {
+    let thenFinally: StaticJsCallable | undefined = undefined;
+    let catchFinally: StaticJsCallable | undefined = undefined;
+    if (isCallable(onFinally)) {
       thenFinally = new StaticJsNativeFunctionImpl(realm, "<thenFinally>", function* (value) {
         const result = yield* call(onFinally, realm.types.undefined);
         const capability = yield* newPromiseCapability(realm.types.constructors.Promise, realm);

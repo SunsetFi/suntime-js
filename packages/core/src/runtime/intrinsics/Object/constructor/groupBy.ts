@@ -3,20 +3,21 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
-import toString from "../../../algorithms/to-string.js";
 
-import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import toString from "../../../algorithms/to-string.js";
 import call from "../../../algorithms/call.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
+
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
   key: "groupBy",
-  *func(realm, _thisArg, items = realm.types.undefined, callbackFn) {
+  *func(realm, _thisArg, items = realm.types.undefined, callbackFn = realm.types.undefined) {
     const collection = new Map<string, StaticJsValue[]>();
 
-    if (!isStaticJsFunction(callbackFn)) {
+    if (!isCallable(callbackFn)) {
       throw Completion.Throw("TypeError", "Object.groupBy callback must be a function");
     }
 

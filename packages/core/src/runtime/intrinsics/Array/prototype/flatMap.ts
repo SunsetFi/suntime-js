@@ -2,7 +2,6 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 import toObject from "../../../algorithms/to-object.js";
 
 import { isStaticJsArray, MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
-import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -10,6 +9,7 @@ import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
 import { get } from "../../../algorithms/get.js";
 import call from "../../../algorithms/call.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
 
 const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
   key: "flatMap",
@@ -19,7 +19,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
     if (!callback) {
       callback = realm.types.undefined;
     }
-    if (!isStaticJsFunction(callback)) {
+    if (!isCallable(callback)) {
       // Yes, this error message is different from all the others!
       throw Completion.Throw("TypeError", "flatMap mapper function is not callable");
     }

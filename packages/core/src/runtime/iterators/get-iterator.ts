@@ -2,9 +2,9 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
-import { type StaticJsFunction } from "../types/StaticJsFunction.js";
 import { type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { StaticJsCallable } from "../types/StaticJsCallable.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
@@ -18,7 +18,7 @@ export function* getIterator(
   kind: "sync" | "async",
 ): EvaluationGenerator<StaticJsIteratorRecord> {
   const { realm } = EvaluationContext.current;
-  let method: StaticJsFunction | null;
+  let method: StaticJsCallable | null;
   if (kind === "async") {
     method = yield* getMethod(obj, realm.types.symbols.asyncIterator);
     if (method === null) {

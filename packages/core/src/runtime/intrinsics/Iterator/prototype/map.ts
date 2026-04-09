@@ -10,11 +10,12 @@ import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
 
-import { isStaticJsFunction, type StaticJsFunction } from "../../../types/StaticJsFunction.js";
+import { type StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import call from "../../../algorithms/call.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
 
 const iteratorProtoMapDeclaration: IntrinsicPropertyDeclaration = {
   key: "map",
@@ -30,8 +31,8 @@ const iteratorProtoMapDeclaration: IntrinsicPropertyDeclaration = {
       done: false,
     };
 
-    let mapperFunc: StaticJsFunction;
-    if (!isStaticJsFunction(mapper)) {
+    let mapperFunc: StaticJsCallable;
+    if (!isCallable(mapper)) {
       const error = Completion.Throw("TypeError", "Mapper must be a function");
       return yield* Q(iteratorClose(iterated, error));
     } else {

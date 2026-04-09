@@ -9,18 +9,19 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { toNativeUnwrap } from "../../../utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "../../../utils/to-runtime-wrap.js";
 
+import call from "../../../algorithms/call.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
+
 import { StaticJsNativeFunctionImpl } from "../functions/StaticJsNativeFunctionImpl.js";
 
-import { isStaticJsFunction, type StaticJsFunction } from "../../StaticJsFunction.js";
 import type { StaticJsIterator, StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import type { StaticJsMap } from "../../StaticJsMap.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
+import { StaticJsCallable } from "../../StaticJsCallable.js";
 
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
-
 import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
-import call from "../../../algorithms/call.js";
 
 export class StaticJsMapImpl extends StaticJsObjectLikeImpl implements StaticJsMap {
   private readonly _backingStore = new Map<unknown, StaticJsValue>();
@@ -52,10 +53,10 @@ export class StaticJsMapImpl extends StaticJsObjectLikeImpl implements StaticJsM
   }
 
   *forEachEvaluator(
-    callback: StaticJsFunction,
+    callback: StaticJsCallable,
     thisArg: StaticJsValue = this.realm.types.undefined,
   ): EvaluationGenerator<void> {
-    if (!isStaticJsFunction(callback)) {
+    if (!isCallable(callback)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Callback is not a function"),
       );

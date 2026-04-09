@@ -14,7 +14,7 @@ import { iteratorClose } from "../../../iterators/iterator-close.js";
 
 import { type StaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
-import { isStaticJsFunction, type StaticJsFunction } from "../../../types/StaticJsFunction.js";
+import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 
@@ -24,6 +24,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import { set } from "../../../algorithms/set.js";
 import { get } from "../../../algorithms/get.js";
 import call from "../../../algorithms/call.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
 
 const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
   key: "from",
@@ -37,12 +38,12 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
     const C = thisArg;
 
     let mapping: boolean;
-    let mapperFunc: StaticJsFunction | undefined;
+    let mapperFunc: StaticJsCallable | undefined;
     if (isStaticJsUndefined(mapper)) {
       mapping = false;
       mapperFunc = undefined;
     } else {
-      if (!isStaticJsFunction(mapper)) {
+      if (!isCallable(mapper)) {
         throw Completion.Throw("TypeError", "mapper must be a function");
       }
       mapperFunc = mapper;

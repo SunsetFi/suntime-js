@@ -1,18 +1,18 @@
-import { Completion } from "../../../../evaluator/completions/Completion.js";
-
-import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";
+
+import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const promiseProtoCatchDeclaration: IntrinsicPropertyDeclaration = {
   key: "catch",
-  *func(_realm, thisArg, onRejected) {
+  *func(realm, thisArg, onRejected = realm.types.undefined) {
     if (!isStaticJsPromise(thisArg)) {
       throw Completion.Throw("TypeError", "catch called on non-promise");
     }
 
-    if (!isStaticJsFunction(onRejected)) {
+    if (!isCallable(onRejected)) {
       throw Completion.Throw("TypeError", "onRejected must be a function.");
     }
 

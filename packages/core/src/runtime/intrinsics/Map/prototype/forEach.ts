@@ -1,18 +1,19 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 
-import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsMap } from "../../../types/StaticJsMap.js";
+
+import { isCallable } from "../../../algorithms/is-callable.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const mapProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   key: "forEach",
-  *func(realm, thisArg, callback, callbackThisArg = realm.types.undefined) {
+  *func(realm, thisArg, callback = realm.types.undefined, callbackThisArg = realm.types.undefined) {
     if (!isStaticJsMap(thisArg)) {
       throw Completion.Throw("TypeError", "Map.prototype.forEach called on incompatible receiver");
     }
 
-    if (!isStaticJsFunction(callback)) {
+    if (!isCallable(callback)) {
       throw Completion.Throw(
         "TypeError",
         "Callback provided to Map.prototype.forEach is not a function",

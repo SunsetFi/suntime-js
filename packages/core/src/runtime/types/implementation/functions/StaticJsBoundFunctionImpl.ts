@@ -7,11 +7,12 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 
-import type { StaticJsFunction } from "../../StaticJsFunction.js";
+import { isStaticJsFunction, type StaticJsFunction } from "../../StaticJsFunction.js";
 import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
 import { isStaticJsString } from "../../StaticJsString.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
+import { StaticJsCallable } from "../../StaticJsCallable.js";
 
 import { StaticJsObjectLikeImpl } from "../objects/StaticJsObjectLikeImpl.js";
 import { get } from "../../../algorithms/get.js";
@@ -19,7 +20,7 @@ import { get } from "../../../algorithms/get.js";
 export class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements StaticJsFunction {
   static *create(
     realm: StaticJsRealm,
-    targetFunc: StaticJsFunction,
+    targetFunc: StaticJsCallable,
     thisArg: StaticJsValue,
     boundArgs: StaticJsValue[],
   ): EvaluationGenerator<StaticJsBoundFunction> {
@@ -47,7 +48,7 @@ export class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements Sta
 
   private constructor(
     realm: StaticJsRealm,
-    public readonly targetFunc: StaticJsFunction,
+    public readonly targetFunc: StaticJsCallable,
     private readonly _boundThis: StaticJsValue,
     private readonly _boundArgs: StaticJsValue[],
     prototype?: StaticJsObjectLike,
@@ -72,7 +73,10 @@ export class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements Sta
   }
 
   get strict(): boolean {
-    return this.targetFunc.strict;
+    if (isStaticJsFunction(this.targetFunc)) {
+      return this.targetFunc.strict;
+    }
+    return false;
   }
 
   callAsync(

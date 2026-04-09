@@ -5,6 +5,9 @@ import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenera
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import toBoolean from "../../../algorithms/to-boolean.js";
+import { get } from "../../../algorithms/get.js";
+import call from "../../../algorithms/call.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
 
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
 
@@ -15,7 +18,7 @@ import { toRuntimeWrap } from "../../../utils/to-runtime-wrap.js";
 
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 
-import { isStaticJsFunction, type StaticJsFunction } from "../../StaticJsFunction.js";
+import { type StaticJsCallable } from "../../StaticJsCallable.js";
 import { isStaticJsObjectLike } from "../../StaticJsObjectLike.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import type { StaticJsSet } from "../../StaticJsSet.js";
@@ -27,8 +30,6 @@ import { StaticJsNativeFunctionImpl } from "../functions/StaticJsNativeFunctionI
 
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
-import { get } from "../../../algorithms/get.js";
-import call from "../../../algorithms/call.js";
 
 // TODO: Take shortcuts for difference and friends if otherSet is also a StaticJsSetImpl
 
@@ -62,7 +63,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
     const [result, resultAdd] = yield* setCreate(this, this.realm);
 
     const otherHas = yield* get(otherSet, "has");
-    if (!isStaticJsFunction(otherHas)) {
+    if (!isCallable(otherHas)) {
       throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
     }
 
@@ -93,7 +94,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
     const [result, resultAdd] = yield* setCreate(this, this.realm);
 
     const otherHas = yield* get(otherSet, "has");
-    if (!isStaticJsFunction(otherHas)) {
+    if (!isCallable(otherHas)) {
       throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
     }
 
@@ -117,7 +118,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
     }
 
     const otherHas = yield* get(otherSet, "has");
-    if (!isStaticJsFunction(otherHas)) {
+    if (!isCallable(otherHas)) {
       throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
     }
 
@@ -141,7 +142,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
     }
 
     const otherHas = yield* get(otherSet, "has");
-    if (!isStaticJsFunction(otherHas)) {
+    if (!isCallable(otherHas)) {
       throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
     }
 
@@ -198,7 +199,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
     const [result, resultAdd] = yield* setCreate(this, this.realm);
 
     const otherHas = yield* get(otherSet, "has");
-    if (!isStaticJsFunction(otherHas)) {
+    if (!isCallable(otherHas)) {
       throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "has is not a function"));
     }
 
@@ -275,10 +276,10 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
   }
 
   *forEachEvaluator(
-    callback: StaticJsFunction,
+    callback: StaticJsCallable,
     thisArg: StaticJsValue = this.realm.types.undefined,
   ): EvaluationGenerator<void> {
-    if (!isStaticJsFunction(callback)) {
+    if (!isCallable(callback)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Callback is not a function"),
       );
@@ -302,7 +303,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
 function* setCreate(
   _from: StaticJsSetImpl,
   realm: StaticJsRealm,
-): EvaluationGenerator<[set: StaticJsValue, add: StaticJsFunction]> {
+): EvaluationGenerator<[set: StaticJsValue, add: StaticJsCallable]> {
   // According to MDN, Set[@@species] is never used.
   // const result = yield* speciesConstructor(
   //   from,
@@ -316,7 +317,7 @@ function* setCreate(
     throw new StaticJsRuntimeError(realm.types.error("TypeError", "Failed to create Set"));
   }
   const resultAdd = yield* get(result, "add");
-  if (!isStaticJsFunction(resultAdd)) {
+  if (!isCallable(resultAdd)) {
     throw new StaticJsRuntimeError(realm.types.error("TypeError", "add is not a function"));
   }
 

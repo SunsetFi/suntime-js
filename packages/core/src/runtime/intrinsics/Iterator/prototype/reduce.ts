@@ -7,12 +7,12 @@ import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
 
-import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import call from "../../../algorithms/call.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
 
 const iteratorProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
   key: "reduce",
@@ -28,7 +28,7 @@ const iteratorProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
       done: false,
     };
 
-    if (!isStaticJsFunction(reducer)) {
+    if (!isCallable(reducer)) {
       const error = Completion.Throw("TypeError", "Reducer must be a function");
       return yield* Q(iteratorClose(iterated, error));
     }

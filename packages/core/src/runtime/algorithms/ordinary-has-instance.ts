@@ -4,19 +4,20 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
-import { isStaticJsBoundFunction, isStaticJsFunction } from "../types/StaticJsFunction.js";
+import { isStaticJsBoundFunction } from "../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import toBoolean from "./to-boolean.js";
 import instanceOfOperator from "./instance-of-operator.js";
 import { get } from "./get.js";
 import call from "./call.js";
+import { isCallable } from "./is-callable.js";
 
 export default function* ordinaryHasInstance(
   C: StaticJsValue,
   O: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<boolean> {
-  if (!isStaticJsFunction(C)) {
+  if (!isCallable(C)) {
     return false;
   }
 
@@ -26,7 +27,7 @@ export default function* ordinaryHasInstance(
   }
 
   const hasInstanceFunc = yield* get(C, realm.types.symbols.hasInstance);
-  if (isStaticJsFunction(hasInstanceFunc)) {
+  if (isCallable(hasInstanceFunc)) {
     const result = yield* call(hasInstanceFunc, C, [O]);
     return yield* toBoolean.js(result);
   }

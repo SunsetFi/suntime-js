@@ -1,16 +1,22 @@
 import { StaticJsSetImpl } from "../../../types/implementation/objects/StaticJsSetImpl.js";
-import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
+
+import { isCallable } from "../../../algorithms/is-callable.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const setProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   key: "forEach",
-  *func(realm, thisArg, callback, forEachThisArg) {
+  *func(
+    realm,
+    thisArg = realm.types.undefined,
+    callback = realm.types.undefined,
+    forEachThisArg = realm.types.undefined,
+  ) {
     if (!(thisArg instanceof StaticJsSetImpl)) {
       throw realm.types.error("TypeError", "Not a Set");
     }
 
-    if (!isStaticJsFunction(callback)) {
+    if (!isCallable(callback)) {
       throw realm.types.error("TypeError", "Callback is not a function");
     }
 

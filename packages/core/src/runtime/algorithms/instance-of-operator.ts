@@ -6,13 +6,13 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
-import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 
 import toBoolean from "./to-boolean.js";
 import ordinaryHasInstance from "./ordinary-has-instance.js";
 import call from "./call.js";
 import { get } from "./get.js";
+import { isCallable } from "./is-callable.js";
 
 export default function* instanceOfOperator(
   V: StaticJsValue,
@@ -24,14 +24,14 @@ export default function* instanceOfOperator(
   }
 
   const instOfHandler = yield* get(target, realm.types.symbols.hasInstance);
-  if (isStaticJsFunction(instOfHandler)) {
+  if (isCallable(instOfHandler)) {
     const result = yield* call(instOfHandler, target, [V]);
     return yield* toBoolean.js(result);
   } else if (!isStaticJsUndefined(instOfHandler)) {
     throw Completion.Throw("TypeError", "Symbol.hasInstance is not a function");
   }
 
-  if (!isStaticJsFunction(target)) {
+  if (!isCallable(target)) {
     throw Completion.Throw("TypeError", "Right-hand side of 'instanceof' is not callable");
   }
 

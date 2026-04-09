@@ -1,5 +1,7 @@
 export * from "./StaticJsArray.js";
+export * from "./StaticJsAsyncGenerator.js";
 export * from "./StaticJsBoolean.js";
+export * from "./StaticJsCallable.js";
 export * from "./StaticJsFunction.js";
 export * from "./StaticJsIterator.js";
 export * from "./StaticJsMap.js";

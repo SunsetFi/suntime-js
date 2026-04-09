@@ -1,16 +1,16 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import { isStaticJsFunction } from "../types/StaticJsFunction.js";
-
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+
+import { isCallable } from "./is-callable.js";
 
 export default function* call(
   F: StaticJsValue,
   V: StaticJsValue,
   args: StaticJsValue[] = [],
 ): EvaluationGenerator<StaticJsValue> {
-  if (!isStaticJsFunction(F)) {
+  if (!isCallable(F)) {
     throw Completion.Throw("TypeError", "Called object is not a function");
   }
 

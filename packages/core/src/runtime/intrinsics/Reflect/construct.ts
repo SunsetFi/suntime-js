@@ -3,8 +3,7 @@ import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 
 import { createListFromArrayLike } from "../../algorithms/create-list-from-array-like.js";
-
-import { isStaticJsFunction } from "../../types/StaticJsFunction.js";
+import { isCallable } from "../../algorithms/is-callable.js";
 
 import { IntrinsicPropertyDeclaration } from "../utils.js";
 
@@ -17,7 +16,7 @@ export const reflectConstructDeclaration: IntrinsicPropertyDeclaration = {
     argumentsList = realm.types.undefined,
     newTarget = target,
   ) {
-    if (!isStaticJsFunction(target)) {
+    if (!isCallable(target)) {
       throw Completion.Throw("TypeError", "Reflect.construct called on non-function");
     }
 
@@ -25,7 +24,7 @@ export const reflectConstructDeclaration: IntrinsicPropertyDeclaration = {
       throw Completion.Throw("TypeError", "Reflect.construct called on non-constructor");
     }
 
-    if (!isStaticJsFunction(newTarget) || !newTarget.isConstructor) {
+    if (!isCallable(newTarget) || !newTarget.isConstructor) {
       throw Completion.Throw("TypeError", "newTarget must be a constructor");
     }
 

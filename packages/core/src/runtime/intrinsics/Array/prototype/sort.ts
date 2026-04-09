@@ -1,6 +1,6 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 
-import { isStaticJsFunction, type StaticJsFunction } from "../../../types/StaticJsFunction.js";
+import { type StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
@@ -13,14 +13,15 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import compareArrayElements from "../compare-array-elements.js";
 import sortIndexedProperties from "../sort-indexed-properties.js";
 import { set } from "../../../algorithms/set.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
 
 const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
   key: "sort",
   *func(realm, thisArg, comparatorArg) {
-    let resolvedComparator: StaticJsFunction | null;
+    let resolvedComparator: StaticJsCallable | null;
     if (!comparatorArg || isStaticJsUndefined(comparatorArg)) {
       resolvedComparator = null;
-    } else if (!isStaticJsFunction(comparatorArg)) {
+    } else if (!isCallable(comparatorArg)) {
       throw Completion.Throw("TypeError", "Comparator must be a function");
     } else {
       resolvedComparator = comparatorArg;

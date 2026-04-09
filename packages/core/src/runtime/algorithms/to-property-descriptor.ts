@@ -2,13 +2,13 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { StaticJsPropertyDescriptorRecord } from "../types/StaticJsPropertyDescriptor.js";
-import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 
 import toBoolean from "./to-boolean.js";
 import { get } from "./get.js";
+import { isCallable } from "./is-callable.js";
 
 export default function* toPropertyDescriptor(
   obj: StaticJsValue,
@@ -49,7 +49,7 @@ export default function* toPropertyDescriptor(
   const hasGet = yield* obj.hasPropertyEvaluator("get");
   if (hasGet) {
     const getter = yield* get(obj, "get");
-    if (isStaticJsFunction(getter)) {
+    if (isCallable(getter)) {
       desc.get = getter;
     } else if (!isStaticJsUndefined(getter)) {
       throw Completion.Throw("TypeError", "Getter must be a function");
@@ -59,7 +59,7 @@ export default function* toPropertyDescriptor(
   const hasSet = yield* obj.hasPropertyEvaluator("set");
   if (hasSet) {
     const setter = yield* get(obj, "set");
-    if (isStaticJsFunction(setter)) {
+    if (isCallable(setter)) {
       desc.set = setter;
     } else if (!isStaticJsUndefined(setter)) {
       throw Completion.Throw("TypeError", "Setter must be a function");

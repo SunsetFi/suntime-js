@@ -6,11 +6,14 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import { StaticJsValue } from "../types/StaticJsValue.js";
-import { isStaticJsFunction, type StaticJsFunction } from "../types/StaticJsFunction.js";
+import { isStaticJsFunction } from "../types/StaticJsFunction.js";
+import { StaticJsCallable } from "../types/StaticJsCallable.js";
 import {
   isStaticJsPromise,
   type StaticJsPromiseCapabilityRecord,
 } from "../types/StaticJsPromise.js";
+
+import { isCallable } from "./is-callable.js";
 
 export default function* newPromiseCapability(
   constructor: StaticJsValue,
@@ -20,8 +23,8 @@ export default function* newPromiseCapability(
     throw Completion.Throw("TypeError", "Promise constructor must be a constructor");
   }
 
-  let resolveFunc: StaticJsFunction | null = null;
-  let rejectFunc: StaticJsFunction | null = null;
+  let resolveFunc: StaticJsCallable | null = null;
+  let rejectFunc: StaticJsCallable | null = null;
 
   const resolver = new StaticJsNativeFunctionImpl(
     realm,
@@ -31,7 +34,7 @@ export default function* newPromiseCapability(
         throw Completion.Throw("TypeError", "Promise resolver called multiple times");
       }
 
-      if (!isStaticJsFunction(resolve) || !isStaticJsFunction(reject)) {
+      if (!isCallable(resolve) || !isCallable(reject)) {
         throw Completion.Throw("TypeError", "Resolve and reject must be functions");
       }
 

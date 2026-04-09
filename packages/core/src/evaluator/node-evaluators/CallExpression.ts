@@ -5,7 +5,6 @@ import { parseScript } from "../../parser/parse-script.js";
 import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
-import { isStaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 import { isStaticJsValue, type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import { getIterator } from "../../runtime/iterators/get-iterator.js";
@@ -27,12 +26,12 @@ import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import getValue from "../../runtime/algorithms/get-value.js";
-
+import { get } from "../../runtime/algorithms/get.js";
+import call from "../../runtime/algorithms/call.js";
+import { isCallable } from "../../runtime/algorithms/is-callable.js";
 import evalDeclarationInstantiation from "../instantiation/eval-declaration-instantiation.js";
 
 import nameNode from "./name-node.js";
-import { get } from "../../runtime/algorithms/get.js";
-import call from "../../runtime/algorithms/call.js";
 
 export default function* callExpressionNodeEvaluator(node: CallExpression): EvaluationGenerator {
   const context = EvaluationContext.current;
@@ -62,7 +61,7 @@ export default function* callExpressionNodeEvaluator(node: CallExpression): Eval
     }
   }
 
-  if (!isStaticJsFunction(callee)) {
+  if (!isCallable(callee)) {
     throw Completion.Throw("TypeError", `TypeError: ${nameNode(node.callee)} is not a function`);
   }
 
@@ -100,7 +99,7 @@ export default function* callExpressionNodeEvaluator(node: CallExpression): Eval
 
   if (isIdentifier(node.callee) && node.callee.name === "eval") {
     const globalEval = yield* get(realm.global, "eval");
-    if (globalEval === callee && isStaticJsFunction(callee)) {
+    if (globalEval === callee && isCallable(callee)) {
       return yield* callEvalEvaluator(args[0]);
     }
   }

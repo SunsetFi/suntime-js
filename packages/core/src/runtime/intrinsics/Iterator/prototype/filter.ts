@@ -8,13 +8,14 @@ import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
 
-import { isStaticJsFunction, type StaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import toBoolean from "../../../algorithms/to-boolean.js";
 import { YieldCommand } from "../../../../evaluator/commands/YieldCommand.js";
 import call from "../../../algorithms/call.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
 
 const iteratorProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
   key: "filter",
@@ -30,8 +31,8 @@ const iteratorProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
       done: false,
     };
 
-    let predicateFunc: StaticJsFunction;
-    if (!isStaticJsFunction(predicate)) {
+    let predicateFunc: StaticJsCallable;
+    if (!isCallable(predicate)) {
       const error = Completion.Throw("TypeError", "Predicate must be a function");
       return yield* Q(iteratorClose(iterated, error));
     } else {

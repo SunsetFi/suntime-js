@@ -1,36 +1,15 @@
-import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
+import { StaticJsCallable } from "./StaticJsCallable.js";
 
-import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
-import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
-export interface StaticJsFunction extends StaticJsObjectLike {
+export interface StaticJsFunction extends StaticJsCallable {
   readonly runtimeTypeOf: "function";
 
   readonly typeOf: "function";
 
-  readonly isConstructor: boolean;
-
   readonly strict: boolean;
-
-  callAsync(
-    thisArg: StaticJsValue,
-    args?: StaticJsValue[],
-    opts?: StaticJsRunTaskOptions,
-  ): Promise<StaticJsValue>;
-  callSync(
-    thisArg: StaticJsValue,
-    args?: StaticJsValue[],
-    opts?: StaticJsRunTaskOptions,
-  ): StaticJsValue;
-  callEvaluator(thisArg: StaticJsValue, args?: StaticJsValue[]): EvaluationGenerator<StaticJsValue>;
-
-  constructAsync(args?: StaticJsValue[], opts?: StaticJsRunTaskOptions): Promise<StaticJsValue>;
-  constructSync(args?: StaticJsValue[], opts?: StaticJsRunTaskOptions): StaticJsValue;
-  constructEvaluator(args?: StaticJsValue[]): EvaluationGenerator<StaticJsObjectLike>;
 
   getNameAsync(opts?: StaticJsRunTaskOptions): Promise<string>;
   getNameSync(opts?: StaticJsRunTaskOptions): string;

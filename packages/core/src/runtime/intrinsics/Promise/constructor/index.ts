@@ -5,7 +5,6 @@ import { captureThrownCompletion } from "../../../../evaluator/completions/captu
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsPromise } from "../../../types/StaticJsPromise.js";
@@ -14,13 +13,15 @@ import { isStaticJsValue } from "../../../types/StaticJsValue.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsPromiseImpl } from "../../../types/implementation/objects/StaticJsPromiseImpl.js";
 
+import { get } from "../../../algorithms/get.js";
+import call from "../../../algorithms/call.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
+
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import promiseCtorRejectDeclaration from "./reject.js";
 import promiseCtorResolveDeclaration from "./resolve.js";
 import promiseConstructorSymbolSpeciesDeclaration from "./symbol_species.js";
-import { get } from "../../../algorithms/get.js";
-import call from "../../../algorithms/call.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   promiseCtorRejectDeclaration,
@@ -44,7 +45,7 @@ export default function createPromiseConstructor(
           throw Completion.Throw("TypeError", "Promise constructor called on a non-object");
         }
 
-        if (!isStaticJsFunction(func)) {
+        if (!isCallable(func)) {
           throw Completion.Throw("TypeError", "Promise resolver is not a function.");
         }
 
@@ -125,7 +126,7 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
         return realm.types.undefined;
       }
 
-      if (!isStaticJsFunction(then)) {
+      if (!isCallable(then)) {
         promise.resolve(resolution);
         return realm.types.undefined;
       }

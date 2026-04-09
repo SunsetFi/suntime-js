@@ -6,7 +6,7 @@ import toObject from "../../../algorithms/to-object.js";
 
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsBoolean } from "../../../types/StaticJsBoolean.js";
-import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
+import { isStaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
 import { isStaticJsString } from "../../../types/StaticJsString.js";
@@ -36,7 +36,8 @@ const objectProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
       builtinTag = "Array";
     } else if (O instanceof StaticJsArgumentsExoticObject) {
       builtinTag = "Arguments";
-    } else if (isStaticJsFunction(O)) {
+    } else if (isStaticJsCallable(O)) {
+      // Defined as object having [[Call]]
       builtinTag = "Function";
     }
     // TODO: Error
