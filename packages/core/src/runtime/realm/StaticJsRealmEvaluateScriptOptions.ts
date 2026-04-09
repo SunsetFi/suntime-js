@@ -10,6 +10,14 @@ export interface StaticJsRealmEvaluateScriptOptions extends StaticJsRealmEvaluat
    * Default: false
    */
   topLevelAwait?: boolean | "auto";
+
+  /**
+   * Whether to enable strict mode for the script. If true, the script will be evaluated in strict mode.
+   * If false or omitted, the script will inherit strict mode from its directives.
+   *
+   * Default: false
+   */
+  strict?: boolean;
 }
 
 export type StaticJsRealmEvaluateScriptSyncOptions = Omit<

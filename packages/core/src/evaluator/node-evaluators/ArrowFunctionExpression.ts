@@ -4,10 +4,11 @@ import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import createFunction from "./Function.js";
+import { getNamedEvaluationParameter } from "./NamedEvaluation.js";
 
 function* arrowFunctionExpressionNodeEvaluator(node: ArrowFunctionExpression): EvaluationGenerator {
   const context = EvaluationContext.current;
-  const functionName = context.parameter("NamedEvaluation::name", String) ?? "";
+  const functionName = getNamedEvaluationParameter() ?? "";
   return createFunction(functionName, node, context.lexicalEnv);
 }
 

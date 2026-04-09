@@ -5,17 +5,18 @@ import { handleParseError } from "./parse-error.js";
 
 export interface ParseScriptOptions {
   topLevelAwait?: boolean;
+  strictMode?: boolean;
 }
 export function parseScript(
   script: string,
   fileName: string,
-  { topLevelAwait = false }: ParseScriptOptions = {},
+  { topLevelAwait = false, strictMode = false }: ParseScriptOptions = {},
 ) {
   try {
     return parseAst(script, {
-      strictMode: false,
       ...babelParserOptions,
       sourceType: "script",
+      strictMode,
       sourceFilename: fileName,
       allowAwaitOutsideFunction: topLevelAwait,
     });

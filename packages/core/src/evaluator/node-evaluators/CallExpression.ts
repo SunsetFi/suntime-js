@@ -118,7 +118,7 @@ function* callEvalEvaluator(strArg: StaticJsValue | undefined): EvaluationGenera
 
   let node: Node;
   try {
-    node = parseScript(str.value, "eval");
+    node = parseScript(str.value, "eval", { strictMode: context.strict });
   } catch (e: unknown) {
     if (e instanceof StaticJsSyntaxError) {
       throw Completion.Throw("SyntaxError", e.message);

@@ -23,7 +23,7 @@ import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 
 import type { IntrinsicSymbols, Constructors, Prototypes } from "../../intrinsics/intrinsics.js";
 
-import { WeakValueMap } from "../../../internal/WeakValueMap.js";
+import { WeakValueMap } from "../../../utils/WeakValueMap.js";
 
 import { StaticJsArrayImpl } from "./objects/StaticJsArrayImpl.js";
 import { StaticJsBooleanImpl } from "./primitives/StaticJsBooleanImpl.js";

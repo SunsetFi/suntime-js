@@ -1,4 +1,4 @@
-import { typedEntries } from "../../internal/typed-entries.js";
+import { typedEntries } from "../../utils/typed-entries.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 

@@ -20,6 +20,7 @@ import bindingInitialization from "../bindings/binding-initialization.js";
 
 import putValue from "../../runtime/algorithms/put-value.js";
 import NamedEvaluation from "./NamedEvaluation.js";
+import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
 
 function* variableDeclarationNodeEvaluator(node: VariableDeclaration): EvaluationGenerator {
   const { lexicalEnv, realm, strict } = EvaluationContext.current;
@@ -50,7 +51,13 @@ function* declarationStatementEvaluator(
 
     let value: StaticJsValue = realm.types.undefined;
     if (declarator.init) {
-      const rhs = yield* Q.val(NamedEvaluation(bindingId, declarator.init));
+      let evaluator: EvaluationGenerator<StaticJsValue>;
+      if (isAnonymousFunctionDefinition(declarator.init)) {
+        evaluator = Q.val(NamedEvaluation(bindingId, declarator.init));
+      } else {
+        evaluator = Q.val(EvaluateNodeCommand(declarator.init));
+      }
+      const rhs = yield* evaluator;
       value = rhs;
     }
 

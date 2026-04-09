@@ -1,4 +1,4 @@
-import { hasOwnProperty } from "../../internal/has-own-property.js";
+import { hasOwnProperty } from "../../utils/has-own-property.js";
 
 import type { StaticJsFunction } from "./StaticJsFunction.js";
 import { isStaticJsFunction } from "./StaticJsFunction.js";

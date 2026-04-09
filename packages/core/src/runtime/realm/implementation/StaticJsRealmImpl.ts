@@ -8,7 +8,7 @@ import { parseModule } from "../../../parser/parse-module.js";
 import { parseExpression } from "../../../parser/parse-expression.js";
 import { findTopLevelAwait } from "../../../parser/find-top-level-await.js";
 
-import { hasOwnProperty } from "../../../internal/has-own-property.js";
+import { hasOwnProperty } from "../../../utils/has-own-property.js";
 
 import { StaticJsSyntaxError } from "../../../errors/StaticJsSyntaxError.js";
 import { StaticJsUnhandledRejectionError } from "../../../errors/StaticJsUnhandledRejectionError.js";
@@ -253,6 +253,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   ): Promise<StaticJsValue> {
     const parsed = parseScript(script, opts?.sourceName ?? this._createInlineSourceName(), {
       topLevelAwait: Boolean(opts?.topLevelAwait),
+      strictMode: Boolean(opts?.strict),
     });
     const strict = parsed.program.directives.some(
       (directive) => directive.value.value === "use strict",

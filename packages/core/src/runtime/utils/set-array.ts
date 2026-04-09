@@ -1,4 +1,4 @@
-import { hasOwnProperty } from "../../internal/has-own-property.js";
+import { hasOwnProperty } from "../../utils/has-own-property.js";
 import { set } from "../algorithms/set.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";

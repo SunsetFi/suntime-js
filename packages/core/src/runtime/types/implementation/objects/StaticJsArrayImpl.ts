@@ -1,6 +1,6 @@
 import type { Writable } from "type-fest";
 
-import { hasOwnProperty } from "../../../../internal/has-own-property.js";
+import { hasOwnProperty } from "../../../../utils/has-own-property.js";
 
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";

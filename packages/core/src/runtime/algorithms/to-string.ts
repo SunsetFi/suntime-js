@@ -2,6 +2,7 @@ import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
 import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";
@@ -13,7 +14,6 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 import toPrimitive from "./to-primitive.js";
-import { Completion } from "../../evaluator/completions/Completion.js";
 
 function* toString(value: StaticJsValue): EvaluationGenerator<StaticJsString> {
   const { realm } = EvaluationContext.current;

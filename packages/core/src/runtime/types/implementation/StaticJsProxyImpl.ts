@@ -337,17 +337,10 @@ export class StaticJsProxyImpl implements StaticJsObjectLike /*, StaticJsFunctio
   }
 
   *hasPropertyEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean> {
-    const ownHasProperty = yield* Q(this.hasOwnPropertyEvaluator(key));
-    if (ownHasProperty) {
-      return true;
-    }
-
-    const proto = yield* Q(this.getPrototypeOfEvaluator());
-    if (proto === null) {
-      return false;
-    }
-
-    return yield* Q(proto.hasPropertyEvaluator(key));
+    // For proxy, this just returns our own trap.
+    // This is a spec divergence.  There is no such thing as [[HasOwnProperty]],
+    // just [[HasProperty]]
+    return yield* Q(this.hasOwnPropertyEvaluator(key));
   }
 
   hasOwnPropertyAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean> {
