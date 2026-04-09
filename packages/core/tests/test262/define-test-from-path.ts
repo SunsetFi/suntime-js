@@ -34,7 +34,7 @@ export default function defineTestFromPath(relativeTestPath: string) {
   };
   function addToPathTree(testPath: string[], test: Test262File) {
     let currentRoot = pathRoot;
-    for (const pathElement of testPath.slice(1)) {
+    for (const pathElement of testPath) {
       let pathRoot = currentRoot.children.find((r) => r.pathElement === pathElement);
       if (!pathRoot) {
         pathRoot = { pathElement, tests: [], children: [] };
