@@ -18,7 +18,7 @@ const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg, ...items) {
     const len = realm.types.number(items.length);
     let A: StaticJsObjectLike;
-    if (isConstructor(thisArg, realm)) {
+    if (isConstructor(thisArg)) {
       const constructed = yield* (thisArg as StaticJsFunction).constructEvaluator([len]);
       // FIXME: Not spec complaint.  The spec should throw trying to define the property, not ahead of time
       if (!isStaticJsObjectLike(constructed)) {

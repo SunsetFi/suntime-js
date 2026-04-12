@@ -27,7 +27,6 @@ export type StaticJsGeneratorDeclFunctionOptions = Omit<
 export class StaticJsGeneratorDeclFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
-    name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
     node: Function,
     opts: StaticJsGeneratorDeclFunctionOptions,
@@ -35,7 +34,7 @@ export class StaticJsGeneratorDeclFunction extends StaticJsAstFunction {
   ) {
     super(
       realm,
-      name,
+      null,
       argumentDeclarations,
       node,
       {
@@ -67,7 +66,7 @@ export class StaticJsGeneratorDeclFunction extends StaticJsAstFunction {
       this._createFunction,
     );
 
-    const evaluator = Q(EvaluateNodeCommand(_node.body));
+    const evaluator = Q(EvaluateNodeCommand((_node as Function).body));
 
     const generator = new StaticJsGeneratorImpl(evaluator, null, realm);
 

@@ -36,7 +36,7 @@ export default function* arraySpeciesCreate(
     return realm.types.array(Array.from({ length }));
   }
 
-  if (!isConstructor(constructor, realm)) {
+  if (!isConstructor(constructor)) {
     throw Completion.Throw("TypeError", "Constructor is not a constructor");
   }
 

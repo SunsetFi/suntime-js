@@ -17,6 +17,12 @@ import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments
 
 import { isPropertyReference } from "../../runtime/references/is-property-reference.js";
 
+import evalDeclarationInstantiation from "../instantiation/eval-declaration-instantiation.js";
+
+import getValue from "../../runtime/algorithms/get-value.js";
+import { get } from "../../runtime/algorithms/get.js";
+import call from "../../runtime/algorithms/call.js";
+import { isCallable } from "../../runtime/algorithms/is-callable.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 
 import { Completion } from "../completions/Completion.js";
@@ -24,12 +30,6 @@ import { Q } from "../completions/Q.js";
 
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
-import getValue from "../../runtime/algorithms/get-value.js";
-import { get } from "../../runtime/algorithms/get.js";
-import call from "../../runtime/algorithms/call.js";
-import { isCallable } from "../../runtime/algorithms/is-callable.js";
-import evalDeclarationInstantiation from "../instantiation/eval-declaration-instantiation.js";
 
 import nameNode from "./name-node.js";
 

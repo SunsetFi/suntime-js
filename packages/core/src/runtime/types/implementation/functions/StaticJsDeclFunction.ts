@@ -14,7 +14,6 @@ export type StaticJsDeclFunctionOptions = Omit<
 export class StaticJsDeclFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
-    name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
     node: Function,
     opts: StaticJsDeclFunctionOptions,
@@ -23,7 +22,7 @@ export class StaticJsDeclFunction extends StaticJsAstFunction {
     // Non-arrow and non-class-method functions are always constructors.
     super(
       realm,
-      name,
+      null,
       argumentDeclarations,
       node,
       {

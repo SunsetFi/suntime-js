@@ -14,7 +14,7 @@ import { nameCompletionLike } from "./name-completion-like.js";
 
 export function Q<T>(
   value: CompletionEvaluator<T>,
-): EvaluationGenerator<Exclude<T, Completion.Abrupt>>;
+): EvaluationGenerator<[T] extends [Completion.Abrupt] ? never : Exclude<T, Completion.Abrupt>>;
 export function Q(value: CompletionEvaluator<Completion>): EvaluationGenerator<CompletionValue>;
 export function* Q(value: CompletionEvaluator): EvaluationGenerator {
   if (Completion.Throw.is(value)) {

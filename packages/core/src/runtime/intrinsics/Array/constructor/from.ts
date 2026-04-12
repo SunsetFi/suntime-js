@@ -54,7 +54,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
 
     const usingIterator = yield* Q(getMethod(items, realm.types.symbols.iterator));
     if (usingIterator) {
-      if (isConstructor(C, realm)) {
+      if (isConstructor(C)) {
         A = yield* Q(C.constructEvaluator([realm.types.number(0)]));
       } else {
         A = yield* StaticJsArrayImpl.create(realm, 0);
@@ -102,7 +102,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
     // items is array-like
     const arrayLike = yield* Q(toObject(items));
     const len = yield* Q(lengthOfArrayLike(arrayLike));
-    if (isConstructor(C, realm)) {
+    if (isConstructor(C)) {
       A = yield* Q(C.constructEvaluator([realm.types.number(len)]));
     } else {
       A = yield* StaticJsArrayImpl.create(realm, len);

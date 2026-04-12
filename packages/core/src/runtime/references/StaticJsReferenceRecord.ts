@@ -1,3 +1,4 @@
+import { StaticJsPrivateName } from "../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
@@ -8,18 +9,18 @@ export interface StaticJsUnresolvedReferenceRecord {
   base: null;
 }
 
-export interface StaticJsResolvedReferenceRecord {
-  referencedName: StaticJsValue | string;
+export interface StaticJsPopulatedReferenceRecord {
+  referencedName: string | StaticJsValue | StaticJsPrivateName;
   strict: boolean;
   thisValue: StaticJsValue | null;
   base: StaticJsEnvironmentRecord | StaticJsValue;
 }
 
-export interface StaticJsPropertyReferenceRecord extends StaticJsResolvedReferenceRecord {
+export interface StaticJsPropertyReferenceRecord extends StaticJsPopulatedReferenceRecord {
   base: StaticJsValue;
 }
 
-export interface StaticJsEnvironmentReferenceRecord extends StaticJsResolvedReferenceRecord {
+export interface StaticJsEnvironmentReferenceRecord extends StaticJsPopulatedReferenceRecord {
   base: StaticJsEnvironmentRecord;
   referencedName: string;
 }
@@ -28,6 +29,12 @@ export type StaticJsReferenceRecord =
   | StaticJsUnresolvedReferenceRecord
   | StaticJsPropertyReferenceRecord
   | StaticJsEnvironmentReferenceRecord;
+
+export type StaticJsResolvedReference<
+  T extends StaticJsPropertyReferenceRecord | StaticJsEnvironmentReferenceRecord =
+    | StaticJsPropertyReferenceRecord
+    | StaticJsEnvironmentReferenceRecord,
+> = T & { referencedName: string };
 
 export function isStaticJsReferenceRecord(value: unknown): value is StaticJsReferenceRecord {
   if (typeof value !== "object" || value === null) {

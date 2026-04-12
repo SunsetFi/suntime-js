@@ -32,7 +32,6 @@ export type StaticJsAsyncMethodFunctionOptions = Omit<
 export class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
-    name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
     node: Function,
     opts: StaticJsAsyncMethodFunctionOptions,
@@ -40,7 +39,7 @@ export class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
   ) {
     super(
       realm,
-      name,
+      null,
       argumentDeclarations,
       node,
       {
@@ -79,7 +78,7 @@ export class StaticJsAsyncMethodFunction extends StaticJsAstFunction {
     }
 
     function* evaluator(): EvaluationGenerator<void> {
-      const result = yield* Q(EvaluateNodeCommand(_node.body));
+      const result = yield* Q(EvaluateNodeCommand((_node as Function).body));
       if (result !== null) {
         const value = yield* Q(getValue(result));
         throw Completion.Return(value);

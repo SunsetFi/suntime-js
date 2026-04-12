@@ -4,7 +4,7 @@ import type { StaticJsEnvironmentRecord } from "../../runtime/environments/Stati
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import createFunction from "../node-evaluators/Function.js";
+import { createFunction } from "../node-evaluators/Function.js";
 
 import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
 import boundNames from "./algorithms/bound-names.js";

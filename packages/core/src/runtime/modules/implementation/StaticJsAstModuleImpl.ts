@@ -17,7 +17,7 @@ import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 
 import { StaticJsModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
-import createFunction from "../../../evaluator/node-evaluators/Function.js";
+import { createFunction } from "../../../evaluator/node-evaluators/Function.js";
 
 import { StaticJsModuleEnvironmentRecord } from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";

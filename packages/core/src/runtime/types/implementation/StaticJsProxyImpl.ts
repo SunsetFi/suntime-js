@@ -863,7 +863,11 @@ export class StaticJsProxyImpl implements StaticJsObjectLike, StaticJsCallable {
     return this._realm.invokeEvaluatorSync(this.constructEvaluator(args), opts);
   }
 
-  *constructEvaluator(args?: StaticJsValue[]): EvaluationGenerator<StaticJsObjectLike> {
+  *constructEvaluator(
+    args?: StaticJsValue[],
+    // FIXME: What is the default newTarget here.  The target or the proxy?
+    newTarget: StaticJsCallable = this,
+  ): EvaluationGenerator<StaticJsObjectLike> {
     yield* this._validateNonRevokedProxy();
 
     const target = this._proxyTarget;
@@ -876,13 +880,12 @@ export class StaticJsProxyImpl implements StaticJsObjectLike, StaticJsCallable {
 
     const trap = yield* Q(getMethod(handler, "construct"));
     if (!trap) {
-      // TODO: newTarget
-      return yield* construct(target, args);
+      return yield* construct(target, args, newTarget);
     }
 
     const argArray = yield* StaticJsArrayImpl.create(this.realm, args || []);
     // FIXME: newTarget
-    const newObj = yield* Q(call(trap, handler, [target, argArray]));
+    const newObj = yield* Q(call(trap, handler, [target, argArray, newTarget]));
     if (!isStaticJsObjectLike(newObj)) {
       throw Completion.Throw("TypeError", "Proxy handler's construct trap must return an object");
     }

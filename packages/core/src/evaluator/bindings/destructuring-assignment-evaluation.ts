@@ -99,10 +99,7 @@ function* propertyDestructuringAssignmentEvaluation(
       if (isAnonymousFunctionDefinition(initializer)) {
         v = yield* Q.val(
           // ?? This can be a StaticJsValue?
-          NamedEvaluation(
-            typeof lRef.referencedName === "string" ? lRef.referencedName : null,
-            initializer,
-          ),
+          NamedEvaluation(lRef.referencedName, initializer),
         );
       } else {
         v = yield* Q.val(EvaluateNodeCommand(initializer));

@@ -34,7 +34,7 @@ export default function* speciesConstructor(
     return defaultConstructor;
   }
 
-  if (!isConstructor(S, realm)) {
+  if (!isConstructor(S)) {
     throw Completion.Throw("TypeError", "Species is not a constructor");
   }
 

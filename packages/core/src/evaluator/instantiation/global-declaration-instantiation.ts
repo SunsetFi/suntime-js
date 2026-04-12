@@ -7,7 +7,7 @@ import { EvaluationContext } from "../EvaluationContext.js";
 import { Completion } from "../completions/Completion.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import createFunction from "../node-evaluators/Function.js";
+import { createFunction } from "../node-evaluators/Function.js";
 
 import lexicallyDeclaredNames from "./algorithms/lexically-declared-names.js";
 import varDeclaredNames from "./algorithms/var-declared-names.js";

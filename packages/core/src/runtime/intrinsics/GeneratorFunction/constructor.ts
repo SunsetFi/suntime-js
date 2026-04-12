@@ -7,7 +7,7 @@ import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
 
-import createFunction from "../../../evaluator/node-evaluators/Function.js";
+import { createFunction } from "../../../evaluator/node-evaluators/Function.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -65,7 +65,6 @@ export default function createGeneratorFunctionConstructor(
 
       return new StaticJsGeneratorDeclFunction(
         realm,
-        "anonymous",
         parameters,
         fn,
         {

@@ -7,7 +7,7 @@ import { Completion } from "../completions/Completion.js";
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import createFunction from "../node-evaluators/Function.js";
+import { createFunction } from "../node-evaluators/Function.js";
 
 import varDeclaredNames from "./algorithms/var-declared-names.js";
 import varScopedDeclarations from "./algorithms/var-scoped-declarations.js";

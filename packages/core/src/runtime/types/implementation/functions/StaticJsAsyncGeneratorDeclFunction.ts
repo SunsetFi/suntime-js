@@ -29,7 +29,6 @@ export type StaticJsAsyncGeneratorDeclFunctionOptions = Omit<
 export class StaticJsAsyncGeneratorDeclFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
-    name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
     node: Function,
     opts: StaticJsAsyncGeneratorDeclFunctionOptions,
@@ -37,7 +36,7 @@ export class StaticJsAsyncGeneratorDeclFunction extends StaticJsAstFunction {
   ) {
     super(
       realm,
-      name,
+      null,
       argumentDeclarations,
       node,
       {
@@ -70,7 +69,7 @@ export class StaticJsAsyncGeneratorDeclFunction extends StaticJsAstFunction {
     );
 
     function* evaluator() {
-      const result = yield* Q(EvaluateNodeCommand(_node.body));
+      const result = yield* Q(EvaluateNodeCommand((_node as Function).body));
       if (result) {
         const value = yield* Q(getValue(result));
         throw Completion.Return(value);

@@ -1,4 +1,3 @@
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 
@@ -28,11 +27,7 @@ export const reflectConstructDeclaration: IntrinsicPropertyDeclaration = {
       throw Completion.Throw("TypeError", "newTarget must be a constructor");
     }
 
-    if (newTarget !== target) {
-      throw new StaticJsEngineError("Constructor newTarget is not currently supported.");
-    }
-
     const args = yield* createListFromArrayLike(argumentsList);
-    return yield* Q(target.constructEvaluator(args));
+    return yield* Q(target.constructEvaluator(args, newTarget));
   },
 };

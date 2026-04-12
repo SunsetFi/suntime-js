@@ -4,7 +4,7 @@ import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
 
-import createFunction from "../../../evaluator/node-evaluators/Function.js";
+import { createFunction } from "../../../evaluator/node-evaluators/Function.js";
 
 import { parseFunctionBody } from "../../../parser/parse-function-body.js";
 import { parseParameters } from "../../../parser/parse-parameters.js";
@@ -65,7 +65,6 @@ export default function createFunctionConstructor(
 
       return new StaticJsDeclFunction(
         realm,
-        "anonymous",
         parameters,
         fn,
         {

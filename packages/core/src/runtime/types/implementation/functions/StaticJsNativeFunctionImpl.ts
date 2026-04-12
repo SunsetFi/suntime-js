@@ -1,16 +1,18 @@
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
+import { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import { type StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 import { isStaticJsObjectLike, type StaticJsObjectLike } from "../../StaticJsObjectLike.js";
 
 import { StaticJsAbstractFunction } from "./StaticJsAbstractFunction.js";
-import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 
 export interface StaticJsNativeFunctionOptions {
   length?: number;
@@ -36,7 +38,7 @@ export class StaticJsNativeFunctionImpl
 
   constructor(
     realm: StaticJsRealm,
-    private _name: string | null,
+    private _name: StaticJsPropertyKey | null,
     private readonly _call: (
       thisArg: StaticJsValue,
       ...args: StaticJsValue[]

@@ -1,8 +1,7 @@
 import type { Node } from "@babel/types";
 
-import toString from "../../../algorithms/to-string.js";
-
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { StaticJsName } from "../../../../evaluator/StaticJsName.js";
 
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 
@@ -10,18 +9,18 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 
+import { get } from "../../../algorithms/get.js";
+import { setFunctionName } from "../../../algorithms/set-function-name.js";
+import toString from "../../../algorithms/to-string.js";
+
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-
-import { StaticJsStringImpl } from "../primitives/StaticJsStringImpl.js";
-import { StaticJsNumberImpl } from "../primitives/StaticJsNumberImpl.js";
+import { StaticJsNull } from "../../StaticJsNull.js";
 
 import { StaticJsObjectLikeImpl } from "../objects/StaticJsObjectLikeImpl.js";
 import { StaticJsObjectProxyTarget } from "../objects/create-object-proxy.js";
-import { StaticJsNull } from "../../StaticJsNull.js";
-import { get } from "../../../algorithms/get.js";
 
 export abstract class StaticJsAbstractFunction
   extends StaticJsObjectLikeImpl
@@ -29,21 +28,20 @@ export abstract class StaticJsAbstractFunction
 {
   constructor(
     realm: StaticJsRealm,
-    name: string | null,
+    name: StaticJsName | null,
     length: number,
     prototype: StaticJsObjectLike | StaticJsNull | null,
   ) {
     super(realm, prototype ?? realm.types.prototypes.functionProto);
 
-    this.defineOwnPropertySync("name", {
-      value: new StaticJsStringImpl(realm, name ?? ""),
-      writable: false,
-      enumerable: false,
-      configurable: true,
-    });
+    // FIXME: From the spec, this should be called externally.
+    // We only have it here to shim in old pre-spec code.
+    if (name) {
+      this.realm.invokeEvaluatorSync(setFunctionName(this, name));
+    }
 
     this.defineOwnPropertySync("length", {
-      value: new StaticJsNumberImpl(realm, length),
+      value: realm.types.number(length),
       writable: false,
       enumerable: false,
       configurable: true,

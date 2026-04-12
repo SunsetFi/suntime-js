@@ -21,7 +21,10 @@ export interface StaticJsCallable extends StaticJsObjectLike {
 
   constructAsync(args?: StaticJsValue[], opts?: StaticJsRunTaskOptions): Promise<StaticJsValue>;
   constructSync(args?: StaticJsValue[], opts?: StaticJsRunTaskOptions): StaticJsValue;
-  constructEvaluator(args?: StaticJsValue[]): EvaluationGenerator<StaticJsObjectLike>;
+  constructEvaluator(
+    args?: StaticJsValue[],
+    newTarget?: StaticJsCallable,
+  ): EvaluationGenerator<StaticJsObjectLike>;
 }
 export function isStaticJsCallable(value: unknown): value is StaticJsCallable {
   if (!isStaticJsValue(value)) {

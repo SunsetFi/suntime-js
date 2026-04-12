@@ -16,14 +16,14 @@ import { ThrowCompletion } from "../../../../evaluator/completions/completion-ty
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import type { StaticJsValue } from "../../StaticJsValue.js";
+import { get } from "../../../algorithms/get.js";
 
+import type { StaticJsValue } from "../../StaticJsValue.js";
 import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
 
 import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
 import { StaticJsAstFunction, StaticJsAstFunctionOptions } from "./StaticJsAstFunction.js";
-import { get } from "../../../algorithms/get.js";
 
 export type StaticJsArrowFunctionOptions = Omit<
   StaticJsAstFunctionOptions,
@@ -32,7 +32,6 @@ export type StaticJsArrowFunctionOptions = Omit<
 export class StaticJsArrowFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
-    name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
     node: Function,
     opts: StaticJsArrowFunctionOptions,
@@ -40,7 +39,7 @@ export class StaticJsArrowFunction extends StaticJsAstFunction {
   ) {
     super(
       realm,
-      name,
+      null,
       argumentDeclarations,
       node,
       { thisMode: "lexical-this", construct: false, ...opts },
@@ -72,7 +71,7 @@ export class StaticJsArrowFunction extends StaticJsAstFunction {
 
     let result: StaticJsValue = realm.types.undefined;
     try {
-      const completion = yield* Q(EvaluateNodeCommand(_node.body));
+      const completion = yield* Q(EvaluateNodeCommand((_node as Function).body));
       if (completion) {
         result = yield* getValue(completion);
       }

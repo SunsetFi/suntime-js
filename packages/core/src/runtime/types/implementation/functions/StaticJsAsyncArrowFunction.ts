@@ -34,7 +34,6 @@ export type StaticJsAsyncArrowFunctionOptions = Omit<
 export class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
-    name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
     node: Function,
     opts: StaticJsAsyncArrowFunctionOptions,
@@ -42,7 +41,7 @@ export class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
   ) {
     super(
       realm,
-      name,
+      null,
       argumentDeclarations,
       node,
       {
@@ -88,7 +87,7 @@ export class StaticJsAsyncArrowFunction extends StaticJsAstFunction {
     }
 
     function* evaluator(): EvaluationGenerator<void> {
-      const result = yield* Q(EvaluateNodeCommand(_node.body));
+      const result = yield* Q(EvaluateNodeCommand((_node as Function).body));
       if (result !== null) {
         const value = yield* Q(getValue(result));
         throw Completion.Return(value);

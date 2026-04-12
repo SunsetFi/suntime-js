@@ -29,7 +29,6 @@ export type StaticJsAsyncDeclFunctionOptions = Omit<StaticJsAstFunctionOptions, 
 export class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
-    name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
     node: Function,
     opts: StaticJsAsyncDeclFunctionOptions,
@@ -37,7 +36,7 @@ export class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
   ) {
     super(
       realm,
-      name,
+      null,
       argumentDeclarations,
       node,
       { ...opts, construct: false, thisMode: "non-lexical-this" },
@@ -72,7 +71,7 @@ export class StaticJsAsyncDeclFunction extends StaticJsAstFunction {
     }
 
     function* evaluator(): EvaluationGenerator<void> {
-      const result = yield* Q(EvaluateNodeCommand(_node.body));
+      const result = yield* Q(EvaluateNodeCommand((_node as Function).body));
       if (result !== null) {
         const value = yield* Q(getValue(result));
         throw Completion.Return(value);

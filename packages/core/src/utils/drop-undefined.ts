@@ -1,5 +1,5 @@
 export type DropUndefined<T> = {
-  [K in keyof T as Exclude<T[K], undefined> extends never ? never : K]?: T[K];
+  [K in keyof T as undefined extends T[K] ? never : K]: T[K];
 };
 
 export function dropUndefined<T extends object>(obj: T): DropUndefined<T> {

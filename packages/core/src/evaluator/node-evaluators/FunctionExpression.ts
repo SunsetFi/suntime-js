@@ -5,7 +5,7 @@ import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import createFunction from "./Function.js";
+import { createFunction } from "./Function.js";
 import { getNamedEvaluationParameter } from "./NamedEvaluation.js";
 
 function* expressionStatementNodeEvaluator(node: FunctionExpression): EvaluationGenerator {

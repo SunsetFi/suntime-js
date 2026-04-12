@@ -131,9 +131,7 @@ function* keyedBindingInitialization(
       let v = yield* get(obj, property);
       if (initializer && isStaticJsUndefined(v)) {
         if (isAnonymousFunctionDefinition(initializer)) {
-          v = yield* Q.val(
-            NamedEvaluation(typeof property === "string" ? property : null, initializer),
-          );
+          v = yield* Q.val(NamedEvaluation(property, initializer));
         } else {
           v = yield* Q.val(EvaluateNodeCommand(initializer));
         }

@@ -1,14 +1,18 @@
+import { typedEntries } from "../utils/typed-entries.js";
+
 import { StaticJsEngineError } from "../errors/StaticJsEngineError.js";
 
-import type { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
+import { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
+import { StaticJsCallable } from "../runtime/types/StaticJsCallable.js";
 
 import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
+import { StaticJsPrivateEnvironmentRecord } from "../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 
 import { EvaluationGenerator } from "./EvaluationGenerator.js";
 
-import { typedEntries } from "../utils/typed-entries.js";
 import type { StaticJsScriptOrModuleRecord } from "./ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
+import { dropUndefined } from "../utils/drop-undefined.js";
 
 export interface EvaluationContextStackProvider {
   pushContext(context: EvaluationContext): void;
@@ -21,9 +25,10 @@ export interface EvaluationContextOptions {
   strict?: boolean;
   lexicalEnv?: StaticJsEnvironmentRecord;
   variableEnv?: StaticJsEnvironmentRecord;
+  privateEnv?: StaticJsPrivateEnvironmentRecord | null;
   labelSet?: string[];
   evaluationParameters?: Record<string, unknown>;
-  function?: StaticJsFunction | null;
+  function?: StaticJsCallable | null;
 }
 
 type EvaluationContextAutoDefProperties = EvaluationContextOptions & {
@@ -44,6 +49,7 @@ const EvaluationContextPropertyDefs: Record<
   strict: { inherits: true, required: true },
   lexicalEnv: { inherits: true, required: true },
   variableEnv: { inherits: true, required: true },
+  privateEnv: { inherits: true, defaultValue: null },
   labelSet: { inherits: false, defaultValue: [] },
   evaluationParameters: { inherits: true, defaultValue: Object.freeze({}) },
   function: { inherits: false, defaultValue: null },
@@ -146,14 +152,20 @@ export class EvaluationContext implements Required<EvaluationContextAutoDefPrope
     scriptOrModule: StaticJsScriptOrModuleRecord | null,
     realm: StaticJsRealm,
     env: StaticJsEnvironmentRecord,
+    privateEnv?: StaticJsPrivateEnvironmentRecord | null | undefined,
   ): EvaluationContext {
-    return new EvaluationContext(realm, null, {
-      scriptOrModule: scriptOrModule,
-      strict: func.strict,
-      function: func,
-      lexicalEnv: env,
-      variableEnv: env,
-    });
+    return new EvaluationContext(
+      realm,
+      null,
+      dropUndefined({
+        scriptOrModule: scriptOrModule,
+        strict: func.strict,
+        function: func,
+        lexicalEnv: env,
+        variableEnv: env,
+        privateEnv: privateEnv,
+      }),
+    );
   }
 
   static *external<T>(
@@ -236,13 +248,14 @@ export class EvaluationContext implements Required<EvaluationContextAutoDefPrope
 
   lexicalEnv!: StaticJsEnvironmentRecord;
   variableEnv!: StaticJsEnvironmentRecord;
+  privateEnv!: StaticJsPrivateEnvironmentRecord | null;
 
   // Not actually a spec thing.  Attempt at getting NamedExpression support working.
   evaluationParameters!: Record<string, unknown>;
 
   labelSet!: string[];
 
-  function!: StaticJsFunction | null;
+  function!: StaticJsCallable | null;
 
   parameter<T = unknown>(name: string, converter: (value: unknown) => T = (v) => v as T): T | null {
     const value = this.evaluationParameters[name];

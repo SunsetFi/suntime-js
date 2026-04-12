@@ -6,23 +6,22 @@ import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.
 import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
 import { StaticJsAstFunction, StaticJsAstFunctionOptions } from "./StaticJsAstFunction.js";
 
-export type StaticJsMethodFunctionOptions = Omit<
+export type StaticJsObjectMethodFunctionOptions = Omit<
   StaticJsAstFunctionOptions,
   "thisMode" | "construct"
 >;
-export class StaticJsMethodFunction extends StaticJsAstFunction {
+export class StaticJsObjectMethodFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
-    name: string | null,
     argumentDeclarations: StaticJsAstFunctionArgument[],
     node: Function,
-    opts: StaticJsMethodFunctionOptions,
+    opts: StaticJsObjectMethodFunctionOptions,
     functionFactory: StaticJsFunctionFactory,
   ) {
     // Non-arrow and non-class-method functions are always constructors.
     super(
       realm,
-      name,
+      null,
       argumentDeclarations,
       node,
       { thisMode: "non-lexical-this", construct: false, ...opts },

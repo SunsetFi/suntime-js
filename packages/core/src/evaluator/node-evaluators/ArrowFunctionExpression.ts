@@ -3,7 +3,7 @@ import type { ArrowFunctionExpression } from "@babel/types";
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import createFunction from "./Function.js";
+import { createFunction } from "./Function.js";
 import { getNamedEvaluationParameter } from "./NamedEvaluation.js";
 
 function* arrowFunctionExpressionNodeEvaluator(node: ArrowFunctionExpression): EvaluationGenerator {

@@ -4,11 +4,12 @@ import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import { StaticJsFunctionEnvironmentRecord } from "../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 
-import { StaticJsValue } from "../types/StaticJsValue.js";
+import { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { StaticJsUndefined } from "../types/StaticJsUndefined.js";
 
 import { getThisEnvironment } from "./get-this-environment.js";
 
-export function* getNewTarget(): EvaluationGenerator<StaticJsValue> {
+export function* getNewTarget(): EvaluationGenerator<StaticJsObjectLike | StaticJsUndefined> {
   const envRec = yield* getThisEnvironment();
   if (envRec instanceof StaticJsFunctionEnvironmentRecord === false) {
     throw new StaticJsEngineError(
