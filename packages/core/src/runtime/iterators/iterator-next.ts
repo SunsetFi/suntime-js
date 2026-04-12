@@ -6,14 +6,14 @@ import call from "../algorithms/call.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
 
-import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
 export function* iteratorNext(
   iteratorRecord: StaticJsIteratorRecord,
   value: StaticJsValue | null,
-): EvaluationGenerator<StaticJsObjectLike> {
+): EvaluationGenerator<StaticJsObject> {
   let result: StaticJsValue;
   try {
     if (!value) {
@@ -29,7 +29,7 @@ export function* iteratorNext(
     throw e;
   }
 
-  if (!isStaticJsObjectLike(result)) {
+  if (!isStaticJsObject(result)) {
     iteratorRecord.done = true;
     throw Completion.Throw("TypeError", "Result of iterator next is not an object");
   }

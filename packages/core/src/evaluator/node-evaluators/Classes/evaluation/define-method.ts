@@ -1,6 +1,6 @@
 import { ClassMethod } from "@babel/types";
 
-import { StaticJsObjectLike } from "../../../../runtime/types/StaticJsObjectLike.js";
+import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
 
 import {
@@ -20,8 +20,8 @@ import { createClassMethodFunction } from "../../Function.js";
 
 export function* defineMethod(
   method: ClassMethod,
-  object: StaticJsObjectLike,
-  functionPrototype?: StaticJsObjectLike,
+  object: StaticJsObject,
+  functionPrototype?: StaticJsObject,
 ): EvaluationGenerator<{ key: StaticJsPropertyKey; closure: StaticJsFunction }> {
   const propKeyValue = yield* Q(EvaluateNodeCommand(method.key));
   const propKey = toStaticJsPropertyKey(propKeyValue);
@@ -30,14 +30,7 @@ export function* defineMethod(
     functionPrototype = realm.types.prototypes.functionProto;
   }
 
-  const closure = createClassMethodFunction(
-    null,
-    method,
-    env,
-    privateEnv,
-    object,
-    functionPrototype,
-  );
+  const closure = createClassMethodFunction(method, env, privateEnv, object, functionPrototype);
   return {
     key: propKey,
     closure,

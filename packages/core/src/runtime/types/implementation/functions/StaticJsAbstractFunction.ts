@@ -15,22 +15,22 @@ import toString from "../../../algorithms/to-string.js";
 
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
-import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsNull } from "../../StaticJsNull.js";
 
-import { StaticJsObjectLikeImpl } from "../objects/StaticJsObjectLikeImpl.js";
+import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 import { StaticJsObjectProxyTarget } from "../objects/create-object-proxy.js";
 
 export abstract class StaticJsAbstractFunction
-  extends StaticJsObjectLikeImpl
+  extends StaticJsOrdinaryObjectImpl
   implements StaticJsFunction
 {
   constructor(
     realm: StaticJsRealm,
     name: StaticJsName | null,
     length: number,
-    prototype: StaticJsObjectLike | StaticJsNull | null,
+    prototype: StaticJsObject | StaticJsNull | null,
   ) {
     super(realm, prototype ?? realm.types.prototypes.functionProto);
 
@@ -119,7 +119,7 @@ export abstract class StaticJsAbstractFunction
   }
 
   // TODO: newTarget
-  abstract constructEvaluator(args: StaticJsValue[]): EvaluationGenerator<StaticJsObjectLike>;
+  abstract constructEvaluator(args: StaticJsValue[]): EvaluationGenerator<StaticJsObject>;
 
   constructAsync(args: StaticJsValue[], opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
     return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args), opts);

@@ -1,7 +1,7 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/index.js";
+import { isStaticJsObject, type StaticJsObject } from "../types/index.js";
 import { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
@@ -11,11 +11,11 @@ import { set } from "./set.js";
 
 export default function* setterThatIgnoresPrototypeProperties(
   thisValue: StaticJsValue,
-  home: StaticJsObjectLike,
+  home: StaticJsObject,
   p: StaticJsPropertyKey,
   v: StaticJsValue,
 ): EvaluationGenerator<void> {
-  if (!isStaticJsObjectLike(thisValue)) {
+  if (!isStaticJsObject(thisValue)) {
     throw Completion.Throw("TypeError", "Setter called on non-object");
   }
 

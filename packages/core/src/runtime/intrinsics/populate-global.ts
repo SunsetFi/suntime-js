@@ -1,5 +1,5 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "./utils.js";
 
@@ -28,7 +28,7 @@ const globalPropertyDeclarations: IntrinsicPropertyDeclaration[] = [
   globalObjectUndefinedDeclaration,
 ];
 
-export function populateGlobal(realm: StaticJsRealm, globalObject: StaticJsObjectLike) {
+export function populateGlobal(realm: StaticJsRealm, globalObject: StaticJsObject) {
   applyIntrinsicProperties(realm, globalObject, globalPropertyDeclarations);
 
   const Math = createMathIntrinsic(realm);

@@ -5,7 +5,7 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 
 import type { StaticJsValue } from "../../StaticJsValue.js";
-import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
@@ -14,14 +14,14 @@ import {
   type StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
 
-import { StaticJsObjectLikeImpl } from "../objects/StaticJsObjectLikeImpl.js";
+import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 import { set } from "../../../algorithms/set.js";
 import { get } from "../../../algorithms/get.js";
 import sameValue from "../../../algorithms/same-value.js";
 
-export class StaticJsArgumentsExoticObject extends StaticJsObjectLikeImpl {
+export class StaticJsArgumentsExoticObject extends StaticJsOrdinaryObjectImpl {
   constructor(
-    private readonly _parameterMap: StaticJsObjectLike,
+    private readonly _parameterMap: StaticJsObject,
     realm: StaticJsRealm,
   ) {
     super(realm);
@@ -32,7 +32,7 @@ export class StaticJsArgumentsExoticObject extends StaticJsObjectLikeImpl {
   }
 
   get runtimeTypeCode(): StaticJsTypeCode {
-    return StaticJsTypeCode.Object;
+    return StaticJsTypeCode.PlainObject;
   }
 
   override *getOwnPropertyEvaluator(

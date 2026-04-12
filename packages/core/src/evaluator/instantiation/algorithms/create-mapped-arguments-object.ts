@@ -3,7 +3,7 @@ import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
 import type { StaticJsEnvironmentRecord } from "../../../runtime/environments/StaticJsEnvironmentRecord.js";
 
 import type { StaticJsFunction } from "../../../runtime/types/StaticJsFunction.js";
-import type { StaticJsObjectLike } from "../../../runtime/types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../../runtime/types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
 import { StaticJsArgumentsExoticObject } from "../../../runtime/types/implementation/functions/StaticJsArgumentsExoticObject.js";
@@ -24,7 +24,7 @@ export default function* createMappedArgumentsObject(
   formals: StaticJsAstFunctionArgument[],
   argumentsList: StaticJsValue[],
   env: StaticJsEnvironmentRecord,
-): EvaluationGenerator<StaticJsObjectLike> {
+): EvaluationGenerator<StaticJsObject> {
   const { realm } = EvaluationContext.current;
   const len = argumentsList.length;
   const map = realm.types.object();

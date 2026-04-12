@@ -2,11 +2,11 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import { StaticJsCallable } from "./StaticJsCallable.js";
 
 import type { StaticJsIterator } from "./StaticJsIterator.js";
-import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
+import type { StaticJsObject } from "./StaticJsObject.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
-export interface StaticJsMap extends StaticJsObjectLike {
+export interface StaticJsMap extends StaticJsObject {
   readonly runtimeTypeOf: "map";
 
   sizeEvaluator(): EvaluationGenerator<number>;

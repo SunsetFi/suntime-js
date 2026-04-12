@@ -4,9 +4,9 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import type { StaticJsArray } from "../StaticJsArray.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
-import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
-import type { StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
 import type { StaticJsObject } from "../StaticJsObject.js";
+import type { StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
+import type { StaticJsPlainObject } from "../StaticJsPlainObject.js";
 import type { StaticJsPropertyDescriptorRecord } from "../StaticJsPropertyDescriptor.js";
 import type { ErrorTypeName, StaticJsFunctionTypeCreationOptions } from "../StaticJsTypeFactory.js";
 import type { StaticJsTypeFactory } from "../StaticJsTypeFactory.js";
@@ -29,14 +29,14 @@ import { StaticJsArrayImpl } from "./objects/StaticJsArrayImpl.js";
 import { StaticJsBooleanImpl } from "./primitives/StaticJsBooleanImpl.js";
 import { StaticJsNullImpl } from "./primitives/StaticJsNullImpl.js";
 import { StaticJsNumberImpl } from "./primitives/StaticJsNumberImpl.js";
-import { StaticJsObjectImpl } from "./objects/StaticJsObjectImpl.js";
+import { StaticJsPlainObjectImpl } from "./objects/StaticJsPlainObjectImpl.js";
 import { StaticJsStringImpl } from "./primitives/StaticJsStringImpl.js";
 import { StaticJsSymbolImpl, getSymbolProxyOwner } from "./primitives/StaticJsSymbolImpl.js";
 import { StaticJsUndefinedImpl } from "./primitives/StaticJsUndefinedImpl.js";
 import { StaticJsExternalFunction } from "./functions/StaticJsExternalFunction.js";
 import { StaticJsExternalObject } from "./objects/StaticJsExternalObject.js";
 import { StaticJsNativeFunctionImpl } from "./functions/StaticJsNativeFunctionImpl.js";
-import { getStaticJsObjectLikeProxyOwner } from "./objects/create-object-proxy.js";
+import { getStaticJsObjectProxyOwner } from "./objects/create-object-proxy.js";
 
 export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _prototypes: Prototypes;
@@ -53,7 +53,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   // We do NOT want or need a weak key, because:
   // - StaticJsExternalObject needs to keep the backing object around for property access, and thus
   //   requires a strong reference to the key.
-  private readonly _externalObjectMap = new WeakValueMap<object, StaticJsObject>();
+  private readonly _externalObjectMap = new WeakValueMap<object, StaticJsPlainObject>();
 
   private readonly _zero: StaticJsNumber;
   private readonly _NaN: StaticJsNumber;
@@ -144,12 +144,15 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     properties?:
       | Record<string, StaticJsPropertyDescriptorRecord>
       | Map<StaticJsPropertyKey, StaticJsPropertyDescriptorRecord>,
-    prototype?: StaticJsObjectLike | StaticJsNull | null,
-  ): StaticJsObject {
+    prototype?: StaticJsObject | StaticJsNull | null,
+  ): StaticJsPlainObject {
     if (prototype === undefined) {
       prototype = this._prototypes.objectProto;
     }
-    const obj = new StaticJsObjectImpl(this._realm, isStaticJsNull(prototype) ? null : prototype);
+    const obj = new StaticJsPlainObjectImpl(
+      this._realm,
+      isStaticJsNull(prototype) ? null : prototype,
+    );
 
     if (properties) {
       const iterator =
@@ -201,9 +204,9 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     );
   }
 
-  error(message: string): StaticJsObject;
-  error(name: ErrorTypeName, message: string): StaticJsObject;
-  error(nameOrMessage: string, message?: string): StaticJsObject {
+  error(message: string): StaticJsPlainObject;
+  error(name: ErrorTypeName, message: string): StaticJsPlainObject;
+  error(nameOrMessage: string, message?: string): StaticJsPlainObject {
     let name = "Error";
     if (message !== undefined) {
       name = nameOrMessage;
@@ -211,7 +214,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       message = nameOrMessage;
     }
 
-    let proto: StaticJsObject;
+    let proto: StaticJsPlainObject;
     switch (name) {
       case "Error":
       default:
@@ -258,7 +261,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   toStaticJsValue(value: number): StaticJsNumber;
   toStaticJsValue(value: string): StaticJsString;
   toStaticJsValue(value: unknown[]): StaticJsArray;
-  toStaticJsValue(value: object): StaticJsObject;
+  toStaticJsValue(value: object): StaticJsPlainObject;
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   toStaticJsValue(value: Function): StaticJsFunction;
   toStaticJsValue(value: symbol): StaticJsSymbol;
@@ -266,7 +269,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   toStaticJsValue(value: undefined): StaticJsUndefined;
   toStaticJsValue(value: unknown): StaticJsValue;
   toStaticJsValue(value: unknown): StaticJsValue {
-    const owner = getStaticJsObjectLikeProxyOwner(value) ?? getSymbolProxyOwner(value);
+    const owner = getStaticJsObjectProxyOwner(value) ?? getSymbolProxyOwner(value);
     if (owner) {
       value = owner;
     }
@@ -381,7 +384,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     return new StaticJsExternalFunction(this._realm, value.name, value);
   }
 
-  private _toStaticJsValueObject(value: object): StaticJsObject {
+  private _toStaticJsValueObject(value: object): StaticJsPlainObject {
     if (value instanceof Error && isErrorTypeName(value.name)) {
       return this.error(value.name, value.message);
     }

@@ -1,10 +1,10 @@
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
-import { StaticJsObjectLike } from "./StaticJsObjectLike.js";
+import { StaticJsObject } from "./StaticJsObject.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
 
-export interface StaticJsCallable extends StaticJsObjectLike {
+export interface StaticJsCallable extends StaticJsObject {
   get isConstructor(): boolean;
 
   callAsync(
@@ -24,7 +24,7 @@ export interface StaticJsCallable extends StaticJsObjectLike {
   constructEvaluator(
     args?: StaticJsValue[],
     newTarget?: StaticJsCallable,
-  ): EvaluationGenerator<StaticJsObjectLike>;
+  ): EvaluationGenerator<StaticJsObject>;
 }
 export function isStaticJsCallable(value: unknown): value is StaticJsCallable {
   if (!isStaticJsValue(value)) {

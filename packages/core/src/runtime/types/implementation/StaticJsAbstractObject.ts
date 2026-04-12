@@ -20,9 +20,9 @@ import {
 import { validateAndApplyPropertyDescriptor } from "../../algorithms/validate-and-apply-property-descriptor.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
-import { isStaticJsObjectLike, type StaticJsObjectLike } from "../StaticJsObjectLike.js";
+import { isStaticJsObject, type StaticJsObject } from "../StaticJsObject.js";
 import { type StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
-import { type StaticJsObject } from "../StaticJsObject.js";
+import { type StaticJsPlainObject } from "../StaticJsPlainObject.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
 import type { StaticJsTypeCode } from "../StaticJsTypeCode.js";
@@ -31,21 +31,21 @@ import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 import { StaticJsAbstractPrimitive } from "./StaticJsAbstractPrimitive.js";
 
 import {
-  createStaticJsObjectLikeProxy,
+  createStaticJsObjectProxy,
   StaticJsObjectProxyTarget,
 } from "./objects/create-object-proxy.js";
 import call from "../../algorithms/call.js";
 
 export abstract class StaticJsAbstractObject
   extends StaticJsAbstractPrimitive
-  implements StaticJsObjectLike
+  implements StaticJsObject
 {
-  private _prototype: StaticJsObjectLike | null = null;
+  private _prototype: StaticJsObject | null = null;
   private _extensible: boolean = true;
 
   private _cachedJsObject: unknown | null = null;
 
-  constructor(realm: StaticJsRealm, prototype: StaticJsObjectLike | StaticJsNull | null) {
+  constructor(realm: StaticJsRealm, prototype: StaticJsObject | StaticJsNull | null) {
     super(realm);
     if (isStaticJsNull(prototype)) {
       this._prototype = null;
@@ -58,36 +58,39 @@ export abstract class StaticJsAbstractObject
     return "object" as const;
   }
 
-  abstract override readonly runtimeTypeOf: StaticJsObjectLike["runtimeTypeOf"];
+  abstract override readonly runtimeTypeOf: StaticJsObject["runtimeTypeOf"];
 
   abstract override readonly runtimeTypeCode: StaticJsTypeCode;
 
-  getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObjectLike | null> {
+  getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObject | null> {
     return this.realm.invokeEvaluatorAsync(this.getPrototypeOfEvaluator(), opts);
   }
 
-  getPrototypeOfSync(opts?: StaticJsRunTaskOptions): StaticJsObjectLike | null {
+  getPrototypeOfSync(opts?: StaticJsRunTaskOptions): StaticJsObject | null {
     return this.realm.invokeEvaluatorSync(this.getPrototypeOfEvaluator(), opts);
   }
 
-  *getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObjectLike | null> {
+  *getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObject | null> {
     return this._prototype;
   }
 
   async setPrototypeOfAsync(
-    prototype: StaticJsObject | null,
+    prototype: StaticJsPlainObject | null,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean> {
     return this.realm.invokeEvaluatorAsync(this.setPrototypeOfEvaluator(prototype), opts);
   }
 
-  setPrototypeOfSync(prototype: StaticJsObject | null, opts?: StaticJsRunTaskOptions): boolean {
+  setPrototypeOfSync(
+    prototype: StaticJsPlainObject | null,
+    opts?: StaticJsRunTaskOptions,
+  ): boolean {
     return this.realm.invokeEvaluatorSync(this.setPrototypeOfEvaluator(prototype), opts);
   }
 
-  *setPrototypeOfEvaluator(proto: StaticJsObjectLike | null): EvaluationGenerator<boolean> {
-    if (!isStaticJsObjectLike(proto) && proto !== null) {
-      throw new TypeError(`Prototype must be a StaticJsObjectLike or null`);
+  *setPrototypeOfEvaluator(proto: StaticJsObject | null): EvaluationGenerator<boolean> {
+    if (!isStaticJsObject(proto) && proto !== null) {
+      throw new TypeError(`Prototype must be a StaticJsObject or null`);
     }
 
     if (!this._extensible) {
@@ -200,7 +203,7 @@ export abstract class StaticJsAbstractObject
     key: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
-    let target: StaticJsObjectLike | null = this;
+    let target: StaticJsObject | null = this;
     while (true) {
       const descr = yield* target.getOwnPropertyEvaluator(key);
       if (descr) {
@@ -353,7 +356,7 @@ export abstract class StaticJsAbstractObject
         return false;
       }
 
-      if (!isStaticJsObjectLike(receiver)) {
+      if (!isStaticJsObject(receiver)) {
         return false;
       }
 
@@ -417,7 +420,7 @@ export abstract class StaticJsAbstractObject
       const proxyHandler: ProxyHandler<object> = {};
       this._configuretoNativeProxy(proxyHandler);
       const target = this._createtoNativeProxyTarget();
-      this._cachedJsObject = createStaticJsObjectLikeProxy(this, target, proxyHandler);
+      this._cachedJsObject = createStaticJsObjectProxy(this, target, proxyHandler);
     }
 
     return this._cachedJsObject;

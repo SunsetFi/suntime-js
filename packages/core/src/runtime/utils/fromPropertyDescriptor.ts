@@ -2,7 +2,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type { StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsPlainObject } from "../types/StaticJsPlainObject.js";
 
 import {
   type StaticJsDataPropertyDescriptor,
@@ -19,15 +19,15 @@ type StaticJsPropertyDescriptorKeys =
 export function fromPropertyDescriptor(
   descriptor: StaticJsPropertyDescriptorRecord,
   realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsObject>;
+): EvaluationGenerator<StaticJsPlainObject>;
 export function fromPropertyDescriptor(
   descriptor: StaticJsPropertyDescriptorRecord | undefined,
   realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsObject | StaticJsUndefined>;
+): EvaluationGenerator<StaticJsPlainObject | StaticJsUndefined>;
 export function* fromPropertyDescriptor(
   descriptor: StaticJsPropertyDescriptorRecord | undefined,
   realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsObject | StaticJsUndefined> {
+): EvaluationGenerator<StaticJsPlainObject | StaticJsUndefined> {
   if (descriptor === undefined) {
     return realm.types.undefined;
   }

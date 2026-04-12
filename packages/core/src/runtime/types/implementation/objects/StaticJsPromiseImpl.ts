@@ -12,10 +12,10 @@ import {
   type StaticJsPromise,
 } from "../../StaticJsPromise.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
-import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 
-import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
+import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
@@ -29,14 +29,14 @@ interface ReactionRecord {
   type: "fulfill" | "reject";
 }
 
-export class StaticJsPromiseImpl extends StaticJsObjectLikeImpl implements StaticJsPromise {
+export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements StaticJsPromise {
   private _state: "pending" | "fulfilled" | "rejected" = "pending";
   private _result: StaticJsValue | null = null;
   private _fulfullReactions: ReactionRecord[] = [];
   private _rejectReactions: ReactionRecord[] = [];
   private _clearUncaughtError: (() => void) | null = null;
 
-  constructor(realm: StaticJsRealm, prototype: StaticJsObjectLike | null = null) {
+  constructor(realm: StaticJsRealm, prototype: StaticJsObject | null = null) {
     super(realm, prototype ?? realm.types.prototypes.promiseProto);
   }
 

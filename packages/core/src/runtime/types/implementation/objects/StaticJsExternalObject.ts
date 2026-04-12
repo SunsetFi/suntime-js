@@ -35,7 +35,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
   }
 
   get runtimeTypeCode() {
-    return StaticJsTypeCode.Object;
+    return StaticJsTypeCode.PlainObject;
   }
 
   override toNative() {

@@ -4,7 +4,7 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
-import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
@@ -14,7 +14,7 @@ import { get } from "../../../algorithms/get.js";
 
 export class StaticJsArrayIteratorImpl extends StaticJsIteratorImpl {
   constructor(
-    private _iteratedArrayLike: StaticJsObjectLike | null,
+    private _iteratedArrayLike: StaticJsObject | null,
     private _arrayLikeNextIndex: number,
     private readonly _arrayLikeIterationKind: "key" | "value" | "key+value",
     realm: StaticJsRealm,

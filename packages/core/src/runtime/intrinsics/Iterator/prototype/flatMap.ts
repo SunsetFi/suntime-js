@@ -11,7 +11,7 @@ import { getIteratorFlattenable } from "../../../iterators/get-iterator-flattena
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
@@ -22,7 +22,7 @@ const iteratorProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
   key: "flatMap",
   *func(realm, thisArg, mapper = realm.types.undefined) {
     const O = thisArg;
-    if (!isStaticJsObjectLike(O)) {
+    if (!isStaticJsObject(O)) {
       throw Completion.Throw("TypeError", "Iterator.prototype.flatMap called on non-object");
     }
 

@@ -2,11 +2,11 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import toInteger from "./to-integer.js";
 
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../types/StaticJsArray.js";
 import { get } from "./get.js";
 
-export default function* lengthOfArrayLike(obj: StaticJsObjectLike): EvaluationGenerator<number> {
+export default function* lengthOfArrayLike(obj: StaticJsObject): EvaluationGenerator<number> {
   let lengthValue = yield* get(obj, "length");
   lengthValue = yield* toInteger(lengthValue);
   let length = lengthValue.value;

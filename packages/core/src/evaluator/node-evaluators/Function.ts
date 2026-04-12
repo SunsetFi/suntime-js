@@ -10,7 +10,7 @@ import {
   StaticJsAstFunctionArgument,
 } from "../../runtime/types/implementation/functions/StaticJsAstFunction.js";
 
-import { StaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
+import { StaticJsObject } from "../../runtime/types/StaticJsObject.js";
 
 import { setFunctionName } from "../../runtime/algorithms/set-function-name.js";
 
@@ -66,12 +66,11 @@ export function createFunction(node: Function, env: StaticJsEnvironmentRecord): 
 }
 
 export function createClassMethodFunction(
-  name: string | null,
   node: ObjectMethod | ClassMethod,
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
-  homeObject: StaticJsObjectLike,
-  prototype: StaticJsObjectLike,
+  homeObject: StaticJsObject,
+  prototype: StaticJsObject,
 ): StaticJsFunction {
   const params = node.params;
   validateParams(params);
@@ -85,12 +84,6 @@ export function createClassMethodFunction(
     homeObject,
     prototype,
   });
-
-  // Sigh...
-  // This really should be an evaluator.
-  // Since we are creating the function, we know this will be sync and not
-  // run forever.
-  realm.invokeEvaluatorSync(setFunctionName(func, name ?? ""));
 
   return func;
 }

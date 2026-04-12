@@ -1,5 +1,5 @@
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 import { isStaticJsScalar } from "../../../types/StaticJsScalar.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
@@ -13,7 +13,7 @@ const objectProtoHasOwnPropertyDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     // This does not appear to box.
-    if (!isStaticJsObjectLike(thisArg)) {
+    if (!isStaticJsObject(thisArg)) {
       return realm.types.false;
     }
 

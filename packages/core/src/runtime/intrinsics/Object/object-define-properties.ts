@@ -4,16 +4,16 @@ import definePropertyOrThrow from "../../algorithms/define-property-or-throw.js"
 import toObject from "../../algorithms/to-object.js";
 import toPropertyDescriptor from "../../algorithms/to-property-descriptor.js";
 
-import type { StaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsPropertyKey } from "../../types/StaticJsPropertyKey.js";
 import type { StaticJsPropertyDescriptorRecord } from "../../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import { get } from "../../algorithms/get.js";
 
 export default function* objectDefineProperties(
-  O: StaticJsObjectLike,
+  O: StaticJsObject,
   properties: StaticJsValue,
-): EvaluationGenerator<StaticJsObjectLike> {
+): EvaluationGenerator<StaticJsObject> {
   const props = yield* toObject(properties);
   const keys = yield* props.ownPropertyKeysEvaluator();
   const descriptors = new Map<StaticJsPropertyKey, StaticJsPropertyDescriptorRecord>();

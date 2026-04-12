@@ -1,12 +1,12 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsArrayIteratorImpl } from "../types/implementation/objects/StaticJsArrayIteratorImpl.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 export default function* createArrayIterator(
-  array: StaticJsObjectLike,
+  array: StaticJsObject,
   kind: "key+value" | "key" | "value",
   realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsObjectLike> {
+): EvaluationGenerator<StaticJsObject> {
   return new StaticJsArrayIteratorImpl(array, 0, kind, realm);
 }

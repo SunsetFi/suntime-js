@@ -7,7 +7,7 @@ import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
 
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import call from "../../../algorithms/call.js";
@@ -17,7 +17,7 @@ const iteratorProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   key: "forEach",
   *func(realm, thisArg, callback = realm.types.undefined) {
     const O = thisArg;
-    if (!isStaticJsObjectLike(O)) {
+    if (!isStaticJsObject(O)) {
       throw Completion.Throw("TypeError", "Iterator.prototype.forEach called on non-object");
     }
 

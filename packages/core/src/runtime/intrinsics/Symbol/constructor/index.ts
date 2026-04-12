@@ -3,7 +3,10 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import toString from "../../../algorithms/to-string.js";
 
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
+import {
+  isStaticJsPlainObject,
+  type StaticJsPlainObject,
+} from "../../../types/StaticJsPlainObject.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
@@ -16,12 +19,15 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   symbolCtorKeyForDeclaration,
 ];
 
-export default function createSymbolConstructor(realm: StaticJsRealm, symbolProto: StaticJsObject) {
+export default function createSymbolConstructor(
+  realm: StaticJsRealm,
+  symbolProto: StaticJsPlainObject,
+) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "Symbol",
     function* (thisArg: StaticJsValue, ...args: StaticJsValue[]) {
-      if (isStaticJsObject(thisArg)) {
+      if (isStaticJsPlainObject(thisArg)) {
         throw new TypeError("Symbol is not a constructor");
       }
 

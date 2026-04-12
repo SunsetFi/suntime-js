@@ -5,7 +5,7 @@ import { rethrowCompletion } from "../../evaluator/completions/rethrow-completio
 
 import { AwaitCommand } from "../../evaluator/commands/AwaitCommand.js";
 
-import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
 
 import call from "../algorithms/call.js";
 import getMethod from "../algorithms/get-method.js";
@@ -53,7 +53,7 @@ export function* asyncIteratorClose(
     return unwrap ? rethrowCompletion(innerResult) : innerResult;
   }
 
-  if (!isStaticJsObjectLike(innerResult)) {
+  if (!isStaticJsObject(innerResult)) {
     throw Completion.Throw("TypeError", "iterator.return() did not return an object");
   }
 

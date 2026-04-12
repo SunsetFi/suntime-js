@@ -4,7 +4,7 @@ import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
 import isConcatSpreadable from "../../../algorithms/is-concat-spreadable.js";
 import toObject from "../../../algorithms/to-object.js";
 
-import type { StaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
@@ -48,7 +48,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
 
       const spreadable = yield* isConcatSpreadable(E, realm);
       if (spreadable) {
-        const objE = E as StaticJsObjectLike;
+        const objE = E as StaticJsObject;
         const len = yield* lengthOfArrayLike(objE);
         if (n + len > MAX_ARRAY_LENGTH_INCLUSIVE) {
           throw Completion.Throw("TypeError", "Maximum array size exceeded");

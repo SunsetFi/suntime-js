@@ -44,7 +44,7 @@ import { populateGlobal } from "../../intrinsics/populate-global.js";
 import { StaticJsTypeFactoryImpl } from "../../types/implementation/StaticJsTypeFactoryImpl.js";
 
 import type { StaticJsTypeFactory } from "../../types/StaticJsTypeFactory.js";
-import type { StaticJsObject } from "../../types/StaticJsObject.js";
+import type { StaticJsPlainObject } from "../../types/StaticJsPlainObject.js";
 import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
 import {
   type StaticJsPropertyDescriptorRecord,
@@ -93,7 +93,7 @@ import { EvaluationTask } from "./EvaluationTask.js";
 import { StaticJsConfig } from "../StaticJsConfig.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
-  private readonly _global: StaticJsObject;
+  private readonly _global: StaticJsPlainObject;
   private readonly _globalThis: StaticJsValue;
   private readonly _objectEnv: StaticJsObjectEnvironmentRecord;
   private readonly _declarativeEnv: StaticJsDeclarativeEnvironmentRecord;
@@ -695,7 +695,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 }
 
 function resolveGlobalObject(realm: StaticJsRealm, globalObject?: StaticJsRealmOptions["global"]) {
-  let globalObjectResolved: StaticJsObject;
+  let globalObjectResolved: StaticJsPlainObject;
   if (!globalObject) {
     globalObjectResolved = realm.types.object();
   } else if (globalObject && "value" in globalObject) {
@@ -726,7 +726,7 @@ function resolveGlobalObject(realm: StaticJsRealm, globalObject?: StaticJsRealmO
 
 function resolveGlobalThis(
   realm: StaticJsRealm,
-  globalObject: StaticJsObject,
+  globalObject: StaticJsPlainObject,
   globalThisOpt?: StaticJsRealmOptions["globalThis"],
 ) {
   let globalThisResolved: StaticJsValue;

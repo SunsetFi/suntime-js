@@ -8,7 +8,7 @@ import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
 
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
@@ -21,7 +21,7 @@ const iteratorProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
   key: "filter",
   *func(realm, thisArg, predicate = realm.types.undefined) {
     const O = thisArg;
-    if (!isStaticJsObjectLike(O)) {
+    if (!isStaticJsObject(O)) {
       throw Completion.Throw("TypeError", "Iterator.prototype.filter called on non-object");
     }
 

@@ -1,13 +1,13 @@
 import type { StaticJsScalar } from "./StaticJsScalar.js";
-import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
 import type { StaticJsObject } from "./StaticJsObject.js";
+import type { StaticJsPlainObject } from "./StaticJsPlainObject.js";
 import type { StaticJsArray } from "./StaticJsArray.js";
 import type { StaticJsFunction } from "./StaticJsFunction.js";
 
 export type StaticJsValue =
   | StaticJsScalar
+  | StaticJsPlainObject
   | StaticJsObject
-  | StaticJsObjectLike
   | StaticJsArray
   | StaticJsFunction;
 

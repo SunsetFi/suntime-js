@@ -5,7 +5,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
-import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 
 import toBoolean from "./to-boolean.js";
@@ -19,7 +19,7 @@ export default function* instanceOfOperator(
   target: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<boolean> {
-  if (!isStaticJsObjectLike(target)) {
+  if (!isStaticJsObject(target)) {
     throw Completion.Throw("TypeError", "Right-hand side of 'instanceof' is not an object");
   }
 

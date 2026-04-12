@@ -9,8 +9,8 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsNumber } from "../types/StaticJsNumber.js";
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
-import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
@@ -24,7 +24,7 @@ import { StaticJsSymbolBoxed } from "../types/implementation/primitives/StaticJs
 export default function* toObject(
   value: StaticJsValue,
   realm?: StaticJsRealm,
-): EvaluationGenerator<StaticJsObjectLike> {
+): EvaluationGenerator<StaticJsObject> {
   if (isStaticJsUndefined(value) || isStaticJsNull(value)) {
     throw Completion.Throw("TypeError", "Cannot convert undefined or null to object");
   }
@@ -45,7 +45,7 @@ export default function* toObject(
     return new StaticJsSymbolBoxed(realm ?? EvaluationContext.current.realm, value);
   }
 
-  if (isStaticJsObjectLike(value)) {
+  if (isStaticJsObject(value)) {
     return value;
   }
 

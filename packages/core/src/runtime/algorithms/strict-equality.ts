@@ -3,7 +3,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsBoolean } from "../types/StaticJsBoolean.js";
-import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsScalar } from "../types/StaticJsScalar.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
@@ -21,7 +21,7 @@ export default function* strictEquality(
     return realm.types.boolean(Object.is(a.value, (b as typeof a).value));
   }
 
-  if (isStaticJsObjectLike(a)) {
+  if (isStaticJsObject(a)) {
     return realm.types.boolean(a === b);
   }
 

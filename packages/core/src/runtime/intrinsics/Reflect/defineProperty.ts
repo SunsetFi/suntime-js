@@ -3,7 +3,7 @@ import { Q } from "../../../evaluator/completions/Q.js";
 
 import toPropertyDescriptor from "../../algorithms/to-property-descriptor.js";
 
-import { isStaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../types/StaticJsObject.js";
 import { toPropertyKey } from "../../utils/to-property-key.js";
 
 import { IntrinsicPropertyDeclaration } from "../utils.js";
@@ -17,7 +17,7 @@ export const reflectDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
     propertyKey = realm.types.undefined,
     attributes = realm.types.undefined,
   ) {
-    if (!isStaticJsObjectLike(target)) {
+    if (!isStaticJsObject(target)) {
       throw Completion.Throw("TypeError", "Reflect.defineProperty called on non-object");
     }
 

@@ -2,7 +2,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import { Completion } from "../../evaluator/completions/Completion.js";
 
 import { type StaticJsFunction } from "../types/StaticJsFunction.js";
-import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 
@@ -11,7 +11,7 @@ import isConstructor from "./is-constructor.js";
 import { get } from "./get.js";
 
 export default function* speciesConstructor(
-  O: StaticJsObjectLike,
+  O: StaticJsObject,
   defaultConstructor: StaticJsFunction,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsFunction> {
@@ -25,7 +25,7 @@ export default function* speciesConstructor(
     return defaultConstructor;
   }
 
-  if (!isStaticJsObjectLike(C)) {
+  if (!isStaticJsObject(C)) {
     throw Completion.Throw("TypeError", "Constructor is not an object");
   }
 

@@ -2,7 +2,7 @@ import type { BinaryExpression } from "@babel/types";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
-import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
 
 import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
 
@@ -170,7 +170,7 @@ function* inExpression(node: BinaryExpression): EvaluationGenerator {
   const left = yield* Q.val(EvaluateNodeCommand(node.left));
   const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
-  if (!isStaticJsObjectLike(right)) {
+  if (!isStaticJsObject(right)) {
     throw Completion.Throw("TypeError", "Right side of in operator must be an object");
   }
   const rightObj = yield* toObject(right);

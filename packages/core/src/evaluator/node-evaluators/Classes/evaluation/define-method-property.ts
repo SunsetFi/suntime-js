@@ -5,7 +5,7 @@ import {
 
 import definePropertyOrThrow from "../../../../runtime/algorithms/define-property-or-throw.js";
 
-import { StaticJsObjectLike } from "../../../../runtime/types/StaticJsObjectLike.js";
+import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { StaticJsPropertyDescriptorRecord } from "../../../../runtime/types/StaticJsPropertyDescriptor.js";
 import { StaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
 import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
@@ -15,7 +15,7 @@ import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 import { StaticJsPrivateElement } from "../PrivateElement.js";
 
 export function* defineMethodProperty(
-  homeObject: StaticJsObjectLike,
+  homeObject: StaticJsObject,
   key: StaticJsPropertyKey | StaticJsPrivateName,
   closure: StaticJsFunction,
   enumerable: boolean,

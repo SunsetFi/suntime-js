@@ -19,7 +19,7 @@ import { toRuntimeWrap } from "../../../utils/to-runtime-wrap.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 
 import { type StaticJsCallable } from "../../StaticJsCallable.js";
-import { isStaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../StaticJsObject.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import type { StaticJsSet } from "../../StaticJsSet.js";
 
@@ -29,11 +29,11 @@ import type { StaticJsIterator, StaticJsIteratorResult } from "../../StaticJsIte
 import { StaticJsNativeFunctionImpl } from "../functions/StaticJsNativeFunctionImpl.js";
 
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
-import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
+import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
 // TODO: Take shortcuts for difference and friends if otherSet is also a StaticJsSetImpl
 
-export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsSet {
+export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements StaticJsSet {
   private _backingStore = new Set<unknown>();
 
   constructor(realm: StaticJsRealm) {
@@ -54,7 +54,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
   }
 
   *differenceEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue> {
-    if (!isStaticJsObjectLike(otherSet)) {
+    if (!isStaticJsObject(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
       );
@@ -85,7 +85,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
   }
 
   *intersectionEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue> {
-    if (!isStaticJsObjectLike(otherSet)) {
+    if (!isStaticJsObject(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
       );
@@ -111,7 +111,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
   }
 
   *isDisjointFromEvaluator(otherSet: StaticJsValue): EvaluationGenerator<boolean> {
-    if (!isStaticJsObjectLike(otherSet)) {
+    if (!isStaticJsObject(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
       );
@@ -135,7 +135,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
   }
 
   *isSubsetOfEvaluator(otherSet: StaticJsValue): EvaluationGenerator<boolean> {
-    if (!isStaticJsObjectLike(otherSet)) {
+    if (!isStaticJsObject(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
       );
@@ -159,7 +159,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
   }
 
   *isSupersetOfEvaluator(otherSet: StaticJsValue): EvaluationGenerator<boolean> {
-    if (!isStaticJsObjectLike(otherSet)) {
+    if (!isStaticJsObject(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
       );
@@ -190,7 +190,7 @@ export class StaticJsSetImpl extends StaticJsObjectLikeImpl implements StaticJsS
   }
 
   *symmetricDifferenceEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue> {
-    if (!isStaticJsObjectLike(otherSet)) {
+    if (!isStaticJsObject(otherSet)) {
       throw new StaticJsRuntimeError(
         this.realm.types.error("TypeError", "Argument is not an object"),
       );
@@ -313,7 +313,7 @@ function* setCreate(
 
   const result = yield* realm.types.constructors.Set.constructEvaluator();
 
-  if (!isStaticJsObjectLike(result)) {
+  if (!isStaticJsObject(result)) {
     throw new StaticJsRuntimeError(realm.types.error("TypeError", "Failed to create Set"));
   }
   const resultAdd = yield* get(result, "add");

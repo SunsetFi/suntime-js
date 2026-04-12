@@ -1,21 +1,18 @@
 import sameValue from "../../../algorithms/same-value.js";
 import toObject from "../../../algorithms/to-object.js";
 
-import {
-  isStaticJsObjectLike,
-  type StaticJsObjectLike,
-} from "../../../types/StaticJsObjectLike.js";
+import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectProtoIsPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "isPrototypeOf",
   *func(realm, thisArg = realm.types.undefined, proto) {
-    if (!isStaticJsObjectLike(proto)) {
+    if (!isStaticJsObject(proto)) {
       return realm.types.false;
     }
 
-    let V: StaticJsObjectLike | null = proto;
+    let V: StaticJsObject | null = proto;
 
     const O = yield* toObject(thisArg);
     while (true) {

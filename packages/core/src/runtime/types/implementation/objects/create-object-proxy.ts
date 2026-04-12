@@ -1,7 +1,7 @@
 import { properrtyDescriptortoNative } from "../../../utils/property-descriptor-to-js.js";
 
 import type { StaticJsValue } from "../../StaticJsValue.js";
-import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import {
   isStaticJsDataPropertyDescriptor,
@@ -9,13 +9,13 @@ import {
 } from "../../StaticJsPropertyDescriptor.js";
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
 
-const ProxyOwnerKey = Symbol("StaticJsObjectLikeProxyOwner");
+const ProxyOwnerKey = Symbol("StaticJsObjectProxyOwner");
 
 export type StaticJsObjectProxyTarget = (object | ((...args: unknown[]) => unknown)) & {
   [key: PropertyKey]: unknown;
 };
 
-export function getStaticJsObjectLikeProxyOwner(proxy: unknown): StaticJsValue | null {
+export function getStaticJsObjectProxyOwner(proxy: unknown): StaticJsValue | null {
   if (proxy && typeof proxy === "object" && ProxyOwnerKey in proxy) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (proxy as any)[ProxyOwnerKey] as StaticJsValue;
@@ -23,8 +23,8 @@ export function getStaticJsObjectLikeProxyOwner(proxy: unknown): StaticJsValue |
   return null;
 }
 
-export function createStaticJsObjectLikeProxy(
-  obj: StaticJsObjectLike,
+export function createStaticJsObjectProxy(
+  obj: StaticJsObject,
   target: StaticJsObjectProxyTarget = {},
   additionalTraps: ProxyHandler<StaticJsObjectProxyTarget> = {},
 ): unknown {

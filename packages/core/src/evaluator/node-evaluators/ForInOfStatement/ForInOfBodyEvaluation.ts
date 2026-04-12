@@ -16,7 +16,7 @@ import putValue from "../../../runtime/algorithms/put-value.js";
 import call from "../../../runtime/algorithms/call.js";
 import loopContinues from "../../../runtime/algorithms/loop-continues.js";
 
-import { isStaticJsObjectLike } from "../../../runtime/types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../../runtime/types/StaticJsObject.js";
 
 import boundNames from "../../instantiation/algorithms/bound-names.js";
 
@@ -70,7 +70,7 @@ export function* forInOfBodyEvaluation(
       nextResult = yield* AwaitCommand(nextResult);
     }
 
-    if (!isStaticJsObjectLike(nextResult)) {
+    if (!isStaticJsObject(nextResult)) {
       throw Completion.Throw("TypeError", "Iterator result is not an object");
     }
 

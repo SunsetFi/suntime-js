@@ -1,7 +1,7 @@
 import { isIdentifier, type FunctionDeclaration, type Node } from "@babel/types";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import type { StaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../runtime/types/StaticJsObject.js";
 
 import type {
   StaticJsAstFunction,
@@ -106,7 +106,7 @@ export default function* functionDeclarationInstantiation(
   }
 
   if (argumentsObjectNeeded) {
-    let ao: StaticJsObjectLike;
+    let ao: StaticJsObject;
     if (strict || !simpleParameterList) {
       ao = yield* createUnmappedArgumentsObject(argumentsList);
     } else {

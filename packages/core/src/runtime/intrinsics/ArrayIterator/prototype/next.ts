@@ -2,7 +2,7 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
 
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 
 import { StaticJsArrayIteratorImpl } from "../../../types/implementation/objects/StaticJsArrayIteratorImpl.js";
 
@@ -12,7 +12,7 @@ const arrayProtoNextDeclaration: IntrinsicPropertyDeclaration = {
   key: "next",
   *func(realm, thisArg) {
     const O = thisArg;
-    if (!isStaticJsObjectLike(O)) {
+    if (!isStaticJsObject(O)) {
       throw Completion.Throw("TypeError", "Array Iterator.prototype.next called on non-object");
     }
 

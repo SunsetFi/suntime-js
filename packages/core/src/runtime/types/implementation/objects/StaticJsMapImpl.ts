@@ -21,9 +21,9 @@ import type { StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
 
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
-import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
+import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
-export class StaticJsMapImpl extends StaticJsObjectLikeImpl implements StaticJsMap {
+export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements StaticJsMap {
   private readonly _backingStore = new Map<unknown, StaticJsValue>();
 
   constructor(realm: StaticJsRealm) {

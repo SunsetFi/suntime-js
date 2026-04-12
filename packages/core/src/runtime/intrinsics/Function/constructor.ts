@@ -11,7 +11,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import toString from "../../algorithms/to-string.js";
 
-import type { StaticJsObject } from "../../types/StaticJsObject.js";
+import type { StaticJsPlainObject } from "../../types/StaticJsPlainObject.js";
 
 import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import {
@@ -21,7 +21,7 @@ import {
 
 export default function createFunctionConstructor(
   realm: StaticJsRealm,
-  functionProto: StaticJsObject,
+  functionProto: StaticJsPlainObject,
 ) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,

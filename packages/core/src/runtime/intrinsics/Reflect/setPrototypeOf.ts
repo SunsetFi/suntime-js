@@ -2,22 +2,22 @@ import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 
 import { isStaticJsNull } from "../../types/StaticJsNull.js";
-import { isStaticJsObjectLike, StaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
+import { isStaticJsObject, StaticJsObject } from "../../types/StaticJsObject.js";
 
 import { IntrinsicPropertyDeclaration } from "../utils.js";
 
 export const reflectSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "setPrototypeOf",
   *func(realm, _thisArg, target = realm.types.undefined, prototype = realm.types.undefined) {
-    if (!isStaticJsObjectLike(target)) {
+    if (!isStaticJsObject(target)) {
       throw Completion.Throw("TypeError", "Reflect.setPrototypeOf called on non-object");
     }
 
     // FIXME: More jank from us accepting direct null instead of realm.types.null
-    let proto: StaticJsObjectLike | null;
+    let proto: StaticJsObject | null;
     if (isStaticJsNull(prototype)) {
       proto = null;
-    } else if (isStaticJsObjectLike(prototype)) {
+    } else if (isStaticJsObject(prototype)) {
       proto = prototype;
     } else {
       throw Completion.Throw(

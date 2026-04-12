@@ -25,7 +25,7 @@ import { isCompatiblePropertyDescriptor } from "../../algorithms/is-compatible-p
 import { construct } from "../../algorithms/construct.js";
 
 import { isStaticJsNull } from "../StaticJsNull.js";
-import { isStaticJsObjectLike, StaticJsObjectLike } from "../StaticJsObjectLike.js";
+import { isStaticJsObject, StaticJsObject } from "../StaticJsObject.js";
 import { StaticJsPropertyKey, staticJsPropertyKeyToValue } from "../StaticJsPropertyKey.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
@@ -39,15 +39,15 @@ import { isStaticJsUndefined } from "../StaticJsUndefined.js";
 import { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsCallable, StaticJsCallable } from "../StaticJsCallable.js";
 
-import { createStaticJsObjectLikeProxy } from "./objects/create-object-proxy.js";
+import { createStaticJsObjectProxy } from "./objects/create-object-proxy.js";
 import { StaticJsArrayImpl } from "./objects/StaticJsArrayImpl.js";
 
-export class StaticJsProxyImpl implements StaticJsObjectLike, StaticJsCallable {
+export class StaticJsProxyImpl implements StaticJsObject, StaticJsCallable {
   private _cachedJsObject: unknown | null = null;
 
   constructor(
-    private readonly _proxyTarget: StaticJsObjectLike,
-    private _handler: StaticJsObjectLike,
+    private readonly _proxyTarget: StaticJsObject,
+    private _handler: StaticJsObject,
     private readonly _realm: StaticJsRealm,
   ) {}
 
@@ -73,19 +73,19 @@ export class StaticJsProxyImpl implements StaticJsObjectLike, StaticJsCallable {
       : StaticJsTypeCode.Proxy;
   }
 
-  get prototype(): StaticJsObjectLike | null {
+  get prototype(): StaticJsObject | null {
     throw new Error("Method not implemented.");
   }
 
-  getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObjectLike | null> {
+  getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObject | null> {
     return this._realm.invokeEvaluatorAsync(this.getPrototypeOfEvaluator(), opts);
   }
 
-  getPrototypeOfSync(opts?: StaticJsRunTaskOptions): StaticJsObjectLike | null {
+  getPrototypeOfSync(opts?: StaticJsRunTaskOptions): StaticJsObject | null {
     return this._realm.invokeEvaluatorSync(this.getPrototypeOfEvaluator(), opts);
   }
 
-  *getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObjectLike | null> {
+  *getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObject | null> {
     yield* this._validateNonRevokedProxy();
     const target = this._proxyTarget;
     const handler = this._handler;
@@ -97,7 +97,7 @@ export class StaticJsProxyImpl implements StaticJsObjectLike, StaticJsCallable {
 
     const handlerProto = yield* Q(call(trap, handler, [target]));
 
-    if (!isStaticJsObjectLike(handlerProto) && handlerProto !== null) {
+    if (!isStaticJsObject(handlerProto) && handlerProto !== null) {
       throw Completion.Throw(
         "TypeError",
         "Proxy handler's getPrototypeOf trap must return an object or null",
@@ -120,17 +120,17 @@ export class StaticJsProxyImpl implements StaticJsObjectLike, StaticJsCallable {
   }
 
   setPrototypeOfAsync(
-    prototype: StaticJsObjectLike | null,
+    prototype: StaticJsObject | null,
     opts?: StaticJsRunTaskOptions,
   ): Promise<boolean> {
     return this._realm.invokeEvaluatorAsync(this.setPrototypeOfEvaluator(prototype), opts);
   }
 
-  setPrototypeOfSync(prototype: StaticJsObjectLike | null, opts?: StaticJsRunTaskOptions): boolean {
+  setPrototypeOfSync(prototype: StaticJsObject | null, opts?: StaticJsRunTaskOptions): boolean {
     return this._realm.invokeEvaluatorSync(this.setPrototypeOfEvaluator(prototype), opts);
   }
 
-  *setPrototypeOfEvaluator(prototype: StaticJsObjectLike | null): EvaluationGenerator<boolean> {
+  *setPrototypeOfEvaluator(prototype: StaticJsObject | null): EvaluationGenerator<boolean> {
     yield* this._validateNonRevokedProxy();
 
     const target = this._proxyTarget;
@@ -460,7 +460,7 @@ export class StaticJsProxyImpl implements StaticJsObjectLike, StaticJsCallable {
     const trapResultObject = yield* Q(
       call(trap, handler, [target, staticJsPropertyKeyToValue(key, this._realm)]),
     );
-    if (!isStaticJsObjectLike(trapResultObject) && !isStaticJsUndefined(trapResultObject)) {
+    if (!isStaticJsObject(trapResultObject) && !isStaticJsUndefined(trapResultObject)) {
       throw Completion.Throw(
         "TypeError",
         `Proxy handler's getOwnPropertyDescriptor trap must return an object or undefined for property ${String(
@@ -867,7 +867,7 @@ export class StaticJsProxyImpl implements StaticJsObjectLike, StaticJsCallable {
     args?: StaticJsValue[],
     // FIXME: What is the default newTarget here.  The target or the proxy?
     newTarget: StaticJsCallable = this,
-  ): EvaluationGenerator<StaticJsObjectLike> {
+  ): EvaluationGenerator<StaticJsObject> {
     yield* this._validateNonRevokedProxy();
 
     const target = this._proxyTarget;
@@ -886,7 +886,7 @@ export class StaticJsProxyImpl implements StaticJsObjectLike, StaticJsCallable {
     const argArray = yield* StaticJsArrayImpl.create(this.realm, args || []);
     // FIXME: newTarget
     const newObj = yield* Q(call(trap, handler, [target, argArray, newTarget]));
-    if (!isStaticJsObjectLike(newObj)) {
+    if (!isStaticJsObject(newObj)) {
       throw Completion.Throw("TypeError", "Proxy handler's construct trap must return an object");
     }
 
@@ -897,7 +897,7 @@ export class StaticJsProxyImpl implements StaticJsObjectLike, StaticJsCallable {
     if (!this._cachedJsObject) {
       const proxyHandler: ProxyHandler<object> = {};
       const target = {};
-      this._cachedJsObject = createStaticJsObjectLikeProxy(this, target, proxyHandler);
+      this._cachedJsObject = createStaticJsObjectProxy(this, target, proxyHandler);
     }
 
     return this._cachedJsObject;

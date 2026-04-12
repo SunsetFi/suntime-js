@@ -3,7 +3,7 @@ import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import { mathDefaultHooks } from "../../hooks/Math/index.js";
 
-import { StaticJsObjectImpl } from "../../types/implementation/objects/StaticJsObjectImpl.js";
+import { StaticJsPlainObjectImpl } from "../../types/implementation/objects/StaticJsPlainObjectImpl.js";
 import { StaticJsNumberImpl } from "../../types/implementation/primitives/StaticJsNumberImpl.js";
 
 import toNumber from "../../algorithms/to-number.js";
@@ -172,7 +172,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 ];
 
 export function createMathIntrinsic(realm: StaticJsRealm) {
-  const Math = new StaticJsObjectImpl(realm);
+  const Math = new StaticJsPlainObjectImpl(realm);
 
   applyIntrinsicProperties(realm, Math, declarations);
 

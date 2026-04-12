@@ -1,6 +1,6 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsCallable } from "./StaticJsCallable.js";
-import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
+import type { StaticJsObject } from "./StaticJsObject.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
@@ -10,7 +10,7 @@ export interface StaticJsPromiseCapabilityRecord {
   reject: StaticJsCallable;
 }
 
-export interface StaticJsPromise extends StaticJsObjectLike {
+export interface StaticJsPromise extends StaticJsObject {
   readonly runtimeTypeOf: "promise";
 
   resolve(value: StaticJsValue): void;

@@ -3,7 +3,7 @@ import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
-import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsNumber, type StaticJsNumber } from "../types/StaticJsNumber.js";
@@ -37,7 +37,7 @@ function* toNumber(value: StaticJsValue): EvaluationGenerator<StaticJsNumber> {
 
   // TODO: Symbol throw TypeError
 
-  if (isStaticJsObjectLike(value)) {
+  if (isStaticJsObject(value)) {
     const asPrimitive = yield* toPrimitive(value, "number");
     return yield* toNumber(asPrimitive);
   }

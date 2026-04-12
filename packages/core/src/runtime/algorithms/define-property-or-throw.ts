@@ -1,12 +1,12 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import type { StaticJsPropertyDescriptorRecord } from "../types/StaticJsPropertyDescriptor.js";
 
 export default function* definePropertyOrThrow(
-  O: StaticJsObjectLike,
+  O: StaticJsObject,
   P: StaticJsPropertyKey,
   desc: StaticJsPropertyDescriptorRecord,
 ): EvaluationGenerator<void> {

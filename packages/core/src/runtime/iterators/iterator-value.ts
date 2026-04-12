@@ -1,11 +1,9 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { get } from "../algorithms/get.js";
 
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-export function* iteratorValue(
-  iteratorResult: StaticJsObjectLike,
-): EvaluationGenerator<StaticJsValue> {
+export function* iteratorValue(iteratorResult: StaticJsObject): EvaluationGenerator<StaticJsValue> {
   return yield* get(iteratorResult, "value");
 }

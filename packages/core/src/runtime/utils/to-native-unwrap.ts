@@ -1,8 +1,8 @@
-import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 export function toNativeUnwrap(value: StaticJsValue): unknown {
-  if (isStaticJsObjectLike(value)) {
+  if (isStaticJsObject(value)) {
     return value;
   }
 

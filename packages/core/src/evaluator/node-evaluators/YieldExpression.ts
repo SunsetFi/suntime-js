@@ -3,7 +3,7 @@ import { isFunction, type YieldExpression } from "@babel/types";
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import { isStaticJsValue, StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import { isStaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
 
 import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorComplete } from "../../runtime/iterators/iterator-complete.js";
@@ -54,7 +54,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
       if (generatorKind === "async") {
         innerResult = yield* Q(AwaitCommand(innerResult));
       }
-      if (!isStaticJsObjectLike(innerResult)) {
+      if (!isStaticJsObject(innerResult)) {
         throw Completion.Throw("TypeError", "Iterator result is not an object");
       }
       const done = yield* Q(iteratorComplete(innerResult));
@@ -73,7 +73,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
         if (generatorKind === "async") {
           innerResult = yield* Q(AwaitCommand(innerResult));
         }
-        if (!isStaticJsObjectLike(innerResult)) {
+        if (!isStaticJsObject(innerResult)) {
           throw Completion.Throw("TypeError", "Iterator result is not an object");
         }
         const done = yield* Q(iteratorComplete(innerResult));
@@ -112,7 +112,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
       if (generatorKind === "async") {
         innerReturnResult = yield* Q(AwaitCommand(innerReturnResult));
       }
-      if (!isStaticJsObjectLike(innerReturnResult)) {
+      if (!isStaticJsObject(innerReturnResult)) {
         throw Completion.Throw("TypeError", "Iterator result is not an object");
       }
       const done = yield* Q(iteratorComplete(innerReturnResult));

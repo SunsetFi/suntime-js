@@ -1,19 +1,19 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsIterator, StaticJsIteratorResult } from "../../StaticJsIterator.js";
 
-import { StaticJsObjectLikeImpl } from "./StaticJsObjectLikeImpl.js";
+import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 
 export abstract class StaticJsIteratorImpl
-  extends StaticJsObjectLikeImpl
+  extends StaticJsOrdinaryObjectImpl
   implements StaticJsIterator
 {
   constructor(
     realm: StaticJsRealm,
-    prototype: StaticJsObjectLike = realm.types.prototypes.iteratorProto,
+    prototype: StaticJsObject = realm.types.prototypes.iteratorProto,
   ) {
     super(realm, prototype);
   }

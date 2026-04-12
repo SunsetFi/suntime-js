@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
@@ -39,7 +39,7 @@ export interface StaticJsModuleImplementation extends StaticJsModule {
   // do this manually where needed.
   getOwnBindingValueEvaluator(bindingName: string): EvaluationGenerator<StaticJsValue | null>;
 
-  getModuleNamespaceEvaluator(): EvaluationGenerator<StaticJsObjectLike>;
+  getModuleNamespaceEvaluator(): EvaluationGenerator<StaticJsObject>;
 }
 
 export function isStaticJsModuleImplementation(x: unknown): x is StaticJsModuleImplementation {

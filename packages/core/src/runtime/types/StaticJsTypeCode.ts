@@ -11,7 +11,7 @@ enum StaticJsTypeCode {
   // Objects
   IsObjectFlag = 128,
   IsCallableFlag = 256,
-  Object = IsObjectFlag + 0,
+  PlainObject = IsObjectFlag + 0,
   Array = IsObjectFlag + 1,
   Function = IsObjectFlag + IsCallableFlag + 2,
   Promise = IsObjectFlag + 3,

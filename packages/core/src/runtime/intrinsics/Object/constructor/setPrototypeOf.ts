@@ -2,8 +2,8 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 import toObject from "../../../algorithms/to-object.js";
 
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
-import type { StaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -12,8 +12,8 @@ const objectCtorSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, _thisArg, targetValue = realm.types.undefined, protoValue) {
     const obj = yield* toObject(targetValue);
 
-    let proto: StaticJsObjectLike | null;
-    if (isStaticJsObjectLike(protoValue)) {
+    let proto: StaticJsObject | null;
+    if (isStaticJsObject(protoValue)) {
       proto = protoValue;
     } else if (isStaticJsNull(protoValue)) {
       proto = null;

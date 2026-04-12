@@ -7,7 +7,7 @@ import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
+import type { StaticJsPlainObject } from "../../../types/StaticJsPlainObject.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
@@ -19,7 +19,7 @@ import setCtorSymbolSpeciesDeclaration from "./symbol_species.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [setCtorSymbolSpeciesDeclaration];
 
-export default function createSetConstructor(realm: StaticJsRealm, setProto: StaticJsObject) {
+export default function createSetConstructor(realm: StaticJsRealm, setProto: StaticJsPlainObject) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "Set",

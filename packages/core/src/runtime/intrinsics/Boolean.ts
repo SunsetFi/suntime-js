@@ -7,10 +7,10 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsBooleanBoxed } from "../types/implementation/primitives/StaticJsBooleanBoxed.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { isStaticJsBoolean, type StaticJsBoolean } from "../types/StaticJsBoolean.js";
-import type { StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsPlainObject } from "../types/StaticJsPlainObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-export function populateBooleanPrototype(realm: StaticJsRealm, booleanProto: StaticJsObject) {
+export function populateBooleanPrototype(realm: StaticJsRealm, booleanProto: StaticJsPlainObject) {
   booleanProto.defineOwnPropertySync("toString", {
     configurable: true,
     enumerable: false,
@@ -40,7 +40,7 @@ export function populateBooleanPrototype(realm: StaticJsRealm, booleanProto: Sta
   return booleanProto;
 }
 
-export function createBooleanConstructor(realm: StaticJsRealm, booleanProto: StaticJsObject) {
+export function createBooleanConstructor(realm: StaticJsRealm, booleanProto: StaticJsPlainObject) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "Boolean",

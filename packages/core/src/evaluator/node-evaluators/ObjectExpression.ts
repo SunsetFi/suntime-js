@@ -4,8 +4,8 @@ import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
 
-import type { StaticJsObject } from "../../runtime/types/StaticJsObject.js";
-import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
+import type { StaticJsPlainObject } from "../../runtime/types/StaticJsPlainObject.js";
+import { isStaticJsPlainObject } from "../../runtime/types/StaticJsPlainObject.js";
 import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../../runtime/types/StaticJsSymbol.js";
 
@@ -53,7 +53,7 @@ export default function* objectExpressionNodeEvaluator(
 }
 
 function* objectExpressionPropertyObjectMethodEvaluator(
-  target: StaticJsObject,
+  target: StaticJsPlainObject,
   property: ObjectMethod,
 ): EvaluationGenerator {
   const { lexicalEnv, strict } = EvaluationContext.current;
@@ -108,7 +108,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
 }
 
 function* objectExpressionPropertyObjectPropertyEvaluator(
-  target: StaticJsObject,
+  target: StaticJsPlainObject,
   property: ObjectProperty,
 ): EvaluationGenerator {
   const propertyKeyNode = property.key;
@@ -135,12 +135,12 @@ function* objectExpressionPropertyObjectPropertyEvaluator(
 }
 
 function* objectExpressionPropertySpreadElementEvaluator(
-  target: StaticJsObject,
+  target: StaticJsPlainObject,
   property: SpreadElement,
 ): EvaluationGenerator {
   const { strict } = EvaluationContext.current;
   const value = yield* Q.val(EvaluateNodeCommand(property.argument));
-  if (!isStaticJsObject(value)) {
+  if (!isStaticJsPlainObject(value)) {
     // Apparently we just ignore these
     return null;
   }

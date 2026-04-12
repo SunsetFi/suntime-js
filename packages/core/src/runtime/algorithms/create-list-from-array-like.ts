@@ -1,7 +1,7 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { StaticJsPropertyKey, isStaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 
 import { StaticJsValue } from "../types/StaticJsValue.js";
@@ -22,7 +22,7 @@ export function* createListFromArrayLike(
   obj: StaticJsValue,
   validElementTypes: "all" | "property-key" = "all",
 ): EvaluationGenerator<unknown[]> {
-  if (!isStaticJsObjectLike(obj)) {
+  if (!isStaticJsObject(obj)) {
     throw Completion.Throw("TypeError", "Argument must be an object");
   }
 

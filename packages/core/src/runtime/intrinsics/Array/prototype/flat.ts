@@ -4,7 +4,7 @@ import toInteger from "../../../algorithms/to-integer.js";
 
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import type { StaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
@@ -40,7 +40,7 @@ const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
 export default arrayProtoFlatDeclaration;
 
 function* performFlat(
-  thisObj: StaticJsObjectLike,
+  thisObj: StaticJsObject,
   depth: number,
   target: StaticJsValue[] = [],
 ): EvaluationGenerator<StaticJsValue[]> {

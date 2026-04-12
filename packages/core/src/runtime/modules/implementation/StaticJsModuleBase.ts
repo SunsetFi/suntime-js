@@ -3,7 +3,7 @@ import { Completion } from "../../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import type { StaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import type { StaticJsModule } from "../StaticJsModule.js";
@@ -18,7 +18,7 @@ import { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 
 export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModuleImplementation {
-  private _cachedNamespaceObject: StaticJsObjectLike | null = null;
+  private _cachedNamespaceObject: StaticJsObject | null = null;
 
   constructor(
     protected readonly _name: string,
@@ -94,7 +94,7 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
     }
   }
 
-  getModuleNamespaceAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObjectLike> {
+  getModuleNamespaceAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObject> {
     return this._realm.invokeEvaluatorAsync(
       EvaluationContext.external(this.getModuleNamespaceEvaluator(), this._realm),
       opts,
@@ -111,7 +111,7 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
     }
   }
 
-  *getModuleNamespaceEvaluator(): EvaluationGenerator<StaticJsObjectLike> {
+  *getModuleNamespaceEvaluator(): EvaluationGenerator<StaticJsObject> {
     if (this._cachedNamespaceObject) {
       return this._cachedNamespaceObject;
     }

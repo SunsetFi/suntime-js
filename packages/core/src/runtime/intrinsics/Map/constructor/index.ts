@@ -4,7 +4,7 @@ import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
+import type { StaticJsPlainObject } from "../../../types/StaticJsPlainObject.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
@@ -25,7 +25,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   mapCtorSymbolSpeciesDeclaration,
 ];
 
-export default function createMapConstructor(realm: StaticJsRealm, mapProto: StaticJsObject) {
+export default function createMapConstructor(realm: StaticJsRealm, mapProto: StaticJsPlainObject) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "Map",

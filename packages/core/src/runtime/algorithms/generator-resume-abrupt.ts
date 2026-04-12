@@ -5,7 +5,7 @@ import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import type { StaticJsIteratorResult } from "../types/StaticJsIterator.js";
 
@@ -18,7 +18,7 @@ export default function* generatorResumeAbrupt(
   completion: Completion.Abrupt,
   generatorBrand: string | null,
   realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsObjectLike> {
+): EvaluationGenerator<StaticJsObject> {
   // FIXME: Support subclasses
   if (generator instanceof StaticJsGeneratorImpl === false) {
     throw Completion.Throw("TypeError", "Generator resume called on incompatible receiver");

@@ -8,7 +8,7 @@ import { Q } from "../../../../evaluator/completions/Q.js";
 import toIntegerOrInfinity from "../../../algorithms/to-integer-or-infinity.js";
 import toNumber from "../../../algorithms/to-number.js";
 
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 
 import { createIteratorFromClosure } from "../../../iterators/create-iterator-from-closure.js";
 import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
@@ -24,7 +24,7 @@ const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
   key: "drop",
   *func(realm, thisArg, limit = realm.types.undefined) {
     const O = thisArg;
-    if (!isStaticJsObjectLike(O)) {
+    if (!isStaticJsObject(O)) {
       throw Completion.Throw("TypeError", "Iterator.prototype.drop called on non-object");
     }
 

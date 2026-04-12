@@ -1,11 +1,11 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsFunction } from "./StaticJsFunction.js";
-import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
+import type { StaticJsObject } from "./StaticJsObject.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
-export interface StaticJsSet extends StaticJsObjectLike {
+export interface StaticJsSet extends StaticJsObject {
   readonly runtimeTypeOf: "set";
 
   sizeEvaluator(): EvaluationGenerator<number>;

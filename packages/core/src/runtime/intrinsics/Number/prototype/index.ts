@@ -1,5 +1,5 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
+import type { StaticJsPlainObject } from "../../../types/StaticJsPlainObject.js";
 
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -19,6 +19,9 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   numberProtoValueOfDeclaration,
 ];
 
-export default function populateNumberPrototype(realm: StaticJsRealm, objectProto: StaticJsObject) {
+export default function populateNumberPrototype(
+  realm: StaticJsRealm,
+  objectProto: StaticJsPlainObject,
+) {
   applyIntrinsicProperties(realm, objectProto, declarations);
 }

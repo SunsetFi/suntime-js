@@ -26,7 +26,7 @@ import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsValue, StaticJsValue } from "../../StaticJsValue.js";
 
 import { StaticJsNativeFunctionImpl } from "./StaticJsNativeFunctionImpl.js";
-import { StaticJsObjectLikeImpl } from "../objects/StaticJsObjectLikeImpl.js";
+import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 import { invokeEvaluator, StaticJsEvaluator } from "../../../../evaluator/StaticJsEvaluator.js";
 
 interface AsyncGeneratorRequest {
@@ -34,7 +34,7 @@ interface AsyncGeneratorRequest {
   capability: StaticJsPromiseCapabilityRecord;
 }
 export class StaticJsAsyncGeneratorImpl
-  extends StaticJsObjectLikeImpl
+  extends StaticJsOrdinaryObjectImpl
   implements StaticJsAsyncGenerator
 {
   private readonly _driver: AsyncDriver;

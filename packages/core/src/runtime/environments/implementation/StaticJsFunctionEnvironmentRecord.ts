@@ -4,7 +4,7 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsFunction } from "../../types/StaticJsFunction.js";
-import { StaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
+import { StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
@@ -17,7 +17,7 @@ export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnviro
 
   constructor(
     _functionObject: StaticJsFunction,
-    private readonly _newTarget: StaticJsObjectLike | null,
+    private readonly _newTarget: StaticJsObject | null,
     lexical: boolean,
     outerEnv: StaticJsEnvironmentRecord,
     realm: StaticJsRealm,

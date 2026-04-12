@@ -1,7 +1,7 @@
 import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { StaticJsObject } from "../../types/StaticJsObject.js";
+import { StaticJsPlainObject } from "../../types/StaticJsPlainObject.js";
 
-import { StaticJsObjectImpl } from "../../types/implementation/objects/StaticJsObjectImpl.js";
+import { StaticJsPlainObjectImpl } from "../../types/implementation/objects/StaticJsPlainObjectImpl.js";
 
 import { applyIntrinsicProperties, IntrinsicPropertyDeclaration } from "../utils.js";
 
@@ -35,8 +35,8 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   reflectSymbolToStringTagDeclaration,
 ];
 
-export function createReflectIntrinsic(realm: StaticJsRealm): StaticJsObject {
-  const Reflect = new StaticJsObjectImpl(realm, realm.types.prototypes.objectProto);
+export function createReflectIntrinsic(realm: StaticJsRealm): StaticJsPlainObject {
+  const Reflect = new StaticJsPlainObjectImpl(realm, realm.types.prototypes.objectProto);
 
   applyIntrinsicProperties(realm, Reflect, declarations);
 

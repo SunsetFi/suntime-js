@@ -3,7 +3,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { StaticJsPropertyDescriptorRecord } from "../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
-import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 
 import toBoolean from "./to-boolean.js";
@@ -13,7 +13,7 @@ import { isCallable } from "./is-callable.js";
 export default function* toPropertyDescriptor(
   obj: StaticJsValue,
 ): EvaluationGenerator<StaticJsPropertyDescriptorRecord> {
-  if (!isStaticJsObjectLike(obj)) {
+  if (!isStaticJsObject(obj)) {
     throw Completion.Throw("TypeError", "Property description must be an object");
   }
 

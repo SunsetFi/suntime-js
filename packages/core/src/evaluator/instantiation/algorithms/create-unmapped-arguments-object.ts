@@ -1,7 +1,7 @@
 import createDataPropertyOrThrow from "../../../runtime/algorithms/create-data-property-or-throw.js";
 import definePropertyOrThrow from "../../../runtime/algorithms/define-property-or-throw.js";
 
-import type { StaticJsObjectLike } from "../../../runtime/types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../../runtime/types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 
 import { StaticJsNativeFunctionImpl } from "../../../runtime/types/implementation/functions/StaticJsNativeFunctionImpl.js";
@@ -14,7 +14,7 @@ import { get } from "../../../runtime/algorithms/get.js";
 
 export default function* createUnmappedArgumentsObject(
   argumentsList: StaticJsValue[],
-): EvaluationGenerator<StaticJsObjectLike> {
+): EvaluationGenerator<StaticJsObject> {
   const { realm } = EvaluationContext.current;
   const len = argumentsList.length;
 

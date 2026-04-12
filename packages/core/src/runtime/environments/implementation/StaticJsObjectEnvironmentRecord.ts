@@ -6,7 +6,7 @@ import toBoolean from "../../algorithms/to-boolean.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
-import { isStaticJsObjectLike, type StaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
+import { isStaticJsObject, type StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
@@ -15,7 +15,7 @@ import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.j
 
 export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   constructor(
-    private readonly _obj: StaticJsObjectLike,
+    private readonly _obj: StaticJsObject,
     private readonly _isWithEnvironment: boolean,
     outerEnv: StaticJsEnvironmentRecord | null,
     private readonly _realm: StaticJsRealm,
@@ -23,7 +23,7 @@ export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBa
     super(outerEnv);
   }
 
-  get bindingObject(): StaticJsObjectLike {
+  get bindingObject(): StaticJsObject {
     return this._obj;
   }
 
@@ -38,7 +38,7 @@ export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBa
     }
 
     const unscopables = yield* get(this._obj, this._realm.types.symbols.unscopables);
-    if (isStaticJsObjectLike(unscopables)) {
+    if (isStaticJsObject(unscopables)) {
       const blockedValue = yield* get(unscopables, name);
       const isBlocked = yield* toBoolean.js(blockedValue);
       if (isBlocked) {

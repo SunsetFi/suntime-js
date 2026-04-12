@@ -1,13 +1,13 @@
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import { get } from "../../algorithms/get.js";
 
-import type { StaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 export type SortCompare = (a: StaticJsValue, b: StaticJsValue) => EvaluationGenerator<number>;
 
 export default function* sortIndexedProperties(
-  obj: StaticJsObjectLike,
+  obj: StaticJsObject,
   len: number,
   sortCompare: SortCompare,
   holes: "skip-holes" | "read-through-holes",

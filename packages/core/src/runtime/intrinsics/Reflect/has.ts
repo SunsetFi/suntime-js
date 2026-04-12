@@ -1,7 +1,7 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 
-import { isStaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../types/StaticJsObject.js";
 import { toPropertyKey } from "../../utils/to-property-key.js";
 
 import { IntrinsicPropertyDeclaration } from "../utils.js";
@@ -9,7 +9,7 @@ import { IntrinsicPropertyDeclaration } from "../utils.js";
 export const reflectHasDeclaration: IntrinsicPropertyDeclaration = {
   key: "has",
   *func(realm, _thisArg, target = realm.types.undefined, propertyKey = realm.types.undefined) {
-    if (!isStaticJsObjectLike(target)) {
+    if (!isStaticJsObject(target)) {
       throw Completion.Throw("TypeError", "Reflect.has called on non-object");
     }
 

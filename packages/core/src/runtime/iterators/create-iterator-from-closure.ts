@@ -6,12 +6,12 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsGeneratorImpl } from "../types/implementation/functions/StaticJsGeneratorImpl.js";
 
 import type { StaticJsGenerator } from "../types/StaticJsGenerator.js";
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 export function* createIteratorFromClosure(
   closure: EvaluationGenerator,
   generatorBrand: string | null,
-  generatorPrototype: StaticJsObjectLike,
+  generatorPrototype: StaticJsObject,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsGenerator> {
   const callerContext = EvaluationContext.current;

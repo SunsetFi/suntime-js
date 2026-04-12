@@ -4,7 +4,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 
-import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsNumber } from "../types/StaticJsNumber.js";
@@ -41,7 +41,7 @@ function* toString(value: StaticJsValue): EvaluationGenerator<StaticJsString> {
     return realm.types.string(value.value.toString());
   }
 
-  if (isStaticJsObjectLike(value)) {
+  if (isStaticJsObject(value)) {
     const primitive = yield* toPrimitive(value, "string");
     return yield* toString(primitive);
   }

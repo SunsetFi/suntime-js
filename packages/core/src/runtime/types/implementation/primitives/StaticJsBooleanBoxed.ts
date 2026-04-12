@@ -1,8 +1,8 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import { StaticJsObjectImpl } from "../objects/StaticJsObjectImpl.js";
+import { StaticJsPlainObjectImpl } from "../objects/StaticJsPlainObjectImpl.js";
 
-export class StaticJsBooleanBoxed extends StaticJsObjectImpl {
+export class StaticJsBooleanBoxed extends StaticJsPlainObjectImpl {
   constructor(
     realm: StaticJsRealm,
     private readonly _value: boolean,

@@ -5,9 +5,9 @@ import type { StaticJsFunction } from "./StaticJsFunction.js";
 import type { StaticJsBoolean } from "./StaticJsBoolean.js";
 import type { StaticJsNull } from "./StaticJsNull.js";
 import type { StaticJsNumber } from "./StaticJsNumber.js";
-import type { StaticJsObjectLike } from "./StaticJsObjectLike.js";
-import type { StaticJsPropertyKey } from "./StaticJsPropertyKey.js";
 import type { StaticJsObject } from "./StaticJsObject.js";
+import type { StaticJsPropertyKey } from "./StaticJsPropertyKey.js";
+import type { StaticJsPlainObject } from "./StaticJsPlainObject.js";
 import type { StaticJsPropertyDescriptorRecord } from "./StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import type { StaticJsString } from "./StaticJsString.js";
@@ -20,7 +20,7 @@ export function isErrorTypeName(name: string): name is ErrorTypeName {
   return ["TypeError", "ReferenceError", "SyntaxError", "Error"].includes(name);
 }
 
-export type StaticJsTypeCreationPrototype = StaticJsObjectLike | StaticJsNull | null;
+export type StaticJsTypeCreationPrototype = StaticJsObject | StaticJsNull | null;
 
 export interface StaticJsFunctionTypeCreationOptions {
   isConstructor?: boolean;
@@ -53,7 +53,7 @@ export interface StaticJsTypeFactory {
       | Record<string, StaticJsPropertyDescriptorRecord>
       | Map<StaticJsPropertyKey, StaticJsPropertyDescriptorRecord>,
     prototype?: StaticJsTypeCreationPrototype,
-  ): StaticJsObject;
+  ): StaticJsPlainObject;
 
   symbol(description?: string): StaticJsSymbol;
 
@@ -65,15 +65,15 @@ export interface StaticJsTypeFactory {
     opts?: StaticJsFunctionTypeCreationOptions,
   ): StaticJsFunction;
 
-  error(errorType: ErrorTypeName, message: string): StaticJsObject;
-  error(message: string): StaticJsObject;
+  error(errorType: ErrorTypeName, message: string): StaticJsPlainObject;
+  error(message: string): StaticJsPlainObject;
 
   toStaticJsValue(value: (...args: unknown[]) => unknown): StaticJsFunction;
   toStaticJsValue(value: boolean): StaticJsBoolean;
   toStaticJsValue(value: number): StaticJsNumber;
   toStaticJsValue(value: string): StaticJsString;
   toStaticJsValue(value: unknown[]): StaticJsArray;
-  toStaticJsValue(value: object): StaticJsObject;
+  toStaticJsValue(value: object): StaticJsPlainObject;
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   toStaticJsValue(value: Function): StaticJsFunction;
   toStaticJsValue(value: symbol): StaticJsSymbol;

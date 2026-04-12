@@ -2,7 +2,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
@@ -60,7 +60,7 @@ export type IntrinsicPropertyDeclaration =
 
 export function applyIntrinsicProperties(
   realm: StaticJsRealm,
-  obj: StaticJsObjectLike,
+  obj: StaticJsObject,
   properties: IntrinsicPropertyDeclaration[],
 ) {
   for (const prop of properties) {

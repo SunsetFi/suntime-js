@@ -2,7 +2,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 import { iteratorComplete } from "./iterator-complete.js";
@@ -10,7 +10,7 @@ import { iteratorNext } from "./iterator-next.js";
 
 export function* iteratorStep(
   iteratorRecord: StaticJsIteratorRecord,
-): EvaluationGenerator<StaticJsObjectLike | null> {
+): EvaluationGenerator<StaticJsObject | null> {
   const result = yield* iteratorNext(iteratorRecord, null);
   let done: boolean;
   try {

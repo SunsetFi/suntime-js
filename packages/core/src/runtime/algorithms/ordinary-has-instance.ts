@@ -3,7 +3,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsBoundFunction } from "../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import toBoolean from "./to-boolean.js";
@@ -32,12 +32,12 @@ export default function* ordinaryHasInstance(
     return yield* toBoolean.js(result);
   }
 
-  if (!isStaticJsObjectLike(O)) {
+  if (!isStaticJsObject(O)) {
     return false;
   }
 
   const P = yield* get(C, "prototype");
-  if (!isStaticJsObjectLike(P)) {
+  if (!isStaticJsObject(P)) {
     throw Completion.Throw("TypeError", "Function has non-object prototype");
   }
 

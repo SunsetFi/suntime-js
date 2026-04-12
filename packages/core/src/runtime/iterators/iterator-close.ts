@@ -2,7 +2,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import { Completion } from "../../evaluator/completions/Completion.js";
 
-import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
 
 import call from "../algorithms/call.js";
 import getMethod from "../algorithms/get-method.js";
@@ -55,7 +55,7 @@ export function* iteratorClose(
     return unwrap ? rethrowCompletion(innerResult) : innerResult;
   }
 
-  if (!isStaticJsObjectLike(innerResult)) {
+  if (!isStaticJsObject(innerResult)) {
     throw Completion.Throw("TypeError", "iterator.return() did not return an object");
   }
 

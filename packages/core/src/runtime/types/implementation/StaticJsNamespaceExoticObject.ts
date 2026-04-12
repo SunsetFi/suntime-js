@@ -7,7 +7,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import sameValue from "../../algorithms/same-value.js";
 
 import { StaticJsAbstractObject } from "./StaticJsAbstractObject.js";
-import type { StaticJsObjectLike } from "../StaticJsObjectLike.js";
+import type { StaticJsObject } from "../StaticJsObject.js";
 import type { StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
@@ -35,16 +35,14 @@ export class StaticJsNamespaceExoticObject extends StaticJsAbstractObject {
   }
 
   get runtimeTypeCode(): StaticJsTypeCode {
-    return StaticJsTypeCode.Object;
+    return StaticJsTypeCode.PlainObject;
   }
 
-  override *getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObjectLike | null> {
+  override *getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObject | null> {
     return null;
   }
 
-  override *setPrototypeOfEvaluator(
-    value: StaticJsObjectLike | null,
-  ): EvaluationGenerator<boolean> {
+  override *setPrototypeOfEvaluator(value: StaticJsObject | null): EvaluationGenerator<boolean> {
     // No-op for namespace exotic objects.
     let prototype = yield* this.getPrototypeOfEvaluator();
 

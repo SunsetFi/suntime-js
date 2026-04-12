@@ -4,10 +4,7 @@ import isConstructor from "../../../algorithms/is-constructor.js";
 
 import { StaticJsArrayImpl } from "../../../types/implementation/objects/StaticJsArrayImpl.js";
 
-import {
-  isStaticJsObjectLike,
-  type StaticJsObjectLike,
-} from "../../../types/StaticJsObjectLike.js";
+import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsFunction } from "../../../types/StaticJsFunction.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
@@ -17,11 +14,11 @@ const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "of",
   *func(realm, thisArg, ...items) {
     const len = realm.types.number(items.length);
-    let A: StaticJsObjectLike;
+    let A: StaticJsObject;
     if (isConstructor(thisArg)) {
       const constructed = yield* (thisArg as StaticJsFunction).constructEvaluator([len]);
       // FIXME: Not spec complaint.  The spec should throw trying to define the property, not ahead of time
-      if (!isStaticJsObjectLike(constructed)) {
+      if (!isStaticJsObject(constructed)) {
         throw Completion.Throw("TypeError", "Constructor did not produce an object");
       }
 

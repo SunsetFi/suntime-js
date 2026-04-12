@@ -4,7 +4,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { isStaticJsNull } from "../types/StaticJsNull.js";
-import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { get } from "./get.js";
@@ -16,14 +16,14 @@ export default function* arraySpeciesCreate(
   originalArray: StaticJsValue,
   length: number,
   realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsObjectLike> {
+): EvaluationGenerator<StaticJsObject> {
   const originalIsArray = yield* isArray(originalArray, realm);
   if (!originalIsArray) {
     return realm.types.array(Array.from({ length }));
   }
 
   // The above should guarentee this, but we want the type guard.
-  if (!isStaticJsObjectLike(originalArray)) {
+  if (!isStaticJsObject(originalArray)) {
     return realm.types.array(Array.from({ length }));
   }
 
@@ -41,7 +41,7 @@ export default function* arraySpeciesCreate(
   }
 
   const result = yield* constructor.constructEvaluator([realm.types.number(length)]);
-  if (!isStaticJsObjectLike(result)) {
+  if (!isStaticJsObject(result)) {
     // This isn't in the spec but... we always want to be able to set properties.
     // FIXME: According to the spec, it throws when trying to create the property,
     // rather than here.

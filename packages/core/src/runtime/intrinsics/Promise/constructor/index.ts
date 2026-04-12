@@ -5,8 +5,8 @@ import { captureThrownCompletion } from "../../../../evaluator/completions/captu
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
+import type { StaticJsPlainObject } from "../../../types/StaticJsPlainObject.js";
 import type { StaticJsPromise } from "../../../types/StaticJsPromise.js";
 import { isStaticJsValue } from "../../../types/StaticJsValue.js";
 
@@ -31,7 +31,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 
 export default function createPromiseConstructor(
   realm: StaticJsRealm,
-  promiseProto: StaticJsObject,
+  promiseProto: StaticJsPlainObject,
 ) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,
@@ -41,7 +41,7 @@ export default function createPromiseConstructor(
     },
     {
       *construct(thisArg, func) {
-        if (!isStaticJsObjectLike(thisArg)) {
+        if (!isStaticJsObject(thisArg)) {
           throw Completion.Throw("TypeError", "Promise constructor called on a non-object");
         }
 
@@ -52,7 +52,7 @@ export default function createPromiseConstructor(
         // Our implementation requires us to take over the object instance,
         // but still obey the prototype in case someone subclasses us.
         let proto = yield* get(thisArg, "prototype");
-        if (!isStaticJsObjectLike(proto)) {
+        if (!isStaticJsObject(proto)) {
           proto = realm.types.prototypes.promiseProto;
         }
 
@@ -111,7 +111,7 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
         return realm.types.undefined;
       }
 
-      if (!isStaticJsObjectLike(resolution)) {
+      if (!isStaticJsObject(resolution)) {
         promise.resolve(resolution);
         return realm.types.undefined;
       }

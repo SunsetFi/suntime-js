@@ -12,7 +12,7 @@ import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import { getIteratorFromMethod } from "../../../iterators/get-iterator-from-method.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 
-import { type StaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { type StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
@@ -50,7 +50,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
       mapping = true;
     }
 
-    let A: StaticJsObjectLike;
+    let A: StaticJsObject;
 
     const usingIterator = yield* Q(getMethod(items, realm.types.symbols.iterator));
     if (usingIterator) {

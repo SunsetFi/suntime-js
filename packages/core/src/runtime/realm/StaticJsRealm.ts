@@ -1,6 +1,6 @@
 import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 
-import type { StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsPlainObject } from "../types/StaticJsPlainObject.js";
 import type { StaticJsTypeFactory } from "../types/StaticJsTypeFactory.js";
 
 import type { StaticJsModule } from "../modules/StaticJsModule.js";
@@ -40,7 +40,7 @@ export interface StaticJsRealm {
   /**
    * The global-scope global object of the realm.
    */
-  readonly global: StaticJsObject;
+  readonly global: StaticJsPlainObject;
 
   /**
    * The global-scope `this` value of the realm.

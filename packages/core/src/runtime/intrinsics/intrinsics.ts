@@ -1,37 +1,37 @@
 import type { StaticJsSymbol } from "../types/StaticJsSymbol.js";
 import type { StaticJsFunction } from "../types/StaticJsFunction.js";
-import type { StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsPlainObject } from "../types/StaticJsPlainObject.js";
 
 export interface Prototypes {
-  stringProto: StaticJsObject;
-  numberProto: StaticJsObject;
-  booleanProto: StaticJsObject;
-  objectProto: StaticJsObject;
-  arrayProto: StaticJsObject;
-  functionProto: StaticJsObject;
-  symbolProto: StaticJsObject;
-  promiseProto: StaticJsObject;
-  setProto: StaticJsObject;
-  mapProto: StaticJsObject;
+  stringProto: StaticJsPlainObject;
+  numberProto: StaticJsPlainObject;
+  booleanProto: StaticJsPlainObject;
+  objectProto: StaticJsPlainObject;
+  arrayProto: StaticJsPlainObject;
+  functionProto: StaticJsPlainObject;
+  symbolProto: StaticJsPlainObject;
+  promiseProto: StaticJsPlainObject;
+  setProto: StaticJsPlainObject;
+  mapProto: StaticJsPlainObject;
 
-  iteratorProto: StaticJsObject;
-  iteratorHelperProto: StaticJsObject;
-  arrayIteratorProto: StaticJsObject;
-  stringIteratorProto: StaticJsObject;
+  iteratorProto: StaticJsPlainObject;
+  iteratorHelperProto: StaticJsPlainObject;
+  arrayIteratorProto: StaticJsPlainObject;
+  stringIteratorProto: StaticJsPlainObject;
 
-  generatorProto: StaticJsObject;
-  generatorFunctionProto: StaticJsObject;
+  generatorProto: StaticJsPlainObject;
+  generatorFunctionProto: StaticJsPlainObject;
 
-  asyncGeneratorProto: StaticJsObject;
-  asyncGeneratorFunctionProto: StaticJsObject;
+  asyncGeneratorProto: StaticJsPlainObject;
+  asyncGeneratorFunctionProto: StaticJsPlainObject;
 
-  errorProto: StaticJsObject;
-  typeErrorProto: StaticJsObject;
-  referenceErrorProto: StaticJsObject;
-  syntaxErrorProto: StaticJsObject;
-  rangeErrorProto: StaticJsObject;
-  evalErrorProto: StaticJsObject;
-  uriErrorProto: StaticJsObject;
+  errorProto: StaticJsPlainObject;
+  typeErrorProto: StaticJsPlainObject;
+  referenceErrorProto: StaticJsPlainObject;
+  syntaxErrorProto: StaticJsPlainObject;
+  rangeErrorProto: StaticJsPlainObject;
+  evalErrorProto: StaticJsPlainObject;
+  uriErrorProto: StaticJsPlainObject;
 }
 
 export interface Constructors {

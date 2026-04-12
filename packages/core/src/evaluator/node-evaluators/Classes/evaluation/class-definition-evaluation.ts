@@ -6,10 +6,7 @@ import { EvaluationContext } from "../../../EvaluationContext.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { privateBoundIdentifiers } from "../../../../grammar/private-bound-identifiers.js";
-import {
-  isStaticJsObjectLike,
-  StaticJsObjectLike,
-} from "../../../../runtime/types/StaticJsObjectLike.js";
+import { isStaticJsObject, StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../../completions/Q.js";
 import { isStaticJsNull, StaticJsNull } from "../../../../runtime/types/StaticJsNull.js";
@@ -50,7 +47,7 @@ import call from "../../../../runtime/algorithms/call.js";
 import { captureThrownCompletion } from "../../../completions/capture-thrown-completion.js";
 import { initializeInstanceElements } from "./initialize-instance-elements.js";
 import { defineField } from "./define-field.js";
-import { privateMethodOrAccessorAdd } from "./privatea-method-or-accessor-add.js";
+import { privateMethodOrAccessorAdd } from "./private-method-or-accessor-add.js";
 
 export function* classDefinitionEvaluation(
   node: ClassDeclaration | ClassExpression,
@@ -73,8 +70,8 @@ export function* classDefinitionEvaluation(
     }
   }
 
-  let protoParent: StaticJsObjectLike | StaticJsNull;
-  let constructorParent: StaticJsObjectLike;
+  let protoParent: StaticJsObject | StaticJsNull;
+  let constructorParent: StaticJsObject;
   if (!node.superClass) {
     protoParent = realm.types.prototypes.objectProto;
     constructorParent = realm.types.prototypes.functionProto;
@@ -90,7 +87,7 @@ export function* classDefinitionEvaluation(
       throw Completion.Throw("TypeError", "Superclass must be null or a constructor");
     } else {
       const superProto = yield* Q(get(superclass, "prototype"));
-      if (!isStaticJsObjectLike(superProto) && !isStaticJsNull(superProto)) {
+      if (!isStaticJsObject(superProto) && !isStaticJsNull(superProto)) {
         throw Completion.Throw("TypeError", "Superclass prototype must be an object or null");
       }
       protoParent = superProto;
@@ -136,7 +133,7 @@ export function* classDefinitionEvaluation(
             );
           }
 
-          let result: StaticJsObjectLike;
+          let result: StaticJsObject;
           if (constructorKind! === "derived") {
             const func = yield* F.getPrototypeOfEvaluator();
             if (!isConstructor(func)) {
@@ -146,7 +143,7 @@ export function* classDefinitionEvaluation(
           } else {
             // The spec says newTarget is an object like, but we always set it to a callable,
             // and the spec says OrdinaryCreateFromConstructor must receive a function???
-            // This can be called with Reflect on arbitrary new targets!
+            // Reflect.construct gates it to be a function constructor, so...
             result = yield* Q(ordinaryCreateFromConstructor(newTarget, "objectProto"));
           }
           yield* initializeInstanceElements(result, F);

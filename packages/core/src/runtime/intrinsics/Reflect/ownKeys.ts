@@ -1,7 +1,7 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 
-import { isStaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../types/StaticJsObject.js";
 import { StaticJsString } from "../../types/StaticJsString.js";
 import { StaticJsSymbol } from "../../types/StaticJsSymbol.js";
 import { toPropertyKey } from "../../utils/to-property-key.js";
@@ -11,7 +11,7 @@ import { IntrinsicPropertyDeclaration } from "../utils.js";
 export const reflectOwnKeysDeclaration: IntrinsicPropertyDeclaration = {
   key: "ownKeys",
   *func(realm, _thisArg, target = realm.types.undefined) {
-    if (!isStaticJsObjectLike(target)) {
+    if (!isStaticJsObject(target)) {
       throw Completion.Throw("TypeError", "Reflect.ownKeys called on non-object");
     }
 

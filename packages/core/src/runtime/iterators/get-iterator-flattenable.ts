@@ -7,7 +7,7 @@ import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import getMethod from "../algorithms/get-method.js";
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
-import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
@@ -19,7 +19,7 @@ export function* getIteratorFlattenable(
   primitiveHandling: "iterate-string-primitives" | "reject-primitives",
 ): EvaluationGenerator<StaticJsIteratorRecord> {
   const { realm } = EvaluationContext.current;
-  if (!isStaticJsObjectLike(obj)) {
+  if (!isStaticJsObject(obj)) {
     if (primitiveHandling === "reject-primitives") {
       throw Completion.Throw("TypeError", "Value is not an object and cannot be iterated over");
     }
@@ -34,7 +34,7 @@ export function* getIteratorFlattenable(
     iterator = yield* Q(call(method, obj, []));
   }
 
-  if (!isStaticJsObjectLike(iterator)) {
+  if (!isStaticJsObject(iterator)) {
     throw Completion.Throw(
       "TypeError",
       "Value is not iterable and does not have an @@iterator method",

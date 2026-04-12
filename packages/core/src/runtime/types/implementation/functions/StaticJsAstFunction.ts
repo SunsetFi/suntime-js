@@ -47,7 +47,7 @@ import promiseReject from "../../../algorithms/promise-reject.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import { isStaticJsNull } from "../../StaticJsNull.js";
 import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
-import { isStaticJsObjectLike, StaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import { isStaticJsObject, StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
 
 import { StaticJsAbstractFunction } from "./StaticJsAbstractFunction.js";
@@ -58,7 +58,7 @@ export interface StaticJsAstFunctionOptions {
   thisMode: "lexical-this" | "non-lexical-this";
   strict: boolean;
   env: StaticJsEnvironmentRecord;
-  prototype?: StaticJsObjectLike | null;
+  prototype?: StaticJsObject | null;
   privateEnv?: StaticJsPrivateEnvironmentRecord | null;
   scriptOrModule: StaticJsScriptOrModuleRecord | null;
   construct?: boolean;
@@ -219,7 +219,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
   *constructEvaluator(
     args: StaticJsValue[] = [],
     newTarget: StaticJsCallable = this,
-  ): EvaluationGenerator<StaticJsObjectLike> {
+  ): EvaluationGenerator<StaticJsObject> {
     if (this._constructorKind === null) {
       // FIXME: Better error message.  What does NodeJs say?
       throw Completion.Throw("TypeError", "This function is not a constructor.");
@@ -258,7 +258,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
       }
 
       const value = result.value;
-      if (isStaticJsObjectLike(value)) {
+      if (isStaticJsObject(value)) {
         return value;
       }
 
@@ -269,7 +269,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     });
   }
 
-  *makeConstructor(writablePrototype?: boolean, prototype?: StaticJsObjectLike) {
+  *makeConstructor(writablePrototype?: boolean, prototype?: StaticJsObject) {
     if (this._constructorKind !== null) {
       throw new StaticJsEngineError("Function is already a constructor");
     }
@@ -527,7 +527,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
   }
 
   protected *_prepareForOrdinaryCall(
-    newTarget: StaticJsObjectLike | null,
+    newTarget: StaticJsObject | null,
   ): EvaluationGenerator<EvaluationContext> {
     const env = yield* this._newFunctionEnvironment(newTarget);
     const context = EvaluationContext.createFunctionInvocationContext(
@@ -543,7 +543,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
   }
 
   protected *_newFunctionEnvironment(
-    newTarget: StaticJsObjectLike | null,
+    newTarget: StaticJsObject | null,
   ): EvaluationGenerator<StaticJsFunctionEnvironmentRecord> {
     const env = new StaticJsFunctionEnvironmentRecord(
       this,

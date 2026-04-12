@@ -8,16 +8,16 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 
 import { isStaticJsFunction, type StaticJsFunction } from "../../StaticJsFunction.js";
-import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
 import { isStaticJsString } from "../../StaticJsString.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
 
-import { StaticJsObjectLikeImpl } from "../objects/StaticJsObjectLikeImpl.js";
+import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 import { get } from "../../../algorithms/get.js";
 
-export class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements StaticJsFunction {
+export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements StaticJsFunction {
   static *create(
     realm: StaticJsRealm,
     targetFunc: StaticJsCallable,
@@ -51,7 +51,7 @@ export class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements Sta
     public readonly targetFunc: StaticJsCallable,
     private readonly _boundThis: StaticJsValue,
     private readonly _boundArgs: StaticJsValue[],
-    prototype?: StaticJsObjectLike,
+    prototype?: StaticJsObject,
   ) {
     super(realm, prototype ?? realm.types.prototypes.functionProto);
   }
@@ -110,7 +110,7 @@ export class StaticJsBoundFunction extends StaticJsObjectLikeImpl implements Sta
     return this.realm.invokeEvaluatorSync(this.constructEvaluator(args), opts);
   }
 
-  constructEvaluator(args: StaticJsValue[]): EvaluationGenerator<StaticJsObjectLike> {
+  constructEvaluator(args: StaticJsValue[]): EvaluationGenerator<StaticJsObject> {
     return this.targetFunc.constructEvaluator([...this._boundArgs, ...args]);
   }
 

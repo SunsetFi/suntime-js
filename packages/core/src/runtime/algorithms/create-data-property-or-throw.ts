@@ -1,4 +1,4 @@
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
@@ -8,7 +8,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import createDataProperty from "./create-data-property.js";
 
 export default function* createDataPropertyOrThrow(
-  O: StaticJsObjectLike,
+  O: StaticJsObject,
   P: StaticJsPropertyKey,
   V: StaticJsValue,
 ): EvaluationGenerator<void> {

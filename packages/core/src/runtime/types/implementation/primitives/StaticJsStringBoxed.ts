@@ -21,7 +21,7 @@ export class StaticJsStringBoxed extends StaticJsAbstractObject {
   }
 
   get runtimeTypeCode() {
-    return StaticJsTypeCode.Object;
+    return StaticJsTypeCode.PlainObject;
   }
 
   get value(): string {

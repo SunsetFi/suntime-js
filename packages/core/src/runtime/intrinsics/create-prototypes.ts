@@ -1,6 +1,6 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import { StaticJsObjectImpl } from "../types/implementation/objects/StaticJsObjectImpl.js";
+import { StaticJsPlainObjectImpl } from "../types/implementation/objects/StaticJsPlainObjectImpl.js";
 
 import type { Prototypes } from "./intrinsics.js";
 
@@ -35,37 +35,37 @@ import { populateTypeErrorPrototype } from "./TypeError.js";
 import { populateURIErrorPrototype } from "./URIError.js";
 
 export function createPrototypes(realm: StaticJsRealm): Prototypes {
-  const objectProto = new StaticJsObjectImpl(realm, null);
-  const symbolProto = new StaticJsObjectImpl(realm, objectProto);
-  const functionProto = new StaticJsObjectImpl(realm, objectProto);
+  const objectProto = new StaticJsPlainObjectImpl(realm, null);
+  const symbolProto = new StaticJsPlainObjectImpl(realm, objectProto);
+  const functionProto = new StaticJsPlainObjectImpl(realm, objectProto);
 
-  const stringProto = new StaticJsObjectImpl(realm, objectProto);
-  const numberProto = new StaticJsObjectImpl(realm, objectProto);
-  const booleanProto = new StaticJsObjectImpl(realm, objectProto);
-  const arrayProto = new StaticJsObjectImpl(realm, objectProto);
+  const stringProto = new StaticJsPlainObjectImpl(realm, objectProto);
+  const numberProto = new StaticJsPlainObjectImpl(realm, objectProto);
+  const booleanProto = new StaticJsPlainObjectImpl(realm, objectProto);
+  const arrayProto = new StaticJsPlainObjectImpl(realm, objectProto);
 
-  const promiseProto = new StaticJsObjectImpl(realm, objectProto);
-  const setProto = new StaticJsObjectImpl(realm, objectProto);
-  const mapProto = new StaticJsObjectImpl(realm, objectProto);
+  const promiseProto = new StaticJsPlainObjectImpl(realm, objectProto);
+  const setProto = new StaticJsPlainObjectImpl(realm, objectProto);
+  const mapProto = new StaticJsPlainObjectImpl(realm, objectProto);
 
-  const iteratorProto = new StaticJsObjectImpl(realm, objectProto);
-  const iteratorHelperProto = new StaticJsObjectImpl(realm, iteratorProto);
-  const arrayIteratorProto = new StaticJsObjectImpl(realm, iteratorProto);
-  const stringIteratorProto = new StaticJsObjectImpl(realm, iteratorProto);
+  const iteratorProto = new StaticJsPlainObjectImpl(realm, objectProto);
+  const iteratorHelperProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
+  const arrayIteratorProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
+  const stringIteratorProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
 
-  const generatorProto = new StaticJsObjectImpl(realm, iteratorProto);
-  const generatorFunctionProto = new StaticJsObjectImpl(realm, functionProto);
+  const generatorProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
+  const generatorFunctionProto = new StaticJsPlainObjectImpl(realm, functionProto);
 
-  const asyncGeneratorProto = new StaticJsObjectImpl(realm, iteratorProto);
-  const asyncGeneratorFunctionProto = new StaticJsObjectImpl(realm, functionProto);
+  const asyncGeneratorProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
+  const asyncGeneratorFunctionProto = new StaticJsPlainObjectImpl(realm, functionProto);
 
-  const errorProto = new StaticJsObjectImpl(realm, objectProto);
-  const typeErrorProto = new StaticJsObjectImpl(realm, errorProto);
-  const referenceErrorProto = new StaticJsObjectImpl(realm, errorProto);
-  const syntaxErrorProto = new StaticJsObjectImpl(realm, errorProto);
-  const rangeErrorProto = new StaticJsObjectImpl(realm, errorProto);
-  const evalErrorProto = new StaticJsObjectImpl(realm, errorProto);
-  const uriErrorProto = new StaticJsObjectImpl(realm, errorProto);
+  const errorProto = new StaticJsPlainObjectImpl(realm, objectProto);
+  const typeErrorProto = new StaticJsPlainObjectImpl(realm, errorProto);
+  const referenceErrorProto = new StaticJsPlainObjectImpl(realm, errorProto);
+  const syntaxErrorProto = new StaticJsPlainObjectImpl(realm, errorProto);
+  const rangeErrorProto = new StaticJsPlainObjectImpl(realm, errorProto);
+  const evalErrorProto = new StaticJsPlainObjectImpl(realm, errorProto);
+  const uriErrorProto = new StaticJsPlainObjectImpl(realm, errorProto);
 
   return {
     stringProto,

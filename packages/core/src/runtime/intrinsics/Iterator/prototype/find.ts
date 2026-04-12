@@ -2,7 +2,7 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 
 import toBoolean from "../../../algorithms/to-boolean.js";
 
@@ -19,7 +19,7 @@ const iteratorProtoFindDeclaration: IntrinsicPropertyDeclaration = {
   key: "find",
   *func(realm, thisArg, predicate = realm.types.undefined) {
     const O = thisArg;
-    if (!isStaticJsObjectLike(O)) {
+    if (!isStaticJsObject(O)) {
       throw Completion.Throw("TypeError", "Iterator.prototype.find called on non-object");
     }
 

@@ -1,11 +1,11 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
 
 import type { StaticJsSymbol } from "../../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 
-import { StaticJsObjectLikeImpl } from "../objects/StaticJsObjectLikeImpl.js";
+import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 // By the spec, symbols CAN be stored in WeakMap.  Except for the ones created with Symbol.for apparently.
 // Despite this, TS says no for the typing.
@@ -18,14 +18,14 @@ export function getSymbolProxyOwner(sym: unknown): StaticJsSymbol | null {
   return proxySymbolOwners.get(sym as unknown as object) ?? null;
 }
 
-export class StaticJsSymbolImpl extends StaticJsObjectLikeImpl implements StaticJsSymbol {
+export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements StaticJsSymbol {
   private _description: string | undefined = undefined;
   private _nativeSymbol: symbol;
 
   constructor(
     realm: StaticJsRealm,
     descriptionOrSymbol: string | symbol | undefined,
-    prototype?: StaticJsObjectLike | undefined,
+    prototype?: StaticJsObject | undefined,
   ) {
     super(realm, prototype ?? realm.types.prototypes.symbolProto);
     if (typeof descriptionOrSymbol === "string") {

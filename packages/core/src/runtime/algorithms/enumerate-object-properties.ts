@@ -2,7 +2,7 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
@@ -10,14 +10,14 @@ import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/St
 import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
 
 export default function* enumerateObjectProperties(
-  obj: StaticJsObjectLike,
+  obj: StaticJsObject,
   realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsObjectLike> {
+): EvaluationGenerator<StaticJsObject> {
   // The spec says that newly added properties are "not guarenteed" to be visited,
   // but the pseudocode does show that it might be a possibility.
   // However, it seems to also indicate that all properties present at the start WILL be enumerated, so
   // to avoid deletions shifting things around, we will just snapshot the keys at each object start.
-  let currentObject: StaticJsObjectLike = obj;
+  let currentObject: StaticJsObject = obj;
   const visited = new Set<string>();
   let currentKeys = yield* currentObject.ownPropertyKeysEvaluator();
   let nextIndex = 0;

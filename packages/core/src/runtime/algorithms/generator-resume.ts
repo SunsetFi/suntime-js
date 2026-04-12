@@ -3,7 +3,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { StaticJsGeneratorImpl } from "../types/implementation/functions/StaticJsGeneratorImpl.js";
@@ -15,7 +15,7 @@ export default function* generatorResume(
   nextValue: StaticJsValue | null,
   generatorBrand: string | null,
   realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsObjectLike> {
+): EvaluationGenerator<StaticJsObject> {
   // FIXME: Support subclasses
   if (generator instanceof StaticJsGeneratorImpl === false) {
     throw Completion.Throw("TypeError", "Generator resume called on incompatible receiver");

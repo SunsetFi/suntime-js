@@ -4,7 +4,7 @@ import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import type { StaticJsScalar } from "../types/StaticJsScalar.js";
-import { isStaticJsObjectLike, type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
 import { get } from "./get.js";
 import call from "./call.js";
 import { isCallable } from "./is-callable.js";
@@ -15,7 +15,7 @@ export default function* toPrimitive(
 ): EvaluationGenerator<StaticJsScalar> {
   const { realm } = EvaluationContext.current;
 
-  if (!isStaticJsObjectLike(value)) {
+  if (!isStaticJsObject(value)) {
     return value;
   }
 
@@ -31,7 +31,7 @@ export default function* toPrimitive(
     }
 
     const result = yield* call(exoticToPrim, value, [realm.types.string(hint)]);
-    if (!isStaticJsObjectLike(result)) {
+    if (!isStaticJsObject(result)) {
       return result;
     }
 
@@ -42,7 +42,7 @@ export default function* toPrimitive(
 }
 
 function* ordinaryToPrimitive(
-  value: StaticJsObjectLike,
+  value: StaticJsObject,
   preferredType: "string" | "number" | "default",
 ): EvaluationGenerator<StaticJsScalar> {
   let methodNames: string[];
@@ -60,7 +60,7 @@ function* ordinaryToPrimitive(
     }
 
     const result = yield* call(method, value, []);
-    if (!isStaticJsObjectLike(result)) {
+    if (!isStaticJsObject(result)) {
       return result;
     }
   }

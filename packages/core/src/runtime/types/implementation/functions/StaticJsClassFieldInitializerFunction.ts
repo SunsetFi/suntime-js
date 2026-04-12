@@ -22,7 +22,7 @@ import { StaticJsPrivateName } from "../../../environments/implementation/Static
 
 import type { StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsSymbol } from "../../StaticJsSymbol.js";
-import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
 
 import {
   StaticJsClassMethodFunction,
@@ -40,7 +40,7 @@ export class StaticJsClassFieldInitializerFunction extends StaticJsClassMethodFu
     super(realm, [], initializer, opts);
   }
 
-  override *constructEvaluator(): EvaluationGenerator<StaticJsObjectLike> {
+  override *constructEvaluator(): EvaluationGenerator<StaticJsObject> {
     const nameValue = yield* get(this, "name");
     let name = yield* toString.js(nameValue);
     if (name === "") {

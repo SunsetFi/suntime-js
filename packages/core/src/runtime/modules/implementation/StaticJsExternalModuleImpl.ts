@@ -1,6 +1,6 @@
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
@@ -75,7 +75,7 @@ export class StaticJsExternalModuleImpl extends StaticJsModuleBase implements St
     return this._realm.types.toStaticJsValue(this._obj[bindingName]);
   }
 
-  override *getModuleNamespaceEvaluator(): EvaluationGenerator<StaticJsObjectLike> {
+  override *getModuleNamespaceEvaluator(): EvaluationGenerator<StaticJsObject> {
     const types = this._realm.types;
     const obj = this._obj;
 

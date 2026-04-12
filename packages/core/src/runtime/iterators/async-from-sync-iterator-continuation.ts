@@ -7,7 +7,7 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import type { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../types/StaticJsPromise.js";
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsFunction } from "../types/StaticJsFunction.js";
 
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
@@ -23,7 +23,7 @@ import { iteratorValue } from "./iterator-value.js";
 import { iteratorClose } from "./iterator-close.js";
 
 export function* asyncFromSyncIteratorContinuation(
-  result: StaticJsObjectLike,
+  result: StaticJsObject,
   promiseCapability: StaticJsPromiseCapabilityRecord,
   syncIteratorRecord: StaticJsIteratorRecord,
   closeOnRejection: boolean,

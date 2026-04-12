@@ -4,7 +4,7 @@ import { Q } from "../../../../evaluator/completions/Q.js";
 import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
@@ -13,7 +13,7 @@ const iteratorProtoToArrayDeclaration: IntrinsicPropertyDeclaration = {
   key: "toArray",
   *func(realm, thisArg) {
     const O = thisArg;
-    if (!isStaticJsObjectLike(O)) {
+    if (!isStaticJsObject(O)) {
       throw Completion.Throw("TypeError", "Iterator.prototype.toArray called on non-object");
     }
 

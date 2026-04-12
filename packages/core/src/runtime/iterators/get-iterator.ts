@@ -2,7 +2,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 
-import { type StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { type StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { StaticJsCallable } from "../types/StaticJsCallable.js";
 
@@ -29,7 +29,7 @@ export function* getIterator(
 
       const syncIteratorRecord = yield* getIteratorFromMethod(
         // Guarenteed due to getMethod above
-        obj as StaticJsObjectLike,
+        obj as StaticJsObject,
         syncMethod,
       );
 
@@ -43,5 +43,5 @@ export function* getIterator(
     throw Completion.Throw("TypeError", "Value is not iterable");
   }
 
-  return yield* getIteratorFromMethod(obj as StaticJsObjectLike, method);
+  return yield* getIteratorFromMethod(obj as StaticJsObject, method);
 }

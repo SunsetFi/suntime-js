@@ -1,6 +1,6 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
@@ -10,7 +10,7 @@ import createDataPropertyOrThrow from "./create-data-property-or-throw.js";
 import { get } from "./get.js";
 
 export default function* copyDataProperties(
-  target: StaticJsObjectLike,
+  target: StaticJsObject,
   source: StaticJsValue,
   excludedItems: StaticJsPropertyKey[],
 ): EvaluationGenerator<void> {

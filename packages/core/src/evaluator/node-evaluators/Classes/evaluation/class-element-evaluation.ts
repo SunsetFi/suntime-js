@@ -11,7 +11,7 @@ import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 import { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
 import { StaticJsClassStaticBlockDefinitionRecord } from "../ClassStaticBlockDefinitionRecord.js";
 import { StaticJsPrivateElement } from "../PrivateElement.js";
-import { StaticJsObjectLike } from "../../../../runtime/types/StaticJsObjectLike.js";
+import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { StaticJsClassFieldInitializerFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassFieldInitializerFunction.js";
@@ -38,7 +38,7 @@ export function* classElementEvaluation(
     | ClassMethod
     | ClassPrivateMethod
     | StaticBlock,
-  object: StaticJsObjectLike,
+  object: StaticJsObject,
 ): EvaluationGenerator<ClassElementEvaluationResult | null | Completion.Abrupt> {
   switch (element.type) {
     case "ClassProperty":
@@ -56,7 +56,7 @@ export function* classElementEvaluation(
 
 function* classFieldDefinitionEvaluation(
   element: ClassProperty | ClassPrivateProperty,
-  object: StaticJsObjectLike,
+  object: StaticJsObject,
 ): EvaluationGenerator<StaticJsClassFieldDefinitionRecord | Completion.Abrupt> {
   let nameEval = yield* Q(EvaluateNodeCommand(element.key));
   if (Completion.Abrupt.is(nameEval)) {
@@ -113,14 +113,14 @@ function* classFieldDefinitionEvaluation(
 
 function* classMethodDefinitionEvaluation(
   _element: ClassMethod | ClassPrivateMethod | ClassAccessorProperty,
-  _object: StaticJsObjectLike,
+  _object: StaticJsObject,
 ): EvaluationGenerator<Completion.Abrupt> {
   throw new Error("classMethodDefinitionEvaluation not implemented");
 }
 
 function* classStaticBlockDefinitionEvaluation(
   _element: StaticBlock,
-  _object: StaticJsObjectLike,
+  _object: StaticJsObject,
 ): EvaluationGenerator<StaticJsClassStaticBlockDefinitionRecord | Completion.Abrupt> {
   throw new Error("classStaticBlockDefinitionEvaluation not implemented");
 }

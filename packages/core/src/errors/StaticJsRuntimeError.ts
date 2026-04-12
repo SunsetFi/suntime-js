@@ -1,4 +1,4 @@
-import { isStaticJsObjectLike } from "../runtime/types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../runtime/types/StaticJsObject.js";
 import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
 import { symbolInspect } from "../utils/symbol-inspect.js";
 
@@ -42,7 +42,7 @@ export class StaticJsRuntimeError extends Error {
 }
 
 function getMessage(value: StaticJsValue): string {
-  if (!isStaticJsObjectLike(value)) {
+  if (!isStaticJsObject(value)) {
     return value.toStringSync();
   }
 

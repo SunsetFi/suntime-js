@@ -1,7 +1,7 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 
-import { isStaticJsObjectLike } from "../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../types/StaticJsObject.js";
 import { toPropertyKey } from "../../utils/to-property-key.js";
 
 import { IntrinsicPropertyDeclaration } from "../utils.js";
@@ -16,7 +16,7 @@ export const reflectSetDeclaration: IntrinsicPropertyDeclaration = {
     value = realm.types.undefined,
     receiver = target,
   ) {
-    if (!isStaticJsObjectLike(target)) {
+    if (!isStaticJsObject(target)) {
       throw Completion.Throw("TypeError", "Reflect.set called on non-object");
     }
 

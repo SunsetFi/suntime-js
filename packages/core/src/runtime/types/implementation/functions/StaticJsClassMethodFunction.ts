@@ -4,7 +4,7 @@ import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implemen
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import { StaticJsObject } from "../../StaticJsObject.js";
 
 import {
   StaticJsAstFunction,
@@ -16,12 +16,12 @@ export type StaticJsClassMethodFunctionOptions = Omit<
   StaticJsAstFunctionOptions,
   "thisMode" | "construct"
 > & {
-  prototype: StaticJsObjectLike | null;
+  prototype: StaticJsObject | null;
   privateEnv: StaticJsPrivateEnvironmentRecord | null;
-  homeObject: StaticJsObjectLike;
+  homeObject: StaticJsObject;
 };
 export class StaticJsClassMethodFunction extends StaticJsAstFunction {
-  private _homeObject: StaticJsObjectLike;
+  private _homeObject: StaticJsObject;
 
   constructor(
     realm: StaticJsRealm,
@@ -42,7 +42,7 @@ export class StaticJsClassMethodFunction extends StaticJsAstFunction {
 
   isClassConstructor = false;
 
-  get homeObject(): StaticJsObjectLike {
+  get homeObject(): StaticJsObject {
     return this._homeObject;
   }
 }

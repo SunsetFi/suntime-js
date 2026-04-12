@@ -1,11 +1,11 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsObjectLike } from "./index.js";
+import type { StaticJsObject } from "./index.js";
 
 import { StaticJsPromise } from "./StaticJsPromise.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
-export interface StaticJsAsyncGenerator extends StaticJsObjectLike {
+export interface StaticJsAsyncGenerator extends StaticJsObject {
   readonly runtimeTypeOf: "async-generator";
 
   nextEvaluator(value?: StaticJsValue): EvaluationGenerator<StaticJsPromise>;

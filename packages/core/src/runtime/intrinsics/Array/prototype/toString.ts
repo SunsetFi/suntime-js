@@ -1,5 +1,5 @@
 import toString from "../../../algorithms/to-string.js";
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
@@ -13,7 +13,7 @@ const arrayProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
       thisArg = realm.types.undefined;
     }
 
-    if (!isStaticJsObjectLike(thisArg)) {
+    if (!isStaticJsObject(thisArg)) {
       // NodeJs is showing this sort of chaining.
       // Is this real?  Is array to string instead implemented in Object.prototype.toString?
       return yield* toString(thisArg);

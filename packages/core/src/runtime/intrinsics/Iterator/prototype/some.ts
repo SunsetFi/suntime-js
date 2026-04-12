@@ -2,7 +2,7 @@ import { captureThrownCompletion } from "../../../../evaluator/completions/captu
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 
 import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
@@ -19,7 +19,7 @@ const iteratorProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
   key: "some",
   *func(realm, thisArg, predicate = realm.types.undefined) {
     const O = thisArg;
-    if (!isStaticJsObjectLike(O)) {
+    if (!isStaticJsObject(O)) {
       throw Completion.Throw("TypeError", "Iterator.prototype.some called on non-object");
     }
 

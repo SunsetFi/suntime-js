@@ -8,7 +8,7 @@ import { isStaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsBoolean, type StaticJsBoolean } from "../types/StaticJsBoolean.js";
-import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsScalar } from "../types/StaticJsScalar.js";
 
 import strictEquality from "./strict-equality.js";
@@ -53,11 +53,11 @@ export default function* isLooselyEqual(
   }
 
   // Object and Primitive
-  if (isStaticJsObjectLike(x) && isStaticJsScalar(y)) {
+  if (isStaticJsObject(x) && isStaticJsScalar(y)) {
     const aPrimitive = yield* toPrimitive(x, undefined);
     return yield* isLooselyEqual(aPrimitive, y, realm);
   }
-  if (isStaticJsObjectLike(y) && isStaticJsScalar(x)) {
+  if (isStaticJsObject(y) && isStaticJsScalar(x)) {
     const bPrimitive = yield* toPrimitive(y, undefined);
     return yield* isLooselyEqual(x, bPrimitive, realm);
   }

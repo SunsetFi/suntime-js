@@ -1,7 +1,7 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 
-import { isStaticJsObjectLike } from "../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { StaticJsCallable } from "../types/StaticJsCallable.js";
 
@@ -14,7 +14,7 @@ export function* getIteratorFromMethod(
   method: StaticJsCallable,
 ): EvaluationGenerator<StaticJsIteratorRecord> {
   const iterator = yield* call(method, obj);
-  if (!isStaticJsObjectLike(iterator)) {
+  if (!isStaticJsObject(iterator)) {
     throw Completion.Throw("TypeError", "Result of the iterator method is not an object");
   }
 

@@ -15,13 +15,13 @@ import type { CompletionValue } from "../../../../evaluator/completions/Completi
 
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsGenerator } from "../../StaticJsGenerator.js";
 
-import { StaticJsObjectLikeImpl } from "../objects/StaticJsObjectLikeImpl.js";
+import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 
-export class StaticJsGeneratorImpl extends StaticJsObjectLikeImpl implements StaticJsGenerator {
+export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements StaticJsGenerator {
   private _generatorState: "suspended-start" | "suspended-yield" | "executing" | "completed" =
     "suspended-start";
 
@@ -31,7 +31,7 @@ export class StaticJsGeneratorImpl extends StaticJsObjectLikeImpl implements Sta
     private readonly _closure: EvaluationGenerator,
     private readonly _generatorBrand: string | null,
     realm: StaticJsRealm,
-    prototype?: StaticJsObjectLike,
+    prototype?: StaticJsObject,
   ) {
     super(realm, prototype ?? realm.types.prototypes.generatorProto);
     this._pausedContext = EvaluationContext.current;

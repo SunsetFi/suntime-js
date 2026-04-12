@@ -2,7 +2,7 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
@@ -21,15 +21,15 @@ export default function createProxyConstructor(realm: StaticJsRealm) {
     },
     {
       *construct(thisArg, target, handler) {
-        if (!isStaticJsObjectLike(thisArg)) {
+        if (!isStaticJsObject(thisArg)) {
           throw Completion.Throw("TypeError", "Proxy constructor called on a non-object");
         }
 
-        if (!isStaticJsObjectLike(target)) {
+        if (!isStaticJsObject(target)) {
           throw Completion.Throw("TypeError", "Proxy target is not an object");
         }
 
-        if (!isStaticJsObjectLike(handler)) {
+        if (!isStaticJsObject(handler)) {
           throw Completion.Throw("TypeError", "Proxy handler is not an object");
         }
 

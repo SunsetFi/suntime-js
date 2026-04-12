@@ -1,14 +1,14 @@
 import { get } from "../../../algorithms/get.js";
 import toString from "../../../algorithms/to-string.js";
 
-import { isStaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const errorProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
   key: "toString",
   *func(realm, thisArg) {
-    if (!isStaticJsObjectLike(thisArg)) {
+    if (!isStaticJsObject(thisArg)) {
       return yield* toString(thisArg);
     }
 
