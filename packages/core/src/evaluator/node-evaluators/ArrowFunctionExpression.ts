@@ -1,15 +1,14 @@
 import type { ArrowFunctionExpression } from "@babel/types";
 
-import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 
 import { createFunction } from "./Function.js";
-import { getNamedEvaluationParameter } from "./NamedEvaluation.js";
 
 function* arrowFunctionExpressionNodeEvaluator(node: ArrowFunctionExpression): EvaluationGenerator {
-  const context = EvaluationContext.current;
-  const functionName = getNamedEvaluationParameter() ?? "";
-  return createFunction(functionName, node, context.lexicalEnv);
+  const { lexicalEnv } = EvaluationContext.current;
+  const func = createFunction(node, lexicalEnv);
+  return func;
 }
 
 export default arrowFunctionExpressionNodeEvaluator;

@@ -1,23 +1,14 @@
-import { ClassMethod, ObjectMethod, type Function } from "@babel/types";
+import { ArrowFunctionExpression, ClassMethod, ObjectMethod, type Function } from "@babel/types";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 
-import { StaticJsDeclFunction } from "../../runtime/types/implementation/functions/StaticJsDeclFunction.js";
-import { StaticJsAsyncDeclFunction } from "../../runtime/types/implementation/functions/StaticJsAsyncDeclFunction.js";
 import {
   isStaticJsAstFunctionArgumentDeclaration,
-  type StaticJsAstFunctionArgument,
-} from "../../runtime/types/implementation/functions/StaticJsAstFunctionArgument.js";
-import { StaticJsAsyncArrowFunction } from "../../runtime/types/implementation/functions/StaticJsAsyncArrowFunction.js";
-import { StaticJsArrowFunction } from "../../runtime/types/implementation/functions/StaticJsArrowFunction.js";
-import { StaticJsAsyncMethodFunction } from "../../runtime/types/implementation/functions/StaticJsAsyncMethodFunction.js";
-import { StaticJsObjectMethodFunction } from "../../runtime/types/implementation/functions/StaticJsObjectMethodFunction.js";
-import { StaticJsGeneratorDeclFunction } from "../../runtime/types/implementation/functions/StaticJsGeneratorDeclFunction.js";
-import { StaticJsAsyncGeneratorDeclFunction } from "../../runtime/types/implementation/functions/StaticJsAsyncGeneratorDeclFunction.js";
-import { StaticJsGeneratorMethodFunction } from "../../runtime/types/implementation/functions/StaticJsGeneratorMethodFunction.js";
-import { StaticJsClassMethodFunction } from "../../runtime/types/implementation/functions/StaticJsClassMethodFunction.js";
+  StaticJsAstFunction,
+  StaticJsAstFunctionArgument,
+} from "../../runtime/types/implementation/functions/StaticJsAstFunction.js";
 
 import { StaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
 
@@ -27,102 +18,52 @@ import { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEn
 import { StaticJsPrivateEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 
 import { EvaluationContext } from "../EvaluationContext.js";
+import { StaticJsClassMethodFunction } from "../../runtime/types/implementation/functions/StaticJsClassMethodFunction.js";
 import { StaticJsName } from "../StaticJsName.js";
+import { getNamedEvaluationParameter } from "./NamedEvaluation.js";
 
-interface NeverConstructor {
-  (): never;
-  new (): never;
-}
+// This is a mess of OrdinaryFunctionCreate and InstantiateOrdinary*FunctionObject
+export function createFunction(node: Function, env: StaticJsEnvironmentRecord): StaticJsFunction {
+  // HACK: Shim while we untangle instantiateOrdinaryFunctionObject / instantiateOrdinaryFunctionExpression
+  // This is all over the place, but we still need This One Entrypoint because of circular dependencies with
+  // StaticJsAstFunction.
 
-function createNotSupported(message: string): NeverConstructor {
-  return function () {
-    throw new StaticJsEngineError(message);
-  } as NeverConstructor;
-}
+  if (node.type === "ObjectMethod") {
+    // FIXME: I can't find the spec for this.  Assuming based on test262 failures.
+    validateParams(node.params);
+    const {
+      lexicalEnv: env,
+      privateEnv,
+      strict,
+      scriptOrModule,
+      realm,
+    } = EvaluationContext.current;
+    const func = new StaticJsAstFunction(realm, null, node.params, node, {
+      thisMode: "non-lexical-this",
+      strict,
+      scriptOrModule,
+      env,
+      privateEnv,
+      construct: false,
+    });
 
-const FunctionConstructorMap = {
-  sync: {
-    generator: {
-      declaration: StaticJsGeneratorDeclFunction,
-      arrow: createNotSupported("Generator arrow functions are not supported"),
-      method: StaticJsGeneratorDeclFunction,
-    },
-    normal: {
-      declaration: StaticJsDeclFunction,
-      arrow: StaticJsArrowFunction,
-      method: StaticJsObjectMethodFunction,
-    },
-  },
-  async: {
-    generator: {
-      declaration: StaticJsAsyncGeneratorDeclFunction,
-      arrow: createNotSupported("Async generator arrow functions are not supported"),
-      method: StaticJsAsyncGeneratorDeclFunction,
-    },
-    normal: {
-      declaration: StaticJsAsyncDeclFunction,
-      arrow: StaticJsAsyncArrowFunction,
-      method: StaticJsAsyncDeclFunction,
-    },
-  },
-};
+    realm.invokeEvaluatorSync(
+      setFunctionName(func, node.key.type === "Identifier" ? node.key.name : ""),
+    );
 
-export function createFunction(
-  name: StaticJsName | null,
-  node: Function,
-  env: StaticJsEnvironmentRecord,
-): StaticJsFunction {
-  const params = node.params;
-  validateParams(params);
-
-  const syncMode = node.async ? "async" : "sync";
-  const generatorMode = node.generator ? "generator" : "normal";
-  let type: "declaration" | "method" | "arrow";
-  switch (node.type) {
-    case "ArrowFunctionExpression":
-      type = "arrow";
-      break;
-    case "FunctionDeclaration":
-    case "FunctionExpression":
-      type = "declaration";
-      break;
-    case "ObjectMethod":
-      type = "method";
-      break;
-    case "ClassMethod":
-    case "ClassPrivateMethod":
-      throw new StaticJsEngineError("Class methods should be created with createMethodFunction");
-    default:
-      throw new StaticJsEngineError(
-        // @ts-expect-error - Should be unreachable due to babel types, but just in case.
-        `Unsupported function node type ${node.type}`,
-      );
+    // Do not define prototype.
+    return func;
   }
 
-  const Ctor = FunctionConstructorMap[syncMode][generatorMode][type];
+  if (node.type === "ArrowFunctionExpression") {
+    // HACK: This looks gross here, but if we move this into the ArrowFunctionExpression node evaluator,
+    // we get circular imports.
+    // Probably just put this in a parallel file?  Or will that be circular too?
+    return instantiateArrowFunctionExpression(node, getNamedEvaluationParameter() ?? undefined);
+  }
 
-  const { realm, strict, scriptOrModule } = EvaluationContext.current;
-  const func = new Ctor(realm, params, node, { strict, scriptOrModule, env }, createFunction);
-  // Sigh...
-  // This really should be an evaluator.
-  // Since we are creating the function, we know this will be sync and not
-  // run forever.
-  realm.invokeEvaluatorSync(setFunctionName(func, name ?? ""));
-
-  return func;
+  return instantiateFunctionObject(node, env);
 }
-
-const MethodConstructorMap = {
-  sync: {
-    generator: StaticJsGeneratorMethodFunction,
-    normal: StaticJsClassMethodFunction,
-  },
-  async: {
-    // FIXME: Needs to be a method with a homeObject
-    generator: StaticJsAsyncGeneratorDeclFunction,
-    normal: StaticJsAsyncMethodFunction,
-  },
-};
 
 export function createClassMethodFunction(
   name: string | null,
@@ -135,25 +76,185 @@ export function createClassMethodFunction(
   const params = node.params;
   validateParams(params);
 
-  const syncMode = node.async ? "async" : "sync";
-  const generatorMode = node.generator ? "generator" : "normal";
-
-  const Ctor = MethodConstructorMap[syncMode][generatorMode];
-
   const { realm, strict, scriptOrModule } = EvaluationContext.current;
-  const func = new Ctor(
-    realm,
-    params,
-    node,
-    { strict, scriptOrModule, env, privateEnv, homeObject, prototype },
-    createFunction,
-  );
+  const func = new StaticJsClassMethodFunction(realm, params, node, {
+    strict,
+    scriptOrModule,
+    env,
+    privateEnv,
+    homeObject,
+    prototype,
+  });
 
   // Sigh...
   // This really should be an evaluator.
   // Since we are creating the function, we know this will be sync and not
   // run forever.
   realm.invokeEvaluatorSync(setFunctionName(func, name ?? ""));
+
+  return func;
+}
+
+export function instantiateFunctionObject(
+  node: Function,
+  env: StaticJsEnvironmentRecord,
+  _privateEnv?: StaticJsPrivateEnvironmentRecord,
+) {
+  if (node.async) {
+    if (node.generator) {
+      return instantiateAsyncGeneratorFunctionObject(node, env);
+    }
+
+    return instantiateAsyncFunctionObject(node, env);
+  } else if (node.generator) {
+    return instantiateGeneratorFunctionObject(node, env);
+  }
+
+  return instantiateOrdinaryFunctionObject(node, env);
+}
+
+function instantiateArrowFunctionExpression(
+  node: ArrowFunctionExpression,
+  name?: StaticJsName,
+): StaticJsFunction {
+  if (!name) {
+    name = "";
+  }
+
+  const { lexicalEnv: env, privateEnv, strict, scriptOrModule, realm } = EvaluationContext.current;
+  const func = new StaticJsAstFunction(realm, null, node.params, node, {
+    thisMode: "lexical-this",
+    strict,
+    scriptOrModule,
+    env,
+    privateEnv,
+    construct: false,
+  });
+
+  // TODO Generator!
+  realm.invokeEvaluatorSync(setFunctionName(func, name));
+
+  return func;
+}
+
+function instantiateOrdinaryFunctionObject(
+  node: Function,
+  env: StaticJsEnvironmentRecord,
+): StaticJsFunction {
+  const params = node.params;
+  validateParams(params);
+
+  const { realm, strict, scriptOrModule } = EvaluationContext.current;
+  const func = new StaticJsAstFunction(realm, null, params, node, {
+    thisMode: "non-lexical-this",
+    strict,
+    scriptOrModule,
+    env,
+    construct: true,
+  });
+
+  switch (node.type) {
+    case "FunctionDeclaration":
+    case "FunctionExpression":
+      // TODO: Generator
+      realm.invokeEvaluatorSync(setFunctionName(func, node.id?.name ?? "default"));
+  }
+
+  // TODO: Remove construct: true from above and call makeConstructor
+
+  return func;
+}
+
+function instantiateGeneratorFunctionObject(
+  node: Function,
+  env: StaticJsEnvironmentRecord,
+): StaticJsFunction {
+  const params = node.params;
+  validateParams(params);
+
+  const { realm, strict, scriptOrModule } = EvaluationContext.current;
+  const func = new StaticJsAstFunction(realm, null, params, node, {
+    thisMode: "non-lexical-this",
+    strict,
+    scriptOrModule,
+    env,
+    construct: false,
+  });
+
+  switch (node.type) {
+    case "FunctionDeclaration":
+    case "FunctionExpression":
+      // TODO: Generator
+      realm.invokeEvaluatorSync(setFunctionName(func, node.id?.name ?? "default"));
+  }
+
+  // TODO: Generator!
+  func.defineOwnPropertySync("prototype", {
+    value: realm.types.object({}, realm.types.prototypes.generatorFunctionProto),
+    writable: true,
+    enumerable: false,
+    configurable: false,
+  });
+  return func;
+}
+
+function instantiateAsyncGeneratorFunctionObject(
+  node: Function,
+  env: StaticJsEnvironmentRecord,
+): StaticJsFunction {
+  const params = node.params;
+  validateParams(params);
+
+  const { realm, strict, scriptOrModule } = EvaluationContext.current;
+  const func = new StaticJsAstFunction(realm, null, params, node, {
+    thisMode: "non-lexical-this",
+    strict,
+    scriptOrModule,
+    env,
+    construct: false,
+  });
+
+  switch (node.type) {
+    case "FunctionDeclaration":
+    case "FunctionExpression":
+      // TODO: Generator
+      realm.invokeEvaluatorSync(setFunctionName(func, node.id?.name ?? "default"));
+  }
+
+  // TODO: Generator!
+  func.defineOwnPropertySync("prototype", {
+    value: realm.types.object({}, realm.types.prototypes.asyncGeneratorFunctionProto),
+    writable: true,
+    enumerable: false,
+    configurable: false,
+  });
+
+  return func;
+}
+
+function instantiateAsyncFunctionObject(
+  node: Function,
+  env: StaticJsEnvironmentRecord,
+): StaticJsFunction {
+  const params = node.params;
+  validateParams(params);
+
+  const { realm, strict, scriptOrModule } = EvaluationContext.current;
+  const func = new StaticJsAstFunction(
+    realm,
+    null,
+    params,
+    node,
+    // FIXME: Prototype should be asyncFunctionPrototype, once we get one.
+    { thisMode: "non-lexical-this", strict, scriptOrModule, env, construct: false },
+  );
+
+  switch (node.type) {
+    case "FunctionDeclaration":
+    case "FunctionExpression":
+      // TODO: Generator
+      realm.invokeEvaluatorSync(setFunctionName(func, node.id?.name ?? "default"));
+  }
 
   return func;
 }

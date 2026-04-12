@@ -7,7 +7,8 @@ import { EvaluationContext } from "../EvaluationContext.js";
 import { Completion } from "../completions/Completion.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import { createFunction } from "../node-evaluators/Function.js";
+
+import { instantiateFunctionObject } from "../node-evaluators/Function.js";
 
 import lexicallyDeclaredNames from "./algorithms/lexically-declared-names.js";
 import varDeclaredNames from "./algorithms/var-declared-names.js";
@@ -140,7 +141,7 @@ export function* globalDeclarationInstantiation(
 
   for (const f of functionsToInitialize) {
     const fnName = boundNames.soleElementOf(f);
-    const fn = createFunction(fnName, f, env);
+    const fn = instantiateFunctionObject(f, env);
     yield* createGlobalFunctionBinding(fnName, fn, false, env);
   }
 

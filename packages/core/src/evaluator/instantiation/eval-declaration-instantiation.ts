@@ -7,7 +7,7 @@ import { Completion } from "../completions/Completion.js";
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import { createFunction } from "../node-evaluators/Function.js";
+import { instantiateFunctionObject } from "../node-evaluators/Function.js";
 
 import varDeclaredNames from "./algorithms/var-declared-names.js";
 import varScopedDeclarations from "./algorithms/var-scoped-declarations.js";
@@ -180,7 +180,7 @@ export default function* evalDeclarationInstantiation(
 
   for (const f of functionsToInitialize) {
     const fn = boundNames.soleElementOf(f);
-    const fo = createFunction(fn, f, lexEnv);
+    const fo = instantiateFunctionObject(f, lexEnv);
     if (varEnv instanceof StaticJsGlobalEnvironmentRecord) {
       yield* createGlobalFunctionBinding(fn, fo, true, varEnv);
     } else {

@@ -4,8 +4,6 @@ import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 
 import { Completion } from "../../../evaluator/completions/Completion.js";
 
-import { createFunction } from "../../../evaluator/node-evaluators/Function.js";
-
 import { parseFunctionBody } from "../../../parser/parse-function-body.js";
 import { parseParameters } from "../../../parser/parse-parameters.js";
 
@@ -16,8 +14,10 @@ import toString from "../../algorithms/to-string.js";
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 
 import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { StaticJsDeclFunction } from "../../types/implementation/functions/StaticJsDeclFunction.js";
-import type { StaticJsAstFunctionArgument } from "../../types/implementation/functions/StaticJsAstFunctionArgument.js";
+import {
+  StaticJsAstFunction,
+  StaticJsAstFunctionArgument,
+} from "../../types/implementation/functions/StaticJsAstFunction.js";
 
 export default function createFunctionConstructor(
   realm: StaticJsRealm,
@@ -63,17 +63,16 @@ export default function createFunctionConstructor(
       const fnBody = blockStatement(body.body, body.directives);
       const fn = functionDeclaration(null, parameters, fnBody);
 
-      return new StaticJsDeclFunction(
-        realm,
-        parameters,
-        fn,
-        {
-          strict: context.strict,
-          env: context.lexicalEnv,
-          scriptOrModule: context.scriptOrModule,
-        },
-        createFunction,
-      );
+      const func = new StaticJsAstFunction(realm, "", parameters, fn, {
+        thisMode: "non-lexical-this",
+        strict: context.strict,
+        env: context.lexicalEnv,
+        scriptOrModule: context.scriptOrModule,
+      });
+
+      yield* func.makeConstructor();
+
+      return func;
     },
     { prototype: functionProto, construct: true },
   );

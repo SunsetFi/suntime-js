@@ -15,7 +15,6 @@ import { StaticJsObjectLike } from "../../../../runtime/types/StaticJsObjectLike
 import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { StaticJsClassFieldInitializerFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassFieldInitializerFunction.js";
-import { createFunction } from "../../Function.js";
 import { Q } from "../../../completions/Q.js";
 import {
   isStaticJsPrivateName,
@@ -100,7 +99,6 @@ function* classFieldDefinitionEvaluation(
         // In theory its inheriting from the syntax tree.
         strict,
       },
-      createFunction,
     );
   } else {
     initializer = undefined;

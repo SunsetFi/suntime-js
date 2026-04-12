@@ -1,4 +1,4 @@
-import { type YieldExpression } from "@babel/types";
+import { isFunction, type YieldExpression } from "@babel/types";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
@@ -13,6 +13,8 @@ import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
 import call from "../../runtime/algorithms/call.js";
 import getMethod from "../../runtime/algorithms/get-method.js";
 
+import { asyncIteratorClose } from "../../runtime/iterators/async-iterator-close.js";
+
 import { YieldCommand } from "../commands/YieldCommand.js";
 
 import { EvaluationContext } from "../EvaluationContext.js";
@@ -23,8 +25,7 @@ import { AwaitCommand } from "../commands/AwaitCommand.js";
 
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
-import { StaticJsAsyncGeneratorDeclFunction } from "../../runtime/types/implementation/functions/StaticJsAsyncGeneratorDeclFunction.js";
-import { asyncIteratorClose } from "../../runtime/iterators/async-iterator-close.js";
+import { StaticJsAstFunction } from "../../runtime/types/implementation/functions/StaticJsAstFunction.js";
 
 export default function* yieldExpressionNodeEvaluator(node: YieldExpression): EvaluationGenerator {
   const { realm } = EvaluationContext.current;
@@ -127,5 +128,9 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
 
 function* getGeneratorKind() {
   const func = EvaluationContext.current.function;
-  return func instanceof StaticJsAsyncGeneratorDeclFunction ? "async" : "sync";
+  if (func instanceof StaticJsAstFunction === false) {
+    return "sync";
+  }
+
+  return isFunction(func.ecmaScriptCode) && func.ecmaScriptCode.async ? "async" : "sync";
 }

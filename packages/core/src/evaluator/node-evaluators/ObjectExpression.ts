@@ -18,6 +18,7 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import { createFunction } from "./Function.js";
 import { set } from "../../runtime/algorithms/set.js";
 import { get } from "../../runtime/algorithms/get.js";
+import { setFunctionName } from "../../runtime/algorithms/set-function-name.js";
 
 // Note: I tested the edge-case of having a computed property key that is an expression mutate the value used in the value,
 // and the result is each key is computed before its property, and the next property/value pair is computed after the previous property/value pair.
@@ -76,7 +77,8 @@ function* objectExpressionPropertyObjectMethodEvaluator(
     }
   }
 
-  const method = createFunction(functionName, property, lexicalEnv);
+  const method = createFunction(property, lexicalEnv);
+  yield* setFunctionName(method, functionName);
 
   switch (property.kind) {
     case "method": {

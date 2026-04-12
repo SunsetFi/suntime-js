@@ -24,7 +24,6 @@ import type { StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsSymbol } from "../../StaticJsSymbol.js";
 import type { StaticJsObjectLike } from "../../StaticJsObjectLike.js";
 
-import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
 import {
   StaticJsClassMethodFunction,
   StaticJsClassMethodFunctionOptions,
@@ -37,9 +36,8 @@ export class StaticJsClassFieldInitializerFunction extends StaticJsClassMethodFu
     private readonly _classFieldInitializerName: string | StaticJsSymbol | StaticJsPrivateName,
     initializer: Expression,
     opts: StaticJsClassFieldInitializerFunctionOptions,
-    functionFactory: StaticJsFunctionFactory,
   ) {
-    super(realm, [], initializer, opts, functionFactory);
+    super(realm, [], initializer, opts);
   }
 
   override *constructEvaluator(): EvaluationGenerator<StaticJsObjectLike> {

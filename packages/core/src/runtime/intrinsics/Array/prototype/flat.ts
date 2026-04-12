@@ -2,8 +2,6 @@ import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenera
 
 import toInteger from "../../../algorithms/to-integer.js";
 
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import type { StaticJsObjectLike } from "../../../types/StaticJsObjectLike.js";
@@ -33,7 +31,7 @@ const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     // FIXME: Use ArraySpeciesCreate
-    const result = yield* performFlat(realm, thisObj, depth);
+    const result = yield* performFlat(thisObj, depth);
 
     return realm.types.array(result);
   },
@@ -42,7 +40,6 @@ const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
 export default arrayProtoFlatDeclaration;
 
 function* performFlat(
-  realm: StaticJsRealm,
   thisObj: StaticJsObjectLike,
   depth: number,
   target: StaticJsValue[] = [],
@@ -58,7 +55,7 @@ function* performFlat(
 
     const itemValue = yield* get(thisObj, String(i));
     if (depth > 0 && isStaticJsArray(itemValue)) {
-      target = yield* performFlat(realm, itemValue, depth - 1, target);
+      target = yield* performFlat(itemValue, depth - 1, target);
     } else {
       target.push(itemValue);
     }

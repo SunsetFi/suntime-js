@@ -3,11 +3,7 @@ import { blockStatement, functionDeclaration, type Program } from "@babel/types"
 import { parseParameters } from "../../../parser/parse-parameters.js";
 import { parseFunctionBody } from "../../../parser/parse-function-body.js";
 
-import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
-
 import { Completion } from "../../../evaluator/completions/Completion.js";
-
-import { createFunction } from "../../../evaluator/node-evaluators/Function.js";
 
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
@@ -15,9 +11,12 @@ import toString from "../../algorithms/to-string.js";
 
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 
-import type { StaticJsAstFunctionArgument } from "../../types/implementation/functions/StaticJsAstFunctionArgument.js";
 import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { StaticJsAsyncGeneratorDeclFunction } from "../../types/implementation/functions/StaticJsAsyncGeneratorDeclFunction.js";
+import {
+  StaticJsAstFunction,
+  StaticJsAstFunctionArgument,
+} from "../../types/implementation/functions/StaticJsAstFunction.js";
+import definePropertyOrThrow from "../../algorithms/define-property-or-throw.js";
 
 export default function createAsyncGeneratorFunctionConstructor(
   realm: StaticJsRealm,
@@ -55,25 +54,26 @@ export default function createAsyncGeneratorFunctionConstructor(
         throw Completion.Throw("SyntaxError", "Failed to parse function body");
       }
 
-      // FIXME: Should use the ScriptOrModule of the definer.
-      // This will break stack traces, once we get them.
-      // Normally, we would get this from GetActiveScriptOrModule, but we don't have any global state.
-      const context = EvaluationContext.createRootContext(null, false, realm);
-
       const fnBody = blockStatement(body.body, body.directives);
       const fn = functionDeclaration(null, parameters, fnBody, false, true);
 
-      return new StaticJsAsyncGeneratorDeclFunction(
-        realm,
-        parameters,
-        fn,
-        {
-          strict: context.strict,
-          env: context.lexicalEnv,
-          scriptOrModule: context.scriptOrModule,
-        },
-        createFunction,
-      );
+      const func = new StaticJsAstFunction(realm, "", parameters, fn, {
+        thisMode: "non-lexical-this",
+        strict: false,
+        env: realm.globalEnv,
+        scriptOrModule: null,
+        construct: false,
+      });
+
+      const prototype = realm.types.object(undefined, realm.types.prototypes.asyncGeneratorProto);
+      yield* definePropertyOrThrow(func, "prototype", {
+        value: prototype,
+        writable: true,
+        enumerable: false,
+        configurable: false,
+      });
+
+      return func;
     },
     {
       // What should this be???

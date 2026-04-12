@@ -4,7 +4,7 @@ import type { StaticJsEnvironmentRecord } from "../../runtime/environments/Stati
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import { createFunction } from "../node-evaluators/Function.js";
+import { instantiateFunctionObject } from "../node-evaluators/Function.js";
 
 import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
 import boundNames from "./algorithms/bound-names.js";
@@ -28,7 +28,7 @@ export default function* blockDeclarationInstantiation(
 
     if (d.type === "FunctionDeclaration") {
       const fn = boundNames.soleElementOf(d);
-      const fo = createFunction(fn, d, env);
+      const fo = instantiateFunctionObject(d, env);
       const isInitialized = yield* env.isInitializedEvaluator(fn);
       if (!isInitialized) {
         yield* env.initializeBindingEvaluator(fn, fo);

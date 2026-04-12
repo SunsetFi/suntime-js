@@ -1,4 +1,16 @@
-import { type Node, type Function, isFunction, Expression } from "@babel/types";
+import {
+  type Node,
+  type Function,
+  type Identifier,
+  type Pattern,
+  type RestElement,
+  type Expression,
+  type ArrowFunctionExpression,
+  isFunction,
+  isIdentifier,
+  isPattern,
+  isRestElement,
+} from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 
@@ -24,9 +36,13 @@ import { StaticJsFunctionEnvironmentRecord } from "../../../environments/impleme
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
+import { AsyncInvocation } from "../../../async/AsyncInvocation.js";
+
 import toObject from "../../../algorithms/to-object.js";
 import { ordinaryCreateFromConstructor } from "../../../algorithms/ordinary-create-from-constructor.js";
 import definePropertyOrThrow from "../../../algorithms/define-property-or-throw.js";
+import getValue from "../../../algorithms/get-value.js";
+import promiseReject from "../../../algorithms/promise-reject.js";
 
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import { isStaticJsNull } from "../../StaticJsNull.js";
@@ -34,9 +50,9 @@ import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
 import { isStaticJsObjectLike, StaticJsObjectLike } from "../../StaticJsObjectLike.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
 
-import type { StaticJsAstFunctionArgument } from "./StaticJsAstFunctionArgument.js";
-import type { StaticJsFunctionFactory } from "./StaticJsFunctionFactory.js";
 import { StaticJsAbstractFunction } from "./StaticJsAbstractFunction.js";
+import { StaticJsAsyncGeneratorImpl } from "./StaticJsAsyncGeneratorImpl.js";
+import { StaticJsGeneratorImpl } from "./StaticJsGeneratorImpl.js";
 
 export interface StaticJsAstFunctionOptions {
   thisMode: "lexical-this" | "non-lexical-this";
@@ -44,12 +60,20 @@ export interface StaticJsAstFunctionOptions {
   env: StaticJsEnvironmentRecord;
   prototype?: StaticJsObjectLike | null;
   privateEnv?: StaticJsPrivateEnvironmentRecord | null;
-  scriptOrModule: StaticJsScriptOrModuleRecord;
+  scriptOrModule: StaticJsScriptOrModuleRecord | null;
   construct?: boolean;
 }
-export abstract class StaticJsAstFunction extends StaticJsAbstractFunction {
+
+export type StaticJsAstFunctionArgument = Identifier | Pattern | RestElement;
+export function isStaticJsAstFunctionArgumentDeclaration(
+  node: Node,
+): node is StaticJsAstFunctionArgument {
+  return isIdentifier(node) || isPattern(node) || isRestElement(node);
+}
+
+export class StaticJsAstFunction extends StaticJsAbstractFunction {
   private _strict: boolean;
-  private _scriptOrModule: StaticJsScriptOrModuleRecord;
+  private _scriptOrModule: StaticJsScriptOrModuleRecord | null;
 
   private _constructorKind: null | "base" | "derived" = null;
   private _environment: StaticJsEnvironmentRecord;
@@ -70,8 +94,6 @@ export abstract class StaticJsAstFunction extends StaticJsAbstractFunction {
       construct,
       prototype,
     }: StaticJsAstFunctionOptions,
-    // Gross circular dependency workaround.
-    protected readonly _createFunction: StaticJsFunctionFactory,
   ) {
     super(
       realm,
@@ -267,7 +289,7 @@ export abstract class StaticJsAstFunction extends StaticJsAbstractFunction {
         value: this,
         writable: writablePrototype,
         enumerable: false,
-        configurable: false,
+        configurable: true,
       });
     }
 
@@ -282,24 +304,47 @@ export abstract class StaticJsAstFunction extends StaticJsAbstractFunction {
   protected *_evaluateBody(
     args: StaticJsValue[],
   ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
-    const { realm, _node } = this;
-
-    yield* functionDeclarationInstantiation(
-      this,
-      args,
-      // Gross circular dependency workaround.
-      this._createFunction,
-    );
-
-    try {
-      if (isFunction(_node)) {
-        yield* Q(EvaluateNodeCommand(_node.body));
-        return Completion.Return(realm.types.undefined);
-      } else {
+    const node = this._node;
+    switch (node.type) {
+      case "FunctionDeclaration":
+      case "FunctionExpression":
+      case "ObjectMethod":
+        if (node.async) {
+          if (node.generator) {
+            return yield* this._evaluateAsyncGeneratorFunctionBody(node, args);
+          } else {
+            return yield* this._evaluateAsyncFunctionBody(node, args);
+          }
+        } else if (node.generator) {
+          return yield* this._evaluateGeneratorFunctionBody(node, args);
+        } else {
+          return yield* this._evaluateFunctionBody(node, args);
+        }
+      case "ArrowFunctionExpression":
+        if (node.async) {
+          return yield* this._evaluateAsyncConciseBody(node, args);
+        }
+        return yield* this._evaluateConciseBody(node, args);
+      case "AssignmentExpression":
+        return yield* this._evaluateConciseBody(node, args);
+      default:
         throw new StaticJsEngineError(
           "Function body node is not a Function node.  _evaluateBody should be overridden.",
         );
-      }
+    }
+  }
+
+  private *_evaluateFunctionBody(
+    node: Function,
+    args: StaticJsValue[],
+  ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
+    const { realm } = this;
+
+    yield* functionDeclarationInstantiation(this, args);
+
+    try {
+      yield* Q(EvaluateNodeCommand(node.body));
+      return Completion.Return(realm.types.undefined);
     } catch (e) {
       if (Completion.Return.is(e)) {
         return e;
@@ -307,6 +352,147 @@ export abstract class StaticJsAstFunction extends StaticJsAbstractFunction {
         throw e;
       }
     }
+  }
+
+  private *_evaluateAsyncFunctionBody(
+    node: Function,
+    args: StaticJsValue[],
+  ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
+    const { realm } = this;
+
+    // FIXME: By spec, we should create one promise capability,
+    // and use it for this failure AND root eval.
+    // Async functions capture errors thrown by their argument initializations
+    try {
+      yield* functionDeclarationInstantiation(this, args);
+    } catch (e) {
+      if (Completion.Throw.is(e)) {
+        const reject = yield* promiseReject(e.value, realm);
+        return Completion.Return(reject);
+      }
+
+      throw e;
+    }
+
+    function* evaluator(): EvaluationGenerator<void> {
+      const result = yield* Q(EvaluateNodeCommand(node.body));
+      if (result !== null) {
+        const value = yield* Q(getValue(result));
+        throw Completion.Return(value);
+      }
+
+      throw Completion.Return(realm.types.undefined);
+    }
+
+    const invocation = new AsyncInvocation(evaluator, realm);
+
+    yield* invocation.start();
+
+    return Completion.Return(invocation.promise);
+  }
+
+  private *_evaluateAsyncGeneratorFunctionBody(
+    node: Function,
+    args: StaticJsValue[],
+  ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
+    const { realm } = this;
+
+    // it looks like errors thrown during argument initialization are not caught by the generator, so we don't need to catch them here.
+    yield* functionDeclarationInstantiation(this, args);
+
+    function* evaluator() {
+      const result = yield* Q(EvaluateNodeCommand(node.body));
+      if (result) {
+        const value = yield* Q(getValue(result));
+        throw Completion.Return(value);
+      }
+
+      throw Completion.Return(realm.types.undefined);
+    }
+
+    const generator = new StaticJsAsyncGeneratorImpl(evaluator, null, realm);
+
+    return Completion.Return(generator);
+  }
+
+  private *_evaluateGeneratorFunctionBody(
+    node: Function,
+    args: StaticJsValue[],
+  ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
+    const { realm } = this;
+
+    // it looks like errors thrown during argument initialization are not caught by the generator, so we don't need to catch them here.
+    yield* functionDeclarationInstantiation(this, args);
+
+    const evaluator = Q(EvaluateNodeCommand(node.body));
+
+    const generator = new StaticJsGeneratorImpl(evaluator, null, realm);
+
+    return Completion.Return(generator);
+  }
+
+  private *_evaluateConciseBody(
+    node: ArrowFunctionExpression | Expression,
+    args: StaticJsValue[],
+  ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
+    const { realm } = this;
+
+    yield* functionDeclarationInstantiation(this, args);
+
+    let expression = node.type == "ArrowFunctionExpression" ? node.body : node;
+
+    let result: StaticJsValue = realm.types.undefined;
+    try {
+      const completion = yield* Q(EvaluateNodeCommand(expression));
+      if (completion) {
+        result = yield* getValue(completion);
+      }
+      return Completion.Return(result);
+    } catch (e) {
+      if (Completion.Return.is(e)) {
+        return e;
+      } else {
+        throw e;
+      }
+    }
+  }
+
+  private *_evaluateAsyncConciseBody(
+    node: ArrowFunctionExpression | Expression,
+    args: StaticJsValue[],
+  ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
+    const { realm } = this;
+
+    // FIXME: By spec, we should create one promise capability,
+    // and use it for this failure AND root eval.
+    try {
+      yield* functionDeclarationInstantiation(this, args);
+    } catch (e) {
+      if (Completion.Throw.is(e)) {
+        const reject = yield* promiseReject(e.value, realm);
+        return Completion.Return(reject);
+      }
+
+      throw e;
+    }
+
+    const expression = node.type === "ArrowFunctionExpression" ? node.body : node;
+
+    function* evaluator(): EvaluationGenerator<void> {
+      const result = yield* Q(EvaluateNodeCommand(expression));
+      if (result !== null) {
+        const value = yield* Q(getValue(result));
+        throw Completion.Return(value);
+      }
+
+      throw Completion.Return(realm.types.undefined);
+    }
+
+    const invocation = new AsyncInvocation(evaluator, realm);
+
+    yield* invocation.start();
+
+    return Completion.Return(invocation.promise);
   }
 
   protected *_ordinaryCallBindThis(

@@ -555,7 +555,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
           }
 
           if (functionDecl) {
-            const fn = createFunction(dn, functionDecl, _envRec);
+            const fn = createFunction(functionDecl, _envRec);
             yield* _envRec.initializeBindingEvaluator(dn, fn);
           }
         }

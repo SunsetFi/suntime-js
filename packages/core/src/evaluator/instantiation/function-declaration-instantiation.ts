@@ -3,14 +3,17 @@ import { isIdentifier, type FunctionDeclaration, type Node } from "@babel/types"
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import type { StaticJsObjectLike } from "../../runtime/types/StaticJsObjectLike.js";
 
-import type { StaticJsAstFunction } from "../../runtime/types/implementation/functions/StaticJsAstFunction.js";
-import type { StaticJsFunctionFactory } from "../../runtime/types/implementation/functions/StaticJsFunctionFactory.js";
-import type { StaticJsAstFunctionArgument } from "../../runtime/types/implementation/functions/StaticJsAstFunctionArgument.js";
+import type {
+  StaticJsAstFunction,
+  StaticJsAstFunctionArgument,
+} from "../../runtime/types/implementation/functions/StaticJsAstFunction.js";
 
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 import { createListIteratorRecord } from "../../runtime/iterators/create-list-iterator-record.js";
+
+import { instantiateFunctionObject } from "../node-evaluators/Function.js";
 
 import iteratorBindingInitialization from "../bindings/iterator-binding-initialization.js";
 
@@ -28,8 +31,6 @@ import createMappedArgumentsObject from "./algorithms/create-mapped-arguments-ob
 export default function* functionDeclarationInstantiation(
   func: StaticJsAstFunction,
   argumentsList: StaticJsValue[],
-  // Gross circular dependency workaround.
-  createFunction: StaticJsFunctionFactory,
 ): EvaluationGenerator<void> {
   const calleeContext = EvaluationContext.current;
   (calleeContext as any).myName = "Function decl callee";
@@ -215,7 +216,7 @@ export default function* functionDeclarationInstantiation(
 
   for (const f of functionsToInitialize) {
     const fn = boundNames.soleElementOf(f);
-    const fo = createFunction(fn, f, calleeContext.lexicalEnv);
+    const fo = instantiateFunctionObject(f, calleeContext.lexicalEnv);
     yield* varEnv.setMutableBindingEvaluator(fn, fo, false);
   }
 }
