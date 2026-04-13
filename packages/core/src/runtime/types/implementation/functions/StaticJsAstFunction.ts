@@ -309,6 +309,8 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
       case "FunctionDeclaration":
       case "FunctionExpression":
       case "ObjectMethod":
+      case "ClassMethod":
+      case "ClassPrivateMethod":
         if (node.async) {
           if (node.generator) {
             return yield* this._evaluateAsyncGeneratorFunctionBody(node, args);

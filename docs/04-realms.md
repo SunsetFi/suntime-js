@@ -22,7 +22,7 @@ Sets the global `this` arg for the realm.
 
 Sets the global object or its properties for the realm.
 
-- `global`.`value`: Sets the this arg to the given value. The value must be an object-like. If the value is not a [StaticJsObjectLike](./06-types.md#object), it will be [coerced to one](./03-type-coersion.md).
+- `global`.`value`: Sets the this arg to the given value. The value must be an object-like. If the value is not a [StaticJsObject](./06-types.md#object), it will be [coerced to one](./03-type-coersion.md).
 - `global`.`properties`: Specifies propertery descriptors of the global object.
 
 Only one of `value` or `properties` may be set.

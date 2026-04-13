@@ -33,7 +33,7 @@ Note: You may find StaticJsValue and derivitaves have methods on them ending in 
 
 #### Instances
 
-`StaticJsString`
+`StaticJsString` => `isStaticJsString()`
 
 ##### Instance Properties
 
@@ -55,7 +55,7 @@ A few numbers are provided explicity. You do not have to use these, but they ref
 
 #### Instances
 
-`StaticJsString`
+`StaticJsNumber` => `isStaticJsNumber()`
 
 ##### Instance Properties
 
@@ -77,7 +77,7 @@ Internally, the `boolean(...)` function uses these pre-defined values, so either
 
 #### Instances
 
-`StaticJsBoolean`
+`StaticJsBoolean` => `isStaticJsBoolean()`
 
 ##### Instance Properties
 
@@ -93,7 +93,7 @@ Internally, the `boolean(...)` function uses these pre-defined values, so either
 
 #### Instances
 
-`StaticJsNull`
+`StaticJsNull` => `isStaticJsNull()`
 
 ##### Instance Properties
 
@@ -108,7 +108,7 @@ Internally, the `boolean(...)` function uses these pre-defined values, so either
 
 #### Instances
 
-`StaticJsUndefined`
+`StaticJsUndefined` => `isStaticJsUndefined()`
 
 ##### Instance Properties
 
@@ -123,7 +123,7 @@ Internally, the `boolean(...)` function uses these pre-defined values, so either
 
 #### Instances
 
-`StaticJsSymbol`
+`StaticJsSymbol` => `isStaticJsSymbol()`
 
 ##### Instance Properties
 
@@ -140,13 +140,17 @@ The object creation function takes 2 arguments:
 
 - `properties`: An object whose keys are property names and whose values are suntime-js object property descriptors
   Note that for these descriptors, `value` **must** be a suntime-js value, not a host value, and `get` and `set` **must** be suntime-js functions, not host functions.
-- `prototype`: The suntime-js prototype to use. This **must** be a StaticJsObjectLike, and cannot be a host / native object. If ommitted, the sandbox's Object.prototype is used.
+- `prototype`: The suntime-js prototype to use. This **must** be a StaticJsObject, and cannot be a host / native object. If ommitted, the sandbox's Object.prototype is used.
 
 Unless otherwise specified, the suntime-js prototype of the object will be `realm.types.prototypes.objectProto`.
 
 #### Instances
 
-`StaticJsObject`, `StaticJsObjectLike`
+Base instance, inherited by all other object-likes
+`StaticJsObject` => `isStaticJsObject()`
+
+Specific "plain objects" not extending anything beneath.
+`StaticJsPlainObject` => `isStaticJsPlainObject()`
 
 #### Instance Properties
 
@@ -160,9 +164,9 @@ Unless otherwise specified, the suntime-js prototype of the object will be `real
 ##### Async methods
 
 - `getPrototypeOfAsync(StaticJsRunTaskOptions?)`
-  Gets the prototype of the object. The value will be a StaticJsObjectLike, or null.
+  Gets the prototype of the object. The value will be a StaticJsObject, or null.
 - `setPrototypeOfAsync(prototype, StaticJsRunTaskOptions?)`
-  Sets the prototype of the object. The prototype must be a StaticJsObjectLike.
+  Sets the prototype of the object. The prototype must be a StaticJsObject.
 - `preventExtensionsAsync(StaticJsRunTaskOptions?)`
   Prevents extensions on the object.
 - `ownPropertyKeysAsync(StaticJsRunTaskOptions?)`
@@ -262,9 +266,9 @@ Note that arrays are objects like any other, and can have additional properties 
 
 #### Instances
 
-`StaticJsArray`
+`StaticJsArray` => `isStaticJsArray()`
 
-Inherits all properties from `StaticJsObjectLike`
+Inherits all properties from `StaticJsObject`
 
 #### Examples
 
@@ -311,14 +315,14 @@ Thrown values will be caught and handled. However, there are special semantics h
   When set to `true`, the function may be called with `new` in the sandbox.
   When set to `false`, using `new` on the function will throw a `TypeError` inside the sandbox.
 - `length`: The argument length. Defaults to callback.length
-- `prototype`: The sandboxed prototype to give the function. This must be a [StaticJsObjectLike](#object).
+- `prototype`: The sandboxed prototype to give the function. This must be a [StaticJsObject](#object).
   Defaults to `realm.types.prototypes.functionProto`
 
 #### Instances
 
-`StaticJsFunction`
+`StaticJsFunction` => `isStaticJsFunction()`
 
-Inherits all properties from `StaticJsObjectLike`
+Inherits all properties from `StaticJsObject`
 
 #### Instance Properties
 
@@ -335,7 +339,7 @@ Inherits all properties from `StaticJsObjectLike`
 - `constructAsync(args?, StaticJsRunTaskOptions?)`
   Invokes the function as a constructor.
   thisArg must be a [StaticJsValue](#staticjsvalue), and args must be a native array of [StaticJsValue](#staticjsvalue) objects.
-  The return value will always be a [StaticJsObjectLike](#object) of the constructed object.
+  The return value will always be a [StaticJsObject](#object) of the constructed object.
 - `getNameAsync(StaticJsRunTaskOptions?)`
   Gets the name of the function as a native string.
   This may invoke sandboxed code, if the name property was set to an accessor property descriptor.

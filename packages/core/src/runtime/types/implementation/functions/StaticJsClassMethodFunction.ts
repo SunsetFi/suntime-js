@@ -16,7 +16,7 @@ export type StaticJsClassMethodFunctionOptions = Omit<
   StaticJsAstFunctionOptions,
   "thisMode" | "construct"
 > & {
-  prototype: StaticJsObject | null;
+  prototype?: StaticJsObject | null;
   privateEnv: StaticJsPrivateEnvironmentRecord | null;
   homeObject: StaticJsObject;
 };

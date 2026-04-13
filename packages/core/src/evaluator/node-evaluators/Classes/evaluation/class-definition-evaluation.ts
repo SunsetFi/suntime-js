@@ -98,181 +98,192 @@ export function* classDefinitionEvaluation(
   const proto = realm.types.object(undefined, protoParent);
   const constructor = constructorMethod(node.body);
 
+  // Another gross try/finally as we haven't fully converted to completions.
   context.lexicalEnv = classEnv;
   context.privateEnv = classPrivateEnvironment;
-
-  let constructorKind: "derived" | "base";
-  let F: StaticJsFunction;
-  if (!constructor) {
-    F = new StaticJsNativeFunctionImpl(
-      realm,
-      className,
-      () => {
-        throw Completion.Throw("TypeError", "Class constructor cannot be invoked without 'new'");
-      },
-      {
-        construct: function* (_thisArg: StaticJsValue, ...args: StaticJsValue[]) {
-          const F = EvaluationContext.current.function;
-          if (!isStaticJsFunction(F)) {
-            throw new StaticJsEngineError(
-              "Default class constructor running, but current function is not a function",
-            );
-          }
-
-          const newTarget = yield* getNewTarget();
-          if (isStaticJsUndefined(newTarget)) {
-            throw Completion.Throw(
-              "TypeError",
-              "Default class constructor cannot be called without new",
-            );
-          }
-
-          if (!isStaticJsFunction(newTarget)) {
-            throw new StaticJsEngineError(
-              "Default class constructor's new target is not a function",
-            );
-          }
-
-          let result: StaticJsObject;
-          if (constructorKind! === "derived") {
-            const func = yield* F.getPrototypeOfEvaluator();
-            if (!isConstructor(func)) {
-              throw Completion.Throw("TypeError", "Superclass constructor must be a constructor");
-            }
-            result = yield* func.constructEvaluator(args);
-          } else {
-            // The spec says newTarget is an object like, but we always set it to a callable,
-            // and the spec says OrdinaryCreateFromConstructor must receive a function???
-            // Reflect.construct gates it to be a function constructor, so...
-            result = yield* Q(ordinaryCreateFromConstructor(newTarget, "objectProto"));
-          }
-          yield* initializeInstanceElements(result, F);
-          return result;
+  try {
+    let constructorKind: "derived" | "base";
+    let F: StaticJsFunction;
+    if (!constructor) {
+      F = new StaticJsNativeFunctionImpl(
+        realm,
+        className,
+        () => {
+          throw Completion.Throw("TypeError", "Class constructor cannot be invoked without 'new'");
         },
-        length: 0,
-      },
-    );
-  } else {
-    const constructorInfo = yield* defineMethod(constructor, proto, constructorParent);
-    F = constructorInfo.closure;
-    makeConstructor(F);
-    yield* setFunctionName(F, className);
-  }
+        {
+          construct: function* (_thisArg: StaticJsValue, ...args: StaticJsValue[]) {
+            const F = EvaluationContext.current.function;
+            if (!isStaticJsFunction(F)) {
+              throw new StaticJsEngineError(
+                "Default class constructor running, but current function is not a function",
+              );
+            }
 
-  // This is supposed to apply to our native default constructor too, but...
-  // I think we do everything manually above???
-  if (F instanceof StaticJsAstFunction) {
-    yield* F.makeConstructor(false, proto);
-    if (node.superClass) {
-      F.constructorKind = "derived";
-      // Jank: Native functions don't have this, so we set the local variable here too
-      constructorKind = "derived";
-    }
-  }
+            const newTarget = yield* getNewTarget();
+            if (isStaticJsUndefined(newTarget)) {
+              throw Completion.Throw(
+                "TypeError",
+                "Default class constructor cannot be called without new",
+              );
+            }
 
-  yield* defineMethodProperty(proto, "constructor", F, false);
+            if (!isStaticJsFunction(newTarget)) {
+              throw new StaticJsEngineError(
+                "Default class constructor's new target is not a function",
+              );
+            }
 
-  let elements = nonConstructorElements(node.body);
-  let instancePrivateMethods: StaticJsPrivateElement[] = [];
-  let staticPrivateMethods: StaticJsPrivateElement[] = [];
-  let instanceFields: StaticJsClassFieldDefinitionRecord[] = [];
-  let staticElements: (
-    | StaticJsClassFieldDefinitionRecord
-    | StaticJsClassStaticBlockDefinitionRecord
-  )[] = [];
-  for (const e of elements) {
-    const isEStatic = isStatic(e);
-    let element: ClassElementEvaluationResult | Completion.Abrupt | null;
-    if (!isEStatic) {
-      element = yield* classElementEvaluation(e, proto);
+            let result: StaticJsObject;
+            if (constructorKind! === "derived") {
+              const func = yield* F.getPrototypeOfEvaluator();
+              if (!isConstructor(func)) {
+                throw Completion.Throw("TypeError", "Superclass constructor must be a constructor");
+              }
+              result = yield* func.constructEvaluator(args);
+            } else {
+              // The spec says newTarget is an object like, but we always set it to a callable,
+              // and the spec says OrdinaryCreateFromConstructor must receive a function???
+              // Reflect.construct gates it to be a function constructor, so...
+              result = yield* Q(ordinaryCreateFromConstructor(newTarget, "objectProto"));
+            }
+            yield* initializeInstanceElements(result, F);
+            return result;
+          },
+          length: 0,
+        },
+      );
     } else {
-      element = yield* classElementEvaluation(e, F);
+      const constructorInfo = yield* defineMethod(constructor, proto, constructorParent);
+      F = constructorInfo.closure;
+      makeConstructor(F);
+      yield* setFunctionName(F, className);
     }
 
-    if (Completion.Abrupt.is(element)) {
-      EvaluationContext.current.lexicalEnv = env;
-      EvaluationContext.current.privateEnv = outerPrivateEnvironment;
-      return yield* Q(element);
+    // This is supposed to apply to our native default constructor too, but...
+    // I think we do everything manually above???
+    if (F instanceof StaticJsAstFunction) {
+      yield* F.makeConstructor(false, proto);
+      if (node.superClass) {
+        F.constructorKind = "derived";
+        // Jank: Native functions don't have this, so we set the local variable here too
+        constructorKind = "derived";
+      }
     }
 
-    if (isStaticJsPrivateElement(element)) {
-      if (element.kind !== "method" && element.kind !== "accessor") {
-        throw new StaticJsEngineError("Private class elements must be methods or accessors");
+    yield* defineMethodProperty(proto, "constructor", F, false);
+
+    let elements = nonConstructorElements(node.body);
+    let instancePrivateMethods: StaticJsPrivateElement[] = [];
+    let staticPrivateMethods: StaticJsPrivateElement[] = [];
+    let instanceFields: StaticJsClassFieldDefinitionRecord[] = [];
+    let staticElements: (
+      | StaticJsClassFieldDefinitionRecord
+      | StaticJsClassStaticBlockDefinitionRecord
+    )[] = [];
+    for (const e of elements) {
+      // public, private, protected
+      if (e.type === "ClassAccessorProperty") {
+        throw new StaticJsEngineError("Class accessor properties are not supported");
       }
 
-      let container: StaticJsPrivateElement[];
+      const isEStatic = isStatic(e);
+      let element: ClassElementEvaluationResult | Completion.Abrupt | null;
       if (!isEStatic) {
-        container = instancePrivateMethods;
+        element = yield* classElementEvaluation(e, proto);
       } else {
-        container = staticPrivateMethods;
+        element = yield* classElementEvaluation(e, F);
       }
 
-      const peIndex = container.findIndex((m) => m.key === element.key);
-      const pe = peIndex !== -1 ? container[peIndex] : undefined;
-      if (pe) {
-        if (element.kind !== "accessor" || pe.kind !== "accessor") {
-          throw new StaticJsEngineError("Duplicate private element keys must be accessors");
+      if (Completion.Abrupt.is(element)) {
+        // Done by Finally
+        // EvaluationContext.current.lexicalEnv = env;
+        // EvaluationContext.current.privateEnv = outerPrivateEnvironment;
+        return yield* Q(element);
+      }
+
+      if (isStaticJsPrivateElement(element)) {
+        if (element.kind !== "method" && element.kind !== "accessor") {
+          throw new StaticJsEngineError("Private class elements must be methods or accessors");
         }
-        let combined: StaticJsPrivateElement;
-        if (element.get === undefined) {
-          combined = {
-            type: "private-element",
-            key: element.key,
-            kind: "accessor",
-            get: pe.get,
-            set: element.set,
-          };
+
+        let container: StaticJsPrivateElement[];
+        if (!isEStatic) {
+          container = instancePrivateMethods;
         } else {
-          combined = {
-            type: "private-element",
-            key: element.key,
-            kind: "accessor",
-            get: element.get,
-            set: pe.set,
-          };
+          container = staticPrivateMethods;
         }
-        container[peIndex] = combined;
-      }
-    } else if (isStaticJsClassFieldDefinitionRecord(element)) {
-      if (!isEStatic) {
-        instanceFields.push(element);
-      } else {
+
+        const peIndex = container.findIndex((m) => m.key === element.key);
+        const pe = peIndex !== -1 ? container[peIndex] : undefined;
+        if (pe) {
+          if (element.kind !== "accessor" || pe.kind !== "accessor") {
+            throw new StaticJsEngineError("Duplicate private element keys must be accessors");
+          }
+          let combined: StaticJsPrivateElement;
+          if (element.get === undefined) {
+            combined = {
+              type: "private-element",
+              key: element.key,
+              kind: "accessor",
+              get: pe.get,
+              set: element.set,
+            };
+          } else {
+            combined = {
+              type: "private-element",
+              key: element.key,
+              kind: "accessor",
+              get: element.get,
+              set: pe.set,
+            };
+          }
+          container[peIndex] = combined;
+        }
+      } else if (isStaticJsClassFieldDefinitionRecord(element)) {
+        if (!isEStatic) {
+          instanceFields.push(element);
+        } else {
+          staticElements.push(element);
+        }
+      } else if (isStaticJsClassStaticBlockDefinitionRecord(element)) {
         staticElements.push(element);
       }
-    } else if (isStaticJsClassStaticBlockDefinitionRecord(element)) {
-      staticElements.push(element);
     }
-  }
 
-  EvaluationContext.current.lexicalEnv = env;
-  if (classBinding) {
-    yield* classEnv.initializeBindingEvaluator(classBinding, F);
-  }
+    EvaluationContext.current.lexicalEnv = env;
+    if (classBinding) {
+      yield* classEnv.initializeBindingEvaluator(classBinding, F);
+    }
 
-  // TODO: Set F.[[PrivateMethods]] = instancePrivateMethods
-  // TODO: Set F.[[Fields]] = instanceFields
+    // TODO: Set F.[[PrivateMethods]] = instancePrivateMethods
+    // TODO: Set F.[[Fields]] = instanceFields
 
-  for (const method of staticPrivateMethods) {
-    yield* privateMethodOrAccessorAdd(F, method);
-  }
+    for (const method of staticPrivateMethods) {
+      yield* privateMethodOrAccessorAdd(F, method);
+    }
 
-  for (const elementRecord of staticElements) {
-    let result: Completion;
-    if (isStaticJsClassFieldDefinitionRecord(elementRecord)) {
-      result = yield* defineField(F, elementRecord);
-    } else {
-      if (!isStaticJsClassStaticBlockDefinitionRecord(elementRecord)) {
-        throw new StaticJsEngineError("Expected class static block definition record");
+    for (const elementRecord of staticElements) {
+      let result: Completion;
+      if (isStaticJsClassFieldDefinitionRecord(elementRecord)) {
+        result = yield* defineField(F, elementRecord);
+      } else {
+        if (!isStaticJsClassStaticBlockDefinitionRecord(elementRecord)) {
+          throw new StaticJsEngineError("Expected class static block definition record");
+        }
+        result = yield* captureThrownCompletion(call(elementRecord.bodyFunction, F));
       }
-      result = yield* captureThrownCompletion(call(elementRecord.bodyFunction, F));
+
+      if (Completion.Abrupt.is(result)) {
+        EvaluationContext.current.privateEnv = outerPrivateEnvironment;
+        return yield* Q(result);
+      }
     }
 
-    if (Completion.Abrupt.is(result)) {
-      EvaluationContext.current.privateEnv = outerPrivateEnvironment;
-      return yield* Q(result);
-    }
+    return F;
+  } finally {
+    const ctx = EvaluationContext.current;
+    ctx.lexicalEnv = env;
+    ctx.privateEnv = outerPrivateEnvironment;
   }
-
-  EvaluationContext.current.privateEnv = outerPrivateEnvironment;
-  return F;
 }

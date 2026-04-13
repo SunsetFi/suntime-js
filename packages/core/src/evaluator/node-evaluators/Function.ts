@@ -1,4 +1,9 @@
-import { ArrowFunctionExpression, ClassMethod, ObjectMethod, type Function } from "@babel/types";
+import {
+  ArrowFunctionExpression,
+  ClassMethod,
+  ClassPrivateMethod,
+  type Function,
+} from "@babel/types";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
@@ -66,7 +71,7 @@ export function createFunction(node: Function, env: StaticJsEnvironmentRecord): 
 }
 
 export function createClassMethodFunction(
-  node: ObjectMethod | ClassMethod,
+  node: ClassMethod | ClassPrivateMethod,
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
   homeObject: StaticJsObject,

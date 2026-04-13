@@ -1,4 +1,4 @@
-import { ClassMethod } from "@babel/types";
+import { ClassMethod, ClassPrivateMethod } from "@babel/types";
 
 import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
@@ -19,7 +19,7 @@ import { EvaluationContext } from "../../../EvaluationContext.js";
 import { createClassMethodFunction } from "../../Function.js";
 
 export function* defineMethod(
-  method: ClassMethod,
+  method: ClassMethod | ClassPrivateMethod,
   object: StaticJsObject,
   functionPrototype?: StaticJsObject,
 ): EvaluationGenerator<{ key: StaticJsPropertyKey; closure: StaticJsFunction }> {
