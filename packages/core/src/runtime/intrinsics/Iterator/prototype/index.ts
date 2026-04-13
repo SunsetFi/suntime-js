@@ -1,6 +1,6 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import type { StaticJsPlainObject } from "../../../types/StaticJsPlainObject.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -36,7 +36,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 
 export default function populateIteratorPrototype(
   realm: StaticJsRealm,
-  iteratorPrototype: StaticJsPlainObject,
+  iteratorPrototype: StaticJsObject,
 ) {
   applyIntrinsicProperties(realm, iteratorPrototype, declarations);
 }

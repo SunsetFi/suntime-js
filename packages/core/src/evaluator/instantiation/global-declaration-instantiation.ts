@@ -141,7 +141,7 @@ export function* globalDeclarationInstantiation(
 
   for (const f of functionsToInitialize) {
     const fnName = boundNames.soleElementOf(f);
-    const fn = instantiateFunctionObject(f, env);
+    const fn = instantiateFunctionObject(f, env, null);
     yield* createGlobalFunctionBinding(fnName, fn, false, env);
   }
 

@@ -1,16 +1,16 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type { StaticJsPlainObject } from "../types/StaticJsPlainObject.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 export function populateSyntaxErrorPrototype(
   _realm: StaticJsRealm,
-  _syntaxErrorProto: StaticJsPlainObject,
+  _syntaxErrorProto: StaticJsObject,
 ) {}
 
 export function createSyntaxErrorConstructor(
   realm: StaticJsRealm,
-  syntaxErrorProto: StaticJsPlainObject,
+  syntaxErrorProto: StaticJsObject,
 ) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,

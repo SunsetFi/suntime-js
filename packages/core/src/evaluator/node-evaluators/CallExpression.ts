@@ -111,7 +111,7 @@ export default function* callExpressionNodeEvaluator(node: CallExpression): Eval
 
 function* callEvalEvaluator(strArg: StaticJsValue | undefined): EvaluationGenerator {
   const context = EvaluationContext.current;
-  const { lexicalEnv, realm, strict, variableEnv } = context;
+  const { lexicalEnv, privateEnv, realm, strict, variableEnv } = context;
 
   const str = yield* toString(strArg ?? realm.types.undefined);
 
@@ -133,7 +133,7 @@ function* callEvalEvaluator(strArg: StaticJsValue | undefined): EvaluationGenera
   const varEnv = isStrict ? lexEnv : variableEnv;
 
   return yield* context.with({ lexicalEnv: lexEnv, variableEnv: varEnv }).run(function* () {
-    yield* evalDeclarationInstantiation(node, isStrict);
+    yield* evalDeclarationInstantiation(node, varEnv, lexEnv, privateEnv, isStrict);
 
     const result = yield* Q(EvaluateNodeCommand(node));
     return result ?? realm.types.undefined;

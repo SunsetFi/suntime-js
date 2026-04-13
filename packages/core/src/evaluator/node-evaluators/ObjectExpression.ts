@@ -56,7 +56,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
   target: StaticJsPlainObject,
   property: ObjectMethod,
 ): EvaluationGenerator {
-  const { lexicalEnv, strict } = EvaluationContext.current;
+  const { lexicalEnv, privateEnv, strict } = EvaluationContext.current;
 
   const propertyKeyNode = property.key;
 
@@ -77,7 +77,7 @@ function* objectExpressionPropertyObjectMethodEvaluator(
     }
   }
 
-  const method = createFunction(property, lexicalEnv);
+  const method = createFunction(property, lexicalEnv, privateEnv);
   yield* setFunctionName(method, functionName);
 
   switch (property.kind) {

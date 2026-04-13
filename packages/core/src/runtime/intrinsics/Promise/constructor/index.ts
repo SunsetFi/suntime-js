@@ -6,7 +6,7 @@ import { captureThrownCompletion } from "../../../../evaluator/completions/captu
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
-import type { StaticJsPlainObject } from "../../../types/StaticJsPlainObject.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsPromise } from "../../../types/StaticJsPromise.js";
 import { isStaticJsValue } from "../../../types/StaticJsValue.js";
 
@@ -31,7 +31,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 
 export default function createPromiseConstructor(
   realm: StaticJsRealm,
-  promiseProto: StaticJsPlainObject,
+  promiseProto: StaticJsObject,
 ) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,

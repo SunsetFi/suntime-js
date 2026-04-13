@@ -6,8 +6,12 @@ import { EvaluationContext } from "../EvaluationContext.js";
 import { createFunction } from "./Function.js";
 
 function* arrowFunctionExpressionNodeEvaluator(node: ArrowFunctionExpression): EvaluationGenerator {
-  const { lexicalEnv } = EvaluationContext.current;
-  const func = createFunction(node, lexicalEnv);
+  const { lexicalEnv, privateEnv } = EvaluationContext.current;
+  // This function has hacks just for us,
+  // sice trying to import StaticJsAstFunction here causes
+  // circular imports.
+  // FIXME: Why?
+  const func = createFunction(node, lexicalEnv, privateEnv);
   return func;
 }
 

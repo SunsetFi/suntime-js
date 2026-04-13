@@ -1,17 +1,14 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type { StaticJsPlainObject } from "../types/StaticJsPlainObject.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 export function populateEvalErrorPrototype(
   _realm: StaticJsRealm,
-  _evalErrorProto: StaticJsPlainObject,
+  _evalErrorProto: StaticJsObject,
 ) {}
 
-export function createEvalErrorConstructor(
-  realm: StaticJsRealm,
-  evalErrorProto: StaticJsPlainObject,
-) {
+export function createEvalErrorConstructor(realm: StaticJsRealm, evalErrorProto: StaticJsObject) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "EvalError",

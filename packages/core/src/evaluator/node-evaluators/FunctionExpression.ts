@@ -20,11 +20,11 @@ function* functionExpressionNodeEvaluator(node: FunctionExpression): EvaluationG
     const funcEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
     yield* funcEnv.createImmutableBindingEvaluator(expressionFunctionName, false);
 
-    func = createFunction(node, funcEnv);
+    func = createFunction(node, funcEnv, context.privateEnv);
 
     yield* funcEnv.initializeBindingEvaluator(expressionFunctionName, func);
   } else {
-    func = createFunction(node, context.lexicalEnv);
+    func = createFunction(node, context.lexicalEnv, context.privateEnv);
   }
 
   yield* setFunctionName(func, functionName);

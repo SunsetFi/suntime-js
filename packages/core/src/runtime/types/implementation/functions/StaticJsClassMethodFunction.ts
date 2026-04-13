@@ -1,4 +1,4 @@
-import type { Expression, Function } from "@babel/types";
+import { isFunction, type Expression, type Function } from "@babel/types";
 
 import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 
@@ -8,9 +8,11 @@ import { StaticJsObject } from "../../StaticJsObject.js";
 
 import {
   StaticJsAstFunction,
-  StaticJsAstFunctionArgument,
   StaticJsAstFunctionOptions,
+  validateStaticJsAstFunctionParams,
 } from "./StaticJsAstFunction.js";
+import { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
+import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 
 export type StaticJsClassMethodFunctionOptions = Omit<
   StaticJsAstFunctionOptions,
@@ -25,16 +27,25 @@ export class StaticJsClassMethodFunction extends StaticJsAstFunction {
 
   constructor(
     realm: StaticJsRealm,
-    argumentDeclarations: StaticJsAstFunctionArgument[],
     node: Function | Expression,
-    opts: StaticJsClassMethodFunctionOptions,
+    homeObject: StaticJsObject,
+    env: StaticJsEnvironmentRecord,
+    privateEnv: StaticJsPrivateEnvironmentRecord,
+    prototype?: StaticJsObject,
   ) {
-    const { homeObject, ...astOpts } = opts;
-    // Non-arrow and non-class-method functions are always constructors.
-    super(realm, null, argumentDeclarations, node, {
+    const params = isFunction(node) ? node.params : [];
+    validateStaticJsAstFunctionParams(params);
+
+    const { strict, scriptOrModule } = EvaluationContext.current;
+
+    super(realm, null, params, node, {
       thisMode: "non-lexical-this",
       construct: false,
-      ...astOpts,
+      env,
+      privateEnv,
+      prototype: prototype ?? realm.types.prototypes.functionProto,
+      strict,
+      scriptOrModule,
     });
 
     this._homeObject = homeObject;

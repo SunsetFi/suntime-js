@@ -1,17 +1,14 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import type { StaticJsPlainObject } from "../types/StaticJsPlainObject.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 export function populateTypeErrorPrototype(
   _realm: StaticJsRealm,
-  _typeErrorProto: StaticJsPlainObject,
+  _typeErrorProto: StaticJsObject,
 ) {}
 
-export function createTypeErrorConstructor(
-  realm: StaticJsRealm,
-  typeErrorProto: StaticJsPlainObject,
-) {
+export function createTypeErrorConstructor(realm: StaticJsRealm, typeErrorProto: StaticJsObject) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "TypeError",

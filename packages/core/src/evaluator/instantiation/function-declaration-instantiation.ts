@@ -33,7 +33,6 @@ export default function* functionDeclarationInstantiation(
   argumentsList: StaticJsValue[],
 ): EvaluationGenerator<void> {
   const calleeContext = EvaluationContext.current;
-  (calleeContext as any).myName = "Function decl callee";
   const { realm } = EvaluationContext.current;
 
   const strict = func.strict;
@@ -212,11 +211,9 @@ export default function* functionDeclarationInstantiation(
     }
   }
 
-  // TODO: Private env
-
   for (const f of functionsToInitialize) {
     const fn = boundNames.soleElementOf(f);
-    const fo = instantiateFunctionObject(f, calleeContext.lexicalEnv);
+    const fo = instantiateFunctionObject(f, calleeContext.lexicalEnv, calleeContext.privateEnv);
     yield* varEnv.setMutableBindingEvaluator(fn, fo, false);
   }
 }

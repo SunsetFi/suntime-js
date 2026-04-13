@@ -71,6 +71,16 @@ export function isStaticJsAstFunctionArgumentDeclaration(
   return isIdentifier(node) || isPattern(node) || isRestElement(node);
 }
 
+export function validateStaticJsAstFunctionParams(
+  params: Function["params"],
+): asserts params is StaticJsAstFunctionArgument[] {
+  for (const param of params) {
+    if (!isStaticJsAstFunctionArgumentDeclaration(param)) {
+      throw new StaticJsEngineError("TypeScript parameter properties are not supported");
+    }
+  }
+}
+
 export class StaticJsAstFunction extends StaticJsAbstractFunction {
   private _strict: boolean;
   private _scriptOrModule: StaticJsScriptOrModuleRecord | null;
@@ -225,8 +235,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
       throw Completion.Throw("TypeError", "This function is not a constructor.");
     }
 
-    // FIXME: this should be newTarget!
-    const thisArg = yield* ordinaryCreateFromConstructor(this, "objectProto");
+    const thisArg = yield* ordinaryCreateFromConstructor(newTarget, "objectProto");
 
     const calleeContext = yield* this._prepareForOrdinaryCall(newTarget);
 

@@ -5,7 +5,7 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsArrayImpl } from "../../../types/implementation/objects/StaticJsArrayImpl.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
-import type { StaticJsPlainObject } from "../../../types/StaticJsPlainObject.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -21,10 +21,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayCtorSymbolSpeciesDeclaration,
 ];
 
-export default function createArrayConstructor(
-  realm: StaticJsRealm,
-  arrayProto: StaticJsPlainObject,
-) {
+export default function createArrayConstructor(realm: StaticJsRealm, arrayProto: StaticJsObject) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "Array",

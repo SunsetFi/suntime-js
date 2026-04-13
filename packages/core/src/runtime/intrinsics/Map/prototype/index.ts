@@ -1,6 +1,6 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import type { StaticJsPlainObject } from "../../../types/StaticJsPlainObject.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
 import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../../utils.js";
 
@@ -30,9 +30,6 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   mapProtoValuesDeclaration,
 ];
 
-export default function populateMapPrototype(
-  realm: StaticJsRealm,
-  mapPrototype: StaticJsPlainObject,
-) {
+export default function populateMapPrototype(realm: StaticJsRealm, mapPrototype: StaticJsObject) {
   applyIntrinsicProperties(realm, mapPrototype, declarations);
 }

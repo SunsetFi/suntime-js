@@ -21,6 +21,13 @@ export function* methodDefinitionEvaluation(
   object: StaticJsObject,
   enumerable: boolean,
 ): EvaluationGenerator<StaticJsPrivateElement | null> {
+  const { lexicalEnv: env, privateEnv, realm } = EvaluationContext.current;
+  if (!privateEnv) {
+    throw new StaticJsEngineError(
+      "Cannot call methodDefinitionEvaluation without a private env set",
+    );
+  }
+
   if (element.kind === "get") {
     const propKeyValue = yield* Q(EvaluateNodeCommand(element.key));
     if (!isStaticJsString(propKeyValue) && !isStaticJsPrivateName(propKeyValue)) {
@@ -29,22 +36,8 @@ export function* methodDefinitionEvaluation(
     const propKey = isStaticJsPrivateName(propKeyValue)
       ? propKeyValue
       : toStaticJsPropertyKey(propKeyValue);
-    const {
-      lexicalEnv: env,
-      privateEnv,
-      strict,
-      scriptOrModule,
-      realm,
-    } = EvaluationContext.current;
 
-    const closure = new StaticJsClassMethodFunction(realm, [], element, {
-      homeObject: object,
-      prototype: realm.types.prototypes.functionProto,
-      env,
-      privateEnv,
-      strict,
-      scriptOrModule,
-    });
+    const closure = new StaticJsClassMethodFunction(realm, element, object, env, privateEnv);
 
     yield* setFunctionName(closure, propKey, "get");
 
@@ -73,22 +66,8 @@ export function* methodDefinitionEvaluation(
     const propKey = isStaticJsPrivateName(propKeyValue)
       ? propKeyValue
       : toStaticJsPropertyKey(propKeyValue);
-    const {
-      lexicalEnv: env,
-      privateEnv,
-      strict,
-      scriptOrModule,
-      realm,
-    } = EvaluationContext.current;
 
-    const closure = new StaticJsClassMethodFunction(realm, [], element, {
-      homeObject: object,
-      prototype: realm.types.prototypes.functionProto,
-      env,
-      privateEnv,
-      strict,
-      scriptOrModule,
-    });
+    const closure = new StaticJsClassMethodFunction(realm, element, object, env, privateEnv);
 
     yield* setFunctionName(closure, propKey, "set");
 

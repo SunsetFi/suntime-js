@@ -204,9 +204,9 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     );
   }
 
-  error(message: string): StaticJsPlainObject;
-  error(name: ErrorTypeName, message: string): StaticJsPlainObject;
-  error(nameOrMessage: string, message?: string): StaticJsPlainObject {
+  error(message: string): StaticJsObject;
+  error(name: ErrorTypeName, message: string): StaticJsObject;
+  error(nameOrMessage: string, message?: string): StaticJsObject {
     let name = "Error";
     if (message !== undefined) {
       name = nameOrMessage;
@@ -214,7 +214,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       message = nameOrMessage;
     }
 
-    let proto: StaticJsPlainObject;
+    let proto: StaticJsObject;
     switch (name) {
       case "Error":
       default:
@@ -384,7 +384,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     return new StaticJsExternalFunction(this._realm, value.name, value);
   }
 
-  private _toStaticJsValueObject(value: object): StaticJsPlainObject {
+  private _toStaticJsValueObject(value: object): StaticJsObject {
     if (value instanceof Error && isErrorTypeName(value.name)) {
       return this.error(value.name, value.message);
     }

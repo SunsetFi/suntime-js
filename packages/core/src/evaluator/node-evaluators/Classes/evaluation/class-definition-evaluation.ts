@@ -13,16 +13,10 @@ import { isStaticJsNull, StaticJsNull } from "../../../../runtime/types/StaticJs
 import isConstructor from "../../../../runtime/algorithms/is-constructor.js";
 import { Completion } from "../../../completions/Completion.js";
 import { get } from "../../../../runtime/algorithms/get.js";
-import { StaticJsNativeFunctionImpl } from "../../../../runtime/types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import {
-  isStaticJsFunction,
-  StaticJsFunction,
-} from "../../../../runtime/types/StaticJsFunction.js";
+import { isStaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { ordinaryCreateFromConstructor } from "../../../../runtime/algorithms/ordinary-create-from-constructor.js";
 import { setFunctionName } from "../../../../runtime/algorithms/set-function-name.js";
-import { getNewTarget } from "../../../../runtime/algorithms/get-new-target.js";
-import { isStaticJsUndefined } from "../../../../runtime/types/StaticJsUndefined.js";
 import { StaticJsAstFunction } from "../../../../runtime/types/implementation/functions/StaticJsAstFunction.js";
 import { constructorMethod } from "./constructor-method.js";
 import { defineMethod } from "./define-method.js";
@@ -48,6 +42,7 @@ import { captureThrownCompletion } from "../../../completions/capture-thrown-com
 import { initializeInstanceElements } from "./initialize-instance-elements.js";
 import { defineField } from "./define-field.js";
 import { privateMethodOrAccessorAdd } from "./private-method-or-accessor-add.js";
+import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
 
 export function* classDefinitionEvaluation(
   node: ClassDeclaration | ClassExpression,
@@ -103,59 +98,67 @@ export function* classDefinitionEvaluation(
   context.privateEnv = classPrivateEnvironment;
   try {
     let constructorKind: "derived" | "base";
-    let F: StaticJsFunction;
+    let F: StaticJsClassConstructorFunction;
     if (!constructor) {
-      F = new StaticJsNativeFunctionImpl(
+      F = new StaticJsClassConstructorFunction(
         realm,
-        className,
-        () => {
-          throw Completion.Throw("TypeError", "Class constructor cannot be invoked without 'new'");
+        function* (
+          _thisArg: StaticJsValue | undefined,
+          newTarget: StaticJsObject | undefined,
+          args: StaticJsValue[],
+        ) {
+          const F = EvaluationContext.current.function;
+          if (!isStaticJsFunction(F)) {
+            throw new StaticJsEngineError(
+              "Default class constructor running, but current function is not a function",
+            );
+          }
+
+          if (!newTarget) {
+            throw Completion.Throw(
+              "TypeError",
+              "Default class constructor cannot be called without new",
+            );
+          }
+
+          if (!isStaticJsFunction(newTarget)) {
+            throw new StaticJsEngineError(
+              "Default class constructor's new target is not a function",
+            );
+          }
+
+          let result: StaticJsObject;
+          if (constructorKind! === "derived") {
+            const func = yield* F.getPrototypeOfEvaluator();
+            if (!isConstructor(func)) {
+              throw Completion.Throw("TypeError", "Superclass constructor must be a constructor");
+            }
+            result = yield* func.constructEvaluator(args);
+          } else {
+            // The spec says newTarget is an object like, but we always set it to a callable,
+            // and the spec says OrdinaryCreateFromConstructor must receive a function???
+            // Reflect.construct gates it to be a function constructor, so...
+            result = yield* Q(ordinaryCreateFromConstructor(newTarget, "objectProto"));
+          }
+          yield* initializeInstanceElements(result, F);
+          return result;
         },
-        {
-          construct: function* (_thisArg: StaticJsValue, ...args: StaticJsValue[]) {
-            const F = EvaluationContext.current.function;
-            if (!isStaticJsFunction(F)) {
-              throw new StaticJsEngineError(
-                "Default class constructor running, but current function is not a function",
-              );
-            }
-
-            const newTarget = yield* getNewTarget();
-            if (isStaticJsUndefined(newTarget)) {
-              throw Completion.Throw(
-                "TypeError",
-                "Default class constructor cannot be called without new",
-              );
-            }
-
-            if (!isStaticJsFunction(newTarget)) {
-              throw new StaticJsEngineError(
-                "Default class constructor's new target is not a function",
-              );
-            }
-
-            let result: StaticJsObject;
-            if (constructorKind! === "derived") {
-              const func = yield* F.getPrototypeOfEvaluator();
-              if (!isConstructor(func)) {
-                throw Completion.Throw("TypeError", "Superclass constructor must be a constructor");
-              }
-              result = yield* func.constructEvaluator(args);
-            } else {
-              // The spec says newTarget is an object like, but we always set it to a callable,
-              // and the spec says OrdinaryCreateFromConstructor must receive a function???
-              // Reflect.construct gates it to be a function constructor, so...
-              result = yield* Q(ordinaryCreateFromConstructor(newTarget, "objectProto"));
-            }
-            yield* initializeInstanceElements(result, F);
-            return result;
-          },
-          length: 0,
-        },
+        // Aren't used for native ctor mode.
+        classEnv,
+        classPrivateEnvironment,
+        constructorParent,
       );
     } else {
       const constructorInfo = yield* defineMethod(constructor, proto, constructorParent);
+
+      if (constructorInfo.closure instanceof StaticJsClassConstructorFunction === false) {
+        throw new StaticJsEngineError(
+          "Class defineMethod on constructor did not result in a ClassConstructor function.",
+        );
+      }
+
       F = constructorInfo.closure;
+
       makeConstructor(F);
       yield* setFunctionName(F, className);
     }
@@ -256,8 +259,8 @@ export function* classDefinitionEvaluation(
       yield* classEnv.initializeBindingEvaluator(classBinding, F);
     }
 
-    // TODO: Set F.[[PrivateMethods]] = instancePrivateMethods
-    // TODO: Set F.[[Fields]] = instanceFields
+    F.privateMethods = instancePrivateMethods;
+    F.fields = instanceFields;
 
     for (const method of staticPrivateMethods) {
       yield* privateMethodOrAccessorAdd(F, method);

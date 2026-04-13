@@ -21,12 +21,17 @@ import collectAnnexBFunctionDeclarations from "./algorithms/collect-annex-b-func
 import createGlobalVarBinding from "./algorithms/create-global-var-binding.js";
 import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
 import createGlobalFunctionBinding from "./algorithms/create-global-function-binding.js";
+import { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
+import { StaticJsPrivateEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 
 export default function* evalDeclarationInstantiation(
   body: Node,
+  varEnv: StaticJsEnvironmentRecord,
+  lexEnv: StaticJsEnvironmentRecord,
+  privateEnv: StaticJsPrivateEnvironmentRecord | null,
   strict: boolean,
 ): EvaluationGenerator<void> {
-  const { variableEnv: varEnv, lexicalEnv: lexEnv, realm } = EvaluationContext.current;
+  const { realm } = EvaluationContext.current;
 
   const varNames = varDeclaredNames(body);
   const varDeclarations = varScopedDeclarations(body);
@@ -180,7 +185,7 @@ export default function* evalDeclarationInstantiation(
 
   for (const f of functionsToInitialize) {
     const fn = boundNames.soleElementOf(f);
-    const fo = instantiateFunctionObject(f, lexEnv);
+    const fo = instantiateFunctionObject(f, lexEnv, privateEnv);
     if (varEnv instanceof StaticJsGlobalEnvironmentRecord) {
       yield* createGlobalFunctionBinding(fn, fo, true, varEnv);
     } else {

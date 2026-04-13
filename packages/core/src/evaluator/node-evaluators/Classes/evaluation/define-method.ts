@@ -16,7 +16,9 @@ import { Q } from "../../../completions/Q.js";
 
 import { EvaluationContext } from "../../../EvaluationContext.js";
 
-import { createClassMethodFunction } from "../../Function.js";
+import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
+import { StaticJsClassMethodFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassMethodFunction.js";
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 
 export function* defineMethod(
   method: ClassMethod | ClassPrivateMethod,
@@ -30,7 +32,32 @@ export function* defineMethod(
     functionPrototype = realm.types.prototypes.functionProto;
   }
 
-  const closure = createClassMethodFunction(method, env, privateEnv, object, functionPrototype);
+  if (!privateEnv) {
+    throw new StaticJsEngineError(
+      "Cannot define a class method when no private environment is set.",
+    );
+  }
+
+  let closure: StaticJsFunction;
+  if (method.kind === "constructor") {
+    closure = new StaticJsClassConstructorFunction(
+      realm,
+      method,
+      env,
+      privateEnv,
+      functionPrototype,
+    );
+  } else {
+    closure = new StaticJsClassMethodFunction(
+      realm,
+      method,
+      object,
+      env,
+      privateEnv,
+      functionPrototype,
+    );
+  }
+
   return {
     key: propKey,
     closure,

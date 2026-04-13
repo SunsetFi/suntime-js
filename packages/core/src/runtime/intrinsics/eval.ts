@@ -48,7 +48,7 @@ const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
     const varEnv = strict ? lexEnv : context.variableEnv;
 
     return yield* context.with({ lexicalEnv: lexEnv, variableEnv: varEnv }).run(function* () {
-      yield* evalDeclarationInstantiation(node, context.strict);
+      yield* evalDeclarationInstantiation(node, varEnv, lexEnv, null, context.strict);
 
       const result = yield* Q(EvaluateNodeCommand(node));
       if (!result) {

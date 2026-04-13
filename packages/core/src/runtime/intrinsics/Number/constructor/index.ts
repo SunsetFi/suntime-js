@@ -1,6 +1,6 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import type { StaticJsPlainObject } from "../../../types/StaticJsPlainObject.js";
+import { StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
@@ -30,10 +30,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   numberCtorPositiveInfinityDeclaration,
 ];
 
-export default function createNumberConstructor(
-  realm: StaticJsRealm,
-  numberProto: StaticJsPlainObject,
-) {
+export default function createNumberConstructor(realm: StaticJsRealm, numberProto: StaticJsObject) {
   // FIXME: This is the casting function, but if it's invoked with 'new', we should
   // return the boxed version.
   const ctor = new StaticJsNativeFunctionImpl(

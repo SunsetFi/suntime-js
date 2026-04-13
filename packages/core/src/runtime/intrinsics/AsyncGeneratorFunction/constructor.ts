@@ -9,7 +9,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import toString from "../../algorithms/to-string.js";
 
-import type { StaticJsPlainObject } from "../../types/StaticJsPlainObject.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
 
 import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import {
@@ -20,7 +20,7 @@ import definePropertyOrThrow from "../../algorithms/define-property-or-throw.js"
 
 export default function createAsyncGeneratorFunctionConstructor(
   realm: StaticJsRealm,
-  asyncGeneratorFunctionProto: StaticJsPlainObject,
+  asyncGeneratorFunctionProto: StaticJsObject,
 ) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,

@@ -1,17 +1,11 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type { StaticJsPlainObject } from "../types/StaticJsPlainObject.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
-export function populateURIErrorPrototype(
-  _realm: StaticJsRealm,
-  _uriErrorProto: StaticJsPlainObject,
-) {}
+export function populateURIErrorPrototype(_realm: StaticJsRealm, _uriErrorProto: StaticJsObject) {}
 
-export function createURIErrorConstructor(
-  realm: StaticJsRealm,
-  uriErrorProto: StaticJsPlainObject,
-) {
+export function createURIErrorConstructor(realm: StaticJsRealm, uriErrorProto: StaticJsObject) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "URIError",

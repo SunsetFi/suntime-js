@@ -3,6 +3,7 @@ import { BlockStatement, type SwitchStatement } from "@babel/types";
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 
 import { instantiateFunctionObject } from "../node-evaluators/Function.js";
 
@@ -13,6 +14,7 @@ export default function* blockDeclarationInstantiation(
   node: BlockStatement | SwitchStatement,
   env: StaticJsEnvironmentRecord,
 ): EvaluationGenerator<void> {
+  const { privateEnv } = EvaluationContext.current;
   const declarations = lexicallyScopedDeclarations.forBlock(node);
   for (const d of declarations) {
     for (const dn of boundNames(d)) {
@@ -28,7 +30,7 @@ export default function* blockDeclarationInstantiation(
 
     if (d.type === "FunctionDeclaration") {
       const fn = boundNames.soleElementOf(d);
-      const fo = instantiateFunctionObject(d, env);
+      const fo = instantiateFunctionObject(d, env, privateEnv);
       const isInitialized = yield* env.isInitializedEvaluator(fn);
       if (!isInitialized) {
         yield* env.initializeBindingEvaluator(fn, fo);

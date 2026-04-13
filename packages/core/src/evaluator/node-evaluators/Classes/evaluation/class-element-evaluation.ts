@@ -13,7 +13,6 @@ import { StaticJsPrivateElement } from "../PrivateElement.js";
 import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
-import { StaticJsClassFieldInitializerFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassFieldInitializerFunction.js";
 import { Q } from "../../../completions/Q.js";
 import {
   isStaticJsPrivateName,
@@ -24,6 +23,7 @@ import { isStaticJsSymbol, StaticJsSymbol } from "../../../../runtime/types/Stat
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
 import { methodDefinitionEvaluation } from "./method-definition-evaluation.js";
+import { StaticJsClassMethodFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassMethodFunction.js";
 
 export type ClassElementEvaluationResult =
   | StaticJsPrivateElement
@@ -67,30 +67,23 @@ function* classFieldDefinitionEvaluation(
 
   let initializer: StaticJsFunction | undefined;
   if (element.value) {
-    const {
-      lexicalEnv: env,
-      privateEnv,
-      scriptOrModule,
-      realm,
-      strict,
-    } = EvaluationContext.current;
+    const { lexicalEnv: env, privateEnv, realm } = EvaluationContext.current;
+    if (!privateEnv) {
+      throw new StaticJsEngineError(
+        "Cannot call classFieldDefinitionEvaluation without a private env.",
+      );
+    }
+
     // By spec, OrdinaryFunctionCreate
-    initializer = new StaticJsClassFieldInitializerFunction(
+    initializer = new StaticJsClassMethodFunction(
       realm,
-      name,
       // Spec wants this to be an assignment expression, but to us that means
       // x = y,
       // to the spec it just means = y.
       element.value,
-      {
-        scriptOrModule,
-        env,
-        privateEnv,
-        homeObject: object,
-        // I have no idea what this should be, or if it matters.
-        // In theory its inheriting from the syntax tree.
-        strict,
-      },
+      object,
+      env,
+      privateEnv,
     );
   } else {
     initializer = undefined;

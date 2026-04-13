@@ -18,11 +18,15 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import toString from "../../../algorithms/to-string.js";
 import { get } from "../../../algorithms/get.js";
 
-import { StaticJsPrivateName } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import {
+  StaticJsPrivateEnvironmentRecord,
+  StaticJsPrivateName,
+} from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
 
 import type { StaticJsValue } from "../../StaticJsValue.js";
-import { StaticJsSymbol } from "../../StaticJsSymbol.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
+import { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 
 import {
   StaticJsClassMethodFunction,
@@ -33,11 +37,14 @@ export type StaticJsClassFieldInitializerFunctionOptions = StaticJsClassMethodFu
 export class StaticJsClassFieldInitializerFunction extends StaticJsClassMethodFunction {
   constructor(
     realm: StaticJsRealm,
-    private readonly _classFieldInitializerName: string | StaticJsSymbol | StaticJsPrivateName,
+    private readonly _classFieldInitializerName: StaticJsPropertyKey | StaticJsPrivateName,
     initializer: Expression,
-    opts: StaticJsClassFieldInitializerFunctionOptions,
+    homeObject: StaticJsObject,
+    env: StaticJsEnvironmentRecord,
+    privateEnv: StaticJsPrivateEnvironmentRecord,
+    prototype?: StaticJsObject,
   ) {
-    super(realm, [], initializer, opts);
+    super(realm, initializer, homeObject, env, privateEnv, prototype);
   }
 
   override *constructEvaluator(): EvaluationGenerator<StaticJsObject> {
