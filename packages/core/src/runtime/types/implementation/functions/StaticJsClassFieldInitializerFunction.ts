@@ -31,7 +31,7 @@ import { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import {
   StaticJsClassMethodFunction,
   StaticJsClassMethodFunctionOptions,
-} from "./StaticJsClassMethodFunction.js";
+} from "../../../../evaluator/node-evaluators/Classes/types/StaticJsClassMethodFunction.js";
 
 export type StaticJsClassFieldInitializerFunctionOptions = StaticJsClassMethodFunctionOptions;
 export class StaticJsClassFieldInitializerFunction extends StaticJsClassMethodFunction {

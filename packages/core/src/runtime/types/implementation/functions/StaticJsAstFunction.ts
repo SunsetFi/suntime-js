@@ -10,6 +10,7 @@ import {
   isIdentifier,
   isPattern,
   isRestElement,
+  isExpression,
 } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
@@ -230,26 +231,34 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     args: StaticJsValue[] = [],
     newTarget: StaticJsCallable = this,
   ): EvaluationGenerator<StaticJsObject> {
-    if (this._constructorKind === null) {
+    const kind = this.constructorKind;
+    if (kind === null) {
       // FIXME: Better error message.  What does NodeJs say?
       throw Completion.Throw("TypeError", "This function is not a constructor.");
     }
 
-    const thisArg = yield* ordinaryCreateFromConstructor(newTarget, "objectProto");
+    let thisArg: StaticJsObject | undefined;
+    if (kind === "base") {
+      thisArg = yield* ordinaryCreateFromConstructor(newTarget, "objectProto");
+    }
 
     const calleeContext = yield* this._prepareForOrdinaryCall(newTarget);
 
     // oxlint-disable-next-line typescript/no-this-alias
     const func = this;
     return yield* FunctionEvaluateBodyCommand(func, function* () {
-      yield* func._ordinaryCallBindThis(calleeContext, thisArg);
+      if (kind === "base") {
+        yield* func._ordinaryCallBindThis(calleeContext, thisArg!);
+        // Note: NOT doing initializeInstanceElements here,
+        // that's done by StaticJsClassConstructorFunction, which overrides this method.
+      }
 
-      // TODO classes: initialize instance elements
+      const constructorEnv = EvaluationContext.current.lexicalEnv;
 
       // Would be used for derived constructors.
       // const constructorEnv = context.lexicalEnv;
 
-      let result = yield* captureThrownCompletion(func._evaluateBody!(args));
+      let result = yield* captureThrownCompletion(func._evaluateBody(args));
       EvaluationContext.pop();
 
       if (Completion.Throw.is(result)) {
@@ -271,10 +280,20 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
         return value;
       }
 
-      // For kind: BASE
-      return thisArg;
+      if (kind === "base") {
+        return thisArg!;
+      }
 
-      // TODO: For derived, we need to return constructorEnv.getThisBinding()
+      if (!isStaticJsUndefined(value)) {
+        throw Completion.Throw("TypeError", "Derived constructor returned a non-object value.");
+      }
+
+      const thisBinding = yield* Q(constructorEnv.getThisBindingEvaluator());
+      if (!isStaticJsObject(thisBinding)) {
+        throw new StaticJsEngineError("Expected object this binding after constructor evaluation.");
+      }
+
+      return thisBinding;
     });
   }
 
@@ -336,13 +355,14 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
           return yield* this._evaluateAsyncConciseBody(node, args);
         }
         return yield* this._evaluateConciseBody(node, args);
-      case "AssignmentExpression":
-        return yield* this._evaluateConciseBody(node, args);
-      default:
-        throw new StaticJsEngineError(
-          "Function body node is not a Function node.  _evaluateBody should be overridden.",
-        );
     }
+
+    if (isExpression(node)) {
+      return yield* this._evaluateConciseBody(node, args);
+    }
+
+    // @ts-expect-error Should be unreachable if types are correct
+    throw new StaticJsEngineError(`Unknown function body type: ${node.type}`);
   }
 
   private *_evaluateFunctionBody(

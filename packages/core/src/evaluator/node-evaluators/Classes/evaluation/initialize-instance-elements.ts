@@ -1,4 +1,4 @@
-import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
+import { StaticJsClassConstructorFunction } from "../types/StaticJsClassConstructorFunction.js";
 import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { Q } from "../../../completions/Q.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";

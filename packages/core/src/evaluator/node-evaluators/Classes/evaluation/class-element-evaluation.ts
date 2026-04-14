@@ -11,19 +11,13 @@ import { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecor
 import { StaticJsClassStaticBlockDefinitionRecord } from "../ClassStaticBlockDefinitionRecord.js";
 import { StaticJsPrivateElement } from "../PrivateElement.js";
 import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
-import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { Q } from "../../../completions/Q.js";
-import {
-  isStaticJsPrivateName,
-  StaticJsPrivateName,
-} from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import { isStaticJsString } from "../../../../runtime/types/StaticJsString.js";
-import { isStaticJsSymbol, StaticJsSymbol } from "../../../../runtime/types/StaticJsSymbol.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
 import { methodDefinitionEvaluation } from "./method-definition-evaluation.js";
-import { StaticJsClassMethodFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassMethodFunction.js";
+import { StaticJsClassMethodFunction } from "../types/StaticJsClassMethodFunction.js";
+import { classElementNameNodeEvaluator } from "../ClassElementName.js";
 
 export type ClassElementEvaluationResult =
   | StaticJsPrivateElement
@@ -51,18 +45,9 @@ function* classFieldDefinitionEvaluation(
   element: ClassProperty | ClassPrivateProperty,
   object: StaticJsObject,
 ): EvaluationGenerator<StaticJsClassFieldDefinitionRecord | Completion.Abrupt> {
-  let nameEval = yield* Q(EvaluateNodeCommand(element.key));
-  if (Completion.Abrupt.is(nameEval)) {
-    return nameEval;
-  }
-
-  let name: string | StaticJsPrivateName | StaticJsSymbol;
-  if (isStaticJsPrivateName(nameEval) || isStaticJsSymbol(nameEval)) {
-    name = nameEval;
-  } else if (isStaticJsString(nameEval)) {
-    name = nameEval.value;
-  } else {
-    throw new StaticJsEngineError("Class field name must be a private name, string, or symbol.");
+  let name = yield* Q(classElementNameNodeEvaluator(element));
+  if (Completion.Abrupt.is(name)) {
+    return name;
   }
 
   let initializer: StaticJsFunction | undefined;

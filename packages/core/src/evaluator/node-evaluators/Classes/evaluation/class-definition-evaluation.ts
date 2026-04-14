@@ -41,7 +41,7 @@ import { captureThrownCompletion } from "../../../completions/capture-thrown-com
 import { initializeInstanceElements } from "./initialize-instance-elements.js";
 import { defineField } from "./define-field.js";
 import { privateMethodOrAccessorAdd } from "./private-method-or-accessor-add.js";
-import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
+import { StaticJsClassConstructorFunction } from "../types/StaticJsClassConstructorFunction.js";
 
 export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitionEvaluation(
   node: ClassDeclaration | ClassExpression,

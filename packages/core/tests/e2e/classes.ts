@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { StaticJsRealm } from "../../src/index.js";
 import { isStaticJsFunction } from "../../src/runtime/types/StaticJsFunction.js";
 import { isStaticJsObject } from "../../src/runtime/types/StaticJsObject.js";
+import { StaticJsValue } from "../../src/runtime/types/StaticJsValue.js";
 
 describe("E2E: Classes", () => {
   describe("Class Declarations", () => {
@@ -118,6 +119,86 @@ describe("E2E: Classes", () => {
 
         const result = await realm.evaluateScript(code);
         expect(result.toNative()).toBe(true);
+      });
+    });
+
+    describe("Properties and Methods", () => {
+      interface PropertyTestCase {
+        name: string;
+        classBody: string;
+        act?: string;
+        extract: string;
+        verify(result: StaticJsValue): void;
+      }
+      const testCases: PropertyTestCase[] = [
+        {
+          name: "Can defined a property",
+          classBody: `
+            myProp;
+          `,
+          act: `
+            instance.myProp = 42;
+          `,
+          extract: "instance.myProp",
+          verify(result) {
+            expect(result.toNative()).toBe(42);
+          },
+        },
+        {
+          name: "Can define a property with an initializer",
+          classBody: `
+            myProp = 42;
+          `,
+          extract: "instance.myProp",
+          verify(result) {
+            expect(result.toNative()).toBe(42);
+          },
+        },
+      ];
+
+      describe("Default constructor", () => {
+        it.each(testCases.map((testCase) => [testCase.name, testCase]))(
+          "%s",
+          async (_, { classBody, act, extract, verify }) => {
+            const code = `
+            class MyClass {
+              ${classBody}
+            }
+
+            const instance = new MyClass();
+            ${act ?? ""}
+            ${extract};
+          `;
+
+            const realm = StaticJsRealm();
+
+            const result = await realm.evaluateScript(code);
+            verify(result);
+          },
+        );
+      });
+
+      describe("Custom constructor", () => {
+        it.each(testCases.map((testCase) => [testCase.name, testCase]))(
+          "%s",
+          async (_, { classBody, act, extract, verify }) => {
+            const code = `
+            class MyClass {
+              constructor() {}
+              ${classBody}
+            }
+
+            const instance = new MyClass();
+            ${act ?? ""}
+            ${extract};
+          `;
+
+            const realm = StaticJsRealm();
+
+            const result = await realm.evaluateScript(code);
+            verify(result);
+          },
+        );
       });
     });
   });

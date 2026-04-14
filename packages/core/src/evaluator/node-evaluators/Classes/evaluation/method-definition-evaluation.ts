@@ -7,7 +7,7 @@ import { defineMethodProperty } from "./define-method-property.js";
 import { StaticJsPrivateElement } from "../PrivateElement.js";
 import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
-import { StaticJsClassMethodFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassMethodFunction.js";
+import { StaticJsClassMethodFunction } from "../types/StaticJsClassMethodFunction.js";
 import { Q } from "../../../completions/Q.js";
 import { isStaticJsPrivateName } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsPropertyDescriptorRecord } from "../../../../runtime/types/StaticJsPropertyDescriptor.js";

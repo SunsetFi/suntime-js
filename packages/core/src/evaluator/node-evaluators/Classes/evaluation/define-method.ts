@@ -11,8 +11,8 @@ import { Q } from "../../../completions/Q.js";
 
 import { EvaluationContext } from "../../../EvaluationContext.js";
 
-import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
-import { StaticJsClassMethodFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassMethodFunction.js";
+import { StaticJsClassConstructorFunction } from "../types/StaticJsClassConstructorFunction.js";
+import { StaticJsClassMethodFunction } from "../types/StaticJsClassMethodFunction.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { classElementNameNodeEvaluator } from "../ClassElementName.js";
 import { StaticJsPrivateName } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
