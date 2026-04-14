@@ -154,6 +154,62 @@ describe("E2E: Classes", () => {
             expect(result.toNative()).toBe(42);
           },
         },
+        {
+          name: "Can define a property with a computed name",
+          classBody: `
+            ["my" + "Prop"] = 42;
+          `,
+          extract: "instance.myProp",
+          verify(result) {
+            expect(result.toNative()).toBe(42);
+          },
+        },
+        {
+          name: "Can define a property with a computed symbol name",
+          classBody: `
+            [Symbol.for("myProp")] = 42;
+          `,
+          extract: 'instance[Symbol.for("myProp")]',
+          verify(result) {
+            expect(result.toNative()).toBe(42);
+          },
+        },
+        {
+          name: "Can define a method",
+          classBody: `
+            myMethod() {
+              return 42;
+            }
+          `,
+          extract: "instance.myMethod()",
+          verify(result) {
+            expect(result.toNative()).toBe(42);
+          },
+        },
+        {
+          name: "Can define a method with a computed name",
+          classBody: `
+            ["my" + "Method"]() {
+              return 42;
+            }
+          `,
+          extract: "instance.myMethod()",
+          verify(result) {
+            expect(result.toNative()).toBe(42);
+          },
+        },
+        {
+          name: "Can define a method with a computed symbol name",
+          classBody: `
+            [Symbol.for("myMethod")]() {
+              return 42;
+            }
+          `,
+          extract: 'instance[Symbol.for("myMethod")]()',
+          verify(result) {
+            expect(result.toNative()).toBe(42);
+          },
+        },
       ];
 
       describe("Default constructor", () => {
