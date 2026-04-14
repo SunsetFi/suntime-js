@@ -5,15 +5,18 @@ import {
   ClassProperty,
   Expression,
 } from "@babel/types";
-import { EvaluationGenerator } from "../../EvaluationGenerator.js";
+
 import {
   StaticJsPropertyKey,
   toStaticJsPropertyKey,
 } from "../../../runtime/types/StaticJsPropertyKey.js";
 import {
-  staticJsPrivateName,
   StaticJsPrivateName,
-} from "../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+  staticJsPrivateName,
+} from "../../../runtime/types/StaticJsPrivateName.js";
+
+import { EvaluationGenerator } from "../../EvaluationGenerator.js";
+
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../completions/Q.js";
 

@@ -1,16 +1,17 @@
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { StaticJsName } from "../../evaluator/StaticJsName.js";
-
-import { isStaticJsPrivateName } from "../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 
 import { StaticJsFunction } from "../types/StaticJsFunction.js";
+import { isStaticJsPrivateName, StaticJsPrivateName } from "../types/StaticJsPrivateName.js";
+import { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 import definePropertyOrThrow from "./define-property-or-throw.js";
 
+export type StaticJsFunctionNameable = StaticJsPropertyKey | StaticJsPrivateName;
+
 export function* setFunctionName(
   f: StaticJsFunction,
-  name: StaticJsName,
+  name: StaticJsFunctionNameable,
   prefix?: string,
 ): EvaluationGenerator<void> {
   // SetFunctionName

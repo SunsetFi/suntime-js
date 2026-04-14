@@ -4,21 +4,17 @@ import {
   Function,
   functionDeclaration,
   identifier,
-  isFunction,
 } from "@babel/types";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsEnvironmentRecord } from "../../../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { StaticJsRealm } from "../../../../runtime/realm/StaticJsRealm.js";
 import { isStaticJsObject, StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
-import {
-  StaticJsAstFunction,
-  validateStaticJsAstFunctionParams,
-} from "../../../../runtime/types/implementation/functions/StaticJsAstFunction.js";
+import { StaticJsAstFunction } from "../../../../runtime/types/implementation/functions/StaticJsAstFunction.js";
 import { StaticJsCallable } from "../../../../runtime/types/StaticJsCallable.js";
 import { isStaticJsValue, StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
-import { StaticJsPrivateElement } from "../PrivateElement.js";
+import { StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";
 import { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
 import { FunctionEvaluateBodyCommand } from "../../../commands/FunctionEvaluateCommand.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
@@ -49,22 +45,17 @@ export class StaticJsClassConstructorFunction extends StaticJsAstFunction {
     const { strict, scriptOrModule } = EvaluationContext.current;
 
     // Hacky, to let us implement default constructors
-    let resolvedParams: Function["params"];
     let resolvedNode: Function | Expression;
     let resolvedConstruct: StaticJsClassConstructorNativeConstruct | null;
     if (typeof node === "function") {
       resolvedNode = functionDeclaration(identifier(""), [], blockStatement([]));
-      resolvedParams = [];
       resolvedConstruct = node;
     } else {
       resolvedNode = node;
-      resolvedParams = isFunction(node) ? node.params : [];
       resolvedConstruct = null;
     }
 
-    validateStaticJsAstFunctionParams(resolvedParams);
-
-    super(realm, null, resolvedParams, resolvedNode, {
+    super(realm, resolvedNode, {
       // Not used if this is a native function
       // This is a little confusing, as native funcs are
       // created with CreateBuiltinFunction and are a different code path.

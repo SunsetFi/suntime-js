@@ -9,6 +9,7 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import toString from "../../algorithms/to-string.js";
 import definePropertyOrThrow from "../../algorithms/define-property-or-throw.js";
+import { setFunctionName } from "../../algorithms/set-function-name.js";
 
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 
@@ -57,13 +58,15 @@ export default function createGeneratorFunctionConstructor(
       const fnBody = blockStatement(body.body, body.directives);
       const fn = functionDeclaration(null, parameters, fnBody, false, true);
 
-      const func = new StaticJsAstFunction(realm, "", parameters, fn, {
+      const func = new StaticJsAstFunction(realm, fn, {
         thisMode: "non-lexical-this",
         strict: false,
         env: realm.globalEnv,
         scriptOrModule: null,
         construct: false,
       });
+
+      yield* setFunctionName(func, "");
 
       const prototype = realm.types.object(undefined, realm.types.prototypes.asyncGeneratorProto);
       yield* definePropertyOrThrow(func, "prototype", {

@@ -17,7 +17,6 @@ import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { StaticJsName } from "../../../../evaluator/StaticJsName.js";
 
 import functionDeclarationInstantiation from "../../../../evaluator/instantiation/function-declaration-instantiation.js";
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
@@ -83,18 +82,18 @@ export function validateStaticJsAstFunctionParams(
 }
 
 export class StaticJsAstFunction extends StaticJsAbstractFunction {
-  private _strict: boolean;
-  private _scriptOrModule: StaticJsScriptOrModuleRecord | null;
+  private readonly _argumentDeclarations: StaticJsAstFunctionArgument[];
+
+  private readonly _strict: boolean;
+  private readonly _scriptOrModule: StaticJsScriptOrModuleRecord | null;
+  private readonly _environment: StaticJsEnvironmentRecord;
+  private readonly _privateEnv: StaticJsPrivateEnvironmentRecord | null;
+  private readonly _thisMode: "lexical" | "strict" | "global";
 
   private _constructorKind: null | "base" | "derived" = null;
-  private _environment: StaticJsEnvironmentRecord;
-  private _privateEnv: StaticJsPrivateEnvironmentRecord | null;
-  private _thisMode: "lexical" | "strict" | "global";
 
   constructor(
     realm: StaticJsRealm,
-    name: StaticJsName | null,
-    private readonly _argumentDeclarations: StaticJsAstFunctionArgument[],
     protected readonly _node: Function | Expression,
     {
       thisMode,
@@ -106,12 +105,16 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
       prototype,
     }: StaticJsAstFunctionOptions,
   ) {
+    const params = isFunction(_node) ? _node.params : [];
+    validateStaticJsAstFunctionParams(params);
+
     super(
       realm,
-      name,
-      getArgumentsLength(_argumentDeclarations),
+      getArgumentsLength(params),
       prototype !== undefined ? prototype : realm.types.prototypes.functionProto,
     );
+
+    this._argumentDeclarations = params;
 
     if (strict) {
       this._strict = true;

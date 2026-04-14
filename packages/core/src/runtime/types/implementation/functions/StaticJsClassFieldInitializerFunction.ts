@@ -12,26 +12,23 @@ import { ThrowCompletion } from "../../../../evaluator/completions/completion-ty
 import { Q } from "../../../../evaluator/completions/Q.js";
 
 import NamedEvaluation from "../../../../evaluator/node-evaluators/NamedEvaluation.js";
+import {
+  StaticJsClassMethodFunction,
+  StaticJsClassMethodFunctionOptions,
+} from "../../../../evaluator/node-evaluators/Classes/types/StaticJsClassMethodFunction.js";
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import toString from "../../../algorithms/to-string.js";
 import { get } from "../../../algorithms/get.js";
 
-import {
-  StaticJsPrivateEnvironmentRecord,
-  StaticJsPrivateName,
-} from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
 
 import type { StaticJsValue } from "../../StaticJsValue.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
-
-import {
-  StaticJsClassMethodFunction,
-  StaticJsClassMethodFunctionOptions,
-} from "../../../../evaluator/node-evaluators/Classes/types/StaticJsClassMethodFunction.js";
+import { StaticJsPrivateName } from "../../StaticJsPrivateName.js";
 
 export type StaticJsClassFieldInitializerFunctionOptions = StaticJsClassMethodFunctionOptions;
 export class StaticJsClassFieldInitializerFunction extends StaticJsClassMethodFunction {

@@ -9,7 +9,7 @@ import { Completion } from "../../../completions/Completion.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 import { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
 import { StaticJsClassStaticBlockDefinitionRecord } from "../ClassStaticBlockDefinitionRecord.js";
-import { StaticJsPrivateElement } from "../PrivateElement.js";
+import { StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";
 import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { Q } from "../../../completions/Q.js";

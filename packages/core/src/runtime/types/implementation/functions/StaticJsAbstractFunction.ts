@@ -1,7 +1,6 @@
 import type { Node } from "@babel/types";
 
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { StaticJsName } from "../../../../evaluator/StaticJsName.js";
 
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 
@@ -10,7 +9,6 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 
 import { get } from "../../../algorithms/get.js";
-import { setFunctionName } from "../../../algorithms/set-function-name.js";
 import toString from "../../../algorithms/to-string.js";
 
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
@@ -28,17 +26,10 @@ export abstract class StaticJsAbstractFunction
 {
   constructor(
     realm: StaticJsRealm,
-    name: StaticJsName | null,
     length: number,
     prototype: StaticJsObject | StaticJsNull | null,
   ) {
     super(realm, prototype ?? realm.types.prototypes.functionProto);
-
-    // FIXME: From the spec, this should be called externally.
-    // We only have it here to shim in old pre-spec code.
-    if (name) {
-      this.realm.invokeEvaluatorSync(setFunctionName(this, name));
-    }
 
     this.defineOwnPropertySync("length", {
       value: realm.types.number(length),

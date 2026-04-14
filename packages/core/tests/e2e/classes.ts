@@ -175,6 +175,19 @@ describe("E2E: Classes", () => {
           },
         },
         {
+          name: "Can define a property with a private name",
+          classBody: `
+            #myProp = 42;
+            getMyProp() {
+              return this.#myProp;
+            }
+          `,
+          extract: "instance.getMyProp()",
+          verify(result) {
+            expect(result.toNative()).toBe(42);
+          },
+        },
+        {
           name: "Can define a method",
           classBody: `
             myMethod() {

@@ -1,4 +1,4 @@
-import { isFunction, type Expression, type Function } from "@babel/types";
+import { type Expression, type Function } from "@babel/types";
 
 import { StaticJsPrivateEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 
@@ -9,7 +9,6 @@ import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import {
   StaticJsAstFunction,
   StaticJsAstFunctionOptions,
-  validateStaticJsAstFunctionParams,
 } from "../../../../runtime/types/implementation/functions/StaticJsAstFunction.js";
 import { StaticJsEnvironmentRecord } from "../../../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
@@ -33,12 +32,9 @@ export class StaticJsClassMethodFunction extends StaticJsAstFunction {
     privateEnv: StaticJsPrivateEnvironmentRecord,
     prototype?: StaticJsObject,
   ) {
-    const params = isFunction(node) ? node.params : [];
-    validateStaticJsAstFunctionParams(params);
-
     const { strict, scriptOrModule } = EvaluationContext.current;
 
-    super(realm, null, params, node, {
+    super(realm, node, {
       thisMode: "non-lexical-this",
       construct: false,
       env,

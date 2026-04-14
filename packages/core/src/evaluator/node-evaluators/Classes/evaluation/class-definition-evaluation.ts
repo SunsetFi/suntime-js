@@ -23,7 +23,10 @@ import { defineMethod } from "./define-method.js";
 import { defineMethodProperty } from "./define-method-property.js";
 import { nonConstructorElements } from "./non-constructor-elements.js";
 import { isStatic } from "./is-static.js";
-import { isStaticJsPrivateElement, StaticJsPrivateElement } from "../PrivateElement.js";
+import {
+  isStaticJsPrivateElement,
+  StaticJsPrivateElement,
+} from "../../../../runtime/types/StaticJsPrivateElement.js";
 import {
   isStaticJsClassFieldDefinitionRecord,
   StaticJsClassFieldDefinitionRecord,

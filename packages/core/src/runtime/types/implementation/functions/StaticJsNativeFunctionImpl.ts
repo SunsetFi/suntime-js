@@ -13,6 +13,7 @@ import type { StaticJsValue } from "../../StaticJsValue.js";
 import { isStaticJsObject, type StaticJsObject } from "../../StaticJsObject.js";
 
 import { StaticJsAbstractFunction } from "./StaticJsAbstractFunction.js";
+import { setFunctionName } from "../../../algorithms/set-function-name.js";
 
 export interface StaticJsNativeFunctionOptions {
   length?: number;
@@ -40,8 +41,12 @@ export class StaticJsNativeFunctionImpl
     { construct, length, prototype }: StaticJsNativeFunctionOptions = {},
   ) {
     const resolvedLength = length ?? _call.length;
-    super(realm, _name, resolvedLength, prototype ?? realm.types.prototypes.functionProto);
+    super(realm, resolvedLength, prototype ?? realm.types.prototypes.functionProto);
 
+    // FIXME: Shim for old code.  Remove.
+    if (_name) {
+      realm.invokeEvaluatorSync(setFunctionName(this, _name));
+    }
     if (typeof construct === "boolean") {
       this._construct = construct ? this._call : null;
     } else if (typeof construct === "function") {

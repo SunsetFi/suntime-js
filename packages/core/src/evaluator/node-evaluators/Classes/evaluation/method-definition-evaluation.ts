@@ -4,17 +4,17 @@ import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 import { setFunctionName } from "../../../../runtime/algorithms/set-function-name.js";
 import { defineMethod } from "./define-method.js";
 import { defineMethodProperty } from "./define-method-property.js";
-import { StaticJsPrivateElement } from "../PrivateElement.js";
+import { StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";
 import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { StaticJsClassMethodFunction } from "../types/StaticJsClassMethodFunction.js";
 import { Q } from "../../../completions/Q.js";
-import { isStaticJsPrivateName } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsPropertyDescriptorRecord } from "../../../../runtime/types/StaticJsPropertyDescriptor.js";
 import definePropertyOrThrow from "../../../../runtime/algorithms/define-property-or-throw.js";
 import { isStaticJsString } from "../../../../runtime/types/StaticJsString.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { toStaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
+import { isStaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
 
 export const methodDefinitionEvaluation = Q.makeReceiver(function* methodDefinitionEvaluation(
   element: ClassMethod | ClassPrivateMethod,

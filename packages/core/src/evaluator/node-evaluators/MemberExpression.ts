@@ -1,13 +1,12 @@
 import type { MemberExpression } from "@babel/types";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-
-import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
-
 import {
   staticJsPrivateName,
   StaticJsPrivateName,
-} from "../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+} from "../../runtime/types/StaticJsPrivateName.js";
+
+import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
@@ -25,6 +24,8 @@ export default function* memberExpressionNodeEvaluator(
 
   let propertyKey: string | StaticJsPrivateName | StaticJsValue;
   if (propertyNode.type === "PrivateName") {
+    // FIXME: This is almost assuredly wrong.  The spec treats private names
+    // as reference-equality objects.  This new reference will not be equal to anything.
     propertyKey = staticJsPrivateName(propertyNode.id.name);
   }
 

@@ -4,6 +4,9 @@ import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
 
 import { StaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
+import { StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
+
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 
@@ -13,9 +16,8 @@ import { EvaluationContext } from "../../../EvaluationContext.js";
 
 import { StaticJsClassConstructorFunction } from "../types/StaticJsClassConstructorFunction.js";
 import { StaticJsClassMethodFunction } from "../types/StaticJsClassMethodFunction.js";
-import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+
 import { classElementNameNodeEvaluator } from "../ClassElementName.js";
-import { StaticJsPrivateName } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 
 export interface ClassMethodDefinition {
   key: StaticJsPropertyKey | StaticJsPrivateName;

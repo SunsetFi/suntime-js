@@ -2,18 +2,17 @@ import { ArrowFunctionExpression, ObjectMethod, type Function } from "@babel/typ
 
 import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 
-import {
-  StaticJsAstFunction,
-  validateStaticJsAstFunctionParams,
-} from "../../runtime/types/implementation/functions/StaticJsAstFunction.js";
+import { StaticJsAstFunction } from "../../runtime/types/implementation/functions/StaticJsAstFunction.js";
 
-import { setFunctionName } from "../../runtime/algorithms/set-function-name.js";
+import {
+  setFunctionName,
+  StaticJsFunctionNameable,
+} from "../../runtime/algorithms/set-function-name.js";
 
 import { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 
 import { EvaluationContext } from "../EvaluationContext.js";
-import { StaticJsName } from "../StaticJsName.js";
 
 import { getNamedEvaluationParameter } from "./NamedEvaluation.js";
 
@@ -51,10 +50,8 @@ function createObjectMethodFunction(
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
 ): StaticJsFunction {
-  // FIXME: I can't find the spec for this.  Assuming based on test262 failures.
-  validateStaticJsAstFunctionParams(node.params);
   const { strict, scriptOrModule, realm } = EvaluationContext.current;
-  const func = new StaticJsAstFunction(realm, null, node.params, node, {
+  const func = new StaticJsAstFunction(realm, node, {
     thisMode: "non-lexical-this",
     strict,
     scriptOrModule,
@@ -91,7 +88,7 @@ export function instantiateFunctionObject(
 
 function instantiateArrowFunctionExpression(
   node: ArrowFunctionExpression,
-  name: StaticJsName | null,
+  name: StaticJsFunctionNameable | null,
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
 ): StaticJsFunction {
@@ -100,7 +97,7 @@ function instantiateArrowFunctionExpression(
   }
 
   const { strict, scriptOrModule, realm } = EvaluationContext.current;
-  const func = new StaticJsAstFunction(realm, null, node.params, node, {
+  const func = new StaticJsAstFunction(realm, node, {
     thisMode: "lexical-this",
     strict,
     scriptOrModule,
@@ -120,11 +117,8 @@ function instantiateOrdinaryFunctionObject(
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
 ): StaticJsFunction {
-  const params = node.params;
-  validateStaticJsAstFunctionParams(params);
-
   const { realm, strict, scriptOrModule } = EvaluationContext.current;
-  const func = new StaticJsAstFunction(realm, null, params, node, {
+  const func = new StaticJsAstFunction(realm, node, {
     thisMode: "non-lexical-this",
     strict,
     scriptOrModule,
@@ -150,11 +144,8 @@ function instantiateGeneratorFunctionObject(
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
 ): StaticJsFunction {
-  const params = node.params;
-  validateStaticJsAstFunctionParams(params);
-
   const { realm, strict, scriptOrModule } = EvaluationContext.current;
-  const func = new StaticJsAstFunction(realm, null, params, node, {
+  const func = new StaticJsAstFunction(realm, node, {
     thisMode: "non-lexical-this",
     strict,
     scriptOrModule,
@@ -185,11 +176,8 @@ function instantiateAsyncGeneratorFunctionObject(
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
 ): StaticJsFunction {
-  const params = node.params;
-  validateStaticJsAstFunctionParams(params);
-
   const { realm, strict, scriptOrModule } = EvaluationContext.current;
-  const func = new StaticJsAstFunction(realm, null, params, node, {
+  const func = new StaticJsAstFunction(realm, node, {
     thisMode: "non-lexical-this",
     strict,
     scriptOrModule,
@@ -221,14 +209,9 @@ function instantiateAsyncFunctionObject(
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
 ): StaticJsFunction {
-  const params = node.params;
-  validateStaticJsAstFunctionParams(params);
-
   const { realm, strict, scriptOrModule } = EvaluationContext.current;
   const func = new StaticJsAstFunction(
     realm,
-    null,
-    params,
     node,
     // FIXME: Prototype should be asyncFunctionPrototype, once we get one.
     {

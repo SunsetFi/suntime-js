@@ -1,6 +1,6 @@
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
-import { StaticJsPrivateName } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
+import { StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
 import { StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
 import { Q } from "../../../completions/Q.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";

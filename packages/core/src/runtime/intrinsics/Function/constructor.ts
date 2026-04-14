@@ -10,6 +10,7 @@ import { parseParameters } from "../../../parser/parse-parameters.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import toString from "../../algorithms/to-string.js";
+import { setFunctionName } from "../../algorithms/set-function-name.js";
 
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 
@@ -63,12 +64,14 @@ export default function createFunctionConstructor(
       const fnBody = blockStatement(body.body, body.directives);
       const fn = functionDeclaration(null, parameters, fnBody);
 
-      const func = new StaticJsAstFunction(realm, "", parameters, fn, {
+      const func = new StaticJsAstFunction(realm, fn, {
         thisMode: "non-lexical-this",
         strict: context.strict,
         env: context.lexicalEnv,
         scriptOrModule: context.scriptOrModule,
       });
+
+      yield* setFunctionName(func, "");
 
       yield* func.makeConstructor();
 

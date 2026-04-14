@@ -1,6 +1,6 @@
-import { StaticJsPrivateName } from "../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import { StaticJsFunction } from "../../../runtime/types/StaticJsFunction.js";
-import { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
+import { StaticJsFunction } from "./StaticJsFunction.js";
+import { StaticJsPrivateName } from "./StaticJsPrivateName.js";
+import { StaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsPrivateElementBase {
   type: "private-element";
@@ -11,6 +11,18 @@ export interface StaticJsPrivateElementBase {
 export interface StaticJsPrivateElementField extends StaticJsPrivateElementBase {
   kind: "field";
   value: StaticJsValue;
+}
+
+export function staticJsPrivateElementField(
+  key: StaticJsPrivateName,
+  value: StaticJsValue,
+): StaticJsPrivateElementField {
+  return {
+    type: "private-element",
+    key,
+    kind: "field",
+    value,
+  };
 }
 
 export interface StaticJsPrivateElementMethod extends StaticJsPrivateElementBase {

@@ -1,5 +1,6 @@
-import { StaticJsPrivateName } from "../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
+
+import { StaticJsPrivateName } from "../types/StaticJsPrivateName.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 export interface StaticJsUnresolvedReferenceRecord {
