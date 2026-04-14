@@ -10,6 +10,7 @@ import { Q } from "../completions/Q.js";
 import { Completion } from "../completions/Completion.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+import { construct } from "../../runtime/algorithms/construct.js";
 
 export default function* newExpressionNodeEvaluator(node: NewExpression): EvaluationGenerator {
   const callee = yield* Q.val(EvaluateNodeCommand(node.callee));
@@ -23,5 +24,5 @@ export default function* newExpressionNodeEvaluator(node: NewExpression): Evalua
     args[i] = arg;
   }
 
-  return yield* callee.constructEvaluator(args);
+  return yield* construct(callee, args);
 }

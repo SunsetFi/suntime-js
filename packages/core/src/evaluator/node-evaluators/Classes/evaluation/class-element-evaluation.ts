@@ -30,7 +30,7 @@ export type ClassElementEvaluationResult =
   | StaticJsClassFieldDefinitionRecord
   | StaticJsClassStaticBlockDefinitionRecord;
 
-export function* classElementEvaluation(
+export const classElementEvaluation = Q.makeReceiver(function* classElementEvaluation(
   element: ClassProperty | ClassPrivateProperty | ClassMethod | ClassPrivateMethod | StaticBlock,
   object: StaticJsObject,
 ): EvaluationGenerator<ClassElementEvaluationResult | null | Completion.Abrupt> {
@@ -45,7 +45,7 @@ export function* classElementEvaluation(
       return yield* classStaticBlockDefinitionEvaluation(element, object);
   }
   return null;
-}
+});
 
 function* classFieldDefinitionEvaluation(
   element: ClassProperty | ClassPrivateProperty,

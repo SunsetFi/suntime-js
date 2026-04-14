@@ -17,6 +17,10 @@ import { StaticJsValue } from "../../StaticJsValue.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import { StaticJsPrivateElement } from "../../../../evaluator/node-evaluators/Classes/PrivateElement.js";
 import { StaticJsClassFieldDefinitionRecord } from "../../../../evaluator/node-evaluators/Classes/ClassFieldDefinitionRecord.js";
+import { FunctionEvaluateBodyCommand } from "../../../../evaluator/commands/FunctionEvaluateCommand.js";
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
+import { Q } from "../../../../evaluator/completions/Q.js";
 
 export type StaticJsClassConstructorNativeConstruct = (
   thisArg: StaticJsValue | undefined,
@@ -74,7 +78,7 @@ export class StaticJsClassConstructorFunction extends StaticJsAstFunction {
 
   override *callEvaluator(thisArg: StaticJsValue, args?: StaticJsValue[]) {
     if (this._nativeFunc) {
-      return yield* this._nativeFunc(thisArg, undefined, args ?? []);
+      return yield* this._runNativeFunc(thisArg, undefined, args ?? []);
     }
 
     return yield* super.callEvaluator(thisArg, args);
@@ -85,9 +89,29 @@ export class StaticJsClassConstructorFunction extends StaticJsAstFunction {
     newTarget?: StaticJsCallable,
   ): EvaluationGenerator<StaticJsObject> {
     if (this._nativeFunc) {
-      return yield* this._nativeFunc(undefined, newTarget ?? this, args ?? []);
+      return yield* this._runNativeFunc(undefined, newTarget, args ?? []);
     }
 
     return yield* super.constructEvaluator(args, newTarget);
+  }
+
+  private *_runNativeFunc(
+    thisArg: StaticJsValue | undefined,
+    newTarget: StaticJsCallable | undefined,
+    args: StaticJsValue[],
+  ): EvaluationGenerator<StaticJsObject> {
+    const nativeFunc = this._nativeFunc;
+    if (!nativeFunc) {
+      throw new StaticJsEngineError(
+        "Cannot invoke ClassConstructorFunction runNativeFunc: Not native.",
+      );
+    }
+
+    yield* this._prepareForOrdinaryCall(newTarget ?? null);
+    return yield* FunctionEvaluateBodyCommand(this, function* () {
+      const result = yield* captureThrownCompletion(nativeFunc(thisArg, newTarget, args));
+      EvaluationContext.pop();
+      return yield* Q(result);
+    });
   }
 }

@@ -1,10 +1,19 @@
-import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
+import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
 import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
+import { Q } from "../../../completions/Q.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
+import { defineField } from "./define-field.js";
+import { privateMethodOrAccessorAdd } from "./private-method-or-accessor-add.js";
 
-export function* initializeInstanceElements(
-  _o: StaticJsObject,
-  _constructor: StaticJsFunction,
+export const initializeInstanceElements = Q.makeReceiver(function* initializeInstanceElements(
+  o: StaticJsObject,
+  constructor: StaticJsClassConstructorFunction,
 ): EvaluationGenerator<void> {
-  throw new Error("initializeInstanceElements not implemented");
-}
+  for (const method of constructor.privateMethods) {
+    yield* Q(privateMethodOrAccessorAdd(o, method));
+  }
+
+  for (const fieldRecord of constructor.fields) {
+    yield* Q(defineField(o, fieldRecord));
+  }
+});

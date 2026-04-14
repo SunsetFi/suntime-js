@@ -1,4 +1,3 @@
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsCallable } from "../types/StaticJsCallable.js";
 import { StaticJsObject } from "../types/StaticJsObject.js";
@@ -11,10 +10,7 @@ export function* construct(
 ): EvaluationGenerator<StaticJsObject> {
   if (newTarget === undefined) {
     newTarget = F;
-  } else if (newTarget !== F) {
-    // FXIME: newTarget
-    throw new StaticJsEngineError("newTarget is not yet supported on construct");
   }
 
-  return yield* F.constructEvaluator(args);
+  return yield* F.constructEvaluator(args, newTarget);
 }

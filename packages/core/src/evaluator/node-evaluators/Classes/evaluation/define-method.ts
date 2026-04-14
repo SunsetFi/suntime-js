@@ -20,12 +20,15 @@ import { StaticJsClassConstructorFunction } from "../../../../runtime/types/impl
 import { StaticJsClassMethodFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassMethodFunction.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 
-export function* defineMethod(
+export const defineMethod = Q.makeReceiver(function* defineMethod(
   method: ClassMethod | ClassPrivateMethod,
   object: StaticJsObject,
   functionPrototype?: StaticJsObject,
 ): EvaluationGenerator<{ key: StaticJsPropertyKey; closure: StaticJsFunction }> {
+  // Spec says evaluation here, but its syntax tree type is ClassElementName, while we have Identifier.
+  // Trying to use EvaluateNodeCommand here will just give us a value reference.
   const propKeyValue = yield* Q(EvaluateNodeCommand(method.key));
+  // Assumption:
   const propKey = toStaticJsPropertyKey(propKeyValue);
   const { lexicalEnv: env, privateEnv, realm } = EvaluationContext.current;
   if (!functionPrototype) {
@@ -62,4 +65,4 @@ export function* defineMethod(
     key: propKey,
     closure,
   };
-}
+});

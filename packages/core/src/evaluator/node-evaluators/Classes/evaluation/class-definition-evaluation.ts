@@ -44,7 +44,7 @@ import { defineField } from "./define-field.js";
 import { privateMethodOrAccessorAdd } from "./private-method-or-accessor-add.js";
 import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
 
-export function* classDefinitionEvaluation(
+export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitionEvaluation(
   node: ClassDeclaration | ClassExpression,
   classBinding: string | null,
   className: StaticJsPropertyKey,
@@ -113,6 +113,13 @@ export function* classDefinitionEvaluation(
               "Default class constructor running, but current function is not a function",
             );
           }
+          // The spec is clear that it wants us to check the "current running function", but our system
+          // requires it to be this type of function specifically
+          if (F instanceof StaticJsClassConstructorFunction === false) {
+            throw new StaticJsEngineError(
+              "Cannot invoke a class default constructor on a current function that is not a StaticJsClassConstructorFunction",
+            );
+          }
 
           if (!newTarget) {
             throw Completion.Throw(
@@ -149,7 +156,7 @@ export function* classDefinitionEvaluation(
         constructorParent,
       );
     } else {
-      const constructorInfo = yield* defineMethod(constructor, proto, constructorParent);
+      const constructorInfo = yield* Q(defineMethod(constructor, proto, constructorParent));
 
       if (constructorInfo.closure instanceof StaticJsClassConstructorFunction === false) {
         throw new StaticJsEngineError(
@@ -267,7 +274,7 @@ export function* classDefinitionEvaluation(
     }
 
     for (const elementRecord of staticElements) {
-      let result: Completion;
+      let result: void | Completion;
       if (isStaticJsClassFieldDefinitionRecord(elementRecord)) {
         result = yield* defineField(F, elementRecord);
       } else {
@@ -289,4 +296,4 @@ export function* classDefinitionEvaluation(
     ctx.lexicalEnv = env;
     ctx.privateEnv = outerPrivateEnvironment;
   }
-}
+});

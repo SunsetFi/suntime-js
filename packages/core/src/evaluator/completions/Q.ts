@@ -58,3 +58,19 @@ Q.val = function* qValue(evaluator: CompletionEvaluator<Completion>) {
 
   return yield* getValue(completion);
 };
+
+Q.makeReceiver = function <TArgs extends unknown[], TResult>(
+  receiver: (...args: TArgs) => EvaluationGenerator<TResult>,
+): (...args: TArgs) => EvaluationGenerator<TResult | Completion.Abrupt> {
+  return function* (...args: TArgs) {
+    try {
+      return yield* receiver(...args);
+    } catch (e) {
+      if (Completion.Abrupt.is(e)) {
+        return e;
+      }
+
+      throw e;
+    }
+  };
+};

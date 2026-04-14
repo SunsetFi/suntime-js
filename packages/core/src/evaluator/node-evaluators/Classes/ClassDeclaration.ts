@@ -7,6 +7,7 @@ import { EvaluationContext } from "../../EvaluationContext.js";
 import initializeBoundName from "../../bindings/initialize-bound-name.js";
 
 import { classDefinitionEvaluation } from "./evaluation/class-definition-evaluation.js";
+import { Q } from "../../completions/Q.js";
 
 export default function* classDeclarationNodeEvaluator(
   node: ClassDeclaration,
@@ -21,7 +22,7 @@ function* bindingClassDeclarationEvaluation(
   const className = node.id?.name ?? null;
   // 'class {}' is only ever allowed for `export default class {}`.
   const classKey = className ?? "default";
-  const value = yield* classDefinitionEvaluation(node, className, classKey);
+  const value = yield* Q(classDefinitionEvaluation(node, className, classKey));
   if (node.id) {
     const env = EvaluationContext.current.lexicalEnv;
     yield* initializeBoundName(node.id.name, value, env);

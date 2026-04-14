@@ -16,7 +16,7 @@ import { isStaticJsString } from "../../../../runtime/types/StaticJsString.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { toStaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
 
-export function* methodDefinitionEvaluation(
+export const methodDefinitionEvaluation = Q.makeReceiver(function* methodDefinitionEvaluation(
   element: ClassMethod | ClassPrivateMethod,
   object: StaticJsObject,
   enumerable: boolean,
@@ -89,8 +89,8 @@ export function* methodDefinitionEvaluation(
     yield* definePropertyOrThrow(object, propKey, desc);
     return null;
   } else {
-    const methodDef = yield* defineMethod(element, object);
+    const methodDef = yield* Q(defineMethod(element, object));
     yield* setFunctionName(methodDef.closure, methodDef.key);
     return yield* defineMethodProperty(object, methodDef.key, methodDef.closure, enumerable);
   }
-}
+});
