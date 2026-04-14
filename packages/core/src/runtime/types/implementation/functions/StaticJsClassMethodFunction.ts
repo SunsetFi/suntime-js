@@ -51,8 +51,6 @@ export class StaticJsClassMethodFunction extends StaticJsAstFunction {
     this._homeObject = homeObject;
   }
 
-  isClassConstructor = false;
-
   get homeObject(): StaticJsObject {
     return this._homeObject;
   }

@@ -9,6 +9,10 @@ export function isStaticJsPrivateName(value: unknown): value is StaticJsPrivateN
   );
 }
 
+export function staticJsPrivateName(description: string): StaticJsPrivateName {
+  return { type: "private-name", description };
+}
+
 export class StaticJsPrivateEnvironmentRecord {
   private readonly _names: StaticJsPrivateName[] = [];
   constructor(private readonly _outerPrivateEnv: StaticJsPrivateEnvironmentRecord | null) {}

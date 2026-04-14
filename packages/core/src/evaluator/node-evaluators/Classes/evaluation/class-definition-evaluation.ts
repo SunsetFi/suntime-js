@@ -20,7 +20,6 @@ import { setFunctionName } from "../../../../runtime/algorithms/set-function-nam
 import { StaticJsAstFunction } from "../../../../runtime/types/implementation/functions/StaticJsAstFunction.js";
 import { constructorMethod } from "./constructor-method.js";
 import { defineMethod } from "./define-method.js";
-import { makeConstructor } from "./make-constructor.js";
 import { defineMethodProperty } from "./define-method-property.js";
 import { nonConstructorElements } from "./non-constructor-elements.js";
 import { isStatic } from "./is-static.js";
@@ -166,7 +165,6 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
 
       F = constructorInfo.closure;
 
-      makeConstructor(F);
       yield* setFunctionName(F, className);
     }
 

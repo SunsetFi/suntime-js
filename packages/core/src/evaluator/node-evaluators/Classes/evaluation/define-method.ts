@@ -3,14 +3,9 @@ import { ClassMethod, ClassPrivateMethod } from "@babel/types";
 import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
 
-import {
-  StaticJsPropertyKey,
-  toStaticJsPropertyKey,
-} from "../../../../runtime/types/StaticJsPropertyKey.js";
+import { StaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
 
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
-
-import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
 
 import { Q } from "../../../completions/Q.js";
 
@@ -19,17 +14,21 @@ import { EvaluationContext } from "../../../EvaluationContext.js";
 import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
 import { StaticJsClassMethodFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassMethodFunction.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+import { classElementNameNodeEvaluator } from "../ClassElementName.js";
+import { StaticJsPrivateName } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 
+export interface ClassMethodDefinition {
+  key: StaticJsPropertyKey | StaticJsPrivateName;
+  closure: StaticJsFunction;
+}
 export const defineMethod = Q.makeReceiver(function* defineMethod(
   method: ClassMethod | ClassPrivateMethod,
   object: StaticJsObject,
   functionPrototype?: StaticJsObject,
-): EvaluationGenerator<{ key: StaticJsPropertyKey; closure: StaticJsFunction }> {
+): EvaluationGenerator<ClassMethodDefinition> {
   // Spec says evaluation here, but its syntax tree type is ClassElementName, while we have Identifier.
   // Trying to use EvaluateNodeCommand here will just give us a value reference.
-  const propKeyValue = yield* Q(EvaluateNodeCommand(method.key));
-  // Assumption:
-  const propKey = toStaticJsPropertyKey(propKeyValue);
+  const propKey = yield* Q(classElementNameNodeEvaluator(method));
   const { lexicalEnv: env, privateEnv, realm } = EvaluationContext.current;
   if (!functionPrototype) {
     functionPrototype = realm.types.prototypes.functionProto;

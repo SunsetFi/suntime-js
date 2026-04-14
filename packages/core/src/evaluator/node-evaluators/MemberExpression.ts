@@ -4,7 +4,10 @@ import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 
 import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 
-import { StaticJsPrivateName } from "../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import {
+  staticJsPrivateName,
+  StaticJsPrivateName,
+} from "../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
@@ -22,10 +25,7 @@ export default function* memberExpressionNodeEvaluator(
 
   let propertyKey: string | StaticJsPrivateName | StaticJsValue;
   if (propertyNode.type === "PrivateName") {
-    propertyKey = {
-      type: "private-name",
-      description: propertyNode.id.name,
-    };
+    propertyKey = staticJsPrivateName(propertyNode.id.name);
   }
 
   if (!node.computed && propertyNode.type === "Identifier") {
