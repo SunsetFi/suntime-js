@@ -8,9 +8,9 @@ import Test262File from "./Test262File.js";
 
 // For now.  Eventually we should cover everything.
 const ignoredFeatures = ["TypedArray", "tail-call-optimization", "explicit-resource-management"];
-const ignoredTestPaths = [
-  ["language", "statements", "class"],
-  ["language", "expressions", "class"],
+const ignoredTestPaths: string[][] = [
+  // ["language", "statements", "class"],
+  // ["language", "expressions", "class"],
 ];
 const baselineTests = compareBaseline ? getBaseline() : undefined;
 
