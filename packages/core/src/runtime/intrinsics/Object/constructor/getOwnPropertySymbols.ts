@@ -1,3 +1,4 @@
+import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import toObject from "../../../algorithms/to-object.js";
 import { isStaticJsSymbol } from "../../../types/StaticJsSymbol.js";
 
@@ -10,7 +11,7 @@ const objectCtorGetOwnPropertySymbolsDeclaration: IntrinsicPropertyDeclaration =
 
     const keys = yield* obj.ownPropertyKeysEvaluator();
     const symbols = keys.filter(isStaticJsSymbol);
-    return realm.types.array(symbols);
+    return yield* createArrayFromList(symbols);
   },
 };
 

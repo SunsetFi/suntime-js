@@ -1,3 +1,4 @@
+import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import { get } from "../../../algorithms/get.js";
 import toObject from "../../../algorithms/to-object.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
@@ -16,7 +17,7 @@ const objectCtorValuesDeclaration: IntrinsicPropertyDeclaration = {
       values[i] = yield* get(obj, ownKeys[i]);
     }
 
-    const result = realm.types.array(values);
+    const result = yield* createArrayFromList(values);
     return result;
   },
 };

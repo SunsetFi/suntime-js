@@ -1,7 +1,5 @@
 import type { Writable } from "type-fest";
 
-import { hasOwnProperty } from "../../../../utils/has-own-property.js";
-
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 
@@ -12,16 +10,12 @@ import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import toNumber from "../../../algorithms/to-number.js";
 import toUInt32 from "../../../algorithms/to-uint-32.js";
 
-import type { StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type {
   StaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,
 } from "../../StaticJsPropertyDescriptor.js";
-import {
-  isStaticJsDataPropertyDescriptor,
-  isStaticJsAccessorPropertyDescriptor,
-} from "../../StaticJsPropertyDescriptor.js";
+import { isStaticJsDataPropertyDescriptor } from "../../StaticJsPropertyDescriptor.js";
 import { type StaticJsArray } from "../../StaticJsArray.js";
 import { isStaticJsNumber } from "../../StaticJsNumber.js";
 
@@ -29,63 +23,19 @@ import { StaticJsNumberImpl } from "../primitives/StaticJsNumberImpl.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 import { isArrayIndex } from "./is-array-index.js";
 import { StaticJsObjectProxyTarget } from "./create-object-proxy.js";
-import call from "../../../algorithms/call.js";
 
 export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements StaticJsArray {
-  // FIXME: We now have createArrayFromList.  Use that intead.
-  static create(
-    realm: StaticJsRealm,
-    items?: StaticJsValue[],
-  ): EvaluationGenerator<StaticJsArrayImpl>;
-  static create(realm: StaticJsRealm, len?: number): EvaluationGenerator<StaticJsArrayImpl>;
-  // Redundant overload to help TS understand the union type
-  static create(
-    realm: StaticJsRealm,
-    itemsOrLen?: StaticJsValue[] | number,
-  ): EvaluationGenerator<StaticJsArrayImpl>;
-  static *create(
-    realm: StaticJsRealm,
-    itemsOrLen: StaticJsValue[] | number = 0,
-  ): EvaluationGenerator<StaticJsArrayImpl> {
-    const array = new StaticJsArrayImpl(realm);
-
-    yield* array._init(typeof itemsOrLen === "number" ? itemsOrLen : itemsOrLen.length);
-
-    // Often in the spec, setting items on arrays is done through [[DefineOwnProperty]].
-    if (Array.isArray(itemsOrLen)) {
-      for (let i = 0; i < itemsOrLen.length; i++) {
-        const Pi = String(i);
-        if (!hasOwnProperty(itemsOrLen, Pi)) {
-          // Skip deletions.
-          continue;
-        }
-
-        yield* array.defineOwnPropertyEvaluator(Pi, {
-          value: itemsOrLen[i],
-          writable: true,
-          enumerable: true,
-          configurable: true,
-        });
-      }
-    }
-
-    return array;
-  }
-
-  private constructor(realm: StaticJsRealm) {
-    super(realm, realm.types.prototypes.arrayProto);
-  }
-
-  private *_init(length: number): EvaluationGenerator<void> {
-    // We need to call super and use the direct setter for this.
-    // This is the equivalent of the spec OrdinaryDefineOwnProperty, with gratuitious shortcuts, as
-    // we know we will be an ObjectLikeImpl and not something exotic.
-    yield* super._setPropertyDescriptorEvaluator("length", {
-      value: new StaticJsNumberImpl(this.realm, length),
-      writable: true,
-      enumerable: false,
-      configurable: false,
-    });
+  constructor(realm: StaticJsRealm, length = 0, prototype = realm.types.prototypes.arrayProto) {
+    super(realm, prototype);
+    realm.invokeEvaluatorSync(
+      // Needs to explicitly be OrdinaryDefineOwnProperty, not our own
+      super._setPropertyDescriptorEvaluator("length", {
+        value: realm.types.number(length),
+        writable: true,
+        enumerable: false,
+        configurable: false,
+      }),
+    );
   }
 
   get runtimeTypeOf() {
@@ -94,24 +44,6 @@ export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements Sta
 
   get runtimeTypeCode() {
     return StaticJsTypeCode.Array;
-  }
-
-  *getLengthEvaluator(): EvaluationGenerator<number> {
-    const descr = yield* this.getOwnPropertyEvaluator("length");
-    if (!descr) {
-      return 0;
-    }
-
-    if (isStaticJsDataPropertyDescriptor(descr)) {
-      const value = yield* toNumber(descr.value ?? this.realm.types.undefined);
-      return value.value;
-    } else if (isStaticJsAccessorPropertyDescriptor(descr) && descr.get) {
-      let result = yield* call(descr.get, this);
-      result = yield* toNumber(result);
-      return result.value;
-    } else {
-      return 0;
-    }
   }
 
   protected override _createtoNativeProxyTarget(): StaticJsObjectProxyTarget {

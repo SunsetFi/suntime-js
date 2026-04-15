@@ -40,8 +40,8 @@ import { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsCallable, StaticJsCallable } from "../StaticJsCallable.js";
 
 import { createStaticJsObjectProxy } from "./objects/create-object-proxy.js";
-import { StaticJsArrayImpl } from "./objects/StaticJsArrayImpl.js";
 import { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
+import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
 
 export class StaticJsProxyImpl implements StaticJsObject, StaticJsCallable {
   private _cachedJsObject: unknown | null = null;
@@ -852,7 +852,7 @@ export class StaticJsProxyImpl implements StaticJsObject, StaticJsCallable {
       return yield* Q(call(target, thisArg, args));
     }
 
-    const argArray = yield* StaticJsArrayImpl.create(this.realm, args || []);
+    const argArray = yield* createArrayFromList(args ?? []);
     return yield* Q(call(trap, handler, [target, thisArg, argArray]));
   }
 
@@ -884,7 +884,7 @@ export class StaticJsProxyImpl implements StaticJsObject, StaticJsCallable {
       return yield* construct(target, args, newTarget);
     }
 
-    const argArray = yield* StaticJsArrayImpl.create(this.realm, args || []);
+    const argArray = yield* createArrayFromList(args ?? []);
     // FIXME: newTarget
     const newObj = yield* Q(call(trap, handler, [target, argArray, newTarget]));
     if (!isStaticJsObject(newObj)) {

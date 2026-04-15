@@ -1,7 +1,5 @@
 import type { ArrayExpression } from "@babel/types";
 
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-
 import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";
 
@@ -11,36 +9,43 @@ import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
+import { arrayCreate } from "../../runtime/algorithms/array-create.js";
+import { set } from "../../runtime/algorithms/set.js";
+import createDataPropertyOrThrow from "../../runtime/algorithms/create-data-property-or-throw.js";
 
 export default function* arrayExpressionNodeEvaluator(node: ArrayExpression): EvaluationGenerator {
   const { realm } = EvaluationContext.current;
-  const items: StaticJsValue[] = [];
+  const array = yield* arrayCreate(0);
+  let nextIndex = 0;
   for (const element of node.elements) {
     if (!element) {
-      items.length++;
+      const len = nextIndex + 1;
+      yield* set(array, "length", realm.types.number(len), true);
+      nextIndex = len;
       continue;
     }
 
     if (element.type === "SpreadElement") {
-      const spreadValue = yield* Q.val(EvaluateNodeCommand(element.argument));
+      const spreadObj = yield* Q.val(EvaluateNodeCommand(element.argument));
+      const iteratorRecord = yield* getIterator(spreadObj, "sync");
 
-      const iterator = yield* getIterator(spreadValue, "sync");
-
-      yield* iteratorClose.handle(iterator, function* () {
+      yield* iteratorClose.handle(iteratorRecord, function* () {
         while (true) {
-          const value = yield* iteratorStepValue(iterator);
-          if (!value) {
+          const next = yield* iteratorStepValue(iteratorRecord);
+          if (!next) {
             break;
           }
 
-          items.push(value);
+          yield* createDataPropertyOrThrow(array, String(nextIndex), next);
+          nextIndex++;
         }
       });
     } else {
-      const value = yield* Q.val(EvaluateNodeCommand(element));
-      items.push(value);
+      const initValue = yield* Q.val(EvaluateNodeCommand(element));
+      yield* createDataPropertyOrThrow(array, String(nextIndex), initValue);
+      nextIndex++;
     }
   }
 
-  return realm.types.array(items);
+  return array;
 }

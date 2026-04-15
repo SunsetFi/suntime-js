@@ -1,3 +1,4 @@
+import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import toObject from "../../../algorithms/to-object.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
@@ -8,7 +9,7 @@ const objectCtorKeysDeclaration: IntrinsicPropertyDeclaration = {
 
     const ownKeys = yield* obj.ownEnumerableKeysEvaluator();
 
-    const result = realm.types.array(ownKeys.map((key) => realm.types.string(key)));
+    const result = yield* createArrayFromList(ownKeys.map((key) => realm.types.string(key)));
     return result;
   },
 };

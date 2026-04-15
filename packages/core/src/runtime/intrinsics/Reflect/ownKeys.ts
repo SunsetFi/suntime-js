@@ -1,5 +1,6 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
+import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
 
 import { isStaticJsObject } from "../../types/StaticJsObject.js";
 import { StaticJsString } from "../../types/StaticJsString.js";
@@ -21,6 +22,6 @@ export const reflectOwnKeysDeclaration: IntrinsicPropertyDeclaration = {
       const propertyKey = yield* toPropertyKey(key, true);
       values.push(propertyKey);
     }
-    return realm.types.array(values);
+    return yield* createArrayFromList(values);
   },
 };

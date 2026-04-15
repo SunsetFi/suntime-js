@@ -12,6 +12,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import toObject from "../../../algorithms/to-object.js";
 import { get } from "../../../algorithms/get.js";
+import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 
 const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
   key: "flat",
@@ -32,8 +33,7 @@ const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
 
     // FIXME: Use ArraySpeciesCreate
     const result = yield* performFlat(thisObj, depth);
-
-    return realm.types.array(result);
+    return yield* createArrayFromList(result);
   },
 };
 

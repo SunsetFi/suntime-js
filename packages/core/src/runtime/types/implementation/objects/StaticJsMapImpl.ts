@@ -22,6 +22,7 @@ import { StaticJsCallable } from "../../StaticJsCallable.js";
 
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
+import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 
 export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements StaticJsMap {
   private readonly _backingStore = new Map<unknown, StaticJsValue>();
@@ -150,7 +151,7 @@ class StaticJsMapIteratorImpl extends StaticJsIteratorImpl {
         result = val;
         break;
       case "key+value":
-        result = this.realm.types.array([toRuntimeWrap(key, this.realm), val]);
+        result = yield* createArrayFromList([toRuntimeWrap(key, this.realm), val]);
         break;
     }
 

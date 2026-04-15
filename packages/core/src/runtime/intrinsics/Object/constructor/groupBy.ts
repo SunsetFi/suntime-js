@@ -11,6 +11,7 @@ import call from "../../../algorithms/call.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 
 const objectCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
   key: "groupBy",
@@ -51,11 +52,12 @@ const objectCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
 
     const result = realm.types.object();
     for (const [key, items] of collection) {
+      const value = yield* createArrayFromList(items);
       yield* result.defineOwnPropertyEvaluator(key, {
         enumerable: true,
         writable: true,
         configurable: true,
-        value: realm.types.array(items),
+        value,
       });
     }
 

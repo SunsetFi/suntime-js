@@ -18,13 +18,12 @@ import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
 
-import { StaticJsArrayImpl } from "../../../types/implementation/objects/StaticJsArrayImpl.js";
-
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import { set } from "../../../algorithms/set.js";
 import { get } from "../../../algorithms/get.js";
 import call from "../../../algorithms/call.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
+import { arrayCreate } from "../../../algorithms/array-create.js";
 
 const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
   key: "from",
@@ -57,7 +56,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
       if (isConstructor(C)) {
         A = yield* Q(C.constructEvaluator([realm.types.number(0)]));
       } else {
-        A = yield* StaticJsArrayImpl.create(realm, 0);
+        A = yield* arrayCreate(0);
       }
 
       const iteratorRecord = yield* Q(getIteratorFromMethod(items, usingIterator));
@@ -105,7 +104,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
     if (isConstructor(C)) {
       A = yield* Q(C.constructEvaluator([realm.types.number(len)]));
     } else {
-      A = yield* StaticJsArrayImpl.create(realm, len);
+      A = yield* arrayCreate(len);
     }
 
     let k = 0;

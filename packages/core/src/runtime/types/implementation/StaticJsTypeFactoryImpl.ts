@@ -37,6 +37,7 @@ import { StaticJsExternalFunction } from "./functions/StaticJsExternalFunction.j
 import { StaticJsExternalObject } from "./objects/StaticJsExternalObject.js";
 import { StaticJsNativeFunctionImpl } from "./functions/StaticJsNativeFunctionImpl.js";
 import { getStaticJsObjectProxyOwner } from "./objects/create-object-proxy.js";
+import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
 
 export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _prototypes: Prototypes;
@@ -170,7 +171,18 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   array(itemsOrLength?: StaticJsValue[] | number): StaticJsArray {
-    return this._realm.invokeEvaluatorSync(StaticJsArrayImpl.create(this._realm, itemsOrLength));
+    if (itemsOrLength === undefined || typeof itemsOrLength === "number") {
+      return new StaticJsArrayImpl(this._realm, itemsOrLength);
+    } else if (Array.isArray(itemsOrLength)) {
+      if (!itemsOrLength.every(isStaticJsValue)) {
+        throw new TypeError("All items in the array must be StaticJsValues");
+      }
+      return this._realm.invokeEvaluatorSync(createArrayFromList(itemsOrLength ?? []));
+    } else {
+      throw new TypeError(
+        "Invalid argument for array creation: Must be a number or an array of StaticJsValues",
+      );
+    }
   }
 
   function(
@@ -377,7 +389,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   private _toStaticJsValueArray(value: unknown[]): StaticJsArray {
     const values = value.map((v) => this.toStaticJsValue(v));
-    return this._realm.invokeEvaluatorSync(StaticJsArrayImpl.create(this._realm, values));
+    return this._realm.invokeEvaluatorSync(createArrayFromList(values));
   }
 
   private _toStaticJsValueFunction(value: (...args: unknown[]) => unknown): StaticJsFunction {

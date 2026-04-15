@@ -1,4 +1,5 @@
 import { isNotUndefined } from "../../../../utils/is-not-undefined.js";
+import { arrayCreate } from "../../../algorithms/array-create.js";
 import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
@@ -18,7 +19,7 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
     const length = yield* lengthOfArrayLike(thisObj);
 
     if (!startValue) {
-      return realm.types.array();
+      return yield* arrayCreate(0);
     }
 
     let start = 0;

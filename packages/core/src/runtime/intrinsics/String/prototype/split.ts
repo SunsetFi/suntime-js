@@ -6,6 +6,7 @@ import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 
 import toString from "../../../algorithms/to-string.js";
+import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 
 const stringProtoSplitDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "split",
@@ -13,7 +14,7 @@ const stringProtoSplitDeclaration: FunctionIntrinsicPropertyDeclaration = {
     thisArg = yield* toString(thisArg);
 
     if (!separator || isStaticJsUndefined(separator) || isStaticJsNull(separator)) {
-      return realm.types.array([thisArg]);
+      return yield* createArrayFromList([thisArg]);
     }
 
     separator = yield* toString(separator);
@@ -22,7 +23,7 @@ const stringProtoSplitDeclaration: FunctionIntrinsicPropertyDeclaration = {
 
     const resultValues = result.map((value) => realm.types.string(value));
 
-    return realm.types.array(resultValues);
+    return yield* createArrayFromList(resultValues);
   },
 };
 

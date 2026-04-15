@@ -30,6 +30,7 @@ import { StaticJsNativeFunctionImpl } from "../functions/StaticJsNativeFunctionI
 
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
+import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 
 // TODO: Take shortcuts for difference and friends if otherSet is also a StaticJsSetImpl
 
@@ -370,7 +371,7 @@ class StaticJsSetIteratorImpl extends StaticJsIteratorImpl {
     if (this._kind === "key") {
       result = resolved;
     } else {
-      result = this.realm.types.array([resolved, resolved]);
+      result = yield* createArrayFromList([resolved, resolved]);
     }
 
     return {

@@ -20,6 +20,7 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import destructuringAssignmentEvaluation from "./destructuring-assignment-evaluation.js";
 import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
+import { arrayCreate } from "../../runtime/algorithms/array-create.js";
 
 export type IteratorDestructuringAssignmentType = PatternLike | null;
 export default function* iteratorDestructuringAssignmentEvaluation(
@@ -56,7 +57,7 @@ export default function* iteratorDestructuringAssignmentEvaluation(
       lRef = yield* Q.ref(EvaluateNodeCommand(assignmentTarget));
     }
 
-    const A = realm.types.array();
+    const A = yield* arrayCreate(0);
 
     let n = 0;
     while (true) {

@@ -2,7 +2,6 @@ import toInteger from "../../../algorithms/to-integer.js";
 
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
-import { StaticJsArrayImpl } from "../../../types/implementation/objects/StaticJsArrayImpl.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
@@ -13,6 +12,8 @@ import arrayCtorFromDeclaration from "./from.js";
 import arrayCtorIsArrayDeclaration from "./isArray.js";
 import arrayCtorOfDeclaration from "./of.js";
 import arrayCtorSymbolSpeciesDeclaration from "./symbol_species.js";
+import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
+import { arrayCreate } from "../../../algorithms/array-create.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   arrayCtorFromDeclaration,
@@ -29,10 +30,10 @@ export default function createArrayConstructor(realm: StaticJsRealm, arrayProto:
       if (args.length === 1 && isStaticJsNumber(args[0])) {
         const length = yield* toInteger(args[0]);
 
-        const array = yield* StaticJsArrayImpl.create(realm, length.value);
+        const array = yield* arrayCreate(length.value);
         return array;
       } else {
-        const array = yield* StaticJsArrayImpl.create(realm, args);
+        const array = yield* createArrayFromList(args);
         return array;
       }
     },

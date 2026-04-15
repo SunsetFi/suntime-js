@@ -1,5 +1,3 @@
-import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsObject } from "./StaticJsObject.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
@@ -8,8 +6,6 @@ export const MAX_ARRAY_LENGTH_INCLUSIVE = 2 ** 53 - 1;
 
 export interface StaticJsArray extends StaticJsObject {
   readonly runtimeTypeOf: "array";
-
-  getLengthEvaluator(): EvaluationGenerator<number>;
 }
 
 export function isStaticJsArray(value: unknown): value is StaticJsArray {

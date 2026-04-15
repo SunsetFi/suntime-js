@@ -25,6 +25,7 @@ import iteratorDestructuringAssignmentEvaluation from "./iterator-destructuring-
 import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";
 import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
+import { arrayCreate } from "../../runtime/algorithms/array-create.js";
 
 // WHAT IS VOID PATTERN???
 export type IteratorBindingInitializationNode = LVal | VoidPattern;
@@ -54,7 +55,7 @@ export default function* iteratorBindingInitialization(
       if (node.argument.type === "Identifier") {
         const lhs = yield* getIdentifierReference(lexicalEnv, node.argument.name, strict);
 
-        const A = realm.types.array();
+        const A = yield* arrayCreate(0);
         let n = 0;
 
         while (true) {
@@ -82,7 +83,7 @@ export default function* iteratorBindingInitialization(
         }
         return;
       } else {
-        const A = realm.types.array();
+        const A = yield* arrayCreate(0);
 
         let n = 0;
         while (true) {

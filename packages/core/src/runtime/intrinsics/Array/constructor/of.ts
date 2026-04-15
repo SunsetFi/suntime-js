@@ -2,13 +2,12 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 import isConstructor from "../../../algorithms/is-constructor.js";
 
-import { StaticJsArrayImpl } from "../../../types/implementation/objects/StaticJsArrayImpl.js";
-
 import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsFunction } from "../../../types/StaticJsFunction.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import { set } from "../../../algorithms/set.js";
+import { arrayCreate } from "../../../algorithms/array-create.js";
 
 const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "of",
@@ -24,7 +23,7 @@ const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
 
       A = constructed;
     } else {
-      A = yield* StaticJsArrayImpl.create(realm, items.length);
+      A = yield* arrayCreate(len.value);
     }
 
     let k = 0;

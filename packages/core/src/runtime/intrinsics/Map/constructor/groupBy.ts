@@ -10,6 +10,7 @@ import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import call from "../../../algorithms/call.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
+import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 
 const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
   key: "groupBy",
@@ -49,7 +50,7 @@ const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
 
     const result = new StaticJsMapImpl(realm);
     for (const [key, items] of collection) {
-      yield* result.setValueEvaluator(key, realm.types.array(items));
+      yield* result.setValueEvaluator(key, yield* createArrayFromList(items));
     }
 
     return result;

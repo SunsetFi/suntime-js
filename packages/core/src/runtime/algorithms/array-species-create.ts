@@ -1,3 +1,4 @@
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 
@@ -7,10 +8,13 @@ import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { arrayCreate } from "./array-create.js";
+import { construct } from "./construct.js";
 import { get } from "./get.js";
 
 import isArray from "./is-array.js";
 import isConstructor from "./is-constructor.js";
+import sameValue from "./same-value.js";
 
 export default function* arraySpeciesCreate(
   originalArray: StaticJsValue,
@@ -19,34 +23,37 @@ export default function* arraySpeciesCreate(
 ): EvaluationGenerator<StaticJsObject> {
   const originalIsArray = yield* isArray(originalArray, realm);
   if (!originalIsArray) {
-    return realm.types.array(Array.from({ length }));
+    return yield* arrayCreate(length);
   }
 
   // The above should guarentee this, but we want the type guard.
   if (!isStaticJsObject(originalArray)) {
-    return realm.types.array(Array.from({ length }));
+    throw new StaticJsEngineError("originalArray returned isArray true but is not an object");
   }
 
-  let constructor = yield* get(originalArray, "constructor");
-  if (isStaticJsNull(constructor)) {
-    constructor = realm.types.undefined;
+  let c = yield* get(originalArray, "constructor");
+  if (isConstructor(c)) {
+    if (c.realm !== realm) {
+      if (sameValue(c, c.realm.types.constructors.Array)) {
+        c = realm.types.undefined;
+      }
+    }
   }
 
-  if (isStaticJsUndefined(constructor)) {
-    return realm.types.array(Array.from({ length }));
+  if (isStaticJsObject(c)) {
+    c = yield* get(c, realm.types.symbols.species);
+    if (isStaticJsNull(c)) {
+      c = realm.types.undefined;
+    }
   }
 
-  if (!isConstructor(constructor)) {
-    throw Completion.Throw("TypeError", "Constructor is not a constructor");
+  if (isStaticJsUndefined(c)) {
+    return yield* arrayCreate(length);
   }
 
-  const result = yield* constructor.constructEvaluator([realm.types.number(length)]);
-  if (!isStaticJsObject(result)) {
-    // This isn't in the spec but... we always want to be able to set properties.
-    // FIXME: According to the spec, it throws when trying to create the property,
-    // rather than here.
-    throw Completion.Throw("TypeError", "Constructor did not produce an object");
+  if (!isConstructor(c)) {
+    throw Completion.Throw("TypeError", "Array constructor is not a constructor");
   }
 
-  return result;
+  return yield* construct(c, [realm.types.number(length)]);
 }

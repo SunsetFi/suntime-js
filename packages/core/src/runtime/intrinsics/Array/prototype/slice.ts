@@ -6,6 +6,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
 import { get } from "../../../algorithms/get.js";
+import { arrayCreate } from "../../../algorithms/array-create.js";
 
 const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
   key: "slice",
@@ -26,7 +27,7 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
     start = Math.max(0, start);
 
     if (start >= length) {
-      return realm.types.array([]);
+      return yield* arrayCreate(0);
     }
 
     let end = length;
@@ -45,7 +46,7 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
     end = Math.max(0, end);
 
     if (end <= start) {
-      return realm.types.array([]);
+      return yield* arrayCreate(0);
     }
 
     const sliceLength = end - start;

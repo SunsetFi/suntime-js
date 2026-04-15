@@ -8,9 +8,9 @@ import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
-import { StaticJsArrayImpl } from "./StaticJsArrayImpl.js";
 import type { StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import { get } from "../../../algorithms/get.js";
+import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 
 export class StaticJsArrayIteratorImpl extends StaticJsIteratorImpl {
   constructor(
@@ -55,10 +55,7 @@ export class StaticJsArrayIteratorImpl extends StaticJsIteratorImpl {
       if (kind === "value") {
         result = elementValue;
       } else {
-        result = yield* StaticJsArrayImpl.create(this.realm, [
-          this.realm.types.number(index),
-          elementValue,
-        ]);
+        result = yield* createArrayFromList([this.realm.types.number(index), elementValue]);
       }
     }
 

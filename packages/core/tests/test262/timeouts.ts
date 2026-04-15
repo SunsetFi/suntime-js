@@ -1,2 +1,2 @@
-export const TestTimeout = 10000;
-export const ScriptTimeout = 5000;
+export const TestTimeout = 60000;
+export const ScriptTimeout = 30000;

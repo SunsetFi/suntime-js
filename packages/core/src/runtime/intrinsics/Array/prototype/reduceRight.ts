@@ -1,9 +1,5 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 
-import type { StaticJsArray } from "../../../types/StaticJsArray.js";
-import { isStaticJsArray } from "../../../types/StaticJsArray.js";
-import { isStaticJsNull } from "../../../types/StaticJsNull.js";
-import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 
 import call from "../../../algorithms/call.js";
@@ -12,26 +8,13 @@ import { isCallable } from "../../../algorithms/is-callable.js";
 import toString from "../../../algorithms/to-string.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import toObject from "../../../algorithms/to-object.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 
 const arrayProtoReduceRightDeclaration: IntrinsicPropertyDeclaration = {
   key: "reduceRight",
   *func(realm, thisArg, callback, initialValue) {
-    if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
-      throw Completion.Throw("TypeError", "Array.prototype.reduce called on null or undefined");
-    }
-
-    // For some baffling reason, this doesn't work.
-    // The type guard is completely ignored and it claims thisArg can be ObjectLike
-    // if (!isStaticJsArray(thisArg)) {
-    //   // Behaves as if empty.
-    //   thisArg = realm.types.createArray();
-    // }
-    let thisArray: StaticJsArray;
-    if (isStaticJsArray(thisArg)) {
-      thisArray = thisArg;
-    } else {
-      thisArray = realm.types.array();
-    }
+    const o = yield* toObject(thisArg);
 
     if (!callback) {
       callback = realm.types.undefined;
@@ -42,7 +25,7 @@ const arrayProtoReduceRightDeclaration: IntrinsicPropertyDeclaration = {
       throw Completion.Throw("TypeError", `${callbackStr} is not a function`);
     }
 
-    const length = yield* thisArray.getLengthEvaluator();
+    const length = yield* lengthOfArrayLike(o);
     if (length === 0) {
       if (initialValue == null) {
         throw Completion.Throw("TypeError", "Reduce of empty array with no initial value");
@@ -57,18 +40,13 @@ const arrayProtoReduceRightDeclaration: IntrinsicPropertyDeclaration = {
       value = initialValue;
       startIndex = length - 1;
     } else {
-      value = yield* get(thisArray, String(length - 1));
+      value = yield* get(o, String(length - 1));
       startIndex = length - 2;
     }
 
     for (let i = startIndex; i >= 0; i--) {
-      const elementValue = yield* get(thisArray, String(i));
-      const result = yield* call(callback, thisArray, [
-        value,
-        elementValue,
-        realm.types.number(i),
-        thisArray,
-      ]);
+      const elementValue = yield* get(o, String(i));
+      const result = yield* call(callback, o, [value, elementValue, realm.types.number(i), o]);
 
       value = result;
     }
