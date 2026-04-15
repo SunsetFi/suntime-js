@@ -6,7 +6,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsNumber } from "../types/StaticJsNumber.js";
 import { isStaticJsScalar } from "../types/StaticJsScalar.js";
 
-export default function* sameValueZero(
+export function* sameValueZero(
   a: StaticJsValue,
   b: StaticJsValue,
   realm: StaticJsRealm,

@@ -9,9 +9,9 @@ import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import { get } from "./get.js";
 import { isCallable } from "./is-callable.js";
-import toObject from "./to-object.js";
+import { toObject } from "./to-object.js";
 
-export default function* getMethod(
+export function* getMethod(
   V: StaticJsValue,
   P: StaticJsPropertyKey,
   realm?: StaticJsRealm,

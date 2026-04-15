@@ -1,7 +1,7 @@
 import type { StaticJsString } from "../../../types/StaticJsString.js";
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
-import toString from "../../../algorithms/to-string.js";
+import { toString } from "../../../algorithms/to-string.js";
 
 const stringProtoConcatDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "concat",

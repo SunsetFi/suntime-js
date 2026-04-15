@@ -18,7 +18,7 @@ import { isStaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 
-export default function* toObject(
+export function* toObject(
   value: StaticJsValue,
   realm?: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObject> {

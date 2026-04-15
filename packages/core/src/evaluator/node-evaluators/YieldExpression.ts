@@ -3,8 +3,8 @@ import { isFunction, type YieldExpression } from "@babel/types";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import call from "../../runtime/algorithms/call.js";
-import getMethod from "../../runtime/algorithms/get-method.js";
+import { call } from "../../runtime/algorithms/call.js";
+import { getMethod } from "../../runtime/algorithms/get-method.js";
 import { asyncIteratorClose } from "../../runtime/iterators/async-iterator-close.js";
 import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorClose } from "../../runtime/iterators/iterator-close.js";

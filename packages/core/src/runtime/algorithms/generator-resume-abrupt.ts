@@ -9,7 +9,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
 import { StaticJsGeneratorImpl } from "../types/implementation/functions/StaticJsGeneratorImpl.js";
 
-export default function* generatorResumeAbrupt(
+export function* generatorResumeAbrupt(
   generator: StaticJsValue,
   completion: Completion.Abrupt,
   generatorBrand: string | null,

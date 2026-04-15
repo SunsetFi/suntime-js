@@ -1,8 +1,8 @@
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
-import toNumber from "../../../algorithms/to-number.js";
-import toString from "../../../algorithms/to-string.js";
+import { toNumber } from "../../../algorithms/to-number.js";
+import { toString } from "../../../algorithms/to-string.js";
 
 const stringProtoCharCodeAtDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "charCodeAt",

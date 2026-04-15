@@ -2,7 +2,7 @@ import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import toObject from "../../../algorithms/to-object.js";
+import { toObject } from "../../../algorithms/to-object.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 

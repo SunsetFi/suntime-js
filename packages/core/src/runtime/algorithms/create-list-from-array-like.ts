@@ -5,8 +5,8 @@ import { StaticJsPropertyKey, isStaticJsPropertyKey } from "../types/StaticJsPro
 import { StaticJsValue } from "../types/StaticJsValue.js";
 import { toPropertyKey } from "../utils/to-property-key.js";
 import { get } from "./get.js";
-import lengthOfArrayLike from "./length-of-array-like.js";
-import toString from "./to-string.js";
+import { lengthOfArrayLike } from "./length-of-array-like.js";
+import { toString } from "./to-string.js";
 
 export function createListFromArrayLike(
   obj: StaticJsValue,

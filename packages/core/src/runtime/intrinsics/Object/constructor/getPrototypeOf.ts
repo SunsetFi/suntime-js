@@ -1,6 +1,6 @@
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import toObject from "../../../algorithms/to-object.js";
+import { toObject } from "../../../algorithms/to-object.js";
 
 const objectCtorGetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "getPrototypeOf",

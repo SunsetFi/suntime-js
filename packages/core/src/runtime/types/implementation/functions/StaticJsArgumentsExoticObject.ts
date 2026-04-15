@@ -5,7 +5,7 @@ import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 
 import { get } from "../../../algorithms/get.js";
-import sameValue from "../../../algorithms/same-value.js";
+import { sameValue } from "../../../algorithms/same-value.js";
 import { set } from "../../../algorithms/set.js";
 import {
   isStaticJsAccessorPropertyDescriptor,

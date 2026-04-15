@@ -4,11 +4,11 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { isStaticJsObject, type StaticJsObject } from "../types/index.js";
 import { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
-import createDataPropertyOrThrow from "./create-data-property-or-throw.js";
-import sameValue from "./same-value.js";
+import { createDataPropertyOrThrow } from "./create-data-property-or-throw.js";
+import { sameValue } from "./same-value.js";
 import { set } from "./set.js";
 
-export default function* setterThatIgnoresPrototypeProperties(
+export function* setterThatIgnoresPrototypeProperties(
   thisValue: StaticJsValue,
   home: StaticJsObject,
   p: StaticJsPropertyKey,

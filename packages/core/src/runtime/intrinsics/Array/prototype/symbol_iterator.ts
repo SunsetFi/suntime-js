@@ -1,7 +1,7 @@
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import createArrayIterator from "../../../algorithms/create-array-iterator.js";
-import toObject from "../../../algorithms/to-object.js";
+import { createArrayIterator } from "../../../algorithms/create-array-iterator.js";
+import { toObject } from "../../../algorithms/to-object.js";
 
 const arrayProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
   key: (realm) => realm.types.symbols.iterator,

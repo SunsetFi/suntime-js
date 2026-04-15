@@ -2,7 +2,7 @@ import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import call from "../../../algorithms/call.js";
+import { call } from "../../../algorithms/call.js";
 import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
 import { getIterator } from "../../../iterators/get-iterator.js";

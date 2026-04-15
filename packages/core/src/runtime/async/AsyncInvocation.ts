@@ -1,8 +1,8 @@
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { invokeEvaluator, StaticJsEvaluator } from "../../evaluator/StaticJsEvaluator.js";
-import call from "../algorithms/call.js";
-import newPromiseCapability from "../algorithms/new-promise-capability.js";
+import { call } from "../algorithms/call.js";
+import { newPromiseCapability } from "../algorithms/new-promise-capability.js";
 import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../types/StaticJsPromise.js";
 import { StaticJsValue } from "../types/StaticJsValue.js";

@@ -8,8 +8,8 @@ import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
-import call from "../algorithms/call.js";
-import promiseResolve from "../algorithms/promise-resolve.js";
+import { call } from "../algorithms/call.js";
+import { promiseResolve } from "../algorithms/promise-resolve.js";
 import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { iteratorClose } from "./iterator-close.js";

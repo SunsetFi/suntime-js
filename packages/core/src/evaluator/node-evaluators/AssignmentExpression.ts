@@ -8,11 +8,11 @@ import type {
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import addition from "../../runtime/algorithms/addition.js";
-import getValue from "../../runtime/algorithms/get-value.js";
-import putValue from "../../runtime/algorithms/put-value.js";
-import toBoolean from "../../runtime/algorithms/to-boolean.js";
-import toNumber from "../../runtime/algorithms/to-number.js";
+import { addition } from "../../runtime/algorithms/addition.js";
+import { getValue } from "../../runtime/algorithms/get-value.js";
+import { putValue } from "../../runtime/algorithms/put-value.js";
+import { toBoolean } from "../../runtime/algorithms/to-boolean.js";
+import { toNumber } from "../../runtime/algorithms/to-number.js";
 import { isStaticJsNull } from "../../runtime/types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import destructuringAssignmentEvaluation from "../bindings/destructuring-assignment-evaluation.js";

@@ -5,7 +5,7 @@ import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
 
-export default function* definePropertyOrThrow(
+export function* definePropertyOrThrow(
   O: StaticJsObject,
   P: StaticJsPropertyKey,
   desc: StaticJsPropertyDescriptorRecord,

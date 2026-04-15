@@ -9,8 +9,8 @@ import type {
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import toNumber from "../../../algorithms/to-number.js";
-import toUInt32 from "../../../algorithms/to-uint-32.js";
+import { toNumber } from "../../../algorithms/to-number.js";
+import { toUInt32 } from "../../../algorithms/to-uint-32.js";
 import { type StaticJsArray } from "../../StaticJsArray.js";
 import { isStaticJsNumber } from "../../StaticJsNumber.js";
 import { isStaticJsDataPropertyDescriptor } from "../../StaticJsPropertyDescriptor.js";

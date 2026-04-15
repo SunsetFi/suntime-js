@@ -5,13 +5,13 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { isStaticJsBoundFunction } from "../types/StaticJsFunction.js";
 import { isStaticJsObject } from "../types/StaticJsObject.js";
-import call from "./call.js";
+import { call } from "./call.js";
 import { get } from "./get.js";
-import instanceOfOperator from "./instance-of-operator.js";
+import { instanceOfOperator } from "./instance-of-operator.js";
 import { isCallable } from "./is-callable.js";
-import toBoolean from "./to-boolean.js";
+import { toBoolean } from "./to-boolean.js";
 
-export default function* ordinaryHasInstance(
+export function* ordinaryHasInstance(
   C: StaticJsValue,
   O: StaticJsValue,
   realm: StaticJsRealm,

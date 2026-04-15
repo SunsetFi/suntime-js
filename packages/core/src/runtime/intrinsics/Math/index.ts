@@ -1,7 +1,7 @@
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import toNumber from "../../algorithms/to-number.js";
+import { toNumber } from "../../algorithms/to-number.js";
 import { mathDefaultHooks } from "../../hooks/Math/index.js";
 import { StaticJsPlainObjectImpl } from "../../types/implementation/objects/StaticJsPlainObjectImpl.js";
 import { StaticJsNumberImpl } from "../../types/implementation/primitives/StaticJsNumberImpl.js";

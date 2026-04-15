@@ -4,9 +4,9 @@ import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
-import createDataProperty from "./create-data-property.js";
+import { createDataProperty } from "./create-data-property.js";
 
-export default function* createDataPropertyOrThrow(
+export function* createDataPropertyOrThrow(
   O: StaticJsObject,
   P: StaticJsPropertyKey,
   V: StaticJsValue,

@@ -2,12 +2,12 @@ import { captureThrownCompletion } from "../../../../evaluator/completions/captu
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import call from "../../../algorithms/call.js";
+import { call } from "../../../algorithms/call.js";
 import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import { getPromiseResolve } from "../../../algorithms/get-promise-resolve.js";
-import invoke from "../../../algorithms/invoke.js";
-import isConstructor from "../../../algorithms/is-constructor.js";
-import newPromiseCapability from "../../../algorithms/new-promise-capability.js";
+import { invoke } from "../../../algorithms/invoke.js";
+import { isConstructor } from "../../../algorithms/is-constructor.js";
+import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";

@@ -3,7 +3,7 @@ import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
 import { arrayCreate } from "../../../algorithms/array-create.js";
 import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
-import toInteger from "../../../algorithms/to-integer.js";
+import { toInteger } from "../../../algorithms/to-integer.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";

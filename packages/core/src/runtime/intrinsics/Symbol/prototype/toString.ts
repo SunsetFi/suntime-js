@@ -1,6 +1,6 @@
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import toString from "../../../algorithms/to-string.js";
+import { toString } from "../../../algorithms/to-string.js";
 import { StaticJsSymbolBoxed } from "../../../types/implementation/primitives/StaticJsSymbolBoxed.js";
 import { isStaticJsSymbol } from "../../../types/StaticJsSymbol.js";
 

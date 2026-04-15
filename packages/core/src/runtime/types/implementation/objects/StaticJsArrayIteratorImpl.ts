@@ -6,7 +6,7 @@ import type { StaticJsValue } from "../../StaticJsValue.js";
 
 import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import { get } from "../../../algorithms/get.js";
-import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 
 export class StaticJsArrayIteratorImpl extends StaticJsIteratorImpl {

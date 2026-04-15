@@ -9,9 +9,9 @@ import { isStaticJsNumber, type StaticJsNumber } from "../types/StaticJsNumber.j
 import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
-import toPrimitive from "./to-primitive.js";
+import { toPrimitive } from "./to-primitive.js";
 
-function* toNumber(value: StaticJsValue): EvaluationGenerator<StaticJsNumber> {
+export function* toNumber(value: StaticJsValue): EvaluationGenerator<StaticJsNumber> {
   const { types } = EvaluationContext.current.realm;
   if (isStaticJsUndefined(value)) {
     return types.NaN;
@@ -46,11 +46,7 @@ function* toNumber(value: StaticJsValue): EvaluationGenerator<StaticJsNumber> {
   );
 }
 
-function* toNumberJs(value: StaticJsValue): EvaluationGenerator<number> {
+toNumber.js = function* toNumberJs(value: StaticJsValue): EvaluationGenerator<number> {
   const numVal = yield* toNumber(value);
   return numVal.value;
-}
-
-toNumber.js = toNumberJs;
-
-export default toNumber;
+};

@@ -2,9 +2,9 @@ import { ClassDeclaration, ClassExpression } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { privateBoundIdentifiers } from "../../../../grammar/private-bound-identifiers.js";
-import call from "../../../../runtime/algorithms/call.js";
+import { call } from "../../../../runtime/algorithms/call.js";
 import { get } from "../../../../runtime/algorithms/get.js";
-import isConstructor from "../../../../runtime/algorithms/is-constructor.js";
+import { isConstructor } from "../../../../runtime/algorithms/is-constructor.js";
 import { ordinaryCreateFromConstructor } from "../../../../runtime/algorithms/ordinary-create-from-constructor.js";
 import { setFunctionName } from "../../../../runtime/algorithms/set-function-name.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";

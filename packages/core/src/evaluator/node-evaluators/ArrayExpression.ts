@@ -3,7 +3,7 @@ import type { ArrayExpression } from "@babel/types";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { arrayCreate } from "../../runtime/algorithms/array-create.js";
-import createDataPropertyOrThrow from "../../runtime/algorithms/create-data-property-or-throw.js";
+import { createDataPropertyOrThrow } from "../../runtime/algorithms/create-data-property-or-throw.js";
 import { set } from "../../runtime/algorithms/set.js";
 import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorClose } from "../../runtime/iterators/iterator-close.js";

@@ -8,7 +8,7 @@ import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 import { parseFunctionBody } from "../../../parser/parse-function-body.js";
 import { parseParameters } from "../../../parser/parse-parameters.js";
 import { setFunctionName } from "../../algorithms/set-function-name.js";
-import toString from "../../algorithms/to-string.js";
+import { toString } from "../../algorithms/to-string.js";
 import {
   StaticJsAstFunction,
   StaticJsAstFunctionArgument,

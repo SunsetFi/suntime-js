@@ -1,10 +1,10 @@
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { get } from "../../../algorithms/get.js";
-import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
-import sameValueZero from "../../../algorithms/same-value-zero.js";
-import toInteger from "../../../algorithms/to-integer.js";
-import toObject from "../../../algorithms/to-object.js";
+import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
+import { sameValueZero } from "../../../algorithms/same-value-zero.js";
+import { toInteger } from "../../../algorithms/to-integer.js";
+import { toObject } from "../../../algorithms/to-object.js";
 
 const arrayProtoIncludesDeclaration: IntrinsicPropertyDeclaration = {
   key: "includes",

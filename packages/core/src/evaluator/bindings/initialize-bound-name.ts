@@ -2,7 +2,7 @@ import type { StaticJsEnvironmentRecord } from "../../runtime/environments/Stati
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import putValue from "../../runtime/algorithms/put-value.js";
+import { putValue } from "../../runtime/algorithms/put-value.js";
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
 import { EvaluationContext } from "../EvaluationContext.js";
 

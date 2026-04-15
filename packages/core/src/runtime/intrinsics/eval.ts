@@ -9,8 +9,8 @@ import { Q } from "../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import evalDeclarationInstantiation from "../../evaluator/instantiation/eval-declaration-instantiation.js";
 import { parseScript } from "../../parser/parse-script.js";
-import getValue from "../algorithms/get-value.js";
-import toString from "../algorithms/to-string.js";
+import { getValue } from "../algorithms/get-value.js";
+import { toString } from "../algorithms/to-string.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {

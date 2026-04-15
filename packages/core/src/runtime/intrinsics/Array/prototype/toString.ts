@@ -1,8 +1,8 @@
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { get } from "../../../algorithms/get.js";
-import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
-import toString from "../../../algorithms/to-string.js";
+import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
+import { toString } from "../../../algorithms/to-string.js";
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 
 const arrayProtoToStringDeclaration: IntrinsicPropertyDeclaration = {

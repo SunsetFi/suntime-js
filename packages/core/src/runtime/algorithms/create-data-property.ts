@@ -4,7 +4,7 @@ import type { StaticJsDataPropertyDescriptor } from "../types/StaticJsPropertyDe
 import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-export default function* createDataProperty(
+export function* createDataProperty(
   O: StaticJsObject,
   P: StaticJsPropertyKey,
   V: StaticJsValue,

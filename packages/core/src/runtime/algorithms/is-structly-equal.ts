@@ -3,7 +3,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsNumber } from "../types/StaticJsNumber.js";
 import { sameValueNonNumber } from "./same-value-non-number.js";
 
-export default function isStrictlyEqual(x: StaticJsValue, y: StaticJsValue): boolean {
+export function isStrictlyEqual(x: StaticJsValue, y: StaticJsValue): boolean {
   if (x.runtimeTypeCode !== y.runtimeTypeCode) {
     return false;
   }

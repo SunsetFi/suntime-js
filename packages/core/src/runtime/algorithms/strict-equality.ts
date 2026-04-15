@@ -7,7 +7,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
-export default function* strictEquality(
+export function* strictEquality(
   a: StaticJsValue,
   b: StaticJsValue,
   realm: StaticJsRealm,

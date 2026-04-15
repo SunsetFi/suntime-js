@@ -3,7 +3,7 @@ import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { get } from "../../../algorithms/get.js";
-import toObject from "../../../algorithms/to-object.js";
+import { toObject } from "../../../algorithms/to-object.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";

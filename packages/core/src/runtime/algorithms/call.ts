@@ -4,7 +4,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { isCallable } from "./is-callable.js";
 
-export default function* call(
+export function* call(
   F: StaticJsValue,
   V: StaticJsValue,
   args: StaticJsValue[] = [],

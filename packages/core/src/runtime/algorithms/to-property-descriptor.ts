@@ -7,9 +7,9 @@ import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import { get } from "./get.js";
 import { isCallable } from "./is-callable.js";
-import toBoolean from "./to-boolean.js";
+import { toBoolean } from "./to-boolean.js";
 
-export default function* toPropertyDescriptor(
+export function* toPropertyDescriptor(
   obj: StaticJsValue,
 ): EvaluationGenerator<StaticJsPropertyDescriptorRecord> {
   if (!isStaticJsObject(obj)) {

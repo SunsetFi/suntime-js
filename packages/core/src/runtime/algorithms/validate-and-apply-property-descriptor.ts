@@ -9,7 +9,7 @@ import {
   type StaticJsPropertyDescriptorRecord,
 } from "../types/StaticJsPropertyDescriptor.js";
 import { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
-import sameValue from "./same-value.js";
+import { sameValue } from "./same-value.js";
 
 export type PropertySlotSetter = (
   key: StaticJsPropertyKey,

@@ -2,7 +2,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { isNotUndefined } from "../../../../utils/is-not-undefined.js";
-import call from "../../../algorithms/call.js";
+import { call } from "../../../algorithms/call.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
 
 const functionProtoCallDeclaration: IntrinsicPropertyDeclaration = {

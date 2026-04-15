@@ -12,9 +12,9 @@ import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
 import { toPropertyKey } from "../utils/to-property-key.js";
 import { getThisValue } from "./get-this-value.js";
 import { privateGet } from "./private-get.js";
-import toObject from "./to-object.js";
+import { toObject } from "./to-object.js";
 
-export default function* getValue(
+export function* getValue(
   v: StaticJsReferenceRecord | StaticJsValue,
 ): EvaluationGenerator<StaticJsValue> {
   if (isStaticJsValue(v)) {

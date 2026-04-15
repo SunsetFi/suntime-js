@@ -1,7 +1,7 @@
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import asyncGeneratorValidate from "../../../algorithms/async-generator-validate.js";
+import { asyncGeneratorValidate } from "../../../algorithms/async-generator-validate.js";
 import { StaticJsAsyncGeneratorImpl } from "../../../types/implementation/functions/StaticJsAsyncGeneratorImpl.js";
 
 const asyncGeneratorProtoReturnDeclaration: IntrinsicPropertyDeclaration = {

@@ -2,8 +2,8 @@ import type { DoWhileStatement } from "@babel/types";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import loopContinues from "../../runtime/algorithms/loop-continues.js";
-import toBoolean from "../../runtime/algorithms/to-boolean.js";
+import { loopContinues } from "../../runtime/algorithms/loop-continues.js";
+import { toBoolean } from "../../runtime/algorithms/to-boolean.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";

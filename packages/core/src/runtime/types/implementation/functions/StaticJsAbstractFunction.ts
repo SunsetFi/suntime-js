@@ -9,7 +9,7 @@ import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 
 import { get } from "../../../algorithms/get.js";
-import toString from "../../../algorithms/to-string.js";
+import { toString } from "../../../algorithms/to-string.js";
 import { StaticJsNull } from "../../StaticJsNull.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsObjectProxyTarget } from "../objects/create-object-proxy.js";

@@ -3,7 +3,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { arrayCreate } from "../../../algorithms/array-create.js";
-import isConstructor from "../../../algorithms/is-constructor.js";
+import { isConstructor } from "../../../algorithms/is-constructor.js";
 import { set } from "../../../algorithms/set.js";
 import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
 

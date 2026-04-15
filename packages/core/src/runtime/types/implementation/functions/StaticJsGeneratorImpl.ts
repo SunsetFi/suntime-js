@@ -9,7 +9,7 @@ import type { StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
-import getValue from "../../../algorithms/get-value.js";
+import { getValue } from "../../../algorithms/get-value.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { type StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";

@@ -1,8 +1,6 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
 
-// Note: Spec expects a label set here, not a single label.
-// Not sure if that has an appreciable effect.
-export default function loopContinues(completion: Completion, labelSet: string[]): boolean {
+export function loopContinues(completion: Completion, labelSet: string[]): boolean {
   if (Completion.Normal.is(completion)) {
     return true;
   }

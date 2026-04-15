@@ -1,7 +1,7 @@
 import { ClassMethod, ClassPrivateMethod } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
-import definePropertyOrThrow from "../../../../runtime/algorithms/define-property-or-throw.js";
+import { definePropertyOrThrow } from "../../../../runtime/algorithms/define-property-or-throw.js";
 import { setFunctionName } from "../../../../runtime/algorithms/set-function-name.js";
 import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";

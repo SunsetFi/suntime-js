@@ -3,7 +3,7 @@ import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsObject } from "../types/StaticJsObject.js";
 import { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import { StaticJsValue } from "../types/StaticJsValue.js";
-import toString from "./to-string.js";
+import { toString } from "./to-string.js";
 
 export function* set(
   o: StaticJsObject,

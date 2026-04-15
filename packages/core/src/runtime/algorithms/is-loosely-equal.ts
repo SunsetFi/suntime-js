@@ -9,11 +9,11 @@ import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsScalar } from "../types/StaticJsScalar.js";
 import { isStaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
-import strictEquality from "./strict-equality.js";
-import toNumber from "./to-number.js";
-import toPrimitive from "./to-primitive.js";
+import { strictEquality } from "./strict-equality.js";
+import { toNumber } from "./to-number.js";
+import { toPrimitive } from "./to-primitive.js";
 
-export default function* isLooselyEqual(
+export function* isLooselyEqual(
   x: StaticJsValue,
   y: StaticJsValue,
   realm: StaticJsRealm,

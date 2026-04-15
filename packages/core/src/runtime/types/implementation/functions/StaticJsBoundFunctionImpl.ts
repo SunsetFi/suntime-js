@@ -5,8 +5,8 @@ import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 
 import { get } from "../../../algorithms/get.js";
-import toInteger from "../../../algorithms/to-integer.js";
-import toString from "../../../algorithms/to-string.js";
+import { toInteger } from "../../../algorithms/to-integer.js";
+import { toString } from "../../../algorithms/to-string.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
 import { isStaticJsFunction, type StaticJsFunction } from "../../StaticJsFunction.js";
 import { isStaticJsString } from "../../StaticJsString.js";

@@ -4,11 +4,11 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { StaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsPromise, type StaticJsPromise } from "../types/StaticJsPromise.js";
-import call from "./call.js";
+import { call } from "./call.js";
 import { get } from "./get.js";
-import newPromiseCapability from "./new-promise-capability.js";
+import { newPromiseCapability } from "./new-promise-capability.js";
 
-export default function* promiseResolve(
+export function* promiseResolve(
   constructor: StaticJsObject,
   value: StaticJsValue,
   realm: StaticJsRealm,

@@ -2,11 +2,11 @@ import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import deletePropertyOrThrow from "../../../algorithms/delete-property-or-throw.js";
+import { deletePropertyOrThrow } from "../../../algorithms/delete-property-or-throw.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
-import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
 import { set } from "../../../algorithms/set.js";
-import toObject from "../../../algorithms/to-object.js";
+import { toObject } from "../../../algorithms/to-object.js";
 import { type StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import compareArrayElements from "../compare-array-elements.js";

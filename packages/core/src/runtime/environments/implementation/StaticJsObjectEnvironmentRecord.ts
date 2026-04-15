@@ -6,7 +6,7 @@ import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js"
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { get } from "../../algorithms/get.js";
 import { set } from "../../algorithms/set.js";
-import toBoolean from "../../algorithms/to-boolean.js";
+import { toBoolean } from "../../algorithms/to-boolean.js";
 import { isStaticJsObject, type StaticJsObject } from "../../types/StaticJsObject.js";
 import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
 

@@ -1,7 +1,7 @@
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
-import toString from "../../../algorithms/to-string.js";
+import { toString } from "../../../algorithms/to-string.js";
 
 const stringProtoReplaceAllDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "replaceAll",

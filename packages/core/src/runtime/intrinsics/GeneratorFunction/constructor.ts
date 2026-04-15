@@ -6,9 +6,9 @@ import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { parseFunctionBody } from "../../../parser/parse-function-body.js";
 import { parseParameters } from "../../../parser/parse-parameters.js";
-import definePropertyOrThrow from "../../algorithms/define-property-or-throw.js";
+import { definePropertyOrThrow } from "../../algorithms/define-property-or-throw.js";
 import { setFunctionName } from "../../algorithms/set-function-name.js";
-import toString from "../../algorithms/to-string.js";
+import { toString } from "../../algorithms/to-string.js";
 import {
   StaticJsAstFunction,
   StaticJsAstFunctionArgument,

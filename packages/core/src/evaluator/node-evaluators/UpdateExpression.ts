@@ -3,9 +3,9 @@ import type { UpdateExpression } from "@babel/types";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import getValue from "../../runtime/algorithms/get-value.js";
-import putValue from "../../runtime/algorithms/put-value.js";
-import toNumber from "../../runtime/algorithms/to-number.js";
+import { getValue } from "../../runtime/algorithms/get-value.js";
+import { putValue } from "../../runtime/algorithms/put-value.js";
+import { toNumber } from "../../runtime/algorithms/to-number.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";

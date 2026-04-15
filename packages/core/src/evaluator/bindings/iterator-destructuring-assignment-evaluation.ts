@@ -7,8 +7,8 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
 import { arrayCreate } from "../../runtime/algorithms/array-create.js";
-import createDataPropertyOrThrow from "../../runtime/algorithms/create-data-property-or-throw.js";
-import putValue from "../../runtime/algorithms/put-value.js";
+import { createDataPropertyOrThrow } from "../../runtime/algorithms/create-data-property-or-throw.js";
+import { putValue } from "../../runtime/algorithms/put-value.js";
 import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";

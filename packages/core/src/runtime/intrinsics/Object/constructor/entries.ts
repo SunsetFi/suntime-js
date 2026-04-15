@@ -3,7 +3,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import { get } from "../../../algorithms/get.js";
-import toObject from "../../../algorithms/to-object.js";
+import { toObject } from "../../../algorithms/to-object.js";
 
 const objectCtorEntriesDeclaration: IntrinsicPropertyDeclaration = {
   key: "entries",

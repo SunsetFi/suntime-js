@@ -7,7 +7,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
 import { StaticJsGeneratorImpl } from "../types/implementation/functions/StaticJsGeneratorImpl.js";
 
-export default function* generatorResume(
+export function* generatorResume(
   generator: StaticJsValue,
   nextValue: StaticJsValue | null,
   generatorBrand: string | null,

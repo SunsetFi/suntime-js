@@ -1,6 +1,6 @@
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
-import toString from "../../../algorithms/to-string.js";
+import { toString } from "../../../algorithms/to-string.js";
 
 const stringProtoTrimDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "trim",

@@ -7,9 +7,9 @@ import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import { get } from "./get.js";
-import isConstructor from "./is-constructor.js";
+import { isConstructor } from "./is-constructor.js";
 
-export default function* speciesConstructor(
+export function* speciesConstructor(
   O: StaticJsObject,
   defaultConstructor: StaticJsFunction,
   realm: StaticJsRealm,

@@ -2,7 +2,7 @@ import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import toNumber from "../../../algorithms/to-number.js";
+import { toNumber } from "../../../algorithms/to-number.js";
 import isNumberLike from "../isNumberLike.js";
 
 const numberProtoToPrecisionDeclaration: FunctionIntrinsicPropertyDeclaration = {

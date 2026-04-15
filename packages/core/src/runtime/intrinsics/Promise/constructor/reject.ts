@@ -1,6 +1,6 @@
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import promiseReject from "../../../algorithms/promise-reject.js";
+import { promiseReject } from "../../../algorithms/promise-reject.js";
 
 const promiseCtorRejectDeclaration: IntrinsicPropertyDeclaration = {
   key: "reject",

@@ -1,8 +1,8 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 
-import toPrimitive from "../algorithms/to-primitive.js";
-import toString from "../algorithms/to-string.js";
+import { toPrimitive } from "../algorithms/to-primitive.js";
+import { toString } from "../algorithms/to-string.js";
 import { StaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsSymbol, StaticJsSymbol } from "../types/StaticJsSymbol.js";
 import { isStaticJsValue } from "../types/StaticJsValue.js";

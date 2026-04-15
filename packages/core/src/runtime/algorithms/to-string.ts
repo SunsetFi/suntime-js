@@ -11,9 +11,9 @@ import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsString, type StaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
-import toPrimitive from "./to-primitive.js";
+import { toPrimitive } from "./to-primitive.js";
 
-function* toString(value: StaticJsValue): EvaluationGenerator<StaticJsString> {
+export function* toString(value: StaticJsValue): EvaluationGenerator<StaticJsString> {
   const { realm } = EvaluationContext.current;
 
   if (isStaticJsString(value)) {
@@ -54,5 +54,3 @@ toString.js = function* js(value: StaticJsValue): EvaluationGenerator<string> {
   const strVal = yield* toString(value);
   return strVal.value;
 };
-
-export default toString;

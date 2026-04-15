@@ -1,5 +1,5 @@
-import call from "../../../../runtime/algorithms/call.js";
-import createDataPropertyOrThrow from "../../../../runtime/algorithms/create-data-property-or-throw.js";
+import { call } from "../../../../runtime/algorithms/call.js";
+import { createDataPropertyOrThrow } from "../../../../runtime/algorithms/create-data-property-or-throw.js";
 import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { isStaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
 import { StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";

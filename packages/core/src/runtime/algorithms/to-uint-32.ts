@@ -2,9 +2,9 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import toNumber from "./to-number.js";
+import { toNumber } from "./to-number.js";
 
-function* toUInt32(
+export function* toUInt32(
   value: StaticJsValue | string | number,
   _realm: StaticJsRealm,
 ): EvaluationGenerator<number> {
@@ -36,5 +36,3 @@ function toUInt32Native(value: string | number): number {
 }
 
 toUInt32.native = toUInt32Native;
-
-export default toUInt32;

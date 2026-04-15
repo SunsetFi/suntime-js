@@ -15,10 +15,10 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
-import copyDataProperties from "../../runtime/algorithms/copy-data-properties.js";
+import { copyDataProperties } from "../../runtime/algorithms/copy-data-properties.js";
 import { get } from "../../runtime/algorithms/get.js";
-import putValue from "../../runtime/algorithms/put-value.js";
-import toObject from "../../runtime/algorithms/to-object.js";
+import { putValue } from "../../runtime/algorithms/put-value.js";
+import { toObject } from "../../runtime/algorithms/to-object.js";
 import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";

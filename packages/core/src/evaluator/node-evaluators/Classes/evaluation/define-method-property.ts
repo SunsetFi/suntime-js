@@ -1,4 +1,4 @@
-import definePropertyOrThrow from "../../../../runtime/algorithms/define-property-or-throw.js";
+import { definePropertyOrThrow } from "../../../../runtime/algorithms/define-property-or-throw.js";
 import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
 import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";

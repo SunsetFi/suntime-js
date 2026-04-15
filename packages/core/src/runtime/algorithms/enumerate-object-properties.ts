@@ -6,7 +6,7 @@ import { createIteratorResultObject } from "../iterators/create-iterator-result-
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
-export default function* enumerateObjectProperties(
+export function* enumerateObjectProperties(
   obj: StaticJsObject,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObject> {

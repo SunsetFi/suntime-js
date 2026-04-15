@@ -5,7 +5,7 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
-import putValue from "../../runtime/algorithms/put-value.js";
+import { putValue } from "../../runtime/algorithms/put-value.js";
 import { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { StaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";

@@ -1,13 +1,13 @@
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
-import call from "../../../algorithms/call.js";
+import { arraySpeciesCreate } from "../../../algorithms/array-species-create.js";
+import { call } from "../../../algorithms/call.js";
 import { get } from "../../../algorithms/get.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
-import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
-import toObject from "../../../algorithms/to-object.js";
-import toString from "../../../algorithms/to-string.js";
+import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
+import { toObject } from "../../../algorithms/to-object.js";
+import { toString } from "../../../algorithms/to-string.js";
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 
 const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {

@@ -6,7 +6,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import promiseResolve from "../algorithms/promise-resolve.js";
+import { promiseResolve } from "../algorithms/promise-resolve.js";
 import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsValue } from "../types/StaticJsValue.js";

@@ -41,7 +41,7 @@ import { parseScript } from "../../../parser/parse-script.js";
 import { createDeferred } from "../../../utils/create-deferred.js";
 import { hasOwnProperty } from "../../../utils/has-own-property.js";
 import { symbolInspect } from "../../../utils/symbol-inspect.js";
-import getValue from "../../algorithms/get-value.js";
+import { getValue } from "../../algorithms/get-value.js";
 import { AsyncInvocation } from "../../async/AsyncInvocation.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
@@ -291,19 +291,15 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     function* evaluate() {
       yield* module.moduleDeclarationInstantiationEvaluator();
       const resolutionPromise = yield* module.moduleEvaluationEvaluator();
-      if (resolutionPromise instanceof Promise) {
-        resolve(
-          resolutionPromise.then(
-            () => module,
-            (err) => {
-              Completion.handleRuntime(err);
-              throw err;
-            },
-          ),
-        );
-      } else {
-        resolve(module);
-      }
+      resolve(
+        resolutionPromise.then(
+          () => module,
+          (err) => {
+            Completion.handleRuntime(err);
+            throw err;
+          },
+        ),
+      );
     }
 
     try {

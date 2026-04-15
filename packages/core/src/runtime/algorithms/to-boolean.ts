@@ -32,7 +32,7 @@ function* toBooleanJs(value: StaticJsValue): EvaluationGenerator<boolean> {
   return true;
 }
 
-export default function* toBoolean(value: StaticJsValue): EvaluationGenerator<StaticJsBoolean> {
+export function* toBoolean(value: StaticJsValue): EvaluationGenerator<StaticJsBoolean> {
   const result = yield* toBooleanJs(value);
   const { realm } = EvaluationContext.current;
   return realm.types.boolean(result);

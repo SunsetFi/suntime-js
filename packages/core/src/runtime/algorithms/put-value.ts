@@ -14,9 +14,9 @@ import { toPropertyKey } from "../utils/to-property-key.js";
 import { getThisValue } from "./get-this-value.js";
 import { privateSet } from "./private-set.js";
 import { set } from "./set.js";
-import toObject from "./to-object.js";
+import { toObject } from "./to-object.js";
 
-export default function* putValue(
+export function* putValue(
   v: StaticJsReferenceRecord | StaticJsValue,
   w: StaticJsValue,
 ): EvaluationGenerator<void> {

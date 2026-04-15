@@ -5,7 +5,7 @@ import type { StaticJsPromise } from "../../../types/StaticJsPromise.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import call from "../../../algorithms/call.js";
+import { call } from "../../../algorithms/call.js";
 import { get } from "../../../algorithms/get.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";

@@ -2,7 +2,7 @@ import type { ConditionalExpression } from "@babel/types";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import toBoolean from "../../runtime/algorithms/to-boolean.js";
+import { toBoolean } from "../../runtime/algorithms/to-boolean.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 

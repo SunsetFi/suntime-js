@@ -10,11 +10,11 @@ import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import { arrayCreate } from "./array-create.js";
 import { construct } from "./construct.js";
 import { get } from "./get.js";
-import isArray from "./is-array.js";
-import isConstructor from "./is-constructor.js";
-import sameValue from "./same-value.js";
+import { isArray } from "./is-array.js";
+import { isConstructor } from "./is-constructor.js";
+import { sameValue } from "./same-value.js";
 
-export default function* arraySpeciesCreate(
+export function* arraySpeciesCreate(
   originalArray: StaticJsValue,
   length: number,
   realm: StaticJsRealm,

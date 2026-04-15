@@ -2,7 +2,7 @@ import type { WithStatement } from "@babel/types";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import toObject from "../../runtime/algorithms/to-object.js";
+import { toObject } from "../../runtime/algorithms/to-object.js";
 import { StaticJsObjectEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsObjectEnvironmentRecord.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";

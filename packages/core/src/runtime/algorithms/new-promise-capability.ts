@@ -10,9 +10,9 @@ import {
 } from "../types/StaticJsPromise.js";
 import { StaticJsValue } from "../types/StaticJsValue.js";
 import { isCallable } from "./is-callable.js";
-import isConstructor from "./is-constructor.js";
+import { isConstructor } from "./is-constructor.js";
 
-export default function* newPromiseCapability(
+export function* newPromiseCapability(
   constructor: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsPromiseCapabilityRecord> {

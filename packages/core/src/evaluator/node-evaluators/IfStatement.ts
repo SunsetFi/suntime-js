@@ -1,6 +1,6 @@
 import type { IfStatement } from "@babel/types";
 
-import toBoolean from "../../runtime/algorithms/to-boolean.js";
+import { toBoolean } from "../../runtime/algorithms/to-boolean.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";

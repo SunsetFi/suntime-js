@@ -3,10 +3,10 @@ import type { UnaryExpression } from "@babel/types";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import getValue from "../../runtime/algorithms/get-value.js";
-import toBoolean from "../../runtime/algorithms/to-boolean.js";
-import toNumber from "../../runtime/algorithms/to-number.js";
-import toObject from "../../runtime/algorithms/to-object.js";
+import { getValue } from "../../runtime/algorithms/get-value.js";
+import { toBoolean } from "../../runtime/algorithms/to-boolean.js";
+import { toNumber } from "../../runtime/algorithms/to-number.js";
+import { toObject } from "../../runtime/algorithms/to-object.js";
 import { isPropertyReference } from "../../runtime/references/is-property-reference.js";
 import { isUnresolvableReference } from "../../runtime/references/is-unresolvable-reference.js";
 import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";

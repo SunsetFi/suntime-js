@@ -5,7 +5,7 @@ import type { StaticJsMap } from "../../StaticJsMap.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 
 import { StaticJsRuntimeError } from "../../../../errors/StaticJsRuntimeError.js";
-import call from "../../../algorithms/call.js";
+import { call } from "../../../algorithms/call.js";
 import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";

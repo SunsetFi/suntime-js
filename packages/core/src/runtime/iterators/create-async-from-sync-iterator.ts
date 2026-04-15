@@ -4,9 +4,9 @@ import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
-import call from "../algorithms/call.js";
+import { call } from "../algorithms/call.js";
 import { get } from "../algorithms/get.js";
-import newPromiseCapability from "../algorithms/new-promise-capability.js";
+import { newPromiseCapability } from "../algorithms/new-promise-capability.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { asyncFromSyncIteratorContinuation } from "./async-from-sync-iterator-continuation.js";
 import { iteratorNext } from "./iterator-next.js";

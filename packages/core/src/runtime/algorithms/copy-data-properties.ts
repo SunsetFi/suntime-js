@@ -5,11 +5,11 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
-import createDataPropertyOrThrow from "./create-data-property-or-throw.js";
+import { createDataPropertyOrThrow } from "./create-data-property-or-throw.js";
 import { get } from "./get.js";
-import toObject from "./to-object.js";
+import { toObject } from "./to-object.js";
 
-export default function* copyDataProperties(
+export function* copyDataProperties(
   target: StaticJsObject,
   source: StaticJsValue,
   excludedItems: StaticJsPropertyKey[],

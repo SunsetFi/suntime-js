@@ -5,11 +5,11 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
-import call from "./call.js";
+import { call } from "./call.js";
 import { get } from "./get.js";
 import { isCallable } from "./is-callable.js";
 
-export default function* toPrimitive(
+export function* toPrimitive(
   value: StaticJsValue,
   preferredType: "string" | "number" | "default" | undefined,
 ): EvaluationGenerator<StaticJsScalar> {

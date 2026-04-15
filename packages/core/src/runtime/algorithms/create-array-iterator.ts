@@ -4,7 +4,7 @@ import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 import { StaticJsArrayIteratorImpl } from "../types/implementation/objects/StaticJsArrayIteratorImpl.js";
 
-export default function* createArrayIterator(
+export function* createArrayIterator(
   array: StaticJsObject,
   kind: "key+value" | "key" | "value",
   realm: StaticJsRealm,

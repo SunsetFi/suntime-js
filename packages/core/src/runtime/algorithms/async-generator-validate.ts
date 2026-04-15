@@ -2,7 +2,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsAsyncGeneratorImpl } from "../types/implementation/functions/StaticJsAsyncGeneratorImpl.js";
 
-export default function* asyncGeneratorValidate(
+export function* asyncGeneratorValidate(
   generator: StaticJsAsyncGeneratorImpl,
   generatorBrand: string | null,
 ): EvaluationGenerator<void> {

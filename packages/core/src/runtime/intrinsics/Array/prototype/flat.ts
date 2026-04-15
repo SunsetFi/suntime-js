@@ -5,9 +5,9 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import { get } from "../../../algorithms/get.js";
-import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
-import toInteger from "../../../algorithms/to-integer.js";
-import toObject from "../../../algorithms/to-object.js";
+import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
+import { toInteger } from "../../../algorithms/to-integer.js";
+import { toObject } from "../../../algorithms/to-object.js";
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 

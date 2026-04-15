@@ -4,11 +4,11 @@ import type { StaticJsIterator, StaticJsIteratorResult } from "../../StaticJsIte
 import type { StaticJsSet } from "../../StaticJsSet.js";
 
 import { StaticJsRuntimeError } from "../../../../errors/StaticJsRuntimeError.js";
-import call from "../../../algorithms/call.js";
+import { call } from "../../../algorithms/call.js";
 import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import { get } from "../../../algorithms/get.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
-import toBoolean from "../../../algorithms/to-boolean.js";
+import { toBoolean } from "../../../algorithms/to-boolean.js";
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";

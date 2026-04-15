@@ -7,7 +7,7 @@ import type { StaticJsValue } from "../StaticJsValue.js";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
-import sameValue from "../../algorithms/same-value.js";
+import { sameValue } from "../../algorithms/same-value.js";
 import { BindingNameNamespace } from "../../modules/implementation/StaticJsResolvedBinding.js";
 import {
   isStaticJsAccessorPropertyDescriptor,

@@ -4,10 +4,10 @@ import type { StaticJsPropertyDescriptorRecord } from "../../types/StaticJsPrope
 import type { StaticJsPropertyKey } from "../../types/StaticJsPropertyKey.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
-import definePropertyOrThrow from "../../algorithms/define-property-or-throw.js";
+import { definePropertyOrThrow } from "../../algorithms/define-property-or-throw.js";
 import { get } from "../../algorithms/get.js";
-import toObject from "../../algorithms/to-object.js";
-import toPropertyDescriptor from "../../algorithms/to-property-descriptor.js";
+import { toObject } from "../../algorithms/to-object.js";
+import { toPropertyDescriptor } from "../../algorithms/to-property-descriptor.js";
 
 export default function* objectDefineProperties(
   O: StaticJsObject,

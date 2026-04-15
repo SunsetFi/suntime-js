@@ -4,7 +4,7 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { isStaticJsArray } from "../types/StaticJsArray.js";
 
-export default function* isArray(
+export function* isArray(
   value: StaticJsValue,
   _realm: StaticJsRealm,
 ): EvaluationGenerator<boolean> {

@@ -17,7 +17,7 @@ import {
 import NamedEvaluation from "../../../../evaluator/node-evaluators/NamedEvaluation.js";
 import isAnonymousFunctionDefinition from "../../../../grammar/is-anonymous-function-definition.js";
 import { get } from "../../../algorithms/get.js";
-import toString from "../../../algorithms/to-string.js";
+import { toString } from "../../../algorithms/to-string.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
 import { StaticJsPrivateName } from "../../StaticJsPrivateName.js";

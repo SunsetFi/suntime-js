@@ -11,8 +11,8 @@ import type { StaticJsValue } from "../StaticJsValue.js";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
-import call from "../../algorithms/call.js";
-import toString from "../../algorithms/to-string.js";
+import { call } from "../../algorithms/call.js";
+import { toString } from "../../algorithms/to-string.js";
 import { validateAndApplyPropertyDescriptor } from "../../algorithms/validate-and-apply-property-descriptor.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsObject, type StaticJsObject } from "../StaticJsObject.js";
