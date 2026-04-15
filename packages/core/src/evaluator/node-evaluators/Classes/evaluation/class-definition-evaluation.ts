@@ -47,11 +47,12 @@ import { initializeInstanceElements } from "./initialize-instance-elements.js";
 import { defineField } from "./define-field.js";
 import { privateMethodOrAccessorAdd } from "./private-method-or-accessor-add.js";
 import { StaticJsClassConstructorFunction } from "../types/StaticJsClassConstructorFunction.js";
+import { StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
 
 export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitionEvaluation(
   node: ClassDeclaration | ClassExpression,
   classBinding: string | null,
-  className: StaticJsPropertyKey,
+  className: StaticJsPropertyKey | StaticJsPrivateName,
 ): EvaluationGenerator<StaticJsValue> {
   const context = EvaluationContext.current;
   const { lexicalEnv: env, realm, privateEnv: outerPrivateEnvironment } = context;

@@ -6,7 +6,6 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import { StaticJsValue } from "../types/StaticJsValue.js";
-import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 import { StaticJsCallable } from "../types/StaticJsCallable.js";
 import {
   isStaticJsPromise,
@@ -14,12 +13,13 @@ import {
 } from "../types/StaticJsPromise.js";
 
 import { isCallable } from "./is-callable.js";
+import isConstructor from "./is-constructor.js";
 
 export default function* newPromiseCapability(
   constructor: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsPromiseCapabilityRecord> {
-  if (!isStaticJsFunction(constructor) || !constructor.isConstructor) {
+  if (!isConstructor(constructor)) {
     throw Completion.Throw("TypeError", "Promise constructor must be a constructor");
   }
 

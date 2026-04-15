@@ -32,7 +32,7 @@ import { StaticJsObjectProxyTarget } from "./create-object-proxy.js";
 import call from "../../../algorithms/call.js";
 
 export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements StaticJsArray {
-  // FIXME: Create spec compliant CreateArrayFromList / CreateARray
+  // FIXME: We now have createArrayFromList.  Use that intead.
   static create(
     realm: StaticJsRealm,
     items?: StaticJsValue[],

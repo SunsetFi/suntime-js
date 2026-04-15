@@ -93,14 +93,16 @@ export default function defineTest(testName: string, test: Test262File) {
           throw e;
         }
 
+        // FIXME: This is causing false passes in async tests that crash.
+        // We need to flag that we may have failed, and still capture the cleanup
         if (e instanceof StaticJsUnhandledRejectionError) {
           // Apparently this isn't in the spec.  Test262 tests tend to throw these in async tests.
-          console.warn(
-            "Unhandled rejection in test:",
-            testName,
-            "with reason:",
-            e.thrown.toNative(),
-          );
+          const error = e.thrown.toNative();
+          let message =
+            error && typeof error === "object" && "message" in error
+              ? error.message
+              : String(error);
+          console.warn("Unhandled rejection in test:", testName, "with reason:", message);
           return;
         }
 

@@ -113,6 +113,9 @@ const result = await addFoo.callAsync(realm.types.undefined, realm.types.number(
 - Destructuring
 - Spread operators (including Symbol.iterator usage)
 - eval / Function constructor.
+- Classes
+  - Private names
+- Proxy
 - ECMAScript Modules
   - Async modules
   - Exports
@@ -123,7 +126,6 @@ const result = await addFoo.callAsync(realm.types.undefined, realm.types.number(
 
 - All well-known symbols not listed above
 - WeakMap, WeakRef, FinalizationRegistry
-- Class syntax
+- 'using' syntax; disposables
 - Date
 - Regex
-- Proxy

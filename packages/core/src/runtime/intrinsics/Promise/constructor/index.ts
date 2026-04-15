@@ -19,11 +19,13 @@ import { isCallable } from "../../../algorithms/is-callable.js";
 
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 
+import promiseCtorAllDeclaration from "./all.js";
 import promiseCtorRejectDeclaration from "./reject.js";
 import promiseCtorResolveDeclaration from "./resolve.js";
 import promiseConstructorSymbolSpeciesDeclaration from "./symbol_species.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
+  promiseCtorAllDeclaration,
   promiseCtorRejectDeclaration,
   promiseCtorResolveDeclaration,
   promiseConstructorSymbolSpeciesDeclaration,
