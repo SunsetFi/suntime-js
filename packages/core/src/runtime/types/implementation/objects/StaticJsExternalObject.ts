@@ -12,6 +12,7 @@ import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";
 import { StaticJsExternalFunction } from "../functions/StaticJsExternalFunction.js";
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 
 /**
  * A static object that wraps a native javascript object.
@@ -106,6 +107,10 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
 
       return key;
     });
+  }
+
+  override *privateElementAddEvaluator(): EvaluationGenerator<void> {
+    throw Completion.Throw("TypeError", "Cannot add a private elemnt to this object.");
   }
 
   protected *_setPropertyDescriptorEvaluator(): EvaluationGenerator<boolean> {

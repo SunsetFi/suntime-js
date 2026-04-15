@@ -35,11 +35,16 @@ import {
   StaticJsObjectProxyTarget,
 } from "./objects/create-object-proxy.js";
 import call from "../../algorithms/call.js";
+import { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
+import { StaticJsPrivateName } from "../StaticJsPrivateName.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 
 export abstract class StaticJsAbstractObject
   extends StaticJsAbstractPrimitive
   implements StaticJsObject
 {
+  private readonly _privateElements: StaticJsPrivateElement[] = [];
+
   private _prototype: StaticJsObject | null = null;
   private _extensible: boolean = true;
 
@@ -413,6 +418,24 @@ export abstract class StaticJsAbstractObject
     }
 
     return yield* this._deleteConfigurablePropertyEvaluator(key);
+  }
+
+  *privateElementFindEvaluator(
+    p: StaticJsPrivateName,
+  ): EvaluationGenerator<StaticJsPrivateElement | null> {
+    return this._privateElements.find((pe) => pe.key === p) ?? null;
+  }
+
+  *privateElementAddEvaluator(element: StaticJsPrivateElement): EvaluationGenerator<void> {
+    const entry = yield* this.privateElementFindEvaluator(element.key);
+    if (entry) {
+      throw Completion.Throw(
+        "TypeError",
+        `Cannot redeclare private field ${element.key.description}`,
+      );
+    }
+
+    this._privateElements.push(element);
   }
 
   toNative(): unknown {

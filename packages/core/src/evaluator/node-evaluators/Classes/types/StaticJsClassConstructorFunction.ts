@@ -14,7 +14,10 @@ import { StaticJsAstFunction } from "../../../../runtime/types/implementation/fu
 import { StaticJsCallable } from "../../../../runtime/types/StaticJsCallable.js";
 import { isStaticJsValue, StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
-import { StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";
+import {
+  StaticJsPrivateElementAccessor,
+  StaticJsPrivateElementMethod,
+} from "../../../../runtime/types/StaticJsPrivateElement.js";
 import { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
 import { FunctionEvaluateBodyCommand } from "../../../commands/FunctionEvaluateCommand.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
@@ -72,7 +75,7 @@ export class StaticJsClassConstructorFunction extends StaticJsAstFunction {
     this._nativeFunc = resolvedConstruct;
   }
 
-  privateMethods: StaticJsPrivateElement[] = [];
+  privateMethods: (StaticJsPrivateElementMethod | StaticJsPrivateElementAccessor)[] = [];
   fields: StaticJsClassFieldDefinitionRecord[] = [];
 
   override *callEvaluator(thisArg: StaticJsValue, args?: StaticJsValue[]) {

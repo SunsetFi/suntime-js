@@ -11,13 +11,10 @@ import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { StaticJsPropertyKey } from "./StaticJsPropertyKey.js";
+import { StaticJsPrivateElement } from "./StaticJsPrivateElement.js";
+import { StaticJsPrivateName } from "./StaticJsPrivateName.js";
 
 export interface StaticJsObject extends StaticJsPrimitive {
-  // We MUST NOT RESTRICT THIS to "object" | "array" | "function", or else
-  // type guards for those specific types will include this, even if we use
-  // explicit x is y type guards.
-  readonly runtimeTypeOf: string;
-
   getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObject | null>;
   getPrototypeOfSync(opts?: StaticJsRunTaskOptions): StaticJsObject | null;
   getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObject | null>;
@@ -114,6 +111,11 @@ export interface StaticJsObject extends StaticJsPrimitive {
   deleteAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean>;
   deleteSync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): boolean;
   deleteEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean>;
+
+  privateElementFindEvaluator(
+    p: StaticJsPrivateName,
+  ): EvaluationGenerator<StaticJsPrivateElement | null>;
+  privateElementAddEvaluator(element: StaticJsPrivateElement): EvaluationGenerator<void>;
 }
 
 export function isStaticJsObject(value: unknown): value is StaticJsObject {

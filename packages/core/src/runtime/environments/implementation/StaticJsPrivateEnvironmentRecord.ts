@@ -1,3 +1,4 @@
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsPrivateName } from "../../types/StaticJsPrivateName.js";
 
 export class StaticJsPrivateEnvironmentRecord {
@@ -19,5 +20,21 @@ export class StaticJsPrivateEnvironmentRecord {
     const privateName = { type: "private-name" as const, description };
     this._names.push(privateName);
     return privateName;
+  }
+
+  resolvePrivateIdentifier(identifier: string): StaticJsPrivateName {
+    const names = this._names;
+    for (const pn of names) {
+      if (pn.description === identifier) {
+        return pn;
+      }
+    }
+
+    if (!this._outerPrivateEnv) {
+      throw new StaticJsEngineError(
+        "Assert failure: Ran out of private environments looking for private identifier",
+      );
+    }
+    return this._outerPrivateEnv.resolvePrivateIdentifier(identifier);
   }
 }

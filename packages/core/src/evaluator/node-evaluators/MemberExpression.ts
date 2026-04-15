@@ -1,10 +1,7 @@
 import type { MemberExpression } from "@babel/types";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import {
-  staticJsPrivateName,
-  StaticJsPrivateName,
-} from "../../runtime/types/StaticJsPrivateName.js";
+import { StaticJsPrivateName } from "../../runtime/types/StaticJsPrivateName.js";
 
 import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 
@@ -13,6 +10,7 @@ import { Q } from "../completions/Q.js";
 
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,
@@ -24,9 +22,19 @@ export default function* memberExpressionNodeEvaluator(
 
   let propertyKey: string | StaticJsPrivateName | StaticJsValue;
   if (propertyNode.type === "PrivateName") {
-    // FIXME: This is almost assuredly wrong.  The spec treats private names
-    // as reference-equality objects.  This new reference will not be equal to anything.
-    propertyKey = staticJsPrivateName(propertyNode.id.name);
+    const { privateEnv } = EvaluationContext.current;
+    if (!privateEnv) {
+      throw new StaticJsEngineError(
+        "Assertion failure: PrivateName found in context that lacks a privateEnv",
+      );
+    }
+    const privateName = privateEnv.resolvePrivateIdentifier(propertyNode.id.name);
+    return {
+      base: target,
+      referencedName: privateName,
+      strict: true,
+      thisValue: null,
+    };
   }
 
   if (!node.computed && propertyNode.type === "Identifier") {

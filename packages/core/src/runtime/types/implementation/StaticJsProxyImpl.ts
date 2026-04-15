@@ -41,6 +41,7 @@ import { isStaticJsCallable, StaticJsCallable } from "../StaticJsCallable.js";
 
 import { createStaticJsObjectProxy } from "./objects/create-object-proxy.js";
 import { StaticJsArrayImpl } from "./objects/StaticJsArrayImpl.js";
+import { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
 
 export class StaticJsProxyImpl implements StaticJsObject, StaticJsCallable {
   private _cachedJsObject: unknown | null = null;
@@ -891,6 +892,14 @@ export class StaticJsProxyImpl implements StaticJsObject, StaticJsCallable {
     }
 
     return newObj;
+  }
+
+  *privateElementFindEvaluator(): EvaluationGenerator<StaticJsPrivateElement | null> {
+    throw new StaticJsEngineError("Cannot currently get private methods from proxies.");
+  }
+
+  *privateElementAddEvaluator(): EvaluationGenerator<void> {
+    throw new StaticJsEngineError("Cannot currently add private methods to proxies.");
   }
 
   toNative(): unknown {

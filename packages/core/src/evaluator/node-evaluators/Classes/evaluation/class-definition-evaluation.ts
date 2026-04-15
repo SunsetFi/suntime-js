@@ -26,6 +26,8 @@ import { isStatic } from "./is-static.js";
 import {
   isStaticJsPrivateElement,
   StaticJsPrivateElement,
+  StaticJsPrivateElementAccessor,
+  StaticJsPrivateElementMethod,
 } from "../../../../runtime/types/StaticJsPrivateElement.js";
 import {
   isStaticJsClassFieldDefinitionRecord,
@@ -185,8 +187,9 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
     yield* defineMethodProperty(proto, "constructor", F, false);
 
     let elements = nonConstructorElements(node.body);
-    let instancePrivateMethods: StaticJsPrivateElement[] = [];
-    let staticPrivateMethods: StaticJsPrivateElement[] = [];
+    let instancePrivateMethods: (StaticJsPrivateElementMethod | StaticJsPrivateElementAccessor)[] =
+      [];
+    let staticPrivateMethods: StaticJsPrivateElementMethod[] = [];
     let instanceFields: StaticJsClassFieldDefinitionRecord[] = [];
     let staticElements: (
       | StaticJsClassFieldDefinitionRecord

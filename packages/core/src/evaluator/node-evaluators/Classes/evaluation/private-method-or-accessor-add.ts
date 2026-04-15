@@ -1,10 +1,13 @@
 import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
-import { StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";
+import {
+  StaticJsPrivateElementAccessor,
+  StaticJsPrivateElementMethod,
+} from "../../../../runtime/types/StaticJsPrivateElement.js";
 
 export function* privateMethodOrAccessorAdd(
-  _o: StaticJsObject,
-  _method: StaticJsPrivateElement,
+  o: StaticJsObject,
+  method: StaticJsPrivateElementAccessor | StaticJsPrivateElementMethod,
 ): EvaluationGenerator<void> {
-  throw new Error("privateMethodOrAccessorAdd not implemented");
+  yield* o.privateElementAddEvaluator(method);
 }
