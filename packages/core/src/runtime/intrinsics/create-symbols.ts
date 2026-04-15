@@ -1,10 +1,8 @@
-import { typedEntries } from "../../utils/typed-entries.js";
-
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
-import { StaticJsSymbolImpl } from "../types/implementation/primitives/StaticJsSymbolImpl.js";
-
 import type { IntrinsicSymbols, Prototypes } from "./intrinsics.js";
+
+import { typedEntries } from "../../utils/typed-entries.js";
+import { StaticJsSymbolImpl } from "../types/implementation/primitives/StaticJsSymbolImpl.js";
 
 const intrinsicSymbols: Record<keyof IntrinsicSymbols, symbol | undefined> = {
   // TODO: Implement in engine.

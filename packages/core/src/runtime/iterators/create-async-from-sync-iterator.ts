@@ -1,20 +1,15 @@
-import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
-
-import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
-
-import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
-import newPromiseCapability from "../algorithms/new-promise-capability.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import call from "../algorithms/call.js";
-
-import { iteratorNext } from "./iterator-next.js";
-
-import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
-import { asyncFromSyncIteratorContinuation } from "./async-from-sync-iterator-continuation.js";
 import { get } from "../algorithms/get.js";
+import newPromiseCapability from "../algorithms/new-promise-capability.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { asyncFromSyncIteratorContinuation } from "./async-from-sync-iterator-continuation.js";
+import { iteratorNext } from "./iterator-next.js";
 
 export function* createAsyncFromSyncIterator(
   syncIteratorRecord: StaticJsIteratorRecord,

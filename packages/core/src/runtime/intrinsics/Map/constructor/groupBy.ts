@@ -1,16 +1,14 @@
-import { Completion } from "../../../../evaluator/completions/Completion.js";
-
-import { StaticJsMapImpl } from "../../../types/implementation/objects/StaticJsMapImpl.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
+import { Completion } from "../../../../evaluator/completions/Completion.js";
+import call from "../../../algorithms/call.js";
+import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
-
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-import call from "../../../algorithms/call.js";
-import { isCallable } from "../../../algorithms/is-callable.js";
-import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
+import { StaticJsMapImpl } from "../../../types/implementation/objects/StaticJsMapImpl.js";
 
 const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
   key: "groupBy",

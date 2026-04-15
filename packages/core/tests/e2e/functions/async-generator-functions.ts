@@ -8,7 +8,6 @@ import {
   isStaticJsArray,
   isStaticJsBoolean,
 } from "../../../src/index.js";
-
 import delay from "../../test262/utils/delay.js";
 
 describe("E2E: Generator Functions", () => {

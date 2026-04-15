@@ -1,29 +1,26 @@
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
+import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
-import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
-
-import isConstructor from "../../../algorithms/is-constructor.js";
-import toObject from "../../../algorithms/to-object.js";
-import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { arrayCreate } from "../../../algorithms/array-create.js";
+import call from "../../../algorithms/call.js";
 import createDataPropertyOrThrow from "../../../algorithms/create-data-property-or-throw.js";
 import getMethod from "../../../algorithms/get-method.js";
-
-import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
+import { get } from "../../../algorithms/get.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
+import isConstructor from "../../../algorithms/is-constructor.js";
+import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
+import { set } from "../../../algorithms/set.js";
+import toObject from "../../../algorithms/to-object.js";
 import { getIteratorFromMethod } from "../../../iterators/get-iterator-from-method.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
-
-import { type StaticJsObject } from "../../../types/StaticJsObject.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
-import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
-import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
+import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
-
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-import { set } from "../../../algorithms/set.js";
-import { get } from "../../../algorithms/get.js";
-import call from "../../../algorithms/call.js";
-import { isCallable } from "../../../algorithms/is-callable.js";
-import { arrayCreate } from "../../../algorithms/array-create.js";
+import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
+import { type StaticJsObject } from "../../../types/StaticJsObject.js";
+import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
 const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
   key: "from",

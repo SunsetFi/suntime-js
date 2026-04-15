@@ -1,13 +1,10 @@
 import type { IfStatement } from "@babel/types";
 
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
-
-import { EvaluationContext } from "../EvaluationContext.js";
-
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 
 export default function* ifStatementNodeEvaluator(node: IfStatement) {
   const { realm } = EvaluationContext.current;

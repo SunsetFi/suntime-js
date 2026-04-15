@@ -1,4 +1,5 @@
 import type { Reporter, TestModule } from "vitest/node";
+
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 

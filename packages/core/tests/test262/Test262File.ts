@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { relative as relativePath } from "node:path";
 import { parse as parseYaml } from "yaml";
+
 import getTest262Path from "./utils/get-test262-path.js";
 
 export interface Test262Negative {

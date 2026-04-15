@@ -1,5 +1,6 @@
-import { isStaticJsObject } from "../runtime/types/StaticJsObject.js";
 import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+
+import { isStaticJsObject } from "../runtime/types/StaticJsObject.js";
 import { symbolInspect } from "../utils/symbol-inspect.js";
 
 export class StaticJsRuntimeError extends Error {

@@ -1,8 +1,8 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { StaticJsNumber } from "../types/StaticJsNumber.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import toNumber from "./to-number.js";
 
 function* toInteger(value: StaticJsValue): EvaluationGenerator<StaticJsNumber> {

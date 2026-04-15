@@ -1,6 +1,6 @@
-import type { StaticJsSymbol } from "../types/StaticJsSymbol.js";
 import type { StaticJsFunction } from "../types/StaticJsFunction.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 export interface Prototypes {
   stringProto: StaticJsObject;

@@ -1,11 +1,9 @@
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
-
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-
-import isNumberLike from "../isNumberLike.js";
 import toNumber from "../../../algorithms/to-number.js";
+import isNumberLike from "../isNumberLike.js";
 
 const numberProtoToFixedDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "toFixed",

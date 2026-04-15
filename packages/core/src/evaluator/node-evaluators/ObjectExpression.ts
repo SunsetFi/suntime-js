@@ -1,24 +1,20 @@
 import type { ObjectExpression, ObjectMethod, ObjectProperty, SpreadElement } from "@babel/types";
 
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-
-import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
-
 import type { StaticJsPlainObject } from "../../runtime/types/StaticJsPlainObject.js";
-import { isStaticJsPlainObject } from "../../runtime/types/StaticJsPlainObject.js";
 import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsPropertyKey.js";
-import { isStaticJsSymbol } from "../../runtime/types/StaticJsSymbol.js";
-
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import { Q } from "../completions/Q.js";
-
-import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import { createFunction } from "./Function.js";
-import { set } from "../../runtime/algorithms/set.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { get } from "../../runtime/algorithms/get.js";
 import { setFunctionName } from "../../runtime/algorithms/set-function-name.js";
+import { set } from "../../runtime/algorithms/set.js";
+import { isStaticJsPlainObject } from "../../runtime/types/StaticJsPlainObject.js";
+import { isStaticJsSymbol } from "../../runtime/types/StaticJsSymbol.js";
+import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import { Q } from "../completions/Q.js";
+import { EvaluationContext } from "../EvaluationContext.js";
+import { createFunction } from "./Function.js";
 
 // Note: I tested the edge-case of having a computed property key that is an expression mutate the value used in the value,
 // and the result is each key is computed before its property, and the next property/value pair is computed after the previous property/value pair.

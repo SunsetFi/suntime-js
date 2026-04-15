@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+
 import { StaticJsRealm, evaluateScript } from "../../src/index.js";
 
 describe("E2E: Globals", () => {

@@ -1,7 +1,5 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
-
 import type {
   StaticJsResolvedReference,
   StaticJsUnresolvedReferenceRecord,

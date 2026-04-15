@@ -1,10 +1,8 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
 import { StaticJsObject } from "../types/StaticJsObject.js";
 import { StaticJsPrivateName } from "../types/StaticJsPrivateName.js";
 import { StaticJsValue } from "../types/StaticJsValue.js";
-
 import call from "./call.js";
 
 export function* privateSet(

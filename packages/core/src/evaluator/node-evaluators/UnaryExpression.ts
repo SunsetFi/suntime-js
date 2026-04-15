@@ -1,26 +1,21 @@
 import type { UnaryExpression } from "@babel/types";
+
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-
-import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
-
-import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
-import { isUnresolvableReference } from "../../runtime/references/is-unresolvable-reference.js";
-import { isPropertyReference } from "../../runtime/references/is-property-reference.js";
-
+import getValue from "../../runtime/algorithms/get-value.js";
 import toBoolean from "../../runtime/algorithms/to-boolean.js";
 import toNumber from "../../runtime/algorithms/to-number.js";
 import toObject from "../../runtime/algorithms/to-object.js";
-import getValue from "../../runtime/algorithms/get-value.js";
-
+import { isPropertyReference } from "../../runtime/references/is-property-reference.js";
+import { isUnresolvableReference } from "../../runtime/references/is-unresolvable-reference.js";
+import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
-
+import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
-
 import { EvaluationContext } from "../EvaluationContext.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* unaryExpressionNodeEvaluator(node: UnaryExpression): EvaluationGenerator {
   if (node.operator === "delete") {

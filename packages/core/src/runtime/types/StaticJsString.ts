@@ -1,4 +1,5 @@
 import type { StaticJsPrimitive } from "./StaticJsPrimitive.js";
+
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 

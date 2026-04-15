@@ -1,31 +1,24 @@
 import { isFunction, type YieldExpression } from "@babel/types";
 
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-
-import { isStaticJsValue, StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
-
-import { getIterator } from "../../runtime/iterators/get-iterator.js";
-import { iteratorComplete } from "../../runtime/iterators/iterator-complete.js";
-import { iteratorValue } from "../../runtime/iterators/iterator-value.js";
-import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
-
-import call from "../../runtime/algorithms/call.js";
-import getMethod from "../../runtime/algorithms/get-method.js";
-
-import { asyncIteratorClose } from "../../runtime/iterators/async-iterator-close.js";
-
-import { YieldCommand } from "../commands/YieldCommand.js";
-
-import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+import call from "../../runtime/algorithms/call.js";
+import getMethod from "../../runtime/algorithms/get-method.js";
+import { asyncIteratorClose } from "../../runtime/iterators/async-iterator-close.js";
+import { getIterator } from "../../runtime/iterators/get-iterator.js";
+import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
+import { iteratorComplete } from "../../runtime/iterators/iterator-complete.js";
+import { iteratorValue } from "../../runtime/iterators/iterator-value.js";
+import { StaticJsAstFunction } from "../../runtime/types/implementation/functions/StaticJsAstFunction.js";
+import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
+import { isStaticJsValue, StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { AwaitCommand } from "../commands/AwaitCommand.js";
-
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import { YieldCommand } from "../commands/YieldCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
-import { StaticJsAstFunction } from "../../runtime/types/implementation/functions/StaticJsAstFunction.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 
 export default function* yieldExpressionNodeEvaluator(node: YieldExpression): EvaluationGenerator {
   const { realm } = EvaluationContext.current;

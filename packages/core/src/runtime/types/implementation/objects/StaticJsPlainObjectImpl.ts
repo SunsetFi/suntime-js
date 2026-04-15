@@ -1,9 +1,8 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
 import type { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
-import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 
+import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
 export class StaticJsPlainObjectImpl extends StaticJsOrdinaryObjectImpl {

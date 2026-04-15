@@ -17,8 +17,9 @@ export type {
 
 export type { StaticJsEvaluator as StaticJsRealmEvaluator } from "../../evaluator/StaticJsEvaluator.js";
 
-import { StaticJsRealm as fStaticJsRealm } from "./factories/StaticJsRealm.js";
 import type { StaticJsRealm as IStaticJsRealm } from "./StaticJsRealm.js";
+
+import { StaticJsRealm as fStaticJsRealm } from "./factories/StaticJsRealm.js";
 
 const StaticJsRealm = fStaticJsRealm;
 type StaticJsRealm = IStaticJsRealm;

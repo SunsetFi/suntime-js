@@ -1,5 +1,3 @@
-import { describe, it, expect } from "vitest";
-
 import {
   type Node,
   arrayPattern,
@@ -13,9 +11,9 @@ import {
   classDeclaration as babelClassDeclaration,
   classBody,
 } from "@babel/types";
+import { describe, it, expect } from "vitest";
 
 import { parseModule } from "../../../parser/parse-module.js";
-
 import lexicallyDeclaredNames from "./lexically-declared-names.js";
 import lexicallyScopedDeclarations from "./lexically-scoped-declarations.js";
 

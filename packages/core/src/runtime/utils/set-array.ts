@@ -1,10 +1,9 @@
-import { hasOwnProperty } from "../../utils/has-own-property.js";
-import { set } from "../algorithms/set.js";
-
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+
+import { hasOwnProperty } from "../../utils/has-own-property.js";
+import { set } from "../algorithms/set.js";
 
 export function* setArray(
   realm: StaticJsRealm,

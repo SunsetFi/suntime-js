@@ -1,12 +1,11 @@
 import type { Program } from "@babel/types";
 
-import { Completion } from "../completions/Completion.js";
-
-import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import evaluateStatementList from "./StatementList.js";
+import { Completion } from "../completions/Completion.js";
 import { rethrowCompletion } from "../completions/rethrow-completion.js";
+import { EvaluationContext } from "../EvaluationContext.js";
+import evaluateStatementList from "./StatementList.js";
 
 function* programNodeEvaluator(node: Program): EvaluationGenerator {
   const { realm } = EvaluationContext.current;

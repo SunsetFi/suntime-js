@@ -1,15 +1,13 @@
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import { isNotUndefined } from "../../../../utils/is-not-undefined.js";
 import { arrayCreate } from "../../../algorithms/array-create.js";
 import arraySpeciesCreate from "../../../algorithms/array-species-create.js";
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
-
 import toInteger from "../../../algorithms/to-integer.js";
 import toObject from "../../../algorithms/to-object.js";
-
 import { setArray } from "../../../utils/set-array.js";
 import { toArray } from "../../../utils/to-array.js";
-
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
   key: "splice",

@@ -1,6 +1,7 @@
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import toObject from "../../../algorithms/to-object.js";
 import { toPropertyKey } from "../../../utils/to-property-key.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectProtoPropertyIsEnumerableDeclaration: IntrinsicPropertyDeclaration = {
   key: "propertyIsEnumerable",

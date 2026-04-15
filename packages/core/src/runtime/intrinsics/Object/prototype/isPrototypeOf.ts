@@ -1,9 +1,8 @@
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import sameValue from "../../../algorithms/same-value.js";
 import toObject from "../../../algorithms/to-object.js";
-
 import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
-
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectProtoIsPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "isPrototypeOf",

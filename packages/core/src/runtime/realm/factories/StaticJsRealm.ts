@@ -1,20 +1,15 @@
-import { mergeDeep } from "../../../utils/merge-deep.js";
-
-import { realmDefaultHooks } from "../../hooks/index.js";
-
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
-
-import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
-
 import type {
   StaticJsModuleResolution,
   StaticJsModuleResolver,
 } from "../StaticJsModuleResolver.js";
-
 import type { StaticJsRealm as IStaticJsRealm } from "../StaticJsRealm.js";
-
 import type { StaticJsRealmGlobalOption } from "./StaticJsRealmGlobalOptions.js";
 import type { StaticJsRealmHookOptions } from "./StaticJsRealmHooksOptions.js";
+
+import { mergeDeep } from "../../../utils/merge-deep.js";
+import { realmDefaultHooks } from "../../hooks/index.js";
+import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
 
 /**
  * Options for creating a StaticJsRealm.

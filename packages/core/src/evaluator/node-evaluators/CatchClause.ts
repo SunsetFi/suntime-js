@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 function* catchClauseNodeEvaluator(): EvaluationGenerator {

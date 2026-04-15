@@ -1,5 +1,3 @@
-import { describe, it, expect } from "vitest";
-
 import {
   type Node,
   arrayPattern,
@@ -13,6 +11,7 @@ import {
   variableDeclaration,
   variableDeclarator,
 } from "@babel/types";
+import { describe, it, expect } from "vitest";
 
 // The babel objectProperty sets decorators to null, but the parser omits it entirely.
 const objectProperty: typeof babelObjectProperty = (
@@ -27,7 +26,6 @@ const objectProperty: typeof babelObjectProperty = (
 };
 
 import { parseScript } from "../../../parser/parse-script.js";
-
 import varDeclaredNames from "./var-declared-names.js";
 import varScopedDeclarations from "./var-scoped-declarations.js";
 

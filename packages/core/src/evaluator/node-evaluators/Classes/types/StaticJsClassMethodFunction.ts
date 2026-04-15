@@ -1,16 +1,14 @@
 import { type Expression, type Function } from "@babel/types";
 
-import { StaticJsPrivateEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-
 import type { StaticJsRealm } from "../../../../runtime/realm/StaticJsRealm.js";
 
-import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
-
+import { StaticJsPrivateEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import { StaticJsEnvironmentRecord } from "../../../../runtime/environments/StaticJsEnvironmentRecord.js";
 import {
   StaticJsAstFunction,
   StaticJsAstFunctionOptions,
 } from "../../../../runtime/types/implementation/functions/StaticJsAstFunction.js";
-import { StaticJsEnvironmentRecord } from "../../../../runtime/environments/StaticJsEnvironmentRecord.js";
+import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 
 export type StaticJsClassMethodFunctionOptions = Omit<

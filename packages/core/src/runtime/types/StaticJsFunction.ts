@@ -1,6 +1,6 @@
 import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
-import { StaticJsCallable } from "./StaticJsCallable.js";
 
+import { StaticJsCallable } from "./StaticJsCallable.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 

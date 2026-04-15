@@ -1,7 +1,8 @@
-import { StaticJsTaskCalleeType } from "./StaticJsTaskCalleeType.js";
 import type { StaticJsTaskIteratorOperation } from "./StaticJsTaskIteratorOperation.js";
 import type { StaticJsTaskIteratorStackFrame } from "./StaticJsTaskIteratorStackFrame.js";
 import type { StaticJsTaskType } from "./StaticJsTaskType.js";
+
+import { StaticJsTaskCalleeType } from "./StaticJsTaskCalleeType.js";
 
 /**
  * A task in the StaticJs runtime.

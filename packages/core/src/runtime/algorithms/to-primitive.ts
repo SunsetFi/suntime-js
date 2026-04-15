@@ -1,12 +1,12 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import type { StaticJsScalar } from "../types/StaticJsScalar.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
+
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
-
-import type { StaticJsValue } from "../types/StaticJsValue.js";
-import type { StaticJsScalar } from "../types/StaticJsScalar.js";
 import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
-import { get } from "./get.js";
 import call from "./call.js";
+import { get } from "./get.js";
 import { isCallable } from "./is-callable.js";
 
 export default function* toPrimitive(

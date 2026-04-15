@@ -1,43 +1,37 @@
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-
-import toString from "../../algorithms/to-string.js";
-
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
-
+import type { StaticJsNull } from "../StaticJsNull.js";
 import type {
   StaticJsPropertyDescriptor,
   StaticJsPropertyDescriptorRecord,
 } from "../StaticJsPropertyDescriptor.js";
+import type { StaticJsTypeCode } from "../StaticJsTypeCode.js";
+import type { StaticJsValue } from "../StaticJsValue.js";
+
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
+import call from "../../algorithms/call.js";
+import toString from "../../algorithms/to-string.js";
+import { validateAndApplyPropertyDescriptor } from "../../algorithms/validate-and-apply-property-descriptor.js";
+import { isStaticJsNull } from "../StaticJsNull.js";
+import { isStaticJsObject, type StaticJsObject } from "../StaticJsObject.js";
+import { type StaticJsPlainObject } from "../StaticJsPlainObject.js";
+import { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
+import { StaticJsPrivateName } from "../StaticJsPrivateName.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   validateStaticJsPropertyDescriptorRecord,
 } from "../StaticJsPropertyDescriptor.js";
-import { validateAndApplyPropertyDescriptor } from "../../algorithms/validate-and-apply-property-descriptor.js";
-import type { StaticJsNull } from "../StaticJsNull.js";
-import { isStaticJsNull } from "../StaticJsNull.js";
-import { isStaticJsObject, type StaticJsObject } from "../StaticJsObject.js";
 import { type StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
-import { type StaticJsPlainObject } from "../StaticJsPlainObject.js";
-import type { StaticJsValue } from "../StaticJsValue.js";
-import { isStaticJsValue } from "../StaticJsValue.js";
-import type { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import { isStaticJsSymbol } from "../StaticJsSymbol.js";
-
-import { StaticJsAbstractPrimitive } from "./StaticJsAbstractPrimitive.js";
-
+import { isStaticJsValue } from "../StaticJsValue.js";
 import {
   createStaticJsObjectProxy,
   StaticJsObjectProxyTarget,
 } from "./objects/create-object-proxy.js";
-import call from "../../algorithms/call.js";
-import { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
-import { StaticJsPrivateName } from "../StaticJsPrivateName.js";
-import { Completion } from "../../../evaluator/completions/Completion.js";
+import { StaticJsAbstractPrimitive } from "./StaticJsAbstractPrimitive.js";
 
 export abstract class StaticJsAbstractObject
   extends StaticJsAbstractPrimitive

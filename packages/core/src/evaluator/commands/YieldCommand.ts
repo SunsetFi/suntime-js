@@ -1,11 +1,9 @@
-import { type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-
-import { Completion } from "../completions/Completion.js";
-
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import { EvaluatorCommand } from "./EvaluatorCommand.js";
-
 import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
+
+import { type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { Completion } from "../completions/Completion.js";
+import { EvaluatorCommand } from "./EvaluatorCommand.js";
 
 export interface YieldCommand extends EvaluatorCommandBase {
   command: "yield";

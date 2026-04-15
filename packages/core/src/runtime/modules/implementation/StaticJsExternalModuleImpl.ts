@@ -1,16 +1,13 @@
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-
-import type { StaticJsObject } from "../../types/StaticJsObject.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
-
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-
-import type { StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
-import type { StaticJsModule } from "../StaticJsModule.js";
-
-import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
+import type { StaticJsModule } from "../StaticJsModule.js";
+import type { StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
+
 import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
 
 export class StaticJsExternalModuleImpl extends StaticJsModuleBase implements StaticJsModule {
   private readonly _exportKeys: readonly string[];

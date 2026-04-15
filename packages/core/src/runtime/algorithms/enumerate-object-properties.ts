@@ -1,13 +1,10 @@
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
-import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
-
-import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 export default function* enumerateObjectProperties(
   obj: StaticJsObject,

@@ -1,7 +1,7 @@
 import type { Node } from "@babel/types";
 
-import type { EvaluationGenerator } from "./EvaluationGenerator.js";
 import type { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
+import type { EvaluationGenerator } from "./EvaluationGenerator.js";
 
 export interface EvaluateCommandsOptions {
   onBeforeNode?(node: Node): void;

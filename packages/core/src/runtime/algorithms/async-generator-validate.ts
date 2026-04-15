@@ -1,7 +1,5 @@
-import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
 import { Completion } from "../../evaluator/completions/Completion.js";
-
+import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsAsyncGeneratorImpl } from "../types/implementation/functions/StaticJsAsyncGeneratorImpl.js";
 
 export default function* asyncGeneratorValidate(

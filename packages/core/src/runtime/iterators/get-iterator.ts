@@ -1,17 +1,14 @@
-import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
-
-import { type StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
-import { StaticJsCallable } from "../types/StaticJsCallable.js";
-
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
+import { Completion } from "../../evaluator/completions/Completion.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import getMethod from "../algorithms/get-method.js";
-
-import { getIteratorFromMethod } from "./get-iterator-from-method.js";
+import { StaticJsCallable } from "../types/StaticJsCallable.js";
+import { type StaticJsObject } from "../types/StaticJsObject.js";
 import { createAsyncFromSyncIterator } from "./create-async-from-sync-iterator.js";
+import { getIteratorFromMethod } from "./get-iterator-from-method.js";
 
 export function* getIterator(
   obj: StaticJsValue,

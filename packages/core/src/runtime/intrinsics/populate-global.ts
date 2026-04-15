@@ -1,20 +1,18 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 
-import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "./utils.js";
-
 import globalObjectEvalDeclaration from "./eval.js";
 import globalObjectGlobalThisDeclaration from "./globalThis.js";
 import globalObjectInfinityDeclaration from "./Infinity.js";
 import globalObjectIsFiniteDeclaration from "./isFinite.js";
 import globalObjectIsNaNDeclaration from "./isNaN.js";
+import { createMathIntrinsic } from "./Math/index.js";
 import globalObjectNaNDeclaration from "./NaN.js";
 import globalObjectParseFloatDeclaration from "./parseFloat.js";
 import globalObjectParseIntDeclaration from "./parseInt.js";
-import globalObjectUndefinedDeclaration from "./undefined.js";
-
-import { createMathIntrinsic } from "./Math/index.js";
 import { createReflectIntrinsic } from "./Reflect/index.js";
+import globalObjectUndefinedDeclaration from "./undefined.js";
+import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "./utils.js";
 
 const globalPropertyDeclarations: IntrinsicPropertyDeclaration[] = [
   globalObjectEvalDeclaration,

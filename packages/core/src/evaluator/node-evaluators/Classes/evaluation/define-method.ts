@@ -1,23 +1,16 @@
 import { ClassMethod, ClassPrivateMethod } from "@babel/types";
 
-import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
-import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
-
-import { StaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
-import { StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
-
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
-
-import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
-
+import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
+import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
+import { StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
+import { StaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
 import { Q } from "../../../completions/Q.js";
-
 import { EvaluationContext } from "../../../EvaluationContext.js";
-
+import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
+import { classElementNameNodeEvaluator } from "../ClassElementName.js";
 import { StaticJsClassConstructorFunction } from "../types/StaticJsClassConstructorFunction.js";
 import { StaticJsClassMethodFunction } from "../types/StaticJsClassMethodFunction.js";
-
-import { classElementNameNodeEvaluator } from "../ClassElementName.js";
 
 export interface ClassMethodDefinition {
   key: StaticJsPropertyKey | StaticJsPrivateName;

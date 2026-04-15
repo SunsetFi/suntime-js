@@ -1,24 +1,18 @@
-import { getIterator } from "../../../iterators/get-iterator.js";
-import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
-
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { isStaticJsNull } from "../../../types/StaticJsNull.js";
-
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
-import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-
+import { get } from "../../../algorithms/get.js";
 import toObject from "../../../algorithms/to-object.js";
-
+import { getIterator } from "../../../iterators/get-iterator.js";
+import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsMapImpl } from "../../../types/implementation/objects/StaticJsMapImpl.js";
-
+import { isStaticJsNull } from "../../../types/StaticJsNull.js";
+import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../../utils.js";
-
 import mapCtorGroupByDeclaration from "./groupBy.js";
 import mapCtorSymbolSpeciesDeclaration from "./symbol_species.js";
-import { get } from "../../../algorithms/get.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   mapCtorGroupByDeclaration,

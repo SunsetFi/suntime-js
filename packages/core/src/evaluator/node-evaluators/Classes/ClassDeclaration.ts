@@ -1,13 +1,11 @@
 import { ClassDeclaration } from "@babel/types";
 
 import { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
-
-import { EvaluationGenerator } from "../../EvaluationGenerator.js";
-import { EvaluationContext } from "../../EvaluationContext.js";
 import initializeBoundName from "../../bindings/initialize-bound-name.js";
-
-import { classDefinitionEvaluation } from "./evaluation/class-definition-evaluation.js";
 import { Q } from "../../completions/Q.js";
+import { EvaluationContext } from "../../EvaluationContext.js";
+import { EvaluationGenerator } from "../../EvaluationGenerator.js";
+import { classDefinitionEvaluation } from "./evaluation/class-definition-evaluation.js";
 
 export default function* classDeclarationNodeEvaluator(
   node: ClassDeclaration,

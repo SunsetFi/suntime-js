@@ -1,7 +1,7 @@
-import { dropUndefined } from "../../utils/drop-undefined.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
 import type { StaticJsPropertyDescriptor } from "../types/StaticJsPropertyDescriptor.js";
+
+import { dropUndefined } from "../../utils/drop-undefined.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,

@@ -1,12 +1,11 @@
-import { Completion } from "../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
-
 import type { StaticJsDeclarativeEnvironmentRecord } from "./StaticJsDeclarativeEnvironmentRecord.js";
-import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
 import type { StaticJsObjectEnvironmentRecord } from "./StaticJsObjectEnvironmentRecord.js";
+
+import { Completion } from "../../../evaluator/completions/Completion.js";
+import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
 
 export class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   constructor(

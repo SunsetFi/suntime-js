@@ -1,9 +1,7 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
 import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { StaticJsPropertyKey, isStaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
-
 import { StaticJsValue } from "../types/StaticJsValue.js";
 import { toPropertyKey } from "../utils/to-property-key.js";
 import { get } from "./get.js";

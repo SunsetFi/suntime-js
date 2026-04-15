@@ -1,8 +1,7 @@
-import { Completion } from "../../../../evaluator/completions/Completion.js";
-
-import { isStaticJsMap } from "../../../types/StaticJsMap.js";
-
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
+import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { isStaticJsMap } from "../../../types/StaticJsMap.js";
 
 const mapProtoDeleteDeclaration: IntrinsicPropertyDeclaration = {
   key: "delete",

@@ -1,25 +1,17 @@
 import type { File } from "@babel/types";
 
-import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
-
-import { parseScript } from "../../parser/parse-script.js";
-
-import { StaticJsDeclarativeEnvironmentRecord } from "../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-
-import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
-
-import { Completion } from "../../evaluator/completions/Completion.js";
-
-import evalDeclarationInstantiation from "../../evaluator/instantiation/eval-declaration-instantiation.js";
-
-import { EvaluateNodeCommand } from "../../evaluator/commands/EvaluateNodeCommand.js";
-
-import { Q } from "../../evaluator/completions/Q.js";
-
-import toString from "../algorithms/to-string.js";
-import getValue from "../algorithms/get-value.js";
-
 import type { IntrinsicPropertyDeclaration } from "./utils.js";
+
+import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
+import { EvaluateNodeCommand } from "../../evaluator/commands/EvaluateNodeCommand.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
+import { Q } from "../../evaluator/completions/Q.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
+import evalDeclarationInstantiation from "../../evaluator/instantiation/eval-declaration-instantiation.js";
+import { parseScript } from "../../parser/parse-script.js";
+import getValue from "../algorithms/get-value.js";
+import toString from "../algorithms/to-string.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 
 const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
   key: "eval",

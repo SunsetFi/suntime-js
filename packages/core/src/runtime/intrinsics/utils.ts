@@ -1,13 +1,11 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
-import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 export interface IntrinsicPropertyDeclarationBase {
   key: StaticJsPropertyKey | ((realm: StaticJsRealm) => StaticJsPropertyKey);

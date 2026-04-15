@@ -1,20 +1,15 @@
-import { Completion } from "../../../../evaluator/completions/Completion.js";
-
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
-
-import { isStaticJsNull } from "../../../types/StaticJsNull.js";
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
-import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsSetImpl } from "../../../types/implementation/objects/StaticJsSetImpl.js";
-
+import { isStaticJsNull } from "../../../types/StaticJsNull.js";
+import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../../utils.js";
-
 import setCtorSymbolSpeciesDeclaration from "./symbol_species.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [setCtorSymbolSpeciesDeclaration];

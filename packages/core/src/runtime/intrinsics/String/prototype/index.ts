@@ -1,9 +1,7 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import stringProtoCharAtDeclaration from "./charAt.js";
 import stringProtoCharCodeAtDeclaration from "./charCodeAt.js";
 import stringProtoConcatDeclaration from "./concat.js";
@@ -27,8 +25,8 @@ import stringProtoToLowerCaseDeclaration from "./toLowerCase.js";
 import stringProtoToStringDeclaration from "./toString.js";
 import stringProtoToUpperCaseDeclaration from "./toUpperCase.js";
 import stringProtoTrimDeclaration from "./trim.js";
-import stringProtoTrimStartDeclaration from "./trimStart.js";
 import stringProtoTrimEndDeclaration from "./trimEnd.js";
+import stringProtoTrimStartDeclaration from "./trimStart.js";
 import stringProtoValueOfDeclaration from "./valueOf.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [

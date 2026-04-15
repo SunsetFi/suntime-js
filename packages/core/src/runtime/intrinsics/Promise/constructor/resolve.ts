@@ -1,10 +1,8 @@
-import { Completion } from "../../../../evaluator/completions/Completion.js";
-
-import promiseResolve from "../../../algorithms/promise-resolve.js";
-
-import { isStaticJsObject } from "../../../types/StaticJsObject.js";
-
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
+import { Completion } from "../../../../evaluator/completions/Completion.js";
+import promiseResolve from "../../../algorithms/promise-resolve.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 
 const promiseCtorResolveDeclaration: IntrinsicPropertyDeclaration = {
   key: "resolve",

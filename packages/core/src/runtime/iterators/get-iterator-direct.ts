@@ -1,9 +1,8 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { get } from "../algorithms/get.js";
-
 import type { StaticJsObject } from "../types/StaticJsObject.js";
-
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
+
+import { get } from "../algorithms/get.js";
 
 export function* getIteratorDirect(
   obj: StaticJsObject,

@@ -1,13 +1,10 @@
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { mathDefaultHooks } from "../../hooks/Math/index.js";
 
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import toNumber from "../../algorithms/to-number.js";
+import { mathDefaultHooks } from "../../hooks/Math/index.js";
 import { StaticJsPlainObjectImpl } from "../../types/implementation/objects/StaticJsPlainObjectImpl.js";
 import { StaticJsNumberImpl } from "../../types/implementation/primitives/StaticJsNumberImpl.js";
-
-import toNumber from "../../algorithms/to-number.js";
-
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../utils.js";
 
 // Since math is quite predictable in its inputs and outputs, we can do this programatically.

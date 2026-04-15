@@ -1,23 +1,20 @@
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
-import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-
-import type { StaticJsValue } from "../../StaticJsValue.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
+import type { StaticJsValue } from "../../StaticJsValue.js";
+
+import { get } from "../../../algorithms/get.js";
+import sameValue from "../../../algorithms/same-value.js";
+import { set } from "../../../algorithms/set.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   type StaticJsPropertyDescriptor,
   type StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
-
+import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
-import { set } from "../../../algorithms/set.js";
-import { get } from "../../../algorithms/get.js";
-import sameValue from "../../../algorithms/same-value.js";
 
 export class StaticJsArgumentsExoticObject extends StaticJsOrdinaryObjectImpl {
   constructor(

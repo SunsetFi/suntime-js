@@ -1,6 +1,6 @@
-import { StaticJsSetImpl } from "../../../types/implementation/objects/StaticJsSetImpl.js";
-
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
+import { StaticJsSetImpl } from "../../../types/implementation/objects/StaticJsSetImpl.js";
 
 const setProtoDifferenceDeclaration: IntrinsicPropertyDeclaration = {
   key: "difference",

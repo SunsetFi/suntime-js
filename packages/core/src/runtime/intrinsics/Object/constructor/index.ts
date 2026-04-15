@@ -1,12 +1,9 @@
-import toObject from "../../../algorithms/to-object.js";
-
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
-import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
+import toObject from "../../../algorithms/to-object.js";
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import objectCtorAssignDeclaration from "./assign.js";
 import objectCtorCreateDeclaration from "./create.js";
 import objectCtorDefinePropertiesDeclaration from "./defineProperties.js";

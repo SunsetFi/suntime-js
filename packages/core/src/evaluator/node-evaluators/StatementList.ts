@@ -3,7 +3,6 @@ import type { Statement } from "@babel/types";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-
 import { Completion } from "../completions/Completion.js";
 
 export default function* evaluateStatementList(

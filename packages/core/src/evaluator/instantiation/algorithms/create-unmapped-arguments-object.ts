@@ -1,16 +1,13 @@
-import createDataPropertyOrThrow from "../../../runtime/algorithms/create-data-property-or-throw.js";
-import definePropertyOrThrow from "../../../runtime/algorithms/define-property-or-throw.js";
-
 import type { StaticJsObject } from "../../../runtime/types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
-
-import { StaticJsNativeFunctionImpl } from "../../../runtime/types/implementation/functions/StaticJsNativeFunctionImpl.js";
-
-import { Completion } from "../../completions/Completion.js";
-
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
-import { EvaluationContext } from "../../EvaluationContext.js";
+
+import createDataPropertyOrThrow from "../../../runtime/algorithms/create-data-property-or-throw.js";
+import definePropertyOrThrow from "../../../runtime/algorithms/define-property-or-throw.js";
 import { get } from "../../../runtime/algorithms/get.js";
+import { StaticJsNativeFunctionImpl } from "../../../runtime/types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { Completion } from "../../completions/Completion.js";
+import { EvaluationContext } from "../../EvaluationContext.js";
 
 export default function* createUnmappedArgumentsObject(
   argumentsList: StaticJsValue[],

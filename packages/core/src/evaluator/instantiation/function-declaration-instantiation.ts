@@ -1,32 +1,27 @@
 import { isIdentifier, type FunctionDeclaration, type Node } from "@babel/types";
 
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import type { StaticJsObject } from "../../runtime/types/StaticJsObject.js";
-
+import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import type {
   StaticJsAstFunction,
   StaticJsAstFunctionArgument,
 } from "../../runtime/types/implementation/functions/StaticJsAstFunction.js";
-
-import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-
-import { createListIteratorRecord } from "../../runtime/iterators/create-list-iterator-record.js";
-
-import { instantiateFunctionObject } from "../node-evaluators/Function.js";
-
-import iteratorBindingInitialization from "../bindings/iterator-binding-initialization.js";
-
-import { EvaluationContext } from "../EvaluationContext.js";
+import type { StaticJsObject } from "../../runtime/types/StaticJsObject.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
+import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { createListIteratorRecord } from "../../runtime/iterators/create-list-iterator-record.js";
+import iteratorBindingInitialization from "../bindings/iterator-binding-initialization.js";
+import { EvaluationContext } from "../EvaluationContext.js";
+import { instantiateFunctionObject } from "../node-evaluators/Function.js";
 import boundNames from "./algorithms/bound-names.js";
+import collectAnnexBFunctionDeclarations from "./algorithms/collect-annex-b-function-declarations.js";
+import createMappedArgumentsObject from "./algorithms/create-mapped-arguments-object.js";
+import createUnmappedArgumentsObject from "./algorithms/create-unmapped-arguments-object.js";
+import lexicallyDeclaredNames from "./algorithms/lexically-declared-names.js";
+import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
 import varDeclaredNames from "./algorithms/var-declared-names.js";
 import varScopedDeclarations from "./algorithms/var-scoped-declarations.js";
-import lexicallyDeclaredNames from "./algorithms/lexically-declared-names.js";
-import collectAnnexBFunctionDeclarations from "./algorithms/collect-annex-b-function-declarations.js";
-import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
-import createUnmappedArgumentsObject from "./algorithms/create-unmapped-arguments-object.js";
-import createMappedArgumentsObject from "./algorithms/create-mapped-arguments-object.js";
 
 export default function* functionDeclarationInstantiation(
   func: StaticJsAstFunction,

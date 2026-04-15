@@ -1,18 +1,17 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
-
 import type { StaticJsPrimitive } from "./StaticJsPrimitive.js";
 import type {
   StaticJsPropertyDescriptor,
   StaticJsPropertyDescriptorRecord,
 } from "./StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
-import { isStaticJsValue } from "./StaticJsValue.js";
-import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
-import { StaticJsPropertyKey } from "./StaticJsPropertyKey.js";
+
 import { StaticJsPrivateElement } from "./StaticJsPrivateElement.js";
 import { StaticJsPrivateName } from "./StaticJsPrivateName.js";
+import { StaticJsPropertyKey } from "./StaticJsPropertyKey.js";
+import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
+import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsObject extends StaticJsPrimitive {
   getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObject | null>;

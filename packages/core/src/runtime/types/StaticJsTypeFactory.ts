@@ -1,18 +1,17 @@
 import type { Constructors, Prototypes, IntrinsicSymbols } from "../intrinsics/intrinsics.js";
-
 import type { StaticJsArray } from "./StaticJsArray.js";
-import type { StaticJsFunction } from "./StaticJsFunction.js";
 import type { StaticJsBoolean } from "./StaticJsBoolean.js";
+import type { StaticJsFunction } from "./StaticJsFunction.js";
 import type { StaticJsNull } from "./StaticJsNull.js";
 import type { StaticJsNumber } from "./StaticJsNumber.js";
 import type { StaticJsObject } from "./StaticJsObject.js";
-import type { StaticJsPropertyKey } from "./StaticJsPropertyKey.js";
 import type { StaticJsPlainObject } from "./StaticJsPlainObject.js";
 import type { StaticJsPropertyDescriptorRecord } from "./StaticJsPropertyDescriptor.js";
-import type { StaticJsValue } from "./StaticJsValue.js";
+import type { StaticJsPropertyKey } from "./StaticJsPropertyKey.js";
 import type { StaticJsString } from "./StaticJsString.js";
 import type { StaticJsSymbol } from "./StaticJsSymbol.js";
 import type { StaticJsUndefined } from "./StaticJsUndefined.js";
+import type { StaticJsValue } from "./StaticJsValue.js";
 
 export type ErrorTypeName = "TypeError" | "ReferenceError" | "SyntaxError" | "RangeError" | "Error";
 

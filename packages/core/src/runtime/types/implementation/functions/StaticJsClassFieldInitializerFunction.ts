@@ -1,34 +1,27 @@
 import type { Expression } from "@babel/types";
 
-import isAnonymousFunctionDefinition from "../../../../grammar/is-anonymous-function-definition.js";
-
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
+import type { StaticJsValue } from "../../StaticJsValue.js";
 
 import { EvaluateNodeCommand } from "../../../../evaluator/commands/EvaluateNodeCommand.js";
-
-import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { ReturnCompletion } from "../../../../evaluator/completions/completion-types/ReturnCompletion.js";
 import { ThrowCompletion } from "../../../../evaluator/completions/completion-types/ThrowCompletion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
-
-import NamedEvaluation from "../../../../evaluator/node-evaluators/NamedEvaluation.js";
 import {
   StaticJsClassMethodFunction,
   StaticJsClassMethodFunctionOptions,
 } from "../../../../evaluator/node-evaluators/Classes/types/StaticJsClassMethodFunction.js";
-
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
-import toString from "../../../algorithms/to-string.js";
+import NamedEvaluation from "../../../../evaluator/node-evaluators/NamedEvaluation.js";
+import isAnonymousFunctionDefinition from "../../../../grammar/is-anonymous-function-definition.js";
 import { get } from "../../../algorithms/get.js";
-
+import toString from "../../../algorithms/to-string.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
-
-import type { StaticJsValue } from "../../StaticJsValue.js";
-import type { StaticJsObject } from "../../StaticJsObject.js";
-import { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import { StaticJsPrivateName } from "../../StaticJsPrivateName.js";
+import { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 
 export type StaticJsClassFieldInitializerFunctionOptions = StaticJsClassMethodFunctionOptions;
 export class StaticJsClassFieldInitializerFunction extends StaticJsClassMethodFunction {

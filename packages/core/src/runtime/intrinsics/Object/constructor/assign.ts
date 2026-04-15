@@ -1,7 +1,8 @@
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import { get } from "../../../algorithms/get.js";
 import { set } from "../../../algorithms/set.js";
 import toObject from "../../../algorithms/to-object.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorAssignDeclaration: IntrinsicPropertyDeclaration = {
   key: "assign",

@@ -1,10 +1,8 @@
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
 import { StaticJsFunction } from "../types/StaticJsFunction.js";
 import { isStaticJsPrivateName, StaticJsPrivateName } from "../types/StaticJsPrivateName.js";
 import { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
-
 import definePropertyOrThrow from "./define-property-or-throw.js";
 
 export type StaticJsFunctionNameable = StaticJsPropertyKey | StaticJsPrivateName;

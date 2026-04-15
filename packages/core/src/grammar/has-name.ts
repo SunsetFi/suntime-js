@@ -1,4 +1,5 @@
 import type { Node } from "@babel/types";
+
 import isFunctionDefinition from "./is-function-definition.js";
 
 export default function hasName(node: Node): boolean {

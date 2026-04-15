@@ -1,7 +1,7 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsFunction } from "./StaticJsFunction.js";
 import type { StaticJsObject } from "./StaticJsObject.js";
+
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 

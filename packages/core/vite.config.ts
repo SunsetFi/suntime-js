@@ -2,7 +2,6 @@ import { defineConfig } from "vitest/config";
 import { JsonReporter } from "vitest/node";
 
 import createBaseline from "./tests/env/create-baseline.js";
-
 import VitestBadgeReporter from "./tests/reporters/VitestBadgeReporter.js";
 
 export default defineConfig({

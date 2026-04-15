@@ -1,16 +1,13 @@
 import type { BlockStatement } from "@babel/types";
 
-import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-
-import blockDeclarationInstantiation from "../instantiation/block-declaration-instantiation.js";
-
-import { Q } from "../completions/Q.js";
-
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import { EvaluationContext } from "../EvaluationContext.js";
 
-import evaluateStatementList from "./StatementList.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";
+import { Q } from "../completions/Q.js";
+import { EvaluationContext } from "../EvaluationContext.js";
+import blockDeclarationInstantiation from "../instantiation/block-declaration-instantiation.js";
+import evaluateStatementList from "./StatementList.js";
 
 function* blockStatementNodeEvaluator(node: BlockStatement): EvaluationGenerator {
   const context = EvaluationContext.current;

@@ -1,24 +1,19 @@
 import { type Program, blockStatement, functionDeclaration } from "@babel/types";
 
-import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
-
-import { Completion } from "../../../evaluator/completions/Completion.js";
-
-import { parseFunctionBody } from "../../../parser/parse-function-body.js";
-import { parseParameters } from "../../../parser/parse-parameters.js";
-
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-
-import toString from "../../algorithms/to-string.js";
-import { setFunctionName } from "../../algorithms/set-function-name.js";
-
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 
-import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
+import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
+import { parseFunctionBody } from "../../../parser/parse-function-body.js";
+import { parseParameters } from "../../../parser/parse-parameters.js";
+import { setFunctionName } from "../../algorithms/set-function-name.js";
+import toString from "../../algorithms/to-string.js";
 import {
   StaticJsAstFunction,
   StaticJsAstFunctionArgument,
 } from "../../types/implementation/functions/StaticJsAstFunction.js";
+import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 export default function createFunctionConstructor(
   realm: StaticJsRealm,

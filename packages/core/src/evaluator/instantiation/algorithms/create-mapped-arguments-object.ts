@@ -1,23 +1,18 @@
-import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
-
 import type { StaticJsEnvironmentRecord } from "../../../runtime/environments/StaticJsEnvironmentRecord.js";
-
+import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
 import type { StaticJsFunction } from "../../../runtime/types/StaticJsFunction.js";
 import type { StaticJsObject } from "../../../runtime/types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
-
-import { StaticJsArgumentsExoticObject } from "../../../runtime/types/implementation/functions/StaticJsArgumentsExoticObject.js";
-import { StaticJsNativeFunctionImpl } from "../../../runtime/types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { StaticJsAstFunctionArgument } from "../../../runtime/types/implementation/functions/StaticJsAstFunction.js";
+import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 import createDataPropertyOrThrow from "../../../runtime/algorithms/create-data-property-or-throw.js";
 import definePropertyOrThrow from "../../../runtime/algorithms/define-property-or-throw.js";
-
-import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
-import { EvaluationContext } from "../../EvaluationContext.js";
-
-import boundNames from "./bound-names.js";
 import { get } from "../../../runtime/algorithms/get.js";
+import { StaticJsArgumentsExoticObject } from "../../../runtime/types/implementation/functions/StaticJsArgumentsExoticObject.js";
+import { StaticJsAstFunctionArgument } from "../../../runtime/types/implementation/functions/StaticJsAstFunction.js";
+import { StaticJsNativeFunctionImpl } from "../../../runtime/types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { EvaluationContext } from "../../EvaluationContext.js";
+import boundNames from "./bound-names.js";
 
 export default function* createMappedArgumentsObject(
   func: StaticJsFunction,

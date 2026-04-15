@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import type { StaticJsNumber } from "../../src/index.js";
+
 import { evaluateScript, isStaticJsNumber, StaticJsRealm } from "../../src/index.js";
 
 describe("E2E: Variables", () => {

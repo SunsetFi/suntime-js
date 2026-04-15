@@ -5,29 +5,30 @@ import {
   functionDeclaration,
   identifier,
 } from "@babel/types";
-import { EvaluationContext } from "../../../EvaluationContext.js";
+
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+import { ordinaryCreateFromConstructor } from "../../../../runtime/algorithms/ordinary-create-from-constructor.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsEnvironmentRecord } from "../../../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { StaticJsRealm } from "../../../../runtime/realm/StaticJsRealm.js";
-import { isStaticJsObject, StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { StaticJsAstFunction } from "../../../../runtime/types/implementation/functions/StaticJsAstFunction.js";
 import { StaticJsCallable } from "../../../../runtime/types/StaticJsCallable.js";
-import { isStaticJsValue, StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
-import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
+import { isStaticJsObject, StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import {
   StaticJsPrivateElementAccessor,
   StaticJsPrivateElementMethod,
 } from "../../../../runtime/types/StaticJsPrivateElement.js";
-import { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
-import { FunctionEvaluateBodyCommand } from "../../../commands/FunctionEvaluateCommand.js";
-import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
-import { captureThrownCompletion } from "../../../completions/capture-thrown-completion.js";
-import { Q } from "../../../completions/Q.js";
-import { Completion } from "../../../completions/Completion.js";
-import { ordinaryCreateFromConstructor } from "../../../../runtime/algorithms/ordinary-create-from-constructor.js";
-import { initializeInstanceElements } from "../evaluation/initialize-instance-elements.js";
 import { isStaticJsUndefined } from "../../../../runtime/types/StaticJsUndefined.js";
+import { isStaticJsValue, StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
+import { FunctionEvaluateBodyCommand } from "../../../commands/FunctionEvaluateCommand.js";
+import { captureThrownCompletion } from "../../../completions/capture-thrown-completion.js";
+import { Completion } from "../../../completions/Completion.js";
+import { Q } from "../../../completions/Q.js";
 import { rethrowCompletion } from "../../../completions/rethrow-completion.js";
+import { EvaluationContext } from "../../../EvaluationContext.js";
+import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
+import { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
+import { initializeInstanceElements } from "../evaluation/initialize-instance-elements.js";
 
 export type StaticJsClassConstructorNativeConstruct = (
   thisArg: StaticJsValue | undefined,

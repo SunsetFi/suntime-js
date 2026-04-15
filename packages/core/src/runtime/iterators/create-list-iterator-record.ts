@@ -1,13 +1,11 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
-
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
-import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import type { StaticJsValue } from "../types/StaticJsValue.js";
-
-import { createIteratorResultObject } from "./create-iterator-result-object.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { get } from "../algorithms/get.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { createIteratorResultObject } from "./create-iterator-result-object.js";
 
 export function* createListIteratorRecord(
   values: StaticJsValue[],

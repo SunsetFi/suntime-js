@@ -1,16 +1,13 @@
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { isStaticJsValue, type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-
 import { AbruptCompletion } from "./completion-types/AbruptCompletion.js";
-import { ControlFlowCompletion } from "./completion-types/ControlFlowCompletion.js";
-
 import { BreakCompletion } from "./completion-types/BreakCompletion.js";
 import { ContinueCompletion } from "./completion-types/ContinueCompletion.js";
+import { ControlFlowCompletion } from "./completion-types/ControlFlowCompletion.js";
 import { NormalCompletion } from "./completion-types/NormalCompletion.js";
 import { ReturnCompletion } from "./completion-types/ReturnCompletion.js";
 import { ThrowCompletion } from "./completion-types/ThrowCompletion.js";
 import { nameCompletionValue, type CompletionValue } from "./CompletionValue.js";
-
 import { nameCompletionLike } from "./name-completion-like.js";
 
 export type Completion =

@@ -5,19 +5,20 @@ import {
   ClassProperty,
   StaticBlock,
 } from "@babel/types";
-import { Completion } from "../../../completions/Completion.js";
-import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
-import { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
-import { StaticJsClassStaticBlockDefinitionRecord } from "../ClassStaticBlockDefinitionRecord.js";
-import { StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";
-import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
-import { EvaluationContext } from "../../../EvaluationContext.js";
-import { Q } from "../../../completions/Q.js";
+
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
-import { methodDefinitionEvaluation } from "./method-definition-evaluation.js";
-import { StaticJsClassMethodFunction } from "../types/StaticJsClassMethodFunction.js";
+import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
+import { StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";
+import { Completion } from "../../../completions/Completion.js";
+import { Q } from "../../../completions/Q.js";
+import { EvaluationContext } from "../../../EvaluationContext.js";
+import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 import { classElementNameNodeEvaluator } from "../ClassElementName.js";
+import { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
+import { StaticJsClassStaticBlockDefinitionRecord } from "../ClassStaticBlockDefinitionRecord.js";
+import { StaticJsClassMethodFunction } from "../types/StaticJsClassMethodFunction.js";
+import { methodDefinitionEvaluation } from "./method-definition-evaluation.js";
 
 export type ClassElementEvaluationResult =
   | StaticJsPrivateElement

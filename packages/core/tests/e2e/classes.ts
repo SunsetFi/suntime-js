@@ -1,4 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
+
 import { StaticJsRealm } from "../../src/index.js";
 import { isStaticJsFunction } from "../../src/runtime/types/StaticJsFunction.js";
 import { isStaticJsObject } from "../../src/runtime/types/StaticJsObject.js";

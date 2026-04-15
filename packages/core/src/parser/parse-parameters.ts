@@ -1,7 +1,7 @@
+import { parse, type ParseResult } from "@babel/parser";
 import { isFunctionDeclaration, type FunctionParameter, type File } from "@babel/types";
 
 import { babelParserOptions } from "./babel-parser-options.js";
-import { parse, type ParseResult } from "@babel/parser";
 
 const ArgumentParseErrorMessage = "Arg string terminates parameters early";
 export function parseParameters(paramStr: string): FunctionParameter[] {

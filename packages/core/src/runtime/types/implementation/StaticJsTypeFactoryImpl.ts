@@ -1,43 +1,39 @@
-import { Completion } from "../../../evaluator/completions/Completion.js";
-
+import type { IntrinsicSymbols, Constructors, Prototypes } from "../../intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-
 import type { StaticJsArray } from "../StaticJsArray.js";
+import type { StaticJsBoolean } from "../StaticJsBoolean.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
+import type { StaticJsNull } from "../StaticJsNull.js";
+import type { StaticJsNumber } from "../StaticJsNumber.js";
 import type { StaticJsObject } from "../StaticJsObject.js";
-import type { StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
 import type { StaticJsPlainObject } from "../StaticJsPlainObject.js";
 import type { StaticJsPropertyDescriptorRecord } from "../StaticJsPropertyDescriptor.js";
-import type { ErrorTypeName, StaticJsFunctionTypeCreationOptions } from "../StaticJsTypeFactory.js";
-import type { StaticJsTypeFactory } from "../StaticJsTypeFactory.js";
-import { isErrorTypeName } from "../StaticJsTypeFactory.js";
-import type { StaticJsValue } from "../StaticJsValue.js";
-import { isStaticJsValue } from "../StaticJsValue.js";
-import type { StaticJsBoolean } from "../StaticJsBoolean.js";
-import type { StaticJsUndefined } from "../StaticJsUndefined.js";
-import type { StaticJsNull } from "../StaticJsNull.js";
-import { isStaticJsNull } from "../StaticJsNull.js";
-import type { StaticJsNumber } from "../StaticJsNumber.js";
+import type { StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
 import type { StaticJsString } from "../StaticJsString.js";
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";
+import type { ErrorTypeName, StaticJsFunctionTypeCreationOptions } from "../StaticJsTypeFactory.js";
+import type { StaticJsTypeFactory } from "../StaticJsTypeFactory.js";
+import type { StaticJsUndefined } from "../StaticJsUndefined.js";
+import type { StaticJsValue } from "../StaticJsValue.js";
 
-import type { IntrinsicSymbols, Constructors, Prototypes } from "../../intrinsics/intrinsics.js";
-
+import { Completion } from "../../../evaluator/completions/Completion.js";
 import { WeakValueMap } from "../../../utils/WeakValueMap.js";
-
+import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
+import { isStaticJsNull } from "../StaticJsNull.js";
+import { isErrorTypeName } from "../StaticJsTypeFactory.js";
+import { isStaticJsValue } from "../StaticJsValue.js";
+import { StaticJsExternalFunction } from "./functions/StaticJsExternalFunction.js";
+import { StaticJsNativeFunctionImpl } from "./functions/StaticJsNativeFunctionImpl.js";
+import { getStaticJsObjectProxyOwner } from "./objects/create-object-proxy.js";
 import { StaticJsArrayImpl } from "./objects/StaticJsArrayImpl.js";
+import { StaticJsExternalObject } from "./objects/StaticJsExternalObject.js";
+import { StaticJsPlainObjectImpl } from "./objects/StaticJsPlainObjectImpl.js";
 import { StaticJsBooleanImpl } from "./primitives/StaticJsBooleanImpl.js";
 import { StaticJsNullImpl } from "./primitives/StaticJsNullImpl.js";
 import { StaticJsNumberImpl } from "./primitives/StaticJsNumberImpl.js";
-import { StaticJsPlainObjectImpl } from "./objects/StaticJsPlainObjectImpl.js";
 import { StaticJsStringImpl } from "./primitives/StaticJsStringImpl.js";
 import { StaticJsSymbolImpl, getSymbolProxyOwner } from "./primitives/StaticJsSymbolImpl.js";
 import { StaticJsUndefinedImpl } from "./primitives/StaticJsUndefinedImpl.js";
-import { StaticJsExternalFunction } from "./functions/StaticJsExternalFunction.js";
-import { StaticJsExternalObject } from "./objects/StaticJsExternalObject.js";
-import { StaticJsNativeFunctionImpl } from "./functions/StaticJsNativeFunctionImpl.js";
-import { getStaticJsObjectProxyOwner } from "./objects/create-object-proxy.js";
-import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
 
 export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _prototypes: Prototypes;

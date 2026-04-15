@@ -1,9 +1,8 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
-import { Completion } from "../../evaluator/completions/Completion.js";
-
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
+
+import { Completion } from "../../evaluator/completions/Completion.js";
 
 export default function* deletePropertyOrThrow(
   obj: StaticJsObject,

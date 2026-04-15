@@ -1,14 +1,11 @@
-import { dropUndefined } from "../../utils/drop-undefined.js";
-
-import { StaticJsRealm } from "../../runtime/realm/factories/StaticJsRealm.js";
-import { isStaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
-
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import type { EvaluationOptions } from "./options.js";
 
 import { StaticJsRuntimeError } from "../../errors/StaticJsRuntimeError.js";
 import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
-
-import type { EvaluationOptions } from "./options.js";
+import { StaticJsRealm } from "../../runtime/realm/factories/StaticJsRealm.js";
+import { isStaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
+import { dropUndefined } from "../../utils/drop-undefined.js";
 
 export interface EvaluateScriptOptions extends EvaluationOptions {
   /**

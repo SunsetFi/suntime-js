@@ -1,24 +1,19 @@
 import type { Node } from "@babel/types";
 
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
-
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
 import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
+import type { StaticJsFunction } from "../../StaticJsFunction.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
+import type { StaticJsValue } from "../../StaticJsValue.js";
 
 import { get } from "../../../algorithms/get.js";
 import toString from "../../../algorithms/to-string.js";
-
-import type { StaticJsFunction } from "../../StaticJsFunction.js";
-import type { StaticJsValue } from "../../StaticJsValue.js";
-import type { StaticJsObject } from "../../StaticJsObject.js";
-import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsNull } from "../../StaticJsNull.js";
-
-import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
+import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsObjectProxyTarget } from "../objects/create-object-proxy.js";
+import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 export abstract class StaticJsAbstractFunction
   extends StaticJsOrdinaryObjectImpl

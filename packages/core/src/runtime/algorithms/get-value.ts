@@ -1,23 +1,18 @@
-import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
-import { type StaticJsPropertyKey, isStaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
-
-import type { StaticJsReferenceRecord } from "../references/StaticJsReferenceRecord.js";
-import { isUnresolvableReference } from "../references/is-unresolvable-reference.js";
-import { isPropertyReference } from "../references/is-property-reference.js";
-import { isPrivateReference } from "../references/is-private-reference.js";
-
-import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
-
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsReferenceRecord } from "../references/StaticJsReferenceRecord.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
-
+import { isPrivateReference } from "../references/is-private-reference.js";
+import { isPropertyReference } from "../references/is-property-reference.js";
+import { isUnresolvableReference } from "../references/is-unresolvable-reference.js";
+import { type StaticJsPropertyKey, isStaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
+import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
 import { toPropertyKey } from "../utils/to-property-key.js";
-
-import toObject from "./to-object.js";
 import { getThisValue } from "./get-this-value.js";
 import { privateGet } from "./private-get.js";
+import toObject from "./to-object.js";
 
 export default function* getValue(
   v: StaticJsReferenceRecord | StaticJsValue,

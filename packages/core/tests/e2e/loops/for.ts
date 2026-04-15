@@ -4,7 +4,6 @@ import {
   evaluateScript as evaluateScriptCore,
   createTimeBoundTaskRunner,
 } from "../../../src/index.js";
-
 import isDebuggerActive from "../../env/is-debugger-active.js";
 
 describe("E2E: For loops", () => {

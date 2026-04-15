@@ -1,5 +1,6 @@
-import sameValue from "../../../algorithms/same-value.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
+import sameValue from "../../../algorithms/same-value.js";
 
 const objectCtorIsDeclaration: IntrinsicPropertyDeclaration = {
   key: "is",

@@ -1,34 +1,33 @@
 import { ClassDeclaration, ClassExpression } from "@babel/types";
-import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
-import { StaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
-import { StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
-import { EvaluationContext } from "../../../EvaluationContext.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import { StaticJsPrivateEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import { privateBoundIdentifiers } from "../../../../grammar/private-bound-identifiers.js";
-import { isStaticJsObject, StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
-import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
-import { Q } from "../../../completions/Q.js";
-import { isStaticJsNull, StaticJsNull } from "../../../../runtime/types/StaticJsNull.js";
-import isConstructor from "../../../../runtime/algorithms/is-constructor.js";
-import { Completion } from "../../../completions/Completion.js";
-import { get } from "../../../../runtime/algorithms/get.js";
-import { isStaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
+
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+import { privateBoundIdentifiers } from "../../../../grammar/private-bound-identifiers.js";
+import call from "../../../../runtime/algorithms/call.js";
+import { get } from "../../../../runtime/algorithms/get.js";
+import isConstructor from "../../../../runtime/algorithms/is-constructor.js";
 import { ordinaryCreateFromConstructor } from "../../../../runtime/algorithms/ordinary-create-from-constructor.js";
 import { setFunctionName } from "../../../../runtime/algorithms/set-function-name.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsPrivateEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsAstFunction } from "../../../../runtime/types/implementation/functions/StaticJsAstFunction.js";
-import { constructorMethod } from "./constructor-method.js";
-import { defineMethod } from "./define-method.js";
-import { defineMethodProperty } from "./define-method-property.js";
-import { nonConstructorElements } from "./non-constructor-elements.js";
-import { isStatic } from "./is-static.js";
+import { isStaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
+import { isStaticJsNull, StaticJsNull } from "../../../../runtime/types/StaticJsNull.js";
+import { isStaticJsObject, StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import {
   isStaticJsPrivateElement,
   StaticJsPrivateElement,
   StaticJsPrivateElementAccessor,
   StaticJsPrivateElementMethod,
 } from "../../../../runtime/types/StaticJsPrivateElement.js";
+import { StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
+import { StaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
+import { StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
+import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
+import { captureThrownCompletion } from "../../../completions/capture-thrown-completion.js";
+import { Completion } from "../../../completions/Completion.js";
+import { Q } from "../../../completions/Q.js";
+import { EvaluationContext } from "../../../EvaluationContext.js";
+import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 import {
   isStaticJsClassFieldDefinitionRecord,
   StaticJsClassFieldDefinitionRecord,
@@ -37,17 +36,19 @@ import {
   isStaticJsClassStaticBlockDefinitionRecord,
   StaticJsClassStaticBlockDefinitionRecord,
 } from "../ClassStaticBlockDefinitionRecord.js";
+import { StaticJsClassConstructorFunction } from "../types/StaticJsClassConstructorFunction.js";
 import {
   classElementEvaluation,
   ClassElementEvaluationResult,
 } from "./class-element-evaluation.js";
-import call from "../../../../runtime/algorithms/call.js";
-import { captureThrownCompletion } from "../../../completions/capture-thrown-completion.js";
-import { initializeInstanceElements } from "./initialize-instance-elements.js";
+import { constructorMethod } from "./constructor-method.js";
 import { defineField } from "./define-field.js";
+import { defineMethodProperty } from "./define-method-property.js";
+import { defineMethod } from "./define-method.js";
+import { initializeInstanceElements } from "./initialize-instance-elements.js";
+import { isStatic } from "./is-static.js";
+import { nonConstructorElements } from "./non-constructor-elements.js";
 import { privateMethodOrAccessorAdd } from "./private-method-or-accessor-add.js";
-import { StaticJsClassConstructorFunction } from "../types/StaticJsClassConstructorFunction.js";
-import { StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
 
 export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitionEvaluation(
   node: ClassDeclaration | ClassExpression,

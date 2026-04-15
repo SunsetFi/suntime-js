@@ -1,6 +1,7 @@
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import generatorResumeAbrupt from "../../../algorithms/generator-resume-abrupt.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const generatorProtoReturnDeclaration: IntrinsicPropertyDeclaration = {
   key: "return",

@@ -1,4 +1,5 @@
 import type { AwaitExpression, Node } from "@babel/types";
+
 import traverseNs from "@babel/traverse";
 
 // Node's ESM/CJS interop exposes @babel/traverse as a namespace object at runtime.

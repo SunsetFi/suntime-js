@@ -1,14 +1,12 @@
-import { Completion } from "../../evaluator/completions/Completion.js";
-
-import toBoolean from "../algorithms/to-boolean.js";
-
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
-import { StaticJsBooleanBoxed } from "../types/implementation/primitives/StaticJsBooleanBoxed.js";
-import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { isStaticJsBoolean, type StaticJsBoolean } from "../types/StaticJsBoolean.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+
+import { Completion } from "../../evaluator/completions/Completion.js";
+import toBoolean from "../algorithms/to-boolean.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { StaticJsBooleanBoxed } from "../types/implementation/primitives/StaticJsBooleanBoxed.js";
+import { isStaticJsBoolean, type StaticJsBoolean } from "../types/StaticJsBoolean.js";
 
 export function populateBooleanPrototype(realm: StaticJsRealm, booleanProto: StaticJsObject) {
   booleanProto.defineOwnPropertySync("toString", {

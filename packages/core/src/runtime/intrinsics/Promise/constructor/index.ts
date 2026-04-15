@@ -1,24 +1,18 @@
-import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
-
-import { Completion } from "../../../../evaluator/completions/Completion.js";
-import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
-
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
-import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsPromise } from "../../../types/StaticJsPromise.js";
-import { isStaticJsValue } from "../../../types/StaticJsValue.js";
 
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
+import call from "../../../algorithms/call.js";
+import { get } from "../../../algorithms/get.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsPromiseImpl } from "../../../types/implementation/objects/StaticJsPromiseImpl.js";
-
-import { get } from "../../../algorithms/get.js";
-import call from "../../../algorithms/call.js";
-import { isCallable } from "../../../algorithms/is-callable.js";
-
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
+import { isStaticJsValue } from "../../../types/StaticJsValue.js";
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import promiseCtorAllDeclaration from "./all.js";
 import promiseCtorRejectDeclaration from "./reject.js";
 import promiseCtorResolveDeclaration from "./resolve.js";

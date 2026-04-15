@@ -1,33 +1,24 @@
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
-
-import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
-import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-
 import { AwaitCommand } from "../../../../evaluator/commands/AwaitCommand.js";
-
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { X } from "../../../../evaluator/completions/X.js";
-
+import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
+import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { invokeEvaluator, StaticJsEvaluator } from "../../../../evaluator/StaticJsEvaluator.js";
 import call from "../../../algorithms/call.js";
 import newPromiseCapability from "../../../algorithms/new-promise-capability.js";
 import promiseResolve from "../../../algorithms/promise-resolve.js";
-
 import { AsyncDriver } from "../../../async/AsyncDriver.js";
-
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
-
 import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
 import { StaticJsAsyncGenerator } from "../../StaticJsAsyncGenerator.js";
 import { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../../StaticJsPromise.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsValue, StaticJsValue } from "../../StaticJsValue.js";
-
-import { StaticJsNativeFunctionImpl } from "./StaticJsNativeFunctionImpl.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
-import { invokeEvaluator, StaticJsEvaluator } from "../../../../evaluator/StaticJsEvaluator.js";
+import { StaticJsNativeFunctionImpl } from "./StaticJsNativeFunctionImpl.js";
 
 interface AsyncGeneratorRequest {
   completion: Completion;

@@ -1,9 +1,8 @@
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import { get } from "../../../algorithms/get.js";
 import toString from "../../../algorithms/to-string.js";
-
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
-
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const errorProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
   key: "toString",

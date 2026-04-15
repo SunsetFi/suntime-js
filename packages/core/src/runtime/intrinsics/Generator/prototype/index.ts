@@ -1,9 +1,7 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import generatorProtoNextDeclaration from "./next.js";
 import generatorProtoReturnDeclaration from "./return.js";
 import generatorProtoThrowDeclaration from "./throw.js";

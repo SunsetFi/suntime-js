@@ -1,36 +1,26 @@
 import { isIdentifier, type Node, type CallExpression } from "@babel/types";
 
-import { parseScript } from "../../parser/parse-script.js";
-
-import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-
-import { isStaticJsValue, type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-
-import { getIterator } from "../../runtime/iterators/get-iterator.js";
-import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";
-import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
-
-import toString from "../../runtime/algorithms/to-string.js";
-
-import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-
-import { isPropertyReference } from "../../runtime/references/is-property-reference.js";
-
-import evalDeclarationInstantiation from "../instantiation/eval-declaration-instantiation.js";
-
-import getValue from "../../runtime/algorithms/get-value.js";
-import { get } from "../../runtime/algorithms/get.js";
-import call from "../../runtime/algorithms/call.js";
-import { isCallable } from "../../runtime/algorithms/is-callable.js";
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-
-import { Completion } from "../completions/Completion.js";
-import { Q } from "../completions/Q.js";
-
-import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
+import { parseScript } from "../../parser/parse-script.js";
+import call from "../../runtime/algorithms/call.js";
+import getValue from "../../runtime/algorithms/get-value.js";
+import { get } from "../../runtime/algorithms/get.js";
+import { isCallable } from "../../runtime/algorithms/is-callable.js";
+import toString from "../../runtime/algorithms/to-string.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { getIterator } from "../../runtime/iterators/get-iterator.js";
+import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
+import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";
+import { isPropertyReference } from "../../runtime/references/is-property-reference.js";
+import { isStaticJsValue, type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import { Completion } from "../completions/Completion.js";
+import { Q } from "../completions/Q.js";
+import { EvaluationContext } from "../EvaluationContext.js";
+import evalDeclarationInstantiation from "../instantiation/eval-declaration-instantiation.js";
 import nameNode from "./name-node.js";
 
 export default function* callExpressionNodeEvaluator(node: CallExpression): EvaluationGenerator {

@@ -1,18 +1,16 @@
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
 import type {
   StaticJsPropertyDescriptor,
   StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
-import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 
-import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";
-import { StaticJsExternalFunction } from "../functions/StaticJsExternalFunction.js";
-import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
+import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
+import { StaticJsExternalFunction } from "../functions/StaticJsExternalFunction.js";
+import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";
 
 /**
  * A static object that wraps a native javascript object.

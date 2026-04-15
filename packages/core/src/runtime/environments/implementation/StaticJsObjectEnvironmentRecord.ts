@@ -1,16 +1,13 @@
-import { Completion } from "../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
+import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
+
+import { Completion } from "../../../evaluator/completions/Completion.js";
 import { get } from "../../algorithms/get.js";
 import { set } from "../../algorithms/set.js";
 import toBoolean from "../../algorithms/to-boolean.js";
-
-import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-
 import { isStaticJsObject, type StaticJsObject } from "../../types/StaticJsObject.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
-
-import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
-
 import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
 
 export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBase {

@@ -1,12 +1,10 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
-
 import { isStaticJsObject } from "../../types/StaticJsObject.js";
 import { StaticJsString } from "../../types/StaticJsString.js";
 import { StaticJsSymbol } from "../../types/StaticJsSymbol.js";
 import { toPropertyKey } from "../../utils/to-property-key.js";
-
 import { IntrinsicPropertyDeclaration } from "../utils.js";
 
 export const reflectOwnKeysDeclaration: IntrinsicPropertyDeclaration = {

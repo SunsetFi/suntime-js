@@ -1,6 +1,6 @@
-import { fileURLToPath } from "node:url";
 import { mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { relative, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import getTest262Path from "./utils/get-test262-path.js";
 

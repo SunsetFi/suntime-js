@@ -1,6 +1,5 @@
-import { isStaticJsNumber, type StaticJsNumber } from "../../types/StaticJsNumber.js";
-
 import { StaticJsNumberBoxed } from "../../types/implementation/primitives/StaticJsNumberBoxed.js";
+import { isStaticJsNumber, type StaticJsNumber } from "../../types/StaticJsNumber.js";
 
 export default function isNumberLike(
   value: unknown,

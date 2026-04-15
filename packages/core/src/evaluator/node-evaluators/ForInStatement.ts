@@ -1,14 +1,11 @@
 import type { ForInStatement, LVal, VariableDeclaration } from "@babel/types";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-
 import boundNames from "../instantiation/algorithms/bound-names.js";
-
-import forInOfHeadEvaluation from "./ForInOfStatement/ForInOfHeadEvaluation.js";
-import { forInOfBodyEvaluation } from "./ForInOfStatement/ForInOfBodyEvaluation.js";
-
-import labelledIterationStatementEvaluation from "./LabelledIterationStatementEvaluation.js";
 import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
+import { forInOfBodyEvaluation } from "./ForInOfStatement/ForInOfBodyEvaluation.js";
+import forInOfHeadEvaluation from "./ForInOfStatement/ForInOfHeadEvaluation.js";
+import labelledIterationStatementEvaluation from "./LabelledIterationStatementEvaluation.js";
 
 const forInStatementNodeEvaluator = breakableStatementEvaluation(
   labelledIterationStatementEvaluation(function* forInStatementNodeEvaluator(node: ForInStatement) {

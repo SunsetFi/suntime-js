@@ -1,11 +1,10 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
 import type { StaticJsBoolean } from "../types/StaticJsBoolean.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
+
 import { isStaticJsNumber } from "../types/StaticJsNumber.js";
 import { isStaticJsScalar } from "../types/StaticJsScalar.js";
-import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 export default function* sameValueZero(
   a: StaticJsValue,

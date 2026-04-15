@@ -1,10 +1,8 @@
-import { Completion } from "../../../../evaluator/completions/Completion.js";
-
-import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";
-
-import { isCallable } from "../../../algorithms/is-callable.js";
-
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
+import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { isCallable } from "../../../algorithms/is-callable.js";
+import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";
 
 const promiseProtoThenDeclaration: IntrinsicPropertyDeclaration = {
   key: "then",

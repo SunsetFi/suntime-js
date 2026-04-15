@@ -1,8 +1,8 @@
-import { symbolInspect } from "../../../utils/symbol-inspect.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-
 import type { StaticJsPrimitive } from "../StaticJsPrimitive.js";
 import type { StaticJsTypeCode } from "../StaticJsTypeCode.js";
+
+import { symbolInspect } from "../../../utils/symbol-inspect.js";
 
 export abstract class StaticJsAbstractPrimitive implements StaticJsPrimitive {
   constructor(private readonly _realm: StaticJsRealm) {}

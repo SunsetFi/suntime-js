@@ -1,13 +1,13 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
-import toObject from "./to-object.js";
 import createDataPropertyOrThrow from "./create-data-property-or-throw.js";
 import { get } from "./get.js";
+import toObject from "./to-object.js";
 
 export default function* copyDataProperties(
   target: StaticJsObject,

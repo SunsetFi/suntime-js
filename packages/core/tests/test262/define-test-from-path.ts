@@ -1,15 +1,13 @@
-import { join } from "node:path";
 import { statSync } from "node:fs";
-
+import { join } from "node:path";
 import { describe, it } from "vitest";
 
-import getPerf from "./utils/get-perf.js";
-
 import defineTest from "./define-test.js";
-import getTest262Path from "./utils/get-test262-path.js";
 import isTestEnabled from "./is-test-enabled.js";
 import Test262File from "./Test262File.js";
 import getFilesSync from "./utils/get-files.js";
+import getPerf from "./utils/get-perf.js";
+import getTest262Path from "./utils/get-test262-path.js";
 
 const testsRoot = getTest262Path("test");
 

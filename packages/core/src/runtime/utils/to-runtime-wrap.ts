@@ -1,8 +1,7 @@
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { isStaticJsObject } from "../types/StaticJsObject.js";
 
 export function toRuntimeWrap(value: unknown, realm: StaticJsRealm): StaticJsValue {

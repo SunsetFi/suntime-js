@@ -1,47 +1,39 @@
 // TODO REMOVE
 
-import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
-
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-
-import { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
-
-import { fromPropertyDescriptor } from "../../utils/fromPropertyDescriptor.js";
-
+import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import call from "../../algorithms/call.js";
 import { completePropertyDescriptor } from "../../algorithms/complete-property-descriptor.js";
+import { construct } from "../../algorithms/construct.js";
+import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
 import { createListFromArrayLike } from "../../algorithms/create-list-from-array-like.js";
 import getMethod from "../../algorithms/get-method.js";
+import { isCompatiblePropertyDescriptor } from "../../algorithms/is-compatible-property-descriptor.js";
 import sameValue from "../../algorithms/same-value.js";
 import toBoolean from "../../algorithms/to-boolean.js";
 import toPropertyDescriptor from "../../algorithms/to-property-descriptor.js";
 import toString from "../../algorithms/to-string.js";
-import { isCompatiblePropertyDescriptor } from "../../algorithms/is-compatible-property-descriptor.js";
-import { construct } from "../../algorithms/construct.js";
-
+import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+import { fromPropertyDescriptor } from "../../utils/fromPropertyDescriptor.js";
+import { isStaticJsCallable, StaticJsCallable } from "../StaticJsCallable.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsObject, StaticJsObject } from "../StaticJsObject.js";
-import { StaticJsPropertyKey, staticJsPropertyKeyToValue } from "../StaticJsPropertyKey.js";
+import { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,
   StaticJsPropertyDescriptorRecord,
 } from "../StaticJsPropertyDescriptor.js";
+import { StaticJsPropertyKey, staticJsPropertyKeyToValue } from "../StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import { isStaticJsUndefined } from "../StaticJsUndefined.js";
 import { StaticJsValue } from "../StaticJsValue.js";
-import { isStaticJsCallable, StaticJsCallable } from "../StaticJsCallable.js";
-
 import { createStaticJsObjectProxy } from "./objects/create-object-proxy.js";
-import { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
-import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
 
 export class StaticJsProxyImpl implements StaticJsObject, StaticJsCallable {
   private _cachedJsObject: unknown | null = null;

@@ -1,31 +1,27 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
 import type { Constructors } from "./intrinsics.js";
 
 import { createArrayConstructor } from "./Array/index.js";
+import { createAsyncGeneratorFunctionConstructor } from "./AsyncGeneratorFunction/index.js";
 import { createBooleanConstructor } from "./Boolean.js";
-
-import { createNumberConstructor } from "./Number/index.js";
-import { createObjectConstructor } from "./Object/index.js";
-import { createStringConstructor } from "./String/index.js";
-import { createSymbolConstructor } from "./Symbol/index.js";
-import { createPromiseConstructor } from "./Promise/index.js";
-import { createProxyConstructor } from "./Proxy/index.js";
-import { createIteratorConstructor } from "./Iterator/index.js";
-import { createSetConstructor } from "./Set/index.js";
-import { createMapConstructor } from "./Map/index.js";
-
 import { createErrorConstructor } from "./Error/index.js";
-import { createTypeErrorConstructor } from "./TypeError.js";
-import { createReferenceErrorConstructor } from "./ReferenceError.js";
-import { createSyntaxErrorConstructor } from "./SyntaxError.js";
-import { createRangeErrorConstructor } from "./RangeError.js";
 import { createEvalErrorConstructor } from "./EvalError.js";
-import { createURIErrorConstructor } from "./URIError.js";
-
 import { createFunctionConstructor } from "./Function/index.js";
 import { createGeneratorFunctionConstructor } from "./GeneratorFunction/index.js";
-import { createAsyncGeneratorFunctionConstructor } from "./AsyncGeneratorFunction/index.js";
+import { createIteratorConstructor } from "./Iterator/index.js";
+import { createMapConstructor } from "./Map/index.js";
+import { createNumberConstructor } from "./Number/index.js";
+import { createObjectConstructor } from "./Object/index.js";
+import { createPromiseConstructor } from "./Promise/index.js";
+import { createProxyConstructor } from "./Proxy/index.js";
+import { createRangeErrorConstructor } from "./RangeError.js";
+import { createReferenceErrorConstructor } from "./ReferenceError.js";
+import { createSetConstructor } from "./Set/index.js";
+import { createStringConstructor } from "./String/index.js";
+import { createSymbolConstructor } from "./Symbol/index.js";
+import { createSyntaxErrorConstructor } from "./SyntaxError.js";
+import { createTypeErrorConstructor } from "./TypeError.js";
+import { createURIErrorConstructor } from "./URIError.js";
 
 export function createConstructors(realm: StaticJsRealm): Constructors {
   const String = createStringConstructor(realm, realm.types.prototypes.stringProto);

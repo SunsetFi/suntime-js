@@ -1,8 +1,8 @@
 import { describe, it, expect, vitest, vi } from "vitest";
 
 import { isStaticJsPromise, StaticJsRealm, StaticJsSyntaxError } from "../../src/index.js";
-import { StaticJsTaskIterator } from "../../src/runtime/tasks/StaticJsTaskIterator.js";
 import { StaticJsTaskCalleeType } from "../../src/runtime/tasks/StaticJsTaskCalleeType.js";
+import { StaticJsTaskIterator } from "../../src/runtime/tasks/StaticJsTaskIterator.js";
 
 describe("E2E: Realm", () => {
   describe("Instance", () => {

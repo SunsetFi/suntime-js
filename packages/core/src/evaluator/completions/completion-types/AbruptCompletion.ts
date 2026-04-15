@@ -1,7 +1,5 @@
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-
 import { nameCompletionLike } from "../name-completion-like.js";
-
 import { BreakCompletion } from "./BreakCompletion.js";
 import { ContinueCompletion } from "./ContinueCompletion.js";
 import { ReturnCompletion } from "./ReturnCompletion.js";

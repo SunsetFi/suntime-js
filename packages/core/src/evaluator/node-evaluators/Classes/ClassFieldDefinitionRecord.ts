@@ -1,6 +1,6 @@
-import { StaticJsSymbol } from "../../../runtime/types/StaticJsSymbol.js";
 import { StaticJsFunction } from "../../../runtime/types/StaticJsFunction.js";
 import { StaticJsPrivateName } from "../../../runtime/types/StaticJsPrivateName.js";
+import { StaticJsSymbol } from "../../../runtime/types/StaticJsSymbol.js";
 
 export interface StaticJsClassFieldDefinitionRecord {
   type: "class-field-definition";

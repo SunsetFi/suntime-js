@@ -1,21 +1,15 @@
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-
-import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
-import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
-import { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
-import { EvaluatorCommand } from "../../evaluator/commands/EvaluatorCommand.js";
 import { AwaitCommand } from "../../evaluator/commands/AwaitCommand.js";
+import { EvaluatorCommand } from "../../evaluator/commands/EvaluatorCommand.js";
 import { YieldCommand } from "../../evaluator/commands/YieldCommand.js";
-
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
-
-import { StaticJsValue } from "../types/StaticJsValue.js";
-import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
+import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import promiseResolve from "../algorithms/promise-resolve.js";
+import { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { StaticJsValue } from "../types/StaticJsValue.js";
 
 export interface AsyncDriverHooks {
   onYield(value: StaticJsValue): EvaluationGenerator<Completion | false | void>;

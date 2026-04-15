@@ -1,11 +1,10 @@
 import type { ConditionalExpression } from "@babel/types";
 
-import toBoolean from "../../runtime/algorithms/to-boolean.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import toBoolean from "../../runtime/algorithms/to-boolean.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
-
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* conditionalExpressionNodeEvaluator(
   node: ConditionalExpression,

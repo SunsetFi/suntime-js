@@ -1,11 +1,8 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
-
 import toPropertyDescriptor from "../../algorithms/to-property-descriptor.js";
-
 import { isStaticJsObject } from "../../types/StaticJsObject.js";
 import { toPropertyKey } from "../../utils/to-property-key.js";
-
 import { IntrinsicPropertyDeclaration } from "../utils.js";
 
 export const reflectDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {

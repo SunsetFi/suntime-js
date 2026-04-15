@@ -1,11 +1,8 @@
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
+import { Prototypes } from "../intrinsics/intrinsics.js";
 import { StaticJsCallable } from "../types/StaticJsCallable.js";
 import { StaticJsObject } from "../types/StaticJsObject.js";
-
-import { Prototypes } from "../intrinsics/intrinsics.js";
-
 import { getPrototypeFromConstructor } from "./get-prototype-from-constructor.js";
 
 export function* ordinaryCreateFromConstructor(

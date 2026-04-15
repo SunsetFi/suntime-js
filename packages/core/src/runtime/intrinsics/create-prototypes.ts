@@ -1,35 +1,29 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
-import { StaticJsPlainObjectImpl } from "../types/implementation/objects/StaticJsPlainObjectImpl.js";
-
 import type { Prototypes } from "./intrinsics.js";
 
+import { StaticJsPlainObjectImpl } from "../types/implementation/objects/StaticJsPlainObjectImpl.js";
 import { populateArrayPrototype } from "./Array/index.js";
 import { populateArrayIteratorPrototype } from "./ArrayIterator/index.js";
+import { populateAsyncGeneratorPrototype } from "./AsyncGenerator/index.js";
+import { populateAsyncGeneratorFunctionPrototype } from "./AsyncGeneratorFunction/index.js";
+import { populateBooleanPrototype } from "./Boolean.js";
 import { populateErrorPrototype } from "./Error/index.js";
+import { populateEvalErrorPrototype } from "./EvalError.js";
 import { populateFunctionPrototype } from "./Function/index.js";
+import { populateGeneratorPrototype } from "./Generator/index.js";
+import { populateGeneratorFunctionPrototype } from "./GeneratorFunction/index.js";
+import { populateIteratorPrototype } from "./Iterator/index.js";
+import { populateIteratorHelperPrototype } from "./IteratorHelper/index.js";
 import { populateMapPrototype } from "./Map/index.js";
 import { populateNumberPrototype } from "./Number/index.js";
 import { populateObjectPrototype } from "./Object/index.js";
 import { populatePromisePrototype } from "./Promise/index.js";
+import { populateRangeErrorPrototype } from "./RangeError.js";
+import { populateReferenceErrorPrototype } from "./ReferenceError.js";
 import { populateSetPrototype } from "./Set/index.js";
 import { populateStringPrototype } from "./String/index.js";
 import { populateStringIteratorPrototype } from "./StringIterator/index.js";
 import { populateSymbolPrototype } from "./Symbol/index.js";
-
-import { populateIteratorPrototype } from "./Iterator/index.js";
-import { populateIteratorHelperPrototype } from "./IteratorHelper/index.js";
-
-import { populateGeneratorPrototype } from "./Generator/index.js";
-import { populateGeneratorFunctionPrototype } from "./GeneratorFunction/index.js";
-
-import { populateAsyncGeneratorPrototype } from "./AsyncGenerator/index.js";
-import { populateAsyncGeneratorFunctionPrototype } from "./AsyncGeneratorFunction/index.js";
-
-import { populateBooleanPrototype } from "./Boolean.js";
-import { populateEvalErrorPrototype } from "./EvalError.js";
-import { populateRangeErrorPrototype } from "./RangeError.js";
-import { populateReferenceErrorPrototype } from "./ReferenceError.js";
 import { populateSyntaxErrorPrototype } from "./SyntaxError.js";
 import { populateTypeErrorPrototype } from "./TypeError.js";
 import { populateURIErrorPrototype } from "./URIError.js";

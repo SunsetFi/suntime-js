@@ -1,9 +1,10 @@
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { X } from "../../../../evaluator/completions/X.js";
 import { get } from "../../../algorithms/get.js";
-
 import toObject from "../../../algorithms/to-object.js";
-
+import { StaticJsArgumentsExoticObject } from "../../../types/implementation/functions/StaticJsArgumentsExoticObject.js";
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsBoolean } from "../../../types/StaticJsBoolean.js";
 import { isStaticJsCallable } from "../../../types/StaticJsCallable.js";
@@ -11,10 +12,6 @@ import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
 import { isStaticJsString } from "../../../types/StaticJsString.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-
-import { StaticJsArgumentsExoticObject } from "../../../types/implementation/functions/StaticJsArgumentsExoticObject.js";
-
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
   key: "toString",

@@ -7,18 +7,15 @@ import {
 } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-
+import { StaticJsPrivateName } from "../../../runtime/types/StaticJsPrivateName.js";
 import {
   StaticJsPropertyKey,
   toStaticJsPropertyKey,
 } from "../../../runtime/types/StaticJsPropertyKey.js";
-import { StaticJsPrivateName } from "../../../runtime/types/StaticJsPrivateName.js";
-
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../completions/Q.js";
-
-import { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
+import { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 export function* classElementNameNodeEvaluator(
   node: ClassMethod | ClassPrivateMethod | ClassProperty | ClassPrivateProperty,

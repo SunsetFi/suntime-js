@@ -1,5 +1,4 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
 import type { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 
 export interface StaticJsPrimitive {

@@ -1,28 +1,25 @@
 import type { FunctionDeclaration, Node } from "@babel/types";
 
-import { StaticJsGlobalEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
-
-import { Completion } from "../completions/Completion.js";
-
-import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+import { StaticJsGlobalEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+import { StaticJsObjectEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsObjectEnvironmentRecord.js";
+import { StaticJsPrivateEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
+import { Completion } from "../completions/Completion.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 import { instantiateFunctionObject } from "../node-evaluators/Function.js";
-
+import boundNames from "./algorithms/bound-names.js";
+import canDeclareGlobalFunction from "./algorithms/can-declare-global-function.js";
+import canDeclareGlobalVar from "./algorithms/can-declare-global-var.js";
+import collectAnnexBFunctionDeclarations from "./algorithms/collect-annex-b-function-declarations.js";
+import createGlobalFunctionBinding from "./algorithms/create-global-function-binding.js";
+import createGlobalVarBinding from "./algorithms/create-global-var-binding.js";
+import hasLexicalDeclaration from "./algorithms/has-lexical-declaration.js";
+import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
 import varDeclaredNames from "./algorithms/var-declared-names.js";
 import varScopedDeclarations from "./algorithms/var-scoped-declarations.js";
-import hasLexicalDeclaration from "./algorithms/has-lexical-declaration.js";
-import { StaticJsObjectEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsObjectEnvironmentRecord.js";
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import boundNames from "./algorithms/bound-names.js";
-import canDeclareGlobalVar from "./algorithms/can-declare-global-var.js";
-import canDeclareGlobalFunction from "./algorithms/can-declare-global-function.js";
-import collectAnnexBFunctionDeclarations from "./algorithms/collect-annex-b-function-declarations.js";
-import createGlobalVarBinding from "./algorithms/create-global-var-binding.js";
-import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
-import createGlobalFunctionBinding from "./algorithms/create-global-function-binding.js";
-import { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
-import { StaticJsPrivateEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 
 export default function* evalDeclarationInstantiation(
   body: Node,

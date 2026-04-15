@@ -1,13 +1,11 @@
-import { Completion } from "../../../../evaluator/completions/Completion.js";
-
-import isConstructor from "../../../algorithms/is-constructor.js";
-
-import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsFunction } from "../../../types/StaticJsFunction.js";
-
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-import { set } from "../../../algorithms/set.js";
+
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { arrayCreate } from "../../../algorithms/array-create.js";
+import isConstructor from "../../../algorithms/is-constructor.js";
+import { set } from "../../../algorithms/set.js";
+import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
 
 const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "of",

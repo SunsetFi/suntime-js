@@ -1,27 +1,23 @@
 import { type FunctionDeclaration, type Node, isVariableDeclaration } from "@babel/types";
 
-import { StaticJsGlobalEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
-
-import { EvaluationContext } from "../EvaluationContext.js";
-
-import { Completion } from "../completions/Completion.js";
-
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import { StaticJsGlobalEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+import { Completion } from "../completions/Completion.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 import { instantiateFunctionObject } from "../node-evaluators/Function.js";
-
-import lexicallyDeclaredNames from "./algorithms/lexically-declared-names.js";
-import varDeclaredNames from "./algorithms/var-declared-names.js";
-import hasRestrictedGlobalProperty from "./algorithms/has-restricted-global-property.js";
-import varScopedDeclarations from "./algorithms/var-scoped-declarations.js";
 import boundNames from "./algorithms/bound-names.js";
-import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
-import hasLexicalDeclaration from "./algorithms/has-lexical-declaration.js";
-import canDeclareGlobalVar from "./algorithms/can-declare-global-var.js";
 import canDeclareGlobalFunction from "./algorithms/can-declare-global-function.js";
+import canDeclareGlobalVar from "./algorithms/can-declare-global-var.js";
 import collectAnnexBFunctionDeclarations from "./algorithms/collect-annex-b-function-declarations.js";
-import createGlobalVarBinding from "./algorithms/create-global-var-binding.js";
 import createGlobalFunctionBinding from "./algorithms/create-global-function-binding.js";
+import createGlobalVarBinding from "./algorithms/create-global-var-binding.js";
+import hasLexicalDeclaration from "./algorithms/has-lexical-declaration.js";
+import hasRestrictedGlobalProperty from "./algorithms/has-restricted-global-property.js";
+import lexicallyDeclaredNames from "./algorithms/lexically-declared-names.js";
+import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
+import varDeclaredNames from "./algorithms/var-declared-names.js";
+import varScopedDeclarations from "./algorithms/var-scoped-declarations.js";
 
 export function* globalDeclarationInstantiation(
   node: Node,

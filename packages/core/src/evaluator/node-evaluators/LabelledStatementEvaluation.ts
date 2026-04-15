@@ -1,13 +1,12 @@
 import type { Node } from "@babel/types";
 
-import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import type { NodeEvaluator } from "../NodeEvaluator.js";
 
-import { Completion } from "../completions/Completion.js";
 import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";
+import { Completion } from "../completions/Completion.js";
 import { rethrowCompletion } from "../completions/rethrow-completion.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 
 export default function labeledStatementEvaluation<TNode extends Node>(
   evaluator: NodeEvaluator<TNode>,

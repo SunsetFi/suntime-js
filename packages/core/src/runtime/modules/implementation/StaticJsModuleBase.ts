@@ -1,21 +1,18 @@
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import { Completion } from "../../../evaluator/completions/Completion.js";
-
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
-
 import type { StaticJsModule } from "../StaticJsModule.js";
 import type {
   StaticJsModuleImplementation,
   StaticJsModuleStatus,
 } from "../StaticJsModuleImplementation.js";
 
-import { BindingNameNamespace, type StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
-import { StaticJsNamespaceExoticObject } from "../../types/implementation/StaticJsNamespaceExoticObject.js";
-import { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
+import { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+import { StaticJsNamespaceExoticObject } from "../../types/implementation/StaticJsNamespaceExoticObject.js";
+import { BindingNameNamespace, type StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
 
 export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModuleImplementation {
   private _cachedNamespaceObject: StaticJsObject | null = null;

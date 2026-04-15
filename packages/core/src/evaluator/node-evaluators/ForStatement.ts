@@ -1,26 +1,20 @@
 import type { Expression, ForStatement, Statement } from "@babel/types";
 
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-
-import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-
-import toBoolean from "../../runtime/algorithms/to-boolean.js";
-import loopContinues from "../../runtime/algorithms/loop-continues.js";
-
-import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+import loopContinues from "../../runtime/algorithms/loop-continues.js";
+import toBoolean from "../../runtime/algorithms/to-boolean.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-
+import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
-
-import boundNames from "../instantiation/algorithms/bound-names.js";
-
-import labelledIterationStatementEvaluation from "./LabelledIterationStatementEvaluation.js";
-import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
-import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";
 import { rethrowCompletion } from "../completions/rethrow-completion.js";
+import { EvaluationContext } from "../EvaluationContext.js";
+import boundNames from "../instantiation/algorithms/bound-names.js";
+import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
+import labelledIterationStatementEvaluation from "./LabelledIterationStatementEvaluation.js";
 
 const forStatementNodeEvaluator = breakableStatementEvaluation(
   labelledIterationStatementEvaluation(function* forStatementNodeEvaluator(

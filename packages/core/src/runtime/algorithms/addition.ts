@@ -1,11 +1,10 @@
-import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { type StaticJsNumber } from "../types/StaticJsNumber.js";
 import { isStaticJsString, type StaticJsString } from "../types/StaticJsString.js";
-import type { StaticJsValue } from "../types/StaticJsValue.js";
 import toNumber from "./to-number.js";
-
 import toPrimitive from "./to-primitive.js";
 import toString from "./to-string.js";
 

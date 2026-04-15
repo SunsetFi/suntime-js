@@ -1,14 +1,10 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-
-import { isStaticJsObject } from "../../../types/StaticJsObject.js";
-
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-
-import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { StaticJsProxyImpl } from "../../../types/implementation/StaticJsProxyImpl.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
+import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [];
 

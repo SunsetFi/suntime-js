@@ -1,7 +1,6 @@
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-
 import isNumberLike from "../isNumberLike.js";
 
 const numberProtoToLocaleStringDeclaration: FunctionIntrinsicPropertyDeclaration = {

@@ -1,14 +1,11 @@
-import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import { StaticJsGeneratorImpl } from "../types/implementation/functions/StaticJsGeneratorImpl.js";
-
+import { Completion } from "../../evaluator/completions/Completion.js";
 import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
+import { StaticJsGeneratorImpl } from "../types/implementation/functions/StaticJsGeneratorImpl.js";
 
 export default function* generatorResume(
   generator: StaticJsValue,

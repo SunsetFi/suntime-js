@@ -2,19 +2,16 @@ import type { Node } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsTaskAbortedError } from "../../../errors/StaticJsTaskAbortedError.js";
-
 import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
 import { invokeEvaluator, StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
-
-import { StaticJsFunction } from "../../types/StaticJsFunction.js";
 import { StaticJsAbstractFunction } from "../../types/implementation/functions/StaticJsAbstractFunction.js";
-
+import { StaticJsFunction } from "../../types/StaticJsFunction.js";
+import { StaticJsTaskCalleeType } from "../StaticJsTaskCalleeType.js";
 import { StaticJsTaskIterator } from "../StaticJsTaskIterator.js";
 import { StaticJsTaskIteratorOperation } from "../StaticJsTaskIteratorOperation.js";
 import { StaticJsTaskIteratorStackFrame } from "../StaticJsTaskIteratorStackFrame.js";
-import { StaticJsTaskType } from "../StaticJsTaskType.js";
 import { StaticJsTaskSourceLocation } from "../StaticJsTaskSourceLocation.js";
-import { StaticJsTaskCalleeType } from "../StaticJsTaskCalleeType.js";
+import { StaticJsTaskType } from "../StaticJsTaskType.js";
 
 interface TaskIteratorFrame {
   currentNode: Node | null;

@@ -1,9 +1,9 @@
 import type { Identifier } from "@babel/types";
 
-import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 
 export default function* identifierNodeEvaluator(node: Identifier): EvaluationGenerator {
   const { lexicalEnv, strict } = EvaluationContext.current;

@@ -1,6 +1,6 @@
-import { StaticJsTaskAbortedError } from "../../errors/StaticJsTaskAbortedError.js";
-
 import type { StaticJsTaskRunner } from "../../runtime/tasks/StaticJsTaskRunner.js";
+
+import { StaticJsTaskAbortedError } from "../../errors/StaticJsTaskAbortedError.js";
 
 export interface TimeBoundTaskRunnerOptions {
   /**

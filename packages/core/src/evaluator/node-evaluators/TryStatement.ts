@@ -1,21 +1,16 @@
 import type { CatchClause, TryStatement } from "@babel/types";
 
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-
-import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-
-import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-
-import { Completion } from "../completions/Completion.js";
-
-import boundNames from "../instantiation/algorithms/bound-names.js";
-
+import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import bindingInitialization from "../bindings/binding-initialization.js";
-import { rethrowCompletion } from "../completions/rethrow-completion.js";
+import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";
+import { Completion } from "../completions/Completion.js";
+import { rethrowCompletion } from "../completions/rethrow-completion.js";
+import { EvaluationContext } from "../EvaluationContext.js";
+import boundNames from "../instantiation/algorithms/bound-names.js";
 
 function* tryStatementNodeEvaluator(node: TryStatement): EvaluationGenerator {
   const { realm } = EvaluationContext.current;

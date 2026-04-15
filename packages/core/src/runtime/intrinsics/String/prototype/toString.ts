@@ -1,8 +1,7 @@
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
-import { StaticJsStringBoxed } from "../../../types/implementation/primitives/StaticJsStringBoxed.js";
-
 import toString from "../../../algorithms/to-string.js";
+import { StaticJsStringBoxed } from "../../../types/implementation/primitives/StaticJsStringBoxed.js";
 
 const stringProtoToStringDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "toString",

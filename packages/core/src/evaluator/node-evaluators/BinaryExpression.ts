@@ -1,26 +1,21 @@
 import type { BinaryExpression } from "@babel/types";
 
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-
-import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
-
-import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
-
-import strictEquality from "../../runtime/algorithms/strict-equality.js";
-import isLooselyEqual from "../../runtime/algorithms/is-loosely-equal.js";
-import toNumber from "../../runtime/algorithms/to-number.js";
 import addition from "../../runtime/algorithms/addition.js";
-import toObject from "../../runtime/algorithms/to-object.js";
 import instanceOfOperator from "../../runtime/algorithms/instance-of-operator.js";
 import isLessThan from "../../runtime/algorithms/is-less-than.js";
-
+import isLooselyEqual from "../../runtime/algorithms/is-loosely-equal.js";
+import strictEquality from "../../runtime/algorithms/strict-equality.js";
+import toNumber from "../../runtime/algorithms/to-number.js";
+import toObject from "../../runtime/algorithms/to-object.js";
+import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
+import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
-
 import { EvaluationContext } from "../EvaluationContext.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* binaryExpressionNodeEvaluator(
   node: BinaryExpression,

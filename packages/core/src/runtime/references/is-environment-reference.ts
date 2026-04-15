@@ -1,9 +1,9 @@
-import { isStaticJsValue } from "../types/StaticJsValue.js";
-
 import type {
   StaticJsEnvironmentReferenceRecord,
   StaticJsReferenceRecord,
 } from "./StaticJsReferenceRecord.js";
+
+import { isStaticJsValue } from "../types/StaticJsValue.js";
 
 export function isEnvironmentReference(
   v: StaticJsReferenceRecord,

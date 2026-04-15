@@ -1,19 +1,15 @@
-import {
-  EvaluationContext,
-  EvaluationContextStackProvider,
-} from "../../../evaluator/EvaluationContext.js";
-
+import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
+import type { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsUnhandledRejectionError } from "../../../errors/StaticJsUnhandledRejectionError.js";
-
+import {
+  EvaluationContext,
+  EvaluationContextStackProvider,
+} from "../../../evaluator/EvaluationContext.js";
 import { type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
-
 import { StaticJsTaskIteratorImpl } from "../../tasks/implementation/StaticJsTaskIteratorImpl.js";
-
-import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
-import type { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";
 import { StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
 
 export class EvaluationTask implements EvaluationContextStackProvider {

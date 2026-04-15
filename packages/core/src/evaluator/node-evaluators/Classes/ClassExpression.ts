@@ -1,10 +1,8 @@
 import type { ClassExpression } from "@babel/types";
 
-import { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import { Q } from "../../completions/Q.js";
-
+import { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import { getNamedEvaluationParameter } from "../NamedEvaluation.js";
-
 import { classDefinitionEvaluation } from "./evaluation/class-definition-evaluation.js";
 
 export default function* classExpressionNodeEvaluator(node: ClassExpression): EvaluationGenerator {

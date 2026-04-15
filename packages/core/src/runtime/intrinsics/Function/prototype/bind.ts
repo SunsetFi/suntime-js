@@ -1,13 +1,10 @@
-import { isNotUndefined } from "../../../../utils/is-not-undefined.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-
-import { StaticJsBoundFunction } from "../../../types/implementation/functions/StaticJsBoundFunctionImpl.js";
-
-import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import { isNotUndefined } from "../../../../utils/is-not-undefined.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
+import { StaticJsBoundFunction } from "../../../types/implementation/functions/StaticJsBoundFunctionImpl.js";
+import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
 const functionProtoBindDeclaration: IntrinsicPropertyDeclaration = {
   key: "bind",

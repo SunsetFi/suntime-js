@@ -1,8 +1,7 @@
-import { isNotUndefined } from "../../../../utils/is-not-undefined.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import { isNotUndefined } from "../../../../utils/is-not-undefined.js";
 import call from "../../../algorithms/call.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
 

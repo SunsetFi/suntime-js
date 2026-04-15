@@ -6,40 +6,30 @@ import type {
   VariableDeclaration,
 } from "@babel/types";
 
+import type { StaticJsIteratorRecord } from "../../../runtime/iterators/StaticJsIteratorRecord.js";
+import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
+
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-
-import { StaticJsDeclarativeEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-
-import getIdentifierReference from "../../../runtime/references/get-identifier-reference.js";
-
-import putValue from "../../../runtime/algorithms/put-value.js";
 import call from "../../../runtime/algorithms/call.js";
 import loopContinues from "../../../runtime/algorithms/loop-continues.js";
-
-import { isStaticJsObject } from "../../../runtime/types/StaticJsObject.js";
-
-import boundNames from "../../instantiation/algorithms/bound-names.js";
-
-import type { StaticJsIteratorRecord } from "../../../runtime/iterators/StaticJsIteratorRecord.js";
+import putValue from "../../../runtime/algorithms/put-value.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { asyncIteratorClose } from "../../../runtime/iterators/async-iterator-close.js";
 import { iteratorClose } from "../../../runtime/iterators/iterator-close.js";
 import { iteratorComplete } from "../../../runtime/iterators/iterator-complete.js";
 import { iteratorValue } from "../../../runtime/iterators/iterator-value.js";
-import { asyncIteratorClose } from "../../../runtime/iterators/async-iterator-close.js";
-
+import getIdentifierReference from "../../../runtime/references/get-identifier-reference.js";
+import { isStaticJsObject } from "../../../runtime/types/StaticJsObject.js";
 import bindingInitialization from "../../bindings/binding-initialization.js";
 import destructuringAssignmentEvaluation from "../../bindings/destructuring-assignment-evaluation.js";
 import initializeReferencedBinding from "../../bindings/initialize-referenced-binding.js";
-
-import { Completion } from "../../completions/Completion.js";
-import { rethrowCompletion } from "../../completions/rethrow-completion.js";
-
-import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { AwaitCommand } from "../../commands/AwaitCommand.js";
+import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
+import { Completion } from "../../completions/Completion.js";
 import { Q } from "../../completions/Q.js";
-
+import { rethrowCompletion } from "../../completions/rethrow-completion.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
-import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
-
+import boundNames from "../../instantiation/algorithms/bound-names.js";
 import forDeclarationBindingInitialization from "./for-declaration-binding-initialization.js";
 import forDeclarationBindingInstantiation from "./for-declaration-binding-instantiation.js";
 import isDestructuring from "./is-destructuring.js";

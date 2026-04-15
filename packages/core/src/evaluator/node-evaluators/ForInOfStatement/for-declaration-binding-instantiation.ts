@@ -1,10 +1,9 @@
 import type { VariableDeclaration } from "@babel/types";
 
 import type { StaticJsEnvironmentRecord } from "../../../runtime/environments/StaticJsEnvironmentRecord.js";
+import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 import boundNames from "../../instantiation/algorithms/bound-names.js";
-
-import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 export default function* forDeclarationBindingInstantiation(
   node: VariableDeclaration,

@@ -1,28 +1,24 @@
 import type { Writable } from "type-fest";
 
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { Completion } from "../../../../evaluator/completions/Completion.js";
-
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
-import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
-
-import toNumber from "../../../algorithms/to-number.js";
-import toUInt32 from "../../../algorithms/to-uint-32.js";
-
-import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type {
   StaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,
 } from "../../StaticJsPropertyDescriptor.js";
-import { isStaticJsDataPropertyDescriptor } from "../../StaticJsPropertyDescriptor.js";
+
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
+import toNumber from "../../../algorithms/to-number.js";
+import toUInt32 from "../../../algorithms/to-uint-32.js";
 import { type StaticJsArray } from "../../StaticJsArray.js";
 import { isStaticJsNumber } from "../../StaticJsNumber.js";
-
+import { isStaticJsDataPropertyDescriptor } from "../../StaticJsPropertyDescriptor.js";
+import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsNumberImpl } from "../primitives/StaticJsNumberImpl.js";
-import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
-import { isArrayIndex } from "./is-array-index.js";
 import { StaticJsObjectProxyTarget } from "./create-object-proxy.js";
+import { isArrayIndex } from "./is-array-index.js";
+import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
 export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements StaticJsArray {
   constructor(realm: StaticJsRealm, length = 0, prototype = realm.types.prototypes.arrayProto) {

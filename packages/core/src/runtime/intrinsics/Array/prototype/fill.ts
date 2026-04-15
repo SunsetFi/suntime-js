@@ -1,12 +1,10 @@
-import toInteger from "../../../algorithms/to-integer.js";
-import toObject from "../../../algorithms/to-object.js";
-
-import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import lengthOfArrayLike from "../../../algorithms/length-of-array-like.js";
 import { set } from "../../../algorithms/set.js";
+import toInteger from "../../../algorithms/to-integer.js";
+import toObject from "../../../algorithms/to-object.js";
+import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 
 const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
   key: "fill",

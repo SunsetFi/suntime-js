@@ -1,8 +1,7 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
-import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [];

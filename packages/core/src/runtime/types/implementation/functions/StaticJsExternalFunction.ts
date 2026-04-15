@@ -1,11 +1,9 @@
-import { StaticJsRuntimeError } from "../../../../errors/StaticJsRuntimeError.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { Completion } from "../../../../evaluator/completions/Completion.js";
-
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
 import type { StaticJsValue } from "../../StaticJsValue.js";
 
+import { StaticJsRuntimeError } from "../../../../errors/StaticJsRuntimeError.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { StaticJsNativeFunctionImpl } from "./StaticJsNativeFunctionImpl.js";
 
 export class StaticJsExternalFunction extends StaticJsNativeFunctionImpl {

@@ -1,8 +1,6 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
-
 import { isStaticJsObject } from "../../types/StaticJsObject.js";
-
 import { IntrinsicPropertyDeclaration } from "../utils.js";
 
 export const reflectPreventExtensionsDeclaration: IntrinsicPropertyDeclaration = {

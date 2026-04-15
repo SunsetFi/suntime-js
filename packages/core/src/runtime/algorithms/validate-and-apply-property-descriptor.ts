@@ -1,8 +1,6 @@
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
-import { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
@@ -10,7 +8,7 @@ import {
   type StaticJsPropertyDescriptor,
   type StaticJsPropertyDescriptorRecord,
 } from "../types/StaticJsPropertyDescriptor.js";
-
+import { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import sameValue from "./same-value.js";
 
 export type PropertySlotSetter = (

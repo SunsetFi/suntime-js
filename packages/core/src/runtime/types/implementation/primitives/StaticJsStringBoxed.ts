@@ -1,12 +1,10 @@
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
-import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import type { StaticJsPropertyDescriptor } from "../../StaticJsPropertyDescriptor.js";
+import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 
-import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
+import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";
 
 export class StaticJsStringBoxed extends StaticJsAbstractObject {
   constructor(

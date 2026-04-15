@@ -1,10 +1,8 @@
 import compareBaseline from "../env/compare-baseline.js";
 import getBaseline from "../get-baseline.js";
 import normalizeTestPathParts from "../normalize-test-path-parts.js";
-
-import arrayStartsWith from "./utils/array-starts-with.js";
-
 import Test262File from "./Test262File.js";
+import arrayStartsWith from "./utils/array-starts-with.js";
 
 // For now.  Eventually we should cover everything.
 const ignoredFeatures = ["TypedArray", "tail-call-optimization", "explicit-resource-management"];

@@ -1,5 +1,6 @@
-import generatorResume from "../../../algorithms/generator-resume.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+
+import generatorResume from "../../../algorithms/generator-resume.js";
 
 const generatorProtoNextDeclaration: IntrinsicPropertyDeclaration = {
   key: "next",

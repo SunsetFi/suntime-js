@@ -1,14 +1,12 @@
 import { BlockStatement, type SwitchStatement } from "@babel/types";
 
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
-
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
 import { EvaluationContext } from "../EvaluationContext.js";
-
 import { instantiateFunctionObject } from "../node-evaluators/Function.js";
-
-import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
 import boundNames from "./algorithms/bound-names.js";
+import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
 
 export default function* blockDeclarationInstantiation(
   node: BlockStatement | SwitchStatement,

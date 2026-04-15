@@ -1,9 +1,7 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
-
 import { isStaticJsNull } from "../../types/StaticJsNull.js";
 import { isStaticJsObject, StaticJsObject } from "../../types/StaticJsObject.js";
-
 import { IntrinsicPropertyDeclaration } from "../utils.js";
 
 export const reflectSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {

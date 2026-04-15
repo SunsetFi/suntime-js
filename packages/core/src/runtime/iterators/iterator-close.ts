@@ -1,14 +1,11 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
-
-import { isStaticJsObject } from "../types/StaticJsObject.js";
-
+import { rethrowCompletion } from "../../evaluator/completions/rethrow-completion.js";
 import call from "../algorithms/call.js";
 import getMethod from "../algorithms/get-method.js";
-
-import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
-import { rethrowCompletion } from "../../evaluator/completions/rethrow-completion.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
 
 export function iteratorClose(
   iteratorRecord: StaticJsIteratorRecord,
