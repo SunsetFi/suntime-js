@@ -10,15 +10,14 @@ import {
   StaticJsPropertyKey,
   toStaticJsPropertyKey,
 } from "../../../runtime/types/StaticJsPropertyKey.js";
-import {
-  StaticJsPrivateName,
-  staticJsPrivateName,
-} from "../../../runtime/types/StaticJsPrivateName.js";
+import { StaticJsPrivateName } from "../../../runtime/types/StaticJsPrivateName.js";
 
 import { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../completions/Q.js";
+import { EvaluationContext } from "../../EvaluationContext.js";
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 
 export function* classElementNameNodeEvaluator(
   node: ClassMethod | ClassPrivateMethod | ClassProperty | ClassPrivateProperty,
@@ -32,8 +31,23 @@ export function* classElementNameNodeEvaluator(
   switch (key.type) {
     case "Identifier":
       return key.name;
-    case "PrivateName":
-      return staticJsPrivateName(key.id.name);
+    case "PrivateName": {
+      const privateEnvRec = EvaluationContext.current.privateEnv;
+      if (!privateEnvRec) {
+        throw new StaticJsEngineError(
+          "Assertion failure: Class element with PrivateName key found in context that lacks a privateEnv",
+        );
+      }
+      const names = privateEnvRec.names;
+      const match = names.find((x) => x.description === key.id.name);
+      if (!match) {
+        throw new StaticJsEngineError(
+          `Assertion failure: PrivateName ${key.id.name} not found in private environment record when evaluating class element name`,
+        );
+      }
+
+      return match;
+    }
   }
 
   throw new Error(`Unsupported non-computed class element name node type: ${key.type}`);

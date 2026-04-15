@@ -17,9 +17,14 @@ export function* privateGet(
   if (!entry) {
     throw Completion.Throw("TypeError", `Cannot find private name ${p.description}`);
   }
+  if (entry.kind === "field" || entry.kind === "method") {
+    return entry.value;
+  }
+
   if (entry.kind !== "accessor") {
     throw new StaticJsEngineError("Assertion error: privateGet on non-accessor private element.");
   }
+
   const getter = entry.get;
   if (!getter) {
     throw Completion.Throw(

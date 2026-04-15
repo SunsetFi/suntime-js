@@ -253,6 +253,8 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
             };
           }
           container[peIndex] = combined;
+        } else {
+          container.push(element);
         }
       } else if (isStaticJsClassFieldDefinitionRecord(element)) {
         if (!isEStatic) {

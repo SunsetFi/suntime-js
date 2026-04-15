@@ -175,12 +175,70 @@ describe("E2E: Classes", () => {
           },
         },
         {
+          name: "Can set a property",
+          classBody: `
+            myProp;
+          `,
+          act: `
+            instance.myProp = 42;
+          `,
+          extract: "instance.myProp",
+          verify(result) {
+            expect(result.toNative()).toBe(42);
+          },
+        },
+        {
+          name: "Can set a property with a computed name",
+          classBody: `
+            myProp;
+          `,
+          act: `
+            instance["my" + "Prop"] = 42;
+          `,
+          extract: "instance.myProp",
+          verify(result) {
+            expect(result.toNative()).toBe(42);
+          },
+        },
+        {
+          name: "Can set a property with a computed symbol name",
+          classBody: `
+            myProp;
+          `,
+          act: `
+            instance[Symbol.for("myProp")] = 42;
+          `,
+          extract: 'instance[Symbol.for("myProp")]',
+          verify(result) {
+            expect(result.toNative()).toBe(42);
+          },
+        },
+        {
           name: "Can define a property with a private name",
           classBody: `
             #myProp = 42;
             getMyProp() {
               return this.#myProp;
             }
+          `,
+          extract: "instance.getMyProp()",
+          verify(result) {
+            expect(result.toNative()).toBe(42);
+          },
+        },
+        {
+          name: "Can set a property with a private name",
+          classBody: `
+            #myProp;
+            setMyProp(value) {
+              this.#myProp = value;
+            }
+            getMyProp() {
+              return this.#myProp;
+            }
+          `,
+          act: `
+            instance.setMyProp(42);
           `,
           extract: "instance.getMyProp()",
           verify(result) {
@@ -223,8 +281,22 @@ describe("E2E: Classes", () => {
             expect(result.toNative()).toBe(42);
           },
         },
+        {
+          name: "Can define a method with a private name",
+          classBody: `
+            #myMethod() {
+              return 42;
+            }
+            callMyMethod() {
+              return this.#myMethod();
+            }
+          `,
+          extract: "instance.callMyMethod()",
+          verify(result) {
+            expect(result.toNative()).toBe(42);
+          },
+        },
       ];
-
       describe("Default constructor", () => {
         it.each(testCases.map((testCase) => [testCase.name, testCase]))(
           "%s",

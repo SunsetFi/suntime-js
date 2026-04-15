@@ -1,5 +1,7 @@
 import type { MemberExpression } from "@babel/types";
 
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { StaticJsPrivateName } from "../../runtime/types/StaticJsPrivateName.js";
 
@@ -10,7 +12,6 @@ import { Q } from "../completions/Q.js";
 
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 
 export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,
