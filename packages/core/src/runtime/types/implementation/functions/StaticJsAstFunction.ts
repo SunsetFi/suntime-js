@@ -13,11 +13,6 @@ import {
   isExpression,
 } from "@babel/types";
 
-import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
-import type { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { EvaluateNodeCommand } from "../../../../evaluator/commands/EvaluateNodeCommand.js";
 import { FunctionEvaluateBodyCommand } from "../../../../evaluator/commands/FunctionEvaluateCommand.js";
@@ -27,7 +22,9 @@ import { ThrowCompletion } from "../../../../evaluator/completions/completion-ty
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
+import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import functionDeclarationInstantiation from "../../../../evaluator/instantiation/function-declaration-instantiation.js";
+import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
 import { getValue } from "../../../algorithms/get-value.js";
 import { ordinaryCreateFromConstructor } from "../../../algorithms/ordinary-create-from-constructor.js";
@@ -36,11 +33,14 @@ import { toObject } from "../../../algorithms/to-object.js";
 import { AsyncInvocation } from "../../../async/AsyncInvocation.js";
 import { StaticJsFunctionEnvironmentRecord } from "../../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
 import { isStaticJsNull } from "../../StaticJsNull.js";
 import { isStaticJsObject, StaticJsObject } from "../../StaticJsObject.js";
 import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
+
 import { StaticJsAbstractFunction } from "./StaticJsAbstractFunction.js";
 import { StaticJsAsyncGeneratorImpl } from "./StaticJsAsyncGeneratorImpl.js";
 import { StaticJsGeneratorImpl } from "./StaticJsGeneratorImpl.js";

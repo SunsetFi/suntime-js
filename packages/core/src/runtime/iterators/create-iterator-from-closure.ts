@@ -1,10 +1,9 @@
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import { StaticJsGeneratorImpl } from "../types/implementation/functions/StaticJsGeneratorImpl.js";
 import type { StaticJsGenerator } from "../types/StaticJsGenerator.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
-
-import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
-import { StaticJsGeneratorImpl } from "../types/implementation/functions/StaticJsGeneratorImpl.js";
 
 export function* createIteratorFromClosure(
   closure: EvaluationGenerator,

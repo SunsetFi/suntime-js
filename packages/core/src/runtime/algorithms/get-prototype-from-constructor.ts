@@ -4,6 +4,7 @@ import { Prototypes } from "../intrinsics/intrinsics.js";
 import { StaticJsCallable } from "../types/StaticJsCallable.js";
 import { StaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsObject, StaticJsObject } from "../types/StaticJsObject.js";
+
 import { get } from "./get.js";
 
 export function* getPrototypeFromConstructor(

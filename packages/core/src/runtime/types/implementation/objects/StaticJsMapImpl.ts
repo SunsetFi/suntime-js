@@ -1,19 +1,19 @@
-import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsIterator, StaticJsIteratorResult } from "../../StaticJsIterator.js";
-import type { StaticJsMap } from "../../StaticJsMap.js";
-import type { StaticJsValue } from "../../StaticJsValue.js";
-
 import { StaticJsRuntimeError } from "../../../../errors/StaticJsRuntimeError.js";
+import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import { call } from "../../../algorithms/call.js";
 import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { toNativeUnwrap } from "../../../utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "../../../utils/to-runtime-wrap.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
+import type { StaticJsIterator, StaticJsIteratorResult } from "../../StaticJsIterator.js";
+import type { StaticJsMap } from "../../StaticJsMap.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
+import type { StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsNativeFunctionImpl } from "../functions/StaticJsNativeFunctionImpl.js";
+
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 

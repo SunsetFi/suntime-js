@@ -1,10 +1,10 @@
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { Completion } from "../../../evaluator/completions/Completion.js";
 import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
 
 interface ModuleBinding {

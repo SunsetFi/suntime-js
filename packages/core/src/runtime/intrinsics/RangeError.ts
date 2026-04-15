@@ -1,7 +1,6 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-import type { StaticJsObject } from "../types/StaticJsObject.js";
-
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 export function populateRangeErrorPrototype(
   _realm: StaticJsRealm,

@@ -1,7 +1,5 @@
 import type { BinaryExpression } from "@babel/types";
 
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { addition } from "../../runtime/algorithms/addition.js";
 import { instanceOfOperator } from "../../runtime/algorithms/instance-of-operator.js";
@@ -16,6 +14,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* binaryExpressionNodeEvaluator(
   node: BinaryExpression,

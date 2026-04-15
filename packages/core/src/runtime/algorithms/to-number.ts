@@ -1,14 +1,14 @@
-import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsValue } from "../types/StaticJsValue.js";
-
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
+import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsNumber, type StaticJsNumber } from "../types/StaticJsNumber.js";
 import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
+
 import { toPrimitive } from "./to-primitive.js";
 
 export function* toNumber(value: StaticJsValue): EvaluationGenerator<StaticJsNumber> {

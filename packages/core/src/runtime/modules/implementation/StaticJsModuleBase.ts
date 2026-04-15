@@ -1,5 +1,9 @@
+import { Completion } from "../../../evaluator/completions/Completion.js";
+import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+import { StaticJsNamespaceExoticObject } from "../../types/implementation/StaticJsNamespaceExoticObject.js";
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import type { StaticJsModule } from "../StaticJsModule.js";
@@ -8,10 +12,6 @@ import type {
   StaticJsModuleStatus,
 } from "../StaticJsModuleImplementation.js";
 
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
-import { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
-import { StaticJsNamespaceExoticObject } from "../../types/implementation/StaticJsNamespaceExoticObject.js";
 import { BindingNameNamespace, type StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
 
 export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModuleImplementation {

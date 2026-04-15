@@ -1,5 +1,4 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
 import { StaticJsPlainObjectImpl } from "../objects/StaticJsPlainObjectImpl.js";
 
 export class StaticJsBooleanBoxed extends StaticJsPlainObjectImpl {

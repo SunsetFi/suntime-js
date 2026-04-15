@@ -37,6 +37,7 @@ import {
   StaticJsClassStaticBlockDefinitionRecord,
 } from "../ClassStaticBlockDefinitionRecord.js";
 import { StaticJsClassConstructorFunction } from "../types/StaticJsClassConstructorFunction.js";
+
 import {
   classElementEvaluation,
   ClassElementEvaluationResult,

@@ -1,9 +1,8 @@
-import type { StaticJsValue } from "../types/StaticJsValue.js";
-
 import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 export function sameValueNonNumber(x: StaticJsValue, y: StaticJsValue): boolean {
   if (x.runtimeTypeCode !== y.runtimeTypeCode) {

@@ -1,7 +1,5 @@
 import type { ArrayExpression } from "@babel/types";
 
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { arrayCreate } from "../../runtime/algorithms/array-create.js";
 import { createDataPropertyOrThrow } from "../../runtime/algorithms/create-data-property-or-throw.js";
 import { set } from "../../runtime/algorithms/set.js";
@@ -11,6 +9,7 @@ import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.j
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* arrayExpressionNodeEvaluator(node: ArrayExpression): EvaluationGenerator {
   const { realm } = EvaluationContext.current;

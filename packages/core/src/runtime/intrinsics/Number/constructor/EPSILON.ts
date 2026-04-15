@@ -1,6 +1,5 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { StaticJsNumberImpl } from "../../../types/implementation/primitives/StaticJsNumberImpl.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const numberCtorEpsilonDeclaration: IntrinsicPropertyDeclaration = {
   key: "EPSILON",

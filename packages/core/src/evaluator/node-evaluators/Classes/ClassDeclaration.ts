@@ -5,6 +5,7 @@ import initializeBoundName from "../../bindings/initialize-bound-name.js";
 import { Q } from "../../completions/Q.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../EvaluationGenerator.js";
+
 import { classDefinitionEvaluation } from "./evaluation/class-definition-evaluation.js";
 
 export default function* classDeclarationNodeEvaluator(

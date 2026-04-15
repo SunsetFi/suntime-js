@@ -1,7 +1,6 @@
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 import type { CompletionValue } from "../CompletionValue.js";
-
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { nameCompletionLike } from "../name-completion-like.js";
 
 export interface BreakCompletion {

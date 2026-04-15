@@ -1,5 +1,6 @@
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
+
 import { StaticJsObject } from "./StaticJsObject.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";

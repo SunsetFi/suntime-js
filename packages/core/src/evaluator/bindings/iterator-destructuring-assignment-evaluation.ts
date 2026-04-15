@@ -1,20 +1,20 @@
 import type { Node, PatternLike } from "@babel/types";
 
-import type { StaticJsIteratorRecord } from "../../runtime/iterators/StaticJsIteratorRecord.js";
-import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
 import { arrayCreate } from "../../runtime/algorithms/array-create.js";
 import { createDataPropertyOrThrow } from "../../runtime/algorithms/create-data-property-or-throw.js";
 import { putValue } from "../../runtime/algorithms/put-value.js";
 import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";
+import type { StaticJsIteratorRecord } from "../../runtime/iterators/StaticJsIteratorRecord.js";
+import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
+
 import destructuringAssignmentEvaluation from "./destructuring-assignment-evaluation.js";
 
 export type IteratorDestructuringAssignmentType = PatternLike | null;

@@ -1,10 +1,10 @@
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
-
 import { toString } from "../../../algorithms/to-string.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import symbolCtorForDeclaration from "./for.js";
 import symbolCtorKeyForDeclaration from "./keyFor.js";
 

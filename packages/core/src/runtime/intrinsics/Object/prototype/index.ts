@@ -1,7 +1,7 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
-
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import objectProtoHasOwnPropertyDeclaration from "./hasOwnProperty.js";
 import objectProtoIsPrototypeOfDeclaration from "./isPrototypeOf.js";
 import propertyIsEnumerableDeclaration from "./propertyIsEnumerable.js";

@@ -6,11 +6,6 @@ import {
   isObjectProperty,
 } from "@babel/types";
 
-import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
-import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsPropertyKey.js";
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
 import { copyDataProperties } from "../../runtime/algorithms/copy-data-properties.js";
@@ -20,14 +15,19 @@ import { toObject } from "../../runtime/algorithms/to-object.js";
 import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
+import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 import { isStaticJsNull } from "../../runtime/types/StaticJsNull.js";
+import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsPropertyKey.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
+
 import iteratorDestructuringAssignmentEvaluation from "./iterator-destructuring-assignment-evaluation.js";
 
 export default function* destructuringAssignmentEvaluation(

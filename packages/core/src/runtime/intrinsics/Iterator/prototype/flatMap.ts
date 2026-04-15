@@ -1,6 +1,3 @@
-import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { YieldCommand } from "../../../../evaluator/commands/YieldCommand.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
@@ -12,8 +9,10 @@ import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
 import { getIteratorFlattenable } from "../../../iterators/get-iterator-flattenable.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
+import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
 import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const iteratorProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
   key: "flatMap",

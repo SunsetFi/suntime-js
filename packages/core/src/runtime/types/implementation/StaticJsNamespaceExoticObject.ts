@@ -1,21 +1,21 @@
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import { sameValue } from "../../algorithms/same-value.js";
+import { BindingNameNamespace } from "../../modules/implementation/StaticJsResolvedBinding.js";
 import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../StaticJsObject.js";
-import type { StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
-import type { StaticJsValue } from "../StaticJsValue.js";
-
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import { sameValue } from "../../algorithms/same-value.js";
-import { BindingNameNamespace } from "../../modules/implementation/StaticJsResolvedBinding.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   type StaticJsDataPropertyDescriptor,
   type StaticJsPropertyDescriptor,
 } from "../StaticJsPropertyDescriptor.js";
+import type { StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
+import type { StaticJsValue } from "../StaticJsValue.js";
+
 import { StaticJsAbstractObject } from "./StaticJsAbstractObject.js";
 
 export class StaticJsNamespaceExoticObject extends StaticJsAbstractObject {

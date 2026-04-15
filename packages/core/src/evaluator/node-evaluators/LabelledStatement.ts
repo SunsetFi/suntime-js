@@ -1,11 +1,10 @@
 import type { LabeledStatement } from "@babel/types";
 
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* labeledStatementNodeEvaluator(
   node: LabeledStatement,

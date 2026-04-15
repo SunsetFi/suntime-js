@@ -1,7 +1,6 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { StaticJsPlainObjectImpl } from "../../../types/implementation/objects/StaticJsPlainObjectImpl.js";
 import { StaticJsBooleanImpl } from "../../../types/implementation/primitives/StaticJsBooleanImpl.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoSymbolUnscopables: IntrinsicPropertyDeclaration = {
   key: (realm) => realm.types.symbols.unscopables,

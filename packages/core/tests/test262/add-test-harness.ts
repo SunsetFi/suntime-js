@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 
 import { type StaticJsRealm } from "../../src/index.js";
+
 import getTest262Path from "./utils/get-test262-path.js";
 
 const harnessMap = new Map<string, string>();

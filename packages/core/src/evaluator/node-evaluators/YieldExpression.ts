@@ -1,7 +1,5 @@
 import { isFunction, type YieldExpression } from "@babel/types";
 
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { call } from "../../runtime/algorithms/call.js";
 import { getMethod } from "../../runtime/algorithms/get-method.js";
@@ -19,6 +17,7 @@ import { YieldCommand } from "../commands/YieldCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* yieldExpressionNodeEvaluator(node: YieldExpression): EvaluationGenerator {
   const { realm } = EvaluationContext.current;

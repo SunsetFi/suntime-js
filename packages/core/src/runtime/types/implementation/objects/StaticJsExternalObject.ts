@@ -1,3 +1,4 @@
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type {
@@ -5,8 +6,6 @@ import type {
   StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
-
-import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsExternalFunction } from "../functions/StaticJsExternalFunction.js";

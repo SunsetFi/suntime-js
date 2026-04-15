@@ -1,7 +1,7 @@
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import type { CompletionEvaluator } from "./CompletionEvaluator.js";
 
 import { Completion } from "./Completion.js";
+import type { CompletionEvaluator } from "./CompletionEvaluator.js";
 
 export function captureThrownCompletion<T = Completion.Normal>(
   evaluator: CompletionEvaluator<T>,

@@ -1,11 +1,11 @@
+import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-
-import { Completion } from "../../evaluator/completions/Completion.js";
 import { type StaticJsFunction } from "../types/StaticJsFunction.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
+
 import { get } from "./get.js";
 import { isConstructor } from "./is-constructor.js";
 

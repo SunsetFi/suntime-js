@@ -1,6 +1,5 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { toObject } from "../../../algorithms/to-object.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorIsSealedDeclaration: IntrinsicPropertyDeclaration = {
   key: "isSealed",

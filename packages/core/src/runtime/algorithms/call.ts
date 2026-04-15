@@ -1,7 +1,7 @@
+import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import { Completion } from "../../evaluator/completions/Completion.js";
 import { isCallable } from "./is-callable.js";
 
 export function* call(

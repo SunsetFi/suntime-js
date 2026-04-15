@@ -1,21 +1,21 @@
 import { type Expression, type LVal, type ArrayPattern, type VoidPattern } from "@babel/types";
 
-import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
-import type { StaticJsIteratorRecord } from "../../runtime/iterators/StaticJsIteratorRecord.js";
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
 import { arrayCreate } from "../../runtime/algorithms/array-create.js";
 import { putValue } from "../../runtime/algorithms/put-value.js";
+import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";
+import type { StaticJsIteratorRecord } from "../../runtime/iterators/StaticJsIteratorRecord.js";
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
+
 import bindingInitialization from "./binding-initialization.js";
 import initializeReferencedBinding from "./initialize-referenced-binding.js";
 import iteratorDestructuringAssignmentEvaluation from "./iterator-destructuring-assignment-evaluation.js";

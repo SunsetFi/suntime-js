@@ -1,8 +1,7 @@
 import { describe, it, expect, vitest } from "vitest";
 
-import type { StaticJsTaskIterator } from "../../src/runtime/tasks/StaticJsTaskIterator.js";
-
 import { StaticJsRealm, StaticJsSyntaxError, evaluateModule } from "../../src/index.js";
+import type { StaticJsTaskIterator } from "../../src/runtime/tasks/StaticJsTaskIterator.js";
 
 describe("E2E: Modules", () => {
   it("Throws ReferenceError when a module is not found", async () => {

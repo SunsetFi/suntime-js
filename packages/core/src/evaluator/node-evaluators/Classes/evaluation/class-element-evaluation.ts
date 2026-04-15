@@ -18,6 +18,7 @@ import { classElementNameNodeEvaluator } from "../ClassElementName.js";
 import { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
 import { StaticJsClassStaticBlockDefinitionRecord } from "../ClassStaticBlockDefinitionRecord.js";
 import { StaticJsClassMethodFunction } from "../types/StaticJsClassMethodFunction.js";
+
 import { methodDefinitionEvaluation } from "./method-definition-evaluation.js";
 
 export type ClassElementEvaluationResult =

@@ -1,6 +1,5 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { StaticJsSetImpl } from "../../../types/implementation/objects/StaticJsSetImpl.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const setProtoIsSubsetOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "isSubsetOf",

@@ -18,6 +18,7 @@ import { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../../StaticJs
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsValue, StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
+
 import { StaticJsNativeFunctionImpl } from "./StaticJsNativeFunctionImpl.js";
 
 interface AsyncGeneratorRequest {

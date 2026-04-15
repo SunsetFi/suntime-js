@@ -2,7 +2,6 @@ import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenera
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsPropertyDescriptor } from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
-
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";
 

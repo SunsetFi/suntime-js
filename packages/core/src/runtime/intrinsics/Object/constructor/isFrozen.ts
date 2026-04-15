@@ -1,7 +1,6 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { toObject } from "../../../algorithms/to-object.js";
 import { isStaticJsDataPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorIsFrozenDeclaration: IntrinsicPropertyDeclaration = {
   key: "isFrozen",

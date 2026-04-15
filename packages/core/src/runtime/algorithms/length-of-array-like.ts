@@ -1,7 +1,7 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../types/StaticJsArray.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 
-import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../types/StaticJsArray.js";
 import { get } from "./get.js";
 import { toInteger } from "./to-integer.js";
 

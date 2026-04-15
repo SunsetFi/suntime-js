@@ -1,8 +1,7 @@
 import type { NumericLiteral } from "@babel/types";
 
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { EvaluationContext } from "../EvaluationContext.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* numericLiteralNodeEvaluator(node: NumericLiteral): EvaluationGenerator {
   const { realm } = EvaluationContext.current;

@@ -1,17 +1,17 @@
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "../../StaticJsPropertyDescriptor.js";
-import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
-import type { StaticJsSymbol } from "../../StaticJsSymbol.js";
-
-import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
 } from "../../StaticJsPropertyDescriptor.js";
+import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
+import type { StaticJsSymbol } from "../../StaticJsSymbol.js";
 import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";
+
 import { isArrayIndex } from "./is-array-index.js";
 
 export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject {

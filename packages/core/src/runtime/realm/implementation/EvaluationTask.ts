@@ -1,7 +1,3 @@
-import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
-import type { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
-
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsUnhandledRejectionError } from "../../../errors/StaticJsUnhandledRejectionError.js";
 import {
@@ -11,6 +7,9 @@ import {
 import { type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 import { StaticJsTaskIteratorImpl } from "../../tasks/implementation/StaticJsTaskIteratorImpl.js";
 import { StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
+import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
+import type { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 export class EvaluationTask implements EvaluationContextStackProvider {
   private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";

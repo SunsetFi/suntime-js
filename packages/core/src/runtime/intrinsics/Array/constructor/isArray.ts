@@ -1,6 +1,5 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { isArray } from "../../../algorithms/is-array.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayCtorIsArrayDeclaration: IntrinsicPropertyDeclaration = {
   key: "isArray",

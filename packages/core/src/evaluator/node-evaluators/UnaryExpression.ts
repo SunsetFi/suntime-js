@@ -1,7 +1,5 @@
 import type { UnaryExpression } from "@babel/types";
 
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { getValue } from "../../runtime/algorithms/get-value.js";
 import { toBoolean } from "../../runtime/algorithms/to-boolean.js";
@@ -16,6 +14,7 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* unaryExpressionNodeEvaluator(node: UnaryExpression): EvaluationGenerator {
   if (node.operator === "delete") {

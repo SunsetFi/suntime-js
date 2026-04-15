@@ -1,7 +1,5 @@
 import type { File } from "@babel/types";
 
-import type { IntrinsicPropertyDeclaration } from "./utils.js";
-
 import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
 import { EvaluateNodeCommand } from "../../evaluator/commands/EvaluateNodeCommand.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
@@ -12,6 +10,8 @@ import { parseScript } from "../../parser/parse-script.js";
 import { getValue } from "../algorithms/get-value.js";
 import { toString } from "../algorithms/to-string.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+
+import type { IntrinsicPropertyDeclaration } from "./utils.js";
 
 const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
   key: "eval",

@@ -1,6 +1,7 @@
 import type { Node } from "@babel/types";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
 import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 
 export interface EnterNodeCommand extends EvaluatorCommandBase {

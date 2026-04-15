@@ -1,4 +1,5 @@
 import { isStaticJsPrivateName, StaticJsPrivateName } from "../types/StaticJsPrivateName.js";
+
 import { isPropertyReference } from "./is-property-reference.js";
 import {
   StaticJsPropertyReferenceRecord,

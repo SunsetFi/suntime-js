@@ -2,8 +2,8 @@ import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenera
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsIterator, StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
-
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
+
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
 export abstract class StaticJsIteratorImpl

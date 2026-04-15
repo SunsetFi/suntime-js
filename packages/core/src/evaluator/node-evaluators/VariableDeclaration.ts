@@ -1,19 +1,19 @@
 import type { VariableDeclaration, VariableDeclarator } from "@babel/types";
 
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
 import { putValue } from "../../runtime/algorithms/put-value.js";
 import { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { StaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import bindingInitialization from "../bindings/binding-initialization.js";
 import initializeReferencedBinding from "../bindings/initialize-referenced-binding.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
 import NamedEvaluation from "./NamedEvaluation.js";
 
 function* variableDeclarationNodeEvaluator(node: VariableDeclaration): EvaluationGenerator {

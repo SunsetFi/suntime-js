@@ -1,5 +1,3 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { call } from "../../../algorithms/call.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
@@ -7,6 +5,7 @@ import { newPromiseCapability } from "../../../algorithms/new-promise-capability
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
   key: "finally",

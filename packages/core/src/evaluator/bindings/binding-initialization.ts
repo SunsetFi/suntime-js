@@ -8,26 +8,26 @@ import {
   isObjectProperty,
 } from "@babel/types";
 
-import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
-import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsPropertyKey.js";
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
 import { copyDataProperties } from "../../runtime/algorithms/copy-data-properties.js";
 import { get } from "../../runtime/algorithms/get.js";
 import { putValue } from "../../runtime/algorithms/put-value.js";
 import { toObject } from "../../runtime/algorithms/to-object.js";
+import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
+import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsPropertyKey.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
+
 import initializeBoundName from "./initialize-bound-name.js";
 import initializeReferencedBinding from "./initialize-referenced-binding.js";
 import iteratorBindingInitialization from "./iterator-binding-initialization.js";

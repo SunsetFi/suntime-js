@@ -1,13 +1,12 @@
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
-
 import { call } from "../../algorithms/call.js";
 import { isLessThan } from "../../algorithms/is-less-than.js";
 import { toNumber } from "../../algorithms/to-number.js";
 import { toString } from "../../algorithms/to-string.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import { StaticJsCallable } from "../../types/StaticJsCallable.js";
 import { isStaticJsUndefined } from "../../types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 export default function* compareArrayElements(
   x: StaticJsValue,

@@ -1,9 +1,8 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import { createDataPropertyOrThrow } from "../algorithms/create-data-property-or-throw.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
-
-import { createDataPropertyOrThrow } from "../algorithms/create-data-property-or-throw.js";
 
 export function* createIteratorResultObject(
   value: StaticJsValue,

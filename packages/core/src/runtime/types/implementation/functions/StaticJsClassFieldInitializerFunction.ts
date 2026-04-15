@@ -1,15 +1,11 @@
 import type { Expression } from "@babel/types";
 
-import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsObject } from "../../StaticJsObject.js";
-import type { StaticJsValue } from "../../StaticJsValue.js";
-
 import { EvaluateNodeCommand } from "../../../../evaluator/commands/EvaluateNodeCommand.js";
 import { ReturnCompletion } from "../../../../evaluator/completions/completion-types/ReturnCompletion.js";
 import { ThrowCompletion } from "../../../../evaluator/completions/completion-types/ThrowCompletion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
+import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import {
   StaticJsClassMethodFunction,
   StaticJsClassMethodFunctionOptions,
@@ -20,8 +16,11 @@ import { get } from "../../../algorithms/get.js";
 import { toString } from "../../../algorithms/to-string.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsPrivateName } from "../../StaticJsPrivateName.js";
 import { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
+import type { StaticJsValue } from "../../StaticJsValue.js";
 
 export type StaticJsClassFieldInitializerFunctionOptions = StaticJsClassMethodFunctionOptions;
 export class StaticJsClassFieldInitializerFunction extends StaticJsClassMethodFunction {

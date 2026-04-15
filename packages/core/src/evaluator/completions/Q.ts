@@ -1,12 +1,12 @@
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import type { CompletionEvaluator } from "./CompletionEvaluator.js";
-import type { CompletionValue } from "./CompletionValue.js";
-
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { getValue } from "../../runtime/algorithms/get-value.js";
 import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
 import { captureThrownCompletion } from "./capture-thrown-completion.js";
 import { Completion } from "./Completion.js";
+import type { CompletionEvaluator } from "./CompletionEvaluator.js";
+import type { CompletionValue } from "./CompletionValue.js";
 import { nameCompletionLike } from "./name-completion-like.js";
 
 export function Q<T>(

@@ -1,9 +1,8 @@
 import { type Expression, type Function } from "@babel/types";
 
-import type { StaticJsRealm } from "../../../../runtime/realm/StaticJsRealm.js";
-
 import { StaticJsPrivateEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsEnvironmentRecord } from "../../../../runtime/environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsRealm } from "../../../../runtime/realm/StaticJsRealm.js";
 import {
   StaticJsAstFunction,
   StaticJsAstFunctionOptions,

@@ -1,7 +1,6 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-import type { Prototypes } from "./intrinsics.js";
-
 import { StaticJsPlainObjectImpl } from "../types/implementation/objects/StaticJsPlainObjectImpl.js";
+
 import { populateArrayPrototype } from "./Array/index.js";
 import { populateArrayIteratorPrototype } from "./ArrayIterator/index.js";
 import { populateAsyncGeneratorPrototype } from "./AsyncGenerator/index.js";
@@ -12,6 +11,7 @@ import { populateEvalErrorPrototype } from "./EvalError.js";
 import { populateFunctionPrototype } from "./Function/index.js";
 import { populateGeneratorPrototype } from "./Generator/index.js";
 import { populateGeneratorFunctionPrototype } from "./GeneratorFunction/index.js";
+import type { Prototypes } from "./intrinsics.js";
 import { populateIteratorPrototype } from "./Iterator/index.js";
 import { populateIteratorHelperPrototype } from "./IteratorHelper/index.js";
 import { populateMapPrototype } from "./Map/index.js";

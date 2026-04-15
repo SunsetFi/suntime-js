@@ -1,16 +1,15 @@
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
-import type { StaticJsObject } from "../../StaticJsObject.js";
-import type { StaticJsValue } from "../../StaticJsValue.js";
-
 import { get } from "../../../algorithms/get.js";
 import { toInteger } from "../../../algorithms/to-integer.js";
 import { toString } from "../../../algorithms/to-string.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
 import { isStaticJsFunction, type StaticJsFunction } from "../../StaticJsFunction.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
 import { isStaticJsString } from "../../StaticJsString.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
+import type { StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements StaticJsFunction {

@@ -1,6 +1,5 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { StaticJsNumberImpl } from "../../../types/implementation/primitives/StaticJsNumberImpl.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const numberCtorMinSafeIntegerDeclaration: IntrinsicPropertyDeclaration = {
   key: "MIN_SAFE_INTEGER",

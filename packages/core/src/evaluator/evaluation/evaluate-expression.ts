@@ -1,11 +1,11 @@
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import type { EvaluationOptions } from "./options.js";
-
 import { StaticJsRuntimeError } from "../../errors/StaticJsRuntimeError.js";
 import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
 import { StaticJsRealm } from "../../runtime/realm/factories/StaticJsRealm.js";
 import { isStaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
+import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { dropUndefined } from "../../utils/drop-undefined.js";
+
+import type { EvaluationOptions } from "./options.js";
 
 /**
  * Evaluates a string as a javascript program, and returns the result.

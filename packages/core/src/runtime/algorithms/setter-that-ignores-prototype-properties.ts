@@ -1,9 +1,9 @@
-import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsValue } from "../types/StaticJsValue.js";
-
 import { Completion } from "../../evaluator/completions/Completion.js";
+import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { isStaticJsObject, type StaticJsObject } from "../types/index.js";
 import { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
+
 import { createDataPropertyOrThrow } from "./create-data-property-or-throw.js";
 import { sameValue } from "./same-value.js";
 import { set } from "./set.js";

@@ -3,10 +3,9 @@ import type { StaticJsNull } from "./StaticJsNull.js";
 import type { StaticJsNumber } from "./StaticJsNumber.js";
 import type { StaticJsString } from "./StaticJsString.js";
 import type { StaticJsSymbol } from "./StaticJsSymbol.js";
+import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import type { StaticJsUndefined } from "./StaticJsUndefined.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
-
-import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
 export type StaticJsScalar =

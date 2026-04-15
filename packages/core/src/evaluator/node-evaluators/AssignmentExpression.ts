@@ -5,8 +5,6 @@ import type {
   OptionalMemberExpression,
 } from "@babel/types";
 
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { addition } from "../../runtime/algorithms/addition.js";
 import { getValue } from "../../runtime/algorithms/get-value.js";
@@ -19,6 +17,7 @@ import destructuringAssignmentEvaluation from "../bindings/destructuring-assignm
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* assignmentExpressionNodeEvaluator(
   node: AssignmentExpression,

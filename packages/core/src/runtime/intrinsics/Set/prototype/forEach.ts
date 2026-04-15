@@ -1,7 +1,6 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { isCallable } from "../../../algorithms/is-callable.js";
 import { StaticJsSetImpl } from "../../../types/implementation/objects/StaticJsSetImpl.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const setProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   key: "forEach",

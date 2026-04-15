@@ -1,7 +1,6 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import { toObject } from "../../../algorithms/to-object.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorGetOwnPropertyNamesDeclaration: IntrinsicPropertyDeclaration = {
   key: "getOwnPropertyNames",

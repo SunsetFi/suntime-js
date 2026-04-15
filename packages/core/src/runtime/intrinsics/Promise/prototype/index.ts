@@ -1,7 +1,7 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
-
 import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../../utils.js";
+
 import promiseProtoCatchDeclaration from "./catch.js";
 import promiseProtoFinallyDeclaration from "./finally.js";
 import promiseProtoSymbolToStringTagDeclaration from "./symbol_toStringTag.js";

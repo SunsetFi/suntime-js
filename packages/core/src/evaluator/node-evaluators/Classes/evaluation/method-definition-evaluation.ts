@@ -14,6 +14,7 @@ import { Q } from "../../../completions/Q.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 import { StaticJsClassMethodFunction } from "../types/StaticJsClassMethodFunction.js";
+
 import { defineMethodProperty } from "./define-method-property.js";
 import { defineMethod } from "./define-method.js";
 

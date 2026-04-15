@@ -1,7 +1,5 @@
 import { it, expect } from "vitest";
 
-import type Test262File from "./Test262File.js";
-
 import {
   createTimeBoundTaskRunner,
   StaticJsRealm,
@@ -9,8 +7,10 @@ import {
   StaticJsRuntimeError,
 } from "../../src/index.js";
 import isDebuggerActive from "../env/is-debugger-active.js";
+
 import addTestHarness from "./add-test-harness.js";
 import createHostApi from "./host-api.js";
+import type Test262File from "./Test262File.js";
 import { ScriptTimeout, TestTimeout } from "./timeouts.js";
 import delay from "./utils/delay.js";
 import getPerf from "./utils/get-perf.js";

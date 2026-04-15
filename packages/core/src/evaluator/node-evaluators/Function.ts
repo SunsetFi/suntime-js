@@ -1,7 +1,5 @@
 import { ArrowFunctionExpression, ObjectMethod, type Function } from "@babel/types";
 
-import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
-
 import {
   setFunctionName,
   StaticJsFunctionNameable,
@@ -9,7 +7,9 @@ import {
 import { StaticJsPrivateEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { StaticJsAstFunction } from "../../runtime/types/implementation/functions/StaticJsAstFunction.js";
+import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 import { EvaluationContext } from "../EvaluationContext.js";
+
 import { getNamedEvaluationParameter } from "./NamedEvaluation.js";
 
 // This is a mess of OrdinaryFunctionCreate and InstantiateOrdinary*FunctionObject

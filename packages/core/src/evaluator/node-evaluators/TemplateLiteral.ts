@@ -1,11 +1,10 @@
 import type { TemplateLiteral } from "@babel/types";
 
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { toString } from "../../runtime/algorithms/to-string.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* templateLiteralNodeEvaluator(node: TemplateLiteral): EvaluationGenerator {
   // TODO: This isn't spec compliant and doesnt handle tagged template literals, but it should be good enough for now.

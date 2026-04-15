@@ -1,7 +1,9 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsObject } from "./index.js";
+
 import type { StaticJsIteratorResult } from "./StaticJsIterator.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
+
+import type { StaticJsObject } from "./index.js";
 
 export interface StaticJsGenerator extends StaticJsObject {
   readonly runtimeTypeOf: "generator";

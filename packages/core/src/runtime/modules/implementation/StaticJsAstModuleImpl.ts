@@ -1,20 +1,12 @@
 import type { FunctionDeclaration, Program } from "@babel/types";
 
-import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
-import type {
-  StaticJsModuleStatus,
-  StaticJsModuleImplementation,
-} from "../StaticJsModuleImplementation.js";
-import type { StaticJsExportEntry } from "./StaticJsExportEntry.js";
-
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsRuntimeError } from "../../../errors/StaticJsRuntimeError.js";
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
+import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import boundNames from "../../../evaluator/instantiation/algorithms/bound-names.js";
 import lexicallyScopedDeclarations from "../../../evaluator/instantiation/algorithms/lexically-scoped-declarations.js";
 import varScopedDeclarations from "../../../evaluator/instantiation/algorithms/var-scoped-declarations.js";
@@ -24,8 +16,16 @@ import { createDeferred } from "../../../utils/create-deferred.js";
 import { AsyncInvocation } from "../../async/AsyncInvocation.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsModuleEnvironmentRecord } from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
+import type {
+  StaticJsModuleStatus,
+  StaticJsModuleImplementation,
+} from "../StaticJsModuleImplementation.js";
+
 import exportEntries from "./export-entries.js";
 import parseImportEntries from "./parse-import-entries.js";
+import type { StaticJsExportEntry } from "./StaticJsExportEntry.js";
 import {
   isStaticJsLocalExportEntry,
   isStaticJsIndirectExportEntry,

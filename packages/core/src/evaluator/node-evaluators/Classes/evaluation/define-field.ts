@@ -7,6 +7,7 @@ import { Q } from "../../../completions/Q.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 import { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
+
 import { privateFieldAdd } from "./private-field-add.js";
 
 export const defineField = Q.makeReceiver(function* defineField(

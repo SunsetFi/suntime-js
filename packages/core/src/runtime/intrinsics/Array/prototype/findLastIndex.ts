@@ -1,5 +1,3 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { call } from "../../../algorithms/call.js";
 import { get } from "../../../algorithms/get.js";
@@ -8,6 +6,7 @@ import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
 import { toBoolean } from "../../../algorithms/to-boolean.js";
 import { toObject } from "../../../algorithms/to-object.js";
 import { toString } from "../../../algorithms/to-string.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoFindLastIndexDeclaration: IntrinsicPropertyDeclaration = {
   key: "findLastIndex",

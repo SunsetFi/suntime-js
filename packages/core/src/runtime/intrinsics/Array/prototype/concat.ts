@@ -1,6 +1,3 @@
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { arraySpeciesCreate } from "../../../algorithms/array-species-create.js";
 import { get } from "../../../algorithms/get.js";
@@ -9,6 +6,8 @@ import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
 import { set } from "../../../algorithms/set.js";
 import { toObject } from "../../../algorithms/to-object.js";
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
   key: "concat",

@@ -1,14 +1,14 @@
-import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsFunction } from "../../StaticJsFunction.js";
-import type { StaticJsValue } from "../../StaticJsValue.js";
-
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
+import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import { setFunctionName } from "../../../algorithms/set-function-name.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import type { StaticJsFunction } from "../../StaticJsFunction.js";
 import { type StaticJsNull } from "../../StaticJsNull.js";
 import { isStaticJsObject, type StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
+import type { StaticJsValue } from "../../StaticJsValue.js";
+
 import { StaticJsAbstractFunction } from "./StaticJsAbstractFunction.js";
 
 export interface StaticJsNativeFunctionOptions {

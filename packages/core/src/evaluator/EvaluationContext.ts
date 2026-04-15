@@ -1,14 +1,14 @@
-import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
-import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
-import type { StaticJsScriptOrModuleRecord } from "./ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
-
 import { StaticJsEngineError } from "../errors/StaticJsEngineError.js";
 import { StaticJsPrivateEnvironmentRecord } from "../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
 import { StaticJsCallable } from "../runtime/types/StaticJsCallable.js";
 import { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
 import { dropUndefined } from "../utils/drop-undefined.js";
 import { typedEntries } from "../utils/typed-entries.js";
+
 import { EvaluationGenerator } from "./EvaluationGenerator.js";
+import type { StaticJsScriptOrModuleRecord } from "./ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 
 export interface EvaluationContextStackProvider {
   pushContext(context: EvaluationContext): void;

@@ -2,6 +2,7 @@ import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import { StaticJsPlainObjectImpl } from "../../types/implementation/objects/StaticJsPlainObjectImpl.js";
 import { StaticJsPlainObject } from "../../types/StaticJsPlainObject.js";
 import { applyIntrinsicProperties, IntrinsicPropertyDeclaration } from "../utils.js";
+
 import { reflectApplyDeclaration } from "./apply.js";
 import { reflectConstructDeclaration } from "./construct.js";
 import { reflectDefinePropertyDeclaration } from "./defineProperty.js";

@@ -1,7 +1,5 @@
 import { isIdentifier, type Node, type CallExpression } from "@babel/types";
 
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
 import { parseScript } from "../../parser/parse-script.js";
@@ -20,7 +18,9 @@ import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import evalDeclarationInstantiation from "../instantiation/eval-declaration-instantiation.js";
+
 import nameNode from "./name-node.js";
 
 export default function* callExpressionNodeEvaluator(node: CallExpression): EvaluationGenerator {

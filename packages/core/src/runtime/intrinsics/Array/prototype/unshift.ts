@@ -1,11 +1,10 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { get } from "../../../algorithms/get.js";
 import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
 import { set } from "../../../algorithms/set.js";
 import { toObject } from "../../../algorithms/to-object.js";
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
   key: "unshift",

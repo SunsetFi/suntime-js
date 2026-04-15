@@ -1,6 +1,5 @@
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-
 import { Completion } from "../../../../evaluator/completions/Completion.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsProxyImpl } from "../../../types/implementation/StaticJsProxyImpl.js";
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";

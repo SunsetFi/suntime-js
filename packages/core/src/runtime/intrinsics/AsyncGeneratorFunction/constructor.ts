@@ -1,19 +1,18 @@
 import { blockStatement, functionDeclaration, type Program } from "@babel/types";
 
-import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import type { StaticJsObject } from "../../types/StaticJsObject.js";
-
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { parseFunctionBody } from "../../../parser/parse-function-body.js";
 import { parseParameters } from "../../../parser/parse-parameters.js";
 import { definePropertyOrThrow } from "../../algorithms/define-property-or-throw.js";
 import { setFunctionName } from "../../algorithms/set-function-name.js";
 import { toString } from "../../algorithms/to-string.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import {
   StaticJsAstFunction,
   StaticJsAstFunctionArgument,
 } from "../../types/implementation/functions/StaticJsAstFunction.js";
 import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
 
 export default function createAsyncGeneratorFunctionConstructor(
   realm: StaticJsRealm,

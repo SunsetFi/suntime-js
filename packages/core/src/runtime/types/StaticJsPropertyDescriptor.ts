@@ -1,7 +1,7 @@
-import type { StaticJsValue } from "./StaticJsValue.js";
-
 import { hasOwnProperty } from "../../utils/has-own-property.js";
+
 import { isStaticJsCallable, type StaticJsCallable } from "./StaticJsCallable.js";
+import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsDataPropertyDescriptor {

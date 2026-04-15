@@ -1,6 +1,5 @@
-import type { AccessorIntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { toString } from "../../../algorithms/to-string.js";
+import type { AccessorIntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringProtoLengthDeclaration: AccessorIntrinsicPropertyDeclaration = {
   key: "length",

@@ -1,6 +1,5 @@
-import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { toString } from "../../../algorithms/to-string.js";
+import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringProtoToLowerCaseDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "toLowerCase",

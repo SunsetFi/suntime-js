@@ -1,7 +1,6 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsSymbol } from "../../StaticJsSymbol.js";
-
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 

@@ -33,6 +33,7 @@ import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import { isStaticJsUndefined } from "../StaticJsUndefined.js";
 import { StaticJsValue } from "../StaticJsValue.js";
+
 import { createStaticJsObjectProxy } from "./objects/create-object-proxy.js";
 
 export class StaticJsProxyImpl implements StaticJsObject, StaticJsCallable {

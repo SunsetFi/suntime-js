@@ -7,12 +7,12 @@ import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js"
 import type { StaticJsPlainObject } from "../types/StaticJsPlainObject.js";
 import type { StaticJsTypeFactory } from "../types/StaticJsTypeFactory.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
+
+import { StaticJsConfig } from "./StaticJsConfig.js";
 import type {
   StaticJsRealmEvaluateScriptOptions,
   StaticJsRealmEvaluateScriptSyncOptions,
 } from "./StaticJsRealmEvaluateScriptOptions.js";
-
-import { StaticJsConfig } from "./StaticJsConfig.js";
 import { StaticJsRealmEvaluateSourceOptions } from "./StaticJsRealmEvaluateSourceOptions.js";
 
 /**

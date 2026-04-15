@@ -1,13 +1,12 @@
-import type { StaticJsObject } from "../../StaticJsObject.js";
-import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
-import type { StaticJsValue } from "../../StaticJsValue.js";
-
 import { properrtyDescriptortoNative } from "../../../utils/property-descriptor-to-js.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
 import {
   isStaticJsDataPropertyDescriptor,
   type StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
+import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
+import type { StaticJsValue } from "../../StaticJsValue.js";
 
 const ProxyOwnerKey = Symbol("StaticJsObjectProxyOwner");
 

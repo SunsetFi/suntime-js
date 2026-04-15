@@ -1,9 +1,9 @@
-import type { IntrinsicPropertyDeclaration } from "./utils.js";
-
 import { toInteger } from "../algorithms/to-integer.js";
 import { toString } from "../algorithms/to-string.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
+
+import type { IntrinsicPropertyDeclaration } from "./utils.js";
 
 const globalObjectParseIntDeclaration: IntrinsicPropertyDeclaration = {
   key: "parseInt",

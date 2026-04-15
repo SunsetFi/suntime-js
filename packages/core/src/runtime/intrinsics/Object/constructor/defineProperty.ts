@@ -1,10 +1,9 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
 import { toPropertyDescriptor } from "../../../algorithms/to-property-descriptor.js";
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 import { toPropertyKey } from "../../../utils/to-property-key.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
   key: "defineProperty",

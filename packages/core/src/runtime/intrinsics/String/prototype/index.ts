@@ -1,7 +1,7 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
-
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
+
 import stringProtoCharAtDeclaration from "./charAt.js";
 import stringProtoCharCodeAtDeclaration from "./charCodeAt.js";
 import stringProtoConcatDeclaration from "./concat.js";

@@ -1,11 +1,10 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { get } from "../../../algorithms/get.js";
 import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
 import { toObject } from "../../../algorithms/to-object.js";
 import { toString } from "../../../algorithms/to-string.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoJoinDeclaration: IntrinsicPropertyDeclaration = {
   key: "join",

@@ -1,9 +1,8 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsValue } from "../types/StaticJsValue.js";
-
 import { get } from "../algorithms/get.js";
 import { lengthOfArrayLike } from "../algorithms/length-of-array-like.js";
 import { toObject } from "../algorithms/to-object.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 export function* toArray(val: StaticJsValue): EvaluationGenerator<StaticJsValue[]> {
   const obj = yield* toObject(val);

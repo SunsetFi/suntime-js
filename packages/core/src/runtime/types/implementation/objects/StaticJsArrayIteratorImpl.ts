@@ -1,12 +1,12 @@
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
+import { get } from "../../../algorithms/get.js";
+import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 
-import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
-import { get } from "../../../algorithms/get.js";
-import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 
 export class StaticJsArrayIteratorImpl extends StaticJsIteratorImpl {

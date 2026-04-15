@@ -1,10 +1,10 @@
 import type { Node } from "@babel/types";
 
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";
 import { Completion } from "../completions/Completion.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
 import { getEvaluator } from "./nodes.js";
 
 export default function* evaluateNode(node: Node): EvaluationGenerator<Completion> {

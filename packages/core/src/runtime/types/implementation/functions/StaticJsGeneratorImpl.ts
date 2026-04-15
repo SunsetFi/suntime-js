@@ -1,15 +1,14 @@
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import type { EvaluatorCommand } from "../../../../evaluator/commands/EvaluatorCommand.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 import type { CompletionValue } from "../../../../evaluator/completions/CompletionValue.js";
+import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { getValue } from "../../../algorithms/get-value.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsGenerator } from "../../StaticJsGenerator.js";
 import type { StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
-
-import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
-import { Completion } from "../../../../evaluator/completions/Completion.js";
-import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
-import { getValue } from "../../../algorithms/get-value.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { type StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";

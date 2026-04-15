@@ -1,6 +1,5 @@
-import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
-
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../StaticJsArray.js";
+import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
 
 export function isArrayIndex(value: StaticJsPropertyKey): value is string {

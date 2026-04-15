@@ -1,9 +1,8 @@
 import type { Statement } from "@babel/types";
 
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* evaluateStatementList(
   statementList: Statement[],

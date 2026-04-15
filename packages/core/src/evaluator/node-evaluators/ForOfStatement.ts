@@ -1,9 +1,9 @@
 import type { ForOfStatement, LVal, VariableDeclaration } from "@babel/types";
 
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import boundNames from "../instantiation/algorithms/bound-names.js";
+
 import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 import { forInOfBodyEvaluation } from "./ForInOfStatement/ForInOfBodyEvaluation.js";
 import forInOfHeadEvaluation from "./ForInOfStatement/ForInOfHeadEvaluation.js";

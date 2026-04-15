@@ -1,4 +1,5 @@
 import type { Constructors, Prototypes, IntrinsicSymbols } from "../intrinsics/intrinsics.js";
+
 import type { StaticJsArray } from "./StaticJsArray.js";
 import type { StaticJsBoolean } from "./StaticJsBoolean.js";
 import type { StaticJsFunction } from "./StaticJsFunction.js";

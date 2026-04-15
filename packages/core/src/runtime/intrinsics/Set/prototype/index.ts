@@ -1,7 +1,7 @@
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
-
 import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../../utils.js";
+
 import setProtoAddDeclaration from "./add.js";
 import setProtoClearDeclaration from "./clear.js";
 import setProtoDeleteDeclaration from "./delete.js";

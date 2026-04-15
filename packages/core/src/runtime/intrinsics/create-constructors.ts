@@ -1,5 +1,4 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-import type { Constructors } from "./intrinsics.js";
 
 import { createArrayConstructor } from "./Array/index.js";
 import { createAsyncGeneratorFunctionConstructor } from "./AsyncGeneratorFunction/index.js";
@@ -8,6 +7,7 @@ import { createErrorConstructor } from "./Error/index.js";
 import { createEvalErrorConstructor } from "./EvalError.js";
 import { createFunctionConstructor } from "./Function/index.js";
 import { createGeneratorFunctionConstructor } from "./GeneratorFunction/index.js";
+import type { Constructors } from "./intrinsics.js";
 import { createIteratorConstructor } from "./Iterator/index.js";
 import { createMapConstructor } from "./Map/index.js";
 import { createNumberConstructor } from "./Number/index.js";

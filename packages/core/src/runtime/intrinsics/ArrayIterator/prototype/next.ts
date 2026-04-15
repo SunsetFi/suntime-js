@@ -1,9 +1,8 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
-
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
 import { StaticJsArrayIteratorImpl } from "../../../types/implementation/objects/StaticJsArrayIteratorImpl.js";
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
+import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoNextDeclaration: IntrinsicPropertyDeclaration = {
   key: "next",

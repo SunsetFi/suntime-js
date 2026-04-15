@@ -6,9 +6,6 @@ import type {
   VariableDeclaration,
 } from "@babel/types";
 
-import type { StaticJsIteratorRecord } from "../../../runtime/iterators/StaticJsIteratorRecord.js";
-import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
-
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { call } from "../../../runtime/algorithms/call.js";
 import { loopContinues } from "../../../runtime/algorithms/loop-continues.js";
@@ -18,6 +15,7 @@ import { asyncIteratorClose } from "../../../runtime/iterators/async-iterator-cl
 import { iteratorClose } from "../../../runtime/iterators/iterator-close.js";
 import { iteratorComplete } from "../../../runtime/iterators/iterator-complete.js";
 import { iteratorValue } from "../../../runtime/iterators/iterator-value.js";
+import type { StaticJsIteratorRecord } from "../../../runtime/iterators/StaticJsIteratorRecord.js";
 import getIdentifierReference from "../../../runtime/references/get-identifier-reference.js";
 import { isStaticJsObject } from "../../../runtime/types/StaticJsObject.js";
 import bindingInitialization from "../../bindings/binding-initialization.js";
@@ -29,7 +27,9 @@ import { Completion } from "../../completions/Completion.js";
 import { Q } from "../../completions/Q.js";
 import { rethrowCompletion } from "../../completions/rethrow-completion.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
+import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import boundNames from "../../instantiation/algorithms/bound-names.js";
+
 import forDeclarationBindingInitialization from "./for-declaration-binding-initialization.js";
 import forDeclarationBindingInstantiation from "./for-declaration-binding-instantiation.js";
 import isDestructuring from "./is-destructuring.js";

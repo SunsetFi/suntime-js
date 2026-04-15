@@ -1,6 +1,6 @@
-import type { IntrinsicPropertyDeclaration } from "./utils.js";
-
 import { toNumber } from "../algorithms/to-number.js";
+
+import type { IntrinsicPropertyDeclaration } from "./utils.js";
 
 const globalObjectIsFiniteDeclaration: IntrinsicPropertyDeclaration = {
   key: "isFinite",
