@@ -9,6 +9,9 @@
   "repository": {
     "url": "https://github.com/SunsetFi/static-js"
   },
+  "engines": {
+    "node": ">= 22"
+  },
   "files": [
     "lib"
   ],
