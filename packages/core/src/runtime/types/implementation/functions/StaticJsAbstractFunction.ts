@@ -114,8 +114,8 @@ export abstract class StaticJsAbstractFunction
     return this.realm.invokeEvaluatorSync(this.constructEvaluator(args), opts);
   }
 
-  override toNative(): (...args: unknown[]) => unknown {
-    return super.toNative() as (...args: unknown[]) => unknown;
+  override toNative(): Function {
+    return super.toNative() as Function;
   }
 
   protected override _createtoNativeProxyTarget(): StaticJsObjectProxyTarget {

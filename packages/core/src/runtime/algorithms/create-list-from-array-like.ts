@@ -2,8 +2,8 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { isStaticJsObject } from "../types/StaticJsObject.js";
 import { StaticJsPropertyKey, isStaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
+import { isStaticJsString } from "../types/StaticJsString.js";
 import { StaticJsValue } from "../types/StaticJsValue.js";
-import { toPropertyKey } from "../utils/to-property-key.js";
 
 import { get } from "./get.js";
 import { lengthOfArrayLike } from "./length-of-array-like.js";
@@ -31,14 +31,18 @@ export function* createListFromArrayLike(
     const indexName = String(index);
     const next = yield* get(obj, indexName);
     if (validElementTypes === "property-key") {
-      if (!isStaticJsPropertyKey(next)) {
+      let key: StaticJsPropertyKey;
+      if (isStaticJsString(next)) {
+        key = next.value;
+      } else if (isStaticJsPropertyKey(next)) {
+        key = next;
+      } else {
         throw Completion.Throw(
           "TypeError",
           `Element at index ${index} (${toString(next)}) is not a valid property key.`,
         );
       }
-      const propertyKey = yield* toPropertyKey(next);
-      list.push(propertyKey);
+      list.push(key);
     } else {
       list.push(next);
     }

@@ -1,18 +1,27 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
+import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import typedKeys from "../../../utils/typed-keys.js";
 import { WeakValueMap } from "../../../utils/WeakValueMap.js";
 import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
 import type { IntrinsicSymbols, Constructors, Prototypes } from "../../intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsArray } from "../StaticJsArray.js";
 import type { StaticJsBoolean } from "../StaticJsBoolean.js";
+import { StaticJsCallable } from "../StaticJsCallable.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 import type { StaticJsNumber } from "../StaticJsNumber.js";
-import type { StaticJsObject } from "../StaticJsObject.js";
+import { isStaticJsObject, type StaticJsObject } from "../StaticJsObject.js";
 import type { StaticJsPlainObject } from "../StaticJsPlainObject.js";
 import type { StaticJsPropertyDescriptorRecord } from "../StaticJsPropertyDescriptor.js";
-import type { StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
+import { toStaticJsPropertyKey, type StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
+import {
+  StaticJsProxy,
+  StaticJsProxyHandlerKeys,
+  StaticJsProxyHandlers,
+  StaticJsProxyTarget,
+} from "../StaticJsProxy.js";
 import type { StaticJsString } from "../StaticJsString.js";
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 import type { ErrorTypeName, StaticJsFunctionTypeCreationOptions } from "../StaticJsTypeFactory.js";
@@ -34,6 +43,7 @@ import { StaticJsNumberImpl } from "./primitives/StaticJsNumberImpl.js";
 import { StaticJsStringImpl } from "./primitives/StaticJsStringImpl.js";
 import { StaticJsSymbolImpl, getSymbolProxyOwner } from "./primitives/StaticJsSymbolImpl.js";
 import { StaticJsUndefinedImpl } from "./primitives/StaticJsUndefinedImpl.js";
+import { StaticJsProxyImpl } from "./StaticJsProxyImpl.js";
 
 export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _prototypes: Prototypes;
@@ -265,6 +275,73 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     return error;
   }
 
+  proxy(target: StaticJsProxyTarget, handlers: StaticJsProxyHandlers): StaticJsProxy {
+    const handlerKeys = typedKeys(handlers);
+    const unknownKey = handlerKeys.find(
+      (x) => !StaticJsProxyHandlerKeys.includes(x) || typeof handlers[x] !== "function",
+    );
+    if (unknownKey) {
+      throw new TypeError(`Invalid proxy handler key: ${unknownKey}`);
+    }
+
+    let resolvedTarget: StaticJsObject | StaticJsCallable;
+    if (target === "object") {
+      resolvedTarget = this.object();
+    } else if (target === "function") {
+      resolvedTarget = this.function("proxyTargetFunction", () => this.undefined);
+    } else if (isStaticJsObject(target)) {
+      resolvedTarget = target;
+    } else if (typeof target === "function") {
+      resolvedTarget = this._toStaticJsValueFunction(target);
+    } else if (target != null && typeof target === "object") {
+      resolvedTarget = this._toStaticJsValueObject(target);
+    } else {
+      throw new TypeError(
+        `Invalid proxy target: ${target}. Must be an object, function, "object", or "function".`,
+      );
+    }
+
+    // oxlint-disable-next-line typescript/no-this-alias
+    const typeFactory = this;
+    const handlersResolved: Partial<Record<keyof StaticJsProxyHandlers, StaticJsFunction>> = {};
+    for (const key of handlerKeys) {
+      const converter = proxyHandlerConverters[key];
+      const handlerValue = handlers[key]!;
+      // FIXME: Support actually doing async evaluation in these
+      const handlerFunc = new StaticJsNativeFunctionImpl(
+        this._realm,
+        key,
+        function* (_thisArg: StaticJsValue, ...args: StaticJsValue[]) {
+          let invokeArgs: unknown[];
+          if (converter) {
+            invokeArgs = args.map((arg, index) => (converter[index] ? converter[index](arg) : arg));
+          } else {
+            invokeArgs = args;
+          }
+          const result = (handlerValue as any).apply(undefined, invokeArgs);
+          const evaluated = yield* EvaluationGenerator(result);
+          return typeFactory.toStaticJsValue(evaluated);
+        },
+      );
+      handlersResolved[key] = handlerFunc;
+    }
+
+    const descriptors = Object.fromEntries(
+      Object.entries(handlersResolved).map(([key, value]) => [
+        key,
+        {
+          value,
+          writable: true,
+          enumerable: true,
+          configurable: true,
+        },
+      ]),
+    ) as Record<string, StaticJsPropertyDescriptorRecord>;
+    const handlersObject = this.object(descriptors);
+
+    return new StaticJsProxyImpl(resolvedTarget, handlersObject, this._realm);
+  }
+
   toStaticJsValue(value: boolean): StaticJsBoolean;
   toStaticJsValue(value: number): StaticJsNumber;
   toStaticJsValue(value: string): StaticJsString;
@@ -388,7 +465,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     return this._realm.invokeEvaluatorSync(createArrayFromList(values));
   }
 
-  private _toStaticJsValueFunction(value: (...args: unknown[]) => unknown): StaticJsFunction {
+  private _toStaticJsValueFunction(value: Function): StaticJsFunction {
     return new StaticJsExternalFunction(this._realm, value.name, value);
   }
 
@@ -420,3 +497,15 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 function isFunction(f: unknown): f is (...args: unknown[]) => unknown {
   return typeof f === "function";
 }
+
+const convertIdentity = (x: StaticJsValue) => x;
+const proxyHandlerConverters: Partial<
+  Record<keyof StaticJsProxyHandlers, ((value: StaticJsValue) => unknown)[]>
+> = {
+  getOwnPropertyDescriptor: [convertIdentity, toStaticJsPropertyKey],
+  defineProperty: [convertIdentity, toStaticJsPropertyKey, convertIdentity],
+  has: [convertIdentity, toStaticJsPropertyKey],
+  get: [convertIdentity, toStaticJsPropertyKey, convertIdentity],
+  set: [convertIdentity, toStaticJsPropertyKey, convertIdentity, convertIdentity],
+  deleteProperty: [convertIdentity, toStaticJsPropertyKey],
+};

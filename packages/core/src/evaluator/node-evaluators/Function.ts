@@ -126,11 +126,8 @@ function instantiateOrdinaryFunctionObject(
   switch (node.type) {
     case "FunctionDeclaration":
     case "FunctionExpression":
-      // TODO: Generator
       realm.invokeEvaluatorSync(setFunctionName(func, node.id?.name ?? "default"));
   }
-
-  // TODO: Remove construct: true from above and call makeConstructor
 
   return func;
 }

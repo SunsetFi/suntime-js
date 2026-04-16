@@ -2,6 +2,9 @@
 
 ## Immediate
 
+- [ ] Change StaticJsPropertyKey to use StaticJsString, not native string.
+      This is causing bad squirly code all over the place.
+
 - [-] Function overhaul
   - [ ] Rework all async functions to one class
   - [x] StaticJsFunctionImpl should be abstract

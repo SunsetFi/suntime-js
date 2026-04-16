@@ -162,6 +162,8 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
         classPrivateEnvironment,
         constructorParent,
       );
+
+      yield* setFunctionName(F, className);
     } else {
       const constructorInfo = yield* Q(defineMethod(constructor, proto, constructorParent));
 

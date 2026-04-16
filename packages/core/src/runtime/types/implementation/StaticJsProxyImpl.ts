@@ -29,6 +29,7 @@ import {
   StaticJsPropertyDescriptorRecord,
 } from "../StaticJsPropertyDescriptor.js";
 import { StaticJsPropertyKey, staticJsPropertyKeyToValue } from "../StaticJsPropertyKey.js";
+import { StaticJsProxy } from "../StaticJsProxy.js";
 import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import { isStaticJsUndefined } from "../StaticJsUndefined.js";
@@ -36,7 +37,7 @@ import { StaticJsValue } from "../StaticJsValue.js";
 
 import { createStaticJsObjectProxy } from "./objects/create-object-proxy.js";
 
-export class StaticJsProxyImpl implements StaticJsObject, StaticJsCallable {
+export class StaticJsProxyImpl implements StaticJsProxy {
   private _cachedJsObject: unknown | null = null;
 
   constructor(
@@ -65,10 +66,6 @@ export class StaticJsProxyImpl implements StaticJsObject, StaticJsCallable {
     return isStaticJsCallable(this._proxyTarget)
       ? StaticJsTypeCode.ProxyCallable
       : StaticJsTypeCode.Proxy;
-  }
-
-  get prototype(): StaticJsObject | null {
-    throw new Error("Method not implemented.");
   }
 
   getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObject | null> {

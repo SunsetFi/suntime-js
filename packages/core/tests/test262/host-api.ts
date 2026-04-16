@@ -21,7 +21,7 @@ export default async function createHostApi(realm: StaticJsRealm): Promise<void>
           const realm = StaticJsRealm({
             runTask: createTimeBoundTaskRunner({ maxRunTime: 5000 }),
           });
-          createHostApi(realm);
+          return createHostApi(realm);
         }),
       },
       detatchArrayBuffer: {

@@ -12,6 +12,8 @@ export * from "./StaticJsObject.js";
 export * from "./StaticJsPrimitive.js";
 export * from "./StaticJsPromise.js";
 export * from "./StaticJsPropertyDescriptor.js";
+export * from "./StaticJsPropertyKey.js";
+export * from "./StaticJsProxy.js";
 export * from "./StaticJsScalar.js";
 export * from "./StaticJsSet.js";
 export * from "./StaticJsString.js";

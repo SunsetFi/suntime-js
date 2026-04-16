@@ -1,3 +1,5 @@
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { toPrimitive } from "../algorithms/to-primitive.js";
 import { toString } from "../algorithms/to-string.js";
@@ -20,8 +22,12 @@ export function* toPropertyKey(
   value: unknown,
   wrapped?: boolean,
 ): EvaluationGenerator<StaticJsPropertyKey | StaticJsString> {
+  if (typeof value === "string") {
+    return wrapped ? EvaluationContext.current.realm.types.string(value) : value;
+  }
+
   if (!isStaticJsValue(value)) {
-    return String(value);
+    throw new StaticJsEngineError("Cannot convert non-StaticJsValue to property key.");
   }
 
   const key = yield* toPrimitive(value, "string");

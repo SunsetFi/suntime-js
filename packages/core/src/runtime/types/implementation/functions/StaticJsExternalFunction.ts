@@ -10,7 +10,7 @@ export class StaticJsExternalFunction extends StaticJsNativeFunctionImpl {
   constructor(
     realm: StaticJsRealm,
     name: string | null,
-    private readonly _func: (...args: unknown[]) => unknown,
+    private readonly _func: Function,
   ) {
     super(realm, name, (thisArg, ...args) => this._invoke(thisArg, ...args));
   }
@@ -34,7 +34,7 @@ export class StaticJsExternalFunction extends StaticJsNativeFunctionImpl {
     }
   }
 
-  override toNative(): (...args: unknown[]) => unknown {
+  override toNative(): Function {
     return this._func;
   }
 }

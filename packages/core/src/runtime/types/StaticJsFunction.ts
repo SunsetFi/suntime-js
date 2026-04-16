@@ -14,7 +14,7 @@ export interface StaticJsFunction extends StaticJsCallable {
   getNameAsync(opts?: StaticJsRunTaskOptions): Promise<string>;
   getNameSync(opts?: StaticJsRunTaskOptions): string;
 
-  toNative(): (...args: unknown[]) => unknown;
+  toNative(): Function;
 }
 
 export interface StaticJsBoundFunction extends StaticJsFunction {
