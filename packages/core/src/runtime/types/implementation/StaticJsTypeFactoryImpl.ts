@@ -421,7 +421,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       case Symbol.asyncIterator:
         return this._symbols.asyncIterator;
       case Symbol.dispose:
-        return this._symbols.hasInstance;
+        return this._symbols.dispose;
       case Symbol.isConcatSpreadable:
         return this._symbols.isConcatSpreadable;
       case Symbol.iterator:
