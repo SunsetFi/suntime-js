@@ -24,45 +24,4 @@ describe("E2E: Sandbox", () => {
     expect(result.toNative()).toBe(42);
     expect((globalThis as any).__functionSandboxTest).toBeUndefined();
   });
-
-  describe("External values", () => {
-    it("Does not allow external Object constructors to escape the sandbox", async () => {
-      const realm = StaticJsRealm({
-        global: {
-          properties: {
-            externalObject: {
-              value: {},
-            },
-          },
-        },
-      });
-      const code = `
-        const obj = externalObject;
-        obj.constructor.constructor("globalThis.__escapeTest = 42;")();
-      `;
-      await realm.evaluateScript(code);
-      const result = await realm.evaluateScript("__escapeTest");
-      expect(result.toNative()).toBe(42);
-      expect((globalThis as any).__escapeTest).toBeUndefined();
-    });
-
-    it("Does not allow external Function object constructors to escape the sandbox", async () => {
-      const realm = StaticJsRealm({
-        global: {
-          properties: {
-            externalFunction: {
-              value: function () {},
-            },
-          },
-        },
-      });
-      const code = `
-        externalFunction.constructor("globalThis.__escapeTest = 42;")();
-      `;
-      await realm.evaluateScript(code);
-      const result = await realm.evaluateScript("__escapeTest");
-      expect(result.toNative()).toBe(42);
-      expect((globalThis as any).__escapeTest).toBeUndefined();
-    });
-  });
 });

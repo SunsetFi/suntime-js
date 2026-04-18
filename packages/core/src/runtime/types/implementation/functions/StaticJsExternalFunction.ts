@@ -27,14 +27,16 @@ export class StaticJsExternalFunction extends StaticJsNativeFunctionImpl {
     thisArg: StaticJsValue,
     ...args: StaticJsValue[]
   ): EvaluationGenerator<StaticJsValue> {
-    let thisArgResolved = thisArg.toNative();
+    let thisArgResolved: unknown = undefined;
     if (this._opts.getThisArg) {
       thisArgResolved = yield* EvaluationGenerator(this._opts.getThisArg(thisArg));
     }
 
-    let valueArgsResolved = args.map((arg) => arg.toNative());
+    let valueArgsResolved: unknown[];
     if (this._opts.getArgs) {
       valueArgsResolved = yield* EvaluationGenerator(this._opts.getArgs(args));
+    } else {
+      valueArgsResolved = args.map((arg) => arg.toNative());
     }
 
     try {

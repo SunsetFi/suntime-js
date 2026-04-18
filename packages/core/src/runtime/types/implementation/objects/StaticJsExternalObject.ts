@@ -1,15 +1,23 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type {
-  StaticJsPropertyDescriptor,
-  StaticJsPropertyDescriptorRecord,
+import { StaticJsObject } from "../../StaticJsObject.js";
+import {
+  isStaticJsDataPropertyDescriptor,
+  type StaticJsPropertyDescriptor,
+  type StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsExternalFunction } from "../functions/StaticJsExternalFunction.js";
 import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";
+
+export interface StaticJsExternalObjectOpts {
+  prototype?: StaticJsObject | null;
+  enableWrites?: boolean;
+  enableThisArg?: boolean;
+}
 
 /**
  * A static object that wraps a native javascript object.
@@ -24,8 +32,9 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
   constructor(
     realm: StaticJsRealm,
     private readonly _obj: object,
+    private readonly _opts: StaticJsExternalObjectOpts = {},
   ) {
-    super(realm, realm.types.prototypes.objectProto);
+    super(realm, _opts.prototype ?? realm.types.prototypes.objectProto);
   }
 
   get runtimeTypeOf() {
@@ -56,7 +65,10 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
       return undefined;
     }
 
-    const { enumerable, value, get: descrGet } = objDescr;
+    const { enableWrites, enableThisArg } = this._opts;
+
+    const { enumerable, value, get: descrGet, set: descrSet } = objDescr;
+    const hasValue = "value" in objDescr;
 
     if (!enumerable) {
       return undefined;
@@ -69,13 +81,24 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
 
     // Do we want to cache these?  The object can be changed from underneath us...
 
+    let isAccessor = false;
     if (descrGet) {
+      isAccessor = true;
       staticJsDescr.get = new StaticJsExternalFunction(this.realm, "get", descrGet, {
-        getThisArg: () => this._obj,
+        getThisArg: (value) => (enableThisArg ? value.toNative() : this._obj),
       });
-    } else if (value) {
+    }
+
+    if (enableWrites && descrSet) {
+      isAccessor = true;
+      staticJsDescr.set = new StaticJsExternalFunction(this.realm, "set", descrSet, {
+        getThisArg: () => (enableThisArg ? staticJsDescr.get : this._obj),
+      });
+    }
+
+    if (!isAccessor && hasValue) {
       staticJsDescr.value = this.realm.types.toStaticJsValue(value);
-      staticJsDescr.writable = false;
+      staticJsDescr.writable = enableWrites ?? false;
     }
 
     return staticJsDescr as StaticJsPropertyDescriptor;
@@ -100,8 +123,45 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     throw Completion.Throw("TypeError", "Cannot add a private elemnt to this object.");
   }
 
-  protected *_setPropertyDescriptorEvaluator(): EvaluationGenerator<boolean> {
-    /* No-op.  Externals are not writable. */
+  protected *_setPropertyDescriptorEvaluator(
+    key: StaticJsPropertyKey,
+    setDescr: StaticJsPropertyDescriptor,
+  ): EvaluationGenerator<boolean> {
+    const { enableWrites, enableThisArg } = this._opts;
+    if (!enableWrites) {
+      return false;
+    }
+
+    if (!isStaticJsDataPropertyDescriptor(setDescr)) {
+      return false;
+    }
+
+    const property = isStaticJsSymbol(key) ? key.toNative() : (key as string);
+
+    const propertyDescr = Object.getOwnPropertyDescriptor(this._obj, property);
+    if (!propertyDescr) {
+      return false;
+    }
+
+    if (setDescr.value === propertyDescr.value) {
+      return true;
+    }
+
+    if (propertyDescr.set) {
+      propertyDescr.set.call(
+        enableThisArg ? propertyDescr.get : this._obj,
+        setDescr.value.toNative(),
+      );
+      return true;
+    }
+
+    if (propertyDescr.writable) {
+      Object.defineProperty(this._obj, property, {
+        value: setDescr.value.toNative(),
+      });
+      return true;
+    }
+
     return false;
   }
 
