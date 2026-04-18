@@ -1,5 +1,6 @@
 import type { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
 import type { Completion } from "./completions/Completion.js";
+import { CompletionValue } from "./completions/CompletionValue.js";
 
 export type EvaluationGenerator<TReturn = Completion.Normal> = Generator<
   EvaluatorCommand,
@@ -15,11 +16,34 @@ export function EvaluationGenerator<T>(maybe: MaybeEvaluationGenerator<T>): Eval
   }
 
   // Wrap the value in a generator that just returns it.
-  return (function* () {
-    return maybe;
-  })();
+  return new StubEvaluationGenerator(maybe);
 }
 
 export function isEvaluationGenerator(value: unknown): value is EvaluationGenerator<unknown> {
   return value instanceof Iterator;
+}
+
+export class StubEvaluationGenerator<T>
+  extends Iterator<EvaluatorCommand, T, CompletionValue>
+  implements EvaluationGenerator<T>
+{
+  override [Symbol.iterator]() {
+    return this;
+  }
+
+  constructor(private _returnValue: T) {
+    super();
+  }
+
+  override next(): IteratorResult<EvaluatorCommand, T> {
+    return { done: true, value: this._returnValue };
+  }
+
+  override return(): IteratorResult<EvaluatorCommand, T> {
+    return { done: true, value: this._returnValue };
+  }
+
+  override throw(): IteratorResult<EvaluatorCommand, T> {
+    return { done: true, value: this._returnValue };
+  }
 }

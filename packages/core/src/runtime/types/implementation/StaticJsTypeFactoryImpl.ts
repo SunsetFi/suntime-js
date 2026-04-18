@@ -201,9 +201,10 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       name,
       function* (thisArg: StaticJsValue, ...args: StaticJsValue[]) {
         try {
-          const result = func.apply(thisArg, args);
+          const functionResult = func.apply(thisArg, args);
+          const result = yield* EvaluationGenerator(functionResult);
           if (!isStaticJsValue(result)) {
-            throw new TypeError(`Function ${name} returned non-StaticJsValue: ${result}`);
+            throw new TypeError(`Function ${name} returned non-StaticJsValue: ${functionResult}`);
           }
           return result;
         } catch (e) {

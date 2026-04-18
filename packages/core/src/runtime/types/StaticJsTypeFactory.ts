@@ -1,3 +1,4 @@
+import { MaybeEvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import type { Constructors, Prototypes, IntrinsicSymbols } from "../intrinsics/intrinsics.js";
 
 import type { StaticJsArray } from "./StaticJsArray.js";
@@ -62,7 +63,10 @@ export interface StaticJsTypeFactory {
 
   function(
     name: string,
-    func: (this: StaticJsValue, ...args: StaticJsValue[]) => StaticJsValue,
+    func: (
+      this: StaticJsValue,
+      ...args: StaticJsValue[]
+    ) => MaybeEvaluationGenerator<StaticJsValue>,
     opts?: StaticJsFunctionTypeCreationOptions,
   ): StaticJsFunction;
 
@@ -77,7 +81,6 @@ export interface StaticJsTypeFactory {
   toStaticJsValue(value: string): StaticJsString;
   toStaticJsValue(value: unknown[]): StaticJsArray;
   toStaticJsValue(value: object): StaticJsPlainObject;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   toStaticJsValue(value: Function): StaticJsFunction;
   toStaticJsValue(value: symbol): StaticJsSymbol;
   toStaticJsValue(value: null): StaticJsNull;

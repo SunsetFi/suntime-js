@@ -70,20 +70,10 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     // Do we want to cache these?  The object can be changed from underneath us...
 
     if (descrGet) {
-      staticJsDescr.get = new StaticJsExternalFunction(this.realm, "get", descrGet);
-    }
-
-    // Had this enabled at one point, but we really want to be read-only, at least until
-    // we provide the option not to be.
-    // if (descrSet) {
-    //   staticJsDescr.set = new StaticJsExternalFunction(
-    //     this.realm,
-    //     "set",
-    //     descrSet,
-    //   );
-    // }
-
-    if (value) {
+      staticJsDescr.get = new StaticJsExternalFunction(this.realm, "get", descrGet, {
+        getThisArg: () => this._obj,
+      });
+    } else if (value) {
       staticJsDescr.value = this.realm.types.toStaticJsValue(value);
       staticJsDescr.writable = false;
     }
