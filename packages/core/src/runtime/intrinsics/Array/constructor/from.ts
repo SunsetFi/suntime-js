@@ -3,6 +3,7 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { arrayCreate } from "../../../algorithms/array-create.js";
 import { call } from "../../../algorithms/call.js";
+import { construct } from "../../../algorithms/construct.js";
 import { createDataPropertyOrThrow } from "../../../algorithms/create-data-property-or-throw.js";
 import { getMethod } from "../../../algorithms/get-method.js";
 import { get } from "../../../algorithms/get.js";
@@ -50,7 +51,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
     const usingIterator = yield* Q(getMethod(items, realm.types.symbols.iterator));
     if (usingIterator) {
       if (isConstructor(C)) {
-        A = yield* Q(C.constructEvaluator([realm.types.number(0)]));
+        A = yield* Q(construct(C, [realm.types.number(0)]));
       } else {
         A = yield* arrayCreate(0);
       }
@@ -98,7 +99,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
     const arrayLike = yield* Q(toObject(items));
     const len = yield* Q(lengthOfArrayLike(arrayLike));
     if (isConstructor(C)) {
-      A = yield* Q(C.constructEvaluator([realm.types.number(len)]));
+      A = yield* Q(construct(C, [realm.types.number(len)]));
     } else {
       A = yield* arrayCreate(len);
     }

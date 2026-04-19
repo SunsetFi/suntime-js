@@ -9,6 +9,7 @@ import {
 } from "../types/StaticJsPromise.js";
 import { StaticJsValue } from "../types/StaticJsValue.js";
 
+import { construct } from "./construct.js";
 import { isCallable } from "./is-callable.js";
 import { isConstructor } from "./is-constructor.js";
 
@@ -42,7 +43,7 @@ export function* newPromiseCapability(
     },
   );
 
-  const promise = yield* constructor.constructEvaluator([resolver]);
+  const promise = yield* construct(constructor, [resolver]);
   if (resolveFunc == null || rejectFunc == null) {
     throw Completion.Throw("TypeError", "Promise resolver did not get called");
   }
