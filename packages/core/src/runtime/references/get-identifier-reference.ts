@@ -1,9 +1,11 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 
-import type {
-  StaticJsResolvedReference,
-  StaticJsUnresolvedReferenceRecord,
+import {
+  staticJsResolvedReferenceRecord,
+  staticJsUnresolvedReferenceRecord,
+  type StaticJsResolvedReference,
+  type StaticJsUnresolvedReferenceRecord,
 } from "./StaticJsReferenceRecord.js";
 
 export default function* getIdentifierReference(
@@ -15,21 +17,11 @@ export default function* getIdentifierReference(
   while (current) {
     const exists = yield* current.hasBindingEvaluator(name);
     if (exists) {
-      return {
-        referencedName: name,
-        strict,
-        thisValue: null,
-        base: current,
-      };
+      return staticJsResolvedReferenceRecord(name, current, strict, null);
     }
 
     current = current.outerEnv;
   }
 
-  return {
-    referencedName: name,
-    strict,
-    thisValue: null,
-    base: null,
-  };
+  return staticJsUnresolvedReferenceRecord(name, strict);
 }

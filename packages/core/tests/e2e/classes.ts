@@ -372,6 +372,7 @@ describe("E2E: Classes", () => {
       describe("Properties and Methods", () => {
         interface PropertyTestCase {
           name: string;
+          superBody?: string;
           classBody: string;
           act?: string;
           extract: string;
@@ -381,11 +382,11 @@ describe("E2E: Classes", () => {
           {
             name: "Can defined a property",
             classBody: `
-            myProp;
-          `,
+              myProp;
+            `,
             act: `
-            instance.myProp = 42;
-          `,
+              instance.myProp = 42;
+            `,
             extract: "instance.myProp",
             verify(result) {
               expect(result.toNative()).toBe(42);
@@ -394,8 +395,8 @@ describe("E2E: Classes", () => {
           {
             name: "Can define a property with an initializer",
             classBody: `
-            myProp = 42;
-          `,
+              myProp = 42;
+            `,
             extract: "instance.myProp",
             verify(result) {
               expect(result.toNative()).toBe(42);
@@ -404,8 +405,8 @@ describe("E2E: Classes", () => {
           {
             name: "Can define a property with a computed name",
             classBody: `
-            ["my" + "Prop"] = 42;
-          `,
+              ["my" + "Prop"] = 42;
+            `,
             extract: "instance.myProp",
             verify(result) {
               expect(result.toNative()).toBe(42);
@@ -414,8 +415,8 @@ describe("E2E: Classes", () => {
           {
             name: "Can define a property with a computed symbol name",
             classBody: `
-            [Symbol.for("myProp")] = 42;
-          `,
+              [Symbol.for("myProp")] = 42;
+            `,
             extract: 'instance[Symbol.for("myProp")]',
             verify(result) {
               expect(result.toNative()).toBe(42);
@@ -424,11 +425,11 @@ describe("E2E: Classes", () => {
           {
             name: "Can set a property",
             classBody: `
-            myProp;
-          `,
+              myProp;
+            `,
             act: `
-            instance.myProp = 42;
-          `,
+              instance.myProp = 42;
+            `,
             extract: "instance.myProp",
             verify(result) {
               expect(result.toNative()).toBe(42);
@@ -437,8 +438,8 @@ describe("E2E: Classes", () => {
           {
             name: "Can set a property with a computed name",
             classBody: `
-            myProp;
-          `,
+              myProp;
+            `,
             act: `
             instance["my" + "Prop"] = 42;
           `,
@@ -450,11 +451,11 @@ describe("E2E: Classes", () => {
           {
             name: "Can set a property with a computed symbol name",
             classBody: `
-            myProp;
-          `,
+              myProp;
+            `,
             act: `
-            instance[Symbol.for("myProp")] = 42;
-          `,
+              instance[Symbol.for("myProp")] = 42;
+            `,
             extract: 'instance[Symbol.for("myProp")]',
             verify(result) {
               expect(result.toNative()).toBe(42);
@@ -463,11 +464,11 @@ describe("E2E: Classes", () => {
           {
             name: "Can define a property with a private name",
             classBody: `
-            #myProp = 42;
-            getMyProp() {
-              return this.#myProp;
-            }
-          `,
+              #myProp = 42;
+              getMyProp() {
+                return this.#myProp;
+              }
+            `,
             extract: "instance.getMyProp()",
             verify(result) {
               expect(result.toNative()).toBe(42);
@@ -476,17 +477,17 @@ describe("E2E: Classes", () => {
           {
             name: "Can set a property with a private name",
             classBody: `
-            #myProp;
-            setMyProp(value) {
-              this.#myProp = value;
-            }
-            getMyProp() {
-              return this.#myProp;
-            }
-          `,
+              #myProp;
+              setMyProp(value) {
+                this.#myProp = value;
+              }
+              getMyProp() {
+                return this.#myProp;
+              }
+            `,
             act: `
-            instance.setMyProp(42);
-          `,
+              instance.setMyProp(42);
+            `,
             extract: "instance.getMyProp()",
             verify(result) {
               expect(result.toNative()).toBe(42);
@@ -495,10 +496,10 @@ describe("E2E: Classes", () => {
           {
             name: "Can define a method",
             classBody: `
-            myMethod() {
-              return 42;
-            }
-          `,
+              myMethod() {
+                return 42;
+              }
+            `,
             extract: "instance.myMethod()",
             verify(result) {
               expect(result.toNative()).toBe(42);
@@ -507,10 +508,10 @@ describe("E2E: Classes", () => {
           {
             name: "Can define a method with a computed name",
             classBody: `
-            ["my" + "Method"]() {
-              return 42;
-            }
-          `,
+              ["my" + "Method"]() {
+                return 42;
+              }
+            `,
             extract: "instance.myMethod()",
             verify(result) {
               expect(result.toNative()).toBe(42);
@@ -519,10 +520,10 @@ describe("E2E: Classes", () => {
           {
             name: "Can define a method with a computed symbol name",
             classBody: `
-            [Symbol.for("myMethod")]() {
-              return 42;
-            }
-          `,
+              [Symbol.for("myMethod")]() {
+                return 42;
+              }
+            `,
             extract: 'instance[Symbol.for("myMethod")]()',
             verify(result) {
               expect(result.toNative()).toBe(42);
@@ -531,14 +532,48 @@ describe("E2E: Classes", () => {
           {
             name: "Can define a method with a private name",
             classBody: `
-            #myMethod() {
-              return 42;
-            }
-            callMyMethod() {
-              return this.#myMethod();
-            }
-          `,
+              #myMethod() {
+                return 42;
+              }
+              callMyMethod() {
+                return this.#myMethod();
+              }
+            `,
             extract: "instance.callMyMethod()",
+            verify(result) {
+              expect(result.toNative()).toBe(42);
+            },
+          },
+          {
+            name: "Can call a super method",
+            superBody: `
+              myMethod() {
+                return 42;
+              }
+            `,
+            classBody: `
+              myMethod() {
+                return super.myMethod();
+              }
+            `,
+            extract: "instance.myMethod()",
+            verify(result) {
+              expect(result.toNative()).toBe(42);
+            },
+          },
+          {
+            name: "Can call a super method with a computed name",
+            superBody: `
+              ["my" + "Method"]() {
+                return 42;
+              }
+            `,
+            classBody: `
+              ["my" + "Method"]() {
+                return super["my" + "Method"]();
+              }
+            `,
+            extract: 'instance["my" + "Method"]()',
             verify(result) {
               expect(result.toNative()).toBe(42);
             },
@@ -547,17 +582,22 @@ describe("E2E: Classes", () => {
         describe("Default constructor", () => {
           it.each(testCases.map((testCase) => [testCase.name, testCase]))(
             "%s",
-            async (_, { classBody, act, extract, verify }) => {
+            async (_, { superBody, classBody, act, extract, verify }) => {
               const code = `
-            class MyClassBase {
-              ${classBody}
-            }
-            class MyClass extends MyClassBase {}
+                class MySuper {
+                  ${superBody ?? ""}
+                }
 
-            const instance = new MyClass();
-            ${act ?? ""}
-            ${extract};
-          `;
+                class MyClass extends MySuper {
+                  ${classBody}
+                }
+
+                class MyClassTarget extends MyClass {}
+
+                const instance = new MyClassTarget();
+                ${act ?? ""}
+                ${extract};
+              `;
 
               const realm = StaticJsRealm();
 
@@ -570,23 +610,24 @@ describe("E2E: Classes", () => {
         describe("Custom constructor", () => {
           it.each(testCases.map((testCase) => [testCase.name, testCase]))(
             "%s",
-            async (_, { classBody, act, extract, verify }) => {
+            async (_, { superBody, classBody, act, extract, verify }) => {
               const code = `
-            class MyClassBase {
-              constructor() {
-              }
-            }
-            class MyClass extends MyClassBase {
-              constructor() {
-                super();
-              }
-              ${classBody}
-            }
+                class MySuper {
+                  ${superBody ?? ""}
+                  constructor() {}
+                }
 
-            const instance = new MyClass();
-            ${act ?? ""}
-            ${extract};
-          `;
+                class MyClass extends MySuper {
+                  ${classBody}
+                  constructor() {
+                    super();
+                  }
+                }
+
+                const instance = new MyClass();
+                ${act ?? ""}
+                ${extract};
+              `;
 
               const realm = StaticJsRealm();
 

@@ -1,12 +1,24 @@
 import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 import { StaticJsPrivateName } from "../types/StaticJsPrivateName.js";
-import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
 
 export interface StaticJsUnresolvedReferenceRecord {
   referencedName: string;
   strict: boolean;
   thisValue: null;
   base: null;
+}
+
+export function staticJsUnresolvedReferenceRecord(
+  referencedName: string,
+  strict: boolean,
+): StaticJsUnresolvedReferenceRecord {
+  return {
+    referencedName,
+    strict,
+    thisValue: null,
+    base: null,
+  };
 }
 
 export interface StaticJsPopulatedReferenceRecord {
@@ -18,6 +30,26 @@ export interface StaticJsPopulatedReferenceRecord {
 
 export interface StaticJsPropertyReferenceRecord extends StaticJsPopulatedReferenceRecord {
   base: StaticJsValue;
+}
+
+export function staticJsPropertyReferenceRecord(
+  base: StaticJsValue,
+  referencedName: string | StaticJsValue | StaticJsPrivateName,
+  strict: boolean,
+  thisValue: StaticJsValue | null = null,
+): StaticJsPropertyReferenceRecord {
+  return {
+    base,
+    referencedName,
+    strict,
+    thisValue,
+  };
+}
+
+export function isStaticJsPropertyReference(
+  value: StaticJsReferenceRecord,
+): value is StaticJsPropertyReferenceRecord {
+  return isStaticJsValue(value.base);
 }
 
 export interface StaticJsEnvironmentReferenceRecord extends StaticJsPopulatedReferenceRecord {
@@ -35,6 +67,20 @@ export type StaticJsResolvedReference<
     | StaticJsPropertyReferenceRecord
     | StaticJsEnvironmentReferenceRecord,
 > = T & { referencedName: string };
+
+export function staticJsResolvedReferenceRecord(
+  referenceName: string,
+  base: StaticJsEnvironmentRecord | StaticJsValue,
+  strict: boolean,
+  thisValue: StaticJsValue | null = null,
+): StaticJsResolvedReference {
+  return {
+    referencedName: referenceName,
+    base,
+    strict,
+    thisValue,
+  } as StaticJsResolvedReference;
+}
 
 export function isStaticJsReferenceRecord(value: unknown): value is StaticJsReferenceRecord {
   if (typeof value !== "object" || value === null) {

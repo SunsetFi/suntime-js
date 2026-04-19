@@ -110,6 +110,7 @@ const result = await addFoo.callAsync(realm.types.undefined, realm.types.number(
   - Symbol.toStringTag
 - Control flow / loops
 - Unary and binary operators
+- Optional call expressions
 - Destructuring
 - Spread operators (including Symbol.iterator usage)
 - eval / Function constructor.
@@ -125,6 +126,7 @@ const result = await addFoo.callAsync(realm.types.undefined, realm.types.number(
 ### Notable things not (yet) supported
 
 - All well-known symbols not listed above
+- Optional member expressions
 - Date
 - Regex
 - JSON

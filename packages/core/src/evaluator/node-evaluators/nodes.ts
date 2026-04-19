@@ -10,7 +10,8 @@ import binaryExpressionNodeEvaluator from "./BinaryExpression.js";
 import blockStatementNodeEvaluator from "./BlockStatement.js";
 import booleanLiteralNodeEvaluator from "./BooleanLiteral.js";
 import breakStatementNodeEvaluator from "./BreakStatement.js";
-import callExpressionNodeEvaluator from "./CallExpression.js";
+import callExpressionNodeEvaluator from "./CallExpression/CallExpression.js";
+import optionalCallExpressionNodeEvaluator from "./CallExpression/OptionalCallExpression.js";
 import catchClauseNodeEvaluator from "./CatchClause.js";
 import classDeclarationNodeEvaluator from "./Classes/ClassDeclaration.js";
 import classExpressionNodeEvaluator from "./Classes/ClassExpression.js";
@@ -69,6 +70,7 @@ const nodeEvaluators: NodeEvaluators = {
   BooleanLiteral: booleanLiteralNodeEvaluator,
   BreakStatement: breakStatementNodeEvaluator,
   CallExpression: callExpressionNodeEvaluator,
+  OptionalCallExpression: optionalCallExpressionNodeEvaluator,
   CatchClause: catchClauseNodeEvaluator,
   ClassDeclaration: classDeclarationNodeEvaluator,
   ClassExpression: classExpressionNodeEvaluator,

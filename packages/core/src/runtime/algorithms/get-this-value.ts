@@ -5,6 +5,10 @@ import { StaticJsValue } from "../types/StaticJsValue.js";
 export function* getThisValue(
   v: StaticJsPropertyReferenceRecord,
 ): EvaluationGenerator<StaticJsValue> {
-  // TODO: If isSuperReference(V) return v.thisValue;
+  // IsSuperReference
+  if (v.thisValue) {
+    return v.thisValue;
+  }
+
   return v.base;
 }

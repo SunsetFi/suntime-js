@@ -1,7 +1,12 @@
 import type { MemberExpression } from "@babel/types";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
+import { getSuperBase } from "../../runtime/algorithms/get-super-base.js";
+import { getThisEnvironment } from "../../runtime/algorithms/get-this-environment.js";
+import {
+  StaticJsPropertyReferenceRecord,
+  staticJsPropertyReferenceRecord,
+} from "../../runtime/references/StaticJsReferenceRecord.js";
 import { StaticJsPrivateName } from "../../runtime/types/StaticJsPrivateName.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -12,6 +17,10 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,
 ): EvaluationGenerator {
+  if (node.object.type === "Super") {
+    return yield* superMemberExpressionNodeEvaluator(node);
+  }
+
   const { strict } = EvaluationContext.current;
   const target = yield* Q.val(EvaluateNodeCommand(node.object));
 
@@ -26,12 +35,7 @@ export default function* memberExpressionNodeEvaluator(
       );
     }
     const privateName = privateEnv.resolvePrivateIdentifier(propertyNode.id.name);
-    return {
-      base: target,
-      referencedName: privateName,
-      strict: true,
-      thisValue: null,
-    };
+    return staticJsPropertyReferenceRecord(target, privateName, true);
   }
 
   if (!node.computed && propertyNode.type === "Identifier") {
@@ -42,10 +46,38 @@ export default function* memberExpressionNodeEvaluator(
     propertyKey = yield* Q.val(EvaluateNodeCommand(propertyNode));
   }
 
-  return {
-    referencedName: propertyKey,
-    strict,
-    base: target,
-    thisValue: target,
-  } satisfies StaticJsReferenceRecord;
+  return staticJsPropertyReferenceRecord(target, propertyKey, strict, target);
+}
+
+function* superMemberExpressionNodeEvaluator(node: MemberExpression): EvaluationGenerator {
+  if (node.computed) {
+    return yield* superComputedMemberExpressionNodeEvaluator(node);
+  }
+
+  const env = yield* getThisEnvironment();
+  const actualThis = yield* Q(env.getThisBindingEvaluator());
+  const propertyKey =
+    node.property.type === "Identifier"
+      ? node.property.name
+      : yield* Q.val(EvaluateNodeCommand(node.property));
+
+  const { strict } = EvaluationContext.current;
+
+  // MakeSuperPropertyReference
+  const baseValue = yield* getSuperBase(env);
+  return staticJsPropertyReferenceRecord(baseValue, propertyKey, strict, actualThis);
+}
+
+function* superComputedMemberExpressionNodeEvaluator(
+  node: MemberExpression,
+): EvaluationGenerator<StaticJsPropertyReferenceRecord> {
+  const env = yield* getThisEnvironment();
+  const actualThis = yield* Q(env.getThisBindingEvaluator());
+  const propertyNameValue = yield* Q.val(EvaluateNodeCommand(node.property));
+
+  const { strict } = EvaluationContext.current;
+
+  // MakeSuperPropertyReference
+  const baseValue = yield* getSuperBase(env);
+  return staticJsPropertyReferenceRecord(baseValue, propertyNameValue, strict, actualThis);
 }

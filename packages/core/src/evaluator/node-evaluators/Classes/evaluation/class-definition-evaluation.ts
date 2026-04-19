@@ -3,6 +3,7 @@ import { ClassDeclaration, ClassExpression } from "@babel/types";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { privateBoundIdentifiers } from "../../../../grammar/private-bound-identifiers.js";
 import { call } from "../../../../runtime/algorithms/call.js";
+import { construct } from "../../../../runtime/algorithms/construct.js";
 import { get } from "../../../../runtime/algorithms/get.js";
 import { isConstructor } from "../../../../runtime/algorithms/is-constructor.js";
 import { ordinaryCreateFromConstructor } from "../../../../runtime/algorithms/ordinary-create-from-constructor.js";
@@ -147,14 +148,14 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
             if (!isConstructor(func)) {
               throw Completion.Throw("TypeError", "Superclass constructor must be a constructor");
             }
-            result = yield* func.constructEvaluator(args);
+            result = yield* construct(func, args, newTarget);
           } else {
             // The spec says newTarget is an object like, but we always set it to a callable,
             // and the spec says OrdinaryCreateFromConstructor must receive a function???
             // Reflect.construct gates it to be a function constructor, so...
             result = yield* Q(ordinaryCreateFromConstructor(newTarget, "objectProto"));
           }
-          yield* initializeInstanceElements(result, F);
+          yield* Q(initializeInstanceElements(result, F));
           return result;
         },
         // Aren't used for native ctor mode.
@@ -184,9 +185,14 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
       yield* F.makeConstructor(false, proto);
       if (node.superClass) {
         F.constructorKind = "derived";
-        // Jank: Native functions don't have this, so we set the local variable here too
-        constructorKind = "derived";
       }
+    }
+
+    if (node.superClass) {
+      // Jank: Native functions don't have this, so we set the local variable here too
+      constructorKind = "derived";
+    } else {
+      constructorKind = "base";
     }
 
     yield* defineMethodProperty(proto, "constructor", F, false);
