@@ -14,7 +14,7 @@ export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnviro
   private _thisValue: StaticJsValue | null;
 
   constructor(
-    _functionObject: StaticJsFunction,
+    private readonly _functionObject: StaticJsFunction,
     private readonly _newTarget: StaticJsObject | null,
     lexical: boolean,
     outerEnv: StaticJsEnvironmentRecord,
@@ -29,9 +29,13 @@ export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnviro
     return this._newTarget ?? this._realm.types.undefined;
   }
 
-  initializeThis(thisValue: StaticJsValue): void {
-    if (this._thisBindingStatus !== "uninitialized") {
-      throw new StaticJsEngineError("This binding has already been initialized.");
+  get functionObject() {
+    return this._functionObject;
+  }
+
+  *bindThisValue(thisValue: StaticJsValue): EvaluationGenerator<void> {
+    if (this._thisBindingStatus === "initialized") {
+      throw Completion.Throw("ReferenceError", "This binding has already been initialized");
     }
 
     this._thisValue = thisValue;

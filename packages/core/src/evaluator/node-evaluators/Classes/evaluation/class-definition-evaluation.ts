@@ -10,6 +10,7 @@ import { setFunctionName } from "../../../../runtime/algorithms/set-function-nam
 import { StaticJsDeclarativeEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsAstFunction } from "../../../../runtime/types/implementation/functions/StaticJsAstFunction.js";
+import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
 import { isStaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
 import { isStaticJsNull, StaticJsNull } from "../../../../runtime/types/StaticJsNull.js";
 import { isStaticJsObject, StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
@@ -36,7 +37,6 @@ import {
   isStaticJsClassStaticBlockDefinitionRecord,
   StaticJsClassStaticBlockDefinitionRecord,
 } from "../ClassStaticBlockDefinitionRecord.js";
-import { StaticJsClassConstructorFunction } from "../types/StaticJsClassConstructorFunction.js";
 
 import {
   classElementEvaluation,

@@ -1,6 +1,7 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { createArrayConstructor } from "./Array/index.js";
+import { createAsyncFunctionConstructor } from "./AsyncFunction/index.js";
 import { createAsyncGeneratorFunctionConstructor } from "./AsyncGeneratorFunction/index.js";
 import { createBooleanConstructor } from "./Boolean.js";
 import { createErrorConstructor } from "./Error/index.js";
@@ -49,6 +50,10 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
   const URIError = createURIErrorConstructor(realm, realm.types.prototypes.uriErrorProto);
 
   const Function = createFunctionConstructor(realm, realm.types.prototypes.functionProto);
+  const AsyncFunction = createAsyncFunctionConstructor(
+    realm,
+    realm.types.prototypes.asyncFunctionProto,
+  );
   const GeneratorFunction = createGeneratorFunctionConstructor(
     realm,
     realm.types.prototypes.generatorFunctionProto,
@@ -78,6 +83,7 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
     EvalError,
     URIError,
     Function,
+    AsyncFunction,
     GeneratorFunction,
     AsyncGeneratorFunction,
   };

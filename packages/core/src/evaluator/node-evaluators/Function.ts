@@ -100,6 +100,9 @@ function instantiateArrowFunctionExpression(
     env,
     privateEnv,
     construct: false,
+    prototype: node.async
+      ? realm.types.prototypes.asyncFunctionProto
+      : realm.types.prototypes.functionProto,
   });
 
   // TODO Generator!
@@ -145,18 +148,17 @@ function instantiateGeneratorFunctionObject(
     env,
     privateEnv,
     construct: false,
+    prototype: realm.types.prototypes.generatorFunctionProto,
   });
 
   switch (node.type) {
     case "FunctionDeclaration":
     case "FunctionExpression":
-      // TODO: Generator
       realm.invokeEvaluatorSync(setFunctionName(func, node.id?.name ?? "default"));
   }
 
-  // TODO: Generator!
   func.defineOwnPropertySync("prototype", {
-    value: realm.types.object({}, realm.types.prototypes.generatorFunctionProto),
+    value: realm.types.object({}, realm.types.prototypes.generatorProto),
     writable: true,
     enumerable: false,
     configurable: false,
@@ -177,18 +179,17 @@ function instantiateAsyncGeneratorFunctionObject(
     env,
     privateEnv,
     construct: false,
+    prototype: realm.types.prototypes.asyncGeneratorFunctionProto,
   });
 
   switch (node.type) {
     case "FunctionDeclaration":
     case "FunctionExpression":
-      // TODO: Generator
       realm.invokeEvaluatorSync(setFunctionName(func, node.id?.name ?? "default"));
   }
 
-  // TODO: Generator!
   func.defineOwnPropertySync("prototype", {
-    value: realm.types.object({}, realm.types.prototypes.asyncGeneratorFunctionProto),
+    value: realm.types.object({}, realm.types.prototypes.asyncGeneratorProto),
     writable: true,
     enumerable: false,
     configurable: false,
@@ -203,19 +204,15 @@ function instantiateAsyncFunctionObject(
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
 ): StaticJsFunction {
   const { realm, strict, scriptOrModule } = EvaluationContext.current;
-  const func = new StaticJsAstFunction(
-    realm,
-    node,
-    // FIXME: Prototype should be asyncFunctionPrototype, once we get one.
-    {
-      thisMode: "non-lexical-this",
-      strict,
-      scriptOrModule,
-      env,
-      privateEnv,
-      construct: false,
-    },
-  );
+  const func = new StaticJsAstFunction(realm, node, {
+    thisMode: "non-lexical-this",
+    strict,
+    scriptOrModule,
+    env,
+    privateEnv,
+    construct: false,
+    prototype: realm.types.prototypes.asyncFunctionProto,
+  });
 
   switch (node.type) {
     case "FunctionDeclaration":

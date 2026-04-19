@@ -343,5 +343,259 @@ describe("E2E: Classes", () => {
         );
       });
     });
+
+    describe("Super Calls", () => {
+      it("Can call super in a constructor", async () => {
+        const code = `
+          class Base {
+            constructor(value) {
+              this.value = value;
+            }
+          }
+
+          class Derived extends Base {
+            constructor(value) {
+              super(value);
+            }
+          }
+
+          const instance = new Derived(42);
+          instance.value;
+        `;
+
+        const realm = StaticJsRealm();
+
+        const result = await realm.evaluateScript(code);
+        expect(result.toNative()).toBe(42);
+      });
+
+      describe("Properties and Methods", () => {
+        interface PropertyTestCase {
+          name: string;
+          classBody: string;
+          act?: string;
+          extract: string;
+          verify(result: StaticJsValue): void;
+        }
+        const testCases: PropertyTestCase[] = [
+          {
+            name: "Can defined a property",
+            classBody: `
+            myProp;
+          `,
+            act: `
+            instance.myProp = 42;
+          `,
+            extract: "instance.myProp",
+            verify(result) {
+              expect(result.toNative()).toBe(42);
+            },
+          },
+          {
+            name: "Can define a property with an initializer",
+            classBody: `
+            myProp = 42;
+          `,
+            extract: "instance.myProp",
+            verify(result) {
+              expect(result.toNative()).toBe(42);
+            },
+          },
+          {
+            name: "Can define a property with a computed name",
+            classBody: `
+            ["my" + "Prop"] = 42;
+          `,
+            extract: "instance.myProp",
+            verify(result) {
+              expect(result.toNative()).toBe(42);
+            },
+          },
+          {
+            name: "Can define a property with a computed symbol name",
+            classBody: `
+            [Symbol.for("myProp")] = 42;
+          `,
+            extract: 'instance[Symbol.for("myProp")]',
+            verify(result) {
+              expect(result.toNative()).toBe(42);
+            },
+          },
+          {
+            name: "Can set a property",
+            classBody: `
+            myProp;
+          `,
+            act: `
+            instance.myProp = 42;
+          `,
+            extract: "instance.myProp",
+            verify(result) {
+              expect(result.toNative()).toBe(42);
+            },
+          },
+          {
+            name: "Can set a property with a computed name",
+            classBody: `
+            myProp;
+          `,
+            act: `
+            instance["my" + "Prop"] = 42;
+          `,
+            extract: "instance.myProp",
+            verify(result) {
+              expect(result.toNative()).toBe(42);
+            },
+          },
+          {
+            name: "Can set a property with a computed symbol name",
+            classBody: `
+            myProp;
+          `,
+            act: `
+            instance[Symbol.for("myProp")] = 42;
+          `,
+            extract: 'instance[Symbol.for("myProp")]',
+            verify(result) {
+              expect(result.toNative()).toBe(42);
+            },
+          },
+          {
+            name: "Can define a property with a private name",
+            classBody: `
+            #myProp = 42;
+            getMyProp() {
+              return this.#myProp;
+            }
+          `,
+            extract: "instance.getMyProp()",
+            verify(result) {
+              expect(result.toNative()).toBe(42);
+            },
+          },
+          {
+            name: "Can set a property with a private name",
+            classBody: `
+            #myProp;
+            setMyProp(value) {
+              this.#myProp = value;
+            }
+            getMyProp() {
+              return this.#myProp;
+            }
+          `,
+            act: `
+            instance.setMyProp(42);
+          `,
+            extract: "instance.getMyProp()",
+            verify(result) {
+              expect(result.toNative()).toBe(42);
+            },
+          },
+          {
+            name: "Can define a method",
+            classBody: `
+            myMethod() {
+              return 42;
+            }
+          `,
+            extract: "instance.myMethod()",
+            verify(result) {
+              expect(result.toNative()).toBe(42);
+            },
+          },
+          {
+            name: "Can define a method with a computed name",
+            classBody: `
+            ["my" + "Method"]() {
+              return 42;
+            }
+          `,
+            extract: "instance.myMethod()",
+            verify(result) {
+              expect(result.toNative()).toBe(42);
+            },
+          },
+          {
+            name: "Can define a method with a computed symbol name",
+            classBody: `
+            [Symbol.for("myMethod")]() {
+              return 42;
+            }
+          `,
+            extract: 'instance[Symbol.for("myMethod")]()',
+            verify(result) {
+              expect(result.toNative()).toBe(42);
+            },
+          },
+          {
+            name: "Can define a method with a private name",
+            classBody: `
+            #myMethod() {
+              return 42;
+            }
+            callMyMethod() {
+              return this.#myMethod();
+            }
+          `,
+            extract: "instance.callMyMethod()",
+            verify(result) {
+              expect(result.toNative()).toBe(42);
+            },
+          },
+        ];
+        describe("Default constructor", () => {
+          it.each(testCases.map((testCase) => [testCase.name, testCase]))(
+            "%s",
+            async (_, { classBody, act, extract, verify }) => {
+              const code = `
+            class MyClassBase {
+              ${classBody}
+            }
+            class MyClass extends MyClassBase {}
+
+            const instance = new MyClass();
+            ${act ?? ""}
+            ${extract};
+          `;
+
+              const realm = StaticJsRealm();
+
+              const result = await realm.evaluateScript(code);
+              verify(result);
+            },
+          );
+        });
+
+        describe("Custom constructor", () => {
+          it.each(testCases.map((testCase) => [testCase.name, testCase]))(
+            "%s",
+            async (_, { classBody, act, extract, verify }) => {
+              const code = `
+            class MyClassBase {
+              constructor() {
+              }
+            }
+            class MyClass extends MyClassBase {
+              constructor() {
+                super();
+              }
+              ${classBody}
+            }
+
+            const instance = new MyClass();
+            ${act ?? ""}
+            ${extract};
+          `;
+
+              const realm = StaticJsRealm();
+
+              const result = await realm.evaluateScript(code);
+              verify(result);
+            },
+          );
+        });
+      });
+    });
   });
 });

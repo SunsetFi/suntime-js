@@ -4,25 +4,30 @@ import {
   ClassPrivateProperty,
   ClassProperty,
   Expression,
+  ObjectMethod,
 } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsPrivateName } from "../../../runtime/types/StaticJsPrivateName.js";
-import {
-  StaticJsPropertyKey,
-  toStaticJsPropertyKey,
-} from "../../../runtime/types/StaticJsPropertyKey.js";
+import { StaticJsPropertyKey } from "../../../runtime/types/StaticJsPropertyKey.js";
+import { toPropertyKey } from "../../../runtime/utils/to-property-key.js";
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../completions/Q.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 export function* classElementNameNodeEvaluator(
-  node: ClassMethod | ClassPrivateMethod | ClassProperty | ClassPrivateProperty,
+  node: ObjectMethod | ClassMethod | ClassPrivateMethod | ClassProperty | ClassPrivateProperty,
 ): EvaluationGenerator<StaticJsPropertyKey | StaticJsPrivateName> {
-  if ((node.type === "ClassMethod" || node.type === "ClassProperty") && node.computed) {
-    const computed = yield* Q.val(EvaluateNodeCommand(node.key as Expression));
-    return toStaticJsPropertyKey(computed);
+  switch (node.type) {
+    case "ClassMethod":
+    case "ClassProperty":
+    case "ObjectMethod": {
+      if (node.computed) {
+        const computed = yield* Q.val(EvaluateNodeCommand(node.key as Expression));
+        return yield* toPropertyKey(computed);
+      }
+    }
   }
 
   const key = node.key;

@@ -6,10 +6,6 @@ import { ThrowCompletion } from "../../../../evaluator/completions/completion-ty
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import {
-  StaticJsClassMethodFunction,
-  StaticJsClassMethodFunctionOptions,
-} from "../../../../evaluator/node-evaluators/Classes/types/StaticJsClassMethodFunction.js";
 import NamedEvaluation from "../../../../evaluator/node-evaluators/NamedEvaluation.js";
 import isAnonymousFunctionDefinition from "../../../../grammar/is-anonymous-function-definition.js";
 import { get } from "../../../algorithms/get.js";
@@ -22,8 +18,9 @@ import { StaticJsPrivateName } from "../../StaticJsPrivateName.js";
 import { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 
-export type StaticJsClassFieldInitializerFunctionOptions = StaticJsClassMethodFunctionOptions;
-export class StaticJsClassFieldInitializerFunction extends StaticJsClassMethodFunction {
+import { StaticJsMethodFunction } from "./StaticJsMethodFunction.js";
+
+export class StaticJsClassFieldInitializerFunction extends StaticJsMethodFunction {
   constructor(
     realm: StaticJsRealm,
     private readonly _classFieldInitializerName: StaticJsPropertyKey | StaticJsPrivateName,

@@ -36,6 +36,20 @@ export interface StaticJsPrivateElementAccessor extends StaticJsPrivateElementBa
   set: StaticJsFunction | undefined;
 }
 
+export function staticJsPrivateElementAccessor(
+  key: StaticJsPrivateName,
+  accessors: { get?: StaticJsFunction; set?: StaticJsFunction },
+): StaticJsPrivateElementAccessor {
+  return {
+    get: undefined,
+    set: undefined,
+    ...accessors,
+    type: "private-element",
+    key,
+    kind: "accessor",
+  };
+}
+
 export type StaticJsPrivateElement =
   | StaticJsPrivateElementField
   | StaticJsPrivateElementMethod

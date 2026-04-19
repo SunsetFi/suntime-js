@@ -1,6 +1,8 @@
-import { ClassMethod, ClassPrivateMethod } from "@babel/types";
+import { ClassMethod, ClassPrivateMethod, ObjectMethod } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
+import { StaticJsMethodFunction } from "../../../../runtime/types/implementation/functions/StaticJsMethodFunction.js";
 import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
 import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
@@ -9,15 +11,13 @@ import { Q } from "../../../completions/Q.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 import { classElementNameNodeEvaluator } from "../ClassElementName.js";
-import { StaticJsClassConstructorFunction } from "../types/StaticJsClassConstructorFunction.js";
-import { StaticJsClassMethodFunction } from "../types/StaticJsClassMethodFunction.js";
 
 export interface ClassMethodDefinition {
   key: StaticJsPropertyKey | StaticJsPrivateName;
   closure: StaticJsFunction;
 }
 export const defineMethod = Q.makeReceiver(function* defineMethod(
-  method: ClassMethod | ClassPrivateMethod,
+  method: ObjectMethod | ClassMethod | ClassPrivateMethod,
   object: StaticJsObject,
   functionPrototype?: StaticJsObject,
 ): EvaluationGenerator<ClassMethodDefinition> {
@@ -29,14 +29,13 @@ export const defineMethod = Q.makeReceiver(function* defineMethod(
     functionPrototype = realm.types.prototypes.functionProto;
   }
 
-  if (!privateEnv) {
-    throw new StaticJsEngineError(
-      "Cannot define a class method when no private environment is set.",
-    );
-  }
-
   let closure: StaticJsFunction;
   if (method.kind === "constructor") {
+    if (!privateEnv) {
+      throw new StaticJsEngineError(
+        "Cannot define a class constructor method when no private environment is set.",
+      );
+    }
     closure = new StaticJsClassConstructorFunction(
       realm,
       method,
@@ -45,14 +44,7 @@ export const defineMethod = Q.makeReceiver(function* defineMethod(
       functionPrototype,
     );
   } else {
-    closure = new StaticJsClassMethodFunction(
-      realm,
-      method,
-      object,
-      env,
-      privateEnv,
-      functionPrototype,
-    );
+    closure = new StaticJsMethodFunction(realm, method, object, env, privateEnv, functionPrototype);
   }
 
   return {

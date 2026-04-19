@@ -7,6 +7,7 @@ import {
 } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+import { StaticJsMethodFunction } from "../../../../runtime/types/implementation/functions/StaticJsMethodFunction.js";
 import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
 import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";
@@ -17,7 +18,6 @@ import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 import { classElementNameNodeEvaluator } from "../ClassElementName.js";
 import { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
 import { StaticJsClassStaticBlockDefinitionRecord } from "../ClassStaticBlockDefinitionRecord.js";
-import { StaticJsClassMethodFunction } from "../types/StaticJsClassMethodFunction.js";
 
 import { methodDefinitionEvaluation } from "./method-definition-evaluation.js";
 
@@ -62,7 +62,7 @@ function* classFieldDefinitionEvaluation(
     }
 
     // By spec, OrdinaryFunctionCreate
-    initializer = new StaticJsClassMethodFunction(
+    initializer = new StaticJsMethodFunction(
       realm,
       // Spec wants this to be an assignment expression, but to us that means
       // x = y,

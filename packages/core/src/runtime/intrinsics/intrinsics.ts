@@ -19,6 +19,8 @@ export interface Prototypes {
   arrayIteratorProto: StaticJsObject;
   stringIteratorProto: StaticJsObject;
 
+  asyncFunctionProto: StaticJsObject;
+
   generatorProto: StaticJsObject;
   generatorFunctionProto: StaticJsObject;
 
@@ -54,6 +56,7 @@ export interface Constructors {
   EvalError: StaticJsFunction;
   URIError: StaticJsFunction;
   Function: StaticJsFunction;
+  AsyncFunction: StaticJsFunction;
   GeneratorFunction: StaticJsFunction;
   AsyncGeneratorFunction: StaticJsFunction;
 }

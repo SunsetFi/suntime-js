@@ -548,7 +548,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
       );
     }
 
-    localEnv.initializeThis(thisValue);
+    yield* localEnv.bindThisValue(thisValue);
   }
 
   protected *_prepareForOrdinaryCall(

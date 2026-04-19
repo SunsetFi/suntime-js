@@ -125,7 +125,8 @@ const result = await addFoo.callAsync(realm.types.undefined, realm.types.number(
 ### Notable things not (yet) supported
 
 - All well-known symbols not listed above
-- WeakMap, WeakRef, FinalizationRegistry
-- 'using' syntax; disposables
 - Date
 - Regex
+- JSON
+- WeakMap, WeakRef, FinalizationRegistry
+- 'using' syntax; disposables
