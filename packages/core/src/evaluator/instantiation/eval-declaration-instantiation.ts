@@ -1,6 +1,7 @@
 import type { FunctionDeclaration, Node } from "@babel/types";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+import { instantiateFunctionObject } from "../../runtime/algorithms/instantiate-function-object.js";
 import { StaticJsGlobalEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import { StaticJsObjectEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsObjectEnvironmentRecord.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
@@ -8,7 +9,6 @@ import { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEn
 import { Completion } from "../completions/Completion.js";
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import { instantiateFunctionObject } from "../node-evaluators/Function.js";
 
 import boundNames from "./algorithms/bound-names.js";
 import canDeclareGlobalFunction from "./algorithms/can-declare-global-function.js";

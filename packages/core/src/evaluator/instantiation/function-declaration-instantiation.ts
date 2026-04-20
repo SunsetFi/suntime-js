@@ -1,5 +1,6 @@
 import { isIdentifier, type FunctionDeclaration, type Node } from "@babel/types";
 
+import { instantiateFunctionObject } from "../../runtime/algorithms/instantiate-function-object.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { createListIteratorRecord } from "../../runtime/iterators/create-list-iterator-record.js";
@@ -12,7 +13,6 @@ import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import iteratorBindingInitialization from "../bindings/iterator-binding-initialization.js";
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import { instantiateFunctionObject } from "../node-evaluators/Function.js";
 
 import boundNames from "./algorithms/bound-names.js";
 import collectAnnexBFunctionDeclarations from "./algorithms/collect-annex-b-function-declarations.js";

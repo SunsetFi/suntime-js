@@ -10,9 +10,9 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 import boundNames from "../../../evaluator/instantiation/algorithms/bound-names.js";
 import lexicallyScopedDeclarations from "../../../evaluator/instantiation/algorithms/lexically-scoped-declarations.js";
 import varScopedDeclarations from "../../../evaluator/instantiation/algorithms/var-scoped-declarations.js";
-import { instantiateFunctionObject } from "../../../evaluator/node-evaluators/Function.js";
 import { StaticJsModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
 import { createDeferred } from "../../../utils/create-deferred.js";
+import { instantiateFunctionObject } from "../../algorithms/instantiate-function-object.js";
 import { AsyncInvocation } from "../../async/AsyncInvocation.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsModuleEnvironmentRecord } from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";

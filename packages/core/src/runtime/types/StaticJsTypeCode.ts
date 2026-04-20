@@ -1,6 +1,10 @@
 enum StaticJsTypeCode {
-  // Scalars
+  // Flags
   IsScalarFlag = 64,
+  IsObjectFlag = 128,
+  IsCallableFlag = 256,
+
+  // Scalars
   Null = IsScalarFlag + 0,
   String = IsScalarFlag + 1,
   Boolean = IsScalarFlag + 2,
@@ -9,19 +13,17 @@ enum StaticJsTypeCode {
   Undefined = IsScalarFlag + 5,
 
   // Objects
-  IsObjectFlag = 128,
-  IsCallableFlag = 256,
-  PlainObject = IsObjectFlag + 0,
-  Array = IsObjectFlag + 1,
-  Function = IsObjectFlag + IsCallableFlag + 2,
-  Promise = IsObjectFlag + 3,
-  Iterator = IsObjectFlag + 4,
-  Set = IsObjectFlag + 5,
-  Map = IsObjectFlag + 6,
-  Generator = IsObjectFlag + 7,
-  AsyncGenerator = IsObjectFlag + 8,
-  Proxy = IsObjectFlag + 9,
-  ProxyCallable = IsObjectFlag + IsCallableFlag + 10,
+  PlainObject = IsObjectFlag + 6,
+  Array = IsObjectFlag + 7,
+  Function = IsObjectFlag + IsCallableFlag + 8,
+  Promise = IsObjectFlag + 9,
+  Iterator = IsObjectFlag + 10,
+  Set = IsObjectFlag + 11,
+  Map = IsObjectFlag + 12,
+  Generator = IsObjectFlag + 13,
+  AsyncGenerator = IsObjectFlag + 14,
+  Proxy = IsObjectFlag + 15,
+  ProxyCallable = IsObjectFlag + IsCallableFlag + 16,
 }
 
 export { StaticJsTypeCode };

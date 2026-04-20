@@ -1,10 +1,10 @@
 import { type FunctionDeclaration, type Node, isVariableDeclaration } from "@babel/types";
 
+import { instantiateFunctionObject } from "../../runtime/algorithms/instantiate-function-object.js";
 import { StaticJsGlobalEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import { Completion } from "../completions/Completion.js";
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import { instantiateFunctionObject } from "../node-evaluators/Function.js";
 
 import boundNames from "./algorithms/bound-names.js";
 import canDeclareGlobalFunction from "./algorithms/can-declare-global-function.js";

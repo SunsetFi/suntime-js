@@ -1,9 +1,9 @@
 import { BlockStatement, type SwitchStatement } from "@babel/types";
 
+import { instantiateFunctionObject } from "../../runtime/algorithms/instantiate-function-object.js";
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import { instantiateFunctionObject } from "../node-evaluators/Function.js";
 
 import boundNames from "./algorithms/bound-names.js";
 import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
