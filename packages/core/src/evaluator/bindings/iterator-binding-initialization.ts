@@ -170,12 +170,12 @@ iteratorBindingInitialization.arrayBindingPattern = function* (
     }
 
     if (element === null) {
-      yield* iteratorDestructuringAssignmentEvaluation(element, iteratorRecord);
+      yield* Q(iteratorDestructuringAssignmentEvaluation(element, iteratorRecord));
     } else if (element.type === "VoidPattern") {
       // What on earth is this?
       throw new StaticJsEngineError(`Unsupported void pattern in iterator binding initialization`);
     } else {
-      yield* iteratorBindingInitialization(element, iteratorRecord, environment);
+      yield* Q(iteratorBindingInitialization(element, iteratorRecord, environment));
     }
   }
 };

@@ -1,6 +1,7 @@
 import type { ForInStatement, LVal, VariableDeclaration } from "@babel/types";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+import { Q } from "../completions/Q.js";
 import boundNames from "../instantiation/algorithms/bound-names.js";
 
 import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
@@ -27,17 +28,21 @@ const forInStatementNodeEvaluator = breakableStatementEvaluation(
         lhs = forBinding;
       }
 
-      return yield* forInOfBodyEvaluation(
-        lhs,
-        body,
-        keyResult,
-        "enumerate",
-        left.kind === "var" ? "varBinding" : "lexicalBinding",
-        "sync",
+      return yield* Q(
+        forInOfBodyEvaluation(
+          lhs,
+          body,
+          keyResult,
+          "enumerate",
+          left.kind === "var" ? "varBinding" : "lexicalBinding",
+          "sync",
+        ),
       );
     } else {
       const keyResult = yield* forInOfHeadEvaluation([], right, "enumerate");
-      return yield* forInOfBodyEvaluation(left, body, keyResult, "enumerate", "assignment", "sync");
+      return yield* Q(
+        forInOfBodyEvaluation(left, body, keyResult, "enumerate", "assignment", "sync"),
+      );
     }
   }),
 );

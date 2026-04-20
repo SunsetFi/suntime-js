@@ -55,10 +55,29 @@ export default function* destructuringAssignmentEvaluation(
     }
     case "ArrayPattern": {
       const iteratorRecord = yield* getIterator(value, "sync");
-      yield* iteratorDestructuringAssignmentEvaluation(node.elements, iteratorRecord);
-      if (!iteratorRecord.done) {
-        yield* iteratorClose(iteratorRecord, null);
+      if (!node.elements.length) {
+        yield* Q(iteratorClose(iteratorRecord, null));
+        return;
       }
+
+      const status = yield* iteratorDestructuringAssignmentEvaluation(
+        node.elements,
+        iteratorRecord,
+      );
+      if (Completion.Abrupt.is(status)) {
+        if (!iteratorRecord.done) {
+          yield* iteratorClose(iteratorRecord, status);
+        }
+
+        // Return the original abrupt.
+        return yield* Q(status);
+      }
+
+      if (!iteratorRecord.done) {
+        // Failures here are propogated.
+        yield* Q(iteratorClose(iteratorRecord, null));
+      }
+
       return;
     }
   }
