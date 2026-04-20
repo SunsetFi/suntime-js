@@ -2,6 +2,8 @@ import type { StaticJsFunction } from "../types/StaticJsFunction.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsSymbol } from "../types/StaticJsSymbol.js";
 
+// Hack: We really don't fit the createInstrinics spec at all...
+// These need to be separate as we drop them into realm.types so that the rest of the creation process can reference them correctly.
 export interface Prototypes {
   stringProto: StaticJsObject;
   numberProto: StaticJsObject;

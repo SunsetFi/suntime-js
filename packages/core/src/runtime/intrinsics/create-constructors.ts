@@ -6,6 +6,7 @@ import { createAsyncGeneratorFunctionConstructor } from "./AsyncGeneratorFunctio
 import { createBooleanConstructor } from "./Boolean.js";
 import { createErrorConstructor } from "./Error/index.js";
 import { createEvalErrorConstructor } from "./EvalError.js";
+import { addRestrictedFunctionProperties } from "./Function/add-restricted-function-properties.js";
 import { createFunctionConstructor } from "./Function/index.js";
 import { createGeneratorFunctionConstructor } from "./GeneratorFunction/index.js";
 import type { Constructors } from "./intrinsics.js";
@@ -62,6 +63,8 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
     realm,
     realm.types.prototypes.asyncGeneratorFunctionProto,
   );
+
+  addRestrictedFunctionProperties(realm.types.prototypes.functionProto, realm);
 
   return {
     String,

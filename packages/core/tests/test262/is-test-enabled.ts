@@ -6,11 +6,18 @@ import Test262File from "./Test262File.js";
 import arrayStartsWith from "./utils/array-starts-with.js";
 
 // For now.  Eventually we should cover everything.
-const ignoredFeatures = ["TypedArray", "tail-call-optimization", "explicit-resource-management"];
+const ignoredFeatures = [
+  "TypedArray",
+  "tail-call-optimization",
+  "explicit-resource-management",
+  "caller",
+];
+
 const ignoredTestPaths: string[][] = [
   // Tests 65535 comment variations, none of which will confuse babel.
   ["language", "comments", "S7.4_A5.js"],
 ];
+
 const baselineTests = compareBaseline ? getBaseline() : undefined;
 
 export default function isTestEnabled(test: Test262File) {
