@@ -8,8 +8,8 @@ import arrayStartsWith from "./utils/array-starts-with.js";
 // For now.  Eventually we should cover everything.
 const ignoredFeatures = ["TypedArray", "tail-call-optimization", "explicit-resource-management"];
 const ignoredTestPaths: string[][] = [
-  // ["language", "statements", "class"],
-  // ["language", "expressions", "class"],
+  // Tests 65535 comment variations, none of which will confuse babel.
+  ["language", "comments", "S7.4_A5.js"],
 ];
 const baselineTests = compareBaseline ? getBaseline() : undefined;
 

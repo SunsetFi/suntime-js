@@ -14,6 +14,7 @@ import { AsyncDriver } from "../../../async/AsyncDriver.js";
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
 import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsAsyncGenerator } from "../../StaticJsAsyncGenerator.js";
+import { StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../../StaticJsPromise.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsValue, StaticJsValue } from "../../StaticJsValue.js";
@@ -45,8 +46,9 @@ export class StaticJsAsyncGeneratorImpl
     closure: StaticJsEvaluator<void>,
     private readonly _generatorBrand: string | null,
     realm: StaticJsRealm,
+    proto?: StaticJsObject,
   ) {
-    super(realm, realm.types.prototypes.asyncGeneratorProto);
+    super(realm, proto ?? realm.types.prototypes.asyncGeneratorProto);
     this._driver = new AsyncDriver(
       // Note: Actual generator funcs wont start until .next(), but that won't be the case for
       // passthroughs.  Should defer this.

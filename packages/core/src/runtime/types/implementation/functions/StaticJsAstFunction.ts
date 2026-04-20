@@ -26,6 +26,7 @@ import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenera
 import functionDeclarationInstantiation from "../../../../evaluator/instantiation/function-declaration-instantiation.js";
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
+import { getPrototypeFromConstructor } from "../../../algorithms/get-prototype-from-constructor.js";
 import { getValue } from "../../../algorithms/get-value.js";
 import { ordinaryCreateFromConstructor } from "../../../algorithms/ordinary-create-from-constructor.js";
 import { promiseReject } from "../../../algorithms/promise-reject.js";
@@ -435,7 +436,8 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
       throw Completion.Return(realm.types.undefined);
     }
 
-    const generator = new StaticJsAsyncGeneratorImpl(evaluator, null, realm);
+    const proto = yield* getPrototypeFromConstructor(this, "asyncGeneratorProto");
+    const generator = new StaticJsAsyncGeneratorImpl(evaluator, null, realm, proto);
 
     return Completion.Return(generator);
   }
@@ -451,7 +453,8 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
     const evaluator = Q(EvaluateNodeCommand(node.body));
 
-    const generator = new StaticJsGeneratorImpl(evaluator, null, realm);
+    const proto = yield* getPrototypeFromConstructor(this, "generatorProto");
+    const generator = new StaticJsGeneratorImpl(evaluator, null, realm, proto);
 
     return Completion.Return(generator);
   }
