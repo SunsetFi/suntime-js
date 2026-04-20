@@ -1,6 +1,7 @@
 import type { ReturnStatement } from "@babel/types";
 
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { getGeneratorKind } from "../../runtime/algorithms/get-generator-kind.js";
+import { AwaitCommand } from "../commands/AwaitCommand.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
@@ -9,10 +10,14 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* returnStatementNodeEvaluator(node: ReturnStatement): EvaluationGenerator {
   const { realm } = EvaluationContext.current;
-  let value: StaticJsValue = realm.types.undefined;
   if (node.argument) {
-    value = yield* Q.val(EvaluateNodeCommand(node.argument));
+    let value = yield* Q.val(EvaluateNodeCommand(node.argument));
+    const generatorKind = yield* getGeneratorKind();
+    if (generatorKind === "async") {
+      value = yield* Q(AwaitCommand(value));
+    }
+    throw Completion.Return(value);
   }
 
-  throw Completion.Return(value);
+  throw Completion.Return(realm.types.undefined);
 }

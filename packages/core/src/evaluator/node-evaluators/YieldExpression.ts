@@ -1,14 +1,14 @@
-import { isFunction, type YieldExpression } from "@babel/types";
+import { type YieldExpression } from "@babel/types";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { call } from "../../runtime/algorithms/call.js";
+import { getGeneratorKind } from "../../runtime/algorithms/get-generator-kind.js";
 import { getMethod } from "../../runtime/algorithms/get-method.js";
 import { asyncIteratorClose } from "../../runtime/iterators/async-iterator-close.js";
 import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
 import { iteratorComplete } from "../../runtime/iterators/iterator-complete.js";
 import { iteratorValue } from "../../runtime/iterators/iterator-value.js";
-import { StaticJsAstFunction } from "../../runtime/types/implementation/functions/StaticJsAstFunction.js";
 import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsValue, StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { AwaitCommand } from "../commands/AwaitCommand.js";
@@ -116,13 +116,4 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
       received = yield* YieldCommand(yield* Q(iteratorValue(innerReturnResult)));
     }
   }
-}
-
-function* getGeneratorKind() {
-  const func = EvaluationContext.current.function;
-  if (func instanceof StaticJsAstFunction === false) {
-    return "sync";
-  }
-
-  return isFunction(func.ecmaScriptCode) && func.ecmaScriptCode.async ? "async" : "sync";
 }

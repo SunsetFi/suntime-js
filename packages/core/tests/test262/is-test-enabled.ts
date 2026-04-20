@@ -10,6 +10,9 @@ const ignoredFeatures = [
   "TypedArray",
   "tail-call-optimization",
   "explicit-resource-management",
+  "resizable-arraybuffer",
+  // This is something we can probably implement without much trouble.
+  // Maybe wait for real stack traces.
   "caller",
 ];
 
