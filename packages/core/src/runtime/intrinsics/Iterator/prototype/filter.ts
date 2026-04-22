@@ -31,7 +31,7 @@ const iteratorProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
     let predicateFunc: StaticJsCallable;
     if (!isCallable(predicate)) {
       const error = Completion.Throw("TypeError", "Predicate must be a function");
-      return yield* Q(iteratorClose(iterated, error, false));
+      return yield* Q(iteratorClose(iterated, error));
     } else {
       // Not sure why this is needed.
       // Typescript knows the above code never flows through,
@@ -55,14 +55,14 @@ const iteratorProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
         );
 
         if (Completion.Abrupt.is(selected)) {
-          return yield* Q(iteratorClose(iterated, selected, false));
+          return yield* Q(iteratorClose(iterated, selected));
         }
 
         const selectedValue = yield* toBoolean.js(selected);
         if (selectedValue) {
           const completion = yield* YieldCommand(value);
           if (Completion.Abrupt.is(completion)) {
-            return yield* Q(iteratorClose(iterated, completion, false));
+            return yield* Q(iteratorClose(iterated, completion));
           }
         }
 

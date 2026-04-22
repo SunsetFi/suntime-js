@@ -31,7 +31,7 @@ const iteratorProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
     let mapperFunc: StaticJsCallable;
     if (!isCallable(mapper)) {
       const error = Completion.Throw("TypeError", "Mapper must be a function");
-      return yield* Q(iteratorClose(iterated, error, false));
+      return yield* Q(iteratorClose(iterated, error));
     } else {
       // More type weirdness.
       // Typescript knows mapper is a func here, and it knows
@@ -55,21 +55,21 @@ const iteratorProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
         );
 
         if (Completion.Abrupt.is(mapped)) {
-          return yield* Q(iteratorClose(iterated, mapped, false));
+          return yield* Q(iteratorClose(iterated, mapped));
         }
 
         const innerIterator = yield* captureThrownCompletion(
           getIteratorFlattenable(mapped, "reject-primitives"),
         );
         if (Completion.Abrupt.is(innerIterator)) {
-          return yield* Q(iteratorClose(iterated, innerIterator, false));
+          return yield* Q(iteratorClose(iterated, innerIterator));
         }
 
         let innerAlive = true;
         while (innerAlive) {
           const innerValue = yield* captureThrownCompletion(iteratorStepValue(innerIterator));
           if (Completion.Abrupt.is(innerValue)) {
-            return yield* Q(iteratorClose(iterated, innerValue, false));
+            return yield* Q(iteratorClose(iterated, innerValue));
           }
 
           if (innerValue === null) {
@@ -77,13 +77,11 @@ const iteratorProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
           } else {
             const completion = yield* YieldCommand(innerValue);
             if (Completion.Abrupt.is(completion)) {
-              const backupCompletion = yield* captureThrownCompletion(
-                iteratorClose(innerIterator, completion, false),
-              );
+              const backupCompletion = yield* iteratorClose(innerIterator, completion);
               if (Completion.Abrupt.is(backupCompletion)) {
-                return yield* Q(iteratorClose(iterated, backupCompletion, false));
+                return yield* Q(iteratorClose(iterated, backupCompletion));
               }
-              return yield* Q(iteratorClose(iterated, completion, false));
+              return yield* Q(iteratorClose(iterated, completion));
             }
           }
 

@@ -44,7 +44,7 @@ export function* asyncFromSyncIteratorContinuation(
     if (Completion.Throw.is(e)) {
       let completion = e;
       if (!done && closeOnRejection) {
-        completion = (yield* iteratorClose(syncIteratorRecord, e, false)) as Completion.Throw;
+        completion = yield* iteratorClose(syncIteratorRecord, e);
       }
 
       yield* call(promiseCapability.reject, realm.types.undefined, [completion.value]);
@@ -61,7 +61,7 @@ export function* asyncFromSyncIteratorContinuation(
   let onRejected: StaticJsFunction | undefined;
   if (!done && closeOnRejection) {
     onRejected = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, e) {
-      return yield* Q(iteratorClose(syncIteratorRecord, Completion.Throw(e), false));
+      return yield* Q(iteratorClose(syncIteratorRecord, Completion.Throw(e)));
     });
   }
 

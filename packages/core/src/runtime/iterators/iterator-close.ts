@@ -1,6 +1,6 @@
-import { AbruptCompletion } from "../../evaluator/completions/completion-types/AbruptCompletion.js";
+import { ThrowCompletion } from "../../evaluator/completions/completion-types/ThrowCompletion.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
-import { rethrowCompletion } from "../../evaluator/completions/rethrow-completion.js";
+import { Q } from "../../evaluator/completions/Q.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { call } from "../algorithms/call.js";
 import { getMethod } from "../algorithms/get-method.js";
@@ -8,26 +8,10 @@ import { isStaticJsObject } from "../types/StaticJsObject.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
-export function iteratorClose(
-  iteratorRecord: StaticJsIteratorRecord,
-  value: Completion.Abrupt,
-  unwrap?: true,
-): EvaluationGenerator<never>;
-export function iteratorClose<T extends Completion>(
+export function* iteratorClose<T extends Completion>(
   iteratorRecord: StaticJsIteratorRecord,
   value: T,
-  unwrap?: true,
-): EvaluationGenerator<T>;
-export function iteratorClose<T extends Completion>(
-  iteratorRecord: StaticJsIteratorRecord,
-  value: T,
-  unwrap: false,
-): EvaluationGenerator<T | AbruptCompletion>;
-export function* iteratorClose(
-  iteratorRecord: StaticJsIteratorRecord,
-  value: Completion,
-  unwrap: boolean = true,
-): EvaluationGenerator<Completion> {
+): EvaluationGenerator<T | ThrowCompletion> {
   const iterator = iteratorRecord.iterator;
   let innerResult: Completion;
   try {
@@ -39,6 +23,7 @@ export function* iteratorClose(
     innerResult = yield* call(innerResult, iterator, []);
   } catch (e) {
     if (Completion.Abrupt.is(e)) {
+      // Theoretically, this can only ever be a ThrowCompletion.
       innerResult = e;
     } else {
       throw e;
@@ -46,18 +31,18 @@ export function* iteratorClose(
   }
 
   if (Completion.Throw.is(value)) {
-    return unwrap ? rethrowCompletion(value) : value;
+    return value;
   }
 
   if (Completion.Throw.is(innerResult)) {
-    return unwrap ? rethrowCompletion(innerResult) : innerResult;
+    return innerResult;
   }
 
   if (!isStaticJsObject(innerResult)) {
     throw Completion.Throw("TypeError", "iterator.return() did not return an object");
   }
 
-  return unwrap ? rethrowCompletion(value) : value;
+  return value;
 }
 
 iteratorClose.handle = function* handleIteratorClose<T>(
@@ -70,7 +55,7 @@ iteratorClose.handle = function* handleIteratorClose<T>(
   } catch (e) {
     if (Completion.Abrupt.is(e)) {
       // If the handler threw an abnormal completion, we need to close the iterator
-      yield* iteratorClose(iteratorRecord, e);
+      yield* Q(iteratorClose(iteratorRecord, e));
     }
     throw e;
   }

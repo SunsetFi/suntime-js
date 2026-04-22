@@ -65,7 +65,7 @@ export default function* bindingInitialization(
         environment,
       );
       if (!iteratorRecord.done) {
-        yield* iteratorClose(iteratorRecord, result ?? Completion.Normal(null));
+        yield* Q(iteratorClose(iteratorRecord, result ?? Completion.Normal(null)));
       }
 
       yield* Q(result);
