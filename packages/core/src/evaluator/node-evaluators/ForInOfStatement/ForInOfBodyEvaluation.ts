@@ -135,7 +135,7 @@ export const forInOfBodyEvaluation = Q.makeReceiver(function* forInOfBodyEvaluat
         return yield* Q(asyncIteratorClose(iteratorRecord, status));
       }
 
-      return yield* Q(iteratorClose(iteratorRecord, status));
+      return yield* Q(iteratorClose(iteratorRecord, status, false));
     }
 
     const result = yield* EvaluateNodeCommand(stmt);
@@ -151,7 +151,7 @@ export const forInOfBodyEvaluation = Q.makeReceiver(function* forInOfBodyEvaluat
         return yield* Q(asyncIteratorClose(iteratorRecord, status));
       }
 
-      return yield* Q(iteratorClose(iteratorRecord, status));
+      return yield* Q(iteratorClose(iteratorRecord, status, false));
     }
 
     const resultValue = Completion.value(result);

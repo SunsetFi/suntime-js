@@ -27,7 +27,7 @@ const iteratorProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
 
     if (!isCallable(reducer)) {
       const error = Completion.Throw("TypeError", "Reducer must be a function");
-      return yield* Q(iteratorClose(iterated, error));
+      return yield* Q(iteratorClose(iterated, error, false));
     }
 
     iterated = yield* Q(getIteratorDirect(O));
@@ -56,7 +56,7 @@ const iteratorProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
         call(reducer, realm.types.undefined, [accumulator, value, realm.types.number(counter)]),
       );
       if (Completion.Abrupt.is(result)) {
-        return yield* Q(iteratorClose(iterated, result));
+        return yield* Q(iteratorClose(iterated, result, false));
       }
 
       accumulator = result;

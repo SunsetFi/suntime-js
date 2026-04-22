@@ -26,7 +26,7 @@ const iteratorProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
 
     if (!isCallable(callback)) {
       const error = Completion.Throw("TypeError", "Callback must be a function");
-      return yield* Q(iteratorClose(iterated, error));
+      return yield* Q(iteratorClose(iterated, error, false));
     }
 
     iterated = yield* Q(getIteratorDirect(O));
@@ -43,7 +43,7 @@ const iteratorProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
       );
 
       if (Completion.Abrupt.is(result)) {
-        return yield* Q(iteratorClose(iterated, result));
+        return yield* Q(iteratorClose(iterated, result, false));
       }
 
       counter++;

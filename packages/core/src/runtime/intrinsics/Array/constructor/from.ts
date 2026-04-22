@@ -61,7 +61,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
       while (true) {
         if (k >= MAX_ARRAY_LENGTH_INCLUSIVE) {
           const error = Completion.Throw("TypeError", "Too many items from iterator");
-          return yield* Q(iteratorClose(iteratorRecord, error));
+          return yield* Q(iteratorClose(iteratorRecord, error, false));
         }
 
         const Pk = String(k);
@@ -77,7 +77,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
             call(mapperFunc!, mapperThisArg, [next, realm.types.number(k)]),
           );
           if (Completion.Abrupt.is(mapperResult)) {
-            return yield* Q(iteratorClose(iteratorRecord, mapperResult));
+            return yield* Q(iteratorClose(iteratorRecord, mapperResult, false));
           }
           mappedValue = Completion.value(mapperResult)!;
         } else {
@@ -88,7 +88,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
           createDataPropertyOrThrow(A, Pk, mappedValue),
         );
         if (Completion.Abrupt.is(defineStatus)) {
-          return yield* Q(iteratorClose(iteratorRecord, defineStatus));
+          return yield* Q(iteratorClose(iteratorRecord, defineStatus, false));
         }
 
         k += 1;

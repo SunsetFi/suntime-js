@@ -30,7 +30,7 @@ const iteratorProtoMapDeclaration: IntrinsicPropertyDeclaration = {
     let mapperFunc: StaticJsCallable;
     if (!isCallable(mapper)) {
       const error = Completion.Throw("TypeError", "Mapper must be a function");
-      return yield* Q(iteratorClose(iterated, error));
+      return yield* Q(iteratorClose(iterated, error, false));
     } else {
       // More type weirdness.
       // Typescript knows mapper is a func here, and it knows
@@ -54,12 +54,12 @@ const iteratorProtoMapDeclaration: IntrinsicPropertyDeclaration = {
         );
 
         if (Completion.Abrupt.is(mapped)) {
-          return yield* Q(iteratorClose(iterated, mapped));
+          return yield* Q(iteratorClose(iterated, mapped, false));
         }
 
         const completion = yield* YieldCommand(mapped);
         if (Completion.Abrupt.is(completion)) {
-          return yield* Q(iteratorClose(iterated, completion));
+          return yield* Q(iteratorClose(iterated, completion, false));
         }
 
         counter++;

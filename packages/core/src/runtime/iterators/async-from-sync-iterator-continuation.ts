@@ -61,7 +61,7 @@ export function* asyncFromSyncIteratorContinuation(
   let onRejected: StaticJsFunction | undefined;
   if (!done && closeOnRejection) {
     onRejected = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, e) {
-      return yield* Q(iteratorClose(syncIteratorRecord, Completion.Throw(e)));
+      return yield* Q(iteratorClose(syncIteratorRecord, Completion.Throw(e), false));
     });
   }
 

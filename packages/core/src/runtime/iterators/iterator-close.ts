@@ -1,3 +1,4 @@
+import { AbruptCompletion } from "../../evaluator/completions/completion-types/AbruptCompletion.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { rethrowCompletion } from "../../evaluator/completions/rethrow-completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
@@ -17,11 +18,11 @@ export function iteratorClose<T extends Completion>(
   value: T,
   unwrap?: true,
 ): EvaluationGenerator<T>;
-export function iteratorClose(
+export function iteratorClose<T extends Completion>(
   iteratorRecord: StaticJsIteratorRecord,
-  value: Completion,
+  value: T,
   unwrap: false,
-): EvaluationGenerator<Completion>;
+): EvaluationGenerator<T | AbruptCompletion>;
 export function* iteratorClose(
   iteratorRecord: StaticJsIteratorRecord,
   value: Completion,

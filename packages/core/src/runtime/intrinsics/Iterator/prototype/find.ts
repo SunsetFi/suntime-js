@@ -27,7 +27,7 @@ const iteratorProtoFindDeclaration: IntrinsicPropertyDeclaration = {
 
     if (!isCallable(predicate)) {
       const error = Completion.Throw("TypeError", "Predicate must be a function");
-      return yield* Q(iteratorClose(iterated, error));
+      return yield* Q(iteratorClose(iterated, error, false));
     }
 
     iterated = yield* Q(getIteratorDirect(O));
@@ -44,12 +44,12 @@ const iteratorProtoFindDeclaration: IntrinsicPropertyDeclaration = {
       );
 
       if (Completion.Abrupt.is(result)) {
-        return yield* Q(iteratorClose(iterated, result));
+        return yield* Q(iteratorClose(iterated, result, false));
       }
 
       const boolResult = yield* toBoolean.js(result);
       if (boolResult === true) {
-        return yield* Q(iteratorClose(iterated, value));
+        return yield* Q(iteratorClose(iterated, value, false));
       }
       counter += 1;
     }
