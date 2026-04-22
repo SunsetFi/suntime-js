@@ -8,8 +8,7 @@ import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";
 import { isStaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
 import { StaticJsPropertyDescriptorRecord } from "../../../../runtime/types/StaticJsPropertyDescriptor.js";
-import { toStaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
-import { isStaticJsString } from "../../../../runtime/types/StaticJsString.js";
+import { toPropertyKey } from "../../../../runtime/utils/to-property-key.js";
 import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../../completions/Q.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
@@ -31,14 +30,10 @@ export const methodDefinitionEvaluation = Q.makeReceiver(function* methodDefinit
   }
 
   if (element.kind === "get") {
-    const propKeyValue = yield* Q(EvaluateNodeCommand(element.key));
-    if (!isStaticJsString(propKeyValue) && !isStaticJsPrivateName(propKeyValue)) {
-      throw new StaticJsEngineError(`Invalid method name for getter.`);
-    }
+    const propKeyValue = yield* Q.val(EvaluateNodeCommand(element.key));
     const propKey = isStaticJsPrivateName(propKeyValue)
       ? propKeyValue
-      : toStaticJsPropertyKey(propKeyValue);
-
+      : yield* toPropertyKey(propKeyValue);
     const closure = new StaticJsMethodFunction(realm, element, object, env, privateEnv);
 
     yield* setFunctionName(closure, propKey, "get");
@@ -61,13 +56,10 @@ export const methodDefinitionEvaluation = Q.makeReceiver(function* methodDefinit
     yield* definePropertyOrThrow(object, propKey, desc);
     return null;
   } else if (element.kind === "set") {
-    const propKeyValue = yield* Q(EvaluateNodeCommand(element.key));
-    if (!isStaticJsString(propKeyValue) && !isStaticJsPrivateName(propKeyValue)) {
-      throw new StaticJsEngineError(`Invalid method name for setter.`);
-    }
+    const propKeyValue = yield* Q.val(EvaluateNodeCommand(element.key));
     const propKey = isStaticJsPrivateName(propKeyValue)
       ? propKeyValue
-      : toStaticJsPropertyKey(propKeyValue);
+      : yield* toPropertyKey(propKeyValue);
 
     const closure = new StaticJsMethodFunction(realm, element, object, env, privateEnv);
 
@@ -91,8 +83,6 @@ export const methodDefinitionEvaluation = Q.makeReceiver(function* methodDefinit
     yield* definePropertyOrThrow(object, propKey, desc);
     return null;
   } else {
-    // FIXME: This can't be complete.  What about generators and async and their
-    // special prototypes?
     const methodDef = yield* Q(defineMethod(element, object));
     yield* setFunctionName(methodDef.closure, methodDef.key);
     return yield* defineMethodProperty(object, methodDef.key, methodDef.closure, enumerable);

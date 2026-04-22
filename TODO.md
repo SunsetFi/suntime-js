@@ -2,6 +2,9 @@
 
 ## Immediate
 
+- Figure out why test262 tests are throwing unhandled rejections
+  language/statements/class/elements/wrapped-in-sc-rs-static-async-generator-method-privatename-identifier.js
+
 ## Less imidiate
 
 - [ ] Change StaticJsPropertyKey to use StaticJsString, not native string.
