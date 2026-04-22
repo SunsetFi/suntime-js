@@ -172,12 +172,6 @@ describe("E2E: Tasks", () => {
             capturedFrame.functionName === expectedFrame.functionName &&
             capturedFrame.sourceLocation?.line === expectedFrame.line
           ) {
-            console.log(
-              "Found expected frame",
-              expectedFrame.functionName,
-              "at line",
-              expectedFrame.line,
-            );
             break;
           }
         }

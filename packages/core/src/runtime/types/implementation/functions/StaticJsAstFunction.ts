@@ -336,12 +336,12 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
       case "ClassPrivateMethod":
         if (node.async) {
           if (node.generator) {
-            return yield* this._evaluateAsyncGeneratorFunctionBody(node, args);
+            return yield* this._evaluateAsyncGeneratorBody(node, args);
           } else {
             return yield* this._evaluateAsyncFunctionBody(node, args);
           }
         } else if (node.generator) {
-          return yield* this._evaluateGeneratorFunctionBody(node, args);
+          return yield* this._evaluateGeneratorBody(node, args);
         } else {
           return yield* this._evaluateFunctionBody(node, args);
         }
@@ -417,7 +417,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     return Completion.Return(invocation.promise);
   }
 
-  private *_evaluateAsyncGeneratorFunctionBody(
+  private *_evaluateAsyncGeneratorBody(
     node: Function,
     args: StaticJsValue[],
   ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
@@ -427,12 +427,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     yield* functionDeclarationInstantiation(this, args);
 
     function* evaluator() {
-      const result = yield* Q(EvaluateNodeCommand(node.body));
-      if (result) {
-        const value = yield* Q(getValue(result));
-        throw Completion.Return(value);
-      }
-
+      yield* Q(EvaluateNodeCommand(node.body));
       throw Completion.Return(realm.types.undefined);
     }
 
@@ -442,7 +437,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     return Completion.Return(generator);
   }
 
-  private *_evaluateGeneratorFunctionBody(
+  private *_evaluateGeneratorBody(
     node: Function,
     args: StaticJsValue[],
   ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
@@ -467,11 +462,23 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
     yield* functionDeclarationInstantiation(this, args);
 
-    let expression = node.type == "ArrowFunctionExpression" ? node.body : node;
+    const expression = node.type == "ArrowFunctionExpression" ? node.body : node;
 
     let result: StaticJsValue = realm.types.undefined;
     try {
+      // I can't tell at all what the spec wants here.  It's all over the place and doesn't match up with
+      // what i know.
+      // This is 15.3.5 - Arrow Function Definitions - Evaluation
+      // This function is 15.3.3 - Runtime Semantics: EvaluateConciseBody
+      // But this only covers the case of ConciseBody: ExpressionBody.
+      // There's also ConciseBody : { FunctionBody }, but I cannot find anywhere
+      // in the spec where that production is handled.
+      // So... Just yolo I guess.
       const completion = yield* Q(EvaluateNodeCommand(expression));
+      if (expression.type === "BlockStatement") {
+        // Fuck it we ball
+        return Completion.Return(realm.types.undefined);
+      }
       if (completion) {
         result = yield* getValue(completion);
       }

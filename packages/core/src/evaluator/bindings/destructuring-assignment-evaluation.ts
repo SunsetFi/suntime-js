@@ -33,7 +33,7 @@ import iteratorDestructuringAssignmentEvaluation from "./iterator-destructuring-
 export default function* destructuringAssignmentEvaluation(
   node: Node,
   value: StaticJsValue,
-): EvaluationGenerator<void> {
+): EvaluationGenerator<Completion.Normal> {
   switch (node.type) {
     case "ObjectPattern": {
       if (isStaticJsUndefined(value) || isStaticJsNull(value)) {
@@ -51,36 +51,30 @@ export default function* destructuringAssignmentEvaluation(
         yield* restDestructuringAssignmentEvaluation(rest, value, excludedNames);
       }
 
-      return;
+      return Completion.Normal(null);
     }
     case "ArrayPattern": {
       const iteratorRecord = yield* getIterator(value, "sync");
       if (!node.elements.length) {
         yield* Q(iteratorClose(iteratorRecord, null));
-        return;
+        return Completion.Normal(null);
       }
 
       const status = yield* iteratorDestructuringAssignmentEvaluation(
         node.elements,
         iteratorRecord,
       );
-      if (Completion.Abrupt.is(status)) {
-        if (!iteratorRecord.done) {
-          yield* iteratorClose(iteratorRecord, status);
-        }
-
-        // Return the original abrupt.
-        return yield* Q(status);
-      }
 
       if (!iteratorRecord.done) {
         // Failures here are propogated.
-        yield* Q(iteratorClose(iteratorRecord, null));
+        return yield* Q(iteratorClose(iteratorRecord, status));
       }
 
-      return;
+      return yield* Q(status);
     }
   }
+
+  return Completion.Normal(null);
 }
 
 function* propertyDestructuringAssignmentEvaluation(

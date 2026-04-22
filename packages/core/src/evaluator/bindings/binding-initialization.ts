@@ -23,6 +23,7 @@ import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
@@ -30,7 +31,7 @@ import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
 
 import initializeBoundName from "./initialize-bound-name.js";
 import initializeReferencedBinding from "./initialize-referenced-binding.js";
-import iteratorBindingInitialization from "./iterator-binding-initialization.js";
+import { iteratorBindingInitialization } from "./iterator-binding-initialization.js";
 
 export default function* bindingInitialization(
   node: LVal,
@@ -58,10 +59,16 @@ export default function* bindingInitialization(
     }
     case "ArrayPattern": {
       const iteratorRecord = yield* getIterator(value, "sync");
-      yield* iteratorBindingInitialization.arrayBindingPattern(node, iteratorRecord, environment);
+      const result = yield* iteratorBindingInitialization.arrayBindingPattern(
+        node,
+        iteratorRecord,
+        environment,
+      );
       if (!iteratorRecord.done) {
-        yield* iteratorClose(iteratorRecord, null);
+        yield* iteratorClose(iteratorRecord, result ?? Completion.Normal(null));
       }
+
+      yield* Q(result);
       return;
     }
   }

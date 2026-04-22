@@ -386,7 +386,6 @@ describe("E2E: Binding Initialization", () => {
       try {
         result = await evaluateScript(script);
       } catch (err) {
-        console.log("in\n", script, "\ngot error", err.message);
         error = err;
       }
 

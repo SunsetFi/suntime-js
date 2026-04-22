@@ -10,6 +10,7 @@ import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsR
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
+import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
@@ -22,21 +23,21 @@ const iteratorDestructuringAssignmentEvaluation = Q.makeReceiver(
   function* iteratorDestructuringAssignmentEvaluation(
     node: IteratorDestructuringAssignmentType | IteratorDestructuringAssignmentType[],
     iteratorRecord: StaticJsIteratorRecord,
-  ): EvaluationGenerator<void> {
+  ): EvaluationGenerator<Completion> {
     const { realm } = EvaluationContext.current;
     if (Array.isArray(node)) {
       for (const element of node) {
         yield* Q(iteratorDestructuringAssignmentEvaluation(element, iteratorRecord));
       }
 
-      return;
+      return Completion.Normal(null);
     }
 
     if (node === null) {
       if (!iteratorRecord.done) {
         yield* iteratorStepValue(iteratorRecord);
       }
-      return;
+      return Completion.Normal(null);
     }
     let initializer: Node | null = null;
     if (node.type === "AssignmentPattern") {
@@ -100,6 +101,8 @@ const iteratorDestructuringAssignmentEvaluation = Q.makeReceiver(
     } else {
       yield* destructuringAssignmentEvaluation(assignmentTarget, v);
     }
+
+    return Completion.Normal(null);
   },
 );
 
