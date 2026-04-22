@@ -153,6 +153,8 @@ function topLevelVarDeclaredNames(node: Node): string[] {
       }
       return [];
     }
+    case "StaticBlock":
+      return statementListTopLevelVarDeclaredNames(node.body);
     /* END StatementList */
     case "LabeledStatement":
       return labelledItemTopLevelVarDeclaredNames(node.body);
