@@ -1,6 +1,5 @@
 {
   "editor.tabSize": 2,
-  "editor.defaultFormatter": "oxc.oxc-vscode",
   "files.associations": {
     "*.json": "jsonc"
   },
@@ -16,5 +15,9 @@
     "**/dist": true,
     "**/lib": true
   },
-  "js/ts.tsdk.path": "node_modules/typescript/lib"
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.oxc": "explicit"
+  }
 }
