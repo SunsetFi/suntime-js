@@ -17,12 +17,14 @@ import type { Prototypes } from "./intrinsics.js";
 import { populateIteratorPrototype } from "./Iterator/index.js";
 import { populateIteratorHelperPrototype } from "./IteratorHelper/index.js";
 import { populateMapPrototype } from "./Map/index.js";
+import { populateMapIteratorPrototype } from "./MapIterator/index.js";
 import { populateNumberPrototype } from "./Number/index.js";
 import { populateObjectPrototype } from "./Object/index.js";
 import { populatePromisePrototype } from "./Promise/index.js";
 import { populateRangeErrorPrototype } from "./RangeError.js";
 import { populateReferenceErrorPrototype } from "./ReferenceError.js";
 import { populateSetPrototype } from "./Set/index.js";
+import { populateSetIteratorPrototype } from "./SetIterator/index.js";
 import { populateStringPrototype } from "./String/index.js";
 import { populateStringIteratorPrototype } from "./StringIterator/index.js";
 import { populateSymbolPrototype } from "./Symbol/index.js";
@@ -49,6 +51,8 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
   const arrayIteratorProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
   const stringIteratorProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
   const asyncIteratorProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
+  const setIteratorProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
+  const mapIteratorProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
 
   const asyncFunctionProto = new StaticJsPlainObjectImpl(realm, functionProto);
 
@@ -80,6 +84,8 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
     iteratorHelperProto,
     stringIteratorProto,
     asyncIteratorProto,
+    setIteratorProto,
+    mapIteratorProto,
     setProto,
     mapProto,
     asyncFunctionProto,
@@ -113,6 +119,9 @@ export function instantiatePrototypes(realm: StaticJsRealm) {
   populateIteratorHelperPrototype(realm, prototypes.iteratorHelperProto);
   populateArrayIteratorPrototype(realm, prototypes.arrayIteratorProto);
   populateStringIteratorPrototype(realm, prototypes.stringIteratorProto);
+  populateSetIteratorPrototype(realm, prototypes.setIteratorProto);
+  populateMapIteratorPrototype(realm, prototypes.mapIteratorProto);
+
   populateAsyncIteratorPrototype(realm, prototypes.asyncIteratorProto);
 
   populateAsyncFunctionPrototype(realm, prototypes.asyncFunctionProto);

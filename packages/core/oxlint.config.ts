@@ -6,5 +6,7 @@ export default defineConfig({
     // Most of our runtime uses generators.  We need these functions to return iterators, even if
     // they don't actually yield anything.
     "require-yield": "off",
+    // Also mirrored by the typescript setting.
+    "no-unused-vars": "error",
   },
 });

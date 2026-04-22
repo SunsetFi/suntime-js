@@ -21,6 +21,8 @@ export interface Prototypes {
   arrayIteratorProto: StaticJsObject;
   stringIteratorProto: StaticJsObject;
   asyncIteratorProto: StaticJsObject;
+  setIteratorProto: StaticJsObject;
+  mapIteratorProto: StaticJsObject;
 
   asyncFunctionProto: StaticJsObject;
 

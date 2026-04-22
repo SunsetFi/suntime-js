@@ -1,20 +1,17 @@
 import { StaticJsRuntimeError } from "../../../../errors/StaticJsRuntimeError.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import { call } from "../../../algorithms/call.js";
-import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
-import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { toNativeUnwrap } from "../../../utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "../../../utils/to-runtime-wrap.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
-import type { StaticJsIterator, StaticJsIteratorResult } from "../../StaticJsIterator.js";
+import type { StaticJsIterator } from "../../StaticJsIterator.js";
 import type { StaticJsMap } from "../../StaticJsMap.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
-import { StaticJsNativeFunctionImpl } from "../functions/StaticJsNativeFunctionImpl.js";
 
-import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
+import { StaticJsMapIteratorImpl } from "./StaticJsMapIteratorImpl.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
 export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements StaticJsMap {
@@ -88,69 +85,5 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
 
   *sizeEvaluator(): EvaluationGenerator<number> {
     return this._backingStore.size;
-  }
-}
-
-// FIXME: Implement spec compliant CreateMapIterator,
-// which needs generators.
-class StaticJsMapIteratorImpl extends StaticJsIteratorImpl {
-  constructor(
-    private _backingIterator: IterableIterator<[unknown, StaticJsValue]> | null,
-    private readonly _kind: "key" | "value" | "key+value",
-    realm: StaticJsRealm,
-  ) {
-    super(realm);
-
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const self = this;
-
-    this.defineOwnPropertySync("next", {
-      value: new StaticJsNativeFunctionImpl(realm, "next", function* () {
-        const result = yield* self.nextEvaluator();
-        return yield* createIteratorResultObject(result.value, result.done, self.realm);
-      }),
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    });
-  }
-
-  *nextEvaluator(): EvaluationGenerator<StaticJsIteratorResult> {
-    const iterator = this._backingIterator;
-    if (!iterator) {
-      return {
-        value: this.realm.types.undefined,
-        done: true,
-      };
-    }
-
-    const { value, done } = iterator.next();
-    if (done) {
-      this._backingIterator = null;
-      return {
-        value: this.realm.types.undefined,
-        done: true,
-      };
-    }
-
-    const [key, val] = value;
-
-    let result: StaticJsValue;
-    switch (this._kind) {
-      case "key":
-        result = toRuntimeWrap(key, this.realm);
-        break;
-      case "value":
-        result = val;
-        break;
-      case "key+value":
-        result = yield* createArrayFromList([toRuntimeWrap(key, this.realm), val]);
-        break;
-    }
-
-    return {
-      value: result,
-      done: false,
-    };
   }
 }

@@ -1,11 +1,9 @@
 import { StaticJsRuntimeError } from "../../../../errors/StaticJsRuntimeError.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import { call } from "../../../algorithms/call.js";
-import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import { get } from "../../../algorithms/get.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
 import { toBoolean } from "../../../algorithms/to-boolean.js";
-import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
@@ -13,15 +11,14 @@ import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { toNativeUnwrap } from "../../../utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "../../../utils/to-runtime-wrap.js";
 import { type StaticJsCallable } from "../../StaticJsCallable.js";
-import type { StaticJsIterator, StaticJsIteratorResult } from "../../StaticJsIterator.js";
+import type { StaticJsIterator } from "../../StaticJsIterator.js";
 import { isStaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsSet } from "../../StaticJsSet.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
-import { StaticJsNativeFunctionImpl } from "../functions/StaticJsNativeFunctionImpl.js";
 
-import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
+import { StaticJsSetIteratorImpl } from "./StaticJsSetIteratorImpl.js";
 
 // TODO: Take shortcuts for difference and friends if otherSet is also a StaticJsSetImpl
 
@@ -314,60 +311,4 @@ function* setCreate(
   }
 
   return [result, resultAdd];
-}
-
-class StaticJsSetIteratorImpl extends StaticJsIteratorImpl {
-  constructor(
-    private _backingIterator: IterableIterator<unknown> | null,
-    private readonly _kind: "key" | "key+value",
-    realm: StaticJsRealm,
-  ) {
-    super(realm);
-
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const self = this;
-
-    this.defineOwnPropertySync("next", {
-      value: new StaticJsNativeFunctionImpl(realm, "next", function* () {
-        const result = yield* self.nextEvaluator();
-        return yield* createIteratorResultObject(result.value, result.done, self.realm);
-      }),
-      writable: true,
-      enumerable: false,
-      configurable: true,
-    });
-  }
-
-  *nextEvaluator(): EvaluationGenerator<StaticJsIteratorResult> {
-    const iterator = this._backingIterator;
-    if (!iterator) {
-      return {
-        value: this.realm.types.undefined,
-        done: true,
-      };
-    }
-
-    const { value, done } = iterator.next();
-    if (done) {
-      this._backingIterator = null;
-      return {
-        value: this.realm.types.undefined,
-        done: true,
-      };
-    }
-
-    const resolved = toRuntimeWrap(value, this.realm);
-
-    let result: StaticJsValue;
-    if (this._kind === "key") {
-      result = resolved;
-    } else {
-      result = yield* createArrayFromList([resolved, resolved]);
-    }
-
-    return {
-      value: result,
-      done: false,
-    };
-  }
 }
