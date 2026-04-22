@@ -84,8 +84,13 @@ function* classFieldDefinitionEvaluation(
 }
 
 function* classStaticBlockDefinitionEvaluation(
-  _element: StaticBlock,
-  _object: StaticJsObject,
+  element: StaticBlock,
+  object: StaticJsObject,
 ): EvaluationGenerator<StaticJsClassStaticBlockDefinitionRecord | Completion.Abrupt> {
-  throw new Error("classStaticBlockDefinitionEvaluation not implemented");
+  const { lexicalEnv: lex, privateEnv, realm } = EvaluationContext.current;
+  const bodyFunction = new StaticJsMethodFunction(realm, element, object, lex, privateEnv);
+  return {
+    type: "class-static-block-definition",
+    bodyFunction,
+  };
 }

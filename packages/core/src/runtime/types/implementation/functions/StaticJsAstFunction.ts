@@ -11,6 +11,7 @@ import {
   isPattern,
   isRestElement,
   isExpression,
+  StaticBlock,
 } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
@@ -73,6 +74,7 @@ export function validateStaticJsAstFunctionParams(
   }
 }
 
+export type StaticJsAstFunctionNode = Function | Expression | StaticBlock;
 export class StaticJsAstFunction extends StaticJsAbstractFunction {
   private readonly _argumentDeclarations: StaticJsAstFunctionArgument[];
 
@@ -86,7 +88,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
   constructor(
     realm: StaticJsRealm,
-    protected readonly _node: Function | Expression,
+    protected readonly _node: StaticJsAstFunctionNode,
     {
       thisMode,
       strict,
@@ -350,6 +352,11 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
           return yield* this._evaluateAsyncConciseBody(node, args);
         }
         return yield* this._evaluateConciseBody(node, args);
+      case "StaticBlock":
+        if (args.length !== 0) {
+          throw new StaticJsEngineError("Static blocks cannot have arguments.");
+        }
+        return yield* this._evaluateClassStaticBlockBody(node);
     }
 
     if (isExpression(node)) {
@@ -528,6 +535,14 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     yield* invocation.start();
 
     return Completion.Return(invocation.promise);
+  }
+
+  private *_evaluateClassStaticBlockBody(
+    node: StaticBlock,
+  ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
+    yield* functionDeclarationInstantiation(this, []);
+    yield* Q(EvaluateNodeCommand(node));
+    return Completion.Return(this.realm.types.undefined);
   }
 
   protected *_ordinaryCallBindThis(

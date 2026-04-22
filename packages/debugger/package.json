@@ -45,8 +45,6 @@
     "@suntime-js/core": "workspace:*",
     "@types/babel__traverse": "catalog:",
     "@types/node": "catalog:",
-    "oxfmt": "catalog:",
-    "oxlint": "catalog:",
     "rimraf": "^6.0.1",
     "typescript": "catalog:",
     "vitest": "catalog:"

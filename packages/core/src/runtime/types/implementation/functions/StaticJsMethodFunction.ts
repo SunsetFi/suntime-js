@@ -1,19 +1,17 @@
-import { type Expression, type Function } from "@babel/types";
-
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsObject } from "../../StaticJsObject.js";
 
-import { StaticJsAstFunction } from "./StaticJsAstFunction.js";
+import { StaticJsAstFunction, StaticJsAstFunctionNode } from "./StaticJsAstFunction.js";
 
 export class StaticJsMethodFunction extends StaticJsAstFunction {
   private _homeObject: StaticJsObject;
 
   constructor(
     realm: StaticJsRealm,
-    node: Function | Expression,
+    node: StaticJsAstFunctionNode,
     homeObject: StaticJsObject,
     env: StaticJsEnvironmentRecord,
     privateEnv: StaticJsPrivateEnvironmentRecord | null,

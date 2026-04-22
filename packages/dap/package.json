@@ -39,8 +39,6 @@
   "devDependencies": {
     "@types/node": "catalog:",
     "@vscode/debugadapter-testsupport": "^1.68.0",
-    "oxfmt": "catalog:",
-    "oxlint": "catalog:",
     "rimraf": "^6.0.1",
     "tsx": "^4.21.0",
     "typescript": "catalog:tsLegacy",

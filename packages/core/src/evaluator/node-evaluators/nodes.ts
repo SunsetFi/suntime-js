@@ -43,6 +43,7 @@ import objectExpressionNodeEvaluator from "./ObjectExpression.js";
 import programNodeEvaluator from "./Program.js";
 import returnStatementNodeEvaluator from "./ReturnStatement.js";
 import sequenceExpressionNodeEvaluator from "./SequenceExpression.js";
+import staticBlockNodeEvaluator from "./StaticBlock.js";
 import stringLiteralNodeEvaluator from "./StringLiteral.js";
 import switchStatementNodeEvaluator from "./SwitchStatement.js";
 import templateLiteralNodeEvaluator from "./TemplateLiteral.js";
@@ -102,6 +103,7 @@ const nodeEvaluators: NodeEvaluators = {
   Program: programNodeEvaluator,
   ReturnStatement: returnStatementNodeEvaluator,
   SequenceExpression: sequenceExpressionNodeEvaluator,
+  StaticBlock: staticBlockNodeEvaluator,
   StringLiteral: stringLiteralNodeEvaluator,
   SwitchStatement: switchStatementNodeEvaluator,
   TemplateLiteral: templateLiteralNodeEvaluator,
