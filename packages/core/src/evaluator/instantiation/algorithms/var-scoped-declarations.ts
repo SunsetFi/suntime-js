@@ -257,6 +257,8 @@ function topLevelVarScopedDeclarations(node: Node): VarScopedDeclNode[] {
       }
       return [];
     }
+    case "StaticBlock":
+      return statementListTopLevelVarScopedDeclarations(node.body);
     case "File":
       return topLevelVarScopedDeclarations(node.program);
     case "Program":

@@ -133,6 +133,8 @@ function lexicallyScopedDeclarationsForScriptOrFunction(node: Node): LexicallySc
         return node.body.body.flatMap(topLevelStatementListItemLexicallyScopedDeclarations);
       }
       return [];
+    case "StaticBlock":
+      return node.body.flatMap(topLevelStatementListItemLexicallyScopedDeclarations);
   }
   return [];
 }

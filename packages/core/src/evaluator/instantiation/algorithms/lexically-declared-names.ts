@@ -104,6 +104,8 @@ function lexicallyDeclaredNamesForScriptOrFunction(node: Node): string[] {
         return node.body.body.flatMap(topLevelStatementListItemLexicallyDeclaredNames);
       }
       return [];
+    case "StaticBlock":
+      return node.body.flatMap(topLevelStatementListItemLexicallyDeclaredNames);
   }
   return [];
 }
