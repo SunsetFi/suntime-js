@@ -2,30 +2,18 @@
 
 ## Immediate
 
-- [-] Function overhaul
-  - [x] Rework all async functions to one class
-  - [x] StaticJsFunctionImpl should be abstract
-  - [x] Implement newTarget as passed-in?
-  - [ ] Rework callEvaluator and constructEvaluator to return completions
-    - [x] Use call() instead of direct references.
-    - [x] Use construct() instead of direct references.
-    - [ ] Use Q() on calls.
-- [ ] Task improvements
-  - [x] Property on a task indicating if its sync or async.
-  - [ ] Merge microtasks into same iterator?
-
 ## Less imidiate
 
 - [ ] Change StaticJsPropertyKey to use StaticJsString, not native string.
       This is causing bad squirly code all over the place.
 - [ ] Change getPrototype / setPrototype to use StaticJsNull instead of engine null.
 - [ ] StaticJsFunction.toString
-- [ ] Clean up ForInOfBody to use completions rather than try/catch.
-- [ ] Remove unwrap jank from asyncIteratorClose and iteratorClose
 - [ ] Figure out why a tiny number of test262 tests trigger a context.run() to pop a context different from what it pushed.
 - [ ] Get promises returned to proxied functions to await properly in the sandbox.
       This should be happening automatically due to the .then function, but isn't
-- [ ] Align ObjectLike functions to slots.
+- [ ] Task improvements
+  - [x] Property on a task indicating if its sync or async.
+  - [ ] Merge microtasks into same iterator?
 
 ### Long term spec compliance reworks
 

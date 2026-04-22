@@ -10,14 +10,14 @@ import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
 export function* iteratorClose<T extends Completion>(
   iteratorRecord: StaticJsIteratorRecord,
-  value: T,
+  completion: T,
 ): EvaluationGenerator<T | ThrowCompletion> {
   const iterator = iteratorRecord.iterator;
   let innerResult: Completion;
   try {
     innerResult = yield* getMethod(iterator, "return");
     if (!innerResult) {
-      return value;
+      return completion;
     }
 
     innerResult = yield* call(innerResult, iterator, []);
@@ -30,8 +30,8 @@ export function* iteratorClose<T extends Completion>(
     }
   }
 
-  if (Completion.Throw.is(value)) {
-    return value;
+  if (Completion.Throw.is(completion)) {
+    return completion;
   }
 
   if (Completion.Throw.is(innerResult)) {
@@ -42,7 +42,7 @@ export function* iteratorClose<T extends Completion>(
     throw Completion.Throw("TypeError", "iterator.return() did not return an object");
   }
 
-  return value;
+  return completion;
 }
 
 iteratorClose.handle = function* handleIteratorClose<T>(

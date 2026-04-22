@@ -1,6 +1,6 @@
 import { AwaitCommand } from "../../evaluator/commands/AwaitCommand.js";
+import { ThrowCompletion } from "../../evaluator/completions/completion-types/ThrowCompletion.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
-import { rethrowCompletion } from "../../evaluator/completions/rethrow-completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { call } from "../algorithms/call.js";
 import { getMethod } from "../algorithms/get-method.js";
@@ -8,21 +8,10 @@ import { isStaticJsObject } from "../types/StaticJsObject.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
-export function asyncIteratorClose(
+export function* asyncIteratorClose<T extends Completion>(
   iteratorRecord: StaticJsIteratorRecord,
-  completion: Completion,
-  unwrap?: true,
-): EvaluationGenerator<Completion.Normal>;
-export function asyncIteratorClose(
-  iteratorRecord: StaticJsIteratorRecord,
-  completion: Completion,
-  unwrap: false,
-): EvaluationGenerator<Completion>;
-export function* asyncIteratorClose(
-  iteratorRecord: StaticJsIteratorRecord,
-  completion: Completion,
-  unwrap: boolean = true,
-): EvaluationGenerator<Completion> {
+  completion: T,
+): EvaluationGenerator<T | ThrowCompletion> {
   const iterator = iteratorRecord.iterator;
   let innerResult: Completion;
   try {
@@ -42,32 +31,16 @@ export function* asyncIteratorClose(
   }
 
   if (Completion.Throw.is(completion)) {
-    return unwrap ? rethrowCompletion(completion) : completion;
+    return completion;
   }
 
   if (Completion.Throw.is(innerResult)) {
-    return unwrap ? rethrowCompletion(innerResult) : innerResult;
+    return innerResult;
   }
 
   if (!isStaticJsObject(innerResult)) {
     throw Completion.Throw("TypeError", "iterator.return() did not return an object");
   }
 
-  return unwrap ? rethrowCompletion(completion) : completion;
+  return completion;
 }
-
-asyncIteratorClose.handle = function* handleIteratorClose<T>(
-  iteratorRecord: StaticJsIteratorRecord,
-  handler: () => EvaluationGenerator<T>,
-): EvaluationGenerator<T> {
-  try {
-    const result = yield* handler();
-    return result;
-  } catch (e) {
-    if (Completion.Abrupt.is(e)) {
-      // If the handler threw an abnormal completion, we need to close the iterator
-      yield* asyncIteratorClose(iteratorRecord, e);
-    }
-    throw e;
-  }
-};
