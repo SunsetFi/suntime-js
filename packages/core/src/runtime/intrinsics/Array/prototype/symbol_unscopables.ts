@@ -1,5 +1,4 @@
 import { StaticJsPlainObjectImpl } from "../../../types/implementation/objects/StaticJsPlainObjectImpl.js";
-import { StaticJsBooleanImpl } from "../../../types/implementation/primitives/StaticJsBooleanImpl.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoSymbolUnscopables: IntrinsicPropertyDeclaration = {
@@ -24,14 +23,10 @@ const arrayProtoSymbolUnscopables: IntrinsicPropertyDeclaration = {
       "values",
     ];
 
-    // Issues with realm instantiation order again...
-    // These unfortunately will be new instances compared to realm.types.true, but it should be fine?
-    const staticJsTrue = new StaticJsBooleanImpl(realm, true);
-
     const obj = new StaticJsPlainObjectImpl(realm, null);
     for (const key of unscopables) {
       obj.defineOwnPropertySync(key, {
-        value: staticJsTrue,
+        value: realm.types.true,
         writable: false,
         enumerable: false,
         configurable: true,

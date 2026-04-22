@@ -1,31 +1,16 @@
-import { isStaticJsNull } from "../../../types/StaticJsNull.js";
-import { isStaticJsObject } from "../../../types/StaticJsObject.js";
-import { isStaticJsScalar } from "../../../types/StaticJsScalar.js";
-import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
+import { Q } from "../../../../evaluator/completions/Q.js";
+import { hasOwnProperty } from "../../../algorithms/has-own-property.js";
+import { toObject } from "../../../algorithms/to-object.js";
+import { toPropertyKey } from "../../../utils/to-property-key.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectProtoHasOwnPropertyDeclaration: IntrinsicPropertyDeclaration = {
   key: "hasOwnProperty",
-  *func(realm, thisArg, keyValue) {
-    if (!keyValue) {
-      return realm.types.false;
-    }
-
-    // This does not appear to box.
-    if (!isStaticJsObject(thisArg)) {
-      return realm.types.false;
-    }
-
-    if (isStaticJsNull(keyValue) || isStaticJsUndefined(keyValue)) {
-      return realm.types.false;
-    }
-
-    if (!isStaticJsScalar(keyValue)) {
-      return realm.types.false;
-    }
-
-    const hasProperty = thisArg.getOwnPropertySync(String(keyValue.value)) != null;
-
+  *func(realm, thisArg, V) {
+    // This ordering is important for what exceptions trigger first.
+    const P = yield* Q(toPropertyKey(V));
+    const O = yield* toObject(thisArg);
+    const hasProperty = yield* hasOwnProperty(O, P);
     return realm.types.boolean(hasProperty);
   },
 };

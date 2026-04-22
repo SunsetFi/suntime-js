@@ -4,7 +4,7 @@ import { StaticJsArrayIteratorImpl } from "../../../types/implementation/objects
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const arrayProtoNextDeclaration: IntrinsicPropertyDeclaration = {
+const arrayIteratorProtoNextDeclaration: IntrinsicPropertyDeclaration = {
   key: "next",
   *func(realm, thisArg) {
     const O = thisArg;
@@ -25,4 +25,4 @@ const arrayProtoNextDeclaration: IntrinsicPropertyDeclaration = {
   },
 };
 
-export default arrayProtoNextDeclaration;
+export default arrayIteratorProtoNextDeclaration;
