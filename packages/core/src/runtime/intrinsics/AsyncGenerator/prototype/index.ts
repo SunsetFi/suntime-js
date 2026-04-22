@@ -4,11 +4,13 @@ import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../
 
 import asyncGeneratorProtoNextDeclaration from "./next.js";
 import asyncGeneratorProtoReturnDeclaration from "./return.js";
+import asyncGeneratorProtoSymbolToStringTagDeclaration from "./symbol_toStringTag.js";
 import asyncGeneratorProtoThrowDeclaration from "./throw.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   asyncGeneratorProtoNextDeclaration,
   asyncGeneratorProtoReturnDeclaration,
+  asyncGeneratorProtoSymbolToStringTagDeclaration,
   asyncGeneratorProtoThrowDeclaration,
 ];
 
@@ -19,7 +21,7 @@ export default function populateAsyncGeneratorPrototype(
   applyIntrinsicProperties(realm, asyncGeneratorProto, declarations);
 
   asyncGeneratorProto.defineOwnPropertySync("constructor", {
-    value: realm.types.prototypes.asyncGeneratorProto,
+    value: realm.types.prototypes.asyncGeneratorFunctionProto,
     writable: false,
     enumerable: false,
     configurable: true,
