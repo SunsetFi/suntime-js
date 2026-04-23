@@ -67,55 +67,43 @@ export default function defineTest(testName: string, test: Test262File) {
         code = `"use strict";\n${code}`;
       }
 
-      try {
-        let evalFailed = true;
-        try {
-          await realm.evaluateScript(code, {
-            sourceName: `${test.testPath}.js`,
-          });
+      const evaluateScriptPromise = realm
+        .evaluateScript(code, {
+          sourceName: `${test.testPath}.js`,
+        })
+        .finally(() => perf("Test script evaluated"));
 
-          evalFailed = false;
+      const cleanupPromise = Promise.all(cleanups.map((cleanup) => cleanup())).finally(() => {
+        perf("Cleanups completed");
+      });
 
-          perf("Test script evaluated");
-        } finally {
-          await Promise.all(cleanups.map((cleanup) => cleanup(evalFailed))).then(() => {});
-          perf("Cleanups completed");
-        }
+      const [evaluateResult, cleanupResult] = await Promise.allSettled([
+        evaluateScriptPromise,
+        cleanupPromise,
+      ]);
 
-        if (test.negative) {
-          throw new Error("Test should have failed to run, but it did not.");
-        }
-      } catch (e) {
-        if (e instanceof Error === false) {
-          throw e;
-        }
+      let unhandledRejection: unknown = null;
+      if (
+        evaluateResult.status === "rejected" &&
+        evaluateResult.reason instanceof StaticJsUnhandledRejectionError
+      ) {
+        unhandledRejection = evaluateResult.reason.thrown.toNative();
+      }
 
-        // FIXME: This is causing false passes in async tests that crash.
-        // We need to flag that we may have failed, and still capture the cleanup
-        if (e instanceof StaticJsUnhandledRejectionError) {
-          // Apparently this isn't in the spec.  Test262 tests tend to throw these in async tests.
-          const error = e.thrown.toNative();
+      if (cleanupResult.status === "rejected") {
+        handleTestError(cleanupResult.reason, test, unhandledRejection);
+      } else if (evaluateResult.status === "rejected") {
+        if (test.flags.async && unhandledRejection) {
           let message =
-            error && typeof error === "object" && "message" in error
-              ? error.message
-              : String(error);
+            unhandledRejection &&
+            typeof unhandledRejection === "object" &&
+            "message" in unhandledRejection
+              ? unhandledRejection.message
+              : String(unhandledRejection);
           console.warn("Unhandled rejection in test:", testName, "with reason:", message);
-          return;
+        } else {
+          handleTestError(evaluateResult.reason, test);
         }
-
-        if (e instanceof StaticJsRuntimeError) {
-          // oxlint-disable-next-line no-ex-assign
-          e = e.thrown.toNative();
-        }
-
-        if (test.negative?.phase === "runtime") {
-          expect(e).toMatchObject({
-            name: test.negative.type,
-          });
-          return;
-        }
-
-        throw e;
       }
     };
   }
@@ -138,7 +126,27 @@ export default function defineTest(testName: string, test: Test262File) {
   }
 }
 
-export type BootstrapCleanup = (failed: boolean) => void | Promise<void>;
+function handleTestError(e: unknown, test: Test262File, additional?: unknown) {
+  if (e instanceof StaticJsRuntimeError) {
+    // oxlint-disable-next-line no-ex-assign
+    e = e.thrown.toNative();
+  }
+
+  if (test.negative?.phase === "runtime") {
+    expect(e).toMatchObject({
+      name: test.negative.type,
+    });
+    return;
+  }
+
+  if (additional) {
+    throw new AggregateError([e, additional]);
+  }
+
+  throw e;
+}
+
+export type BootstrapCleanup = () => void | Promise<void>;
 const asyncFailHeader = "Test262:AsyncTestFailure:";
 const asyncCompleteHeader = "Test262:AsyncTestComplete";
 async function bootstrapAsync(realm: StaticJsRealm): Promise<BootstrapCleanup> {
@@ -168,15 +176,7 @@ async function bootstrapAsync(realm: StaticJsRealm): Promise<BootstrapCleanup> {
 
   await addTestHarness(realm, "doneprintHandle.js");
 
-  async function cleanup(failed: boolean) {
-    if (failed) {
-      // Squelch unhandled rejection error, since we're already treating the test as failed.
-      // There are some cases in test262 where an error occurs after a promise chain has been set up,
-      // so this very well might be resolved with an error, or it may not be resolved at all.
-      promise.catch(() => {});
-      return;
-    }
-
+  async function cleanup() {
     await Promise.race([
       promise,
       delay(500).then(() => {

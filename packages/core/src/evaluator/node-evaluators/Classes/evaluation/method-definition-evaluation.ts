@@ -8,11 +8,10 @@ import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";
 import { isStaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
 import { StaticJsPropertyDescriptorRecord } from "../../../../runtime/types/StaticJsPropertyDescriptor.js";
-import { toPropertyKey } from "../../../../runtime/utils/to-property-key.js";
-import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../../completions/Q.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
+import { classElementNameNodeEvaluator } from "../ClassElementName.js";
 
 import { defineMethodProperty } from "./define-method-property.js";
 import { defineMethod } from "./define-method.js";
@@ -30,10 +29,7 @@ export const methodDefinitionEvaluation = Q.makeReceiver(function* methodDefinit
   }
 
   if (element.kind === "get") {
-    const propKeyValue = yield* Q.val(EvaluateNodeCommand(element.key));
-    const propKey = isStaticJsPrivateName(propKeyValue)
-      ? propKeyValue
-      : yield* toPropertyKey(propKeyValue);
+    const propKey = yield* classElementNameNodeEvaluator(element);
     const closure = new StaticJsMethodFunction(realm, element, object, env, privateEnv);
 
     yield* setFunctionName(closure, propKey, "get");
@@ -56,11 +52,7 @@ export const methodDefinitionEvaluation = Q.makeReceiver(function* methodDefinit
     yield* definePropertyOrThrow(object, propKey, desc);
     return null;
   } else if (element.kind === "set") {
-    const propKeyValue = yield* Q.val(EvaluateNodeCommand(element.key));
-    const propKey = isStaticJsPrivateName(propKeyValue)
-      ? propKeyValue
-      : yield* toPropertyKey(propKeyValue);
-
+    const propKey = yield* classElementNameNodeEvaluator(element);
     const closure = new StaticJsMethodFunction(realm, element, object, env, privateEnv);
 
     yield* setFunctionName(closure, propKey, "set");

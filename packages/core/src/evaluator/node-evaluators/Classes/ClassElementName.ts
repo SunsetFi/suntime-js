@@ -19,18 +19,20 @@ import { EvaluationGenerator } from "../../EvaluationGenerator.js";
 export function* classElementNameNodeEvaluator(
   node: ObjectMethod | ClassMethod | ClassPrivateMethod | ClassProperty | ClassPrivateProperty,
 ): EvaluationGenerator<StaticJsPropertyKey | StaticJsPrivateName> {
+  const key = node.key;
+
   switch (node.type) {
     case "ClassMethod":
     case "ClassProperty":
     case "ObjectMethod": {
-      if (node.computed) {
-        const computed = yield* Q.val(EvaluateNodeCommand(node.key as Expression));
-        return yield* toPropertyKey(computed);
+      if (!node.computed && key.type === "Identifier") {
+        return key.name;
       }
+      const computed = yield* Q.val(EvaluateNodeCommand(node.key as Expression));
+      return yield* toPropertyKey(computed);
     }
   }
 
-  const key = node.key;
   switch (key.type) {
     case "Identifier":
       return key.name;
@@ -51,6 +53,8 @@ export function* classElementNameNodeEvaluator(
 
       return match;
     }
+    case "StringLiteral":
+      return key.value;
   }
 
   throw new Error(`Unsupported non-computed class element name node type: ${key.type}`);
