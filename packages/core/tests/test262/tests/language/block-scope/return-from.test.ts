@@ -1,2 +1,2 @@
-import defineTestFromPath from "../../../define-test-from-path.js";
-defineTestFromPath("language/block-scope/return-from");
+import defineLanguageTestFromPath from "../../../define-language-test-from-path.js";
+defineLanguageTestFromPath("language/block-scope/return-from");

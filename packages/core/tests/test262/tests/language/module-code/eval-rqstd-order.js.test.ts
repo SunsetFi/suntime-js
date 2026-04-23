@@ -1,2 +1,2 @@
-import defineTestFromPath from "../../../define-test-from-path.js";
-defineTestFromPath("language/module-code/eval-rqstd-order.js");
+import defineLanguageTestFromPath from "../../../define-language-test-from-path.js";
+defineLanguageTestFromPath("language/module-code/eval-rqstd-order.js");

@@ -1,0 +1,2 @@
+import defineBuiltinsTestFromPath from "../../../define-builtins-test-from-path.js";
+defineBuiltinsTestFromPath("built-ins/String/is-a-constructor.js");

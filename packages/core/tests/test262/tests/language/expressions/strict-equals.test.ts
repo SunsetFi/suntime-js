@@ -1,2 +1,2 @@
-import defineTestFromPath from "../../../define-test-from-path.js";
-defineTestFromPath("language/expressions/strict-equals");
+import defineLanguageTestFromPath from "../../../define-language-test-from-path.js";
+defineLanguageTestFromPath("language/expressions/strict-equals");

@@ -5,6 +5,8 @@ const globalObjectGlobalThisDeclaration: IntrinsicPropertyDeclaration = {
   value(realm) {
     return realm.globalThis;
   },
+  configurable: true,
+  writable: true,
 };
 
 export default globalObjectGlobalThisDeclaration;

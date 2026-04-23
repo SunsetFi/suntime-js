@@ -1,2 +1,2 @@
-import defineTestFromPath from "../../define-test-from-path.js";
-defineTestFromPath("language/line-terminators");
+import defineLanguageTestFromPath from "../../define-language-test-from-path.js";
+defineLanguageTestFromPath("language/line-terminators");

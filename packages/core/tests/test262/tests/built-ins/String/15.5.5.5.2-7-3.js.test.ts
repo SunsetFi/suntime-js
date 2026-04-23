@@ -1,0 +1,2 @@
+import defineBuiltinsTestFromPath from "../../../define-builtins-test-from-path.js";
+defineBuiltinsTestFromPath("built-ins/String/15.5.5.5.2-7-3.js");

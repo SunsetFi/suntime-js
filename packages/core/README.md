@@ -132,6 +132,7 @@ const result = await addFoo.callAsync(realm.types.undefined, realm.types.number(
 - All well-known symbols not listed above
 - Optional member expressions
 - Date
+- Temporal
 - Regex
 - JSON
 - WeakMap, WeakRef, FinalizationRegistry

@@ -1,2 +1,4 @@
-import defineTestFromPath from "../../../define-test-from-path.js";
-defineTestFromPath("language/arguments-object/gen-func-decl-args-trailing-comma-undefined.js");
+import defineLanguageTestFromPath from "../../../define-language-test-from-path.js";
+defineLanguageTestFromPath(
+  "language/arguments-object/gen-func-decl-args-trailing-comma-undefined.js",
+);

@@ -1,4 +1,4 @@
-import defineTestFromPath from "../../../define-test-from-path.js";
-defineTestFromPath(
+import defineLanguageTestFromPath from "../../../define-language-test-from-path.js";
+defineLanguageTestFromPath(
   "language/arguments-object/cls-decl-meth-args-trailing-comma-spread-operator.js",
 );

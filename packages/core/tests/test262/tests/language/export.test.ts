@@ -1,2 +1,2 @@
-import defineTestFromPath from "../../define-test-from-path.js";
-defineTestFromPath("language/export");
+import defineLanguageTestFromPath from "../../define-language-test-from-path.js";
+defineLanguageTestFromPath("language/export");

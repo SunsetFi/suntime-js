@@ -2,6 +2,7 @@ import { defineConfig } from "vitest/config";
 import { JsonReporter } from "vitest/node";
 
 import createBaseline from "./tests/env/create-baseline.js";
+import createBuiltinsBaseline from "./tests/env/create-builtins-baseline.js";
 import VitestBadgeReporter from "./tests/reporters/VitestBadgeReporter.js";
 
 export default defineConfig({
@@ -24,26 +25,42 @@ export default defineConfig({
       },
       {
         test: {
-          name: "Test262",
-          include: ["./tests/test262/tests/**/*.ts"],
+          name: "Test262:Language",
+          include: ["./tests/test262/tests/language/**/*.ts"],
+          isolate: false,
+        },
+      },
+      {
+        test: {
+          name: "Test262:Built-ins",
+          include: ["./tests/test262/tests/built-ins/**/*.ts"],
           isolate: false,
         },
       },
     ],
-    coverage: createBaseline
-      ? {}
-      : {
-          include: ["./src/**/*.ts"],
-          exclude: ["./src/**/*.spec.ts"],
-        },
+    coverage:
+      createBaseline || createBuiltinsBaseline
+        ? {}
+        : {
+            include: ["./src/**/*.ts"],
+            exclude: ["./src/**/*.spec.ts"],
+          },
     reporters: [
       "default",
       "html",
-      createBaseline && new JsonReporter({ outputFile: "tests/test-results-baseline.json" }),
+      createBaseline &&
+        new JsonReporter({ outputFile: "tests/test-results-language-baseline.json" }),
       createBaseline &&
         new VitestBadgeReporter({
-          outputFile: "badges/test262.json",
+          outputFile: "badges/test262-language.json",
           label: "Test262 Language Suite",
+        }),
+      createBuiltinsBaseline &&
+        new JsonReporter({ outputFile: "tests/test-results-builtins-baseline.json" }),
+      createBuiltinsBaseline &&
+        new VitestBadgeReporter({
+          outputFile: "badges/test262-builtins.json",
+          label: "Test262 Built-ins Suite",
         }),
     ].filter(isNotFalse),
   },

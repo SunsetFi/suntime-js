@@ -1,2 +1,4 @@
-import defineTestFromPath from "../../../define-test-from-path.js";
-defineTestFromPath("language/module-code/parse-err-decl-pos-export-class-decl-method-gen.js");
+import defineLanguageTestFromPath from "../../../define-language-test-from-path.js";
+defineLanguageTestFromPath(
+  "language/module-code/parse-err-decl-pos-export-class-decl-method-gen.js",
+);
