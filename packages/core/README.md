@@ -74,7 +74,7 @@ const realm = StaticJsRealm({
   }
 });
 
-const module = await realm.evaluateModule(`
+const modulePromise = realm.evaluateModule(`
   import { foo } from "my-module";
   export function addFoo(value) {
     return value + foo;
@@ -82,6 +82,8 @@ const module = await realm.evaluateModule(`
 `);
 
 myModuleResolveAwait();
+
+const module = await modulePromise;
 
 const addFoo = await module.getExportAsync("addFoo");
 
