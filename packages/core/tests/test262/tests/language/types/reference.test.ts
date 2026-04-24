@@ -1,2 +1,34 @@
-import defineLanguageTestFromPath from "../../../define-language-test-from-path.js";
-defineLanguageTestFromPath("language/types/reference");
+import { it, describe } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+describe("reference", () => {
+it("8.7.2-1-s.js", createTestHandler("language/types/reference/8.7.2-1-s.js"));
+it("8.7.2-2-s.js", createTestHandler("language/types/reference/8.7.2-2-s.js"));
+it("8.7.2-3-1-s.js", createTestHandler("language/types/reference/8.7.2-3-1-s.js"));
+it("8.7.2-3-a-1gs.js", createTestHandler("language/types/reference/8.7.2-3-a-1gs.js"));
+it("8.7.2-3-a-2gs.js", createTestHandler("language/types/reference/8.7.2-3-a-2gs.js"));
+it("8.7.2-3-s.js", createTestHandler("language/types/reference/8.7.2-3-s.js"));
+it("8.7.2-4-s.js", createTestHandler("language/types/reference/8.7.2-4-s.js"));
+it("8.7.2-5-s.js", createTestHandler("language/types/reference/8.7.2-5-s.js"));
+it("8.7.2-6-s.js", createTestHandler("language/types/reference/8.7.2-6-s.js"));
+it("8.7.2-7-s.js", createTestHandler("language/types/reference/8.7.2-7-s.js"));
+it("8.7.2-8-s.js", createTestHandler("language/types/reference/8.7.2-8-s.js"));
+it("S8.7.1_A1.js", createTestHandler("language/types/reference/S8.7.1_A1.js"));
+it("S8.7.1_A2.js", createTestHandler("language/types/reference/S8.7.1_A2.js"));
+it("S8.7.2_A1_T1.js", createTestHandler("language/types/reference/S8.7.2_A1_T1.js"));
+it("S8.7.2_A1_T2.js", createTestHandler("language/types/reference/S8.7.2_A1_T2.js"));
+it("S8.7.2_A2.js", createTestHandler("language/types/reference/S8.7.2_A2.js"));
+it("S8.7.2_A3.js", createTestHandler("language/types/reference/S8.7.2_A3.js"));
+it("S8.7_A1.js", createTestHandler("language/types/reference/S8.7_A1.js"));
+it("S8.7_A2.js", createTestHandler("language/types/reference/S8.7_A2.js"));
+it("S8.7_A3.js", createTestHandler("language/types/reference/S8.7_A3.js"));
+it("S8.7_A4.js", createTestHandler("language/types/reference/S8.7_A4.js"));
+it("S8.7_A5_T1.js", createTestHandler("language/types/reference/S8.7_A5_T1.js"));
+it("S8.7_A5_T2.js", createTestHandler("language/types/reference/S8.7_A5_T2.js"));
+it("S8.7_A6.js", createTestHandler("language/types/reference/S8.7_A6.js"));
+it("S8.7_A7.js", createTestHandler("language/types/reference/S8.7_A7.js"));
+it("get-value-prop-base-primitive-realm.js", createTestHandler("language/types/reference/get-value-prop-base-primitive-realm.js"));
+it("get-value-prop-base-primitive.js", createTestHandler("language/types/reference/get-value-prop-base-primitive.js"));
+it("put-value-prop-base-primitive-realm.js", createTestHandler("language/types/reference/put-value-prop-base-primitive-realm.js"));
+it("put-value-prop-base-primitive.js", createTestHandler("language/types/reference/put-value-prop-base-primitive.js"));
+});

@@ -1,2 +1,6 @@
-import defineBuiltinsTestFromPath from "../../../define-builtins-test-from-path.js";
-defineBuiltinsTestFromPath("built-ins/Symbol/asyncDispose");
+import { it, describe } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+describe("asyncDispose", () => {
+it("prop-desc.js", createTestHandler("built-ins/Symbol/asyncDispose/prop-desc.js"));
+});

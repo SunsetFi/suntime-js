@@ -1,2 +1,41 @@
-import defineLanguageTestFromPath from "../../../define-language-test-from-path.js";
-defineLanguageTestFromPath("language/computed-property-names/object");
+import { it, describe } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+describe("object", () => {
+describe("accessor", () => {
+it("getter-duplicates.js", createTestHandler("language/computed-property-names/object/accessor/getter-duplicates.js"));
+});
+describe("accessor", () => {
+it("getter-super.js", createTestHandler("language/computed-property-names/object/accessor/getter-super.js"));
+});
+describe("accessor", () => {
+it("getter.js", createTestHandler("language/computed-property-names/object/accessor/getter.js"));
+});
+describe("accessor", () => {
+it("setter-duplicates.js", createTestHandler("language/computed-property-names/object/accessor/setter-duplicates.js"));
+});
+describe("accessor", () => {
+it("setter-super.js", createTestHandler("language/computed-property-names/object/accessor/setter-super.js"));
+});
+describe("accessor", () => {
+it("setter.js", createTestHandler("language/computed-property-names/object/accessor/setter.js"));
+});
+describe("method", () => {
+it("generator.js", createTestHandler("language/computed-property-names/object/method/generator.js"));
+});
+describe("method", () => {
+it("number.js", createTestHandler("language/computed-property-names/object/method/number.js"));
+});
+describe("method", () => {
+it("string.js", createTestHandler("language/computed-property-names/object/method/string.js"));
+});
+describe("method", () => {
+it("super.js", createTestHandler("language/computed-property-names/object/method/super.js"));
+});
+describe("method", () => {
+it("symbol.js", createTestHandler("language/computed-property-names/object/method/symbol.js"));
+});
+describe("property", () => {
+it("number-duplicates.js", createTestHandler("language/computed-property-names/object/property/number-duplicates.js"));
+});
+});

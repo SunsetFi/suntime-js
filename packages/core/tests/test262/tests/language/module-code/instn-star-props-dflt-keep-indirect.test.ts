@@ -1,0 +1,4 @@
+import { it } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+it("instn-star-props-dflt-keep-indirect.js", createTestHandler("language/module-code/instn-star-props-dflt-keep-indirect.js"));

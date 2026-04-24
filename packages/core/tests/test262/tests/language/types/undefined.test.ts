@@ -1,2 +1,13 @@
-import defineLanguageTestFromPath from "../../../define-language-test-from-path.js";
-defineLanguageTestFromPath("language/types/undefined");
+import { it, describe } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+describe("undefined", () => {
+it("S8.1_A1_T1.js", createTestHandler("language/types/undefined/S8.1_A1_T1.js"));
+it("S8.1_A1_T2.js", createTestHandler("language/types/undefined/S8.1_A1_T2.js"));
+it("S8.1_A2_T1.js", createTestHandler("language/types/undefined/S8.1_A2_T1.js"));
+it("S8.1_A2_T2.js", createTestHandler("language/types/undefined/S8.1_A2_T2.js"));
+it("S8.1_A3_T1.js", createTestHandler("language/types/undefined/S8.1_A3_T1.js"));
+it("S8.1_A3_T2.js", createTestHandler("language/types/undefined/S8.1_A3_T2.js"));
+it("S8.1_A4.js", createTestHandler("language/types/undefined/S8.1_A4.js"));
+it("S8.1_A5.js", createTestHandler("language/types/undefined/S8.1_A5.js"));
+});

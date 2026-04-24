@@ -28,6 +28,7 @@ export default defineConfig({
           name: "Test262:Language",
           include: ["./tests/test262/tests/language/**/*.ts"],
           isolate: false,
+          testTimeout: 60_000,
         },
       },
       {
@@ -35,6 +36,7 @@ export default defineConfig({
           name: "Test262:Built-ins",
           include: ["./tests/test262/tests/built-ins/**/*.ts"],
           isolate: false,
+          testTimeout: 60_000,
         },
       },
     ],

@@ -1,2 +1,35 @@
-import defineBuiltinsTestFromPath from "../../../define-builtins-test-from-path.js";
-defineBuiltinsTestFromPath("built-ins/Promise/resolve");
+import { it, describe } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+describe("resolve", () => {
+it("S25.4.4.5_A1.1_T1.js", createTestHandler("built-ins/Promise/resolve/S25.4.4.5_A1.1_T1.js"));
+it("S25.4.4.5_A2.1_T1.js", createTestHandler("built-ins/Promise/resolve/S25.4.4.5_A2.1_T1.js"));
+it("S25.4.4.5_A2.2_T1.js", createTestHandler("built-ins/Promise/resolve/S25.4.4.5_A2.2_T1.js"));
+it("S25.4.4.5_A2.3_T1.js", createTestHandler("built-ins/Promise/resolve/S25.4.4.5_A2.3_T1.js"));
+it("S25.4.4.5_A3.1_T1.js", createTestHandler("built-ins/Promise/resolve/S25.4.4.5_A3.1_T1.js"));
+it("S25.4.4.5_A4.1_T1.js", createTestHandler("built-ins/Promise/resolve/S25.4.4.5_A4.1_T1.js"));
+it("S25.Promise_resolve_foreign_thenable_1.js", createTestHandler("built-ins/Promise/resolve/S25.Promise_resolve_foreign_thenable_1.js"));
+it("S25.Promise_resolve_foreign_thenable_2.js", createTestHandler("built-ins/Promise/resolve/S25.Promise_resolve_foreign_thenable_2.js"));
+it("arg-non-thenable.js", createTestHandler("built-ins/Promise/resolve/arg-non-thenable.js"));
+it("arg-poisoned-then.js", createTestHandler("built-ins/Promise/resolve/arg-poisoned-then.js"));
+it("arg-uniq-ctor.js", createTestHandler("built-ins/Promise/resolve/arg-uniq-ctor.js"));
+it("capability-executor-called-twice.js", createTestHandler("built-ins/Promise/resolve/capability-executor-called-twice.js"));
+it("capability-executor-not-callable.js", createTestHandler("built-ins/Promise/resolve/capability-executor-not-callable.js"));
+it("capability-invocation-error.js", createTestHandler("built-ins/Promise/resolve/capability-invocation-error.js"));
+it("context-non-object-with-promise.js", createTestHandler("built-ins/Promise/resolve/context-non-object-with-promise.js"));
+it("ctx-ctor-throws.js", createTestHandler("built-ins/Promise/resolve/ctx-ctor-throws.js"));
+it("ctx-ctor.js", createTestHandler("built-ins/Promise/resolve/ctx-ctor.js"));
+it("ctx-non-ctor.js", createTestHandler("built-ins/Promise/resolve/ctx-non-ctor.js"));
+it("ctx-non-object.js", createTestHandler("built-ins/Promise/resolve/ctx-non-object.js"));
+it("length.js", createTestHandler("built-ins/Promise/resolve/length.js"));
+it("name.js", createTestHandler("built-ins/Promise/resolve/name.js"));
+it("not-a-constructor.js", createTestHandler("built-ins/Promise/resolve/not-a-constructor.js"));
+it("prop-desc.js", createTestHandler("built-ins/Promise/resolve/prop-desc.js"));
+it("resolve-from-promise-capability.js", createTestHandler("built-ins/Promise/resolve/resolve-from-promise-capability.js"));
+it("resolve-non-obj.js", createTestHandler("built-ins/Promise/resolve/resolve-non-obj.js"));
+it("resolve-non-thenable.js", createTestHandler("built-ins/Promise/resolve/resolve-non-thenable.js"));
+it("resolve-poisoned-then.js", createTestHandler("built-ins/Promise/resolve/resolve-poisoned-then.js"));
+it("resolve-prms-cstm-then.js", createTestHandler("built-ins/Promise/resolve/resolve-prms-cstm-then.js"));
+it("resolve-self.js", createTestHandler("built-ins/Promise/resolve/resolve-self.js"));
+it("resolve-thenable.js", createTestHandler("built-ins/Promise/resolve/resolve-thenable.js"));
+});

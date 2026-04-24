@@ -1,2 +1,355 @@
-import defineLanguageTestFromPath from "../../../define-language-test-from-path.js";
-defineLanguageTestFromPath("language/literals/regexp");
+import { it, describe } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+describe("regexp", () => {
+it("7.8.5-1.js", createTestHandler("language/literals/regexp/7.8.5-1.js"));
+it("7.8.5-1gs.js", createTestHandler("language/literals/regexp/7.8.5-1gs.js"));
+it("7.8.5-2gs.js", createTestHandler("language/literals/regexp/7.8.5-2gs.js"));
+it("S7.8.5_A1.1_T1.js", createTestHandler("language/literals/regexp/S7.8.5_A1.1_T1.js"));
+it("S7.8.5_A1.1_T2.js", createTestHandler("language/literals/regexp/S7.8.5_A1.1_T2.js"));
+it("S7.8.5_A1.2_T1.js", createTestHandler("language/literals/regexp/S7.8.5_A1.2_T1.js"));
+it("S7.8.5_A1.2_T2.js", createTestHandler("language/literals/regexp/S7.8.5_A1.2_T2.js"));
+it("S7.8.5_A1.2_T3.js", createTestHandler("language/literals/regexp/S7.8.5_A1.2_T3.js"));
+it("S7.8.5_A1.2_T4.js", createTestHandler("language/literals/regexp/S7.8.5_A1.2_T4.js"));
+it("S7.8.5_A1.3_T1.js", createTestHandler("language/literals/regexp/S7.8.5_A1.3_T1.js"));
+it("S7.8.5_A1.3_T2.js", createTestHandler("language/literals/regexp/S7.8.5_A1.3_T2.js"));
+it("S7.8.5_A1.3_T3.js", createTestHandler("language/literals/regexp/S7.8.5_A1.3_T3.js"));
+it("S7.8.5_A1.3_T4.js", createTestHandler("language/literals/regexp/S7.8.5_A1.3_T4.js"));
+it("S7.8.5_A1.3_T5.js", createTestHandler("language/literals/regexp/S7.8.5_A1.3_T5.js"));
+it("S7.8.5_A1.3_T6.js", createTestHandler("language/literals/regexp/S7.8.5_A1.3_T6.js"));
+it("S7.8.5_A1.4_T1.js", createTestHandler("language/literals/regexp/S7.8.5_A1.4_T1.js"));
+it("S7.8.5_A1.4_T2.js", createTestHandler("language/literals/regexp/S7.8.5_A1.4_T2.js"));
+it("S7.8.5_A1.5_T1.js", createTestHandler("language/literals/regexp/S7.8.5_A1.5_T1.js"));
+it("S7.8.5_A1.5_T2.js", createTestHandler("language/literals/regexp/S7.8.5_A1.5_T2.js"));
+it("S7.8.5_A1.5_T3.js", createTestHandler("language/literals/regexp/S7.8.5_A1.5_T3.js"));
+it("S7.8.5_A1.5_T4.js", createTestHandler("language/literals/regexp/S7.8.5_A1.5_T4.js"));
+it("S7.8.5_A1.5_T5.js", createTestHandler("language/literals/regexp/S7.8.5_A1.5_T5.js"));
+it("S7.8.5_A1.5_T6.js", createTestHandler("language/literals/regexp/S7.8.5_A1.5_T6.js"));
+it("S7.8.5_A2.1_T1.js", createTestHandler("language/literals/regexp/S7.8.5_A2.1_T1.js"));
+it("S7.8.5_A2.1_T2.js", createTestHandler("language/literals/regexp/S7.8.5_A2.1_T2.js"));
+it("S7.8.5_A2.2_T1.js", createTestHandler("language/literals/regexp/S7.8.5_A2.2_T1.js"));
+it("S7.8.5_A2.2_T2.js", createTestHandler("language/literals/regexp/S7.8.5_A2.2_T2.js"));
+it("S7.8.5_A2.3_T1.js", createTestHandler("language/literals/regexp/S7.8.5_A2.3_T1.js"));
+it("S7.8.5_A2.3_T2.js", createTestHandler("language/literals/regexp/S7.8.5_A2.3_T2.js"));
+it("S7.8.5_A2.3_T3.js", createTestHandler("language/literals/regexp/S7.8.5_A2.3_T3.js"));
+it("S7.8.5_A2.3_T4.js", createTestHandler("language/literals/regexp/S7.8.5_A2.3_T4.js"));
+it("S7.8.5_A2.3_T5.js", createTestHandler("language/literals/regexp/S7.8.5_A2.3_T5.js"));
+it("S7.8.5_A2.3_T6.js", createTestHandler("language/literals/regexp/S7.8.5_A2.3_T6.js"));
+it("S7.8.5_A2.4_T1.js", createTestHandler("language/literals/regexp/S7.8.5_A2.4_T1.js"));
+it("S7.8.5_A2.4_T2.js", createTestHandler("language/literals/regexp/S7.8.5_A2.4_T2.js"));
+it("S7.8.5_A2.5_T1.js", createTestHandler("language/literals/regexp/S7.8.5_A2.5_T1.js"));
+it("S7.8.5_A2.5_T2.js", createTestHandler("language/literals/regexp/S7.8.5_A2.5_T2.js"));
+it("S7.8.5_A2.5_T3.js", createTestHandler("language/literals/regexp/S7.8.5_A2.5_T3.js"));
+it("S7.8.5_A2.5_T4.js", createTestHandler("language/literals/regexp/S7.8.5_A2.5_T4.js"));
+it("S7.8.5_A2.5_T5.js", createTestHandler("language/literals/regexp/S7.8.5_A2.5_T5.js"));
+it("S7.8.5_A2.5_T6.js", createTestHandler("language/literals/regexp/S7.8.5_A2.5_T6.js"));
+it("S7.8.5_A3.1_T1.js", createTestHandler("language/literals/regexp/S7.8.5_A3.1_T1.js"));
+it("S7.8.5_A3.1_T2.js", createTestHandler("language/literals/regexp/S7.8.5_A3.1_T2.js"));
+it("S7.8.5_A3.1_T3.js", createTestHandler("language/literals/regexp/S7.8.5_A3.1_T3.js"));
+it("S7.8.5_A3.1_T4.js", createTestHandler("language/literals/regexp/S7.8.5_A3.1_T4.js"));
+it("S7.8.5_A3.1_T5.js", createTestHandler("language/literals/regexp/S7.8.5_A3.1_T5.js"));
+it("S7.8.5_A3.1_T6.js", createTestHandler("language/literals/regexp/S7.8.5_A3.1_T6.js"));
+it("S7.8.5_A4.1.js", createTestHandler("language/literals/regexp/S7.8.5_A4.1.js"));
+it("S7.8.5_A4.2.js", createTestHandler("language/literals/regexp/S7.8.5_A4.2.js"));
+it("early-err-arithmetic-modifiers-add-remove-i.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-add-remove-i.js"));
+it("early-err-arithmetic-modifiers-add-remove-m.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-add-remove-m.js"));
+it("early-err-arithmetic-modifiers-add-remove-multi-duplicate.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-add-remove-multi-duplicate.js"));
+it("early-err-arithmetic-modifiers-add-remove-s-escape.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-add-remove-s-escape.js"));
+it("early-err-arithmetic-modifiers-add-remove-s.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-add-remove-s.js"));
+it("early-err-arithmetic-modifiers-both-empty.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-both-empty.js"));
+it("early-err-arithmetic-modifiers-code-point-repeat-i-1.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-code-point-repeat-i-1.js"));
+it("early-err-arithmetic-modifiers-code-point-repeat-i-2.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-code-point-repeat-i-2.js"));
+it("early-err-arithmetic-modifiers-no-colon-1.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-no-colon-1.js"));
+it("early-err-arithmetic-modifiers-no-colon-2.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-no-colon-2.js"));
+it("early-err-arithmetic-modifiers-no-colon-3.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-no-colon-3.js"));
+it("early-err-arithmetic-modifiers-other-code-point-arbitrary.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-other-code-point-arbitrary.js"));
+it("early-err-arithmetic-modifiers-other-code-point-combining-i.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-other-code-point-combining-i.js"));
+it("early-err-arithmetic-modifiers-other-code-point-combining-m.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-other-code-point-combining-m.js"));
+it("early-err-arithmetic-modifiers-other-code-point-combining-s.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-other-code-point-combining-s.js"));
+it("early-err-arithmetic-modifiers-other-code-point-d.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-other-code-point-d.js"));
+it("early-err-arithmetic-modifiers-other-code-point-g.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-other-code-point-g.js"));
+it("early-err-arithmetic-modifiers-other-code-point-non-display-1.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-other-code-point-non-display-1.js"));
+it("early-err-arithmetic-modifiers-other-code-point-non-display-2.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-other-code-point-non-display-2.js"));
+it("early-err-arithmetic-modifiers-other-code-point-non-flag.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-other-code-point-non-flag.js"));
+it("early-err-arithmetic-modifiers-other-code-point-u.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-other-code-point-u.js"));
+it("early-err-arithmetic-modifiers-other-code-point-uppercase-I.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-other-code-point-uppercase-I.js"));
+it("early-err-arithmetic-modifiers-other-code-point-y.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-other-code-point-y.js"));
+it("early-err-arithmetic-modifiers-other-code-point-zwj.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-other-code-point-zwj.js"));
+it("early-err-arithmetic-modifiers-other-code-point-zwnbsp.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-other-code-point-zwnbsp.js"));
+it("early-err-arithmetic-modifiers-other-code-point-zwnj.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-other-code-point-zwnj.js"));
+it("early-err-arithmetic-modifiers-reverse-add-remove-i.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-add-remove-i.js"));
+it("early-err-arithmetic-modifiers-reverse-add-remove-m.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-add-remove-m.js"));
+it("early-err-arithmetic-modifiers-reverse-add-remove-multi-duplicate.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-add-remove-multi-duplicate.js"));
+it("early-err-arithmetic-modifiers-reverse-add-remove-s-escape.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-add-remove-s-escape.js"));
+it("early-err-arithmetic-modifiers-reverse-add-remove-s.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-add-remove-s.js"));
+it("early-err-arithmetic-modifiers-reverse-code-point-repeat-i-1.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-code-point-repeat-i-1.js"));
+it("early-err-arithmetic-modifiers-reverse-code-point-repeat-i-2.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-code-point-repeat-i-2.js"));
+it("early-err-arithmetic-modifiers-reverse-other-code-point-arbitrary.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-other-code-point-arbitrary.js"));
+it("early-err-arithmetic-modifiers-reverse-other-code-point-combining-i.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-other-code-point-combining-i.js"));
+it("early-err-arithmetic-modifiers-reverse-other-code-point-combining-m.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-other-code-point-combining-m.js"));
+it("early-err-arithmetic-modifiers-reverse-other-code-point-combining-s.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-other-code-point-combining-s.js"));
+it("early-err-arithmetic-modifiers-reverse-other-code-point-d.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-other-code-point-d.js"));
+it("early-err-arithmetic-modifiers-reverse-other-code-point-g.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-other-code-point-g.js"));
+it("early-err-arithmetic-modifiers-reverse-other-code-point-non-display-1.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-other-code-point-non-display-1.js"));
+it("early-err-arithmetic-modifiers-reverse-other-code-point-non-display-2.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-other-code-point-non-display-2.js"));
+it("early-err-arithmetic-modifiers-reverse-other-code-point-non-flag.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-other-code-point-non-flag.js"));
+it("early-err-arithmetic-modifiers-reverse-other-code-point-u.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-other-code-point-u.js"));
+it("early-err-arithmetic-modifiers-reverse-other-code-point-uppercase-I.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-other-code-point-uppercase-I.js"));
+it("early-err-arithmetic-modifiers-reverse-other-code-point-y.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-other-code-point-y.js"));
+it("early-err-arithmetic-modifiers-reverse-other-code-point-zwj.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-other-code-point-zwj.js"));
+it("early-err-arithmetic-modifiers-reverse-other-code-point-zwnbsp.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-other-code-point-zwnbsp.js"));
+it("early-err-arithmetic-modifiers-reverse-other-code-point-zwnj.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-other-code-point-zwnj.js"));
+it("early-err-arithmetic-modifiers-reverse-should-not-case-fold-i.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-should-not-case-fold-i.js"));
+it("early-err-arithmetic-modifiers-reverse-should-not-case-fold-m.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-should-not-case-fold-m.js"));
+it("early-err-arithmetic-modifiers-reverse-should-not-case-fold-s.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-should-not-case-fold-s.js"));
+it("early-err-arithmetic-modifiers-reverse-should-not-unicode-case-fold-i.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-should-not-unicode-case-fold-i.js"));
+it("early-err-arithmetic-modifiers-reverse-should-not-unicode-case-fold-s.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-reverse-should-not-unicode-case-fold-s.js"));
+it("early-err-arithmetic-modifiers-should-not-case-fold-i.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-should-not-case-fold-i.js"));
+it("early-err-arithmetic-modifiers-should-not-case-fold-m.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-should-not-case-fold-m.js"));
+it("early-err-arithmetic-modifiers-should-not-case-fold-s.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-should-not-case-fold-s.js"));
+it("early-err-arithmetic-modifiers-should-not-unicode-case-fold-i.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-should-not-unicode-case-fold-i.js"));
+it("early-err-arithmetic-modifiers-should-not-unicode-case-fold-s.js", createTestHandler("language/literals/regexp/early-err-arithmetic-modifiers-should-not-unicode-case-fold-s.js"));
+it("early-err-bad-flag.js", createTestHandler("language/literals/regexp/early-err-bad-flag.js"));
+it("early-err-dup-flag.js", createTestHandler("language/literals/regexp/early-err-dup-flag.js"));
+it("early-err-flags-unicode-escape.js", createTestHandler("language/literals/regexp/early-err-flags-unicode-escape.js"));
+it("early-err-modifiers-code-point-repeat-i-1.js", createTestHandler("language/literals/regexp/early-err-modifiers-code-point-repeat-i-1.js"));
+it("early-err-modifiers-code-point-repeat-i-2.js", createTestHandler("language/literals/regexp/early-err-modifiers-code-point-repeat-i-2.js"));
+it("early-err-modifiers-other-code-point-arbitrary.js", createTestHandler("language/literals/regexp/early-err-modifiers-other-code-point-arbitrary.js"));
+it("early-err-modifiers-other-code-point-combining-i.js", createTestHandler("language/literals/regexp/early-err-modifiers-other-code-point-combining-i.js"));
+it("early-err-modifiers-other-code-point-combining-m.js", createTestHandler("language/literals/regexp/early-err-modifiers-other-code-point-combining-m.js"));
+it("early-err-modifiers-other-code-point-combining-s.js", createTestHandler("language/literals/regexp/early-err-modifiers-other-code-point-combining-s.js"));
+it("early-err-modifiers-other-code-point-d.js", createTestHandler("language/literals/regexp/early-err-modifiers-other-code-point-d.js"));
+it("early-err-modifiers-other-code-point-g.js", createTestHandler("language/literals/regexp/early-err-modifiers-other-code-point-g.js"));
+it("early-err-modifiers-other-code-point-non-display-1.js", createTestHandler("language/literals/regexp/early-err-modifiers-other-code-point-non-display-1.js"));
+it("early-err-modifiers-other-code-point-non-display-2.js", createTestHandler("language/literals/regexp/early-err-modifiers-other-code-point-non-display-2.js"));
+it("early-err-modifiers-other-code-point-non-flag.js", createTestHandler("language/literals/regexp/early-err-modifiers-other-code-point-non-flag.js"));
+it("early-err-modifiers-other-code-point-u.js", createTestHandler("language/literals/regexp/early-err-modifiers-other-code-point-u.js"));
+it("early-err-modifiers-other-code-point-uppercase-I.js", createTestHandler("language/literals/regexp/early-err-modifiers-other-code-point-uppercase-I.js"));
+it("early-err-modifiers-other-code-point-y.js", createTestHandler("language/literals/regexp/early-err-modifiers-other-code-point-y.js"));
+it("early-err-modifiers-other-code-point-zwj.js", createTestHandler("language/literals/regexp/early-err-modifiers-other-code-point-zwj.js"));
+it("early-err-modifiers-other-code-point-zwnbsp.js", createTestHandler("language/literals/regexp/early-err-modifiers-other-code-point-zwnbsp.js"));
+it("early-err-modifiers-other-code-point-zwnj.js", createTestHandler("language/literals/regexp/early-err-modifiers-other-code-point-zwnj.js"));
+it("early-err-modifiers-should-not-case-fold-i.js", createTestHandler("language/literals/regexp/early-err-modifiers-should-not-case-fold-i.js"));
+it("early-err-modifiers-should-not-case-fold-m.js", createTestHandler("language/literals/regexp/early-err-modifiers-should-not-case-fold-m.js"));
+it("early-err-modifiers-should-not-case-fold-s.js", createTestHandler("language/literals/regexp/early-err-modifiers-should-not-case-fold-s.js"));
+it("early-err-modifiers-should-not-unicode-case-fold-i.js", createTestHandler("language/literals/regexp/early-err-modifiers-should-not-unicode-case-fold-i.js"));
+it("early-err-modifiers-should-not-unicode-case-fold-s.js", createTestHandler("language/literals/regexp/early-err-modifiers-should-not-unicode-case-fold-s.js"));
+it("early-err-modifiers-should-not-unicode-escape-i.js", createTestHandler("language/literals/regexp/early-err-modifiers-should-not-unicode-escape-i.js"));
+it("early-err-modifiers-should-not-unicode-escape-m.js", createTestHandler("language/literals/regexp/early-err-modifiers-should-not-unicode-escape-m.js"));
+it("early-err-modifiers-should-not-unicode-escape-s.js", createTestHandler("language/literals/regexp/early-err-modifiers-should-not-unicode-escape-s.js"));
+it("early-err-pattern.js", createTestHandler("language/literals/regexp/early-err-pattern.js"));
+it("inequality.js", createTestHandler("language/literals/regexp/inequality.js"));
+it("invalid-braced-quantifier-exact.js", createTestHandler("language/literals/regexp/invalid-braced-quantifier-exact.js"));
+it("invalid-braced-quantifier-lower.js", createTestHandler("language/literals/regexp/invalid-braced-quantifier-lower.js"));
+it("invalid-braced-quantifier-range.js", createTestHandler("language/literals/regexp/invalid-braced-quantifier-range.js"));
+it("invalid-optional-lookbehind.js", createTestHandler("language/literals/regexp/invalid-optional-lookbehind.js"));
+it("invalid-optional-negative-lookbehind.js", createTestHandler("language/literals/regexp/invalid-optional-negative-lookbehind.js"));
+it("invalid-range-lookbehind.js", createTestHandler("language/literals/regexp/invalid-range-lookbehind.js"));
+it("invalid-range-negative-lookbehind.js", createTestHandler("language/literals/regexp/invalid-range-negative-lookbehind.js"));
+it("lastIndex.js", createTestHandler("language/literals/regexp/lastIndex.js"));
+it("mongolian-vowel-separator-eval.js", createTestHandler("language/literals/regexp/mongolian-vowel-separator-eval.js"));
+it("mongolian-vowel-separator.js", createTestHandler("language/literals/regexp/mongolian-vowel-separator.js"));
+describe("named-groups", () => {
+it("forward-reference.js", createTestHandler("language/literals/regexp/named-groups/forward-reference.js"));
+});
+describe("named-groups", () => {
+it("invalid-dangling-groupname-2-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-2-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-dangling-groupname-2.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-2.js"));
+});
+describe("named-groups", () => {
+it("invalid-dangling-groupname-3-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-3-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-dangling-groupname-3.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-3.js"));
+});
+describe("named-groups", () => {
+it("invalid-dangling-groupname-4-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-4-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-dangling-groupname-4.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-4.js"));
+});
+describe("named-groups", () => {
+it("invalid-dangling-groupname-5.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-5.js"));
+});
+describe("named-groups", () => {
+it("invalid-dangling-groupname-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-dangling-groupname-without-group-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-without-group-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-dangling-groupname.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname.js"));
+});
+describe("named-groups", () => {
+it("invalid-duplicate-groupspecifier-2-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-duplicate-groupspecifier-2-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-duplicate-groupspecifier-2.js", createTestHandler("language/literals/regexp/named-groups/invalid-duplicate-groupspecifier-2.js"));
+});
+describe("named-groups", () => {
+it("invalid-duplicate-groupspecifier-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-duplicate-groupspecifier-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-duplicate-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-duplicate-groupspecifier.js"));
+});
+describe("named-groups", () => {
+it("invalid-empty-groupspecifier-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-empty-groupspecifier-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-empty-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-empty-groupspecifier.js"));
+});
+describe("named-groups", () => {
+it("invalid-identity-escape-in-capture-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-identity-escape-in-capture-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-incomplete-groupname-2-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-2-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-incomplete-groupname-2.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-2.js"));
+});
+describe("named-groups", () => {
+it("invalid-incomplete-groupname-3-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-3-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-incomplete-groupname-3.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-3.js"));
+});
+describe("named-groups", () => {
+it("invalid-incomplete-groupname-4.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-4.js"));
+});
+describe("named-groups", () => {
+it("invalid-incomplete-groupname-5.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-5.js"));
+});
+describe("named-groups", () => {
+it("invalid-incomplete-groupname-6.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-6.js"));
+});
+describe("named-groups", () => {
+it("invalid-incomplete-groupname-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-incomplete-groupname-without-group-2-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-without-group-2-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-incomplete-groupname-without-group-3-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-without-group-3-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-incomplete-groupname-without-group-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-without-group-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-incomplete-groupname.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname.js"));
+});
+describe("named-groups", () => {
+it("invalid-lone-surrogate-groupname.js", createTestHandler("language/literals/regexp/named-groups/invalid-lone-surrogate-groupname.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-continue-groupspecifier-4-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-continue-groupspecifier-4-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-continue-groupspecifier-4.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-continue-groupspecifier-4.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-continue-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-continue-groupspecifier.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-start-groupspecifier-2-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-2-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-start-groupspecifier-2.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-2.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-start-groupspecifier-3.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-3.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-start-groupspecifier-4-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-4-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-start-groupspecifier-4.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-4.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-start-groupspecifier-5-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-5-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-start-groupspecifier-5.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-5.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-start-groupspecifier-6.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-6.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-start-groupspecifier-7.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-7.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-start-groupspecifier-8-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-8-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-start-groupspecifier-8.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-8.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-start-groupspecifier-9-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-9-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-start-groupspecifier-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-non-id-start-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier.js"));
+});
+describe("named-groups", () => {
+it("invalid-numeric-groupspecifier-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-numeric-groupspecifier-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-numeric-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-numeric-groupspecifier.js"));
+});
+describe("named-groups", () => {
+it("invalid-punctuator-starting-groupspecifier-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-punctuator-starting-groupspecifier-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-punctuator-starting-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-punctuator-starting-groupspecifier.js"));
+});
+describe("named-groups", () => {
+it("invalid-punctuator-within-groupspecifier-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-punctuator-within-groupspecifier-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-punctuator-within-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-punctuator-within-groupspecifier.js"));
+});
+describe("named-groups", () => {
+it("invalid-unterminated-groupspecifier-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-unterminated-groupspecifier-u.js"));
+});
+describe("named-groups", () => {
+it("invalid-unterminated-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-unterminated-groupspecifier.js"));
+});
+it("regexp-first-char-no-line-separator.js", createTestHandler("language/literals/regexp/regexp-first-char-no-line-separator.js"));
+it("regexp-first-char-no-paragraph-separator.js", createTestHandler("language/literals/regexp/regexp-first-char-no-paragraph-separator.js"));
+it("regexp-source-char-no-line-separator.js", createTestHandler("language/literals/regexp/regexp-source-char-no-line-separator.js"));
+it("regexp-source-char-no-paragraph-separator.js", createTestHandler("language/literals/regexp/regexp-source-char-no-paragraph-separator.js"));
+it("u-astral-char-class-invert.js", createTestHandler("language/literals/regexp/u-astral-char-class-invert.js"));
+it("u-astral.js", createTestHandler("language/literals/regexp/u-astral.js"));
+it("u-case-mapping.js", createTestHandler("language/literals/regexp/u-case-mapping.js"));
+it("u-invalid-class-escape.js", createTestHandler("language/literals/regexp/u-invalid-class-escape.js"));
+it("u-invalid-extended-pattern-char.js", createTestHandler("language/literals/regexp/u-invalid-extended-pattern-char.js"));
+it("u-invalid-identity-escape.js", createTestHandler("language/literals/regexp/u-invalid-identity-escape.js"));
+it("u-invalid-legacy-octal-escape.js", createTestHandler("language/literals/regexp/u-invalid-legacy-octal-escape.js"));
+it("u-invalid-non-empty-class-ranges-no-dash-a.js", createTestHandler("language/literals/regexp/u-invalid-non-empty-class-ranges-no-dash-a.js"));
+it("u-invalid-non-empty-class-ranges-no-dash-ab.js", createTestHandler("language/literals/regexp/u-invalid-non-empty-class-ranges-no-dash-ab.js"));
+it("u-invalid-non-empty-class-ranges-no-dash-b.js", createTestHandler("language/literals/regexp/u-invalid-non-empty-class-ranges-no-dash-b.js"));
+it("u-invalid-non-empty-class-ranges.js", createTestHandler("language/literals/regexp/u-invalid-non-empty-class-ranges.js"));
+it("u-invalid-oob-decimal-escape.js", createTestHandler("language/literals/regexp/u-invalid-oob-decimal-escape.js"));
+it("u-invalid-optional-lookahead.js", createTestHandler("language/literals/regexp/u-invalid-optional-lookahead.js"));
+it("u-invalid-optional-lookbehind.js", createTestHandler("language/literals/regexp/u-invalid-optional-lookbehind.js"));
+it("u-invalid-optional-negative-lookahead.js", createTestHandler("language/literals/regexp/u-invalid-optional-negative-lookahead.js"));
+it("u-invalid-optional-negative-lookbehind.js", createTestHandler("language/literals/regexp/u-invalid-optional-negative-lookbehind.js"));
+it("u-invalid-range-lookahead.js", createTestHandler("language/literals/regexp/u-invalid-range-lookahead.js"));
+it("u-invalid-range-lookbehind.js", createTestHandler("language/literals/regexp/u-invalid-range-lookbehind.js"));
+it("u-invalid-range-negative-lookahead.js", createTestHandler("language/literals/regexp/u-invalid-range-negative-lookahead.js"));
+it("u-invalid-range-negative-lookbehind.js", createTestHandler("language/literals/regexp/u-invalid-range-negative-lookbehind.js"));
+it("u-null-character-escape.js", createTestHandler("language/literals/regexp/u-null-character-escape.js"));
+it("u-surrogate-pairs-atom-char-class.js", createTestHandler("language/literals/regexp/u-surrogate-pairs-atom-char-class.js"));
+it("u-surrogate-pairs-atom-dot.js", createTestHandler("language/literals/regexp/u-surrogate-pairs-atom-dot.js"));
+it("u-surrogate-pairs-atom-escape-char-class.js", createTestHandler("language/literals/regexp/u-surrogate-pairs-atom-escape-char-class.js"));
+it("u-surrogate-pairs-atom-escape-decimal.js", createTestHandler("language/literals/regexp/u-surrogate-pairs-atom-escape-decimal.js"));
+it("u-surrogate-pairs.js", createTestHandler("language/literals/regexp/u-surrogate-pairs.js"));
+it("u-unicode-esc-bounds.js", createTestHandler("language/literals/regexp/u-unicode-esc-bounds.js"));
+it("u-unicode-esc-non-hex.js", createTestHandler("language/literals/regexp/u-unicode-esc-non-hex.js"));
+it("u-unicode-esc.js", createTestHandler("language/literals/regexp/u-unicode-esc.js"));
+it("unicode-escape-nls-err.js", createTestHandler("language/literals/regexp/unicode-escape-nls-err.js"));
+it("y-assertion-start.js", createTestHandler("language/literals/regexp/y-assertion-start.js"));
+});

@@ -1,2 +1,7 @@
-import defineLanguageTestFromPath from "../../../define-language-test-from-path.js";
-defineLanguageTestFromPath("language/statements/empty");
+import { it, describe } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+describe("empty", () => {
+it("S12.3_A1.js", createTestHandler("language/statements/empty/S12.3_A1.js"));
+it("cptn-value.js", createTestHandler("language/statements/empty/cptn-value.js"));
+});

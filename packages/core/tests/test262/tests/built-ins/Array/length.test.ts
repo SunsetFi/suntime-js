@@ -1,2 +1,4 @@
-import defineBuiltinsTestFromPath from "../../../define-builtins-test-from-path.js";
-defineBuiltinsTestFromPath("built-ins/Array/length");
+import { it } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+it("length.js", createTestHandler("built-ins/Array/length.js"));

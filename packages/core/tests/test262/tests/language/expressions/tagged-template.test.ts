@@ -1,2 +1,32 @@
-import defineLanguageTestFromPath from "../../../define-language-test-from-path.js";
-defineLanguageTestFromPath("language/expressions/tagged-template");
+import { it, describe } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+describe("tagged-template", () => {
+it("cache-different-functions-same-site.js", createTestHandler("language/expressions/tagged-template/cache-different-functions-same-site.js"));
+it("cache-differing-expressions-eval.js", createTestHandler("language/expressions/tagged-template/cache-differing-expressions-eval.js"));
+it("cache-differing-expressions-new-function.js", createTestHandler("language/expressions/tagged-template/cache-differing-expressions-new-function.js"));
+it("cache-differing-expressions.js", createTestHandler("language/expressions/tagged-template/cache-differing-expressions.js"));
+it("cache-differing-raw-strings.js", createTestHandler("language/expressions/tagged-template/cache-differing-raw-strings.js"));
+it("cache-differing-string-count.js", createTestHandler("language/expressions/tagged-template/cache-differing-string-count.js"));
+it("cache-eval-inner-function.js", createTestHandler("language/expressions/tagged-template/cache-eval-inner-function.js"));
+it("cache-identical-source-eval.js", createTestHandler("language/expressions/tagged-template/cache-identical-source-eval.js"));
+it("cache-identical-source-new-function.js", createTestHandler("language/expressions/tagged-template/cache-identical-source-new-function.js"));
+it("cache-identical-source.js", createTestHandler("language/expressions/tagged-template/cache-identical-source.js"));
+it("cache-realm.js", createTestHandler("language/expressions/tagged-template/cache-realm.js"));
+it("cache-same-site-top-level.js", createTestHandler("language/expressions/tagged-template/cache-same-site-top-level.js"));
+it("cache-same-site.js", createTestHandler("language/expressions/tagged-template/cache-same-site.js"));
+it("call-expression-argument-list-evaluation.js", createTestHandler("language/expressions/tagged-template/call-expression-argument-list-evaluation.js"));
+it("call-expression-context-no-strict.js", createTestHandler("language/expressions/tagged-template/call-expression-context-no-strict.js"));
+it("call-expression-context-strict.js", createTestHandler("language/expressions/tagged-template/call-expression-context-strict.js"));
+it("chained-application.js", createTestHandler("language/expressions/tagged-template/chained-application.js"));
+it("constructor-invocation.js", createTestHandler("language/expressions/tagged-template/constructor-invocation.js"));
+it("invalid-escape-sequences.js", createTestHandler("language/expressions/tagged-template/invalid-escape-sequences.js"));
+it("member-expression-argument-list-evaluation.js", createTestHandler("language/expressions/tagged-template/member-expression-argument-list-evaluation.js"));
+it("member-expression-context.js", createTestHandler("language/expressions/tagged-template/member-expression-context.js"));
+it("tco-call.js", createTestHandler("language/expressions/tagged-template/tco-call.js"));
+it("tco-member.js", createTestHandler("language/expressions/tagged-template/tco-member.js"));
+it("template-object-frozen-non-strict.js", createTestHandler("language/expressions/tagged-template/template-object-frozen-non-strict.js"));
+it("template-object-frozen-strict.js", createTestHandler("language/expressions/tagged-template/template-object-frozen-strict.js"));
+it("template-object-template-map.js", createTestHandler("language/expressions/tagged-template/template-object-template-map.js"));
+it("template-object.js", createTestHandler("language/expressions/tagged-template/template-object.js"));
+});

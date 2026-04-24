@@ -1,2 +1,1612 @@
-import defineBuiltinsTestFromPath from "../../../define-builtins-test-from-path.js";
-defineBuiltinsTestFromPath("built-ins/RegExp/property-escapes");
+import { it, describe } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+describe("property-escapes", () => {
+it("binary-property-with-value-ASCII_-_F-negated.js", createTestHandler("built-ins/RegExp/property-escapes/binary-property-with-value-ASCII_-_F-negated.js"));
+it("binary-property-with-value-ASCII_-_F.js", createTestHandler("built-ins/RegExp/property-escapes/binary-property-with-value-ASCII_-_F.js"));
+it("binary-property-with-value-ASCII_-_Invalid-negated.js", createTestHandler("built-ins/RegExp/property-escapes/binary-property-with-value-ASCII_-_Invalid-negated.js"));
+it("binary-property-with-value-ASCII_-_Invalid.js", createTestHandler("built-ins/RegExp/property-escapes/binary-property-with-value-ASCII_-_Invalid.js"));
+it("binary-property-with-value-ASCII_-_N-negated.js", createTestHandler("built-ins/RegExp/property-escapes/binary-property-with-value-ASCII_-_N-negated.js"));
+it("binary-property-with-value-ASCII_-_N.js", createTestHandler("built-ins/RegExp/property-escapes/binary-property-with-value-ASCII_-_N.js"));
+it("binary-property-with-value-ASCII_-_No-negated.js", createTestHandler("built-ins/RegExp/property-escapes/binary-property-with-value-ASCII_-_No-negated.js"));
+it("binary-property-with-value-ASCII_-_No.js", createTestHandler("built-ins/RegExp/property-escapes/binary-property-with-value-ASCII_-_No.js"));
+it("binary-property-with-value-ASCII_-_T-negated.js", createTestHandler("built-ins/RegExp/property-escapes/binary-property-with-value-ASCII_-_T-negated.js"));
+it("binary-property-with-value-ASCII_-_T.js", createTestHandler("built-ins/RegExp/property-escapes/binary-property-with-value-ASCII_-_T.js"));
+it("binary-property-with-value-ASCII_-_Y-negated.js", createTestHandler("built-ins/RegExp/property-escapes/binary-property-with-value-ASCII_-_Y-negated.js"));
+it("binary-property-with-value-ASCII_-_Y.js", createTestHandler("built-ins/RegExp/property-escapes/binary-property-with-value-ASCII_-_Y.js"));
+it("binary-property-with-value-ASCII_-_Yes-negated.js", createTestHandler("built-ins/RegExp/property-escapes/binary-property-with-value-ASCII_-_Yes-negated.js"));
+it("binary-property-with-value-ASCII_-_Yes.js", createTestHandler("built-ins/RegExp/property-escapes/binary-property-with-value-ASCII_-_Yes.js"));
+it("character-class-range-end.js", createTestHandler("built-ins/RegExp/property-escapes/character-class-range-end.js"));
+it("character-class-range-no-dash-end.js", createTestHandler("built-ins/RegExp/property-escapes/character-class-range-no-dash-end.js"));
+it("character-class-range-no-dash-start.js", createTestHandler("built-ins/RegExp/property-escapes/character-class-range-no-dash-start.js"));
+it("character-class-range-start.js", createTestHandler("built-ins/RegExp/property-escapes/character-class-range-start.js"));
+it("character-class.js", createTestHandler("built-ins/RegExp/property-escapes/character-class.js"));
+describe("generated", () => {
+it("ASCII.js", createTestHandler("built-ins/RegExp/property-escapes/generated/ASCII.js"));
+});
+describe("generated", () => {
+it("ASCII_Hex_Digit.js", createTestHandler("built-ins/RegExp/property-escapes/generated/ASCII_Hex_Digit.js"));
+});
+describe("generated", () => {
+it("Alphabetic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Alphabetic.js"));
+});
+describe("generated", () => {
+it("Any.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Any.js"));
+});
+describe("generated", () => {
+it("Assigned.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Assigned.js"));
+});
+describe("generated", () => {
+it("Bidi_Control.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Bidi_Control.js"));
+});
+describe("generated", () => {
+it("Bidi_Mirrored.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Bidi_Mirrored.js"));
+});
+describe("generated", () => {
+it("Case_Ignorable.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Case_Ignorable.js"));
+});
+describe("generated", () => {
+it("Cased.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Cased.js"));
+});
+describe("generated", () => {
+it("Changes_When_Casefolded.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Changes_When_Casefolded.js"));
+});
+describe("generated", () => {
+it("Changes_When_Casemapped.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Changes_When_Casemapped.js"));
+});
+describe("generated", () => {
+it("Changes_When_Lowercased.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Changes_When_Lowercased.js"));
+});
+describe("generated", () => {
+it("Changes_When_NFKC_Casefolded.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Changes_When_NFKC_Casefolded.js"));
+});
+describe("generated", () => {
+it("Changes_When_Titlecased.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Changes_When_Titlecased.js"));
+});
+describe("generated", () => {
+it("Changes_When_Uppercased.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Changes_When_Uppercased.js"));
+});
+describe("generated", () => {
+it("Dash.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Dash.js"));
+});
+describe("generated", () => {
+it("Default_Ignorable_Code_Point.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Default_Ignorable_Code_Point.js"));
+});
+describe("generated", () => {
+it("Deprecated.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Deprecated.js"));
+});
+describe("generated", () => {
+it("Diacritic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Diacritic.js"));
+});
+describe("generated", () => {
+it("Emoji.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Emoji.js"));
+});
+describe("generated", () => {
+it("Emoji_Component.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Emoji_Component.js"));
+});
+describe("generated", () => {
+it("Emoji_Modifier.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Emoji_Modifier.js"));
+});
+describe("generated", () => {
+it("Emoji_Modifier_Base.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Emoji_Modifier_Base.js"));
+});
+describe("generated", () => {
+it("Emoji_Presentation.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Emoji_Presentation.js"));
+});
+describe("generated", () => {
+it("Extended_Pictographic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Extended_Pictographic.js"));
+});
+describe("generated", () => {
+it("Extender.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Extender.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Cased_Letter.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Cased_Letter.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Close_Punctuation.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Close_Punctuation.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Connector_Punctuation.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Connector_Punctuation.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Control.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Control.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Currency_Symbol.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Currency_Symbol.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Dash_Punctuation.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Dash_Punctuation.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Decimal_Number.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Decimal_Number.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Enclosing_Mark.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Enclosing_Mark.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Final_Punctuation.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Final_Punctuation.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Format.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Format.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Initial_Punctuation.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Initial_Punctuation.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Letter.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Letter.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Letter_Number.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Letter_Number.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Line_Separator.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Line_Separator.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Lowercase_Letter.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Lowercase_Letter.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Mark.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Mark.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Math_Symbol.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Math_Symbol.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Modifier_Letter.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Modifier_Letter.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Modifier_Symbol.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Modifier_Symbol.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Nonspacing_Mark.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Nonspacing_Mark.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Number.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Number.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Open_Punctuation.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Open_Punctuation.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Other.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Other.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Other_Letter.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Other_Letter.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Other_Number.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Other_Number.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Other_Punctuation.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Other_Punctuation.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Other_Symbol.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Other_Symbol.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Paragraph_Separator.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Paragraph_Separator.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Private_Use.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Private_Use.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Punctuation.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Punctuation.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Separator.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Separator.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Space_Separator.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Space_Separator.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Spacing_Mark.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Spacing_Mark.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Surrogate.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Surrogate.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Symbol.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Symbol.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Titlecase_Letter.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Titlecase_Letter.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Unassigned.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Unassigned.js"));
+});
+describe("generated", () => {
+it("General_Category_-_Uppercase_Letter.js", createTestHandler("built-ins/RegExp/property-escapes/generated/General_Category_-_Uppercase_Letter.js"));
+});
+describe("generated", () => {
+it("Grapheme_Base.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Grapheme_Base.js"));
+});
+describe("generated", () => {
+it("Grapheme_Extend.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Grapheme_Extend.js"));
+});
+describe("generated", () => {
+it("Hex_Digit.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Hex_Digit.js"));
+});
+describe("generated", () => {
+it("IDS_Binary_Operator.js", createTestHandler("built-ins/RegExp/property-escapes/generated/IDS_Binary_Operator.js"));
+});
+describe("generated", () => {
+it("IDS_Trinary_Operator.js", createTestHandler("built-ins/RegExp/property-escapes/generated/IDS_Trinary_Operator.js"));
+});
+describe("generated", () => {
+it("ID_Continue.js", createTestHandler("built-ins/RegExp/property-escapes/generated/ID_Continue.js"));
+});
+describe("generated", () => {
+it("ID_Start.js", createTestHandler("built-ins/RegExp/property-escapes/generated/ID_Start.js"));
+});
+describe("generated", () => {
+it("Ideographic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Ideographic.js"));
+});
+describe("generated", () => {
+it("Join_Control.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Join_Control.js"));
+});
+describe("generated", () => {
+it("Logical_Order_Exception.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Logical_Order_Exception.js"));
+});
+describe("generated", () => {
+it("Lowercase.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Lowercase.js"));
+});
+describe("generated", () => {
+it("Math.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Math.js"));
+});
+describe("generated", () => {
+it("Noncharacter_Code_Point.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Noncharacter_Code_Point.js"));
+});
+describe("generated", () => {
+it("Pattern_Syntax.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Pattern_Syntax.js"));
+});
+describe("generated", () => {
+it("Pattern_White_Space.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Pattern_White_Space.js"));
+});
+describe("generated", () => {
+it("Quotation_Mark.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Quotation_Mark.js"));
+});
+describe("generated", () => {
+it("Radical.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Radical.js"));
+});
+describe("generated", () => {
+it("Regional_Indicator.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Regional_Indicator.js"));
+});
+describe("generated", () => {
+it("Script_-_Adlam.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Adlam.js"));
+});
+describe("generated", () => {
+it("Script_-_Ahom.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Ahom.js"));
+});
+describe("generated", () => {
+it("Script_-_Anatolian_Hieroglyphs.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Anatolian_Hieroglyphs.js"));
+});
+describe("generated", () => {
+it("Script_-_Arabic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Arabic.js"));
+});
+describe("generated", () => {
+it("Script_-_Armenian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Armenian.js"));
+});
+describe("generated", () => {
+it("Script_-_Avestan.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Avestan.js"));
+});
+describe("generated", () => {
+it("Script_-_Balinese.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Balinese.js"));
+});
+describe("generated", () => {
+it("Script_-_Bamum.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Bamum.js"));
+});
+describe("generated", () => {
+it("Script_-_Bassa_Vah.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Bassa_Vah.js"));
+});
+describe("generated", () => {
+it("Script_-_Batak.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Batak.js"));
+});
+describe("generated", () => {
+it("Script_-_Bengali.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Bengali.js"));
+});
+describe("generated", () => {
+it("Script_-_Beria_Erfe.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Beria_Erfe.js"));
+});
+describe("generated", () => {
+it("Script_-_Bhaiksuki.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Bhaiksuki.js"));
+});
+describe("generated", () => {
+it("Script_-_Bopomofo.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Bopomofo.js"));
+});
+describe("generated", () => {
+it("Script_-_Brahmi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Brahmi.js"));
+});
+describe("generated", () => {
+it("Script_-_Braille.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Braille.js"));
+});
+describe("generated", () => {
+it("Script_-_Buginese.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Buginese.js"));
+});
+describe("generated", () => {
+it("Script_-_Buhid.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Buhid.js"));
+});
+describe("generated", () => {
+it("Script_-_Canadian_Aboriginal.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Canadian_Aboriginal.js"));
+});
+describe("generated", () => {
+it("Script_-_Carian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Carian.js"));
+});
+describe("generated", () => {
+it("Script_-_Caucasian_Albanian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Caucasian_Albanian.js"));
+});
+describe("generated", () => {
+it("Script_-_Chakma.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Chakma.js"));
+});
+describe("generated", () => {
+it("Script_-_Cham.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Cham.js"));
+});
+describe("generated", () => {
+it("Script_-_Cherokee.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Cherokee.js"));
+});
+describe("generated", () => {
+it("Script_-_Chorasmian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Chorasmian.js"));
+});
+describe("generated", () => {
+it("Script_-_Common.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Common.js"));
+});
+describe("generated", () => {
+it("Script_-_Coptic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Coptic.js"));
+});
+describe("generated", () => {
+it("Script_-_Cuneiform.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Cuneiform.js"));
+});
+describe("generated", () => {
+it("Script_-_Cypriot.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Cypriot.js"));
+});
+describe("generated", () => {
+it("Script_-_Cypro_Minoan.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Cypro_Minoan.js"));
+});
+describe("generated", () => {
+it("Script_-_Cyrillic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Cyrillic.js"));
+});
+describe("generated", () => {
+it("Script_-_Deseret.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Deseret.js"));
+});
+describe("generated", () => {
+it("Script_-_Devanagari.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Devanagari.js"));
+});
+describe("generated", () => {
+it("Script_-_Dives_Akuru.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Dives_Akuru.js"));
+});
+describe("generated", () => {
+it("Script_-_Dogra.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Dogra.js"));
+});
+describe("generated", () => {
+it("Script_-_Duployan.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Duployan.js"));
+});
+describe("generated", () => {
+it("Script_-_Egyptian_Hieroglyphs.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Egyptian_Hieroglyphs.js"));
+});
+describe("generated", () => {
+it("Script_-_Elbasan.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Elbasan.js"));
+});
+describe("generated", () => {
+it("Script_-_Elymaic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Elymaic.js"));
+});
+describe("generated", () => {
+it("Script_-_Ethiopic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Ethiopic.js"));
+});
+describe("generated", () => {
+it("Script_-_Garay.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Garay.js"));
+});
+describe("generated", () => {
+it("Script_-_Georgian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Georgian.js"));
+});
+describe("generated", () => {
+it("Script_-_Glagolitic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Glagolitic.js"));
+});
+describe("generated", () => {
+it("Script_-_Gothic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Gothic.js"));
+});
+describe("generated", () => {
+it("Script_-_Grantha.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Grantha.js"));
+});
+describe("generated", () => {
+it("Script_-_Greek.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Greek.js"));
+});
+describe("generated", () => {
+it("Script_-_Gujarati.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Gujarati.js"));
+});
+describe("generated", () => {
+it("Script_-_Gunjala_Gondi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Gunjala_Gondi.js"));
+});
+describe("generated", () => {
+it("Script_-_Gurmukhi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Gurmukhi.js"));
+});
+describe("generated", () => {
+it("Script_-_Gurung_Khema.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Gurung_Khema.js"));
+});
+describe("generated", () => {
+it("Script_-_Han.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Han.js"));
+});
+describe("generated", () => {
+it("Script_-_Hangul.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Hangul.js"));
+});
+describe("generated", () => {
+it("Script_-_Hanifi_Rohingya.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Hanifi_Rohingya.js"));
+});
+describe("generated", () => {
+it("Script_-_Hanunoo.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Hanunoo.js"));
+});
+describe("generated", () => {
+it("Script_-_Hatran.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Hatran.js"));
+});
+describe("generated", () => {
+it("Script_-_Hebrew.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Hebrew.js"));
+});
+describe("generated", () => {
+it("Script_-_Hiragana.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Hiragana.js"));
+});
+describe("generated", () => {
+it("Script_-_Imperial_Aramaic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Imperial_Aramaic.js"));
+});
+describe("generated", () => {
+it("Script_-_Inherited.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Inherited.js"));
+});
+describe("generated", () => {
+it("Script_-_Inscriptional_Pahlavi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Inscriptional_Pahlavi.js"));
+});
+describe("generated", () => {
+it("Script_-_Inscriptional_Parthian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Inscriptional_Parthian.js"));
+});
+describe("generated", () => {
+it("Script_-_Javanese.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Javanese.js"));
+});
+describe("generated", () => {
+it("Script_-_Kaithi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Kaithi.js"));
+});
+describe("generated", () => {
+it("Script_-_Kannada.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Kannada.js"));
+});
+describe("generated", () => {
+it("Script_-_Katakana.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Katakana.js"));
+});
+describe("generated", () => {
+it("Script_-_Kawi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Kawi.js"));
+});
+describe("generated", () => {
+it("Script_-_Kayah_Li.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Kayah_Li.js"));
+});
+describe("generated", () => {
+it("Script_-_Kharoshthi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Kharoshthi.js"));
+});
+describe("generated", () => {
+it("Script_-_Khitan_Small_Script.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Khitan_Small_Script.js"));
+});
+describe("generated", () => {
+it("Script_-_Khmer.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Khmer.js"));
+});
+describe("generated", () => {
+it("Script_-_Khojki.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Khojki.js"));
+});
+describe("generated", () => {
+it("Script_-_Khudawadi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Khudawadi.js"));
+});
+describe("generated", () => {
+it("Script_-_Kirat_Rai.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Kirat_Rai.js"));
+});
+describe("generated", () => {
+it("Script_-_Lao.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Lao.js"));
+});
+describe("generated", () => {
+it("Script_-_Latin.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Latin.js"));
+});
+describe("generated", () => {
+it("Script_-_Lepcha.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Lepcha.js"));
+});
+describe("generated", () => {
+it("Script_-_Limbu.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Limbu.js"));
+});
+describe("generated", () => {
+it("Script_-_Linear_A.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Linear_A.js"));
+});
+describe("generated", () => {
+it("Script_-_Linear_B.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Linear_B.js"));
+});
+describe("generated", () => {
+it("Script_-_Lisu.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Lisu.js"));
+});
+describe("generated", () => {
+it("Script_-_Lycian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Lycian.js"));
+});
+describe("generated", () => {
+it("Script_-_Lydian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Lydian.js"));
+});
+describe("generated", () => {
+it("Script_-_Mahajani.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Mahajani.js"));
+});
+describe("generated", () => {
+it("Script_-_Makasar.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Makasar.js"));
+});
+describe("generated", () => {
+it("Script_-_Malayalam.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Malayalam.js"));
+});
+describe("generated", () => {
+it("Script_-_Mandaic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Mandaic.js"));
+});
+describe("generated", () => {
+it("Script_-_Manichaean.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Manichaean.js"));
+});
+describe("generated", () => {
+it("Script_-_Marchen.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Marchen.js"));
+});
+describe("generated", () => {
+it("Script_-_Masaram_Gondi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Masaram_Gondi.js"));
+});
+describe("generated", () => {
+it("Script_-_Medefaidrin.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Medefaidrin.js"));
+});
+describe("generated", () => {
+it("Script_-_Meetei_Mayek.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Meetei_Mayek.js"));
+});
+describe("generated", () => {
+it("Script_-_Mende_Kikakui.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Mende_Kikakui.js"));
+});
+describe("generated", () => {
+it("Script_-_Meroitic_Cursive.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Meroitic_Cursive.js"));
+});
+describe("generated", () => {
+it("Script_-_Meroitic_Hieroglyphs.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Meroitic_Hieroglyphs.js"));
+});
+describe("generated", () => {
+it("Script_-_Miao.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Miao.js"));
+});
+describe("generated", () => {
+it("Script_-_Modi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Modi.js"));
+});
+describe("generated", () => {
+it("Script_-_Mongolian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Mongolian.js"));
+});
+describe("generated", () => {
+it("Script_-_Mro.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Mro.js"));
+});
+describe("generated", () => {
+it("Script_-_Multani.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Multani.js"));
+});
+describe("generated", () => {
+it("Script_-_Myanmar.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Myanmar.js"));
+});
+describe("generated", () => {
+it("Script_-_Nabataean.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Nabataean.js"));
+});
+describe("generated", () => {
+it("Script_-_Nag_Mundari.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Nag_Mundari.js"));
+});
+describe("generated", () => {
+it("Script_-_Nandinagari.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Nandinagari.js"));
+});
+describe("generated", () => {
+it("Script_-_New_Tai_Lue.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_New_Tai_Lue.js"));
+});
+describe("generated", () => {
+it("Script_-_Newa.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Newa.js"));
+});
+describe("generated", () => {
+it("Script_-_Nko.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Nko.js"));
+});
+describe("generated", () => {
+it("Script_-_Nushu.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Nushu.js"));
+});
+describe("generated", () => {
+it("Script_-_Nyiakeng_Puachue_Hmong.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Nyiakeng_Puachue_Hmong.js"));
+});
+describe("generated", () => {
+it("Script_-_Ogham.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Ogham.js"));
+});
+describe("generated", () => {
+it("Script_-_Ol_Chiki.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Ol_Chiki.js"));
+});
+describe("generated", () => {
+it("Script_-_Ol_Onal.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Ol_Onal.js"));
+});
+describe("generated", () => {
+it("Script_-_Old_Hungarian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Old_Hungarian.js"));
+});
+describe("generated", () => {
+it("Script_-_Old_Italic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Old_Italic.js"));
+});
+describe("generated", () => {
+it("Script_-_Old_North_Arabian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Old_North_Arabian.js"));
+});
+describe("generated", () => {
+it("Script_-_Old_Permic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Old_Permic.js"));
+});
+describe("generated", () => {
+it("Script_-_Old_Persian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Old_Persian.js"));
+});
+describe("generated", () => {
+it("Script_-_Old_Sogdian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Old_Sogdian.js"));
+});
+describe("generated", () => {
+it("Script_-_Old_South_Arabian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Old_South_Arabian.js"));
+});
+describe("generated", () => {
+it("Script_-_Old_Turkic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Old_Turkic.js"));
+});
+describe("generated", () => {
+it("Script_-_Old_Uyghur.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Old_Uyghur.js"));
+});
+describe("generated", () => {
+it("Script_-_Oriya.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Oriya.js"));
+});
+describe("generated", () => {
+it("Script_-_Osage.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Osage.js"));
+});
+describe("generated", () => {
+it("Script_-_Osmanya.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Osmanya.js"));
+});
+describe("generated", () => {
+it("Script_-_Pahawh_Hmong.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Pahawh_Hmong.js"));
+});
+describe("generated", () => {
+it("Script_-_Palmyrene.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Palmyrene.js"));
+});
+describe("generated", () => {
+it("Script_-_Pau_Cin_Hau.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Pau_Cin_Hau.js"));
+});
+describe("generated", () => {
+it("Script_-_Phags_Pa.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Phags_Pa.js"));
+});
+describe("generated", () => {
+it("Script_-_Phoenician.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Phoenician.js"));
+});
+describe("generated", () => {
+it("Script_-_Psalter_Pahlavi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Psalter_Pahlavi.js"));
+});
+describe("generated", () => {
+it("Script_-_Rejang.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Rejang.js"));
+});
+describe("generated", () => {
+it("Script_-_Runic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Runic.js"));
+});
+describe("generated", () => {
+it("Script_-_Samaritan.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Samaritan.js"));
+});
+describe("generated", () => {
+it("Script_-_Saurashtra.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Saurashtra.js"));
+});
+describe("generated", () => {
+it("Script_-_Sharada.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Sharada.js"));
+});
+describe("generated", () => {
+it("Script_-_Shavian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Shavian.js"));
+});
+describe("generated", () => {
+it("Script_-_Siddham.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Siddham.js"));
+});
+describe("generated", () => {
+it("Script_-_Sidetic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Sidetic.js"));
+});
+describe("generated", () => {
+it("Script_-_SignWriting.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_SignWriting.js"));
+});
+describe("generated", () => {
+it("Script_-_Sinhala.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Sinhala.js"));
+});
+describe("generated", () => {
+it("Script_-_Sogdian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Sogdian.js"));
+});
+describe("generated", () => {
+it("Script_-_Sora_Sompeng.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Sora_Sompeng.js"));
+});
+describe("generated", () => {
+it("Script_-_Soyombo.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Soyombo.js"));
+});
+describe("generated", () => {
+it("Script_-_Sundanese.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Sundanese.js"));
+});
+describe("generated", () => {
+it("Script_-_Sunuwar.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Sunuwar.js"));
+});
+describe("generated", () => {
+it("Script_-_Syloti_Nagri.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Syloti_Nagri.js"));
+});
+describe("generated", () => {
+it("Script_-_Syriac.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Syriac.js"));
+});
+describe("generated", () => {
+it("Script_-_Tagalog.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Tagalog.js"));
+});
+describe("generated", () => {
+it("Script_-_Tagbanwa.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Tagbanwa.js"));
+});
+describe("generated", () => {
+it("Script_-_Tai_Le.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Tai_Le.js"));
+});
+describe("generated", () => {
+it("Script_-_Tai_Tham.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Tai_Tham.js"));
+});
+describe("generated", () => {
+it("Script_-_Tai_Viet.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Tai_Viet.js"));
+});
+describe("generated", () => {
+it("Script_-_Tai_Yo.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Tai_Yo.js"));
+});
+describe("generated", () => {
+it("Script_-_Takri.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Takri.js"));
+});
+describe("generated", () => {
+it("Script_-_Tamil.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Tamil.js"));
+});
+describe("generated", () => {
+it("Script_-_Tangsa.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Tangsa.js"));
+});
+describe("generated", () => {
+it("Script_-_Tangut.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Tangut.js"));
+});
+describe("generated", () => {
+it("Script_-_Telugu.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Telugu.js"));
+});
+describe("generated", () => {
+it("Script_-_Thaana.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Thaana.js"));
+});
+describe("generated", () => {
+it("Script_-_Thai.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Thai.js"));
+});
+describe("generated", () => {
+it("Script_-_Tibetan.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Tibetan.js"));
+});
+describe("generated", () => {
+it("Script_-_Tifinagh.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Tifinagh.js"));
+});
+describe("generated", () => {
+it("Script_-_Tirhuta.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Tirhuta.js"));
+});
+describe("generated", () => {
+it("Script_-_Todhri.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Todhri.js"));
+});
+describe("generated", () => {
+it("Script_-_Tolong_Siki.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Tolong_Siki.js"));
+});
+describe("generated", () => {
+it("Script_-_Toto.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Toto.js"));
+});
+describe("generated", () => {
+it("Script_-_Tulu_Tigalari.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Tulu_Tigalari.js"));
+});
+describe("generated", () => {
+it("Script_-_Ugaritic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Ugaritic.js"));
+});
+describe("generated", () => {
+it("Script_-_Unknown.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Unknown.js"));
+});
+describe("generated", () => {
+it("Script_-_Vai.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Vai.js"));
+});
+describe("generated", () => {
+it("Script_-_Vithkuqi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Vithkuqi.js"));
+});
+describe("generated", () => {
+it("Script_-_Wancho.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Wancho.js"));
+});
+describe("generated", () => {
+it("Script_-_Warang_Citi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Warang_Citi.js"));
+});
+describe("generated", () => {
+it("Script_-_Yezidi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Yezidi.js"));
+});
+describe("generated", () => {
+it("Script_-_Yi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Yi.js"));
+});
+describe("generated", () => {
+it("Script_-_Zanabazar_Square.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_-_Zanabazar_Square.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Adlam.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Adlam.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Ahom.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Ahom.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Anatolian_Hieroglyphs.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Anatolian_Hieroglyphs.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Arabic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Arabic.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Armenian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Armenian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Avestan.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Avestan.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Balinese.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Balinese.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Bamum.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Bamum.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Bassa_Vah.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Bassa_Vah.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Batak.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Batak.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Bengali.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Bengali.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Beria_Erfe.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Beria_Erfe.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Bhaiksuki.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Bhaiksuki.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Bopomofo.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Bopomofo.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Brahmi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Brahmi.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Braille.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Braille.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Buginese.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Buginese.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Buhid.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Buhid.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Canadian_Aboriginal.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Canadian_Aboriginal.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Carian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Carian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Caucasian_Albanian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Caucasian_Albanian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Chakma.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Chakma.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Cham.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Cham.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Cherokee.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Cherokee.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Chorasmian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Chorasmian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Common.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Common.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Coptic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Coptic.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Cuneiform.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Cuneiform.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Cypriot.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Cypriot.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Cypro_Minoan.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Cypro_Minoan.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Cyrillic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Cyrillic.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Deseret.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Deseret.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Devanagari.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Devanagari.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Dives_Akuru.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Dives_Akuru.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Dogra.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Dogra.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Duployan.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Duployan.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Egyptian_Hieroglyphs.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Egyptian_Hieroglyphs.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Elbasan.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Elbasan.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Elymaic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Elymaic.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Ethiopic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Ethiopic.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Garay.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Garay.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Georgian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Georgian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Glagolitic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Glagolitic.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Gothic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Gothic.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Grantha.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Grantha.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Greek.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Greek.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Gujarati.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Gujarati.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Gunjala_Gondi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Gunjala_Gondi.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Gurmukhi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Gurmukhi.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Gurung_Khema.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Gurung_Khema.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Han.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Han.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Hangul.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Hangul.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Hanifi_Rohingya.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Hanifi_Rohingya.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Hanunoo.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Hanunoo.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Hatran.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Hatran.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Hebrew.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Hebrew.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Hiragana.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Hiragana.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Imperial_Aramaic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Imperial_Aramaic.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Inherited.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Inherited.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Inscriptional_Pahlavi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Inscriptional_Pahlavi.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Inscriptional_Parthian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Inscriptional_Parthian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Javanese.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Javanese.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Kaithi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Kaithi.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Kannada.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Kannada.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Katakana.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Katakana.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Kawi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Kawi.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Kayah_Li.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Kayah_Li.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Kharoshthi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Kharoshthi.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Khitan_Small_Script.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Khitan_Small_Script.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Khmer.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Khmer.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Khojki.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Khojki.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Khudawadi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Khudawadi.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Kirat_Rai.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Kirat_Rai.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Lao.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Lao.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Latin.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Latin.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Lepcha.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Lepcha.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Limbu.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Limbu.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Linear_A.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Linear_A.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Linear_B.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Linear_B.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Lisu.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Lisu.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Lycian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Lycian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Lydian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Lydian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Mahajani.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Mahajani.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Makasar.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Makasar.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Malayalam.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Malayalam.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Mandaic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Mandaic.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Manichaean.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Manichaean.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Marchen.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Marchen.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Masaram_Gondi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Masaram_Gondi.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Medefaidrin.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Medefaidrin.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Meetei_Mayek.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Meetei_Mayek.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Mende_Kikakui.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Mende_Kikakui.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Meroitic_Cursive.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Meroitic_Cursive.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Meroitic_Hieroglyphs.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Meroitic_Hieroglyphs.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Miao.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Miao.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Modi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Modi.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Mongolian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Mongolian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Mro.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Mro.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Multani.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Multani.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Myanmar.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Myanmar.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Nabataean.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Nabataean.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Nag_Mundari.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Nag_Mundari.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Nandinagari.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Nandinagari.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_New_Tai_Lue.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_New_Tai_Lue.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Newa.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Newa.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Nko.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Nko.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Nushu.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Nushu.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Nyiakeng_Puachue_Hmong.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Nyiakeng_Puachue_Hmong.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Ogham.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Ogham.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Ol_Chiki.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Ol_Chiki.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Ol_Onal.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Ol_Onal.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Old_Hungarian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Old_Hungarian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Old_Italic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Old_Italic.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Old_North_Arabian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Old_North_Arabian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Old_Permic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Old_Permic.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Old_Persian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Old_Persian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Old_Sogdian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Old_Sogdian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Old_South_Arabian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Old_South_Arabian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Old_Turkic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Old_Turkic.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Old_Uyghur.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Old_Uyghur.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Oriya.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Oriya.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Osage.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Osage.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Osmanya.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Osmanya.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Pahawh_Hmong.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Pahawh_Hmong.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Palmyrene.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Palmyrene.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Pau_Cin_Hau.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Pau_Cin_Hau.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Phags_Pa.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Phags_Pa.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Phoenician.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Phoenician.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Psalter_Pahlavi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Psalter_Pahlavi.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Rejang.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Rejang.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Runic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Runic.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Samaritan.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Samaritan.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Saurashtra.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Saurashtra.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Sharada.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Sharada.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Shavian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Shavian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Siddham.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Siddham.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Sidetic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Sidetic.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_SignWriting.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_SignWriting.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Sinhala.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Sinhala.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Sogdian.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Sogdian.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Sora_Sompeng.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Sora_Sompeng.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Soyombo.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Soyombo.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Sundanese.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Sundanese.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Sunuwar.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Sunuwar.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Syloti_Nagri.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Syloti_Nagri.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Syriac.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Syriac.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Tagalog.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Tagalog.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Tagbanwa.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Tagbanwa.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Tai_Le.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Tai_Le.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Tai_Tham.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Tai_Tham.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Tai_Viet.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Tai_Viet.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Tai_Yo.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Tai_Yo.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Takri.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Takri.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Tamil.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Tamil.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Tangsa.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Tangsa.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Tangut.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Tangut.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Telugu.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Telugu.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Thaana.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Thaana.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Thai.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Thai.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Tibetan.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Tibetan.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Tifinagh.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Tifinagh.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Tirhuta.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Tirhuta.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Todhri.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Todhri.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Tolong_Siki.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Tolong_Siki.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Toto.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Toto.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Tulu_Tigalari.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Tulu_Tigalari.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Ugaritic.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Ugaritic.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Unknown.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Unknown.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Vai.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Vai.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Vithkuqi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Vithkuqi.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Wancho.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Wancho.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Warang_Citi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Warang_Citi.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Yezidi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Yezidi.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Yi.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Yi.js"));
+});
+describe("generated", () => {
+it("Script_Extensions_-_Zanabazar_Square.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Script_Extensions_-_Zanabazar_Square.js"));
+});
+describe("generated", () => {
+it("Sentence_Terminal.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Sentence_Terminal.js"));
+});
+describe("generated", () => {
+it("Soft_Dotted.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Soft_Dotted.js"));
+});
+describe("generated", () => {
+it("Terminal_Punctuation.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Terminal_Punctuation.js"));
+});
+describe("generated", () => {
+it("Unified_Ideograph.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Unified_Ideograph.js"));
+});
+describe("generated", () => {
+it("Uppercase.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Uppercase.js"));
+});
+describe("generated", () => {
+it("Variation_Selector.js", createTestHandler("built-ins/RegExp/property-escapes/generated/Variation_Selector.js"));
+});
+describe("generated", () => {
+it("White_Space.js", createTestHandler("built-ins/RegExp/property-escapes/generated/White_Space.js"));
+});
+describe("generated", () => {
+it("XID_Continue.js", createTestHandler("built-ins/RegExp/property-escapes/generated/XID_Continue.js"));
+});
+describe("generated", () => {
+it("XID_Start.js", createTestHandler("built-ins/RegExp/property-escapes/generated/XID_Start.js"));
+});
+describe("generated", () => {
+describe("strings", () => {
+it("Basic_Emoji-negative-CharacterClass.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/Basic_Emoji-negative-CharacterClass.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("Basic_Emoji-negative-P.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/Basic_Emoji-negative-P.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("Basic_Emoji-negative-u.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/Basic_Emoji-negative-u.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("Basic_Emoji.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/Basic_Emoji.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("Emoji_Keycap_Sequence-negative-CharacterClass.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/Emoji_Keycap_Sequence-negative-CharacterClass.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("Emoji_Keycap_Sequence-negative-P.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/Emoji_Keycap_Sequence-negative-P.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("Emoji_Keycap_Sequence-negative-u.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/Emoji_Keycap_Sequence-negative-u.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("Emoji_Keycap_Sequence.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/Emoji_Keycap_Sequence.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji-negative-CharacterClass.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji-negative-CharacterClass.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji-negative-P.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji-negative-P.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji-negative-u.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji-negative-u.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_Flag_Sequence-negative-CharacterClass.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_Flag_Sequence-negative-CharacterClass.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_Flag_Sequence-negative-P.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_Flag_Sequence-negative-P.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_Flag_Sequence-negative-u.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_Flag_Sequence-negative-u.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_Flag_Sequence.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_Flag_Sequence.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_Modifier_Sequence-negative-CharacterClass.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_Modifier_Sequence-negative-CharacterClass.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_Modifier_Sequence-negative-P.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_Modifier_Sequence-negative-P.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_Modifier_Sequence-negative-u.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_Modifier_Sequence-negative-u.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_Modifier_Sequence.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_Modifier_Sequence.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_Tag_Sequence-negative-CharacterClass.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_Tag_Sequence-negative-CharacterClass.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_Tag_Sequence-negative-P.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_Tag_Sequence-negative-P.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_Tag_Sequence-negative-u.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_Tag_Sequence-negative-u.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_Tag_Sequence.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_Tag_Sequence.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_ZWJ_Sequence-negative-CharacterClass.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_ZWJ_Sequence-negative-CharacterClass.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_ZWJ_Sequence-negative-P.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_ZWJ_Sequence-negative-P.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_ZWJ_Sequence-negative-u.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_ZWJ_Sequence-negative-u.js"));
+});
+});
+describe("generated", () => {
+describe("strings", () => {
+it("RGI_Emoji_ZWJ_Sequence.js", createTestHandler("built-ins/RegExp/property-escapes/generated/strings/RGI_Emoji_ZWJ_Sequence.js"));
+});
+});
+it("grammar-extension-In-prefix-Block-implicit-negated.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-In-prefix-Block-implicit-negated.js"));
+it("grammar-extension-In-prefix-Block-implicit.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-In-prefix-Block-implicit.js"));
+it("grammar-extension-In-prefix-Script-implicit-negated.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-In-prefix-Script-implicit-negated.js"));
+it("grammar-extension-In-prefix-Script-implicit.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-In-prefix-Script-implicit.js"));
+it("grammar-extension-In-prefix-Script-negated.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-In-prefix-Script-negated.js"));
+it("grammar-extension-In-prefix-Script.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-In-prefix-Script.js"));
+it("grammar-extension-Is-prefix-Script-negated.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-Is-prefix-Script-negated.js"));
+it("grammar-extension-Is-prefix-Script.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-Is-prefix-Script.js"));
+it("grammar-extension-circumflex-negation-negated.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-circumflex-negation-negated.js"));
+it("grammar-extension-circumflex-negation.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-circumflex-negation.js"));
+it("grammar-extension-empty-negated.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-empty-negated.js"));
+it("grammar-extension-empty.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-empty.js"));
+it("grammar-extension-invalid-negated.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-invalid-negated.js"));
+it("grammar-extension-invalid.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-invalid.js"));
+it("grammar-extension-no-braces-negated.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-no-braces-negated.js"));
+it("grammar-extension-no-braces-value-negated.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-no-braces-value-negated.js"));
+it("grammar-extension-no-braces-value.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-no-braces-value.js"));
+it("grammar-extension-no-braces.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-no-braces.js"));
+it("grammar-extension-separator-and-value-only-negated.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-separator-and-value-only-negated.js"));
+it("grammar-extension-separator-and-value-only.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-separator-and-value-only.js"));
+it("grammar-extension-separator-negated.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-separator-negated.js"));
+it("grammar-extension-separator-only-negated.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-separator-only-negated.js"));
+it("grammar-extension-separator-only.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-separator-only.js"));
+it("grammar-extension-separator.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-separator.js"));
+it("grammar-extension-unclosed-negated.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-unclosed-negated.js"));
+it("grammar-extension-unclosed.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-unclosed.js"));
+it("grammar-extension-unopened-negated.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-unopened-negated.js"));
+it("grammar-extension-unopened.js", createTestHandler("built-ins/RegExp/property-escapes/grammar-extension-unopened.js"));
+it("loose-matching-01-negated.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-01-negated.js"));
+it("loose-matching-01.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-01.js"));
+it("loose-matching-02-negated.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-02-negated.js"));
+it("loose-matching-02.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-02.js"));
+it("loose-matching-03-negated.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-03-negated.js"));
+it("loose-matching-03.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-03.js"));
+it("loose-matching-04-negated.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-04-negated.js"));
+it("loose-matching-04.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-04.js"));
+it("loose-matching-05-negated.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-05-negated.js"));
+it("loose-matching-05.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-05.js"));
+it("loose-matching-06-negated.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-06-negated.js"));
+it("loose-matching-06.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-06.js"));
+it("loose-matching-07-negated.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-07-negated.js"));
+it("loose-matching-07.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-07.js"));
+it("loose-matching-08-negated.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-08-negated.js"));
+it("loose-matching-08.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-08.js"));
+it("loose-matching-09-negated.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-09-negated.js"));
+it("loose-matching-09.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-09.js"));
+it("loose-matching-10-negated.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-10-negated.js"));
+it("loose-matching-10.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-10.js"));
+it("loose-matching-11-negated.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-11-negated.js"));
+it("loose-matching-11.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-11.js"));
+it("loose-matching-12-negated.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-12-negated.js"));
+it("loose-matching-12.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-12.js"));
+it("loose-matching-13-negated.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-13-negated.js"));
+it("loose-matching-13.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-13.js"));
+it("loose-matching-14-negated.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-14-negated.js"));
+it("loose-matching-14.js", createTestHandler("built-ins/RegExp/property-escapes/loose-matching-14.js"));
+it("non-binary-property-without-value-General_Category-equals-negated.js", createTestHandler("built-ins/RegExp/property-escapes/non-binary-property-without-value-General_Category-equals-negated.js"));
+it("non-binary-property-without-value-General_Category-equals.js", createTestHandler("built-ins/RegExp/property-escapes/non-binary-property-without-value-General_Category-equals.js"));
+it("non-binary-property-without-value-General_Category-negated.js", createTestHandler("built-ins/RegExp/property-escapes/non-binary-property-without-value-General_Category-negated.js"));
+it("non-binary-property-without-value-General_Category.js", createTestHandler("built-ins/RegExp/property-escapes/non-binary-property-without-value-General_Category.js"));
+it("non-binary-property-without-value-Script-equals-negated.js", createTestHandler("built-ins/RegExp/property-escapes/non-binary-property-without-value-Script-equals-negated.js"));
+it("non-binary-property-without-value-Script-equals.js", createTestHandler("built-ins/RegExp/property-escapes/non-binary-property-without-value-Script-equals.js"));
+it("non-binary-property-without-value-Script-negated.js", createTestHandler("built-ins/RegExp/property-escapes/non-binary-property-without-value-Script-negated.js"));
+it("non-binary-property-without-value-Script.js", createTestHandler("built-ins/RegExp/property-escapes/non-binary-property-without-value-Script.js"));
+it("non-binary-property-without-value-Script_Extensions-equals-negated.js", createTestHandler("built-ins/RegExp/property-escapes/non-binary-property-without-value-Script_Extensions-equals-negated.js"));
+it("non-binary-property-without-value-Script_Extensions-equals.js", createTestHandler("built-ins/RegExp/property-escapes/non-binary-property-without-value-Script_Extensions-equals.js"));
+it("non-binary-property-without-value-Script_Extensions-negated.js", createTestHandler("built-ins/RegExp/property-escapes/non-binary-property-without-value-Script_Extensions-negated.js"));
+it("non-binary-property-without-value-Script_Extensions.js", createTestHandler("built-ins/RegExp/property-escapes/non-binary-property-without-value-Script_Extensions.js"));
+it("non-existent-binary-property-negated.js", createTestHandler("built-ins/RegExp/property-escapes/non-existent-binary-property-negated.js"));
+it("non-existent-binary-property.js", createTestHandler("built-ins/RegExp/property-escapes/non-existent-binary-property.js"));
+it("non-existent-property-and-value-negated.js", createTestHandler("built-ins/RegExp/property-escapes/non-existent-property-and-value-negated.js"));
+it("non-existent-property-and-value.js", createTestHandler("built-ins/RegExp/property-escapes/non-existent-property-and-value.js"));
+it("non-existent-property-existing-value-negated.js", createTestHandler("built-ins/RegExp/property-escapes/non-existent-property-existing-value-negated.js"));
+it("non-existent-property-existing-value.js", createTestHandler("built-ins/RegExp/property-escapes/non-existent-property-existing-value.js"));
+it("non-existent-property-value-General_Category-negated.js", createTestHandler("built-ins/RegExp/property-escapes/non-existent-property-value-General_Category-negated.js"));
+it("non-existent-property-value-Script-negated.js", createTestHandler("built-ins/RegExp/property-escapes/non-existent-property-value-Script-negated.js"));
+it("non-existent-property-value-Script.js", createTestHandler("built-ins/RegExp/property-escapes/non-existent-property-value-Script.js"));
+it("non-existent-property-value-Script_Extensions-negated.js", createTestHandler("built-ins/RegExp/property-escapes/non-existent-property-value-Script_Extensions-negated.js"));
+it("non-existent-property-value-Script_Extensions.js", createTestHandler("built-ins/RegExp/property-escapes/non-existent-property-value-Script_Extensions.js"));
+it("non-existent-property-value-general-category.js", createTestHandler("built-ins/RegExp/property-escapes/non-existent-property-value-general-category.js"));
+it("special-property-value-Script_Extensions-Unknown.js", createTestHandler("built-ins/RegExp/property-escapes/special-property-value-Script_Extensions-Unknown.js"));
+it("unsupported-binary-property-Composition_Exclusion-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Composition_Exclusion-negated.js"));
+it("unsupported-binary-property-Composition_Exclusion.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Composition_Exclusion.js"));
+it("unsupported-binary-property-Expands_On_NFC-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Expands_On_NFC-negated.js"));
+it("unsupported-binary-property-Expands_On_NFC.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Expands_On_NFC.js"));
+it("unsupported-binary-property-Expands_On_NFD-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Expands_On_NFD-negated.js"));
+it("unsupported-binary-property-Expands_On_NFD.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Expands_On_NFD.js"));
+it("unsupported-binary-property-Expands_On_NFKC-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Expands_On_NFKC-negated.js"));
+it("unsupported-binary-property-Expands_On_NFKC.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Expands_On_NFKC.js"));
+it("unsupported-binary-property-Expands_On_NFKD-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Expands_On_NFKD-negated.js"));
+it("unsupported-binary-property-Expands_On_NFKD.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Expands_On_NFKD.js"));
+it("unsupported-binary-property-FC_NFKC_Closure-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-FC_NFKC_Closure-negated.js"));
+it("unsupported-binary-property-FC_NFKC_Closure.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-FC_NFKC_Closure.js"));
+it("unsupported-binary-property-Full_Composition_Exclusion-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Full_Composition_Exclusion-negated.js"));
+it("unsupported-binary-property-Full_Composition_Exclusion.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Full_Composition_Exclusion.js"));
+it("unsupported-binary-property-Grapheme_Link-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Grapheme_Link-negated.js"));
+it("unsupported-binary-property-Grapheme_Link.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Grapheme_Link.js"));
+it("unsupported-binary-property-Hyphen-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Hyphen-negated.js"));
+it("unsupported-binary-property-Hyphen.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Hyphen.js"));
+it("unsupported-binary-property-Other_Alphabetic-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_Alphabetic-negated.js"));
+it("unsupported-binary-property-Other_Alphabetic.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_Alphabetic.js"));
+it("unsupported-binary-property-Other_Default_Ignorable_Code_Point-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_Default_Ignorable_Code_Point-negated.js"));
+it("unsupported-binary-property-Other_Default_Ignorable_Code_Point.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_Default_Ignorable_Code_Point.js"));
+it("unsupported-binary-property-Other_Grapheme_Extend-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_Grapheme_Extend-negated.js"));
+it("unsupported-binary-property-Other_Grapheme_Extend.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_Grapheme_Extend.js"));
+it("unsupported-binary-property-Other_ID_Continue-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_ID_Continue-negated.js"));
+it("unsupported-binary-property-Other_ID_Continue.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_ID_Continue.js"));
+it("unsupported-binary-property-Other_ID_Start-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_ID_Start-negated.js"));
+it("unsupported-binary-property-Other_ID_Start.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_ID_Start.js"));
+it("unsupported-binary-property-Other_Lowercase-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_Lowercase-negated.js"));
+it("unsupported-binary-property-Other_Lowercase.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_Lowercase.js"));
+it("unsupported-binary-property-Other_Math-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_Math-negated.js"));
+it("unsupported-binary-property-Other_Math.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_Math.js"));
+it("unsupported-binary-property-Other_Uppercase-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_Uppercase-negated.js"));
+it("unsupported-binary-property-Other_Uppercase.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Other_Uppercase.js"));
+it("unsupported-binary-property-Prepended_Concatenation_Mark-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Prepended_Concatenation_Mark-negated.js"));
+it("unsupported-binary-property-Prepended_Concatenation_Mark.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-binary-property-Prepended_Concatenation_Mark.js"));
+it("unsupported-property-Block-with-value-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-property-Block-with-value-negated.js"));
+it("unsupported-property-Block-with-value.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-property-Block-with-value.js"));
+it("unsupported-property-FC_NFKC_Closure-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-property-FC_NFKC_Closure-negated.js"));
+it("unsupported-property-FC_NFKC_Closure.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-property-FC_NFKC_Closure.js"));
+it("unsupported-property-Line_Break-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-property-Line_Break-negated.js"));
+it("unsupported-property-Line_Break-with-value-negated.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-property-Line_Break-with-value-negated.js"));
+it("unsupported-property-Line_Break-with-value.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-property-Line_Break-with-value.js"));
+it("unsupported-property-Line_Break.js", createTestHandler("built-ins/RegExp/property-escapes/unsupported-property-Line_Break.js"));
+});

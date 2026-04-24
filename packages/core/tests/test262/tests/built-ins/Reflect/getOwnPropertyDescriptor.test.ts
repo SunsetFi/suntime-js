@@ -1,2 +1,18 @@
-import defineBuiltinsTestFromPath from "../../../define-builtins-test-from-path.js";
-defineBuiltinsTestFromPath("built-ins/Reflect/getOwnPropertyDescriptor");
+import { it, describe } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+describe("getOwnPropertyDescriptor", () => {
+it("getOwnPropertyDescriptor.js", createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/getOwnPropertyDescriptor.js"));
+it("length.js", createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/length.js"));
+it("name.js", createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/name.js"));
+it("not-a-constructor.js", createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/not-a-constructor.js"));
+it("return-abrupt-from-property-key.js", createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/return-abrupt-from-property-key.js"));
+it("return-abrupt-from-result.js", createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/return-abrupt-from-result.js"));
+it("return-from-accessor-descriptor.js", createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/return-from-accessor-descriptor.js"));
+it("return-from-data-descriptor.js", createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/return-from-data-descriptor.js"));
+it("symbol-property.js", createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/symbol-property.js"));
+it("target-is-not-object-throws.js", createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/target-is-not-object-throws.js"));
+it("target-is-symbol-throws.js", createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/target-is-symbol-throws.js"));
+it("undefined-own-property.js", createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/undefined-own-property.js"));
+it("undefined-property.js", createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/undefined-property.js"));
+});

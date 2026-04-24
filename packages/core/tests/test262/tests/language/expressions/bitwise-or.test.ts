@@ -1,2 +1,35 @@
-import defineLanguageTestFromPath from "../../../define-language-test-from-path.js";
-defineLanguageTestFromPath("language/expressions/bitwise-or");
+import { it, describe } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+describe("bitwise-or", () => {
+it("S11.10.3_A1.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A1.js"));
+it("S11.10.3_A2.1_T1.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A2.1_T1.js"));
+it("S11.10.3_A2.1_T2.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A2.1_T2.js"));
+it("S11.10.3_A2.1_T3.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A2.1_T3.js"));
+it("S11.10.3_A2.2_T1.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A2.2_T1.js"));
+it("S11.10.3_A2.3_T1.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A2.3_T1.js"));
+it("S11.10.3_A2.4_T1.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A2.4_T1.js"));
+it("S11.10.3_A2.4_T2.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A2.4_T2.js"));
+it("S11.10.3_A2.4_T3.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A2.4_T3.js"));
+it("S11.10.3_A3_T1.1.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A3_T1.1.js"));
+it("S11.10.3_A3_T1.2.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A3_T1.2.js"));
+it("S11.10.3_A3_T1.3.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A3_T1.3.js"));
+it("S11.10.3_A3_T1.4.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A3_T1.4.js"));
+it("S11.10.3_A3_T1.5.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A3_T1.5.js"));
+it("S11.10.3_A3_T2.1.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A3_T2.1.js"));
+it("S11.10.3_A3_T2.2.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A3_T2.2.js"));
+it("S11.10.3_A3_T2.3.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A3_T2.3.js"));
+it("S11.10.3_A3_T2.4.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A3_T2.4.js"));
+it("S11.10.3_A3_T2.5.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A3_T2.5.js"));
+it("S11.10.3_A3_T2.6.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A3_T2.6.js"));
+it("S11.10.3_A3_T2.7.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A3_T2.7.js"));
+it("S11.10.3_A3_T2.8.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A3_T2.8.js"));
+it("S11.10.3_A3_T2.9.js", createTestHandler("language/expressions/bitwise-or/S11.10.3_A3_T2.9.js"));
+it("bigint-and-number.js", createTestHandler("language/expressions/bitwise-or/bigint-and-number.js"));
+it("bigint-errors.js", createTestHandler("language/expressions/bitwise-or/bigint-errors.js"));
+it("bigint-non-primitive.js", createTestHandler("language/expressions/bitwise-or/bigint-non-primitive.js"));
+it("bigint-toprimitive.js", createTestHandler("language/expressions/bitwise-or/bigint-toprimitive.js"));
+it("bigint-wrapped-values.js", createTestHandler("language/expressions/bitwise-or/bigint-wrapped-values.js"));
+it("bigint.js", createTestHandler("language/expressions/bitwise-or/bigint.js"));
+it("order-of-evaluation.js", createTestHandler("language/expressions/bitwise-or/order-of-evaluation.js"));
+});

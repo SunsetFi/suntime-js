@@ -1,2 +1,35 @@
-import defineBuiltinsTestFromPath from "../../../define-builtins-test-from-path.js";
-defineBuiltinsTestFromPath("built-ins/String/raw");
+import { it, describe } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+describe("raw", () => {
+it("length.js", createTestHandler("built-ins/String/raw/length.js"));
+it("name.js", createTestHandler("built-ins/String/raw/name.js"));
+it("nextkey-is-symbol-throws.js", createTestHandler("built-ins/String/raw/nextkey-is-symbol-throws.js"));
+it("not-a-constructor.js", createTestHandler("built-ins/String/raw/not-a-constructor.js"));
+it("raw.js", createTestHandler("built-ins/String/raw/raw.js"));
+it("return-empty-string-from-empty-array-length.js", createTestHandler("built-ins/String/raw/return-empty-string-from-empty-array-length.js"));
+it("return-empty-string-if-length-is-negative-infinity.js", createTestHandler("built-ins/String/raw/return-empty-string-if-length-is-negative-infinity.js"));
+it("return-empty-string-if-length-is-not-defined.js", createTestHandler("built-ins/String/raw/return-empty-string-if-length-is-not-defined.js"));
+it("return-empty-string-if-length-is-undefined.js", createTestHandler("built-ins/String/raw/return-empty-string-if-length-is-undefined.js"));
+it("return-empty-string-if-length-is-zero-NaN.js", createTestHandler("built-ins/String/raw/return-empty-string-if-length-is-zero-NaN.js"));
+it("return-empty-string-if-length-is-zero-boolean.js", createTestHandler("built-ins/String/raw/return-empty-string-if-length-is-zero-boolean.js"));
+it("return-empty-string-if-length-is-zero-null.js", createTestHandler("built-ins/String/raw/return-empty-string-if-length-is-zero-null.js"));
+it("return-empty-string-if-length-is-zero-or-less-number.js", createTestHandler("built-ins/String/raw/return-empty-string-if-length-is-zero-or-less-number.js"));
+it("return-empty-string-if-length-is-zero-or-less-string.js", createTestHandler("built-ins/String/raw/return-empty-string-if-length-is-zero-or-less-string.js"));
+it("return-the-string-value-from-template.js", createTestHandler("built-ins/String/raw/return-the-string-value-from-template.js"));
+it("return-the-string-value.js", createTestHandler("built-ins/String/raw/return-the-string-value.js"));
+it("returns-abrupt-from-next-key-toString.js", createTestHandler("built-ins/String/raw/returns-abrupt-from-next-key-toString.js"));
+it("returns-abrupt-from-next-key.js", createTestHandler("built-ins/String/raw/returns-abrupt-from-next-key.js"));
+it("returns-abrupt-from-substitution-symbol.js", createTestHandler("built-ins/String/raw/returns-abrupt-from-substitution-symbol.js"));
+it("returns-abrupt-from-substitution.js", createTestHandler("built-ins/String/raw/returns-abrupt-from-substitution.js"));
+it("special-characters.js", createTestHandler("built-ins/String/raw/special-characters.js"));
+it("substitutions-are-appended-on-same-index.js", createTestHandler("built-ins/String/raw/substitutions-are-appended-on-same-index.js"));
+it("substitutions-are-limited-to-template-raw-length.js", createTestHandler("built-ins/String/raw/substitutions-are-limited-to-template-raw-length.js"));
+it("template-length-is-symbol-throws.js", createTestHandler("built-ins/String/raw/template-length-is-symbol-throws.js"));
+it("template-length-throws.js", createTestHandler("built-ins/String/raw/template-length-throws.js"));
+it("template-not-object-throws.js", createTestHandler("built-ins/String/raw/template-not-object-throws.js"));
+it("template-raw-not-object-throws.js", createTestHandler("built-ins/String/raw/template-raw-not-object-throws.js"));
+it("template-raw-throws.js", createTestHandler("built-ins/String/raw/template-raw-throws.js"));
+it("template-substitutions-are-appended-on-same-index.js", createTestHandler("built-ins/String/raw/template-substitutions-are-appended-on-same-index.js"));
+it("zero-literal-segments.js", createTestHandler("built-ins/String/raw/zero-literal-segments.js"));
+});

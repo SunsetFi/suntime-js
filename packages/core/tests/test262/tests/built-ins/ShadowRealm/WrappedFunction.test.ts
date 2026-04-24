@@ -1,2 +1,10 @@
-import defineBuiltinsTestFromPath from "../../../define-builtins-test-from-path.js";
-defineBuiltinsTestFromPath("built-ins/ShadowRealm/WrappedFunction");
+import { it, describe } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+describe("WrappedFunction", () => {
+it("length-throws-typeerror.js", createTestHandler("built-ins/ShadowRealm/WrappedFunction/length-throws-typeerror.js"));
+it("length.js", createTestHandler("built-ins/ShadowRealm/WrappedFunction/length.js"));
+it("name-throws-typeerror.js", createTestHandler("built-ins/ShadowRealm/WrappedFunction/name-throws-typeerror.js"));
+it("name.js", createTestHandler("built-ins/ShadowRealm/WrappedFunction/name.js"));
+it("throws-typeerror-on-revoked-proxy.js", createTestHandler("built-ins/ShadowRealm/WrappedFunction/throws-typeerror-on-revoked-proxy.js"));
+});

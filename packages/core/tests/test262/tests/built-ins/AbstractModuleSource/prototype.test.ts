@@ -1,2 +1,4 @@
-import defineBuiltinsTestFromPath from "../../../define-builtins-test-from-path.js";
-defineBuiltinsTestFromPath("built-ins/AbstractModuleSource/prototype");
+import { it } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+it("prototype.js", createTestHandler("built-ins/AbstractModuleSource/prototype.js"));

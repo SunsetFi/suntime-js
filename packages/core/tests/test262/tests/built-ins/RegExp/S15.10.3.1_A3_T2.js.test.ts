@@ -1,2 +1,0 @@
-import defineBuiltinsTestFromPath from "../../../define-builtins-test-from-path.js";
-defineBuiltinsTestFromPath("built-ins/RegExp/S15.10.3.1_A3_T2.js");

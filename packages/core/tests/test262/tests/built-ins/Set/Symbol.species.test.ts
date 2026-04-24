@@ -1,2 +1,9 @@
-import defineBuiltinsTestFromPath from "../../../define-builtins-test-from-path.js";
-defineBuiltinsTestFromPath("built-ins/Set/Symbol.species");
+import { it, describe } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+describe("Symbol.species", () => {
+it("length.js", createTestHandler("built-ins/Set/Symbol.species/length.js"));
+it("return-value.js", createTestHandler("built-ins/Set/Symbol.species/return-value.js"));
+it("symbol-species-name.js", createTestHandler("built-ins/Set/Symbol.species/symbol-species-name.js"));
+it("symbol-species.js", createTestHandler("built-ins/Set/Symbol.species/symbol-species.js"));
+});

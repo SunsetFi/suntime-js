@@ -1,0 +1,4 @@
+import { it } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+it("tonumber-operations.js", createTestHandler("built-ins/isNaN/tonumber-operations.js"));

@@ -1,2 +1,6 @@
-import defineBuiltinsTestFromPath from "../../../define-builtins-test-from-path.js";
-defineBuiltinsTestFromPath("built-ins/BigInt/parseInt");
+import { it, describe } from "vitest";
+import { createTestHandler } from "../../../create-test-handler.js";
+
+describe("parseInt", () => {
+it("nonexistent.js", createTestHandler("built-ins/BigInt/parseInt/nonexistent.js"));
+});
