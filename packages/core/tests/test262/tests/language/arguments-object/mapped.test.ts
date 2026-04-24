@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("mapped", () => {
   it(
     "Symbol.iterator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/arguments-object/mapped/Symbol.iterator.js"),
   );
   it(

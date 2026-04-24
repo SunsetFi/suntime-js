@@ -1,3 +1,4 @@
+import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
@@ -31,7 +32,6 @@ import arrayProtoSliceDeclaration from "./slice.js";
 import arrayProtoSomeDeclaration from "./some.js";
 import arrayProtoSortDeclaration from "./sort.js";
 import arrayProtoSpliceDeclaration from "./splice.js";
-import arrayProtoSymbolIteratorDeclaration from "./symbol_iterator.js";
 import arrayProtoSymbolUnscopables from "./symbol_unscopables.js";
 import arrayProtoToStringDeclaration from "./toString.js";
 import arrayProtoUnshiftDeclaration from "./unshift.js";
@@ -69,7 +69,6 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayProtoSomeDeclaration,
   arrayProtoSortDeclaration,
   arrayProtoSpliceDeclaration,
-  arrayProtoSymbolIteratorDeclaration,
   arrayProtoSymbolUnscopables,
   arrayProtoToStringDeclaration,
   // TOOD: toReversed, and so on
@@ -80,4 +79,15 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 
 export default function populateArrayPrototype(realm: StaticJsRealm, arrayProto: StaticJsObject) {
   applyIntrinsicProperties(realm, arrayProto, declarations);
+
+  // Manual because these references need to match.
+  const valuesFn = arrayProto.getSync("values");
+  realm.invokeEvaluatorSync(
+    definePropertyOrThrow(arrayProto, realm.types.symbols.iterator, {
+      value: valuesFn,
+      writable: true,
+      enumerable: false,
+      configurable: true,
+    }),
+  );
 }
