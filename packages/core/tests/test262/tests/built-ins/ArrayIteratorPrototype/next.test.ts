@@ -2,15 +2,15 @@ import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
 describe("next", () => {
-it("Float32Array.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/Float32Array.js"));
-it("Float64Array.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/Float64Array.js"));
-it("Int16Array.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/Int16Array.js"));
-it("Int32Array.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/Int32Array.js"));
-it("Int8Array.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/Int8Array.js"));
-it("Uint16Array.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/Uint16Array.js"));
-it("Uint32Array.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/Uint32Array.js"));
-it("Uint8Array.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/Uint8Array.js"));
-it("Uint8ClampedArray.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/Uint8ClampedArray.js"));
+it.skip("Float32Array.js", () => { /* Ignored Test */ });
+it.skip("Float64Array.js", () => { /* Ignored Test */ });
+it.skip("Int16Array.js", () => { /* Ignored Test */ });
+it.skip("Int32Array.js", () => { /* Ignored Test */ });
+it.skip("Int8Array.js", () => { /* Ignored Test */ });
+it.skip("Uint16Array.js", () => { /* Ignored Test */ });
+it.skip("Uint32Array.js", () => { /* Ignored Test */ });
+it.skip("Uint8Array.js", () => { /* Ignored Test */ });
+it.skip("Uint8ClampedArray.js", () => { /* Ignored Test */ });
 it("args-mapped-expansion-after-exhaustion.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/args-mapped-expansion-after-exhaustion.js"));
 it("args-mapped-expansion-before-exhaustion.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/args-mapped-expansion-before-exhaustion.js"));
 it("args-mapped-iteration.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/args-mapped-iteration.js"));
@@ -19,7 +19,7 @@ it("args-unmapped-expansion-after-exhaustion.js", createTestHandler("built-ins/A
 it("args-unmapped-expansion-before-exhaustion.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/args-unmapped-expansion-before-exhaustion.js"));
 it("args-unmapped-iteration.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/args-unmapped-iteration.js"));
 it("args-unmapped-truncation-before-exhaustion.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/args-unmapped-truncation-before-exhaustion.js"));
-it("detach-typedarray-in-progress.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/detach-typedarray-in-progress.js"));
+it.skip("detach-typedarray-in-progress.js", () => { /* Ignored Test */ });
 it("iteration-mutable.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/iteration-mutable.js"));
 it("iteration.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/iteration.js"));
 it("length.js", createTestHandler("built-ins/ArrayIteratorPrototype/next/length.js"));

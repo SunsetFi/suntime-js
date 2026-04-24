@@ -19,5 +19,5 @@ it("revoke-returns-undefined.js", createTestHandler("built-ins/Proxy/revocable/r
 it("revoke.js", createTestHandler("built-ins/Proxy/revocable/revoke.js"));
 it("target-is-revoked-function-proxy.js", createTestHandler("built-ins/Proxy/revocable/target-is-revoked-function-proxy.js"));
 it("target-is-revoked-proxy.js", createTestHandler("built-ins/Proxy/revocable/target-is-revoked-proxy.js"));
-it("tco-fn-realm.js", createTestHandler("built-ins/Proxy/revocable/tco-fn-realm.js"));
+it.skip("tco-fn-realm.js", () => { /* Ignored Test */ });
 });

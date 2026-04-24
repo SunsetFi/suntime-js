@@ -69,6 +69,6 @@ it("labelled-fn-stmt-second.js", createTestHandler("language/statements/if/label
 it("let-array-with-newline.js", createTestHandler("language/statements/if/let-array-with-newline.js"));
 it("let-block-with-newline.js", createTestHandler("language/statements/if/let-block-with-newline.js"));
 it("let-identifier-with-newline.js", createTestHandler("language/statements/if/let-identifier-with-newline.js"));
-it("tco-else-body.js", createTestHandler("language/statements/if/tco-else-body.js"));
-it("tco-if-body.js", createTestHandler("language/statements/if/tco-if-body.js"));
+it.skip("tco-else-body.js", () => { /* Ignored Test */ });
+it.skip("tco-if-body.js", () => { /* Ignored Test */ });
 });

@@ -19,5 +19,5 @@ it("S11.11.1_A4_T2.js", createTestHandler("language/expressions/logical-and/S11.
 it("S11.11.1_A4_T3.js", createTestHandler("language/expressions/logical-and/S11.11.1_A4_T3.js"));
 it("S11.11.1_A4_T4.js", createTestHandler("language/expressions/logical-and/S11.11.1_A4_T4.js"));
 it("symbol-logical-and-evaluation.js", createTestHandler("language/expressions/logical-and/symbol-logical-and-evaluation.js"));
-it("tco-right.js", createTestHandler("language/expressions/logical-and/tco-right.js"));
+it.skip("tco-right.js", () => { /* Ignored Test */ });
 });

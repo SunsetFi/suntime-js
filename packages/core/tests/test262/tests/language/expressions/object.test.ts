@@ -140,1685 +140,565 @@ it("cpn-obj-lit-computed-property-name-from-string-literal.js", createTestHandle
 it("cpn-obj-lit-computed-property-name-from-yield-expression.js", createTestHandler("language/expressions/object/cpn-obj-lit-computed-property-name-from-yield-expression.js"));
 describe("dstr", () => {
 it("async-gen-meth-ary-init-iter-close.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-init-iter-close.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-init-iter-get-err-array-prototype.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-init-iter-get-err-array-prototype.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-init-iter-get-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-init-iter-get-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-init-iter-no-close.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-init-iter-no-close.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-name-iter-val.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-name-iter-val.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-ary-elem-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-ary-elem-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-ary-elem-iter.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-ary-elem-iter.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-ary-elision-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-ary-elision-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-ary-elision-iter.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-ary-elision-iter.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-ary-empty-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-ary-empty-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-ary-empty-iter.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-ary-empty-iter.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-ary-rest-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-ary-rest-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-ary-rest-iter.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-ary-rest-iter.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-ary-val-null.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-ary-val-null.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-init-exhausted.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-init-exhausted.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-init-fn-name-arrow.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-init-fn-name-arrow.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-init-fn-name-class.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-init-fn-name-class.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-init-fn-name-cover.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-init-fn-name-cover.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-init-fn-name-fn.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-init-fn-name-fn.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-init-fn-name-gen.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-init-fn-name-gen.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-init-hole.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-init-hole.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-init-throws.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-init-undef.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-init-undef.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-iter-complete.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-iter-complete.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-iter-done.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-iter-done.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-iter-step-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-iter-step-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-iter-val-array-prototype.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-iter-val-array-prototype.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-iter-val-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-iter-val-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-id-iter-val.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-id-iter-val.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-obj-id-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-obj-id-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-obj-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-obj-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-obj-prop-id-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-obj-prop-id-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-obj-prop-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-obj-prop-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-obj-val-null.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-obj-val-null.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elem-obj-val-undef.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elem-obj-val-undef.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elision-exhausted.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elision-exhausted.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elision-step-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elision-step-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-elision.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-elision.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-empty.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-empty.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-ary-elem.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-ary-elem.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-ary-elision.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-ary-elision.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-ary-empty.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-ary-empty.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-ary-rest.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-ary-rest.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-id-direct.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-id-direct.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-id-elision-next-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-id-elision-next-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-id-elision.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-id-elision.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-id-exhausted.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-id-exhausted.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-id-iter-step-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-id-iter-step-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-id-iter-val-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-id-iter-val-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-init-ary.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-init-ary.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-init-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-init-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-init-obj.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-init-obj.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-not-final-ary.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-not-final-ary.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-not-final-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-not-final-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-not-final-obj.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-not-final-obj.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-obj-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-obj-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-ary-ptrn-rest-obj-prop-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-obj-prop-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-init-iter-close.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-init-iter-close.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-init-iter-get-err-array-prototype.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-init-iter-get-err-array-prototype.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-init-iter-get-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-init-iter-get-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-init-iter-no-close.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-init-iter-no-close.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-name-iter-val.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-name-iter-val.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-ary-elem-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-elem-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-ary-elem-iter.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-elem-iter.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-ary-elision-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-elision-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-ary-elision-iter.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-elision-iter.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-ary-empty-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-empty-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-ary-empty-iter.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-empty-iter.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-ary-rest-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-rest-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-ary-rest-iter.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-rest-iter.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-ary-val-null.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-val-null.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-init-exhausted.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-exhausted.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-init-hole.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-hole.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-init-throws.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-init-undef.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-undef.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-iter-complete.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-iter-complete.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-iter-done.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-iter-done.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-iter-step-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-iter-step-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-iter-val-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-iter-val-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-id-iter-val.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-iter-val.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-obj-id-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-obj-id-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-obj-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-obj-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-obj-prop-id-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-obj-prop-id-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-obj-prop-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-obj-prop-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-obj-val-null.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-obj-val-null.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elem-obj-val-undef.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elem-obj-val-undef.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elision-exhausted.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elision-exhausted.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elision-step-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elision-step-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-elision.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-elision.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-empty.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-empty.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-ary-elem.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-ary-elem.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-ary-elision.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-ary-elision.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-ary-empty.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-ary-empty.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-ary-rest.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-ary-rest.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-id-direct.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-id-direct.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-id-elision-next-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-id-elision-next-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-id-elision.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-id-elision.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-id-exhausted.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-id-exhausted.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-id-iter-step-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-id-iter-step-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-id-iter-val-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-id-iter-val-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-init-ary.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-init-ary.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-init-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-init-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-init-obj.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-init-obj.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-not-final-ary.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-not-final-ary.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-not-final-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-not-final-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-not-final-obj.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-not-final-obj.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-obj-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-obj-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-ary-ptrn-rest-obj-prop-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-obj-prop-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-init-null.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-init-null.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-init-undefined.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-init-undefined.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-empty.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-empty.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-id-get-value-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-id-get-value-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-id-init-fn-name-arrow.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-id-init-fn-name-arrow.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-id-init-fn-name-class.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-id-init-fn-name-class.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-id-init-fn-name-cover.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-id-init-fn-name-cover.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-id-init-fn-name-fn.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-id-init-fn-name-fn.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-id-init-fn-name-gen.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-id-init-fn-name-gen.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-id-init-throws.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-id-trailing-comma.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-id-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-list-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-list-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-ary-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-ary-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-ary-trailing-comma.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-ary-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-ary-value-null.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-ary-value-null.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-ary.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-ary.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-eval-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-eval-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-id-get-value-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-id-get-value-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-id-init-throws.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-id-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-id-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-id-trailing-comma.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-id-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-obj-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-obj-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-obj-value-null.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-obj-value-null.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-obj-value-undef.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-obj-value-undef.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-prop-obj.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-prop-obj.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-rest-getter.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-rest-getter.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-rest-skip-non-enumerable.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-rest-skip-non-enumerable.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-dflt-obj-ptrn-rest-val-obj.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-dflt-obj-ptrn-rest-val-obj.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-init-null.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-init-null.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-init-undefined.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-init-undefined.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-empty.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-empty.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-id-get-value-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-id-get-value-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-id-init-fn-name-arrow.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-id-init-fn-name-arrow.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-id-init-fn-name-class.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-id-init-fn-name-class.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-id-init-fn-name-cover.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-id-init-fn-name-cover.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-id-init-fn-name-fn.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-id-init-fn-name-fn.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-id-init-fn-name-gen.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-id-init-fn-name-gen.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-id-init-throws.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-id-trailing-comma.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-id-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-list-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-list-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-ary-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-ary-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-ary-trailing-comma.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-ary-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-ary-value-null.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-ary-value-null.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-ary.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-ary.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-eval-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-eval-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-id-get-value-err.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-id-get-value-err.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-id-init-throws.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-id-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-id-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-id-trailing-comma.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-id-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-id.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-id.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-obj-init.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-obj-init.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-obj-value-null.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-obj-value-null.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-obj-value-undef.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-obj-value-undef.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-prop-obj.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-prop-obj.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-rest-getter.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-rest-getter.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-rest-skip-non-enumerable.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-rest-skip-non-enumerable.js"));
-});
-describe("dstr", () => {
 it("async-gen-meth-obj-ptrn-rest-val-obj.js", createTestHandler("language/expressions/object/dstr/async-gen-meth-obj-ptrn-rest-val-obj.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-init-iter-close.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-init-iter-close.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-init-iter-get-err-array-prototype.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-init-iter-get-err-array-prototype.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-init-iter-get-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-init-iter-get-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-init-iter-no-close.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-init-iter-no-close.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-name-iter-val.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-name-iter-val.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-ary-elem-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-ary-elem-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-ary-elem-iter.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-ary-elem-iter.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-ary-elision-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-ary-elision-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-ary-elision-iter.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-ary-elision-iter.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-ary-empty-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-ary-empty-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-ary-empty-iter.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-ary-empty-iter.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-ary-rest-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-ary-rest-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-ary-rest-iter.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-ary-rest-iter.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-ary-val-null.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-ary-val-null.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-init-exhausted.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-init-exhausted.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-init-fn-name-arrow.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-init-fn-name-arrow.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-init-fn-name-class.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-init-fn-name-class.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-init-fn-name-cover.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-init-fn-name-cover.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-init-fn-name-fn.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-init-fn-name-fn.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-init-fn-name-gen.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-init-fn-name-gen.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-init-hole.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-init-hole.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-init-throws.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-init-undef.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-init-undef.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-iter-complete.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-iter-complete.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-iter-done.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-iter-done.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-iter-step-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-iter-step-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-iter-val-array-prototype.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-iter-val-array-prototype.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-iter-val-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-iter-val-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-id-iter-val.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-id-iter-val.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-obj-id-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-obj-id-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-obj-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-obj-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-obj-prop-id-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-obj-prop-id-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-obj-prop-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-obj-prop-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-obj-val-null.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-obj-val-null.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elem-obj-val-undef.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elem-obj-val-undef.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elision-exhausted.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elision-exhausted.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elision-step-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elision-step-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-elision.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-elision.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-empty.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-empty.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-ary-elem.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-ary-elem.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-ary-elision.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-ary-elision.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-ary-empty.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-ary-empty.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-ary-rest.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-ary-rest.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-id-direct.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-id-direct.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-id-elision-next-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-id-elision-next-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-id-elision.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-id-elision.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-id-exhausted.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-id-exhausted.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-id-iter-step-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-id-iter-step-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-id-iter-val-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-id-iter-val-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-init-ary.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-init-ary.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-init-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-init-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-init-obj.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-init-obj.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-not-final-ary.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-not-final-ary.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-not-final-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-not-final-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-not-final-obj.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-not-final-obj.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-obj-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-obj-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-ary-ptrn-rest-obj-prop-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-obj-prop-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-init-iter-close.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-init-iter-close.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-init-iter-get-err-array-prototype.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-init-iter-get-err-array-prototype.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-init-iter-get-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-init-iter-get-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-init-iter-no-close.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-init-iter-no-close.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-name-iter-val.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-name-iter-val.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-ary-elem-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-ary-elem-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-ary-elem-iter.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-ary-elem-iter.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-ary-elision-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-ary-elision-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-ary-elision-iter.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-ary-elision-iter.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-ary-empty-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-ary-empty-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-ary-empty-iter.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-ary-empty-iter.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-ary-rest-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-ary-rest-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-ary-rest-iter.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-ary-rest-iter.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-ary-val-null.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-ary-val-null.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-init-exhausted.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-exhausted.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-init-hole.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-hole.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-init-throws.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-init-undef.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-undef.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-iter-complete.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-iter-complete.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-iter-done.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-iter-done.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-iter-step-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-iter-step-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-iter-val-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-iter-val-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-id-iter-val.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-id-iter-val.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-obj-id-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-obj-id-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-obj-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-obj-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-obj-prop-id-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-obj-prop-id-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-obj-prop-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-obj-prop-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-obj-val-null.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-obj-val-null.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elem-obj-val-undef.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elem-obj-val-undef.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elision-exhausted.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elision-exhausted.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elision-step-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elision-step-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-elision.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-elision.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-empty.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-empty.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-ary-elem.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-ary-elem.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-ary-elision.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-ary-elision.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-ary-empty.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-ary-empty.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-ary-rest.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-ary-rest.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-id-direct.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-id-direct.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-id-elision-next-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-id-elision-next-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-id-elision.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-id-elision.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-id-exhausted.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-id-exhausted.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-id-iter-step-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-id-iter-step-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-id-iter-val-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-id-iter-val-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-init-ary.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-init-ary.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-init-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-init-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-init-obj.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-init-obj.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-not-final-ary.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-not-final-ary.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-not-final-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-not-final-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-not-final-obj.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-not-final-obj.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-obj-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-obj-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-ary-ptrn-rest-obj-prop-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-obj-prop-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-init-null.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-init-null.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-init-undefined.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-init-undefined.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-empty.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-empty.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-id-get-value-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-id-get-value-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-id-init-fn-name-arrow.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-id-init-fn-name-arrow.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-id-init-fn-name-class.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-id-init-fn-name-class.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-id-init-fn-name-cover.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-id-init-fn-name-cover.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-id-init-fn-name-fn.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-id-init-fn-name-fn.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-id-init-fn-name-gen.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-id-init-fn-name-gen.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-id-init-throws.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-id-trailing-comma.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-id-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-list-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-list-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-ary-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-ary-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-ary-trailing-comma.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-ary-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-ary-value-null.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-ary-value-null.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-ary.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-ary.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-eval-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-eval-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-id-get-value-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-id-get-value-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-id-init-throws.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-id-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-id-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-id-trailing-comma.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-id-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-obj-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-obj-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-obj-value-null.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-obj-value-null.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-obj-value-undef.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-obj-value-undef.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-prop-obj.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-prop-obj.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-rest-getter.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-rest-getter.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-rest-skip-non-enumerable.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-rest-skip-non-enumerable.js"));
-});
-describe("dstr", () => {
 it("gen-meth-dflt-obj-ptrn-rest-val-obj.js", createTestHandler("language/expressions/object/dstr/gen-meth-dflt-obj-ptrn-rest-val-obj.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-init-null.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-init-null.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-init-undefined.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-init-undefined.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-empty.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-empty.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-id-get-value-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-id-get-value-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-id-init-fn-name-arrow.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-id-init-fn-name-arrow.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-id-init-fn-name-class.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-id-init-fn-name-class.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-id-init-fn-name-cover.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-id-init-fn-name-cover.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-id-init-fn-name-fn.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-id-init-fn-name-fn.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-id-init-fn-name-gen.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-id-init-fn-name-gen.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-id-init-throws.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-id-trailing-comma.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-id-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-list-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-list-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-ary-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-ary-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-ary-trailing-comma.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-ary-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-ary-value-null.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-ary-value-null.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-ary.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-ary.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-eval-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-eval-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-id-get-value-err.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-id-get-value-err.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-id-init-throws.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-id-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-id-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-id-trailing-comma.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-id-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-id.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-id.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-obj-init.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-obj-init.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-obj-value-null.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-obj-value-null.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-obj-value-undef.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-obj-value-undef.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-prop-obj.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-prop-obj.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-rest-getter.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-rest-getter.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-rest-skip-non-enumerable.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-rest-skip-non-enumerable.js"));
-});
-describe("dstr", () => {
 it("gen-meth-obj-ptrn-rest-val-obj.js", createTestHandler("language/expressions/object/dstr/gen-meth-obj-ptrn-rest-val-obj.js"));
-});
-describe("dstr", () => {
 it("meth-ary-init-iter-close.js", createTestHandler("language/expressions/object/dstr/meth-ary-init-iter-close.js"));
-});
-describe("dstr", () => {
 it("meth-ary-init-iter-get-err-array-prototype.js", createTestHandler("language/expressions/object/dstr/meth-ary-init-iter-get-err-array-prototype.js"));
-});
-describe("dstr", () => {
 it("meth-ary-init-iter-get-err.js", createTestHandler("language/expressions/object/dstr/meth-ary-init-iter-get-err.js"));
-});
-describe("dstr", () => {
 it("meth-ary-init-iter-no-close.js", createTestHandler("language/expressions/object/dstr/meth-ary-init-iter-no-close.js"));
-});
-describe("dstr", () => {
 it("meth-ary-name-iter-val.js", createTestHandler("language/expressions/object/dstr/meth-ary-name-iter-val.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-ary-elem-init.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-ary-elem-init.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-ary-elem-iter.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-ary-elem-iter.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-ary-elision-init.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-ary-elision-init.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-ary-elision-iter.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-ary-elision-iter.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-ary-empty-init.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-ary-empty-init.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-ary-empty-iter.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-ary-empty-iter.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-ary-rest-init.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-ary-rest-init.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-ary-rest-iter.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-ary-rest-iter.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-ary-val-null.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-ary-val-null.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-init-exhausted.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-init-exhausted.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-init-fn-name-arrow.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-init-fn-name-arrow.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-init-fn-name-class.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-init-fn-name-class.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-init-fn-name-cover.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-init-fn-name-cover.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-init-fn-name-fn.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-init-fn-name-fn.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-init-fn-name-gen.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-init-fn-name-gen.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-init-hole.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-init-hole.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-init-throws.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-init-undef.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-init-undef.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-iter-complete.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-iter-complete.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-iter-done.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-iter-done.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-iter-step-err.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-iter-step-err.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-iter-val-array-prototype.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-iter-val-array-prototype.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-iter-val-err.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-iter-val-err.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-id-iter-val.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-id-iter-val.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-obj-id-init.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-obj-id-init.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-obj-id.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-obj-id.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-obj-prop-id-init.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-obj-prop-id-init.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-obj-prop-id.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-obj-prop-id.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-obj-val-null.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-obj-val-null.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elem-obj-val-undef.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elem-obj-val-undef.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elision-exhausted.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elision-exhausted.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elision-step-err.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elision-step-err.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-elision.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-elision.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-empty.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-empty.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-ary-elem.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-ary-elem.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-ary-elision.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-ary-elision.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-ary-empty.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-ary-empty.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-ary-rest.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-ary-rest.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-id-direct.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-id-direct.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-id-elision-next-err.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-id-elision-next-err.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-id-elision.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-id-elision.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-id-exhausted.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-id-exhausted.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-id-iter-step-err.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-id-iter-step-err.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-id-iter-val-err.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-id-iter-val-err.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-id.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-id.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-init-ary.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-init-ary.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-init-id.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-init-id.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-init-obj.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-init-obj.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-not-final-ary.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-not-final-ary.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-not-final-id.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-not-final-id.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-not-final-obj.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-not-final-obj.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-obj-id.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-obj-id.js"));
-});
-describe("dstr", () => {
 it("meth-ary-ptrn-rest-obj-prop-id.js", createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-obj-prop-id.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-init-iter-close.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-init-iter-close.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-init-iter-get-err-array-prototype.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-init-iter-get-err-array-prototype.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-init-iter-get-err.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-init-iter-get-err.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-init-iter-no-close.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-init-iter-no-close.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-name-iter-val.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-name-iter-val.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-ary-elem-init.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-ary-elem-init.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-ary-elem-iter.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-ary-elem-iter.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-ary-elision-init.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-ary-elision-init.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-ary-elision-iter.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-ary-elision-iter.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-ary-empty-init.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-ary-empty-init.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-ary-empty-iter.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-ary-empty-iter.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-ary-rest-init.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-ary-rest-init.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-ary-rest-iter.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-ary-rest-iter.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-ary-val-null.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-ary-val-null.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-init-exhausted.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-init-exhausted.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-init-hole.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-init-hole.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-init-throws.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-init-undef.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-init-undef.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-iter-complete.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-iter-complete.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-iter-done.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-iter-done.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-iter-step-err.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-iter-step-err.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-iter-val-err.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-iter-val-err.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-id-iter-val.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-id-iter-val.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-obj-id-init.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-obj-id-init.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-obj-id.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-obj-id.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-obj-prop-id-init.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-obj-prop-id-init.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-obj-prop-id.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-obj-prop-id.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-obj-val-null.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-obj-val-null.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elem-obj-val-undef.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elem-obj-val-undef.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elision-exhausted.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elision-exhausted.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elision-step-err.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elision-step-err.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-elision.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-elision.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-empty.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-empty.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-ary-elem.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-ary-elem.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-ary-elision.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-ary-elision.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-ary-empty.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-ary-empty.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-ary-rest.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-ary-rest.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-id-direct.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-id-direct.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-id-elision-next-err.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-id-elision-next-err.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-id-elision.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-id-elision.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-id-exhausted.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-id-exhausted.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-id-iter-step-err.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-id-iter-step-err.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-id-iter-val-err.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-id-iter-val-err.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-id.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-id.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-init-ary.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-init-ary.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-init-id.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-init-id.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-init-obj.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-init-obj.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-not-final-ary.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-not-final-ary.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-not-final-id.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-not-final-id.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-not-final-obj.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-not-final-obj.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-obj-id.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-obj-id.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-ary-ptrn-rest-obj-prop-id.js", createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-obj-prop-id.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-init-null.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-init-null.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-init-undefined.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-init-undefined.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-empty.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-empty.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-id-get-value-err.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-id-get-value-err.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-id-init-fn-name-arrow.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-id-init-fn-name-arrow.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-id-init-fn-name-class.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-id-init-fn-name-class.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-id-init-fn-name-cover.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-id-init-fn-name-cover.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-id-init-fn-name-fn.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-id-init-fn-name-fn.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-id-init-fn-name-gen.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-id-init-fn-name-gen.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-id-init-throws.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-id-trailing-comma.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-id-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-list-err.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-list-err.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-ary-init.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-ary-init.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-ary-trailing-comma.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-ary-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-ary-value-null.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-ary-value-null.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-ary.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-ary.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-eval-err.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-eval-err.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-id-get-value-err.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-id-get-value-err.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-id-init-throws.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-id-init.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-id-init.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-id-trailing-comma.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-id-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-id.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-id.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-obj-init.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-obj-init.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-obj-value-null.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-obj-value-null.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-obj-value-undef.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-obj-value-undef.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-prop-obj.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-prop-obj.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-rest-getter.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-rest-getter.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-rest-skip-non-enumerable.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-rest-skip-non-enumerable.js"));
-});
-describe("dstr", () => {
 it("meth-dflt-obj-ptrn-rest-val-obj.js", createTestHandler("language/expressions/object/dstr/meth-dflt-obj-ptrn-rest-val-obj.js"));
-});
-describe("dstr", () => {
 it("meth-obj-init-null.js", createTestHandler("language/expressions/object/dstr/meth-obj-init-null.js"));
-});
-describe("dstr", () => {
 it("meth-obj-init-undefined.js", createTestHandler("language/expressions/object/dstr/meth-obj-init-undefined.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-empty.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-empty.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-id-get-value-err.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-id-get-value-err.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-id-init-fn-name-arrow.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-id-init-fn-name-arrow.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-id-init-fn-name-class.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-id-init-fn-name-class.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-id-init-fn-name-cover.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-id-init-fn-name-cover.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-id-init-fn-name-fn.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-id-init-fn-name-fn.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-id-init-fn-name-gen.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-id-init-fn-name-gen.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-id-init-throws.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-id-trailing-comma.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-id-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-list-err.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-list-err.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-ary-init.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-ary-init.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-ary-trailing-comma.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-ary-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-ary-value-null.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-ary-value-null.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-ary.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-ary.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-eval-err.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-eval-err.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-id-get-value-err.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-id-get-value-err.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-id-init-skipped.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-id-init-skipped.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-id-init-throws.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-id-init-throws.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-id-init-unresolvable.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-id-init-unresolvable.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-id-init.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-id-init.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-id-trailing-comma.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-id-trailing-comma.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-id.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-id.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-obj-init.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-obj-init.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-obj-value-null.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-obj-value-null.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-obj-value-undef.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-obj-value-undef.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-prop-obj.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-prop-obj.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-rest-getter.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-rest-getter.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-rest-skip-non-enumerable.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-rest-skip-non-enumerable.js"));
-});
-describe("dstr", () => {
 it("meth-obj-ptrn-rest-val-obj.js", createTestHandler("language/expressions/object/dstr/meth-obj-ptrn-rest-val-obj.js"));
-});
-describe("dstr", () => {
 it("object-rest-proxy-get-not-called-on-dontenum-keys.js", createTestHandler("language/expressions/object/dstr/object-rest-proxy-get-not-called-on-dontenum-keys.js"));
-});
-describe("dstr", () => {
 it("object-rest-proxy-gopd-not-called-on-excluded-keys.js", createTestHandler("language/expressions/object/dstr/object-rest-proxy-gopd-not-called-on-excluded-keys.js"));
-});
-describe("dstr", () => {
 it("object-rest-proxy-ownkeys-returned-keys-order.js", createTestHandler("language/expressions/object/dstr/object-rest-proxy-ownkeys-returned-keys-order.js"));
 });
 it("fn-name-accessor-get.js", createTestHandler("language/expressions/object/fn-name-accessor-get.js"));
@@ -1943,991 +823,313 @@ it("let-non-strict-syntax.js", createTestHandler("language/expressions/object/le
 it("literal-property-name-bigint.js", createTestHandler("language/expressions/object/literal-property-name-bigint.js"));
 describe("method-definition", () => {
 it("async-await-as-binding-identifier-escaped.js", createTestHandler("language/expressions/object/method-definition/async-await-as-binding-identifier-escaped.js"));
-});
-describe("method-definition", () => {
 it("async-await-as-binding-identifier.js", createTestHandler("language/expressions/object/method-definition/async-await-as-binding-identifier.js"));
-});
-describe("method-definition", () => {
 it("async-await-as-identifier-reference-escaped.js", createTestHandler("language/expressions/object/method-definition/async-await-as-identifier-reference-escaped.js"));
-});
-describe("method-definition", () => {
 it("async-await-as-identifier-reference.js", createTestHandler("language/expressions/object/method-definition/async-await-as-identifier-reference.js"));
-});
-describe("method-definition", () => {
 it("async-await-as-label-identifier-escaped.js", createTestHandler("language/expressions/object/method-definition/async-await-as-label-identifier-escaped.js"));
-});
-describe("method-definition", () => {
 it("async-await-as-label-identifier.js", createTestHandler("language/expressions/object/method-definition/async-await-as-label-identifier.js"));
-});
-describe("method-definition", () => {
 it("async-gen-await-as-binding-identifier-escaped.js", createTestHandler("language/expressions/object/method-definition/async-gen-await-as-binding-identifier-escaped.js"));
-});
-describe("method-definition", () => {
 it("async-gen-await-as-binding-identifier.js", createTestHandler("language/expressions/object/method-definition/async-gen-await-as-binding-identifier.js"));
-});
-describe("method-definition", () => {
 it("async-gen-await-as-identifier-reference-escaped.js", createTestHandler("language/expressions/object/method-definition/async-gen-await-as-identifier-reference-escaped.js"));
-});
-describe("method-definition", () => {
 it("async-gen-await-as-identifier-reference.js", createTestHandler("language/expressions/object/method-definition/async-gen-await-as-identifier-reference.js"));
-});
-describe("method-definition", () => {
 it("async-gen-await-as-label-identifier-escaped.js", createTestHandler("language/expressions/object/method-definition/async-gen-await-as-label-identifier-escaped.js"));
-});
-describe("method-definition", () => {
 it("async-gen-await-as-label-identifier.js", createTestHandler("language/expressions/object/method-definition/async-gen-await-as-label-identifier.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-array-destructuring-param-strict-body.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-array-destructuring-param-strict-body.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-dflt-params-abrupt.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-dflt-params-abrupt.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-dflt-params-arg-val-not-undefined.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-dflt-params-arg-val-not-undefined.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-dflt-params-arg-val-undefined.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-dflt-params-arg-val-undefined.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-dflt-params-duplicates.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-dflt-params-duplicates.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-dflt-params-ref-later.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-dflt-params-ref-later.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-dflt-params-ref-prior.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-dflt-params-ref-prior.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-dflt-params-ref-self.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-dflt-params-ref-self.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-dflt-params-rest.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-dflt-params-rest.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-dflt-params-trailing-comma.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-dflt-params-trailing-comma.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-escaped-async.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-escaped-async.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-eval-var-scope-syntax-err.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-eval-var-scope-syntax-err.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-object-destructuring-param-strict-body.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-object-destructuring-param-strict-body.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-params-trailing-comma-multiple.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-params-trailing-comma-multiple.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-params-trailing-comma-single.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-params-trailing-comma-single.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-rest-param-strict-body.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-rest-param-strict-body.js"));
-});
-describe("method-definition", () => {
 it("async-gen-meth-rest-params-trailing-comma-early-error.js", createTestHandler("language/expressions/object/method-definition/async-gen-meth-rest-params-trailing-comma-early-error.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-as-binding-identifier-escaped.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-as-binding-identifier-escaped.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-as-binding-identifier.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-as-binding-identifier.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-as-identifier-reference-escaped.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-as-identifier-reference-escaped.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-as-identifier-reference.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-as-identifier-reference.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-as-label-identifier-escaped.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-as-label-identifier-escaped.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-as-label-identifier.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-as-label-identifier.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-identifier-non-strict.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-identifier-non-strict.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-identifier-spread-non-strict.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-identifier-spread-non-strict.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-identifier-spread-strict.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-identifier-spread-strict.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-identifier-strict.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-identifier-strict.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-promise-reject-next-catch.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-promise-reject-next-catch.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-promise-reject-next-for-await-of-async-iterator.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-promise-reject-next-for-await-of-async-iterator.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-promise-reject-next-for-await-of-sync-iterator.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-promise-reject-next-for-await-of-sync-iterator.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-promise-reject-next-yield-star-async-iterator.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-promise-reject-next-yield-star-async-iterator.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-promise-reject-next-yield-star-sync-iterator.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-promise-reject-next-yield-star-sync-iterator.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-promise-reject-next.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-promise-reject-next.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-spread-arr-multiple.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-spread-arr-multiple.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-spread-arr-single.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-spread-arr-single.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-spread-obj.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-spread-obj.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-async-next.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-async-next.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-async-return.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-async-return.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-async-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-async-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-expr-abrupt.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-expr-abrupt.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-async-get-abrupt.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-async-get-abrupt.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-async-not-callable-boolean-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-async-not-callable-boolean-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-async-not-callable-number-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-async-not-callable-number-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-async-not-callable-object-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-async-not-callable-object-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-async-not-callable-string-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-async-not-callable-string-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-async-not-callable-symbol-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-async-not-callable-symbol-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-async-null-sync-get-abrupt.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-async-null-sync-get-abrupt.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-async-returns-abrupt.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-async-returns-abrupt.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-async-returns-boolean-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-async-returns-boolean-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-async-returns-null-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-async-returns-null-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-async-returns-number-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-async-returns-number-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-async-returns-string-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-async-returns-string-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-async-returns-symbol-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-async-returns-symbol-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-async-returns-undefined-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-async-returns-undefined-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-async-undefined-sync-get-abrupt.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-async-undefined-sync-get-abrupt.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-sync-get-abrupt.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-sync-get-abrupt.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-sync-not-callable-boolean-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-sync-not-callable-boolean-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-sync-not-callable-number-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-sync-not-callable-number-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-sync-not-callable-object-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-sync-not-callable-object-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-sync-not-callable-string-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-sync-not-callable-string-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-sync-not-callable-symbol-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-sync-not-callable-symbol-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-sync-returns-abrupt.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-sync-returns-abrupt.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-sync-returns-boolean-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-sync-returns-boolean-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-sync-returns-null-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-sync-returns-null-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-sync-returns-number-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-sync-returns-number-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-sync-returns-string-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-sync-returns-string-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-sync-returns-symbol-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-sync-returns-symbol-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-getiter-sync-returns-undefined-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-getiter-sync-returns-undefined-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-call-done-get-abrupt.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-call-done-get-abrupt.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-call-returns-abrupt.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-call-returns-abrupt.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-call-value-get-abrupt.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-call-value-get-abrupt.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-get-abrupt.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-get-abrupt.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-non-object-ignores-then.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-non-object-ignores-then.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-not-callable-boolean-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-not-callable-boolean-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-not-callable-null-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-not-callable-null-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-not-callable-number-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-not-callable-number-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-not-callable-object-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-not-callable-object-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-not-callable-string-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-not-callable-string-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-not-callable-symbol-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-not-callable-symbol-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-not-callable-undefined-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-not-callable-undefined-throw.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-then-get-abrupt.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-then-get-abrupt.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-then-non-callable-boolean-fulfillpromise.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-then-non-callable-boolean-fulfillpromise.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-then-non-callable-null-fulfillpromise.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-then-non-callable-null-fulfillpromise.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-then-non-callable-number-fulfillpromise.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-then-non-callable-number-fulfillpromise.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-then-non-callable-object-fulfillpromise.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-then-non-callable-object-fulfillpromise.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-then-non-callable-string-fulfillpromise.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-then-non-callable-string-fulfillpromise.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-then-non-callable-symbol-fulfillpromise.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-then-non-callable-symbol-fulfillpromise.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-then-non-callable-undefined-fulfillpromise.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-then-non-callable-undefined-fulfillpromise.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-next-then-returns-abrupt.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-next-then-returns-abrupt.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-sync-next.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-sync-next.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-sync-return.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-sync-return.js"));
-});
-describe("method-definition", () => {
 it("async-gen-yield-star-sync-throw.js", createTestHandler("language/expressions/object/method-definition/async-gen-yield-star-sync-throw.js"));
-});
-describe("method-definition", () => {
 it("async-meth-array-destructuring-param-strict-body.js", createTestHandler("language/expressions/object/method-definition/async-meth-array-destructuring-param-strict-body.js"));
-});
-describe("method-definition", () => {
 it("async-meth-dflt-params-abrupt.js", createTestHandler("language/expressions/object/method-definition/async-meth-dflt-params-abrupt.js"));
-});
-describe("method-definition", () => {
 it("async-meth-dflt-params-arg-val-not-undefined.js", createTestHandler("language/expressions/object/method-definition/async-meth-dflt-params-arg-val-not-undefined.js"));
-});
-describe("method-definition", () => {
 it("async-meth-dflt-params-arg-val-undefined.js", createTestHandler("language/expressions/object/method-definition/async-meth-dflt-params-arg-val-undefined.js"));
-});
-describe("method-definition", () => {
 it("async-meth-dflt-params-duplicates.js", createTestHandler("language/expressions/object/method-definition/async-meth-dflt-params-duplicates.js"));
-});
-describe("method-definition", () => {
 it("async-meth-dflt-params-ref-later.js", createTestHandler("language/expressions/object/method-definition/async-meth-dflt-params-ref-later.js"));
-});
-describe("method-definition", () => {
 it("async-meth-dflt-params-ref-prior.js", createTestHandler("language/expressions/object/method-definition/async-meth-dflt-params-ref-prior.js"));
-});
-describe("method-definition", () => {
 it("async-meth-dflt-params-ref-self.js", createTestHandler("language/expressions/object/method-definition/async-meth-dflt-params-ref-self.js"));
-});
-describe("method-definition", () => {
 it("async-meth-dflt-params-rest.js", createTestHandler("language/expressions/object/method-definition/async-meth-dflt-params-rest.js"));
-});
-describe("method-definition", () => {
 it("async-meth-dflt-params-trailing-comma.js", createTestHandler("language/expressions/object/method-definition/async-meth-dflt-params-trailing-comma.js"));
-});
-describe("method-definition", () => {
 it("async-meth-escaped-async.js", createTestHandler("language/expressions/object/method-definition/async-meth-escaped-async.js"));
-});
-describe("method-definition", () => {
 it("async-meth-eval-var-scope-syntax-err.js", createTestHandler("language/expressions/object/method-definition/async-meth-eval-var-scope-syntax-err.js"));
-});
-describe("method-definition", () => {
 it("async-meth-object-destructuring-param-strict-body.js", createTestHandler("language/expressions/object/method-definition/async-meth-object-destructuring-param-strict-body.js"));
-});
-describe("method-definition", () => {
 it("async-meth-params-trailing-comma-multiple.js", createTestHandler("language/expressions/object/method-definition/async-meth-params-trailing-comma-multiple.js"));
-});
-describe("method-definition", () => {
 it("async-meth-params-trailing-comma-single.js", createTestHandler("language/expressions/object/method-definition/async-meth-params-trailing-comma-single.js"));
-});
-describe("method-definition", () => {
 it("async-meth-rest-param-strict-body.js", createTestHandler("language/expressions/object/method-definition/async-meth-rest-param-strict-body.js"));
-});
-describe("method-definition", () => {
 it("async-meth-rest-params-trailing-comma-early-error.js", createTestHandler("language/expressions/object/method-definition/async-meth-rest-params-trailing-comma-early-error.js"));
-});
-describe("method-definition", () => {
 it("async-returns-async-arrow-returns-arguments-from-parent-function.js", createTestHandler("language/expressions/object/method-definition/async-returns-async-arrow-returns-arguments-from-parent-function.js"));
-});
-describe("method-definition", () => {
 it("async-returns-async-arrow-returns-newtarget.js", createTestHandler("language/expressions/object/method-definition/async-returns-async-arrow-returns-newtarget.js"));
-});
-describe("method-definition", () => {
 it("async-returns-async-arrow.js", createTestHandler("language/expressions/object/method-definition/async-returns-async-arrow.js"));
-});
-describe("method-definition", () => {
 it("async-returns-async-function-returns-arguments-from-own-function.js", createTestHandler("language/expressions/object/method-definition/async-returns-async-function-returns-arguments-from-own-function.js"));
-});
-describe("method-definition", () => {
 it("async-returns-async-function-returns-newtarget.js", createTestHandler("language/expressions/object/method-definition/async-returns-async-function-returns-newtarget.js"));
-});
-describe("method-definition", () => {
 it("async-returns-async-function.js", createTestHandler("language/expressions/object/method-definition/async-returns-async-function.js"));
-});
-describe("method-definition", () => {
 it("async-super-call-body.js", createTestHandler("language/expressions/object/method-definition/async-super-call-body.js"));
-});
-describe("method-definition", () => {
 it("async-super-call-param.js", createTestHandler("language/expressions/object/method-definition/async-super-call-param.js"));
-});
-describe("method-definition", () => {
 it("computed-property-name-yield-expression.js", createTestHandler("language/expressions/object/method-definition/computed-property-name-yield-expression.js"));
-});
-describe("method-definition", () => {
 it("early-errors-object-async-method-duplicate-parameters.js", createTestHandler("language/expressions/object/method-definition/early-errors-object-async-method-duplicate-parameters.js"));
-});
-describe("method-definition", () => {
 it("early-errors-object-method-NSPL-with-USD.js", createTestHandler("language/expressions/object/method-definition/early-errors-object-method-NSPL-with-USD.js"));
-});
-describe("method-definition", () => {
 it("early-errors-object-method-arguments-in-formal-parameters.js", createTestHandler("language/expressions/object/method-definition/early-errors-object-method-arguments-in-formal-parameters.js"));
-});
-describe("method-definition", () => {
 it("early-errors-object-method-async-lineterminator.js", createTestHandler("language/expressions/object/method-definition/early-errors-object-method-async-lineterminator.js"));
-});
-describe("method-definition", () => {
 it("early-errors-object-method-await-in-formals-default.js", createTestHandler("language/expressions/object/method-definition/early-errors-object-method-await-in-formals-default.js"));
-});
-describe("method-definition", () => {
 it("early-errors-object-method-await-in-formals.js", createTestHandler("language/expressions/object/method-definition/early-errors-object-method-await-in-formals.js"));
-});
-describe("method-definition", () => {
 it("early-errors-object-method-body-contains-super-call.js", createTestHandler("language/expressions/object/method-definition/early-errors-object-method-body-contains-super-call.js"));
-});
-describe("method-definition", () => {
 it("early-errors-object-method-duplicate-parameters.js", createTestHandler("language/expressions/object/method-definition/early-errors-object-method-duplicate-parameters.js"));
-});
-describe("method-definition", () => {
 it("early-errors-object-method-eval-in-formal-parameters.js", createTestHandler("language/expressions/object/method-definition/early-errors-object-method-eval-in-formal-parameters.js"));
-});
-describe("method-definition", () => {
 it("early-errors-object-method-formals-body-duplicate.js", createTestHandler("language/expressions/object/method-definition/early-errors-object-method-formals-body-duplicate.js"));
-});
-describe("method-definition", () => {
 it("early-errors-object-method-formals-contains-super-call.js", createTestHandler("language/expressions/object/method-definition/early-errors-object-method-formals-contains-super-call.js"));
-});
-describe("method-definition", () => {
 it("escaped-get-e.js", createTestHandler("language/expressions/object/method-definition/escaped-get-e.js"));
-});
-describe("method-definition", () => {
 it("escaped-get-g.js", createTestHandler("language/expressions/object/method-definition/escaped-get-g.js"));
-});
-describe("method-definition", () => {
 it("escaped-get-t.js", createTestHandler("language/expressions/object/method-definition/escaped-get-t.js"));
-});
-describe("method-definition", () => {
 it("escaped-get.js", createTestHandler("language/expressions/object/method-definition/escaped-get.js"));
-});
-describe("method-definition", () => {
 it("escaped-set-e.js", createTestHandler("language/expressions/object/method-definition/escaped-set-e.js"));
-});
-describe("method-definition", () => {
 it("escaped-set-s.js", createTestHandler("language/expressions/object/method-definition/escaped-set-s.js"));
-});
-describe("method-definition", () => {
 it("escaped-set-t.js", createTestHandler("language/expressions/object/method-definition/escaped-set-t.js"));
-});
-describe("method-definition", () => {
 it("escaped-set.js", createTestHandler("language/expressions/object/method-definition/escaped-set.js"));
-});
-describe("method-definition", () => {
 it("fn-name-fn.js", createTestHandler("language/expressions/object/method-definition/fn-name-fn.js"));
-});
-describe("method-definition", () => {
 it("fn-name-gen.js", createTestHandler("language/expressions/object/method-definition/fn-name-gen.js"));
-});
-describe("method-definition", () => {
 describe("forbidden-ext", () => {
 describe("b1", () => {
 it("async-gen-meth-forbidden-ext-direct-access-prop-arguments.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b1/async-gen-meth-forbidden-ext-direct-access-prop-arguments.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b1", () => {
 it("async-gen-meth-forbidden-ext-direct-access-prop-caller.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b1/async-gen-meth-forbidden-ext-direct-access-prop-caller.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b1", () => {
 it("async-meth-forbidden-ext-direct-access-prop-arguments.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b1/async-meth-forbidden-ext-direct-access-prop-arguments.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b1", () => {
 it("async-meth-forbidden-ext-direct-access-prop-caller.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b1/async-meth-forbidden-ext-direct-access-prop-caller.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b1", () => {
 it("gen-meth-forbidden-ext-direct-access-prop-arguments.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b1/gen-meth-forbidden-ext-direct-access-prop-arguments.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b1", () => {
 it("gen-meth-forbidden-ext-direct-access-prop-caller.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b1/gen-meth-forbidden-ext-direct-access-prop-caller.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b1", () => {
 it("meth-forbidden-ext-direct-access-prop-arguments.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b1/meth-forbidden-ext-direct-access-prop-arguments.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b1", () => {
 it("meth-forbidden-ext-direct-access-prop-caller.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b1/meth-forbidden-ext-direct-access-prop-caller.js"));
 });
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
 describe("b2", () => {
 it("async-gen-meth-forbidden-ext-indirect-access-own-prop-caller-get.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b2/async-gen-meth-forbidden-ext-indirect-access-own-prop-caller-get.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("async-gen-meth-forbidden-ext-indirect-access-own-prop-caller-value.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b2/async-gen-meth-forbidden-ext-indirect-access-own-prop-caller-value.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("async-gen-meth-forbidden-ext-indirect-access-prop-caller.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b2/async-gen-meth-forbidden-ext-indirect-access-prop-caller.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("async-meth-forbidden-ext-indirect-access-own-prop-caller-get.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b2/async-meth-forbidden-ext-indirect-access-own-prop-caller-get.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("async-meth-forbidden-ext-indirect-access-own-prop-caller-value.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b2/async-meth-forbidden-ext-indirect-access-own-prop-caller-value.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("async-meth-forbidden-ext-indirect-access-prop-caller.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b2/async-meth-forbidden-ext-indirect-access-prop-caller.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("gen-meth-forbidden-ext-indirect-access-own-prop-caller-get.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b2/gen-meth-forbidden-ext-indirect-access-own-prop-caller-get.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("gen-meth-forbidden-ext-indirect-access-own-prop-caller-value.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b2/gen-meth-forbidden-ext-indirect-access-own-prop-caller-value.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("gen-meth-forbidden-ext-indirect-access-prop-caller.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b2/gen-meth-forbidden-ext-indirect-access-prop-caller.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("meth-forbidden-ext-indirect-access-own-prop-caller-get.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b2/meth-forbidden-ext-indirect-access-own-prop-caller-get.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("meth-forbidden-ext-indirect-access-own-prop-caller-value.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b2/meth-forbidden-ext-indirect-access-own-prop-caller-value.js"));
-});
-});
-});
-describe("method-definition", () => {
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("meth-forbidden-ext-indirect-access-prop-caller.js", createTestHandler("language/expressions/object/method-definition/forbidden-ext/b2/meth-forbidden-ext-indirect-access-prop-caller.js"));
 });
 });
-});
-describe("method-definition", () => {
 it("gen-meth-array-destructuring-param-strict-body.js", createTestHandler("language/expressions/object/method-definition/gen-meth-array-destructuring-param-strict-body.js"));
-});
-describe("method-definition", () => {
 it("gen-meth-dflt-params-abrupt.js", createTestHandler("language/expressions/object/method-definition/gen-meth-dflt-params-abrupt.js"));
-});
-describe("method-definition", () => {
 it("gen-meth-dflt-params-arg-val-not-undefined.js", createTestHandler("language/expressions/object/method-definition/gen-meth-dflt-params-arg-val-not-undefined.js"));
-});
-describe("method-definition", () => {
 it("gen-meth-dflt-params-arg-val-undefined.js", createTestHandler("language/expressions/object/method-definition/gen-meth-dflt-params-arg-val-undefined.js"));
-});
-describe("method-definition", () => {
 it("gen-meth-dflt-params-duplicates.js", createTestHandler("language/expressions/object/method-definition/gen-meth-dflt-params-duplicates.js"));
-});
-describe("method-definition", () => {
 it("gen-meth-dflt-params-ref-later.js", createTestHandler("language/expressions/object/method-definition/gen-meth-dflt-params-ref-later.js"));
-});
-describe("method-definition", () => {
 it("gen-meth-dflt-params-ref-prior.js", createTestHandler("language/expressions/object/method-definition/gen-meth-dflt-params-ref-prior.js"));
-});
-describe("method-definition", () => {
 it("gen-meth-dflt-params-ref-self.js", createTestHandler("language/expressions/object/method-definition/gen-meth-dflt-params-ref-self.js"));
-});
-describe("method-definition", () => {
 it("gen-meth-dflt-params-rest.js", createTestHandler("language/expressions/object/method-definition/gen-meth-dflt-params-rest.js"));
-});
-describe("method-definition", () => {
 it("gen-meth-dflt-params-trailing-comma.js", createTestHandler("language/expressions/object/method-definition/gen-meth-dflt-params-trailing-comma.js"));
-});
-describe("method-definition", () => {
 it("gen-meth-eval-var-scope-syntax-err.js", createTestHandler("language/expressions/object/method-definition/gen-meth-eval-var-scope-syntax-err.js"));
-});
-describe("method-definition", () => {
 it("gen-meth-object-destructuring-param-strict-body.js", createTestHandler("language/expressions/object/method-definition/gen-meth-object-destructuring-param-strict-body.js"));
-});
-describe("method-definition", () => {
 it("gen-meth-params-trailing-comma-multiple.js", createTestHandler("language/expressions/object/method-definition/gen-meth-params-trailing-comma-multiple.js"));
-});
-describe("method-definition", () => {
 it("gen-meth-params-trailing-comma-single.js", createTestHandler("language/expressions/object/method-definition/gen-meth-params-trailing-comma-single.js"));
-});
-describe("method-definition", () => {
 it("gen-meth-rest-param-strict-body.js", createTestHandler("language/expressions/object/method-definition/gen-meth-rest-param-strict-body.js"));
-});
-describe("method-definition", () => {
 it("gen-meth-rest-params-trailing-comma-early-error.js", createTestHandler("language/expressions/object/method-definition/gen-meth-rest-params-trailing-comma-early-error.js"));
-});
-describe("method-definition", () => {
 it("gen-yield-as-binding-identifier-escaped.js", createTestHandler("language/expressions/object/method-definition/gen-yield-as-binding-identifier-escaped.js"));
-});
-describe("method-definition", () => {
 it("gen-yield-as-binding-identifier.js", createTestHandler("language/expressions/object/method-definition/gen-yield-as-binding-identifier.js"));
-});
-describe("method-definition", () => {
 it("gen-yield-as-identifier-reference-escaped.js", createTestHandler("language/expressions/object/method-definition/gen-yield-as-identifier-reference-escaped.js"));
-});
-describe("method-definition", () => {
 it("gen-yield-as-identifier-reference.js", createTestHandler("language/expressions/object/method-definition/gen-yield-as-identifier-reference.js"));
-});
-describe("method-definition", () => {
 it("gen-yield-as-label-identifier-escaped.js", createTestHandler("language/expressions/object/method-definition/gen-yield-as-label-identifier-escaped.js"));
-});
-describe("method-definition", () => {
 it("gen-yield-as-label-identifier.js", createTestHandler("language/expressions/object/method-definition/gen-yield-as-label-identifier.js"));
-});
-describe("method-definition", () => {
 it("gen-yield-identifier-non-strict.js", createTestHandler("language/expressions/object/method-definition/gen-yield-identifier-non-strict.js"));
-});
-describe("method-definition", () => {
 it("gen-yield-identifier-spread-non-strict.js", createTestHandler("language/expressions/object/method-definition/gen-yield-identifier-spread-non-strict.js"));
-});
-describe("method-definition", () => {
 it("gen-yield-identifier-spread-strict.js", createTestHandler("language/expressions/object/method-definition/gen-yield-identifier-spread-strict.js"));
-});
-describe("method-definition", () => {
 it("gen-yield-identifier-strict.js", createTestHandler("language/expressions/object/method-definition/gen-yield-identifier-strict.js"));
-});
-describe("method-definition", () => {
 it("gen-yield-spread-arr-multiple.js", createTestHandler("language/expressions/object/method-definition/gen-yield-spread-arr-multiple.js"));
-});
-describe("method-definition", () => {
 it("gen-yield-spread-arr-single.js", createTestHandler("language/expressions/object/method-definition/gen-yield-spread-arr-single.js"));
-});
-describe("method-definition", () => {
 it("gen-yield-spread-obj.js", createTestHandler("language/expressions/object/method-definition/gen-yield-spread-obj.js"));
-});
-describe("method-definition", () => {
 it("generator-invoke-ctor.js", createTestHandler("language/expressions/object/method-definition/generator-invoke-ctor.js"));
-});
-describe("method-definition", () => {
 it("generator-invoke-fn-no-strict.js", createTestHandler("language/expressions/object/method-definition/generator-invoke-fn-no-strict.js"));
-});
-describe("method-definition", () => {
 it("generator-invoke-fn-strict.js", createTestHandler("language/expressions/object/method-definition/generator-invoke-fn-strict.js"));
-});
-describe("method-definition", () => {
 it("generator-length-dflt.js", createTestHandler("language/expressions/object/method-definition/generator-length-dflt.js"));
-});
-describe("method-definition", () => {
 it("generator-length.js", createTestHandler("language/expressions/object/method-definition/generator-length.js"));
-});
-describe("method-definition", () => {
 it("generator-name-prop-string.js", createTestHandler("language/expressions/object/method-definition/generator-name-prop-string.js"));
-});
-describe("method-definition", () => {
 it("generator-name-prop-symbol.js", createTestHandler("language/expressions/object/method-definition/generator-name-prop-symbol.js"));
-});
-describe("method-definition", () => {
 it("generator-no-yield.js", createTestHandler("language/expressions/object/method-definition/generator-no-yield.js"));
-});
-describe("method-definition", () => {
 it("generator-param-id-yield.js", createTestHandler("language/expressions/object/method-definition/generator-param-id-yield.js"));
-});
-describe("method-definition", () => {
 it("generator-param-init-yield.js", createTestHandler("language/expressions/object/method-definition/generator-param-init-yield.js"));
-});
-describe("method-definition", () => {
 it("generator-param-redecl-const.js", createTestHandler("language/expressions/object/method-definition/generator-param-redecl-const.js"));
-});
-describe("method-definition", () => {
 it("generator-param-redecl-let.js", createTestHandler("language/expressions/object/method-definition/generator-param-redecl-let.js"));
-});
-describe("method-definition", () => {
 it("generator-params.js", createTestHandler("language/expressions/object/method-definition/generator-params.js"));
-});
-describe("method-definition", () => {
 it("generator-prop-name-eval-error.js", createTestHandler("language/expressions/object/method-definition/generator-prop-name-eval-error.js"));
-});
-describe("method-definition", () => {
 it("generator-prop-name-yield-expr.js", createTestHandler("language/expressions/object/method-definition/generator-prop-name-yield-expr.js"));
-});
-describe("method-definition", () => {
 it("generator-prop-name-yield-id.js", createTestHandler("language/expressions/object/method-definition/generator-prop-name-yield-id.js"));
-});
-describe("method-definition", () => {
 it("generator-property-desc.js", createTestHandler("language/expressions/object/method-definition/generator-property-desc.js"));
-});
-describe("method-definition", () => {
 it("generator-prototype-prop.js", createTestHandler("language/expressions/object/method-definition/generator-prototype-prop.js"));
-});
-describe("method-definition", () => {
 it("generator-prototype.js", createTestHandler("language/expressions/object/method-definition/generator-prototype.js"));
-});
-describe("method-definition", () => {
 it("generator-return.js", createTestHandler("language/expressions/object/method-definition/generator-return.js"));
-});
-describe("method-definition", () => {
 it("generator-super-call-body.js", createTestHandler("language/expressions/object/method-definition/generator-super-call-body.js"));
-});
-describe("method-definition", () => {
 it("generator-super-call-param.js", createTestHandler("language/expressions/object/method-definition/generator-super-call-param.js"));
-});
-describe("method-definition", () => {
 it("generator-super-prop-body.js", createTestHandler("language/expressions/object/method-definition/generator-super-prop-body.js"));
-});
-describe("method-definition", () => {
 it("generator-super-prop-param.js", createTestHandler("language/expressions/object/method-definition/generator-super-prop-param.js"));
-});
-describe("method-definition", () => {
 it("generator-use-strict-with-non-simple-param.js", createTestHandler("language/expressions/object/method-definition/generator-use-strict-with-non-simple-param.js"));
-});
-describe("method-definition", () => {
 it("meth-array-destructuring-param-strict-body.js", createTestHandler("language/expressions/object/method-definition/meth-array-destructuring-param-strict-body.js"));
-});
-describe("method-definition", () => {
 it("meth-dflt-params-abrupt.js", createTestHandler("language/expressions/object/method-definition/meth-dflt-params-abrupt.js"));
-});
-describe("method-definition", () => {
 it("meth-dflt-params-arg-val-not-undefined.js", createTestHandler("language/expressions/object/method-definition/meth-dflt-params-arg-val-not-undefined.js"));
-});
-describe("method-definition", () => {
 it("meth-dflt-params-arg-val-undefined.js", createTestHandler("language/expressions/object/method-definition/meth-dflt-params-arg-val-undefined.js"));
-});
-describe("method-definition", () => {
 it("meth-dflt-params-duplicates.js", createTestHandler("language/expressions/object/method-definition/meth-dflt-params-duplicates.js"));
-});
-describe("method-definition", () => {
 it("meth-dflt-params-ref-later.js", createTestHandler("language/expressions/object/method-definition/meth-dflt-params-ref-later.js"));
-});
-describe("method-definition", () => {
 it("meth-dflt-params-ref-prior.js", createTestHandler("language/expressions/object/method-definition/meth-dflt-params-ref-prior.js"));
-});
-describe("method-definition", () => {
 it("meth-dflt-params-ref-self.js", createTestHandler("language/expressions/object/method-definition/meth-dflt-params-ref-self.js"));
-});
-describe("method-definition", () => {
 it("meth-dflt-params-rest.js", createTestHandler("language/expressions/object/method-definition/meth-dflt-params-rest.js"));
-});
-describe("method-definition", () => {
 it("meth-dflt-params-trailing-comma.js", createTestHandler("language/expressions/object/method-definition/meth-dflt-params-trailing-comma.js"));
-});
-describe("method-definition", () => {
 it("meth-eval-var-scope-syntax-err.js", createTestHandler("language/expressions/object/method-definition/meth-eval-var-scope-syntax-err.js"));
-});
-describe("method-definition", () => {
 it("meth-object-destructuring-param-strict-body.js", createTestHandler("language/expressions/object/method-definition/meth-object-destructuring-param-strict-body.js"));
-});
-describe("method-definition", () => {
 it("meth-params-trailing-comma-multiple.js", createTestHandler("language/expressions/object/method-definition/meth-params-trailing-comma-multiple.js"));
-});
-describe("method-definition", () => {
 it("meth-params-trailing-comma-single.js", createTestHandler("language/expressions/object/method-definition/meth-params-trailing-comma-single.js"));
-});
-describe("method-definition", () => {
 it("meth-rest-param-strict-body.js", createTestHandler("language/expressions/object/method-definition/meth-rest-param-strict-body.js"));
-});
-describe("method-definition", () => {
 it("meth-rest-params-trailing-comma-early-error.js", createTestHandler("language/expressions/object/method-definition/meth-rest-params-trailing-comma-early-error.js"));
-});
-describe("method-definition", () => {
 it("name-invoke-ctor.js", createTestHandler("language/expressions/object/method-definition/name-invoke-ctor.js"));
-});
-describe("method-definition", () => {
 it("name-invoke-fn-no-strict.js", createTestHandler("language/expressions/object/method-definition/name-invoke-fn-no-strict.js"));
-});
-describe("method-definition", () => {
 it("name-invoke-fn-strict.js", createTestHandler("language/expressions/object/method-definition/name-invoke-fn-strict.js"));
-});
-describe("method-definition", () => {
 it("name-length-dflt.js", createTestHandler("language/expressions/object/method-definition/name-length-dflt.js"));
-});
-describe("method-definition", () => {
 it("name-length.js", createTestHandler("language/expressions/object/method-definition/name-length.js"));
-});
-describe("method-definition", () => {
 it("name-name-prop-string.js", createTestHandler("language/expressions/object/method-definition/name-name-prop-string.js"));
-});
-describe("method-definition", () => {
 it("name-name-prop-symbol.js", createTestHandler("language/expressions/object/method-definition/name-name-prop-symbol.js"));
-});
-describe("method-definition", () => {
 it("name-param-id-yield.js", createTestHandler("language/expressions/object/method-definition/name-param-id-yield.js"));
-});
-describe("method-definition", () => {
 it("name-param-init-yield.js", createTestHandler("language/expressions/object/method-definition/name-param-init-yield.js"));
-});
-describe("method-definition", () => {
 it("name-param-redecl.js", createTestHandler("language/expressions/object/method-definition/name-param-redecl.js"));
-});
-describe("method-definition", () => {
 it("name-params.js", createTestHandler("language/expressions/object/method-definition/name-params.js"));
-});
-describe("method-definition", () => {
 it("name-prop-name-eval-error.js", createTestHandler("language/expressions/object/method-definition/name-prop-name-eval-error.js"));
-});
-describe("method-definition", () => {
 it("name-prop-name-yield-expr.js", createTestHandler("language/expressions/object/method-definition/name-prop-name-yield-expr.js"));
-});
-describe("method-definition", () => {
 it("name-prop-name-yield-id.js", createTestHandler("language/expressions/object/method-definition/name-prop-name-yield-id.js"));
-});
-describe("method-definition", () => {
 it("name-property-desc.js", createTestHandler("language/expressions/object/method-definition/name-property-desc.js"));
-});
-describe("method-definition", () => {
 it("name-prototype-prop.js", createTestHandler("language/expressions/object/method-definition/name-prototype-prop.js"));
-});
-describe("method-definition", () => {
 it("name-prototype.js", createTestHandler("language/expressions/object/method-definition/name-prototype.js"));
-});
-describe("method-definition", () => {
 it("name-super-call-body.js", createTestHandler("language/expressions/object/method-definition/name-super-call-body.js"));
-});
-describe("method-definition", () => {
 it("name-super-call-param.js", createTestHandler("language/expressions/object/method-definition/name-super-call-param.js"));
-});
-describe("method-definition", () => {
 it("name-super-prop-body.js", createTestHandler("language/expressions/object/method-definition/name-super-prop-body.js"));
-});
-describe("method-definition", () => {
 it("name-super-prop-param.js", createTestHandler("language/expressions/object/method-definition/name-super-prop-param.js"));
-});
-describe("method-definition", () => {
 it("object-method-returns-promise.js", createTestHandler("language/expressions/object/method-definition/object-method-returns-promise.js"));
-});
-describe("method-definition", () => {
 it("params-dflt-gen-meth-args-unmapped.js", createTestHandler("language/expressions/object/method-definition/params-dflt-gen-meth-args-unmapped.js"));
-});
-describe("method-definition", () => {
 it("params-dflt-gen-meth-ref-arguments.js", createTestHandler("language/expressions/object/method-definition/params-dflt-gen-meth-ref-arguments.js"));
-});
-describe("method-definition", () => {
 it("params-dflt-meth-args-unmapped.js", createTestHandler("language/expressions/object/method-definition/params-dflt-meth-args-unmapped.js"));
-});
-describe("method-definition", () => {
 it("params-dflt-meth-ref-arguments.js", createTestHandler("language/expressions/object/method-definition/params-dflt-meth-ref-arguments.js"));
-});
-describe("method-definition", () => {
 it("private-name-early-error-async-fn-inside-class.js", createTestHandler("language/expressions/object/method-definition/private-name-early-error-async-fn-inside-class.js"));
-});
-describe("method-definition", () => {
 it("private-name-early-error-async-fn.js", createTestHandler("language/expressions/object/method-definition/private-name-early-error-async-fn.js"));
-});
-describe("method-definition", () => {
 it("private-name-early-error-async-gen-inside-class.js", createTestHandler("language/expressions/object/method-definition/private-name-early-error-async-gen-inside-class.js"));
-});
-describe("method-definition", () => {
 it("private-name-early-error-async-gen.js", createTestHandler("language/expressions/object/method-definition/private-name-early-error-async-gen.js"));
-});
-describe("method-definition", () => {
 it("private-name-early-error-gen-inside-class.js", createTestHandler("language/expressions/object/method-definition/private-name-early-error-gen-inside-class.js"));
-});
-describe("method-definition", () => {
 it("private-name-early-error-gen.js", createTestHandler("language/expressions/object/method-definition/private-name-early-error-gen.js"));
-});
-describe("method-definition", () => {
 it("private-name-early-error-get-method-inside-class.js", createTestHandler("language/expressions/object/method-definition/private-name-early-error-get-method-inside-class.js"));
-});
-describe("method-definition", () => {
 it("private-name-early-error-get-method.js", createTestHandler("language/expressions/object/method-definition/private-name-early-error-get-method.js"));
-});
-describe("method-definition", () => {
 it("private-name-early-error-method-inside-class.js", createTestHandler("language/expressions/object/method-definition/private-name-early-error-method-inside-class.js"));
-});
-describe("method-definition", () => {
 it("private-name-early-error-method.js", createTestHandler("language/expressions/object/method-definition/private-name-early-error-method.js"));
-});
-describe("method-definition", () => {
 it("private-name-early-error-set-method-inside-class.js", createTestHandler("language/expressions/object/method-definition/private-name-early-error-set-method-inside-class.js"));
-});
-describe("method-definition", () => {
 it("private-name-early-error-set-method.js", createTestHandler("language/expressions/object/method-definition/private-name-early-error-set-method.js"));
-});
-describe("method-definition", () => {
 it("setter-use-strict-with-non-simple-param.js", createTestHandler("language/expressions/object/method-definition/setter-use-strict-with-non-simple-param.js"));
-});
-describe("method-definition", () => {
 it("static-init-await-binding-accessor.js", createTestHandler("language/expressions/object/method-definition/static-init-await-binding-accessor.js"));
-});
-describe("method-definition", () => {
 it("static-init-await-binding-generator.js", createTestHandler("language/expressions/object/method-definition/static-init-await-binding-generator.js"));
-});
-describe("method-definition", () => {
 it("static-init-await-binding-normal.js", createTestHandler("language/expressions/object/method-definition/static-init-await-binding-normal.js"));
-});
-describe("method-definition", () => {
 it("static-init-await-reference-accessor.js", createTestHandler("language/expressions/object/method-definition/static-init-await-reference-accessor.js"));
-});
-describe("method-definition", () => {
 it("static-init-await-reference-generator.js", createTestHandler("language/expressions/object/method-definition/static-init-await-reference-generator.js"));
-});
-describe("method-definition", () => {
 it("static-init-await-reference-normal.js", createTestHandler("language/expressions/object/method-definition/static-init-await-reference-normal.js"));
-});
-describe("method-definition", () => {
 it("use-strict-with-non-simple-param.js", createTestHandler("language/expressions/object/method-definition/use-strict-with-non-simple-param.js"));
-});
-describe("method-definition", () => {
 it("yield-as-expression-with-rhs.js", createTestHandler("language/expressions/object/method-definition/yield-as-expression-with-rhs.js"));
-});
-describe("method-definition", () => {
 it("yield-as-expression-without-rhs.js", createTestHandler("language/expressions/object/method-definition/yield-as-expression-without-rhs.js"));
-});
-describe("method-definition", () => {
 it("yield-as-function-expression-binding-identifier.js", createTestHandler("language/expressions/object/method-definition/yield-as-function-expression-binding-identifier.js"));
-});
-describe("method-definition", () => {
 it("yield-as-generator-method-binding-identifier.js", createTestHandler("language/expressions/object/method-definition/yield-as-generator-method-binding-identifier.js"));
-});
-describe("method-definition", () => {
 it("yield-as-identifier-in-nested-function.js", createTestHandler("language/expressions/object/method-definition/yield-as-identifier-in-nested-function.js"));
-});
-describe("method-definition", () => {
 it("yield-as-literal-property-name.js", createTestHandler("language/expressions/object/method-definition/yield-as-literal-property-name.js"));
-});
-describe("method-definition", () => {
 it("yield-as-logical-or-expression.js", createTestHandler("language/expressions/object/method-definition/yield-as-logical-or-expression.js"));
-});
-describe("method-definition", () => {
 it("yield-as-parameter.js", createTestHandler("language/expressions/object/method-definition/yield-as-parameter.js"));
-});
-describe("method-definition", () => {
 it("yield-as-property-name.js", createTestHandler("language/expressions/object/method-definition/yield-as-property-name.js"));
-});
-describe("method-definition", () => {
 it("yield-as-statement.js", createTestHandler("language/expressions/object/method-definition/yield-as-statement.js"));
-});
-describe("method-definition", () => {
 it("yield-as-yield-operand.js", createTestHandler("language/expressions/object/method-definition/yield-as-yield-operand.js"));
-});
-describe("method-definition", () => {
 it("yield-newline.js", createTestHandler("language/expressions/object/method-definition/yield-newline.js"));
-});
-describe("method-definition", () => {
 it("yield-return.js", createTestHandler("language/expressions/object/method-definition/yield-return.js"));
-});
-describe("method-definition", () => {
 it("yield-star-after-newline.js", createTestHandler("language/expressions/object/method-definition/yield-star-after-newline.js"));
-});
-describe("method-definition", () => {
 it("yield-star-before-newline.js", createTestHandler("language/expressions/object/method-definition/yield-star-before-newline.js"));
-});
-describe("method-definition", () => {
 it("yield-weak-binding.js", createTestHandler("language/expressions/object/method-definition/yield-weak-binding.js"));
 });
 it("method.js", createTestHandler("language/expressions/object/method.js"));

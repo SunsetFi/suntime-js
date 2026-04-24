@@ -1,4 +1,4 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("constructor.js", createTestHandler("built-ins/DisposableStack/constructor.js"));
+it.skip("constructor.js", () => { /* Ignored Test */ });

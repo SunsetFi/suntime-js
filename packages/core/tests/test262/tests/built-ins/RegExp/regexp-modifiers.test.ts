@@ -67,40 +67,12 @@ it("remove-multiline.js", createTestHandler("built-ins/RegExp/regexp-modifiers/r
 describe("syntax", () => {
 describe("valid", () => {
 it("add-and-remove-modifiers-can-have-empty-remove-modifiers.js", createTestHandler("built-ins/RegExp/regexp-modifiers/syntax/valid/add-and-remove-modifiers-can-have-empty-remove-modifiers.js"));
-});
-});
-describe("syntax", () => {
-describe("valid", () => {
 it("add-and-remove-modifiers.js", createTestHandler("built-ins/RegExp/regexp-modifiers/syntax/valid/add-and-remove-modifiers.js"));
-});
-});
-describe("syntax", () => {
-describe("valid", () => {
 it("add-modifiers-when-nested.js", createTestHandler("built-ins/RegExp/regexp-modifiers/syntax/valid/add-modifiers-when-nested.js"));
-});
-});
-describe("syntax", () => {
-describe("valid", () => {
 it("add-modifiers-when-not-set-as-flags.js", createTestHandler("built-ins/RegExp/regexp-modifiers/syntax/valid/add-modifiers-when-not-set-as-flags.js"));
-});
-});
-describe("syntax", () => {
-describe("valid", () => {
 it("add-modifiers-when-set-as-flags.js", createTestHandler("built-ins/RegExp/regexp-modifiers/syntax/valid/add-modifiers-when-set-as-flags.js"));
-});
-});
-describe("syntax", () => {
-describe("valid", () => {
 it("remove-modifiers-when-nested.js", createTestHandler("built-ins/RegExp/regexp-modifiers/syntax/valid/remove-modifiers-when-nested.js"));
-});
-});
-describe("syntax", () => {
-describe("valid", () => {
 it("remove-modifiers-when-not-set-as-flags.js", createTestHandler("built-ins/RegExp/regexp-modifiers/syntax/valid/remove-modifiers-when-not-set-as-flags.js"));
-});
-});
-describe("syntax", () => {
-describe("valid", () => {
 it("remove-modifiers-when-set-as-flags.js", createTestHandler("built-ins/RegExp/regexp-modifiers/syntax/valid/remove-modifiers-when-set-as-flags.js"));
 });
 });

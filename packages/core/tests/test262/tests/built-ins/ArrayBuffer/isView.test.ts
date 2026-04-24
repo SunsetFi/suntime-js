@@ -9,11 +9,11 @@ it("arg-is-dataview-constructor.js", createTestHandler("built-ins/ArrayBuffer/is
 it("arg-is-dataview-subclass-instance.js", createTestHandler("built-ins/ArrayBuffer/isView/arg-is-dataview-subclass-instance.js"));
 it("arg-is-dataview.js", createTestHandler("built-ins/ArrayBuffer/isView/arg-is-dataview.js"));
 it("arg-is-not-object.js", createTestHandler("built-ins/ArrayBuffer/isView/arg-is-not-object.js"));
-it("arg-is-typedarray-buffer.js", createTestHandler("built-ins/ArrayBuffer/isView/arg-is-typedarray-buffer.js"));
-it("arg-is-typedarray-constructor.js", createTestHandler("built-ins/ArrayBuffer/isView/arg-is-typedarray-constructor.js"));
-it("arg-is-typedarray-subclass-instance.js", createTestHandler("built-ins/ArrayBuffer/isView/arg-is-typedarray-subclass-instance.js"));
-it("arg-is-typedarray.js", createTestHandler("built-ins/ArrayBuffer/isView/arg-is-typedarray.js"));
-it("invoked-as-a-fn.js", createTestHandler("built-ins/ArrayBuffer/isView/invoked-as-a-fn.js"));
+it.skip("arg-is-typedarray-buffer.js", () => { /* Ignored Test */ });
+it.skip("arg-is-typedarray-constructor.js", () => { /* Ignored Test */ });
+it.skip("arg-is-typedarray-subclass-instance.js", () => { /* Ignored Test */ });
+it.skip("arg-is-typedarray.js", () => { /* Ignored Test */ });
+it.skip("invoked-as-a-fn.js", () => { /* Ignored Test */ });
 it("length.js", createTestHandler("built-ins/ArrayBuffer/isView/length.js"));
 it("name.js", createTestHandler("built-ins/ArrayBuffer/isView/name.js"));
 it("no-arg.js", createTestHandler("built-ins/ArrayBuffer/isView/no-arg.js"));

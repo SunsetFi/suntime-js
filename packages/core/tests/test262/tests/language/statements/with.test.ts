@@ -169,8 +169,8 @@ it("scope-var-close.js", createTestHandler("language/statements/with/scope-var-c
 it("scope-var-open.js", createTestHandler("language/statements/with/scope-var-open.js"));
 it("set-mutable-binding-binding-deleted-in-get-unscopables-strict-mode.js", createTestHandler("language/statements/with/set-mutable-binding-binding-deleted-in-get-unscopables-strict-mode.js"));
 it("set-mutable-binding-binding-deleted-in-get-unscopables.js", createTestHandler("language/statements/with/set-mutable-binding-binding-deleted-in-get-unscopables.js"));
-it("set-mutable-binding-binding-deleted-with-typed-array-in-proto-chain-strict-mode.js", createTestHandler("language/statements/with/set-mutable-binding-binding-deleted-with-typed-array-in-proto-chain-strict-mode.js"));
-it("set-mutable-binding-binding-deleted-with-typed-array-in-proto-chain.js", createTestHandler("language/statements/with/set-mutable-binding-binding-deleted-with-typed-array-in-proto-chain.js"));
+it.skip("set-mutable-binding-binding-deleted-with-typed-array-in-proto-chain-strict-mode.js", () => { /* Ignored Test */ });
+it.skip("set-mutable-binding-binding-deleted-with-typed-array-in-proto-chain.js", () => { /* Ignored Test */ });
 it("set-mutable-binding-idref-compound-assign-with-proxy-env.js", createTestHandler("language/statements/with/set-mutable-binding-idref-compound-assign-with-proxy-env.js"));
 it("set-mutable-binding-idref-with-proxy-env.js", createTestHandler("language/statements/with/set-mutable-binding-idref-with-proxy-env.js"));
 it("strict-fn-decl-nested-1.js", createTestHandler("language/statements/with/strict-fn-decl-nested-1.js"));

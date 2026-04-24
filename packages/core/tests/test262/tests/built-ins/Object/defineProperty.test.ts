@@ -1115,8 +1115,8 @@ it("8.12.9-9-c-i_1.js", createTestHandler("built-ins/Object/defineProperty/8.12.
 it("8.12.9-9-c-i_2.js", createTestHandler("built-ins/Object/defineProperty/8.12.9-9-c-i_2.js"));
 it("S15.2.3.6_A1.js", createTestHandler("built-ins/Object/defineProperty/S15.2.3.6_A1.js"));
 it("S15.2.3.6_A2.js", createTestHandler("built-ins/Object/defineProperty/S15.2.3.6_A2.js"));
-it("coerced-P-grow.js", createTestHandler("built-ins/Object/defineProperty/coerced-P-grow.js"));
-it("coerced-P-shrink.js", createTestHandler("built-ins/Object/defineProperty/coerced-P-shrink.js"));
+it.skip("coerced-P-grow.js", () => { /* Ignored Test */ });
+it.skip("coerced-P-shrink.js", () => { /* Ignored Test */ });
 it("name.js", createTestHandler("built-ins/Object/defineProperty/name.js"));
 it("not-a-constructor.js", createTestHandler("built-ins/Object/defineProperty/not-a-constructor.js"));
 it("property-description-must-be-an-object-not-bigint.js", createTestHandler("built-ins/Object/defineProperty/property-description-must-be-an-object-not-bigint.js"));
@@ -1132,5 +1132,5 @@ it("symbol-data-property-configurable.js", createTestHandler("built-ins/Object/d
 it("symbol-data-property-default-non-strict.js", createTestHandler("built-ins/Object/defineProperty/symbol-data-property-default-non-strict.js"));
 it("symbol-data-property-default-strict.js", createTestHandler("built-ins/Object/defineProperty/symbol-data-property-default-strict.js"));
 it("symbol-data-property-writable.js", createTestHandler("built-ins/Object/defineProperty/symbol-data-property-writable.js"));
-it("typedarray-backed-by-resizable-buffer.js", createTestHandler("built-ins/Object/defineProperty/typedarray-backed-by-resizable-buffer.js"));
+it.skip("typedarray-backed-by-resizable-buffer.js", () => { /* Ignored Test */ });
 });

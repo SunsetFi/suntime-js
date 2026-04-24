@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("import-attributes", () => {
 it("json-extensibility-array.js", createTestHandler("language/import/import-attributes/json-extensibility-array.js"));
 it("json-extensibility-object.js", createTestHandler("language/import/import-attributes/json-extensibility-object.js"));
-it("json-idempotency.js", createTestHandler("language/import/import-attributes/json-idempotency.js"));
+it.skip("json-idempotency.js", () => { /* Ignored Test */ });
 it("json-invalid.js", createTestHandler("language/import/import-attributes/json-invalid.js"));
 it("json-named-bindings.js", createTestHandler("language/import/import-attributes/json-named-bindings.js"));
 it("json-value-array.js", createTestHandler("language/import/import-attributes/json-value-array.js"));

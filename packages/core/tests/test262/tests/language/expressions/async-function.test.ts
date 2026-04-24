@@ -23,50 +23,16 @@ it("expression-returns-promise.js", createTestHandler("language/expressions/asyn
 describe("forbidden-ext", () => {
 describe("b1", () => {
 it("async-func-expr-named-forbidden-ext-direct-access-prop-arguments.js", createTestHandler("language/expressions/async-function/forbidden-ext/b1/async-func-expr-named-forbidden-ext-direct-access-prop-arguments.js"));
-});
-});
-describe("forbidden-ext", () => {
-describe("b1", () => {
 it("async-func-expr-named-forbidden-ext-direct-access-prop-caller.js", createTestHandler("language/expressions/async-function/forbidden-ext/b1/async-func-expr-named-forbidden-ext-direct-access-prop-caller.js"));
-});
-});
-describe("forbidden-ext", () => {
-describe("b1", () => {
 it("async-func-expr-nameless-forbidden-ext-direct-access-prop-arguments.js", createTestHandler("language/expressions/async-function/forbidden-ext/b1/async-func-expr-nameless-forbidden-ext-direct-access-prop-arguments.js"));
-});
-});
-describe("forbidden-ext", () => {
-describe("b1", () => {
 it("async-func-expr-nameless-forbidden-ext-direct-access-prop-caller.js", createTestHandler("language/expressions/async-function/forbidden-ext/b1/async-func-expr-nameless-forbidden-ext-direct-access-prop-caller.js"));
 });
-});
-describe("forbidden-ext", () => {
 describe("b2", () => {
 it("async-func-expr-named-forbidden-ext-indirect-access-own-prop-caller-get.js", createTestHandler("language/expressions/async-function/forbidden-ext/b2/async-func-expr-named-forbidden-ext-indirect-access-own-prop-caller-get.js"));
-});
-});
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("async-func-expr-named-forbidden-ext-indirect-access-own-prop-caller-value.js", createTestHandler("language/expressions/async-function/forbidden-ext/b2/async-func-expr-named-forbidden-ext-indirect-access-own-prop-caller-value.js"));
-});
-});
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("async-func-expr-named-forbidden-ext-indirect-access-prop-caller.js", createTestHandler("language/expressions/async-function/forbidden-ext/b2/async-func-expr-named-forbidden-ext-indirect-access-prop-caller.js"));
-});
-});
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("async-func-expr-nameless-forbidden-ext-indirect-access-own-prop-caller-get.js", createTestHandler("language/expressions/async-function/forbidden-ext/b2/async-func-expr-nameless-forbidden-ext-indirect-access-own-prop-caller-get.js"));
-});
-});
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("async-func-expr-nameless-forbidden-ext-indirect-access-own-prop-caller-value.js", createTestHandler("language/expressions/async-function/forbidden-ext/b2/async-func-expr-nameless-forbidden-ext-indirect-access-own-prop-caller-value.js"));
-});
-});
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("async-func-expr-nameless-forbidden-ext-indirect-access-prop-caller.js", createTestHandler("language/expressions/async-function/forbidden-ext/b2/async-func-expr-nameless-forbidden-ext-indirect-access-prop-caller.js"));
 });
 });

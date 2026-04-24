@@ -49,324 +49,72 @@ it("scope-var-none-dflt.js", createTestHandler("language/statements/switch/scope
 describe("syntax", () => {
 describe("redeclaration", () => {
 it("async-function-name-redeclaration-attempt-with-async-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-async-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("async-function-name-redeclaration-attempt-with-async-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-async-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("async-function-name-redeclaration-attempt-with-class.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-class.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("async-function-name-redeclaration-attempt-with-const.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-const.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("async-function-name-redeclaration-attempt-with-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("async-function-name-redeclaration-attempt-with-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("async-function-name-redeclaration-attempt-with-let.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-let.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("async-function-name-redeclaration-attempt-with-var.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-var.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("async-generator-name-redeclaration-attempt-with-async-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-async-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("async-generator-name-redeclaration-attempt-with-async-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-async-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("async-generator-name-redeclaration-attempt-with-class.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-class.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("async-generator-name-redeclaration-attempt-with-const.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-const.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("async-generator-name-redeclaration-attempt-with-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("async-generator-name-redeclaration-attempt-with-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("async-generator-name-redeclaration-attempt-with-let.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-let.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("async-generator-name-redeclaration-attempt-with-var.js", createTestHandler("language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-var.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("class-name-redeclaration-attempt-with-async-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-async-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("class-name-redeclaration-attempt-with-async-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-async-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("class-name-redeclaration-attempt-with-class.js", createTestHandler("language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-class.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("class-name-redeclaration-attempt-with-const.js", createTestHandler("language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-const.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("class-name-redeclaration-attempt-with-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("class-name-redeclaration-attempt-with-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("class-name-redeclaration-attempt-with-let.js", createTestHandler("language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-let.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("class-name-redeclaration-attempt-with-var.js", createTestHandler("language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-var.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("const-name-redeclaration-attempt-with-async-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-async-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("const-name-redeclaration-attempt-with-async-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-async-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("const-name-redeclaration-attempt-with-class.js", createTestHandler("language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-class.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("const-name-redeclaration-attempt-with-const.js", createTestHandler("language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-const.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("const-name-redeclaration-attempt-with-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("const-name-redeclaration-attempt-with-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("const-name-redeclaration-attempt-with-let.js", createTestHandler("language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-let.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("const-name-redeclaration-attempt-with-var.js", createTestHandler("language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-var.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("function-name-redeclaration-attempt-with-async-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-async-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("function-name-redeclaration-attempt-with-async-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-async-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("function-name-redeclaration-attempt-with-class.js", createTestHandler("language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-class.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("function-name-redeclaration-attempt-with-const.js", createTestHandler("language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-const.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("function-name-redeclaration-attempt-with-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("function-name-redeclaration-attempt-with-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("function-name-redeclaration-attempt-with-let.js", createTestHandler("language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-let.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("function-name-redeclaration-attempt-with-var.js", createTestHandler("language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-var.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("generator-name-redeclaration-attempt-with-async-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-async-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("generator-name-redeclaration-attempt-with-async-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-async-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("generator-name-redeclaration-attempt-with-class.js", createTestHandler("language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-class.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("generator-name-redeclaration-attempt-with-const.js", createTestHandler("language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-const.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("generator-name-redeclaration-attempt-with-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("generator-name-redeclaration-attempt-with-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("generator-name-redeclaration-attempt-with-let.js", createTestHandler("language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-let.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("generator-name-redeclaration-attempt-with-var.js", createTestHandler("language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-var.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("let-name-redeclaration-attempt-with-async-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-async-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("let-name-redeclaration-attempt-with-async-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-async-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("let-name-redeclaration-attempt-with-class.js", createTestHandler("language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-class.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("let-name-redeclaration-attempt-with-const.js", createTestHandler("language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-const.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("let-name-redeclaration-attempt-with-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("let-name-redeclaration-attempt-with-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("let-name-redeclaration-attempt-with-let.js", createTestHandler("language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-let.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("let-name-redeclaration-attempt-with-var.js", createTestHandler("language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-var.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("var-name-redeclaration-attempt-with-async-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-async-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("var-name-redeclaration-attempt-with-async-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-async-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("var-name-redeclaration-attempt-with-class.js", createTestHandler("language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-class.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("var-name-redeclaration-attempt-with-const.js", createTestHandler("language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-const.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("var-name-redeclaration-attempt-with-function.js", createTestHandler("language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-function.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("var-name-redeclaration-attempt-with-generator.js", createTestHandler("language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-generator.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("var-name-redeclaration-attempt-with-let.js", createTestHandler("language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-let.js"));
-});
-});
-describe("syntax", () => {
-describe("redeclaration", () => {
 it("var-name-redeclaration-attempt-with-var.js", createTestHandler("language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-var.js"));
 });
 });
-it("tco-case-body-dflt.js", createTestHandler("language/statements/switch/tco-case-body-dflt.js"));
-it("tco-case-body.js", createTestHandler("language/statements/switch/tco-case-body.js"));
-it("tco-dftl-body.js", createTestHandler("language/statements/switch/tco-dftl-body.js"));
+it.skip("tco-case-body-dflt.js", () => { /* Ignored Test */ });
+it.skip("tco-case-body.js", () => { /* Ignored Test */ });
+it.skip("tco-dftl-body.js", () => { /* Ignored Test */ });
 });

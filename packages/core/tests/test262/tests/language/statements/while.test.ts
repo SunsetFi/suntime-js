@@ -39,5 +39,5 @@ it("labelled-fn-stmt.js", createTestHandler("language/statements/while/labelled-
 it("let-array-with-newline.js", createTestHandler("language/statements/while/let-array-with-newline.js"));
 it("let-block-with-newline.js", createTestHandler("language/statements/while/let-block-with-newline.js"));
 it("let-identifier-with-newline.js", createTestHandler("language/statements/while/let-identifier-with-newline.js"));
-it("tco-body.js", createTestHandler("language/statements/while/tco-body.js"));
+it.skip("tco-body.js", () => { /* Ignored Test */ });
 });

@@ -54,5 +54,5 @@ it("not-a-constructor.js", createTestHandler("built-ins/Object/freeze/not-a-cons
 it("proxy-no-ownkeys-returned-keys-order.js", createTestHandler("built-ins/Object/freeze/proxy-no-ownkeys-returned-keys-order.js"));
 it("proxy-with-defineProperty-handler.js", createTestHandler("built-ins/Object/freeze/proxy-with-defineProperty-handler.js"));
 it("throws-when-false.js", createTestHandler("built-ins/Object/freeze/throws-when-false.js"));
-it("typedarray-backed-by-resizable-buffer.js", createTestHandler("built-ins/Object/freeze/typedarray-backed-by-resizable-buffer.js"));
+it.skip("typedarray-backed-by-resizable-buffer.js", () => { /* Ignored Test */ });
 });

@@ -1,7 +1,7 @@
 import { defineConfig } from "oxlint";
 
 export default defineConfig({
-  ignorePatterns: ["memory-profile.js", "/tests/test262/repo"],
+  ignorePatterns: ["memory-profile.js", "/tests/test262/repo", "/tests/test262/tests"],
   rules: {
     // Most of our runtime uses generators.  We need these functions to return iterators, even if
     // they don't actually yield anything.

@@ -17,7 +17,7 @@ it("let-array-with-newline.js", createTestHandler("language/statements/labeled/l
 it("let-block-with-newline.js", createTestHandler("language/statements/labeled/let-block-with-newline.js"));
 it("let-identifier-with-newline.js", createTestHandler("language/statements/labeled/let-identifier-with-newline.js"));
 it("static-init-invalid-await.js", createTestHandler("language/statements/labeled/static-init-invalid-await.js"));
-it("tco.js", createTestHandler("language/statements/labeled/tco.js"));
+it.skip("tco.js", () => { /* Ignored Test */ });
 it("value-await-module-escaped.js", createTestHandler("language/statements/labeled/value-await-module-escaped.js"));
 it("value-await-module.js", createTestHandler("language/statements/labeled/value-await-module.js"));
 it("value-await-non-module-escaped.js", createTestHandler("language/statements/labeled/value-await-non-module-escaped.js"));

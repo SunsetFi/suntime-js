@@ -22,6 +22,6 @@ it("in-branch-1.js", createTestHandler("language/expressions/conditional/in-bran
 it("in-branch-2.js", createTestHandler("language/expressions/conditional/in-branch-2.js"));
 it("in-condition.js", createTestHandler("language/expressions/conditional/in-condition.js"));
 it("symbol-conditional-evaluation.js", createTestHandler("language/expressions/conditional/symbol-conditional-evaluation.js"));
-it("tco-cond.js", createTestHandler("language/expressions/conditional/tco-cond.js"));
-it("tco-pos.js", createTestHandler("language/expressions/conditional/tco-pos.js"));
+it.skip("tco-cond.js", () => { /* Ignored Test */ });
+it.skip("tco-pos.js", () => { /* Ignored Test */ });
 });

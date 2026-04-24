@@ -633,5 +633,5 @@ it("property-description-must-be-an-object-not-symbol.js", createTestHandler("bu
 it("property-description-must-be-an-object-not-true.js", createTestHandler("built-ins/Object/defineProperties/property-description-must-be-an-object-not-true.js"));
 it("property-description-must-be-an-object-not-undefined.js", createTestHandler("built-ins/Object/defineProperties/property-description-must-be-an-object-not-undefined.js"));
 it("proxy-no-ownkeys-returned-keys-order.js", createTestHandler("built-ins/Object/defineProperties/proxy-no-ownkeys-returned-keys-order.js"));
-it("typedarray-backed-by-resizable-buffer.js", createTestHandler("built-ins/Object/defineProperties/typedarray-backed-by-resizable-buffer.js"));
+it.skip("typedarray-backed-by-resizable-buffer.js", () => { /* Ignored Test */ });
 });

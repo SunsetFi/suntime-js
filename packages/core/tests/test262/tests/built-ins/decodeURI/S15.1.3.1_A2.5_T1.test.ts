@@ -1,4 +1,4 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("S15.1.3.1_A2.5_T1.js", createTestHandler("built-ins/decodeURI/S15.1.3.1_A2.5_T1.js"));
+it.skip("S15.1.3.1_A2.5_T1.js", () => { /* Ignored Test */ });

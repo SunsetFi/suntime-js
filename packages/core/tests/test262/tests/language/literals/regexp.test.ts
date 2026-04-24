@@ -151,170 +151,60 @@ it("mongolian-vowel-separator-eval.js", createTestHandler("language/literals/reg
 it("mongolian-vowel-separator.js", createTestHandler("language/literals/regexp/mongolian-vowel-separator.js"));
 describe("named-groups", () => {
 it("forward-reference.js", createTestHandler("language/literals/regexp/named-groups/forward-reference.js"));
-});
-describe("named-groups", () => {
 it("invalid-dangling-groupname-2-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-2-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-dangling-groupname-2.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-2.js"));
-});
-describe("named-groups", () => {
 it("invalid-dangling-groupname-3-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-3-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-dangling-groupname-3.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-3.js"));
-});
-describe("named-groups", () => {
 it("invalid-dangling-groupname-4-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-4-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-dangling-groupname-4.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-4.js"));
-});
-describe("named-groups", () => {
 it("invalid-dangling-groupname-5.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-5.js"));
-});
-describe("named-groups", () => {
 it("invalid-dangling-groupname-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-dangling-groupname-without-group-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname-without-group-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-dangling-groupname.js", createTestHandler("language/literals/regexp/named-groups/invalid-dangling-groupname.js"));
-});
-describe("named-groups", () => {
 it("invalid-duplicate-groupspecifier-2-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-duplicate-groupspecifier-2-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-duplicate-groupspecifier-2.js", createTestHandler("language/literals/regexp/named-groups/invalid-duplicate-groupspecifier-2.js"));
-});
-describe("named-groups", () => {
 it("invalid-duplicate-groupspecifier-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-duplicate-groupspecifier-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-duplicate-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-duplicate-groupspecifier.js"));
-});
-describe("named-groups", () => {
 it("invalid-empty-groupspecifier-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-empty-groupspecifier-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-empty-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-empty-groupspecifier.js"));
-});
-describe("named-groups", () => {
 it("invalid-identity-escape-in-capture-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-identity-escape-in-capture-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-incomplete-groupname-2-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-2-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-incomplete-groupname-2.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-2.js"));
-});
-describe("named-groups", () => {
 it("invalid-incomplete-groupname-3-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-3-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-incomplete-groupname-3.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-3.js"));
-});
-describe("named-groups", () => {
 it("invalid-incomplete-groupname-4.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-4.js"));
-});
-describe("named-groups", () => {
 it("invalid-incomplete-groupname-5.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-5.js"));
-});
-describe("named-groups", () => {
 it("invalid-incomplete-groupname-6.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-6.js"));
-});
-describe("named-groups", () => {
 it("invalid-incomplete-groupname-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-incomplete-groupname-without-group-2-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-without-group-2-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-incomplete-groupname-without-group-3-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-without-group-3-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-incomplete-groupname-without-group-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname-without-group-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-incomplete-groupname.js", createTestHandler("language/literals/regexp/named-groups/invalid-incomplete-groupname.js"));
-});
-describe("named-groups", () => {
 it("invalid-lone-surrogate-groupname.js", createTestHandler("language/literals/regexp/named-groups/invalid-lone-surrogate-groupname.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-continue-groupspecifier-4-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-continue-groupspecifier-4-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-continue-groupspecifier-4.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-continue-groupspecifier-4.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-continue-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-continue-groupspecifier.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-start-groupspecifier-2-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-2-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-start-groupspecifier-2.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-2.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-start-groupspecifier-3.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-3.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-start-groupspecifier-4-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-4-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-start-groupspecifier-4.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-4.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-start-groupspecifier-5-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-5-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-start-groupspecifier-5.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-5.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-start-groupspecifier-6.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-6.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-start-groupspecifier-7.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-7.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-start-groupspecifier-8-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-8-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-start-groupspecifier-8.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-8.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-start-groupspecifier-9-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-9-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-start-groupspecifier-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-non-id-start-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-non-id-start-groupspecifier.js"));
-});
-describe("named-groups", () => {
 it("invalid-numeric-groupspecifier-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-numeric-groupspecifier-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-numeric-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-numeric-groupspecifier.js"));
-});
-describe("named-groups", () => {
 it("invalid-punctuator-starting-groupspecifier-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-punctuator-starting-groupspecifier-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-punctuator-starting-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-punctuator-starting-groupspecifier.js"));
-});
-describe("named-groups", () => {
 it("invalid-punctuator-within-groupspecifier-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-punctuator-within-groupspecifier-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-punctuator-within-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-punctuator-within-groupspecifier.js"));
-});
-describe("named-groups", () => {
 it("invalid-unterminated-groupspecifier-u.js", createTestHandler("language/literals/regexp/named-groups/invalid-unterminated-groupspecifier-u.js"));
-});
-describe("named-groups", () => {
 it("invalid-unterminated-groupspecifier.js", createTestHandler("language/literals/regexp/named-groups/invalid-unterminated-groupspecifier.js"));
 });
 it("regexp-first-char-no-line-separator.js", createTestHandler("language/literals/regexp/regexp-first-char-no-line-separator.js"));

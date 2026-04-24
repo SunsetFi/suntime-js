@@ -35,101 +35,37 @@ it("decl-gen.js", createTestHandler("language/statements/for-in/decl-gen.js"));
 it("decl-let.js", createTestHandler("language/statements/for-in/decl-let.js"));
 describe("dstr", () => {
 it("array-elem-init-yield-ident-invalid.js", createTestHandler("language/statements/for-in/dstr/array-elem-init-yield-ident-invalid.js"));
-});
-describe("dstr", () => {
 it("array-elem-nested-array-invalid.js", createTestHandler("language/statements/for-in/dstr/array-elem-nested-array-invalid.js"));
-});
-describe("dstr", () => {
 it("array-elem-nested-array-yield-ident-invalid.js", createTestHandler("language/statements/for-in/dstr/array-elem-nested-array-yield-ident-invalid.js"));
-});
-describe("dstr", () => {
 it("array-elem-nested-memberexpr-optchain-prop-ref-init.js", createTestHandler("language/statements/for-in/dstr/array-elem-nested-memberexpr-optchain-prop-ref-init.js"));
-});
-describe("dstr", () => {
 it("array-elem-nested-obj-invalid.js", createTestHandler("language/statements/for-in/dstr/array-elem-nested-obj-invalid.js"));
-});
-describe("dstr", () => {
 it("array-elem-nested-obj-yield-ident-invalid.js", createTestHandler("language/statements/for-in/dstr/array-elem-nested-obj-yield-ident-invalid.js"));
-});
-describe("dstr", () => {
 it("array-elem-put-obj-literal-optchain-prop-ref-init.js", createTestHandler("language/statements/for-in/dstr/array-elem-put-obj-literal-optchain-prop-ref-init.js"));
-});
-describe("dstr", () => {
 it("array-elem-target-simple-strict.js", createTestHandler("language/statements/for-in/dstr/array-elem-target-simple-strict.js"));
-});
-describe("dstr", () => {
 it("array-elem-target-yield-invalid.js", createTestHandler("language/statements/for-in/dstr/array-elem-target-yield-invalid.js"));
-});
-describe("dstr", () => {
 it("array-rest-before-element.js", createTestHandler("language/statements/for-in/dstr/array-rest-before-element.js"));
-});
-describe("dstr", () => {
 it("array-rest-before-elision.js", createTestHandler("language/statements/for-in/dstr/array-rest-before-elision.js"));
-});
-describe("dstr", () => {
 it("array-rest-before-rest.js", createTestHandler("language/statements/for-in/dstr/array-rest-before-rest.js"));
-});
-describe("dstr", () => {
 it("array-rest-elision-invalid.js", createTestHandler("language/statements/for-in/dstr/array-rest-elision-invalid.js"));
-});
-describe("dstr", () => {
 it("array-rest-init.js", createTestHandler("language/statements/for-in/dstr/array-rest-init.js"));
-});
-describe("dstr", () => {
 it("array-rest-nested-array-invalid.js", createTestHandler("language/statements/for-in/dstr/array-rest-nested-array-invalid.js"));
-});
-describe("dstr", () => {
 it("array-rest-nested-array-yield-ident-invalid.js", createTestHandler("language/statements/for-in/dstr/array-rest-nested-array-yield-ident-invalid.js"));
-});
-describe("dstr", () => {
 it("array-rest-nested-obj-invalid.js", createTestHandler("language/statements/for-in/dstr/array-rest-nested-obj-invalid.js"));
-});
-describe("dstr", () => {
 it("array-rest-nested-obj-yield-ident-invalid.js", createTestHandler("language/statements/for-in/dstr/array-rest-nested-obj-yield-ident-invalid.js"));
-});
-describe("dstr", () => {
 it("array-rest-yield-ident-invalid.js", createTestHandler("language/statements/for-in/dstr/array-rest-yield-ident-invalid.js"));
-});
-describe("dstr", () => {
 it("obj-id-identifier-yield-expr.js", createTestHandler("language/statements/for-in/dstr/obj-id-identifier-yield-expr.js"));
-});
-describe("dstr", () => {
 it("obj-id-identifier-yield-ident-invalid.js", createTestHandler("language/statements/for-in/dstr/obj-id-identifier-yield-ident-invalid.js"));
-});
-describe("dstr", () => {
 it("obj-id-init-simple-strict.js", createTestHandler("language/statements/for-in/dstr/obj-id-init-simple-strict.js"));
-});
-describe("dstr", () => {
 it("obj-id-init-yield-ident-invalid.js", createTestHandler("language/statements/for-in/dstr/obj-id-init-yield-ident-invalid.js"));
-});
-describe("dstr", () => {
 it("obj-id-simple-strict.js", createTestHandler("language/statements/for-in/dstr/obj-id-simple-strict.js"));
-});
-describe("dstr", () => {
 it("obj-prop-elem-init-yield-ident-invalid.js", createTestHandler("language/statements/for-in/dstr/obj-prop-elem-init-yield-ident-invalid.js"));
-});
-describe("dstr", () => {
 it("obj-prop-elem-target-memberexpr-optchain-prop-ref-init.js", createTestHandler("language/statements/for-in/dstr/obj-prop-elem-target-memberexpr-optchain-prop-ref-init.js"));
-});
-describe("dstr", () => {
 it("obj-prop-elem-target-obj-literal-optchain-prop-ref-init.js", createTestHandler("language/statements/for-in/dstr/obj-prop-elem-target-obj-literal-optchain-prop-ref-init.js"));
-});
-describe("dstr", () => {
 it("obj-prop-elem-target-yield-ident-invalid.js", createTestHandler("language/statements/for-in/dstr/obj-prop-elem-target-yield-ident-invalid.js"));
-});
-describe("dstr", () => {
 it("obj-prop-nested-array-invalid.js", createTestHandler("language/statements/for-in/dstr/obj-prop-nested-array-invalid.js"));
-});
-describe("dstr", () => {
 it("obj-prop-nested-array-yield-ident-invalid.js", createTestHandler("language/statements/for-in/dstr/obj-prop-nested-array-yield-ident-invalid.js"));
-});
-describe("dstr", () => {
 it("obj-prop-nested-obj-invalid.js", createTestHandler("language/statements/for-in/dstr/obj-prop-nested-obj-invalid.js"));
-});
-describe("dstr", () => {
 it("obj-prop-nested-obj-yield-ident-invalid.js", createTestHandler("language/statements/for-in/dstr/obj-prop-nested-obj-yield-ident-invalid.js"));
-});
-describe("dstr", () => {
 it("obj-rest-not-last-element-invalid.js", createTestHandler("language/statements/for-in/dstr/obj-rest-not-last-element-invalid.js"));
 });
 it("head-const-bound-names-dup.js", createTestHandler("language/statements/for-in/head-const-bound-names-dup.js"));
@@ -169,7 +105,7 @@ it("order-enumerable-shadowed.js", createTestHandler("language/statements/for-in
 it("order-property-added.js", createTestHandler("language/statements/for-in/order-property-added.js"));
 it("order-property-on-prototype.js", createTestHandler("language/statements/for-in/order-property-on-prototype.js"));
 it("order-simple-object.js", createTestHandler("language/statements/for-in/order-simple-object.js"));
-it("resizable-buffer.js", createTestHandler("language/statements/for-in/resizable-buffer.js"));
+it.skip("resizable-buffer.js", () => { /* Ignored Test */ });
 it("scope-body-lex-boundary.js", createTestHandler("language/statements/for-in/scope-body-lex-boundary.js"));
 it("scope-body-lex-close.js", createTestHandler("language/statements/for-in/scope-body-lex-close.js"));
 it("scope-body-lex-open.js", createTestHandler("language/statements/for-in/scope-body-lex-open.js"));

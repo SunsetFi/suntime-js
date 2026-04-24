@@ -13,17 +13,9 @@ it("proto-from-ctor-realm.js", createTestHandler("built-ins/NativeErrors/RangeEr
 it("proto.js", createTestHandler("built-ins/NativeErrors/RangeError/proto.js"));
 describe("prototype", () => {
 it("constructor.js", createTestHandler("built-ins/NativeErrors/RangeError/prototype/constructor.js"));
-});
-describe("prototype", () => {
 it("message.js", createTestHandler("built-ins/NativeErrors/RangeError/prototype/message.js"));
-});
-describe("prototype", () => {
 it("name.js", createTestHandler("built-ins/NativeErrors/RangeError/prototype/name.js"));
-});
-describe("prototype", () => {
 it("not-error-object.js", createTestHandler("built-ins/NativeErrors/RangeError/prototype/not-error-object.js"));
-});
-describe("prototype", () => {
 it("proto.js", createTestHandler("built-ins/NativeErrors/RangeError/prototype/proto.js"));
 });
 it("prototype.js", createTestHandler("built-ins/NativeErrors/RangeError/prototype.js"));

@@ -17,5 +17,5 @@ it("S12.9_A3.js", createTestHandler("language/statements/return/S12.9_A3.js"));
 it("S12.9_A4.js", createTestHandler("language/statements/return/S12.9_A4.js"));
 it("S12.9_A5.js", createTestHandler("language/statements/return/S12.9_A5.js"));
 it("line-terminators.js", createTestHandler("language/statements/return/line-terminators.js"));
-it("tco.js", createTestHandler("language/statements/return/tco.js"));
+it.skip("tco.js", () => { /* Ignored Test */ });
 });

@@ -1,6 +1,10 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
+import { isTestIgnored } from "../ignores.js";
+import Test262File from "../Test262File.js";
+import getTest262Path from "../utils/get-test262-path.js";
+
 export function createTestFile(outDir: string, path: string, tests: string[]) {
   const pathParts = path.split("/");
 
@@ -45,6 +49,12 @@ function createTestFileContents(prefix: string, tests: string[], depth: number) 
 
 function writeTreeItem(item: FileTreeItem, prefix: string): string {
   if (isFileTreeFile(item)) {
+    const filePath = getTest262Path(join("test", prefix, item.filePath));
+    const test = Test262File.fromFile(filePath);
+    if (isTestIgnored(test)) {
+      return `it.skip(${JSON.stringify(item.fileName)}, () => { /* Ignored Test */ });`;
+    }
+
     return `it(${JSON.stringify(item.fileName)}, createTestHandler(${JSON.stringify(`${prefix}/${item.filePath}`)}));`;
   }
 
@@ -83,43 +93,40 @@ function isFileTreeFolder(item: FileTreeItem): item is FileTreeFolder {
 
 type FileTreeItem = FileTreeFile | FileTreeFolder;
 
-function fileTree(tests: string[], parentPath: string = ""): FileTreeItem[] {
-  const files: FileTreeFile[] = [];
-  const folders = new Map<string, FileTreeItem>();
-  for (let test of tests) {
-    if (test.startsWith("/")) {
-      test = test.substring(1);
-    }
-    if (!test) {
-      throw new Error("Unexpected empty test path");
-    }
-
-    const [first, ...rest] = test.split("/");
-    if (rest.length === 0) {
-      files.push({
-        fileName: first,
-        filePath: join(parentPath, first),
-      });
-      continue;
-    }
-
-    for (const child of fileTree([rest.join("/")], join(parentPath, first))) {
-      if (!folders.has(first)) {
-        folders.set(first, {
-          folderName: first,
-          folderPath: join(parentPath, first),
-          children: [],
-        });
-      }
-
-      const folder = folders.get(first);
-      if (!folder || "fileName" in folder) {
-        throw new Error("Expected folder, got file");
-      }
-
-      folder.children.push(child);
+function fileTree(tests: string[]): FileTreeItem[] {
+  const root: FileTreeFolder = { folderName: "", folderPath: "", children: [] };
+  for (const test of tests) {
+    const path = test.startsWith("/") ? test.substring(1) : test;
+    if (path) {
+      insertIntoFolder(root, path, "");
     }
   }
+  return root.children;
+}
 
-  return [...folders.values(), ...files];
+function insertIntoFolder(
+  folder: FileTreeFolder,
+  remainingPath: string,
+  currentPath: string,
+): void {
+  const slashIdx = remainingPath.indexOf("/");
+  if (slashIdx === -1) {
+    folder.children.push({ fileName: remainingPath, filePath: join(currentPath, remainingPath) });
+    return;
+  }
+
+  const segment = remainingPath.substring(0, slashIdx);
+  const rest = remainingPath.substring(slashIdx + 1);
+  const childPath = join(currentPath, segment);
+
+  let child = folder.children.find(
+    (item): item is FileTreeFolder => isFileTreeFolder(item) && item.folderName === segment,
+  );
+
+  if (!child) {
+    child = { folderName: segment, folderPath: childPath, children: [] };
+    folder.children.push(child);
+  }
+
+  insertIntoFolder(child, rest, childPath);
 }

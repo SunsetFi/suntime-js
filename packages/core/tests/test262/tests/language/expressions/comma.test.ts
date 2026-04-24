@@ -7,5 +7,5 @@ it("S11.14_A2.1_T1.js", createTestHandler("language/expressions/comma/S11.14_A2.
 it("S11.14_A2.1_T2.js", createTestHandler("language/expressions/comma/S11.14_A2.1_T2.js"));
 it("S11.14_A2.1_T3.js", createTestHandler("language/expressions/comma/S11.14_A2.1_T3.js"));
 it("S11.14_A3.js", createTestHandler("language/expressions/comma/S11.14_A3.js"));
-it("tco-final.js", createTestHandler("language/expressions/comma/tco-final.js"));
+it.skip("tco-final.js", () => { /* Ignored Test */ });
 });

@@ -1219,11 +1219,11 @@ it("async-gen-dstr-var-obj-ptrn-rest-getter.js", createTestHandler("language/sta
 it("async-gen-dstr-var-obj-ptrn-rest-skip-non-enumerable.js", createTestHandler("language/statements/for-await-of/async-gen-dstr-var-obj-ptrn-rest-skip-non-enumerable.js"));
 it("async-gen-dstr-var-obj-ptrn-rest-val-obj.js", createTestHandler("language/statements/for-await-of/async-gen-dstr-var-obj-ptrn-rest-val-obj.js"));
 it("escaped-of.js", createTestHandler("language/statements/for-await-of/escaped-of.js"));
-it("head-await-using-init.js", createTestHandler("language/statements/for-await-of/head-await-using-init.js"));
+it.skip("head-await-using-init.js", () => { /* Ignored Test */ });
 it("head-const-init.js", createTestHandler("language/statements/for-await-of/head-const-init.js"));
 it("head-let-init.js", createTestHandler("language/statements/for-await-of/head-let-init.js"));
 it("head-lhs-async.js", createTestHandler("language/statements/for-await-of/head-lhs-async.js"));
-it("head-using-init.js", createTestHandler("language/statements/for-await-of/head-using-init.js"));
+it.skip("head-using-init.js", () => { /* Ignored Test */ });
 it("head-var-init.js", createTestHandler("language/statements/for-await-of/head-var-init.js"));
 it("iterator-close-non-throw-get-method-abrupt.js", createTestHandler("language/statements/for-await-of/iterator-close-non-throw-get-method-abrupt.js"));
 it("iterator-close-non-throw-get-method-is-null.js", createTestHandler("language/statements/for-await-of/iterator-close-non-throw-get-method-is-null.js"));

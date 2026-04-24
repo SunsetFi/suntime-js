@@ -86,12 +86,12 @@ it("spread-sngl-expr.js", createTestHandler("language/expressions/call/spread-sn
 it("spread-sngl-iter.js", createTestHandler("language/expressions/call/spread-sngl-iter.js"));
 it("spread-sngl-literal.js", createTestHandler("language/expressions/call/spread-sngl-literal.js"));
 it("spread-sngl-obj-ident.js", createTestHandler("language/expressions/call/spread-sngl-obj-ident.js"));
-it("tco-call-args.js", createTestHandler("language/expressions/call/tco-call-args.js"));
-it("tco-member-args.js", createTestHandler("language/expressions/call/tco-member-args.js"));
-it("tco-non-eval-function-dynamic.js", createTestHandler("language/expressions/call/tco-non-eval-function-dynamic.js"));
-it("tco-non-eval-function.js", createTestHandler("language/expressions/call/tco-non-eval-function.js"));
-it("tco-non-eval-global.js", createTestHandler("language/expressions/call/tco-non-eval-global.js"));
-it("tco-non-eval-with.js", createTestHandler("language/expressions/call/tco-non-eval-with.js"));
+it.skip("tco-call-args.js", () => { /* Ignored Test */ });
+it.skip("tco-member-args.js", () => { /* Ignored Test */ });
+it.skip("tco-non-eval-function-dynamic.js", () => { /* Ignored Test */ });
+it.skip("tco-non-eval-function.js", () => { /* Ignored Test */ });
+it.skip("tco-non-eval-global.js", () => { /* Ignored Test */ });
+it.skip("tco-non-eval-with.js", () => { /* Ignored Test */ });
 it("trailing-comma.js", createTestHandler("language/expressions/call/trailing-comma.js"));
 it("with-base-obj.js", createTestHandler("language/expressions/call/with-base-obj.js"));
 });

@@ -24,6 +24,6 @@ it("short-circuit-number-string.js", createTestHandler("language/expressions/coa
 it("short-circuit-number-symbol.js", createTestHandler("language/expressions/coalesce/short-circuit-number-symbol.js"));
 it("short-circuit-number-true.js", createTestHandler("language/expressions/coalesce/short-circuit-number-true.js"));
 it("short-circuit-prevents-evaluation.js", createTestHandler("language/expressions/coalesce/short-circuit-prevents-evaluation.js"));
-it("tco-pos-null.js", createTestHandler("language/expressions/coalesce/tco-pos-null.js"));
-it("tco-pos-undefined.js", createTestHandler("language/expressions/coalesce/tco-pos-undefined.js"));
+it.skip("tco-pos-null.js", () => { /* Ignored Test */ });
+it.skip("tco-pos-undefined.js", () => { /* Ignored Test */ });
 });

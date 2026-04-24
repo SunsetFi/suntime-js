@@ -23,8 +23,8 @@ it("constructor-invocation.js", createTestHandler("language/expressions/tagged-t
 it("invalid-escape-sequences.js", createTestHandler("language/expressions/tagged-template/invalid-escape-sequences.js"));
 it("member-expression-argument-list-evaluation.js", createTestHandler("language/expressions/tagged-template/member-expression-argument-list-evaluation.js"));
 it("member-expression-context.js", createTestHandler("language/expressions/tagged-template/member-expression-context.js"));
-it("tco-call.js", createTestHandler("language/expressions/tagged-template/tco-call.js"));
-it("tco-member.js", createTestHandler("language/expressions/tagged-template/tco-member.js"));
+it.skip("tco-call.js", () => { /* Ignored Test */ });
+it.skip("tco-member.js", () => { /* Ignored Test */ });
 it("template-object-frozen-non-strict.js", createTestHandler("language/expressions/tagged-template/template-object-frozen-non-strict.js"));
 it("template-object-frozen-strict.js", createTestHandler("language/expressions/tagged-template/template-object-frozen-strict.js"));
 it("template-object-template-map.js", createTestHandler("language/expressions/tagged-template/template-object-template-map.js"));

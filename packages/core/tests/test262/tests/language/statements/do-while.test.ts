@@ -37,5 +37,5 @@ it("decl-gen.js", createTestHandler("language/statements/do-while/decl-gen.js"))
 it("decl-let.js", createTestHandler("language/statements/do-while/decl-let.js"));
 it("labelled-fn-stmt.js", createTestHandler("language/statements/do-while/labelled-fn-stmt.js"));
 it("let-array-with-newline.js", createTestHandler("language/statements/do-while/let-array-with-newline.js"));
-it("tco-body.js", createTestHandler("language/statements/do-while/tco-body.js"));
+it.skip("tco-body.js", () => { /* Ignored Test */ });
 });

@@ -29,12 +29,14 @@ export default class Test262File {
     // This is slooowwww
     // const frontmatterStr = contents.match(/\/\*\s*---([\s\S]*?)---\s*\*\//)?.[1];
 
-    const frontMatterStart = contents.indexOf("/*---");
-    const frontMatterEnd = contents.indexOf("---*/");
+    // Some test262 tests do weird things with linefeeds, so normalize it for yaml.
+    const normalized = contents.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+    const frontMatterStart = normalized.indexOf("/*---");
+    const frontMatterEnd = normalized.indexOf("---*/");
     if (frontMatterStart === -1 || frontMatterEnd === -1) {
       throw new Error("Test262 file is missing frontmatter");
     }
-    const frontmatterStr = contents.slice(frontMatterStart + 5, frontMatterEnd);
+    const frontmatterStr = normalized.slice(frontMatterStart + 5, frontMatterEnd);
 
     const attributes = parseYaml(frontmatterStr);
 

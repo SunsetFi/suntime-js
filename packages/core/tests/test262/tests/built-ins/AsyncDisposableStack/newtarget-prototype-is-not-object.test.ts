@@ -1,4 +1,4 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("newtarget-prototype-is-not-object.js", createTestHandler("built-ins/AsyncDisposableStack/newtarget-prototype-is-not-object.js"));
+it.skip("newtarget-prototype-is-not-object.js", () => { /* Ignored Test */ });

@@ -48,25 +48,11 @@ it("evaluation-unmapped-arguments.js", createTestHandler("language/statements/as
 describe("forbidden-ext", () => {
 describe("b1", () => {
 it("async-func-decl-forbidden-ext-direct-access-prop-arguments.js", createTestHandler("language/statements/async-function/forbidden-ext/b1/async-func-decl-forbidden-ext-direct-access-prop-arguments.js"));
-});
-});
-describe("forbidden-ext", () => {
-describe("b1", () => {
 it("async-func-decl-forbidden-ext-direct-access-prop-caller.js", createTestHandler("language/statements/async-function/forbidden-ext/b1/async-func-decl-forbidden-ext-direct-access-prop-caller.js"));
 });
-});
-describe("forbidden-ext", () => {
 describe("b2", () => {
 it("async-func-decl-forbidden-ext-indirect-access-own-prop-caller-get.js", createTestHandler("language/statements/async-function/forbidden-ext/b2/async-func-decl-forbidden-ext-indirect-access-own-prop-caller-get.js"));
-});
-});
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("async-func-decl-forbidden-ext-indirect-access-own-prop-caller-value.js", createTestHandler("language/statements/async-function/forbidden-ext/b2/async-func-decl-forbidden-ext-indirect-access-own-prop-caller-value.js"));
-});
-});
-describe("forbidden-ext", () => {
-describe("b2", () => {
 it("async-func-decl-forbidden-ext-indirect-access-prop-caller.js", createTestHandler("language/statements/async-function/forbidden-ext/b2/async-func-decl-forbidden-ext-indirect-access-prop-caller.js"));
 });
 });

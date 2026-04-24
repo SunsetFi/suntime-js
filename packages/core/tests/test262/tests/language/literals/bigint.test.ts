@@ -16,140 +16,50 @@ it("non-octal-like-invalid-08n.js", createTestHandler("language/literals/bigint/
 it("non-octal-like-invalid-09n.js", createTestHandler("language/literals/bigint/non-octal-like-invalid-09n.js"));
 describe("numeric-separators", () => {
 it("numeric-separator-literal-bil-bd-nsl-bd-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-bil-bd-nsl-bd-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-bil-bd-nsl-bd.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-bil-bd-nsl-bd.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-bil-bd-nsl-bds.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-bil-bd-nsl-bds.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-bil-bds-nsl-bd.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-bil-bds-nsl-bd.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-bil-bds-nsl-bds.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-bil-bds-nsl-bds.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-bil-nsl-bd-dunder-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-bil-nsl-bd-dunder-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-bil-nsl-bd-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-bil-nsl-bd-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-dd-nsl-dd-one-of.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-dd-nsl-dd-one-of.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-dd-nsl-dds-dunder-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-dd-nsl-dds-dunder-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-dd-nsl-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-dd-nsl-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-dds-nsl-dd.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-dds-nsl-dd.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-dds-nsl-dds-dunder-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-dds-nsl-dds-dunder-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-dds-nsl-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-dds-nsl-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-hil-hd-nsl-hd-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-hil-hd-nsl-hd-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-hil-hd-nsl-hd.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-hil-hd-nsl-hd.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-hil-hd-nsl-hds.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-hil-hd-nsl-hds.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-hil-hds-nsl-hd.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-hil-hds-nsl-hd.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-hil-hds-nsl-hds.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-hil-hds-nsl-hds.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-hil-nsl-hd-dunder-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-hil-nsl-hd-dunder-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-hil-nsl-hd-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-hil-nsl-hd-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-hil-od-nsl-od-one-of.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-hil-od-nsl-od-one-of.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-lol-00-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-lol-00-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-lol-01-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-lol-01-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-lol-07-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-lol-07-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-lol-0_0-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-lol-0_0-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-lol-0_1-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-lol-0_1-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-lol-0_7-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-lol-0_7-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-nonoctal-08-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-nonoctal-08-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-nonoctal-09-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-nonoctal-09-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-nonoctal-0_8-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-nonoctal-0_8-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-nonoctal-0_9-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-nonoctal-0_9-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-nzd-nsl-dd-one-of.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-nzd-nsl-dd-one-of.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-nzd-nsl-dd.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-nzd-nsl-dd.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-nzd-nsl-dds-dunder-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-nzd-nsl-dds-dunder-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-nzd-nsl-dds-leading-zero-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-nzd-nsl-dds-leading-zero-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-nzd-nsl-dds.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-nzd-nsl-dds.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-oil-nsl-od-dunder-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-oil-nsl-od-dunder-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-oil-nsl-od-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-oil-nsl-od-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-oil-od-nsl-od-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-oil-od-nsl-od-err.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-oil-od-nsl-od-one-of.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-oil-od-nsl-od-one-of.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-oil-od-nsl-od.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-oil-od-nsl-od.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-oil-od-nsl-ods.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-oil-od-nsl-ods.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-oil-ods-nsl-od.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-oil-ods-nsl-od.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-oil-ods-nsl-ods.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-oil-ods-nsl-ods.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-sign-minus-dds-nsl-dd.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-sign-minus-dds-nsl-dd.js"));
-});
-describe("numeric-separators", () => {
 it("numeric-separator-literal-unicode-err.js", createTestHandler("language/literals/bigint/numeric-separators/numeric-separator-literal-unicode-err.js"));
 });
 it("octal-invalid-digit.js", createTestHandler("language/literals/bigint/octal-invalid-digit.js"));

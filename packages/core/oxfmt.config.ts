@@ -1,7 +1,7 @@
 import { defineConfig } from "oxfmt";
 
 export default defineConfig({
-  ignorePatterns: ["/tests/test262/repo"],
+  ignorePatterns: ["/tests/test262/repo", "/tests/test262/tests"],
   sortImports: {
     groups: [
       "type-import",
