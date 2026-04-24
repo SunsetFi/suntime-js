@@ -43,6 +43,13 @@ export class StaticJsRuntimeError extends Error {
   [Symbol.toStringTag](): string {
     return `${this.name} ${this.message}`;
   }
+
+  toJSON(): Record<string, unknown> {
+    return {
+      name: this.name,
+      message: this.message,
+    };
+  }
 }
 
 function getMessage(value: StaticJsValue): string {

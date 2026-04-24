@@ -3,7 +3,10 @@
 ## Immediate
 
 - Figure out why test262 tests are throwing unhandled rejections
-  language/statements/class/elements/wrapped-in-sc-rs-static-async-generator-method-privatename-identifier.js
+  - [ ] language/statements/class/elements/wrapped-in-sc-rs-static-async-generator-method-privatename-identifier.js
+  - [ ] language/module-code/top-level-await/pending-async-dep-from-cycle.js
+        pnpm test:language tests/test262/tests/language/module-code/top-level-await.test.ts -t "pending-async-dep-from-cycle.js"
+- [x] Really really really stop vitest from dumping out the entire realm to the terminal on errors.
 
 ## Less imidiate
 
