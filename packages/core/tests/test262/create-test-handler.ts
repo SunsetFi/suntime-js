@@ -141,6 +141,8 @@ const asyncFailHeader = "Test262:AsyncTestFailure:";
 const asyncCompleteHeader = "Test262:AsyncTestComplete";
 async function bootstrapAsync(realm: StaticJsRealm): Promise<BootstrapCleanup> {
   const [promise, resolve, reject] = withResolvers<void>();
+  // This may complete after the timeout, so squelch it.
+  promise.catch(() => {});
 
   function print(message: string) {
     if (message.startsWith(asyncFailHeader)) {
@@ -165,9 +167,6 @@ async function bootstrapAsync(realm: StaticJsRealm): Promise<BootstrapCleanup> {
   });
 
   await addTestHarness(realm, "doneprintHandle.js");
-
-  // This may complete after the timeout, so squelch it.
-  promise.catch(() => {});
 
   async function cleanup() {
     await Promise.race([

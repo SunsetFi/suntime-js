@@ -489,6 +489,17 @@ describe("E2E: Modules", () => {
       expect(receiver).toHaveBeenCalledWith(42);
     });
 
+    it("Catches errors within the promise", async () => {
+      const realm = StaticJsRealm();
+      const code = `
+        export default unresolvable;
+      `;
+
+      const evaluatePromise = evaluateModule(code, { realm });
+
+      await expect(evaluatePromise).rejects.toThrow(/unresolvable/);
+    });
+
     describe("Tasks", () => {
       it("Task provides the correct source names", async () => {
         const sourceNames = new Set<string>();

@@ -315,8 +315,11 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       }
 
       try {
-        await this._enqueueMacrotask(evaluate, "evaluate", opts);
-        return moduleEvaluated;
+        const [, module] = await Promise.all([
+          this._enqueueMacrotask(evaluate, "evaluate", opts),
+          moduleEvaluated,
+        ]);
+        return module;
       } catch (e) {
         Completion.handleRuntime(e);
 
