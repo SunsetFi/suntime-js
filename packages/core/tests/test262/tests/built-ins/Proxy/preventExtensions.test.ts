@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("preventExtensions", () => {
   it(
     "call-parameters.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/preventExtensions/call-parameters.js"),
   );
   it(
@@ -14,22 +14,22 @@ describe("preventExtensions", () => {
   );
   it(
     "return-false.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/preventExtensions/return-false.js"),
   );
   it(
     "return-is-abrupt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/preventExtensions/return-is-abrupt.js"),
   );
   it(
     "return-true-target-is-extensible.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/preventExtensions/return-true-target-is-extensible.js"),
   );
   it(
     "return-true-target-is-not-extensible.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/preventExtensions/return-true-target-is-not-extensible.js"),
   );
   it(
@@ -44,12 +44,12 @@ describe("preventExtensions", () => {
   );
   it(
     "trap-is-not-callable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/preventExtensions/trap-is-not-callable.js"),
   );
   it(
     "trap-is-null-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/preventExtensions/trap-is-null-target-is-proxy.js"),
   );
   it(
@@ -59,7 +59,7 @@ describe("preventExtensions", () => {
   );
   it(
     "trap-is-undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/preventExtensions/trap-is-undefined.js"),
   );
 });

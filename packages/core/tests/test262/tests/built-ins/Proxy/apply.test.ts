@@ -9,12 +9,12 @@ describe("apply", () => {
   );
   it(
     "call-parameters.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/apply/call-parameters.js"),
   );
   it(
     "call-result.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/apply/call-result.js"),
   );
   it(
@@ -29,12 +29,12 @@ describe("apply", () => {
   );
   it(
     "return-abrupt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/apply/return-abrupt.js"),
   );
   it(
     "trap-is-missing-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/apply/trap-is-missing-target-is-proxy.js"),
   );
   it(
@@ -44,32 +44,32 @@ describe("apply", () => {
   );
   it(
     "trap-is-not-callable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/apply/trap-is-not-callable.js"),
   );
   it(
     "trap-is-null-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/apply/trap-is-null-target-is-proxy.js"),
   );
   it(
     "trap-is-null.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/apply/trap-is-null.js"),
   );
   it(
     "trap-is-undefined-no-property.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/apply/trap-is-undefined-no-property.js"),
   );
   it(
     "trap-is-undefined-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/apply/trap-is-undefined-target-is-proxy.js"),
   );
   it(
     "trap-is-undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/apply/trap-is-undefined.js"),
   );
 });

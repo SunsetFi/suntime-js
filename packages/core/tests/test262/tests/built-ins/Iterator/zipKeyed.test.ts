@@ -152,7 +152,7 @@ describe("zipKeyed", () => {
   );
   it(
     "non-constructible.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/zipKeyed/non-constructible.js"),
   );
   it(

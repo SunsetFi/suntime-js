@@ -3,6 +3,6 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "part-unicode-12.0.0-class-escaped.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/identifiers/part-unicode-12.0.0-class-escaped.js"),
 );

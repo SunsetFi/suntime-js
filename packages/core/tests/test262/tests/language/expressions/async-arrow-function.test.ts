@@ -11,12 +11,12 @@ describe("async-arrow-function", () => {
   );
   it(
     "arrow-returns-promise.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/arrow-returns-promise.js"),
   );
   it(
     "async-lineterminator-identifier-throws.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/async-arrow-function/async-lineterminator-identifier-throws.js",
     ),
@@ -87,19 +87,19 @@ describe("async-arrow-function", () => {
   );
   it(
     "dflt-params-abrupt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/dflt-params-abrupt.js"),
   );
   it(
     "dflt-params-arg-val-not-undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/async-arrow-function/dflt-params-arg-val-not-undefined.js",
     ),
   );
   it(
     "dflt-params-arg-val-undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/dflt-params-arg-val-undefined.js"),
   );
   it(
@@ -109,17 +109,17 @@ describe("async-arrow-function", () => {
   );
   it(
     "dflt-params-ref-later.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/dflt-params-ref-later.js"),
   );
   it(
     "dflt-params-ref-prior.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/dflt-params-ref-prior.js"),
   );
   it(
     "dflt-params-ref-self.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/dflt-params-ref-self.js"),
   );
   it(
@@ -129,7 +129,7 @@ describe("async-arrow-function", () => {
   );
   it(
     "dflt-params-trailing-comma.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/dflt-params-trailing-comma.js"),
   );
   it(
@@ -218,7 +218,7 @@ describe("async-arrow-function", () => {
   );
   it(
     "escaped-async-line-terminator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/escaped-async-line-terminator.js"),
   );
   it(
@@ -228,21 +228,21 @@ describe("async-arrow-function", () => {
   );
   it(
     "eval-var-scope-syntax-err.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/eval-var-scope-syntax-err.js"),
   );
   describe("forbidden-ext", () => {
     describe("b1", () => {
       it(
         "async-arrow-function-forbidden-ext-direct-access-prop-arguments.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/async-arrow-function/forbidden-ext/b1/async-arrow-function-forbidden-ext-direct-access-prop-arguments.js",
         ),
       );
       it(
         "async-arrow-function-forbidden-ext-direct-access-prop-caller.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/async-arrow-function/forbidden-ext/b1/async-arrow-function-forbidden-ext-direct-access-prop-caller.js",
         ),
@@ -251,21 +251,21 @@ describe("async-arrow-function", () => {
     describe("b2", () => {
       it(
         "async-arrow-function-forbidden-ext-indirect-access-own-prop-caller-get.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/async-arrow-function/forbidden-ext/b2/async-arrow-function-forbidden-ext-indirect-access-own-prop-caller-get.js",
         ),
       );
       it(
         "async-arrow-function-forbidden-ext-indirect-access-own-prop-caller-value.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/async-arrow-function/forbidden-ext/b2/async-arrow-function-forbidden-ext-indirect-access-own-prop-caller-value.js",
         ),
       );
       it(
         "async-arrow-function-forbidden-ext-indirect-access-prop-caller.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/async-arrow-function/forbidden-ext/b2/async-arrow-function-forbidden-ext-indirect-access-prop-caller.js",
         ),
@@ -274,7 +274,7 @@ describe("async-arrow-function", () => {
   });
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/name.js"),
   );
   it(
@@ -286,19 +286,19 @@ describe("async-arrow-function", () => {
   );
   it(
     "params-trailing-comma-multiple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/async-arrow-function/params-trailing-comma-multiple.js",
     ),
   );
   it(
     "params-trailing-comma-single.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/params-trailing-comma-single.js"),
   );
   it(
     "prototype.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/prototype.js"),
   );
   it(
@@ -315,57 +315,57 @@ describe("async-arrow-function", () => {
   );
   it(
     "try-reject-finally-reject.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/try-reject-finally-reject.js"),
   );
   it(
     "try-reject-finally-return.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/try-reject-finally-return.js"),
   );
   it(
     "try-reject-finally-throw.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/try-reject-finally-throw.js"),
   );
   it(
     "try-return-finally-reject.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/try-return-finally-reject.js"),
   );
   it(
     "try-return-finally-return.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/try-return-finally-return.js"),
   );
   it(
     "try-return-finally-throw.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/try-return-finally-throw.js"),
   );
   it(
     "try-throw-finally-reject.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/try-throw-finally-reject.js"),
   );
   it(
     "try-throw-finally-return.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/try-throw-finally-return.js"),
   );
   it(
     "try-throw-finally-throw.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/try-throw-finally-throw.js"),
   );
   it(
     "unscopables-with-in-nested-fn.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/unscopables-with-in-nested-fn.js"),
   );
   it(
     "unscopables-with.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-arrow-function/unscopables-with.js"),
   );
 });

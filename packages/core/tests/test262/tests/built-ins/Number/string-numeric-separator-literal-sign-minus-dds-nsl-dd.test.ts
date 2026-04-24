@@ -3,6 +3,6 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "string-numeric-separator-literal-sign-minus-dds-nsl-dd.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Number/string-numeric-separator-literal-sign-minus-dds-nsl-dd.js"),
 );

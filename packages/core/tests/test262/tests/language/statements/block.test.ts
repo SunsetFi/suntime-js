@@ -39,7 +39,7 @@ describe("block", () => {
   );
   it(
     "S12.1_A2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/block/S12.1_A2.js"),
   );
   it(
@@ -54,7 +54,7 @@ describe("block", () => {
   );
   it(
     "S12.1_A5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/block/S12.1_A5.js"),
   );
   describe("early-errors", () => {
@@ -94,17 +94,17 @@ describe("block", () => {
   );
   it(
     "scope-lex-close.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/block/scope-lex-close.js"),
   );
   it(
     "scope-lex-open.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/block/scope-lex-open.js"),
   );
   it(
     "scope-var-none.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/block/scope-var-none.js"),
   );
   it.skip("tco-stmt-list.js", () => {

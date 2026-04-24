@@ -4,52 +4,52 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("resolve", () => {
   it(
     "S25.4.4.5_A1.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/S25.4.4.5_A1.1_T1.js"),
   );
   it(
     "S25.4.4.5_A2.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/S25.4.4.5_A2.1_T1.js"),
   );
   it(
     "S25.4.4.5_A2.2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/S25.4.4.5_A2.2_T1.js"),
   );
   it(
     "S25.4.4.5_A2.3_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/S25.4.4.5_A2.3_T1.js"),
   );
   it(
     "S25.4.4.5_A3.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/S25.4.4.5_A3.1_T1.js"),
   );
   it(
     "S25.4.4.5_A4.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/S25.4.4.5_A4.1_T1.js"),
   );
   it(
     "S25.Promise_resolve_foreign_thenable_1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/S25.Promise_resolve_foreign_thenable_1.js"),
   );
   it(
     "S25.Promise_resolve_foreign_thenable_2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/S25.Promise_resolve_foreign_thenable_2.js"),
   );
   it(
     "arg-non-thenable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/arg-non-thenable.js"),
   );
   it(
     "arg-poisoned-then.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/arg-poisoned-then.js"),
   );
   it(
@@ -69,17 +69,17 @@ describe("resolve", () => {
   );
   it(
     "capability-invocation-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/capability-invocation-error.js"),
   );
   it(
     "context-non-object-with-promise.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/context-non-object-with-promise.js"),
   );
   it(
     "ctx-ctor-throws.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/ctx-ctor-throws.js"),
   );
   it(
@@ -89,32 +89,32 @@ describe("resolve", () => {
   );
   it(
     "ctx-non-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/ctx-non-ctor.js"),
   );
   it(
     "ctx-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/ctx-non-object.js"),
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/length.js"),
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/name.js"),
   );
   it(
     "not-a-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/not-a-constructor.js"),
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/prop-desc.js"),
   );
   it(
@@ -124,22 +124,22 @@ describe("resolve", () => {
   );
   it(
     "resolve-non-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/resolve-non-obj.js"),
   );
   it(
     "resolve-non-thenable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/resolve-non-thenable.js"),
   );
   it(
     "resolve-poisoned-then.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/resolve-poisoned-then.js"),
   );
   it(
     "resolve-prms-cstm-then.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/resolve-prms-cstm-then.js"),
   );
   it(
@@ -149,7 +149,7 @@ describe("resolve", () => {
   );
   it(
     "resolve-thenable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/resolve/resolve-thenable.js"),
   );
 });

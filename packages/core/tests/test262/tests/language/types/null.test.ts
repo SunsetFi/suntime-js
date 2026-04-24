@@ -4,12 +4,12 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("null", () => {
   it(
     "S8.2_A1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/null/S8.2_A1_T1.js"),
   );
   it(
     "S8.2_A1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/null/S8.2_A1_T2.js"),
   );
   it(
@@ -19,7 +19,7 @@ describe("null", () => {
   );
   it(
     "S8.2_A3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/null/S8.2_A3.js"),
   );
 });

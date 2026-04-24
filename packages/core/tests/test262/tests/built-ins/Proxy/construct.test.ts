@@ -14,12 +14,12 @@ describe("construct", () => {
   );
   it(
     "call-parameters.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/construct/call-parameters.js"),
   );
   it(
     "call-result.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/construct/call-result.js"),
   );
   it(
@@ -34,7 +34,7 @@ describe("construct", () => {
   );
   it(
     "return-is-abrupt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/construct/return-is-abrupt.js"),
   );
   it(
@@ -44,7 +44,7 @@ describe("construct", () => {
   );
   it(
     "return-not-object-throws-boolean.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/construct/return-not-object-throws-boolean.js"),
   );
   it(
@@ -54,7 +54,7 @@ describe("construct", () => {
   );
   it(
     "return-not-object-throws-null.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/construct/return-not-object-throws-null.js"),
   );
   it(
@@ -64,7 +64,7 @@ describe("construct", () => {
   );
   it(
     "return-not-object-throws-number.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/construct/return-not-object-throws-number.js"),
   );
   it(
@@ -74,7 +74,7 @@ describe("construct", () => {
   );
   it(
     "return-not-object-throws-string.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/construct/return-not-object-throws-string.js"),
   );
   it(
@@ -84,7 +84,7 @@ describe("construct", () => {
   );
   it(
     "return-not-object-throws-symbol.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/construct/return-not-object-throws-symbol.js"),
   );
   it(
@@ -94,7 +94,7 @@ describe("construct", () => {
   );
   it(
     "return-not-object-throws-undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/construct/return-not-object-throws-undefined.js"),
   );
   it(
@@ -109,7 +109,7 @@ describe("construct", () => {
   );
   it(
     "trap-is-not-callable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/construct/trap-is-not-callable.js"),
   );
   it(

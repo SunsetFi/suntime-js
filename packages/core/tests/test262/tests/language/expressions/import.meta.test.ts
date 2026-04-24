@@ -14,7 +14,7 @@ describe("import.meta", () => {
   );
   it(
     "not-accessible-from-direct-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/import.meta/not-accessible-from-direct-eval.js"),
   );
   it(
@@ -35,26 +35,26 @@ describe("import.meta", () => {
     );
     it(
       "goal-async-function-params-or-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/import.meta/syntax/goal-async-function-params-or-body.js",
       ),
     );
     it(
       "goal-async-generator-params-or-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/import.meta/syntax/goal-async-generator-params-or-body.js",
       ),
     );
     it(
       "goal-function-params-or-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/import.meta/syntax/goal-function-params-or-body.js"),
     );
     it(
       "goal-generator-params-or-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/import.meta/syntax/goal-generator-params-or-body.js"),
     );
     it(

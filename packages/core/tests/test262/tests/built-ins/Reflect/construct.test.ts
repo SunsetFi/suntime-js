@@ -4,12 +4,12 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("construct", () => {
   it(
     "arguments-list-is-not-array-like.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/construct/arguments-list-is-not-array-like.js"),
   );
   it(
     "construct.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/construct/construct.js"),
   );
   it(
@@ -19,7 +19,7 @@ describe("construct", () => {
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/construct/name.js"),
   );
   it(
@@ -29,17 +29,17 @@ describe("construct", () => {
   );
   it(
     "not-a-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/construct/not-a-constructor.js"),
   );
   it(
     "return-with-newtarget-argument.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/construct/return-with-newtarget-argument.js"),
   );
   it(
     "return-without-newtarget-argument.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/construct/return-without-newtarget-argument.js"),
   );
   it(
@@ -49,7 +49,7 @@ describe("construct", () => {
   );
   it(
     "use-arguments-list.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/construct/use-arguments-list.js"),
   );
 });

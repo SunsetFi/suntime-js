@@ -4,17 +4,17 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("deleteProperty", () => {
   it(
     "boolean-trap-result-boolean-false.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/deleteProperty/boolean-trap-result-boolean-false.js"),
   );
   it(
     "boolean-trap-result-boolean-true.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/deleteProperty/boolean-trap-result-boolean-true.js"),
   );
   it(
     "call-parameters.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/deleteProperty/call-parameters.js"),
   );
   it(
@@ -24,39 +24,39 @@ describe("deleteProperty", () => {
   );
   it(
     "return-false-not-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/deleteProperty/return-false-not-strict.js"),
   );
   it(
     "return-false-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/deleteProperty/return-false-strict.js"),
   );
   it(
     "return-is-abrupt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/deleteProperty/return-is-abrupt.js"),
   );
   it(
     "targetdesc-is-configurable-target-is-not-extensible.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Proxy/deleteProperty/targetdesc-is-configurable-target-is-not-extensible.js",
     ),
   );
   it(
     "targetdesc-is-not-configurable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/deleteProperty/targetdesc-is-not-configurable.js"),
   );
   it(
     "targetdesc-is-undefined-return-true.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/deleteProperty/targetdesc-is-undefined-return-true.js"),
   );
   it(
     "trap-is-missing-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/deleteProperty/trap-is-missing-target-is-proxy.js"),
   );
   it(
@@ -66,7 +66,7 @@ describe("deleteProperty", () => {
   );
   it(
     "trap-is-not-callable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/deleteProperty/trap-is-not-callable.js"),
   );
   it(
@@ -76,17 +76,17 @@ describe("deleteProperty", () => {
   );
   it(
     "trap-is-undefined-not-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/deleteProperty/trap-is-undefined-not-strict.js"),
   );
   it(
     "trap-is-undefined-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/deleteProperty/trap-is-undefined-strict.js"),
   );
   it(
     "trap-is-undefined-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/deleteProperty/trap-is-undefined-target-is-proxy.js"),
   );
 });

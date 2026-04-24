@@ -19,14 +19,14 @@ describe("setPrototypeOf", () => {
   );
   it(
     "proto-is-not-object-and-not-null-throws.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Reflect/setPrototypeOf/proto-is-not-object-and-not-null-throws.js",
     ),
   );
   it(
     "proto-is-symbol-throws.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/setPrototypeOf/proto-is-symbol-throws.js"),
   );
   it(
@@ -72,12 +72,12 @@ describe("setPrototypeOf", () => {
   );
   it(
     "target-is-not-object-throws.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/setPrototypeOf/target-is-not-object-throws.js"),
   );
   it(
     "target-is-symbol-throws.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/setPrototypeOf/target-is-symbol-throws.js"),
   );
 });

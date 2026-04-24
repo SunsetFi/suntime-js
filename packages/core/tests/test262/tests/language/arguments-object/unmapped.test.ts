@@ -9,22 +9,22 @@ describe("unmapped", () => {
   );
   it(
     "via-params-dflt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/arguments-object/unmapped/via-params-dflt.js"),
   );
   it(
     "via-params-dstr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/arguments-object/unmapped/via-params-dstr.js"),
   );
   it(
     "via-params-rest.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/arguments-object/unmapped/via-params-rest.js"),
   );
   it(
     "via-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/arguments-object/unmapped/via-strict.js"),
   );
 });

@@ -14,7 +14,7 @@ describe("Symbol.asyncIterator", () => {
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncIteratorPrototype/Symbol.asyncIterator/prop-desc.js"),
   );
   it(

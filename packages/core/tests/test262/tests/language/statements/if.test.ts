@@ -4,32 +4,32 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("if", () => {
   it(
     "S12.5_A1.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A1.1_T1.js"),
   );
   it(
     "S12.5_A1.1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A1.1_T2.js"),
   );
   it(
     "S12.5_A1.2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A1.2_T1.js"),
   );
   it(
     "S12.5_A1.2_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A1.2_T2.js"),
   );
   it(
     "S12.5_A10_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A10_T1.js"),
   );
   it(
     "S12.5_A10_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A10_T2.js"),
   );
   it(
@@ -39,52 +39,52 @@ describe("if", () => {
   );
   it(
     "S12.5_A12_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A12_T1.js"),
   );
   it(
     "S12.5_A12_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A12_T2.js"),
   );
   it(
     "S12.5_A12_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A12_T3.js"),
   );
   it(
     "S12.5_A12_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A12_T4.js"),
   );
   it(
     "S12.5_A1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A1_T1.js"),
   );
   it(
     "S12.5_A1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A1_T2.js"),
   );
   it(
     "S12.5_A2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A2.js"),
   );
   it(
     "S12.5_A3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A3.js"),
   );
   it(
     "S12.5_A4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A4.js"),
   );
   it(
     "S12.5_A5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A5.js"),
   );
   it(
@@ -104,47 +104,47 @@ describe("if", () => {
   );
   it(
     "cptn-else-false-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/cptn-else-false-abrupt-empty.js"),
   );
   it(
     "cptn-else-false-nrml.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/cptn-else-false-nrml.js"),
   );
   it(
     "cptn-else-true-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/cptn-else-true-abrupt-empty.js"),
   );
   it(
     "cptn-else-true-nrml.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/cptn-else-true-nrml.js"),
   );
   it(
     "cptn-empty-statement.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/cptn-empty-statement.js"),
   );
   it(
     "cptn-no-else-false.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/cptn-no-else-false.js"),
   );
   it(
     "cptn-no-else-true-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/cptn-no-else-true-abrupt-empty.js"),
   );
   it(
     "cptn-no-else-true-nrml.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/cptn-no-else-true-nrml.js"),
   );
   it(
     "empty-statement.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/empty-statement.js"),
   );
   it(
@@ -329,12 +329,12 @@ describe("if", () => {
   );
   it(
     "let-block-with-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/let-block-with-newline.js"),
   );
   it(
     "let-identifier-with-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/let-identifier-with-newline.js"),
   );
   it.skip("tco-else-body.js", () => {

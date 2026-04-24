@@ -4,22 +4,22 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("return", () => {
   it(
     "iterator-result-prototype.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/return/iterator-result-prototype.js"),
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/return/length.js"),
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/return/name.js"),
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/return/prop-desc.js"),
   );
   it(
@@ -31,36 +31,36 @@ describe("return", () => {
   );
   it(
     "return-promise.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/return/return-promise.js"),
   );
   it(
     "return-state-completed-broken-promise.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/AsyncGeneratorPrototype/return/return-state-completed-broken-promise.js",
     ),
   );
   it(
     "return-state-completed.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/return/return-state-completed.js"),
   );
   it(
     "return-suspendedStart-broken-promise.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/AsyncGeneratorPrototype/return/return-suspendedStart-broken-promise.js",
     ),
   );
   it(
     "return-suspendedStart-promise.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/return/return-suspendedStart-promise.js"),
   );
   it(
     "return-suspendedStart.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/return/return-suspendedStart.js"),
   );
   it(
@@ -77,28 +77,28 @@ describe("return", () => {
   );
   it(
     "return-suspendedYield-try-finally-return.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/AsyncGeneratorPrototype/return/return-suspendedYield-try-finally-return.js",
     ),
   );
   it(
     "return-suspendedYield-try-finally-throw.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/AsyncGeneratorPrototype/return/return-suspendedYield-try-finally-throw.js",
     ),
   );
   it(
     "return-suspendedYield-try-finally.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/AsyncGeneratorPrototype/return/return-suspendedYield-try-finally.js",
     ),
   );
   it(
     "return-suspendedYield.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/return/return-suspendedYield.js"),
   );
   it(

@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("labeled", () => {
   it(
     "S12.12_A1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/S12.12_A1_T1.js"),
   );
   it(
@@ -14,12 +14,12 @@ describe("labeled", () => {
   );
   it(
     "cptn-break.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/cptn-break.js"),
   );
   it(
     "cptn-nrml.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/cptn-nrml.js"),
   );
   it(
@@ -64,12 +64,12 @@ describe("labeled", () => {
   );
   it(
     "let-block-with-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/let-block-with-newline.js"),
   );
   it(
     "let-identifier-with-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/let-identifier-with-newline.js"),
   );
   it(
@@ -92,22 +92,22 @@ describe("labeled", () => {
   );
   it(
     "value-await-non-module-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/value-await-non-module-escaped.js"),
   );
   it(
     "value-await-non-module.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/value-await-non-module.js"),
   );
   it(
     "value-yield-non-strict-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/value-yield-non-strict-escaped.js"),
   );
   it(
     "value-yield-non-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/value-yield-non-strict.js"),
   );
   it(

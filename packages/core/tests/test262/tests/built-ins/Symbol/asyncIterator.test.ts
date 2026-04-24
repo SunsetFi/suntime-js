@@ -9,7 +9,7 @@ describe("asyncIterator", () => {
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Symbol/asyncIterator/prop-desc.js"),
   );
 });

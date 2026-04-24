@@ -9,12 +9,12 @@ describe("expression", () => {
   );
   it(
     "S12.4_A2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/expression/S12.4_A2_T1.js"),
   );
   it(
     "S12.4_A2_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/expression/S12.4_A2_T2.js"),
   );
 });

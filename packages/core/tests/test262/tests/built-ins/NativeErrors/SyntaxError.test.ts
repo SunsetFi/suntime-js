@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("SyntaxError", () => {
   it(
     "constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/SyntaxError/constructor.js"),
   );
   it(
@@ -14,7 +14,7 @@ describe("SyntaxError", () => {
   );
   it(
     "is-a-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/SyntaxError/is-a-constructor.js"),
   );
   it(
@@ -29,12 +29,12 @@ describe("SyntaxError", () => {
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/SyntaxError/name.js"),
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/SyntaxError/prop-desc.js"),
   );
   it(
@@ -50,7 +50,7 @@ describe("SyntaxError", () => {
   describe("prototype", () => {
     it(
       "constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/NativeErrors/SyntaxError/prototype/constructor.js"),
     );
     it(
@@ -65,12 +65,12 @@ describe("SyntaxError", () => {
     );
     it(
       "not-error-object.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/NativeErrors/SyntaxError/prototype/not-error-object.js"),
     );
     it(
       "proto.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/NativeErrors/SyntaxError/prototype/proto.js"),
     );
   });

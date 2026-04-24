@@ -4,17 +4,17 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("assign", () => {
   it(
     "ObjectOverride-sameproperty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/ObjectOverride-sameproperty.js"),
   );
   it(
     "OnlyOneArgument.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/OnlyOneArgument.js"),
   );
   it(
     "Override-notstringtarget.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/Override-notstringtarget.js"),
   );
   it(
@@ -29,52 +29,52 @@ describe("assign", () => {
   );
   it(
     "Source-Number-Boolen-Symbol.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/Source-Number-Boolen-Symbol.js"),
   );
   it(
     "Source-String.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/Source-String.js"),
   );
   it(
     "Target-Boolean.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/Target-Boolean.js"),
   );
   it(
     "Target-Null.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/Target-Null.js"),
   );
   it(
     "Target-Number.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/Target-Number.js"),
   );
   it(
     "Target-Object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/Target-Object.js"),
   );
   it(
     "Target-String.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/Target-String.js"),
   );
   it(
     "Target-Symbol.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/Target-Symbol.js"),
   );
   it(
     "Target-Undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/Target-Undefined.js"),
   );
   it(
     "assign-descriptor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/assign-descriptor.js"),
   );
   it(
@@ -84,50 +84,50 @@ describe("assign", () => {
   );
   it(
     "assignment-to-readonly-property-of-target-must-throw-a-typeerror-exception.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Object/assign/assignment-to-readonly-property-of-target-must-throw-a-typeerror-exception.js",
     ),
   );
   it(
     "invoked-as-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/invoked-as-ctor.js"),
   );
-  it("name.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Object/assign/name.js"));
+  it("name.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Object/assign/name.js"));
   it(
     "not-a-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/not-a-constructor.js"),
   );
   it(
     "source-get-attr-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/source-get-attr-error.js"),
   );
   it(
     "source-non-enum.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/source-non-enum.js"),
   );
   it(
     "source-own-prop-desc-missing.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/source-own-prop-desc-missing.js"),
   );
   it(
     "source-own-prop-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/source-own-prop-error.js"),
   );
   it(
     "source-own-prop-keys-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/source-own-prop-keys-error.js"),
   );
   it(
     "strings-and-symbol-order-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/strings-and-symbol-order-proxy.js"),
   );
   it(
@@ -186,12 +186,12 @@ describe("assign", () => {
   );
   it(
     "target-set-not-writable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/target-set-not-writable.js"),
   );
   it(
     "target-set-user-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/assign/target-set-user-error.js"),
   );
 });

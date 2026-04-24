@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("fromCodePoint", () => {
   it(
     "argument-is-Symbol.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/fromCodePoint/argument-is-Symbol.js"),
   );
   it(

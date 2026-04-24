@@ -4,22 +4,22 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("switch", () => {
   it(
     "S12.11_A1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/S12.11_A1_T1.js"),
   );
   it(
     "S12.11_A1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/S12.11_A1_T2.js"),
   );
   it(
     "S12.11_A1_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/S12.11_A1_T3.js"),
   );
   it(
     "S12.11_A1_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/S12.11_A1_T4.js"),
   );
   it(
@@ -54,172 +54,172 @@ describe("switch", () => {
   );
   it(
     "S12.11_A4_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/S12.11_A4_T1.js"),
   );
   it(
     "cptn-a-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-a-abrupt-empty.js"),
   );
   it(
     "cptn-a-fall-thru-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-a-fall-thru-abrupt-empty.js"),
   );
   it(
     "cptn-a-fall-thru-nrml.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-a-fall-thru-nrml.js"),
   );
   it(
     "cptn-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-abrupt-empty.js"),
   );
   it(
     "cptn-b-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-b-abrupt-empty.js"),
   );
   it(
     "cptn-b-fall-thru-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-b-fall-thru-abrupt-empty.js"),
   );
   it(
     "cptn-b-fall-thru-nrml.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-b-fall-thru-nrml.js"),
   );
   it(
     "cptn-b-final.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-b-final.js"),
   );
   it(
     "cptn-dflt-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-dflt-abrupt-empty.js"),
   );
   it(
     "cptn-dflt-b-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-dflt-b-abrupt-empty.js"),
   );
   it(
     "cptn-dflt-b-fall-thru-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-dflt-b-fall-thru-abrupt-empty.js"),
   );
   it(
     "cptn-dflt-b-fall-thru-nrml.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-dflt-b-fall-thru-nrml.js"),
   );
   it(
     "cptn-dflt-b-final.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-dflt-b-final.js"),
   );
   it(
     "cptn-dflt-fall-thru-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-dflt-fall-thru-abrupt-empty.js"),
   );
   it(
     "cptn-dflt-fall-thru-nrml.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-dflt-fall-thru-nrml.js"),
   );
   it(
     "cptn-dflt-final.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-dflt-final.js"),
   );
   it(
     "cptn-no-dflt-match-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-no-dflt-match-abrupt-empty.js"),
   );
   it(
     "cptn-no-dflt-match-fall-thru-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-no-dflt-match-fall-thru-abrupt-empty.js"),
   );
   it(
     "cptn-no-dflt-match-fall-thru-nrml.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-no-dflt-match-fall-thru-nrml.js"),
   );
   it(
     "cptn-no-dflt-match-final.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-no-dflt-match-final.js"),
   );
   it(
     "cptn-no-dflt-no-match.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/cptn-no-dflt-no-match.js"),
   );
   it(
     "scope-lex-async-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/scope-lex-async-function.js"),
   );
   it(
     "scope-lex-async-generator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/scope-lex-async-generator.js"),
   );
   it(
     "scope-lex-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/scope-lex-class.js"),
   );
   it(
     "scope-lex-close-case.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/scope-lex-close-case.js"),
   );
   it(
     "scope-lex-close-dflt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/scope-lex-close-dflt.js"),
   );
   it(
     "scope-lex-const.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/scope-lex-const.js"),
   );
   it(
     "scope-lex-generator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/scope-lex-generator.js"),
   );
   it(
     "scope-lex-let.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/scope-lex-let.js"),
   );
   it(
     "scope-lex-open-case.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/scope-lex-open-case.js"),
   );
   it(
     "scope-lex-open-dflt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/scope-lex-open-dflt.js"),
   );
   it(
     "scope-var-none-case.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/scope-var-none-case.js"),
   );
   it(
     "scope-var-none-dflt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/scope-var-none-dflt.js"),
   );
   describe("syntax", () => {
@@ -667,7 +667,7 @@ describe("switch", () => {
       );
       it(
         "var-name-redeclaration-attempt-with-var.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-var.js",
         ),

@@ -9,7 +9,7 @@ describe("toStringTag", () => {
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Symbol/toStringTag/prop-desc.js"),
   );
 });

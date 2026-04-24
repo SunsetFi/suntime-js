@@ -58,7 +58,7 @@ describe("zip", () => {
   );
   it(
     "iterator-non-iterable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/zip/iterator-non-iterable.js"),
   );
   it(
@@ -123,7 +123,7 @@ describe("zip", () => {
   it("name.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Iterator/zip/name.js"));
   it(
     "non-constructible.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/zip/non-constructible.js"),
   );
   it(

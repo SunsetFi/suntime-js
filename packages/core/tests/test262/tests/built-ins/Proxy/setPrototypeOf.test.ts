@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("setPrototypeOf", () => {
   it(
     "call-parameters.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/setPrototypeOf/call-parameters.js"),
   );
   it(
@@ -33,22 +33,22 @@ describe("setPrototypeOf", () => {
   );
   it(
     "return-abrupt-from-get-trap.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/setPrototypeOf/return-abrupt-from-get-trap.js"),
   );
   it(
     "return-abrupt-from-isextensible-target.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/setPrototypeOf/return-abrupt-from-isextensible-target.js"),
   );
   it(
     "return-abrupt-from-target-getprototypeof.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/setPrototypeOf/return-abrupt-from-target-getprototypeof.js"),
   );
   it(
     "return-abrupt-from-trap.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/setPrototypeOf/return-abrupt-from-trap.js"),
   );
   it(
@@ -65,7 +65,7 @@ describe("setPrototypeOf", () => {
   );
   it(
     "trap-is-missing-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/setPrototypeOf/trap-is-missing-target-is-proxy.js"),
   );
   it(
@@ -75,7 +75,7 @@ describe("setPrototypeOf", () => {
   );
   it(
     "trap-is-not-callable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/setPrototypeOf/trap-is-not-callable.js"),
   );
   it(
@@ -85,12 +85,12 @@ describe("setPrototypeOf", () => {
   );
   it(
     "trap-is-undefined-or-null.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/setPrototypeOf/trap-is-undefined-or-null.js"),
   );
   it(
     "trap-is-undefined-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/setPrototypeOf/trap-is-undefined-target-is-proxy.js"),
   );
 });

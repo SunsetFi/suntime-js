@@ -49,12 +49,12 @@ describe("hashbang", () => {
   );
   it(
     "eval-indirect.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/comments/hashbang/eval-indirect.js"),
   );
   it(
     "eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/comments/hashbang/eval.js"),
   );
   it(
@@ -94,7 +94,7 @@ describe("hashbang", () => {
   );
   it(
     "no-line-separator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/comments/hashbang/no-line-separator.js"),
   );
   it(

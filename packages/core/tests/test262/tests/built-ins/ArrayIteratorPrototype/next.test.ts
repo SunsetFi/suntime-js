@@ -31,52 +31,52 @@ describe("next", () => {
   });
   it(
     "args-mapped-expansion-after-exhaustion.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/ArrayIteratorPrototype/next/args-mapped-expansion-after-exhaustion.js",
     ),
   );
   it(
     "args-mapped-expansion-before-exhaustion.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/ArrayIteratorPrototype/next/args-mapped-expansion-before-exhaustion.js",
     ),
   );
   it(
     "args-mapped-iteration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/ArrayIteratorPrototype/next/args-mapped-iteration.js"),
   );
   it(
     "args-mapped-truncation-before-exhaustion.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/ArrayIteratorPrototype/next/args-mapped-truncation-before-exhaustion.js",
     ),
   );
   it(
     "args-unmapped-expansion-after-exhaustion.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/ArrayIteratorPrototype/next/args-unmapped-expansion-after-exhaustion.js",
     ),
   );
   it(
     "args-unmapped-expansion-before-exhaustion.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/ArrayIteratorPrototype/next/args-unmapped-expansion-before-exhaustion.js",
     ),
   );
   it(
     "args-unmapped-iteration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/ArrayIteratorPrototype/next/args-unmapped-iteration.js"),
   );
   it(
     "args-unmapped-truncation-before-exhaustion.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/ArrayIteratorPrototype/next/args-unmapped-truncation-before-exhaustion.js",
     ),
@@ -86,12 +86,12 @@ describe("next", () => {
   });
   it(
     "iteration-mutable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/ArrayIteratorPrototype/next/iteration-mutable.js"),
   );
   it(
     "iteration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/ArrayIteratorPrototype/next/iteration.js"),
   );
   it(
@@ -101,17 +101,17 @@ describe("next", () => {
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/ArrayIteratorPrototype/next/name.js"),
   );
   it(
     "non-own-slots.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/ArrayIteratorPrototype/next/non-own-slots.js"),
   );
   it(
     "property-descriptor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/ArrayIteratorPrototype/next/property-descriptor.js"),
   );
 });

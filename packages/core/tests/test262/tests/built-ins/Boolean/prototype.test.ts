@@ -9,28 +9,28 @@ describe("prototype", () => {
   );
   it(
     "S15.6.3.1_A2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Boolean/prototype/S15.6.3.1_A2.js"),
   );
   it(
     "S15.6.3.1_A3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Boolean/prototype/S15.6.3.1_A3.js"),
   );
   it(
     "S15.6.3.1_A4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Boolean/prototype/S15.6.3.1_A4.js"),
   );
   it(
     "S15.6.4_A2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Boolean/prototype/S15.6.4_A2.js"),
   );
   describe("constructor", () => {
     it(
       "S15.6.4.1_A1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Boolean/prototype/constructor/S15.6.4.1_A1.js"),
     );
   });
@@ -77,12 +77,12 @@ describe("prototype", () => {
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Boolean/prototype/toString/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Boolean/prototype/toString/not-a-constructor.js"),
     );
   });
@@ -104,7 +104,7 @@ describe("prototype", () => {
     );
     it(
       "S15.6.4.3_A2_T2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Boolean/prototype/valueOf/S15.6.4.3_A2_T2.js"),
     );
     it(
@@ -114,12 +114,12 @@ describe("prototype", () => {
     );
     it(
       "S15.6.4.3_A2_T4.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Boolean/prototype/valueOf/S15.6.4.3_A2_T4.js"),
     );
     it(
       "S15.6.4.3_A2_T5.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Boolean/prototype/valueOf/S15.6.4.3_A2_T5.js"),
     );
     it(
@@ -129,12 +129,12 @@ describe("prototype", () => {
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Boolean/prototype/valueOf/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Boolean/prototype/valueOf/not-a-constructor.js"),
     );
   });

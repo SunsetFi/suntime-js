@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("URIError", () => {
   it(
     "constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/URIError/constructor.js"),
   );
   it(
@@ -14,7 +14,7 @@ describe("URIError", () => {
   );
   it(
     "is-a-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/URIError/is-a-constructor.js"),
   );
   it(
@@ -29,12 +29,12 @@ describe("URIError", () => {
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/URIError/name.js"),
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/URIError/prop-desc.js"),
   );
   it(
@@ -50,7 +50,7 @@ describe("URIError", () => {
   describe("prototype", () => {
     it(
       "constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/NativeErrors/URIError/prototype/constructor.js"),
     );
     it(
@@ -65,12 +65,12 @@ describe("URIError", () => {
     );
     it(
       "not-error-object.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/NativeErrors/URIError/prototype/not-error-object.js"),
     );
     it(
       "proto.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/NativeErrors/URIError/prototype/proto.js"),
     );
   });

@@ -4,17 +4,17 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("ownKeys", () => {
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/ownKeys/length.js"),
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/ownKeys/name.js"),
   );
   it(
     "not-a-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/ownKeys/not-a-constructor.js"),
   );
   it(
@@ -24,27 +24,27 @@ describe("ownKeys", () => {
   );
   it(
     "ownKeys.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/ownKeys/ownKeys.js"),
   );
   it(
     "return-abrupt-from-result.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/ownKeys/return-abrupt-from-result.js"),
   );
   it(
     "return-array-with-own-keys-only.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/ownKeys/return-array-with-own-keys-only.js"),
   );
   it(
     "return-empty-array.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/ownKeys/return-empty-array.js"),
   );
   it(
     "return-non-enumerable-keys.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/ownKeys/return-non-enumerable-keys.js"),
   );
   it(
@@ -54,17 +54,17 @@ describe("ownKeys", () => {
   );
   it(
     "return-on-corresponding-order.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/ownKeys/return-on-corresponding-order.js"),
   );
   it(
     "target-is-not-object-throws.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/ownKeys/target-is-not-object-throws.js"),
   );
   it(
     "target-is-symbol-throws.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/ownKeys/target-is-symbol-throws.js"),
   );
 });

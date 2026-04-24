@@ -4,47 +4,47 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("prototype", () => {
   it(
     "15.2.3.1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/prototype/15.2.3.1.js"),
   );
   it(
     "S15.2.3.1_A1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/prototype/S15.2.3.1_A1.js"),
   );
   it(
     "S15.2.3.1_A2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/prototype/S15.2.3.1_A2.js"),
   );
   it(
     "S15.2.3.1_A3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/prototype/S15.2.3.1_A3.js"),
   );
   it(
     "S15.2.4_A1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/prototype/S15.2.4_A1_T1.js"),
   );
   it(
     "S15.2.4_A1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/prototype/S15.2.4_A1_T2.js"),
   );
   it(
     "S15.2.4_A2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/prototype/S15.2.4_A2.js"),
   );
   it(
     "S15.2.4_A3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/prototype/S15.2.4_A3.js"),
   );
   it(
     "S15.2.4_A4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/prototype/S15.2.4_A4.js"),
   );
   describe("__defineGetter__", () => {
@@ -223,12 +223,12 @@ describe("prototype", () => {
     );
     it(
       "lookup-proto-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/__lookupGetter__/lookup-proto-get-err.js"),
     );
     it(
       "lookup-proto-proto-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/__lookupGetter__/lookup-proto-proto-err.js"),
     );
     it(
@@ -309,12 +309,12 @@ describe("prototype", () => {
     );
     it(
       "lookup-proto-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/__lookupSetter__/lookup-proto-get-err.js"),
     );
     it(
       "lookup-proto-proto-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/__lookupSetter__/lookup-proto-proto-err.js"),
     );
     it(
@@ -413,334 +413,334 @@ describe("prototype", () => {
   describe("constructor", () => {
     it(
       "S15.2.4.1_A1_T1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/constructor/S15.2.4.1_A1_T1.js"),
     );
     it(
       "S15.2.4.1_A1_T2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/constructor/S15.2.4.1_A1_T2.js"),
     );
   });
   it(
     "extensibility.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/prototype/extensibility.js"),
   );
   describe("hasOwnProperty", () => {
     it(
       "8.12.1-1_1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_1.js"),
     );
     it(
       "8.12.1-1_10.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_10.js"),
     );
     it(
       "8.12.1-1_11.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_11.js"),
     );
     it(
       "8.12.1-1_12.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_12.js"),
     );
     it(
       "8.12.1-1_13.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_13.js"),
     );
     it(
       "8.12.1-1_14.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_14.js"),
     );
     it(
       "8.12.1-1_15.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_15.js"),
     );
     it(
       "8.12.1-1_16.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_16.js"),
     );
     it(
       "8.12.1-1_17.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_17.js"),
     );
     it(
       "8.12.1-1_18.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_18.js"),
     );
     it(
       "8.12.1-1_19.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_19.js"),
     );
     it(
       "8.12.1-1_2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_2.js"),
     );
     it(
       "8.12.1-1_20.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_20.js"),
     );
     it(
       "8.12.1-1_21.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_21.js"),
     );
     it(
       "8.12.1-1_22.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_22.js"),
     );
     it(
       "8.12.1-1_23.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_23.js"),
     );
     it(
       "8.12.1-1_24.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_24.js"),
     );
     it(
       "8.12.1-1_25.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_25.js"),
     );
     it(
       "8.12.1-1_26.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_26.js"),
     );
     it(
       "8.12.1-1_27.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_27.js"),
     );
     it(
       "8.12.1-1_28.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_28.js"),
     );
     it(
       "8.12.1-1_29.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_29.js"),
     );
     it(
       "8.12.1-1_3.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_3.js"),
     );
     it(
       "8.12.1-1_30.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_30.js"),
     );
     it(
       "8.12.1-1_31.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_31.js"),
     );
     it(
       "8.12.1-1_32.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_32.js"),
     );
     it(
       "8.12.1-1_33.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_33.js"),
     );
     it(
       "8.12.1-1_34.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_34.js"),
     );
     it(
       "8.12.1-1_35.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_35.js"),
     );
     it(
       "8.12.1-1_36.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_36.js"),
     );
     it(
       "8.12.1-1_37.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_37.js"),
     );
     it(
       "8.12.1-1_38.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_38.js"),
     );
     it(
       "8.12.1-1_39.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_39.js"),
     );
     it(
       "8.12.1-1_4.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_4.js"),
     );
     it(
       "8.12.1-1_40.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_40.js"),
     );
     it(
       "8.12.1-1_41.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_41.js"),
     );
     it(
       "8.12.1-1_42.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_42.js"),
     );
     it(
       "8.12.1-1_43.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_43.js"),
     );
     it(
       "8.12.1-1_44.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_44.js"),
     );
     it(
       "8.12.1-1_45.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_45.js"),
     );
     it(
       "8.12.1-1_46.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_46.js"),
     );
     it(
       "8.12.1-1_47.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_47.js"),
     );
     it(
       "8.12.1-1_48.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_48.js"),
     );
     it(
       "8.12.1-1_49.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_49.js"),
     );
     it(
       "8.12.1-1_5.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_5.js"),
     );
     it(
       "8.12.1-1_6.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_6.js"),
     );
     it(
       "8.12.1-1_7.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_7.js"),
     );
     it(
       "8.12.1-1_8.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_8.js"),
     );
     it(
       "8.12.1-1_9.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/8.12.1-1_9.js"),
     );
     it(
       "S15.2.4.5_A12.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/S15.2.4.5_A12.js"),
     );
     it(
       "S15.2.4.5_A13.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/S15.2.4.5_A13.js"),
     );
     it(
       "S15.2.4.5_A1_T1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/S15.2.4.5_A1_T1.js"),
     );
     it(
       "S15.2.4.5_A1_T2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/S15.2.4.5_A1_T2.js"),
     );
     it(
       "S15.2.4.5_A1_T3.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/S15.2.4.5_A1_T3.js"),
     );
     it(
       "S15.2.4.5_A6.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/S15.2.4.5_A6.js"),
     );
     it(
       "length.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/length.js"),
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/not-a-constructor.js"),
     );
     it(
       "symbol_own_property.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/symbol_own_property.js"),
     );
     it(
       "symbol_property_toPrimitive.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/symbol_property_toPrimitive.js"),
     );
     it(
       "symbol_property_toString.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/symbol_property_toString.js"),
     );
     it(
       "symbol_property_valueOf.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/hasOwnProperty/symbol_property_valueOf.js"),
     );
     it(
       "topropertykey_before_toobject.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/prototype/hasOwnProperty/topropertykey_before_toobject.js",
       ),
@@ -749,60 +749,60 @@ describe("prototype", () => {
   describe("isPrototypeOf", () => {
     it(
       "arg-is-proxy.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/isPrototypeOf/arg-is-proxy.js"),
     );
     it(
       "builtin.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/isPrototypeOf/builtin.js"),
     );
     it(
       "length.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/isPrototypeOf/length.js"),
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/isPrototypeOf/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/isPrototypeOf/not-a-constructor.js"),
     );
     it(
       "null-this-and-object-arg-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/prototype/isPrototypeOf/null-this-and-object-arg-throws.js",
       ),
     );
     it(
       "null-this-and-primitive-arg-returns-false.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/prototype/isPrototypeOf/null-this-and-primitive-arg-returns-false.js",
       ),
     );
     it(
       "this-value-is-in-prototype-chain-of-arg.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/prototype/isPrototypeOf/this-value-is-in-prototype-chain-of-arg.js",
       ),
     );
     it(
       "undefined-this-and-object-arg-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/prototype/isPrototypeOf/undefined-this-and-object-arg-throws.js",
       ),
     );
     it(
       "undefined-this-and-primitive-arg-returns-false.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/prototype/isPrototypeOf/undefined-this-and-primitive-arg-returns-false.js",
       ),
@@ -811,86 +811,86 @@ describe("prototype", () => {
   describe("propertyIsEnumerable", () => {
     it(
       "S15.2.4.7_A10.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/propertyIsEnumerable/S15.2.4.7_A10.js"),
     );
     it(
       "S15.2.4.7_A11.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/propertyIsEnumerable/S15.2.4.7_A11.js"),
     );
     it(
       "S15.2.4.7_A12.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/propertyIsEnumerable/S15.2.4.7_A12.js"),
     );
     it(
       "S15.2.4.7_A13.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/propertyIsEnumerable/S15.2.4.7_A13.js"),
     );
     it(
       "S15.2.4.7_A1_T1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/propertyIsEnumerable/S15.2.4.7_A1_T1.js"),
     );
     it(
       "S15.2.4.7_A2_T1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/propertyIsEnumerable/S15.2.4.7_A2_T1.js"),
     );
     it(
       "S15.2.4.7_A2_T2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/propertyIsEnumerable/S15.2.4.7_A2_T2.js"),
     );
     it(
       "S15.2.4.7_A6.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/propertyIsEnumerable/S15.2.4.7_A6.js"),
     );
     it(
       "S15.2.4.7_A8.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/propertyIsEnumerable/S15.2.4.7_A8.js"),
     );
     it(
       "S15.2.4.7_A9.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/propertyIsEnumerable/S15.2.4.7_A9.js"),
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/propertyIsEnumerable/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/propertyIsEnumerable/not-a-constructor.js"),
     );
     it(
       "symbol_own_property.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/propertyIsEnumerable/symbol_own_property.js"),
     );
     it(
       "symbol_property_toPrimitive.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/prototype/propertyIsEnumerable/symbol_property_toPrimitive.js",
       ),
     );
     it(
       "symbol_property_toString.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/prototype/propertyIsEnumerable/symbol_property_toString.js",
       ),
     );
     it(
       "symbol_property_valueOf.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/prototype/propertyIsEnumerable/symbol_property_valueOf.js",
       ),
@@ -898,7 +898,7 @@ describe("prototype", () => {
   });
   it(
     "proto.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/prototype/proto.js"),
   );
   it(
@@ -926,12 +926,12 @@ describe("prototype", () => {
   describe("toLocaleString", () => {
     it(
       "S15.2.4.3_A1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toLocaleString/S15.2.4.3_A1.js"),
     );
     it(
       "S15.2.4.3_A10.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toLocaleString/S15.2.4.3_A10.js"),
     );
     it(
@@ -941,37 +941,37 @@ describe("prototype", () => {
     );
     it(
       "S15.2.4.3_A12.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toLocaleString/S15.2.4.3_A12.js"),
     );
     it(
       "S15.2.4.3_A13.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toLocaleString/S15.2.4.3_A13.js"),
     );
     it(
       "S15.2.4.3_A6.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toLocaleString/S15.2.4.3_A6.js"),
     );
     it(
       "S15.2.4.3_A8.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toLocaleString/S15.2.4.3_A8.js"),
     );
     it(
       "S15.2.4.3_A9.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toLocaleString/S15.2.4.3_A9.js"),
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toLocaleString/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toLocaleString/not-a-constructor.js"),
     );
     it(
@@ -995,7 +995,7 @@ describe("prototype", () => {
     );
     it(
       "Object.prototype.toString.call-array.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/prototype/toString/Object.prototype.toString.call-array.js",
       ),
@@ -1030,14 +1030,14 @@ describe("prototype", () => {
     );
     it(
       "Object.prototype.toString.call-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/prototype/toString/Object.prototype.toString.call-function.js",
       ),
     );
     it(
       "Object.prototype.toString.call-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/prototype/toString/Object.prototype.toString.call-null.js",
       ),
@@ -1051,7 +1051,7 @@ describe("prototype", () => {
     );
     it(
       "Object.prototype.toString.call-object.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/prototype/toString/Object.prototype.toString.call-object.js",
       ),
@@ -1072,19 +1072,19 @@ describe("prototype", () => {
     );
     it(
       "Object.prototype.toString.call-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/prototype/toString/Object.prototype.toString.call-undefined.js",
       ),
     );
     it(
       "direct-invocation.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/direct-invocation.js"),
     );
     it(
       "get-symbol-tag-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/get-symbol-tag-err.js"),
     );
     it(
@@ -1094,22 +1094,22 @@ describe("prototype", () => {
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/name.js"),
     );
     it(
       "no-prototype-property.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/no-prototype-property.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/not-a-constructor.js"),
     );
     it(
       "prop-desc.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/prop-desc.js"),
     );
     it(
@@ -1119,12 +1119,12 @@ describe("prototype", () => {
     );
     it(
       "proxy-function-async.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/proxy-function-async.js"),
     );
     it(
       "proxy-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/proxy-function.js"),
     );
     it(
@@ -1139,7 +1139,7 @@ describe("prototype", () => {
     );
     it(
       "symbol-tag-array-builtin.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/symbol-tag-array-builtin.js"),
     );
     it(
@@ -1149,7 +1149,7 @@ describe("prototype", () => {
     );
     it(
       "symbol-tag-map-builtin.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/symbol-tag-map-builtin.js"),
     );
     it(
@@ -1164,12 +1164,12 @@ describe("prototype", () => {
     );
     it(
       "symbol-tag-non-str-proxy-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/symbol-tag-non-str-proxy-function.js"),
     );
     it(
       "symbol-tag-non-str.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/symbol-tag-non-str.js"),
     );
     it(
@@ -1184,27 +1184,27 @@ describe("prototype", () => {
     );
     it(
       "symbol-tag-override-primitives.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/symbol-tag-override-primitives.js"),
     );
     it(
       "symbol-tag-promise-builtin.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/symbol-tag-promise-builtin.js"),
     );
     it(
       "symbol-tag-set-builtin.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/symbol-tag-set-builtin.js"),
     );
     it(
       "symbol-tag-str.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/symbol-tag-str.js"),
     );
     it(
       "symbol-tag-string-builtin.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/toString/symbol-tag-string-builtin.js"),
     );
     it(
@@ -1221,17 +1221,17 @@ describe("prototype", () => {
   describe("valueOf", () => {
     it(
       "15.2.4.4-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/15.2.4.4-1.js"),
     );
     it(
       "15.2.4.4-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/15.2.4.4-2.js"),
     );
     it(
       "S15.2.4.4_A10.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/S15.2.4.4_A10.js"),
     );
     it(
@@ -1241,42 +1241,42 @@ describe("prototype", () => {
     );
     it(
       "S15.2.4.4_A12.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/S15.2.4.4_A12.js"),
     );
     it(
       "S15.2.4.4_A13.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/S15.2.4.4_A13.js"),
     );
     it(
       "S15.2.4.4_A14.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/S15.2.4.4_A14.js"),
     );
     it(
       "S15.2.4.4_A15.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/S15.2.4.4_A15.js"),
     );
     it(
       "S15.2.4.4_A1_T1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/S15.2.4.4_A1_T1.js"),
     );
     it(
       "S15.2.4.4_A1_T2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/S15.2.4.4_A1_T2.js"),
     );
     it(
       "S15.2.4.4_A1_T3.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/S15.2.4.4_A1_T3.js"),
     );
     it(
       "S15.2.4.4_A1_T4.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/S15.2.4.4_A1_T4.js"),
     );
     it(
@@ -1296,27 +1296,27 @@ describe("prototype", () => {
     );
     it(
       "S15.2.4.4_A6.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/S15.2.4.4_A6.js"),
     );
     it(
       "S15.2.4.4_A8.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/S15.2.4.4_A8.js"),
     );
     it(
       "S15.2.4.4_A9.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/S15.2.4.4_A9.js"),
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Object/prototype/valueOf/not-a-constructor.js"),
     );
   });

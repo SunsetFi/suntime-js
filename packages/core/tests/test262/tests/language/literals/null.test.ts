@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("null", () => {
   it(
     "S7.8.1_A1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/null/S7.8.1_A1_T1.js"),
   );
   it(

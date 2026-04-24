@@ -9,7 +9,7 @@ describe("typeof", () => {
   );
   it(
     "boolean.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/typeof/boolean.js"),
   );
   it(
@@ -19,22 +19,22 @@ describe("typeof", () => {
   );
   it(
     "built-in-functions.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/typeof/built-in-functions.js"),
   );
   it(
     "built-in-ordinary-objects-no-call.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/typeof/built-in-ordinary-objects-no-call.js"),
   );
   it(
     "get-value-ref-err.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/typeof/get-value-ref-err.js"),
   );
   it(
     "get-value.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/typeof/get-value.js"),
   );
   it(
@@ -49,7 +49,7 @@ describe("typeof", () => {
   );
   it(
     "number.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/typeof/number.js"),
   );
   it(
@@ -64,22 +64,22 @@ describe("typeof", () => {
   );
   it(
     "symbol.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/typeof/symbol.js"),
   );
   it(
     "syntax.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/typeof/syntax.js"),
   );
   it(
     "undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/typeof/undefined.js"),
   );
   it(
     "unresolvable-reference.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/typeof/unresolvable-reference.js"),
   );
 });

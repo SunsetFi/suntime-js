@@ -14,17 +14,17 @@ describe("setPrototypeOf", () => {
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/setPrototypeOf/name.js"),
   );
   it(
     "not-a-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/setPrototypeOf/not-a-constructor.js"),
   );
   it(
     "o-not-obj-coercible.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/setPrototypeOf/o-not-obj-coercible.js"),
   );
   it(
@@ -34,17 +34,17 @@ describe("setPrototypeOf", () => {
   );
   it(
     "property-descriptor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/setPrototypeOf/property-descriptor.js"),
   );
   it(
     "proto-not-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/setPrototypeOf/proto-not-obj.js"),
   );
   it(
     "set-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/setPrototypeOf/set-error.js"),
   );
   it(
@@ -54,7 +54,7 @@ describe("setPrototypeOf", () => {
   );
   it(
     "set-failure-non-extensible.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/setPrototypeOf/set-failure-non-extensible.js"),
   );
   it(

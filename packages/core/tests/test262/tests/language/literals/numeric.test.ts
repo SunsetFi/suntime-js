@@ -14,337 +14,337 @@ describe("numeric", () => {
   );
   it(
     "7.8.3-3gs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/7.8.3-3gs.js"),
   );
   it(
     "S7.8.3_A1.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A1.1_T1.js"),
   );
   it(
     "S7.8.3_A1.1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A1.1_T2.js"),
   );
   it(
     "S7.8.3_A1.2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A1.2_T1.js"),
   );
   it(
     "S7.8.3_A1.2_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A1.2_T2.js"),
   );
   it(
     "S7.8.3_A1.2_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A1.2_T3.js"),
   );
   it(
     "S7.8.3_A1.2_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A1.2_T4.js"),
   );
   it(
     "S7.8.3_A1.2_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A1.2_T5.js"),
   );
   it(
     "S7.8.3_A1.2_T6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A1.2_T6.js"),
   );
   it(
     "S7.8.3_A1.2_T7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A1.2_T7.js"),
   );
   it(
     "S7.8.3_A1.2_T8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A1.2_T8.js"),
   );
   it(
     "S7.8.3_A2.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A2.1_T1.js"),
   );
   it(
     "S7.8.3_A2.1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A2.1_T2.js"),
   );
   it(
     "S7.8.3_A2.1_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A2.1_T3.js"),
   );
   it(
     "S7.8.3_A2.2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A2.2_T1.js"),
   );
   it(
     "S7.8.3_A2.2_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A2.2_T2.js"),
   );
   it(
     "S7.8.3_A2.2_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A2.2_T3.js"),
   );
   it(
     "S7.8.3_A2.2_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A2.2_T4.js"),
   );
   it(
     "S7.8.3_A2.2_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A2.2_T5.js"),
   );
   it(
     "S7.8.3_A2.2_T6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A2.2_T6.js"),
   );
   it(
     "S7.8.3_A2.2_T7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A2.2_T7.js"),
   );
   it(
     "S7.8.3_A2.2_T8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A2.2_T8.js"),
   );
   it(
     "S7.8.3_A3.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.1_T1.js"),
   );
   it(
     "S7.8.3_A3.1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.1_T2.js"),
   );
   it(
     "S7.8.3_A3.2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.2_T1.js"),
   );
   it(
     "S7.8.3_A3.2_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.2_T2.js"),
   );
   it(
     "S7.8.3_A3.2_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.2_T3.js"),
   );
   it(
     "S7.8.3_A3.3_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.3_T1.js"),
   );
   it(
     "S7.8.3_A3.3_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.3_T2.js"),
   );
   it(
     "S7.8.3_A3.3_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.3_T3.js"),
   );
   it(
     "S7.8.3_A3.3_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.3_T4.js"),
   );
   it(
     "S7.8.3_A3.3_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.3_T5.js"),
   );
   it(
     "S7.8.3_A3.3_T6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.3_T6.js"),
   );
   it(
     "S7.8.3_A3.3_T7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.3_T7.js"),
   );
   it(
     "S7.8.3_A3.3_T8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.3_T8.js"),
   );
   it(
     "S7.8.3_A3.4_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.4_T1.js"),
   );
   it(
     "S7.8.3_A3.4_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.4_T2.js"),
   );
   it(
     "S7.8.3_A3.4_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.4_T3.js"),
   );
   it(
     "S7.8.3_A3.4_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.4_T4.js"),
   );
   it(
     "S7.8.3_A3.4_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.4_T5.js"),
   );
   it(
     "S7.8.3_A3.4_T6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.4_T6.js"),
   );
   it(
     "S7.8.3_A3.4_T7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.4_T7.js"),
   );
   it(
     "S7.8.3_A3.4_T8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A3.4_T8.js"),
   );
   it(
     "S7.8.3_A4.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.1_T1.js"),
   );
   it(
     "S7.8.3_A4.1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.1_T2.js"),
   );
   it(
     "S7.8.3_A4.1_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.1_T3.js"),
   );
   it(
     "S7.8.3_A4.1_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.1_T4.js"),
   );
   it(
     "S7.8.3_A4.1_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.1_T5.js"),
   );
   it(
     "S7.8.3_A4.1_T6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.1_T6.js"),
   );
   it(
     "S7.8.3_A4.1_T7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.1_T7.js"),
   );
   it(
     "S7.8.3_A4.1_T8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.1_T8.js"),
   );
   it(
     "S7.8.3_A4.2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.2_T1.js"),
   );
   it(
     "S7.8.3_A4.2_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.2_T2.js"),
   );
   it(
     "S7.8.3_A4.2_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.2_T3.js"),
   );
   it(
     "S7.8.3_A4.2_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.2_T4.js"),
   );
   it(
     "S7.8.3_A4.2_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.2_T5.js"),
   );
   it(
     "S7.8.3_A4.2_T6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.2_T6.js"),
   );
   it(
     "S7.8.3_A4.2_T7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.2_T7.js"),
   );
   it(
     "S7.8.3_A4.2_T8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A4.2_T8.js"),
   );
   it(
     "S7.8.3_A5.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A5.1_T1.js"),
   );
   it(
     "S7.8.3_A5.1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A5.1_T2.js"),
   );
   it(
     "S7.8.3_A5.1_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A5.1_T3.js"),
   );
   it(
     "S7.8.3_A5.1_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A5.1_T4.js"),
   );
   it(
     "S7.8.3_A5.1_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A5.1_T5.js"),
   );
   it(
     "S7.8.3_A5.1_T6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A5.1_T6.js"),
   );
   it(
     "S7.8.3_A5.1_T7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A5.1_T7.js"),
   );
   it(
     "S7.8.3_A5.1_T8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/S7.8.3_A5.1_T8.js"),
   );
   it(
@@ -389,7 +389,7 @@ describe("numeric", () => {
   );
   it(
     "binary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/binary.js"),
   );
   it(
@@ -399,7 +399,7 @@ describe("numeric", () => {
   );
   it(
     "legacy-octal-integer.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/legacy-octal-integer.js"),
   );
   it(
@@ -439,7 +439,7 @@ describe("numeric", () => {
   );
   it(
     "non-octal-decimal-integer.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/non-octal-decimal-integer.js"),
   );
   it(
@@ -457,28 +457,28 @@ describe("numeric", () => {
     );
     it(
       "numeric-separator-literal-bil-bd-nsl-bd.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-bil-bd-nsl-bd.js",
       ),
     );
     it(
       "numeric-separator-literal-bil-bd-nsl-bds.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-bil-bd-nsl-bds.js",
       ),
     );
     it(
       "numeric-separator-literal-bil-bds-nsl-bd.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-bil-bds-nsl-bd.js",
       ),
     );
     it(
       "numeric-separator-literal-bil-bds-nsl-bds.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-bil-bds-nsl-bds.js",
       ),
@@ -499,35 +499,35 @@ describe("numeric", () => {
     );
     it(
       "numeric-separator-literal-dd-dot-dd-ep-sign-minus-dd-nsl-dd.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-dd-dot-dd-ep-sign-minus-dd-nsl-dd.js",
       ),
     );
     it(
       "numeric-separator-literal-dd-dot-dd-ep-sign-minus-dds-nsl-dd.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-dd-dot-dd-ep-sign-minus-dds-nsl-dd.js",
       ),
     );
     it(
       "numeric-separator-literal-dd-dot-dd-ep-sign-plus-dd-nsl-dd.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-dd-dot-dd-ep-sign-plus-dd-nsl-dd.js",
       ),
     );
     it(
       "numeric-separator-literal-dd-dot-dd-ep-sign-plus-dds-nsl-dd.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-dd-dot-dd-ep-sign-plus-dds-nsl-dd.js",
       ),
     );
     it(
       "numeric-separator-literal-dd-nsl-dd-one-of.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-dd-nsl-dd-one-of.js",
       ),
@@ -548,14 +548,14 @@ describe("numeric", () => {
     );
     it(
       "numeric-separator-literal-dds-dot-dd-nsl-dd-ep-dd.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-dds-dot-dd-nsl-dd-ep-dd.js",
       ),
     );
     it(
       "numeric-separator-literal-dds-nsl-dd.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-dds-nsl-dd.js",
       ),
@@ -604,28 +604,28 @@ describe("numeric", () => {
     );
     it(
       "numeric-separator-literal-dot-dd-nsl-dd-ep.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-dot-dd-nsl-dd-ep.js",
       ),
     );
     it(
       "numeric-separator-literal-dot-dd-nsl-dds-ep.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-dot-dd-nsl-dds-ep.js",
       ),
     );
     it(
       "numeric-separator-literal-dot-dds-nsl-dd-ep.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-dot-dds-nsl-dd-ep.js",
       ),
     );
     it(
       "numeric-separator-literal-dot-dds-nsl-dds-ep.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-dot-dds-nsl-dds-ep.js",
       ),
@@ -660,28 +660,28 @@ describe("numeric", () => {
     );
     it(
       "numeric-separator-literal-hil-hd-nsl-hd.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-hil-hd-nsl-hd.js",
       ),
     );
     it(
       "numeric-separator-literal-hil-hd-nsl-hds.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-hil-hd-nsl-hds.js",
       ),
     );
     it(
       "numeric-separator-literal-hil-hds-nsl-hd.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-hil-hds-nsl-hd.js",
       ),
     );
     it(
       "numeric-separator-literal-hil-hds-nsl-hds.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-hil-hds-nsl-hds.js",
       ),
@@ -702,7 +702,7 @@ describe("numeric", () => {
     );
     it(
       "numeric-separator-literal-hil-od-nsl-od-one-of.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-hil-od-nsl-od-one-of.js",
       ),
@@ -779,14 +779,14 @@ describe("numeric", () => {
     );
     it(
       "numeric-separator-literal-nzd-nsl-dd-one-of.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-nzd-nsl-dd-one-of.js",
       ),
     );
     it(
       "numeric-separator-literal-nzd-nsl-dd.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-nzd-nsl-dd.js",
       ),
@@ -807,7 +807,7 @@ describe("numeric", () => {
     );
     it(
       "numeric-separator-literal-nzd-nsl-dds.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-nzd-nsl-dds.js",
       ),
@@ -835,49 +835,49 @@ describe("numeric", () => {
     );
     it(
       "numeric-separator-literal-oil-od-nsl-od-one-of.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-oil-od-nsl-od-one-of.js",
       ),
     );
     it(
       "numeric-separator-literal-oil-od-nsl-od.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-oil-od-nsl-od.js",
       ),
     );
     it(
       "numeric-separator-literal-oil-od-nsl-ods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-oil-od-nsl-ods.js",
       ),
     );
     it(
       "numeric-separator-literal-oil-ods-nsl-od.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-oil-ods-nsl-od.js",
       ),
     );
     it(
       "numeric-separator-literal-oil-ods-nsl-ods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-oil-ods-nsl-ods.js",
       ),
     );
     it(
       "numeric-separator-literal-sign-minus-dds-nsl-dd.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-sign-minus-dds-nsl-dd.js",
       ),
     );
     it(
       "numeric-separator-literal-sign-plus-dds-nsl-dd.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/literals/numeric/numeric-separators/numeric-separator-literal-sign-plus-dds-nsl-dd.js",
       ),
@@ -912,7 +912,7 @@ describe("numeric", () => {
   );
   it(
     "octal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/numeric/octal.js"),
   );
 });

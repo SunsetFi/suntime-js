@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("return", () => {
   it(
     "12.9-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/return/12.9-1.js"),
   );
   it(
@@ -59,22 +59,22 @@ describe("return", () => {
   );
   it(
     "S12.9_A3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/return/S12.9_A3.js"),
   );
   it(
     "S12.9_A4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/return/S12.9_A4.js"),
   );
   it(
     "S12.9_A5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/return/S12.9_A5.js"),
   );
   it(
     "line-terminators.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/return/line-terminators.js"),
   );
   it.skip("tco.js", () => {

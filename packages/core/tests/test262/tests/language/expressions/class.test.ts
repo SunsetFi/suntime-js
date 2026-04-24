@@ -5,131 +5,131 @@ describe("class", () => {
   describe("accessor-name-inst", () => {
     it(
       "computed-err-evaluation.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/accessor-name-inst/computed-err-evaluation.js"),
     );
     it(
       "computed-err-to-prop-key.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-inst/computed-err-to-prop-key.js",
       ),
     );
     it(
       "computed-err-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-inst/computed-err-unresolvable.js",
       ),
     );
     it(
       "computed.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/accessor-name-inst/computed.js"),
     );
     it(
       "literal-numeric-binary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/accessor-name-inst/literal-numeric-binary.js"),
     );
     it(
       "literal-numeric-exponent.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-inst/literal-numeric-exponent.js",
       ),
     );
     it(
       "literal-numeric-hex.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/accessor-name-inst/literal-numeric-hex.js"),
     );
     it(
       "literal-numeric-leading-decimal.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-inst/literal-numeric-leading-decimal.js",
       ),
     );
     it(
       "literal-numeric-non-canonical.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-inst/literal-numeric-non-canonical.js",
       ),
     );
     it(
       "literal-numeric-octal.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/accessor-name-inst/literal-numeric-octal.js"),
     );
     it(
       "literal-numeric-zero.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/accessor-name-inst/literal-numeric-zero.js"),
     );
     it(
       "literal-string-char-escape.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-inst/literal-string-char-escape.js",
       ),
     );
     it(
       "literal-string-default-escaped-ext.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-inst/literal-string-default-escaped-ext.js",
       ),
     );
     it(
       "literal-string-default-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-inst/literal-string-default-escaped.js",
       ),
     );
     it(
       "literal-string-default.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/accessor-name-inst/literal-string-default.js"),
     );
     it(
       "literal-string-double-quote.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-inst/literal-string-double-quote.js",
       ),
     );
     it(
       "literal-string-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/accessor-name-inst/literal-string-empty.js"),
     );
     it(
       "literal-string-hex-escape.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-inst/literal-string-hex-escape.js",
       ),
     );
     it(
       "literal-string-line-continuation.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-inst/literal-string-line-continuation.js",
       ),
     );
     it(
       "literal-string-single-quote.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-inst/literal-string-single-quote.js",
       ),
     );
     it(
       "literal-string-unicode-escape.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-inst/literal-string-unicode-escape.js",
       ),
@@ -137,148 +137,148 @@ describe("class", () => {
   });
   it(
     "accessor-name-inst-computed-in.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/accessor-name-inst-computed-in.js"),
   );
   it(
     "accessor-name-inst-computed-yield-expr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/accessor-name-inst-computed-yield-expr.js"),
   );
   describe("accessor-name-static", () => {
     it(
       "computed-err-evaluation.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/computed-err-evaluation.js",
       ),
     );
     it(
       "computed-err-to-prop-key.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/computed-err-to-prop-key.js",
       ),
     );
     it(
       "computed-err-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/computed-err-unresolvable.js",
       ),
     );
     it(
       "computed.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/accessor-name-static/computed.js"),
     );
     it(
       "literal-numeric-binary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/literal-numeric-binary.js",
       ),
     );
     it(
       "literal-numeric-exponent.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/literal-numeric-exponent.js",
       ),
     );
     it(
       "literal-numeric-hex.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/accessor-name-static/literal-numeric-hex.js"),
     );
     it(
       "literal-numeric-leading-decimal.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/literal-numeric-leading-decimal.js",
       ),
     );
     it(
       "literal-numeric-non-canonical.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/literal-numeric-non-canonical.js",
       ),
     );
     it(
       "literal-numeric-octal.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/accessor-name-static/literal-numeric-octal.js"),
     );
     it(
       "literal-numeric-zero.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/accessor-name-static/literal-numeric-zero.js"),
     );
     it(
       "literal-string-char-escape.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/literal-string-char-escape.js",
       ),
     );
     it(
       "literal-string-default-escaped-ext.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/literal-string-default-escaped-ext.js",
       ),
     );
     it(
       "literal-string-default-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/literal-string-default-escaped.js",
       ),
     );
     it(
       "literal-string-default.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/literal-string-default.js",
       ),
     );
     it(
       "literal-string-double-quote.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/literal-string-double-quote.js",
       ),
     );
     it(
       "literal-string-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/accessor-name-static/literal-string-empty.js"),
     );
     it(
       "literal-string-hex-escape.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/literal-string-hex-escape.js",
       ),
     );
     it(
       "literal-string-line-continuation.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/literal-string-line-continuation.js",
       ),
     );
     it(
       "literal-string-single-quote.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/literal-string-single-quote.js",
       ),
     );
     it(
       "literal-string-unicode-escape.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/accessor-name-static/literal-string-unicode-escape.js",
       ),
@@ -286,12 +286,12 @@ describe("class", () => {
   });
   it(
     "accessor-name-static-computed-in.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/accessor-name-static-computed-in.js"),
   );
   it(
     "accessor-name-static-computed-yield-expr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/accessor-name-static-computed-yield-expr.js"),
   );
   describe("async-gen-method", () => {
@@ -344,19 +344,19 @@ describe("class", () => {
     );
     it(
       "dflt-params-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method/dflt-params-abrupt.js"),
     );
     it(
       "dflt-params-arg-val-not-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/dflt-params-arg-val-not-undefined.js",
       ),
     );
     it(
       "dflt-params-arg-val-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/dflt-params-arg-val-undefined.js",
       ),
@@ -368,17 +368,17 @@ describe("class", () => {
     );
     it(
       "dflt-params-ref-later.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method/dflt-params-ref-later.js"),
     );
     it(
       "dflt-params-ref-prior.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method/dflt-params-ref-prior.js"),
     );
     it(
       "dflt-params-ref-self.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method/dflt-params-ref-self.js"),
     );
     it(
@@ -388,7 +388,7 @@ describe("class", () => {
     );
     it(
       "dflt-params-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/dflt-params-trailing-comma.js",
       ),
@@ -397,14 +397,14 @@ describe("class", () => {
       describe("b1", () => {
         it(
           "cls-expr-async-gen-meth-forbidden-ext-direct-access-prop-arguments.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-gen-method/forbidden-ext/b1/cls-expr-async-gen-meth-forbidden-ext-direct-access-prop-arguments.js",
           ),
         );
         it(
           "cls-expr-async-gen-meth-forbidden-ext-direct-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-gen-method/forbidden-ext/b1/cls-expr-async-gen-meth-forbidden-ext-direct-access-prop-caller.js",
           ),
@@ -413,21 +413,21 @@ describe("class", () => {
       describe("b2", () => {
         it(
           "cls-expr-async-gen-meth-forbidden-ext-indirect-access-own-prop-caller-get.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-gen-method/forbidden-ext/b2/cls-expr-async-gen-meth-forbidden-ext-indirect-access-own-prop-caller-get.js",
           ),
         );
         it(
           "cls-expr-async-gen-meth-forbidden-ext-indirect-access-own-prop-caller-value.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-gen-method/forbidden-ext/b2/cls-expr-async-gen-meth-forbidden-ext-indirect-access-own-prop-caller-value.js",
           ),
         );
         it(
           "cls-expr-async-gen-meth-forbidden-ext-indirect-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-gen-method/forbidden-ext/b2/cls-expr-async-gen-meth-forbidden-ext-indirect-access-prop-caller.js",
           ),
@@ -443,14 +443,14 @@ describe("class", () => {
     );
     it(
       "params-trailing-comma-multiple.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/params-trailing-comma-multiple.js",
       ),
     );
     it(
       "params-trailing-comma-single.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/params-trailing-comma-single.js",
       ),
@@ -535,7 +535,7 @@ describe("class", () => {
     );
     it(
       "yield-promise-reject-next-for-await-of-sync-iterator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-promise-reject-next-for-await-of-sync-iterator.js",
       ),
@@ -549,7 +549,7 @@ describe("class", () => {
     );
     it(
       "yield-promise-reject-next-yield-star-sync-iterator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-promise-reject-next-yield-star-sync-iterator.js",
       ),
@@ -561,385 +561,385 @@ describe("class", () => {
     );
     it(
       "yield-spread-arr-multiple.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method/yield-spread-arr-multiple.js"),
     );
     it(
       "yield-spread-arr-single.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method/yield-spread-arr-single.js"),
     );
     it(
       "yield-spread-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method/yield-spread-obj.js"),
     );
     it(
       "yield-star-async-next.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method/yield-star-async-next.js"),
     );
     it(
       "yield-star-async-return.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method/yield-star-async-return.js"),
     );
     it(
       "yield-star-async-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method/yield-star-async-throw.js"),
     );
     it(
       "yield-star-expr-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method/yield-star-expr-abrupt.js"),
     );
     it(
       "yield-star-getiter-async-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-async-get-abrupt.js",
       ),
     );
     it(
       "yield-star-getiter-async-not-callable-boolean-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-async-not-callable-boolean-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-not-callable-number-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-async-not-callable-number-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-not-callable-object-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-async-not-callable-object-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-not-callable-string-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-async-not-callable-string-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-not-callable-symbol-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-async-not-callable-symbol-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-null-sync-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-async-null-sync-get-abrupt.js",
       ),
     );
     it(
       "yield-star-getiter-async-returns-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-async-returns-abrupt.js",
       ),
     );
     it(
       "yield-star-getiter-async-returns-boolean-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-async-returns-boolean-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-returns-null-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-async-returns-null-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-returns-number-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-async-returns-number-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-returns-string-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-async-returns-string-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-returns-symbol-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-async-returns-symbol-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-returns-undefined-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-async-returns-undefined-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-undefined-sync-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-async-undefined-sync-get-abrupt.js",
       ),
     );
     it(
       "yield-star-getiter-sync-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-sync-get-abrupt.js",
       ),
     );
     it(
       "yield-star-getiter-sync-not-callable-boolean-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-sync-not-callable-boolean-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-not-callable-number-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-sync-not-callable-number-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-not-callable-object-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-sync-not-callable-object-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-not-callable-string-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-sync-not-callable-string-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-not-callable-symbol-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-sync-not-callable-symbol-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-returns-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-sync-returns-abrupt.js",
       ),
     );
     it(
       "yield-star-getiter-sync-returns-boolean-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-sync-returns-boolean-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-returns-null-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-sync-returns-null-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-returns-number-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-sync-returns-number-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-returns-string-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-sync-returns-string-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-returns-symbol-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-sync-returns-symbol-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-returns-undefined-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-getiter-sync-returns-undefined-throw.js",
       ),
     );
     it(
       "yield-star-next-call-done-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-call-done-get-abrupt.js",
       ),
     );
     it(
       "yield-star-next-call-returns-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-call-returns-abrupt.js",
       ),
     );
     it(
       "yield-star-next-call-value-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-call-value-get-abrupt.js",
       ),
     );
     it(
       "yield-star-next-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-get-abrupt.js",
       ),
     );
     it(
       "yield-star-next-non-object-ignores-then.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-non-object-ignores-then.js",
       ),
     );
     it(
       "yield-star-next-not-callable-boolean-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-not-callable-boolean-throw.js",
       ),
     );
     it(
       "yield-star-next-not-callable-null-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-not-callable-null-throw.js",
       ),
     );
     it(
       "yield-star-next-not-callable-number-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-not-callable-number-throw.js",
       ),
     );
     it(
       "yield-star-next-not-callable-object-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-not-callable-object-throw.js",
       ),
     );
     it(
       "yield-star-next-not-callable-string-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-not-callable-string-throw.js",
       ),
     );
     it(
       "yield-star-next-not-callable-symbol-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-not-callable-symbol-throw.js",
       ),
     );
     it(
       "yield-star-next-not-callable-undefined-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-not-callable-undefined-throw.js",
       ),
     );
     it(
       "yield-star-next-then-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-then-get-abrupt.js",
       ),
     );
     it(
       "yield-star-next-then-non-callable-boolean-fulfillpromise.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-then-non-callable-boolean-fulfillpromise.js",
       ),
     );
     it(
       "yield-star-next-then-non-callable-null-fulfillpromise.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-then-non-callable-null-fulfillpromise.js",
       ),
     );
     it(
       "yield-star-next-then-non-callable-number-fulfillpromise.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-then-non-callable-number-fulfillpromise.js",
       ),
     );
     it(
       "yield-star-next-then-non-callable-object-fulfillpromise.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-then-non-callable-object-fulfillpromise.js",
       ),
     );
     it(
       "yield-star-next-then-non-callable-string-fulfillpromise.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-then-non-callable-string-fulfillpromise.js",
       ),
     );
     it(
       "yield-star-next-then-non-callable-symbol-fulfillpromise.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-then-non-callable-symbol-fulfillpromise.js",
       ),
     );
     it(
       "yield-star-next-then-non-callable-undefined-fulfillpromise.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-then-non-callable-undefined-fulfillpromise.js",
       ),
     );
     it(
       "yield-star-next-then-returns-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-star-next-then-returns-abrupt.js",
       ),
     );
     it(
       "yield-star-sync-next.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method/yield-star-sync-next.js"),
     );
     it(
@@ -1005,19 +1005,19 @@ describe("class", () => {
     );
     it(
       "dflt-params-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method-static/dflt-params-abrupt.js"),
     );
     it(
       "dflt-params-arg-val-not-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/dflt-params-arg-val-not-undefined.js",
       ),
     );
     it(
       "dflt-params-arg-val-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/dflt-params-arg-val-undefined.js",
       ),
@@ -1031,21 +1031,21 @@ describe("class", () => {
     );
     it(
       "dflt-params-ref-later.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/dflt-params-ref-later.js",
       ),
     );
     it(
       "dflt-params-ref-prior.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/dflt-params-ref-prior.js",
       ),
     );
     it(
       "dflt-params-ref-self.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/dflt-params-ref-self.js",
       ),
@@ -1057,7 +1057,7 @@ describe("class", () => {
     );
     it(
       "dflt-params-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/dflt-params-trailing-comma.js",
       ),
@@ -1066,14 +1066,14 @@ describe("class", () => {
       describe("b1", () => {
         it(
           "cls-expr-async-gen-meth-static-forbidden-ext-direct-access-prop-arguments.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-gen-method-static/forbidden-ext/b1/cls-expr-async-gen-meth-static-forbidden-ext-direct-access-prop-arguments.js",
           ),
         );
         it(
           "cls-expr-async-gen-meth-static-forbidden-ext-direct-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-gen-method-static/forbidden-ext/b1/cls-expr-async-gen-meth-static-forbidden-ext-direct-access-prop-caller.js",
           ),
@@ -1082,21 +1082,21 @@ describe("class", () => {
       describe("b2", () => {
         it(
           "cls-expr-async-gen-meth-static-forbidden-ext-indirect-access-own-prop-caller-get.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-gen-method-static/forbidden-ext/b2/cls-expr-async-gen-meth-static-forbidden-ext-indirect-access-own-prop-caller-get.js",
           ),
         );
         it(
           "cls-expr-async-gen-meth-static-forbidden-ext-indirect-access-own-prop-caller-value.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-gen-method-static/forbidden-ext/b2/cls-expr-async-gen-meth-static-forbidden-ext-indirect-access-own-prop-caller-value.js",
           ),
         );
         it(
           "cls-expr-async-gen-meth-static-forbidden-ext-indirect-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-gen-method-static/forbidden-ext/b2/cls-expr-async-gen-meth-static-forbidden-ext-indirect-access-prop-caller.js",
           ),
@@ -1112,14 +1112,14 @@ describe("class", () => {
     );
     it(
       "params-trailing-comma-multiple.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/params-trailing-comma-multiple.js",
       ),
     );
     it(
       "params-trailing-comma-single.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/params-trailing-comma-single.js",
       ),
@@ -1210,7 +1210,7 @@ describe("class", () => {
     );
     it(
       "yield-promise-reject-next-for-await-of-sync-iterator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-promise-reject-next-for-await-of-sync-iterator.js",
       ),
@@ -1224,7 +1224,7 @@ describe("class", () => {
     );
     it(
       "yield-promise-reject-next-yield-star-sync-iterator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-promise-reject-next-yield-star-sync-iterator.js",
       ),
@@ -1238,397 +1238,397 @@ describe("class", () => {
     );
     it(
       "yield-spread-arr-multiple.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-spread-arr-multiple.js",
       ),
     );
     it(
       "yield-spread-arr-single.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-spread-arr-single.js",
       ),
     );
     it(
       "yield-spread-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method-static/yield-spread-obj.js"),
     );
     it(
       "yield-star-async-next.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-async-next.js",
       ),
     );
     it(
       "yield-star-async-return.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-async-return.js",
       ),
     );
     it(
       "yield-star-async-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-async-throw.js",
       ),
     );
     it(
       "yield-star-expr-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-expr-abrupt.js",
       ),
     );
     it(
       "yield-star-getiter-async-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-async-get-abrupt.js",
       ),
     );
     it(
       "yield-star-getiter-async-not-callable-boolean-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-async-not-callable-boolean-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-not-callable-number-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-async-not-callable-number-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-not-callable-object-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-async-not-callable-object-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-not-callable-string-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-async-not-callable-string-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-not-callable-symbol-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-async-not-callable-symbol-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-null-sync-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-async-null-sync-get-abrupt.js",
       ),
     );
     it(
       "yield-star-getiter-async-returns-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-async-returns-abrupt.js",
       ),
     );
     it(
       "yield-star-getiter-async-returns-boolean-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-async-returns-boolean-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-returns-null-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-async-returns-null-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-returns-number-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-async-returns-number-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-returns-string-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-async-returns-string-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-returns-symbol-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-async-returns-symbol-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-returns-undefined-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-async-returns-undefined-throw.js",
       ),
     );
     it(
       "yield-star-getiter-async-undefined-sync-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-async-undefined-sync-get-abrupt.js",
       ),
     );
     it(
       "yield-star-getiter-sync-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-sync-get-abrupt.js",
       ),
     );
     it(
       "yield-star-getiter-sync-not-callable-boolean-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-sync-not-callable-boolean-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-not-callable-number-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-sync-not-callable-number-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-not-callable-object-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-sync-not-callable-object-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-not-callable-string-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-sync-not-callable-string-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-not-callable-symbol-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-sync-not-callable-symbol-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-returns-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-sync-returns-abrupt.js",
       ),
     );
     it(
       "yield-star-getiter-sync-returns-boolean-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-sync-returns-boolean-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-returns-null-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-sync-returns-null-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-returns-number-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-sync-returns-number-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-returns-string-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-sync-returns-string-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-returns-symbol-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-sync-returns-symbol-throw.js",
       ),
     );
     it(
       "yield-star-getiter-sync-returns-undefined-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-getiter-sync-returns-undefined-throw.js",
       ),
     );
     it(
       "yield-star-next-call-done-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-call-done-get-abrupt.js",
       ),
     );
     it(
       "yield-star-next-call-returns-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-call-returns-abrupt.js",
       ),
     );
     it(
       "yield-star-next-call-value-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-call-value-get-abrupt.js",
       ),
     );
     it(
       "yield-star-next-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-get-abrupt.js",
       ),
     );
     it(
       "yield-star-next-non-object-ignores-then.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-non-object-ignores-then.js",
       ),
     );
     it(
       "yield-star-next-not-callable-boolean-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-not-callable-boolean-throw.js",
       ),
     );
     it(
       "yield-star-next-not-callable-null-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-not-callable-null-throw.js",
       ),
     );
     it(
       "yield-star-next-not-callable-number-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-not-callable-number-throw.js",
       ),
     );
     it(
       "yield-star-next-not-callable-object-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-not-callable-object-throw.js",
       ),
     );
     it(
       "yield-star-next-not-callable-string-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-not-callable-string-throw.js",
       ),
     );
     it(
       "yield-star-next-not-callable-symbol-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-not-callable-symbol-throw.js",
       ),
     );
     it(
       "yield-star-next-not-callable-undefined-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-not-callable-undefined-throw.js",
       ),
     );
     it(
       "yield-star-next-then-get-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-then-get-abrupt.js",
       ),
     );
     it(
       "yield-star-next-then-non-callable-boolean-fulfillpromise.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-then-non-callable-boolean-fulfillpromise.js",
       ),
     );
     it(
       "yield-star-next-then-non-callable-null-fulfillpromise.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-then-non-callable-null-fulfillpromise.js",
       ),
     );
     it(
       "yield-star-next-then-non-callable-number-fulfillpromise.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-then-non-callable-number-fulfillpromise.js",
       ),
     );
     it(
       "yield-star-next-then-non-callable-object-fulfillpromise.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-then-non-callable-object-fulfillpromise.js",
       ),
     );
     it(
       "yield-star-next-then-non-callable-string-fulfillpromise.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-then-non-callable-string-fulfillpromise.js",
       ),
     );
     it(
       "yield-star-next-then-non-callable-symbol-fulfillpromise.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-then-non-callable-symbol-fulfillpromise.js",
       ),
     );
     it(
       "yield-star-next-then-non-callable-undefined-fulfillpromise.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-then-non-callable-undefined-fulfillpromise.js",
       ),
     );
     it(
       "yield-star-next-then-returns-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-next-then-returns-abrupt.js",
       ),
     );
     it(
       "yield-star-sync-next.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-sync-next.js",
       ),
@@ -1694,19 +1694,19 @@ describe("class", () => {
     );
     it(
       "dflt-params-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-method/dflt-params-abrupt.js"),
     );
     it(
       "dflt-params-arg-val-not-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-method/dflt-params-arg-val-not-undefined.js",
       ),
     );
     it(
       "dflt-params-arg-val-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-method/dflt-params-arg-val-undefined.js"),
     );
     it(
@@ -1716,17 +1716,17 @@ describe("class", () => {
     );
     it(
       "dflt-params-ref-later.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-method/dflt-params-ref-later.js"),
     );
     it(
       "dflt-params-ref-prior.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-method/dflt-params-ref-prior.js"),
     );
     it(
       "dflt-params-ref-self.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-method/dflt-params-ref-self.js"),
     );
     it(
@@ -1736,21 +1736,21 @@ describe("class", () => {
     );
     it(
       "dflt-params-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-method/dflt-params-trailing-comma.js"),
     );
     describe("forbidden-ext", () => {
       describe("b1", () => {
         it(
           "cls-expr-async-meth-forbidden-ext-direct-access-prop-arguments.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-method/forbidden-ext/b1/cls-expr-async-meth-forbidden-ext-direct-access-prop-arguments.js",
           ),
         );
         it(
           "cls-expr-async-meth-forbidden-ext-direct-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-method/forbidden-ext/b1/cls-expr-async-meth-forbidden-ext-direct-access-prop-caller.js",
           ),
@@ -1759,21 +1759,21 @@ describe("class", () => {
       describe("b2", () => {
         it(
           "cls-expr-async-meth-forbidden-ext-indirect-access-own-prop-caller-get.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-method/forbidden-ext/b2/cls-expr-async-meth-forbidden-ext-indirect-access-own-prop-caller-get.js",
           ),
         );
         it(
           "cls-expr-async-meth-forbidden-ext-indirect-access-own-prop-caller-value.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-method/forbidden-ext/b2/cls-expr-async-meth-forbidden-ext-indirect-access-own-prop-caller-value.js",
           ),
         );
         it(
           "cls-expr-async-meth-forbidden-ext-indirect-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-method/forbidden-ext/b2/cls-expr-async-meth-forbidden-ext-indirect-access-prop-caller.js",
           ),
@@ -1789,14 +1789,14 @@ describe("class", () => {
     );
     it(
       "params-trailing-comma-multiple.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-method/params-trailing-comma-multiple.js",
       ),
     );
     it(
       "params-trailing-comma-single.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-method/params-trailing-comma-single.js"),
     );
     it(
@@ -1813,40 +1813,40 @@ describe("class", () => {
     );
     it(
       "returns-async-arrow-returns-arguments-from-parent-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-method/returns-async-arrow-returns-arguments-from-parent-function.js",
       ),
     );
     it(
       "returns-async-arrow-returns-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-method/returns-async-arrow-returns-newtarget.js",
       ),
     );
     it(
       "returns-async-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-method/returns-async-arrow.js"),
     );
     it(
       "returns-async-function-returns-arguments-from-own-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-method/returns-async-function-returns-arguments-from-own-function.js",
       ),
     );
     it(
       "returns-async-function-returns-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-method/returns-async-function-returns-newtarget.js",
       ),
     );
     it(
       "returns-async-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-method/returns-async-function.js"),
     );
   });
@@ -1902,19 +1902,19 @@ describe("class", () => {
     );
     it(
       "dflt-params-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-method-static/dflt-params-abrupt.js"),
     );
     it(
       "dflt-params-arg-val-not-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-method-static/dflt-params-arg-val-not-undefined.js",
       ),
     );
     it(
       "dflt-params-arg-val-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-method-static/dflt-params-arg-val-undefined.js",
       ),
@@ -1926,17 +1926,17 @@ describe("class", () => {
     );
     it(
       "dflt-params-ref-later.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-method-static/dflt-params-ref-later.js"),
     );
     it(
       "dflt-params-ref-prior.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-method-static/dflt-params-ref-prior.js"),
     );
     it(
       "dflt-params-ref-self.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-method-static/dflt-params-ref-self.js"),
     );
     it(
@@ -1946,7 +1946,7 @@ describe("class", () => {
     );
     it(
       "dflt-params-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-method-static/dflt-params-trailing-comma.js",
       ),
@@ -1955,14 +1955,14 @@ describe("class", () => {
       describe("b1", () => {
         it(
           "cls-expr-async-meth-static-forbidden-ext-direct-access-prop-arguments.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-method-static/forbidden-ext/b1/cls-expr-async-meth-static-forbidden-ext-direct-access-prop-arguments.js",
           ),
         );
         it(
           "cls-expr-async-meth-static-forbidden-ext-direct-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-method-static/forbidden-ext/b1/cls-expr-async-meth-static-forbidden-ext-direct-access-prop-caller.js",
           ),
@@ -1971,21 +1971,21 @@ describe("class", () => {
       describe("b2", () => {
         it(
           "cls-expr-async-meth-static-forbidden-ext-indirect-access-own-prop-caller-get.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-method-static/forbidden-ext/b2/cls-expr-async-meth-static-forbidden-ext-indirect-access-own-prop-caller-get.js",
           ),
         );
         it(
           "cls-expr-async-meth-static-forbidden-ext-indirect-access-own-prop-caller-value.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-method-static/forbidden-ext/b2/cls-expr-async-meth-static-forbidden-ext-indirect-access-own-prop-caller-value.js",
           ),
         );
         it(
           "cls-expr-async-meth-static-forbidden-ext-indirect-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/async-method-static/forbidden-ext/b2/cls-expr-async-meth-static-forbidden-ext-indirect-access-prop-caller.js",
           ),
@@ -2001,14 +2001,14 @@ describe("class", () => {
     );
     it(
       "params-trailing-comma-multiple.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-method-static/params-trailing-comma-multiple.js",
       ),
     );
     it(
       "params-trailing-comma-single.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-method-static/params-trailing-comma-single.js",
       ),
@@ -2027,40 +2027,40 @@ describe("class", () => {
     );
     it(
       "returns-async-arrow-returns-arguments-from-parent-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-method-static/returns-async-arrow-returns-arguments-from-parent-function.js",
       ),
     );
     it(
       "returns-async-arrow-returns-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-method-static/returns-async-arrow-returns-newtarget.js",
       ),
     );
     it(
       "returns-async-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-method-static/returns-async-arrow.js"),
     );
     it(
       "returns-async-function-returns-arguments-from-own-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-method-static/returns-async-function-returns-arguments-from-own-function.js",
       ),
     );
     it(
       "returns-async-function-returns-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-method-static/returns-async-function-returns-newtarget.js",
       ),
     );
     it(
       "returns-async-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-method-static/returns-async-function.js"),
     );
   });
@@ -2071,7 +2071,7 @@ describe("class", () => {
   );
   it(
     "class-name-ident-await-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/class-name-ident-await-escaped.js"),
   );
   it(
@@ -2081,7 +2081,7 @@ describe("class", () => {
   );
   it(
     "class-name-ident-await.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/class-name-ident-await.js"),
   );
   it(
@@ -2116,68 +2116,68 @@ describe("class", () => {
   );
   it(
     "constructor-this-tdz-during-initializers.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/constructor-this-tdz-during-initializers.js"),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-additive-expression-add.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-additive-expression-add.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-additive-expression-subtract.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-additive-expression-subtract.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-arrow-function-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-arrow-function-expression.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-assignment-expression-assignment.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-assignment-expression-assignment.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-assignment-expression-bitwise-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-assignment-expression-bitwise-or.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-assignment-expression-coalesce.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-assignment-expression-coalesce.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-assignment-expression-logical-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-assignment-expression-logical-and.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-assignment-expression-logical-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-assignment-expression-logical-or.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-async-arrow-function-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-async-arrow-function-expression.js",
     ),
@@ -2191,210 +2191,210 @@ describe("class", () => {
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-condition-expression-false.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-condition-expression-false.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-condition-expression-true.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-condition-expression-true.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-decimal-e-notational-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-decimal-e-notational-literal.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-decimal-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-decimal-literal.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-exponetiation-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-exponetiation-expression.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-expression-coalesce.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-expression-coalesce.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-expression-logical-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-expression-logical-and.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-expression-logical-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-expression-logical-or.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-function-declaration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-function-declaration.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-function-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-function-expression.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-generator-function-declaration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-generator-function-declaration.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-identifier.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-identifier.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-integer-e-notational-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-integer-e-notational-literal.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-integer-separators.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-integer-separators.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-math.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-math.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-multiplicative-expression-div.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-multiplicative-expression-div.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-multiplicative-expression-mult.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-multiplicative-expression-mult.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-null.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-null.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-numeric-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-numeric-literal.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-string-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-string-literal.js",
     ),
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-yield-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-yield-expression.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-additive-expression-add.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-additive-expression-add.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-additive-expression-subtract.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-additive-expression-subtract.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-arrow-function-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-arrow-function-expression.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-assignment-expression-assignment.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-assignment-expression-assignment.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-assignment-expression-bitwise-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-assignment-expression-bitwise-or.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-assignment-expression-coalesce.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-assignment-expression-coalesce.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-assignment-expression-logical-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-assignment-expression-logical-and.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-assignment-expression-logical-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-assignment-expression-logical-or.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-async-arrow-function-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-async-arrow-function-expression.js",
     ),
@@ -2408,210 +2408,210 @@ describe("class", () => {
   );
   it(
     "cpn-class-expr-computed-property-name-from-condition-expression-false.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-condition-expression-false.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-condition-expression-true.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-condition-expression-true.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-decimal-e-notational-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-decimal-e-notational-literal.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-decimal-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-decimal-literal.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-exponetiation-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-exponetiation-expression.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-expression-coalesce.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-expression-coalesce.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-expression-logical-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-expression-logical-and.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-expression-logical-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-expression-logical-or.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-function-declaration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-function-declaration.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-function-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-function-expression.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-generator-function-declaration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-generator-function-declaration.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-identifier.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-identifier.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-integer-e-notational-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-integer-e-notational-literal.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-integer-separators.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-integer-separators.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-math.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-math.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-multiplicative-expression-div.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-multiplicative-expression-div.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-multiplicative-expression-mult.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-multiplicative-expression-mult.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-null.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-null.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-numeric-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-numeric-literal.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-string-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-string-literal.js",
     ),
   );
   it(
     "cpn-class-expr-computed-property-name-from-yield-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-yield-expression.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-additive-expression-add.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-additive-expression-add.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-additive-expression-subtract.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-additive-expression-subtract.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-arrow-function-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-arrow-function-expression.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-assignment-expression-assignment.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-assignment-expression-assignment.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-assignment-expression-bitwise-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-assignment-expression-bitwise-or.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-assignment-expression-coalesce.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-assignment-expression-coalesce.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-assignment-expression-logical-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-assignment-expression-logical-and.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-assignment-expression-logical-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-assignment-expression-logical-or.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-async-arrow-function-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-async-arrow-function-expression.js",
     ),
@@ -2625,210 +2625,210 @@ describe("class", () => {
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-condition-expression-false.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-condition-expression-false.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-condition-expression-true.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-condition-expression-true.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-decimal-e-notational-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-decimal-e-notational-literal.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-decimal-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-decimal-literal.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-exponetiation-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-exponetiation-expression.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-expression-coalesce.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-expression-coalesce.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-expression-logical-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-expression-logical-and.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-expression-logical-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-expression-logical-or.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-function-declaration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-function-declaration.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-function-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-function-expression.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-generator-function-declaration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-generator-function-declaration.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-identifier.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-identifier.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-integer-e-notational-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-integer-e-notational-literal.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-integer-separators.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-integer-separators.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-math.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-math.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-multiplicative-expression-div.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-multiplicative-expression-div.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-multiplicative-expression-mult.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-multiplicative-expression-mult.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-null.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-null.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-numeric-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-numeric-literal.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-string-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-string-literal.js",
     ),
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-yield-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-yield-expression.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-additive-expression-add.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-additive-expression-add.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-additive-expression-subtract.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-additive-expression-subtract.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-arrow-function-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-arrow-function-expression.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-assignment-expression-assignment.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-assignment-expression-assignment.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-assignment-expression-bitwise-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-assignment-expression-bitwise-or.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-assignment-expression-coalesce.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-assignment-expression-coalesce.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-assignment-expression-logical-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-assignment-expression-logical-and.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-assignment-expression-logical-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-assignment-expression-logical-or.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-async-arrow-function-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-async-arrow-function-expression.js",
     ),
@@ -2842,147 +2842,147 @@ describe("class", () => {
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-condition-expression-false.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-condition-expression-false.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-condition-expression-true.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-condition-expression-true.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-decimal-e-notational-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-decimal-e-notational-literal.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-decimal-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-decimal-literal.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-exponetiation-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-exponetiation-expression.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-expression-coalesce.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-expression-coalesce.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-expression-logical-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-expression-logical-and.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-expression-logical-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-expression-logical-or.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-function-declaration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-function-declaration.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-function-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-function-expression.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-generator-function-declaration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-generator-function-declaration.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-identifier.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-identifier.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-integer-e-notational-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-integer-e-notational-literal.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-integer-separators.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-integer-separators.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-math.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-math.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-multiplicative-expression-div.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-multiplicative-expression-div.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-multiplicative-expression-mult.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-multiplicative-expression-mult.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-null.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-null.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-numeric-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-numeric-literal.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-string-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-string-literal.js",
     ),
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-yield-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-yield-expression.js",
     ),
@@ -3054,346 +3054,346 @@ describe("class", () => {
   describe("dstr", () => {
     it(
       "async-gen-meth-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-ary-init-iter-close.js"),
     );
     it(
       "async-gen-meth-ary-init-iter-get-err-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-init-iter-get-err-array-prototype.js",
       ),
     );
     it(
       "async-gen-meth-ary-init-iter-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-ary-init-iter-get-err.js"),
     );
     it(
       "async-gen-meth-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-ary-init-iter-no-close.js"),
     );
     it(
       "async-gen-meth-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-ary-name-iter-val.js"),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-ary-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-ary-val-null.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-init-throws.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-init-unresolvable.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-iter-step-err.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-iter-val-err.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-obj-id.js"),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-obj-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-obj-val-null.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elem-obj-val-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elem-obj-val-undef.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elision-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-elision-step-err.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-ary-ptrn-elision.js"),
     );
     it(
       "async-gen-meth-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-ary-ptrn-empty.js"),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-ary-ptrn-rest-ary-elem.js"),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-ary-ptrn-rest-ary-rest.js"),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-id-elision-next-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-rest-id-elision-next-err.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-rest-id-iter-step-err.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-rest-id-iter-val-err.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-ary-ptrn-rest-id.js"),
     );
     it(
@@ -3434,370 +3434,370 @@ describe("class", () => {
     );
     it(
       "async-gen-meth-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-ary-ptrn-rest-obj-id.js"),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-init-iter-close.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-init-iter-get-err-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-init-iter-get-err-array-prototype.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-init-iter-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-init-iter-get-err.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-init-iter-no-close.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-dflt-ary-name-iter-val.js"),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-ary-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-ary-val-null.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-throws.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-init-unresolvable.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-iter-step-err.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-iter-val-err.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-obj-id.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-obj-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-obj-val-null.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elem-obj-val-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elem-obj-val-undef.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elision-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elision-step-err.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-elision.js"),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-empty.js"),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-id-elision-next-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-rest-id-elision-next-err.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-rest-id-iter-step-err.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-rest-id-iter-val-err.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-rest-id.js"),
     );
     it(
@@ -3844,800 +3844,800 @@ describe("class", () => {
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-rest-obj-id.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-init-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-dflt-obj-init-null.js"),
     );
     it(
       "async-gen-meth-dflt-obj-init-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-init-undefined.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-empty.js"),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-id-get-value-err.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-id-init-throws.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-id-init-unresolvable.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-list-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-list-err.js"),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-ary-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-ary-value-null.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-ary.js"),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-eval-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-eval-err.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-id-get-value-err.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-id-init-throws.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-id-init-unresolvable.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-id.js"),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-obj-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-obj-value-null.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-obj-value-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-obj-value-undef.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-prop-obj.js"),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-rest-getter.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "async-gen-meth-dflt-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-dflt-obj-ptrn-rest-val-obj.js",
       ),
     );
     it(
       "async-gen-meth-obj-init-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-obj-init-null.js"),
     );
     it(
       "async-gen-meth-obj-init-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-obj-init-undefined.js"),
     );
     it(
       "async-gen-meth-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-obj-ptrn-empty.js"),
     );
     it(
       "async-gen-meth-obj-ptrn-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-id-get-value-err.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-id-init-throws.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-id-init-unresolvable.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-list-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-obj-ptrn-list-err.js"),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-ary-init.js"),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-ary-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-ary-value-null.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-ary.js"),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-eval-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-eval-err.js"),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-id-get-value-err.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-id-init-throws.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-id-init-unresolvable.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-id-init.js"),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-id.js"),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-obj-init.js"),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-obj-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-obj-value-null.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-obj-value-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-obj-value-undef.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-obj-ptrn-prop-obj.js"),
     );
     it(
       "async-gen-meth-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-obj-ptrn-rest-getter.js"),
     );
     it(
       "async-gen-meth-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "async-gen-meth-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-obj-ptrn-rest-val-obj.js"),
     );
     it(
       "async-gen-meth-static-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-init-iter-close.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-init-iter-get-err-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-init-iter-get-err-array-prototype.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-init-iter-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-init-iter-get-err.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-init-iter-no-close.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-name-iter-val.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-ary-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-ary-val-null.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-init-throws.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-init-unresolvable.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-iter-step-err.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-iter-val-err.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-obj-id.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-obj-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-obj-val-null.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elem-obj-val-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elem-obj-val-undef.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elision-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elision-step-err.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-elision.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-empty.js"),
     );
     it(
       "async-gen-meth-static-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-rest-id-elision-next-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-rest-id-elision-next-err.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-rest-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-rest-id-iter-step-err.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-rest-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-rest-id-iter-val-err.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-rest-id.js",
       ),
@@ -4686,378 +4686,378 @@ describe("class", () => {
     );
     it(
       "async-gen-meth-static-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-rest-obj-id.js",
       ),
     );
     it(
       "async-gen-meth-static-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-init-iter-close.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-init-iter-get-err-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-init-iter-get-err-array-prototype.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-init-iter-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-init-iter-get-err.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-init-iter-no-close.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-name-iter-val.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-ary-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-ary-val-null.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-init-throws.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-init-unresolvable.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-iter-step-err.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-iter-val-err.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-obj-id.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-obj-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-obj-val-null.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elem-obj-val-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elem-obj-val-undef.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elision-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elision-step-err.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-elision.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-empty.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-rest-id-elision-next-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-rest-id-elision-next-err.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-rest-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-rest-id-iter-step-err.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-rest-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-rest-id-iter-val-err.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-rest-id.js",
       ),
@@ -5106,743 +5106,743 @@ describe("class", () => {
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-rest-obj-id.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-init-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-init-null.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-init-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-init-undefined.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-empty.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-id-get-value-err.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-id-init-throws.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-id-init-unresolvable.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-list-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-list-err.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-ary-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-ary-value-null.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-ary.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-eval-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-eval-err.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-id-get-value-err.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-id-init-throws.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-id-init-unresolvable.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-id.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-obj-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-obj-value-null.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-obj-value-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-obj-value-undef.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-prop-obj.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-rest-getter.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "async-gen-meth-static-dflt-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-dflt-obj-ptrn-rest-val-obj.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-init-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-static-obj-init-null.js"),
     );
     it(
       "async-gen-meth-static-obj-init-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-init-undefined.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-empty.js"),
     );
     it(
       "async-gen-meth-static-obj-ptrn-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-id-get-value-err.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-id-init-throws.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-id-init-unresolvable.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-list-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-list-err.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-ary-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-ary-value-null.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-ary.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-eval-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-eval-err.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-id-get-value-err.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-id-init-throws.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-id-init-unresolvable.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-id.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-obj-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-obj-value-null.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-obj-value-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-obj-value-undef.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-prop-obj.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-rest-getter.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "async-gen-meth-static-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-gen-meth-static-obj-ptrn-rest-val-obj.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-init-iter-close.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-init-iter-no-close.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-name-iter-val.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-obj-id.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-elision.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-empty.js"),
     );
     it(
       "async-private-gen-meth-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-rest-id.js",
       ),
@@ -5891,287 +5891,287 @@ describe("class", () => {
     );
     it(
       "async-private-gen-meth-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-rest-obj-id.js",
       ),
     );
     it(
       "async-private-gen-meth-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-init-iter-close.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-init-iter-no-close.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-name-iter-val.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-obj-id.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-elision.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-empty.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-rest-id.js",
       ),
@@ -6220,565 +6220,565 @@ describe("class", () => {
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-rest-obj-id.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-empty.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-prop-ary.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-prop-id.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-prop-obj.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-rest-getter.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "async-private-gen-meth-dflt-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-dflt-obj-ptrn-rest-val-obj.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-empty.js"),
     );
     it(
       "async-private-gen-meth-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-prop-ary.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-prop-id.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-prop-obj.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-rest-getter.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "async-private-gen-meth-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-obj-ptrn-rest-val-obj.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-init-iter-close.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-init-iter-no-close.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-name-iter-val.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-obj-id.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-elision.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-empty.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-rest-id.js",
       ),
@@ -6827,287 +6827,287 @@ describe("class", () => {
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-rest-obj-id.js",
       ),
     );
     it(
       "async-private-gen-meth-static-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-init-iter-close.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-init-iter-no-close.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-name-iter-val.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-obj-id.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-elision.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-empty.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-rest-id.js",
       ),
@@ -7156,594 +7156,594 @@ describe("class", () => {
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-rest-obj-id.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-empty.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-prop-ary.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-prop-id.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-prop-obj.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-rest-getter.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "async-private-gen-meth-static-dflt-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-dflt-obj-ptrn-rest-val-obj.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-empty.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-prop-ary.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-prop-id.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-prop-obj.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-rest-getter.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "async-private-gen-meth-static-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/async-private-gen-meth-static-obj-ptrn-rest-val-obj.js",
       ),
     );
     it(
       "gen-meth-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-init-iter-close.js"),
     );
     it(
       "gen-meth-ary-init-iter-get-err-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-init-iter-get-err-array-prototype.js",
       ),
     );
     it(
       "gen-meth-ary-init-iter-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-init-iter-get-err.js"),
     );
     it(
       "gen-meth-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-init-iter-no-close.js"),
     );
     it(
       "gen-meth-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-name-iter-val.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-ary-elem-init.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-ary-elem-iter.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-ary-empty-init.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-ary-empty-iter.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-ary-rest-init.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-ary-rest-iter.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-ary-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-ary-val-null.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-init-hole.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-init-throws.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-init-undef.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-init-unresolvable.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-iter-done.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-iter-step-err.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-iter-val-err.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-id-iter-val.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-obj-id-init.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-obj-id.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-obj-prop-id.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-obj-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-obj-val-null.js"),
     );
     it(
       "gen-meth-ary-ptrn-elem-obj-val-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elem-obj-val-undef.js"),
     );
     it(
       "gen-meth-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elision-exhausted.js"),
     );
     it(
       "gen-meth-ary-ptrn-elision-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elision-step-err.js"),
     );
     it(
       "gen-meth-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-elision.js"),
     );
     it(
       "gen-meth-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-empty.js"),
     );
     it(
       "gen-meth-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-rest-ary-elem.js"),
     );
     it(
       "gen-meth-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-rest-ary-elision.js"),
     );
     it(
       "gen-meth-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-rest-ary-empty.js"),
     );
     it(
       "gen-meth-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-rest-ary-rest.js"),
     );
     it(
       "gen-meth-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-rest-id-direct.js"),
     );
     it(
       "gen-meth-ary-ptrn-rest-id-elision-next-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-rest-id-elision-next-err.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-rest-id-elision.js"),
     );
     it(
       "gen-meth-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-rest-id-exhausted.js"),
     );
     it(
       "gen-meth-ary-ptrn-rest-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-rest-id-iter-step-err.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-rest-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-ary-ptrn-rest-id-iter-val-err.js",
       ),
     );
     it(
       "gen-meth-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-rest-id.js"),
     );
     it(
@@ -7778,352 +7778,352 @@ describe("class", () => {
     );
     it(
       "gen-meth-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-rest-obj-id.js"),
     );
     it(
       "gen-meth-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-ary-ptrn-rest-obj-prop-id.js"),
     );
     it(
       "gen-meth-dflt-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-ary-init-iter-close.js"),
     );
     it(
       "gen-meth-dflt-ary-init-iter-get-err-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-init-iter-get-err-array-prototype.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-init-iter-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-ary-init-iter-get-err.js"),
     );
     it(
       "gen-meth-dflt-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-ary-init-iter-no-close.js"),
     );
     it(
       "gen-meth-dflt-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-ary-name-iter-val.js"),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-ary-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-ary-val-null.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-throws.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-init-unresolvable.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-iter-step-err.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-iter-val-err.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-obj-id.js"),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-obj-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-obj-val-null.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elem-obj-val-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elem-obj-val-undef.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elision-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elision-step-err.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-elision.js"),
     );
     it(
       "gen-meth-dflt-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-empty.js"),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-rest-ary-elem.js"),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-rest-ary-empty.js"),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-rest-ary-rest.js"),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-rest-id-direct.js"),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-id-elision-next-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-rest-id-elision-next-err.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-rest-id-iter-step-err.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-rest-id-iter-val-err.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-rest-id.js"),
     );
     it(
@@ -8164,754 +8164,754 @@ describe("class", () => {
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-rest-obj-id.js"),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-init-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-obj-init-null.js"),
     );
     it(
       "gen-meth-dflt-obj-init-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-obj-init-undefined.js"),
     );
     it(
       "gen-meth-dflt-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-empty.js"),
     );
     it(
       "gen-meth-dflt-obj-ptrn-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-id-get-value-err.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-id-init-throws.js"),
     );
     it(
       "gen-meth-dflt-obj-ptrn-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-id-init-unresolvable.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-list-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-list-err.js"),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-ary-init.js"),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-ary-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-ary-value-null.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-ary.js"),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-eval-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-eval-err.js"),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-id-get-value-err.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-id-init-throws.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-id-init-unresolvable.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-id-init.js"),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-id.js"),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-obj-init.js"),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-obj-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-obj-value-null.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-obj-value-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-obj-value-undef.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-prop-obj.js"),
     );
     it(
       "gen-meth-dflt-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-rest-getter.js"),
     );
     it(
       "gen-meth-dflt-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "gen-meth-dflt-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-dflt-obj-ptrn-rest-val-obj.js"),
     );
     it(
       "gen-meth-obj-init-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-init-null.js"),
     );
     it(
       "gen-meth-obj-init-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-init-undefined.js"),
     );
     it(
       "gen-meth-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-empty.js"),
     );
     it(
       "gen-meth-obj-ptrn-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-id-get-value-err.js"),
     );
     it(
       "gen-meth-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "gen-meth-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "gen-meth-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "gen-meth-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-id-init-fn-name-fn.js"),
     );
     it(
       "gen-meth-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-id-init-fn-name-gen.js"),
     );
     it(
       "gen-meth-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-id-init-skipped.js"),
     );
     it(
       "gen-meth-obj-ptrn-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-id-init-throws.js"),
     );
     it(
       "gen-meth-obj-ptrn-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-obj-ptrn-id-init-unresolvable.js",
       ),
     );
     it(
       "gen-meth-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-id-trailing-comma.js"),
     );
     it(
       "gen-meth-obj-ptrn-list-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-list-err.js"),
     );
     it(
       "gen-meth-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-prop-ary-init.js"),
     );
     it(
       "gen-meth-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "gen-meth-obj-ptrn-prop-ary-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-prop-ary-value-null.js"),
     );
     it(
       "gen-meth-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-prop-ary.js"),
     );
     it(
       "gen-meth-obj-ptrn-prop-eval-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-prop-eval-err.js"),
     );
     it(
       "gen-meth-obj-ptrn-prop-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-obj-ptrn-prop-id-get-value-err.js",
       ),
     );
     it(
       "gen-meth-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "gen-meth-obj-ptrn-prop-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-prop-id-init-throws.js"),
     );
     it(
       "gen-meth-obj-ptrn-prop-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-obj-ptrn-prop-id-init-unresolvable.js",
       ),
     );
     it(
       "gen-meth-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-prop-id-init.js"),
     );
     it(
       "gen-meth-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "gen-meth-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-prop-id.js"),
     );
     it(
       "gen-meth-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-prop-obj-init.js"),
     );
     it(
       "gen-meth-obj-ptrn-prop-obj-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-prop-obj-value-null.js"),
     );
     it(
       "gen-meth-obj-ptrn-prop-obj-value-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-obj-ptrn-prop-obj-value-undef.js",
       ),
     );
     it(
       "gen-meth-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-prop-obj.js"),
     );
     it(
       "gen-meth-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-rest-getter.js"),
     );
     it(
       "gen-meth-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "gen-meth-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-obj-ptrn-rest-val-obj.js"),
     );
     it(
       "gen-meth-static-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-ary-init-iter-close.js"),
     );
     it(
       "gen-meth-static-ary-init-iter-get-err-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-init-iter-get-err-array-prototype.js",
       ),
     );
     it(
       "gen-meth-static-ary-init-iter-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-ary-init-iter-get-err.js"),
     );
     it(
       "gen-meth-static-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-init-iter-no-close.js",
       ),
     );
     it(
       "gen-meth-static-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-ary-name-iter-val.js"),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-ary-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-ary-val-null.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-init-throws.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-init-unresolvable.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-iter-step-err.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-iter-val-err.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-obj-id.js"),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-obj-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-obj-val-null.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elem-obj-val-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elem-obj-val-undef.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elision-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-elision-step-err.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-ary-ptrn-elision.js"),
     );
     it(
       "gen-meth-static-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-ary-ptrn-empty.js"),
     );
     it(
       "gen-meth-static-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-rest-id-elision-next-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-rest-id-elision-next-err.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-rest-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-rest-id-iter-step-err.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-rest-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-rest-id-iter-val-err.js",
       ),
     );
     it(
       "gen-meth-static-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-ary-ptrn-rest-id.js"),
     );
     it(
@@ -8956,372 +8956,372 @@ describe("class", () => {
     );
     it(
       "gen-meth-static-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-ary-ptrn-rest-obj-id.js"),
     );
     it(
       "gen-meth-static-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-init-iter-close.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-init-iter-get-err-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-init-iter-get-err-array-prototype.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-init-iter-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-init-iter-get-err.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-init-iter-no-close.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-name-iter-val.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-ary-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-ary-val-null.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-init-throws.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-init-unresolvable.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-iter-step-err.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-iter-val-err.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-obj-id.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-obj-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-obj-val-null.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elem-obj-val-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elem-obj-val-undef.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elision-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elision-step-err.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-elision.js"),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-empty.js"),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-rest-id-elision-next-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-rest-id-elision-next-err.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-rest-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-rest-id-iter-step-err.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-rest-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-rest-id-iter-val-err.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-rest-id.js"),
     );
     it(
@@ -9368,728 +9368,728 @@ describe("class", () => {
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-rest-obj-id.js",
       ),
     );
     it(
       "gen-meth-static-dflt-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-init-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-dflt-obj-init-null.js"),
     );
     it(
       "gen-meth-static-dflt-obj-init-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-init-undefined.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-empty.js"),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-id-get-value-err.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-id-init-throws.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-id-init-unresolvable.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-list-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-list-err.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-ary-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-ary-value-null.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-ary.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-eval-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-eval-err.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-id-get-value-err.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-id-init-throws.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-id-init-unresolvable.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-id.js"),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-obj-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-obj-value-null.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-obj-value-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-obj-value-undef.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-prop-obj.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-rest-getter.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "gen-meth-static-dflt-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-dflt-obj-ptrn-rest-val-obj.js",
       ),
     );
     it(
       "gen-meth-static-obj-init-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-obj-init-null.js"),
     );
     it(
       "gen-meth-static-obj-init-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-obj-init-undefined.js"),
     );
     it(
       "gen-meth-static-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-obj-ptrn-empty.js"),
     );
     it(
       "gen-meth-static-obj-ptrn-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-id-get-value-err.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-id-init-throws.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-id-init-unresolvable.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-list-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-obj-ptrn-list-err.js"),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-ary-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-ary-value-null.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-ary.js"),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-eval-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-eval-err.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-id-get-value-err.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-id-init-throws.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-id-init-unresolvable.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-id-init.js"),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-id.js"),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-obj-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-obj-value-null.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-obj-value-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-obj-value-undef.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-obj-ptrn-prop-obj.js"),
     );
     it(
       "gen-meth-static-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-obj-ptrn-rest-getter.js"),
     );
     it(
       "gen-meth-static-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/gen-meth-static-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "gen-meth-static-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/gen-meth-static-obj-ptrn-rest-val-obj.js"),
     );
     it(
       "meth-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-init-iter-close.js"),
     );
     it(
       "meth-ary-init-iter-get-err-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-ary-init-iter-get-err-array-prototype.js",
       ),
     );
     it(
       "meth-ary-init-iter-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-init-iter-get-err.js"),
     );
     it(
       "meth-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-init-iter-no-close.js"),
     );
     it(
       "meth-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-name-iter-val.js"),
     );
     it(
       "meth-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-ary-elem-init.js"),
     );
     it(
       "meth-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-ary-elem-iter.js"),
     );
     it(
       "meth-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-ary-elision-init.js"),
     );
     it(
       "meth-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-ary-elision-iter.js"),
     );
     it(
       "meth-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-ary-empty-init.js"),
     );
     it(
       "meth-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-ary-empty-iter.js"),
     );
     it(
       "meth-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-ary-rest-init.js"),
     );
     it(
       "meth-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-ary-rest-iter.js"),
     );
     it(
       "meth-ary-ptrn-elem-ary-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-ary-val-null.js"),
     );
     it(
       "meth-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-id-init-exhausted.js"),
     );
     it(
       "meth-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "meth-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "meth-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "meth-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-id-init-fn-name-fn.js"),
     );
     it(
       "meth-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "meth-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-id-init-hole.js"),
     );
     it(
       "meth-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-id-init-skipped.js"),
     );
     it(
       "meth-ary-ptrn-elem-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-id-init-throws.js"),
     );
     it(
       "meth-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-id-init-undef.js"),
     );
     it(
       "meth-ary-ptrn-elem-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-ary-ptrn-elem-id-init-unresolvable.js",
       ),
     );
     it(
       "meth-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-id-iter-complete.js"),
     );
     it(
       "meth-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-id-iter-done.js"),
     );
     it(
       "meth-ary-ptrn-elem-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-id-iter-step-err.js"),
     );
     it(
       "meth-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "meth-ary-ptrn-elem-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-id-iter-val-err.js"),
     );
     it(
       "meth-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-id-iter-val.js"),
     );
     it(
       "meth-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-obj-id-init.js"),
     );
     it(
       "meth-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-obj-id.js"),
     );
     it(
       "meth-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-obj-prop-id-init.js"),
     );
     it(
       "meth-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-obj-prop-id.js"),
     );
     it(
       "meth-ary-ptrn-elem-obj-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-obj-val-null.js"),
     );
     it(
       "meth-ary-ptrn-elem-obj-val-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elem-obj-val-undef.js"),
     );
     it(
       "meth-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elision-exhausted.js"),
     );
     it(
       "meth-ary-ptrn-elision-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elision-step-err.js"),
     );
     it(
       "meth-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-elision.js"),
     );
     it(
       "meth-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-empty.js"),
     );
     it(
       "meth-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-rest-ary-elem.js"),
     );
     it(
       "meth-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-rest-ary-elision.js"),
     );
     it(
       "meth-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-rest-ary-empty.js"),
     );
     it(
       "meth-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-rest-ary-rest.js"),
     );
     it(
       "meth-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-rest-id-direct.js"),
     );
     it(
       "meth-ary-ptrn-rest-id-elision-next-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-ary-ptrn-rest-id-elision-next-err.js",
       ),
     );
     it(
       "meth-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-rest-id-elision.js"),
     );
     it(
       "meth-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-rest-id-exhausted.js"),
     );
     it(
       "meth-ary-ptrn-rest-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-rest-id-iter-step-err.js"),
     );
     it(
       "meth-ary-ptrn-rest-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-rest-id-iter-val-err.js"),
     );
     it(
       "meth-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-rest-id.js"),
     );
     it(
@@ -10124,316 +10124,316 @@ describe("class", () => {
     );
     it(
       "meth-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-rest-obj-id.js"),
     );
     it(
       "meth-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-ary-ptrn-rest-obj-prop-id.js"),
     );
     it(
       "meth-dflt-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-init-iter-close.js"),
     );
     it(
       "meth-dflt-ary-init-iter-get-err-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-init-iter-get-err-array-prototype.js",
       ),
     );
     it(
       "meth-dflt-ary-init-iter-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-init-iter-get-err.js"),
     );
     it(
       "meth-dflt-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-init-iter-no-close.js"),
     );
     it(
       "meth-dflt-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-name-iter-val.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-ary-elem-init.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-ary-elem-iter.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-ary-rest-init.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-ary-rest-iter.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elem-ary-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-ary-val-null.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-init-hole.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-init-throws.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-init-undef.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-init-unresolvable.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-iter-done.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-iter-step-err.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-iter-val-err.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-id-iter-val.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-obj-id-init.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-obj-id.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-obj-prop-id.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elem-obj-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-obj-val-null.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elem-obj-val-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elem-obj-val-undef.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elision-exhausted.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elision-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elision-step-err.js"),
     );
     it(
       "meth-dflt-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-elision.js"),
     );
     it(
       "meth-dflt-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-empty.js"),
     );
     it(
       "meth-dflt-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-rest-ary-elem.js"),
     );
     it(
       "meth-dflt-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-rest-ary-elision.js"),
     );
     it(
       "meth-dflt-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-rest-ary-empty.js"),
     );
     it(
       "meth-dflt-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-rest-ary-rest.js"),
     );
     it(
       "meth-dflt-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-rest-id-direct.js"),
     );
     it(
       "meth-dflt-ary-ptrn-rest-id-elision-next-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-rest-id-elision-next-err.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-rest-id-elision.js"),
     );
     it(
       "meth-dflt-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-rest-id-exhausted.js"),
     );
     it(
       "meth-dflt-ary-ptrn-rest-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-rest-id-iter-step-err.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-rest-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-ary-ptrn-rest-id-iter-val-err.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-rest-id.js"),
     );
     it(
@@ -10468,704 +10468,704 @@ describe("class", () => {
     );
     it(
       "meth-dflt-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-rest-obj-id.js"),
     );
     it(
       "meth-dflt-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-ary-ptrn-rest-obj-prop-id.js"),
     );
     it(
       "meth-dflt-obj-init-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-init-null.js"),
     );
     it(
       "meth-dflt-obj-init-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-init-undefined.js"),
     );
     it(
       "meth-dflt-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-empty.js"),
     );
     it(
       "meth-dflt-obj-ptrn-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-id-get-value-err.js"),
     );
     it(
       "meth-dflt-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "meth-dflt-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "meth-dflt-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "meth-dflt-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-id-init-fn-name-fn.js"),
     );
     it(
       "meth-dflt-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "meth-dflt-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-id-init-skipped.js"),
     );
     it(
       "meth-dflt-obj-ptrn-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-id-init-throws.js"),
     );
     it(
       "meth-dflt-obj-ptrn-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-obj-ptrn-id-init-unresolvable.js",
       ),
     );
     it(
       "meth-dflt-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-id-trailing-comma.js"),
     );
     it(
       "meth-dflt-obj-ptrn-list-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-list-err.js"),
     );
     it(
       "meth-dflt-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-ary-init.js"),
     );
     it(
       "meth-dflt-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "meth-dflt-obj-ptrn-prop-ary-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-ary-value-null.js",
       ),
     );
     it(
       "meth-dflt-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-ary.js"),
     );
     it(
       "meth-dflt-obj-ptrn-prop-eval-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-eval-err.js"),
     );
     it(
       "meth-dflt-obj-ptrn-prop-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-id-get-value-err.js",
       ),
     );
     it(
       "meth-dflt-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "meth-dflt-obj-ptrn-prop-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-id-init-throws.js",
       ),
     );
     it(
       "meth-dflt-obj-ptrn-prop-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-id-init-unresolvable.js",
       ),
     );
     it(
       "meth-dflt-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-id-init.js"),
     );
     it(
       "meth-dflt-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "meth-dflt-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-id.js"),
     );
     it(
       "meth-dflt-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-obj-init.js"),
     );
     it(
       "meth-dflt-obj-ptrn-prop-obj-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-obj-value-null.js",
       ),
     );
     it(
       "meth-dflt-obj-ptrn-prop-obj-value-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-obj-value-undef.js",
       ),
     );
     it(
       "meth-dflt-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-prop-obj.js"),
     );
     it(
       "meth-dflt-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-rest-getter.js"),
     );
     it(
       "meth-dflt-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-dflt-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "meth-dflt-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-dflt-obj-ptrn-rest-val-obj.js"),
     );
     it(
       "meth-obj-init-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-init-null.js"),
     );
     it(
       "meth-obj-init-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-init-undefined.js"),
     );
     it(
       "meth-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-empty.js"),
     );
     it(
       "meth-obj-ptrn-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-id-get-value-err.js"),
     );
     it(
       "meth-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-id-init-fn-name-arrow.js"),
     );
     it(
       "meth-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-id-init-fn-name-class.js"),
     );
     it(
       "meth-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-id-init-fn-name-cover.js"),
     );
     it(
       "meth-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-id-init-fn-name-fn.js"),
     );
     it(
       "meth-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-id-init-fn-name-gen.js"),
     );
     it(
       "meth-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-id-init-skipped.js"),
     );
     it(
       "meth-obj-ptrn-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-id-init-throws.js"),
     );
     it(
       "meth-obj-ptrn-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-id-init-unresolvable.js"),
     );
     it(
       "meth-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-id-trailing-comma.js"),
     );
     it(
       "meth-obj-ptrn-list-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-list-err.js"),
     );
     it(
       "meth-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-prop-ary-init.js"),
     );
     it(
       "meth-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-prop-ary-trailing-comma.js"),
     );
     it(
       "meth-obj-ptrn-prop-ary-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-prop-ary-value-null.js"),
     );
     it(
       "meth-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-prop-ary.js"),
     );
     it(
       "meth-obj-ptrn-prop-eval-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-prop-eval-err.js"),
     );
     it(
       "meth-obj-ptrn-prop-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-prop-id-get-value-err.js"),
     );
     it(
       "meth-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-prop-id-init-skipped.js"),
     );
     it(
       "meth-obj-ptrn-prop-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-prop-id-init-throws.js"),
     );
     it(
       "meth-obj-ptrn-prop-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-obj-ptrn-prop-id-init-unresolvable.js",
       ),
     );
     it(
       "meth-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-prop-id-init.js"),
     );
     it(
       "meth-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-prop-id-trailing-comma.js"),
     );
     it(
       "meth-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-prop-id.js"),
     );
     it(
       "meth-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-prop-obj-init.js"),
     );
     it(
       "meth-obj-ptrn-prop-obj-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-prop-obj-value-null.js"),
     );
     it(
       "meth-obj-ptrn-prop-obj-value-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-prop-obj-value-undef.js"),
     );
     it(
       "meth-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-prop-obj.js"),
     );
     it(
       "meth-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-rest-getter.js"),
     );
     it(
       "meth-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "meth-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-obj-ptrn-rest-val-obj.js"),
     );
     it(
       "meth-static-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-init-iter-close.js"),
     );
     it(
       "meth-static-ary-init-iter-get-err-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-init-iter-get-err-array-prototype.js",
       ),
     );
     it(
       "meth-static-ary-init-iter-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-init-iter-get-err.js"),
     );
     it(
       "meth-static-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-init-iter-no-close.js"),
     );
     it(
       "meth-static-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-name-iter-val.js"),
     );
     it(
       "meth-static-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-ary-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-ary-val-null.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-init-throws.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-init-unresolvable.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-iter-step-err.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-iter-val-err.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-elem-id-iter-val.js"),
     );
     it(
       "meth-static-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-elem-obj-id-init.js"),
     );
     it(
       "meth-static-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-elem-obj-id.js"),
     );
     it(
       "meth-static-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-elem-obj-prop-id.js"),
     );
     it(
       "meth-static-ary-ptrn-elem-obj-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-obj-val-null.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elem-obj-val-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elem-obj-val-undef.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-elision-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-elision-step-err.js"),
     );
     it(
       "meth-static-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-elision.js"),
     );
     it(
       "meth-static-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-empty.js"),
     );
     it(
       "meth-static-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-rest-ary-elem.js"),
     );
     it(
       "meth-static-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-rest-ary-elision.js"),
     );
     it(
       "meth-static-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-rest-ary-empty.js"),
     );
     it(
       "meth-static-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-rest-ary-rest.js"),
     );
     it(
       "meth-static-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-rest-id-direct.js"),
     );
     it(
       "meth-static-ary-ptrn-rest-id-elision-next-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-rest-id-elision-next-err.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-rest-id-elision.js"),
     );
     it(
       "meth-static-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-rest-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-rest-id-iter-step-err.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-rest-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-ary-ptrn-rest-id-iter-val-err.js",
       ),
     );
     it(
       "meth-static-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-rest-id.js"),
     );
     it(
@@ -11206,364 +11206,364 @@ describe("class", () => {
     );
     it(
       "meth-static-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-rest-obj-id.js"),
     );
     it(
       "meth-static-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-ary-ptrn-rest-obj-prop-id.js"),
     );
     it(
       "meth-static-dflt-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-dflt-ary-init-iter-close.js"),
     );
     it(
       "meth-static-dflt-ary-init-iter-get-err-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-init-iter-get-err-array-prototype.js",
       ),
     );
     it(
       "meth-static-dflt-ary-init-iter-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-init-iter-get-err.js",
       ),
     );
     it(
       "meth-static-dflt-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-init-iter-no-close.js",
       ),
     );
     it(
       "meth-static-dflt-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-dflt-ary-name-iter-val.js"),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-ary-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-ary-val-null.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-init-throws.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-init-unresolvable.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-iter-step-err.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-iter-val-err.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-obj-id.js"),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-obj-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-obj-val-null.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elem-obj-val-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elem-obj-val-undef.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elision-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elision-step-err.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-dflt-ary-ptrn-elision.js"),
     );
     it(
       "meth-static-dflt-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-dflt-ary-ptrn-empty.js"),
     );
     it(
       "meth-static-dflt-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-rest-id-elision-next-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-rest-id-elision-next-err.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-rest-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-rest-id-iter-step-err.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-rest-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-rest-id-iter-val-err.js",
       ),
     );
     it(
       "meth-static-dflt-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-dflt-ary-ptrn-rest-id.js"),
     );
     it(
@@ -11610,689 +11610,689 @@ describe("class", () => {
     );
     it(
       "meth-static-dflt-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-dflt-ary-ptrn-rest-obj-id.js"),
     );
     it(
       "meth-static-dflt-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "meth-static-dflt-obj-init-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-dflt-obj-init-null.js"),
     );
     it(
       "meth-static-dflt-obj-init-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-dflt-obj-init-undefined.js"),
     );
     it(
       "meth-static-dflt-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-dflt-obj-ptrn-empty.js"),
     );
     it(
       "meth-static-dflt-obj-ptrn-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-id-get-value-err.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-id-init-throws.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-id-init-unresolvable.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-list-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-dflt-obj-ptrn-list-err.js"),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-ary-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-ary-value-null.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-ary.js"),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-eval-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-eval-err.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-id-get-value-err.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-id-init-throws.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-id-init-unresolvable.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-id.js"),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-obj-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-obj-value-null.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-obj-value-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-obj-value-undef.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-dflt-obj-ptrn-prop-obj.js"),
     );
     it(
       "meth-static-dflt-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-dflt-obj-ptrn-rest-getter.js"),
     );
     it(
       "meth-static-dflt-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "meth-static-dflt-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-dflt-obj-ptrn-rest-val-obj.js",
       ),
     );
     it(
       "meth-static-obj-init-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-init-null.js"),
     );
     it(
       "meth-static-obj-init-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-init-undefined.js"),
     );
     it(
       "meth-static-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-ptrn-empty.js"),
     );
     it(
       "meth-static-obj-ptrn-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-ptrn-id-get-value-err.js"),
     );
     it(
       "meth-static-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-ptrn-id-init-skipped.js"),
     );
     it(
       "meth-static-obj-ptrn-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-ptrn-id-init-throws.js"),
     );
     it(
       "meth-static-obj-ptrn-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-id-init-unresolvable.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-list-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-ptrn-list-err.js"),
     );
     it(
       "meth-static-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-ptrn-prop-ary-init.js"),
     );
     it(
       "meth-static-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-prop-ary-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-prop-ary-value-null.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-ptrn-prop-ary.js"),
     );
     it(
       "meth-static-obj-ptrn-prop-eval-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-ptrn-prop-eval-err.js"),
     );
     it(
       "meth-static-obj-ptrn-prop-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-prop-id-get-value-err.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-prop-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-prop-id-init-throws.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-prop-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-prop-id-init-unresolvable.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-ptrn-prop-id-init.js"),
     );
     it(
       "meth-static-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-ptrn-prop-id.js"),
     );
     it(
       "meth-static-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-ptrn-prop-obj-init.js"),
     );
     it(
       "meth-static-obj-ptrn-prop-obj-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-prop-obj-value-null.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-prop-obj-value-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-prop-obj-value-undef.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-ptrn-prop-obj.js"),
     );
     it(
       "meth-static-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-ptrn-rest-getter.js"),
     );
     it(
       "meth-static-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/meth-static-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "meth-static-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/meth-static-obj-ptrn-rest-val-obj.js"),
     );
     it(
       "private-gen-meth-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-gen-meth-ary-init-iter-close.js"),
     );
     it(
       "private-gen-meth-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-init-iter-no-close.js",
       ),
     );
     it(
       "private-gen-meth-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-gen-meth-ary-name-iter-val.js"),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-obj-id.js"),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-gen-meth-ary-ptrn-elision.js"),
     );
     it(
       "private-gen-meth-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-gen-meth-ary-ptrn-empty.js"),
     );
     it(
       "private-gen-meth-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "private-gen-meth-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-gen-meth-ary-ptrn-rest-id.js"),
     );
     it(
@@ -12339,283 +12339,283 @@ describe("class", () => {
     );
     it(
       "private-gen-meth-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-gen-meth-ary-ptrn-rest-obj-id.js"),
     );
     it(
       "private-gen-meth-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-init-iter-close.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-init-iter-no-close.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-name-iter-val.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-obj-id.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-elision.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-empty.js"),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-rest-id.js",
       ),
@@ -12664,555 +12664,555 @@ describe("class", () => {
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-rest-obj-id.js",
       ),
     );
     it(
       "private-gen-meth-dflt-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-empty.js"),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-prop-ary.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-prop-id.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-prop-obj.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-rest-getter.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "private-gen-meth-dflt-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-dflt-obj-ptrn-rest-val-obj.js",
       ),
     );
     it(
       "private-gen-meth-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-gen-meth-obj-ptrn-empty.js"),
     );
     it(
       "private-gen-meth-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-gen-meth-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-gen-meth-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-gen-meth-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-gen-meth-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-gen-meth-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "private-gen-meth-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "private-gen-meth-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "private-gen-meth-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "private-gen-meth-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-gen-meth-obj-ptrn-prop-ary.js"),
     );
     it(
       "private-gen-meth-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "private-gen-meth-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "private-gen-meth-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "private-gen-meth-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-gen-meth-obj-ptrn-prop-id.js"),
     );
     it(
       "private-gen-meth-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "private-gen-meth-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-gen-meth-obj-ptrn-prop-obj.js"),
     );
     it(
       "private-gen-meth-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-gen-meth-obj-ptrn-rest-getter.js"),
     );
     it(
       "private-gen-meth-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "private-gen-meth-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-obj-ptrn-rest-val-obj.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-init-iter-close.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-init-iter-no-close.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-name-iter-val.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-obj-id.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-elision.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-empty.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-rest-id.js",
       ),
@@ -13261,287 +13261,287 @@ describe("class", () => {
     );
     it(
       "private-gen-meth-static-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-rest-obj-id.js",
       ),
     );
     it(
       "private-gen-meth-static-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-init-iter-close.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-init-iter-no-close.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-name-iter-val.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-obj-id.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-elision.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-empty.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-rest-id.js",
       ),
@@ -13590,545 +13590,545 @@ describe("class", () => {
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-rest-obj-id.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-empty.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-prop-ary.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-prop-id.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-prop-obj.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-rest-getter.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "private-gen-meth-static-dflt-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-dflt-obj-ptrn-rest-val-obj.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-empty.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-prop-ary.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-prop-id.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-prop-obj.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-rest-getter.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "private-gen-meth-static-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-gen-meth-static-obj-ptrn-rest-val-obj.js",
       ),
     );
     it(
       "private-meth-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-ary-init-iter-close.js"),
     );
     it(
       "private-meth-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-ary-init-iter-no-close.js"),
     );
     it(
       "private-meth-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-ary-name-iter-val.js"),
     );
     it(
       "private-meth-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-ary-ptrn-elem-obj-id.js"),
     );
     it(
       "private-meth-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-ary-ptrn-elision.js"),
     );
     it(
       "private-meth-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-ary-ptrn-empty.js"),
     );
     it(
       "private-meth-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-ary-ptrn-rest-ary-elem.js"),
     );
     it(
       "private-meth-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-ary-ptrn-rest-ary-empty.js"),
     );
     it(
       "private-meth-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-ary-ptrn-rest-ary-rest.js"),
     );
     it(
       "private-meth-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-ary-ptrn-rest-id-direct.js"),
     );
     it(
       "private-meth-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-ary-ptrn-rest-id-elision.js"),
     );
     it(
       "private-meth-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "private-meth-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-ary-ptrn-rest-id.js"),
     );
     it(
@@ -14169,277 +14169,277 @@ describe("class", () => {
     );
     it(
       "private-meth-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-ary-ptrn-rest-obj-id.js"),
     );
     it(
       "private-meth-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "private-meth-dflt-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-dflt-ary-init-iter-close.js"),
     );
     it(
       "private-meth-dflt-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-init-iter-no-close.js",
       ),
     );
     it(
       "private-meth-dflt-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-dflt-ary-name-iter-val.js"),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-obj-id.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-dflt-ary-ptrn-elision.js"),
     );
     it(
       "private-meth-dflt-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-dflt-ary-ptrn-empty.js"),
     );
     it(
       "private-meth-dflt-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-dflt-ary-ptrn-rest-id.js"),
     );
     it(
@@ -14486,533 +14486,533 @@ describe("class", () => {
     );
     it(
       "private-meth-dflt-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-rest-obj-id.js",
       ),
     );
     it(
       "private-meth-dflt-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-dflt-obj-ptrn-empty.js"),
     );
     it(
       "private-meth-dflt-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-dflt-obj-ptrn-prop-ary.js"),
     );
     it(
       "private-meth-dflt-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-dflt-obj-ptrn-prop-id.js"),
     );
     it(
       "private-meth-dflt-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-dflt-obj-ptrn-prop-obj.js"),
     );
     it(
       "private-meth-dflt-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-rest-getter.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "private-meth-dflt-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-dflt-obj-ptrn-rest-val-obj.js",
       ),
     );
     it(
       "private-meth-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-obj-ptrn-empty.js"),
     );
     it(
       "private-meth-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-meth-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-meth-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-meth-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-meth-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-meth-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-obj-ptrn-id-init-skipped.js"),
     );
     it(
       "private-meth-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "private-meth-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-obj-ptrn-prop-ary-init.js"),
     );
     it(
       "private-meth-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "private-meth-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-obj-ptrn-prop-ary.js"),
     );
     it(
       "private-meth-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "private-meth-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-obj-ptrn-prop-id-init.js"),
     );
     it(
       "private-meth-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "private-meth-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-obj-ptrn-prop-id.js"),
     );
     it(
       "private-meth-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-obj-ptrn-prop-obj-init.js"),
     );
     it(
       "private-meth-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-obj-ptrn-prop-obj.js"),
     );
     it(
       "private-meth-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-obj-ptrn-rest-getter.js"),
     );
     it(
       "private-meth-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "private-meth-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-obj-ptrn-rest-val-obj.js"),
     );
     it(
       "private-meth-static-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-init-iter-close.js",
       ),
     );
     it(
       "private-meth-static-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-init-iter-no-close.js",
       ),
     );
     it(
       "private-meth-static-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-static-ary-name-iter-val.js"),
     );
     it(
       "private-meth-static-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-obj-id.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-static-ary-ptrn-elision.js"),
     );
     it(
       "private-meth-static-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-static-ary-ptrn-empty.js"),
     );
     it(
       "private-meth-static-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-static-ary-ptrn-rest-id.js"),
     );
     it(
@@ -15059,287 +15059,287 @@ describe("class", () => {
     );
     it(
       "private-meth-static-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-rest-obj-id.js",
       ),
     );
     it(
       "private-meth-static-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-init-iter-close.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-init-iter-no-close.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-name-iter-val.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-ary-elem-init.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-ary-elem-iter.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-ary-rest-init.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-ary-rest-iter.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-id-init-hole.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-id-init-undef.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-id-iter-done.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-id-iter-val.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-obj-id-init.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-obj-id.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elem-obj-prop-id.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elision-exhausted.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-elision.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-empty.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-rest-ary-elem.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-rest-ary-elision.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-rest-ary-empty.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-rest-ary-rest.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-rest-id-direct.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-rest-id-elision.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-rest-id-exhausted.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-rest-id.js",
       ),
@@ -15388,286 +15388,286 @@ describe("class", () => {
     );
     it(
       "private-meth-static-dflt-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-rest-obj-id.js",
       ),
     );
     it(
       "private-meth-static-dflt-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-ary-ptrn-rest-obj-prop-id.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-empty.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-prop-ary.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-prop-id.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-prop-obj.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-rest-getter.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "private-meth-static-dflt-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-dflt-obj-ptrn-rest-val-obj.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-static-obj-ptrn-empty.js"),
     );
     it(
       "private-meth-static-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-id-init-fn-name-fn.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-id-init-skipped.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-id-trailing-comma.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-prop-ary-init.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-static-obj-ptrn-prop-ary.js"),
     );
     it(
       "private-meth-static-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-prop-id-init.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-static-obj-ptrn-prop-id.js"),
     );
     it(
       "private-meth-static-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-prop-obj-init.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/dstr/private-meth-static-obj-ptrn-prop-obj.js"),
     );
     it(
       "private-meth-static-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-rest-getter.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "private-meth-static-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/dstr/private-meth-static-obj-ptrn-rest-val-obj.js",
       ),
@@ -15676,1676 +15676,1676 @@ describe("class", () => {
   describe("elements", () => {
     it(
       "after-same-line-gen-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-computed-names.js",
       ),
     );
     it(
       "after-same-line-gen-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-computed-symbol-names.js",
       ),
     );
     it(
       "after-same-line-gen-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "after-same-line-gen-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-literal-names-asi.js",
       ),
     );
     it(
       "after-same-line-gen-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/after-same-line-gen-literal-names.js"),
     );
     it(
       "after-same-line-gen-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-private-field-usage.js",
       ),
     );
     it(
       "after-same-line-gen-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-private-method-getter-usage.js",
       ),
     );
     it(
       "after-same-line-gen-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-private-method-usage.js",
       ),
     );
     it(
       "after-same-line-gen-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/after-same-line-gen-private-names.js"),
     );
     it(
       "after-same-line-gen-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-gen-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-field-identifier.js",
       ),
     );
     it(
       "after-same-line-gen-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-private-getter-alt.js",
       ),
     );
     it(
       "after-same-line-gen-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-private-getter.js",
       ),
     );
     it(
       "after-same-line-gen-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-private-method-alt.js",
       ),
     );
     it(
       "after-same-line-gen-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-private-method.js",
       ),
     );
     it(
       "after-same-line-gen-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-private-setter-alt.js",
       ),
     );
     it(
       "after-same-line-gen-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-private-setter.js",
       ),
     );
     it(
       "after-same-line-gen-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-gen-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "after-same-line-gen-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-gen-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-gen-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-gen-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-gen-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-gen-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-gen-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-gen-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-gen-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-gen-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-gen-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "after-same-line-gen-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-gen-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "after-same-line-gen-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "after-same-line-gen-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "after-same-line-gen-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-gen-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-gen-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-static-private-fields.js",
       ),
     );
     it(
       "after-same-line-gen-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-static-private-methods-with-fields.js",
       ),
     );
     it(
       "after-same-line-gen-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-static-private-methods.js",
       ),
     );
     it(
       "after-same-line-gen-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-gen-string-literal-names.js",
       ),
     );
     it(
       "after-same-line-method-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-computed-names.js",
       ),
     );
     it(
       "after-same-line-method-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-computed-symbol-names.js",
       ),
     );
     it(
       "after-same-line-method-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "after-same-line-method-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-literal-names-asi.js",
       ),
     );
     it(
       "after-same-line-method-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-literal-names.js",
       ),
     );
     it(
       "after-same-line-method-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-private-field-usage.js",
       ),
     );
     it(
       "after-same-line-method-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-private-method-getter-usage.js",
       ),
     );
     it(
       "after-same-line-method-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-private-method-usage.js",
       ),
     );
     it(
       "after-same-line-method-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-private-names.js",
       ),
     );
     it(
       "after-same-line-method-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-method-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-field-identifier.js",
       ),
     );
     it(
       "after-same-line-method-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-private-getter-alt.js",
       ),
     );
     it(
       "after-same-line-method-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-private-getter.js",
       ),
     );
     it(
       "after-same-line-method-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-private-method-alt.js",
       ),
     );
     it(
       "after-same-line-method-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-private-method.js",
       ),
     );
     it(
       "after-same-line-method-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-private-setter-alt.js",
       ),
     );
     it(
       "after-same-line-method-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-private-setter.js",
       ),
     );
     it(
       "after-same-line-method-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-method-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "after-same-line-method-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-method-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-method-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-method-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-method-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-method-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-method-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-method-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-method-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-method-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-method-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "after-same-line-method-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-method-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "after-same-line-method-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "after-same-line-method-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "after-same-line-method-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-method-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-method-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-static-private-fields.js",
       ),
     );
     it(
       "after-same-line-method-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-static-private-methods-with-fields.js",
       ),
     );
     it(
       "after-same-line-method-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-static-private-methods.js",
       ),
     );
     it(
       "after-same-line-method-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-method-string-literal-names.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-computed-names.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-computed-symbol-names.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-literal-names-asi.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-literal-names.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-private-field-usage.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-private-method-getter-usage.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-private-method-usage.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-private-names.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-field-identifier.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-private-getter-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-private-getter.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-private-method-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-private-method.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-private-setter-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-private-setter.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-static-private-fields.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-static-private-methods-with-fields.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-static-private-methods.js",
       ),
     );
     it(
       "after-same-line-static-async-gen-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-gen-string-literal-names.js",
       ),
     );
     it(
       "after-same-line-static-async-method-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-computed-names.js",
       ),
     );
     it(
       "after-same-line-static-async-method-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-computed-symbol-names.js",
       ),
     );
     it(
       "after-same-line-static-async-method-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "after-same-line-static-async-method-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-literal-names-asi.js",
       ),
     );
     it(
       "after-same-line-static-async-method-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-literal-names.js",
       ),
     );
     it(
       "after-same-line-static-async-method-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-private-field-usage.js",
       ),
     );
     it(
       "after-same-line-static-async-method-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-private-method-getter-usage.js",
       ),
     );
     it(
       "after-same-line-static-async-method-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-private-method-usage.js",
       ),
     );
     it(
       "after-same-line-static-async-method-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-private-names.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-field-identifier.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-private-getter-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-private-getter.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-private-method-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-private-method.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-private-setter-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-private-setter.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-static-async-method-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-async-method-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-static-private-fields.js",
       ),
     );
     it(
       "after-same-line-static-async-method-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-static-private-methods-with-fields.js",
       ),
     );
     it(
       "after-same-line-static-async-method-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-static-private-methods.js",
       ),
     );
     it(
       "after-same-line-static-async-method-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-async-method-string-literal-names.js",
       ),
     );
     it(
       "after-same-line-static-gen-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-computed-names.js",
       ),
     );
     it(
       "after-same-line-static-gen-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-computed-symbol-names.js",
       ),
     );
     it(
       "after-same-line-static-gen-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "after-same-line-static-gen-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-literal-names-asi.js",
       ),
     );
     it(
       "after-same-line-static-gen-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-literal-names.js",
       ),
     );
     it(
       "after-same-line-static-gen-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-private-field-usage.js",
       ),
     );
     it(
       "after-same-line-static-gen-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-private-method-getter-usage.js",
       ),
     );
     it(
       "after-same-line-static-gen-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-private-method-usage.js",
       ),
     );
     it(
       "after-same-line-static-gen-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-private-names.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-field-identifier.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-private-getter-alt.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-private-getter.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-private-method-alt.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-private-method.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-private-setter-alt.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-private-setter.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-static-gen-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-gen-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-static-private-fields.js",
       ),
     );
     it(
       "after-same-line-static-gen-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-static-private-methods-with-fields.js",
       ),
     );
     it(
       "after-same-line-static-gen-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-static-private-methods.js",
       ),
     );
     it(
       "after-same-line-static-gen-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-gen-string-literal-names.js",
       ),
     );
     it(
       "after-same-line-static-method-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-computed-names.js",
       ),
     );
     it(
       "after-same-line-static-method-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-computed-symbol-names.js",
       ),
     );
     it(
       "after-same-line-static-method-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "after-same-line-static-method-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-literal-names-asi.js",
       ),
     );
     it(
       "after-same-line-static-method-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-literal-names.js",
       ),
     );
     it(
       "after-same-line-static-method-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-private-field-usage.js",
       ),
     );
     it(
       "after-same-line-static-method-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-private-method-getter-usage.js",
       ),
     );
     it(
       "after-same-line-static-method-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-private-method-usage.js",
       ),
     );
     it(
       "after-same-line-static-method-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-private-names.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-field-identifier.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-private-getter-alt.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-private-getter.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-private-method-alt.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-private-method.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-private-setter-alt.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-private-setter.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "after-same-line-static-method-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "after-same-line-static-method-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-static-private-fields.js",
       ),
     );
     it(
       "after-same-line-static-method-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-static-private-methods-with-fields.js",
       ),
     );
     it(
       "after-same-line-static-method-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-static-private-methods.js",
       ),
     );
     it(
       "after-same-line-static-method-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/after-same-line-static-method-string-literal-names.js",
       ),
@@ -17366,56 +17366,56 @@ describe("class", () => {
     );
     it(
       "arrow-body-derived-cls-direct-eval-err-contains-supercall-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-derived-cls-direct-eval-err-contains-supercall-1.js",
       ),
     );
     it(
       "arrow-body-derived-cls-direct-eval-err-contains-supercall-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-derived-cls-direct-eval-err-contains-supercall-2.js",
       ),
     );
     it(
       "arrow-body-derived-cls-direct-eval-err-contains-supercall.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-derived-cls-direct-eval-err-contains-supercall.js",
       ),
     );
     it(
       "arrow-body-derived-cls-indirect-eval-contains-superproperty-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-derived-cls-indirect-eval-contains-superproperty-1.js",
       ),
     );
     it(
       "arrow-body-derived-cls-indirect-eval-contains-superproperty-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-derived-cls-indirect-eval-contains-superproperty-2.js",
       ),
     );
     it(
       "arrow-body-derived-cls-indirect-eval-err-contains-supercall-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-derived-cls-indirect-eval-err-contains-supercall-1.js",
       ),
     );
     it(
       "arrow-body-derived-cls-indirect-eval-err-contains-supercall-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-derived-cls-indirect-eval-err-contains-supercall-2.js",
       ),
     );
     it(
       "arrow-body-derived-cls-indirect-eval-err-contains-supercall.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-derived-cls-indirect-eval-err-contains-supercall.js",
       ),
@@ -17436,7 +17436,7 @@ describe("class", () => {
     );
     it(
       "arrow-body-indirect-eval-err-contains-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-indirect-eval-err-contains-newtarget.js",
       ),
@@ -17457,56 +17457,56 @@ describe("class", () => {
     );
     it(
       "arrow-body-private-derived-cls-direct-eval-err-contains-supercall-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-private-derived-cls-direct-eval-err-contains-supercall-1.js",
       ),
     );
     it(
       "arrow-body-private-derived-cls-direct-eval-err-contains-supercall-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-private-derived-cls-direct-eval-err-contains-supercall-2.js",
       ),
     );
     it(
       "arrow-body-private-derived-cls-direct-eval-err-contains-supercall.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-private-derived-cls-direct-eval-err-contains-supercall.js",
       ),
     );
     it(
       "arrow-body-private-derived-cls-indirect-eval-contains-superproperty-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-private-derived-cls-indirect-eval-contains-superproperty-1.js",
       ),
     );
     it(
       "arrow-body-private-derived-cls-indirect-eval-contains-superproperty-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-private-derived-cls-indirect-eval-contains-superproperty-2.js",
       ),
     );
     it(
       "arrow-body-private-derived-cls-indirect-eval-err-contains-supercall-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-private-derived-cls-indirect-eval-err-contains-supercall-1.js",
       ),
     );
     it(
       "arrow-body-private-derived-cls-indirect-eval-err-contains-supercall-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-private-derived-cls-indirect-eval-err-contains-supercall-2.js",
       ),
     );
     it(
       "arrow-body-private-derived-cls-indirect-eval-err-contains-supercall.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-private-derived-cls-indirect-eval-err-contains-supercall.js",
       ),
@@ -17527,7 +17527,7 @@ describe("class", () => {
     );
     it(
       "arrow-body-private-indirect-eval-err-contains-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-private-indirect-eval-err-contains-newtarget.js",
       ),
@@ -17659,7 +17659,7 @@ describe("class", () => {
       );
       it(
         "yield-promise-reject-next-for-await-of-sync-iterator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-promise-reject-next-for-await-of-sync-iterator.js",
         ),
@@ -17673,7 +17673,7 @@ describe("class", () => {
       );
       it(
         "yield-promise-reject-next-yield-star-sync-iterator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-promise-reject-next-yield-star-sync-iterator.js",
         ),
@@ -17687,21 +17687,21 @@ describe("class", () => {
       );
       it(
         "yield-spread-arr-multiple.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-spread-arr-multiple.js",
         ),
       );
       it(
         "yield-spread-arr-single.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-spread-arr-single.js",
         ),
       );
       it(
         "yield-spread-obj.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-spread-obj.js",
         ),
@@ -17715,7 +17715,7 @@ describe("class", () => {
       );
       it(
         "yield-star-async-return.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-async-return.js",
         ),
@@ -17729,350 +17729,350 @@ describe("class", () => {
       );
       it(
         "yield-star-expr-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-expr-abrupt.js",
         ),
       );
       it(
         "yield-star-getiter-async-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-async-get-abrupt.js",
         ),
       );
       it(
         "yield-star-getiter-async-not-callable-boolean-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-async-not-callable-boolean-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-not-callable-number-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-async-not-callable-number-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-not-callable-object-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-async-not-callable-object-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-not-callable-string-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-async-not-callable-string-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-not-callable-symbol-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-async-not-callable-symbol-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-null-sync-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-async-null-sync-get-abrupt.js",
         ),
       );
       it(
         "yield-star-getiter-async-returns-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-async-returns-abrupt.js",
         ),
       );
       it(
         "yield-star-getiter-async-returns-boolean-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-async-returns-boolean-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-returns-null-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-async-returns-null-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-returns-number-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-async-returns-number-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-returns-string-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-async-returns-string-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-returns-symbol-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-async-returns-symbol-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-returns-undefined-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-async-returns-undefined-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-undefined-sync-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-async-undefined-sync-get-abrupt.js",
         ),
       );
       it(
         "yield-star-getiter-sync-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-sync-get-abrupt.js",
         ),
       );
       it(
         "yield-star-getiter-sync-not-callable-boolean-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-sync-not-callable-boolean-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-not-callable-number-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-sync-not-callable-number-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-not-callable-object-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-sync-not-callable-object-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-not-callable-string-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-sync-not-callable-string-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-not-callable-symbol-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-sync-not-callable-symbol-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-returns-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-sync-returns-abrupt.js",
         ),
       );
       it(
         "yield-star-getiter-sync-returns-boolean-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-sync-returns-boolean-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-returns-null-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-sync-returns-null-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-returns-number-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-sync-returns-number-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-returns-string-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-sync-returns-string-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-returns-symbol-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-sync-returns-symbol-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-returns-undefined-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-getiter-sync-returns-undefined-throw.js",
         ),
       );
       it(
         "yield-star-next-call-done-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-call-done-get-abrupt.js",
         ),
       );
       it(
         "yield-star-next-call-returns-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-call-returns-abrupt.js",
         ),
       );
       it(
         "yield-star-next-call-value-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-call-value-get-abrupt.js",
         ),
       );
       it(
         "yield-star-next-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-get-abrupt.js",
         ),
       );
       it(
         "yield-star-next-non-object-ignores-then.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-non-object-ignores-then.js",
         ),
       );
       it(
         "yield-star-next-not-callable-boolean-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-not-callable-boolean-throw.js",
         ),
       );
       it(
         "yield-star-next-not-callable-null-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-not-callable-null-throw.js",
         ),
       );
       it(
         "yield-star-next-not-callable-number-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-not-callable-number-throw.js",
         ),
       );
       it(
         "yield-star-next-not-callable-object-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-not-callable-object-throw.js",
         ),
       );
       it(
         "yield-star-next-not-callable-string-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-not-callable-string-throw.js",
         ),
       );
       it(
         "yield-star-next-not-callable-symbol-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-not-callable-symbol-throw.js",
         ),
       );
       it(
         "yield-star-next-not-callable-undefined-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-not-callable-undefined-throw.js",
         ),
       );
       it(
         "yield-star-next-then-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-then-get-abrupt.js",
         ),
       );
       it(
         "yield-star-next-then-non-callable-boolean-fulfillpromise.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-then-non-callable-boolean-fulfillpromise.js",
         ),
       );
       it(
         "yield-star-next-then-non-callable-null-fulfillpromise.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-then-non-callable-null-fulfillpromise.js",
         ),
       );
       it(
         "yield-star-next-then-non-callable-number-fulfillpromise.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-then-non-callable-number-fulfillpromise.js",
         ),
       );
       it(
         "yield-star-next-then-non-callable-object-fulfillpromise.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-then-non-callable-object-fulfillpromise.js",
         ),
       );
       it(
         "yield-star-next-then-non-callable-string-fulfillpromise.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-then-non-callable-string-fulfillpromise.js",
         ),
       );
       it(
         "yield-star-next-then-non-callable-symbol-fulfillpromise.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-then-non-callable-symbol-fulfillpromise.js",
         ),
       );
       it(
         "yield-star-next-then-non-callable-undefined-fulfillpromise.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-then-non-callable-undefined-fulfillpromise.js",
         ),
       );
       it(
         "yield-star-next-then-returns-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-next-then-returns-abrupt.js",
         ),
@@ -18214,7 +18214,7 @@ describe("class", () => {
       );
       it(
         "yield-promise-reject-next-for-await-of-sync-iterator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-promise-reject-next-for-await-of-sync-iterator.js",
         ),
@@ -18228,7 +18228,7 @@ describe("class", () => {
       );
       it(
         "yield-promise-reject-next-yield-star-sync-iterator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-promise-reject-next-yield-star-sync-iterator.js",
         ),
@@ -18242,21 +18242,21 @@ describe("class", () => {
       );
       it(
         "yield-spread-arr-multiple.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-spread-arr-multiple.js",
         ),
       );
       it(
         "yield-spread-arr-single.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-spread-arr-single.js",
         ),
       );
       it(
         "yield-spread-obj.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-spread-obj.js",
         ),
@@ -18270,7 +18270,7 @@ describe("class", () => {
       );
       it(
         "yield-star-async-return.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-async-return.js",
         ),
@@ -18284,350 +18284,350 @@ describe("class", () => {
       );
       it(
         "yield-star-expr-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-expr-abrupt.js",
         ),
       );
       it(
         "yield-star-getiter-async-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-async-get-abrupt.js",
         ),
       );
       it(
         "yield-star-getiter-async-not-callable-boolean-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-async-not-callable-boolean-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-not-callable-number-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-async-not-callable-number-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-not-callable-object-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-async-not-callable-object-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-not-callable-string-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-async-not-callable-string-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-not-callable-symbol-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-async-not-callable-symbol-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-null-sync-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-async-null-sync-get-abrupt.js",
         ),
       );
       it(
         "yield-star-getiter-async-returns-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-async-returns-abrupt.js",
         ),
       );
       it(
         "yield-star-getiter-async-returns-boolean-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-async-returns-boolean-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-returns-null-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-async-returns-null-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-returns-number-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-async-returns-number-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-returns-string-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-async-returns-string-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-returns-symbol-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-async-returns-symbol-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-returns-undefined-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-async-returns-undefined-throw.js",
         ),
       );
       it(
         "yield-star-getiter-async-undefined-sync-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-async-undefined-sync-get-abrupt.js",
         ),
       );
       it(
         "yield-star-getiter-sync-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-sync-get-abrupt.js",
         ),
       );
       it(
         "yield-star-getiter-sync-not-callable-boolean-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-sync-not-callable-boolean-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-not-callable-number-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-sync-not-callable-number-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-not-callable-object-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-sync-not-callable-object-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-not-callable-string-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-sync-not-callable-string-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-not-callable-symbol-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-sync-not-callable-symbol-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-returns-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-sync-returns-abrupt.js",
         ),
       );
       it(
         "yield-star-getiter-sync-returns-boolean-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-sync-returns-boolean-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-returns-null-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-sync-returns-null-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-returns-number-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-sync-returns-number-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-returns-string-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-sync-returns-string-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-returns-symbol-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-sync-returns-symbol-throw.js",
         ),
       );
       it(
         "yield-star-getiter-sync-returns-undefined-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-getiter-sync-returns-undefined-throw.js",
         ),
       );
       it(
         "yield-star-next-call-done-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-call-done-get-abrupt.js",
         ),
       );
       it(
         "yield-star-next-call-returns-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-call-returns-abrupt.js",
         ),
       );
       it(
         "yield-star-next-call-value-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-call-value-get-abrupt.js",
         ),
       );
       it(
         "yield-star-next-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-get-abrupt.js",
         ),
       );
       it(
         "yield-star-next-non-object-ignores-then.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-non-object-ignores-then.js",
         ),
       );
       it(
         "yield-star-next-not-callable-boolean-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-not-callable-boolean-throw.js",
         ),
       );
       it(
         "yield-star-next-not-callable-null-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-not-callable-null-throw.js",
         ),
       );
       it(
         "yield-star-next-not-callable-number-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-not-callable-number-throw.js",
         ),
       );
       it(
         "yield-star-next-not-callable-object-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-not-callable-object-throw.js",
         ),
       );
       it(
         "yield-star-next-not-callable-string-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-not-callable-string-throw.js",
         ),
       );
       it(
         "yield-star-next-not-callable-symbol-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-not-callable-symbol-throw.js",
         ),
       );
       it(
         "yield-star-next-not-callable-undefined-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-not-callable-undefined-throw.js",
         ),
       );
       it(
         "yield-star-next-then-get-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-then-get-abrupt.js",
         ),
       );
       it(
         "yield-star-next-then-non-callable-boolean-fulfillpromise.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-then-non-callable-boolean-fulfillpromise.js",
         ),
       );
       it(
         "yield-star-next-then-non-callable-null-fulfillpromise.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-then-non-callable-null-fulfillpromise.js",
         ),
       );
       it(
         "yield-star-next-then-non-callable-number-fulfillpromise.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-then-non-callable-number-fulfillpromise.js",
         ),
       );
       it(
         "yield-star-next-then-non-callable-object-fulfillpromise.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-then-non-callable-object-fulfillpromise.js",
         ),
       );
       it(
         "yield-star-next-then-non-callable-string-fulfillpromise.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-then-non-callable-string-fulfillpromise.js",
         ),
       );
       it(
         "yield-star-next-then-non-callable-symbol-fulfillpromise.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-then-non-callable-symbol-fulfillpromise.js",
         ),
       );
       it(
         "yield-star-next-then-non-callable-undefined-fulfillpromise.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-then-non-callable-undefined-fulfillpromise.js",
         ),
       );
       it(
         "yield-star-next-then-returns-abrupt.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-next-then-returns-abrupt.js",
         ),
@@ -18699,42 +18699,42 @@ describe("class", () => {
       );
       it(
         "returns-async-arrow-returns-arguments-from-parent-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-private-method/returns-async-arrow-returns-arguments-from-parent-function.js",
         ),
       );
       it(
         "returns-async-arrow-returns-newtarget.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-private-method/returns-async-arrow-returns-newtarget.js",
         ),
       );
       it(
         "returns-async-arrow.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-private-method/returns-async-arrow.js",
         ),
       );
       it(
         "returns-async-function-returns-arguments-from-own-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-private-method/returns-async-function-returns-arguments-from-own-function.js",
         ),
       );
       it(
         "returns-async-function-returns-newtarget.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-private-method/returns-async-function-returns-newtarget.js",
         ),
       );
       it(
         "returns-async-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-private-method/returns-async-function.js",
         ),
@@ -18785,42 +18785,42 @@ describe("class", () => {
       );
       it(
         "returns-async-arrow-returns-arguments-from-parent-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-private-method-static/returns-async-arrow-returns-arguments-from-parent-function.js",
         ),
       );
       it(
         "returns-async-arrow-returns-newtarget.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-private-method-static/returns-async-arrow-returns-newtarget.js",
         ),
       );
       it(
         "returns-async-arrow.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-private-method-static/returns-async-arrow.js",
         ),
       );
       it(
         "returns-async-function-returns-arguments-from-own-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-private-method-static/returns-async-function-returns-arguments-from-own-function.js",
         ),
       );
       it(
         "returns-async-function-returns-newtarget.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-private-method-static/returns-async-function-returns-newtarget.js",
         ),
       );
       it(
         "returns-async-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-private-method-static/returns-async-function.js",
         ),
@@ -18828,14 +18828,14 @@ describe("class", () => {
     });
     it(
       "class-name-static-initializer-anonymous.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/class-name-static-initializer-anonymous.js",
       ),
     );
     it(
       "class-name-static-initializer-decl.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/class-name-static-initializer-decl.js",
       ),
@@ -18849,7 +18849,7 @@ describe("class", () => {
     );
     it(
       "class-name-static-initializer-expr.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/class-name-static-initializer-expr.js",
       ),
@@ -18868,17 +18868,17 @@ describe("class", () => {
     );
     it(
       "computed-name-toprimitive-symbol.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/computed-name-toprimitive-symbol.js"),
     );
     it(
       "computed-name-toprimitive.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/computed-name-toprimitive.js"),
     );
     it(
       "ctor-called-after-fields-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/ctor-called-after-fields-init.js"),
     );
     it(
@@ -18897,56 +18897,56 @@ describe("class", () => {
     );
     it(
       "derived-cls-direct-eval-err-contains-supercall-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/derived-cls-direct-eval-err-contains-supercall-1.js",
       ),
     );
     it(
       "derived-cls-direct-eval-err-contains-supercall-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/derived-cls-direct-eval-err-contains-supercall-2.js",
       ),
     );
     it(
       "derived-cls-direct-eval-err-contains-supercall.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/derived-cls-direct-eval-err-contains-supercall.js",
       ),
     );
     it(
       "derived-cls-indirect-eval-contains-superproperty-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/derived-cls-indirect-eval-contains-superproperty-1.js",
       ),
     );
     it(
       "derived-cls-indirect-eval-contains-superproperty-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/derived-cls-indirect-eval-contains-superproperty-2.js",
       ),
     );
     it(
       "derived-cls-indirect-eval-err-contains-supercall-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/derived-cls-indirect-eval-err-contains-supercall-1.js",
       ),
     );
     it(
       "derived-cls-indirect-eval-err-contains-supercall-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/derived-cls-indirect-eval-err-contains-supercall-2.js",
       ),
     );
     it(
       "derived-cls-indirect-eval-err-contains-supercall.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/derived-cls-indirect-eval-err-contains-supercall.js",
       ),
@@ -18980,14 +18980,14 @@ describe("class", () => {
     describe("evaluation-error", () => {
       it(
         "computed-name-referenceerror.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/evaluation-error/computed-name-referenceerror.js",
         ),
       );
       it(
         "computed-name-toprimitive-err.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/evaluation-error/computed-name-toprimitive-err.js",
         ),
@@ -19008,14 +19008,14 @@ describe("class", () => {
       );
       it(
         "computed-name-tostring-err.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/evaluation-error/computed-name-tostring-err.js",
         ),
       );
       it(
         "computed-name-valueof-err.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/evaluation-error/computed-name-valueof-err.js",
         ),
@@ -19023,29 +19023,29 @@ describe("class", () => {
     });
     it(
       "field-declaration.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/field-declaration.js"),
     );
     it(
       "field-definition-accessor-no-line-terminator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/field-definition-accessor-no-line-terminator.js",
       ),
     );
     it(
       "fields-anonymous-function-length.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/fields-anonymous-function-length.js"),
     );
     it(
       "fields-asi-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/fields-asi-1.js"),
     );
     it(
       "fields-asi-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/fields-asi-2.js"),
     );
     it(
@@ -19060,7 +19060,7 @@ describe("class", () => {
     );
     it(
       "fields-asi-5.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/fields-asi-5.js"),
     );
     it(
@@ -19075,7 +19075,7 @@ describe("class", () => {
     );
     it(
       "fields-computed-name-static-propname-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/fields-computed-name-static-propname-prototype.js",
       ),
@@ -19115,7 +19115,7 @@ describe("class", () => {
     );
     it(
       "fields-run-once-on-double-super.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/fields-run-once-on-double-super.js"),
     );
     it(
@@ -19198,21 +19198,21 @@ describe("class", () => {
       );
       it(
         "yield-spread-arr-multiple.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/gen-private-method/yield-spread-arr-multiple.js",
         ),
       );
       it(
         "yield-spread-arr-single.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/gen-private-method/yield-spread-arr-single.js",
         ),
       );
       it(
         "yield-spread-obj.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/gen-private-method/yield-spread-obj.js",
         ),
@@ -19277,21 +19277,21 @@ describe("class", () => {
       );
       it(
         "yield-spread-arr-multiple.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/gen-private-method-static/yield-spread-arr-multiple.js",
         ),
       );
       it(
         "yield-spread-arr-single.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/gen-private-method-static/yield-spread-arr-single.js",
         ),
       );
       it(
         "yield-spread-obj.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/gen-private-method-static/yield-spread-obj.js",
         ),
@@ -19306,34 +19306,34 @@ describe("class", () => {
     );
     it(
       "indirect-eval-contains-arguments.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/indirect-eval-contains-arguments.js"),
     );
     it(
       "indirect-eval-err-contains-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/indirect-eval-err-contains-newtarget.js",
       ),
     );
     it(
       "init-err-evaluation.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/init-err-evaluation.js"),
     );
     it(
       "init-value-defined-after-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/init-value-defined-after-class.js"),
     );
     it(
       "init-value-incremental.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/init-value-incremental.js"),
     );
     it(
       "intercalated-static-non-static-computed-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/intercalated-static-non-static-computed-fields.js",
       ),
@@ -19354,560 +19354,560 @@ describe("class", () => {
     );
     it(
       "multiple-definitions-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-computed-names.js",
       ),
     );
     it(
       "multiple-definitions-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-computed-symbol-names.js",
       ),
     );
     it(
       "multiple-definitions-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "multiple-definitions-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-literal-names-asi.js",
       ),
     );
     it(
       "multiple-definitions-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-literal-names.js",
       ),
     );
     it(
       "multiple-definitions-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-private-field-usage.js",
       ),
     );
     it(
       "multiple-definitions-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-private-method-getter-usage.js",
       ),
     );
     it(
       "multiple-definitions-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-private-method-usage.js",
       ),
     );
     it(
       "multiple-definitions-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-private-names.js",
       ),
     );
     it(
       "multiple-definitions-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "multiple-definitions-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-field-identifier.js",
       ),
     );
     it(
       "multiple-definitions-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-private-getter-alt.js",
       ),
     );
     it(
       "multiple-definitions-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-private-getter.js",
       ),
     );
     it(
       "multiple-definitions-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-private-method-alt.js",
       ),
     );
     it(
       "multiple-definitions-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-private-method.js",
       ),
     );
     it(
       "multiple-definitions-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-private-setter-alt.js",
       ),
     );
     it(
       "multiple-definitions-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-private-setter.js",
       ),
     );
     it(
       "multiple-definitions-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "multiple-definitions-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "multiple-definitions-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "multiple-definitions-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-privatename-identifier.js",
       ),
     );
     it(
       "multiple-definitions-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "multiple-definitions-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "multiple-definitions-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "multiple-definitions-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "multiple-definitions-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "multiple-definitions-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "multiple-definitions-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "multiple-definitions-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "multiple-definitions-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "multiple-definitions-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "multiple-definitions-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "multiple-definitions-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "multiple-definitions-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "multiple-definitions-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "multiple-definitions-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "multiple-definitions-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-static-private-fields.js",
       ),
     );
     it(
       "multiple-definitions-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-static-private-methods-with-fields.js",
       ),
     );
     it(
       "multiple-definitions-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-static-private-methods.js",
       ),
     );
     it(
       "multiple-definitions-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-definitions-string-literal-names.js",
       ),
     );
     it(
       "multiple-stacked-definitions-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-computed-names.js",
       ),
     );
     it(
       "multiple-stacked-definitions-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-computed-symbol-names.js",
       ),
     );
     it(
       "multiple-stacked-definitions-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "multiple-stacked-definitions-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-literal-names-asi.js",
       ),
     );
     it(
       "multiple-stacked-definitions-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-literal-names.js",
       ),
     );
     it(
       "multiple-stacked-definitions-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-private-field-usage.js",
       ),
     );
     it(
       "multiple-stacked-definitions-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-private-method-getter-usage.js",
       ),
     );
     it(
       "multiple-stacked-definitions-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-private-method-usage.js",
       ),
     );
     it(
       "multiple-stacked-definitions-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-private-names.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-field-identifier.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-private-getter-alt.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-private-getter.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-private-method-alt.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-private-method.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-private-setter-alt.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-private-setter.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-privatename-identifier.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "multiple-stacked-definitions-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "multiple-stacked-definitions-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-static-private-fields.js",
       ),
     );
     it(
       "multiple-stacked-definitions-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-static-private-methods-with-fields.js",
       ),
     );
     it(
       "multiple-stacked-definitions-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-static-private-methods.js",
       ),
     );
     it(
       "multiple-stacked-definitions-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/multiple-stacked-definitions-string-literal-names.js",
       ),
@@ -19956,56 +19956,56 @@ describe("class", () => {
     );
     it(
       "nested-derived-cls-direct-eval-err-contains-supercall-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-derived-cls-direct-eval-err-contains-supercall-1.js",
       ),
     );
     it(
       "nested-derived-cls-direct-eval-err-contains-supercall-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-derived-cls-direct-eval-err-contains-supercall-2.js",
       ),
     );
     it(
       "nested-derived-cls-direct-eval-err-contains-supercall.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-derived-cls-direct-eval-err-contains-supercall.js",
       ),
     );
     it(
       "nested-derived-cls-indirect-eval-contains-superproperty-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-derived-cls-indirect-eval-contains-superproperty-1.js",
       ),
     );
     it(
       "nested-derived-cls-indirect-eval-contains-superproperty-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-derived-cls-indirect-eval-contains-superproperty-2.js",
       ),
     );
     it(
       "nested-derived-cls-indirect-eval-err-contains-supercall-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-derived-cls-indirect-eval-err-contains-supercall-1.js",
       ),
     );
     it(
       "nested-derived-cls-indirect-eval-err-contains-supercall-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-derived-cls-indirect-eval-err-contains-supercall-2.js",
       ),
     );
     it(
       "nested-derived-cls-indirect-eval-err-contains-supercall.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-derived-cls-indirect-eval-err-contains-supercall.js",
       ),
@@ -20040,14 +20040,14 @@ describe("class", () => {
     );
     it(
       "nested-indirect-eval-contains-arguments.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-indirect-eval-contains-arguments.js",
       ),
     );
     it(
       "nested-indirect-eval-err-contains-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-indirect-eval-err-contains-newtarget.js",
       ),
@@ -20096,56 +20096,56 @@ describe("class", () => {
     );
     it(
       "nested-private-derived-cls-direct-eval-err-contains-supercall-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-private-derived-cls-direct-eval-err-contains-supercall-1.js",
       ),
     );
     it(
       "nested-private-derived-cls-direct-eval-err-contains-supercall-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-private-derived-cls-direct-eval-err-contains-supercall-2.js",
       ),
     );
     it(
       "nested-private-derived-cls-direct-eval-err-contains-supercall.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-private-derived-cls-direct-eval-err-contains-supercall.js",
       ),
     );
     it(
       "nested-private-derived-cls-indirect-eval-contains-superproperty-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-private-derived-cls-indirect-eval-contains-superproperty-1.js",
       ),
     );
     it(
       "nested-private-derived-cls-indirect-eval-contains-superproperty-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-private-derived-cls-indirect-eval-contains-superproperty-2.js",
       ),
     );
     it(
       "nested-private-derived-cls-indirect-eval-err-contains-supercall-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-private-derived-cls-indirect-eval-err-contains-supercall-1.js",
       ),
     );
     it(
       "nested-private-derived-cls-indirect-eval-err-contains-supercall-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-private-derived-cls-indirect-eval-err-contains-supercall-2.js",
       ),
     );
     it(
       "nested-private-derived-cls-indirect-eval-err-contains-supercall.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-private-derived-cls-indirect-eval-err-contains-supercall.js",
       ),
@@ -20166,14 +20166,14 @@ describe("class", () => {
     );
     it(
       "nested-private-indirect-eval-contains-arguments.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-private-indirect-eval-contains-arguments.js",
       ),
     );
     it(
       "nested-private-indirect-eval-err-contains-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-private-indirect-eval-err-contains-newtarget.js",
       ),
@@ -20320,820 +20320,820 @@ describe("class", () => {
     );
     it(
       "new-no-sc-line-method-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-computed-names.js",
       ),
     );
     it(
       "new-no-sc-line-method-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-computed-symbol-names.js",
       ),
     );
     it(
       "new-no-sc-line-method-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "new-no-sc-line-method-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-literal-names-asi.js",
       ),
     );
     it(
       "new-no-sc-line-method-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-literal-names.js",
       ),
     );
     it(
       "new-no-sc-line-method-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-private-field-usage.js",
       ),
     );
     it(
       "new-no-sc-line-method-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-private-method-getter-usage.js",
       ),
     );
     it(
       "new-no-sc-line-method-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-private-method-usage.js",
       ),
     );
     it(
       "new-no-sc-line-method-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-private-names.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-field-identifier.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-private-getter-alt.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-private-getter.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-private-method-alt.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-private-method.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-private-setter-alt.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-private-setter.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-privatename-identifier.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "new-no-sc-line-method-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "new-no-sc-line-method-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-static-private-fields.js",
       ),
     );
     it(
       "new-no-sc-line-method-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-static-private-methods-with-fields.js",
       ),
     );
     it(
       "new-no-sc-line-method-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-static-private-methods.js",
       ),
     );
     it(
       "new-no-sc-line-method-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-no-sc-line-method-string-literal-names.js",
       ),
     );
     it(
       "new-sc-line-gen-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/new-sc-line-gen-computed-names.js"),
     );
     it(
       "new-sc-line-gen-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-computed-symbol-names.js",
       ),
     );
     it(
       "new-sc-line-gen-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "new-sc-line-gen-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/new-sc-line-gen-literal-names-asi.js"),
     );
     it(
       "new-sc-line-gen-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/new-sc-line-gen-literal-names.js"),
     );
     it(
       "new-sc-line-gen-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-private-field-usage.js",
       ),
     );
     it(
       "new-sc-line-gen-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-private-method-getter-usage.js",
       ),
     );
     it(
       "new-sc-line-gen-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-private-method-usage.js",
       ),
     );
     it(
       "new-sc-line-gen-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/new-sc-line-gen-private-names.js"),
     );
     it(
       "new-sc-line-gen-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-field-identifier.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-private-getter-alt.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/new-sc-line-gen-rs-private-getter.js"),
     );
     it(
       "new-sc-line-gen-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-private-method-alt.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/new-sc-line-gen-rs-private-method.js"),
     );
     it(
       "new-sc-line-gen-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-private-setter-alt.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/new-sc-line-gen-rs-private-setter.js"),
     );
     it(
       "new-sc-line-gen-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-privatename-identifier.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "new-sc-line-gen-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "new-sc-line-gen-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-static-private-fields.js",
       ),
     );
     it(
       "new-sc-line-gen-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-static-private-methods-with-fields.js",
       ),
     );
     it(
       "new-sc-line-gen-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-static-private-methods.js",
       ),
     );
     it(
       "new-sc-line-gen-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-gen-string-literal-names.js",
       ),
     );
     it(
       "new-sc-line-method-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/new-sc-line-method-computed-names.js"),
     );
     it(
       "new-sc-line-method-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-computed-symbol-names.js",
       ),
     );
     it(
       "new-sc-line-method-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "new-sc-line-method-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-literal-names-asi.js",
       ),
     );
     it(
       "new-sc-line-method-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/new-sc-line-method-literal-names.js"),
     );
     it(
       "new-sc-line-method-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-private-field-usage.js",
       ),
     );
     it(
       "new-sc-line-method-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-private-method-getter-usage.js",
       ),
     );
     it(
       "new-sc-line-method-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-private-method-usage.js",
       ),
     );
     it(
       "new-sc-line-method-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/new-sc-line-method-private-names.js"),
     );
     it(
       "new-sc-line-method-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "new-sc-line-method-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-field-identifier.js",
       ),
     );
     it(
       "new-sc-line-method-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-private-getter-alt.js",
       ),
     );
     it(
       "new-sc-line-method-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-private-getter.js",
       ),
     );
     it(
       "new-sc-line-method-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-private-method-alt.js",
       ),
     );
     it(
       "new-sc-line-method-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-private-method.js",
       ),
     );
     it(
       "new-sc-line-method-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-private-setter-alt.js",
       ),
     );
     it(
       "new-sc-line-method-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-private-setter.js",
       ),
     );
     it(
       "new-sc-line-method-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-sc-line-method-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "new-sc-line-method-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "new-sc-line-method-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-privatename-identifier.js",
       ),
     );
     it(
       "new-sc-line-method-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-sc-line-method-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "new-sc-line-method-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-sc-line-method-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "new-sc-line-method-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-sc-line-method-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "new-sc-line-method-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-sc-line-method-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "new-sc-line-method-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "new-sc-line-method-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "new-sc-line-method-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "new-sc-line-method-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "new-sc-line-method-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "new-sc-line-method-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "new-sc-line-method-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "new-sc-line-method-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-static-private-fields.js",
       ),
     );
     it(
       "new-sc-line-method-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-static-private-methods-with-fields.js",
       ),
     );
     it(
       "new-sc-line-method-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-static-private-methods.js",
       ),
     );
     it(
       "new-sc-line-method-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/new-sc-line-method-string-literal-names.js",
       ),
@@ -21141,140 +21141,140 @@ describe("class", () => {
     describe("private-accessor-name", () => {
       it(
         "inst-private-escape-sequence-ZWJ.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/inst-private-escape-sequence-ZWJ.js",
         ),
       );
       it(
         "inst-private-escape-sequence-ZWNJ.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/inst-private-escape-sequence-ZWNJ.js",
         ),
       );
       it(
         "inst-private-escape-sequence-u2118.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/inst-private-escape-sequence-u2118.js",
         ),
       );
       it(
         "inst-private-escape-sequence-u6F.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/inst-private-escape-sequence-u6F.js",
         ),
       );
       it(
         "inst-private-name-ZWJ.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/inst-private-name-ZWJ.js",
         ),
       );
       it(
         "inst-private-name-ZWNJ.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/inst-private-name-ZWNJ.js",
         ),
       );
       it(
         "inst-private-name-common.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/inst-private-name-common.js",
         ),
       );
       it(
         "inst-private-name-dollar.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/inst-private-name-dollar.js",
         ),
       );
       it(
         "inst-private-name-u2118.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/inst-private-name-u2118.js",
         ),
       );
       it(
         "inst-private-name-underscore.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/inst-private-name-underscore.js",
         ),
       );
       it(
         "static-private-escape-sequence-ZWJ.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/static-private-escape-sequence-ZWJ.js",
         ),
       );
       it(
         "static-private-escape-sequence-ZWNJ.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/static-private-escape-sequence-ZWNJ.js",
         ),
       );
       it(
         "static-private-escape-sequence-u2118.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/static-private-escape-sequence-u2118.js",
         ),
       );
       it(
         "static-private-escape-sequence-u6F.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/static-private-escape-sequence-u6F.js",
         ),
       );
       it(
         "static-private-name-ZWJ.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/static-private-name-ZWJ.js",
         ),
       );
       it(
         "static-private-name-ZWNJ.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/static-private-name-ZWNJ.js",
         ),
       );
       it(
         "static-private-name-common.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/static-private-name-common.js",
         ),
       );
       it(
         "static-private-name-dollar.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/static-private-name-dollar.js",
         ),
       );
       it(
         "static-private-name-u2118.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/static-private-name-u2118.js",
         ),
       );
       it(
         "static-private-name-underscore.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-accessor-name/static-private-name-underscore.js",
         ),
@@ -21322,56 +21322,56 @@ describe("class", () => {
     );
     it(
       "private-derived-cls-direct-eval-err-contains-supercall-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-derived-cls-direct-eval-err-contains-supercall-1.js",
       ),
     );
     it(
       "private-derived-cls-direct-eval-err-contains-supercall-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-derived-cls-direct-eval-err-contains-supercall-2.js",
       ),
     );
     it(
       "private-derived-cls-direct-eval-err-contains-supercall.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-derived-cls-direct-eval-err-contains-supercall.js",
       ),
     );
     it(
       "private-derived-cls-indirect-eval-contains-superproperty-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-derived-cls-indirect-eval-contains-superproperty-1.js",
       ),
     );
     it(
       "private-derived-cls-indirect-eval-contains-superproperty-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-derived-cls-indirect-eval-contains-superproperty-2.js",
       ),
     );
     it(
       "private-derived-cls-indirect-eval-err-contains-supercall-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-derived-cls-indirect-eval-err-contains-supercall-1.js",
       ),
     );
     it(
       "private-derived-cls-indirect-eval-err-contains-supercall-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-derived-cls-indirect-eval-err-contains-supercall-2.js",
       ),
     );
     it(
       "private-derived-cls-indirect-eval-err-contains-supercall.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-derived-cls-indirect-eval-err-contains-supercall.js",
       ),
@@ -21392,14 +21392,14 @@ describe("class", () => {
     );
     it(
       "private-field-access-on-inner-arrow-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-field-access-on-inner-arrow-function.js",
       ),
     );
     it(
       "private-field-access-on-inner-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-field-access-on-inner-function.js",
       ),
@@ -21413,29 +21413,29 @@ describe("class", () => {
     );
     it(
       "private-field-as-arrow-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/private-field-as-arrow-function.js"),
     );
     it(
       "private-field-as-async-arrow-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-field-as-async-arrow-function.js",
       ),
     );
     it(
       "private-field-as-async-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/private-field-as-async-function.js"),
     );
     it(
       "private-field-as-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/private-field-as-function.js"),
     );
     it(
       "private-field-on-nested-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/private-field-on-nested-class.js"),
     );
     it(
@@ -21452,14 +21452,14 @@ describe("class", () => {
     );
     it(
       "private-getter-access-on-inner-arrow-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-getter-access-on-inner-arrow-function.js",
       ),
     );
     it(
       "private-getter-access-on-inner-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-getter-access-on-inner-function.js",
       ),
@@ -21473,7 +21473,7 @@ describe("class", () => {
     );
     it(
       "private-getter-on-nested-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/private-getter-on-nested-class.js"),
     );
     it(
@@ -21506,14 +21506,14 @@ describe("class", () => {
     );
     it(
       "private-indirect-eval-contains-arguments.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-indirect-eval-contains-arguments.js",
       ),
     );
     it(
       "private-indirect-eval-err-contains-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-indirect-eval-err-contains-newtarget.js",
       ),
@@ -21534,48 +21534,48 @@ describe("class", () => {
     );
     it(
       "private-method-access-on-inner-arrow-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-method-access-on-inner-arrow-function.js",
       ),
     );
     it(
       "private-method-access-on-inner-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-method-access-on-inner-function.js",
       ),
     );
     it(
       "private-method-comparison.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/private-method-comparison.js"),
     );
     it(
       "private-method-get-and-call.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/private-method-get-and-call.js"),
     );
     it(
       "private-method-is-not-a-own-property.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-method-is-not-a-own-property.js",
       ),
     );
     it(
       "private-method-length.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/private-method-length.js"),
     );
     it(
       "private-method-on-nested-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/private-method-on-nested-class.js"),
     );
     it(
       "private-method-referenced-from-static-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-method-referenced-from-static-method.js",
       ),
@@ -21632,7 +21632,7 @@ describe("class", () => {
       );
       it(
         "prod-private-method-initialize-order.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/private-methods/prod-private-method-initialize-order.js",
         ),
@@ -21647,14 +21647,14 @@ describe("class", () => {
     });
     it(
       "private-setter-access-on-inner-arrow-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-setter-access-on-inner-arrow-function.js",
       ),
     );
     it(
       "private-setter-access-on-inner-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-setter-access-on-inner-function.js",
       ),
@@ -21668,7 +21668,7 @@ describe("class", () => {
     );
     it(
       "private-setter-on-nested-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/private-setter-on-nested-class.js"),
     );
     it(
@@ -21741,7 +21741,7 @@ describe("class", () => {
     );
     it(
       "private-static-field-usage-inside-nested-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-static-field-usage-inside-nested-class.js",
       ),
@@ -21755,7 +21755,7 @@ describe("class", () => {
     );
     it(
       "private-static-method-length.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/private-static-method-length.js"),
     );
     it(
@@ -21793,7 +21793,7 @@ describe("class", () => {
     );
     it(
       "private-static-method-usage-inside-nested-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-static-method-usage-inside-nested-class.js",
       ),
@@ -21828,1446 +21828,1446 @@ describe("class", () => {
     );
     it(
       "prod-private-getter-before-super-return-in-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/prod-private-getter-before-super-return-in-constructor.js",
       ),
     );
     it(
       "prod-private-getter-before-super-return-in-field-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/prod-private-getter-before-super-return-in-field-initializer.js",
       ),
     );
     it(
       "prod-private-method-before-super-return-in-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/prod-private-method-before-super-return-in-constructor.js",
       ),
     );
     it(
       "prod-private-method-before-super-return-in-field-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/prod-private-method-before-super-return-in-field-initializer.js",
       ),
     );
     it(
       "prod-private-setter-before-super-return-in-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/prod-private-setter-before-super-return-in-constructor.js",
       ),
     );
     it(
       "prod-private-setter-before-super-return-in-field-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/prod-private-setter-before-super-return-in-field-initializer.js",
       ),
     );
     it(
       "redeclaration-symbol.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/redeclaration-symbol.js"),
     );
     it(
       "redeclaration.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/redeclaration.js"),
     );
     it(
       "regular-definitions-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-computed-names.js",
       ),
     );
     it(
       "regular-definitions-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-computed-symbol-names.js",
       ),
     );
     it(
       "regular-definitions-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "regular-definitions-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-literal-names-asi.js",
       ),
     );
     it(
       "regular-definitions-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/regular-definitions-literal-names.js"),
     );
     it(
       "regular-definitions-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-private-field-usage.js",
       ),
     );
     it(
       "regular-definitions-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-private-method-getter-usage.js",
       ),
     );
     it(
       "regular-definitions-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-private-method-usage.js",
       ),
     );
     it(
       "regular-definitions-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/regular-definitions-private-names.js"),
     );
     it(
       "regular-definitions-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "regular-definitions-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-field-identifier.js",
       ),
     );
     it(
       "regular-definitions-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-private-getter-alt.js",
       ),
     );
     it(
       "regular-definitions-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-private-getter.js",
       ),
     );
     it(
       "regular-definitions-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-private-method-alt.js",
       ),
     );
     it(
       "regular-definitions-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-private-method.js",
       ),
     );
     it(
       "regular-definitions-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-private-setter-alt.js",
       ),
     );
     it(
       "regular-definitions-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-private-setter.js",
       ),
     );
     it(
       "regular-definitions-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "regular-definitions-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "regular-definitions-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "regular-definitions-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-privatename-identifier.js",
       ),
     );
     it(
       "regular-definitions-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "regular-definitions-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "regular-definitions-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "regular-definitions-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "regular-definitions-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "regular-definitions-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "regular-definitions-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "regular-definitions-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "regular-definitions-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "regular-definitions-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "regular-definitions-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "regular-definitions-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "regular-definitions-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "regular-definitions-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "regular-definitions-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "regular-definitions-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-static-private-fields.js",
       ),
     );
     it(
       "regular-definitions-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-static-private-methods-with-fields.js",
       ),
     );
     it(
       "regular-definitions-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-static-private-methods.js",
       ),
     );
     it(
       "regular-definitions-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/regular-definitions-string-literal-names.js",
       ),
     );
     it(
       "same-line-async-gen-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-computed-names.js",
       ),
     );
     it(
       "same-line-async-gen-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-computed-symbol-names.js",
       ),
     );
     it(
       "same-line-async-gen-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "same-line-async-gen-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-literal-names-asi.js",
       ),
     );
     it(
       "same-line-async-gen-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/same-line-async-gen-literal-names.js"),
     );
     it(
       "same-line-async-gen-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-private-field-usage.js",
       ),
     );
     it(
       "same-line-async-gen-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-private-method-getter-usage.js",
       ),
     );
     it(
       "same-line-async-gen-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-private-method-usage.js",
       ),
     );
     it(
       "same-line-async-gen-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/same-line-async-gen-private-names.js"),
     );
     it(
       "same-line-async-gen-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "same-line-async-gen-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-field-identifier.js",
       ),
     );
     it(
       "same-line-async-gen-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-private-getter-alt.js",
       ),
     );
     it(
       "same-line-async-gen-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-private-getter.js",
       ),
     );
     it(
       "same-line-async-gen-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-private-method-alt.js",
       ),
     );
     it(
       "same-line-async-gen-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-private-method.js",
       ),
     );
     it(
       "same-line-async-gen-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-private-setter-alt.js",
       ),
     );
     it(
       "same-line-async-gen-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-private-setter.js",
       ),
     );
     it(
       "same-line-async-gen-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-async-gen-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "same-line-async-gen-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "same-line-async-gen-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-privatename-identifier.js",
       ),
     );
     it(
       "same-line-async-gen-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-async-gen-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-async-gen-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-async-gen-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-async-gen-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-async-gen-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-async-gen-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-async-gen-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-async-gen-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "same-line-async-gen-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-async-gen-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "same-line-async-gen-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "same-line-async-gen-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "same-line-async-gen-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "same-line-async-gen-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "same-line-async-gen-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-static-private-fields.js",
       ),
     );
     it(
       "same-line-async-gen-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-static-private-methods-with-fields.js",
       ),
     );
     it(
       "same-line-async-gen-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-static-private-methods.js",
       ),
     );
     it(
       "same-line-async-gen-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-gen-string-literal-names.js",
       ),
     );
     it(
       "same-line-async-method-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-computed-names.js",
       ),
     );
     it(
       "same-line-async-method-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-computed-symbol-names.js",
       ),
     );
     it(
       "same-line-async-method-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "same-line-async-method-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-literal-names-asi.js",
       ),
     );
     it(
       "same-line-async-method-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-literal-names.js",
       ),
     );
     it(
       "same-line-async-method-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-private-field-usage.js",
       ),
     );
     it(
       "same-line-async-method-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-private-method-getter-usage.js",
       ),
     );
     it(
       "same-line-async-method-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-private-method-usage.js",
       ),
     );
     it(
       "same-line-async-method-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-private-names.js",
       ),
     );
     it(
       "same-line-async-method-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "same-line-async-method-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-field-identifier.js",
       ),
     );
     it(
       "same-line-async-method-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-private-getter-alt.js",
       ),
     );
     it(
       "same-line-async-method-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-private-getter.js",
       ),
     );
     it(
       "same-line-async-method-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-private-method-alt.js",
       ),
     );
     it(
       "same-line-async-method-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-private-method.js",
       ),
     );
     it(
       "same-line-async-method-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-private-setter-alt.js",
       ),
     );
     it(
       "same-line-async-method-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-private-setter.js",
       ),
     );
     it(
       "same-line-async-method-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-async-method-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "same-line-async-method-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "same-line-async-method-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-privatename-identifier.js",
       ),
     );
     it(
       "same-line-async-method-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-async-method-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-async-method-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-async-method-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-async-method-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-async-method-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-async-method-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-async-method-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-async-method-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "same-line-async-method-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-async-method-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "same-line-async-method-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "same-line-async-method-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "same-line-async-method-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "same-line-async-method-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "same-line-async-method-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-static-private-fields.js",
       ),
     );
     it(
       "same-line-async-method-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-static-private-methods-with-fields.js",
       ),
     );
     it(
       "same-line-async-method-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-static-private-methods.js",
       ),
     );
     it(
       "same-line-async-method-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-async-method-string-literal-names.js",
       ),
     );
     it(
       "same-line-gen-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/same-line-gen-computed-names.js"),
     );
     it(
       "same-line-gen-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-computed-symbol-names.js",
       ),
     );
     it(
       "same-line-gen-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "same-line-gen-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/same-line-gen-literal-names-asi.js"),
     );
     it(
       "same-line-gen-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/same-line-gen-literal-names.js"),
     );
     it(
       "same-line-gen-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/same-line-gen-private-field-usage.js"),
     );
     it(
       "same-line-gen-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-private-method-getter-usage.js",
       ),
     );
     it(
       "same-line-gen-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-private-method-usage.js",
       ),
     );
     it(
       "same-line-gen-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/same-line-gen-private-names.js"),
     );
     it(
       "same-line-gen-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "same-line-gen-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/same-line-gen-rs-field-identifier.js"),
     );
     it(
       "same-line-gen-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-private-getter-alt.js",
       ),
     );
     it(
       "same-line-gen-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/same-line-gen-rs-private-getter.js"),
     );
     it(
       "same-line-gen-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-private-method-alt.js",
       ),
     );
     it(
       "same-line-gen-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/same-line-gen-rs-private-method.js"),
     );
     it(
       "same-line-gen-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-private-setter-alt.js",
       ),
     );
     it(
       "same-line-gen-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/same-line-gen-rs-private-setter.js"),
     );
     it(
       "same-line-gen-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-gen-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "same-line-gen-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "same-line-gen-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-privatename-identifier.js",
       ),
     );
     it(
       "same-line-gen-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-gen-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-gen-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-gen-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-gen-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-gen-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-gen-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-gen-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-gen-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "same-line-gen-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-gen-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "same-line-gen-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "same-line-gen-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "same-line-gen-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "same-line-gen-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "same-line-gen-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-static-private-fields.js",
       ),
     );
     it(
       "same-line-gen-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-static-private-methods-with-fields.js",
       ),
     );
     it(
       "same-line-gen-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-static-private-methods.js",
       ),
     );
     it(
       "same-line-gen-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-gen-string-literal-names.js",
       ),
     );
     it(
       "same-line-method-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/same-line-method-computed-names.js"),
     );
     it(
       "same-line-method-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-computed-symbol-names.js",
       ),
     );
     it(
       "same-line-method-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "same-line-method-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-literal-names-asi.js",
       ),
     );
     it(
       "same-line-method-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/same-line-method-literal-names.js"),
     );
     it(
       "same-line-method-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-private-field-usage.js",
       ),
     );
     it(
       "same-line-method-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-private-method-getter-usage.js",
       ),
     );
     it(
       "same-line-method-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-private-method-usage.js",
       ),
     );
     it(
       "same-line-method-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/same-line-method-private-names.js"),
     );
     it(
       "same-line-method-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "same-line-method-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-field-identifier.js",
       ),
     );
     it(
       "same-line-method-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-private-getter-alt.js",
       ),
     );
     it(
       "same-line-method-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-private-getter.js",
       ),
     );
     it(
       "same-line-method-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-private-method-alt.js",
       ),
     );
     it(
       "same-line-method-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-private-method.js",
       ),
     );
     it(
       "same-line-method-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-private-setter-alt.js",
       ),
     );
     it(
       "same-line-method-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-private-setter.js",
       ),
     );
     it(
       "same-line-method-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-method-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "same-line-method-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "same-line-method-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-privatename-identifier.js",
       ),
     );
     it(
       "same-line-method-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-method-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-method-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-method-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-method-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-method-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-method-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-method-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "same-line-method-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "same-line-method-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "same-line-method-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "same-line-method-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "same-line-method-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "same-line-method-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "same-line-method-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "same-line-method-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-static-private-fields.js",
       ),
     );
     it(
       "same-line-method-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-static-private-methods-with-fields.js",
       ),
     );
     it(
       "same-line-method-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-static-private-methods.js",
       ),
     );
     it(
       "same-line-method-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/same-line-method-string-literal-names.js",
       ),
     );
     it(
       "static-as-valid-instance-field-assigned.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/static-as-valid-instance-field-assigned.js",
       ),
     );
     it(
       "static-as-valid-instance-field.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/static-as-valid-instance-field.js"),
     );
     it(
       "static-as-valid-static-field-assigned.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/static-as-valid-static-field-assigned.js",
       ),
     );
     it(
       "static-as-valid-static-field.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/static-as-valid-static-field.js"),
     );
     it(
@@ -23286,7 +23286,7 @@ describe("class", () => {
     );
     it(
       "static-field-anonymous-function-length.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/static-field-anonymous-function-length.js",
       ),
@@ -23300,24 +23300,24 @@ describe("class", () => {
     );
     it(
       "static-field-declaration.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/static-field-declaration.js"),
     );
     it(
       "static-field-init-this-inside-arrow-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/static-field-init-this-inside-arrow-function.js",
       ),
     );
     it(
       "static-field-init-with-this.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/static-field-init-with-this.js"),
     );
     it(
       "static-field-redeclaration.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/static-field-redeclaration.js"),
     );
     it(
@@ -23343,28 +23343,28 @@ describe("class", () => {
     );
     it(
       "static-private-getter-access-on-inner-arrow-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/static-private-getter-access-on-inner-arrow-function.js",
       ),
     );
     it(
       "static-private-getter-access-on-inner-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/static-private-getter-access-on-inner-class.js",
       ),
     );
     it(
       "static-private-getter-access-on-inner-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/static-private-getter-access-on-inner-function.js",
       ),
     );
     it(
       "static-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/static-private-getter.js"),
     );
     it(
@@ -23383,35 +23383,35 @@ describe("class", () => {
     );
     it(
       "static-private-method-access-on-inner-arrow-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/static-private-method-access-on-inner-arrow-function.js",
       ),
     );
     it(
       "static-private-method-access-on-inner-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/static-private-method-access-on-inner-function.js",
       ),
     );
     it(
       "static-private-method-and-instance-method-brand-check.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/static-private-method-and-instance-method-brand-check.js",
       ),
     );
     it(
       "static-private-method-referenced-from-instance-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/static-private-method-referenced-from-instance-method.js",
       ),
     );
     it(
       "static-private-method-subclass-receiver.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/static-private-method-subclass-receiver.js",
       ),
@@ -23425,28 +23425,28 @@ describe("class", () => {
     );
     it(
       "static-private-setter-access-on-inner-arrow-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/static-private-setter-access-on-inner-arrow-function.js",
       ),
     );
     it(
       "static-private-setter-access-on-inner-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/static-private-setter-access-on-inner-class.js",
       ),
     );
     it(
       "static-private-setter-access-on-inner-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/static-private-setter-access-on-inner-function.js",
       ),
     );
     it(
       "static-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/static-private-setter.js"),
     );
     it(
@@ -23479,7 +23479,7 @@ describe("class", () => {
     );
     it(
       "super-access-from-arrow-func-on-field.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/super-access-from-arrow-func-on-field.js",
       ),
@@ -25048,7 +25048,7 @@ describe("class", () => {
       describe("valid", () => {
         it(
           "grammar-class-body-ctor-no-heritage.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-class-body-ctor-no-heritage.js",
           ),
@@ -25062,182 +25062,182 @@ describe("class", () => {
         );
         it(
           "grammar-field-classelementname-initializer-alt.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-field-classelementname-initializer-alt.js",
           ),
         );
         it(
           "grammar-field-classelementname-initializer.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-field-classelementname-initializer.js",
           ),
         );
         it(
           "grammar-field-identifier-alt.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-field-identifier-alt.js",
           ),
         );
         it(
           "grammar-field-identifier.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-field-identifier.js",
           ),
         );
         it(
           "grammar-fields-multi-line.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-fields-multi-line.js",
           ),
         );
         it(
           "grammar-privatemeth-duplicate-get-set.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-privatemeth-duplicate-get-set.js",
           ),
         );
         it(
           "grammar-privatemeth-duplicate-meth-nestedclassmeth.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-privatemeth-duplicate-meth-nestedclassmeth.js",
           ),
         );
         it(
           "grammar-privatename-classelementname-initializer-alt.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-privatename-classelementname-initializer-alt.js",
           ),
         );
         it(
           "grammar-privatename-classelementname-initializer.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-privatename-classelementname-initializer.js",
           ),
         );
         it(
           "grammar-privatename-identifier.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-privatename-identifier.js",
           ),
         );
         it(
           "grammar-privatename-no-initializer-with-method.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-privatename-no-initializer-with-method.js",
           ),
         );
         it(
           "grammar-privatenames-multi-line.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-privatenames-multi-line.js",
           ),
         );
         it(
           "grammar-special-prototype-accessor-meth-valid.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-special-prototype-accessor-meth-valid.js",
           ),
         );
         it(
           "grammar-special-prototype-async-gen-meth-valid.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-special-prototype-async-gen-meth-valid.js",
           ),
         );
         it(
           "grammar-special-prototype-async-meth-valid.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-special-prototype-async-meth-valid.js",
           ),
         );
         it(
           "grammar-special-prototype-gen-meth-valid.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-special-prototype-gen-meth-valid.js",
           ),
         );
         it(
           "grammar-special-prototype-meth-valid.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-special-prototype-meth-valid.js",
           ),
         );
         it(
           "grammar-static-ctor-accessor-meth-valid.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-static-ctor-accessor-meth-valid.js",
           ),
         );
         it(
           "grammar-static-ctor-async-gen-meth-valid.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-static-ctor-async-gen-meth-valid.js",
           ),
         );
         it(
           "grammar-static-ctor-async-meth-valid.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-static-ctor-async-meth-valid.js",
           ),
         );
         it(
           "grammar-static-ctor-gen-meth-valid.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-static-ctor-gen-meth-valid.js",
           ),
         );
         it(
           "grammar-static-ctor-meth-valid.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-static-ctor-meth-valid.js",
           ),
         );
         it(
           "grammar-static-private-async-gen-meth-prototype.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-static-private-async-gen-meth-prototype.js",
           ),
         );
         it(
           "grammar-static-private-async-meth-prototype.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-static-private-async-meth-prototype.js",
           ),
         );
         it(
           "grammar-static-private-gen-meth-prototype.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-static-private-gen-meth-prototype.js",
           ),
         );
         it(
           "grammar-static-private-meth-prototype.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/elements/syntax/valid/grammar-static-private-meth-prototype.js",
           ),
@@ -25270,262 +25270,262 @@ describe("class", () => {
     );
     it(
       "wrapped-in-sc-computed-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/wrapped-in-sc-computed-names.js"),
     );
     it(
       "wrapped-in-sc-computed-symbol-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-computed-symbol-names.js",
       ),
     );
     it(
       "wrapped-in-sc-grammar-privatename-identifier-semantics-stringvalue.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-grammar-privatename-identifier-semantics-stringvalue.js",
       ),
     );
     it(
       "wrapped-in-sc-literal-names-asi.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/wrapped-in-sc-literal-names-asi.js"),
     );
     it(
       "wrapped-in-sc-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/wrapped-in-sc-literal-names.js"),
     );
     it(
       "wrapped-in-sc-private-field-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/wrapped-in-sc-private-field-usage.js"),
     );
     it(
       "wrapped-in-sc-private-method-getter-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-private-method-getter-usage.js",
       ),
     );
     it(
       "wrapped-in-sc-private-method-usage.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-private-method-usage.js",
       ),
     );
     it(
       "wrapped-in-sc-private-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/wrapped-in-sc-private-names.js"),
     );
     it(
       "wrapped-in-sc-rs-field-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-field-identifier-initializer.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-field-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/wrapped-in-sc-rs-field-identifier.js"),
     );
     it(
       "wrapped-in-sc-rs-private-getter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-private-getter-alt.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-private-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/wrapped-in-sc-rs-private-getter.js"),
     );
     it(
       "wrapped-in-sc-rs-private-method-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-private-method-alt.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/wrapped-in-sc-rs-private-method.js"),
     );
     it(
       "wrapped-in-sc-rs-private-setter-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-private-setter-alt.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-private-setter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/elements/wrapped-in-sc-rs-private-setter.js"),
     );
     it(
       "wrapped-in-sc-rs-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-privatename-identifier-alt.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-privatename-identifier-initializer.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-privatename-identifier.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-static-async-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-static-async-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-static-async-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-static-async-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-static-async-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-static-async-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-static-async-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-static-async-method-privatename-identifier.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-static-generator-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-static-generator-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-static-generator-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-static-generator-method-privatename-identifier.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-static-method-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-static-method-privatename-identifier-alt.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-static-method-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-static-method-privatename-identifier.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-static-privatename-identifier-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-static-privatename-identifier-alt-by-classname.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-static-privatename-identifier-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-static-privatename-identifier-alt.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-static-privatename-identifier-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-static-privatename-identifier-by-classname.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-static-privatename-identifier-initializer-alt-by-classname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-static-privatename-identifier-initializer-alt-by-classname.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-static-privatename-identifier-initializer-alt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-static-privatename-identifier-initializer-alt.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-static-privatename-identifier-initializer.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-static-privatename-identifier-initializer.js",
       ),
     );
     it(
       "wrapped-in-sc-rs-static-privatename-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-rs-static-privatename-identifier.js",
       ),
     );
     it(
       "wrapped-in-sc-static-private-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-static-private-fields.js",
       ),
     );
     it(
       "wrapped-in-sc-static-private-methods-with-fields.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-static-private-methods-with-fields.js",
       ),
     );
     it(
       "wrapped-in-sc-static-private-methods.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-static-private-methods.js",
       ),
     );
     it(
       "wrapped-in-sc-string-literal-names.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/wrapped-in-sc-string-literal-names.js",
       ),
@@ -25541,19 +25541,19 @@ describe("class", () => {
     );
     it(
       "dflt-params-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method/dflt-params-abrupt.js"),
     );
     it(
       "dflt-params-arg-val-not-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/gen-method/dflt-params-arg-val-not-undefined.js",
       ),
     );
     it(
       "dflt-params-arg-val-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method/dflt-params-arg-val-undefined.js"),
     );
     it(
@@ -25563,17 +25563,17 @@ describe("class", () => {
     );
     it(
       "dflt-params-ref-later.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method/dflt-params-ref-later.js"),
     );
     it(
       "dflt-params-ref-prior.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method/dflt-params-ref-prior.js"),
     );
     it(
       "dflt-params-ref-self.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method/dflt-params-ref-self.js"),
     );
     it(
@@ -25583,21 +25583,21 @@ describe("class", () => {
     );
     it(
       "dflt-params-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method/dflt-params-trailing-comma.js"),
     );
     describe("forbidden-ext", () => {
       describe("b1", () => {
         it(
           "cls-expr-gen-meth-forbidden-ext-direct-access-prop-arguments.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/gen-method/forbidden-ext/b1/cls-expr-gen-meth-forbidden-ext-direct-access-prop-arguments.js",
           ),
         );
         it(
           "cls-expr-gen-meth-forbidden-ext-direct-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/gen-method/forbidden-ext/b1/cls-expr-gen-meth-forbidden-ext-direct-access-prop-caller.js",
           ),
@@ -25606,21 +25606,21 @@ describe("class", () => {
       describe("b2", () => {
         it(
           "cls-expr-gen-meth-forbidden-ext-indirect-access-own-prop-caller-get.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/gen-method/forbidden-ext/b2/cls-expr-gen-meth-forbidden-ext-indirect-access-own-prop-caller-get.js",
           ),
         );
         it(
           "cls-expr-gen-meth-forbidden-ext-indirect-access-own-prop-caller-value.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/gen-method/forbidden-ext/b2/cls-expr-gen-meth-forbidden-ext-indirect-access-own-prop-caller-value.js",
           ),
         );
         it(
           "cls-expr-gen-meth-forbidden-ext-indirect-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/gen-method/forbidden-ext/b2/cls-expr-gen-meth-forbidden-ext-indirect-access-prop-caller.js",
           ),
@@ -25636,12 +25636,12 @@ describe("class", () => {
     );
     it(
       "params-trailing-comma-multiple.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method/params-trailing-comma-multiple.js"),
     );
     it(
       "params-trailing-comma-single.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method/params-trailing-comma-single.js"),
     );
     it(
@@ -25704,23 +25704,23 @@ describe("class", () => {
     );
     it(
       "yield-spread-arr-multiple.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method/yield-spread-arr-multiple.js"),
     );
     it(
       "yield-spread-arr-single.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method/yield-spread-arr-single.js"),
     );
     it(
       "yield-spread-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method/yield-spread-obj.js"),
     );
   });
   it(
     "gen-method-length-dflt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/gen-method-length-dflt.js"),
   );
   it(
@@ -25738,19 +25738,19 @@ describe("class", () => {
     );
     it(
       "dflt-params-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method-static/dflt-params-abrupt.js"),
     );
     it(
       "dflt-params-arg-val-not-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/gen-method-static/dflt-params-arg-val-not-undefined.js",
       ),
     );
     it(
       "dflt-params-arg-val-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/gen-method-static/dflt-params-arg-val-undefined.js",
       ),
@@ -25762,17 +25762,17 @@ describe("class", () => {
     );
     it(
       "dflt-params-ref-later.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method-static/dflt-params-ref-later.js"),
     );
     it(
       "dflt-params-ref-prior.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method-static/dflt-params-ref-prior.js"),
     );
     it(
       "dflt-params-ref-self.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method-static/dflt-params-ref-self.js"),
     );
     it(
@@ -25782,7 +25782,7 @@ describe("class", () => {
     );
     it(
       "dflt-params-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/gen-method-static/dflt-params-trailing-comma.js",
       ),
@@ -25791,14 +25791,14 @@ describe("class", () => {
       describe("b1", () => {
         it(
           "cls-expr-gen-meth-static-forbidden-ext-direct-access-prop-arguments.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/gen-method-static/forbidden-ext/b1/cls-expr-gen-meth-static-forbidden-ext-direct-access-prop-arguments.js",
           ),
         );
         it(
           "cls-expr-gen-meth-static-forbidden-ext-direct-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/gen-method-static/forbidden-ext/b1/cls-expr-gen-meth-static-forbidden-ext-direct-access-prop-caller.js",
           ),
@@ -25807,21 +25807,21 @@ describe("class", () => {
       describe("b2", () => {
         it(
           "cls-expr-gen-meth-static-forbidden-ext-indirect-access-own-prop-caller-get.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/gen-method-static/forbidden-ext/b2/cls-expr-gen-meth-static-forbidden-ext-indirect-access-own-prop-caller-get.js",
           ),
         );
         it(
           "cls-expr-gen-meth-static-forbidden-ext-indirect-access-own-prop-caller-value.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/gen-method-static/forbidden-ext/b2/cls-expr-gen-meth-static-forbidden-ext-indirect-access-own-prop-caller-value.js",
           ),
         );
         it(
           "cls-expr-gen-meth-static-forbidden-ext-indirect-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/gen-method-static/forbidden-ext/b2/cls-expr-gen-meth-static-forbidden-ext-indirect-access-prop-caller.js",
           ),
@@ -25837,14 +25837,14 @@ describe("class", () => {
     );
     it(
       "params-trailing-comma-multiple.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/gen-method-static/params-trailing-comma-multiple.js",
       ),
     );
     it(
       "params-trailing-comma-single.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/gen-method-static/params-trailing-comma-single.js",
       ),
@@ -25917,19 +25917,19 @@ describe("class", () => {
     );
     it(
       "yield-spread-arr-multiple.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/gen-method-static/yield-spread-arr-multiple.js",
       ),
     );
     it(
       "yield-spread-arr-single.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method-static/yield-spread-arr-single.js"),
     );
     it(
       "yield-spread-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/gen-method-static/yield-spread-obj.js"),
     );
   });
@@ -25940,237 +25940,237 @@ describe("class", () => {
   );
   it(
     "heritage-arrow-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/heritage-arrow-function.js"),
   );
   it(
     "heritage-async-arrow-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/heritage-async-arrow-function.js"),
   );
   it(
     "ident-name-method-def-break-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-break-escaped.js"),
   );
   it(
     "ident-name-method-def-case-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-case-escaped.js"),
   );
   it(
     "ident-name-method-def-catch-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-catch-escaped.js"),
   );
   it(
     "ident-name-method-def-class-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-class-escaped.js"),
   );
   it(
     "ident-name-method-def-const-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-const-escaped.js"),
   );
   it(
     "ident-name-method-def-continue-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-continue-escaped.js"),
   );
   it(
     "ident-name-method-def-debugger-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-debugger-escaped.js"),
   );
   it(
     "ident-name-method-def-default-escaped-ext.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-default-escaped-ext.js"),
   );
   it(
     "ident-name-method-def-default-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-default-escaped.js"),
   );
   it(
     "ident-name-method-def-default.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-default.js"),
   );
   it(
     "ident-name-method-def-delete-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-delete-escaped.js"),
   );
   it(
     "ident-name-method-def-do-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-do-escaped.js"),
   );
   it(
     "ident-name-method-def-else-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-else-escaped.js"),
   );
   it(
     "ident-name-method-def-enum-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-enum-escaped.js"),
   );
   it(
     "ident-name-method-def-export-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-export-escaped.js"),
   );
   it(
     "ident-name-method-def-extends-escaped-ext.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-extends-escaped-ext.js"),
   );
   it(
     "ident-name-method-def-extends-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-extends-escaped.js"),
   );
   it(
     "ident-name-method-def-extends.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-extends.js"),
   );
   it(
     "ident-name-method-def-finally-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-finally-escaped.js"),
   );
   it(
     "ident-name-method-def-for-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-for-escaped.js"),
   );
   it(
     "ident-name-method-def-function-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-function-escaped.js"),
   );
   it(
     "ident-name-method-def-if-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-if-escaped.js"),
   );
   it(
     "ident-name-method-def-implements-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-implements-escaped.js"),
   );
   it(
     "ident-name-method-def-import-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-import-escaped.js"),
   );
   it(
     "ident-name-method-def-in-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-in-escaped.js"),
   );
   it(
     "ident-name-method-def-instanceof-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-instanceof-escaped.js"),
   );
   it(
     "ident-name-method-def-interface-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-interface-escaped.js"),
   );
   it(
     "ident-name-method-def-let-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-let-escaped.js"),
   );
   it(
     "ident-name-method-def-new-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-new-escaped.js"),
   );
   it(
     "ident-name-method-def-package-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-package-escaped.js"),
   );
   it(
     "ident-name-method-def-private-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-private-escaped.js"),
   );
   it(
     "ident-name-method-def-protected-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-protected-escaped.js"),
   );
   it(
     "ident-name-method-def-public-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-public-escaped.js"),
   );
   it(
     "ident-name-method-def-return-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-return-escaped.js"),
   );
   it(
     "ident-name-method-def-static-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-static-escaped.js"),
   );
   it(
     "ident-name-method-def-super-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-super-escaped.js"),
   );
   it(
     "ident-name-method-def-switch-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-switch-escaped.js"),
   );
   it(
     "ident-name-method-def-this-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-this-escaped.js"),
   );
   it(
     "ident-name-method-def-throw-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-throw-escaped.js"),
   );
   it(
     "ident-name-method-def-try-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-try-escaped.js"),
   );
   it(
     "ident-name-method-def-typeof-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-typeof-escaped.js"),
   );
   it(
     "ident-name-method-def-var-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-var-escaped.js"),
   );
   it(
     "ident-name-method-def-void-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-void-escaped.js"),
   );
   it(
     "ident-name-method-def-while-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-while-escaped.js"),
   );
   it(
     "ident-name-method-def-with-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/ident-name-method-def-with-escaped.js"),
   );
   describe("method", () => {
@@ -26183,17 +26183,17 @@ describe("class", () => {
     );
     it(
       "dflt-params-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/method/dflt-params-abrupt.js"),
     );
     it(
       "dflt-params-arg-val-not-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/method/dflt-params-arg-val-not-undefined.js"),
     );
     it(
       "dflt-params-arg-val-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/method/dflt-params-arg-val-undefined.js"),
     );
     it(
@@ -26203,17 +26203,17 @@ describe("class", () => {
     );
     it(
       "dflt-params-ref-later.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/method/dflt-params-ref-later.js"),
     );
     it(
       "dflt-params-ref-prior.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/method/dflt-params-ref-prior.js"),
     );
     it(
       "dflt-params-ref-self.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/method/dflt-params-ref-self.js"),
     );
     it(
@@ -26223,21 +26223,21 @@ describe("class", () => {
     );
     it(
       "dflt-params-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/method/dflt-params-trailing-comma.js"),
     );
     describe("forbidden-ext", () => {
       describe("b1", () => {
         it(
           "cls-expr-meth-forbidden-ext-direct-access-prop-arguments.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/method/forbidden-ext/b1/cls-expr-meth-forbidden-ext-direct-access-prop-arguments.js",
           ),
         );
         it(
           "cls-expr-meth-forbidden-ext-direct-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/method/forbidden-ext/b1/cls-expr-meth-forbidden-ext-direct-access-prop-caller.js",
           ),
@@ -26246,21 +26246,21 @@ describe("class", () => {
       describe("b2", () => {
         it(
           "cls-expr-meth-forbidden-ext-indirect-access-own-prop-caller-get.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/method/forbidden-ext/b2/cls-expr-meth-forbidden-ext-indirect-access-own-prop-caller-get.js",
           ),
         );
         it(
           "cls-expr-meth-forbidden-ext-indirect-access-own-prop-caller-value.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/method/forbidden-ext/b2/cls-expr-meth-forbidden-ext-indirect-access-own-prop-caller-value.js",
           ),
         );
         it(
           "cls-expr-meth-forbidden-ext-indirect-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/method/forbidden-ext/b2/cls-expr-meth-forbidden-ext-indirect-access-prop-caller.js",
           ),
@@ -26276,12 +26276,12 @@ describe("class", () => {
     );
     it(
       "params-trailing-comma-multiple.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/method/params-trailing-comma-multiple.js"),
     );
     it(
       "params-trailing-comma-single.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/method/params-trailing-comma-single.js"),
     );
     it(
@@ -26299,7 +26299,7 @@ describe("class", () => {
   });
   it(
     "method-length-dflt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/method-length-dflt.js"),
   );
   it(
@@ -26317,19 +26317,19 @@ describe("class", () => {
     );
     it(
       "dflt-params-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/method-static/dflt-params-abrupt.js"),
     );
     it(
       "dflt-params-arg-val-not-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/method-static/dflt-params-arg-val-not-undefined.js",
       ),
     );
     it(
       "dflt-params-arg-val-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/method-static/dflt-params-arg-val-undefined.js",
       ),
@@ -26341,17 +26341,17 @@ describe("class", () => {
     );
     it(
       "dflt-params-ref-later.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/method-static/dflt-params-ref-later.js"),
     );
     it(
       "dflt-params-ref-prior.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/method-static/dflt-params-ref-prior.js"),
     );
     it(
       "dflt-params-ref-self.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/method-static/dflt-params-ref-self.js"),
     );
     it(
@@ -26361,21 +26361,21 @@ describe("class", () => {
     );
     it(
       "dflt-params-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/method-static/dflt-params-trailing-comma.js"),
     );
     describe("forbidden-ext", () => {
       describe("b1", () => {
         it(
           "cls-expr-meth-static-forbidden-ext-direct-access-prop-arguments.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/method-static/forbidden-ext/b1/cls-expr-meth-static-forbidden-ext-direct-access-prop-arguments.js",
           ),
         );
         it(
           "cls-expr-meth-static-forbidden-ext-direct-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/method-static/forbidden-ext/b1/cls-expr-meth-static-forbidden-ext-direct-access-prop-caller.js",
           ),
@@ -26384,21 +26384,21 @@ describe("class", () => {
       describe("b2", () => {
         it(
           "cls-expr-meth-static-forbidden-ext-indirect-access-own-prop-caller-get.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/method-static/forbidden-ext/b2/cls-expr-meth-static-forbidden-ext-indirect-access-own-prop-caller-get.js",
           ),
         );
         it(
           "cls-expr-meth-static-forbidden-ext-indirect-access-own-prop-caller-value.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/method-static/forbidden-ext/b2/cls-expr-meth-static-forbidden-ext-indirect-access-own-prop-caller-value.js",
           ),
         );
         it(
           "cls-expr-meth-static-forbidden-ext-indirect-access-prop-caller.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler(
             "language/expressions/class/method-static/forbidden-ext/b2/cls-expr-meth-static-forbidden-ext-indirect-access-prop-caller.js",
           ),
@@ -26414,14 +26414,14 @@ describe("class", () => {
     );
     it(
       "params-trailing-comma-multiple.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/method-static/params-trailing-comma-multiple.js",
       ),
     );
     it(
       "params-trailing-comma-single.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/method-static/params-trailing-comma-single.js"),
     );
     it(
@@ -26439,78 +26439,78 @@ describe("class", () => {
   });
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/name.js"),
   );
   it(
     "params-dflt-gen-meth-args-unmapped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/params-dflt-gen-meth-args-unmapped.js"),
   );
   it(
     "params-dflt-gen-meth-ref-arguments.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/params-dflt-gen-meth-ref-arguments.js"),
   );
   it(
     "params-dflt-gen-meth-static-args-unmapped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/params-dflt-gen-meth-static-args-unmapped.js"),
   );
   it(
     "params-dflt-gen-meth-static-ref-arguments.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/params-dflt-gen-meth-static-ref-arguments.js"),
   );
   it(
     "params-dflt-meth-args-unmapped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/params-dflt-meth-args-unmapped.js"),
   );
   it(
     "params-dflt-meth-ref-arguments.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/params-dflt-meth-ref-arguments.js"),
   );
   it(
     "params-dflt-meth-static-args-unmapped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/params-dflt-meth-static-args-unmapped.js"),
   );
   it(
     "params-dflt-meth-static-ref-arguments.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/params-dflt-meth-static-ref-arguments.js"),
   );
   it(
     "poisoned-underscore-proto.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/poisoned-underscore-proto.js"),
   );
   it(
     "private-getter-brand-check-multiple-evaluations-of-class-eval-indirect.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-getter-brand-check-multiple-evaluations-of-class-eval-indirect.js",
     ),
   );
   it(
     "private-getter-brand-check-multiple-evaluations-of-class-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-getter-brand-check-multiple-evaluations-of-class-eval.js",
     ),
   );
   it(
     "private-getter-brand-check-multiple-evaluations-of-class-factory.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-getter-brand-check-multiple-evaluations-of-class-factory.js",
     ),
   );
   it(
     "private-getter-brand-check-multiple-evaluations-of-class-function-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-getter-brand-check-multiple-evaluations-of-class-function-ctor.js",
     ),
@@ -26531,28 +26531,28 @@ describe("class", () => {
   );
   it(
     "private-method-brand-check-multiple-evaluations-of-class-eval-indirect.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-method-brand-check-multiple-evaluations-of-class-eval-indirect.js",
     ),
   );
   it(
     "private-method-brand-check-multiple-evaluations-of-class-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-method-brand-check-multiple-evaluations-of-class-eval.js",
     ),
   );
   it(
     "private-method-brand-check-multiple-evaluations-of-class-factory.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-method-brand-check-multiple-evaluations-of-class-factory.js",
     ),
   );
   it(
     "private-method-brand-check-multiple-evaluations-of-class-function-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-method-brand-check-multiple-evaluations-of-class-function-ctor.js",
     ),
@@ -26573,28 +26573,28 @@ describe("class", () => {
   );
   it(
     "private-setter-brand-check-multiple-evaluations-of-class-eval-indirect.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-setter-brand-check-multiple-evaluations-of-class-eval-indirect.js",
     ),
   );
   it(
     "private-setter-brand-check-multiple-evaluations-of-class-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-setter-brand-check-multiple-evaluations-of-class-eval.js",
     ),
   );
   it(
     "private-setter-brand-check-multiple-evaluations-of-class-factory.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-setter-brand-check-multiple-evaluations-of-class-factory.js",
     ),
   );
   it(
     "private-setter-brand-check-multiple-evaluations-of-class-function-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-setter-brand-check-multiple-evaluations-of-class-function-ctor.js",
     ),
@@ -26615,28 +26615,28 @@ describe("class", () => {
   );
   it(
     "private-static-field-multiple-evaluations-of-class-direct-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-field-multiple-evaluations-of-class-direct-eval.js",
     ),
   );
   it(
     "private-static-field-multiple-evaluations-of-class-eval-indirect.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-field-multiple-evaluations-of-class-eval-indirect.js",
     ),
   );
   it(
     "private-static-field-multiple-evaluations-of-class-factory.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-field-multiple-evaluations-of-class-factory.js",
     ),
   );
   it(
     "private-static-field-multiple-evaluations-of-class-function-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-field-multiple-evaluations-of-class-function-ctor.js",
     ),
@@ -26650,28 +26650,28 @@ describe("class", () => {
   );
   it(
     "private-static-getter-multiple-evaluations-of-class-direct-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-getter-multiple-evaluations-of-class-direct-eval.js",
     ),
   );
   it(
     "private-static-getter-multiple-evaluations-of-class-eval-indirect.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-getter-multiple-evaluations-of-class-eval-indirect.js",
     ),
   );
   it(
     "private-static-getter-multiple-evaluations-of-class-factory.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-getter-multiple-evaluations-of-class-factory.js",
     ),
   );
   it(
     "private-static-getter-multiple-evaluations-of-class-function-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-getter-multiple-evaluations-of-class-function-ctor.js",
     ),
@@ -26685,28 +26685,28 @@ describe("class", () => {
   );
   it(
     "private-static-method-brand-check-multiple-evaluations-of-class-direct-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-method-brand-check-multiple-evaluations-of-class-direct-eval.js",
     ),
   );
   it(
     "private-static-method-brand-check-multiple-evaluations-of-class-eval-indirect.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-method-brand-check-multiple-evaluations-of-class-eval-indirect.js",
     ),
   );
   it(
     "private-static-method-brand-check-multiple-evaluations-of-class-factory.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-method-brand-check-multiple-evaluations-of-class-factory.js",
     ),
   );
   it(
     "private-static-method-brand-check-multiple-evaluations-of-class-function-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-method-brand-check-multiple-evaluations-of-class-function-ctor.js",
     ),
@@ -26720,28 +26720,28 @@ describe("class", () => {
   );
   it(
     "private-static-setter-multiple-evaluations-of-class-direct-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-setter-multiple-evaluations-of-class-direct-eval.js",
     ),
   );
   it(
     "private-static-setter-multiple-evaluations-of-class-eval-indirect.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-setter-multiple-evaluations-of-class-eval-indirect.js",
     ),
   );
   it(
     "private-static-setter-multiple-evaluations-of-class-factory.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-setter-multiple-evaluations-of-class-factory.js",
     ),
   );
   it(
     "private-static-setter-multiple-evaluations-of-class-function-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/private-static-setter-multiple-evaluations-of-class-function-ctor.js",
     ),
@@ -26755,87 +26755,87 @@ describe("class", () => {
   );
   it(
     "restricted-properties.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/restricted-properties.js"),
   );
   it(
     "scope-gen-meth-paramsbody-var-close.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/scope-gen-meth-paramsbody-var-close.js"),
   );
   it(
     "scope-gen-meth-paramsbody-var-open.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/scope-gen-meth-paramsbody-var-open.js"),
   );
   it(
     "scope-meth-paramsbody-var-close.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/scope-meth-paramsbody-var-close.js"),
   );
   it(
     "scope-meth-paramsbody-var-open.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/scope-meth-paramsbody-var-open.js"),
   );
   it(
     "scope-name-lex-close.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/scope-name-lex-close.js"),
   );
   it(
     "scope-name-lex-open-heritage.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/scope-name-lex-open-heritage.js"),
   );
   it(
     "scope-name-lex-open-no-heritage.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/scope-name-lex-open-no-heritage.js"),
   );
   it(
     "scope-setter-paramsbody-var-close.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/scope-setter-paramsbody-var-close.js"),
   );
   it(
     "scope-setter-paramsbody-var-open.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/scope-setter-paramsbody-var-open.js"),
   );
   it(
     "scope-static-gen-meth-paramsbody-var-close.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/scope-static-gen-meth-paramsbody-var-close.js"),
   );
   it(
     "scope-static-gen-meth-paramsbody-var-open.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/scope-static-gen-meth-paramsbody-var-open.js"),
   );
   it(
     "scope-static-meth-paramsbody-var-close.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/scope-static-meth-paramsbody-var-close.js"),
   );
   it(
     "scope-static-meth-paramsbody-var-open.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/scope-static-meth-paramsbody-var-open.js"),
   );
   it(
     "scope-static-setter-paramsbody-var-close.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/scope-static-setter-paramsbody-var-close.js"),
   );
   it(
     "scope-static-setter-paramsbody-var-open.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/scope-static-setter-paramsbody-var-open.js"),
   );
   it(
     "setter-length-dflt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/setter-length-dflt.js"),
   );
   it(
@@ -26850,12 +26850,12 @@ describe("class", () => {
   );
   it(
     "static-init-await-reference.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/static-init-await-reference.js"),
   );
   it(
     "static-method-length-dflt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/static-method-length-dflt.js"),
   );
   it(

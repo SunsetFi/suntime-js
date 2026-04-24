@@ -30,7 +30,7 @@ describe("return", () => {
   );
   it(
     "iterator-result.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncFromSyncIteratorPrototype/return/iterator-result.js"),
   );
   it(
@@ -55,7 +55,7 @@ describe("return", () => {
   );
   it(
     "return-undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncFromSyncIteratorPrototype/return/return-undefined.js"),
   );
 });

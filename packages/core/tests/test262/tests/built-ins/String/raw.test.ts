@@ -6,7 +6,7 @@ describe("raw", () => {
   it("name.js", { tags: ["known-failing"] }, createTestHandler("built-ins/String/raw/name.js"));
   it(
     "nextkey-is-symbol-throws.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/raw/nextkey-is-symbol-throws.js"),
   );
   it(
@@ -86,7 +86,7 @@ describe("raw", () => {
   );
   it(
     "returns-abrupt-from-substitution-symbol.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/raw/returns-abrupt-from-substitution-symbol.js"),
   );
   it(
@@ -111,7 +111,7 @@ describe("raw", () => {
   );
   it(
     "template-length-is-symbol-throws.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/raw/template-length-is-symbol-throws.js"),
   );
   it(
@@ -121,12 +121,12 @@ describe("raw", () => {
   );
   it(
     "template-not-object-throws.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/raw/template-not-object-throws.js"),
   );
   it(
     "template-raw-not-object-throws.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/raw/template-raw-not-object-throws.js"),
   );
   it(

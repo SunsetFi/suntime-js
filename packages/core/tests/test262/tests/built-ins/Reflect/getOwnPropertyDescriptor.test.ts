@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("getOwnPropertyDescriptor", () => {
   it(
     "getOwnPropertyDescriptor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/getOwnPropertyDescriptor.js"),
   );
   it(
@@ -14,24 +14,24 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/name.js"),
   );
   it(
     "not-a-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/not-a-constructor.js"),
   );
   it(
     "return-abrupt-from-property-key.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Reflect/getOwnPropertyDescriptor/return-abrupt-from-property-key.js",
     ),
   );
   it(
     "return-abrupt-from-result.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/return-abrupt-from-result.js"),
   );
   it(
@@ -53,22 +53,22 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "target-is-not-object-throws.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/target-is-not-object-throws.js"),
   );
   it(
     "target-is-symbol-throws.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/target-is-symbol-throws.js"),
   );
   it(
     "undefined-own-property.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/undefined-own-property.js"),
   );
   it(
     "undefined-property.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/undefined-property.js"),
   );
 });

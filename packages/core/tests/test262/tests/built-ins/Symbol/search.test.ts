@@ -9,7 +9,7 @@ describe("search", () => {
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Symbol/search/prop-desc.js"),
   );
 });

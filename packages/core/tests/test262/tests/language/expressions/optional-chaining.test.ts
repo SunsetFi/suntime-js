@@ -70,12 +70,12 @@ describe("optional-chaining", () => {
   );
   it(
     "eval-optional-call.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/eval-optional-call.js"),
   );
   it(
     "iteration-statement-do.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/iteration-statement-do.js"),
   );
   it(
@@ -129,7 +129,7 @@ describe("optional-chaining", () => {
   );
   it(
     "new-target-optional-call.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/new-target-optional-call.js"),
   );
   it(
@@ -160,7 +160,7 @@ describe("optional-chaining", () => {
   );
   it(
     "optional-chain-prod-arguments.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/optional-chain-prod-arguments.js"),
   );
   it(
@@ -187,7 +187,7 @@ describe("optional-chaining", () => {
   );
   it(
     "punctuator-decimal-lookahead.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/punctuator-decimal-lookahead.js"),
   );
   it(
@@ -209,7 +209,7 @@ describe("optional-chaining", () => {
   );
   it(
     "super-property-optional-call.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/super-property-optional-call.js"),
   );
   it(

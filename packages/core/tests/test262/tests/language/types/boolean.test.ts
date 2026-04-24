@@ -4,12 +4,12 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("boolean", () => {
   it(
     "S8.3_A1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/boolean/S8.3_A1_T1.js"),
   );
   it(
     "S8.3_A1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/boolean/S8.3_A1_T2.js"),
   );
   it(
@@ -24,7 +24,7 @@ describe("boolean", () => {
   );
   it(
     "S8.3_A3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/boolean/S8.3_A3.js"),
   );
 });

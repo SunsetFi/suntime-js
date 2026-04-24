@@ -5,14 +5,14 @@ describe("internals", () => {
   describe("DefineOwnProperty", () => {
     it(
       "consistent-value-function-arguments.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/internals/DefineOwnProperty/consistent-value-function-arguments.js",
       ),
     );
     it(
       "consistent-value-function-caller.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/internals/DefineOwnProperty/consistent-value-function-caller.js",
       ),
@@ -33,14 +33,14 @@ describe("internals", () => {
     );
     it(
       "nan-equivalence-define-own-property-reassign.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/internals/DefineOwnProperty/nan-equivalence-define-own-property-reassign.js",
       ),
     );
     it(
       "nan-equivalence-define-own-property-reconfigure.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Object/internals/DefineOwnProperty/nan-equivalence-define-own-property-reconfigure.js",
       ),

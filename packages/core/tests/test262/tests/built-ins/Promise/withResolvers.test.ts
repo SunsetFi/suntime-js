@@ -9,12 +9,12 @@ describe("withResolvers", () => {
   );
   it(
     "ctx-non-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/withResolvers/ctx-non-ctor.js"),
   );
   it(
     "ctx-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/withResolvers/ctx-non-object.js"),
   );
   it(

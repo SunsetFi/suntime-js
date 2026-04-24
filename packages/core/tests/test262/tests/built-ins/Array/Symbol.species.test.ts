@@ -9,7 +9,7 @@ describe("Symbol.species", () => {
   );
   it(
     "return-value.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Array/Symbol.species/return-value.js"),
   );
   it(
@@ -19,7 +19,7 @@ describe("Symbol.species", () => {
   );
   it(
     "symbol-species.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Array/Symbol.species/symbol-species.js"),
   );
 });

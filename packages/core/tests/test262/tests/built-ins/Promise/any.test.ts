@@ -54,7 +54,7 @@ describe("any", () => {
   );
   it(
     "ctx-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/any/ctx-non-object.js"),
   );
   it(
@@ -373,7 +373,7 @@ describe("any", () => {
   );
   it(
     "reject-ignored-deferred.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/any/reject-ignored-deferred.js"),
   );
   it(

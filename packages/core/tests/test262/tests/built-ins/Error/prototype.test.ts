@@ -4,42 +4,42 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("prototype", () => {
   it(
     "S15.11.3.1_A1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/S15.11.3.1_A1_T1.js"),
   );
   it(
     "S15.11.3.1_A2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/S15.11.3.1_A2_T1.js"),
   );
   it(
     "S15.11.3.1_A3_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/S15.11.3.1_A3_T1.js"),
   );
   it(
     "S15.11.3.1_A4_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/S15.11.3.1_A4_T1.js"),
   );
   it(
     "S15.11.4_A1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/S15.11.4_A1.js"),
   );
   it(
     "S15.11.4_A2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/S15.11.4_A2.js"),
   );
   it(
     "S15.11.4_A3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/S15.11.4_A3.js"),
   );
   it(
     "S15.11.4_A4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/S15.11.4_A4.js"),
   );
   describe("constructor", () => {
@@ -50,7 +50,7 @@ describe("prototype", () => {
     );
     it(
       "prop-desc.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Error/prototype/constructor/prop-desc.js"),
     );
   });
@@ -70,43 +70,43 @@ describe("prototype", () => {
   });
   it(
     "no-error-data.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/no-error-data.js"),
   );
   describe("toString", () => {
     it(
       "15.11.4.4-10-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Error/prototype/toString/15.11.4.4-10-1.js"),
     );
     it(
       "15.11.4.4-6-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Error/prototype/toString/15.11.4.4-6-1.js"),
     );
     it(
       "15.11.4.4-6-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Error/prototype/toString/15.11.4.4-6-2.js"),
     );
     it(
       "15.11.4.4-8-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Error/prototype/toString/15.11.4.4-8-1.js"),
     );
     it(
       "15.11.4.4-8-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Error/prototype/toString/15.11.4.4-8-2.js"),
     );
     it(
       "15.11.4.4-9-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Error/prototype/toString/15.11.4.4-9-1.js"),
     );
     it(
       "S15.11.4.4_A2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Error/prototype/toString/S15.11.4.4_A2.js"),
     );
     it(
@@ -126,17 +126,17 @@ describe("prototype", () => {
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Error/prototype/toString/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Error/prototype/toString/not-a-constructor.js"),
     );
     it(
       "prop-desc.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Error/prototype/toString/prop-desc.js"),
     );
     it(

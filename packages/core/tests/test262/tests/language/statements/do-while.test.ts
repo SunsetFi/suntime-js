@@ -4,17 +4,17 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("do-while", () => {
   it(
     "S12.6.1_A1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A1.js"),
   );
   it(
     "S12.6.1_A10.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A10.js"),
   );
   it(
     "S12.6.1_A11.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A11.js"),
   );
   it(
@@ -24,12 +24,12 @@ describe("do-while", () => {
   );
   it(
     "S12.6.1_A14_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A14_T1.js"),
   );
   it(
     "S12.6.1_A14_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A14_T2.js"),
   );
   it(
@@ -39,42 +39,42 @@ describe("do-while", () => {
   );
   it(
     "S12.6.1_A2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A2.js"),
   );
   it(
     "S12.6.1_A3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A3.js"),
   );
   it(
     "S12.6.1_A4_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A4_T1.js"),
   );
   it(
     "S12.6.1_A4_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A4_T2.js"),
   );
   it(
     "S12.6.1_A4_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A4_T3.js"),
   );
   it(
     "S12.6.1_A4_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A4_T4.js"),
   );
   it(
     "S12.6.1_A4_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A4_T5.js"),
   );
   it(
     "S12.6.1_A5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A5.js"),
   );
   it(
@@ -109,27 +109,27 @@ describe("do-while", () => {
   );
   it(
     "S12.6.1_A7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A7.js"),
   );
   it(
     "S12.6.1_A8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A8.js"),
   );
   it(
     "S12.6.1_A9.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/S12.6.1_A9.js"),
   );
   it(
     "cptn-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/cptn-abrupt-empty.js"),
   );
   it(
     "cptn-normal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/do-while/cptn-normal.js"),
   );
   it(

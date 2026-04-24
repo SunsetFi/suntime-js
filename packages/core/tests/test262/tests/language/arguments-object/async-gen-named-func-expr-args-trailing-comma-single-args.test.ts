@@ -3,7 +3,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "async-gen-named-func-expr-args-trailing-comma-single-args.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "language/arguments-object/async-gen-named-func-expr-args-trailing-comma-single-args.js",
   ),

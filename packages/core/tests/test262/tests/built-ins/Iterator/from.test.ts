@@ -45,7 +45,7 @@ describe("from", () => {
   it("name.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Iterator/from/name.js"));
   it(
     "non-constructible.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/from/non-constructible.js"),
   );
   it(

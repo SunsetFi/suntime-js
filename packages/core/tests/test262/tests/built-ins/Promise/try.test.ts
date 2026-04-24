@@ -15,12 +15,12 @@ describe("try", () => {
   );
   it(
     "ctx-non-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/try/ctx-non-ctor.js"),
   );
   it(
     "ctx-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/try/ctx-non-object.js"),
   );
   it(

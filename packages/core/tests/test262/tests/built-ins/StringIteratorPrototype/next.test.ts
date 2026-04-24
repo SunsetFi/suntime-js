@@ -9,22 +9,22 @@ describe("next", () => {
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/StringIteratorPrototype/next/name.js"),
   );
   it(
     "next-iteration-surrogate-pairs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/StringIteratorPrototype/next/next-iteration-surrogate-pairs.js"),
   );
   it(
     "next-iteration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/StringIteratorPrototype/next/next-iteration.js"),
   );
   it(
     "next-missing-internal-slots.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/StringIteratorPrototype/next/next-missing-internal-slots.js"),
   );
 });

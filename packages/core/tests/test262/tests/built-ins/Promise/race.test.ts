@@ -29,12 +29,12 @@ describe("race", () => {
   );
   it(
     "S25.4.4.3_A3.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/race/S25.4.4.3_A3.1_T1.js"),
   );
   it(
     "S25.4.4.3_A3.1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/race/S25.4.4.3_A3.1_T2.js"),
   );
   it(
@@ -114,12 +114,12 @@ describe("race", () => {
   );
   it(
     "ctx-non-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/race/ctx-non-ctor.js"),
   );
   it(
     "ctx-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/race/ctx-non-object.js"),
   );
   it(

@@ -9,7 +9,7 @@ describe("debugger", () => {
   );
   it(
     "statement.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/debugger/statement.js"),
   );
 });

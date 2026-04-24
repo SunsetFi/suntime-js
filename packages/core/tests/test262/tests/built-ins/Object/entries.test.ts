@@ -9,27 +9,27 @@ describe("entries", () => {
   );
   it(
     "exception-not-object-coercible.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/exception-not-object-coercible.js"),
   );
   it(
     "function-length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/function-length.js"),
   );
   it(
     "function-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/function-name.js"),
   );
   it(
     "function-property-descriptor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/function-property-descriptor.js"),
   );
   it(
     "getter-adding-key.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/getter-adding-key.js"),
   );
   it(
@@ -44,12 +44,12 @@ describe("entries", () => {
   );
   it(
     "inherited-properties-omitted.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/inherited-properties-omitted.js"),
   );
   it(
     "not-a-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/not-a-constructor.js"),
   );
   it(
@@ -59,52 +59,52 @@ describe("entries", () => {
   );
   it(
     "order-after-define-property-with-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/order-after-define-property-with-function.js"),
   );
   it(
     "order-after-define-property.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/order-after-define-property.js"),
   );
   it(
     "primitive-booleans.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/primitive-booleans.js"),
   );
   it(
     "primitive-numbers.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/primitive-numbers.js"),
   );
   it(
     "primitive-strings.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/primitive-strings.js"),
   );
   it(
     "primitive-symbols.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/primitive-symbols.js"),
   );
   it(
     "return-order.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/return-order.js"),
   );
   it(
     "symbols-omitted.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/symbols-omitted.js"),
   );
   it(
     "tamper-with-global-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/tamper-with-global-object.js"),
   );
   it(
     "tamper-with-object-keys.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/entries/tamper-with-object-keys.js"),
   );
 });

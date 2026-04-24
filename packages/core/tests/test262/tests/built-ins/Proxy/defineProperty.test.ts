@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("defineProperty", () => {
   it(
     "call-parameters.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/defineProperty/call-parameters.js"),
   );
   it(
@@ -24,12 +24,12 @@ describe("defineProperty", () => {
   );
   it(
     "return-boolean-and-define-target.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/defineProperty/return-boolean-and-define-target.js"),
   );
   it(
     "return-is-abrupt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/defineProperty/return-is-abrupt.js"),
   );
   it(
@@ -41,7 +41,7 @@ describe("defineProperty", () => {
   );
   it(
     "targetdesc-configurable-desc-not-configurable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Proxy/defineProperty/targetdesc-configurable-desc-not-configurable.js",
     ),
@@ -55,7 +55,7 @@ describe("defineProperty", () => {
   );
   it(
     "targetdesc-not-compatible-descriptor-not-configurable-target.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Proxy/defineProperty/targetdesc-not-compatible-descriptor-not-configurable-target.js",
     ),
@@ -69,12 +69,12 @@ describe("defineProperty", () => {
   );
   it(
     "targetdesc-not-compatible-descriptor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/defineProperty/targetdesc-not-compatible-descriptor.js"),
   );
   it(
     "targetdesc-not-configurable-writable-desc-not-writable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Proxy/defineProperty/targetdesc-not-configurable-writable-desc-not-writable.js",
     ),
@@ -88,7 +88,7 @@ describe("defineProperty", () => {
   );
   it(
     "targetdesc-undefined-not-configurable-descriptor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Proxy/defineProperty/targetdesc-undefined-not-configurable-descriptor.js",
     ),
@@ -102,7 +102,7 @@ describe("defineProperty", () => {
   );
   it(
     "targetdesc-undefined-target-is-not-extensible.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Proxy/defineProperty/targetdesc-undefined-target-is-not-extensible.js",
     ),
@@ -119,7 +119,7 @@ describe("defineProperty", () => {
   );
   it(
     "trap-is-not-callable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/defineProperty/trap-is-not-callable.js"),
   );
   it(
@@ -129,17 +129,17 @@ describe("defineProperty", () => {
   );
   it(
     "trap-is-undefined-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/defineProperty/trap-is-undefined-target-is-proxy.js"),
   );
   it(
     "trap-is-undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/defineProperty/trap-is-undefined.js"),
   );
   it(
     "trap-return-is-false.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/defineProperty/trap-return-is-false.js"),
   );
 });

@@ -4,77 +4,77 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("new", () => {
   it(
     "S11.2.2_A1.1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/S11.2.2_A1.1.js"),
   );
   it(
     "S11.2.2_A1.2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/S11.2.2_A1.2.js"),
   );
   it(
     "S11.2.2_A2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/S11.2.2_A2.js"),
   );
   it(
     "S11.2.2_A3_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/S11.2.2_A3_T1.js"),
   );
   it(
     "S11.2.2_A3_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/S11.2.2_A3_T2.js"),
   );
   it(
     "S11.2.2_A3_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/S11.2.2_A3_T3.js"),
   );
   it(
     "S11.2.2_A3_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/S11.2.2_A3_T4.js"),
   );
   it(
     "S11.2.2_A3_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/S11.2.2_A3_T5.js"),
   );
   it(
     "S11.2.2_A4_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/S11.2.2_A4_T1.js"),
   );
   it(
     "S11.2.2_A4_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/S11.2.2_A4_T2.js"),
   );
   it(
     "S11.2.2_A4_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/S11.2.2_A4_T3.js"),
   );
   it(
     "S11.2.2_A4_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/S11.2.2_A4_T4.js"),
   );
   it(
     "S11.2.2_A4_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/S11.2.2_A4_T5.js"),
   );
   it(
     "ctorExpr-fn-ref-before-args-eval-fn-wrapup.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/ctorExpr-fn-ref-before-args-eval-fn-wrapup.js"),
   );
   it(
     "ctorExpr-fn-ref-before-args-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/ctorExpr-fn-ref-before-args-eval.js"),
   );
   it(
@@ -124,7 +124,7 @@ describe("new", () => {
   );
   it(
     "spread-err-mult-err-obj-unresolvable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-err-mult-err-obj-unresolvable.js"),
   );
   it(
@@ -164,7 +164,7 @@ describe("new", () => {
   );
   it(
     "spread-err-sngl-err-obj-unresolvable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-err-sngl-err-obj-unresolvable.js"),
   );
   it(
@@ -194,82 +194,82 @@ describe("new", () => {
   );
   it(
     "spread-mult-obj-ident.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-mult-obj-ident.js"),
   );
   it(
     "spread-mult-obj-null.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-mult-obj-null.js"),
   );
   it(
     "spread-mult-obj-undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-mult-obj-undefined.js"),
   );
   it(
     "spread-obj-getter-descriptor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-obj-getter-descriptor.js"),
   );
   it(
     "spread-obj-getter-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-obj-getter-init.js"),
   );
   it(
     "spread-obj-manipulate-outter-obj-in-getter.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-obj-manipulate-outter-obj-in-getter.js"),
   );
   it(
     "spread-obj-mult-spread-getter.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-obj-mult-spread-getter.js"),
   );
   it(
     "spread-obj-mult-spread.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-obj-mult-spread.js"),
   );
   it(
     "spread-obj-null.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-obj-null.js"),
   );
   it(
     "spread-obj-override-immutable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-obj-override-immutable.js"),
   );
   it(
     "spread-obj-overrides-prev-properties.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-obj-overrides-prev-properties.js"),
   );
   it(
     "spread-obj-skip-non-enumerable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-obj-skip-non-enumerable.js"),
   );
   it(
     "spread-obj-spread-order.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-obj-spread-order.js"),
   );
   it(
     "spread-obj-symbol-property.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-obj-symbol-property.js"),
   );
   it(
     "spread-obj-undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-obj-undefined.js"),
   );
   it(
     "spread-obj-with-overrides.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-obj-with-overrides.js"),
   );
   it(
@@ -294,7 +294,7 @@ describe("new", () => {
   );
   it(
     "spread-sngl-obj-ident.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new/spread-sngl-obj-ident.js"),
   );
 });

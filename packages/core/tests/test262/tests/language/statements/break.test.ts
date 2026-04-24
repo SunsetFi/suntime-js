@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("break", () => {
   it(
     "12.8-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/12.8-1.js"),
   );
   it(
@@ -29,22 +29,22 @@ describe("break", () => {
   );
   it(
     "S12.8_A3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A3.js"),
   );
   it(
     "S12.8_A4_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A4_T1.js"),
   );
   it(
     "S12.8_A4_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A4_T2.js"),
   );
   it(
     "S12.8_A4_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A4_T3.js"),
   );
   it(
@@ -69,7 +69,7 @@ describe("break", () => {
   );
   it(
     "S12.8_A7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A7.js"),
   );
   it(
@@ -84,17 +84,17 @@ describe("break", () => {
   );
   it(
     "S12.8_A9_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A9_T1.js"),
   );
   it(
     "S12.8_A9_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A9_T2.js"),
   );
   it(
     "line-terminators.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/line-terminators.js"),
   );
   it(

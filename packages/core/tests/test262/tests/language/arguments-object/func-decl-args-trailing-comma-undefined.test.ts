@@ -3,6 +3,6 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "func-decl-args-trailing-comma-undefined.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/arguments-object/func-decl-args-trailing-comma-undefined.js"),
 );

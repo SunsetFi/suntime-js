@@ -4,72 +4,72 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("in", () => {
   it(
     "S11.8.7_A1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/S11.8.7_A1.js"),
   );
   it(
     "S11.8.7_A2.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/S11.8.7_A2.1_T1.js"),
   );
   it(
     "S11.8.7_A2.1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/S11.8.7_A2.1_T2.js"),
   );
   it(
     "S11.8.7_A2.1_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/S11.8.7_A2.1_T3.js"),
   );
   it(
     "S11.8.7_A2.4_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/S11.8.7_A2.4_T1.js"),
   );
   it(
     "S11.8.7_A2.4_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/S11.8.7_A2.4_T2.js"),
   );
   it(
     "S11.8.7_A2.4_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/S11.8.7_A2.4_T3.js"),
   );
   it(
     "S11.8.7_A2.4_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/S11.8.7_A2.4_T4.js"),
   );
   it(
     "S11.8.7_A3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/S11.8.7_A3.js"),
   );
   it(
     "S11.8.7_A4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/S11.8.7_A4.js"),
   );
   it(
     "S8.12.6_A1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/S8.12.6_A1.js"),
   );
   it(
     "S8.12.6_A2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/S8.12.6_A2_T1.js"),
   );
   it(
     "S8.12.6_A2_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/S8.12.6_A2_T2.js"),
   );
   it(
     "S8.12.6_A3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/S8.12.6_A3.js"),
   );
   it(
@@ -169,7 +169,7 @@ describe("in", () => {
   );
   it(
     "rhs-yield-absent-non-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/rhs-yield-absent-non-strict.js"),
   );
   it(
@@ -179,7 +179,7 @@ describe("in", () => {
   );
   it(
     "rhs-yield-present.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/rhs-yield-present.js"),
   );
 });

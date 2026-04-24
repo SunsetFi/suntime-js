@@ -3,6 +3,6 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "tonumber-numeric-separator-literal-nzd-nsl-dd-one-of.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/parseFloat/tonumber-numeric-separator-literal-nzd-nsl-dd-one-of.js"),
 );

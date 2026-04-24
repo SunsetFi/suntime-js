@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("EvalError", () => {
   it(
     "constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/EvalError/constructor.js"),
   );
   it(
@@ -14,7 +14,7 @@ describe("EvalError", () => {
   );
   it(
     "is-a-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/EvalError/is-a-constructor.js"),
   );
   it(
@@ -29,12 +29,12 @@ describe("EvalError", () => {
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/EvalError/name.js"),
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/EvalError/prop-desc.js"),
   );
   it(
@@ -50,7 +50,7 @@ describe("EvalError", () => {
   describe("prototype", () => {
     it(
       "constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/NativeErrors/EvalError/prototype/constructor.js"),
     );
     it(
@@ -65,12 +65,12 @@ describe("EvalError", () => {
     );
     it(
       "not-error-object.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/NativeErrors/EvalError/prototype/not-error-object.js"),
     );
     it(
       "proto.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/NativeErrors/EvalError/prototype/proto.js"),
     );
   });

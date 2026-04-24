@@ -29,12 +29,12 @@ describe("groupBy", () => {
   );
   it(
     "invalid-callback.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/groupBy/invalid-callback.js"),
   );
   it(
     "invalid-iterable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/groupBy/invalid-iterable.js"),
   );
   it(

@@ -4,42 +4,42 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("getPrototypeOf", () => {
   it(
     "15.2.3.2-0-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-0-1.js"),
   );
   it(
     "15.2.3.2-0-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-0-2.js"),
   );
   it(
     "15.2.3.2-0-3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-0-3.js"),
   );
   it(
     "15.2.3.2-1-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-1-2.js"),
   );
   it(
     "15.2.3.2-1-3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-1-3.js"),
   );
   it(
     "15.2.3.2-1-4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-1-4.js"),
   );
   it(
     "15.2.3.2-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-1.js"),
   );
   it(
     "15.2.3.2-2-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-1.js"),
   );
   it(
@@ -49,7 +49,7 @@ describe("getPrototypeOf", () => {
   );
   it(
     "15.2.3.2-2-11.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-11.js"),
   );
   it(
@@ -89,37 +89,37 @@ describe("getPrototypeOf", () => {
   );
   it(
     "15.2.3.2-2-19.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-19.js"),
   );
   it(
     "15.2.3.2-2-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-2.js"),
   );
   it(
     "15.2.3.2-2-20.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-20.js"),
   );
   it(
     "15.2.3.2-2-21.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-21.js"),
   );
   it(
     "15.2.3.2-2-22.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-22.js"),
   );
   it(
     "15.2.3.2-2-23.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-23.js"),
   );
   it(
     "15.2.3.2-2-24.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-24.js"),
   );
   it(
@@ -134,47 +134,47 @@ describe("getPrototypeOf", () => {
   );
   it(
     "15.2.3.2-2-27.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-27.js"),
   );
   it(
     "15.2.3.2-2-28.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-28.js"),
   );
   it(
     "15.2.3.2-2-3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-3.js"),
   );
   it(
     "15.2.3.2-2-30.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-30.js"),
   );
   it(
     "15.2.3.2-2-31.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-31.js"),
   );
   it(
     "15.2.3.2-2-4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-4.js"),
   );
   it(
     "15.2.3.2-2-5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-5.js"),
   );
   it(
     "15.2.3.2-2-6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-6.js"),
   );
   it(
     "15.2.3.2-2-7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/15.2.3.2-2-7.js"),
   );
   it(
@@ -189,12 +189,12 @@ describe("getPrototypeOf", () => {
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/name.js"),
   );
   it(
     "not-a-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getPrototypeOf/not-a-constructor.js"),
   );
 });

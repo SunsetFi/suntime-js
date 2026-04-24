@@ -4,22 +4,22 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("next", () => {
   it(
     "iterator-result-prototype.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/next/iterator-result-prototype.js"),
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/next/length.js"),
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/next/name.js"),
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/next/prop-desc.js"),
   );
   it(
@@ -48,7 +48,7 @@ describe("next", () => {
   );
   it(
     "return-promise.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/next/return-promise.js"),
   );
   it(

@@ -89,7 +89,7 @@ describe("concat", () => {
   );
   it(
     "non-constructible.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/concat/non-constructible.js"),
   );
   it(

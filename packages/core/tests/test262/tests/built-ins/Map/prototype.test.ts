@@ -5,7 +5,7 @@ describe("prototype", () => {
   describe("Symbol.iterator", () => {
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/Symbol.iterator/not-a-constructor.js"),
     );
   });
@@ -22,27 +22,27 @@ describe("prototype", () => {
   describe("clear", () => {
     it(
       "clear-map.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/clear/clear-map.js"),
     );
     it(
       "clear.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/clear/clear.js"),
     );
     it(
       "context-is-not-map-object.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/clear/context-is-not-map-object.js"),
     );
     it(
       "context-is-not-object.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/clear/context-is-not-object.js"),
     );
     it(
       "context-is-set-object-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/clear/context-is-set-object-throws.js"),
     );
     it(
@@ -57,44 +57,44 @@ describe("prototype", () => {
     );
     it(
       "map-data-list-is-preserved.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/clear/map-data-list-is-preserved.js"),
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/clear/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/clear/not-a-constructor.js"),
     );
     it(
       "returns-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/clear/returns-undefined.js"),
     );
   });
   it(
     "constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Map/prototype/constructor.js"),
   );
   describe("delete", () => {
     it(
       "context-is-not-map-object.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/delete/context-is-not-map-object.js"),
     );
     it(
       "context-is-not-object.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/delete/context-is-not-object.js"),
     );
     it(
       "context-is-set-object-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/delete/context-is-set-object-throws.js"),
     );
     it(
@@ -104,49 +104,49 @@ describe("prototype", () => {
     );
     it(
       "delete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/delete/delete.js"),
     );
     it(
       "does-not-break-iterators.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/delete/does-not-break-iterators.js"),
     );
     it(
       "length.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/delete/length.js"),
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/delete/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/delete/not-a-constructor.js"),
     );
     it(
       "returns-false.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/delete/returns-false.js"),
     );
     it(
       "returns-true-for-deleted-entry.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/delete/returns-true-for-deleted-entry.js"),
     );
   });
   it(
     "descriptor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Map/prototype/descriptor.js"),
   );
   describe("entries", () => {
     it(
       "does-not-have-mapdata-internal-slot-set.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Map/prototype/entries/does-not-have-mapdata-internal-slot-set.js",
       ),
@@ -160,12 +160,12 @@ describe("prototype", () => {
     );
     it(
       "does-not-have-mapdata-internal-slot.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/entries/does-not-have-mapdata-internal-slot.js"),
     );
     it(
       "entries.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/entries/entries.js"),
     );
     it(
@@ -175,59 +175,59 @@ describe("prototype", () => {
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/entries/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/entries/not-a-constructor.js"),
     );
     it(
       "returns-iterator-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/entries/returns-iterator-empty.js"),
     );
     it(
       "returns-iterator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/entries/returns-iterator.js"),
     );
     it(
       "this-not-object-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/entries/this-not-object-throw.js"),
     );
   });
   describe("forEach", () => {
     it(
       "callback-parameters.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/callback-parameters.js"),
     );
     it(
       "callback-result-is-abrupt.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/callback-result-is-abrupt.js"),
     );
     it(
       "callback-this-non-strict.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/callback-this-non-strict.js"),
     );
     it(
       "callback-this-strict.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/callback-this-strict.js"),
     );
     it(
       "deleted-values-during-foreach.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/deleted-values-during-foreach.js"),
     );
     it(
       "does-not-have-mapdata-internal-slot-set.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Map/prototype/forEach/does-not-have-mapdata-internal-slot-set.js",
       ),
@@ -241,71 +241,71 @@ describe("prototype", () => {
     );
     it(
       "does-not-have-mapdata-internal-slot.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/does-not-have-mapdata-internal-slot.js"),
     );
     it(
       "first-argument-is-not-callable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/first-argument-is-not-callable.js"),
     );
     it(
       "forEach.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/forEach.js"),
     );
     it(
       "iterates-in-key-insertion-order.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/iterates-in-key-insertion-order.js"),
     );
     it(
       "iterates-values-added-after-foreach-begins.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Map/prototype/forEach/iterates-values-added-after-foreach-begins.js",
       ),
     );
     it(
       "iterates-values-deleted-then-readded.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/iterates-values-deleted-then-readded.js"),
     );
     it(
       "length.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/length.js"),
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/not-a-constructor.js"),
     );
     it(
       "return-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/return-undefined.js"),
     );
     it(
       "second-parameter-as-callback-context.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/second-parameter-as-callback-context.js"),
     );
     it(
       "this-not-object-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/forEach/this-not-object-throw.js"),
     );
   });
   describe("get", () => {
     it(
       "does-not-have-mapdata-internal-slot-set.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/get/does-not-have-mapdata-internal-slot-set.js"),
     );
     it(
@@ -317,47 +317,47 @@ describe("prototype", () => {
     );
     it(
       "does-not-have-mapdata-internal-slot.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/get/does-not-have-mapdata-internal-slot.js"),
     );
     it(
       "get.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/get/get.js"),
     );
     it(
       "length.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/get/length.js"),
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/get/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/get/not-a-constructor.js"),
     );
     it(
       "returns-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/get/returns-undefined.js"),
     );
     it(
       "returns-value-different-key-types.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/get/returns-value-different-key-types.js"),
     );
     it(
       "returns-value-normalized-zero-key.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/get/returns-value-normalized-zero-key.js"),
     );
     it(
       "this-not-object-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/get/this-not-object-throw.js"),
     );
   });
@@ -383,21 +383,21 @@ describe("prototype", () => {
     );
     it(
       "does-not-have-mapdata-internal-slot-set.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Map/prototype/getOrInsert/does-not-have-mapdata-internal-slot-set.js",
       ),
     );
     it(
       "does-not-have-mapdata-internal-slot-weakmap.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Map/prototype/getOrInsert/does-not-have-mapdata-internal-slot-weakmap.js",
       ),
     );
     it(
       "does-not-have-mapdata-internal-slot.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Map/prototype/getOrInsert/does-not-have-mapdata-internal-slot.js",
       ),
@@ -443,7 +443,7 @@ describe("prototype", () => {
     );
     it(
       "this-not-object-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/getOrInsert/this-not-object-throw.js"),
     );
   });
@@ -507,7 +507,7 @@ describe("prototype", () => {
     );
     it(
       "does-not-have-mapdata-internal-slot-set.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Map/prototype/getOrInsertComputed/does-not-have-mapdata-internal-slot-set.js",
       ),
@@ -531,7 +531,7 @@ describe("prototype", () => {
     );
     it(
       "not-a-function-callbackfn-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Map/prototype/getOrInsertComputed/not-a-function-callbackfn-throws.js",
       ),
@@ -566,14 +566,14 @@ describe("prototype", () => {
     );
     it(
       "this-not-object-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/getOrInsertComputed/this-not-object-throw.js"),
     );
   });
   describe("has", () => {
     it(
       "does-not-have-mapdata-internal-slot-set.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/has/does-not-have-mapdata-internal-slot-set.js"),
     );
     it(
@@ -585,54 +585,54 @@ describe("prototype", () => {
     );
     it(
       "does-not-have-mapdata-internal-slot.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/has/does-not-have-mapdata-internal-slot.js"),
     );
     it(
       "has.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/has/has.js"),
     );
     it(
       "length.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/has/length.js"),
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/has/name.js"),
     );
     it(
       "normalizes-zero-key.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/has/normalizes-zero-key.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/has/not-a-constructor.js"),
     );
     it(
       "return-false-different-key-types.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/has/return-false-different-key-types.js"),
     );
     it(
       "return-true-different-key-types.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/has/return-true-different-key-types.js"),
     );
     it(
       "this-not-object-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/has/this-not-object-throw.js"),
     );
   });
   describe("keys", () => {
     it(
       "does-not-have-mapdata-internal-slot-set.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/keys/does-not-have-mapdata-internal-slot-set.js"),
     );
     it(
@@ -644,12 +644,12 @@ describe("prototype", () => {
     );
     it(
       "does-not-have-mapdata-internal-slot.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/keys/does-not-have-mapdata-internal-slot.js"),
     );
     it(
       "keys.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/keys/keys.js"),
     );
     it(
@@ -659,49 +659,49 @@ describe("prototype", () => {
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/keys/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/keys/not-a-constructor.js"),
     );
     it(
       "returns-iterator-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/keys/returns-iterator-empty.js"),
     );
     it(
       "returns-iterator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/keys/returns-iterator.js"),
     );
     it(
       "this-not-object-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/keys/this-not-object-throw.js"),
     );
   });
   describe("set", () => {
     it(
       "append-new-values-normalizes-zero-key.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/set/append-new-values-normalizes-zero-key.js"),
     );
     it(
       "append-new-values-return-map.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/set/append-new-values-return-map.js"),
     );
     it(
       "append-new-values.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/set/append-new-values.js"),
     );
     it(
       "does-not-have-mapdata-internal-slot-set.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/set/does-not-have-mapdata-internal-slot-set.js"),
     );
     it(
@@ -713,7 +713,7 @@ describe("prototype", () => {
     );
     it(
       "does-not-have-mapdata-internal-slot.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/set/does-not-have-mapdata-internal-slot.js"),
     );
     it(
@@ -723,37 +723,37 @@ describe("prototype", () => {
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/set/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/set/not-a-constructor.js"),
     );
     it(
       "replaces-a-value-normalizes-zero-key.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/set/replaces-a-value-normalizes-zero-key.js"),
     );
     it(
       "replaces-a-value-returns-map.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/set/replaces-a-value-returns-map.js"),
     );
     it(
       "replaces-a-value.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/set/replaces-a-value.js"),
     );
     it(
       "set.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/set/set.js"),
     );
     it(
       "this-not-object-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/set/this-not-object-throw.js"),
     );
   });
@@ -787,35 +787,35 @@ describe("prototype", () => {
     );
     it(
       "returns-count-of-present-values-before-after-set-clear.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Map/prototype/size/returns-count-of-present-values-before-after-set-clear.js",
       ),
     );
     it(
       "returns-count-of-present-values-before-after-set-delete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Map/prototype/size/returns-count-of-present-values-before-after-set-delete.js",
       ),
     );
     it(
       "returns-count-of-present-values-by-insertion.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Map/prototype/size/returns-count-of-present-values-by-insertion.js",
       ),
     );
     it(
       "returns-count-of-present-values-by-iterable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Map/prototype/size/returns-count-of-present-values-by-iterable.js",
       ),
     );
     it(
       "size.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/size/size.js"),
     );
     it(
@@ -827,7 +827,7 @@ describe("prototype", () => {
   describe("values", () => {
     it(
       "does-not-have-mapdata-internal-slot-set.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Map/prototype/values/does-not-have-mapdata-internal-slot-set.js",
       ),
@@ -841,7 +841,7 @@ describe("prototype", () => {
     );
     it(
       "does-not-have-mapdata-internal-slot.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/values/does-not-have-mapdata-internal-slot.js"),
     );
     it(
@@ -851,32 +851,32 @@ describe("prototype", () => {
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/values/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/values/not-a-constructor.js"),
     );
     it(
       "returns-iterator-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/values/returns-iterator-empty.js"),
     );
     it(
       "returns-iterator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/values/returns-iterator.js"),
     );
     it(
       "this-not-object-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/values/this-not-object-throw.js"),
     );
     it(
       "values.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Map/prototype/values/values.js"),
     );
   });

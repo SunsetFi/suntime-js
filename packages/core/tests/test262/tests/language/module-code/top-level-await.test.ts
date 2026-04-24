@@ -154,7 +154,7 @@ describe("top-level-await", () => {
   );
   it(
     "new-await-script-code.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/module-code/top-level-await/new-await-script-code.js"),
   );
   it(

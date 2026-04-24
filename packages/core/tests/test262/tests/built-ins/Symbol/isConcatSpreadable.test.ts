@@ -9,7 +9,7 @@ describe("isConcatSpreadable", () => {
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Symbol/isConcatSpreadable/prop-desc.js"),
   );
 });

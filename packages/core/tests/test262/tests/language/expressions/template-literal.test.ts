@@ -91,137 +91,137 @@ describe("template-literal", () => {
   );
   it(
     "literal-expr-abrupt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/literal-expr-abrupt.js"),
   );
   it(
     "literal-expr-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/literal-expr-function.js"),
   );
   it(
     "literal-expr-member-expr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/literal-expr-member-expr.js"),
   );
   it(
     "literal-expr-method.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/literal-expr-method.js"),
   );
   it(
     "literal-expr-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/literal-expr-obj.js"),
   );
   it(
     "literal-expr-primitive.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/literal-expr-primitive.js"),
   );
   it(
     "literal-expr-template.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/literal-expr-template.js"),
   );
   it(
     "literal-expr-tostr-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/literal-expr-tostr-error.js"),
   );
   it(
     "middle-list-many-expr-abrupt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-many-expr-abrupt.js"),
   );
   it(
     "middle-list-many-expr-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-many-expr-function.js"),
   );
   it(
     "middle-list-many-expr-member-expr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-many-expr-member-expr.js"),
   );
   it(
     "middle-list-many-expr-method.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-many-expr-method.js"),
   );
   it(
     "middle-list-many-expr-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-many-expr-obj.js"),
   );
   it(
     "middle-list-many-expr-primitive.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-many-expr-primitive.js"),
   );
   it(
     "middle-list-many-expr-template.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-many-expr-template.js"),
   );
   it(
     "middle-list-many-expr-tostr-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-many-expr-tostr-error.js"),
   );
   it(
     "middle-list-one-expr-abrupt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-one-expr-abrupt.js"),
   );
   it(
     "middle-list-one-expr-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-one-expr-function.js"),
   );
   it(
     "middle-list-one-expr-member-expr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-one-expr-member-expr.js"),
   );
   it(
     "middle-list-one-expr-method.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-one-expr-method.js"),
   );
   it(
     "middle-list-one-expr-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-one-expr-obj.js"),
   );
   it(
     "middle-list-one-expr-primitive.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-one-expr-primitive.js"),
   );
   it(
     "middle-list-one-expr-template.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-one-expr-template.js"),
   );
   it(
     "middle-list-one-expr-tostr-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/middle-list-one-expr-tostr-error.js"),
   );
   it(
     "mongolian-vowel-separator-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/mongolian-vowel-separator-eval.js"),
   );
   it(
     "mongolian-vowel-separator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/mongolian-vowel-separator.js"),
   );
   it(
     "no-sub.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/no-sub.js"),
   );
   it(

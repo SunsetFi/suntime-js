@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("RangeError", () => {
   it(
     "constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/RangeError/constructor.js"),
   );
   it(
@@ -14,7 +14,7 @@ describe("RangeError", () => {
   );
   it(
     "is-a-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/RangeError/is-a-constructor.js"),
   );
   it(
@@ -29,12 +29,12 @@ describe("RangeError", () => {
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/RangeError/name.js"),
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/NativeErrors/RangeError/prop-desc.js"),
   );
   it(
@@ -50,7 +50,7 @@ describe("RangeError", () => {
   describe("prototype", () => {
     it(
       "constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/NativeErrors/RangeError/prototype/constructor.js"),
     );
     it(
@@ -65,12 +65,12 @@ describe("RangeError", () => {
     );
     it(
       "not-error-object.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/NativeErrors/RangeError/prototype/not-error-object.js"),
     );
     it(
       "proto.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/NativeErrors/RangeError/prototype/proto.js"),
     );
   });

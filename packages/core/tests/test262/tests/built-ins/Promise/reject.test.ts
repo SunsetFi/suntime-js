@@ -4,12 +4,12 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("reject", () => {
   it(
     "S25.4.4.4_A1.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/reject/S25.4.4.4_A1.1_T1.js"),
   );
   it(
     "S25.4.4.4_A2.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/reject/S25.4.4.4_A2.1_T1.js"),
   );
   it(
@@ -59,18 +59,18 @@ describe("reject", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/reject/length.js"),
   );
-  it("name.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Promise/reject/name.js"));
+  it("name.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Promise/reject/name.js"));
   it(
     "not-a-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/reject/not-a-constructor.js"),
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/reject/prop-desc.js"),
   );
 });

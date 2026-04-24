@@ -39,7 +39,7 @@ describe("prototype", () => {
     );
     it(
       "this-val-obj-non-symbol-wrapper.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Symbol/prototype/Symbol.toPrimitive/this-val-obj-non-symbol-wrapper.js",
       ),
@@ -64,7 +64,7 @@ describe("prototype", () => {
   );
   it(
     "constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Symbol/prototype/constructor.js"),
   );
   describe("description", () => {
@@ -87,7 +87,7 @@ describe("prototype", () => {
     );
     it(
       "is-not-own-property.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Symbol/prototype/description/is-not-own-property.js"),
     );
     it(
@@ -108,7 +108,7 @@ describe("prototype", () => {
   });
   it(
     "intrinsic.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Symbol/prototype/intrinsic.js"),
   );
   describe("toString", () => {
@@ -119,17 +119,17 @@ describe("prototype", () => {
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Symbol/prototype/toString/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Symbol/prototype/toString/not-a-constructor.js"),
     );
     it(
       "prop-desc.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Symbol/prototype/toString/prop-desc.js"),
     );
     it(
@@ -141,14 +141,14 @@ describe("prototype", () => {
     );
     it(
       "toString-default-attributes-strict.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/Symbol/prototype/toString/toString-default-attributes-strict.js",
       ),
     );
     it(
       "toString.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Symbol/prototype/toString/toString.js"),
     );
     it(
@@ -165,12 +165,12 @@ describe("prototype", () => {
     );
     it(
       "name.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Symbol/prototype/valueOf/name.js"),
     );
     it(
       "not-a-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Symbol/prototype/valueOf/not-a-constructor.js"),
     );
     it(

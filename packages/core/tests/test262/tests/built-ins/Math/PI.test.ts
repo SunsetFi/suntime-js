@@ -4,8 +4,8 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("PI", () => {
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Math/PI/prop-desc.js"),
   );
-  it("value.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Math/PI/value.js"));
+  it("value.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Math/PI/value.js"));
 });

@@ -4,17 +4,17 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("getPrototypeOf", () => {
   it(
     "call-parameters.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/getPrototypeOf/call-parameters.js"),
   );
   it(
     "extensible-target-return-handlerproto.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/getPrototypeOf/extensible-target-return-handlerproto.js"),
   );
   it(
     "instanceof-custom-return-accepted.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/getPrototypeOf/instanceof-custom-return-accepted.js"),
   );
   it(
@@ -41,12 +41,12 @@ describe("getPrototypeOf", () => {
   );
   it(
     "return-is-abrupt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/getPrototypeOf/return-is-abrupt.js"),
   );
   it(
     "trap-is-missing-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/getPrototypeOf/trap-is-missing-target-is-proxy.js"),
   );
   it(
@@ -56,55 +56,55 @@ describe("getPrototypeOf", () => {
   );
   it(
     "trap-is-not-callable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/getPrototypeOf/trap-is-not-callable.js"),
   );
   it(
     "trap-is-null-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/getPrototypeOf/trap-is-null-target-is-proxy.js"),
   );
   it(
     "trap-is-undefined-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/getPrototypeOf/trap-is-undefined-target-is-proxy.js"),
   );
   it(
     "trap-is-undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/getPrototypeOf/trap-is-undefined.js"),
   );
   it(
     "trap-result-neither-object-nor-null-throws-boolean.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Proxy/getPrototypeOf/trap-result-neither-object-nor-null-throws-boolean.js",
     ),
   );
   it(
     "trap-result-neither-object-nor-null-throws-number.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Proxy/getPrototypeOf/trap-result-neither-object-nor-null-throws-number.js",
     ),
   );
   it(
     "trap-result-neither-object-nor-null-throws-string.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Proxy/getPrototypeOf/trap-result-neither-object-nor-null-throws-string.js",
     ),
   );
   it(
     "trap-result-neither-object-nor-null-throws-symbol.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Proxy/getPrototypeOf/trap-result-neither-object-nor-null-throws-symbol.js",
     ),
   );
   it(
     "trap-result-neither-object-nor-null-throws-undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Proxy/getPrototypeOf/trap-result-neither-object-nor-null-throws-undefined.js",
     ),

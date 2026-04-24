@@ -3,6 +3,6 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "S15.1.2.2_A3.2_T3.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/parseInt/S15.1.2.2_A3.2_T3.js"),
 );

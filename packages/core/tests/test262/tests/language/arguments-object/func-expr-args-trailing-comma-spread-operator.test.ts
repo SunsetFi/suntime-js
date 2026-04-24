@@ -3,6 +3,6 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "func-expr-args-trailing-comma-spread-operator.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/arguments-object/func-expr-args-trailing-comma-spread-operator.js"),
 );

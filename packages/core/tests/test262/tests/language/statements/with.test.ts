@@ -4,77 +4,77 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("with", () => {
   it(
     "12.10-0-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10-0-1.js"),
   );
   it(
     "12.10-0-10.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10-0-10.js"),
   );
   it(
     "12.10-0-11.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10-0-11.js"),
   );
   it(
     "12.10-0-12.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10-0-12.js"),
   );
   it(
     "12.10-0-3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10-0-3.js"),
   );
   it(
     "12.10-0-7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10-0-7.js"),
   );
   it(
     "12.10-0-8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10-0-8.js"),
   );
   it(
     "12.10-0-9.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10-0-9.js"),
   );
   it(
     "12.10-2-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10-2-1.js"),
   );
   it(
     "12.10-2-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10-2-2.js"),
   );
   it(
     "12.10-2-3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10-2-3.js"),
   );
   it(
     "12.10-2-4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10-2-4.js"),
   );
   it(
     "12.10-2-5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10-2-5.js"),
   );
   it(
     "12.10-7-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10-7-1.js"),
   );
   it(
     "12.10.1-10-s.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10.1-10-s.js"),
   );
   it(
@@ -84,647 +84,647 @@ describe("with", () => {
   );
   it(
     "12.10.1-12-s.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10.1-12-s.js"),
   );
   it(
     "12.10.1-13-s.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10.1-13-s.js"),
   );
   it(
     "12.10.1-4-s.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10.1-4-s.js"),
   );
   it(
     "12.10.1-5-s.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10.1-5-s.js"),
   );
   it(
     "12.10.1-8-s.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10.1-8-s.js"),
   );
   it(
     "S12.10_A1.10_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.10_T1.js"),
   );
   it(
     "S12.10_A1.10_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.10_T2.js"),
   );
   it(
     "S12.10_A1.10_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.10_T3.js"),
   );
   it(
     "S12.10_A1.10_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.10_T4.js"),
   );
   it(
     "S12.10_A1.10_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.10_T5.js"),
   );
   it(
     "S12.10_A1.11_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.11_T1.js"),
   );
   it(
     "S12.10_A1.11_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.11_T2.js"),
   );
   it(
     "S12.10_A1.11_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.11_T3.js"),
   );
   it(
     "S12.10_A1.11_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.11_T4.js"),
   );
   it(
     "S12.10_A1.11_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.11_T5.js"),
   );
   it(
     "S12.10_A1.12_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.12_T1.js"),
   );
   it(
     "S12.10_A1.12_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.12_T2.js"),
   );
   it(
     "S12.10_A1.12_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.12_T3.js"),
   );
   it(
     "S12.10_A1.12_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.12_T4.js"),
   );
   it(
     "S12.10_A1.12_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.12_T5.js"),
   );
   it(
     "S12.10_A1.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.1_T1.js"),
   );
   it(
     "S12.10_A1.1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.1_T2.js"),
   );
   it(
     "S12.10_A1.1_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.1_T3.js"),
   );
   it(
     "S12.10_A1.2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.2_T1.js"),
   );
   it(
     "S12.10_A1.2_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.2_T2.js"),
   );
   it(
     "S12.10_A1.2_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.2_T3.js"),
   );
   it(
     "S12.10_A1.2_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.2_T4.js"),
   );
   it(
     "S12.10_A1.2_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.2_T5.js"),
   );
   it(
     "S12.10_A1.3_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.3_T1.js"),
   );
   it(
     "S12.10_A1.3_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.3_T2.js"),
   );
   it(
     "S12.10_A1.3_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.3_T3.js"),
   );
   it(
     "S12.10_A1.3_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.3_T4.js"),
   );
   it(
     "S12.10_A1.3_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.3_T5.js"),
   );
   it(
     "S12.10_A1.4_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.4_T1.js"),
   );
   it(
     "S12.10_A1.4_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.4_T2.js"),
   );
   it(
     "S12.10_A1.4_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.4_T3.js"),
   );
   it(
     "S12.10_A1.4_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.4_T4.js"),
   );
   it(
     "S12.10_A1.4_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.4_T5.js"),
   );
   it(
     "S12.10_A1.5_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.5_T1.js"),
   );
   it(
     "S12.10_A1.5_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.5_T2.js"),
   );
   it(
     "S12.10_A1.5_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.5_T3.js"),
   );
   it(
     "S12.10_A1.5_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.5_T4.js"),
   );
   it(
     "S12.10_A1.5_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.5_T5.js"),
   );
   it(
     "S12.10_A1.6_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.6_T1.js"),
   );
   it(
     "S12.10_A1.6_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.6_T2.js"),
   );
   it(
     "S12.10_A1.6_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.6_T3.js"),
   );
   it(
     "S12.10_A1.7_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.7_T1.js"),
   );
   it(
     "S12.10_A1.7_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.7_T2.js"),
   );
   it(
     "S12.10_A1.7_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.7_T3.js"),
   );
   it(
     "S12.10_A1.7_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.7_T4.js"),
   );
   it(
     "S12.10_A1.7_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.7_T5.js"),
   );
   it(
     "S12.10_A1.8_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.8_T1.js"),
   );
   it(
     "S12.10_A1.8_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.8_T2.js"),
   );
   it(
     "S12.10_A1.8_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.8_T3.js"),
   );
   it(
     "S12.10_A1.8_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.8_T4.js"),
   );
   it(
     "S12.10_A1.8_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.8_T5.js"),
   );
   it(
     "S12.10_A1.9_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.9_T1.js"),
   );
   it(
     "S12.10_A1.9_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.9_T2.js"),
   );
   it(
     "S12.10_A1.9_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A1.9_T3.js"),
   );
   it(
     "S12.10_A3.10_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.10_T1.js"),
   );
   it(
     "S12.10_A3.10_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.10_T2.js"),
   );
   it(
     "S12.10_A3.10_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.10_T3.js"),
   );
   it(
     "S12.10_A3.10_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.10_T4.js"),
   );
   it(
     "S12.10_A3.10_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.10_T5.js"),
   );
   it(
     "S12.10_A3.11_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.11_T1.js"),
   );
   it(
     "S12.10_A3.11_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.11_T2.js"),
   );
   it(
     "S12.10_A3.11_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.11_T3.js"),
   );
   it(
     "S12.10_A3.11_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.11_T4.js"),
   );
   it(
     "S12.10_A3.11_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.11_T5.js"),
   );
   it(
     "S12.10_A3.12_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.12_T1.js"),
   );
   it(
     "S12.10_A3.12_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.12_T2.js"),
   );
   it(
     "S12.10_A3.12_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.12_T3.js"),
   );
   it(
     "S12.10_A3.12_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.12_T4.js"),
   );
   it(
     "S12.10_A3.12_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.12_T5.js"),
   );
   it(
     "S12.10_A3.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.1_T1.js"),
   );
   it(
     "S12.10_A3.1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.1_T2.js"),
   );
   it(
     "S12.10_A3.1_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.1_T3.js"),
   );
   it(
     "S12.10_A3.2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.2_T1.js"),
   );
   it(
     "S12.10_A3.2_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.2_T2.js"),
   );
   it(
     "S12.10_A3.2_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.2_T3.js"),
   );
   it(
     "S12.10_A3.2_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.2_T4.js"),
   );
   it(
     "S12.10_A3.2_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.2_T5.js"),
   );
   it(
     "S12.10_A3.3_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.3_T1.js"),
   );
   it(
     "S12.10_A3.3_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.3_T2.js"),
   );
   it(
     "S12.10_A3.3_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.3_T3.js"),
   );
   it(
     "S12.10_A3.3_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.3_T4.js"),
   );
   it(
     "S12.10_A3.4_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.4_T1.js"),
   );
   it(
     "S12.10_A3.4_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.4_T2.js"),
   );
   it(
     "S12.10_A3.4_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.4_T3.js"),
   );
   it(
     "S12.10_A3.4_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.4_T4.js"),
   );
   it(
     "S12.10_A3.4_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.4_T5.js"),
   );
   it(
     "S12.10_A3.5_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.5_T1.js"),
   );
   it(
     "S12.10_A3.5_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.5_T2.js"),
   );
   it(
     "S12.10_A3.5_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.5_T3.js"),
   );
   it(
     "S12.10_A3.5_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.5_T4.js"),
   );
   it(
     "S12.10_A3.5_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.5_T5.js"),
   );
   it(
     "S12.10_A3.6_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.6_T1.js"),
   );
   it(
     "S12.10_A3.6_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.6_T2.js"),
   );
   it(
     "S12.10_A3.6_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.6_T3.js"),
   );
   it(
     "S12.10_A3.7_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.7_T1.js"),
   );
   it(
     "S12.10_A3.7_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.7_T2.js"),
   );
   it(
     "S12.10_A3.7_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.7_T3.js"),
   );
   it(
     "S12.10_A3.7_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.7_T4.js"),
   );
   it(
     "S12.10_A3.7_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.7_T5.js"),
   );
   it(
     "S12.10_A3.8_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.8_T1.js"),
   );
   it(
     "S12.10_A3.8_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.8_T2.js"),
   );
   it(
     "S12.10_A3.8_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.8_T3.js"),
   );
   it(
     "S12.10_A3.8_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.8_T4.js"),
   );
   it(
     "S12.10_A3.8_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.8_T5.js"),
   );
   it(
     "S12.10_A3.9_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.9_T1.js"),
   );
   it(
     "S12.10_A3.9_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.9_T2.js"),
   );
   it(
     "S12.10_A3.9_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A3.9_T3.js"),
   );
   it(
     "S12.10_A4_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A4_T1.js"),
   );
   it(
     "S12.10_A4_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A4_T2.js"),
   );
   it(
     "S12.10_A4_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A4_T3.js"),
   );
   it(
     "S12.10_A4_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A4_T4.js"),
   );
   it(
     "S12.10_A4_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A4_T5.js"),
   );
   it(
     "S12.10_A4_T6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A4_T6.js"),
   );
   it(
     "S12.10_A5_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A5_T1.js"),
   );
   it(
     "S12.10_A5_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A5_T2.js"),
   );
   it(
     "S12.10_A5_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A5_T3.js"),
   );
   it(
     "S12.10_A5_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A5_T4.js"),
   );
   it(
     "S12.10_A5_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A5_T5.js"),
   );
   it(
     "S12.10_A5_T6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/S12.10_A5_T6.js"),
   );
   it(
     "binding-blocked-by-unscopables.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/binding-blocked-by-unscopables.js"),
   );
   it(
     "binding-not-blocked-by-unscopables-falsey-prop.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/binding-not-blocked-by-unscopables-falsey-prop.js"),
   );
   it(
     "binding-not-blocked-by-unscopables-non-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/binding-not-blocked-by-unscopables-non-obj.js"),
   );
   it(
     "cptn-abrupt-empty.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/cptn-abrupt-empty.js"),
   );
   it(
     "cptn-nrml.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/cptn-nrml.js"),
   );
   it(
@@ -764,41 +764,41 @@ describe("with", () => {
   );
   it(
     "get-binding-value-call-with-proxy-env.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/get-binding-value-call-with-proxy-env.js"),
   );
   it(
     "get-binding-value-idref-with-proxy-env.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/get-binding-value-idref-with-proxy-env.js"),
   );
   it(
     "get-mutable-binding-binding-deleted-in-get-unscopables-strict-mode.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/with/get-mutable-binding-binding-deleted-in-get-unscopables-strict-mode.js",
     ),
   );
   it(
     "get-mutable-binding-binding-deleted-in-get-unscopables.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/with/get-mutable-binding-binding-deleted-in-get-unscopables.js",
     ),
   );
   it(
     "has-binding-call-with-proxy-env.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/has-binding-call-with-proxy-env.js"),
   );
   it(
     "has-binding-idref-with-proxy-env.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/has-binding-idref-with-proxy-env.js"),
   );
   it(
     "has-property-err.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/has-property-err.js"),
   );
   it(
@@ -813,34 +813,34 @@ describe("with", () => {
   );
   it(
     "let-block-with-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/let-block-with-newline.js"),
   );
   it(
     "let-identifier-with-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/let-identifier-with-newline.js"),
   );
   it(
     "scope-var-close.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/scope-var-close.js"),
   );
   it(
     "scope-var-open.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/scope-var-open.js"),
   );
   it(
     "set-mutable-binding-binding-deleted-in-get-unscopables-strict-mode.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/with/set-mutable-binding-binding-deleted-in-get-unscopables-strict-mode.js",
     ),
   );
   it(
     "set-mutable-binding-binding-deleted-in-get-unscopables.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/with/set-mutable-binding-binding-deleted-in-get-unscopables.js",
     ),
@@ -853,14 +853,14 @@ describe("with", () => {
   });
   it(
     "set-mutable-binding-idref-compound-assign-with-proxy-env.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/with/set-mutable-binding-idref-compound-assign-with-proxy-env.js",
     ),
   );
   it(
     "set-mutable-binding-idref-with-proxy-env.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/set-mutable-binding-idref-with-proxy-env.js"),
   );
   it(
@@ -895,22 +895,22 @@ describe("with", () => {
   );
   it(
     "unscopables-get-err.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/unscopables-get-err.js"),
   );
   it(
     "unscopables-inc-dec.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/unscopables-inc-dec.js"),
   );
   it(
     "unscopables-not-referenced-for-undef.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/unscopables-not-referenced-for-undef.js"),
   );
   it(
     "unscopables-prop-get-err.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/unscopables-prop-get-err.js"),
   );
 });

@@ -4,147 +4,147 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("logical-assignment", () => {
   it(
     "left-hand-side-private-reference-accessor-property-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-accessor-property-and.js",
     ),
   );
   it(
     "left-hand-side-private-reference-accessor-property-nullish.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-accessor-property-nullish.js",
     ),
   );
   it(
     "left-hand-side-private-reference-accessor-property-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-accessor-property-or.js",
     ),
   );
   it(
     "left-hand-side-private-reference-accessor-property-short-circuit-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-accessor-property-short-circuit-and.js",
     ),
   );
   it(
     "left-hand-side-private-reference-accessor-property-short-circuit-nullish.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-accessor-property-short-circuit-nullish.js",
     ),
   );
   it(
     "left-hand-side-private-reference-accessor-property-short-circuit-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-accessor-property-short-circuit-or.js",
     ),
   );
   it(
     "left-hand-side-private-reference-data-property-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-data-property-and.js",
     ),
   );
   it(
     "left-hand-side-private-reference-data-property-nullish.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-data-property-nullish.js",
     ),
   );
   it(
     "left-hand-side-private-reference-data-property-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-data-property-or.js",
     ),
   );
   it(
     "left-hand-side-private-reference-data-property-short-circuit-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-data-property-short-circuit-and.js",
     ),
   );
   it(
     "left-hand-side-private-reference-data-property-short-circuit-nullish.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-data-property-short-circuit-nullish.js",
     ),
   );
   it(
     "left-hand-side-private-reference-data-property-short-circuit-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-data-property-short-circuit-or.js",
     ),
   );
   it(
     "left-hand-side-private-reference-method-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-method-and.js",
     ),
   );
   it(
     "left-hand-side-private-reference-method-short-circuit-nullish.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-method-short-circuit-nullish.js",
     ),
   );
   it(
     "left-hand-side-private-reference-method-short-circuit-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-method-short-circuit-or.js",
     ),
   );
   it(
     "left-hand-side-private-reference-readonly-accessor-property-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-readonly-accessor-property-and.js",
     ),
   );
   it(
     "left-hand-side-private-reference-readonly-accessor-property-nullish.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-readonly-accessor-property-nullish.js",
     ),
   );
   it(
     "left-hand-side-private-reference-readonly-accessor-property-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-readonly-accessor-property-or.js",
     ),
   );
   it(
     "left-hand-side-private-reference-readonly-accessor-property-short-circuit-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-readonly-accessor-property-short-circuit-and.js",
     ),
   );
   it(
     "left-hand-side-private-reference-readonly-accessor-property-short-circuit-nullish.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-readonly-accessor-property-short-circuit-nullish.js",
     ),
   );
   it(
     "left-hand-side-private-reference-readonly-accessor-property-short-circuit-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/left-hand-side-private-reference-readonly-accessor-property-short-circuit-or.js",
     ),
@@ -163,7 +163,7 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-and-assignment-operator-lhs-before-rhs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-and-assignment-operator-lhs-before-rhs.js",
     ),
@@ -191,21 +191,21 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-and-assignment-operator-no-set-put.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-and-assignment-operator-no-set-put.js",
     ),
   );
   it(
     "lgcl-and-assignment-operator-no-set.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-and-assignment-operator-no-set.js",
     ),
   );
   it(
     "lgcl-and-assignment-operator-non-extensible.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-and-assignment-operator-non-extensible.js",
     ),
@@ -219,42 +219,42 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-and-assignment-operator-non-writeable-put.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-and-assignment-operator-non-writeable-put.js",
     ),
   );
   it(
     "lgcl-and-assignment-operator-non-writeable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-and-assignment-operator-non-writeable.js",
     ),
   );
   it(
     "lgcl-and-assignment-operator-unresolved-lhs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-and-assignment-operator-unresolved-lhs.js",
     ),
   );
   it(
     "lgcl-and-assignment-operator-unresolved-rhs-put.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-and-assignment-operator-unresolved-rhs-put.js",
     ),
   );
   it(
     "lgcl-and-assignment-operator-unresolved-rhs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-and-assignment-operator-unresolved-rhs.js",
     ),
   );
   it(
     "lgcl-and-assignment-operator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/logical-assignment/lgcl-and-assignment-operator.js"),
   );
   it(
@@ -269,7 +269,7 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-and-whitespace.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/logical-assignment/lgcl-and-whitespace.js"),
   );
   it(
@@ -286,7 +286,7 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-nullish-assignment-operator-lhs-before-rhs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-nullish-assignment-operator-lhs-before-rhs.js",
     ),
@@ -314,21 +314,21 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-nullish-assignment-operator-no-set-put.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-nullish-assignment-operator-no-set-put.js",
     ),
   );
   it(
     "lgcl-nullish-assignment-operator-no-set.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-nullish-assignment-operator-no-set.js",
     ),
   );
   it(
     "lgcl-nullish-assignment-operator-non-extensible.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-nullish-assignment-operator-non-extensible.js",
     ),
@@ -342,42 +342,42 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-nullish-assignment-operator-non-writeable-put.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-nullish-assignment-operator-non-writeable-put.js",
     ),
   );
   it(
     "lgcl-nullish-assignment-operator-non-writeable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-nullish-assignment-operator-non-writeable.js",
     ),
   );
   it(
     "lgcl-nullish-assignment-operator-unresolved-lhs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-nullish-assignment-operator-unresolved-lhs.js",
     ),
   );
   it(
     "lgcl-nullish-assignment-operator-unresolved-rhs-put.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-nullish-assignment-operator-unresolved-rhs-put.js",
     ),
   );
   it(
     "lgcl-nullish-assignment-operator-unresolved-rhs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-nullish-assignment-operator-unresolved-rhs.js",
     ),
   );
   it(
     "lgcl-nullish-assignment-operator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-nullish-assignment-operator.js",
     ),
@@ -394,7 +394,7 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-nullish-whitespace.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/logical-assignment/lgcl-nullish-whitespace.js"),
   );
   it(
@@ -411,7 +411,7 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-or-assignment-operator-lhs-before-rhs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-or-assignment-operator-lhs-before-rhs.js",
     ),
@@ -439,21 +439,21 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-or-assignment-operator-no-set-put.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-or-assignment-operator-no-set-put.js",
     ),
   );
   it(
     "lgcl-or-assignment-operator-no-set.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-or-assignment-operator-no-set.js",
     ),
   );
   it(
     "lgcl-or-assignment-operator-non-extensible.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-or-assignment-operator-non-extensible.js",
     ),
@@ -467,42 +467,42 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-or-assignment-operator-non-writeable-put.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-or-assignment-operator-non-writeable-put.js",
     ),
   );
   it(
     "lgcl-or-assignment-operator-non-writeable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-or-assignment-operator-non-writeable.js",
     ),
   );
   it(
     "lgcl-or-assignment-operator-unresolved-lhs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-or-assignment-operator-unresolved-lhs.js",
     ),
   );
   it(
     "lgcl-or-assignment-operator-unresolved-rhs-put.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-or-assignment-operator-unresolved-rhs-put.js",
     ),
   );
   it(
     "lgcl-or-assignment-operator-unresolved-rhs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-or-assignment-operator-unresolved-rhs.js",
     ),
   );
   it(
     "lgcl-or-assignment-operator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/logical-assignment/lgcl-or-assignment-operator.js"),
   );
   it(
@@ -517,7 +517,7 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-or-whitespace.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/logical-assignment/lgcl-or-whitespace.js"),
   );
 });

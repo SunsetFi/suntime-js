@@ -3,7 +3,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "cls-expr-private-gen-meth-args-trailing-comma-spread-operator.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "language/arguments-object/cls-expr-private-gen-meth-args-trailing-comma-spread-operator.js",
   ),

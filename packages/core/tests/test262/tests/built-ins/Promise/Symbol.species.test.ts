@@ -9,12 +9,12 @@ describe("Symbol.species", () => {
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/Symbol.species/prop-desc.js"),
   );
   it(
     "return-value.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/Symbol.species/return-value.js"),
   );
   it(
@@ -24,7 +24,7 @@ describe("Symbol.species", () => {
   );
   it(
     "symbol-species.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/Symbol.species/symbol-species.js"),
   );
 });

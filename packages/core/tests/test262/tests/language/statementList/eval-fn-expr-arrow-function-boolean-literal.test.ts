@@ -3,6 +3,6 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "eval-fn-expr-arrow-function-boolean-literal.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/statementList/eval-fn-expr-arrow-function-boolean-literal.js"),
 );

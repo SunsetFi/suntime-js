@@ -4,142 +4,142 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("getOwnPropertyDescriptor", () => {
   it(
     "15.2.3.3-0-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-0-1.js"),
   );
   it(
     "15.2.3.3-1-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-1-1.js"),
   );
   it(
     "15.2.3.3-1-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-1-2.js"),
   );
   it(
     "15.2.3.3-1-3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-1-3.js"),
   );
   it(
     "15.2.3.3-1-4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-1-4.js"),
   );
   it(
     "15.2.3.3-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-1.js"),
   );
   it(
     "15.2.3.3-2-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-1.js"),
   );
   it(
     "15.2.3.3-2-10.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-10.js"),
   );
   it(
     "15.2.3.3-2-11.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-11.js"),
   );
   it(
     "15.2.3.3-2-12.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-12.js"),
   );
   it(
     "15.2.3.3-2-13.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-13.js"),
   );
   it(
     "15.2.3.3-2-14.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-14.js"),
   );
   it(
     "15.2.3.3-2-15.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-15.js"),
   );
   it(
     "15.2.3.3-2-16.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-16.js"),
   );
   it(
     "15.2.3.3-2-17.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-17.js"),
   );
   it(
     "15.2.3.3-2-18.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-18.js"),
   );
   it(
     "15.2.3.3-2-19.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-19.js"),
   );
   it(
     "15.2.3.3-2-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-2.js"),
   );
   it(
     "15.2.3.3-2-20.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-20.js"),
   );
   it(
     "15.2.3.3-2-21.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-21.js"),
   );
   it(
     "15.2.3.3-2-22.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-22.js"),
   );
   it(
     "15.2.3.3-2-23.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-23.js"),
   );
   it(
     "15.2.3.3-2-24.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-24.js"),
   );
   it(
     "15.2.3.3-2-25.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-25.js"),
   );
   it(
     "15.2.3.3-2-26.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-26.js"),
   );
   it(
     "15.2.3.3-2-27.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-27.js"),
   );
   it(
     "15.2.3.3-2-28.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-28.js"),
   );
   it(
     "15.2.3.3-2-29.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-29.js"),
   );
   it(
@@ -149,42 +149,42 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-2-30.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-30.js"),
   );
   it(
     "15.2.3.3-2-31.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-31.js"),
   );
   it(
     "15.2.3.3-2-32.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-32.js"),
   );
   it(
     "15.2.3.3-2-33.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-33.js"),
   );
   it(
     "15.2.3.3-2-34.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-34.js"),
   );
   it(
     "15.2.3.3-2-35.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-35.js"),
   );
   it(
     "15.2.3.3-2-36.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-36.js"),
   );
   it(
     "15.2.3.3-2-37.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-37.js"),
   );
   it(
@@ -244,97 +244,97 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-2-5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-5.js"),
   );
   it(
     "15.2.3.3-2-6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-6.js"),
   );
   it(
     "15.2.3.3-2-7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-7.js"),
   );
   it(
     "15.2.3.3-2-8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-8.js"),
   );
   it(
     "15.2.3.3-2-9.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-2-9.js"),
   );
   it(
     "15.2.3.3-3-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-3-1.js"),
   );
   it(
     "15.2.3.3-3-10.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-3-10.js"),
   );
   it(
     "15.2.3.3-3-13.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-3-13.js"),
   );
   it(
     "15.2.3.3-3-14.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-3-14.js"),
   );
   it(
     "15.2.3.3-3-15.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-3-15.js"),
   );
   it(
     "15.2.3.3-3-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-3-2.js"),
   );
   it(
     "15.2.3.3-3-3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-3-3.js"),
   );
   it(
     "15.2.3.3-3-4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-3-4.js"),
   );
   it(
     "15.2.3.3-3-5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-3-5.js"),
   );
   it(
     "15.2.3.3-3-6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-3-6.js"),
   );
   it(
     "15.2.3.3-3-7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-3-7.js"),
   );
   it(
     "15.2.3.3-3-8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-3-8.js"),
   );
   it(
     "15.2.3.3-3-9.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-3-9.js"),
   );
   it(
     "15.2.3.3-4-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-1.js"),
   );
   it(
@@ -344,52 +344,52 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-100.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-100.js"),
   );
   it(
     "15.2.3.3-4-101.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-101.js"),
   );
   it(
     "15.2.3.3-4-102.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-102.js"),
   );
   it(
     "15.2.3.3-4-103.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-103.js"),
   );
   it(
     "15.2.3.3-4-104.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-104.js"),
   );
   it(
     "15.2.3.3-4-105.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-105.js"),
   );
   it(
     "15.2.3.3-4-106.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-106.js"),
   );
   it(
     "15.2.3.3-4-107.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-107.js"),
   );
   it(
     "15.2.3.3-4-108.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-108.js"),
   );
   it(
     "15.2.3.3-4-109.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-109.js"),
   );
   it(
@@ -399,22 +399,22 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-110.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-110.js"),
   );
   it(
     "15.2.3.3-4-111.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-111.js"),
   );
   it(
     "15.2.3.3-4-112.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-112.js"),
   );
   it(
     "15.2.3.3-4-113.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-113.js"),
   );
   it(
@@ -539,7 +539,7 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-14.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-14.js"),
   );
   it(
@@ -594,7 +594,7 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-15.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-15.js"),
   );
   it(
@@ -644,7 +644,7 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-16.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-16.js"),
   );
   it(
@@ -684,47 +684,47 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-168.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-168.js"),
   );
   it(
     "15.2.3.3-4-169.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-169.js"),
   );
   it(
     "15.2.3.3-4-17.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-17.js"),
   );
   it(
     "15.2.3.3-4-170.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-170.js"),
   );
   it(
     "15.2.3.3-4-171.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-171.js"),
   );
   it(
     "15.2.3.3-4-172.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-172.js"),
   );
   it(
     "15.2.3.3-4-173.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-173.js"),
   );
   it(
     "15.2.3.3-4-174.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-174.js"),
   );
   it(
     "15.2.3.3-4-175.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-175.js"),
   );
   it(
@@ -739,77 +739,77 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-178.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-178.js"),
   );
   it(
     "15.2.3.3-4-179.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-179.js"),
   );
   it(
     "15.2.3.3-4-18.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-18.js"),
   );
   it(
     "15.2.3.3-4-180.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-180.js"),
   );
   it(
     "15.2.3.3-4-182.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-182.js"),
   );
   it(
     "15.2.3.3-4-183.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-183.js"),
   );
   it(
     "15.2.3.3-4-184.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-184.js"),
   );
   it(
     "15.2.3.3-4-185.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-185.js"),
   );
   it(
     "15.2.3.3-4-186.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-186.js"),
   );
   it(
     "15.2.3.3-4-187.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-187.js"),
   );
   it(
     "15.2.3.3-4-188.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-188.js"),
   );
   it(
     "15.2.3.3-4-189.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-189.js"),
   );
   it(
     "15.2.3.3-4-19.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-19.js"),
   );
   it(
     "15.2.3.3-4-190.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-190.js"),
   );
   it(
     "15.2.3.3-4-191.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-191.js"),
   );
   it(
@@ -819,102 +819,102 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-193.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-193.js"),
   );
   it(
     "15.2.3.3-4-194.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-194.js"),
   );
   it(
     "15.2.3.3-4-195.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-195.js"),
   );
   it(
     "15.2.3.3-4-196.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-196.js"),
   );
   it(
     "15.2.3.3-4-197.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-197.js"),
   );
   it(
     "15.2.3.3-4-198.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-198.js"),
   );
   it(
     "15.2.3.3-4-199.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-199.js"),
   );
   it(
     "15.2.3.3-4-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-2.js"),
   );
   it(
     "15.2.3.3-4-20.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-20.js"),
   );
   it(
     "15.2.3.3-4-200.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-200.js"),
   );
   it(
     "15.2.3.3-4-201.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-201.js"),
   );
   it(
     "15.2.3.3-4-202.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-202.js"),
   );
   it(
     "15.2.3.3-4-203.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-203.js"),
   );
   it(
     "15.2.3.3-4-204.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-204.js"),
   );
   it(
     "15.2.3.3-4-205.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-205.js"),
   );
   it(
     "15.2.3.3-4-206.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-206.js"),
   );
   it(
     "15.2.3.3-4-207.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-207.js"),
   );
   it(
     "15.2.3.3-4-208.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-208.js"),
   );
   it(
     "15.2.3.3-4-209.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-209.js"),
   );
   it(
     "15.2.3.3-4-21.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-21.js"),
   );
   it(
@@ -949,182 +949,182 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-216.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-216.js"),
   );
   it(
     "15.2.3.3-4-217.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-217.js"),
   );
   it(
     "15.2.3.3-4-218.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-218.js"),
   );
   it(
     "15.2.3.3-4-219.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-219.js"),
   );
   it(
     "15.2.3.3-4-22.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-22.js"),
   );
   it(
     "15.2.3.3-4-220.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-220.js"),
   );
   it(
     "15.2.3.3-4-221.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-221.js"),
   );
   it(
     "15.2.3.3-4-222.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-222.js"),
   );
   it(
     "15.2.3.3-4-223.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-223.js"),
   );
   it(
     "15.2.3.3-4-224.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-224.js"),
   );
   it(
     "15.2.3.3-4-225.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-225.js"),
   );
   it(
     "15.2.3.3-4-226.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-226.js"),
   );
   it(
     "15.2.3.3-4-227.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-227.js"),
   );
   it(
     "15.2.3.3-4-228.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-228.js"),
   );
   it(
     "15.2.3.3-4-229.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-229.js"),
   );
   it(
     "15.2.3.3-4-23.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-23.js"),
   );
   it(
     "15.2.3.3-4-230.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-230.js"),
   );
   it(
     "15.2.3.3-4-231.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-231.js"),
   );
   it(
     "15.2.3.3-4-232.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-232.js"),
   );
   it(
     "15.2.3.3-4-233.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-233.js"),
   );
   it(
     "15.2.3.3-4-234.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-234.js"),
   );
   it(
     "15.2.3.3-4-235.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-235.js"),
   );
   it(
     "15.2.3.3-4-236.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-236.js"),
   );
   it(
     "15.2.3.3-4-237.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-237.js"),
   );
   it(
     "15.2.3.3-4-238.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-238.js"),
   );
   it(
     "15.2.3.3-4-239.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-239.js"),
   );
   it(
     "15.2.3.3-4-24.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-24.js"),
   );
   it(
     "15.2.3.3-4-240.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-240.js"),
   );
   it(
     "15.2.3.3-4-241.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-241.js"),
   );
   it(
     "15.2.3.3-4-242.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-242.js"),
   );
   it(
     "15.2.3.3-4-243.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-243.js"),
   );
   it(
     "15.2.3.3-4-244.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-244.js"),
   );
   it(
     "15.2.3.3-4-245.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-245.js"),
   );
   it(
     "15.2.3.3-4-246.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-246.js"),
   );
   it(
     "15.2.3.3-4-247.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-247.js"),
   );
   it(
     "15.2.3.3-4-248.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-248.js"),
   );
   it(
@@ -1134,7 +1134,7 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-25.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-25.js"),
   );
   it(
@@ -1144,52 +1144,52 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-26.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-26.js"),
   );
   it(
     "15.2.3.3-4-27.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-27.js"),
   );
   it(
     "15.2.3.3-4-28.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-28.js"),
   );
   it(
     "15.2.3.3-4-29.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-29.js"),
   );
   it(
     "15.2.3.3-4-3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-3.js"),
   );
   it(
     "15.2.3.3-4-30.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-30.js"),
   );
   it(
     "15.2.3.3-4-31.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-31.js"),
   );
   it(
     "15.2.3.3-4-32.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-32.js"),
   );
   it(
     "15.2.3.3-4-33.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-33.js"),
   );
   it(
     "15.2.3.3-4-34.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-34.js"),
   );
   it(
@@ -1199,87 +1199,87 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-36.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-36.js"),
   );
   it(
     "15.2.3.3-4-37.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-37.js"),
   );
   it(
     "15.2.3.3-4-38.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-38.js"),
   );
   it(
     "15.2.3.3-4-39.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-39.js"),
   );
   it(
     "15.2.3.3-4-4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-4.js"),
   );
   it(
     "15.2.3.3-4-40.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-40.js"),
   );
   it(
     "15.2.3.3-4-41.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-41.js"),
   );
   it(
     "15.2.3.3-4-42.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-42.js"),
   );
   it(
     "15.2.3.3-4-43.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-43.js"),
   );
   it(
     "15.2.3.3-4-44.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-44.js"),
   );
   it(
     "15.2.3.3-4-45.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-45.js"),
   );
   it(
     "15.2.3.3-4-46.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-46.js"),
   );
   it(
     "15.2.3.3-4-47.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-47.js"),
   );
   it(
     "15.2.3.3-4-48.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-48.js"),
   );
   it(
     "15.2.3.3-4-49.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-49.js"),
   );
   it(
     "15.2.3.3-4-5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-5.js"),
   );
   it(
     "15.2.3.3-4-50.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-50.js"),
   );
   it(
@@ -1289,87 +1289,87 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-52.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-52.js"),
   );
   it(
     "15.2.3.3-4-53.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-53.js"),
   );
   it(
     "15.2.3.3-4-54.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-54.js"),
   );
   it(
     "15.2.3.3-4-55.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-55.js"),
   );
   it(
     "15.2.3.3-4-56.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-56.js"),
   );
   it(
     "15.2.3.3-4-57.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-57.js"),
   );
   it(
     "15.2.3.3-4-58.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-58.js"),
   );
   it(
     "15.2.3.3-4-59.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-59.js"),
   );
   it(
     "15.2.3.3-4-6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-6.js"),
   );
   it(
     "15.2.3.3-4-60.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-60.js"),
   );
   it(
     "15.2.3.3-4-61.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-61.js"),
   );
   it(
     "15.2.3.3-4-62.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-62.js"),
   );
   it(
     "15.2.3.3-4-63.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-63.js"),
   );
   it(
     "15.2.3.3-4-64.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-64.js"),
   );
   it(
     "15.2.3.3-4-65.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-65.js"),
   );
   it(
     "15.2.3.3-4-66.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-66.js"),
   );
   it(
     "15.2.3.3-4-67.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-67.js"),
   );
   it(
@@ -1379,12 +1379,12 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-69.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-69.js"),
   );
   it(
     "15.2.3.3-4-7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-7.js"),
   );
   it(
@@ -1394,37 +1394,37 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-71.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-71.js"),
   );
   it(
     "15.2.3.3-4-72.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-72.js"),
   );
   it(
     "15.2.3.3-4-73.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-73.js"),
   );
   it(
     "15.2.3.3-4-75.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-75.js"),
   );
   it(
     "15.2.3.3-4-76.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-76.js"),
   );
   it(
     "15.2.3.3-4-77.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-77.js"),
   );
   it(
     "15.2.3.3-4-78.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-78.js"),
   );
   it(
@@ -1434,7 +1434,7 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-8.js"),
   );
   it(
@@ -1449,32 +1449,32 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-82.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-82.js"),
   );
   it(
     "15.2.3.3-4-84.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-84.js"),
   );
   it(
     "15.2.3.3-4-85.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-85.js"),
   );
   it(
     "15.2.3.3-4-86.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-86.js"),
   );
   it(
     "15.2.3.3-4-88.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-88.js"),
   );
   it(
     "15.2.3.3-4-89.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-89.js"),
   );
   it(
@@ -1484,47 +1484,47 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-90.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-90.js"),
   );
   it(
     "15.2.3.3-4-91.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-91.js"),
   );
   it(
     "15.2.3.3-4-92.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-92.js"),
   );
   it(
     "15.2.3.3-4-93.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-93.js"),
   );
   it(
     "15.2.3.3-4-94.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-94.js"),
   );
   it(
     "15.2.3.3-4-96.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-96.js"),
   );
   it(
     "15.2.3.3-4-97.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-97.js"),
   );
   it(
     "15.2.3.3-4-98.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-98.js"),
   );
   it(
     "15.2.3.3-4-99.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-99.js"),
   );
   it(
@@ -1534,12 +1534,12 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/name.js"),
   );
   it(
     "not-a-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/not-a-constructor.js"),
   );
   it(
@@ -1549,7 +1549,7 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "primitive-symbol.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/primitive-symbol.js"),
   );
 });

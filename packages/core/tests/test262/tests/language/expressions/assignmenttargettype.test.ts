@@ -2148,56 +2148,56 @@ describe("assignmenttargettype", () => {
   );
   it(
     "simple-basic-identifierreference-arguments.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/assignmenttargettype/simple-basic-identifierreference-arguments.js",
     ),
   );
   it(
     "simple-basic-identifierreference-await.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/assignmenttargettype/simple-basic-identifierreference-await.js",
     ),
   );
   it(
     "simple-basic-identifierreference-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/assignmenttargettype/simple-basic-identifierreference-eval.js",
     ),
   );
   it(
     "simple-basic-identifierreference-yield.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/assignmenttargettype/simple-basic-identifierreference-yield.js",
     ),
   );
   it(
     "simple-complex-callexpression-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/assignmenttargettype/simple-complex-callexpression-expression.js",
     ),
   );
   it(
     "simple-complex-callexpression.identifiername.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/assignmenttargettype/simple-complex-callexpression.identifiername.js",
     ),
   );
   it(
     "simple-complex-memberexpression-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/assignmenttargettype/simple-complex-memberexpression-expression.js",
     ),
   );
   it(
     "simple-complex-memberexpression.identifiername.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/assignmenttargettype/simple-complex-memberexpression.identifiername.js",
     ),

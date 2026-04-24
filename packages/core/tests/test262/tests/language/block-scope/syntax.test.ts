@@ -5,12 +5,12 @@ describe("syntax", () => {
   describe("for-in", () => {
     it(
       "acquire-properties-from-array.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/block-scope/syntax/for-in/acquire-properties-from-array.js"),
     );
     it(
       "acquire-properties-from-object.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/block-scope/syntax/for-in/acquire-properties-from-object.js"),
     );
     it(
@@ -46,21 +46,21 @@ describe("syntax", () => {
     );
     it(
       "mixed-values-in-iteration.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/block-scope/syntax/for-in/mixed-values-in-iteration.js"),
     );
   });
   describe("function-declarations", () => {
     it(
       "in-statement-position-case-expression-statement-list.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/block-scope/syntax/function-declarations/in-statement-position-case-expression-statement-list.js",
       ),
     );
     it(
       "in-statement-position-default-statement-list.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/block-scope/syntax/function-declarations/in-statement-position-default-statement-list.js",
       ),
@@ -377,7 +377,7 @@ describe("syntax", () => {
     );
     it(
       "fn-scope-var-name-redeclaration-attempt-with-var.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/block-scope/syntax/redeclaration/fn-scope-var-name-redeclaration-attempt-with-var.js",
       ),
@@ -552,7 +552,7 @@ describe("syntax", () => {
     );
     it(
       "inner-block-var-name-redeclaration-attempt-with-var.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/block-scope/syntax/redeclaration/inner-block-var-name-redeclaration-attempt-with-var.js",
       ),
@@ -713,7 +713,7 @@ describe("syntax", () => {
     );
     it(
       "var-name-redeclaration-attempt-with-var.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/block-scope/syntax/redeclaration/var-name-redeclaration-attempt-with-var.js",
       ),
@@ -771,21 +771,21 @@ describe("syntax", () => {
   describe("redeclaration-global", () => {
     it(
       "allowed-to-declare-function-with-function-declaration.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/block-scope/syntax/redeclaration-global/allowed-to-declare-function-with-function-declaration.js",
       ),
     );
     it(
       "allowed-to-redeclare-function-declaration-with-var.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/block-scope/syntax/redeclaration-global/allowed-to-redeclare-function-declaration-with-var.js",
       ),
     );
     it(
       "allowed-to-redeclare-var-with-function-declaration.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/block-scope/syntax/redeclaration-global/allowed-to-redeclare-var-with-function-declaration.js",
       ),

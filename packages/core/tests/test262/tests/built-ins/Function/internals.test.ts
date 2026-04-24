@@ -10,7 +10,7 @@ describe("internals", () => {
     );
     it(
       "class-ctor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Function/internals/Call/class-ctor.js"),
     );
   });
@@ -32,7 +32,7 @@ describe("internals", () => {
     );
     it(
       "derived-return-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Function/internals/Construct/derived-return-val.js"),
     );
     it(
@@ -44,7 +44,7 @@ describe("internals", () => {
     );
     it(
       "derived-this-uninitialized.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Function/internals/Construct/derived-this-uninitialized.js"),
     );
   });

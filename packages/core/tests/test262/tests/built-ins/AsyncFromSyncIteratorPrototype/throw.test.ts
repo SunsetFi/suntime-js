@@ -47,12 +47,12 @@ describe("throw", () => {
   );
   it(
     "result-object-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncFromSyncIteratorPrototype/throw/result-object-error.js"),
   );
   it(
     "throw-null.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncFromSyncIteratorPrototype/throw/throw-null.js"),
   );
   it(
@@ -92,7 +92,7 @@ describe("throw", () => {
   );
   it(
     "throw-undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncFromSyncIteratorPrototype/throw/throw-undefined.js"),
   );
 });

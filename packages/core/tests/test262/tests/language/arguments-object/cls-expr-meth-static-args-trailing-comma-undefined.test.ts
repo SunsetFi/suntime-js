@@ -3,7 +3,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "cls-expr-meth-static-args-trailing-comma-undefined.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "language/arguments-object/cls-expr-meth-static-args-trailing-comma-undefined.js",
   ),

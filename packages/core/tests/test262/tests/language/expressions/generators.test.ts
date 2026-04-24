@@ -4,12 +4,12 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("generators", () => {
   it(
     "arguments-with-arguments-fn.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/arguments-with-arguments-fn.js"),
   );
   it(
     "arguments-with-arguments-lex.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/arguments-with-arguments-lex.js"),
   );
   it(
@@ -19,22 +19,22 @@ describe("generators", () => {
   );
   it(
     "default-proto.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/default-proto.js"),
   );
   it(
     "dflt-params-abrupt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/dflt-params-abrupt.js"),
   );
   it(
     "dflt-params-arg-val-not-undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/dflt-params-arg-val-not-undefined.js"),
   );
   it(
     "dflt-params-arg-val-undefined.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/dflt-params-arg-val-undefined.js"),
   );
   it(
@@ -44,17 +44,17 @@ describe("generators", () => {
   );
   it(
     "dflt-params-ref-later.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/dflt-params-ref-later.js"),
   );
   it(
     "dflt-params-ref-prior.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/dflt-params-ref-prior.js"),
   );
   it(
     "dflt-params-ref-self.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/dflt-params-ref-self.js"),
   );
   it(
@@ -64,284 +64,284 @@ describe("generators", () => {
   );
   it(
     "dflt-params-trailing-comma.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/dflt-params-trailing-comma.js"),
   );
   describe("dstr", () => {
     it(
       "ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-init-iter-close.js"),
     );
     it(
       "ary-init-iter-get-err-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/ary-init-iter-get-err-array-prototype.js",
       ),
     );
     it(
       "ary-init-iter-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-init-iter-get-err.js"),
     );
     it(
       "ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-init-iter-no-close.js"),
     );
     it(
       "ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-name-iter-val.js"),
     );
     it(
       "ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-ary-elem-init.js"),
     );
     it(
       "ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-ary-elem-iter.js"),
     );
     it(
       "ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-ary-elision-init.js"),
     );
     it(
       "ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-ary-elision-iter.js"),
     );
     it(
       "ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-ary-empty-init.js"),
     );
     it(
       "ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-ary-empty-iter.js"),
     );
     it(
       "ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-ary-rest-init.js"),
     );
     it(
       "ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-ary-rest-iter.js"),
     );
     it(
       "ary-ptrn-elem-ary-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-ary-val-null.js"),
     );
     it(
       "ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-id-init-exhausted.js"),
     );
     it(
       "ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-id-init-fn-name-fn.js"),
     );
     it(
       "ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-id-init-hole.js"),
     );
     it(
       "ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-id-init-skipped.js"),
     );
     it(
       "ary-ptrn-elem-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-id-init-throws.js"),
     );
     it(
       "ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-id-init-undef.js"),
     );
     it(
       "ary-ptrn-elem-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/ary-ptrn-elem-id-init-unresolvable.js",
       ),
     );
     it(
       "ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-id-iter-complete.js"),
     );
     it(
       "ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-id-iter-done.js"),
     );
     it(
       "ary-ptrn-elem-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-id-iter-step-err.js"),
     );
     it(
       "ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "ary-ptrn-elem-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-id-iter-val-err.js"),
     );
     it(
       "ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-id-iter-val.js"),
     );
     it(
       "ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-obj-id-init.js"),
     );
     it(
       "ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-obj-id.js"),
     );
     it(
       "ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-obj-prop-id-init.js"),
     );
     it(
       "ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-obj-prop-id.js"),
     );
     it(
       "ary-ptrn-elem-obj-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-obj-val-null.js"),
     );
     it(
       "ary-ptrn-elem-obj-val-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elem-obj-val-undef.js"),
     );
     it(
       "ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elision-exhausted.js"),
     );
     it(
       "ary-ptrn-elision-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elision-step-err.js"),
     );
     it(
       "ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-elision.js"),
     );
     it(
       "ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-empty.js"),
     );
     it(
       "ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-rest-ary-elem.js"),
     );
     it(
       "ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-rest-ary-elision.js"),
     );
     it(
       "ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-rest-ary-empty.js"),
     );
     it(
       "ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-rest-ary-rest.js"),
     );
     it(
       "ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-rest-id-direct.js"),
     );
     it(
       "ary-ptrn-rest-id-elision-next-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/ary-ptrn-rest-id-elision-next-err.js",
       ),
     );
     it(
       "ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-rest-id-elision.js"),
     );
     it(
       "ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-rest-id-exhausted.js"),
     );
     it(
       "ary-ptrn-rest-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-rest-id-iter-step-err.js"),
     );
     it(
       "ary-ptrn-rest-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-rest-id-iter-val-err.js"),
     );
     it(
       "ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-rest-id.js"),
     );
     it(
@@ -376,316 +376,316 @@ describe("generators", () => {
     );
     it(
       "ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-rest-obj-id.js"),
     );
     it(
       "ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/ary-ptrn-rest-obj-prop-id.js"),
     );
     it(
       "dflt-ary-init-iter-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-init-iter-close.js"),
     );
     it(
       "dflt-ary-init-iter-get-err-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-init-iter-get-err-array-prototype.js",
       ),
     );
     it(
       "dflt-ary-init-iter-get-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-init-iter-get-err.js"),
     );
     it(
       "dflt-ary-init-iter-no-close.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-init-iter-no-close.js"),
     );
     it(
       "dflt-ary-name-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-name-iter-val.js"),
     );
     it(
       "dflt-ary-ptrn-elem-ary-elem-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elem-ary-elem-init.js"),
     );
     it(
       "dflt-ary-ptrn-elem-ary-elem-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elem-ary-elem-iter.js"),
     );
     it(
       "dflt-ary-ptrn-elem-ary-elision-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-ary-elision-init.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-ary-elision-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-ary-elision-iter.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-ary-empty-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-ary-empty-init.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-ary-empty-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-ary-empty-iter.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-ary-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elem-ary-rest-init.js"),
     );
     it(
       "dflt-ary-ptrn-elem-ary-rest-iter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elem-ary-rest-iter.js"),
     );
     it(
       "dflt-ary-ptrn-elem-ary-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elem-ary-val-null.js"),
     );
     it(
       "dflt-ary-ptrn-elem-id-init-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-init-exhausted.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-init-fn-name-class.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-init-fn-name-cover.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-init-fn-name-fn.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-init-fn-name-gen.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-id-init-hole.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-init-hole.js"),
     );
     it(
       "dflt-ary-ptrn-elem-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-init-skipped.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-init-throws.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-id-init-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-init-undef.js"),
     );
     it(
       "dflt-ary-ptrn-elem-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-init-unresolvable.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-id-iter-complete.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-iter-complete.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-id-iter-done.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-iter-done.js"),
     );
     it(
       "dflt-ary-ptrn-elem-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-iter-step-err.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-iter-val-array-prototype.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-iter-val-err.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-id-iter-val.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elem-id-iter-val.js"),
     );
     it(
       "dflt-ary-ptrn-elem-obj-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elem-obj-id-init.js"),
     );
     it(
       "dflt-ary-ptrn-elem-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elem-obj-id.js"),
     );
     it(
       "dflt-ary-ptrn-elem-obj-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-elem-obj-prop-id-init.js",
       ),
     );
     it(
       "dflt-ary-ptrn-elem-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elem-obj-prop-id.js"),
     );
     it(
       "dflt-ary-ptrn-elem-obj-val-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elem-obj-val-null.js"),
     );
     it(
       "dflt-ary-ptrn-elem-obj-val-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elem-obj-val-undef.js"),
     );
     it(
       "dflt-ary-ptrn-elision-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elision-exhausted.js"),
     );
     it(
       "dflt-ary-ptrn-elision-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elision-step-err.js"),
     );
     it(
       "dflt-ary-ptrn-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-elision.js"),
     );
     it(
       "dflt-ary-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-empty.js"),
     );
     it(
       "dflt-ary-ptrn-rest-ary-elem.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-rest-ary-elem.js"),
     );
     it(
       "dflt-ary-ptrn-rest-ary-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-rest-ary-elision.js"),
     );
     it(
       "dflt-ary-ptrn-rest-ary-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-rest-ary-empty.js"),
     );
     it(
       "dflt-ary-ptrn-rest-ary-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-rest-ary-rest.js"),
     );
     it(
       "dflt-ary-ptrn-rest-id-direct.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-rest-id-direct.js"),
     );
     it(
       "dflt-ary-ptrn-rest-id-elision-next-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-rest-id-elision-next-err.js",
       ),
     );
     it(
       "dflt-ary-ptrn-rest-id-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-rest-id-elision.js"),
     );
     it(
       "dflt-ary-ptrn-rest-id-exhausted.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-rest-id-exhausted.js"),
     );
     it(
       "dflt-ary-ptrn-rest-id-iter-step-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-rest-id-iter-step-err.js",
       ),
     );
     it(
       "dflt-ary-ptrn-rest-id-iter-val-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-ary-ptrn-rest-id-iter-val-err.js",
       ),
     );
     it(
       "dflt-ary-ptrn-rest-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-rest-id.js"),
     );
     it(
@@ -720,376 +720,376 @@ describe("generators", () => {
     );
     it(
       "dflt-ary-ptrn-rest-obj-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-rest-obj-id.js"),
     );
     it(
       "dflt-ary-ptrn-rest-obj-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-ary-ptrn-rest-obj-prop-id.js"),
     );
     it(
       "dflt-obj-init-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-init-null.js"),
     );
     it(
       "dflt-obj-init-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-init-undefined.js"),
     );
     it(
       "dflt-obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-empty.js"),
     );
     it(
       "dflt-obj-ptrn-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-id-get-value-err.js"),
     );
     it(
       "dflt-obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-obj-ptrn-id-init-fn-name-arrow.js",
       ),
     );
     it(
       "dflt-obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-obj-ptrn-id-init-fn-name-class.js",
       ),
     );
     it(
       "dflt-obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-obj-ptrn-id-init-fn-name-cover.js",
       ),
     );
     it(
       "dflt-obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-id-init-fn-name-fn.js"),
     );
     it(
       "dflt-obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-obj-ptrn-id-init-fn-name-gen.js",
       ),
     );
     it(
       "dflt-obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-id-init-skipped.js"),
     );
     it(
       "dflt-obj-ptrn-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-id-init-throws.js"),
     );
     it(
       "dflt-obj-ptrn-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-obj-ptrn-id-init-unresolvable.js",
       ),
     );
     it(
       "dflt-obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-id-trailing-comma.js"),
     );
     it(
       "dflt-obj-ptrn-list-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-list-err.js"),
     );
     it(
       "dflt-obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-prop-ary-init.js"),
     );
     it(
       "dflt-obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-obj-ptrn-prop-ary-trailing-comma.js",
       ),
     );
     it(
       "dflt-obj-ptrn-prop-ary-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-obj-ptrn-prop-ary-value-null.js",
       ),
     );
     it(
       "dflt-obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-prop-ary.js"),
     );
     it(
       "dflt-obj-ptrn-prop-eval-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-prop-eval-err.js"),
     );
     it(
       "dflt-obj-ptrn-prop-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-obj-ptrn-prop-id-get-value-err.js",
       ),
     );
     it(
       "dflt-obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-obj-ptrn-prop-id-init-skipped.js",
       ),
     );
     it(
       "dflt-obj-ptrn-prop-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-obj-ptrn-prop-id-init-throws.js",
       ),
     );
     it(
       "dflt-obj-ptrn-prop-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-obj-ptrn-prop-id-init-unresolvable.js",
       ),
     );
     it(
       "dflt-obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-prop-id-init.js"),
     );
     it(
       "dflt-obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-obj-ptrn-prop-id-trailing-comma.js",
       ),
     );
     it(
       "dflt-obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-prop-id.js"),
     );
     it(
       "dflt-obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-prop-obj-init.js"),
     );
     it(
       "dflt-obj-ptrn-prop-obj-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-obj-ptrn-prop-obj-value-null.js",
       ),
     );
     it(
       "dflt-obj-ptrn-prop-obj-value-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-obj-ptrn-prop-obj-value-undef.js",
       ),
     );
     it(
       "dflt-obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-prop-obj.js"),
     );
     it(
       "dflt-obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-rest-getter.js"),
     );
     it(
       "dflt-obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/dflt-obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "dflt-obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/dflt-obj-ptrn-rest-val-obj.js"),
     );
     it(
       "obj-init-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-init-null.js"),
     );
     it(
       "obj-init-undefined.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-init-undefined.js"),
     );
     it(
       "obj-ptrn-empty.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-empty.js"),
     );
     it(
       "obj-ptrn-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-id-get-value-err.js"),
     );
     it(
       "obj-ptrn-id-init-fn-name-arrow.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-id-init-fn-name-arrow.js"),
     );
     it(
       "obj-ptrn-id-init-fn-name-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-id-init-fn-name-class.js"),
     );
     it(
       "obj-ptrn-id-init-fn-name-cover.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-id-init-fn-name-cover.js"),
     );
     it(
       "obj-ptrn-id-init-fn-name-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-id-init-fn-name-fn.js"),
     );
     it(
       "obj-ptrn-id-init-fn-name-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-id-init-fn-name-gen.js"),
     );
     it(
       "obj-ptrn-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-id-init-skipped.js"),
     );
     it(
       "obj-ptrn-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-id-init-throws.js"),
     );
     it(
       "obj-ptrn-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-id-init-unresolvable.js"),
     );
     it(
       "obj-ptrn-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-id-trailing-comma.js"),
     );
     it(
       "obj-ptrn-list-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-list-err.js"),
     );
     it(
       "obj-ptrn-prop-ary-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-prop-ary-init.js"),
     );
     it(
       "obj-ptrn-prop-ary-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-prop-ary-trailing-comma.js"),
     );
     it(
       "obj-ptrn-prop-ary-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-prop-ary-value-null.js"),
     );
     it(
       "obj-ptrn-prop-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-prop-ary.js"),
     );
     it(
       "obj-ptrn-prop-eval-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-prop-eval-err.js"),
     );
     it(
       "obj-ptrn-prop-id-get-value-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-prop-id-get-value-err.js"),
     );
     it(
       "obj-ptrn-prop-id-init-skipped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-prop-id-init-skipped.js"),
     );
     it(
       "obj-ptrn-prop-id-init-throws.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-prop-id-init-throws.js"),
     );
     it(
       "obj-ptrn-prop-id-init-unresolvable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/obj-ptrn-prop-id-init-unresolvable.js",
       ),
     );
     it(
       "obj-ptrn-prop-id-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-prop-id-init.js"),
     );
     it(
       "obj-ptrn-prop-id-trailing-comma.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-prop-id-trailing-comma.js"),
     );
     it(
       "obj-ptrn-prop-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-prop-id.js"),
     );
     it(
       "obj-ptrn-prop-obj-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-prop-obj-init.js"),
     );
     it(
       "obj-ptrn-prop-obj-value-null.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-prop-obj-value-null.js"),
     );
     it(
       "obj-ptrn-prop-obj-value-undef.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-prop-obj-value-undef.js"),
     );
     it(
       "obj-ptrn-prop-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-prop-obj.js"),
     );
     it(
       "obj-ptrn-rest-getter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-rest-getter.js"),
     );
     it(
       "obj-ptrn-rest-skip-non-enumerable.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/generators/dstr/obj-ptrn-rest-skip-non-enumerable.js",
       ),
     );
     it(
       "obj-ptrn-rest-val-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/generators/dstr/obj-ptrn-rest-val-obj.js"),
     );
   });
@@ -1100,21 +1100,21 @@ describe("generators", () => {
   );
   it(
     "eval-var-scope-syntax-err.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/eval-var-scope-syntax-err.js"),
   );
   describe("forbidden-ext", () => {
     describe("b1", () => {
       it(
         "gen-func-expr-forbidden-ext-direct-access-prop-arguments.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/generators/forbidden-ext/b1/gen-func-expr-forbidden-ext-direct-access-prop-arguments.js",
         ),
       );
       it(
         "gen-func-expr-forbidden-ext-direct-access-prop-caller.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/generators/forbidden-ext/b1/gen-func-expr-forbidden-ext-direct-access-prop-caller.js",
         ),
@@ -1123,21 +1123,21 @@ describe("generators", () => {
     describe("b2", () => {
       it(
         "gen-func-expr-forbidden-ext-indirect-access-own-prop-caller-get.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/generators/forbidden-ext/b2/gen-func-expr-forbidden-ext-indirect-access-own-prop-caller-get.js",
         ),
       );
       it(
         "gen-func-expr-forbidden-ext-indirect-access-own-prop-caller-value.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/generators/forbidden-ext/b2/gen-func-expr-forbidden-ext-indirect-access-own-prop-caller-value.js",
         ),
       );
       it(
         "gen-func-expr-forbidden-ext-indirect-access-prop-caller.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/generators/forbidden-ext/b2/gen-func-expr-forbidden-ext-indirect-access-prop-caller.js",
         ),
@@ -1146,77 +1146,77 @@ describe("generators", () => {
   });
   it(
     "generator-created-after-decl-inst.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/generator-created-after-decl-inst.js"),
   );
   it(
     "has-instance.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/has-instance.js"),
   );
   it(
     "implicit-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/implicit-name.js"),
   );
   it(
     "invoke-as-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/invoke-as-constructor.js"),
   );
   it(
     "length-dflt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/length-dflt.js"),
   );
   it(
     "length-property-descriptor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/length-property-descriptor.js"),
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/name.js"),
   );
   it(
     "named-no-strict-reassign-fn-name-in-body-in-arrow.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/generators/named-no-strict-reassign-fn-name-in-body-in-arrow.js",
     ),
   );
   it(
     "named-no-strict-reassign-fn-name-in-body-in-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/generators/named-no-strict-reassign-fn-name-in-body-in-eval.js",
     ),
   );
   it(
     "named-no-strict-reassign-fn-name-in-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/generators/named-no-strict-reassign-fn-name-in-body.js",
     ),
   );
   it(
     "named-strict-error-reassign-fn-name-in-body-in-arrow.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/generators/named-strict-error-reassign-fn-name-in-body-in-arrow.js",
     ),
   );
   it(
     "named-strict-error-reassign-fn-name-in-body-in-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/generators/named-strict-error-reassign-fn-name-in-body-in-eval.js",
     ),
   );
   it(
     "named-strict-error-reassign-fn-name-in-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/generators/named-strict-error-reassign-fn-name-in-body.js",
     ),
@@ -1257,12 +1257,12 @@ describe("generators", () => {
   );
   it(
     "named-yield-identifier-non-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/named-yield-identifier-non-strict.js"),
   );
   it(
     "named-yield-identifier-spread-non-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/generators/named-yield-identifier-spread-non-strict.js",
     ),
@@ -1279,27 +1279,27 @@ describe("generators", () => {
   );
   it(
     "named-yield-spread-arr-multiple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/named-yield-spread-arr-multiple.js"),
   );
   it(
     "named-yield-spread-arr-single.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/named-yield-spread-arr-single.js"),
   );
   it(
     "named-yield-spread-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/named-yield-spread-obj.js"),
   );
   it(
     "no-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/no-name.js"),
   );
   it(
     "no-yield.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/no-yield.js"),
   );
   it(
@@ -1314,52 +1314,52 @@ describe("generators", () => {
   );
   it(
     "params-dflt-args-unmapped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/params-dflt-args-unmapped.js"),
   );
   it(
     "params-dflt-ref-arguments.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/params-dflt-ref-arguments.js"),
   );
   it(
     "params-trailing-comma-multiple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/params-trailing-comma-multiple.js"),
   );
   it(
     "params-trailing-comma-single.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/params-trailing-comma-single.js"),
   );
   it(
     "prototype-own-properties.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/prototype-own-properties.js"),
   );
   it(
     "prototype-property-descriptor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/prototype-property-descriptor.js"),
   );
   it(
     "prototype-relation-to-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/prototype-relation-to-function.js"),
   );
   it(
     "prototype-typeof.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/prototype-typeof.js"),
   );
   it(
     "prototype-uniqueness.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/prototype-uniqueness.js"),
   );
   it(
     "prototype-value.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/prototype-value.js"),
   );
   it(
@@ -1374,77 +1374,77 @@ describe("generators", () => {
   );
   it(
     "return.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/return.js"),
   );
   it(
     "scope-body-lex-distinct.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/scope-body-lex-distinct.js"),
   );
   it(
     "scope-name-var-close.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/scope-name-var-close.js"),
   );
   it(
     "scope-name-var-open-non-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/scope-name-var-open-non-strict.js"),
   );
   it(
     "scope-name-var-open-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/scope-name-var-open-strict.js"),
   );
   it(
     "scope-param-elem-var-close.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/scope-param-elem-var-close.js"),
   );
   it(
     "scope-param-elem-var-open.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/scope-param-elem-var-open.js"),
   );
   it(
     "scope-param-rest-elem-var-close.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/scope-param-rest-elem-var-close.js"),
   );
   it(
     "scope-param-rest-elem-var-open.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/scope-param-rest-elem-var-open.js"),
   );
   it(
     "scope-paramsbody-var-close.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/scope-paramsbody-var-close.js"),
   );
   it(
     "scope-paramsbody-var-open.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/scope-paramsbody-var-open.js"),
   );
   it(
     "static-init-await-binding.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/static-init-await-binding.js"),
   );
   it(
     "static-init-await-reference.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/static-init-await-reference.js"),
   );
   it(
     "unscopables-with-in-nested-fn.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/unscopables-with-in-nested-fn.js"),
   );
   it(
     "unscopables-with.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/unscopables-with.js"),
   );
   it(
@@ -1464,7 +1464,7 @@ describe("generators", () => {
   );
   it(
     "yield-as-function-expression-binding-identifier.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/generators/yield-as-function-expression-binding-identifier.js",
     ),
@@ -1478,7 +1478,7 @@ describe("generators", () => {
   );
   it(
     "yield-as-identifier-in-nested-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/yield-as-identifier-in-nested-function.js"),
   );
   it(
@@ -1503,7 +1503,7 @@ describe("generators", () => {
   );
   it(
     "yield-as-literal-property-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/yield-as-literal-property-name.js"),
   );
   it(
@@ -1518,27 +1518,27 @@ describe("generators", () => {
   );
   it(
     "yield-as-property-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/yield-as-property-name.js"),
   );
   it(
     "yield-as-statement.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/yield-as-statement.js"),
   );
   it(
     "yield-as-yield-operand.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/yield-as-yield-operand.js"),
   );
   it(
     "yield-identifier-non-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/yield-identifier-non-strict.js"),
   );
   it(
     "yield-identifier-spread-non-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/yield-identifier-spread-non-strict.js"),
   );
   it(
@@ -1553,22 +1553,22 @@ describe("generators", () => {
   );
   it(
     "yield-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/yield-newline.js"),
   );
   it(
     "yield-spread-arr-multiple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/yield-spread-arr-multiple.js"),
   );
   it(
     "yield-spread-arr-single.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/yield-spread-arr-single.js"),
   );
   it(
     "yield-spread-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/yield-spread-obj.js"),
   );
   it(
@@ -1578,7 +1578,7 @@ describe("generators", () => {
   );
   it(
     "yield-star-before-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/generators/yield-star-before-newline.js"),
   );
   it(
