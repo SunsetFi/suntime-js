@@ -4,6 +4,7 @@ import {
   ClassPrivateProperty,
   ClassProperty,
   StaticBlock,
+  parenthesizedExpression,
 } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
@@ -48,9 +49,6 @@ function* classFieldDefinitionEvaluation(
   object: StaticJsObject,
 ): EvaluationGenerator<StaticJsClassFieldDefinitionRecord | Completion.Abrupt> {
   let name = yield* Q(classElementNameNodeEvaluator(element));
-  if (Completion.Abrupt.is(name)) {
-    return name;
-  }
 
   let initializer: StaticJsFunction | undefined;
   if (element.value) {
@@ -67,7 +65,10 @@ function* classFieldDefinitionEvaluation(
       // Spec wants this to be an assignment expression, but to us that means
       // x = y,
       // to the spec it just means = y.
-      element.value,
+      // Note: Just passing value here is a bug, as if the value is a function itself, this will
+      // just evaluate that function.
+      // Luckally, babel has parenthesizedExpression even though it doesn't generate them by default.
+      parenthesizedExpression(element.value),
       object,
       env,
       privateEnv,

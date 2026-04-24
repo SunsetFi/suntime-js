@@ -40,6 +40,7 @@ import newExpressionNodeEvaluator from "./NewExpression.js";
 import nullLiteralNodeEvaluator from "./NullLiteral.js";
 import numericLiteralNodeEvaluator from "./NumericLiteral.js";
 import objectExpressionNodeEvaluator from "./ObjectExpression.js";
+import parenthesizedExpressionNodeEvaluator from "./ParenthesizedExpression.js";
 import programNodeEvaluator from "./Program.js";
 import returnStatementNodeEvaluator from "./ReturnStatement.js";
 import sequenceExpressionNodeEvaluator from "./SequenceExpression.js";
@@ -100,6 +101,7 @@ const nodeEvaluators: NodeEvaluators = {
   NullLiteral: nullLiteralNodeEvaluator,
   NumericLiteral: numericLiteralNodeEvaluator,
   ObjectExpression: objectExpressionNodeEvaluator,
+  ParenthesizedExpression: parenthesizedExpressionNodeEvaluator,
   Program: programNodeEvaluator,
   ReturnStatement: returnStatementNodeEvaluator,
   SequenceExpression: sequenceExpressionNodeEvaluator,

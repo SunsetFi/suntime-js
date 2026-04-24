@@ -108,9 +108,9 @@ realm.evaluateScript(`
 
 Functions in StaticJs are typically outwardly-async, even when the sandboxed evaluation is synchronous. This is to allow time-sharing and interrupting evaluation through the [Task System](./07-tasks.md).
 
-Creating functions should use \*Evaluator() function calls on the sandboxed types to preserve this async nature:
+When creating functions, you should use \*Evaluator() function calls on the sandboxed types to preserve this async nature.
 
-**Incorrect**:
+**Incorrect**
 
 ```ts
 const add = realm.types.function("myFunc", (_thisArg, a, b) => {
@@ -119,7 +119,9 @@ const add = realm.types.function("myFunc", (_thisArg, a, b) => {
   const bValue = b.getSync("value");
 
   if (!isStaticJsNumber(aValue) || !isStaticJsNumber(bValue)) {
-    throw new StaticJsRuntimeError(realm.types.error("TypeError", "value must be a number"));
+    // Potentially incorrect: Native errors will not be captures by try/catch in
+    // the sandbox, will abort the script, and immediately bubble up to the host.
+    throw new TypeError("value must be a number");
   }
 
   return realm.types.number(aValue.value + bValue.value);
@@ -135,7 +137,10 @@ const func = realm.types.function("myFunc", function* (_thisArg, a, b) {
   const bValue = yield* b.getEvaluator("value");
 
   if (!isStaticJsNumber(aValue) || !isStaticJsNumber(bValue)) {
-    throw new StaticJsRuntimeError(realm.types.error("TypeError", "value must be a number"));
+    // Correct: Throwing a sandbox object will get captured by try/catch
+    // within the sandbox.
+    // This works with or without a wrapping StaticJsRuntimeError()
+    throw realm.types.error("TypeError", "value must be a number");
   }
 
   return realm.types.number(aValue.value + bValue.value);
