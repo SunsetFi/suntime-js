@@ -50,7 +50,7 @@ describe("E2E: Object", () => {
       `);
       const objNative = result.toNative() as Record<string, number>;
 
-      objNative.a = 42;
+      objNative["a"] = 42;
       const aValue = await realm.evaluateScript(`
         globalThis.__nativeObj.a;
       `);
