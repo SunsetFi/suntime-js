@@ -2,24 +2,16 @@ import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
 describe("Symbol.species", () => {
-  it(
-    "length.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/Symbol.species/length.js"),
-  );
-  it(
-    "return-value.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/Symbol.species/return-value.js"),
-  );
-  it(
-    "symbol-species-name.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/Symbol.species/symbol-species-name.js"),
-  );
-  it(
-    "symbol-species.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/Symbol.species/symbol-species.js"),
-  );
+  it.skip("length.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("return-value.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("symbol-species-name.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("symbol-species.js", () => {
+    /* Ignored Test */
+  });
 });

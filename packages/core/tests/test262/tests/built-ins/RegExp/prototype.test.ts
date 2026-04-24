@@ -2,2535 +2,1501 @@ import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
 describe("prototype", () => {
-  it(
-    "15.10.6.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/prototype/15.10.6.js"),
-  );
-  it(
-    "S15.10.5.1_A1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/prototype/S15.10.5.1_A1.js"),
-  );
-  it(
-    "S15.10.5.1_A2.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/prototype/S15.10.5.1_A2.js"),
-  );
-  it(
-    "S15.10.5.1_A3.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/prototype/S15.10.5.1_A3.js"),
-  );
-  it(
-    "S15.10.5.1_A4.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/prototype/S15.10.5.1_A4.js"),
-  );
-  it(
-    "S15.10.6.1_A1_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/prototype/S15.10.6.1_A1_T1.js"),
-  );
-  it(
-    "S15.10.6.1_A1_T2.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/prototype/S15.10.6.1_A1_T2.js"),
-  );
-  it(
-    "S15.10.6_A1_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/prototype/S15.10.6_A1_T1.js"),
-  );
-  it(
-    "S15.10.6_A1_T2.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/prototype/S15.10.6_A1_T2.js"),
-  );
+  it.skip("15.10.6.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("S15.10.5.1_A1.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("S15.10.5.1_A2.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("S15.10.5.1_A3.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("S15.10.5.1_A4.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("S15.10.6.1_A1_T1.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("S15.10.6.1_A1_T2.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("S15.10.6_A1_T1.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("S15.10.6_A1_T2.js", () => {
+    /* Ignored Test */
+  });
   describe("Symbol.match", () => {
-    it(
-      "builtin-coerce-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/builtin-coerce-lastindex.js"),
-    );
-    it(
-      "builtin-failure-g-set-lastindex-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.match/builtin-failure-g-set-lastindex-err.js",
-      ),
-    );
-    it(
-      "builtin-failure-g-set-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.match/builtin-failure-g-set-lastindex.js",
-      ),
-    );
-    it(
-      "builtin-failure-return-val.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/builtin-failure-return-val.js"),
-    );
-    it(
-      "builtin-failure-y-return-val.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/builtin-failure-y-return-val.js"),
-    );
-    it(
-      "builtin-failure-y-set-lastindex-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.match/builtin-failure-y-set-lastindex-err.js",
-      ),
-    );
-    it(
-      "builtin-failure-y-set-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.match/builtin-failure-y-set-lastindex.js",
-      ),
-    );
-    it(
-      "builtin-infer-unicode.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/builtin-infer-unicode.js"),
-    );
-    it(
-      "builtin-success-g-set-lastindex-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.match/builtin-success-g-set-lastindex-err.js",
-      ),
-    );
-    it(
-      "builtin-success-g-set-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.match/builtin-success-g-set-lastindex.js",
-      ),
-    );
-    it(
-      "builtin-success-return-val-groups.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.match/builtin-success-return-val-groups.js",
-      ),
-    );
-    it(
-      "builtin-success-return-val.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/builtin-success-return-val.js"),
-    );
-    it(
-      "builtin-success-u-return-val-groups.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.match/builtin-success-u-return-val-groups.js",
-      ),
-    );
-    it(
-      "builtin-success-y-set-lastindex-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.match/builtin-success-y-set-lastindex-err.js",
-      ),
-    );
-    it(
-      "builtin-success-y-set-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.match/builtin-success-y-set-lastindex.js",
-      ),
-    );
-    it(
-      "builtin-y-coerce-lastindex-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.match/builtin-y-coerce-lastindex-err.js",
-      ),
-    );
-    it(
-      "coerce-arg-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/coerce-arg-err.js"),
-    );
-    it(
-      "coerce-arg.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/coerce-arg.js"),
-    );
-    it(
-      "coerce-global.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/coerce-global.js"),
-    );
-    it(
-      "exec-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/exec-err.js"),
-    );
-    it(
-      "exec-invocation.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/exec-invocation.js"),
-    );
-    it(
-      "exec-return-type-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/exec-return-type-invalid.js"),
-    );
-    it(
-      "exec-return-type-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/exec-return-type-valid.js"),
-    );
-    it(
-      "flags-tostring-error.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/flags-tostring-error.js"),
-    );
-    it(
-      "g-coerce-result-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/g-coerce-result-err.js"),
-    );
-    it(
-      "g-get-exec-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/g-get-exec-err.js"),
-    );
-    it(
-      "g-get-result-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/g-get-result-err.js"),
-    );
-    it(
-      "g-init-lastindex-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/g-init-lastindex-err.js"),
-    );
-    it(
-      "g-init-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/g-init-lastindex.js"),
-    );
-    it(
-      "g-match-empty-advance-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.match/g-match-empty-advance-lastindex.js",
-      ),
-    );
-    it(
-      "g-match-empty-coerce-lastindex-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.match/g-match-empty-coerce-lastindex-err.js",
-      ),
-    );
-    it(
-      "g-match-empty-set-lastindex-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.match/g-match-empty-set-lastindex-err.js",
-      ),
-    );
-    it(
-      "g-match-no-coerce-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/g-match-no-coerce-lastindex.js"),
-    );
-    it(
-      "g-match-no-set-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/g-match-no-set-lastindex.js"),
-    );
-    it(
-      "g-success-return-val.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/g-success-return-val.js"),
-    );
-    it(
-      "g-zero-matches.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/g-zero-matches.js"),
-    );
-    it(
-      "get-exec-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/get-exec-err.js"),
-    );
-    it(
-      "get-flags-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/get-flags-err.js"),
-    );
-    it(
-      "get-global-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/get-global-err.js"),
-    );
-    it(
-      "get-unicode-error.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/get-unicode-error.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/prop-desc.js"),
-    );
-    it(
-      "this-val-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/this-val-non-obj.js"),
-    );
-    it(
-      "this-val-non-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/this-val-non-regexp.js"),
-    );
-    it(
-      "u-advance-after-empty.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/u-advance-after-empty.js"),
-    );
-    it(
-      "y-fail-global-return.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/y-fail-global-return.js"),
-    );
-    it(
-      "y-fail-lastindex-no-write.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/y-fail-lastindex-no-write.js"),
-    );
-    it(
-      "y-fail-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/y-fail-lastindex.js"),
-    );
-    it(
-      "y-fail-return.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/y-fail-return.js"),
-    );
-    it(
-      "y-init-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/y-init-lastindex.js"),
-    );
-    it(
-      "y-set-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.match/y-set-lastindex.js"),
-    );
+    it.skip("builtin-coerce-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin-failure-g-set-lastindex-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin-failure-g-set-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin-failure-return-val.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin-failure-y-return-val.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin-failure-y-set-lastindex-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin-failure-y-set-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin-infer-unicode.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin-success-g-set-lastindex-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin-success-g-set-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin-success-return-val-groups.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin-success-return-val.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin-success-u-return-val-groups.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin-success-y-set-lastindex-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin-success-y-set-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin-y-coerce-lastindex-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coerce-arg-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coerce-arg.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coerce-global.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("exec-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("exec-invocation.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("exec-return-type-invalid.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("exec-return-type-valid.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("flags-tostring-error.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-coerce-result-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-get-exec-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-get-result-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-init-lastindex-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-init-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-match-empty-advance-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-match-empty-coerce-lastindex-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-match-empty-set-lastindex-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-match-no-coerce-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-match-no-set-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-success-return-val.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-zero-matches.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("get-exec-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("get-flags-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("get-global-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("get-unicode-error.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("not-a-constructor.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("prop-desc.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-non-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-non-regexp.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("u-advance-after-empty.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-fail-global-return.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-fail-lastindex-no-write.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-fail-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-fail-return.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-init-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-set-lastindex.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("Symbol.matchAll", () => {
-    it(
-      "isregexp-called-once.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/isregexp-called-once.js"),
-    );
-    it(
-      "isregexp-this-throws.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/isregexp-this-throws.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/prop-desc.js"),
-    );
-    it(
-      "regexpcreate-this-throws.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/regexpcreate-this-throws.js"),
-    );
-    it(
-      "species-constructor-get-constructor-throws.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.matchAll/species-constructor-get-constructor-throws.js",
-      ),
-    );
-    it(
-      "species-constructor-get-species-throws.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.matchAll/species-constructor-get-species-throws.js",
-      ),
-    );
-    it(
-      "species-constructor-is-not-object-throws.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.matchAll/species-constructor-is-not-object-throws.js",
-      ),
-    );
-    it(
-      "species-constructor-is-undefined.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.matchAll/species-constructor-is-undefined.js",
-      ),
-    );
-    it(
-      "species-constructor-species-is-not-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.matchAll/species-constructor-species-is-not-constructor.js",
-      ),
-    );
-    it(
-      "species-constructor-species-is-null-or-undefined.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.matchAll/species-constructor-species-is-null-or-undefined.js",
-      ),
-    );
-    it(
-      "species-constructor-species-throws.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.matchAll/species-constructor-species-throws.js",
-      ),
-    );
-    it(
-      "species-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/species-constructor.js"),
-    );
-    it(
-      "species-regexp-get-global-throws.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.matchAll/species-regexp-get-global-throws.js",
-      ),
-    );
-    it(
-      "species-regexp-get-unicode-throws.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.matchAll/species-regexp-get-unicode-throws.js",
-      ),
-    );
-    it(
-      "string-tostring-throws.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/string-tostring-throws.js"),
-    );
-    it(
-      "string-tostring.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/string-tostring.js"),
-    );
-    it(
-      "this-get-flags-throws.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/this-get-flags-throws.js"),
-    );
-    it(
-      "this-get-flags.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/this-get-flags.js"),
-    );
-    it(
-      "this-lastindex-cached.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/this-lastindex-cached.js"),
-    );
-    it(
-      "this-not-object-throws.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/this-not-object-throws.js"),
-    );
-    it(
-      "this-tolength-lastindex-throws.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.matchAll/this-tolength-lastindex-throws.js",
-      ),
-    );
-    it(
-      "this-tostring-flags-throws.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/this-tostring-flags-throws.js"),
-    );
-    it(
-      "this-tostring-flags.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.matchAll/this-tostring-flags.js"),
-    );
+    it.skip("isregexp-called-once.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("isregexp-this-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("not-a-constructor.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("prop-desc.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("regexpcreate-this-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-constructor-get-constructor-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-constructor-get-species-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-constructor-is-not-object-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-constructor-is-undefined.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-constructor-species-is-not-constructor.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-constructor-species-is-null-or-undefined.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-constructor-species-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-constructor.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-regexp-get-global-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-regexp-get-unicode-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("string-tostring-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("string-tostring.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-get-flags-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-get-flags.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-lastindex-cached.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-not-object-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-tolength-lastindex-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-tostring-flags-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-tostring-flags.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("Symbol.replace", () => {
-    it(
-      "arg-1-coerce-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/arg-1-coerce-err.js"),
-    );
-    it(
-      "arg-1-coerce.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/arg-1-coerce.js"),
-    );
-    it(
-      "arg-2-coerce-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/arg-2-coerce-err.js"),
-    );
-    it(
-      "arg-2-coerce.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/arg-2-coerce.js"),
-    );
-    it(
-      "coerce-global.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/coerce-global.js"),
-    );
-    it(
-      "coerce-lastindex-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/coerce-lastindex-err.js"),
-    );
-    it(
-      "coerce-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/coerce-lastindex.js"),
-    );
-    it(
-      "coerce-unicode.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/coerce-unicode.js"),
-    );
-    it(
-      "exec-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/exec-err.js"),
-    );
-    it(
-      "exec-invocation.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/exec-invocation.js"),
-    );
-    it(
-      "flags-tostring-error.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/flags-tostring-error.js"),
-    );
-    it(
-      "fn-coerce-replacement-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/fn-coerce-replacement-err.js"),
-    );
-    it(
-      "fn-coerce-replacement.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/fn-coerce-replacement.js"),
-    );
-    it(
-      "fn-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/fn-err.js"),
-    );
-    it(
-      "fn-invoke-args-empty-result.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/fn-invoke-args-empty-result.js"),
-    );
-    it(
-      "fn-invoke-args.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/fn-invoke-args.js"),
-    );
-    it(
-      "fn-invoke-this-no-strict.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/fn-invoke-this-no-strict.js"),
-    );
-    it(
-      "fn-invoke-this-strict.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/fn-invoke-this-strict.js"),
-    );
-    it(
-      "g-init-lastindex-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/g-init-lastindex-err.js"),
-    );
-    it(
-      "g-init-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/g-init-lastindex.js"),
-    );
-    it(
-      "g-pos-decrement.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/g-pos-decrement.js"),
-    );
-    it(
-      "g-pos-increment.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/g-pos-increment.js"),
-    );
-    it(
-      "get-exec-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/get-exec-err.js"),
-    );
-    it(
-      "get-flags-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/get-flags-err.js"),
-    );
-    it(
-      "get-global-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/get-global-err.js"),
-    );
-    it(
-      "get-unicode-error.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/get-unicode-error.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/length.js"),
-    );
-    it(
-      "match-failure.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/match-failure.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/name.js"),
-    );
-    it(
-      "named-groups-fn.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/named-groups-fn.js"),
-    );
-    it(
-      "named-groups.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/named-groups.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/not-a-constructor.js"),
-    );
-    it(
-      "poisoned-stdlib.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/poisoned-stdlib.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/prop-desc.js"),
-    );
-    it(
-      "replace-with-trailing.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/replace-with-trailing.js"),
-    );
-    it(
-      "replace-without-trailing.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/replace-without-trailing.js"),
-    );
-    it(
-      "result-coerce-capture-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-coerce-capture-err.js"),
-    );
-    it(
-      "result-coerce-capture.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-coerce-capture.js"),
-    );
-    it(
-      "result-coerce-groups-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-coerce-groups-err.js"),
-    );
-    it(
-      "result-coerce-groups-prop-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.replace/result-coerce-groups-prop-err.js",
-      ),
-    );
-    it(
-      "result-coerce-groups-prop.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-coerce-groups-prop.js"),
-    );
-    it(
-      "result-coerce-groups.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-coerce-groups.js"),
-    );
-    it(
-      "result-coerce-index-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-coerce-index-err.js"),
-    );
-    it(
-      "result-coerce-index-undefined.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.replace/result-coerce-index-undefined.js",
-      ),
-    );
-    it(
-      "result-coerce-index.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-coerce-index.js"),
-    );
-    it(
-      "result-coerce-length-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-coerce-length-err.js"),
-    );
-    it(
-      "result-coerce-length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-coerce-length.js"),
-    );
-    it(
-      "result-coerce-matched-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-coerce-matched-err.js"),
-    );
-    it(
-      "result-coerce-matched-global.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.replace/result-coerce-matched-global.js",
-      ),
-    );
-    it(
-      "result-coerce-matched.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-coerce-matched.js"),
-    );
-    it(
-      "result-get-capture-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-get-capture-err.js"),
-    );
-    it(
-      "result-get-groups-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-get-groups-err.js"),
-    );
-    it(
-      "result-get-groups-prop-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-get-groups-prop-err.js"),
-    );
-    it(
-      "result-get-index-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-get-index-err.js"),
-    );
-    it(
-      "result-get-length-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-get-length-err.js"),
-    );
-    it(
-      "result-get-matched-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/result-get-matched-err.js"),
-    );
-    it(
-      "subst-after.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/subst-after.js"),
-    );
-    it(
-      "subst-before.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/subst-before.js"),
-    );
-    it(
-      "subst-capture-idx-1.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/subst-capture-idx-1.js"),
-    );
-    it(
-      "subst-capture-idx-2.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/subst-capture-idx-2.js"),
-    );
-    it(
-      "subst-dollar.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/subst-dollar.js"),
-    );
-    it(
-      "subst-matched.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/subst-matched.js"),
-    );
-    it(
-      "this-val-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/this-val-non-obj.js"),
-    );
-    it(
-      "u-advance-after-empty.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/u-advance-after-empty.js"),
-    );
-    it(
-      "y-fail-global-return.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/y-fail-global-return.js"),
-    );
-    it(
-      "y-fail-lastindex-no-write.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/y-fail-lastindex-no-write.js"),
-    );
-    it(
-      "y-fail-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/y-fail-lastindex.js"),
-    );
-    it(
-      "y-fail-return.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/y-fail-return.js"),
-    );
-    it(
-      "y-init-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/y-init-lastindex.js"),
-    );
-    it(
-      "y-set-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.replace/y-set-lastindex.js"),
-    );
+    it.skip("arg-1-coerce-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("arg-1-coerce.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("arg-2-coerce-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("arg-2-coerce.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coerce-global.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coerce-lastindex-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coerce-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coerce-unicode.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("exec-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("exec-invocation.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("flags-tostring-error.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("fn-coerce-replacement-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("fn-coerce-replacement.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("fn-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("fn-invoke-args-empty-result.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("fn-invoke-args.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("fn-invoke-this-no-strict.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("fn-invoke-this-strict.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-init-lastindex-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-init-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-pos-decrement.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("g-pos-increment.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("get-exec-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("get-flags-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("get-global-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("get-unicode-error.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("match-failure.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("named-groups-fn.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("named-groups.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("not-a-constructor.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("poisoned-stdlib.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("prop-desc.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("replace-with-trailing.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("replace-without-trailing.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-coerce-capture-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-coerce-capture.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-coerce-groups-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-coerce-groups-prop-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-coerce-groups-prop.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-coerce-groups.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-coerce-index-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-coerce-index-undefined.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-coerce-index.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-coerce-length-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-coerce-length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-coerce-matched-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-coerce-matched-global.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-coerce-matched.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-get-capture-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-get-groups-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-get-groups-prop-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-get-index-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-get-length-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("result-get-matched-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("subst-after.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("subst-before.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("subst-capture-idx-1.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("subst-capture-idx-2.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("subst-dollar.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("subst-matched.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-non-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("u-advance-after-empty.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-fail-global-return.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-fail-lastindex-no-write.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-fail-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-fail-return.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-init-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-set-lastindex.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("Symbol.search", () => {
-    it(
-      "coerce-string-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/coerce-string-err.js"),
-    );
-    it(
-      "coerce-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/coerce-string.js"),
-    );
-    it(
-      "cstm-exec-return-index.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/cstm-exec-return-index.js"),
-    );
-    it(
-      "cstm-exec-return-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/cstm-exec-return-invalid.js"),
-    );
-    it(
-      "failure-return-val.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/failure-return-val.js"),
-    );
-    it(
-      "get-lastindex-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/get-lastindex-err.js"),
-    );
-    it(
-      "lastindex-no-restore.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/lastindex-no-restore.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/length.js"),
-    );
-    it(
-      "match-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/match-err.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/prop-desc.js"),
-    );
-    it(
-      "set-lastindex-init-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/set-lastindex-init-err.js"),
-    );
-    it(
-      "set-lastindex-init-samevalue.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/set-lastindex-init-samevalue.js"),
-    );
-    it(
-      "set-lastindex-init.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/set-lastindex-init.js"),
-    );
-    it(
-      "set-lastindex-restore-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/set-lastindex-restore-err.js"),
-    );
-    it(
-      "set-lastindex-restore-samevalue.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.search/set-lastindex-restore-samevalue.js",
-      ),
-    );
-    it(
-      "set-lastindex-restore.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/set-lastindex-restore.js"),
-    );
-    it(
-      "success-get-index-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/success-get-index-err.js"),
-    );
-    it(
-      "success-return-val.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/success-return-val.js"),
-    );
-    it(
-      "this-val-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/this-val-non-obj.js"),
-    );
-    it(
-      "u-lastindex-advance.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/u-lastindex-advance.js"),
-    );
-    it(
-      "y-fail-return.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.search/y-fail-return.js"),
-    );
+    it.skip("coerce-string-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coerce-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("cstm-exec-return-index.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("cstm-exec-return-invalid.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("failure-return-val.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("get-lastindex-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("lastindex-no-restore.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("match-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("not-a-constructor.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("prop-desc.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("set-lastindex-init-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("set-lastindex-init-samevalue.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("set-lastindex-init.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("set-lastindex-restore-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("set-lastindex-restore-samevalue.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("set-lastindex-restore.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("success-get-index-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("success-return-val.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-non-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("u-lastindex-advance.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-fail-return.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("Symbol.split", () => {
-    it(
-      "coerce-flags-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/coerce-flags-err.js"),
-    );
-    it(
-      "coerce-flags.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/coerce-flags.js"),
-    );
-    it(
-      "coerce-limit-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/coerce-limit-err.js"),
-    );
-    it(
-      "coerce-limit.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/coerce-limit.js"),
-    );
-    it(
-      "coerce-string-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/coerce-string-err.js"),
-    );
-    it(
-      "coerce-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/coerce-string.js"),
-    );
-    it(
-      "get-flags-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/get-flags-err.js"),
-    );
-    it(
-      "last-index-exceeds-str-size.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/last-index-exceeds-str-size.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/length.js"),
-    );
-    it(
-      "limit-0-bail.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/limit-0-bail.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/prop-desc.js"),
-    );
-    it(
-      "species-ctor-ctor-get-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/species-ctor-ctor-get-err.js"),
-    );
-    it(
-      "species-ctor-ctor-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/species-ctor-ctor-non-obj.js"),
-    );
-    it(
-      "species-ctor-ctor-undef.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/species-ctor-ctor-undef.js"),
-    );
-    it(
-      "species-ctor-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/species-ctor-err.js"),
-    );
-    it(
-      "species-ctor-species-get-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/species-ctor-species-get-err.js"),
-    );
-    it(
-      "species-ctor-species-non-ctor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/species-ctor-species-non-ctor.js"),
-    );
-    it(
-      "species-ctor-species-undef.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/species-ctor-species-undef.js"),
-    );
-    it(
-      "species-ctor-y.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/species-ctor-y.js"),
-    );
-    it(
-      "species-ctor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/species-ctor.js"),
-    );
-    it(
-      "splitter-proto-from-ctor-realm.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/Symbol.split/splitter-proto-from-ctor-realm.js",
-      ),
-    );
-    it(
-      "str-adv-thru-empty-match.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-adv-thru-empty-match.js"),
-    );
-    it(
-      "str-coerce-lastindex-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-coerce-lastindex-err.js"),
-    );
-    it(
-      "str-coerce-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-coerce-lastindex.js"),
-    );
-    it(
-      "str-empty-match-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-empty-match-err.js"),
-    );
-    it(
-      "str-empty-match.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-empty-match.js"),
-    );
-    it(
-      "str-empty-no-match.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-empty-no-match.js"),
-    );
-    it(
-      "str-get-lastindex-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-get-lastindex-err.js"),
-    );
-    it(
-      "str-limit-capturing.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-limit-capturing.js"),
-    );
-    it(
-      "str-limit.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-limit.js"),
-    );
-    it(
-      "str-match-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-match-err.js"),
-    );
-    it(
-      "str-result-coerce-length-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-result-coerce-length-err.js"),
-    );
-    it(
-      "str-result-coerce-length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-result-coerce-length.js"),
-    );
-    it(
-      "str-result-get-capture-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-result-get-capture-err.js"),
-    );
-    it(
-      "str-result-get-length-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-result-get-length-err.js"),
-    );
-    it(
-      "str-set-lastindex-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-set-lastindex-err.js"),
-    );
-    it(
-      "str-set-lastindex-match.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-set-lastindex-match.js"),
-    );
-    it(
-      "str-set-lastindex-no-match.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-set-lastindex-no-match.js"),
-    );
-    it(
-      "str-trailing-chars.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/str-trailing-chars.js"),
-    );
-    it(
-      "this-val-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/this-val-non-obj.js"),
-    );
-    it(
-      "u-lastindex-adv-thru-failure.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/u-lastindex-adv-thru-failure.js"),
-    );
-    it(
-      "u-lastindex-adv-thru-match.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/Symbol.split/u-lastindex-adv-thru-match.js"),
-    );
+    it.skip("coerce-flags-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coerce-flags.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coerce-limit-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coerce-limit.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coerce-string-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coerce-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("get-flags-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("last-index-exceeds-str-size.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("limit-0-bail.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("not-a-constructor.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("prop-desc.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-ctor-ctor-get-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-ctor-ctor-non-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-ctor-ctor-undef.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-ctor-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-ctor-species-get-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-ctor-species-non-ctor.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-ctor-species-undef.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-ctor-y.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("species-ctor.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("splitter-proto-from-ctor-realm.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-adv-thru-empty-match.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-coerce-lastindex-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-coerce-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-empty-match-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-empty-match.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-empty-no-match.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-get-lastindex-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-limit-capturing.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-limit.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-match-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-result-coerce-length-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-result-coerce-length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-result-get-capture-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-result-get-length-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-set-lastindex-err.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-set-lastindex-match.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-set-lastindex-no-match.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("str-trailing-chars.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-non-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("u-lastindex-adv-thru-failure.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("u-lastindex-adv-thru-match.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("dotAll", () => {
-    it(
-      "cross-realm.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/dotAll/cross-realm.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/dotAll/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/dotAll/name.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/dotAll/prop-desc.js"),
-    );
-    it(
-      "this-val-invalid-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/dotAll/this-val-invalid-obj.js"),
-    );
-    it(
-      "this-val-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/dotAll/this-val-non-obj.js"),
-    );
-    it(
-      "this-val-regexp-prototype.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/dotAll/this-val-regexp-prototype.js"),
-    );
-    it(
-      "this-val-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/dotAll/this-val-regexp.js"),
-    );
+    it.skip("cross-realm.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("prop-desc.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-invalid-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-non-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp-prototype.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("exec", () => {
-    it(
-      "15.10.6.2-9-e-1.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/15.10.6.2-9-e-1.js"),
-    );
-    it(
-      "S15.10.6.2_A10.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A10.js"),
-    );
-    it(
-      "S15.10.6.2_A11.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A11.js"),
-    );
-    it(
-      "S15.10.6.2_A12.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A12.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T1.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T1.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T10.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T10.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T11.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T11.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T12.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T12.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T13.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T13.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T14.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T14.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T15.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T15.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T16.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T16.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T17.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T17.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T18.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T18.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T19.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T19.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T2.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T2.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T20.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T20.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T21.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T21.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T3.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T3.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T4.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T4.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T5.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T5.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T6.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T6.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T7.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T7.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T8.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T8.js"),
-    );
-    it(
-      "S15.10.6.2_A1_T9.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A1_T9.js"),
-    );
-    it(
-      "S15.10.6.2_A2_T1.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A2_T1.js"),
-    );
-    it(
-      "S15.10.6.2_A2_T10.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A2_T10.js"),
-    );
-    it(
-      "S15.10.6.2_A2_T2.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A2_T2.js"),
-    );
-    it(
-      "S15.10.6.2_A2_T3.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A2_T3.js"),
-    );
-    it(
-      "S15.10.6.2_A2_T4.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A2_T4.js"),
-    );
-    it(
-      "S15.10.6.2_A2_T5.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A2_T5.js"),
-    );
-    it(
-      "S15.10.6.2_A2_T6.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A2_T6.js"),
-    );
-    it(
-      "S15.10.6.2_A2_T7.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A2_T7.js"),
-    );
-    it(
-      "S15.10.6.2_A2_T8.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A2_T8.js"),
-    );
-    it(
-      "S15.10.6.2_A2_T9.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A2_T9.js"),
-    );
-    it(
-      "S15.10.6.2_A3_T1.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A3_T1.js"),
-    );
-    it(
-      "S15.10.6.2_A3_T2.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A3_T2.js"),
-    );
-    it(
-      "S15.10.6.2_A3_T3.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A3_T3.js"),
-    );
-    it(
-      "S15.10.6.2_A3_T4.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A3_T4.js"),
-    );
-    it(
-      "S15.10.6.2_A3_T5.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A3_T5.js"),
-    );
-    it(
-      "S15.10.6.2_A3_T6.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A3_T6.js"),
-    );
-    it(
-      "S15.10.6.2_A3_T7.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A3_T7.js"),
-    );
-    it(
-      "S15.10.6.2_A4_T1.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A4_T1.js"),
-    );
-    it(
-      "S15.10.6.2_A4_T10.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A4_T10.js"),
-    );
-    it(
-      "S15.10.6.2_A4_T11.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A4_T11.js"),
-    );
-    it(
-      "S15.10.6.2_A4_T12.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A4_T12.js"),
-    );
-    it(
-      "S15.10.6.2_A4_T2.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A4_T2.js"),
-    );
-    it(
-      "S15.10.6.2_A4_T3.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A4_T3.js"),
-    );
-    it(
-      "S15.10.6.2_A4_T4.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A4_T4.js"),
-    );
-    it(
-      "S15.10.6.2_A4_T5.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A4_T5.js"),
-    );
-    it(
-      "S15.10.6.2_A4_T6.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A4_T6.js"),
-    );
-    it(
-      "S15.10.6.2_A4_T7.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A4_T7.js"),
-    );
-    it(
-      "S15.10.6.2_A4_T8.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A4_T8.js"),
-    );
-    it(
-      "S15.10.6.2_A4_T9.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A4_T9.js"),
-    );
-    it(
-      "S15.10.6.2_A5_T1.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A5_T1.js"),
-    );
-    it(
-      "S15.10.6.2_A5_T2.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A5_T2.js"),
-    );
-    it(
-      "S15.10.6.2_A5_T3.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A5_T3.js"),
-    );
-    it(
-      "S15.10.6.2_A6.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A6.js"),
-    );
-    it(
-      "S15.10.6.2_A7.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A7.js"),
-    );
-    it(
-      "S15.10.6.2_A8.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A8.js"),
-    );
-    it(
-      "S15.10.6.2_A9.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/S15.10.6.2_A9.js"),
-    );
-    it(
-      "duplicate-named-groups-properties.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/duplicate-named-groups-properties.js"),
-    );
-    it(
-      "duplicate-named-indices-groups-properties.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/RegExp/prototype/exec/duplicate-named-indices-groups-properties.js",
-      ),
-    );
-    it(
-      "failure-g-lastindex-reset.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/failure-g-lastindex-reset.js"),
-    );
-    it(
-      "failure-lastindex-access.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/failure-lastindex-access.js"),
-    );
-    it(
-      "failure-lastindex-set.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/failure-lastindex-set.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/not-a-constructor.js"),
-    );
-    it(
-      "regexp-builtin-exec-v-u-flag.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/regexp-builtin-exec-v-u-flag.js"),
-    );
-    it(
-      "success-g-lastindex-no-access.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/success-g-lastindex-no-access.js"),
-    );
-    it(
-      "success-lastindex-access.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/success-lastindex-access.js"),
-    );
-    it(
-      "u-captured-value.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/u-captured-value.js"),
-    );
-    it(
-      "u-lastindex-adv.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/u-lastindex-adv.js"),
-    );
-    it(
-      "u-lastindex-value.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/u-lastindex-value.js"),
-    );
-    it(
-      "y-fail-lastindex-no-write.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/y-fail-lastindex-no-write.js"),
-    );
-    it(
-      "y-fail-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/y-fail-lastindex.js"),
-    );
-    it(
-      "y-fail-return.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/y-fail-return.js"),
-    );
-    it(
-      "y-init-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/y-init-lastindex.js"),
-    );
-    it(
-      "y-set-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/exec/y-set-lastindex.js"),
-    );
+    it.skip("15.10.6.2-9-e-1.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A10.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A11.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A12.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T1.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T10.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T11.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T12.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T13.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T14.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T15.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T16.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T17.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T18.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T19.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T2.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T20.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T21.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T3.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T4.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T5.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T6.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T7.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T8.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A1_T9.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A2_T1.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A2_T10.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A2_T2.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A2_T3.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A2_T4.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A2_T5.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A2_T6.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A2_T7.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A2_T8.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A2_T9.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A3_T1.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A3_T2.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A3_T3.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A3_T4.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A3_T5.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A3_T6.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A3_T7.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A4_T1.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A4_T10.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A4_T11.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A4_T12.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A4_T2.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A4_T3.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A4_T4.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A4_T5.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A4_T6.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A4_T7.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A4_T8.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A4_T9.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A5_T1.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A5_T2.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A5_T3.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A6.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A7.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A8.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.2_A9.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("duplicate-named-groups-properties.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("duplicate-named-indices-groups-properties.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("failure-g-lastindex-reset.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("failure-lastindex-access.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("failure-lastindex-set.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("not-a-constructor.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("regexp-builtin-exec-v-u-flag.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("success-g-lastindex-no-access.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("success-lastindex-access.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("u-captured-value.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("u-lastindex-adv.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("u-lastindex-value.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-fail-lastindex-no-write.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-fail-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-fail-return.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-init-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-set-lastindex.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("flags", () => {
-    it(
-      "coercion-dotall.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/coercion-dotall.js"),
-    );
-    it(
-      "coercion-global.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/coercion-global.js"),
-    );
-    it(
-      "coercion-hasIndices.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/coercion-hasIndices.js"),
-    );
-    it(
-      "coercion-ignoreCase.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/coercion-ignoreCase.js"),
-    );
-    it(
-      "coercion-multiline.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/coercion-multiline.js"),
-    );
-    it(
-      "coercion-sticky.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/coercion-sticky.js"),
-    );
-    it(
-      "coercion-unicode.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/coercion-unicode.js"),
-    );
-    it(
-      "get-order.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/get-order.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/name.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/prop-desc.js"),
-    );
-    it(
-      "rethrow.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/rethrow.js"),
-    );
-    it(
-      "return-order.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/return-order.js"),
-    );
-    it(
-      "this-val-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/this-val-non-obj.js"),
-    );
-    it(
-      "this-val-regexp-prototype.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/this-val-regexp-prototype.js"),
-    );
-    it(
-      "this-val-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/flags/this-val-regexp.js"),
-    );
+    it.skip("coercion-dotall.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coercion-global.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coercion-hasIndices.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coercion-ignoreCase.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coercion-multiline.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coercion-sticky.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("coercion-unicode.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("get-order.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("prop-desc.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("rethrow.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("return-order.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-non-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp-prototype.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("global", () => {
-    it(
-      "15.10.7.2-2.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/global/15.10.7.2-2.js"),
-    );
-    it(
-      "S15.10.7.2_A10.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/global/S15.10.7.2_A10.js"),
-    );
-    it(
-      "S15.10.7.2_A8.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/global/S15.10.7.2_A8.js"),
-    );
-    it(
-      "S15.10.7.2_A9.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/global/S15.10.7.2_A9.js"),
-    );
-    it(
-      "cross-realm.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/global/cross-realm.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/global/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/global/name.js"),
-    );
-    it(
-      "this-val-invalid-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/global/this-val-invalid-obj.js"),
-    );
-    it(
-      "this-val-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/global/this-val-non-obj.js"),
-    );
-    it(
-      "this-val-regexp-prototype.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/global/this-val-regexp-prototype.js"),
-    );
+    it.skip("15.10.7.2-2.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.7.2_A10.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.7.2_A8.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.7.2_A9.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("cross-realm.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-invalid-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-non-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp-prototype.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("hasIndices", () => {
-    it(
-      "cross-realm.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/hasIndices/cross-realm.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/hasIndices/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/hasIndices/name.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/hasIndices/prop-desc.js"),
-    );
-    it(
-      "this-val-invalid-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/hasIndices/this-val-invalid-obj.js"),
-    );
-    it(
-      "this-val-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/hasIndices/this-val-non-obj.js"),
-    );
-    it(
-      "this-val-regexp-prototype.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/hasIndices/this-val-regexp-prototype.js"),
-    );
-    it(
-      "this-val-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/hasIndices/this-val-regexp.js"),
-    );
+    it.skip("cross-realm.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("prop-desc.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-invalid-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-non-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp-prototype.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("ignoreCase", () => {
-    it(
-      "15.10.7.3-2.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/ignoreCase/15.10.7.3-2.js"),
-    );
-    it(
-      "S15.10.7.3_A10.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/ignoreCase/S15.10.7.3_A10.js"),
-    );
-    it(
-      "S15.10.7.3_A8.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/ignoreCase/S15.10.7.3_A8.js"),
-    );
-    it(
-      "S15.10.7.3_A9.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/ignoreCase/S15.10.7.3_A9.js"),
-    );
-    it(
-      "cross-realm.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/ignoreCase/cross-realm.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/ignoreCase/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/ignoreCase/name.js"),
-    );
-    it(
-      "this-val-invalid-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/ignoreCase/this-val-invalid-obj.js"),
-    );
-    it(
-      "this-val-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/ignoreCase/this-val-non-obj.js"),
-    );
-    it(
-      "this-val-regexp-prototype.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/ignoreCase/this-val-regexp-prototype.js"),
-    );
+    it.skip("15.10.7.3-2.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.7.3_A10.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.7.3_A8.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.7.3_A9.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("cross-realm.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-invalid-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-non-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp-prototype.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("multiline", () => {
-    it(
-      "15.10.7.4-2.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/multiline/15.10.7.4-2.js"),
-    );
-    it(
-      "S15.10.7.4_A10.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/multiline/S15.10.7.4_A10.js"),
-    );
-    it(
-      "S15.10.7.4_A8.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/multiline/S15.10.7.4_A8.js"),
-    );
-    it(
-      "S15.10.7.4_A9.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/multiline/S15.10.7.4_A9.js"),
-    );
-    it(
-      "cross-realm.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/multiline/cross-realm.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/multiline/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/multiline/name.js"),
-    );
-    it(
-      "this-val-invalid-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/multiline/this-val-invalid-obj.js"),
-    );
-    it(
-      "this-val-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/multiline/this-val-non-obj.js"),
-    );
-    it(
-      "this-val-regexp-prototype.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/multiline/this-val-regexp-prototype.js"),
-    );
+    it.skip("15.10.7.4-2.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.7.4_A10.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.7.4_A8.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.7.4_A9.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("cross-realm.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-invalid-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-non-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp-prototype.js", () => {
+      /* Ignored Test */
+    });
   });
-  it(
-    "no-regexp-matcher.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/prototype/no-regexp-matcher.js"),
-  );
+  it.skip("no-regexp-matcher.js", () => {
+    /* Ignored Test */
+  });
   describe("source", () => {
-    it(
-      "cross-realm.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/source/cross-realm.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/source/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/source/name.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/source/prop-desc.js"),
-    );
-    it(
-      "this-val-invalid-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/source/this-val-invalid-obj.js"),
-    );
-    it(
-      "this-val-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/source/this-val-non-obj.js"),
-    );
-    it(
-      "this-val-regexp-prototype.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/source/this-val-regexp-prototype.js"),
-    );
-    it(
-      "value-empty.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/source/value-empty.js"),
-    );
-    it(
-      "value-line-terminator.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/source/value-line-terminator.js"),
-    );
-    it(
-      "value-slash.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/source/value-slash.js"),
-    );
-    it(
-      "value-u.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/source/value-u.js"),
-    );
-    it(
-      "value.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/source/value.js"),
-    );
+    it.skip("cross-realm.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("prop-desc.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-invalid-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-non-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp-prototype.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("value-empty.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("value-line-terminator.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("value-slash.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("value-u.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("value.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("sticky", () => {
-    it(
-      "cross-realm.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/sticky/cross-realm.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/sticky/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/sticky/name.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/sticky/prop-desc.js"),
-    );
-    it(
-      "this-val-invalid-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/sticky/this-val-invalid-obj.js"),
-    );
-    it(
-      "this-val-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/sticky/this-val-non-obj.js"),
-    );
-    it(
-      "this-val-regexp-prototype.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/sticky/this-val-regexp-prototype.js"),
-    );
-    it(
-      "this-val-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/sticky/this-val-regexp.js"),
-    );
+    it.skip("cross-realm.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("prop-desc.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-invalid-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-non-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp-prototype.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("test", () => {
-    it(
-      "S15.10.6.3_A10.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A10.js"),
-    );
-    it(
-      "S15.10.6.3_A11.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A11.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T1.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T1.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T10.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T10.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T11.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T11.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T12.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T12.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T13.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T13.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T14.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T14.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T15.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T15.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T16.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T16.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T17.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T17.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T18.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T18.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T19.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T19.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T2.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T2.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T20.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T20.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T21.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T21.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T22.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T22.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T3.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T3.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T4.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T4.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T5.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T5.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T6.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T6.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T7.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T7.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T8.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T8.js"),
-    );
-    it(
-      "S15.10.6.3_A1_T9.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A1_T9.js"),
-    );
-    it(
-      "S15.10.6.3_A2_T1.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A2_T1.js"),
-    );
-    it(
-      "S15.10.6.3_A2_T10.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A2_T10.js"),
-    );
-    it(
-      "S15.10.6.3_A2_T2.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A2_T2.js"),
-    );
-    it(
-      "S15.10.6.3_A2_T3.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A2_T3.js"),
-    );
-    it(
-      "S15.10.6.3_A2_T4.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A2_T4.js"),
-    );
-    it(
-      "S15.10.6.3_A2_T5.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A2_T5.js"),
-    );
-    it(
-      "S15.10.6.3_A2_T6.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A2_T6.js"),
-    );
-    it(
-      "S15.10.6.3_A2_T7.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A2_T7.js"),
-    );
-    it(
-      "S15.10.6.3_A2_T8.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A2_T8.js"),
-    );
-    it(
-      "S15.10.6.3_A2_T9.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A2_T9.js"),
-    );
-    it(
-      "S15.10.6.3_A6.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A6.js"),
-    );
-    it(
-      "S15.10.6.3_A7.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A7.js"),
-    );
-    it(
-      "S15.10.6.3_A8.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A8.js"),
-    );
-    it(
-      "S15.10.6.3_A9.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/S15.10.6.3_A9.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/not-a-constructor.js"),
-    );
-    it(
-      "y-fail-lastindex-no-write.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/y-fail-lastindex-no-write.js"),
-    );
-    it(
-      "y-fail-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/y-fail-lastindex.js"),
-    );
-    it(
-      "y-fail-return.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/y-fail-return.js"),
-    );
-    it(
-      "y-init-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/y-init-lastindex.js"),
-    );
-    it(
-      "y-set-lastindex.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/test/y-set-lastindex.js"),
-    );
+    it.skip("S15.10.6.3_A10.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A11.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T1.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T10.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T11.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T12.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T13.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T14.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T15.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T16.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T17.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T18.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T19.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T2.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T20.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T21.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T22.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T3.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T4.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T5.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T6.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T7.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T8.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A1_T9.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A2_T1.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A2_T10.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A2_T2.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A2_T3.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A2_T4.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A2_T5.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A2_T6.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A2_T7.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A2_T8.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A2_T9.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A6.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A7.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A8.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.3_A9.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("not-a-constructor.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-fail-lastindex-no-write.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-fail-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-fail-return.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-init-lastindex.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("y-set-lastindex.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("toString", () => {
-    it(
-      "S15.10.6.4_A10.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/toString/S15.10.6.4_A10.js"),
-    );
-    it(
-      "S15.10.6.4_A11.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/toString/S15.10.6.4_A11.js"),
-    );
-    it(
-      "S15.10.6.4_A6.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/toString/S15.10.6.4_A6.js"),
-    );
-    it(
-      "S15.10.6.4_A7.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/toString/S15.10.6.4_A7.js"),
-    );
-    it(
-      "S15.10.6.4_A8.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/toString/S15.10.6.4_A8.js"),
-    );
-    it(
-      "S15.10.6.4_A9.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/toString/S15.10.6.4_A9.js"),
-    );
-    it(
-      "called-as-function.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/toString/called-as-function.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/toString/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/toString/not-a-constructor.js"),
-    );
+    it.skip("S15.10.6.4_A10.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.4_A11.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.4_A6.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.4_A7.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.4_A8.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("S15.10.6.4_A9.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("called-as-function.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("not-a-constructor.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("unicode", () => {
-    it(
-      "cross-realm.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicode/cross-realm.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicode/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicode/name.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicode/prop-desc.js"),
-    );
-    it(
-      "this-val-invalid-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicode/this-val-invalid-obj.js"),
-    );
-    it(
-      "this-val-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicode/this-val-non-obj.js"),
-    );
-    it(
-      "this-val-regexp-prototype.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicode/this-val-regexp-prototype.js"),
-    );
-    it(
-      "this-val-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicode/this-val-regexp.js"),
-    );
+    it.skip("cross-realm.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("prop-desc.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-invalid-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-non-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp-prototype.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp.js", () => {
+      /* Ignored Test */
+    });
   });
   describe("unicodeSets", () => {
-    it(
-      "breaking-change-from-u-to-v-01.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-01.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-02.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-02.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-03.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-03.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-04.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-04.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-05.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-05.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-06.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-06.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-07.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-07.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-08.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-08.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-09.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-09.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-10.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-10.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-11.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-11.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-12.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-12.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-13.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-13.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-14.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-14.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-15.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-15.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-16.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-16.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-17.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-17.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-18.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-18.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-19.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-19.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-20.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-20.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-21.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-21.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-22.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-22.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-23.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-23.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-24.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-24.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-25.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-25.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-26.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-26.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-27.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-27.js"),
-    );
-    it(
-      "breaking-change-from-u-to-v-28.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/breaking-change-from-u-to-v-28.js"),
-    );
-    it(
-      "cross-realm.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/cross-realm.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/name.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/prop-desc.js"),
-    );
-    it(
-      "this-val-invalid-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/this-val-invalid-obj.js"),
-    );
-    it(
-      "this-val-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/this-val-non-obj.js"),
-    );
-    it(
-      "this-val-regexp-prototype.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/this-val-regexp-prototype.js"),
-    );
-    it(
-      "this-val-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/this-val-regexp.js"),
-    );
-    it(
-      "uv-flags-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/uv-flags-constructor.js"),
-    );
-    it(
-      "uv-flags.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/RegExp/prototype/unicodeSets/uv-flags.js"),
-    );
+    it.skip("breaking-change-from-u-to-v-01.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-02.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-03.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-04.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-05.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-06.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-07.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-08.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-09.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-10.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-11.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-12.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-13.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-14.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-15.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-16.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-17.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-18.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-19.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-20.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-21.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-22.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-23.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-24.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-25.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-26.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-27.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("breaking-change-from-u-to-v-28.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("cross-realm.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("prop-desc.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-invalid-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-non-obj.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp-prototype.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("this-val-regexp.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("uv-flags-constructor.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("uv-flags.js", () => {
+      /* Ignored Test */
+    });
   });
 });

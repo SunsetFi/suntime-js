@@ -2,89 +2,55 @@ import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
 describe("lookBehind", () => {
-  it(
-    "alternations.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/alternations.js"),
-  );
-  it(
-    "back-references-to-captures.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/back-references-to-captures.js"),
-  );
-  it(
-    "back-references.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/back-references.js"),
-  );
-  it(
-    "captures-negative.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/captures-negative.js"),
-  );
-  it(
-    "captures.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/captures.js"),
-  );
-  it(
-    "do-not-backtrack.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/do-not-backtrack.js"),
-  );
-  it(
-    "greedy-loop.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/greedy-loop.js"),
-  );
-  it(
-    "misc.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/misc.js"),
-  );
-  it(
-    "mutual-recursive.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/mutual-recursive.js"),
-  );
-  it(
-    "negative.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/negative.js"),
-  );
-  it(
-    "nested-lookaround.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/nested-lookaround.js"),
-  );
-  it(
-    "simple-fixed-length.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/simple-fixed-length.js"),
-  );
-  it(
-    "sliced-strings.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/sliced-strings.js"),
-  );
-  it(
-    "start-of-line.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/start-of-line.js"),
-  );
-  it(
-    "sticky.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/sticky.js"),
-  );
-  it(
-    "variable-length.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/variable-length.js"),
-  );
-  it(
-    "word-boundary.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/RegExp/lookBehind/word-boundary.js"),
-  );
+  it.skip("alternations.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("back-references-to-captures.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("back-references.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("captures-negative.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("captures.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("do-not-backtrack.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("greedy-loop.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("misc.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("mutual-recursive.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("negative.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("nested-lookaround.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("simple-fixed-length.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("sliced-strings.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("start-of-line.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("sticky.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("variable-length.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("word-boundary.js", () => {
+    /* Ignored Test */
+  });
 });

@@ -1,8 +1,6 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it(
-  "Symbol.toStringTag.js",
-  { tags: ["known-failing"] },
-  createTestHandler("built-ins/JSON/Symbol.toStringTag.js"),
-);
+it.skip("Symbol.toStringTag.js", () => {
+  /* Ignored Test */
+});

@@ -2,30 +2,22 @@ import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
 describe("isRawJSON", () => {
-  it(
-    "basic.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/JSON/isRawJSON/basic.js"),
-  );
-  it(
-    "builtin.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/JSON/isRawJSON/builtin.js"),
-  );
-  it(
-    "length.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/JSON/isRawJSON/length.js"),
-  );
-  it("name.js", { tags: ["known-failing"] }, createTestHandler("built-ins/JSON/isRawJSON/name.js"));
-  it(
-    "not-a-constructor.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/JSON/isRawJSON/not-a-constructor.js"),
-  );
-  it(
-    "prop-desc.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/JSON/isRawJSON/prop-desc.js"),
-  );
+  it.skip("basic.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("builtin.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("length.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("name.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("not-a-constructor.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("prop-desc.js", () => {
+    /* Ignored Test */
+  });
 });

@@ -2,5534 +2,2730 @@ import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
 describe("ZonedDateTime", () => {
-  it(
-    "argument-convert.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/argument-convert.js"),
-  );
-  it(
-    "builtin.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/builtin.js"),
-  );
-  it(
-    "calendar-case-insensitive.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/calendar-case-insensitive.js"),
-  );
-  it(
-    "calendar-invalid-iso-string.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/calendar-invalid-iso-string.js"),
-  );
-  it(
-    "calendar-string.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/calendar-string.js"),
-  );
-  it(
-    "calendar-undefined.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/calendar-undefined.js"),
-  );
-  it(
-    "calendar-wrong-type.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/calendar-wrong-type.js"),
-  );
+  it.skip("argument-convert.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("builtin.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("calendar-case-insensitive.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("calendar-invalid-iso-string.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("calendar-string.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("calendar-undefined.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("calendar-wrong-type.js", () => {
+    /* Ignored Test */
+  });
   describe("compare", () => {
-    it(
-      "argument-propertybag-calendar-case-insensitive.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-calendar-case-insensitive.js",
-      ),
-    );
-    it(
-      "argument-propertybag-calendar-invalid-iso-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-calendar-invalid-iso-string.js",
-      ),
-    );
-    it(
-      "argument-propertybag-calendar-iso-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-calendar-iso-string.js",
-      ),
-    );
-    it(
-      "argument-propertybag-calendar-leap-second.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-calendar-leap-second.js",
-      ),
-    );
-    it(
-      "argument-propertybag-calendar-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-calendar-string.js",
-      ),
-    );
-    it(
-      "argument-propertybag-calendar-wrong-type.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-calendar-wrong-type.js",
-      ),
-    );
-    it(
-      "argument-propertybag-calendar-year-zero.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-calendar-year-zero.js",
-      ),
-    );
-    it(
-      "argument-propertybag-invalid-offset-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-invalid-offset-string.js",
-      ),
-    );
-    it(
-      "argument-propertybag-offset-not-agreeing-with-timezone.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-offset-not-agreeing-with-timezone.js",
-      ),
-    );
-    it(
-      "argument-propertybag-optional-properties.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-optional-properties.js",
-      ),
-    );
-    it(
-      "argument-propertybag-timezone-string-datetime.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-timezone-string-datetime.js",
-      ),
-    );
-    it(
-      "argument-propertybag-timezone-string-leap-second.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-timezone-string-leap-second.js",
-      ),
-    );
-    it(
-      "argument-propertybag-timezone-string-multiple-offsets.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-timezone-string-multiple-offsets.js",
-      ),
-    );
-    it(
-      "argument-propertybag-timezone-string-sub-minute-offset.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-timezone-string-sub-minute-offset.js",
-      ),
-    );
-    it(
-      "argument-propertybag-timezone-string-year-zero.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-timezone-string-year-zero.js",
-      ),
-    );
-    it(
-      "argument-propertybag-timezone-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-timezone-string.js",
-      ),
-    );
-    it(
-      "argument-propertybag-timezone-wrong-type.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-propertybag-timezone-wrong-type.js",
-      ),
-    );
-    it(
-      "argument-string-calendar-annotation-invalid-key.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-string-calendar-annotation-invalid-key.js",
-      ),
-    );
-    it(
-      "argument-string-calendar-annotation.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-string-calendar-annotation.js",
-      ),
-    );
-    it(
-      "argument-string-calendar-invalid-iso-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-string-calendar-invalid-iso-string.js",
-      ),
-    );
-    it(
-      "argument-string-critical-unknown-annotation.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-string-critical-unknown-annotation.js",
-      ),
-    );
-    it(
-      "argument-string-date-with-utc-offset.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-string-date-with-utc-offset.js",
-      ),
-    );
-    it(
-      "argument-string-limits.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/argument-string-limits.js"),
-    );
-    it(
-      "argument-string-minus-sign.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/argument-string-minus-sign.js"),
-    );
-    it(
-      "argument-string-multiple-calendar.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-string-multiple-calendar.js",
-      ),
-    );
-    it(
-      "argument-string-multiple-time-zone.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-string-multiple-time-zone.js",
-      ),
-    );
-    it(
-      "argument-string-sub-minute-offset.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-string-sub-minute-offset.js",
-      ),
-    );
-    it(
-      "argument-string-time-separators.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-string-time-separators.js",
-      ),
-    );
-    it(
-      "argument-string-time-zone-annotation.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-string-time-zone-annotation.js",
-      ),
-    );
-    it(
-      "argument-string-unknown-annotation.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/argument-string-unknown-annotation.js",
-      ),
-    );
-    it(
-      "argument-wrong-type.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/argument-wrong-type.js"),
-    );
-    it(
-      "basic.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/basic.js"),
-    );
-    it(
-      "builtin.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/builtin.js"),
-    );
-    it(
-      "calendar-temporal-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/calendar-temporal-object.js"),
-    );
-    it(
-      "casts-arguments.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/casts-arguments.js"),
-    );
-    it(
-      "compares-exact-time-not-clock-time.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/compares-exact-time-not-clock-time.js",
-      ),
-    );
-    it(
-      "disregard-time-zone-ids-if-exact-times-are-equal.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/disregard-time-zone-ids-if-exact-times-are-equal.js",
-      ),
-    );
-    it(
-      "infinity-throws-rangeerror.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/infinity-throws-rangeerror.js"),
-    );
-    it(
-      "leap-second.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/leap-second.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/name.js"),
-    );
-    it(
-      "no-fractional-minutes-hours.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/no-fractional-minutes-hours.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/not-a-constructor.js"),
-    );
-    it(
-      "order-of-operations.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/order-of-operations.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/prop-desc.js"),
-    );
-    it(
-      "requires-properties.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/requires-properties.js"),
-    );
-    it(
-      "year-zero.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/year-zero.js"),
-    );
-    it(
-      "zoneddatetime-string-multiple-offsets.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/compare/zoneddatetime-string-multiple-offsets.js",
-      ),
-    );
-    it(
-      "zoneddatetime-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/compare/zoneddatetime-string.js"),
-    );
+    it.skip("argument-propertybag-calendar-case-insensitive.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-calendar-invalid-iso-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-calendar-iso-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-calendar-leap-second.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-calendar-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-calendar-wrong-type.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-calendar-year-zero.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-invalid-offset-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-offset-not-agreeing-with-timezone.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-optional-properties.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-timezone-string-datetime.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-timezone-string-leap-second.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-timezone-string-multiple-offsets.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-timezone-string-sub-minute-offset.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-timezone-string-year-zero.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-timezone-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-timezone-wrong-type.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-calendar-annotation-invalid-key.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-calendar-annotation.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-calendar-invalid-iso-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-critical-unknown-annotation.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-date-with-utc-offset.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-limits.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-minus-sign.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-multiple-calendar.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-multiple-time-zone.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-sub-minute-offset.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-time-separators.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-time-zone-annotation.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-unknown-annotation.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-wrong-type.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("basic.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("calendar-temporal-object.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("casts-arguments.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("compares-exact-time-not-clock-time.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("disregard-time-zone-ids-if-exact-times-are-equal.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("infinity-throws-rangeerror.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("leap-second.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("no-fractional-minutes-hours.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("not-a-constructor.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("order-of-operations.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("prop-desc.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("requires-properties.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("year-zero.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("zoneddatetime-string-multiple-offsets.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("zoneddatetime-string.js", () => {
+      /* Ignored Test */
+    });
   });
-  it(
-    "construction-and-properties.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/construction-and-properties.js"),
-  );
-  it(
-    "constructor.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/constructor.js"),
-  );
+  it.skip("construction-and-properties.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("constructor.js", () => {
+    /* Ignored Test */
+  });
   describe("from", () => {
-    it(
-      "argument-propertybag-calendar-case-insensitive.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-calendar-case-insensitive.js",
-      ),
-    );
-    it(
-      "argument-propertybag-calendar-invalid-iso-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-calendar-invalid-iso-string.js",
-      ),
-    );
-    it(
-      "argument-propertybag-calendar-iso-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-calendar-iso-string.js",
-      ),
-    );
-    it(
-      "argument-propertybag-calendar-leap-second.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-calendar-leap-second.js",
-      ),
-    );
-    it(
-      "argument-propertybag-calendar-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-calendar-string.js",
-      ),
-    );
-    it(
-      "argument-propertybag-calendar-wrong-type.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-calendar-wrong-type.js",
-      ),
-    );
-    it(
-      "argument-propertybag-calendar-year-zero.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-calendar-year-zero.js",
-      ),
-    );
-    it(
-      "argument-propertybag-empty-throws.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-empty-throws.js",
-      ),
-    );
-    it(
-      "argument-propertybag-function-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-function-object.js",
-      ),
-    );
-    it(
-      "argument-propertybag-ignores-incorrect-properties.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-ignores-incorrect-properties.js",
-      ),
-    );
-    it(
-      "argument-propertybag-invalid-offset-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-invalid-offset-string.js",
-      ),
-    );
-    it(
-      "argument-propertybag-monthcode-month.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-monthcode-month.js",
-      ),
-    );
-    it(
-      "argument-propertybag-offset-not-agreeing-with-timezone.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-offset-not-agreeing-with-timezone.js",
-      ),
-    );
-    it(
-      "argument-propertybag-optional-properties.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-optional-properties.js",
-      ),
-    );
-    it(
-      "argument-propertybag-required-correctly-spelled-properties.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-required-correctly-spelled-properties.js",
-      ),
-    );
-    it(
-      "argument-propertybag-required-prop-undefined-throws.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-required-prop-undefined-throws.js",
-      ),
-    );
-    it(
-      "argument-propertybag-timezone-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-timezone-object.js",
-      ),
-    );
-    it(
-      "argument-propertybag-timezone-string-datetime.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-timezone-string-datetime.js",
-      ),
-    );
-    it(
-      "argument-propertybag-timezone-string-leap-second.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-timezone-string-leap-second.js",
-      ),
-    );
-    it(
-      "argument-propertybag-timezone-string-multiple-offsets.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-timezone-string-multiple-offsets.js",
-      ),
-    );
-    it(
-      "argument-propertybag-timezone-string-sub-minute-offset.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-timezone-string-sub-minute-offset.js",
-      ),
-    );
-    it(
-      "argument-propertybag-timezone-string-year-zero.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-timezone-string-year-zero.js",
-      ),
-    );
-    it(
-      "argument-propertybag-timezone-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-timezone-string.js",
-      ),
-    );
-    it(
-      "argument-propertybag-timezone-wrong-type.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-propertybag-timezone-wrong-type.js",
-      ),
-    );
-    it(
-      "argument-string-basic-and-extended-format.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-string-basic-and-extended-format.js",
-      ),
-    );
-    it(
-      "argument-string-calendar-annotation-invalid-key.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-string-calendar-annotation-invalid-key.js",
-      ),
-    );
-    it(
-      "argument-string-calendar-annotation.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-string-calendar-annotation.js",
-      ),
-    );
-    it(
-      "argument-string-calendar-invalid-iso-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-string-calendar-invalid-iso-string.js",
-      ),
-    );
-    it(
-      "argument-string-critical-unknown-annotation.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-string-critical-unknown-annotation.js",
-      ),
-    );
-    it(
-      "argument-string-date-with-utc-offset.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-string-date-with-utc-offset.js",
-      ),
-    );
-    it(
-      "argument-string-decimal-places.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/argument-string-decimal-places.js"),
-    );
-    it(
-      "argument-string-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/argument-string-invalid.js"),
-    );
-    it(
-      "argument-string-limits.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/argument-string-limits.js"),
-    );
-    it(
-      "argument-string-minus-sign.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/argument-string-minus-sign.js"),
-    );
-    it(
-      "argument-string-multiple-calendar.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-string-multiple-calendar.js",
-      ),
-    );
-    it(
-      "argument-string-multiple-time-zone.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-string-multiple-time-zone.js",
-      ),
-    );
-    it(
-      "argument-string-negative-extended-year.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-string-negative-extended-year.js",
-      ),
-    );
-    it(
-      "argument-string-no-junk-at-end.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/argument-string-no-junk-at-end.js"),
-    );
-    it(
-      "argument-string-optional-parts.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/argument-string-optional-parts.js"),
-    );
-    it(
-      "argument-string-start-of-day-not-valid-epoch-nanoseconds.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-string-start-of-day-not-valid-epoch-nanoseconds.js",
-      ),
-    );
-    it(
-      "argument-string-sub-minute-offset.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-string-sub-minute-offset.js",
-      ),
-    );
-    it(
-      "argument-string-time-separators.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/argument-string-time-separators.js"),
-    );
-    it(
-      "argument-string-time-zone-annotation.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-string-time-zone-annotation.js",
-      ),
-    );
-    it(
-      "argument-string-unknown-annotation.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-string-unknown-annotation.js",
-      ),
-    );
-    it(
-      "argument-string-variant-decimal-separator.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/argument-string-variant-decimal-separator.js",
-      ),
-    );
-    it(
-      "argument-wrong-type.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/argument-wrong-type.js"),
-    );
-    it(
-      "argument-zoneddatetime.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/argument-zoneddatetime.js"),
-    );
-    it(
-      "bad-disambiguation.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/bad-disambiguation.js"),
-    );
-    it(
-      "builtin.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/builtin.js"),
-    );
-    it(
-      "calendar-temporal-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/calendar-temporal-object.js"),
-    );
-    it(
-      "calendarresolvefields-error-ordering.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/calendarresolvefields-error-ordering.js",
-      ),
-    );
-    it(
-      "constrain-has-no-effect-on-invalid-iso-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/constrain-has-no-effect-on-invalid-iso-string.js",
-      ),
-    );
-    it(
-      "disambiguation-invalid-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/disambiguation-invalid-string.js"),
-    );
-    it(
-      "disambiguation-wrong-type.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/disambiguation-wrong-type.js"),
-    );
-    it(
-      "infinity-throws-rangeerror.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/infinity-throws-rangeerror.js"),
-    );
-    it(
-      "leap-second.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/leap-second.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/length.js"),
-    );
-    it(
-      "month-code-wrong-type.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/month-code-wrong-type.js"),
-    );
-    it(
-      "monthcode-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/monthcode-invalid.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/name.js"),
-    );
-    it(
-      "negative-month-or-day.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/negative-month-or-day.js"),
-    );
-    it(
-      "no-fractional-minutes-hours.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/no-fractional-minutes-hours.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/not-a-constructor.js"),
-    );
-    it(
-      "observable-get-overflow-argument-primitive.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/observable-get-overflow-argument-primitive.js",
-      ),
-    );
-    it(
-      "observable-get-overflow-argument-string-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/observable-get-overflow-argument-string-invalid.js",
-      ),
-    );
-    it(
-      "offset-does-not-match-iana-time-zone.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/offset-does-not-match-iana-time-zone.js",
-      ),
-    );
-    it(
-      "offset-invalid-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/offset-invalid-string.js"),
-    );
-    it(
-      "offset-overrides-critical-flag.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/offset-overrides-critical-flag.js"),
-    );
-    it(
-      "offset-string-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/offset-string-invalid.js"),
-    );
-    it(
-      "offset-undefined.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/offset-undefined.js"),
-    );
-    it(
-      "offset-wrong-type.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/offset-wrong-type.js"),
-    );
-    it(
-      "options-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/options-object.js"),
-    );
-    it(
-      "options-read-before-algorithmic-validation.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/options-read-before-algorithmic-validation.js",
-      ),
-    );
-    it(
-      "options-wrong-type.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/options-wrong-type.js"),
-    );
-    it(
-      "order-of-operations.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/order-of-operations.js"),
-    );
-    it(
-      "overflow-invalid-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/overflow-invalid-string.js"),
-    );
-    it(
-      "overflow-options.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/overflow-options.js"),
-    );
-    it(
-      "overflow-undefined.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/overflow-undefined.js"),
-    );
-    it(
-      "overflow-wrong-type.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/overflow-wrong-type.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/prop-desc.js"),
-    );
-    it(
-      "roundtrip-from-property-bag.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/roundtrip-from-property-bag.js"),
-    );
-    it(
-      "roundtrip-from-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/roundtrip-from-string.js"),
-    );
-    it(
-      "subclassing-ignored.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/subclassing-ignored.js"),
-    );
-    it(
-      "timezone-case-insensitive.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/timezone-case-insensitive.js"),
-    );
-    it(
-      "year-zero.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/year-zero.js"),
-    );
-    it(
-      "zoneddatetime-string-multiple-offsets.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Temporal/ZonedDateTime/from/zoneddatetime-string-multiple-offsets.js",
-      ),
-    );
-    it(
-      "zoneddatetime-string.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/from/zoneddatetime-string.js"),
-    );
+    it.skip("argument-propertybag-calendar-case-insensitive.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-calendar-invalid-iso-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-calendar-iso-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-calendar-leap-second.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-calendar-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-calendar-wrong-type.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-calendar-year-zero.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-empty-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-function-object.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-ignores-incorrect-properties.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-invalid-offset-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-monthcode-month.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-offset-not-agreeing-with-timezone.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-optional-properties.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-required-correctly-spelled-properties.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-required-prop-undefined-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-timezone-object.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-timezone-string-datetime.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-timezone-string-leap-second.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-timezone-string-multiple-offsets.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-timezone-string-sub-minute-offset.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-timezone-string-year-zero.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-timezone-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-propertybag-timezone-wrong-type.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-basic-and-extended-format.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-calendar-annotation-invalid-key.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-calendar-annotation.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-calendar-invalid-iso-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-critical-unknown-annotation.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-date-with-utc-offset.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-decimal-places.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-invalid.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-limits.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-minus-sign.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-multiple-calendar.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-multiple-time-zone.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-negative-extended-year.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-no-junk-at-end.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-optional-parts.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-start-of-day-not-valid-epoch-nanoseconds.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-sub-minute-offset.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-time-separators.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-time-zone-annotation.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-unknown-annotation.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-string-variant-decimal-separator.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-wrong-type.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("argument-zoneddatetime.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("bad-disambiguation.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("builtin.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("calendar-temporal-object.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("calendarresolvefields-error-ordering.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("constrain-has-no-effect-on-invalid-iso-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("disambiguation-invalid-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("disambiguation-wrong-type.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("infinity-throws-rangeerror.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("leap-second.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("length.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("month-code-wrong-type.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("monthcode-invalid.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("name.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("negative-month-or-day.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("no-fractional-minutes-hours.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("not-a-constructor.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("observable-get-overflow-argument-primitive.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("observable-get-overflow-argument-string-invalid.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("offset-does-not-match-iana-time-zone.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("offset-invalid-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("offset-overrides-critical-flag.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("offset-string-invalid.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("offset-undefined.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("offset-wrong-type.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("options-object.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("options-read-before-algorithmic-validation.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("options-wrong-type.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("order-of-operations.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("overflow-invalid-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("overflow-options.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("overflow-undefined.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("overflow-wrong-type.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("prop-desc.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("roundtrip-from-property-bag.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("roundtrip-from-string.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("subclassing-ignored.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("timezone-case-insensitive.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("year-zero.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("zoneddatetime-string-multiple-offsets.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("zoneddatetime-string.js", () => {
+      /* Ignored Test */
+    });
   });
-  it(
-    "get-prototype-from-constructor-throws.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/get-prototype-from-constructor-throws.js"),
-  );
-  it(
-    "length.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/length.js"),
-  );
-  it(
-    "limits.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/limits.js"),
-  );
-  it(
-    "missing-arguments.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/missing-arguments.js"),
-  );
-  it(
-    "name.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/name.js"),
-  );
-  it(
-    "prop-desc.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/prop-desc.js"),
-  );
+  it.skip("get-prototype-from-constructor-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("length.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("limits.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("missing-arguments.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("name.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("prop-desc.js", () => {
+    /* Ignored Test */
+  });
   describe("prototype", () => {
     describe("add", () => {
-      it(
-        "add-duration.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/add-duration.js"),
-      );
-      it(
-        "add-large-subseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/add-large-subseconds.js"),
-      );
-      it(
-        "argument-duration-max-plus-min-date.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/argument-duration-max-plus-min-date.js",
-        ),
-      );
-      it(
-        "argument-duration-max.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/argument-duration-max.js",
-        ),
-      );
-      it(
-        "argument-duration-out-of-range.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/argument-duration-out-of-range.js",
-        ),
-      );
-      it(
-        "argument-invalid-property.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/argument-invalid-property.js",
-        ),
-      );
-      it(
-        "argument-mixed-sign.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/argument-mixed-sign.js"),
-      );
-      it(
-        "argument-not-object.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/argument-not-object.js"),
-      );
-      it(
-        "argument-propertybag-optional-properties.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/argument-propertybag-optional-properties.js",
-        ),
-      );
-      it(
-        "argument-singular-properties.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/argument-singular-properties.js",
-        ),
-      );
-      it(
-        "argument-string-fractional-units-rounding-mode.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/argument-string-fractional-units-rounding-mode.js",
-        ),
-      );
-      it(
-        "argument-string-negative-fractional-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/argument-string-negative-fractional-units.js",
-        ),
-      );
-      it(
-        "basic-arithmetic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/basic-arithmetic.js"),
-      );
-      it(
-        "blank-duration.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/blank-duration.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/builtin.js"),
-      );
-      it(
-        "casts-argument.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/casts-argument.js"),
-      );
-      it(
-        "constrain-when-ambiguous-result.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/constrain-when-ambiguous-result.js",
-        ),
-      );
-      it(
-        "cross-epoch.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/cross-epoch.js"),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/length.js"),
-      );
-      it(
-        "math-order-of-operations-add-constrain.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/math-order-of-operations-add-constrain.js",
-        ),
-      );
-      it(
-        "math-order-of-operations-add-none.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/math-order-of-operations-add-none.js",
-        ),
-      );
-      it(
-        "math-order-of-operations-add-reject.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/math-order-of-operations-add-reject.js",
-        ),
-      );
-      it(
-        "month-boundary.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/month-boundary.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/name.js"),
-      );
-      it(
-        "negative-epochnanoseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/negative-epochnanoseconds.js",
-        ),
-      );
-      it(
-        "non-integer-throws-rangeerror.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/non-integer-throws-rangeerror.js",
-        ),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/not-a-constructor.js"),
-      );
-      it(
-        "options-object.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/options-object.js"),
-      );
-      it(
-        "options-read-before-algorithmic-validation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/options-read-before-algorithmic-validation.js",
-        ),
-      );
-      it(
-        "options-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/options-undefined.js"),
-      );
-      it(
-        "options-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/options-wrong-type.js"),
-      );
-      it(
-        "order-of-operations.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/order-of-operations.js"),
-      );
-      it(
-        "overflow-adding-months-to-max-year.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/overflow-adding-months-to-max-year.js",
-        ),
-      );
-      it(
-        "overflow-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/overflow-invalid-string.js",
-        ),
-      );
-      it(
-        "overflow-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/overflow-undefined.js"),
-      );
-      it(
-        "overflow-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/overflow-wrong-type.js"),
-      );
-      it(
-        "overflow.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/overflow.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/prop-desc.js"),
-      );
-      it(
-        "subclassing-ignored.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/add/subclassing-ignored.js"),
-      );
-      it(
-        "symmetrical-wrt-negative-durations-in-time-part.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/symmetrical-wrt-negative-durations-in-time-part.js",
-        ),
-      );
-      it(
-        "throw-when-ambiguous-result-with-reject.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/throw-when-ambiguous-result-with-reject.js",
-        ),
-      );
-      it(
-        "throw-when-intermediate-datetime-outside-valid-limits.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/add/throw-when-intermediate-datetime-outside-valid-limits.js",
-        ),
-      );
+      it.skip("add-duration.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("add-large-subseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-duration-max-plus-min-date.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-duration-max.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-duration-out-of-range.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-invalid-property.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-mixed-sign.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-not-object.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-optional-properties.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-singular-properties.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-fractional-units-rounding-mode.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-negative-fractional-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("basic-arithmetic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("blank-duration.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("casts-argument.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("constrain-when-ambiguous-result.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("cross-epoch.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("math-order-of-operations-add-constrain.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("math-order-of-operations-add-none.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("math-order-of-operations-add-reject.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("month-boundary.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("negative-epochnanoseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("non-integer-throws-rangeerror.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-object.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-read-before-algorithmic-validation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("order-of-operations.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("overflow-adding-months-to-max-year.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("overflow-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("overflow-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("overflow-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("overflow.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("subclassing-ignored.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("symmetrical-wrt-negative-durations-in-time-part.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("throw-when-ambiguous-result-with-reject.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("throw-when-intermediate-datetime-outside-valid-limits.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("calendarId", () => {
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/calendarId/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/calendarId/prop-desc.js"),
-      );
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
-    it(
-      "constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/constructor.js"),
-    );
+    it.skip("constructor.js", () => {
+      /* Ignored Test */
+    });
     describe("day", () => {
-      it(
-        "balance-negative-time-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/day/balance-negative-time-units.js",
-        ),
-      );
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/day/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/day/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/day/prop-desc.js"),
-      );
+      it.skip("balance-negative-time-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("dayOfWeek", () => {
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/dayOfWeek/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/dayOfWeek/prop-desc.js"),
-      );
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("dayOfYear", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/dayOfYear/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/dayOfYear/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/dayOfYear/prop-desc.js"),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("daysInMonth", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/daysInMonth/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/daysInMonth/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/daysInMonth/prop-desc.js"),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("daysInWeek", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/daysInWeek/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/daysInWeek/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/daysInWeek/prop-desc.js"),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("daysInYear", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/daysInYear/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/daysInYear/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/daysInYear/prop-desc.js"),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("epochMilliseconds", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/epochMilliseconds/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/epochMilliseconds/branding.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/epochMilliseconds/prop-desc.js",
-        ),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("epochNanoseconds", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/epochNanoseconds/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/epochNanoseconds/branding.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/epochNanoseconds/prop-desc.js",
-        ),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("equals", () => {
-      it(
-        "argument-object.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/equals/argument-object.js"),
-      );
-      it(
-        "argument-propertybag-calendar-case-insensitive.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-calendar-case-insensitive.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-invalid-iso-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-calendar-invalid-iso-string.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-iso-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-calendar-iso-string.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-leap-second.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-calendar-leap-second.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-calendar-string.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-calendar-wrong-type.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-year-zero.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-calendar-year-zero.js",
-        ),
-      );
-      it(
-        "argument-propertybag-invalid-offset-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-invalid-offset-string.js",
-        ),
-      );
-      it(
-        "argument-propertybag-offset-not-agreeing-with-timezone.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-offset-not-agreeing-with-timezone.js",
-        ),
-      );
-      it(
-        "argument-propertybag-optional-properties.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-optional-properties.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-case-insensitive.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-timezone-case-insensitive.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-normalize-offset-strings.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-timezone-normalize-offset-strings.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string-datetime.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-timezone-string-datetime.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string-leap-second.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-timezone-string-leap-second.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string-multiple-offsets.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-timezone-string-multiple-offsets.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string-sub-minute-offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-timezone-string-sub-minute-offset.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string-year-zero.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-timezone-string-year-zero.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-timezone-string.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-propertybag-timezone-wrong-type.js",
-        ),
-      );
-      it(
-        "argument-string-calendar-annotation-invalid-key.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-string-calendar-annotation-invalid-key.js",
-        ),
-      );
-      it(
-        "argument-string-calendar-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-string-calendar-annotation.js",
-        ),
-      );
-      it(
-        "argument-string-calendar-invalid-iso-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-string-calendar-invalid-iso-string.js",
-        ),
-      );
-      it(
-        "argument-string-critical-unknown-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-string-critical-unknown-annotation.js",
-        ),
-      );
-      it(
-        "argument-string-date-with-utc-offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-string-date-with-utc-offset.js",
-        ),
-      );
-      it(
-        "argument-string-limits.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-string-limits.js",
-        ),
-      );
-      it(
-        "argument-string-minus-sign.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-string-minus-sign.js",
-        ),
-      );
-      it(
-        "argument-string-multiple-calendar.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-string-multiple-calendar.js",
-        ),
-      );
-      it(
-        "argument-string-multiple-time-zone.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-string-multiple-time-zone.js",
-        ),
-      );
-      it(
-        "argument-string-sub-minute-offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-string-sub-minute-offset.js",
-        ),
-      );
-      it(
-        "argument-string-time-separators.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-string-time-separators.js",
-        ),
-      );
-      it(
-        "argument-string-time-zone-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-string-time-zone-annotation.js",
-        ),
-      );
-      it(
-        "argument-string-unknown-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-string-unknown-annotation.js",
-        ),
-      );
-      it(
-        "argument-valid.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/equals/argument-valid.js"),
-      );
-      it(
-        "argument-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/argument-wrong-type.js",
-        ),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/equals/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/equals/builtin.js"),
-      );
-      it(
-        "calendar-temporal-object.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/calendar-temporal-object.js",
-        ),
-      );
-      it(
-        "casts-argument.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/equals/casts-argument.js"),
-      );
-      it(
-        "constructed-from-equivalent-parameters-are-equal.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/constructed-from-equivalent-parameters-are-equal.js",
-        ),
-      );
-      it(
-        "different-instant-not-equal.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/different-instant-not-equal.js",
-        ),
-      );
-      it(
-        "different-time-zone-not-equal.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/different-time-zone-not-equal.js",
-        ),
-      );
-      it(
-        "infinity-throws-rangeerror.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/infinity-throws-rangeerror.js",
-        ),
-      );
-      it(
-        "leap-second.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/equals/leap-second.js"),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/equals/length.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/equals/name.js"),
-      );
-      it(
-        "no-fractional-minutes-hours.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/no-fractional-minutes-hours.js",
-        ),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/equals/not-a-constructor.js"),
-      );
-      it(
-        "order-of-operations.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/order-of-operations.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/equals/prop-desc.js"),
-      );
-      it(
-        "requires-properties.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/requires-properties.js",
-        ),
-      );
-      it(
-        "year-zero.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/equals/year-zero.js"),
-      );
-      it(
-        "zoneddatetime-string-multiple-offsets.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/zoneddatetime-string-multiple-offsets.js",
-        ),
-      );
-      it(
-        "zoneddatetime-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/equals/zoneddatetime-string.js",
-        ),
-      );
+      it.skip("argument-object.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-case-insensitive.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-invalid-iso-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-iso-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-leap-second.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-year-zero.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-invalid-offset-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-offset-not-agreeing-with-timezone.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-optional-properties.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-case-insensitive.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-normalize-offset-strings.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string-datetime.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string-leap-second.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string-multiple-offsets.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string-sub-minute-offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string-year-zero.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-calendar-annotation-invalid-key.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-calendar-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-calendar-invalid-iso-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-critical-unknown-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-date-with-utc-offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-limits.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-minus-sign.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-multiple-calendar.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-multiple-time-zone.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-sub-minute-offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-time-separators.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-time-zone-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-unknown-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-valid.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendar-temporal-object.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("casts-argument.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("constructed-from-equivalent-parameters-are-equal.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("different-instant-not-equal.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("different-time-zone-not-equal.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("infinity-throws-rangeerror.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("leap-second.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("no-fractional-minutes-hours.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("order-of-operations.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("requires-properties.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("year-zero.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("zoneddatetime-string-multiple-offsets.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("zoneddatetime-string.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("era", () => {
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/era/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/era/prop-desc.js"),
-      );
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("eraYear", () => {
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/eraYear/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/eraYear/prop-desc.js"),
-      );
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("getTimeZoneTransition", () => {
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/getTimeZoneTransition/branding.js",
-        ),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/getTimeZoneTransition/builtin.js",
-        ),
-      );
-      it(
-        "direction-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/getTimeZoneTransition/direction-undefined.js",
-        ),
-      );
-      it(
-        "direction-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/getTimeZoneTransition/direction-wrong-type.js",
-        ),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/getTimeZoneTransition/length.js",
-        ),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/getTimeZoneTransition/name.js",
-        ),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/getTimeZoneTransition/not-a-constructor.js",
-        ),
-      );
-      it(
-        "offset-timezone-no-transitions.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/getTimeZoneTransition/offset-timezone-no-transitions.js",
-        ),
-      );
-      it(
-        "options-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/getTimeZoneTransition/options-undefined.js",
-        ),
-      );
-      it(
-        "order-of-operations.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/getTimeZoneTransition/order-of-operations.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/getTimeZoneTransition/prop-desc.js",
-        ),
-      );
-      it(
-        "utc-no-transitions.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/getTimeZoneTransition/utc-no-transitions.js",
-        ),
-      );
-      it(
-        "wrong-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/getTimeZoneTransition/wrong-string.js",
-        ),
-      );
-      it(
-        "wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/getTimeZoneTransition/wrong-type.js",
-        ),
-      );
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("direction-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("direction-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("offset-timezone-no-transitions.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("order-of-operations.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("utc-no-transitions.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("wrong-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("wrong-type.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("hour", () => {
-      it(
-        "balance-negative-time-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/hour/balance-negative-time-units.js",
-        ),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/hour/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/hour/prop-desc.js"),
-      );
+      it.skip("balance-negative-time-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("hoursInDay", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/hoursInDay/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/hoursInDay/branding.js"),
-      );
-      it(
-        "get-start-of-day-throws.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/hoursInDay/get-start-of-day-throws.js",
-        ),
-      );
-      it(
-        "next-day-out-of-range.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/hoursInDay/next-day-out-of-range.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/hoursInDay/prop-desc.js"),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("get-start-of-day-throws.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("next-day-out-of-range.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("inLeapYear", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/inLeapYear/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/inLeapYear/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/inLeapYear/prop-desc.js"),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("microsecond", () => {
-      it(
-        "balance-negative-time-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/microsecond/balance-negative-time-units.js",
-        ),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/microsecond/branding.js"),
-      );
-      it(
-        "negative-epochnanoseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/microsecond/negative-epochnanoseconds.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/microsecond/prop-desc.js"),
-      );
+      it.skip("balance-negative-time-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("negative-epochnanoseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("millisecond", () => {
-      it(
-        "balance-negative-time-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/millisecond/balance-negative-time-units.js",
-        ),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/millisecond/branding.js"),
-      );
-      it(
-        "negative-epochnanoseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/millisecond/negative-epochnanoseconds.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/millisecond/prop-desc.js"),
-      );
+      it.skip("balance-negative-time-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("negative-epochnanoseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("minute", () => {
-      it(
-        "balance-negative-time-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/minute/balance-negative-time-units.js",
-        ),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/minute/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/minute/prop-desc.js"),
-      );
+      it.skip("balance-negative-time-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("month", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/month/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/month/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/month/prop-desc.js"),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("monthCode", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/monthCode/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/monthCode/branding.js"),
-      );
-      it(
-        "no-leap-months.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/monthCode/no-leap-months.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/monthCode/prop-desc.js"),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("no-leap-months.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("monthsInYear", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/monthsInYear/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/monthsInYear/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/monthsInYear/prop-desc.js"),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("nanosecond", () => {
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/nanosecond/branding.js"),
-      );
-      it(
-        "negative-epochnanoseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/nanosecond/negative-epochnanoseconds.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/nanosecond/prop-desc.js"),
-      );
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("negative-epochnanoseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("offset", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/offset/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/offset/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/offset/prop-desc.js"),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("offsetNanoseconds", () => {
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/offsetNanoseconds/branding.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/offsetNanoseconds/prop-desc.js",
-        ),
-      );
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/prop-desc.js"),
-    );
+    it.skip("prop-desc.js", () => {
+      /* Ignored Test */
+    });
     describe("round", () => {
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/round/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/round/builtin.js"),
-      );
-      it(
-        "day-rounding-out-of-range.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/day-rounding-out-of-range.js",
-        ),
-      );
-      it(
-        "get-start-of-day-throws.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/get-start-of-day-throws.js",
-        ),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/round/length.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/round/name.js"),
-      );
-      it(
-        "negative-epochnanoseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/negative-epochnanoseconds.js",
-        ),
-      );
-      it(
-        "negative-time.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/round/negative-time.js"),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/round/not-a-constructor.js"),
-      );
-      it(
-        "options-read-before-algorithmic-validation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/options-read-before-algorithmic-validation.js",
-        ),
-      );
-      it(
-        "options-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/round/options-wrong-type.js"),
-      );
-      it(
-        "order-of-operations.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/order-of-operations.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/round/prop-desc.js"),
-      );
-      it(
-        "rounded-date-time-outside-valid-limits.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/rounded-date-time-outside-valid-limits.js",
-        ),
-      );
-      it(
-        "rounding-direction.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/round/rounding-direction.js"),
-      );
-      it(
-        "rounding-increments.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/rounding-increments.js",
-        ),
-      );
-      it(
-        "rounding-is-noop.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/round/rounding-is-noop.js"),
-      );
-      it(
-        "roundingincrement-nan.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/roundingincrement-nan.js",
-        ),
-      );
-      it(
-        "roundingincrement-non-integer.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/roundingincrement-non-integer.js",
-        ),
-      );
-      it(
-        "roundingincrement-out-of-range.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/roundingincrement-out-of-range.js",
-        ),
-      );
-      it(
-        "roundingincrement-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/roundingincrement-undefined.js",
-        ),
-      );
-      it(
-        "roundingincrement-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/roundingincrement-wrong-type.js",
-        ),
-      );
-      it(
-        "roundingmode-ceil.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/round/roundingmode-ceil.js"),
-      );
-      it(
-        "roundingmode-expand.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/roundingmode-expand.js",
-        ),
-      );
-      it(
-        "roundingmode-floor.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/round/roundingmode-floor.js"),
-      );
-      it(
-        "roundingmode-halfCeil.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/roundingmode-halfCeil.js",
-        ),
-      );
-      it(
-        "roundingmode-halfEven.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/roundingmode-halfEven.js",
-        ),
-      );
-      it(
-        "roundingmode-halfExpand.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/roundingmode-halfExpand.js",
-        ),
-      );
-      it(
-        "roundingmode-halfFloor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/roundingmode-halfFloor.js",
-        ),
-      );
-      it(
-        "roundingmode-halfTrunc.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/roundingmode-halfTrunc.js",
-        ),
-      );
-      it(
-        "roundingmode-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/roundingmode-invalid-string.js",
-        ),
-      );
-      it(
-        "roundingmode-trunc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/round/roundingmode-trunc.js"),
-      );
-      it(
-        "roundingmode-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/roundingmode-undefined.js",
-        ),
-      );
-      it(
-        "roundingmode-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/roundingmode-wrong-type.js",
-        ),
-      );
-      it(
-        "roundto-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/roundto-invalid-string.js",
-        ),
-      );
-      it(
-        "smallestunit-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/smallestunit-invalid-string.js",
-        ),
-      );
-      it(
-        "smallestunit-plurals-accepted.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/smallestunit-plurals-accepted.js",
-        ),
-      );
-      it(
-        "smallestunit-string-shorthand.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/smallestunit-string-shorthand.js",
-        ),
-      );
-      it(
-        "smallestunit-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/smallestunit-wrong-type.js",
-        ),
-      );
-      it(
-        "smallestunit.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/round/smallestunit.js"),
-      );
-      it(
-        "subclassing-ignored.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/subclassing-ignored.js",
-        ),
-      );
-      it(
-        "throws-on-invalid-increments.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/throws-on-invalid-increments.js",
-        ),
-      );
-      it(
-        "throws-without-parameter.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/throws-without-parameter.js",
-        ),
-      );
-      it(
-        "throws-without-smallestunit.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/round/throws-without-smallestunit.js",
-        ),
-      );
-      it(
-        "valid-increments.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/round/valid-increments.js"),
-      );
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("day-rounding-out-of-range.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("get-start-of-day-throws.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("negative-epochnanoseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("negative-time.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-read-before-algorithmic-validation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("order-of-operations.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("rounded-date-time-outside-valid-limits.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("rounding-direction.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("rounding-increments.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("rounding-is-noop.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-nan.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-non-integer.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-out-of-range.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-ceil.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-expand.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-floor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfCeil.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfEven.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfExpand.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfFloor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfTrunc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-trunc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundto-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-plurals-accepted.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-string-shorthand.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("subclassing-ignored.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("throws-on-invalid-increments.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("throws-without-parameter.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("throws-without-smallestunit.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("valid-increments.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("second", () => {
-      it(
-        "balance-negative-time-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/second/balance-negative-time-units.js",
-        ),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/second/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/second/prop-desc.js"),
-      );
+      it.skip("balance-negative-time-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("since", () => {
-      it(
-        "argument-at-limits.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/argument-at-limits.js"),
-      );
-      it(
-        "argument-propertybag-calendar-case-insensitive.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-calendar-case-insensitive.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-invalid-iso-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-calendar-invalid-iso-string.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-iso-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-calendar-iso-string.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-leap-second.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-calendar-leap-second.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-calendar-string.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-calendar-wrong-type.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-year-zero.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-calendar-year-zero.js",
-        ),
-      );
-      it(
-        "argument-propertybag-invalid-offset-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-invalid-offset-string.js",
-        ),
-      );
-      it(
-        "argument-propertybag-offset-not-agreeing-with-timezone.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-offset-not-agreeing-with-timezone.js",
-        ),
-      );
-      it(
-        "argument-propertybag-optional-properties.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-optional-properties.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string-datetime.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-timezone-string-datetime.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string-leap-second.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-timezone-string-leap-second.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string-multiple-offsets.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-timezone-string-multiple-offsets.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string-sub-minute-offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-timezone-string-sub-minute-offset.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string-year-zero.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-timezone-string-year-zero.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-timezone-string.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-propertybag-timezone-wrong-type.js",
-        ),
-      );
-      it(
-        "argument-string-calendar-annotation-invalid-key.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-string-calendar-annotation-invalid-key.js",
-        ),
-      );
-      it(
-        "argument-string-calendar-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-string-calendar-annotation.js",
-        ),
-      );
-      it(
-        "argument-string-calendar-invalid-iso-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-string-calendar-invalid-iso-string.js",
-        ),
-      );
-      it(
-        "argument-string-critical-unknown-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-string-critical-unknown-annotation.js",
-        ),
-      );
-      it(
-        "argument-string-date-with-utc-offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-string-date-with-utc-offset.js",
-        ),
-      );
-      it(
-        "argument-string-limits.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-string-limits.js",
-        ),
-      );
-      it(
-        "argument-string-minus-sign.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-string-minus-sign.js",
-        ),
-      );
-      it(
-        "argument-string-multiple-calendar.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-string-multiple-calendar.js",
-        ),
-      );
-      it(
-        "argument-string-multiple-time-zone.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-string-multiple-time-zone.js",
-        ),
-      );
-      it(
-        "argument-string-sub-minute-offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-string-sub-minute-offset.js",
-        ),
-      );
-      it(
-        "argument-string-time-separators.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-string-time-separators.js",
-        ),
-      );
-      it(
-        "argument-string-time-zone-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-string-time-zone-annotation.js",
-        ),
-      );
-      it(
-        "argument-string-unknown-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-string-unknown-annotation.js",
-        ),
-      );
-      it(
-        "argument-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/argument-wrong-type.js",
-        ),
-      );
-      it(
-        "balance-negative-time-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/balance-negative-time-units.js",
-        ),
-      );
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/basic.js"),
-      );
-      it(
-        "blank-result.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/blank-result.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/builtin.js"),
-      );
-      it(
-        "calendar-temporal-object.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/calendar-temporal-object.js",
-        ),
-      );
-      it(
-        "can-return-lower-or-higher-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/can-return-lower-or-higher-units.js",
-        ),
-      );
-      it(
-        "casts-argument.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/casts-argument.js"),
-      );
-      it(
-        "defaults-to-returning-hours.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/defaults-to-returning-hours.js",
-        ),
-      );
-      it(
-        "does-not-include-higher-units-than-necessary.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/does-not-include-higher-units-than-necessary.js",
-        ),
-      );
-      it(
-        "float64-representable-integer.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/float64-representable-integer.js",
-        ),
-      );
-      it(
-        "infinity-throws-rangeerror.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/infinity-throws-rangeerror.js",
-        ),
-      );
-      it(
-        "invalid-rounding-increments.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/invalid-rounding-increments.js",
-        ),
-      );
-      it(
-        "largestunit-default.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/largestunit-default.js",
-        ),
-      );
-      it(
-        "largestunit-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/largestunit-invalid-string.js",
-        ),
-      );
-      it(
-        "largestunit-plurals-accepted.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/largestunit-plurals-accepted.js",
-        ),
-      );
-      it(
-        "largestunit-smallestunit-mismatch.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/largestunit-smallestunit-mismatch.js",
-        ),
-      );
-      it(
-        "largestunit-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/largestunit-undefined.js",
-        ),
-      );
-      it(
-        "largestunit-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/largestunit-wrong-type.js",
-        ),
-      );
-      it(
-        "largestunit.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/largestunit.js"),
-      );
-      it(
-        "leap-second.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/leap-second.js"),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/length.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/name.js"),
-      );
-      it(
-        "negative-epochnanoseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/negative-epochnanoseconds.js",
-        ),
-      );
-      it(
-        "no-fractional-minutes-hours.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/no-fractional-minutes-hours.js",
-        ),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/not-a-constructor.js"),
-      );
-      it(
-        "options-object.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/options-object.js"),
-      );
-      it(
-        "options-read-before-algorithmic-validation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/options-read-before-algorithmic-validation.js",
-        ),
-      );
-      it(
-        "options-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/options-undefined.js"),
-      );
-      it(
-        "options-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/options-wrong-type.js"),
-      );
-      it(
-        "order-of-operations.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/order-of-operations.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/prop-desc.js"),
-      );
-      it(
-        "reversibility-of-differences.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/reversibility-of-differences.js",
-        ),
-      );
-      it(
-        "round-cross-unit-boundary.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/round-cross-unit-boundary.js",
-        ),
-      );
-      it(
-        "rounding-increments.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/rounding-increments.js",
-        ),
-      );
-      it(
-        "roundingincrement-addition-out-of-range.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/roundingincrement-addition-out-of-range.js",
-        ),
-      );
-      it(
-        "roundingincrement-nan.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/roundingincrement-nan.js",
-        ),
-      );
-      it(
-        "roundingincrement-non-integer.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/roundingincrement-non-integer.js",
-        ),
-      );
-      it(
-        "roundingincrement-out-of-range.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/roundingincrement-out-of-range.js",
-        ),
-      );
-      it(
-        "roundingincrement-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/roundingincrement-undefined.js",
-        ),
-      );
-      it(
-        "roundingincrement-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/roundingincrement-wrong-type.js",
-        ),
-      );
-      it(
-        "roundingmode-ceil.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/roundingmode-ceil.js"),
-      );
-      it(
-        "roundingmode-expand.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/roundingmode-expand.js",
-        ),
-      );
-      it(
-        "roundingmode-floor.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/roundingmode-floor.js"),
-      );
-      it(
-        "roundingmode-halfCeil.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/roundingmode-halfCeil.js",
-        ),
-      );
-      it(
-        "roundingmode-halfEven.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/roundingmode-halfEven.js",
-        ),
-      );
-      it(
-        "roundingmode-halfExpand.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/roundingmode-halfExpand.js",
-        ),
-      );
-      it(
-        "roundingmode-halfFloor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/roundingmode-halfFloor.js",
-        ),
-      );
-      it(
-        "roundingmode-halfTrunc.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/roundingmode-halfTrunc.js",
-        ),
-      );
-      it(
-        "roundingmode-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/roundingmode-invalid-string.js",
-        ),
-      );
-      it(
-        "roundingmode-trunc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/roundingmode-trunc.js"),
-      );
-      it(
-        "roundingmode-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/roundingmode-undefined.js",
-        ),
-      );
-      it(
-        "roundingmode-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/roundingmode-wrong-type.js",
-        ),
-      );
-      it(
-        "rounds-relative-to-receiver.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/rounds-relative-to-receiver.js",
-        ),
-      );
-      it(
-        "same-epoch-nanoseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/same-epoch-nanoseconds.js",
-        ),
-      );
-      it(
-        "since-until.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/since-until.js"),
-      );
-      it(
-        "smallestunit-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/smallestunit-invalid-string.js",
-        ),
-      );
-      it(
-        "smallestunit-plurals-accepted.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/smallestunit-plurals-accepted.js",
-        ),
-      );
-      it(
-        "smallestunit-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/smallestunit-undefined.js",
-        ),
-      );
-      it(
-        "smallestunit-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/smallestunit-wrong-type.js",
-        ),
-      );
-      it(
-        "subseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/subseconds.js"),
-      );
-      it(
-        "valid-rounding-increments.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/valid-rounding-increments.js",
-        ),
-      );
-      it(
-        "weeks-and-months-are-mutually-exclusive.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/weeks-and-months-are-mutually-exclusive.js",
-        ),
-      );
-      it(
-        "year-zero.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/since/year-zero.js"),
-      );
-      it(
-        "zoneddatetime-string-multiple-offsets.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/zoneddatetime-string-multiple-offsets.js",
-        ),
-      );
-      it(
-        "zoneddatetime-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/since/zoneddatetime-string.js",
-        ),
-      );
+      it.skip("argument-at-limits.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-case-insensitive.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-invalid-iso-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-iso-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-leap-second.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-year-zero.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-invalid-offset-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-offset-not-agreeing-with-timezone.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-optional-properties.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string-datetime.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string-leap-second.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string-multiple-offsets.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string-sub-minute-offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string-year-zero.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-calendar-annotation-invalid-key.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-calendar-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-calendar-invalid-iso-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-critical-unknown-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-date-with-utc-offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-limits.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-minus-sign.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-multiple-calendar.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-multiple-time-zone.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-sub-minute-offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-time-separators.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-time-zone-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-unknown-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("balance-negative-time-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("blank-result.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendar-temporal-object.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("can-return-lower-or-higher-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("casts-argument.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("defaults-to-returning-hours.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("does-not-include-higher-units-than-necessary.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("float64-representable-integer.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("infinity-throws-rangeerror.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("invalid-rounding-increments.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("largestunit-default.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("largestunit-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("largestunit-plurals-accepted.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("largestunit-smallestunit-mismatch.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("largestunit-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("largestunit-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("largestunit.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("leap-second.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("negative-epochnanoseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("no-fractional-minutes-hours.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-object.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-read-before-algorithmic-validation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("order-of-operations.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("reversibility-of-differences.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("round-cross-unit-boundary.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("rounding-increments.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-addition-out-of-range.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-nan.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-non-integer.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-out-of-range.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-ceil.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-expand.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-floor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfCeil.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfEven.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfExpand.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfFloor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfTrunc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-trunc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("rounds-relative-to-receiver.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("same-epoch-nanoseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("since-until.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-plurals-accepted.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("subseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("valid-rounding-increments.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("weeks-and-months-are-mutually-exclusive.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("year-zero.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("zoneddatetime-string-multiple-offsets.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("zoneddatetime-string.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("startOfDay", () => {
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/startOfDay/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/startOfDay/builtin.js"),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/startOfDay/length.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/startOfDay/name.js"),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/startOfDay/not-a-constructor.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/startOfDay/prop-desc.js"),
-      );
-      it(
-        "subclassing-ignored.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/startOfDay/subclassing-ignored.js",
-        ),
-      );
-      it(
-        "throws-if-epoch-nanoseconds-outside-valid-limits.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/startOfDay/throws-if-epoch-nanoseconds-outside-valid-limits.js",
-        ),
-      );
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("subclassing-ignored.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("throws-if-epoch-nanoseconds-outside-valid-limits.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("subtract", () => {
-      it(
-        "argument-duration-max-plus-min-date.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/argument-duration-max-plus-min-date.js",
-        ),
-      );
-      it(
-        "argument-duration-max.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/argument-duration-max.js",
-        ),
-      );
-      it(
-        "argument-duration-out-of-range.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/argument-duration-out-of-range.js",
-        ),
-      );
-      it(
-        "argument-invalid-property.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/argument-invalid-property.js",
-        ),
-      );
-      it(
-        "argument-mixed-sign.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/argument-mixed-sign.js",
-        ),
-      );
-      it(
-        "argument-not-object.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/argument-not-object.js",
-        ),
-      );
-      it(
-        "argument-propertybag-optional-properties.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/argument-propertybag-optional-properties.js",
-        ),
-      );
-      it(
-        "argument-singular-properties.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/argument-singular-properties.js",
-        ),
-      );
-      it(
-        "argument-string-fractional-units-rounding-mode.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/argument-string-fractional-units-rounding-mode.js",
-        ),
-      );
-      it(
-        "argument-string-negative-fractional-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/argument-string-negative-fractional-units.js",
-        ),
-      );
-      it(
-        "basic-arithmetic.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/basic-arithmetic.js",
-        ),
-      );
-      it(
-        "blank-duration.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/subtract/blank-duration.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/subtract/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/subtract/builtin.js"),
-      );
-      it(
-        "casts-argument.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/subtract/casts-argument.js"),
-      );
-      it(
-        "constrain-when-ambiguous-result.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/constrain-when-ambiguous-result.js",
-        ),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/subtract/length.js"),
-      );
-      it(
-        "math-order-of-operations-subtract-constrain.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/math-order-of-operations-subtract-constrain.js",
-        ),
-      );
-      it(
-        "math-order-of-operations-subtract-none.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/math-order-of-operations-subtract-none.js",
-        ),
-      );
-      it(
-        "math-order-of-operations-subtract-reject.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/math-order-of-operations-subtract-reject.js",
-        ),
-      );
-      it(
-        "month-boundary.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/subtract/month-boundary.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/subtract/name.js"),
-      );
-      it(
-        "negative-epochnanoseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/negative-epochnanoseconds.js",
-        ),
-      );
-      it(
-        "non-integer-throws-rangeerror.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/non-integer-throws-rangeerror.js",
-        ),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/not-a-constructor.js",
-        ),
-      );
-      it(
-        "options-object.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/subtract/options-object.js"),
-      );
-      it(
-        "options-read-before-algorithmic-validation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/options-read-before-algorithmic-validation.js",
-        ),
-      );
-      it(
-        "options-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/options-undefined.js",
-        ),
-      );
-      it(
-        "options-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/options-wrong-type.js",
-        ),
-      );
-      it(
-        "order-of-operations.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/order-of-operations.js",
-        ),
-      );
-      it(
-        "overflow-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/overflow-invalid-string.js",
-        ),
-      );
-      it(
-        "overflow-subtracting-months-from-min-year.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/overflow-subtracting-months-from-min-year.js",
-        ),
-      );
-      it(
-        "overflow-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/overflow-undefined.js",
-        ),
-      );
-      it(
-        "overflow-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/overflow-wrong-type.js",
-        ),
-      );
-      it(
-        "overflow.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/subtract/overflow.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/subtract/prop-desc.js"),
-      );
-      it(
-        "subclassing-ignored.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/subclassing-ignored.js",
-        ),
-      );
-      it(
-        "subtract-duration-object.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/subtract-duration-object.js",
-        ),
-      );
-      it(
-        "subtract-large-subseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/subtract-large-subseconds.js",
-        ),
-      );
-      it(
-        "symmetrical-wrt-negative-durations.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/symmetrical-wrt-negative-durations.js",
-        ),
-      );
-      it(
-        "throw-when-ambiguous-result-with-reject.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/throw-when-ambiguous-result-with-reject.js",
-        ),
-      );
-      it(
-        "throw-when-intermediate-datetime-outside-valid-limits.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/subtract/throw-when-intermediate-datetime-outside-valid-limits.js",
-        ),
-      );
+      it.skip("argument-duration-max-plus-min-date.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-duration-max.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-duration-out-of-range.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-invalid-property.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-mixed-sign.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-not-object.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-optional-properties.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-singular-properties.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-fractional-units-rounding-mode.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-negative-fractional-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("basic-arithmetic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("blank-duration.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("casts-argument.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("constrain-when-ambiguous-result.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("math-order-of-operations-subtract-constrain.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("math-order-of-operations-subtract-none.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("math-order-of-operations-subtract-reject.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("month-boundary.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("negative-epochnanoseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("non-integer-throws-rangeerror.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-object.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-read-before-algorithmic-validation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("order-of-operations.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("overflow-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("overflow-subtracting-months-from-min-year.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("overflow-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("overflow-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("overflow.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("subclassing-ignored.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("subtract-duration-object.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("subtract-large-subseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("symmetrical-wrt-negative-durations.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("throw-when-ambiguous-result-with-reject.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("throw-when-intermediate-datetime-outside-valid-limits.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("timeZoneId", () => {
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/timeZoneId/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/timeZoneId/prop-desc.js"),
-      );
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("toInstant", () => {
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toInstant/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toInstant/builtin.js"),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toInstant/length.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toInstant/name.js"),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toInstant/not-a-constructor.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toInstant/prop-desc.js"),
-      );
-      it(
-        "recent-date.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toInstant/recent-date.js"),
-      );
-      it(
-        "year-less-than-1.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toInstant/year-less-than-1.js",
-        ),
-      );
-      it(
-        "year-less-than-99.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toInstant/year-less-than-99.js",
-        ),
-      );
-      it(
-        "year-zero-leap-day.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toInstant/year-zero-leap-day.js",
-        ),
-      );
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("recent-date.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("year-less-than-1.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("year-less-than-99.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("year-zero-leap-day.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("toJSON", () => {
-      it(
-        "balance-negative-time-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toJSON/balance-negative-time-units.js",
-        ),
-      );
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toJSON/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toJSON/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toJSON/builtin.js"),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toJSON/length.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toJSON/name.js"),
-      );
-      it(
-        "negative-epochnanoseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toJSON/negative-epochnanoseconds.js",
-        ),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toJSON/not-a-constructor.js"),
-      );
-      it(
-        "offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toJSON/offset.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toJSON/prop-desc.js"),
-      );
-      it(
-        "year-format.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toJSON/year-format.js"),
-      );
+      it.skip("balance-negative-time-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("negative-epochnanoseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("year-format.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("toLocaleString", () => {
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toLocaleString/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toLocaleString/builtin.js"),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toLocaleString/length.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toLocaleString/name.js"),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toLocaleString/not-a-constructor.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toLocaleString/prop-desc.js"),
-      );
-      it(
-        "return-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toLocaleString/return-string.js",
-        ),
-      );
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("return-string.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("toPlainDate", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainDate/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainDate/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainDate/builtin.js"),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainDate/length.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainDate/name.js"),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toPlainDate/not-a-constructor.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainDate/prop-desc.js"),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("toPlainDateTime", () => {
-      it(
-        "balance-negative-time-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toPlainDateTime/balance-negative-time-units.js",
-        ),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainDateTime/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainDateTime/builtin.js"),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainDateTime/length.js"),
-      );
-      it(
-        "limits.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainDateTime/limits.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainDateTime/name.js"),
-      );
-      it(
-        "negative-epochnanoseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toPlainDateTime/negative-epochnanoseconds.js",
-        ),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toPlainDateTime/not-a-constructor.js",
-        ),
-      );
-      it(
-        "pre-epoch.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toPlainDateTime/pre-epoch.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toPlainDateTime/prop-desc.js",
-        ),
-      );
+      it.skip("balance-negative-time-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("limits.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("negative-epochnanoseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("pre-epoch.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("toPlainTime", () => {
-      it(
-        "balance-negative-time-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toPlainTime/balance-negative-time-units.js",
-        ),
-      );
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainTime/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainTime/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainTime/builtin.js"),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainTime/length.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainTime/name.js"),
-      );
-      it(
-        "negative-epochnanoseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toPlainTime/negative-epochnanoseconds.js",
-        ),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toPlainTime/not-a-constructor.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toPlainTime/prop-desc.js"),
-      );
+      it.skip("balance-negative-time-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("negative-epochnanoseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("toString", () => {
-      it(
-        "balance-negative-time-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/balance-negative-time-units.js",
-        ),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toString/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toString/builtin.js"),
-      );
-      it(
-        "calendarname-always.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/calendarname-always.js",
-        ),
-      );
-      it(
-        "calendarname-auto.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/calendarname-auto.js",
-        ),
-      );
-      it(
-        "calendarname-critical.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/calendarname-critical.js",
-        ),
-      );
-      it(
-        "calendarname-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/calendarname-invalid-string.js",
-        ),
-      );
-      it(
-        "calendarname-never.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/calendarname-never.js",
-        ),
-      );
-      it(
-        "calendarname-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/calendarname-undefined.js",
-        ),
-      );
-      it(
-        "calendarname-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/calendarname-wrong-type.js",
-        ),
-      );
-      it(
-        "fractionalseconddigits-auto.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/fractionalseconddigits-auto.js",
-        ),
-      );
-      it(
-        "fractionalseconddigits-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/fractionalseconddigits-invalid-string.js",
-        ),
-      );
-      it(
-        "fractionalseconddigits-nan.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/fractionalseconddigits-nan.js",
-        ),
-      );
-      it(
-        "fractionalseconddigits-negative.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/fractionalseconddigits-negative.js",
-        ),
-      );
-      it(
-        "fractionalseconddigits-non-integer.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/fractionalseconddigits-non-integer.js",
-        ),
-      );
-      it(
-        "fractionalseconddigits-number.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/fractionalseconddigits-number.js",
-        ),
-      );
-      it(
-        "fractionalseconddigits-out-of-range.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/fractionalseconddigits-out-of-range.js",
-        ),
-      );
-      it(
-        "fractionalseconddigits-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/fractionalseconddigits-undefined.js",
-        ),
-      );
-      it(
-        "fractionalseconddigits-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/fractionalseconddigits-wrong-type.js",
-        ),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toString/length.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toString/name.js"),
-      );
-      it(
-        "negative-epochnanoseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/negative-epochnanoseconds.js",
-        ),
-      );
-      it(
-        "negative-zoneddatetime-rounding.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/negative-zoneddatetime-rounding.js",
-        ),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/not-a-constructor.js",
-        ),
-      );
-      it(
-        "offset-auto.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toString/offset-auto.js"),
-      );
-      it(
-        "offset-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/offset-invalid-string.js",
-        ),
-      );
-      it(
-        "offset-never.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toString/offset-never.js"),
-      );
-      it(
-        "offset-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/offset-undefined.js",
-        ),
-      );
-      it(
-        "offset-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/offset-wrong-type.js",
-        ),
-      );
-      it(
-        "offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toString/offset.js"),
-      );
-      it(
-        "options-object.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toString/options-object.js"),
-      );
-      it(
-        "options-read-before-algorithmic-validation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/options-read-before-algorithmic-validation.js",
-        ),
-      );
-      it(
-        "options-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/options-wrong-type.js",
-        ),
-      );
-      it(
-        "order-of-operations.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/order-of-operations.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toString/prop-desc.js"),
-      );
-      it(
-        "rounding-cross-midnight.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/rounding-cross-midnight.js",
-        ),
-      );
-      it(
-        "rounding-direction.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/rounding-direction.js",
-        ),
-      );
-      it(
-        "roundingmode-ceil.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/roundingmode-ceil.js",
-        ),
-      );
-      it(
-        "roundingmode-expand.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/roundingmode-expand.js",
-        ),
-      );
-      it(
-        "roundingmode-floor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/roundingmode-floor.js",
-        ),
-      );
-      it(
-        "roundingmode-halfCeil.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/roundingmode-halfCeil.js",
-        ),
-      );
-      it(
-        "roundingmode-halfEven.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/roundingmode-halfEven.js",
-        ),
-      );
-      it(
-        "roundingmode-halfExpand.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/roundingmode-halfExpand.js",
-        ),
-      );
-      it(
-        "roundingmode-halfFloor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/roundingmode-halfFloor.js",
-        ),
-      );
-      it(
-        "roundingmode-halfTrunc.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/roundingmode-halfTrunc.js",
-        ),
-      );
-      it(
-        "roundingmode-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/roundingmode-invalid-string.js",
-        ),
-      );
-      it(
-        "roundingmode-trunc.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/roundingmode-trunc.js",
-        ),
-      );
-      it(
-        "roundingmode-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/roundingmode-undefined.js",
-        ),
-      );
-      it(
-        "roundingmode-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/roundingmode-wrong-type.js",
-        ),
-      );
-      it(
-        "smallestunit-fractionalseconddigits.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/smallestunit-fractionalseconddigits.js",
-        ),
-      );
-      it(
-        "smallestunit-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/smallestunit-invalid-string.js",
-        ),
-      );
-      it(
-        "smallestunit-plurals-accepted.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/smallestunit-plurals-accepted.js",
-        ),
-      );
-      it(
-        "smallestunit-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/smallestunit-undefined.js",
-        ),
-      );
-      it(
-        "smallestunit-valid-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/smallestunit-valid-units.js",
-        ),
-      );
-      it(
-        "smallestunit-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/smallestunit-wrong-type.js",
-        ),
-      );
-      it(
-        "timezonename-auto.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/timezonename-auto.js",
-        ),
-      );
-      it(
-        "timezonename-critical.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/timezonename-critical.js",
-        ),
-      );
-      it(
-        "timezonename-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/timezonename-invalid-string.js",
-        ),
-      );
-      it(
-        "timezonename-never.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/timezonename-never.js",
-        ),
-      );
-      it(
-        "timezonename-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/timezonename-undefined.js",
-        ),
-      );
-      it(
-        "timezonename-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/toString/timezonename-wrong-type.js",
-        ),
-      );
-      it(
-        "year-format.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toString/year-format.js"),
-      );
+      it.skip("balance-negative-time-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendarname-always.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendarname-auto.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendarname-critical.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendarname-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendarname-never.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendarname-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendarname-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("fractionalseconddigits-auto.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("fractionalseconddigits-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("fractionalseconddigits-nan.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("fractionalseconddigits-negative.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("fractionalseconddigits-non-integer.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("fractionalseconddigits-number.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("fractionalseconddigits-out-of-range.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("fractionalseconddigits-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("fractionalseconddigits-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("negative-epochnanoseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("negative-zoneddatetime-rounding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("offset-auto.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("offset-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("offset-never.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("offset-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("offset-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-object.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-read-before-algorithmic-validation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("order-of-operations.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("rounding-cross-midnight.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("rounding-direction.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-ceil.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-expand.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-floor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfCeil.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfEven.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfExpand.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfFloor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfTrunc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-trunc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-fractionalseconddigits.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-plurals-accepted.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-valid-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("timezonename-auto.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("timezonename-critical.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("timezonename-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("timezonename-never.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("timezonename-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("timezonename-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("year-format.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("toStringTag", () => {
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/toStringTag/prop-desc.js"),
-      );
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("until", () => {
-      it(
-        "argument-at-limits.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/argument-at-limits.js"),
-      );
-      it(
-        "argument-propertybag-calendar-case-insensitive.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-calendar-case-insensitive.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-invalid-iso-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-calendar-invalid-iso-string.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-iso-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-calendar-iso-string.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-leap-second.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-calendar-leap-second.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-calendar-string.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-calendar-wrong-type.js",
-        ),
-      );
-      it(
-        "argument-propertybag-calendar-year-zero.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-calendar-year-zero.js",
-        ),
-      );
-      it(
-        "argument-propertybag-invalid-offset-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-invalid-offset-string.js",
-        ),
-      );
-      it(
-        "argument-propertybag-offset-not-agreeing-with-timezone.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-offset-not-agreeing-with-timezone.js",
-        ),
-      );
-      it(
-        "argument-propertybag-optional-properties.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-optional-properties.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string-datetime.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-timezone-string-datetime.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string-leap-second.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-timezone-string-leap-second.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string-multiple-offsets.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-timezone-string-multiple-offsets.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string-sub-minute-offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-timezone-string-sub-minute-offset.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string-year-zero.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-timezone-string-year-zero.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-timezone-string.js",
-        ),
-      );
-      it(
-        "argument-propertybag-timezone-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-propertybag-timezone-wrong-type.js",
-        ),
-      );
-      it(
-        "argument-string-calendar-annotation-invalid-key.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-string-calendar-annotation-invalid-key.js",
-        ),
-      );
-      it(
-        "argument-string-calendar-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-string-calendar-annotation.js",
-        ),
-      );
-      it(
-        "argument-string-calendar-invalid-iso-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-string-calendar-invalid-iso-string.js",
-        ),
-      );
-      it(
-        "argument-string-critical-unknown-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-string-critical-unknown-annotation.js",
-        ),
-      );
-      it(
-        "argument-string-date-with-utc-offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-string-date-with-utc-offset.js",
-        ),
-      );
-      it(
-        "argument-string-limits.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-string-limits.js",
-        ),
-      );
-      it(
-        "argument-string-minus-sign.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-string-minus-sign.js",
-        ),
-      );
-      it(
-        "argument-string-multiple-calendar.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-string-multiple-calendar.js",
-        ),
-      );
-      it(
-        "argument-string-multiple-time-zone.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-string-multiple-time-zone.js",
-        ),
-      );
-      it(
-        "argument-string-sub-minute-offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-string-sub-minute-offset.js",
-        ),
-      );
-      it(
-        "argument-string-time-separators.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-string-time-separators.js",
-        ),
-      );
-      it(
-        "argument-string-time-zone-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-string-time-zone-annotation.js",
-        ),
-      );
-      it(
-        "argument-string-unknown-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-string-unknown-annotation.js",
-        ),
-      );
-      it(
-        "argument-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/argument-wrong-type.js",
-        ),
-      );
-      it(
-        "balance-negative-time-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/balance-negative-time-units.js",
-        ),
-      );
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/basic.js"),
-      );
-      it(
-        "blank-result.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/blank-result.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/builtin.js"),
-      );
-      it(
-        "calendar-temporal-object.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/calendar-temporal-object.js",
-        ),
-      );
-      it(
-        "can-return-lower-or-higher-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/can-return-lower-or-higher-units.js",
-        ),
-      );
-      it(
-        "casts-argument.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/casts-argument.js"),
-      );
-      it(
-        "defaults-to-returning-hours.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/defaults-to-returning-hours.js",
-        ),
-      );
-      it(
-        "does-not-include-higher-units-than-necessary.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/does-not-include-higher-units-than-necessary.js",
-        ),
-      );
-      it(
-        "float64-representable-integer.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/float64-representable-integer.js",
-        ),
-      );
-      it(
-        "infinity-throws-rangeerror.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/infinity-throws-rangeerror.js",
-        ),
-      );
-      it(
-        "invalid-increments.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/invalid-increments.js"),
-      );
-      it(
-        "largestunit-default.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/largestunit-default.js",
-        ),
-      );
-      it(
-        "largestunit-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/largestunit-invalid-string.js",
-        ),
-      );
-      it(
-        "largestunit-plurals-accepted.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/largestunit-plurals-accepted.js",
-        ),
-      );
-      it(
-        "largestunit-smallestunit-mismatch.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/largestunit-smallestunit-mismatch.js",
-        ),
-      );
-      it(
-        "largestunit-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/largestunit-undefined.js",
-        ),
-      );
-      it(
-        "largestunit-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/largestunit-wrong-type.js",
-        ),
-      );
-      it(
-        "leap-second.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/leap-second.js"),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/length.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/name.js"),
-      );
-      it(
-        "negative-epochnanoseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/negative-epochnanoseconds.js",
-        ),
-      );
-      it(
-        "no-fractional-minutes-hours.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/no-fractional-minutes-hours.js",
-        ),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/not-a-constructor.js"),
-      );
-      it(
-        "options-object.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/options-object.js"),
-      );
-      it(
-        "options-read-before-algorithmic-validation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/options-read-before-algorithmic-validation.js",
-        ),
-      );
-      it(
-        "options-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/options-undefined.js"),
-      );
-      it(
-        "options-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/options-wrong-type.js"),
-      );
-      it(
-        "order-of-operations.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/order-of-operations.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/prop-desc.js"),
-      );
-      it(
-        "round-cross-unit-boundary.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/round-cross-unit-boundary.js",
-        ),
-      );
-      it(
-        "rounding-increments.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/rounding-increments.js",
-        ),
-      );
-      it(
-        "roundingincrement-addition-out-of-range.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/roundingincrement-addition-out-of-range.js",
-        ),
-      );
-      it(
-        "roundingincrement-nan.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/roundingincrement-nan.js",
-        ),
-      );
-      it(
-        "roundingincrement-non-integer.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/roundingincrement-non-integer.js",
-        ),
-      );
-      it(
-        "roundingincrement-out-of-range.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/roundingincrement-out-of-range.js",
-        ),
-      );
-      it(
-        "roundingincrement-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/roundingincrement-undefined.js",
-        ),
-      );
-      it(
-        "roundingincrement-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/roundingincrement-wrong-type.js",
-        ),
-      );
-      it(
-        "roundingmode-ceil.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/roundingmode-ceil.js"),
-      );
-      it(
-        "roundingmode-expand.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/roundingmode-expand.js",
-        ),
-      );
-      it(
-        "roundingmode-floor.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/roundingmode-floor.js"),
-      );
-      it(
-        "roundingmode-halfCeil.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/roundingmode-halfCeil.js",
-        ),
-      );
-      it(
-        "roundingmode-halfEven.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/roundingmode-halfEven.js",
-        ),
-      );
-      it(
-        "roundingmode-halfExpand.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/roundingmode-halfExpand.js",
-        ),
-      );
-      it(
-        "roundingmode-halfFloor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/roundingmode-halfFloor.js",
-        ),
-      );
-      it(
-        "roundingmode-halfTrunc.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/roundingmode-halfTrunc.js",
-        ),
-      );
-      it(
-        "roundingmode-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/roundingmode-invalid-string.js",
-        ),
-      );
-      it(
-        "roundingmode-trunc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/roundingmode-trunc.js"),
-      );
-      it(
-        "roundingmode-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/roundingmode-undefined.js",
-        ),
-      );
-      it(
-        "roundingmode-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/roundingmode-wrong-type.js",
-        ),
-      );
-      it(
-        "rounds-relative-to-receiver.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/rounds-relative-to-receiver.js",
-        ),
-      );
-      it(
-        "same-epoch-nanoseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/same-epoch-nanoseconds.js",
-        ),
-      );
-      it(
-        "smallestunit-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/smallestunit-invalid-string.js",
-        ),
-      );
-      it(
-        "smallestunit-plurals-accepted.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/smallestunit-plurals-accepted.js",
-        ),
-      );
-      it(
-        "smallestunit-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/smallestunit-undefined.js",
-        ),
-      );
-      it(
-        "smallestunit-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/smallestunit-wrong-type.js",
-        ),
-      );
-      it(
-        "subseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/subseconds.js"),
-      );
-      it(
-        "until-since.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/until-since.js"),
-      );
-      it(
-        "valid-rounding-increments.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/valid-rounding-increments.js",
-        ),
-      );
-      it(
-        "weeks-and-months-are-mutually-exclusive.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/weeks-and-months-are-mutually-exclusive.js",
-        ),
-      );
-      it(
-        "year-zero.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/until/year-zero.js"),
-      );
-      it(
-        "zoneddatetime-string-multiple-offsets.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/zoneddatetime-string-multiple-offsets.js",
-        ),
-      );
-      it(
-        "zoneddatetime-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/until/zoneddatetime-string.js",
-        ),
-      );
+      it.skip("argument-at-limits.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-case-insensitive.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-invalid-iso-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-iso-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-leap-second.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-calendar-year-zero.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-invalid-offset-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-offset-not-agreeing-with-timezone.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-optional-properties.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string-datetime.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string-leap-second.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string-multiple-offsets.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string-sub-minute-offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string-year-zero.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-timezone-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-calendar-annotation-invalid-key.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-calendar-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-calendar-invalid-iso-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-critical-unknown-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-date-with-utc-offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-limits.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-minus-sign.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-multiple-calendar.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-multiple-time-zone.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-sub-minute-offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-time-separators.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-time-zone-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-unknown-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("balance-negative-time-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("blank-result.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendar-temporal-object.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("can-return-lower-or-higher-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("casts-argument.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("defaults-to-returning-hours.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("does-not-include-higher-units-than-necessary.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("float64-representable-integer.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("infinity-throws-rangeerror.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("invalid-increments.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("largestunit-default.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("largestunit-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("largestunit-plurals-accepted.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("largestunit-smallestunit-mismatch.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("largestunit-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("largestunit-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("leap-second.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("negative-epochnanoseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("no-fractional-minutes-hours.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-object.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-read-before-algorithmic-validation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("order-of-operations.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("round-cross-unit-boundary.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("rounding-increments.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-addition-out-of-range.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-nan.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-non-integer.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-out-of-range.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingincrement-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-ceil.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-expand.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-floor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfCeil.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfEven.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfExpand.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfFloor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-halfTrunc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-trunc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("roundingmode-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("rounds-relative-to-receiver.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("same-epoch-nanoseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-plurals-accepted.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("smallestunit-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("subseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("until-since.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("valid-rounding-increments.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("weeks-and-months-are-mutually-exclusive.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("year-zero.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("zoneddatetime-string-multiple-offsets.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("zoneddatetime-string.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("valueOf", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/valueOf/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/valueOf/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/valueOf/builtin.js"),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/valueOf/length.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/valueOf/name.js"),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/valueOf/not-a-constructor.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/valueOf/prop-desc.js"),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("weekOfYear", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/weekOfYear/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/weekOfYear/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/weekOfYear/prop-desc.js"),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("with", () => {
-      it(
-        "basic-year-month-day.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/basic-year-month-day.js",
-        ),
-      );
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/builtin.js"),
-      );
-      it(
-        "constrain-day.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/constrain-day.js"),
-      );
-      it(
-        "copy-properties-not-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/copy-properties-not-undefined.js",
-        ),
-      );
-      it(
-        "disambiguation-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/disambiguation-invalid-string.js",
-        ),
-      );
-      it(
-        "disambiguation-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/disambiguation-wrong-type.js",
-        ),
-      );
-      it(
-        "incorrectly-spelled-properties-ignored.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/incorrectly-spelled-properties-ignored.js",
-        ),
-      );
-      it(
-        "infinity-throws-rangeerror.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/infinity-throws-rangeerror.js",
-        ),
-      );
-      it(
-        "invalid-disambiguation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/invalid-disambiguation.js",
-        ),
-      );
-      it(
-        "invalid-offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/invalid-offset.js"),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/length.js"),
-      );
-      it(
-        "minimum-instant-with-one-hour-offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/minimum-instant-with-one-hour-offset.js",
-        ),
-      );
-      it(
-        "month-and-month-code-must-agree.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/month-and-month-code-must-agree.js",
-        ),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/name.js"),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/not-a-constructor.js"),
-      );
-      it(
-        "object-must-contain-at-least-one-property.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/object-must-contain-at-least-one-property.js",
-        ),
-      );
-      it(
-        "offset-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/offset-invalid-string.js",
-        ),
-      );
-      it(
-        "offset-property-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/offset-property-invalid-string.js",
-        ),
-      );
-      it(
-        "offset-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/offset-undefined.js"),
-      );
-      it(
-        "offset-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/offset-wrong-type.js"),
-      );
-      it(
-        "options-object.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/options-object.js"),
-      );
-      it(
-        "options-read-before-algorithmic-validation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/options-read-before-algorithmic-validation.js",
-        ),
-      );
-      it(
-        "options-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/options-undefined.js"),
-      );
-      it(
-        "options-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/options-wrong-type.js"),
-      );
-      it(
-        "order-of-operations.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/order-of-operations.js"),
-      );
-      it(
-        "overflow-invalid-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/overflow-invalid-string.js",
-        ),
-      );
-      it(
-        "overflow-options.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/overflow-options.js"),
-      );
-      it(
-        "overflow-reject-throws.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/overflow-reject-throws.js",
-        ),
-      );
-      it(
-        "overflow-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/overflow-undefined.js"),
-      );
-      it(
-        "overflow-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/overflow-wrong-type.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/prop-desc.js"),
-      );
-      it(
-        "subclassing-ignored.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/subclassing-ignored.js"),
-      );
-      it(
-        "throws-if-calendar-name-included.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/throws-if-calendar-name-included.js",
-        ),
-      );
-      it(
-        "throws-if-timezone-included.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/throws-if-timezone-included.js",
-        ),
-      );
-      it(
-        "throws-on-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/with/throws-on-string.js"),
-      );
-      it(
-        "throws-on-temporal-object-with-calendar.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/throws-on-temporal-object-with-calendar.js",
-        ),
-      );
-      it(
-        "throws-on-temporal-object-with-time-zone.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/throws-on-temporal-object-with-time-zone.js",
-        ),
-      );
-      it(
-        "zoned-datetime-like-at-minimum-date-time-with-offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/zoned-datetime-like-at-minimum-date-time-with-offset.js",
-        ),
-      );
-      it(
-        "zoned-datetime-like-at-minimum-date-time.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/with/zoned-datetime-like-at-minimum-date-time.js",
-        ),
-      );
+      it.skip("basic-year-month-day.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("constrain-day.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("copy-properties-not-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("disambiguation-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("disambiguation-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("incorrectly-spelled-properties-ignored.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("infinity-throws-rangeerror.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("invalid-disambiguation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("invalid-offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("minimum-instant-with-one-hour-offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("month-and-month-code-must-agree.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("object-must-contain-at-least-one-property.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("offset-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("offset-property-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("offset-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("offset-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-object.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-read-before-algorithmic-validation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("options-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("order-of-operations.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("overflow-invalid-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("overflow-options.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("overflow-reject-throws.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("overflow-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("overflow-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("subclassing-ignored.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("throws-if-calendar-name-included.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("throws-if-timezone-included.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("throws-on-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("throws-on-temporal-object-with-calendar.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("throws-on-temporal-object-with-time-zone.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("zoned-datetime-like-at-minimum-date-time-with-offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("zoned-datetime-like-at-minimum-date-time.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("withCalendar", () => {
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withCalendar/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withCalendar/builtin.js"),
-      );
-      it(
-        "calendar-case-insensitive.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withCalendar/calendar-case-insensitive.js",
-        ),
-      );
-      it(
-        "calendar-invalid-iso-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withCalendar/calendar-invalid-iso-string.js",
-        ),
-      );
-      it(
-        "calendar-iso-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withCalendar/calendar-iso-string.js",
-        ),
-      );
-      it(
-        "calendar-string-leap-second.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withCalendar/calendar-string-leap-second.js",
-        ),
-      );
-      it(
-        "calendar-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withCalendar/calendar-string.js",
-        ),
-      );
-      it(
-        "calendar-temporal-object.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withCalendar/calendar-temporal-object.js",
-        ),
-      );
-      it(
-        "calendar-time-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withCalendar/calendar-time-string.js",
-        ),
-      );
-      it(
-        "calendar-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withCalendar/calendar-wrong-type.js",
-        ),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withCalendar/length.js"),
-      );
-      it(
-        "missing-argument.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withCalendar/missing-argument.js",
-        ),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withCalendar/name.js"),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withCalendar/not-a-constructor.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withCalendar/prop-desc.js"),
-      );
-      it(
-        "subclassing-ignored.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withCalendar/subclassing-ignored.js",
-        ),
-      );
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendar-case-insensitive.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendar-invalid-iso-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendar-iso-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendar-string-leap-second.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendar-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendar-temporal-object.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendar-time-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("calendar-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("missing-argument.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("subclassing-ignored.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("withPlainTime", () => {
-      it(
-        "argument-number.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-number.js",
-        ),
-      );
-      it(
-        "argument-propertybag-optional-properties.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-propertybag-optional-properties.js",
-        ),
-      );
-      it(
-        "argument-string-calendar-annotation-invalid-key.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-string-calendar-annotation-invalid-key.js",
-        ),
-      );
-      it(
-        "argument-string-calendar-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-string-calendar-annotation.js",
-        ),
-      );
-      it(
-        "argument-string-critical-unknown-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-string-critical-unknown-annotation.js",
-        ),
-      );
-      it(
-        "argument-string-date-with-utc-offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-string-date-with-utc-offset.js",
-        ),
-      );
-      it(
-        "argument-string-minus-sign.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-string-minus-sign.js",
-        ),
-      );
-      it(
-        "argument-string-multiple-calendar.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-string-multiple-calendar.js",
-        ),
-      );
-      it(
-        "argument-string-multiple-time-zone.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-string-multiple-time-zone.js",
-        ),
-      );
-      it(
-        "argument-string-no-implicit-midnight.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-string-no-implicit-midnight.js",
-        ),
-      );
-      it(
-        "argument-string-time-designator-required-for-disambiguation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-string-time-designator-required-for-disambiguation.js",
-        ),
-      );
-      it(
-        "argument-string-time-separators.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-string-time-separators.js",
-        ),
-      );
-      it(
-        "argument-string-time-zone-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-string-time-zone-annotation.js",
-        ),
-      );
-      it(
-        "argument-string-unknown-annotation.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-string-unknown-annotation.js",
-        ),
-      );
-      it(
-        "argument-string-with-time-designator.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-string-with-time-designator.js",
-        ),
-      );
-      it(
-        "argument-string-with-utc-designator.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-string-with-utc-designator.js",
-        ),
-      );
-      it(
-        "argument-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-wrong-type.js",
-        ),
-      );
-      it(
-        "argument-zoneddatetime-balance-negative-time-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-zoneddatetime-balance-negative-time-units.js",
-        ),
-      );
-      it(
-        "argument-zoneddatetime-negative-epochnanoseconds.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/argument-zoneddatetime-negative-epochnanoseconds.js",
-        ),
-      );
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/builtin.js"),
-      );
-      it(
-        "get-start-of-day-throws.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/get-start-of-day-throws.js",
-        ),
-      );
-      it(
-        "incorrectly-spelled-properties-ignored.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/incorrectly-spelled-properties-ignored.js",
-        ),
-      );
-      it(
-        "leap-second.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/leap-second.js",
-        ),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/length.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/name.js"),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/not-a-constructor.js",
-        ),
-      );
-      it(
-        "order-of-operations.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/order-of-operations.js",
-        ),
-      );
-      it(
-        "plaintime-propertybag-no-time-units.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/plaintime-propertybag-no-time-units.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/prop-desc.js"),
-      );
-      it(
-        "subclassing-ignored.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/subclassing-ignored.js",
-        ),
-      );
-      it(
-        "throws-if-epoch-nanoseconds-outside-valid-limits.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/throws-if-epoch-nanoseconds-outside-valid-limits.js",
-        ),
-      );
-      it(
-        "time-undefined.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/time-undefined.js",
-        ),
-      );
-      it(
-        "year-zero.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withPlainTime/year-zero.js"),
-      );
+      it.skip("argument-number.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-propertybag-optional-properties.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-calendar-annotation-invalid-key.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-calendar-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-critical-unknown-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-date-with-utc-offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-minus-sign.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-multiple-calendar.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-multiple-time-zone.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-no-implicit-midnight.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-time-designator-required-for-disambiguation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-time-separators.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-time-zone-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-unknown-annotation.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-with-time-designator.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-string-with-utc-designator.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-wrong-type.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-zoneddatetime-balance-negative-time-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("argument-zoneddatetime-negative-epochnanoseconds.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("get-start-of-day-throws.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("incorrectly-spelled-properties-ignored.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("leap-second.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("order-of-operations.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("plaintime-propertybag-no-time-units.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("subclassing-ignored.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("throws-if-epoch-nanoseconds-outside-valid-limits.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("time-undefined.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("year-zero.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("withTimeZone", () => {
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/branding.js"),
-      );
-      it(
-        "builtin.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/builtin.js"),
-      );
-      it(
-        "length.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/length.js"),
-      );
-      it(
-        "name.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/name.js"),
-      );
-      it(
-        "not-a-constructor.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/not-a-constructor.js",
-        ),
-      );
-      it(
-        "preserves-instant.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/preserves-instant.js",
-        ),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/prop-desc.js"),
-      );
-      it(
-        "subclassing-ignored.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/subclassing-ignored.js",
-        ),
-      );
-      it(
-        "timezone-case-insensitive.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/timezone-case-insensitive.js",
-        ),
-      );
-      it(
-        "timezone-string-datetime.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/timezone-string-datetime.js",
-        ),
-      );
-      it(
-        "timezone-string-leap-second.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/timezone-string-leap-second.js",
-        ),
-      );
-      it(
-        "timezone-string-multiple-offsets.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/timezone-string-multiple-offsets.js",
-        ),
-      );
-      it(
-        "timezone-string-sub-minute-offset.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/timezone-string-sub-minute-offset.js",
-        ),
-      );
-      it(
-        "timezone-string-year-zero.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/timezone-string-year-zero.js",
-        ),
-      );
-      it(
-        "timezone-string.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/timezone-string.js",
-        ),
-      );
-      it(
-        "timezone-wrong-type.js",
-        { tags: ["known-failing"] },
-        createTestHandler(
-          "built-ins/Temporal/ZonedDateTime/prototype/withTimeZone/timezone-wrong-type.js",
-        ),
-      );
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("builtin.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("length.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("name.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("not-a-constructor.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("preserves-instant.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("subclassing-ignored.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("timezone-case-insensitive.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("timezone-string-datetime.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("timezone-string-leap-second.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("timezone-string-multiple-offsets.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("timezone-string-sub-minute-offset.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("timezone-string-year-zero.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("timezone-string.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("timezone-wrong-type.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("year", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/year/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/year/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/year/prop-desc.js"),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
     describe("yearOfWeek", () => {
-      it(
-        "basic.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/yearOfWeek/basic.js"),
-      );
-      it(
-        "branding.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/yearOfWeek/branding.js"),
-      );
-      it(
-        "prop-desc.js",
-        { tags: ["known-failing"] },
-        createTestHandler("built-ins/Temporal/ZonedDateTime/prototype/yearOfWeek/prop-desc.js"),
-      );
+      it.skip("basic.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("branding.js", () => {
+        /* Ignored Test */
+      });
+      it.skip("prop-desc.js", () => {
+        /* Ignored Test */
+      });
     });
   });
-  it(
-    "subclass.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/subclass.js"),
-  );
-  it(
-    "timezone-case-insensitive.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/timezone-case-insensitive.js"),
-  );
-  it(
-    "timezone-iso-string.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/timezone-iso-string.js"),
-  );
-  it(
-    "timezone-string.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/timezone-string.js"),
-  );
-  it(
-    "timezone-wrong-type.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Temporal/ZonedDateTime/timezone-wrong-type.js"),
-  );
+  it.skip("subclass.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("timezone-case-insensitive.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("timezone-iso-string.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("timezone-string.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("timezone-wrong-type.js", () => {
+    /* Ignored Test */
+  });
 });

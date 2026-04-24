@@ -1,8 +1,6 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it(
-  "properties-of-the-weakmap-prototype-object.js",
-  { tags: ["known-failing"] },
-  createTestHandler("built-ins/WeakMap/properties-of-the-weakmap-prototype-object.js"),
-);
+it.skip("properties-of-the-weakmap-prototype-object.js", () => {
+  /* Ignored Test */
+});

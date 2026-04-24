@@ -18,9 +18,22 @@ const ignoredPaths = [
   // FIXME: Not all of prototype is this.  Figure out which ones to skip for now
   ["built-ins", "Array", "prototype"],
   // Horrible super laggy long running tests.
+  // Also, not currently implemented.
   ["built-ins", "decodeURI"],
   ["built-ins", "decodeURIComponent"],
-  // Tests 65535 comment variations, none of which will confuse babel.
+  ["built-ins", "encodeURI"],
+  ["built-ins", "encodeURIComponent"],
+  // Stuff we don't yet support
+  ["built-ins", "RegExp"],
+  ["built-ins", "Temporal"],
+  ["built-ins", "WeakMap"],
+  ["built-ins", "WeakSet"],
+  ["built-ins", "TypedArray"],
+  ["built-ins", "AsyncDisposableStack"],
+  ["built-ins", "DisposableStack"],
+  // Really?  We should implement this.
+  ["built-ins", "JSON"],
+  // Takes forever and tests 65535 comment variations, none of which will confuse babel.
   ["language", "comments", "S7.4_A5.js"],
 ];
 

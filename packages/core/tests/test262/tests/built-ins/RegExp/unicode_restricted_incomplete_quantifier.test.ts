@@ -1,8 +1,6 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it(
-  "unicode_restricted_incomplete_quantifier.js",
-  { tags: ["known-failing"] },
-  createTestHandler("built-ins/RegExp/unicode_restricted_incomplete_quantifier.js"),
-);
+it.skip("unicode_restricted_incomplete_quantifier.js", () => {
+  /* Ignored Test */
+});
