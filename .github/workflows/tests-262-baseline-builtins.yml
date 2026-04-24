@@ -24,4 +24,4 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
       - name: Run Test262 builtins tests against baseline
-        run: pnpm run --filter @suntime-js/core test:builtins:baseline --reporter=dot
+        run: pnpm run --filter @suntime-js/core test:builtins:baseline --reporter=dot --reporter=github-actions
