@@ -59,7 +59,7 @@ describe("import.meta", () => {
     );
     it(
       "goal-module-nested-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/import.meta/syntax/goal-module-nested-function.js"),
     );
     it(

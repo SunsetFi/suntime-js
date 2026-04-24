@@ -29,7 +29,7 @@ export class StaticJsRuntimeError extends Error {
     return this._thrown;
   }
 
-  toNativeON(): Record<string, unknown> {
+  toNative(): Record<string, unknown> {
     return {
       name: this.name,
       message: this.message,
@@ -38,6 +38,10 @@ export class StaticJsRuntimeError extends Error {
 
   [symbolInspect](): string {
     return `${this.name}: ${this.message}`;
+  }
+
+  [Symbol.toStringTag](): string {
+    return `${this.name} ${this.message}`;
   }
 }
 

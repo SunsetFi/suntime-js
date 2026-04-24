@@ -2066,7 +2066,7 @@ describe("class", () => {
   });
   it(
     "class-name-ident-await-escaped-module.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/class-name-ident-await-escaped-module.js"),
   );
   it(
@@ -2076,7 +2076,7 @@ describe("class", () => {
   );
   it(
     "class-name-ident-await-module.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/class-name-ident-await-module.js"),
   );
   it(

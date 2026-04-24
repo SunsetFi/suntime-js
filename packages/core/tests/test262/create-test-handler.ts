@@ -13,7 +13,7 @@ import isDebuggerActive from "../env/is-debugger-active.js";
 import addTestHarness from "./add-test-harness.js";
 import createHostApi from "./host-api.js";
 import Test262File from "./Test262File.js";
-import { ScriptTimeout } from "./timeouts.js";
+import { AsyncTimeout, ScriptTimeout } from "./timeouts.js";
 import delay from "./utils/delay.js";
 import getPerf from "./utils/get-perf.js";
 import getTest262Path from "./utils/get-test262-path.js";
@@ -57,18 +57,25 @@ export function createTestHandler(testRelativePath: string) {
       code = `"use strict";\n${code}`;
     }
 
-    const evaluateScriptPromise = realm
-      .evaluateScript(code, {
+    let evaluatePromise: Promise<unknown>;
+    if (test.flags.module) {
+      evaluatePromise = realm.evaluateModule(code, {
+        sourceName: `${test.testPath}.mjs`,
+      });
+    } else {
+      evaluatePromise = realm.evaluateScript(code, {
         sourceName: `${test.testPath}.js`,
-      })
-      .finally(() => perf("Test script evaluated"));
+      });
+    }
+
+    evaluatePromise = evaluatePromise.finally(() => perf("Test script evaluated"));
 
     const cleanupPromise = Promise.all(cleanups.map((cleanup) => cleanup())).finally(() => {
       perf("Cleanups completed");
     });
 
     const [evaluateResult, cleanupResult] = await Promise.allSettled([
-      evaluateScriptPromise,
+      evaluatePromise,
       cleanupPromise,
     ]);
 
@@ -159,10 +166,13 @@ async function bootstrapAsync(realm: StaticJsRealm): Promise<BootstrapCleanup> {
 
   await addTestHarness(realm, "doneprintHandle.js");
 
+  // This may complete after the timeout, so squelch it.
+  promise.catch(() => {});
+
   async function cleanup() {
     await Promise.race([
       promise,
-      delay(500).then(() => {
+      delay(AsyncTimeout).then(() => {
         throw new Error("Async test timed out");
       }),
     ]);

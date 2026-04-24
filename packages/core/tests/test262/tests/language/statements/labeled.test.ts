@@ -82,12 +82,12 @@ describe("labeled", () => {
   });
   it(
     "value-await-module-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/value-await-module-escaped.js"),
   );
   it(
     "value-await-module.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/value-await-module.js"),
   );
   it(
