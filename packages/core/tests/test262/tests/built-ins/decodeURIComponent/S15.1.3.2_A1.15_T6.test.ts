@@ -1,4 +1,6 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it.skip("S15.1.3.2_A1.15_T6.js", () => { /* Ignored Test */ });
+it.skip("S15.1.3.2_A1.15_T6.js", () => {
+  /* Ignored Test */
+});

@@ -40,6 +40,6 @@ for (const folder of testFolders) {
   }
 }
 
-for (const [test262Dir, tests] of testMap) {
-  createTestFile(outputTestDir, test262Dir, tests);
-}
+await Promise.all(
+  testMap.entries().map(([test262Dir, tests]) => createTestFile(outputTestDir, test262Dir, tests)),
+);

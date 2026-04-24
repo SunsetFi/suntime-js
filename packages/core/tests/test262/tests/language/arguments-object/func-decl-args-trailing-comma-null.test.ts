@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("func-decl-args-trailing-comma-null.js", createTestHandler("language/arguments-object/func-decl-args-trailing-comma-null.js"));
+it(
+  "func-decl-args-trailing-comma-null.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/arguments-object/func-decl-args-trailing-comma-null.js"),
+);

@@ -2,57 +2,165 @@ import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
 describe("notify", () => {
-it.skip("bad-range.js", () => { /* Ignored Test */ });
-describe("bigint", () => {
-it.skip("bad-range.js", () => { /* Ignored Test */ });
-it.skip("non-bigint64-typedarray-throws.js", () => { /* Ignored Test */ });
-it.skip("non-shared-bufferdata-count-evaluation-throws.js", () => { /* Ignored Test */ });
-it.skip("non-shared-bufferdata-index-evaluation-throws.js", () => { /* Ignored Test */ });
-it.skip("non-shared-bufferdata-non-shared-int-views-throws.js", () => { /* Ignored Test */ });
-it.skip("non-shared-bufferdata-returns-0.js", () => { /* Ignored Test */ });
-it.skip("notify-all-on-loc.js", () => { /* Ignored Test */ });
-it.skip("null-bufferdata-throws.js", () => { /* Ignored Test */ });
-});
-it.skip("count-boundary-cases.js", () => { /* Ignored Test */ });
-it.skip("count-defaults-to-infinity-missing.js", () => { /* Ignored Test */ });
-it.skip("count-defaults-to-infinity-undefined.js", () => { /* Ignored Test */ });
-it.skip("count-from-nans.js", () => { /* Ignored Test */ });
-it.skip("count-symbol-throws.js", () => { /* Ignored Test */ });
-it.skip("count-tointeger-throws-then-wake-throws.js", () => { /* Ignored Test */ });
-it("descriptor.js", createTestHandler("built-ins/Atomics/notify/descriptor.js"));
-it("length.js", createTestHandler("built-ins/Atomics/notify/length.js"));
-it("name.js", createTestHandler("built-ins/Atomics/notify/name.js"));
-it.skip("negative-count.js", () => { /* Ignored Test */ });
-it.skip("negative-index-throws.js", () => { /* Ignored Test */ });
-it.skip("non-int32-typedarray-throws.js", () => { /* Ignored Test */ });
-it.skip("non-shared-bufferdata-count-evaluation-throws.js", () => { /* Ignored Test */ });
-it.skip("non-shared-bufferdata-index-evaluation-throws.js", () => { /* Ignored Test */ });
-it.skip("non-shared-bufferdata-non-shared-int-views-throws.js", () => { /* Ignored Test */ });
-it.skip("non-shared-bufferdata-returns-0.js", () => { /* Ignored Test */ });
-it.skip("non-shared-int-views.js", () => { /* Ignored Test */ });
-it.skip("non-views.js", () => { /* Ignored Test */ });
-it.skip("not-a-constructor.js", () => { /* Ignored Test */ });
-it("not-a-typedarray-throws.js", createTestHandler("built-ins/Atomics/notify/not-a-typedarray-throws.js"));
-it("not-an-object-throws.js", createTestHandler("built-ins/Atomics/notify/not-an-object-throws.js"));
-it.skip("notify-all-on-loc.js", () => { /* Ignored Test */ });
-it.skip("notify-all.js", () => { /* Ignored Test */ });
-it.skip("notify-in-order-one-time.js", () => { /* Ignored Test */ });
-it.skip("notify-in-order.js", () => { /* Ignored Test */ });
-it.skip("notify-nan.js", () => { /* Ignored Test */ });
-it.skip("notify-one.js", () => { /* Ignored Test */ });
-it.skip("notify-renotify-noop.js", () => { /* Ignored Test */ });
-it.skip("notify-two.js", () => { /* Ignored Test */ });
-it.skip("notify-with-no-agents-waiting.js", () => { /* Ignored Test */ });
-it.skip("notify-with-no-matching-agents-waiting.js", () => { /* Ignored Test */ });
-it.skip("notify-zero.js", () => { /* Ignored Test */ });
-it.skip("null-bufferdata-throws.js", () => { /* Ignored Test */ });
-it.skip("out-of-range-index-throws.js", () => { /* Ignored Test */ });
-it.skip("retrieve-length-before-index-coercion-non-shared-detached.js", () => { /* Ignored Test */ });
-it.skip("retrieve-length-before-index-coercion-non-shared-resize-to-zero.js", () => { /* Ignored Test */ });
-it.skip("retrieve-length-before-index-coercion-non-shared.js", () => { /* Ignored Test */ });
-it.skip("retrieve-length-before-index-coercion.js", () => { /* Ignored Test */ });
-it.skip("symbol-for-index-throws.js", () => { /* Ignored Test */ });
-it.skip("undefined-index-defaults-to-zero.js", () => { /* Ignored Test */ });
-it.skip("validate-arraytype-before-count-coercion.js", () => { /* Ignored Test */ });
-it.skip("validate-arraytype-before-index-coercion.js", () => { /* Ignored Test */ });
+  it.skip("bad-range.js", () => {
+    /* Ignored Test */
+  });
+  describe("bigint", () => {
+    it.skip("bad-range.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("non-bigint64-typedarray-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("non-shared-bufferdata-count-evaluation-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("non-shared-bufferdata-index-evaluation-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("non-shared-bufferdata-non-shared-int-views-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("non-shared-bufferdata-returns-0.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("notify-all-on-loc.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("null-bufferdata-throws.js", () => {
+      /* Ignored Test */
+    });
+  });
+  it.skip("count-boundary-cases.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("count-defaults-to-infinity-missing.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("count-defaults-to-infinity-undefined.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("count-from-nans.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("count-symbol-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("count-tointeger-throws-then-wake-throws.js", () => {
+    /* Ignored Test */
+  });
+  it(
+    "descriptor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Atomics/notify/descriptor.js"),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Atomics/notify/length.js"),
+  );
+  it("name.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Atomics/notify/name.js"));
+  it.skip("negative-count.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("negative-index-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("non-int32-typedarray-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("non-shared-bufferdata-count-evaluation-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("non-shared-bufferdata-index-evaluation-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("non-shared-bufferdata-non-shared-int-views-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("non-shared-bufferdata-returns-0.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("non-shared-int-views.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("non-views.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("not-a-constructor.js", () => {
+    /* Ignored Test */
+  });
+  it(
+    "not-a-typedarray-throws.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Atomics/notify/not-a-typedarray-throws.js"),
+  );
+  it(
+    "not-an-object-throws.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Atomics/notify/not-an-object-throws.js"),
+  );
+  it.skip("notify-all-on-loc.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("notify-all.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("notify-in-order-one-time.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("notify-in-order.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("notify-nan.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("notify-one.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("notify-renotify-noop.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("notify-two.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("notify-with-no-agents-waiting.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("notify-with-no-matching-agents-waiting.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("notify-zero.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("null-bufferdata-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("out-of-range-index-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("retrieve-length-before-index-coercion-non-shared-detached.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("retrieve-length-before-index-coercion-non-shared-resize-to-zero.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("retrieve-length-before-index-coercion-non-shared.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("retrieve-length-before-index-coercion.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("symbol-for-index-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("undefined-index-defaults-to-zero.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("validate-arraytype-before-count-coercion.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("validate-arraytype-before-index-coercion.js", () => {
+    /* Ignored Test */
+  });
 });

@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("early-err-modifiers-other-code-point-u.js", createTestHandler("built-ins/RegExp/early-err-modifiers-other-code-point-u.js"));
+it(
+  "early-err-modifiers-other-code-point-u.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/RegExp/early-err-modifiers-other-code-point-u.js"),
+);

@@ -1,19 +1,21 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { format } from "oxfmt";
 
 import { isTestIgnored } from "../ignores.js";
+import { isTestBaseline } from "../is-test-baseline.js";
 import Test262File from "../Test262File.js";
 import getTest262Path from "../utils/get-test262-path.js";
 
-export function createTestFile(outDir: string, path: string, tests: string[]) {
+export async function createTestFile(outDir: string, path: string, tests: string[]) {
   const pathParts = path.split("/");
 
-  let fileName = pathParts.at(-1);
-  if (!fileName) {
+  let testName = pathParts.at(-1);
+  if (!testName) {
     throw new Error("Could not determine file name for test dir: " + path);
   }
-  if (fileName.endsWith(".js")) {
-    fileName = fileName.slice(0, -3);
+  if (testName.endsWith(".js")) {
+    testName = testName.slice(0, -3);
   }
 
   const pathWithoutFile = pathParts.slice(0, -1).join("/");
@@ -27,7 +29,10 @@ export function createTestFile(outDir: string, path: string, tests: string[]) {
   );
 
   mkdirSync(`${outDir}/${pathWithoutFile}`, { recursive: true });
-  writeFileSync(`${outDir}/${pathWithoutFile}/${fileName}.test.ts`, contents, "utf-8");
+
+  const fileName = `${testName}.test.ts`;
+  const { code: output } = await format(fileName, contents);
+  writeFileSync(`${outDir}/${pathWithoutFile}/${fileName}`, output, "utf-8");
 }
 
 function createTestFileContents(prefix: string, tests: string[], depth: number) {
@@ -55,7 +60,15 @@ function writeTreeItem(item: FileTreeItem, prefix: string): string {
       return `it.skip(${JSON.stringify(item.fileName)}, () => { /* Ignored Test */ });`;
     }
 
-    return `it(${JSON.stringify(item.fileName)}, createTestHandler(${JSON.stringify(`${prefix}/${item.filePath}`)}));`;
+    const baseline = isTestBaseline(test);
+    let tags = [];
+    if (baseline) {
+      tags.push("known-passing");
+    } else {
+      tags.push("known-failing");
+    }
+
+    return `it(${JSON.stringify(item.fileName)}, { tags: ${JSON.stringify(tags)} }, createTestHandler(${JSON.stringify(`${prefix}/${item.filePath}`)}));`;
   }
 
   if (isFileTreeFolder(item)) {

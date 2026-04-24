@@ -2,99 +2,505 @@ import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
 describe("fromAsync", () => {
-it("async-iterable-async-mapped-awaits-once.js", createTestHandler("built-ins/Array/fromAsync/async-iterable-async-mapped-awaits-once.js"));
-it("async-iterable-input-does-not-await-input.js", createTestHandler("built-ins/Array/fromAsync/async-iterable-input-does-not-await-input.js"));
-it("async-iterable-input-iteration-err.js", createTestHandler("built-ins/Array/fromAsync/async-iterable-input-iteration-err.js"));
-it("async-iterable-input.js", createTestHandler("built-ins/Array/fromAsync/async-iterable-input.js"));
-it("asyncitems-array-add-to-empty.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-array-add-to-empty.js"));
-it("asyncitems-array-add-to-singleton.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-array-add-to-singleton.js"));
-it("asyncitems-array-add.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-array-add.js"));
-it("asyncitems-array-mutate.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-array-mutate.js"));
-it("asyncitems-array-remove.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-array-remove.js"));
-it("asyncitems-arraybuffer.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-arraybuffer.js"));
-it("asyncitems-arraylike-holes.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-arraylike-holes.js"));
-it("asyncitems-arraylike-length-accessor-throws.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-arraylike-length-accessor-throws.js"));
-it("asyncitems-arraylike-promise.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-arraylike-promise.js"));
-it("asyncitems-arraylike-too-long.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-arraylike-too-long.js"));
-it("asyncitems-asynciterator-exists.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-asynciterator-exists.js"));
-it("asyncitems-asynciterator-not-callable.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-asynciterator-not-callable.js"));
-it("asyncitems-asynciterator-null.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-asynciterator-null.js"));
-it("asyncitems-asynciterator-sync.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-asynciterator-sync.js"));
-it("asyncitems-asynciterator-throws.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-asynciterator-throws.js"));
-it("asyncitems-bigint.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-bigint.js"));
-it("asyncitems-boolean.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-boolean.js"));
-it("asyncitems-function.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-function.js"));
-it("asyncitems-iterator-exists.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-iterator-exists.js"));
-it("asyncitems-iterator-not-callable.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-iterator-not-callable.js"));
-it("asyncitems-iterator-null.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-iterator-null.js"));
-it("asyncitems-iterator-promise.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-iterator-promise.js"));
-it("asyncitems-iterator-throws.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-iterator-throws.js"));
-it("asyncitems-null-undefined.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-null-undefined.js"));
-it("asyncitems-number.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-number.js"));
-it("asyncitems-object-not-arraylike.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-object-not-arraylike.js"));
-it("asyncitems-operations.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-operations.js"));
-it("asyncitems-string.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-string.js"));
-it("asyncitems-symbol.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-symbol.js"));
-it("asyncitems-uses-intrinsic-iterator-symbols.js", createTestHandler("built-ins/Array/fromAsync/asyncitems-uses-intrinsic-iterator-symbols.js"));
-it("builtin.js", createTestHandler("built-ins/Array/fromAsync/builtin.js"));
-it("length.js", createTestHandler("built-ins/Array/fromAsync/length.js"));
-it("mapfn-async-arraylike.js", createTestHandler("built-ins/Array/fromAsync/mapfn-async-arraylike.js"));
-it("mapfn-async-iterable-async.js", createTestHandler("built-ins/Array/fromAsync/mapfn-async-iterable-async.js"));
-it("mapfn-async-iterable-sync.js", createTestHandler("built-ins/Array/fromAsync/mapfn-async-iterable-sync.js"));
-it("mapfn-async-throws-close-async-iterator.js", createTestHandler("built-ins/Array/fromAsync/mapfn-async-throws-close-async-iterator.js"));
-it("mapfn-async-throws-close-sync-iterator.js", createTestHandler("built-ins/Array/fromAsync/mapfn-async-throws-close-sync-iterator.js"));
-it("mapfn-async-throws.js", createTestHandler("built-ins/Array/fromAsync/mapfn-async-throws.js"));
-it("mapfn-not-callable.js", createTestHandler("built-ins/Array/fromAsync/mapfn-not-callable.js"));
-it("mapfn-result-awaited-once-per-iteration.js", createTestHandler("built-ins/Array/fromAsync/mapfn-result-awaited-once-per-iteration.js"));
-it("mapfn-sync-arraylike.js", createTestHandler("built-ins/Array/fromAsync/mapfn-sync-arraylike.js"));
-it("mapfn-sync-iterable-async.js", createTestHandler("built-ins/Array/fromAsync/mapfn-sync-iterable-async.js"));
-it("mapfn-sync-iterable-sync.js", createTestHandler("built-ins/Array/fromAsync/mapfn-sync-iterable-sync.js"));
-it("mapfn-sync-throws-close-async-iterator.js", createTestHandler("built-ins/Array/fromAsync/mapfn-sync-throws-close-async-iterator.js"));
-it("mapfn-sync-throws-close-sync-iterator.js", createTestHandler("built-ins/Array/fromAsync/mapfn-sync-throws-close-sync-iterator.js"));
-it("mapfn-sync-throws.js", createTestHandler("built-ins/Array/fromAsync/mapfn-sync-throws.js"));
-it("name.js", createTestHandler("built-ins/Array/fromAsync/name.js"));
-it("non-iterable-input-does-not-use-array-prototype.js", createTestHandler("built-ins/Array/fromAsync/non-iterable-input-does-not-use-array-prototype.js"));
-it("non-iterable-input-element-access-err.js", createTestHandler("built-ins/Array/fromAsync/non-iterable-input-element-access-err.js"));
-it("non-iterable-input-with-thenable-async-mapped-awaits-callback-result-once.js", createTestHandler("built-ins/Array/fromAsync/non-iterable-input-with-thenable-async-mapped-awaits-callback-result-once.js"));
-it("non-iterable-input-with-thenable-async-mapped-callback-err.js", createTestHandler("built-ins/Array/fromAsync/non-iterable-input-with-thenable-async-mapped-callback-err.js"));
-it("non-iterable-input-with-thenable-element-rejects.js", createTestHandler("built-ins/Array/fromAsync/non-iterable-input-with-thenable-element-rejects.js"));
-it("non-iterable-input-with-thenable-sync-mapped-callback-err.js", createTestHandler("built-ins/Array/fromAsync/non-iterable-input-with-thenable-sync-mapped-callback-err.js"));
-it("non-iterable-input-with-thenable.js", createTestHandler("built-ins/Array/fromAsync/non-iterable-input-with-thenable.js"));
-it("non-iterable-input.js", createTestHandler("built-ins/Array/fromAsync/non-iterable-input.js"));
-it("non-iterable-sync-mapped-callback-err.js", createTestHandler("built-ins/Array/fromAsync/non-iterable-sync-mapped-callback-err.js"));
-it("non-iterable-with-non-promise-thenable.js", createTestHandler("built-ins/Array/fromAsync/non-iterable-with-non-promise-thenable.js"));
-it("non-iterable-with-thenable-async-mapped-awaits-once.js", createTestHandler("built-ins/Array/fromAsync/non-iterable-with-thenable-async-mapped-awaits-once.js"));
-it("non-iterable-with-thenable-awaits-once.js", createTestHandler("built-ins/Array/fromAsync/non-iterable-with-thenable-awaits-once.js"));
-it("non-iterable-with-thenable-sync-mapped-awaits-once.js", createTestHandler("built-ins/Array/fromAsync/non-iterable-with-thenable-sync-mapped-awaits-once.js"));
-it("non-iterable-with-thenable-then-method-err.js", createTestHandler("built-ins/Array/fromAsync/non-iterable-with-thenable-then-method-err.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/Array/fromAsync/not-a-constructor.js"));
-it("prop-desc.js", createTestHandler("built-ins/Array/fromAsync/prop-desc.js"));
-it("returned-promise-resolves-to-array.js", createTestHandler("built-ins/Array/fromAsync/returned-promise-resolves-to-array.js"));
-it("returns-promise.js", createTestHandler("built-ins/Array/fromAsync/returns-promise.js"));
-it("sync-iterable-input-with-non-promise-thenable.js", createTestHandler("built-ins/Array/fromAsync/sync-iterable-input-with-non-promise-thenable.js"));
-it("sync-iterable-input-with-thenable.js", createTestHandler("built-ins/Array/fromAsync/sync-iterable-input-with-thenable.js"));
-it("sync-iterable-input.js", createTestHandler("built-ins/Array/fromAsync/sync-iterable-input.js"));
-it("sync-iterable-iteration-err.js", createTestHandler("built-ins/Array/fromAsync/sync-iterable-iteration-err.js"));
-it("sync-iterable-with-rejecting-thenable-closes.js", createTestHandler("built-ins/Array/fromAsync/sync-iterable-with-rejecting-thenable-closes.js"));
-it("sync-iterable-with-rejecting-thenable-rejects.js", createTestHandler("built-ins/Array/fromAsync/sync-iterable-with-rejecting-thenable-rejects.js"));
-it("sync-iterable-with-thenable-async-mapped-awaits-once.js", createTestHandler("built-ins/Array/fromAsync/sync-iterable-with-thenable-async-mapped-awaits-once.js"));
-it("sync-iterable-with-thenable-async-mapped-callback-err.js", createTestHandler("built-ins/Array/fromAsync/sync-iterable-with-thenable-async-mapped-callback-err.js"));
-it("sync-iterable-with-thenable-awaits-once.js", createTestHandler("built-ins/Array/fromAsync/sync-iterable-with-thenable-awaits-once.js"));
-it("sync-iterable-with-thenable-sync-mapped-awaits-once.js", createTestHandler("built-ins/Array/fromAsync/sync-iterable-with-thenable-sync-mapped-awaits-once.js"));
-it("sync-iterable-with-thenable-sync-mapped-callback-err.js", createTestHandler("built-ins/Array/fromAsync/sync-iterable-with-thenable-sync-mapped-callback-err.js"));
-it("sync-iterable-with-thenable-then-method-err.js", createTestHandler("built-ins/Array/fromAsync/sync-iterable-with-thenable-then-method-err.js"));
-it("this-constructor-operations.js", createTestHandler("built-ins/Array/fromAsync/this-constructor-operations.js"));
-it("this-constructor-with-bad-length-setter.js", createTestHandler("built-ins/Array/fromAsync/this-constructor-with-bad-length-setter.js"));
-it("this-constructor-with-readonly-elements.js", createTestHandler("built-ins/Array/fromAsync/this-constructor-with-readonly-elements.js"));
-it("this-constructor-with-readonly-length.js", createTestHandler("built-ins/Array/fromAsync/this-constructor-with-readonly-length.js"));
-it("this-constructor-with-unsettable-element-closes-async-iterator.js", createTestHandler("built-ins/Array/fromAsync/this-constructor-with-unsettable-element-closes-async-iterator.js"));
-it("this-constructor-with-unsettable-element-closes-sync-iterator.js", createTestHandler("built-ins/Array/fromAsync/this-constructor-with-unsettable-element-closes-sync-iterator.js"));
-it("this-constructor-with-unsettable-element.js", createTestHandler("built-ins/Array/fromAsync/this-constructor-with-unsettable-element.js"));
-it("this-constructor.js", createTestHandler("built-ins/Array/fromAsync/this-constructor.js"));
-it("this-non-constructor.js", createTestHandler("built-ins/Array/fromAsync/this-non-constructor.js"));
-it("thisarg-object.js", createTestHandler("built-ins/Array/fromAsync/thisarg-object.js"));
-it("thisarg-omitted-sloppy.js", createTestHandler("built-ins/Array/fromAsync/thisarg-omitted-sloppy.js"));
-it("thisarg-omitted-strict.js", createTestHandler("built-ins/Array/fromAsync/thisarg-omitted-strict.js"));
-it("thisarg-primitive-sloppy.js", createTestHandler("built-ins/Array/fromAsync/thisarg-primitive-sloppy.js"));
-it("thisarg-primitive-strict.js", createTestHandler("built-ins/Array/fromAsync/thisarg-primitive-strict.js"));
+  it(
+    "async-iterable-async-mapped-awaits-once.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/async-iterable-async-mapped-awaits-once.js"),
+  );
+  it(
+    "async-iterable-input-does-not-await-input.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/async-iterable-input-does-not-await-input.js"),
+  );
+  it(
+    "async-iterable-input-iteration-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/async-iterable-input-iteration-err.js"),
+  );
+  it(
+    "async-iterable-input.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/async-iterable-input.js"),
+  );
+  it(
+    "asyncitems-array-add-to-empty.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-array-add-to-empty.js"),
+  );
+  it(
+    "asyncitems-array-add-to-singleton.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-array-add-to-singleton.js"),
+  );
+  it(
+    "asyncitems-array-add.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-array-add.js"),
+  );
+  it(
+    "asyncitems-array-mutate.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-array-mutate.js"),
+  );
+  it(
+    "asyncitems-array-remove.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-array-remove.js"),
+  );
+  it(
+    "asyncitems-arraybuffer.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-arraybuffer.js"),
+  );
+  it(
+    "asyncitems-arraylike-holes.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-arraylike-holes.js"),
+  );
+  it(
+    "asyncitems-arraylike-length-accessor-throws.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-arraylike-length-accessor-throws.js"),
+  );
+  it(
+    "asyncitems-arraylike-promise.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-arraylike-promise.js"),
+  );
+  it(
+    "asyncitems-arraylike-too-long.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-arraylike-too-long.js"),
+  );
+  it(
+    "asyncitems-asynciterator-exists.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-asynciterator-exists.js"),
+  );
+  it(
+    "asyncitems-asynciterator-not-callable.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-asynciterator-not-callable.js"),
+  );
+  it(
+    "asyncitems-asynciterator-null.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-asynciterator-null.js"),
+  );
+  it(
+    "asyncitems-asynciterator-sync.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-asynciterator-sync.js"),
+  );
+  it(
+    "asyncitems-asynciterator-throws.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-asynciterator-throws.js"),
+  );
+  it(
+    "asyncitems-bigint.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-bigint.js"),
+  );
+  it(
+    "asyncitems-boolean.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-boolean.js"),
+  );
+  it(
+    "asyncitems-function.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-function.js"),
+  );
+  it(
+    "asyncitems-iterator-exists.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-iterator-exists.js"),
+  );
+  it(
+    "asyncitems-iterator-not-callable.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-iterator-not-callable.js"),
+  );
+  it(
+    "asyncitems-iterator-null.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-iterator-null.js"),
+  );
+  it(
+    "asyncitems-iterator-promise.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-iterator-promise.js"),
+  );
+  it(
+    "asyncitems-iterator-throws.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-iterator-throws.js"),
+  );
+  it(
+    "asyncitems-null-undefined.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-null-undefined.js"),
+  );
+  it(
+    "asyncitems-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-number.js"),
+  );
+  it(
+    "asyncitems-object-not-arraylike.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-object-not-arraylike.js"),
+  );
+  it(
+    "asyncitems-operations.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-operations.js"),
+  );
+  it(
+    "asyncitems-string.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-string.js"),
+  );
+  it(
+    "asyncitems-symbol.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-symbol.js"),
+  );
+  it(
+    "asyncitems-uses-intrinsic-iterator-symbols.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/asyncitems-uses-intrinsic-iterator-symbols.js"),
+  );
+  it(
+    "builtin.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/builtin.js"),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/length.js"),
+  );
+  it(
+    "mapfn-async-arraylike.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/mapfn-async-arraylike.js"),
+  );
+  it(
+    "mapfn-async-iterable-async.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/mapfn-async-iterable-async.js"),
+  );
+  it(
+    "mapfn-async-iterable-sync.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/mapfn-async-iterable-sync.js"),
+  );
+  it(
+    "mapfn-async-throws-close-async-iterator.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/mapfn-async-throws-close-async-iterator.js"),
+  );
+  it(
+    "mapfn-async-throws-close-sync-iterator.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/mapfn-async-throws-close-sync-iterator.js"),
+  );
+  it(
+    "mapfn-async-throws.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/mapfn-async-throws.js"),
+  );
+  it(
+    "mapfn-not-callable.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/mapfn-not-callable.js"),
+  );
+  it(
+    "mapfn-result-awaited-once-per-iteration.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/mapfn-result-awaited-once-per-iteration.js"),
+  );
+  it(
+    "mapfn-sync-arraylike.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/mapfn-sync-arraylike.js"),
+  );
+  it(
+    "mapfn-sync-iterable-async.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/mapfn-sync-iterable-async.js"),
+  );
+  it(
+    "mapfn-sync-iterable-sync.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/mapfn-sync-iterable-sync.js"),
+  );
+  it(
+    "mapfn-sync-throws-close-async-iterator.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/mapfn-sync-throws-close-async-iterator.js"),
+  );
+  it(
+    "mapfn-sync-throws-close-sync-iterator.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/mapfn-sync-throws-close-sync-iterator.js"),
+  );
+  it(
+    "mapfn-sync-throws.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/mapfn-sync-throws.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/name.js"),
+  );
+  it(
+    "non-iterable-input-does-not-use-array-prototype.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Array/fromAsync/non-iterable-input-does-not-use-array-prototype.js",
+    ),
+  );
+  it(
+    "non-iterable-input-element-access-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/non-iterable-input-element-access-err.js"),
+  );
+  it(
+    "non-iterable-input-with-thenable-async-mapped-awaits-callback-result-once.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Array/fromAsync/non-iterable-input-with-thenable-async-mapped-awaits-callback-result-once.js",
+    ),
+  );
+  it(
+    "non-iterable-input-with-thenable-async-mapped-callback-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Array/fromAsync/non-iterable-input-with-thenable-async-mapped-callback-err.js",
+    ),
+  );
+  it(
+    "non-iterable-input-with-thenable-element-rejects.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Array/fromAsync/non-iterable-input-with-thenable-element-rejects.js",
+    ),
+  );
+  it(
+    "non-iterable-input-with-thenable-sync-mapped-callback-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Array/fromAsync/non-iterable-input-with-thenable-sync-mapped-callback-err.js",
+    ),
+  );
+  it(
+    "non-iterable-input-with-thenable.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/non-iterable-input-with-thenable.js"),
+  );
+  it(
+    "non-iterable-input.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/non-iterable-input.js"),
+  );
+  it(
+    "non-iterable-sync-mapped-callback-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/non-iterable-sync-mapped-callback-err.js"),
+  );
+  it(
+    "non-iterable-with-non-promise-thenable.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/non-iterable-with-non-promise-thenable.js"),
+  );
+  it(
+    "non-iterable-with-thenable-async-mapped-awaits-once.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Array/fromAsync/non-iterable-with-thenable-async-mapped-awaits-once.js",
+    ),
+  );
+  it(
+    "non-iterable-with-thenable-awaits-once.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/non-iterable-with-thenable-awaits-once.js"),
+  );
+  it(
+    "non-iterable-with-thenable-sync-mapped-awaits-once.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Array/fromAsync/non-iterable-with-thenable-sync-mapped-awaits-once.js",
+    ),
+  );
+  it(
+    "non-iterable-with-thenable-then-method-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/non-iterable-with-thenable-then-method-err.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/prop-desc.js"),
+  );
+  it(
+    "returned-promise-resolves-to-array.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/returned-promise-resolves-to-array.js"),
+  );
+  it(
+    "returns-promise.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/returns-promise.js"),
+  );
+  it(
+    "sync-iterable-input-with-non-promise-thenable.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/sync-iterable-input-with-non-promise-thenable.js"),
+  );
+  it(
+    "sync-iterable-input-with-thenable.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/sync-iterable-input-with-thenable.js"),
+  );
+  it(
+    "sync-iterable-input.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/sync-iterable-input.js"),
+  );
+  it(
+    "sync-iterable-iteration-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/sync-iterable-iteration-err.js"),
+  );
+  it(
+    "sync-iterable-with-rejecting-thenable-closes.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/sync-iterable-with-rejecting-thenable-closes.js"),
+  );
+  it(
+    "sync-iterable-with-rejecting-thenable-rejects.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/sync-iterable-with-rejecting-thenable-rejects.js"),
+  );
+  it(
+    "sync-iterable-with-thenable-async-mapped-awaits-once.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Array/fromAsync/sync-iterable-with-thenable-async-mapped-awaits-once.js",
+    ),
+  );
+  it(
+    "sync-iterable-with-thenable-async-mapped-callback-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Array/fromAsync/sync-iterable-with-thenable-async-mapped-callback-err.js",
+    ),
+  );
+  it(
+    "sync-iterable-with-thenable-awaits-once.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/sync-iterable-with-thenable-awaits-once.js"),
+  );
+  it(
+    "sync-iterable-with-thenable-sync-mapped-awaits-once.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Array/fromAsync/sync-iterable-with-thenable-sync-mapped-awaits-once.js",
+    ),
+  );
+  it(
+    "sync-iterable-with-thenable-sync-mapped-callback-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Array/fromAsync/sync-iterable-with-thenable-sync-mapped-callback-err.js",
+    ),
+  );
+  it(
+    "sync-iterable-with-thenable-then-method-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/sync-iterable-with-thenable-then-method-err.js"),
+  );
+  it(
+    "this-constructor-operations.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/this-constructor-operations.js"),
+  );
+  it(
+    "this-constructor-with-bad-length-setter.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/this-constructor-with-bad-length-setter.js"),
+  );
+  it(
+    "this-constructor-with-readonly-elements.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/this-constructor-with-readonly-elements.js"),
+  );
+  it(
+    "this-constructor-with-readonly-length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/this-constructor-with-readonly-length.js"),
+  );
+  it(
+    "this-constructor-with-unsettable-element-closes-async-iterator.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Array/fromAsync/this-constructor-with-unsettable-element-closes-async-iterator.js",
+    ),
+  );
+  it(
+    "this-constructor-with-unsettable-element-closes-sync-iterator.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Array/fromAsync/this-constructor-with-unsettable-element-closes-sync-iterator.js",
+    ),
+  );
+  it(
+    "this-constructor-with-unsettable-element.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/this-constructor-with-unsettable-element.js"),
+  );
+  it(
+    "this-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/this-constructor.js"),
+  );
+  it(
+    "this-non-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/this-non-constructor.js"),
+  );
+  it(
+    "thisarg-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/thisarg-object.js"),
+  );
+  it(
+    "thisarg-omitted-sloppy.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/thisarg-omitted-sloppy.js"),
+  );
+  it(
+    "thisarg-omitted-strict.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/thisarg-omitted-strict.js"),
+  );
+  it(
+    "thisarg-primitive-sloppy.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/thisarg-primitive-sloppy.js"),
+  );
+  it(
+    "thisarg-primitive-strict.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Array/fromAsync/thisarg-primitive-strict.js"),
+  );
 });

@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("parse-err-semi-named-export-from.js", createTestHandler("language/module-code/parse-err-semi-named-export-from.js"));
+it(
+  "parse-err-semi-named-export-from.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/module-code/parse-err-semi-named-export-from.js"),
+);

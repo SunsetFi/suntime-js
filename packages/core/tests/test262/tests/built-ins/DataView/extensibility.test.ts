@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("extensibility.js", createTestHandler("built-ins/DataView/extensibility.js"));
+it(
+  "extensibility.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/DataView/extensibility.js"),
+);

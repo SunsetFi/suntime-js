@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("instance-prototype.js", createTestHandler("built-ins/GeneratorFunction/instance-prototype.js"));
+it(
+  "instance-prototype.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/GeneratorFunction/instance-prototype.js"),
+);

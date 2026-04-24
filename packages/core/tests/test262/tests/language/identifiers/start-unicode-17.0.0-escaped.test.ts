@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("start-unicode-17.0.0-escaped.js", createTestHandler("language/identifiers/start-unicode-17.0.0-escaped.js"));
+it(
+  "start-unicode-17.0.0-escaped.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/identifiers/start-unicode-17.0.0-escaped.js"),
+);

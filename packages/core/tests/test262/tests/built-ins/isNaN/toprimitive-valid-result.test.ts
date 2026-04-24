@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("toprimitive-valid-result.js", createTestHandler("built-ins/isNaN/toprimitive-valid-result.js"));
+it(
+  "toprimitive-valid-result.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/isNaN/toprimitive-valid-result.js"),
+);

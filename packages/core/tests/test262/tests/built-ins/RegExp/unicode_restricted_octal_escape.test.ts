@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("unicode_restricted_octal_escape.js", createTestHandler("built-ins/RegExp/unicode_restricted_octal_escape.js"));
+it(
+  "unicode_restricted_octal_escape.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/RegExp/unicode_restricted_octal_escape.js"),
+);

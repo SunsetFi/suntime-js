@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("val-debugger-via-escape-hex4.js", createTestHandler("language/identifiers/val-debugger-via-escape-hex4.js"));
+it(
+  "val-debugger-via-escape-hex4.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/identifiers/val-debugger-via-escape-hex4.js"),
+);

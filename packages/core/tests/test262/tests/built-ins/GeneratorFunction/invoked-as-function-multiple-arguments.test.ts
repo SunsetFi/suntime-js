@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("invoked-as-function-multiple-arguments.js", createTestHandler("built-ins/GeneratorFunction/invoked-as-function-multiple-arguments.js"));
+it(
+  "invoked-as-function-multiple-arguments.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/GeneratorFunction/invoked-as-function-multiple-arguments.js"),
+);

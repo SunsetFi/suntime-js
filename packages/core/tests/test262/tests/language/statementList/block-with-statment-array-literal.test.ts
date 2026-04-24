@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("block-with-statment-array-literal.js", createTestHandler("language/statementList/block-with-statment-array-literal.js"));
+it(
+  "block-with-statment-array-literal.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/statementList/block-with-statment-array-literal.js"),
+);

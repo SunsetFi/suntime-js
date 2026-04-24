@@ -2,81 +2,381 @@ import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
 describe("parse", () => {
-it("15.12.1.1-0-1.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-0-1.js"));
-it("15.12.1.1-0-2.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-0-2.js"));
-it("15.12.1.1-0-3.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-0-3.js"));
-it("15.12.1.1-0-4.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-0-4.js"));
-it("15.12.1.1-0-5.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-0-5.js"));
-it("15.12.1.1-0-6.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-0-6.js"));
-it("15.12.1.1-0-8.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-0-8.js"));
-it("15.12.1.1-0-9.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-0-9.js"));
-it("15.12.1.1-g1-1.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g1-1.js"));
-it("15.12.1.1-g1-2.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g1-2.js"));
-it("15.12.1.1-g1-3.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g1-3.js"));
-it("15.12.1.1-g1-4.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g1-4.js"));
-it("15.12.1.1-g2-1.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g2-1.js"));
-it("15.12.1.1-g2-2.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g2-2.js"));
-it("15.12.1.1-g2-3.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g2-3.js"));
-it("15.12.1.1-g2-4.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g2-4.js"));
-it("15.12.1.1-g2-5.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g2-5.js"));
-it("15.12.1.1-g4-1.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g4-1.js"));
-it("15.12.1.1-g4-2.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g4-2.js"));
-it("15.12.1.1-g4-3.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g4-3.js"));
-it("15.12.1.1-g4-4.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g4-4.js"));
-it("15.12.1.1-g5-1.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g5-1.js"));
-it("15.12.1.1-g5-2.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g5-2.js"));
-it("15.12.1.1-g5-3.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g5-3.js"));
-it("15.12.1.1-g6-1.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g6-1.js"));
-it("15.12.1.1-g6-2.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g6-2.js"));
-it("15.12.1.1-g6-3.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g6-3.js"));
-it("15.12.1.1-g6-4.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g6-4.js"));
-it("15.12.1.1-g6-5.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g6-5.js"));
-it("15.12.1.1-g6-6.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g6-6.js"));
-it("15.12.1.1-g6-7.js", createTestHandler("built-ins/JSON/parse/15.12.1.1-g6-7.js"));
-it("15.12.2-2-1.js", createTestHandler("built-ins/JSON/parse/15.12.2-2-1.js"));
-it("15.12.2-2-10.js", createTestHandler("built-ins/JSON/parse/15.12.2-2-10.js"));
-it("15.12.2-2-2.js", createTestHandler("built-ins/JSON/parse/15.12.2-2-2.js"));
-it("15.12.2-2-3.js", createTestHandler("built-ins/JSON/parse/15.12.2-2-3.js"));
-it("15.12.2-2-4.js", createTestHandler("built-ins/JSON/parse/15.12.2-2-4.js"));
-it("15.12.2-2-5.js", createTestHandler("built-ins/JSON/parse/15.12.2-2-5.js"));
-it("15.12.2-2-6.js", createTestHandler("built-ins/JSON/parse/15.12.2-2-6.js"));
-it("15.12.2-2-7.js", createTestHandler("built-ins/JSON/parse/15.12.2-2-7.js"));
-it("15.12.2-2-8.js", createTestHandler("built-ins/JSON/parse/15.12.2-2-8.js"));
-it("15.12.2-2-9.js", createTestHandler("built-ins/JSON/parse/15.12.2-2-9.js"));
-it("S15.12.2_A1.js", createTestHandler("built-ins/JSON/parse/S15.12.2_A1.js"));
-it("builtin.js", createTestHandler("built-ins/JSON/parse/builtin.js"));
-it("duplicate-proto.js", createTestHandler("built-ins/JSON/parse/duplicate-proto.js"));
-it("invalid-whitespace.js", createTestHandler("built-ins/JSON/parse/invalid-whitespace.js"));
-it("length.js", createTestHandler("built-ins/JSON/parse/length.js"));
-it("name.js", createTestHandler("built-ins/JSON/parse/name.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/JSON/parse/not-a-constructor.js"));
-it("prop-desc.js", createTestHandler("built-ins/JSON/parse/prop-desc.js"));
-it("revived-proxy-revoked.js", createTestHandler("built-ins/JSON/parse/revived-proxy-revoked.js"));
-it("revived-proxy.js", createTestHandler("built-ins/JSON/parse/revived-proxy.js"));
-it("reviver-array-define-prop-err.js", createTestHandler("built-ins/JSON/parse/reviver-array-define-prop-err.js"));
-it("reviver-array-delete-err.js", createTestHandler("built-ins/JSON/parse/reviver-array-delete-err.js"));
-it("reviver-array-get-prop-from-prototype.js", createTestHandler("built-ins/JSON/parse/reviver-array-get-prop-from-prototype.js"));
-it("reviver-array-length-coerce-err.js", createTestHandler("built-ins/JSON/parse/reviver-array-length-coerce-err.js"));
-it("reviver-array-length-get-err.js", createTestHandler("built-ins/JSON/parse/reviver-array-length-get-err.js"));
-it("reviver-array-non-configurable-prop-create.js", createTestHandler("built-ins/JSON/parse/reviver-array-non-configurable-prop-create.js"));
-it("reviver-array-non-configurable-prop-delete.js", createTestHandler("built-ins/JSON/parse/reviver-array-non-configurable-prop-delete.js"));
-it("reviver-call-args-after-forward-modification.js", createTestHandler("built-ins/JSON/parse/reviver-call-args-after-forward-modification.js"));
-it("reviver-call-err.js", createTestHandler("built-ins/JSON/parse/reviver-call-err.js"));
-it("reviver-call-order.js", createTestHandler("built-ins/JSON/parse/reviver-call-order.js"));
-it("reviver-context-source-array-literal.js", createTestHandler("built-ins/JSON/parse/reviver-context-source-array-literal.js"));
-it("reviver-context-source-object-literal.js", createTestHandler("built-ins/JSON/parse/reviver-context-source-object-literal.js"));
-it("reviver-context-source-primitive-literal.js", createTestHandler("built-ins/JSON/parse/reviver-context-source-primitive-literal.js"));
-it("reviver-forward-modifies-object.js", createTestHandler("built-ins/JSON/parse/reviver-forward-modifies-object.js"));
-it("reviver-get-name-err.js", createTestHandler("built-ins/JSON/parse/reviver-get-name-err.js"));
-it("reviver-object-define-prop-err.js", createTestHandler("built-ins/JSON/parse/reviver-object-define-prop-err.js"));
-it("reviver-object-delete-err.js", createTestHandler("built-ins/JSON/parse/reviver-object-delete-err.js"));
-it("reviver-object-get-prop-from-prototype.js", createTestHandler("built-ins/JSON/parse/reviver-object-get-prop-from-prototype.js"));
-it("reviver-object-non-configurable-prop-create.js", createTestHandler("built-ins/JSON/parse/reviver-object-non-configurable-prop-create.js"));
-it("reviver-object-non-configurable-prop-delete.js", createTestHandler("built-ins/JSON/parse/reviver-object-non-configurable-prop-delete.js"));
-it("reviver-object-own-keys-err.js", createTestHandler("built-ins/JSON/parse/reviver-object-own-keys-err.js"));
-it("reviver-wrapper.js", createTestHandler("built-ins/JSON/parse/reviver-wrapper.js"));
-it("text-negative-zero.js", createTestHandler("built-ins/JSON/parse/text-negative-zero.js"));
-it("text-non-string-primitive.js", createTestHandler("built-ins/JSON/parse/text-non-string-primitive.js"));
-it("text-object-abrupt.js", createTestHandler("built-ins/JSON/parse/text-object-abrupt.js"));
-it("text-object.js", createTestHandler("built-ins/JSON/parse/text-object.js"));
+  it(
+    "15.12.1.1-0-1.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-0-1.js"),
+  );
+  it(
+    "15.12.1.1-0-2.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-0-2.js"),
+  );
+  it(
+    "15.12.1.1-0-3.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-0-3.js"),
+  );
+  it(
+    "15.12.1.1-0-4.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-0-4.js"),
+  );
+  it(
+    "15.12.1.1-0-5.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-0-5.js"),
+  );
+  it(
+    "15.12.1.1-0-6.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-0-6.js"),
+  );
+  it(
+    "15.12.1.1-0-8.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-0-8.js"),
+  );
+  it(
+    "15.12.1.1-0-9.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-0-9.js"),
+  );
+  it(
+    "15.12.1.1-g1-1.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g1-1.js"),
+  );
+  it(
+    "15.12.1.1-g1-2.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g1-2.js"),
+  );
+  it(
+    "15.12.1.1-g1-3.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g1-3.js"),
+  );
+  it(
+    "15.12.1.1-g1-4.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g1-4.js"),
+  );
+  it(
+    "15.12.1.1-g2-1.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g2-1.js"),
+  );
+  it(
+    "15.12.1.1-g2-2.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g2-2.js"),
+  );
+  it(
+    "15.12.1.1-g2-3.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g2-3.js"),
+  );
+  it(
+    "15.12.1.1-g2-4.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g2-4.js"),
+  );
+  it(
+    "15.12.1.1-g2-5.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g2-5.js"),
+  );
+  it(
+    "15.12.1.1-g4-1.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g4-1.js"),
+  );
+  it(
+    "15.12.1.1-g4-2.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g4-2.js"),
+  );
+  it(
+    "15.12.1.1-g4-3.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g4-3.js"),
+  );
+  it(
+    "15.12.1.1-g4-4.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g4-4.js"),
+  );
+  it(
+    "15.12.1.1-g5-1.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g5-1.js"),
+  );
+  it(
+    "15.12.1.1-g5-2.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g5-2.js"),
+  );
+  it(
+    "15.12.1.1-g5-3.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g5-3.js"),
+  );
+  it(
+    "15.12.1.1-g6-1.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g6-1.js"),
+  );
+  it(
+    "15.12.1.1-g6-2.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g6-2.js"),
+  );
+  it(
+    "15.12.1.1-g6-3.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g6-3.js"),
+  );
+  it(
+    "15.12.1.1-g6-4.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g6-4.js"),
+  );
+  it(
+    "15.12.1.1-g6-5.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g6-5.js"),
+  );
+  it(
+    "15.12.1.1-g6-6.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g6-6.js"),
+  );
+  it(
+    "15.12.1.1-g6-7.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.1.1-g6-7.js"),
+  );
+  it(
+    "15.12.2-2-1.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.2-2-1.js"),
+  );
+  it(
+    "15.12.2-2-10.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.2-2-10.js"),
+  );
+  it(
+    "15.12.2-2-2.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.2-2-2.js"),
+  );
+  it(
+    "15.12.2-2-3.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.2-2-3.js"),
+  );
+  it(
+    "15.12.2-2-4.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.2-2-4.js"),
+  );
+  it(
+    "15.12.2-2-5.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.2-2-5.js"),
+  );
+  it(
+    "15.12.2-2-6.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.2-2-6.js"),
+  );
+  it(
+    "15.12.2-2-7.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.2-2-7.js"),
+  );
+  it(
+    "15.12.2-2-8.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.2-2-8.js"),
+  );
+  it(
+    "15.12.2-2-9.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/15.12.2-2-9.js"),
+  );
+  it(
+    "S15.12.2_A1.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/S15.12.2_A1.js"),
+  );
+  it(
+    "builtin.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/builtin.js"),
+  );
+  it(
+    "duplicate-proto.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/duplicate-proto.js"),
+  );
+  it(
+    "invalid-whitespace.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/invalid-whitespace.js"),
+  );
+  it("length.js", { tags: ["known-failing"] }, createTestHandler("built-ins/JSON/parse/length.js"));
+  it("name.js", { tags: ["known-failing"] }, createTestHandler("built-ins/JSON/parse/name.js"));
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/prop-desc.js"),
+  );
+  it(
+    "revived-proxy-revoked.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/revived-proxy-revoked.js"),
+  );
+  it(
+    "revived-proxy.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/revived-proxy.js"),
+  );
+  it(
+    "reviver-array-define-prop-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-array-define-prop-err.js"),
+  );
+  it(
+    "reviver-array-delete-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-array-delete-err.js"),
+  );
+  it(
+    "reviver-array-get-prop-from-prototype.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-array-get-prop-from-prototype.js"),
+  );
+  it(
+    "reviver-array-length-coerce-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-array-length-coerce-err.js"),
+  );
+  it(
+    "reviver-array-length-get-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-array-length-get-err.js"),
+  );
+  it(
+    "reviver-array-non-configurable-prop-create.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-array-non-configurable-prop-create.js"),
+  );
+  it(
+    "reviver-array-non-configurable-prop-delete.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-array-non-configurable-prop-delete.js"),
+  );
+  it(
+    "reviver-call-args-after-forward-modification.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-call-args-after-forward-modification.js"),
+  );
+  it(
+    "reviver-call-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-call-err.js"),
+  );
+  it(
+    "reviver-call-order.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-call-order.js"),
+  );
+  it(
+    "reviver-context-source-array-literal.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-context-source-array-literal.js"),
+  );
+  it(
+    "reviver-context-source-object-literal.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-context-source-object-literal.js"),
+  );
+  it(
+    "reviver-context-source-primitive-literal.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-context-source-primitive-literal.js"),
+  );
+  it(
+    "reviver-forward-modifies-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-forward-modifies-object.js"),
+  );
+  it(
+    "reviver-get-name-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-get-name-err.js"),
+  );
+  it(
+    "reviver-object-define-prop-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-object-define-prop-err.js"),
+  );
+  it(
+    "reviver-object-delete-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-object-delete-err.js"),
+  );
+  it(
+    "reviver-object-get-prop-from-prototype.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-object-get-prop-from-prototype.js"),
+  );
+  it(
+    "reviver-object-non-configurable-prop-create.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-object-non-configurable-prop-create.js"),
+  );
+  it(
+    "reviver-object-non-configurable-prop-delete.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-object-non-configurable-prop-delete.js"),
+  );
+  it(
+    "reviver-object-own-keys-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-object-own-keys-err.js"),
+  );
+  it(
+    "reviver-wrapper.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/reviver-wrapper.js"),
+  );
+  it(
+    "text-negative-zero.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/text-negative-zero.js"),
+  );
+  it(
+    "text-non-string-primitive.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/text-non-string-primitive.js"),
+  );
+  it(
+    "text-object-abrupt.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/text-object-abrupt.js"),
+  );
+  it(
+    "text-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/JSON/parse/text-object.js"),
+  );
 });

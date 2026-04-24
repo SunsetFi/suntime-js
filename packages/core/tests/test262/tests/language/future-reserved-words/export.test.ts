@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("export.js", createTestHandler("language/future-reserved-words/export.js"));
+it(
+  "export.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/future-reserved-words/export.js"),
+);

@@ -2,527 +2,2867 @@ import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
 describe("PlainTime", () => {
-it("argument-convert.js", createTestHandler("built-ins/Temporal/PlainTime/argument-convert.js"));
-it("basic.js", createTestHandler("built-ins/Temporal/PlainTime/basic.js"));
-it("builtin.js", createTestHandler("built-ins/Temporal/PlainTime/builtin.js"));
-describe("compare", () => {
-it("argument-cast.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-cast.js"));
-it("argument-number.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-number.js"));
-it("argument-propertybag-optional-properties.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-propertybag-optional-properties.js"));
-it("argument-string-calendar-annotation-invalid-key.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-calendar-annotation-invalid-key.js"));
-it("argument-string-calendar-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-calendar-annotation.js"));
-it("argument-string-critical-unknown-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-critical-unknown-annotation.js"));
-it("argument-string-date-with-utc-offset.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-date-with-utc-offset.js"));
-it("argument-string-minus-sign.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-minus-sign.js"));
-it("argument-string-multiple-calendar.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-multiple-calendar.js"));
-it("argument-string-multiple-time-zone.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-multiple-time-zone.js"));
-it("argument-string-no-implicit-midnight.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-no-implicit-midnight.js"));
-it("argument-string-time-designator-required-for-disambiguation.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-time-designator-required-for-disambiguation.js"));
-it("argument-string-time-separators.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-time-separators.js"));
-it("argument-string-time-zone-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-time-zone-annotation.js"));
-it("argument-string-unknown-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-unknown-annotation.js"));
-it("argument-string-with-time-designator.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-with-time-designator.js"));
-it("argument-string-with-utc-designator.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-with-utc-designator.js"));
-it("argument-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-wrong-type.js"));
-it("argument-zoneddatetime-negative-epochnanoseconds.js", createTestHandler("built-ins/Temporal/PlainTime/compare/argument-zoneddatetime-negative-epochnanoseconds.js"));
-it("basic.js", createTestHandler("built-ins/Temporal/PlainTime/compare/basic.js"));
-it("builtin.js", createTestHandler("built-ins/Temporal/PlainTime/compare/builtin.js"));
-it("exhaustive.js", createTestHandler("built-ins/Temporal/PlainTime/compare/exhaustive.js"));
-it("leap-second.js", createTestHandler("built-ins/Temporal/PlainTime/compare/leap-second.js"));
-it("length.js", createTestHandler("built-ins/Temporal/PlainTime/compare/length.js"));
-it("name.js", createTestHandler("built-ins/Temporal/PlainTime/compare/name.js"));
-it("no-fractional-minutes-hours.js", createTestHandler("built-ins/Temporal/PlainTime/compare/no-fractional-minutes-hours.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/Temporal/PlainTime/compare/not-a-constructor.js"));
-it("plaintime-propertybag-no-time-units.js", createTestHandler("built-ins/Temporal/PlainTime/compare/plaintime-propertybag-no-time-units.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/compare/prop-desc.js"));
-it("use-internal-slots.js", createTestHandler("built-ins/Temporal/PlainTime/compare/use-internal-slots.js"));
-it("year-zero.js", createTestHandler("built-ins/Temporal/PlainTime/compare/year-zero.js"));
-});
-it("constructor.js", createTestHandler("built-ins/Temporal/PlainTime/constructor.js"));
-describe("from", () => {
-it("argument-number.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-number.js"));
-it("argument-object-leap-second.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-object-leap-second.js"));
-it("argument-object.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-object.js"));
-it("argument-plaindatetime.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-plaindatetime.js"));
-it("argument-plaintime.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-plaintime.js"));
-it("argument-propertybag-optional-properties.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-propertybag-optional-properties.js"));
-it("argument-string-calendar-annotation-invalid-key.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-calendar-annotation-invalid-key.js"));
-it("argument-string-calendar-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-calendar-annotation.js"));
-it("argument-string-critical-unknown-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-critical-unknown-annotation.js"));
-it("argument-string-date-with-utc-offset.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-date-with-utc-offset.js"));
-it("argument-string-invalid.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-invalid.js"));
-it("argument-string-leap-second.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-leap-second.js"));
-it("argument-string-minus-sign.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-minus-sign.js"));
-it("argument-string-multiple-calendar.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-multiple-calendar.js"));
-it("argument-string-multiple-time-zone.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-multiple-time-zone.js"));
-it("argument-string-no-implicit-midnight.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-no-implicit-midnight.js"));
-it("argument-string-time-designator-required-for-disambiguation.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-time-designator-required-for-disambiguation.js"));
-it("argument-string-time-separators.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-time-separators.js"));
-it("argument-string-time-zone-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-time-zone-annotation.js"));
-it("argument-string-trailing-junk.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-trailing-junk.js"));
-it("argument-string-unknown-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-unknown-annotation.js"));
-it("argument-string-with-time-designator.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-with-time-designator.js"));
-it("argument-string-with-utc-designator.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-with-utc-designator.js"));
-it("argument-string.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-string.js"));
-it("argument-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-wrong-type.js"));
-it("argument-zoneddatetime-balance-negative-time-units.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-zoneddatetime-balance-negative-time-units.js"));
-it("argument-zoneddatetime-negative-epochnanoseconds.js", createTestHandler("built-ins/Temporal/PlainTime/from/argument-zoneddatetime-negative-epochnanoseconds.js"));
-it("builtin.js", createTestHandler("built-ins/Temporal/PlainTime/from/builtin.js"));
-it("infinity-throws-rangeerror.js", createTestHandler("built-ins/Temporal/PlainTime/from/infinity-throws-rangeerror.js"));
-it("leap-second.js", createTestHandler("built-ins/Temporal/PlainTime/from/leap-second.js"));
-it("length.js", createTestHandler("built-ins/Temporal/PlainTime/from/length.js"));
-it("name.js", createTestHandler("built-ins/Temporal/PlainTime/from/name.js"));
-it("no-fractional-minutes-hours.js", createTestHandler("built-ins/Temporal/PlainTime/from/no-fractional-minutes-hours.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/Temporal/PlainTime/from/not-a-constructor.js"));
-it("observable-get-overflow-argument-string-invalid.js", createTestHandler("built-ins/Temporal/PlainTime/from/observable-get-overflow-argument-string-invalid.js"));
-it("options-invalid.js", createTestHandler("built-ins/Temporal/PlainTime/from/options-invalid.js"));
-it("options-object.js", createTestHandler("built-ins/Temporal/PlainTime/from/options-object.js"));
-it("options-read-before-algorithmic-validation.js", createTestHandler("built-ins/Temporal/PlainTime/from/options-read-before-algorithmic-validation.js"));
-it("options-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/from/options-undefined.js"));
-it("options-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/from/options-wrong-type.js"));
-it("order-of-operations.js", createTestHandler("built-ins/Temporal/PlainTime/from/order-of-operations.js"));
-it("overflow-constrain.js", createTestHandler("built-ins/Temporal/PlainTime/from/overflow-constrain.js"));
-it("overflow-invalid-string.js", createTestHandler("built-ins/Temporal/PlainTime/from/overflow-invalid-string.js"));
-it("overflow-reject.js", createTestHandler("built-ins/Temporal/PlainTime/from/overflow-reject.js"));
-it("overflow-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/from/overflow-undefined.js"));
-it("overflow-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/from/overflow-wrong-type.js"));
-it("plaintime-propertybag-no-time-units.js", createTestHandler("built-ins/Temporal/PlainTime/from/plaintime-propertybag-no-time-units.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/from/prop-desc.js"));
-it("subclassing-ignored.js", createTestHandler("built-ins/Temporal/PlainTime/from/subclassing-ignored.js"));
-it("year-zero.js", createTestHandler("built-ins/Temporal/PlainTime/from/year-zero.js"));
-});
-it("get-prototype-from-constructor-throws.js", createTestHandler("built-ins/Temporal/PlainTime/get-prototype-from-constructor-throws.js"));
-it("hour-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/hour-undefined.js"));
-it("infinity-throws-rangeerror.js", createTestHandler("built-ins/Temporal/PlainTime/infinity-throws-rangeerror.js"));
-it("length.js", createTestHandler("built-ins/Temporal/PlainTime/length.js"));
-it("microsecond-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/microsecond-undefined.js"));
-it("millisecond-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/millisecond-undefined.js"));
-it("minute-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/minute-undefined.js"));
-it("name.js", createTestHandler("built-ins/Temporal/PlainTime/name.js"));
-it("nanosecond-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/nanosecond-undefined.js"));
-it("negative-infinity-throws-rangeerror.js", createTestHandler("built-ins/Temporal/PlainTime/negative-infinity-throws-rangeerror.js"));
-it("negative-zero.js", createTestHandler("built-ins/Temporal/PlainTime/negative-zero.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prop-desc.js"));
-describe("prototype", () => {
-describe("add", () => {
-it("add-large-subseconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/add-large-subseconds.js"));
-it("argument-duration-max.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-duration-max.js"));
-it("argument-duration-out-of-range.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-duration-out-of-range.js"));
-it("argument-duration-precision-exact-numerical-values.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-duration-precision-exact-numerical-values.js"));
-it("argument-duration.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-duration.js"));
-it("argument-higher-units.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-higher-units.js"));
-it("argument-invalid-property.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-invalid-property.js"));
-it("argument-mixed-sign.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-mixed-sign.js"));
-it("argument-not-object.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-not-object.js"));
-it("argument-object.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-object.js"));
-it("argument-propertybag-optional-properties.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-propertybag-optional-properties.js"));
-it("argument-singular-properties.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-singular-properties.js"));
-it("argument-string-duration-too-large.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-string-duration-too-large.js"));
-it("argument-string-fractional-units-rounding-mode.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-string-fractional-units-rounding-mode.js"));
-it("argument-string-negative-fractional-units.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-string-negative-fractional-units.js"));
-it("argument-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-string.js"));
-it("balance-negative-time-units.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/balance-negative-time-units.js"));
-it("blank-duration.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/blank-duration.js"));
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/branding.js"));
-it("builtin.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/builtin.js"));
-it("infinity-throws-rangeerror.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/infinity-throws-rangeerror.js"));
-it("length.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/length.js"));
-it("name.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/name.js"));
-it("negative-infinity-throws-rangeerror.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/negative-infinity-throws-rangeerror.js"));
-it("non-integer-throws-rangeerror.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/non-integer-throws-rangeerror.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/not-a-constructor.js"));
-it("options-ignored.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/options-ignored.js"));
-it("order-of-operations.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/order-of-operations.js"));
-it("precision-exact-mathematical-values-1.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/precision-exact-mathematical-values-1.js"));
-it("precision-exact-mathematical-values-2.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/precision-exact-mathematical-values-2.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/prop-desc.js"));
-it("subclassing-ignored.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/add/subclassing-ignored.js"));
-});
-it("constructor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/constructor.js"));
-describe("equals", () => {
-it("argument-cast.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-cast.js"));
-it("argument-number.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-number.js"));
-it("argument-propertybag-optional-properties.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-propertybag-optional-properties.js"));
-it("argument-string-calendar-annotation-invalid-key.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-string-calendar-annotation-invalid-key.js"));
-it("argument-string-calendar-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-string-calendar-annotation.js"));
-it("argument-string-critical-unknown-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-string-critical-unknown-annotation.js"));
-it("argument-string-date-with-utc-offset.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-string-date-with-utc-offset.js"));
-it("argument-string-minus-sign.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-string-minus-sign.js"));
-it("argument-string-multiple-calendar.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-string-multiple-calendar.js"));
-it("argument-string-multiple-time-zone.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-string-multiple-time-zone.js"));
-it("argument-string-no-implicit-midnight.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-string-no-implicit-midnight.js"));
-it("argument-string-time-designator-required-for-disambiguation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-string-time-designator-required-for-disambiguation.js"));
-it("argument-string-time-separators.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-string-time-separators.js"));
-it("argument-string-time-zone-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-string-time-zone-annotation.js"));
-it("argument-string-unknown-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-string-unknown-annotation.js"));
-it("argument-string-with-time-designator.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-string-with-time-designator.js"));
-it("argument-string-with-utc-designator.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-string-with-utc-designator.js"));
-it("argument-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-wrong-type.js"));
-it("argument-zoneddatetime-balance-negative-time-units.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-zoneddatetime-balance-negative-time-units.js"));
-it("argument-zoneddatetime-negative-epochnanoseconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-zoneddatetime-negative-epochnanoseconds.js"));
-it("basic.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/basic.js"));
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/branding.js"));
-it("builtin.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/builtin.js"));
-it("leap-second.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/leap-second.js"));
-it("length.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/length.js"));
-it("name.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/name.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/not-a-constructor.js"));
-it("plaintime-propertybag-no-time-units.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/plaintime-propertybag-no-time-units.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/prop-desc.js"));
-it("year-zero.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/year-zero.js"));
-});
-describe("hour", () => {
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/hour/branding.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/hour/prop-desc.js"));
-});
-describe("microsecond", () => {
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/microsecond/branding.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/microsecond/prop-desc.js"));
-});
-describe("millisecond", () => {
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/millisecond/branding.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/millisecond/prop-desc.js"));
-});
-describe("minute", () => {
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/minute/branding.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/minute/prop-desc.js"));
-});
-describe("nanosecond", () => {
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/nanosecond/branding.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/nanosecond/prop-desc.js"));
-});
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/prop-desc.js"));
-describe("round", () => {
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/branding.js"));
-it("builtin.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/builtin.js"));
-it("length.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/length.js"));
-it("name.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/name.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/not-a-constructor.js"));
-it("options-read-before-algorithmic-validation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/options-read-before-algorithmic-validation.js"));
-it("options-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/options-wrong-type.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/prop-desc.js"));
-it("rounding-cross-midnight.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/rounding-cross-midnight.js"));
-it("roundingincrement-divides.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingincrement-divides.js"));
-it("roundingincrement-hours.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingincrement-hours.js"));
-it("roundingincrement-invalid.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingincrement-invalid.js"));
-it("roundingincrement-microseconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingincrement-microseconds.js"));
-it("roundingincrement-milliseconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingincrement-milliseconds.js"));
-it("roundingincrement-minutes.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingincrement-minutes.js"));
-it("roundingincrement-nan.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingincrement-nan.js"));
-it("roundingincrement-nanoseconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingincrement-nanoseconds.js"));
-it("roundingincrement-non-integer.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingincrement-non-integer.js"));
-it("roundingincrement-out-of-range.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingincrement-out-of-range.js"));
-it("roundingincrement-seconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingincrement-seconds.js"));
-it("roundingincrement-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingincrement-undefined.js"));
-it("roundingincrement-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingincrement-wrong-type.js"));
-it("roundingmode-ceil.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-ceil.js"));
-it("roundingmode-expand.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-expand.js"));
-it("roundingmode-floor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-floor.js"));
-it("roundingmode-halfCeil.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-halfCeil.js"));
-it("roundingmode-halfEven.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-halfEven.js"));
-it("roundingmode-halfExpand.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-halfExpand.js"));
-it("roundingmode-halfFloor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-halfFloor.js"));
-it("roundingmode-halfTrunc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-halfTrunc.js"));
-it("roundingmode-invalid-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-invalid-string.js"));
-it("roundingmode-trunc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-trunc.js"));
-it("roundingmode-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-undefined.js"));
-it("roundingmode-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-wrong-type.js"));
-it("roundto-invalid-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundto-invalid-string.js"));
-it("smallestunit-invalid-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/smallestunit-invalid-string.js"));
-it("smallestunit-missing.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/smallestunit-missing.js"));
-it("smallestunit-plurals-accepted.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/smallestunit-plurals-accepted.js"));
-it("smallestunit-string-shorthand.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/smallestunit-string-shorthand.js"));
-it("smallestunit-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/smallestunit-wrong-type.js"));
-it("subclassing-ignored.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/round/subclassing-ignored.js"));
-});
-describe("second", () => {
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/second/branding.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/second/prop-desc.js"));
-});
-describe("since", () => {
-it("argument-cast.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-cast.js"));
-it("argument-number.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-number.js"));
-it("argument-propertybag-optional-properties.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-propertybag-optional-properties.js"));
-it("argument-string-calendar-annotation-invalid-key.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-string-calendar-annotation-invalid-key.js"));
-it("argument-string-calendar-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-string-calendar-annotation.js"));
-it("argument-string-critical-unknown-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-string-critical-unknown-annotation.js"));
-it("argument-string-date-with-utc-offset.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-string-date-with-utc-offset.js"));
-it("argument-string-minus-sign.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-string-minus-sign.js"));
-it("argument-string-multiple-calendar.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-string-multiple-calendar.js"));
-it("argument-string-multiple-time-zone.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-string-multiple-time-zone.js"));
-it("argument-string-no-implicit-midnight.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-string-no-implicit-midnight.js"));
-it("argument-string-time-designator-required-for-disambiguation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-string-time-designator-required-for-disambiguation.js"));
-it("argument-string-time-separators.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-string-time-separators.js"));
-it("argument-string-time-zone-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-string-time-zone-annotation.js"));
-it("argument-string-unknown-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-string-unknown-annotation.js"));
-it("argument-string-with-time-designator.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-string-with-time-designator.js"));
-it("argument-string-with-utc-designator.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-string-with-utc-designator.js"));
-it("argument-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-wrong-type.js"));
-it("argument-zoneddatetime-balance-negative-time-units.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-zoneddatetime-balance-negative-time-units.js"));
-it("argument-zoneddatetime-negative-epochnanoseconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-zoneddatetime-negative-epochnanoseconds.js"));
-it("balance-negative-time-units.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/balance-negative-time-units.js"));
-it("basic.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/basic.js"));
-it("blank-result.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/blank-result.js"));
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/branding.js"));
-it("builtin.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/builtin.js"));
-it("largestunit-invalid-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/largestunit-invalid-string.js"));
-it("largestunit-plurals-accepted.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/largestunit-plurals-accepted.js"));
-it("largestunit-smallestunit-mismatch.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/largestunit-smallestunit-mismatch.js"));
-it("largestunit-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/largestunit-undefined.js"));
-it("largestunit-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/largestunit-wrong-type.js"));
-it("largestunit.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/largestunit.js"));
-it("leap-second.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/leap-second.js"));
-it("length.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/length.js"));
-it("name.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/name.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/not-a-constructor.js"));
-it("options-invalid.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/options-invalid.js"));
-it("options-object.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/options-object.js"));
-it("options-read-before-algorithmic-validation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/options-read-before-algorithmic-validation.js"));
-it("options-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/options-undefined.js"));
-it("options-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/options-wrong-type.js"));
-it("order-of-operations.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/order-of-operations.js"));
-it("plaintime-propertybag-no-time-units.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/plaintime-propertybag-no-time-units.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/prop-desc.js"));
-it("result-sub-second.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/result-sub-second.js"));
-it("round-cross-unit-boundary.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/round-cross-unit-boundary.js"));
-it("roundingincrement-hours.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingincrement-hours.js"));
-it("roundingincrement-invalid.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingincrement-invalid.js"));
-it("roundingincrement-microseconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingincrement-microseconds.js"));
-it("roundingincrement-milliseconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingincrement-milliseconds.js"));
-it("roundingincrement-minutes.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingincrement-minutes.js"));
-it("roundingincrement-nan.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingincrement-nan.js"));
-it("roundingincrement-nanoseconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingincrement-nanoseconds.js"));
-it("roundingincrement-non-integer.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingincrement-non-integer.js"));
-it("roundingincrement-out-of-range.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingincrement-out-of-range.js"));
-it("roundingincrement-seconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingincrement-seconds.js"));
-it("roundingincrement-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingincrement-undefined.js"));
-it("roundingincrement-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingincrement-wrong-type.js"));
-it("roundingmode-ceil.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-ceil.js"));
-it("roundingmode-expand.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-expand.js"));
-it("roundingmode-floor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-floor.js"));
-it("roundingmode-halfCeil.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-halfCeil.js"));
-it("roundingmode-halfEven.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-halfEven.js"));
-it("roundingmode-halfExpand.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-halfExpand.js"));
-it("roundingmode-halfFloor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-halfFloor.js"));
-it("roundingmode-halfTrunc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-halfTrunc.js"));
-it("roundingmode-invalid-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-invalid-string.js"));
-it("roundingmode-trunc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-trunc.js"));
-it("roundingmode-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-undefined.js"));
-it("roundingmode-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-wrong-type.js"));
-it("smallestunit-invalid-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/smallestunit-invalid-string.js"));
-it("smallestunit-plurals-accepted.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/smallestunit-plurals-accepted.js"));
-it("smallestunit-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/smallestunit-undefined.js"));
-it("smallestunit-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/smallestunit-wrong-type.js"));
-it("year-zero.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/since/year-zero.js"));
-});
-describe("subtract", () => {
-it("argument-duration-max.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-duration-max.js"));
-it("argument-duration-out-of-range.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-duration-out-of-range.js"));
-it("argument-duration-precision-exact-numerical-values.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-duration-precision-exact-numerical-values.js"));
-it("argument-duration.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-duration.js"));
-it("argument-higher-units.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-higher-units.js"));
-it("argument-invalid-property.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-invalid-property.js"));
-it("argument-mixed-sign.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-mixed-sign.js"));
-it("argument-not-object.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-not-object.js"));
-it("argument-object.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-object.js"));
-it("argument-propertybag-optional-properties.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-propertybag-optional-properties.js"));
-it("argument-singular-properties.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-singular-properties.js"));
-it("argument-string-duration-too-large.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-string-duration-too-large.js"));
-it("argument-string-fractional-units-rounding-mode.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-string-fractional-units-rounding-mode.js"));
-it("argument-string-negative-fractional-units.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-string-negative-fractional-units.js"));
-it("argument-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-string.js"));
-it("balance-negative-time-units.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/balance-negative-time-units.js"));
-it("blank-duration.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/blank-duration.js"));
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/branding.js"));
-it("builtin.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/builtin.js"));
-it("infinity-throws-rangeerror.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/infinity-throws-rangeerror.js"));
-it("length.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/length.js"));
-it("name.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/name.js"));
-it("negative-infinity-throws-rangeerror.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/negative-infinity-throws-rangeerror.js"));
-it("non-integer-throws-rangeerror.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/non-integer-throws-rangeerror.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/not-a-constructor.js"));
-it("options-ignored.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/options-ignored.js"));
-it("order-of-operations.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/order-of-operations.js"));
-it("precision-exact-mathematical-values-1.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/precision-exact-mathematical-values-1.js"));
-it("precision-exact-mathematical-values-2.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/precision-exact-mathematical-values-2.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/prop-desc.js"));
-it("subclassing-ignored.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/subclassing-ignored.js"));
-it("subtract-large-subseconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/subtract-large-subseconds.js"));
-});
-describe("toJSON", () => {
-it("basic.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toJSON/basic.js"));
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toJSON/branding.js"));
-it("builtin.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toJSON/builtin.js"));
-it("length.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toJSON/length.js"));
-it("name.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toJSON/name.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toJSON/not-a-constructor.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toJSON/prop-desc.js"));
-});
-describe("toLocaleString", () => {
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toLocaleString/branding.js"));
-it("builtin.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toLocaleString/builtin.js"));
-it("length.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toLocaleString/length.js"));
-it("name.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toLocaleString/name.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toLocaleString/not-a-constructor.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toLocaleString/prop-desc.js"));
-it("return-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toLocaleString/return-string.js"));
-});
-describe("toString", () => {
-it("basic.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/basic.js"));
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/branding.js"));
-it("builtin.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/builtin.js"));
-it("fractionalseconddigits-auto.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-auto.js"));
-it("fractionalseconddigits-invalid-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-invalid-string.js"));
-it("fractionalseconddigits-nan.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-nan.js"));
-it("fractionalseconddigits-non-integer.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-non-integer.js"));
-it("fractionalseconddigits-number.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-number.js"));
-it("fractionalseconddigits-out-of-range.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-out-of-range.js"));
-it("fractionalseconddigits-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-undefined.js"));
-it("fractionalseconddigits-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-wrong-type.js"));
-it("length.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/length.js"));
-it("name.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/name.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/not-a-constructor.js"));
-it("options-invalid.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/options-invalid.js"));
-it("options-object.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/options-object.js"));
-it("options-read-before-algorithmic-validation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/options-read-before-algorithmic-validation.js"));
-it("options-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/options-undefined.js"));
-it("options-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/options-wrong-type.js"));
-it("order-of-operations.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/order-of-operations.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/prop-desc.js"));
-it("rounding-cross-midnight.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/rounding-cross-midnight.js"));
-it("roundingmode-ceil.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-ceil.js"));
-it("roundingmode-expand.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-expand.js"));
-it("roundingmode-floor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-floor.js"));
-it("roundingmode-halfCeil.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-halfCeil.js"));
-it("roundingmode-halfEven.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-halfEven.js"));
-it("roundingmode-halfExpand.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-halfExpand.js"));
-it("roundingmode-halfFloor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-halfFloor.js"));
-it("roundingmode-halfTrunc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-halfTrunc.js"));
-it("roundingmode-invalid-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-invalid-string.js"));
-it("roundingmode-trunc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-trunc.js"));
-it("roundingmode-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-undefined.js"));
-it("roundingmode-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-wrong-type.js"));
-it("smallestunit-fractionalseconddigits.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/smallestunit-fractionalseconddigits.js"));
-it("smallestunit-invalid-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/smallestunit-invalid-string.js"));
-it("smallestunit-plurals-accepted.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/smallestunit-plurals-accepted.js"));
-it("smallestunit-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/smallestunit-undefined.js"));
-it("smallestunit-valid-units.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/smallestunit-valid-units.js"));
-it("smallestunit-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/smallestunit-wrong-type.js"));
-});
-describe("toStringTag", () => {
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/toStringTag/prop-desc.js"));
-});
-describe("until", () => {
-it("argument-cast.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-cast.js"));
-it("argument-number.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-number.js"));
-it("argument-propertybag-optional-properties.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-propertybag-optional-properties.js"));
-it("argument-string-calendar-annotation-invalid-key.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-string-calendar-annotation-invalid-key.js"));
-it("argument-string-calendar-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-string-calendar-annotation.js"));
-it("argument-string-critical-unknown-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-string-critical-unknown-annotation.js"));
-it("argument-string-date-with-utc-offset.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-string-date-with-utc-offset.js"));
-it("argument-string-minus-sign.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-string-minus-sign.js"));
-it("argument-string-multiple-calendar.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-string-multiple-calendar.js"));
-it("argument-string-multiple-time-zone.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-string-multiple-time-zone.js"));
-it("argument-string-no-implicit-midnight.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-string-no-implicit-midnight.js"));
-it("argument-string-time-designator-required-for-disambiguation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-string-time-designator-required-for-disambiguation.js"));
-it("argument-string-time-separators.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-string-time-separators.js"));
-it("argument-string-time-zone-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-string-time-zone-annotation.js"));
-it("argument-string-unknown-annotation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-string-unknown-annotation.js"));
-it("argument-string-with-time-designator.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-string-with-time-designator.js"));
-it("argument-string-with-utc-designator.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-string-with-utc-designator.js"));
-it("argument-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-wrong-type.js"));
-it("argument-zoneddatetime-balance-negative-time-units.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-zoneddatetime-balance-negative-time-units.js"));
-it("argument-zoneddatetime-negative-epochnanoseconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-zoneddatetime-negative-epochnanoseconds.js"));
-it("balance-negative-time-units.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/balance-negative-time-units.js"));
-it("basic.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/basic.js"));
-it("blank-result.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/blank-result.js"));
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/branding.js"));
-it("builtin.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/builtin.js"));
-it("largestunit-invalid-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/largestunit-invalid-string.js"));
-it("largestunit-plurals-accepted.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/largestunit-plurals-accepted.js"));
-it("largestunit-smallestunit-mismatch.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/largestunit-smallestunit-mismatch.js"));
-it("largestunit-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/largestunit-undefined.js"));
-it("largestunit-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/largestunit-wrong-type.js"));
-it("largestunit.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/largestunit.js"));
-it("leap-second.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/leap-second.js"));
-it("length.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/length.js"));
-it("name.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/name.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/not-a-constructor.js"));
-it("options-invalid.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/options-invalid.js"));
-it("options-object.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/options-object.js"));
-it("options-read-before-algorithmic-validation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/options-read-before-algorithmic-validation.js"));
-it("options-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/options-undefined.js"));
-it("options-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/options-wrong-type.js"));
-it("order-of-operations.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/order-of-operations.js"));
-it("plaintime-propertybag-no-time-units.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/plaintime-propertybag-no-time-units.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/prop-desc.js"));
-it("result-sub-second.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/result-sub-second.js"));
-it("round-cross-unit-boundary.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/round-cross-unit-boundary.js"));
-it("roundingincrement-hours.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingincrement-hours.js"));
-it("roundingincrement-invalid.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingincrement-invalid.js"));
-it("roundingincrement-microseconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingincrement-microseconds.js"));
-it("roundingincrement-milliseconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingincrement-milliseconds.js"));
-it("roundingincrement-minutes.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingincrement-minutes.js"));
-it("roundingincrement-nan.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingincrement-nan.js"));
-it("roundingincrement-nanoseconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingincrement-nanoseconds.js"));
-it("roundingincrement-non-integer.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingincrement-non-integer.js"));
-it("roundingincrement-out-of-range.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingincrement-out-of-range.js"));
-it("roundingincrement-seconds.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingincrement-seconds.js"));
-it("roundingincrement-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingincrement-undefined.js"));
-it("roundingincrement-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingincrement-wrong-type.js"));
-it("roundingmode-ceil.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-ceil.js"));
-it("roundingmode-expand.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-expand.js"));
-it("roundingmode-floor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-floor.js"));
-it("roundingmode-halfCeil.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-halfCeil.js"));
-it("roundingmode-halfEven.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-halfEven.js"));
-it("roundingmode-halfExpand.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-halfExpand.js"));
-it("roundingmode-halfFloor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-halfFloor.js"));
-it("roundingmode-halfTrunc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-halfTrunc.js"));
-it("roundingmode-invalid-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-invalid-string.js"));
-it("roundingmode-trunc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-trunc.js"));
-it("roundingmode-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-undefined.js"));
-it("roundingmode-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-wrong-type.js"));
-it("smallestunit-invalid-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/smallestunit-invalid-string.js"));
-it("smallestunit-plurals-accepted.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/smallestunit-plurals-accepted.js"));
-it("smallestunit-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/smallestunit-undefined.js"));
-it("smallestunit-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/smallestunit-wrong-type.js"));
-it("year-zero.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/until/year-zero.js"));
-});
-describe("valueOf", () => {
-it("basic.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/valueOf/basic.js"));
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/valueOf/branding.js"));
-it("builtin.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/valueOf/builtin.js"));
-it("length.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/valueOf/length.js"));
-it("name.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/valueOf/name.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/valueOf/not-a-constructor.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/valueOf/prop-desc.js"));
-});
-describe("with", () => {
-it("argument-not-object.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/argument-not-object.js"));
-it("basic.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/basic.js"));
-it("branding.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/branding.js"));
-it("builtin.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/builtin.js"));
-it("copy-properties-not-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/copy-properties-not-undefined.js"));
-it("infinity-throws-rangeerror.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/infinity-throws-rangeerror.js"));
-it("length.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/length.js"));
-it("name.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/name.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/not-a-constructor.js"));
-it("options-invalid.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/options-invalid.js"));
-it("options-object.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/options-object.js"));
-it("options-read-before-algorithmic-validation.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/options-read-before-algorithmic-validation.js"));
-it("options-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/options-undefined.js"));
-it("options-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/options-wrong-type.js"));
-it("order-of-operations.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/order-of-operations.js"));
-it("overflow-invalid-string.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/overflow-invalid-string.js"));
-it("overflow-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/overflow-undefined.js"));
-it("overflow-wrong-type.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/overflow-wrong-type.js"));
-it("plaintimelike-invalid.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/plaintimelike-invalid.js"));
-it("prop-desc.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/prop-desc.js"));
-it("subclassing-ignored.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/subclassing-ignored.js"));
-it("throws-if-time-is-invalid-when-overflow-is-reject.js", createTestHandler("built-ins/Temporal/PlainTime/prototype/with/throws-if-time-is-invalid-when-overflow-is-reject.js"));
-});
-});
-it("second-undefined.js", createTestHandler("built-ins/Temporal/PlainTime/second-undefined.js"));
-it("subclass.js", createTestHandler("built-ins/Temporal/PlainTime/subclass.js"));
-it("throws-if-time-is-invalid.js", createTestHandler("built-ins/Temporal/PlainTime/throws-if-time-is-invalid.js"));
+  it(
+    "argument-convert.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/argument-convert.js"),
+  );
+  it(
+    "basic.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/basic.js"),
+  );
+  it(
+    "builtin.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/builtin.js"),
+  );
+  describe("compare", () => {
+    it(
+      "argument-cast.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/argument-cast.js"),
+    );
+    it(
+      "argument-number.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/argument-number.js"),
+    );
+    it(
+      "argument-propertybag-optional-properties.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/compare/argument-propertybag-optional-properties.js",
+      ),
+    );
+    it(
+      "argument-string-calendar-annotation-invalid-key.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/compare/argument-string-calendar-annotation-invalid-key.js",
+      ),
+    );
+    it(
+      "argument-string-calendar-annotation.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/compare/argument-string-calendar-annotation.js",
+      ),
+    );
+    it(
+      "argument-string-critical-unknown-annotation.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/compare/argument-string-critical-unknown-annotation.js",
+      ),
+    );
+    it(
+      "argument-string-date-with-utc-offset.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/compare/argument-string-date-with-utc-offset.js",
+      ),
+    );
+    it(
+      "argument-string-minus-sign.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-minus-sign.js"),
+    );
+    it(
+      "argument-string-multiple-calendar.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/compare/argument-string-multiple-calendar.js",
+      ),
+    );
+    it(
+      "argument-string-multiple-time-zone.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/compare/argument-string-multiple-time-zone.js",
+      ),
+    );
+    it(
+      "argument-string-no-implicit-midnight.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/compare/argument-string-no-implicit-midnight.js",
+      ),
+    );
+    it(
+      "argument-string-time-designator-required-for-disambiguation.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/compare/argument-string-time-designator-required-for-disambiguation.js",
+      ),
+    );
+    it(
+      "argument-string-time-separators.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/argument-string-time-separators.js"),
+    );
+    it(
+      "argument-string-time-zone-annotation.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/compare/argument-string-time-zone-annotation.js",
+      ),
+    );
+    it(
+      "argument-string-unknown-annotation.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/compare/argument-string-unknown-annotation.js",
+      ),
+    );
+    it(
+      "argument-string-with-time-designator.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/compare/argument-string-with-time-designator.js",
+      ),
+    );
+    it(
+      "argument-string-with-utc-designator.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/compare/argument-string-with-utc-designator.js",
+      ),
+    );
+    it(
+      "argument-wrong-type.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/argument-wrong-type.js"),
+    );
+    it(
+      "argument-zoneddatetime-negative-epochnanoseconds.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/compare/argument-zoneddatetime-negative-epochnanoseconds.js",
+      ),
+    );
+    it(
+      "basic.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/basic.js"),
+    );
+    it(
+      "builtin.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/builtin.js"),
+    );
+    it(
+      "exhaustive.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/exhaustive.js"),
+    );
+    it(
+      "leap-second.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/leap-second.js"),
+    );
+    it(
+      "length.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/length.js"),
+    );
+    it(
+      "name.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/name.js"),
+    );
+    it(
+      "no-fractional-minutes-hours.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/no-fractional-minutes-hours.js"),
+    );
+    it(
+      "not-a-constructor.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/not-a-constructor.js"),
+    );
+    it(
+      "plaintime-propertybag-no-time-units.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/compare/plaintime-propertybag-no-time-units.js",
+      ),
+    );
+    it(
+      "prop-desc.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/prop-desc.js"),
+    );
+    it(
+      "use-internal-slots.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/use-internal-slots.js"),
+    );
+    it(
+      "year-zero.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/compare/year-zero.js"),
+    );
+  });
+  it(
+    "constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/constructor.js"),
+  );
+  describe("from", () => {
+    it(
+      "argument-number.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-number.js"),
+    );
+    it(
+      "argument-object-leap-second.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-object-leap-second.js"),
+    );
+    it(
+      "argument-object.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-object.js"),
+    );
+    it(
+      "argument-plaindatetime.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-plaindatetime.js"),
+    );
+    it(
+      "argument-plaintime.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-plaintime.js"),
+    );
+    it(
+      "argument-propertybag-optional-properties.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/from/argument-propertybag-optional-properties.js",
+      ),
+    );
+    it(
+      "argument-string-calendar-annotation-invalid-key.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/from/argument-string-calendar-annotation-invalid-key.js",
+      ),
+    );
+    it(
+      "argument-string-calendar-annotation.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-calendar-annotation.js"),
+    );
+    it(
+      "argument-string-critical-unknown-annotation.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/from/argument-string-critical-unknown-annotation.js",
+      ),
+    );
+    it(
+      "argument-string-date-with-utc-offset.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/from/argument-string-date-with-utc-offset.js",
+      ),
+    );
+    it(
+      "argument-string-invalid.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-invalid.js"),
+    );
+    it(
+      "argument-string-leap-second.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-leap-second.js"),
+    );
+    it(
+      "argument-string-minus-sign.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-minus-sign.js"),
+    );
+    it(
+      "argument-string-multiple-calendar.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-multiple-calendar.js"),
+    );
+    it(
+      "argument-string-multiple-time-zone.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-multiple-time-zone.js"),
+    );
+    it(
+      "argument-string-no-implicit-midnight.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/from/argument-string-no-implicit-midnight.js",
+      ),
+    );
+    it(
+      "argument-string-time-designator-required-for-disambiguation.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/from/argument-string-time-designator-required-for-disambiguation.js",
+      ),
+    );
+    it(
+      "argument-string-time-separators.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-time-separators.js"),
+    );
+    it(
+      "argument-string-time-zone-annotation.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/from/argument-string-time-zone-annotation.js",
+      ),
+    );
+    it(
+      "argument-string-trailing-junk.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-trailing-junk.js"),
+    );
+    it(
+      "argument-string-unknown-annotation.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-unknown-annotation.js"),
+    );
+    it(
+      "argument-string-with-time-designator.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/from/argument-string-with-time-designator.js",
+      ),
+    );
+    it(
+      "argument-string-with-utc-designator.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-string-with-utc-designator.js"),
+    );
+    it(
+      "argument-string.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-string.js"),
+    );
+    it(
+      "argument-wrong-type.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/argument-wrong-type.js"),
+    );
+    it(
+      "argument-zoneddatetime-balance-negative-time-units.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/from/argument-zoneddatetime-balance-negative-time-units.js",
+      ),
+    );
+    it(
+      "argument-zoneddatetime-negative-epochnanoseconds.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/from/argument-zoneddatetime-negative-epochnanoseconds.js",
+      ),
+    );
+    it(
+      "builtin.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/builtin.js"),
+    );
+    it(
+      "infinity-throws-rangeerror.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/infinity-throws-rangeerror.js"),
+    );
+    it(
+      "leap-second.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/leap-second.js"),
+    );
+    it(
+      "length.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/length.js"),
+    );
+    it(
+      "name.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/name.js"),
+    );
+    it(
+      "no-fractional-minutes-hours.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/no-fractional-minutes-hours.js"),
+    );
+    it(
+      "not-a-constructor.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/not-a-constructor.js"),
+    );
+    it(
+      "observable-get-overflow-argument-string-invalid.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/from/observable-get-overflow-argument-string-invalid.js",
+      ),
+    );
+    it(
+      "options-invalid.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/options-invalid.js"),
+    );
+    it(
+      "options-object.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/options-object.js"),
+    );
+    it(
+      "options-read-before-algorithmic-validation.js",
+      { tags: ["known-failing"] },
+      createTestHandler(
+        "built-ins/Temporal/PlainTime/from/options-read-before-algorithmic-validation.js",
+      ),
+    );
+    it(
+      "options-undefined.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/options-undefined.js"),
+    );
+    it(
+      "options-wrong-type.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/options-wrong-type.js"),
+    );
+    it(
+      "order-of-operations.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/order-of-operations.js"),
+    );
+    it(
+      "overflow-constrain.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/overflow-constrain.js"),
+    );
+    it(
+      "overflow-invalid-string.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/overflow-invalid-string.js"),
+    );
+    it(
+      "overflow-reject.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/overflow-reject.js"),
+    );
+    it(
+      "overflow-undefined.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/overflow-undefined.js"),
+    );
+    it(
+      "overflow-wrong-type.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/overflow-wrong-type.js"),
+    );
+    it(
+      "plaintime-propertybag-no-time-units.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/plaintime-propertybag-no-time-units.js"),
+    );
+    it(
+      "prop-desc.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/prop-desc.js"),
+    );
+    it(
+      "subclassing-ignored.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/subclassing-ignored.js"),
+    );
+    it(
+      "year-zero.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/from/year-zero.js"),
+    );
+  });
+  it(
+    "get-prototype-from-constructor-throws.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/get-prototype-from-constructor-throws.js"),
+  );
+  it(
+    "hour-undefined.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/hour-undefined.js"),
+  );
+  it(
+    "infinity-throws-rangeerror.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/infinity-throws-rangeerror.js"),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/length.js"),
+  );
+  it(
+    "microsecond-undefined.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/microsecond-undefined.js"),
+  );
+  it(
+    "millisecond-undefined.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/millisecond-undefined.js"),
+  );
+  it(
+    "minute-undefined.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/minute-undefined.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/name.js"),
+  );
+  it(
+    "nanosecond-undefined.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/nanosecond-undefined.js"),
+  );
+  it(
+    "negative-infinity-throws-rangeerror.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/negative-infinity-throws-rangeerror.js"),
+  );
+  it(
+    "negative-zero.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/negative-zero.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/prop-desc.js"),
+  );
+  describe("prototype", () => {
+    describe("add", () => {
+      it(
+        "add-large-subseconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/add-large-subseconds.js"),
+      );
+      it(
+        "argument-duration-max.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-duration-max.js"),
+      );
+      it(
+        "argument-duration-out-of-range.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/add/argument-duration-out-of-range.js",
+        ),
+      );
+      it(
+        "argument-duration-precision-exact-numerical-values.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/add/argument-duration-precision-exact-numerical-values.js",
+        ),
+      );
+      it(
+        "argument-duration.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-duration.js"),
+      );
+      it(
+        "argument-higher-units.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-higher-units.js"),
+      );
+      it(
+        "argument-invalid-property.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/add/argument-invalid-property.js",
+        ),
+      );
+      it(
+        "argument-mixed-sign.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-mixed-sign.js"),
+      );
+      it(
+        "argument-not-object.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-not-object.js"),
+      );
+      it(
+        "argument-object.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-object.js"),
+      );
+      it(
+        "argument-propertybag-optional-properties.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/add/argument-propertybag-optional-properties.js",
+        ),
+      );
+      it(
+        "argument-singular-properties.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/add/argument-singular-properties.js",
+        ),
+      );
+      it(
+        "argument-string-duration-too-large.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/add/argument-string-duration-too-large.js",
+        ),
+      );
+      it(
+        "argument-string-fractional-units-rounding-mode.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/add/argument-string-fractional-units-rounding-mode.js",
+        ),
+      );
+      it(
+        "argument-string-negative-fractional-units.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/add/argument-string-negative-fractional-units.js",
+        ),
+      );
+      it(
+        "argument-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/argument-string.js"),
+      );
+      it(
+        "balance-negative-time-units.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/add/balance-negative-time-units.js",
+        ),
+      );
+      it(
+        "blank-duration.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/blank-duration.js"),
+      );
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/branding.js"),
+      );
+      it(
+        "builtin.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/builtin.js"),
+      );
+      it(
+        "infinity-throws-rangeerror.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/add/infinity-throws-rangeerror.js",
+        ),
+      );
+      it(
+        "length.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/length.js"),
+      );
+      it(
+        "name.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/name.js"),
+      );
+      it(
+        "negative-infinity-throws-rangeerror.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/add/negative-infinity-throws-rangeerror.js",
+        ),
+      );
+      it(
+        "non-integer-throws-rangeerror.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/add/non-integer-throws-rangeerror.js",
+        ),
+      );
+      it(
+        "not-a-constructor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/not-a-constructor.js"),
+      );
+      it(
+        "options-ignored.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/options-ignored.js"),
+      );
+      it(
+        "order-of-operations.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/order-of-operations.js"),
+      );
+      it(
+        "precision-exact-mathematical-values-1.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/add/precision-exact-mathematical-values-1.js",
+        ),
+      );
+      it(
+        "precision-exact-mathematical-values-2.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/add/precision-exact-mathematical-values-2.js",
+        ),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/prop-desc.js"),
+      );
+      it(
+        "subclassing-ignored.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/add/subclassing-ignored.js"),
+      );
+    });
+    it(
+      "constructor.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/prototype/constructor.js"),
+    );
+    describe("equals", () => {
+      it(
+        "argument-cast.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-cast.js"),
+      );
+      it(
+        "argument-number.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-number.js"),
+      );
+      it(
+        "argument-propertybag-optional-properties.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-propertybag-optional-properties.js",
+        ),
+      );
+      it(
+        "argument-string-calendar-annotation-invalid-key.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-string-calendar-annotation-invalid-key.js",
+        ),
+      );
+      it(
+        "argument-string-calendar-annotation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-string-calendar-annotation.js",
+        ),
+      );
+      it(
+        "argument-string-critical-unknown-annotation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-string-critical-unknown-annotation.js",
+        ),
+      );
+      it(
+        "argument-string-date-with-utc-offset.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-string-date-with-utc-offset.js",
+        ),
+      );
+      it(
+        "argument-string-minus-sign.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-string-minus-sign.js",
+        ),
+      );
+      it(
+        "argument-string-multiple-calendar.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-string-multiple-calendar.js",
+        ),
+      );
+      it(
+        "argument-string-multiple-time-zone.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-string-multiple-time-zone.js",
+        ),
+      );
+      it(
+        "argument-string-no-implicit-midnight.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-string-no-implicit-midnight.js",
+        ),
+      );
+      it(
+        "argument-string-time-designator-required-for-disambiguation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-string-time-designator-required-for-disambiguation.js",
+        ),
+      );
+      it(
+        "argument-string-time-separators.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-string-time-separators.js",
+        ),
+      );
+      it(
+        "argument-string-time-zone-annotation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-string-time-zone-annotation.js",
+        ),
+      );
+      it(
+        "argument-string-unknown-annotation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-string-unknown-annotation.js",
+        ),
+      );
+      it(
+        "argument-string-with-time-designator.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-string-with-time-designator.js",
+        ),
+      );
+      it(
+        "argument-string-with-utc-designator.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-string-with-utc-designator.js",
+        ),
+      );
+      it(
+        "argument-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/argument-wrong-type.js"),
+      );
+      it(
+        "argument-zoneddatetime-balance-negative-time-units.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-zoneddatetime-balance-negative-time-units.js",
+        ),
+      );
+      it(
+        "argument-zoneddatetime-negative-epochnanoseconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/argument-zoneddatetime-negative-epochnanoseconds.js",
+        ),
+      );
+      it(
+        "basic.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/basic.js"),
+      );
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/branding.js"),
+      );
+      it(
+        "builtin.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/builtin.js"),
+      );
+      it(
+        "leap-second.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/leap-second.js"),
+      );
+      it(
+        "length.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/length.js"),
+      );
+      it(
+        "name.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/name.js"),
+      );
+      it(
+        "not-a-constructor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/not-a-constructor.js"),
+      );
+      it(
+        "plaintime-propertybag-no-time-units.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/equals/plaintime-propertybag-no-time-units.js",
+        ),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/prop-desc.js"),
+      );
+      it(
+        "year-zero.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/equals/year-zero.js"),
+      );
+    });
+    describe("hour", () => {
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/hour/branding.js"),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/hour/prop-desc.js"),
+      );
+    });
+    describe("microsecond", () => {
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/microsecond/branding.js"),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/microsecond/prop-desc.js"),
+      );
+    });
+    describe("millisecond", () => {
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/millisecond/branding.js"),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/millisecond/prop-desc.js"),
+      );
+    });
+    describe("minute", () => {
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/minute/branding.js"),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/minute/prop-desc.js"),
+      );
+    });
+    describe("nanosecond", () => {
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/nanosecond/branding.js"),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/nanosecond/prop-desc.js"),
+      );
+    });
+    it(
+      "prop-desc.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Temporal/PlainTime/prototype/prop-desc.js"),
+    );
+    describe("round", () => {
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/branding.js"),
+      );
+      it(
+        "builtin.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/builtin.js"),
+      );
+      it(
+        "length.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/length.js"),
+      );
+      it(
+        "name.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/name.js"),
+      );
+      it(
+        "not-a-constructor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/not-a-constructor.js"),
+      );
+      it(
+        "options-read-before-algorithmic-validation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/options-read-before-algorithmic-validation.js",
+        ),
+      );
+      it(
+        "options-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/options-wrong-type.js"),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/prop-desc.js"),
+      );
+      it(
+        "rounding-cross-midnight.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/rounding-cross-midnight.js",
+        ),
+      );
+      it(
+        "roundingincrement-divides.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/roundingincrement-divides.js",
+        ),
+      );
+      it(
+        "roundingincrement-hours.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/roundingincrement-hours.js",
+        ),
+      );
+      it(
+        "roundingincrement-invalid.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/roundingincrement-invalid.js",
+        ),
+      );
+      it(
+        "roundingincrement-microseconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/roundingincrement-microseconds.js",
+        ),
+      );
+      it(
+        "roundingincrement-milliseconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/roundingincrement-milliseconds.js",
+        ),
+      );
+      it(
+        "roundingincrement-minutes.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/roundingincrement-minutes.js",
+        ),
+      );
+      it(
+        "roundingincrement-nan.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingincrement-nan.js"),
+      );
+      it(
+        "roundingincrement-nanoseconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/roundingincrement-nanoseconds.js",
+        ),
+      );
+      it(
+        "roundingincrement-non-integer.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/roundingincrement-non-integer.js",
+        ),
+      );
+      it(
+        "roundingincrement-out-of-range.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/roundingincrement-out-of-range.js",
+        ),
+      );
+      it(
+        "roundingincrement-seconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/roundingincrement-seconds.js",
+        ),
+      );
+      it(
+        "roundingincrement-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/roundingincrement-undefined.js",
+        ),
+      );
+      it(
+        "roundingincrement-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/roundingincrement-wrong-type.js",
+        ),
+      );
+      it(
+        "roundingmode-ceil.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-ceil.js"),
+      );
+      it(
+        "roundingmode-expand.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-expand.js"),
+      );
+      it(
+        "roundingmode-floor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-floor.js"),
+      );
+      it(
+        "roundingmode-halfCeil.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-halfCeil.js"),
+      );
+      it(
+        "roundingmode-halfEven.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-halfEven.js"),
+      );
+      it(
+        "roundingmode-halfExpand.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/roundingmode-halfExpand.js",
+        ),
+      );
+      it(
+        "roundingmode-halfFloor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-halfFloor.js"),
+      );
+      it(
+        "roundingmode-halfTrunc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-halfTrunc.js"),
+      );
+      it(
+        "roundingmode-invalid-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/roundingmode-invalid-string.js",
+        ),
+      );
+      it(
+        "roundingmode-trunc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-trunc.js"),
+      );
+      it(
+        "roundingmode-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundingmode-undefined.js"),
+      );
+      it(
+        "roundingmode-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/roundingmode-wrong-type.js",
+        ),
+      );
+      it(
+        "roundto-invalid-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/roundto-invalid-string.js"),
+      );
+      it(
+        "smallestunit-invalid-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/smallestunit-invalid-string.js",
+        ),
+      );
+      it(
+        "smallestunit-missing.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/smallestunit-missing.js"),
+      );
+      it(
+        "smallestunit-plurals-accepted.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/smallestunit-plurals-accepted.js",
+        ),
+      );
+      it(
+        "smallestunit-string-shorthand.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/smallestunit-string-shorthand.js",
+        ),
+      );
+      it(
+        "smallestunit-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/round/smallestunit-wrong-type.js",
+        ),
+      );
+      it(
+        "subclassing-ignored.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/round/subclassing-ignored.js"),
+      );
+    });
+    describe("second", () => {
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/second/branding.js"),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/second/prop-desc.js"),
+      );
+    });
+    describe("since", () => {
+      it(
+        "argument-cast.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-cast.js"),
+      );
+      it(
+        "argument-number.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-number.js"),
+      );
+      it(
+        "argument-propertybag-optional-properties.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-propertybag-optional-properties.js",
+        ),
+      );
+      it(
+        "argument-string-calendar-annotation-invalid-key.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-string-calendar-annotation-invalid-key.js",
+        ),
+      );
+      it(
+        "argument-string-calendar-annotation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-string-calendar-annotation.js",
+        ),
+      );
+      it(
+        "argument-string-critical-unknown-annotation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-string-critical-unknown-annotation.js",
+        ),
+      );
+      it(
+        "argument-string-date-with-utc-offset.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-string-date-with-utc-offset.js",
+        ),
+      );
+      it(
+        "argument-string-minus-sign.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-string-minus-sign.js",
+        ),
+      );
+      it(
+        "argument-string-multiple-calendar.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-string-multiple-calendar.js",
+        ),
+      );
+      it(
+        "argument-string-multiple-time-zone.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-string-multiple-time-zone.js",
+        ),
+      );
+      it(
+        "argument-string-no-implicit-midnight.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-string-no-implicit-midnight.js",
+        ),
+      );
+      it(
+        "argument-string-time-designator-required-for-disambiguation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-string-time-designator-required-for-disambiguation.js",
+        ),
+      );
+      it(
+        "argument-string-time-separators.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-string-time-separators.js",
+        ),
+      );
+      it(
+        "argument-string-time-zone-annotation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-string-time-zone-annotation.js",
+        ),
+      );
+      it(
+        "argument-string-unknown-annotation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-string-unknown-annotation.js",
+        ),
+      );
+      it(
+        "argument-string-with-time-designator.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-string-with-time-designator.js",
+        ),
+      );
+      it(
+        "argument-string-with-utc-designator.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-string-with-utc-designator.js",
+        ),
+      );
+      it(
+        "argument-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/argument-wrong-type.js"),
+      );
+      it(
+        "argument-zoneddatetime-balance-negative-time-units.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-zoneddatetime-balance-negative-time-units.js",
+        ),
+      );
+      it(
+        "argument-zoneddatetime-negative-epochnanoseconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/argument-zoneddatetime-negative-epochnanoseconds.js",
+        ),
+      );
+      it(
+        "balance-negative-time-units.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/balance-negative-time-units.js",
+        ),
+      );
+      it(
+        "basic.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/basic.js"),
+      );
+      it(
+        "blank-result.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/blank-result.js"),
+      );
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/branding.js"),
+      );
+      it(
+        "builtin.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/builtin.js"),
+      );
+      it(
+        "largestunit-invalid-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/largestunit-invalid-string.js",
+        ),
+      );
+      it(
+        "largestunit-plurals-accepted.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/largestunit-plurals-accepted.js",
+        ),
+      );
+      it(
+        "largestunit-smallestunit-mismatch.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/largestunit-smallestunit-mismatch.js",
+        ),
+      );
+      it(
+        "largestunit-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/largestunit-undefined.js"),
+      );
+      it(
+        "largestunit-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/largestunit-wrong-type.js"),
+      );
+      it(
+        "largestunit.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/largestunit.js"),
+      );
+      it(
+        "leap-second.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/leap-second.js"),
+      );
+      it(
+        "length.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/length.js"),
+      );
+      it(
+        "name.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/name.js"),
+      );
+      it(
+        "not-a-constructor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/not-a-constructor.js"),
+      );
+      it(
+        "options-invalid.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/options-invalid.js"),
+      );
+      it(
+        "options-object.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/options-object.js"),
+      );
+      it(
+        "options-read-before-algorithmic-validation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/options-read-before-algorithmic-validation.js",
+        ),
+      );
+      it(
+        "options-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/options-undefined.js"),
+      );
+      it(
+        "options-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/options-wrong-type.js"),
+      );
+      it(
+        "order-of-operations.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/order-of-operations.js"),
+      );
+      it(
+        "plaintime-propertybag-no-time-units.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/plaintime-propertybag-no-time-units.js",
+        ),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/prop-desc.js"),
+      );
+      it(
+        "result-sub-second.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/result-sub-second.js"),
+      );
+      it(
+        "round-cross-unit-boundary.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/round-cross-unit-boundary.js",
+        ),
+      );
+      it(
+        "roundingincrement-hours.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/roundingincrement-hours.js",
+        ),
+      );
+      it(
+        "roundingincrement-invalid.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/roundingincrement-invalid.js",
+        ),
+      );
+      it(
+        "roundingincrement-microseconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/roundingincrement-microseconds.js",
+        ),
+      );
+      it(
+        "roundingincrement-milliseconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/roundingincrement-milliseconds.js",
+        ),
+      );
+      it(
+        "roundingincrement-minutes.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/roundingincrement-minutes.js",
+        ),
+      );
+      it(
+        "roundingincrement-nan.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingincrement-nan.js"),
+      );
+      it(
+        "roundingincrement-nanoseconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/roundingincrement-nanoseconds.js",
+        ),
+      );
+      it(
+        "roundingincrement-non-integer.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/roundingincrement-non-integer.js",
+        ),
+      );
+      it(
+        "roundingincrement-out-of-range.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/roundingincrement-out-of-range.js",
+        ),
+      );
+      it(
+        "roundingincrement-seconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/roundingincrement-seconds.js",
+        ),
+      );
+      it(
+        "roundingincrement-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/roundingincrement-undefined.js",
+        ),
+      );
+      it(
+        "roundingincrement-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/roundingincrement-wrong-type.js",
+        ),
+      );
+      it(
+        "roundingmode-ceil.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-ceil.js"),
+      );
+      it(
+        "roundingmode-expand.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-expand.js"),
+      );
+      it(
+        "roundingmode-floor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-floor.js"),
+      );
+      it(
+        "roundingmode-halfCeil.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-halfCeil.js"),
+      );
+      it(
+        "roundingmode-halfEven.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-halfEven.js"),
+      );
+      it(
+        "roundingmode-halfExpand.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/roundingmode-halfExpand.js",
+        ),
+      );
+      it(
+        "roundingmode-halfFloor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-halfFloor.js"),
+      );
+      it(
+        "roundingmode-halfTrunc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-halfTrunc.js"),
+      );
+      it(
+        "roundingmode-invalid-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/roundingmode-invalid-string.js",
+        ),
+      );
+      it(
+        "roundingmode-trunc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-trunc.js"),
+      );
+      it(
+        "roundingmode-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/roundingmode-undefined.js"),
+      );
+      it(
+        "roundingmode-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/roundingmode-wrong-type.js",
+        ),
+      );
+      it(
+        "smallestunit-invalid-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/smallestunit-invalid-string.js",
+        ),
+      );
+      it(
+        "smallestunit-plurals-accepted.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/smallestunit-plurals-accepted.js",
+        ),
+      );
+      it(
+        "smallestunit-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/smallestunit-undefined.js"),
+      );
+      it(
+        "smallestunit-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/since/smallestunit-wrong-type.js",
+        ),
+      );
+      it(
+        "year-zero.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/since/year-zero.js"),
+      );
+    });
+    describe("subtract", () => {
+      it(
+        "argument-duration-max.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/argument-duration-max.js",
+        ),
+      );
+      it(
+        "argument-duration-out-of-range.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/argument-duration-out-of-range.js",
+        ),
+      );
+      it(
+        "argument-duration-precision-exact-numerical-values.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/argument-duration-precision-exact-numerical-values.js",
+        ),
+      );
+      it(
+        "argument-duration.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-duration.js"),
+      );
+      it(
+        "argument-higher-units.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/argument-higher-units.js",
+        ),
+      );
+      it(
+        "argument-invalid-property.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/argument-invalid-property.js",
+        ),
+      );
+      it(
+        "argument-mixed-sign.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-mixed-sign.js"),
+      );
+      it(
+        "argument-not-object.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-not-object.js"),
+      );
+      it(
+        "argument-object.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-object.js"),
+      );
+      it(
+        "argument-propertybag-optional-properties.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/argument-propertybag-optional-properties.js",
+        ),
+      );
+      it(
+        "argument-singular-properties.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/argument-singular-properties.js",
+        ),
+      );
+      it(
+        "argument-string-duration-too-large.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/argument-string-duration-too-large.js",
+        ),
+      );
+      it(
+        "argument-string-fractional-units-rounding-mode.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/argument-string-fractional-units-rounding-mode.js",
+        ),
+      );
+      it(
+        "argument-string-negative-fractional-units.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/argument-string-negative-fractional-units.js",
+        ),
+      );
+      it(
+        "argument-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/argument-string.js"),
+      );
+      it(
+        "balance-negative-time-units.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/balance-negative-time-units.js",
+        ),
+      );
+      it(
+        "blank-duration.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/blank-duration.js"),
+      );
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/branding.js"),
+      );
+      it(
+        "builtin.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/builtin.js"),
+      );
+      it(
+        "infinity-throws-rangeerror.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/infinity-throws-rangeerror.js",
+        ),
+      );
+      it(
+        "length.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/length.js"),
+      );
+      it(
+        "name.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/name.js"),
+      );
+      it(
+        "negative-infinity-throws-rangeerror.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/negative-infinity-throws-rangeerror.js",
+        ),
+      );
+      it(
+        "non-integer-throws-rangeerror.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/non-integer-throws-rangeerror.js",
+        ),
+      );
+      it(
+        "not-a-constructor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/not-a-constructor.js"),
+      );
+      it(
+        "options-ignored.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/options-ignored.js"),
+      );
+      it(
+        "order-of-operations.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/order-of-operations.js"),
+      );
+      it(
+        "precision-exact-mathematical-values-1.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/precision-exact-mathematical-values-1.js",
+        ),
+      );
+      it(
+        "precision-exact-mathematical-values-2.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/precision-exact-mathematical-values-2.js",
+        ),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/prop-desc.js"),
+      );
+      it(
+        "subclassing-ignored.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/subtract/subclassing-ignored.js"),
+      );
+      it(
+        "subtract-large-subseconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/subtract/subtract-large-subseconds.js",
+        ),
+      );
+    });
+    describe("toJSON", () => {
+      it(
+        "basic.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toJSON/basic.js"),
+      );
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toJSON/branding.js"),
+      );
+      it(
+        "builtin.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toJSON/builtin.js"),
+      );
+      it(
+        "length.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toJSON/length.js"),
+      );
+      it(
+        "name.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toJSON/name.js"),
+      );
+      it(
+        "not-a-constructor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toJSON/not-a-constructor.js"),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toJSON/prop-desc.js"),
+      );
+    });
+    describe("toLocaleString", () => {
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toLocaleString/branding.js"),
+      );
+      it(
+        "builtin.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toLocaleString/builtin.js"),
+      );
+      it(
+        "length.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toLocaleString/length.js"),
+      );
+      it(
+        "name.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toLocaleString/name.js"),
+      );
+      it(
+        "not-a-constructor.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toLocaleString/not-a-constructor.js",
+        ),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toLocaleString/prop-desc.js"),
+      );
+      it(
+        "return-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toLocaleString/return-string.js"),
+      );
+    });
+    describe("toString", () => {
+      it(
+        "basic.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/basic.js"),
+      );
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/branding.js"),
+      );
+      it(
+        "builtin.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/builtin.js"),
+      );
+      it(
+        "fractionalseconddigits-auto.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-auto.js",
+        ),
+      );
+      it(
+        "fractionalseconddigits-invalid-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-invalid-string.js",
+        ),
+      );
+      it(
+        "fractionalseconddigits-nan.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-nan.js",
+        ),
+      );
+      it(
+        "fractionalseconddigits-non-integer.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-non-integer.js",
+        ),
+      );
+      it(
+        "fractionalseconddigits-number.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-number.js",
+        ),
+      );
+      it(
+        "fractionalseconddigits-out-of-range.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-out-of-range.js",
+        ),
+      );
+      it(
+        "fractionalseconddigits-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-undefined.js",
+        ),
+      );
+      it(
+        "fractionalseconddigits-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/fractionalseconddigits-wrong-type.js",
+        ),
+      );
+      it(
+        "length.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/length.js"),
+      );
+      it(
+        "name.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/name.js"),
+      );
+      it(
+        "not-a-constructor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/not-a-constructor.js"),
+      );
+      it(
+        "options-invalid.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/options-invalid.js"),
+      );
+      it(
+        "options-object.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/options-object.js"),
+      );
+      it(
+        "options-read-before-algorithmic-validation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/options-read-before-algorithmic-validation.js",
+        ),
+      );
+      it(
+        "options-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/options-undefined.js"),
+      );
+      it(
+        "options-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/options-wrong-type.js"),
+      );
+      it(
+        "order-of-operations.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/order-of-operations.js"),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/prop-desc.js"),
+      );
+      it(
+        "rounding-cross-midnight.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/rounding-cross-midnight.js",
+        ),
+      );
+      it(
+        "roundingmode-ceil.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-ceil.js"),
+      );
+      it(
+        "roundingmode-expand.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-expand.js"),
+      );
+      it(
+        "roundingmode-floor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-floor.js"),
+      );
+      it(
+        "roundingmode-halfCeil.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/roundingmode-halfCeil.js",
+        ),
+      );
+      it(
+        "roundingmode-halfEven.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/roundingmode-halfEven.js",
+        ),
+      );
+      it(
+        "roundingmode-halfExpand.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/roundingmode-halfExpand.js",
+        ),
+      );
+      it(
+        "roundingmode-halfFloor.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/roundingmode-halfFloor.js",
+        ),
+      );
+      it(
+        "roundingmode-halfTrunc.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/roundingmode-halfTrunc.js",
+        ),
+      );
+      it(
+        "roundingmode-invalid-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/roundingmode-invalid-string.js",
+        ),
+      );
+      it(
+        "roundingmode-trunc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toString/roundingmode-trunc.js"),
+      );
+      it(
+        "roundingmode-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/roundingmode-undefined.js",
+        ),
+      );
+      it(
+        "roundingmode-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/roundingmode-wrong-type.js",
+        ),
+      );
+      it(
+        "smallestunit-fractionalseconddigits.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/smallestunit-fractionalseconddigits.js",
+        ),
+      );
+      it(
+        "smallestunit-invalid-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/smallestunit-invalid-string.js",
+        ),
+      );
+      it(
+        "smallestunit-plurals-accepted.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/smallestunit-plurals-accepted.js",
+        ),
+      );
+      it(
+        "smallestunit-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/smallestunit-undefined.js",
+        ),
+      );
+      it(
+        "smallestunit-valid-units.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/smallestunit-valid-units.js",
+        ),
+      );
+      it(
+        "smallestunit-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/toString/smallestunit-wrong-type.js",
+        ),
+      );
+    });
+    describe("toStringTag", () => {
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/toStringTag/prop-desc.js"),
+      );
+    });
+    describe("until", () => {
+      it(
+        "argument-cast.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-cast.js"),
+      );
+      it(
+        "argument-number.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-number.js"),
+      );
+      it(
+        "argument-propertybag-optional-properties.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-propertybag-optional-properties.js",
+        ),
+      );
+      it(
+        "argument-string-calendar-annotation-invalid-key.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-string-calendar-annotation-invalid-key.js",
+        ),
+      );
+      it(
+        "argument-string-calendar-annotation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-string-calendar-annotation.js",
+        ),
+      );
+      it(
+        "argument-string-critical-unknown-annotation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-string-critical-unknown-annotation.js",
+        ),
+      );
+      it(
+        "argument-string-date-with-utc-offset.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-string-date-with-utc-offset.js",
+        ),
+      );
+      it(
+        "argument-string-minus-sign.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-string-minus-sign.js",
+        ),
+      );
+      it(
+        "argument-string-multiple-calendar.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-string-multiple-calendar.js",
+        ),
+      );
+      it(
+        "argument-string-multiple-time-zone.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-string-multiple-time-zone.js",
+        ),
+      );
+      it(
+        "argument-string-no-implicit-midnight.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-string-no-implicit-midnight.js",
+        ),
+      );
+      it(
+        "argument-string-time-designator-required-for-disambiguation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-string-time-designator-required-for-disambiguation.js",
+        ),
+      );
+      it(
+        "argument-string-time-separators.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-string-time-separators.js",
+        ),
+      );
+      it(
+        "argument-string-time-zone-annotation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-string-time-zone-annotation.js",
+        ),
+      );
+      it(
+        "argument-string-unknown-annotation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-string-unknown-annotation.js",
+        ),
+      );
+      it(
+        "argument-string-with-time-designator.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-string-with-time-designator.js",
+        ),
+      );
+      it(
+        "argument-string-with-utc-designator.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-string-with-utc-designator.js",
+        ),
+      );
+      it(
+        "argument-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/argument-wrong-type.js"),
+      );
+      it(
+        "argument-zoneddatetime-balance-negative-time-units.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-zoneddatetime-balance-negative-time-units.js",
+        ),
+      );
+      it(
+        "argument-zoneddatetime-negative-epochnanoseconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/argument-zoneddatetime-negative-epochnanoseconds.js",
+        ),
+      );
+      it(
+        "balance-negative-time-units.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/balance-negative-time-units.js",
+        ),
+      );
+      it(
+        "basic.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/basic.js"),
+      );
+      it(
+        "blank-result.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/blank-result.js"),
+      );
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/branding.js"),
+      );
+      it(
+        "builtin.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/builtin.js"),
+      );
+      it(
+        "largestunit-invalid-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/largestunit-invalid-string.js",
+        ),
+      );
+      it(
+        "largestunit-plurals-accepted.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/largestunit-plurals-accepted.js",
+        ),
+      );
+      it(
+        "largestunit-smallestunit-mismatch.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/largestunit-smallestunit-mismatch.js",
+        ),
+      );
+      it(
+        "largestunit-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/largestunit-undefined.js"),
+      );
+      it(
+        "largestunit-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/largestunit-wrong-type.js"),
+      );
+      it(
+        "largestunit.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/largestunit.js"),
+      );
+      it(
+        "leap-second.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/leap-second.js"),
+      );
+      it(
+        "length.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/length.js"),
+      );
+      it(
+        "name.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/name.js"),
+      );
+      it(
+        "not-a-constructor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/not-a-constructor.js"),
+      );
+      it(
+        "options-invalid.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/options-invalid.js"),
+      );
+      it(
+        "options-object.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/options-object.js"),
+      );
+      it(
+        "options-read-before-algorithmic-validation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/options-read-before-algorithmic-validation.js",
+        ),
+      );
+      it(
+        "options-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/options-undefined.js"),
+      );
+      it(
+        "options-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/options-wrong-type.js"),
+      );
+      it(
+        "order-of-operations.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/order-of-operations.js"),
+      );
+      it(
+        "plaintime-propertybag-no-time-units.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/plaintime-propertybag-no-time-units.js",
+        ),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/prop-desc.js"),
+      );
+      it(
+        "result-sub-second.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/result-sub-second.js"),
+      );
+      it(
+        "round-cross-unit-boundary.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/round-cross-unit-boundary.js",
+        ),
+      );
+      it(
+        "roundingincrement-hours.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/roundingincrement-hours.js",
+        ),
+      );
+      it(
+        "roundingincrement-invalid.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/roundingincrement-invalid.js",
+        ),
+      );
+      it(
+        "roundingincrement-microseconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/roundingincrement-microseconds.js",
+        ),
+      );
+      it(
+        "roundingincrement-milliseconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/roundingincrement-milliseconds.js",
+        ),
+      );
+      it(
+        "roundingincrement-minutes.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/roundingincrement-minutes.js",
+        ),
+      );
+      it(
+        "roundingincrement-nan.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingincrement-nan.js"),
+      );
+      it(
+        "roundingincrement-nanoseconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/roundingincrement-nanoseconds.js",
+        ),
+      );
+      it(
+        "roundingincrement-non-integer.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/roundingincrement-non-integer.js",
+        ),
+      );
+      it(
+        "roundingincrement-out-of-range.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/roundingincrement-out-of-range.js",
+        ),
+      );
+      it(
+        "roundingincrement-seconds.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/roundingincrement-seconds.js",
+        ),
+      );
+      it(
+        "roundingincrement-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/roundingincrement-undefined.js",
+        ),
+      );
+      it(
+        "roundingincrement-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/roundingincrement-wrong-type.js",
+        ),
+      );
+      it(
+        "roundingmode-ceil.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-ceil.js"),
+      );
+      it(
+        "roundingmode-expand.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-expand.js"),
+      );
+      it(
+        "roundingmode-floor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-floor.js"),
+      );
+      it(
+        "roundingmode-halfCeil.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-halfCeil.js"),
+      );
+      it(
+        "roundingmode-halfEven.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-halfEven.js"),
+      );
+      it(
+        "roundingmode-halfExpand.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/roundingmode-halfExpand.js",
+        ),
+      );
+      it(
+        "roundingmode-halfFloor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-halfFloor.js"),
+      );
+      it(
+        "roundingmode-halfTrunc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-halfTrunc.js"),
+      );
+      it(
+        "roundingmode-invalid-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/roundingmode-invalid-string.js",
+        ),
+      );
+      it(
+        "roundingmode-trunc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-trunc.js"),
+      );
+      it(
+        "roundingmode-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/roundingmode-undefined.js"),
+      );
+      it(
+        "roundingmode-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/roundingmode-wrong-type.js",
+        ),
+      );
+      it(
+        "smallestunit-invalid-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/smallestunit-invalid-string.js",
+        ),
+      );
+      it(
+        "smallestunit-plurals-accepted.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/smallestunit-plurals-accepted.js",
+        ),
+      );
+      it(
+        "smallestunit-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/smallestunit-undefined.js"),
+      );
+      it(
+        "smallestunit-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/until/smallestunit-wrong-type.js",
+        ),
+      );
+      it(
+        "year-zero.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/until/year-zero.js"),
+      );
+    });
+    describe("valueOf", () => {
+      it(
+        "basic.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/valueOf/basic.js"),
+      );
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/valueOf/branding.js"),
+      );
+      it(
+        "builtin.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/valueOf/builtin.js"),
+      );
+      it(
+        "length.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/valueOf/length.js"),
+      );
+      it(
+        "name.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/valueOf/name.js"),
+      );
+      it(
+        "not-a-constructor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/valueOf/not-a-constructor.js"),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/valueOf/prop-desc.js"),
+      );
+    });
+    describe("with", () => {
+      it(
+        "argument-not-object.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/argument-not-object.js"),
+      );
+      it(
+        "basic.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/basic.js"),
+      );
+      it(
+        "branding.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/branding.js"),
+      );
+      it(
+        "builtin.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/builtin.js"),
+      );
+      it(
+        "copy-properties-not-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/with/copy-properties-not-undefined.js",
+        ),
+      );
+      it(
+        "infinity-throws-rangeerror.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/with/infinity-throws-rangeerror.js",
+        ),
+      );
+      it(
+        "length.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/length.js"),
+      );
+      it(
+        "name.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/name.js"),
+      );
+      it(
+        "not-a-constructor.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/not-a-constructor.js"),
+      );
+      it(
+        "options-invalid.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/options-invalid.js"),
+      );
+      it(
+        "options-object.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/options-object.js"),
+      );
+      it(
+        "options-read-before-algorithmic-validation.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/with/options-read-before-algorithmic-validation.js",
+        ),
+      );
+      it(
+        "options-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/options-undefined.js"),
+      );
+      it(
+        "options-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/options-wrong-type.js"),
+      );
+      it(
+        "order-of-operations.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/order-of-operations.js"),
+      );
+      it(
+        "overflow-invalid-string.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/overflow-invalid-string.js"),
+      );
+      it(
+        "overflow-undefined.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/overflow-undefined.js"),
+      );
+      it(
+        "overflow-wrong-type.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/overflow-wrong-type.js"),
+      );
+      it(
+        "plaintimelike-invalid.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/plaintimelike-invalid.js"),
+      );
+      it(
+        "prop-desc.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/prop-desc.js"),
+      );
+      it(
+        "subclassing-ignored.js",
+        { tags: ["known-failing"] },
+        createTestHandler("built-ins/Temporal/PlainTime/prototype/with/subclassing-ignored.js"),
+      );
+      it(
+        "throws-if-time-is-invalid-when-overflow-is-reject.js",
+        { tags: ["known-failing"] },
+        createTestHandler(
+          "built-ins/Temporal/PlainTime/prototype/with/throws-if-time-is-invalid-when-overflow-is-reject.js",
+        ),
+      );
+    });
+  });
+  it(
+    "second-undefined.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/second-undefined.js"),
+  );
+  it(
+    "subclass.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/subclass.js"),
+  );
+  it(
+    "throws-if-time-is-invalid.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Temporal/PlainTime/throws-if-time-is-invalid.js"),
+  );
 });

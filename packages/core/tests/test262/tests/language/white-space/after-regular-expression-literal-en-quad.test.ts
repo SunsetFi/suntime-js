@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("after-regular-expression-literal-en-quad.js", createTestHandler("language/white-space/after-regular-expression-literal-en-quad.js"));
+it(
+  "after-regular-expression-literal-en-quad.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/white-space/after-regular-expression-literal-en-quad.js"),
+);

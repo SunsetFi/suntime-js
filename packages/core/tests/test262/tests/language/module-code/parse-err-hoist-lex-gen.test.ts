@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("parse-err-hoist-lex-gen.js", createTestHandler("language/module-code/parse-err-hoist-lex-gen.js"));
+it(
+  "parse-err-hoist-lex-gen.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/module-code/parse-err-hoist-lex-gen.js"),
+);

@@ -2,107 +2,329 @@ import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
 describe("waitAsync", () => {
-it.skip("bad-range.js", () => { /* Ignored Test */ });
-describe("bigint", () => {
-it.skip("bad-range.js", () => { /* Ignored Test */ });
-it.skip("false-for-timeout-agent.js", () => { /* Ignored Test */ });
-it.skip("false-for-timeout.js", () => { /* Ignored Test */ });
-it("good-views.js", createTestHandler("built-ins/Atomics/waitAsync/bigint/good-views.js"));
-it.skip("nan-for-timeout-agent.js", () => { /* Ignored Test */ });
-it.skip("negative-index-throws.js", () => { /* Ignored Test */ });
-it.skip("negative-timeout-agent.js", () => { /* Ignored Test */ });
-it.skip("negative-timeout.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-no-operation.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-add.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-and.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-compareExchange.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-exchange.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-or.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-store.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-sub.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-xor.js", () => { /* Ignored Test */ });
-it.skip("non-bigint64-typedarray-throws.js", () => { /* Ignored Test */ });
-it.skip("non-shared-bufferdata-throws.js", () => { /* Ignored Test */ });
-it("not-a-typedarray-throws.js", createTestHandler("built-ins/Atomics/waitAsync/bigint/not-a-typedarray-throws.js"));
-it("not-an-object-throws.js", createTestHandler("built-ins/Atomics/waitAsync/bigint/not-an-object-throws.js"));
-it.skip("null-bufferdata-throws.js", () => { /* Ignored Test */ });
-it.skip("null-for-timeout-agent.js", () => { /* Ignored Test */ });
-it.skip("null-for-timeout.js", () => { /* Ignored Test */ });
-it.skip("object-for-timeout-agent.js", () => { /* Ignored Test */ });
-it.skip("object-for-timeout.js", () => { /* Ignored Test */ });
-it.skip("out-of-range-index-throws.js", () => { /* Ignored Test */ });
-it.skip("poisoned-object-for-timeout-throws-agent.js", () => { /* Ignored Test */ });
-it.skip("poisoned-object-for-timeout-throws.js", () => { /* Ignored Test */ });
-it.skip("symbol-for-index-throws-agent.js", () => { /* Ignored Test */ });
-it.skip("symbol-for-index-throws.js", () => { /* Ignored Test */ });
-it.skip("symbol-for-timeout-throws-agent.js", () => { /* Ignored Test */ });
-it.skip("symbol-for-timeout-throws.js", () => { /* Ignored Test */ });
-it.skip("symbol-for-value-throws-agent.js", () => { /* Ignored Test */ });
-it.skip("symbol-for-value-throws.js", () => { /* Ignored Test */ });
-it.skip("true-for-timeout-agent.js", () => { /* Ignored Test */ });
-it.skip("true-for-timeout.js", () => { /* Ignored Test */ });
-it.skip("undefined-for-timeout-agent.js", () => { /* Ignored Test */ });
-it.skip("undefined-for-timeout.js", () => { /* Ignored Test */ });
-it.skip("undefined-index-defaults-to-zero-agent.js", () => { /* Ignored Test */ });
-it.skip("value-not-equal-agent.js", () => { /* Ignored Test */ });
-it.skip("value-not-equal.js", () => { /* Ignored Test */ });
-it.skip("waiterlist-block-indexedposition-wake.js", () => { /* Ignored Test */ });
-it.skip("was-woken-before-timeout.js", () => { /* Ignored Test */ });
-});
-it("descriptor.js", createTestHandler("built-ins/Atomics/waitAsync/descriptor.js"));
-it.skip("false-for-timeout-agent.js", () => { /* Ignored Test */ });
-it.skip("false-for-timeout.js", () => { /* Ignored Test */ });
-it("good-views.js", createTestHandler("built-ins/Atomics/waitAsync/good-views.js"));
-it.skip("implicit-infinity-for-timeout.js", () => { /* Ignored Test */ });
-it("is-function.js", createTestHandler("built-ins/Atomics/waitAsync/is-function.js"));
-it("length.js", createTestHandler("built-ins/Atomics/waitAsync/length.js"));
-it("name.js", createTestHandler("built-ins/Atomics/waitAsync/name.js"));
-it.skip("nan-for-timeout-agent.js", () => { /* Ignored Test */ });
-it.skip("negative-index-throws.js", () => { /* Ignored Test */ });
-it.skip("negative-timeout-agent.js", () => { /* Ignored Test */ });
-it.skip("negative-timeout.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-no-operation.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-add.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-and.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-compareExchange.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-exchange.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-or.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-store.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-sub.js", () => { /* Ignored Test */ });
-it.skip("no-spurious-wakeup-on-xor.js", () => { /* Ignored Test */ });
-it.skip("non-int32-typedarray-throws.js", () => { /* Ignored Test */ });
-it.skip("non-shared-bufferdata-throws.js", () => { /* Ignored Test */ });
-it("not-a-typedarray-throws.js", createTestHandler("built-ins/Atomics/waitAsync/not-a-typedarray-throws.js"));
-it("not-an-object-throws.js", createTestHandler("built-ins/Atomics/waitAsync/not-an-object-throws.js"));
-it.skip("null-bufferdata-throws.js", () => { /* Ignored Test */ });
-it.skip("null-for-timeout-agent.js", () => { /* Ignored Test */ });
-it.skip("null-for-timeout.js", () => { /* Ignored Test */ });
-it.skip("object-for-timeout-agent.js", () => { /* Ignored Test */ });
-it.skip("object-for-timeout.js", () => { /* Ignored Test */ });
-it.skip("out-of-range-index-throws.js", () => { /* Ignored Test */ });
-it.skip("poisoned-object-for-timeout-throws-agent.js", () => { /* Ignored Test */ });
-it.skip("poisoned-object-for-timeout-throws.js", () => { /* Ignored Test */ });
-it.skip("retrieve-length-before-index-coercion.js", () => { /* Ignored Test */ });
-it.skip("returns-result-object-value-is-promise-resolves-to-ok.js", () => { /* Ignored Test */ });
-it.skip("returns-result-object-value-is-promise-resolves-to-timed-out.js", () => { /* Ignored Test */ });
-it.skip("returns-result-object-value-is-string-not-equal.js", () => { /* Ignored Test */ });
-it.skip("returns-result-object-value-is-string-timed-out.js", () => { /* Ignored Test */ });
-it.skip("symbol-for-index-throws-agent.js", () => { /* Ignored Test */ });
-it.skip("symbol-for-index-throws.js", () => { /* Ignored Test */ });
-it.skip("symbol-for-timeout-throws-agent.js", () => { /* Ignored Test */ });
-it.skip("symbol-for-timeout-throws.js", () => { /* Ignored Test */ });
-it.skip("symbol-for-value-throws-agent.js", () => { /* Ignored Test */ });
-it.skip("symbol-for-value-throws.js", () => { /* Ignored Test */ });
-it.skip("true-for-timeout-agent.js", () => { /* Ignored Test */ });
-it.skip("true-for-timeout.js", () => { /* Ignored Test */ });
-it.skip("undefined-for-timeout-agent.js", () => { /* Ignored Test */ });
-it.skip("undefined-for-timeout.js", () => { /* Ignored Test */ });
-it.skip("undefined-index-defaults-to-zero-agent.js", () => { /* Ignored Test */ });
-it.skip("validate-arraytype-before-index-coercion.js", () => { /* Ignored Test */ });
-it.skip("validate-arraytype-before-timeout-coercion.js", () => { /* Ignored Test */ });
-it.skip("validate-arraytype-before-value-coercion.js", () => { /* Ignored Test */ });
-it.skip("value-not-equal-agent.js", () => { /* Ignored Test */ });
-it.skip("value-not-equal.js", () => { /* Ignored Test */ });
-it.skip("waiterlist-block-indexedposition-wake.js", () => { /* Ignored Test */ });
-it.skip("was-woken-before-timeout.js", () => { /* Ignored Test */ });
+  it.skip("bad-range.js", () => {
+    /* Ignored Test */
+  });
+  describe("bigint", () => {
+    it.skip("bad-range.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("false-for-timeout-agent.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("false-for-timeout.js", () => {
+      /* Ignored Test */
+    });
+    it(
+      "good-views.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Atomics/waitAsync/bigint/good-views.js"),
+    );
+    it.skip("nan-for-timeout-agent.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("negative-index-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("negative-timeout-agent.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("negative-timeout.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("no-spurious-wakeup-no-operation.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("no-spurious-wakeup-on-add.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("no-spurious-wakeup-on-and.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("no-spurious-wakeup-on-compareExchange.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("no-spurious-wakeup-on-exchange.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("no-spurious-wakeup-on-or.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("no-spurious-wakeup-on-store.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("no-spurious-wakeup-on-sub.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("no-spurious-wakeup-on-xor.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("non-bigint64-typedarray-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("non-shared-bufferdata-throws.js", () => {
+      /* Ignored Test */
+    });
+    it(
+      "not-a-typedarray-throws.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Atomics/waitAsync/bigint/not-a-typedarray-throws.js"),
+    );
+    it(
+      "not-an-object-throws.js",
+      { tags: ["known-failing"] },
+      createTestHandler("built-ins/Atomics/waitAsync/bigint/not-an-object-throws.js"),
+    );
+    it.skip("null-bufferdata-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("null-for-timeout-agent.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("null-for-timeout.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("object-for-timeout-agent.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("object-for-timeout.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("out-of-range-index-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("poisoned-object-for-timeout-throws-agent.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("poisoned-object-for-timeout-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("symbol-for-index-throws-agent.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("symbol-for-index-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("symbol-for-timeout-throws-agent.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("symbol-for-timeout-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("symbol-for-value-throws-agent.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("symbol-for-value-throws.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("true-for-timeout-agent.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("true-for-timeout.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("undefined-for-timeout-agent.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("undefined-for-timeout.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("undefined-index-defaults-to-zero-agent.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("value-not-equal-agent.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("value-not-equal.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("waiterlist-block-indexedposition-wake.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("was-woken-before-timeout.js", () => {
+      /* Ignored Test */
+    });
+  });
+  it(
+    "descriptor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Atomics/waitAsync/descriptor.js"),
+  );
+  it.skip("false-for-timeout-agent.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("false-for-timeout.js", () => {
+    /* Ignored Test */
+  });
+  it(
+    "good-views.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Atomics/waitAsync/good-views.js"),
+  );
+  it.skip("implicit-infinity-for-timeout.js", () => {
+    /* Ignored Test */
+  });
+  it(
+    "is-function.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Atomics/waitAsync/is-function.js"),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Atomics/waitAsync/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Atomics/waitAsync/name.js"),
+  );
+  it.skip("nan-for-timeout-agent.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("negative-index-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("negative-timeout-agent.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("negative-timeout.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("no-spurious-wakeup-no-operation.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("no-spurious-wakeup-on-add.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("no-spurious-wakeup-on-and.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("no-spurious-wakeup-on-compareExchange.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("no-spurious-wakeup-on-exchange.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("no-spurious-wakeup-on-or.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("no-spurious-wakeup-on-store.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("no-spurious-wakeup-on-sub.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("no-spurious-wakeup-on-xor.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("non-int32-typedarray-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("non-shared-bufferdata-throws.js", () => {
+    /* Ignored Test */
+  });
+  it(
+    "not-a-typedarray-throws.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Atomics/waitAsync/not-a-typedarray-throws.js"),
+  );
+  it(
+    "not-an-object-throws.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Atomics/waitAsync/not-an-object-throws.js"),
+  );
+  it.skip("null-bufferdata-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("null-for-timeout-agent.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("null-for-timeout.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("object-for-timeout-agent.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("object-for-timeout.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("out-of-range-index-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("poisoned-object-for-timeout-throws-agent.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("poisoned-object-for-timeout-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("retrieve-length-before-index-coercion.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("returns-result-object-value-is-promise-resolves-to-ok.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("returns-result-object-value-is-promise-resolves-to-timed-out.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("returns-result-object-value-is-string-not-equal.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("returns-result-object-value-is-string-timed-out.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("symbol-for-index-throws-agent.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("symbol-for-index-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("symbol-for-timeout-throws-agent.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("symbol-for-timeout-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("symbol-for-value-throws-agent.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("symbol-for-value-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("true-for-timeout-agent.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("true-for-timeout.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("undefined-for-timeout-agent.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("undefined-for-timeout.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("undefined-index-defaults-to-zero-agent.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("validate-arraytype-before-index-coercion.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("validate-arraytype-before-timeout-coercion.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("validate-arraytype-before-value-coercion.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("value-not-equal-agent.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("value-not-equal.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("waiterlist-block-indexedposition-wake.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("was-woken-before-timeout.js", () => {
+    /* Ignored Test */
+  });
 });

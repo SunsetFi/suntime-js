@@ -1,4 +1,4 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("length.js", createTestHandler("built-ins/Proxy/length.js"));
+it("length.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Proxy/length.js"));

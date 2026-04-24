@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("set-accsr-runtime.js", createTestHandler("language/directive-prologue/set-accsr-runtime.js"));
+it(
+  "set-accsr-runtime.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/directive-prologue/set-accsr-runtime.js"),
+);

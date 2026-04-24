@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("enum.js", createTestHandler("language/future-reserved-words/enum.js"));
+it(
+  "enum.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/future-reserved-words/enum.js"),
+);

@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("set-iterable.js", createTestHandler("built-ins/Set/set-iterable.js"));
+it(
+  "set-iterable.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Set/set-iterable.js"),
+);

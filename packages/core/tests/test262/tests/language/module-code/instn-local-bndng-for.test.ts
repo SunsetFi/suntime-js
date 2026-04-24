@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("instn-local-bndng-for.js", createTestHandler("language/module-code/instn-local-bndng-for.js"));
+it(
+  "instn-local-bndng-for.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/module-code/instn-local-bndng-for.js"),
+);

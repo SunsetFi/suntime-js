@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("parse-err-decl-pos-import-block-stmt-list.js", createTestHandler("language/module-code/parse-err-decl-pos-import-block-stmt-list.js"));
+it(
+  "parse-err-decl-pos-import-block-stmt-list.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/module-code/parse-err-decl-pos-import-block-stmt-list.js"),
+);

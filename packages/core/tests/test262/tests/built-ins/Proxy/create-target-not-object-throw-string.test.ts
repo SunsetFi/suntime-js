@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("create-target-not-object-throw-string.js", createTestHandler("built-ins/Proxy/create-target-not-object-throw-string.js"));
+it(
+  "create-target-not-object-throw-string.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Proxy/create-target-not-object-throw-string.js"),
+);

@@ -2,42 +2,196 @@ import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
 describe("assign", () => {
-it("ObjectOverride-sameproperty.js", createTestHandler("built-ins/Object/assign/ObjectOverride-sameproperty.js"));
-it("OnlyOneArgument.js", createTestHandler("built-ins/Object/assign/OnlyOneArgument.js"));
-it("Override-notstringtarget.js", createTestHandler("built-ins/Object/assign/Override-notstringtarget.js"));
-it("Override.js", createTestHandler("built-ins/Object/assign/Override.js"));
-it("Source-Null-Undefined.js", createTestHandler("built-ins/Object/assign/Source-Null-Undefined.js"));
-it("Source-Number-Boolen-Symbol.js", createTestHandler("built-ins/Object/assign/Source-Number-Boolen-Symbol.js"));
-it("Source-String.js", createTestHandler("built-ins/Object/assign/Source-String.js"));
-it("Target-Boolean.js", createTestHandler("built-ins/Object/assign/Target-Boolean.js"));
-it("Target-Null.js", createTestHandler("built-ins/Object/assign/Target-Null.js"));
-it("Target-Number.js", createTestHandler("built-ins/Object/assign/Target-Number.js"));
-it("Target-Object.js", createTestHandler("built-ins/Object/assign/Target-Object.js"));
-it("Target-String.js", createTestHandler("built-ins/Object/assign/Target-String.js"));
-it("Target-Symbol.js", createTestHandler("built-ins/Object/assign/Target-Symbol.js"));
-it("Target-Undefined.js", createTestHandler("built-ins/Object/assign/Target-Undefined.js"));
-it("assign-descriptor.js", createTestHandler("built-ins/Object/assign/assign-descriptor.js"));
-it("assign-length.js", createTestHandler("built-ins/Object/assign/assign-length.js"));
-it("assignment-to-readonly-property-of-target-must-throw-a-typeerror-exception.js", createTestHandler("built-ins/Object/assign/assignment-to-readonly-property-of-target-must-throw-a-typeerror-exception.js"));
-it("invoked-as-ctor.js", createTestHandler("built-ins/Object/assign/invoked-as-ctor.js"));
-it("name.js", createTestHandler("built-ins/Object/assign/name.js"));
-it("not-a-constructor.js", createTestHandler("built-ins/Object/assign/not-a-constructor.js"));
-it("source-get-attr-error.js", createTestHandler("built-ins/Object/assign/source-get-attr-error.js"));
-it("source-non-enum.js", createTestHandler("built-ins/Object/assign/source-non-enum.js"));
-it("source-own-prop-desc-missing.js", createTestHandler("built-ins/Object/assign/source-own-prop-desc-missing.js"));
-it("source-own-prop-error.js", createTestHandler("built-ins/Object/assign/source-own-prop-error.js"));
-it("source-own-prop-keys-error.js", createTestHandler("built-ins/Object/assign/source-own-prop-keys-error.js"));
-it("strings-and-symbol-order-proxy.js", createTestHandler("built-ins/Object/assign/strings-and-symbol-order-proxy.js"));
-it("strings-and-symbol-order.js", createTestHandler("built-ins/Object/assign/strings-and-symbol-order.js"));
-it("target-Array.js", createTestHandler("built-ins/Object/assign/target-Array.js"));
-it("target-is-frozen-accessor-property-set-succeeds.js", createTestHandler("built-ins/Object/assign/target-is-frozen-accessor-property-set-succeeds.js"));
-it("target-is-frozen-data-property-set-throws.js", createTestHandler("built-ins/Object/assign/target-is-frozen-data-property-set-throws.js"));
-it("target-is-non-extensible-existing-accessor-property.js", createTestHandler("built-ins/Object/assign/target-is-non-extensible-existing-accessor-property.js"));
-it("target-is-non-extensible-existing-data-property.js", createTestHandler("built-ins/Object/assign/target-is-non-extensible-existing-data-property.js"));
-it("target-is-non-extensible-property-creation-throws.js", createTestHandler("built-ins/Object/assign/target-is-non-extensible-property-creation-throws.js"));
-it("target-is-sealed-existing-accessor-property.js", createTestHandler("built-ins/Object/assign/target-is-sealed-existing-accessor-property.js"));
-it("target-is-sealed-existing-data-property.js", createTestHandler("built-ins/Object/assign/target-is-sealed-existing-data-property.js"));
-it("target-is-sealed-property-creation-throws.js", createTestHandler("built-ins/Object/assign/target-is-sealed-property-creation-throws.js"));
-it("target-set-not-writable.js", createTestHandler("built-ins/Object/assign/target-set-not-writable.js"));
-it("target-set-user-error.js", createTestHandler("built-ins/Object/assign/target-set-user-error.js"));
+  it(
+    "ObjectOverride-sameproperty.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/ObjectOverride-sameproperty.js"),
+  );
+  it(
+    "OnlyOneArgument.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/OnlyOneArgument.js"),
+  );
+  it(
+    "Override-notstringtarget.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/Override-notstringtarget.js"),
+  );
+  it(
+    "Override.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/Override.js"),
+  );
+  it(
+    "Source-Null-Undefined.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/Source-Null-Undefined.js"),
+  );
+  it(
+    "Source-Number-Boolen-Symbol.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/Source-Number-Boolen-Symbol.js"),
+  );
+  it(
+    "Source-String.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/Source-String.js"),
+  );
+  it(
+    "Target-Boolean.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/Target-Boolean.js"),
+  );
+  it(
+    "Target-Null.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/Target-Null.js"),
+  );
+  it(
+    "Target-Number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/Target-Number.js"),
+  );
+  it(
+    "Target-Object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/Target-Object.js"),
+  );
+  it(
+    "Target-String.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/Target-String.js"),
+  );
+  it(
+    "Target-Symbol.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/Target-Symbol.js"),
+  );
+  it(
+    "Target-Undefined.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/Target-Undefined.js"),
+  );
+  it(
+    "assign-descriptor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/assign-descriptor.js"),
+  );
+  it(
+    "assign-length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/assign-length.js"),
+  );
+  it(
+    "assignment-to-readonly-property-of-target-must-throw-a-typeerror-exception.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Object/assign/assignment-to-readonly-property-of-target-must-throw-a-typeerror-exception.js",
+    ),
+  );
+  it(
+    "invoked-as-ctor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/invoked-as-ctor.js"),
+  );
+  it("name.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Object/assign/name.js"));
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/not-a-constructor.js"),
+  );
+  it(
+    "source-get-attr-error.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/source-get-attr-error.js"),
+  );
+  it(
+    "source-non-enum.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/source-non-enum.js"),
+  );
+  it(
+    "source-own-prop-desc-missing.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/source-own-prop-desc-missing.js"),
+  );
+  it(
+    "source-own-prop-error.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/source-own-prop-error.js"),
+  );
+  it(
+    "source-own-prop-keys-error.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/source-own-prop-keys-error.js"),
+  );
+  it(
+    "strings-and-symbol-order-proxy.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/strings-and-symbol-order-proxy.js"),
+  );
+  it(
+    "strings-and-symbol-order.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/strings-and-symbol-order.js"),
+  );
+  it(
+    "target-Array.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/target-Array.js"),
+  );
+  it(
+    "target-is-frozen-accessor-property-set-succeeds.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/target-is-frozen-accessor-property-set-succeeds.js"),
+  );
+  it(
+    "target-is-frozen-data-property-set-throws.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/target-is-frozen-data-property-set-throws.js"),
+  );
+  it(
+    "target-is-non-extensible-existing-accessor-property.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Object/assign/target-is-non-extensible-existing-accessor-property.js",
+    ),
+  );
+  it(
+    "target-is-non-extensible-existing-data-property.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/target-is-non-extensible-existing-data-property.js"),
+  );
+  it(
+    "target-is-non-extensible-property-creation-throws.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Object/assign/target-is-non-extensible-property-creation-throws.js",
+    ),
+  );
+  it(
+    "target-is-sealed-existing-accessor-property.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/target-is-sealed-existing-accessor-property.js"),
+  );
+  it(
+    "target-is-sealed-existing-data-property.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/target-is-sealed-existing-data-property.js"),
+  );
+  it(
+    "target-is-sealed-property-creation-throws.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/target-is-sealed-property-creation-throws.js"),
+  );
+  it(
+    "target-set-not-writable.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/target-set-not-writable.js"),
+  );
+  it(
+    "target-set-user-error.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Object/assign/target-set-user-error.js"),
+  );
 });

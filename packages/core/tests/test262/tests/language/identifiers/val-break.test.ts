@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("val-break.js", createTestHandler("language/identifiers/val-break.js"));
+it(
+  "val-break.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/identifiers/val-break.js"),
+);

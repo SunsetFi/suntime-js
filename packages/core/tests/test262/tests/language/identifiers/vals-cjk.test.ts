@@ -1,4 +1,8 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("vals-cjk.js", createTestHandler("language/identifiers/vals-cjk.js"));
+it(
+  "vals-cjk.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/identifiers/vals-cjk.js"),
+);
