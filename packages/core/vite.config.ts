@@ -1,10 +1,14 @@
-import { defineConfig } from "vitest/config";
+import { defineConfig, TestTagDefinition } from "vitest/config";
 import { JsonReporter } from "vitest/node";
 
 import createBaseline from "./tests/env/create-baseline.js";
 import createBuiltinsBaseline from "./tests/env/create-builtins-baseline.js";
 import VitestBadgeReporter from "./tests/reporters/VitestBadgeReporter.js";
 
+const test262Tags: TestTagDefinition[] = [
+  { name: "known-passing", description: "Tests that are known to pass." },
+  { name: "known-failing", description: "Tests that are known to fail." },
+];
 export default defineConfig({
   test: {
     projects: [
@@ -29,6 +33,7 @@ export default defineConfig({
           include: ["./tests/test262/tests/language/**/*.ts"],
           isolate: false,
           testTimeout: 60_000,
+          tags: test262Tags,
         },
       },
       {
@@ -37,6 +42,7 @@ export default defineConfig({
           include: ["./tests/test262/tests/built-ins/**/*.ts"],
           isolate: false,
           testTimeout: 60_000,
+          tags: test262Tags,
         },
       },
     ],
